@@ -44,14 +44,23 @@ describe("dataChangeAuditHooks address", () => {
     });
 
     test("should audit incident location", async () => {
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.modelId).toEqual(incidentLocationCreated.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Incident Location"
         }
@@ -64,14 +73,23 @@ describe("dataChangeAuditHooks address", () => {
         { where: { id: incidentLocationCreated.id }, auditUser: "someone" }
       );
 
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.modelId).toEqual(incidentLocationCreated.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Incident Location"
         }
@@ -84,14 +102,23 @@ describe("dataChangeAuditHooks address", () => {
         auditUser: "someone"
       });
 
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.modelId).toEqual(incidentLocationCreated.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Incident Location"
         }
@@ -138,14 +165,23 @@ describe("dataChangeAuditHooks address", () => {
     });
 
     test("should audit civilian address", async () => {
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_CREATED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
-      expect(audit.modelId).toEqual(createdAddress.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Civilian"
         },
@@ -161,14 +197,23 @@ describe("dataChangeAuditHooks address", () => {
         { where: { id: createdAddress.id }, auditUser: "someone" }
       );
 
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_UPDATED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
-      expect(audit.modelId).toEqual(createdAddress.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Civilian"
         },
@@ -184,14 +229,23 @@ describe("dataChangeAuditHooks address", () => {
         auditUser: "someone"
       });
 
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Address", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "address"
+            }
+          }
+        ]
       });
 
       expect(audit.caseId).toEqual(createdCase.id);
-      expect(audit.modelId).toEqual(createdAddress.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         {
           "Address Type": "Civilian"
         },

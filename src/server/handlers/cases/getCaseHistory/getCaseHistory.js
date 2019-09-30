@@ -6,8 +6,6 @@ import transformAuditsToCaseHistory from "./transformAuditsToCaseHistory";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../audits/getQueryAuditAccessDetails";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
@@ -16,10 +14,6 @@ const models = require("../../../models");
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   const caseHistoryAudits = await models.sequelize.transaction(
     async transaction => {
@@ -30,8 +24,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         uploadAuditDetails
       } = await getDataChangeAndUploadAuditsAndAuditDetails(
         caseId,
-        transaction,
-        newAuditFeatureToggle
+        transaction
       );
 
       const auditDetails = combineAuditDetails(
@@ -39,24 +32,13 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
         uploadAuditDetails
       );
 
-      if (newAuditFeatureToggle) {
-        await auditDataAccess(
-          request.nickname,
-          request.params.caseId,
-          AUDIT_SUBJECT.CASE_HISTORY,
-          auditDetails,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.CASE_HISTORY,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
-      }
+      await auditDataAccess(
+        request.nickname,
+        request.params.caseId,
+        AUDIT_SUBJECT.CASE_HISTORY,
+        auditDetails,
+        transaction
+      );
 
       return {
         dataChangeAudits: dataChangeAudits,
@@ -64,17 +46,13 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
       };
     }
   );
-  const caseHistory = transformAuditsToCaseHistory(
-    caseHistoryAudits,
-    newAuditFeatureToggle
-  );
+  const caseHistory = transformAuditsToCaseHistory(caseHistoryAudits);
   response.status(200).send(caseHistory);
 });
 
 const getDataChangeAndUploadAuditsAndAuditDetails = async (
   caseId,
-  transaction,
-  newAuditFeatureToggle
+  transaction
 ) => {
   let dataChangeAudits,
     uploadAudits,
@@ -83,26 +61,14 @@ const getDataChangeAndUploadAuditsAndAuditDetails = async (
     dataChangeAuditsAndAuditDetails,
     uploadAuditsAndAuditDetails;
 
-  // TODO remove following else statement when removing newAuditFeatureToggle flag
-  if (newAuditFeatureToggle) {
-    dataChangeAuditsAndAuditDetails = await getDataChangeAuditsAndAuditDetails(
-      caseId,
-      transaction
-    );
-    uploadAuditsAndAuditDetails = await getUploadAuditsAndAuditDetails(
-      caseId,
-      transaction
-    );
-  } else {
-    dataChangeAuditsAndAuditDetails = await getLegacyDataChangeAuditsAndAuditDetails(
-      caseId,
-      transaction
-    );
-    uploadAuditsAndAuditDetails = await getLegacyUploadAuditsAndAuditDetails(
-      caseId,
-      transaction
-    );
-  }
+  dataChangeAuditsAndAuditDetails = await getDataChangeAuditsAndAuditDetails(
+    caseId,
+    transaction
+  );
+  uploadAuditsAndAuditDetails = await getUploadAuditsAndAuditDetails(
+    caseId,
+    transaction
+  );
 
   dataChangeAudits = dataChangeAuditsAndAuditDetails.dataChangeAudits;
   dataChangeAuditDetails = dataChangeAuditsAndAuditDetails.auditDetails;

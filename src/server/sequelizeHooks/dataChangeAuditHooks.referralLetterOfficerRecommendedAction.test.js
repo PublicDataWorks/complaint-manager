@@ -66,25 +66,33 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
   });
 
   test("it creates an audit for creating an officer recommended action", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: {
-        modelName: "Referral Letter Officer Recommended Action",
-        action: AUDIT_ACTION.DATA_CREATED
-      }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter_officer_recommended_action"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(officerRecommendedAction.id);
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelId).toEqual(officerRecommendedAction.id);
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": caseOfficer.fullName }
     ]);
-    expect(audit.changes.recommendedAction).toEqual({
+    expect(audit.dataChangeAudit.changes.recommendedAction).toEqual({
       new: recommendedAction.description
     });
-    expect(audit.snapshot.recommendedAction).toEqual(
+    expect(audit.dataChangeAudit.snapshot.recommendedAction).toEqual(
       recommendedAction.description
     );
-    expect(audit.snapshot.recommendedActionId).toEqual(recommendedAction.id);
+    expect(audit.dataChangeAudit.snapshot.recommendedActionId).toEqual(
+      recommendedAction.id
+    );
     expect(audit.user).toEqual("someone");
   });
 });

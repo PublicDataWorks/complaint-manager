@@ -71,13 +71,25 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audits = await createdCase.getDataChangeAudits();
-      expect(audits.length).toEqual(1);
-      const audit = audits[0];
+      // const audits = await createdCase.getDataChangeAudits();
+      // expect(audits.length).toEqual(1);
+      // const audit = audits[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
-      expect(audit.modelName).toEqual("Case");
-      expect(audit.modelId).toEqual(createdCase.id);
-      expect(audit.action).toEqual(AUDIT_ACTION.DATA_CREATED);
+      expect(audit.dataChangeAudit.modelName).toEqual("cases");
+      expect(audit.dataChangeAudit.modelId).toEqual(createdCase.id);
+      expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
     });
 
@@ -85,8 +97,19 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
-
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
       const expectedChanges = {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
@@ -104,7 +127,7 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the changes of the new values of intake source", async () => {
@@ -114,8 +137,19 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
-
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
       const expectedChanges = {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
@@ -135,7 +169,7 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the changes of the new values of how did you hear about us source", async () => {
@@ -145,7 +179,19 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         narrativeSummary: { new: "original narrative summary" },
@@ -170,7 +216,7 @@ describe("dataChangeAuditHooks", () => {
         caseNumber: { new: 1 },
         year: { new: 2017 }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
     test("it saves the changes of the new values including the initialism of the classification", async () => {
       Object.assign(initialCaseAttributes, {
@@ -179,8 +225,19 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
-
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
       const expectedChanges = {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
@@ -198,15 +255,26 @@ describe("dataChangeAuditHooks", () => {
         year: { new: 2017 },
         caseNumber: { new: 1 }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the full snapshot of the object", async () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
-
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
       const expectedSnapshot = {
         narrativeSummary: "original narrative summary",
         narrativeDetails: null,
@@ -235,7 +303,7 @@ describe("dataChangeAuditHooks", () => {
         year: 2017,
         pibCaseNumber: null
       };
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
 
     test("it captures the initialism of the classification in addition to the id in the snapshot", async () => {
@@ -243,8 +311,19 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      const audit = (await createdCase.getDataChangeAudits())[0];
-
+      //const audit = (await createdCase.getDataChangeAudits())[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
       const expectedSnapshot = {
         narrativeSummary: "original narrative summary",
         narrativeDetails: null,
@@ -273,7 +352,7 @@ describe("dataChangeAuditHooks", () => {
         caseReference: createdCase.caseReference,
         pibCaseNumber: null
       };
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
 
     describe("errors on create", () => {
@@ -433,17 +512,29 @@ describe("dataChangeAuditHooks", () => {
         { auditUser: "someoneWhoUpdated" }
       );
 
-      const updateAudits = await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // const updateAudits = await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // });
+      const auditUpdate = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
       });
-      expect(updateAudits.length).toEqual(1);
-      const auditUpdate = updateAudits[0];
+      // expect(updateAudits.length).toEqual(1);
+      // const auditUpdate = updateAudits[0];
 
-      expect(auditUpdate.modelName).toEqual("Case");
-      expect(auditUpdate.modelId).toEqual(existingCase.id);
-      expect(auditUpdate.action).toEqual(AUDIT_ACTION.DATA_UPDATED);
+      expect(auditUpdate.dataChangeAudit.modelName).toEqual("cases");
+      expect(auditUpdate.dataChangeAudit.modelId).toEqual(existingCase.id);
+      expect(auditUpdate.auditAction).toEqual(AUDIT_ACTION.DATA_UPDATED);
       expect(auditUpdate.user).toEqual("someoneWhoUpdated");
-      expect(auditUpdate.modelDescription).toEqual([
+      expect(auditUpdate.dataChangeAudit.modelDescription).toEqual([
         { "Case Reference": existingCase.caseReference }
       ]);
     });
@@ -455,9 +546,21 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      const audit = (await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
-      }))[0];
+      // const audit = (await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         narrativeSummary: {
@@ -466,7 +569,7 @@ describe("dataChangeAuditHooks", () => {
         },
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the changes when classification association has changed on instance update", async () => {
@@ -476,9 +579,21 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      const audit = (await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
-      }))[0];
+      // const audit = (await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         classificationId: {
@@ -491,7 +606,7 @@ describe("dataChangeAuditHooks", () => {
         },
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the changes when classification association has changed on class update", async () => {
@@ -504,9 +619,21 @@ describe("dataChangeAuditHooks", () => {
           auditUser: "someoneWhoUpdated"
         }
       );
-      const audit = (await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
-      }))[0];
+      // const audit = (await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         classificationId: {
@@ -519,7 +646,7 @@ describe("dataChangeAuditHooks", () => {
         },
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves the changes when many fields changed", async () => {
@@ -541,9 +668,21 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      const audit = (await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
-      }))[0];
+      // const audit = (await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
@@ -566,7 +705,7 @@ describe("dataChangeAuditHooks", () => {
           new: "updatedAssignedPerson"
         }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it saves a snapshot of the objects new values", async () => {
@@ -588,9 +727,21 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      const audit = (await existingCase.getDataChangeAudits({
-        where: { action: AUDIT_ACTION.DATA_UPDATED }
-      }))[0];
+      // const audit = (await existingCase.getDataChangeAudits({
+      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
+      // }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
+      });
 
       const expectedSnapshot = {
         narrativeSummary: "updated narrative summary",
@@ -620,13 +771,13 @@ describe("dataChangeAuditHooks", () => {
         year: 2017,
         pibCaseNumber: null
       };
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
 
     test("does not record audit when nothing changes", async () => {
       await existingCase.update({}, { auditUser: "someone" });
 
-      await models.legacy_data_change_audit.count().then(num => {
+      await models.data_change_audit.count().then(num => {
         expect(num).toEqual(1);
       });
     });
@@ -815,11 +966,17 @@ describe("dataChangeAuditHooks", () => {
       await existingCase.destroy({ auditUser: "someone" });
       await existingCase.restore({ auditUser: "someone" });
 
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: {
-          modelName: "Case",
-          action: AUDIT_ACTION.DATA_RESTORED
-        }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_RESTORED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
       });
 
       const expectedChanges = {
@@ -848,16 +1005,22 @@ describe("dataChangeAuditHooks", () => {
         }
       };
 
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("should audit destroy including changes including classification association value", async () => {
       await existingCase.destroy({ auditUser: "someone" });
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: {
-          modelName: "Case",
-          action: AUDIT_ACTION.DATA_ARCHIVED
-        }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_ARCHIVED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "cases"
+            }
+          }
+        ]
       });
 
       const expectedChanges = {
@@ -885,7 +1048,7 @@ describe("dataChangeAuditHooks", () => {
           previous: null
         }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
   });
 });

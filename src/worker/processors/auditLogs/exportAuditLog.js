@@ -43,15 +43,10 @@ const exportAuditLog = async (job, done) => {
 
     const csvOptions = { header: true, columns, cast: dateFormatter };
 
-    const transformedAudits =
-      job.data.features && job.data.features.newAuditFeature
-        ? await getTransformedAudits(dateRangeCondition)
-        : await getOldTransformedAudits(dateRangeCondition);
+    const transformedAudits = await getTransformedAudits(dateRangeCondition);
 
     winston.info(
-      `Transformed ${
-        transformedAudits.length
-      } audits that will be sorted and exported.`
+      `Transformed ${transformedAudits.length} audits that will be sorted and exported.`
     );
 
     const sortedAuditLogs = _.orderBy(transformedAudits, "created_at", "desc");

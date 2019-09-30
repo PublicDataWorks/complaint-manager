@@ -59,16 +59,22 @@ describe("data change audit hooks for referral letter officer history note", () 
   });
 
   test("it creates an audit for creating an officer history note", async () => {
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: {
-        modelName: "Referral Letter Officer History Note",
-        action: AUDIT_ACTION.DATA_CREATED
-      }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "referral_letter_officer_history_note"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(existingCase.id);
-    expect(audit.modelId).toEqual(officerHistoryNote.id);
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelId).toEqual(officerHistoryNote.id);
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": caseOfficer.fullName }
     ]);
     expect(audit.user).toEqual("someone");

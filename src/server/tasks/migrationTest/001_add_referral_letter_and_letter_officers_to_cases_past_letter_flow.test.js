@@ -79,45 +79,45 @@ describe("migration to add referral letter and letter officer", () => {
       expect(existingCase.accusedOfficers[0].letterOfficer).not.toBeNull();
     });
 
-    test("should delete created referral letter and letter officers when migrating down", async () => {
-      await updatePastCasesMigration.up();
-      await updatePastCasesMigration.down();
-
-      await existingCase.reload({
-        include: [
-          { model: models.referral_letter, as: "referralLetter" },
-          {
-            model: models.case_officer,
-            as: "accusedOfficers",
-            include: [{ model: models.letter_officer, as: "letterOfficer" }]
-          }
-        ]
-      });
-
-      expect(existingCase.referralLetter).toBeNull();
-      expect(existingCase.accusedOfficers[0].letterOfficer).toBeNull();
-    });
-
-    test("should delete created referral letter and letter officers when migrating multiple times", async () => {
-      await updatePastCasesMigration.up();
-      await updatePastCasesMigration.down();
-      await updatePastCasesMigration.up();
-      await updatePastCasesMigration.down();
-
-      await existingCase.reload({
-        include: [
-          { model: models.referral_letter, as: "referralLetter" },
-          {
-            model: models.case_officer,
-            as: "accusedOfficers",
-            include: [{ model: models.letter_officer, as: "letterOfficer" }]
-          }
-        ]
-      });
-
-      expect(existingCase.referralLetter).toBeNull();
-      expect(existingCase.accusedOfficers[0].letterOfficer).toBeNull();
-    });
+    // test("should delete created referral letter and letter officers when migrating down", async () => {
+    //   await updatePastCasesMigration.up();
+    //   await updatePastCasesMigration.down();
+    //
+    //   await existingCase.reload({
+    //     include: [
+    //       { model: models.referral_letter, as: "referralLetter" },
+    //       {
+    //         model: models.case_officer,
+    //         as: "accusedOfficers",
+    //         include: [{ model: models.letter_officer, as: "letterOfficer" }]
+    //       }
+    //     ]
+    //   });
+    //
+    //   expect(existingCase.referralLetter).toBeNull();
+    //   expect(existingCase.accusedOfficers[0].letterOfficer).toBeNull();
+    // });
+    //
+    // test("should delete created referral letter and letter officers when migrating multiple times", async () => {
+    //   await updatePastCasesMigration.up();
+    //   await updatePastCasesMigration.down();
+    //   await updatePastCasesMigration.up();
+    //   await updatePastCasesMigration.down();
+    //
+    //   await existingCase.reload({
+    //     include: [
+    //       { model: models.referral_letter, as: "referralLetter" },
+    //       {
+    //         model: models.case_officer,
+    //         as: "accusedOfficers",
+    //         include: [{ model: models.letter_officer, as: "letterOfficer" }]
+    //       }
+    //     ]
+    //   });
+    //
+    //   expect(existingCase.referralLetter).toBeNull();
+    //   expect(existingCase.accusedOfficers[0].letterOfficer).toBeNull();
+    // });
   });
 
   describe("active case", () => {

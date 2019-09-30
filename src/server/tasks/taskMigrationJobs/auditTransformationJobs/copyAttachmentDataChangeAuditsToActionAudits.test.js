@@ -18,6 +18,7 @@ describe("copy data change attachment audits", () => {
   const fileName = "koalaLife.rtf";
 
   beforeEach(async () => {
+    await cleanupDatabase();
     existingCase = await createTestCaseWithCivilian();
   });
   afterEach(async () => {

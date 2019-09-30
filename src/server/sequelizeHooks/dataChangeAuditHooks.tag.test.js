@@ -13,14 +13,23 @@ describe("dataChangeAuditHooks for tag", () => {
       auditUser: "A Person"
     });
 
-    const audit = await models.legacy_data_change_audit.findOne({
-      where: { modelName: "Tag", action: AUDIT_ACTION.DATA_CREATED }
+    const audit = await models.audit.findOne({
+      where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+      include: [
+        {
+          as: "dataChangeAudit",
+          model: models.data_change_audit,
+          where: {
+            modelName: "tag"
+          }
+        }
+      ]
     });
 
     expect(audit.caseId).toEqual(null);
-    expect(audit.modelId).toEqual(existingTag.id);
+    expect(audit.dataChangeAudit.modelId).toEqual(existingTag.id);
     expect(audit.user).toEqual("A Person");
-    expect(audit.modelDescription).toEqual([
+    expect(audit.dataChangeAudit.modelDescription).toEqual([
       {
         "New Tag Name": existingTag.name
       }

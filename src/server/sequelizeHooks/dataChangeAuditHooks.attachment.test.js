@@ -28,25 +28,41 @@ describe("dataChangeAuditHooks for attachment", () => {
 
   describe("create attachment", () => {
     test("it saves basic attributes", async () => {
-      const audits = await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment" }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
-      expect(audits.length).toEqual(1);
-      const audit = audits[0];
 
-      expect(audit.modelId).toEqual(attachment.id);
-      expect(audit.action).toEqual(AUDIT_ACTION.DATA_CREATED);
+      expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
+      expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
       expect(audit.caseId).toEqual(existingCase.id);
-      expect(audit.modelDescription).toEqual([
+      expect(audit.dataChangeAudit.modelDescription).toEqual([
         { "File Name": attachment.fileName }
       ]);
     });
 
     test("it saves snapshot of object values", async () => {
-      const audit = (await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment" }
-      }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
+      });
 
       const expectedSnapshot = {
         ...attachmentOriginalAttributes,
@@ -55,13 +71,22 @@ describe("dataChangeAuditHooks for attachment", () => {
         id: attachment.id
       };
 
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
 
     test("saves changes when creating new object", async () => {
-      const audit = (await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment" }
-      }))[0];
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
+      });
 
       const expectedChanges = {
         caseId: { new: attachment.caseId },
@@ -69,7 +94,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         fileName: { new: attachment.fileName }
       };
 
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
   });
 
@@ -83,15 +108,21 @@ describe("dataChangeAuditHooks for attachment", () => {
         },
         { auditUser: "someone else" }
       );
-      audits = await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_UPDATED }
+      audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
-      audit = audits[0];
     });
     test("it creates a data change audit with basic attributes", async () => {
-      expect(audits.length).toEqual(1);
-
-      expect(audit.modelId).toEqual(attachment.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
       expect(audit.caseId).toEqual(existingCase.id);
     });
@@ -107,7 +138,7 @@ describe("dataChangeAuditHooks for attachment", () => {
           new: "newfilename.jpg"
         }
       };
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it stores the snapshot", async () => {
@@ -120,22 +151,27 @@ describe("dataChangeAuditHooks for attachment", () => {
         updatedAt: attachment.updatedAt.toJSON(),
         id: attachment.id
       };
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
   });
 
   describe("delete attachment", () => {
     test("it creates a data change object with basic attributes", async () => {
       await attachment.destroy({ auditUser: "someone else" });
-      const audits = await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
 
-      const audit = audits[0];
-
-      expect(audits.length).toEqual(1);
-
-      expect(audit.modelId).toEqual(attachment.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
       expect(audit.caseId).toEqual(existingCase.id);
     });
@@ -145,14 +181,20 @@ describe("dataChangeAuditHooks for attachment", () => {
         where: { id: attachment.id },
         auditUser: "someone else"
       });
-      const audits = await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
 
-      const audit = audits[0];
-      expect(audits.length).toEqual(1);
-
-      expect(audit.modelId).toEqual(attachment.id);
+      expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
       expect(audit.caseId).toEqual(existingCase.id);
     });
@@ -162,8 +204,17 @@ describe("dataChangeAuditHooks for attachment", () => {
         where: { id: attachment.id },
         auditUser: "someone else"
       });
-      const audit = await models.legacy_data_change_audit.findOne({
-        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
 
       const expectedChanges = {
@@ -181,16 +232,23 @@ describe("dataChangeAuditHooks for attachment", () => {
         }
       };
 
-      expect(audit.changes).toEqual(expectedChanges);
+      expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
 
     test("it stores the snapshot at time of delete", async () => {
       await attachment.destroy({ auditUser: "someone else" });
-      const audits = await models.legacy_data_change_audit.findAll({
-        where: { modelName: "Attachment", action: AUDIT_ACTION.DATA_DELETED }
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "attachment"
+            }
+          }
+        ]
       });
-
-      const audit = audits[0];
 
       const expectedSnapshot = {
         caseId: attachment.caseId,
@@ -200,7 +258,7 @@ describe("dataChangeAuditHooks for attachment", () => {
         updatedAt: attachment.updatedAt.toJSON(),
         createdAt: attachment.createdAt.toJSON()
       };
-      expect(audit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
     });
 
     test("it does not delete the attachment if the audit fails to save", async () => {
@@ -211,8 +269,11 @@ describe("dataChangeAuditHooks for attachment", () => {
           "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
-      models.legacy_data_change_audit
-        .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
+      models.audit
+        .count({
+          where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+          include: [{ as: "dataChangeAudit", model: models.data_change_audit }]
+        })
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });
@@ -231,8 +292,11 @@ describe("dataChangeAuditHooks for attachment", () => {
           "User nickname must be given to db query for auditing. (Attachment Deleted)"
         );
       }
-      models.legacy_data_change_audit
-        .count({ where: { action: AUDIT_ACTION.DATA_DELETED } })
+      models.audit
+        .count({
+          where: { auditAction: AUDIT_ACTION.DATA_DELETED },
+          include: [{ as: "dataChangeAudit", model: models.data_change_audit }]
+        })
         .then(numAudits => {
           expect(numAudits).toEqual(0);
         });
