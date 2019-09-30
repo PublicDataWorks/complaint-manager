@@ -8,9 +8,7 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS,
   COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
@@ -18,7 +16,6 @@ import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/R
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../client/testUtilities/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
-import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");
@@ -422,10 +419,8 @@ describe("getReferralLetterData", () => {
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 
-  describe("newAuditFeature enabled", () => {
+  describe("auditing", () => {
     test("audits the data access", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-
       await getReferralLetterData(request, response, next);
 
       const expectedAuditDetails = {
@@ -488,54 +483,6 @@ describe("getReferralLetterData", () => {
         expectedAuditDetails,
         expect.anything()
       );
-    });
-  });
-
-  describe("newAuditFeature disabled", () => {
-    test("audits the data access", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-
-      await getReferralLetterData(request, response, next);
-
-      const dataAccessAudit = await models.action_audit.findOne();
-      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-      expect(dataAccessAudit.user).toEqual("bobjo");
-      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(
-        AUDIT_SUBJECT.REFERRAL_LETTER_DATA
-      );
-      expect(dataAccessAudit.auditDetails).toEqual({
-        "Case Officers": [
-          "First Name",
-          "Full Name",
-          "Id",
-          "Last Name",
-          "Middle Name"
-        ],
-        "Letter Officer": [
-          "Case Officer Id",
-          "Historical Behavior Notes",
-          "Id",
-          "Num Historical High Allegations",
-          "Num Historical Low Allegations",
-          "Num Historical Med Allegations",
-          "Officer History Option Id",
-          "Recommended Action Notes"
-        ],
-        "Referral Letter": ["Case Id", "Id", "Include Retaliation Concerns"],
-        "Referral Letter Iapro Corrections": ["Details", "Id"],
-        "Referral Letter Officer History Notes": [
-          "Details",
-          "Id",
-          "Pib Case Number",
-          "Referral Letter Officer Id"
-        ],
-        "Referral Letter Officer Recommended Actions": [
-          "Recommended Action Id",
-          "Referral Letter Officer Id"
-        ]
-      });
     });
   });
 });

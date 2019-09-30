@@ -2,16 +2,13 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS
 } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import getReferralLetterPdf from "./getReferralLetterPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 jest.mock(
@@ -76,32 +73,8 @@ describe("Generate referral letter pdf", () => {
       expect(response._getData()).toEqual(`pdf for case ${existingCase.id}`);
     });
 
-    describe("newAuditFeature Disabled", () => {
+    describe("auditing", () => {
       test("audits the data access", async () => {
-        request.fflip = mockFflipObject({
-          newAuditFeature: false
-        });
-        await getReferralLetterPdf(request, response, next);
-
-        const dataAccessAudit = await models.action_audit.findOne();
-        expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-        expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-        expect(dataAccessAudit.user).toEqual("bobjo");
-        expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-        expect(dataAccessAudit.subject).toEqual(
-          AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF
-        );
-        expect(dataAccessAudit.auditDetails).toEqual({
-          "Mock Association": ["Mock Details"]
-        });
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("audits the data access", async () => {
-        request.fflip = mockFflipObject({
-          newAuditFeature: true
-        });
         await getReferralLetterPdf(request, response, next);
 
         const expectedAuditDetails = {

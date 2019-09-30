@@ -1,9 +1,7 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT,
   CASE_STATUS,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
@@ -13,7 +11,6 @@ import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
 const getFinalPdfDownloadUrl = asyncMiddleware(
@@ -36,34 +33,20 @@ const getFinalPdfDownloadUrl = asyncMiddleware(
     });
 
     validateCaseStatus(existingCase.status);
-    const newAuditFeatureToggle = checkFeatureToggleEnabled(
-      request,
-      "newAuditFeature"
-    );
 
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: existingCase.id }
     });
 
     await models.sequelize.transaction(async transaction => {
-      if (newAuditFeatureToggle) {
-        await auditFileAction(
-          request.nickname,
-          caseId,
-          AUDIT_ACTION.DOWNLOADED,
-          referralLetter.finalPdfFilename,
-          AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          transaction,
-          AUDIT_ACTION.DOWNLOADED
-        );
-      }
+      await auditFileAction(
+        request.nickname,
+        caseId,
+        AUDIT_ACTION.DOWNLOADED,
+        referralLetter.finalPdfFilename,
+        AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
+        transaction
+      );
       const signedUrl = await getSignedS3Url(
         existingCase.id,
         referralLetter.finalPdfFilename

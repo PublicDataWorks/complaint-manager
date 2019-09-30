@@ -1,7 +1,6 @@
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT,
   COMPLAINANT_LETTER,
   PERSON_TYPE
 } from "../../../../../sharedUtilities/constants";
@@ -9,15 +8,13 @@ import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
 import models from "../../../../models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
-import auditUpload from "../sharedLetterUtilities/auditUpload";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
 const generateComplainantLetterAndUploadToS3 = async (
   existingCase,
   nickname,
-  transaction,
-  newAuditFeatureToggle
+  transaction
 ) => {
   const caseId = existingCase.id;
 
@@ -53,24 +50,15 @@ const generateComplainantLetterAndUploadToS3 = async (
     pdfBuffer,
     config[process.env.NODE_ENV].complainantLettersBucket
   );
-  if (newAuditFeatureToggle) {
-    await auditFileAction(
-      nickname,
-      caseId,
-      AUDIT_ACTION.UPLOADED,
-      finalPdfFilename,
-      AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
-      transaction
-    );
-  } else {
-    await auditUpload(
-      nickname,
-      caseId,
-      AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-      { fileName: [finalPdfFilename] },
-      transaction
-    );
-  }
+
+  await auditFileAction(
+    nickname,
+    caseId,
+    AUDIT_ACTION.UPLOADED,
+    finalPdfFilename,
+    AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
+    transaction
+  );
   return createdComplainantLetter;
 };
 
