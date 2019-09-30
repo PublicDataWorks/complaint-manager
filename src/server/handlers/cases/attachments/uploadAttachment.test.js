@@ -1,4 +1,3 @@
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
 import uploadAttachment from "./uploadAttachment";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -10,10 +9,8 @@ import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 import { auditFileAction } from "../../audits/auditFileAction";
 import {
   AUDIT_ACTION,
-  AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_FILE_TYPE
 } from "../../../../sharedUtilities/constants";
-import auditUpload from "../referralLetters/sharedLetterUtilities/auditUpload";
 
 jest.mock("../referralLetters/sharedLetterUtilities/auditUpload");
 jest.mock("../../getCaseHelpers");
@@ -91,12 +88,8 @@ describe("uploadAttachment", () => {
     await cleanupDatabase();
   });
 
-  describe("new audit feature toggle is turned on", () => {
+  describe("auditing", () => {
     test("should call auditFileAction when uploading an attachment", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: true
-      });
-
       uploadLetterToS3.mockClear();
 
       await uploadAttachment(request, response, next);
@@ -107,28 +100,6 @@ describe("uploadAttachment", () => {
         AUDIT_ACTION.UPLOADED,
         "test_filename",
         AUDIT_FILE_TYPE.ATTACHMENT,
-        expect.anything()
-      );
-    });
-  });
-
-  describe("new audit feature toggle is turned off", () => {
-    test("should call audit upload when uploading an attachment", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: false
-      });
-
-      uploadLetterToS3.mockClear();
-
-      await uploadAttachment(request, response, next);
-
-      expect(auditUpload).toHaveBeenCalledWith(
-        testUser,
-        existingCase.id,
-        AUDIT_SUBJECT.ATTACHMENT,
-        expect.objectContaining({
-          fileName: ["test_filename"]
-        }),
         expect.anything()
       );
     });
