@@ -1,15 +1,12 @@
 import Case from "../../../../client/testUtilities/case";
 import Officer from "../../../../client/testUtilities/Officer";
 import models from "../../../models/index";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
 const searchOfficers = require("./searchOfficers");
 const {
-  AUDIT_ACTION,
-  AUDIT_TYPE,
   AUDIT_SUBJECT,
   DEFAULT_PAGINATION_LIMIT
 } = require("../../../../sharedUtilities/constants");
@@ -49,29 +46,8 @@ describe("searchOfficers", function() {
     await cleanupDatabase();
   });
 
-  describe("newAuditFeature is disabled", () => {
+  describe("auditing", () => {
     test("should audit when retrieving a case", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-
-      await searchOfficers(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { subject: AUDIT_SUBJECT.OFFICER_DATA },
-        returning: true
-      });
-
-      expect(actionAudit.user).toEqual("nickname");
-      expect(actionAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-      expect(actionAudit.subject).toEqual(AUDIT_SUBJECT.OFFICER_DATA);
-      expect(actionAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-      expect(actionAudit.caseId).toEqual(null);
-    });
-  });
-
-  describe("newAuditFeature is enabled", () => {
-    test("should audit when retrieving a case", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: true });
-
       await searchOfficers(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(

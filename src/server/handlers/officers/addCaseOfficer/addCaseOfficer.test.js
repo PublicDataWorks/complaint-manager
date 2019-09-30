@@ -5,22 +5,16 @@ import * as httpMocks from "node-mocks-http";
 import Officer from "../../../../client/testUtilities/Officer";
 import {
   ACCUSED,
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS,
-  WITNESS,
+  COMPLAINANT,
   EMPLOYEE_TYPE,
-  COMPLAINANT
+  WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -482,43 +476,16 @@ describe("addCaseOfficer", () => {
         nickname: "TEST_USER_NICKNAME"
       });
     });
-    describe("newAuditFeature disabled", () => {
-      test("should audit case details access", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: false });
+    test("should audit case details access", async () => {
+      await addCaseOfficer(request, response, next);
 
-        await addCaseOfficer(request, response, next);
-
-        const actionAudit = await models.action_audit.findOne({
-          where: { caseId: existingCase.id }
-        });
-
-        expect(actionAudit).toEqual(
-          expect.objectContaining({
-            user: "TEST_USER_NICKNAME",
-            caseId: existingCase.id,
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        );
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("should audit case details access", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: true });
-
-        await addCaseOfficer(request, response, next);
-
-        expect(auditDataAccess).toHaveBeenCalledWith(
-          request.nickname,
-          existingCase.id,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          expectedCaseAuditDetails,
-          expect.anything()
-        );
-      });
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        existingCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        expectedCaseAuditDetails,
+        expect.anything()
+      );
     });
   });
 });

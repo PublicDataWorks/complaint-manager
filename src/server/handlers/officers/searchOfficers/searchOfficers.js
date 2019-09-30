@@ -29,11 +29,6 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
     : null;
 
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
-
   const officers = await models.sequelize.transaction(async transaction => {
     const queryOptions = {
       where: whereClause,
@@ -56,24 +51,13 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
       models.officer.name
     );
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        null,
-        AUDIT_SUBJECT.OFFICER_DATA,
-        auditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        undefined,
-        AUDIT_SUBJECT.OFFICER_DATA,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
-    }
+    await auditDataAccess(
+      request.nickname,
+      null,
+      AUDIT_SUBJECT.OFFICER_DATA,
+      auditDetails,
+      transaction
+    );
 
     return officers;
   });
