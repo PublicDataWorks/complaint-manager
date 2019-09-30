@@ -1,15 +1,12 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../client/testUtilities/case";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CIVILIAN_INITIATED
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
 import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 jest.mock("../../audits/auditDataAccess");
@@ -66,31 +63,8 @@ describe("getMinimumCaseDetails", () => {
     const responseBody = response._getData();
     expect(responseBody.caseReference).toEqual("CC2017-0001");
   });
-  describe("newAuditFeature toggle off", () => {
+  describe("auditing", () => {
     test("audits the data access", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: false
-      });
-
-      await getMinimumCaseDetails(request, response, next);
-
-      const dataAccessAudit = await models.action_audit.findOne();
-      expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-      expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-      expect(dataAccessAudit.user).toEqual("nickname");
-      expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-      expect(dataAccessAudit.subject).toEqual(AUDIT_SUBJECT.CASE_DETAILS);
-      expect(dataAccessAudit.auditDetails).toEqual({
-        Case: ["Case Reference", "Status"]
-      });
-    });
-  });
-  describe("newAuditFeature toggle on", () => {
-    test("audits the data access", async () => {
-      request.fflip = mockFflipObject({
-        newAuditFeature: true
-      });
-
       await getMinimumCaseDetails(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(

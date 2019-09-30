@@ -3,9 +3,7 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import changeStatus from "./changeStatus";
 import {
   ACCUSED,
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
@@ -15,12 +13,8 @@ import models from "../../../models/index";
 import Officer from "../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -153,7 +147,7 @@ describe("changeStatus", () => {
     );
   });
 
-  describe("auditing when newAuditFeature disabled", () => {
+  describe("auditing", () => {
     test("should audit case details", async () => {
       const newStatus = CASE_STATUS.ACTIVE;
       const request = httpMocks.createRequest({
@@ -161,43 +155,6 @@ describe("changeStatus", () => {
         params: {
           caseId: initialCase.id
         },
-        fflip: mockFflipObject({
-          newAuditFeature: false
-        }),
-        body: {
-          status: newStatus
-        },
-        nickname: "someone"
-      });
-
-      await changeStatus(request, response, next);
-
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: initialCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          user: "someone",
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: initialCase.id,
-          auditDetails: expectedFormattedCaseAuditDetails
-        })
-      );
-    });
-  });
-
-  describe("auditing when newAuditFeature enabled", () => {
-    test("should audit case details", async () => {
-      const newStatus = CASE_STATUS.ACTIVE;
-      const request = httpMocks.createRequest({
-        method: "PUT",
-        params: {
-          caseId: initialCase.id
-        },
-        fflip: mockFflipObject({ newAuditFeature: true }),
         body: {
           status: newStatus
         },

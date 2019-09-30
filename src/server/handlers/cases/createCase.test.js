@@ -1,9 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
   ASCENDING,
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
   RANK_INITIATED
@@ -253,81 +251,13 @@ describe("createCase handler", () => {
     );
   });
 
-  describe("newAuditFeature disabled", () => {
+  describe("auditing", () => {
     test("should audit when creating a case with an officer complainant", async () => {
       const policeOfficerRequest = httpMocks.createRequest({
         method: "POST",
         headers: {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
-        fflip: mockFflipObject({ newAuditFeature: false }),
-        body: {
-          case: {
-            complaintType: RANK_INITIATED,
-            firstContactDate: "2018-02-08",
-            incidentDate: "2018-03-16T17:42"
-          }
-        },
-        nickname: user
-      });
-
-      await createCase(policeOfficerRequest, response, next);
-
-      const cases = await models.cases.findAll({ returning: true });
-
-      const audit = await models.action_audit.findOne({
-        where: { caseId: cases[0].id }
-      });
-
-      expect(audit).toEqual(
-        expect.objectContaining({
-          user,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: cases[0].id,
-          auditDetails: {
-            Case: ["All Case Data"]
-          }
-        })
-      );
-    });
-
-    test("should audit when creating a case with a civilian complainant", async () => {
-      request.fflip = mockFflipObject({ newAuditFeature: false });
-
-      await createCase(request, response, next);
-
-      const cases = await models.cases.findAll({ returning: true });
-
-      const audit = await models.action_audit.findOne({
-        where: { caseId: cases[0].id }
-      });
-
-      expect(audit).toEqual(
-        expect.objectContaining({
-          user,
-          auditType: AUDIT_TYPE.DATA_ACCESS,
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: AUDIT_SUBJECT.CASE_DETAILS,
-          caseId: cases[0].id,
-          auditDetails: {
-            Case: ["All Case Data"],
-            "Complainant Civilians": ["All Complainant Civilians Data"]
-          }
-        })
-      );
-    });
-  });
-
-  describe("newAuditFeature enabled", () => {
-    test("should audit when creating a case with an officer complainant", async () => {
-      const policeOfficerRequest = httpMocks.createRequest({
-        method: "POST",
-        headers: {
-          authorization: "Bearer SOME_MOCK_TOKEN"
-        },
-        fflip: mockFflipObject({ newAuditFeature: true }),
         body: {
           case: {
             complaintType: RANK_INITIATED,
@@ -358,7 +288,6 @@ describe("createCase handler", () => {
 
     test("should audit when creating a case with a civilian complainant", async () => {
       request.fflip = mockFflipObject({
-        newAuditFeature: true,
         createCaseAddressInputFeature: true
       });
 

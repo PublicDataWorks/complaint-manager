@@ -1,20 +1,10 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../models";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT
-} from "../../../../sharedUtilities/constants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
+import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const getMinimumCaseDetails = asyncMiddleware(
   async (request, response, next) => {
-    const newAuditFeatureToggle = checkFeatureToggleEnabled(
-      request,
-      "newAuditFeature"
-    );
-
     const caseId = request.params.caseId;
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
@@ -42,24 +32,13 @@ const getMinimumCaseDetails = asyncMiddleware(
           }
         };
 
-        if (newAuditFeatureToggle) {
-          await auditDataAccess(
-            request.nickname,
-            caseId,
-            AUDIT_SUBJECT.CASE_DETAILS,
-            auditDetails,
-            transaction
-          );
-        } else {
-          await legacyAuditDataAccess(
-            request.nickname,
-            caseId,
-            AUDIT_SUBJECT.CASE_DETAILS,
-            transaction,
-            AUDIT_ACTION.DATA_ACCESSED,
-            auditDetails
-          );
-        }
+        await auditDataAccess(
+          request.nickname,
+          caseId,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          auditDetails,
+          transaction
+        );
 
         return responseData;
       }

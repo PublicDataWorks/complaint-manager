@@ -1,18 +1,16 @@
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
+import auditDataAccess from "../audits/auditDataAccess";
 
 const moment = require("moment");
 const models = require("../../models");
 const asyncMiddleware = require("../asyncMiddleware");
-import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 const _ = require("lodash");
-import legacyAuditDataAccess from "../audits/legacyAuditDataAccess";
-import auditDataAccess from "../audits/auditDataAccess";
 const Boom = require("boom");
 
 async function upsertAddress(caseId, incidentLocation, transaction, nickname) {
@@ -48,10 +46,6 @@ const editCase = asyncMiddleware(async (request, response, next) => {
       request,
       "caseValidationFeature"
     );
-    const newAuditFeatureToggle = checkFeatureToggleEnabled(
-      request,
-      "newAuditFeature"
-    );
 
     const updatedCase = await models.sequelize.transaction(
       async transaction => {
@@ -84,24 +78,13 @@ const editCase = asyncMiddleware(async (request, response, next) => {
         const caseDetails = caseDetailsAndAuditDetails.caseDetails;
         const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-        if (newAuditFeatureToggle) {
-          await auditDataAccess(
-            request.nickname,
-            request.params.caseId,
-            AUDIT_SUBJECT.CASE_DETAILS,
-            auditDetails,
-            transaction
-          );
-        } else {
-          await legacyAuditDataAccess(
-            request.nickname,
-            request.params.caseId,
-            AUDIT_SUBJECT.CASE_DETAILS,
-            transaction,
-            AUDIT_ACTION.DATA_ACCESSED,
-            auditDetails
-          );
-        }
+        await auditDataAccess(
+          request.nickname,
+          request.params.caseId,
+          AUDIT_SUBJECT.CASE_DETAILS,
+          auditDetails,
+          transaction
+        );
 
         return caseDetails;
       }
