@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/testUtilities/case";
 import models from "../../../../models";
 import {
-  AUDIT_SUBJECT,
+  AUDIT_FILE_TYPE,
   CASE_STATUS
 } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
@@ -87,7 +87,7 @@ describe("Generate referral letter pdf", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
-          AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF,
+          AUDIT_FILE_TYPE.DRAFT_REFERRAL_LETTER_PDF,
           expectedAuditDetails,
           expect.anything()
         );

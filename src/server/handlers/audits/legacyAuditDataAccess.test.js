@@ -1,7 +1,7 @@
 import models from "../../models";
 import {
   AUDIT_ACTION,
-  AUDIT_SUBJECT
+  AUDIT_FILE_TYPE
 } from "../../../sharedUtilities/constants";
 import legacyAuditDataAccess from "./legacyAuditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
@@ -27,7 +27,7 @@ describe("legacyAuditDataAccess", () => {
         await legacyAuditDataAccess(
           "user",
           caseForAudit.id,
-          AUDIT_SUBJECT.ATTACHMENT,
+          AUDIT_FILE_TYPE.ATTACHMENT,
           transaction,
           AUDIT_ACTION.DOWNLOADED,
           auditDetails

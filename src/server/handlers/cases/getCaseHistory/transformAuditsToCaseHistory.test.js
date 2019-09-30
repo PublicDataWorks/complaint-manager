@@ -2,7 +2,6 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT,
   CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED
@@ -478,7 +477,7 @@ describe("transformAuditsToCaseHistory", () => {
       expect(caseHistoryEntry).toEqual(
         expect.objectContaining({
           user: testUser,
-          action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
+          action: `${AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
           details: `Filename: ${testFileName}\nFinal Referral Letter PDF finalized and uploaded to S3`,
           modelDescription: "",
           timestamp: audit.createdAt,

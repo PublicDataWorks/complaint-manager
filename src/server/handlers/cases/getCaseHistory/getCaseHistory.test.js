@@ -1,5 +1,6 @@
 import {
   AUDIT_ACTION,
+  AUDIT_FILE_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
 import models from "../../../models";
@@ -153,7 +154,7 @@ describe("getCaseHistory", () => {
       expect(response._getData()).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            action: `${AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
+            action: `${AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF} ${AUDIT_ACTION.UPLOADED}`,
             details:
               "Filename: Test File\nFinal Referral Letter PDF finalized and uploaded to S3",
             modelDescription: "",
@@ -223,7 +224,7 @@ describe("getCaseHistory", () => {
           auditAction: AUDIT_ACTION.UPLOADED,
           caseId: caseId,
           fileAudit: {
-            fileType: AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
+            fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
             fileName: "Test File"
           }
         },

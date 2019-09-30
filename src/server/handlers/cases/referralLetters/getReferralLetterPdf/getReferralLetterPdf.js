@@ -2,7 +2,7 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
-import { AUDIT_SUBJECT } from "../../../../../sharedUtilities/constants";
+import { AUDIT_FILE_TYPE } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 const getReferralLetterPdf = asyncMiddleware(
@@ -22,7 +22,7 @@ const getReferralLetterPdf = asyncMiddleware(
       await auditDataAccess(
         request.nickname,
         caseId,
-        AUDIT_SUBJECT.DRAFT_REFERRAL_LETTER_PDF,
+        AUDIT_FILE_TYPE.DRAFT_REFERRAL_LETTER_PDF,
         auditDetails,
         transaction
       );
