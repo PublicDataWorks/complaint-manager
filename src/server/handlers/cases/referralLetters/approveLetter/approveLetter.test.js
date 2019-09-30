@@ -5,7 +5,6 @@ import approveLetter from "./approveLetter";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT,
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
@@ -18,19 +17,17 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
-import auditUpload from "../sharedLetterUtilities/auditUpload";
-import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import Civilian from "../../../../../client/testUtilities/civilian";
 import Officer from "../../../../../client/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import _ from "lodash";
+import { auditFileAction } from "../../../audits/auditFileAction";
+
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
-import _ from "lodash";
-import mockFflipObject from "../../../../testHelpers/mockFflipObject";
-import { auditFileAction } from "../../../audits/auditFileAction";
 
 jest.mock("../../../audits/auditFileAction");
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
@@ -52,7 +49,6 @@ jest.mock(
 jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
   return "referral_letter_filename.pdf";
 });
-jest.mock("../../../audits/legacyAuditDataAccess", () => jest.fn());
 jest.mock("../../../audits/auditDataAccess");
 
 describe("approveLetter", () => {
@@ -140,8 +136,6 @@ describe("approveLetter", () => {
       await elevateCaseStatusToReadyForReview(existingCase);
       await approveLetter(request, response, next);
 
-      //TODO: when removing newAuditFeature, remove expectation on legacyAuditDataAccess
-      expect(legacyAuditDataAccess).not.toHaveBeenCalled();
       expect(auditDataAccess).not.toHaveBeenCalled();
       expect(_.isEmpty(response._getData())).toBeTruthy();
     });
@@ -164,36 +158,9 @@ describe("approveLetter", () => {
         Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
       );
     });
-    describe("newAuditFeature disabled", () => {
+
+    describe("auditing", () => {
       test("audits file upload", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: false });
-
-        uploadLetterToS3.mockClear();
-
-        await elevateCaseStatusToReadyForReview(existingCase);
-        await approveLetter(request, response, next);
-
-        const fileName = constructFilename(
-          existingCase,
-          REFERRAL_LETTER_VERSION.FINAL
-        );
-
-        expect(auditUpload).toHaveBeenCalledWith(
-          testUser,
-          existingCase.id,
-          AUDIT_SUBJECT.FINAL_REFERRAL_LETTER_PDF,
-          expect.objectContaining({
-            fileName: [fileName]
-          }),
-          expect.any(Object)
-        );
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("audits file upload", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: true });
-
         uploadLetterToS3.mockClear();
 
         await elevateCaseStatusToReadyForReview(existingCase);

@@ -2,12 +2,10 @@ import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../models";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
   EDIT_STATUS,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../../audits/legacyAuditDataAccess";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import constructFilename from "../constructFilename";
@@ -16,18 +14,12 @@ import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
 import _ from "lodash";
-import checkFeatureToggleEnabled from "../../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 require("../../../../handlebarHelpers");
 
 const getReferralLetterPreview = asyncMiddleware(
   async (request, response, next) => {
-    const newAuditFeatureToggle = checkFeatureToggleEnabled(
-      request,
-      "newAuditFeature"
-    );
-
     const caseId = request.params.caseId;
     await throwErrorIfLetterFlowUnavailable(caseId);
 
@@ -64,24 +56,13 @@ const getReferralLetterPreview = asyncMiddleware(
         caseAuditDetails
       );
 
-      if (newAuditFeatureToggle) {
-        await auditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
-          auditDetails,
-          transaction
-        );
-      } else {
-        await legacyAuditDataAccess(
-          request.nickname,
-          caseId,
-          AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED,
-          auditDetails
-        );
-      }
+      await auditDataAccess(
+        request.nickname,
+        caseId,
+        AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
+        auditDetails,
+        transaction
+      );
 
       let lastEdited = referralLetter.updatedAt;
 

@@ -3,14 +3,11 @@ import Case from "../../../../../client/testUtilities/case";
 import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import getReferralLetterEditStatus from "./getReferralLetterEditStatus";
 import {
-  AUDIT_ACTION,
   AUDIT_SUBJECT,
-  AUDIT_TYPE,
   EDIT_STATUS
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import httpMocks from "node-mocks-http";
-import mockFflipObject from "../../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 jest.mock("../../../audits/auditDataAccess");
@@ -83,30 +80,8 @@ describe("getReferralLetterEditStatus", () => {
       expect(responseBody.editStatus).toEqual(EDIT_STATUS.EDITED);
     });
 
-    describe("newAuditFeature disabled", () => {
+    describe("auditing", () => {
       test("audits the data access", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: false });
-
-        await getReferralLetterEditStatus(request, response, next);
-
-        const dataAccessAudit = await models.action_audit.findOne();
-        expect(dataAccessAudit.action).toEqual(AUDIT_ACTION.DATA_ACCESSED);
-        expect(dataAccessAudit.auditType).toEqual(AUDIT_TYPE.DATA_ACCESS);
-        expect(dataAccessAudit.user).toEqual("nickname");
-        expect(dataAccessAudit.caseId).toEqual(existingCase.id);
-        expect(dataAccessAudit.subject).toEqual(
-          AUDIT_SUBJECT.REFERRAL_LETTER_DATA
-        );
-        expect(dataAccessAudit.auditDetails).toEqual({
-          "Referral Letter": ["Edit Status"]
-        });
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("audits the data access", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: true });
-
         await getReferralLetterEditStatus(request, response, next);
 
         expect(auditDataAccess).toHaveBeenCalledWith(

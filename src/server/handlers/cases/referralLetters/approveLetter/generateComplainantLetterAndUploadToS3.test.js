@@ -2,8 +2,6 @@ import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterA
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
   CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT_LETTER
@@ -149,46 +147,13 @@ describe("generateComplainantLetterAndUploadToS3", () => {
     );
   });
 
-  describe("newAuditFeature toggle is off", () => {
+  describe("auditing", () => {
     test("should audit complainant letter created", async () => {
-      const newAuditFeatureToggle = false;
-
       await models.sequelize.transaction(async transaction => {
         await generateComplainantLetterAndUploadToS3(
           existingCase,
           "nickname",
-          transaction,
-          newAuditFeatureToggle
-        );
-      });
-      const actionAudit = await models.action_audit.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      expect(actionAudit).toEqual(
-        expect.objectContaining({
-          action: AUDIT_ACTION.UPLOADED,
-          auditType: AUDIT_TYPE.UPLOAD,
-          caseId: existingCase.id,
-          subject: AUDIT_SUBJECT.LETTER_TO_COMPLAINANT_PDF,
-          auditDetails: expect.objectContaining({
-            fileName: [constructFilename(existingCase, COMPLAINANT_LETTER)]
-          }),
-          user: "nickname"
-        })
-      );
-    });
-  });
-  describe("newAuditFeature toggle is on", () => {
-    test("should audit complainant letter created", async () => {
-      const newAuditFeatureToggle = true;
-
-      await models.sequelize.transaction(async transaction => {
-        await generateComplainantLetterAndUploadToS3(
-          existingCase,
-          "nickname",
-          transaction,
-          newAuditFeatureToggle
+          transaction
         );
       });
 
