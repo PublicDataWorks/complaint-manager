@@ -3,18 +3,13 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import getWorkingCases from "./getWorkingCases";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT
-} from "../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
+import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../audits/legacyAuditDataAccess");
 jest.mock("../../audits/auditDataAccess");
 
 jest.mock("./getCases");
@@ -65,16 +60,13 @@ describe("getWorkingCases", () => {
     );
   });
 
-  describe("newAuditFeature enabled", () => {
+  describe("auditing", () => {
     test("should call auditDataAccess with correct arguments", async () => {
       const request = httpMocks.createRequest({
         method: "GET",
         headers: {
           authorization: "Bearer token"
         },
-        fflip: mockFflipObject({
-          newAuditFeature: true
-        }),
         nickname: "nickname"
       });
 
@@ -89,35 +81,6 @@ describe("getWorkingCases", () => {
         AUDIT_SUBJECT.ALL_WORKING_CASES,
         GET_CASES_AUDIT_DETAILS,
         expect.anything()
-      );
-    });
-  });
-
-  describe("new AuditFeature disabled", () => {
-    test("Should call legacyAuditDataAccess with auditDetails", async () => {
-      const request = httpMocks.createRequest({
-        method: "GET",
-        headers: {
-          authorization: "Bearer token"
-        },
-        fflip: mockFflipObject({
-          newAuditFeature: false
-        }),
-        nickname: "nickname"
-      });
-
-      const response = httpMocks.createResponse();
-      const next = jest.fn();
-
-      await getWorkingCases(request, response, next);
-
-      expect(legacyAuditDataAccess).toHaveBeenCalledWith(
-        "nickname",
-        undefined,
-        AUDIT_SUBJECT.ALL_WORKING_CASES,
-        expect.anything(),
-        AUDIT_ACTION.DATA_ACCESSED,
-        GET_CASES_AUDIT_DETAILS
       );
     });
   });

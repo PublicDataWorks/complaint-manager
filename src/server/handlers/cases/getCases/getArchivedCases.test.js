@@ -1,16 +1,11 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getArchivedCases from "./getArchivedCases";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT
-} from "../../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
 
-jest.mock("../../audits/legacyAuditDataAccess");
 jest.mock("../../audits/auditDataAccess");
 jest.mock("./getCases");
 
@@ -55,43 +50,7 @@ describe("getArchivedCases", () => {
       2
     );
   });
-  describe("test audits with newAuditFeature off", () => {
-    const auditUser = "testUser";
-    let existingArchivedCase, request, response, next;
-
-    beforeEach(async () => {
-      existingArchivedCase = await createTestCaseWithCivilian();
-      await existingArchivedCase.destroy({ auditUser: auditUser });
-
-      request = httpMocks.createRequest({
-        method: "GET",
-        headers: {
-          authorization: "Bearer token"
-        },
-        fflip: mockFflipObject({
-          newAuditFeature: false
-        }),
-        nickname: auditUser
-      });
-
-      response = httpMocks.createResponse();
-      next = jest.fn();
-    });
-
-    test("should audit data access", async () => {
-      await getArchivedCases(request, response, next);
-
-      expect(legacyAuditDataAccess).toHaveBeenCalledWith(
-        auditUser,
-        undefined,
-        AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
-        expect.anything(),
-        AUDIT_ACTION.DATA_ACCESSED,
-        GET_CASES_AUDIT_DETAILS
-      );
-    });
-  });
-  describe("test audits with newAuditFeature on", () => {
+  describe("auditing", () => {
     const auditUser = "testUser";
     let existingArchivedCase, request, response, next;
     beforeEach(async () => {
@@ -103,9 +62,6 @@ describe("getArchivedCases", () => {
         headers: {
           authorization: "Bearer token"
         },
-        fflip: mockFflipObject({
-          newAuditFeature: true
-        }),
         nickname: auditUser
       });
 
