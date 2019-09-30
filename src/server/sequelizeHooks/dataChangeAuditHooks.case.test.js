@@ -71,9 +71,7 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      // const audits = await createdCase.getDataChangeAudits();
-      // expect(audits.length).toEqual(1);
-      // const audit = audits[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -97,7 +95,7 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -137,7 +135,7 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -179,7 +177,6 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -225,7 +222,6 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -262,7 +258,6 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -311,7 +306,6 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-      //const audit = (await createdCase.getDataChangeAudits())[0];
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -387,8 +381,17 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.legacy_data_change_audit.findOne({
-            where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
+          const audit = await models.audit.findOne({
+            where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+            include: [
+              {
+                as: "dataChangeAudit",
+                model: models.data_change_audit,
+                where: {
+                  modelName: "cases"
+                }
+              }
+            ]
           });
           expect(audit).toEqual(null);
         } catch (error) {
@@ -409,8 +412,17 @@ describe("dataChangeAuditHooks", () => {
             { firstContactDate: "2018-01-01" },
             { auditUser: "test user" }
           );
-          const audit = await models.legacy_data_change_audit.findOne({
-            where: { modelName: "Case", action: AUDIT_ACTION.DATA_UPDATED }
+          const audit = await models.audit.findOne({
+            where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
+            include: [
+              {
+                as: "dataChangeAudit",
+                model: models.data_change_audit,
+                where: {
+                  modelName: "cases"
+                }
+              }
+            ]
           });
           expect(audit).toEqual(null);
         } catch (error) {
@@ -442,7 +454,7 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error.name).toEqual("SequelizeValidationError");
         }
-        await models.legacy_data_change_audit.count().then(numAudits => {
+        await models.data_change_audit.count().then(numAudits => {
           expect(numAudits).toEqual(0);
         });
       });
@@ -512,9 +524,6 @@ describe("dataChangeAuditHooks", () => {
         { auditUser: "someoneWhoUpdated" }
       );
 
-      // const updateAudits = await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // });
       const auditUpdate = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -527,8 +536,6 @@ describe("dataChangeAuditHooks", () => {
           }
         ]
       });
-      // expect(updateAudits.length).toEqual(1);
-      // const auditUpdate = updateAudits[0];
 
       expect(auditUpdate.dataChangeAudit.modelName).toEqual("cases");
       expect(auditUpdate.dataChangeAudit.modelId).toEqual(existingCase.id);
@@ -546,9 +553,7 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      // const audit = (await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // }))[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -579,9 +584,7 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      // const audit = (await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // }))[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -619,9 +622,7 @@ describe("dataChangeAuditHooks", () => {
           auditUser: "someoneWhoUpdated"
         }
       );
-      // const audit = (await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // }))[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -668,9 +669,7 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      // const audit = (await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // }))[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -727,9 +726,7 @@ describe("dataChangeAuditHooks", () => {
         },
         { auditUser: "someoneWhoUpdated" }
       );
-      // const audit = (await existingCase.getDataChangeAudits({
-      //   where: { action: AUDIT_ACTION.DATA_UPDATED }
-      // }))[0];
+
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_UPDATED },
         include: [
@@ -871,7 +868,19 @@ describe("dataChangeAuditHooks", () => {
       });
 
       test("it does not create the audit if the case update fails", async () => {
-        await models.legacy_data_change_audit.truncate({ cascade: true });
+        await models.audit.truncate({
+          cascade: true,
+          include: [
+            {
+              as: "dataChangeAudit",
+              model: models.data_change_audit,
+              where: {
+                modelName: "cases"
+              }
+            }
+          ]
+        });
+
         try {
           await existingCase.update(
             { createdBy: null },
@@ -880,9 +889,21 @@ describe("dataChangeAuditHooks", () => {
         } catch (error) {
           expect(error.name).toEqual("SequelizeValidationError");
         }
-        await models.legacy_data_change_audit.count().then(numAudits => {
-          expect(numAudits).toEqual(0);
-        });
+        await models.audit
+          .count({
+            include: [
+              {
+                as: "dataChangeAudit",
+                model: models.data_change_audit,
+                where: {
+                  modelName: "cases"
+                }
+              }
+            ]
+          })
+          .then(numAudits => {
+            expect(numAudits).toEqual(0);
+          });
       });
 
       test("it rolls back outer transaction if audit fails", async () => {
