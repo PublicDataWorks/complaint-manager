@@ -1,10 +1,5 @@
-import {
-  AUDIT_ACTION,
-  EMPLOYEE_TYPE
-} from "../../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 
@@ -27,10 +22,6 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     email
   } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   const retrievedCase = await models.cases.findByPk(request.params.caseId);
   const referralLetter = await models.referral_letter.findOne({
@@ -72,24 +63,13 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        retrievedCase.id,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        auditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        retrievedCase.id,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
-    }
+    await auditDataAccess(
+      request.nickname,
+      retrievedCase.id,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      auditDetails,
+      transaction
+    );
 
     return caseDetails;
   });

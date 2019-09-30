@@ -1,8 +1,5 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const models = require("../../../models");
@@ -11,11 +8,6 @@ const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
-
   const officerToRemove = await models.case_officer.findByPk(
     request.params.caseOfficerId
   );
@@ -37,24 +29,13 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        auditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
-    }
+    await auditDataAccess(
+      request.nickname,
+      request.params.caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      auditDetails,
+      transaction
+    );
 
     return caseDetails;
   });

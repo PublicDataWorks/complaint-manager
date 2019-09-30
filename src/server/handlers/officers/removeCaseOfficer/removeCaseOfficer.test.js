@@ -3,22 +3,13 @@ import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
 import models from "../../../models";
 import Case from "../../../../client/testUtilities/case";
 import httpMocks from "node-mocks-http";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT,
-  AUDIT_TYPE,
-  WITNESS
-} from "../../../../sharedUtilities/constants";
+import { AUDIT_SUBJECT, WITNESS } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/testUtilities/Allegation";
 import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
-import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  expectedCaseAuditDetails,
-  expectedFormattedCaseAuditDetails
-} from "../../../testHelpers/expectedAuditDetails";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -165,43 +156,16 @@ describe("removeCaseOfficer", () => {
       });
     });
 
-    describe("newAuditFeature disabled", () => {
-      test("should audit case details access when case officer removed", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: false });
+    test("should audit case details access when case officer removed", async () => {
+      await removeCaseOfficer(request, response, next);
 
-        await removeCaseOfficer(request, response, next);
-
-        const audit = await models.action_audit.findOne({
-          where: { caseId: existingCase.id }
-        });
-
-        expect(audit).toEqual(
-          expect.objectContaining({
-            user: "someone",
-            subject: AUDIT_SUBJECT.CASE_DETAILS,
-            caseId: existingCase.id,
-            action: AUDIT_ACTION.DATA_ACCESSED,
-            auditType: AUDIT_TYPE.DATA_ACCESS,
-            auditDetails: expectedFormattedCaseAuditDetails
-          })
-        );
-      });
-    });
-
-    describe("newAuditFeature enabled", () => {
-      test("should audit case details access when case officer removed", async () => {
-        request.fflip = mockFflipObject({ newAuditFeature: true });
-
-        await removeCaseOfficer(request, response, next);
-
-        expect(auditDataAccess).toHaveBeenCalledWith(
-          request.nickname,
-          existingCase.id,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          expectedCaseAuditDetails,
-          expect.anything()
-        );
-      });
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        existingCase.id,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        expectedCaseAuditDetails,
+        expect.anything()
+      );
     });
   });
 });

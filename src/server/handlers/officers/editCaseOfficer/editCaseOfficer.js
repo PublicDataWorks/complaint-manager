@@ -1,17 +1,14 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import { ACCUSED, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
+import {
+  buildOfficerAttributesForNewOfficer,
+  buildOfficerAttributesForUnknownOfficer
+} from "../helpers/buildOfficerAttributesHelpers";
+import auditDataAccess from "../../audits/auditDataAccess";
+import canBeAnonymous from "../helpers/canBeAnonymous";
 
 const models = require("../../../models");
 const asyncMiddleware = require("../../asyncMiddleware");
-import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import {
-  buildOfficerAttributesForUnknownOfficer,
-  buildOfficerAttributesForNewOfficer
-} from "../helpers/buildOfficerAttributesHelpers";
-import { ACCUSED, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
-import auditDataAccess from "../../audits/auditDataAccess";
-import canBeAnonymous from "../helpers/canBeAnonymous";
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const { officerId, notes, roleOnCase, phoneNumber, email } = request.body;
@@ -21,10 +18,6 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
       id: request.params.caseOfficerId
     }
   });
-  const newAuditFeatureToggle = checkFeatureToggleEnabled(
-    request,
-    "newAuditFeature"
-  );
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
     const oldRoleOnCase = caseOfficerToUpdate.roleOnCase;
@@ -83,25 +76,13 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
-    if (newAuditFeatureToggle) {
-      await auditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        auditDetails,
-        transaction
-      );
-    } else {
-      await legacyAuditDataAccess(
-        request.nickname,
-        request.params.caseId,
-        AUDIT_SUBJECT.CASE_DETAILS,
-        transaction,
-        AUDIT_ACTION.DATA_ACCESSED,
-        auditDetails
-      );
-    }
-
+    await auditDataAccess(
+      request.nickname,
+      request.params.caseId,
+      AUDIT_SUBJECT.CASE_DETAILS,
+      auditDetails,
+      transaction
+    );
     return caseDetails;
   });
 
