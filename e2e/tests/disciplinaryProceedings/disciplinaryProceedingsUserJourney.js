@@ -25,14 +25,28 @@ if (TEST_PASS && TEST_USER && HOST) {
         console.log("URL:", result);
       });
     },
-    // "should open gear menu and click into complaints": browser => {
-    //   const navBar = browser.page.NavBar();
-    //   const loginPage = browser.page.Login();
-    //
-    //   navBar.goToComplaints();
-    //
-    //   loginPage.isOnPage();
-    // },
+    "should authenticate": browser => {
+      const loginPage = browser.page.Login();
+
+      loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
+    },
+    "should redirect to disciplinary proceedings": browser => {
+      const memoList = browser.page.MemoList();
+
+      memoList.isOnPage()
+    },
+    "should find someone in user drop down": browser => {
+      const memoList = browser.page.MemoList();
+
+      memoList.displaysUserDropDown();
+    },
+    "should open gear menu and click into complaints": browser => {
+      const navBar = browser.page.NavBar();
+      const caseDashboard = browser.page.CaseDashboard();
+      navBar.goToComplaints();
+
+      caseDashboard.isOnPage();
+    },
     "end user journey ;)": browser => {
       browser.end();
     }
