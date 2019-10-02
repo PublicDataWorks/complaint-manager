@@ -4,6 +4,7 @@ import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstan
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import models from "../../../models";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import createConfiguredSecretsManagerInstance from "../../../createConfiguredSecretsManagerInstance";
 
 const querystring = require("querystring");
 const config = require("../../../config/config")[process.env.NODE_ENV];
@@ -14,6 +15,56 @@ const Boom = require("boom");
 const getUsers = asyncMiddleware(async (request, response, next) => {
   let authResponse;
   let userData = [];
+  let secret;
+  let decodedAuthSecret;
+
+  if (
+    process.env.NODE_ENV === "development" ||
+    process.env.NODE_ENV === "test"
+  ) {
+    let secretsManager = createConfiguredSecretsManagerInstance();
+    const response = secretsManager.getSecretValue({
+      SecretId: "ci/auth0/backend"
+    });
+    const result = response.promise();
+    await result
+      .then(data => {
+        if ("SecretString" in data) {
+          secret = JSON.parse(data.SecretString);
+        } else {
+          let buff = new Buffer(data.SecretBinary, "base64");
+          decodedAuthSecret = buff.toString("ascii");
+        }
+        if (secret) {
+          secret = secret.AUTH0_CLIENT_SECRET;
+        }
+      })
+      .catch(err => {
+        console.error("I failed :(", err);
+        if (err.code === "DecryptionFailureException")
+          // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
+          // Deal with the exception here, and/or rethrow at your discretion.
+          throw err;
+        else if (err.code === "InternalServiceErrorException")
+          // An error occurred on the server side.
+          // Deal with the exception here, and/or rethrow at your discretion.
+          throw err;
+        else if (err.code === "InvalidParameterException")
+          // You provided an invalid value for a parameter.
+          // Deal with the exception here, and/or rethrow at your discretion.
+          throw err;
+        else if (err.code === "InvalidRequestException")
+          // You provided a parameter value that is not valid for the current state of the resource.
+          // Deal with the exception here, and/or rethrow at your discretion.
+          throw err;
+        else if (err.code === "ResourceNotFoundException")
+          // We can't find the resource that you asked for.
+          // Deal with the exception here, and/or rethrow at your discretion.
+          throw err;
+      });
+  } else {
+    secret = process.env.AUTH0_CLIENT_SECRET;
+  }
 
   await axios
     .post(
@@ -21,7 +72,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       {
         grant_type: "client_credentials",
         client_id: config.authentication.clientID,
-        client_secret: process.env.AUTH0_CLIENT_SECRET,
+        client_secret: secret,
         audience: `https://${config.authentication.domain}/api/v2/`
       },
       {

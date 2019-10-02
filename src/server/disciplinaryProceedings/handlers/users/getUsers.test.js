@@ -3,11 +3,17 @@ import httpMocks from "node-mocks-http";
 import getUsers from "./getUsers";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
+const AWS = require("aws-sdk");
+const createConfiguredSecretsManagerInstance = require("../../../createConfiguredSecretsManagerInstance");
 
 jest.mock("../../../handlers/audits/auditDataAccess");
+jest.mock("aws-sdk");
+jest.mock("../../../createConfiguredSecretsManagerInstance");
 
 describe("getUsers tests", () => {
   const dummyToken = "fakeToken";
+  const clientSecret = "success";
+  const promiseSecretString = `{"AUTH0_CLIENT_SECRET" : "${clientSecret}"}`;
 
   let mockGetUserRequest, mockGetUserResponse, next;
 
@@ -21,6 +27,12 @@ describe("getUsers tests", () => {
     });
     mockGetUserResponse = httpMocks.createResponse();
     next = jest.fn();
+    process.env.NODE_ENV = "development";
+    createConfiguredSecretsManagerInstance.mockImplementation(() => ({
+      getSecretValue: jest.fn(() => ({
+        promise: () => Promise.resolve({ "SecretString": promiseSecretString })
+      }))
+    }));
   });
 
   const userResponse = {
@@ -46,10 +58,19 @@ describe("getUsers tests", () => {
     logins_count: 12
   };
 
-  describe("Should retrieve users successfully", () => {
+  describe("AWS secret manager", () => {
+    test("should successfully retrieve Auth0 key", async () => {
+      const spy = jest.spyOn(JSON, 'parse');
+      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+      expect(spy).toHaveBeenCalledWith(promiseSecretString);
+      spy.mockRestore();
+    });
+  });
+
+  describe("Successful path", () => {
     let tokenCall, getUsersCall;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       tokenCall = nock("https://noipm-ci.auth0.com", {
         reqheaders: {
           "content-type": "application/json"
@@ -58,6 +79,7 @@ describe("getUsers tests", () => {
         .post("/oauth/token", {
           grant_type: "client_credentials",
           client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+          client_secret: clientSecret,
           audience: "https://noipm-ci.auth0.com/api/v2/"
         })
         .reply(200, {
@@ -79,7 +101,6 @@ describe("getUsers tests", () => {
 
     test("should call auth0 token api to get bearer token", async () => {
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
       expect(tokenCall.isDone()).toBeTrue();
     });
 
@@ -114,6 +135,7 @@ describe("getUsers tests", () => {
         .post("/oauth/token", {
           grant_type: "client_credentials",
           client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+          client_secret: clientSecret,
           audience: "https://noipm-ci.auth0.com/api/v2/"
         })
         .replyWithError({ message: customError, code: 500 });
@@ -139,6 +161,7 @@ describe("getUsers tests", () => {
         .post("/oauth/token", {
           grant_type: "client_credentials",
           client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+          client_secret: clientSecret,
           audience: "https://noipm-ci.auth0.com/api/v2/"
         })
         .reply(200, {
@@ -181,6 +204,7 @@ describe("getUsers tests", () => {
         .post("/oauth/token", {
           grant_type: "client_credentials",
           client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+          client_secret: clientSecret,
           audience: "https://noipm-ci.auth0.com/api/v2/"
         })
         .reply(200, {
