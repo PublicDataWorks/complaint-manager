@@ -17,6 +17,8 @@ awsConfig.json
 hawkeye_report.json
 
 e2e/tests/userJourney/**/*.png
+e2e/tests/complaintManagerUserJourney/**/*.png
+e2e/tests/disciplinaryProceedingsUserJourney/**/*.png
 selenium-server.log
 
 # production
