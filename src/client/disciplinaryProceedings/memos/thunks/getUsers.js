@@ -7,6 +7,7 @@ const getUsers = () => async dispatch => {
     const response = await axios.get("api/users");
     return dispatch(getUsersSuccess(response.data));
   } catch (error) {
+    console.error(error);
     return dispatch(snackbarError("Unable to get users. Please try again."));
   }
 };

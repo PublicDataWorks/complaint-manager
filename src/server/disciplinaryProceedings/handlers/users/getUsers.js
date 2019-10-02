@@ -96,8 +96,8 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
           authorization: `Bearer ${authResponse.access_token}`
         }
       })
-      .then(reponse => {
-        userData = reponse.data;
+      .then(response => {
+        userData = response.data;
       })
       .catch(error => {
         throw Boom.badImplementation(
