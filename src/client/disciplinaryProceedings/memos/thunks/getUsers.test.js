@@ -3,6 +3,7 @@ import configureInterceptors from "../../../axiosInterceptors/interceptors";
 import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
 import getUsers from "./getUsers";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -45,7 +46,7 @@ describe("getUsers", () => {
     await getUsers()(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarError("Unable to get users. Please try again.")
+      snackbarError(INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE)
     );
   });
 });
