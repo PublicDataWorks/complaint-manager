@@ -74,3 +74,4 @@ export const AWS_ERRORS = {
   INVALID_REQUEST_EXCEPTION: "You provided a parameter value that is not valid for the current state of the resource.",
   RESOURCE_NOT_FOUND_EXCEPTION: "We can't find the resource that you asked for."
 }
+

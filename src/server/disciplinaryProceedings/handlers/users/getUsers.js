@@ -1,18 +1,13 @@
 import axios from "axios";
 import _ from "lodash";
-import {
-  AWS_ERRORS,
-  INTERNAL_ERRORS
-} from "../../../../sharedUtilities/errorMessageConstants";
+import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import models from "../../../models";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
-import createConfiguredSecretsManagerInstance from "../../../createConfiguredSecretsManagerInstance";
+import { retrieveSecretFromAWS } from "../../../retrieveSecretFromAWS";
 
-const querystring = require("querystring");
 const config = require("../../../config/config")[process.env.NODE_ENV];
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
-const httpRequest = require("request");
 const Boom = require("boom");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
@@ -24,7 +19,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
     process.env.NODE_ENV === "development" ||
     process.env.NODE_ENV === "test"
   ) {
-    secret = await retrieveClientSecretFromAWS("ci/auth0/backend");
+    secret = await retrieveSecretFromAWS("ci/auth0/backend");
   } else {
     secret = process.env.AUTH0_CLIENT_SECRET;
   }
@@ -97,57 +92,6 @@ const throwTokenFailure = (next, error) => {
     INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE,
     error
   );
-};
-
-const retrieveClientSecretFromAWS = async secretID => {
-  let secret;
-  let secretsManager = createConfiguredSecretsManagerInstance();
-  const response = secretsManager.getSecretValue({
-    SecretId: secretID
-  });
-  const result = response.promise();
-  return await result
-    .then(data => {
-      if ("SecretString" in data) {
-        secret = JSON.parse(data.SecretString);
-      } else {
-        let buff = new Buffer(data.SecretBinary, "base64");
-        secret = buff.toString("ascii");
-      }
-      if (secret) {
-        return secret.AUTH0_CLIENT_SECRET;
-      } else {
-        return "Secret is undefined";
-      }
-    })
-    .catch(error => {
-      console.error("I failed :(", error);
-      if (error.code === "DecryptionFailureException")
-        throw Boom.badImplementation(
-          AWS_ERRORS.DECRYPTION_FAILURE_EXCEPTION,
-          error
-        );
-      else if (error.code === "InternalServiceErrorException")
-        throw Boom.badImplementation(
-          AWS_ERRORS.INTERNAL_SERVICE_ERROR_EXCEPTION,
-          error
-        );
-      else if (error.code === "InvalidParameterException")
-        throw Boom.badImplementation(
-          AWS_ERRORS.INVALID_PARAMETER_EXCEPTION,
-          error
-        );
-      else if (error.code === "InvalidRequestException")
-        throw Boom.badImplementation(
-          AWS_ERRORS.INVALID_REQUEST_EXCEPTION,
-          error
-        );
-      else if (error.code === "ResourceNotFoundException")
-        throw Boom.badImplementation(
-          AWS_ERRORS.RESOURCE_NOT_FOUND_EXCEPTION,
-          error
-        );
-    });
 };
 
 export default getUsers;

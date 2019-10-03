@@ -3,19 +3,22 @@ import httpMocks from "node-mocks-http";
 import getUsers from "./getUsers";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
-const AWS = require("aws-sdk");
-const createConfiguredSecretsManagerInstance = require("../../../createConfiguredSecretsManagerInstance");
+import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../../../handlers/audits/auditDataAccess");
-jest.mock("aws-sdk");
-jest.mock("../../../createConfiguredSecretsManagerInstance");
+jest.mock("../../../retrieveSecretFromAWS", () => {
+  return {
+    retrieveSecretFromAWS: jest.fn(() => {
+      return "success";
+    })
+  };
+});
 
 describe("getUsers tests", () => {
   const dummyToken = "fakeToken";
   const clientSecret = "success";
-  const promiseSecretString = `{"AUTH0_CLIENT_SECRET" : "${clientSecret}"}`;
 
-  let mockGetUserRequest, mockGetUserResponse, next;
+  let mockGetUserRequest, mockGetUserResponse, next, retrieveSecretFromAWS;
 
   beforeEach(() => {
     mockGetUserRequest = httpMocks.createRequest({
@@ -28,11 +31,6 @@ describe("getUsers tests", () => {
     mockGetUserResponse = httpMocks.createResponse();
     next = jest.fn();
     process.env.NODE_ENV = "development";
-    createConfiguredSecretsManagerInstance.mockImplementation(() => ({
-      getSecretValue: jest.fn(() => ({
-        promise: () => Promise.resolve({ "SecretString": promiseSecretString })
-      }))
-    }));
   });
 
   const userResponse = {
@@ -57,15 +55,6 @@ describe("getUsers tests", () => {
     last_ip: "0.5.55.1",
     logins_count: 12
   };
-
-  describe("AWS secret manager", () => {
-    test("should successfully retrieve Auth0 key", async () => {
-      const spy = jest.spyOn(JSON, 'parse');
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-      expect(spy).toHaveBeenCalledWith(promiseSecretString);
-      spy.mockRestore();
-    });
-  });
 
   describe("Successful path", () => {
     let tokenCall, getUsersCall;
@@ -99,115 +88,114 @@ describe("getUsers tests", () => {
         .reply(200, [userResponse]);
     });
 
-    test("should call auth0 token api to get bearer token", async () => {
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-      expect(tokenCall.isDone()).toBeTrue();
-    });
+    test(
+      "should call auth0 token api to get bearer token",
+      suppressWinstonLogs(async () => {
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+        expect(tokenCall.isDone()).toBeTrue();
+      })
+    );
 
-    test("should call get_users endpoint from auth0 management api", async () => {
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+    test(
+      "should call get_users endpoint from auth0 management api",
+      suppressWinstonLogs(async () => {
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(getUsersCall.isDone()).toBeTrue();
-    });
+        expect(getUsersCall.isDone()).toBeTrue();
+      })
+    );
 
-    test("should get users from auth0 api", async () => {
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+    test(
+      "should get users from auth0 api",
+      suppressWinstonLogs(async () => {
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(mockGetUserResponse._getData()).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            email: userResponse.email,
-            name: userResponse.name
-          })
-        ])
-      );
-    });
+        expect(mockGetUserResponse._getData()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              email: userResponse.email,
+              name: userResponse.name
+            })
+          ])
+        );
+      })
+    );
   });
 
   describe("Error Handling", () => {
-    test("should throw error if secret cannot be retrieved from Secrets Manager", async () => {
-      createConfiguredSecretsManagerInstance.mockReset();
-      createConfiguredSecretsManagerInstance.mockImplementation(() => ({
-        getSecretValue: jest.fn(() => ({
-          promise: () => Promise.reject({code: "InternalServiceErrorException"})
-        }))
-      }));
-
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: "An error occurred on the server side.",
+    test(
+      "should throw error if it cannot retrieve authentication token",
+      suppressWinstonLogs(async () => {
+        const customError = "YIKES";
+        nock("https://noipm-ci.auth0.com", {
+          reqheaders: {
+            "content-type": "application/json"
+          }
         })
-      );
-    });
-    test("should throw error if it cannot retrieve authentication token", async () => {
-      const customError = "YIKES";
-      nock("https://noipm-ci.auth0.com", {
-        reqheaders: {
-          "content-type": "application/json"
-        }
-      })
-        .post("/oauth/token", {
-          grant_type: "client_credentials",
-          client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
-          client_secret: clientSecret,
-          audience: "https://noipm-ci.auth0.com/api/v2/"
-        })
-        .replyWithError({ message: customError, code: 500 });
-
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: "Could not retrieve user management api token",
-          data: expect.objectContaining({
-            message: `${customError}`
+          .post("/oauth/token", {
+            grant_type: "client_credentials",
+            client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+            client_secret: clientSecret,
+            audience: "https://noipm-ci.auth0.com/api/v2/"
           })
-        })
-      );
-    });
+          .replyWithError({ message: customError, code: 500 });
 
-    test("should throw error if it cannot retrieve user data", async () => {
-      nock("https://noipm-ci.auth0.com", {
-        reqheaders: {
-          "content-type": "application/json"
-        }
-      })
-        .post("/oauth/token", {
-          grant_type: "client_credentials",
-          client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
-          client_secret: clientSecret,
-          audience: "https://noipm-ci.auth0.com/api/v2/"
-        })
-        .reply(200, {
-          access_token: dummyToken,
-          expires_in: 86400,
-          scope: "read:users",
-          token_type: "Bearer"
-        });
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      const customError = "OOF";
-
-      nock("https://noipm-ci.auth0.com", {
-        reqheaders: {
-          authorization: `Bearer ${dummyToken}`
-        }
-      })
-        .get("/api/v2/users")
-        .query({ search_engine: "v3" })
-        .replyWithError({ message: customError, code: 500 });
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
-      expect(next).toHaveBeenCalledWith(
-        expect.objectContaining({
-          message: "Could not retrieve user data from authentication server",
-          data: expect.objectContaining({
-            message: customError
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            message: "Could not retrieve user management api token",
+            data: expect.objectContaining({
+              message: `${customError}`
+            })
           })
+        );
+      })
+    );
+
+    test(
+      "should throw error if it cannot retrieve user data",
+      suppressWinstonLogs(async () => {
+        nock("https://noipm-ci.auth0.com", {
+          reqheaders: {
+            "content-type": "application/json"
+          }
         })
-      );
-    });
+          .post("/oauth/token", {
+            grant_type: "client_credentials",
+            client_id: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+            client_secret: clientSecret,
+            audience: "https://noipm-ci.auth0.com/api/v2/"
+          })
+          .reply(200, {
+            access_token: dummyToken,
+            expires_in: 86400,
+            scope: "read:users",
+            token_type: "Bearer"
+          });
+
+        const customError = "OOF";
+
+        nock("https://noipm-ci.auth0.com", {
+          reqheaders: {
+            authorization: `Bearer ${dummyToken}`
+          }
+        })
+          .get("/api/v2/users")
+          .query({ search_engine: "v3" })
+          .replyWithError({ message: customError, code: 500 });
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+
+        expect(next).toHaveBeenCalledWith(
+          expect.objectContaining({
+            message: "Could not retrieve user data from authentication server",
+            data: expect.objectContaining({
+              message: customError
+            })
+          })
+        );
+      })
+    );
   });
 
   describe("Auditing", () => {
@@ -240,26 +228,32 @@ describe("getUsers tests", () => {
         .reply(200, [userResponse]);
     });
 
-    test("Should audit when accessing user data", async () => {
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+    test(
+      "Should audit when accessing user data",
+      suppressWinstonLogs(async () => {
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(auditDataAccess).toHaveBeenCalledWith(
-        mockGetUserRequest.nickname,
-        null,
-        AUDIT_SUBJECT.ALL_USER_DATA,
-        { users: { attributes: ["name", "email"] } },
-        expect.anything()
-      );
-    });
+        expect(auditDataAccess).toHaveBeenCalledWith(
+          mockGetUserRequest.nickname,
+          null,
+          AUDIT_SUBJECT.ALL_USER_DATA,
+          { users: { attributes: ["name", "email"] } },
+          expect.anything()
+        );
+      })
+    );
 
-    test("Should throw error if audit fails", async () => {
-      auditDataAccess.mockImplementation(() => {
-        throw new Error("I am failing!");
-      });
+    test(
+      "Should throw error if audit fails",
+      suppressWinstonLogs(async () => {
+        auditDataAccess.mockImplementation(() => {
+          throw new Error("I am failing!");
+        });
 
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
-    });
+        expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
+      })
+    );
   });
 });
