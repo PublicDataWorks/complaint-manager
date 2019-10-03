@@ -66,3 +66,11 @@ export const INTERNAL_ERRORS = {
   USER_MANAGEMENT_API_GET_USERS_FAILURE:
     "Could not retrieve user data from authentication server"
 };
+
+export const AWS_ERRORS = {
+  DECRYPTION_FAILURE_EXCEPTION: "Secrets Manager can't decrypt the protected secret text using the provided KMS key.",
+  INTERNAL_SERVICE_ERROR_EXCEPTION: "An error occurred on the server side.",
+  INVALID_PARAMETER_EXCEPTION: "You provided an invalid value for a parameter.",
+  INVALID_REQUEST_EXCEPTION: "You provided a parameter value that is not valid for the current state of the resource.",
+  RESOURCE_NOT_FOUND_EXCEPTION: "We can't find the resource that you asked for."
+}

@@ -1,6 +1,9 @@
 import axios from "axios";
 import _ from "lodash";
-import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import {
+  AWS_ERRORS,
+  INTERNAL_ERRORS
+} from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import models from "../../../models";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
@@ -16,52 +19,12 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
   let authResponse;
   let userData = [];
   let secret;
-  let decodedAuthSecret;
 
   if (
     process.env.NODE_ENV === "development" ||
     process.env.NODE_ENV === "test"
   ) {
-    let secretsManager = createConfiguredSecretsManagerInstance();
-    const response = secretsManager.getSecretValue({
-      SecretId: "ci/auth0/backend"
-    });
-    const result = response.promise();
-    await result
-      .then(data => {
-        if ("SecretString" in data) {
-          secret = JSON.parse(data.SecretString);
-        } else {
-          let buff = new Buffer(data.SecretBinary, "base64");
-          decodedAuthSecret = buff.toString("ascii");
-        }
-        if (secret) {
-          secret = secret.AUTH0_CLIENT_SECRET;
-        }
-      })
-      .catch(err => {
-        console.error("I failed :(", err);
-        if (err.code === "DecryptionFailureException")
-          // Secrets Manager can't decrypt the protected secret text using the provided KMS key.
-          // Deal with the exception here, and/or rethrow at your discretion.
-          throw err;
-        else if (err.code === "InternalServiceErrorException")
-          // An error occurred on the server side.
-          // Deal with the exception here, and/or rethrow at your discretion.
-          throw err;
-        else if (err.code === "InvalidParameterException")
-          // You provided an invalid value for a parameter.
-          // Deal with the exception here, and/or rethrow at your discretion.
-          throw err;
-        else if (err.code === "InvalidRequestException")
-          // You provided a parameter value that is not valid for the current state of the resource.
-          // Deal with the exception here, and/or rethrow at your discretion.
-          throw err;
-        else if (err.code === "ResourceNotFoundException")
-          // We can't find the resource that you asked for.
-          // Deal with the exception here, and/or rethrow at your discretion.
-          throw err;
-      });
+    secret = await retrieveClientSecretFromAWS("ci/auth0/backend");
   } else {
     secret = process.env.AUTH0_CLIENT_SECRET;
   }
@@ -134,6 +97,57 @@ const throwTokenFailure = (next, error) => {
     INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE,
     error
   );
+};
+
+const retrieveClientSecretFromAWS = async secretID => {
+  let secret;
+  let secretsManager = createConfiguredSecretsManagerInstance();
+  const response = secretsManager.getSecretValue({
+    SecretId: secretID
+  });
+  const result = response.promise();
+  return await result
+    .then(data => {
+      if ("SecretString" in data) {
+        secret = JSON.parse(data.SecretString);
+      } else {
+        let buff = new Buffer(data.SecretBinary, "base64");
+        secret = buff.toString("ascii");
+      }
+      if (secret) {
+        return secret.AUTH0_CLIENT_SECRET;
+      } else {
+        return "Secret is undefined";
+      }
+    })
+    .catch(error => {
+      console.error("I failed :(", error);
+      if (error.code === "DecryptionFailureException")
+        throw Boom.badImplementation(
+          AWS_ERRORS.DECRYPTION_FAILURE_EXCEPTION,
+          error
+        );
+      else if (error.code === "InternalServiceErrorException")
+        throw Boom.badImplementation(
+          AWS_ERRORS.INTERNAL_SERVICE_ERROR_EXCEPTION,
+          error
+        );
+      else if (error.code === "InvalidParameterException")
+        throw Boom.badImplementation(
+          AWS_ERRORS.INVALID_PARAMETER_EXCEPTION,
+          error
+        );
+      else if (error.code === "InvalidRequestException")
+        throw Boom.badImplementation(
+          AWS_ERRORS.INVALID_REQUEST_EXCEPTION,
+          error
+        );
+      else if (error.code === "ResourceNotFoundException")
+        throw Boom.badImplementation(
+          AWS_ERRORS.RESOURCE_NOT_FOUND_EXCEPTION,
+          error
+        );
+    });
 };
 
 export default getUsers;

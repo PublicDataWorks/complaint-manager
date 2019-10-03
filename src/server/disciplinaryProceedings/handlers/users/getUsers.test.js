@@ -125,6 +125,22 @@ describe("getUsers tests", () => {
   });
 
   describe("Error Handling", () => {
+    test("should throw error if secret cannot be retrieved from Secrets Manager", async () => {
+      createConfiguredSecretsManagerInstance.mockReset();
+      createConfiguredSecretsManagerInstance.mockImplementation(() => ({
+        getSecretValue: jest.fn(() => ({
+          promise: () => Promise.reject({code: "InternalServiceErrorException"})
+        }))
+      }));
+
+      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+
+      expect(next).toHaveBeenCalledWith(
+        expect.objectContaining({
+          message: "An error occurred on the server side.",
+        })
+      );
+    });
     test("should throw error if it cannot retrieve authentication token", async () => {
       const customError = "YIKES";
       nock("https://noipm-ci.auth0.com", {
