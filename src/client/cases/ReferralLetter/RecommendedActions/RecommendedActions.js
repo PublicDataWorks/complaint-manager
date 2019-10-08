@@ -29,6 +29,7 @@ import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterSta
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
+import Classifications from "./Classifications";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -165,6 +166,7 @@ class RecommendedActions extends Component {
     );
   };
 
+
   render() {
     if (this.referralLetterNotYetLoaded()) {
       return null;
@@ -229,6 +231,7 @@ class RecommendedActions extends Component {
                   </Typography>
                 </CardContent>
               </Card>
+              {this.props.classificationFeature && <Classifications/>}
               <FieldArray
                 name="letterOfficers"
                 component={this.renderOfficerCards}
@@ -268,7 +271,8 @@ const mapStateToProps = state => ({
       state.referralLetter.letterDetails.includeRetaliationConcerns,
     letterOfficers: state.referralLetter.letterDetails.letterOfficers
   },
-  caseReference: state.currentCase.details.caseReference
+  caseReference: state.currentCase.details.caseReference,
+  classificationFeature: state.featureToggles.classificationFeature
 });
 
 const mapDispatchToProps = {

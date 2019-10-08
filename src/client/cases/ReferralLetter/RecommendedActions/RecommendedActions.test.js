@@ -12,6 +12,7 @@ import editRecommendedActions from "../thunks/editRecommendedActions";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
   type: "getReferralLetterData",
@@ -182,6 +183,32 @@ describe("recommendedActions", function() {
         `/cases/${caseId}/letter/letter-preview`
       )
     );
+  });
+
+  describe("Classification Feature Toggle", () => {
+    test("displays classification card when toggled on", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          classificationFeature: true
+        })
+      );
+      wrapper.update();
+      expect(
+        wrapper.find('[data-test="classificationsContainer"]').exists()
+      ).toBeTrue();
+    });
+
+    test("does not display classification card when toggled off", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          classificationFeature: false
+        })
+      );
+      wrapper.update();
+      expect(
+        wrapper.find('[data-test="classificationsContainer"]').exists()
+      ).toBeFalse();
+    });
   });
 
   describe("Saves and Redirects when click Stepper Buttons", function() {
