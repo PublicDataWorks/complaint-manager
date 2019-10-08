@@ -320,6 +320,12 @@ export default (sequelize, DataTypes) => {
         allowNull: true
       }
     });
+    Case.hasMany(models.new_classifications, {
+      foreignKey: {
+        name: "newClassificationId",
+        field: "new_classification_id"
+      }
+    });
     Case.belongsTo(models.how_did_you_hear_about_us_source, {
       as: "howDidYouHearAboutUsSource",
       name: "howDidYouHearAboutUsSourceId",

@@ -50,5 +50,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "classificationFeature",
+    "name": "classificationFeature",
+    "description": "Classification feature",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
