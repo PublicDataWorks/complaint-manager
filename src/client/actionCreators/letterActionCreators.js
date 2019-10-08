@@ -2,7 +2,7 @@ import {
   CLOSE_CANCEL_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_EDIT_LETTER_CONFIRMATION_DIALOG,
   CLOSE_INCOMPLETE_OFFICER_HISTORY_DIALOG,
-  FINISH_LOADING_PDF_PREVIEW,
+  FINISH_LOADING_PDF_PREVIEW, GET_CLASSIFICATIONS_SUCCEEDED, GET_CLASSIFICATIONS_SUCCESS,
   GET_RECOMMENDED_ACTIONS_SUCCESS,
   GET_REFERRAL_LETTER_EDIT_STATUS_SUCCESS,
   GET_REFERRAL_LETTER_PDF_SUCCESS,
@@ -56,6 +56,11 @@ export const getReferralLetterSuccess = letterDetails => ({
 export const getRecommendedActionsSuccess = recommendedActions => ({
   type: GET_RECOMMENDED_ACTIONS_SUCCESS,
   recommendedActions
+});
+
+export const getClassificationsSuccess = classifications => ({
+  type: GET_CLASSIFICATIONS_SUCCESS,
+  classifications
 });
 
 export const getReferralLetterPreviewSuccess = (

@@ -59,6 +59,7 @@ import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
 import districtReducer from "./reducers/ui/districtReducer";
 import addOfficerReducer from "./reducers/officers/addOfficerReducer";
 import usersReducer from "./reducers/users/usersReducer";
+import classificationsReducer from "./reducers/cases/classificationsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -75,6 +76,7 @@ const rootReducer = combineReducers({
   }),
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,
+  classifications: classificationsReducer,
   users: combineReducers({
     current: loggedInUserReducer,
     all: usersReducer
