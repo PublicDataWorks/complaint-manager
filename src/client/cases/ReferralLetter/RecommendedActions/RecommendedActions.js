@@ -102,25 +102,19 @@ class RecommendedActions extends Component {
       const letterOfficerInstance = fields.get(index);
       return (
         <Fragment key={letterOfficerInstance.id}>
-          <Typography style={{ marginBottom: "16px", ...styles.section }}>
+          <Typography style={{ marginBottom: styles.small, ...styles.section }}>
             {letterOfficerInstance.fullName}
           </Typography>
           <Card
-            style={{
-              marginBottom: "24px",
-              backgroundColor: "white"
-            }}
+            style={styles.cardStyling}
           >
             <CardContent
-              style={{
-                marginBottom: "24px",
-                backgroundColor: "white"
-              }}
+              style={styles.cardStyling}
             >
               <Typography style={{ marginBottom: "24px", fontWeight: "bold" }}>
                 Request for Review and Intervention
               </Typography>
-              <Typography style={{ marginBottom: "16px" }}>
+              <Typography style={{ marginBottom: styles.small }}>
                 {RECOMMENDED_ACTIONS_TEXT}
               </Typography>
               {this.renderOfficerFields(letterOfficerField)}
@@ -212,13 +206,10 @@ class RecommendedActions extends Component {
               <LetterStatusMessage />
 
               <Card
-                style={{
-                  marginBottom: "24px",
-                  backgroundColor: "white"
-                }}
+                style={styles.cardStyling}
               >
                 <CardContent
-                  style={{ backgroundColor: "white", marginBottom: "24px" }}
+                  style={styles.cardStyling}
                 >
                   <BoldCheckBoxFormControlLabel
                     name="includeRetaliationConcerns"
@@ -226,7 +217,7 @@ class RecommendedActions extends Component {
                     dataTest="include-retaliation-concerns-field"
                   />
 
-                  <Typography style={{ marginLeft: "40px" }}>
+                  <Typography style={{ marginLeft: styles.medium }}>
                     {RETALIATION_CONCERNS_TEXT}
                   </Typography>
                 </CardContent>

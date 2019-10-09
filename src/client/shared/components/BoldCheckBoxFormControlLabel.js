@@ -12,12 +12,14 @@ const BoldCheckBoxFormControlLabel = ({
   classes,
   name,
   labelText,
-  dataTest
+  dataTest,
+  key
 }) => (
   <FormControlLabel
+    key={key}
     classes={classes}
     control={
-      <Field name={name} component={PrimaryCheckBox} data-test={dataTest} />
+      <Field name={name} component={PrimaryCheckBox} data-test={dataTest}/>
     }
     label={labelText}
   />

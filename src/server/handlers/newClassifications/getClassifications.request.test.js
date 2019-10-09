@@ -32,13 +32,13 @@ describe("getClassifications", () => {
     });
 
     const expectedResponseOrder = [
-      [useOfForce.name, useOfForce.message, useOfForce.id],
-      [
-        criminalMisconduct.name,
-        criminalMisconduct.message,
-        criminalMisconduct.id
-      ],
-      [decline.name, decline.message, decline.id]
+        {name: useOfForce.name, message: useOfForce.message, id: useOfForce.id},
+      {
+        name: criminalMisconduct.name,
+        message: criminalMisconduct.message,
+        id: criminalMisconduct.id
+      },
+      {name: decline.name, message: decline.message, id: decline.id}
     ];
 
     const responsePromise = request(app)
