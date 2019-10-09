@@ -1,10 +1,17 @@
-import { Card, CardContent, FormControlLabel } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  FormControlLabel,
+  Typography
+} from "@material-ui/core";
 import React, { Fragment, Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import FormGroup from "@material-ui/core/FormGroup";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import { connect } from "react-redux";
 import getClassificationOptions from "../thunks/getClassificationOptions";
+import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
+import styles from "../../../globalStyling/styles";
 
 class Classifications extends Component {
   componentDidMount() {
@@ -13,21 +20,28 @@ class Classifications extends Component {
 
   render() {
     return (
-      <Card data-test="classificationsContainer">
-        <CardContent>
+      <Card data-test="classificationsContainer" style={styles.cardStyling}>
+        <CardContent style={styles.cardStyling}>
+          <Typography style={{ marginBottom: "24px", fontWeight: "bold" }}>
+            Classifications
+          </Typography>
           <Fragment>
             <FormGroup>
-              <FormControlLabel
-                key={"Dayum"}
-                label="Happy days"
-                control={
-                  <Field
-                    name={"Bob"}
-                    component={PrimaryCheckBox}
-                    data-test={"Use of Force"}
-                  />
-                }
-              />
+              {this.props.classifications.map(classification => {
+
+                return (
+                  <div>
+                    <BoldCheckBoxFormControlLabel
+                      name={classification.name}
+                      key={classification.name}
+                      labelText={classification.name}
+                    />
+                    <Typography style={{ marginLeft: styles.medium}}>
+                      {classification.message}
+                    </Typography>
+                  </div>
+                );
+              })}
             </FormGroup>
           </Fragment>
         </CardContent>
@@ -44,6 +58,7 @@ const mapDispatchToProps = {
   getClassificationOptions
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  reduxForm({ form: "RecommendedActions" })(Classifications)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(reduxForm({ form: "RecommendedActions" })(Classifications));

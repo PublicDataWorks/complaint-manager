@@ -5,7 +5,8 @@ import colors from "../../globalStyling/colors";
 const styles = {
   colorSecondary: { color: colors.primary.dark },
   root: { "&$checked": { color: colors.primary.dark } },
-  checked: {}
+  checked: {},
+  padding: "0px"
 };
 
 export default withStyles(styles)(Checkbox);

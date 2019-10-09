@@ -10,7 +10,7 @@ const DECLINES_OPTION = "Declines to classify";
 const getClassifications = asyncMiddleware(async (request, response, next) => {
   const classifications = await getSortedClassifications();
   const classificationValues = classifications.map(classification => {
-    return [classification.name, classification.message, classification.id];
+    return {name: classification.name, message: classification.message, id: classification.id};
   });
   response.status(200).send(classificationValues);
 });
