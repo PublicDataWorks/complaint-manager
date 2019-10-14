@@ -97,7 +97,8 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+      classifications: {}
     };
 
     await getReferralLetterData(request, response, next);
@@ -173,7 +174,8 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+        classifications: {}
       };
 
       await getReferralLetterData(request, response, next);
@@ -222,7 +224,8 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+        classifications: {}
       };
 
       await getReferralLetterData(request, response, next);
@@ -287,7 +290,8 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+        classifications: {}
       };
       await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
@@ -326,7 +330,8 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+        classifications: {}
       };
 
       await getReferralLetterData(request, response, next);
@@ -352,7 +357,8 @@ describe("getReferralLetterData", () => {
       letterOfficers: [],
       referralLetterIaproCorrections: [
         { id: iaproCorrection.id, details: iaproCorrection.details }
-      ]
+      ],
+      classifications: {}
     };
 
     await getReferralLetterData(request, response, next);
@@ -369,7 +375,8 @@ describe("getReferralLetterData", () => {
         { tempId: "uniqueTempId" },
         { tempId: "uniqueTempId" },
         { tempId: "uniqueTempId" }
-      ]
+      ],
+      classifications: {}
     };
 
     await getReferralLetterData(request, response, next);
@@ -412,7 +419,34 @@ describe("getReferralLetterData", () => {
           referralLetterOfficerRecommendedActions: []
         }
       ],
-      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject]
+      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+      classifications: {}
+    };
+
+    await getReferralLetterData(request, response, next);
+    expect(response._getData()).toEqual(expectedResponseBody);
+  });
+
+  test("returns classification data when it exists", async () => {
+    await models.case_classification.create(
+      {
+        caseId: existingCase.id,
+        newClassificationId: 1
+      },
+      {
+        auditUser: "test"
+      }
+    );
+
+    const expectedResponseBody = {
+      id: referralLetter.id,
+      caseId: existingCase.id,
+      includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
+      letterOfficers: [],
+      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
+      classifications: {
+        "csfn-1": true
+      }
     };
 
     await getReferralLetterData(request, response, next);
@@ -473,6 +507,14 @@ describe("getReferralLetterData", () => {
             "referralLetterOfficerId"
           ]),
           model: models.referral_letter_officer_recommended_action.name
+        },
+        caseClassification: {
+          attributes: expect.arrayContaining([
+            "id",
+            "caseId",
+            "newClassificationId"
+          ]),
+          model: models.case_classification.name
         }
       };
 

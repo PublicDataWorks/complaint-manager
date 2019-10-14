@@ -2,6 +2,7 @@ import models from "../../../../models";
 import shortid from "shortid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails, {
+  combineAuditDetails,
   removeFromExistingAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
 
@@ -19,9 +20,20 @@ const getReferralLetterDataForResponse = async (caseId, transaction) => {
     letterData,
     letterDataAuditDetails
   );
-  const auditDetails = transformedLetterOfficerDataAndAuditDetails.auditDetails;
+  const letterAndLetterOfficerAuditDetails =
+    transformedLetterOfficerDataAndAuditDetails.auditDetails;
   const transformedLetterOfficerData =
     transformedLetterOfficerDataAndAuditDetails.letterOfficerData;
+
+  const classificationDataAndAuditDetails = await getClassificationAndAuditDetails(
+    caseId,
+    transaction
+  );
+
+  const auditDetails = combineAuditDetails(
+    letterAndLetterOfficerAuditDetails,
+    classificationDataAndAuditDetails.auditDetails
+  );
 
   return {
     referralLetterData: {
@@ -29,7 +41,8 @@ const getReferralLetterDataForResponse = async (caseId, transaction) => {
       caseId: letterData.caseId,
       includeRetaliationConcerns: letterData.includeRetaliationConcerns,
       letterOfficers: transformedLetterOfficerData,
-      referralLetterIaproCorrections: getIAProCorrections(letterData)
+      referralLetterIaproCorrections: getIAProCorrections(letterData),
+      classifications: classificationDataAndAuditDetails.classificationIds
     },
     auditDetails: auditDetails
   };
@@ -186,6 +199,26 @@ const getLetterDataAndAuditDetails = async (caseId, transaction) => {
   );
 
   return { letterData: letterData, auditDetails: referralLetterAuditDetails };
+};
+
+const getClassificationAndAuditDetails = async (caseId, transaction) => {
+  let classificationIds = {};
+  const classificationData = await models.case_classification
+    .findAll({
+      where: { caseId: caseId },
+      transaction
+    })
+    .map(data => {
+      classificationIds[`csfn-${data.newClassificationId}`] = true;
+    });
+  const classificationAuditDetails = getQueryAuditAccessDetails(
+    {},
+    models.case_classification.name
+  );
+  return {
+    classificationIds: classificationIds,
+    auditDetails: classificationAuditDetails
+  };
 };
 
 export default getReferralLetterDataForResponse;

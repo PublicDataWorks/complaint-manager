@@ -99,7 +99,6 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      classifications: [],
       letterOfficers: [
         {
           id: "1",
@@ -128,7 +127,6 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      classifications: [],
       letterOfficers: [
         {
           id: "1",
@@ -161,7 +159,6 @@ describe("recommendedActions", function() {
     const expectedFormValues = {
       id: referralLetterId,
       includeRetaliationConcerns: true,
-      classifications: [],
       letterOfficers: [
         {
           id: "1",
@@ -220,7 +217,6 @@ describe("recommendedActions", function() {
       expectedFormValues = {
         id: referralLetterId,
         includeRetaliationConcerns: true,
-        classifications: [],
         letterOfficers: [
           {
             id: "1",
