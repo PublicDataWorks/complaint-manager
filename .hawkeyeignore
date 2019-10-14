@@ -13,8 +13,7 @@ files-contents-.circleci/config.yml-13
 files-contents-.circleci/config.yml-14
 files-contents-e2e/pageObjectModels/Login.js-1
 files-contents-src/server/handlers/cases/export/jobQueue.js-1
-files-contents-src/server/migrations/20180105174019-create-users.js-1
-files-contents-src/server/migrations/20181109214913-drop-users-table.js-1
+
 
 # While there are are passwords here for dev and test, the production, staging, and CI passwords are not stored in code.
 files-contents-src/server/tasks/task_config.js-1
