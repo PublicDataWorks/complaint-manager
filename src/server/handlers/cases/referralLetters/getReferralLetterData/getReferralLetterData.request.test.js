@@ -61,7 +61,8 @@ describe("GET /cases/:id/referral-letter", function() {
           { tempId: "uniqueTempId" },
           { tempId: "uniqueTempId" },
           { tempId: "uniqueTempId" }
-        ]
+        ],
+        classifications: {}
       };
 
       const responsePromise = request(app)

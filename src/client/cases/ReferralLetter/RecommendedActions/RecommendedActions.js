@@ -83,7 +83,7 @@ class RecommendedActions extends Component {
       id: values.id,
       classifications: {}
     };
-    classificationValues.classifications = values.classifications.map(
+    classificationValues.classifications = this.props.classifications.map(
       classification => {
         if (values[`csfn-${classification.id}`] === true) {
           return classification.id;
@@ -266,9 +266,10 @@ const mapStateToProps = state => ({
     includeRetaliationConcerns:
       state.referralLetter.letterDetails.includeRetaliationConcerns,
     letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-    classifications: state.classifications
+    ...state.referralLetter.letterDetails.classifications
   },
   caseReference: state.currentCase.details.caseReference,
+  classifications: state.classifications,
   classificationFeature: state.featureToggles.classificationFeature
 });
 

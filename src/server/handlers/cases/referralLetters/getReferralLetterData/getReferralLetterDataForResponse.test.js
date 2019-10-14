@@ -60,6 +60,14 @@ describe("getReferralLetterDataForResponse", () => {
           "details"
         ]),
         model: models.referral_letter_officer_history_note.name
+      },
+      caseClassification: {
+        attributes: expect.arrayContaining([
+          "id",
+          "caseId",
+          "newClassificationId"
+        ]),
+        model: models.case_classification.name
       }
     };
 
