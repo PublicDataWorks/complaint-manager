@@ -1,4 +1,4 @@
-FROM noipm/docker-node-ubuntu:1.1.0
+FROM noipm/docker-node-ubuntu:1.2.0
 
 RUN apt-get update && apt-get install bash
 
