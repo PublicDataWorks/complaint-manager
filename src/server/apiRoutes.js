@@ -58,6 +58,7 @@ import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./disciplinaryProceedings/handlers/users/getUsers";
+import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -293,6 +294,13 @@ export const API_ROUTES = {
       handler: editRecommendedActions,
       errorMessage:
         "Something went wrong and the recommended actions were not updated. Please try again."
+    }
+  },
+  "/cases/:caseId/referral-letter/classifications": {
+    put: {
+      handler: editClassifications,
+      errorMessage:
+        "Something went wrong and the classifications were not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/addresses": {

@@ -29,7 +29,6 @@ import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField"
 
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
-    console.log("Values: ", values);
     dispatch(this.props.submitAction(values));
   };
 

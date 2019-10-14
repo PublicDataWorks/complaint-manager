@@ -1,13 +1,7 @@
-import {
-  Card,
-  CardContent,
-  FormControlLabel,
-  Typography
-} from "@material-ui/core";
-import React, { Fragment, Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import { Card, CardContent, Typography } from "@material-ui/core";
+import React, { Component, Fragment } from "react";
+import { reduxForm } from "redux-form";
 import FormGroup from "@material-ui/core/FormGroup";
-import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import { connect } from "react-redux";
 import getClassificationOptions from "../thunks/getClassificationOptions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
@@ -18,25 +12,35 @@ class Classifications extends Component {
     this.props.getClassificationOptions();
   }
 
+  handleChange(name, isMarked) {
+    if (name === "Disabled") {
+      this.setState({
+        disableOptions: isMarked
+      });
+    }
+  }
+
   render() {
     return (
       <Card data-test="classificationsContainer" style={styles.cardStyling}>
         <CardContent style={styles.cardStyling}>
-          <Typography style={{ marginBottom: "24px", fontWeight: "bold" }}>
-            Classifications
+          <Typography
+            style={{ marginBottom: styles.medium, fontWeight: "bold" }}
+          >
+            CLASSIFICATION
           </Typography>
           <Fragment>
             <FormGroup>
               {this.props.classifications.map(classification => {
-
                 return (
                   <div>
                     <BoldCheckBoxFormControlLabel
-                      name={classification.name}
+                      name={`csfn-${classification.id}`}
                       key={classification.name}
                       labelText={classification.name}
+                      onChange={this.handleChange}
                     />
-                    <Typography style={{ marginLeft: styles.medium}}>
+                    <Typography style={{ marginLeft: styles.large }}>
                       {classification.message}
                     </Typography>
                   </div>
