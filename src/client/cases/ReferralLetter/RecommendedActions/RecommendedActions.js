@@ -30,6 +30,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 import Classifications from "./Classifications";
+import editClassifications from "../thunks/editClassifications";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -78,7 +79,20 @@ class RecommendedActions extends Component {
       this.transformReferralLetterOfficerRecommendedActions(letterOfficer);
       return letterOfficer;
     });
+    let classificationValues = {
+      id: values.id,
+      classifications: {}
+    };
+    classificationValues.classifications = values.classifications.map(
+      classification => {
+        if (values[`csfn-${classification.id}`] === true) {
+          return classification.id;
+        }
+        return null;
+      }
+    );
 
+    dispatch(editClassifications(this.state.caseId, classificationValues));
     dispatch(editRecommendedActions(this.state.caseId, values, redirectUrl));
   };
 
@@ -105,12 +119,8 @@ class RecommendedActions extends Component {
           <Typography style={{ marginBottom: styles.small, ...styles.section }}>
             {letterOfficerInstance.fullName}
           </Typography>
-          <Card
-            style={styles.cardStyling}
-          >
-            <CardContent
-              style={styles.cardStyling}
-            >
+          <Card style={styles.cardStyling}>
+            <CardContent style={styles.cardStyling}>
               <Typography style={{ marginBottom: "24px", fontWeight: "bold" }}>
                 Request for Review and Intervention
               </Typography>
@@ -160,7 +170,6 @@ class RecommendedActions extends Component {
     );
   };
 
-
   render() {
     if (this.referralLetterNotYetLoaded()) {
       return null;
@@ -205,24 +214,20 @@ class RecommendedActions extends Component {
               </Typography>
               <LetterStatusMessage />
 
-              <Card
-                style={styles.cardStyling}
-              >
-                <CardContent
-                  style={styles.cardStyling}
-                >
+              <Card style={styles.cardStyling}>
+                <CardContent style={styles.cardStyling}>
                   <BoldCheckBoxFormControlLabel
                     name="includeRetaliationConcerns"
                     labelText={RETALIATION_CONCERNS_LABEL}
                     dataTest="include-retaliation-concerns-field"
                   />
 
-                  <Typography style={{ marginLeft: styles.medium }}>
+                  <Typography style={{ marginLeft: styles.large }}>
                     {RETALIATION_CONCERNS_TEXT}
                   </Typography>
                 </CardContent>
               </Card>
-              {this.props.classificationFeature && <Classifications/>}
+              {this.props.classificationFeature && <Classifications />}
               <FieldArray
                 name="letterOfficers"
                 component={this.renderOfficerCards}
@@ -260,7 +265,8 @@ const mapStateToProps = state => ({
     id: state.referralLetter.letterDetails.id,
     includeRetaliationConcerns:
       state.referralLetter.letterDetails.includeRetaliationConcerns,
-    letterOfficers: state.referralLetter.letterDetails.letterOfficers
+    letterOfficers: state.referralLetter.letterDetails.letterOfficers,
+    classifications: state.classifications
   },
   caseReference: state.currentCase.details.caseReference,
   classificationFeature: state.featureToggles.classificationFeature
