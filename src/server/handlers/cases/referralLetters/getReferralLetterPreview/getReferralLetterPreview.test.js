@@ -660,19 +660,17 @@ describe("getReferralLetterPreview", function() {
       });
 
       test("renders correctly with all details", async () => {
-        const classificationBwcAttributes = new Classification.Builder()
-          .defaultClassification()
-          .withId(undefined)
-          .withName("Body Worn Camera")
-          .withInitialism("BWC");
-        const classificationBWC = await models.classification.create(
-          classificationBwcAttributes,
-          { auditUser: "someone" }
-        );
-        await existingCase.update(
-          { classificationId: classificationBWC.id },
-          { auditUser: "someone" }
-        );
+        const newClassification = await models.new_classifications.create({
+          id: 1,
+          name: "Cereal Misconduct",
+          message: "Wasteful"
+        });
+
+        await models.case_classification.create({
+          caseId: existingCase.id,
+          newClassificationId: newClassification.id
+        });
+
         const civilianWitnessAttributes = new Civilian.Builder()
           .defaultCivilian()
           .withGenderIdentityId(genderIdentity.id)
@@ -834,6 +832,18 @@ describe("getReferralLetterPreview", function() {
               Object.keys(models.classification.rawAttributes)
             ),
             model: models.classification.name
+          },
+          caseClassifications: {
+            attributes: expect.toIncludeSameMembers(
+              Object.keys(models.case_classification.rawAttributes)
+            ),
+            model: models.case_classification.name
+          },
+          newClassification: {
+            attributes: expect.toIncludeSameMembers(
+              Object.keys(models.new_classifications.rawAttributes)
+            ),
+            model: models.new_classifications.name
           },
           complainantCivilians: {
             attributes: expect.arrayContaining(

@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
 
   CaseClassification.associate = models => {
     CaseClassification.belongsTo(models.new_classifications, {
-      as: "new_classification",
+      as: "newClassification",
       foreignKey: {
         name: "newClassificationId",
         field: "new_classification_id",

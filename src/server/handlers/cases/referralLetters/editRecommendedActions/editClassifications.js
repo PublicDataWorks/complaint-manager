@@ -21,6 +21,7 @@ const editClassifications = asyncMiddleware(async (request, response, next) => {
     );
     await createNewClassifications(
       updatedClassifications,
+      existingClassifications,
       caseId,
       request.nickname,
       transaction
@@ -31,12 +32,16 @@ const editClassifications = asyncMiddleware(async (request, response, next) => {
 
 const createNewClassifications = async (
   updatedClassifications,
+  existingClassifications,
   caseId,
   auditUser,
   transaction
 ) => {
   for (const classificationId of updatedClassifications) {
-    if (classificationId) {
+    if (
+      classificationId &&
+      !existingClassifications.includes(classificationId)
+    ) {
       await models.case_classification.create(
         {
           caseId: caseId,

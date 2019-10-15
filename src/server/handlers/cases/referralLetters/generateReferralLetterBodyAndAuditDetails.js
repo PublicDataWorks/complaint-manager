@@ -56,6 +56,16 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
       },
       { model: models.classification },
       {
+        model: models.case_classification,
+        as: "caseClassifications",
+        include: [
+          {
+            model: models.new_classifications,
+            as: "newClassification"
+          }
+        ]
+      },
+      {
         model: models.address,
         as: "incidentLocation"
       },
