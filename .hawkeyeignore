@@ -14,10 +14,6 @@ files-contents-.circleci/config.yml-14
 files-contents-e2e/pageObjectModels/Login.js-1
 files-contents-src/server/handlers/cases/export/jobQueue.js-1
 
-
-# While there are are passwords here for dev and test, the production, staging, and CI passwords are not stored in code.
-files-contents-src/server/tasks/task_config.js-1
-
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-braces-786
 node-yarnaudit-js-yaml-788
