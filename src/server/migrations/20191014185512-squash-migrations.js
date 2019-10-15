@@ -7,13 +7,13 @@ module.exports = {
     const migrationTableName = "sequelize_meta";
     const numberOfMigrationsToKeep = "1";
 
-    await queryInterface.sequelize
+    return await queryInterface.sequelize
       .query(
         `SELECT name from ${migrationTableName} ORDER BY name DESC LIMIT ${numberOfMigrationsToKeep}`
       )
-      .then(([results, metadata]) => {
+      .then(async ([results, metadata]) => {
         const values = results.map(row => row.name);
-        queryInterface.bulkDelete(migrationTableName, {
+        return await queryInterface.bulkDelete(migrationTableName, {
           name: {
             [Op.notIn]: values
           }
