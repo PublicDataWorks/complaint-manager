@@ -60,10 +60,10 @@ describe("editClassifications", () => {
     ]);
   });
 
-  test("clears table when new classifications are updated", async () => {
+  test("clears table when new classifications are updated and doesn't duplicate existing classifications", async () => {
     await editClassifications(request, response, next);
 
-    const newClassifications = [null, null, 3, 4];
+    const newClassifications = [null, 2, 3, 4];
     const requestBody = {
       classifications: newClassifications
     };
@@ -88,6 +88,10 @@ describe("editClassifications", () => {
       expect.objectContaining({
         caseId: existingCase.id,
         newClassificationId: 4
+      }),
+      expect.objectContaining({
+        caseId: existingCase.id,
+        newClassificationId: 2
       })
     ]);
   });

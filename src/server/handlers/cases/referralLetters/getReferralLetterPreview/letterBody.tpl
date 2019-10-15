@@ -381,11 +381,16 @@
     <p><br></p>
   {{/if}}
 
-  {{#if classification}}
+  {{#if caseClassifications}}
     <p class="ql-align-center"><strong><u>Classification Recommendation</u></strong></p>
-    <p><br></p>
-    <p>The OIPM recommends that this complaint be classified as {{classification.initialism}}.</p>
-    <p><br></p>
+    {{#each caseClassifications}}
+        <p><strong>{{newClassification.name}}</strong></p>
+        <ul>
+            <li>
+               {{newClassification.message}}
+            </li>
+        </ul>
+    {{/each}}
     <p><br></p>
   {{/if}}
 

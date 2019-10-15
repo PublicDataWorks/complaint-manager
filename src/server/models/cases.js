@@ -321,7 +321,7 @@ export default (sequelize, DataTypes) => {
       }
     });
     Case.hasMany(models.case_classification, {
-      as: "caseClassification",
+      as: "caseClassifications",
       foreignKey: {
         name: "caseId",
         field: "case_id"
