@@ -6,7 +6,6 @@ const { exec } = require("child-process-promise");
 
   const config = require(__dirname +
     "/../src/server/config/sequelize_config.js")[env];
-  console.log(config);
 
   const schemaFile = `20191004_schema.sql`;
 
@@ -17,7 +16,6 @@ const { exec } = require("child-process-promise");
 
   console.log("Schema import running...");
   const loadSchemaCommand = `PGPASSWORD=${databasePassword} psql -a -U ${databaseUser} -h ${databaseHost} -d ${databaseName} < ./src/server/migrations/schema/${schemaFile}`;
-  console.log("Running the command: ", loadSchemaCommand);
   exec(loadSchemaCommand)
     .then(() => {
       console.log("*************************");
