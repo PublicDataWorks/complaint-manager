@@ -5,10 +5,9 @@
   "proxy": "http://localhost:1234",
   "scripts": {
     "postbuild": "node scripts/postbuild.js",
-    "start": "yarn setup:db && yarn setup:task:migrate && concurrently 'yarn start:client' 'yarn start:server'",
-    "start:dev": "yarn setup:db && yarn setup:task:migrate && concurrently 'yarn start:client' 'yarn start:server:dev'",
+    "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
+    "start:dev": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server:dev'",
     "setup:db": "sequelize db:create && node scripts/loadSchema.js; sequelize db:migrate && sequelize db:seed:all;",
-    "setup:task:migrate": "node ./src/server/tasks/migrate.js up",
     "setup:test:db": "./scripts/setup-test-db.sh",
     "drop:db": "sequelize db:drop",
     "start:client": "react-scripts start",
