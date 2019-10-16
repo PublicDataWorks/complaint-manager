@@ -9,6 +9,7 @@ import React, { Component, Fragment } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import styles from "../../../globalStyling/styles";
+import standards from "../../../globalStyling/standards";
 import { TextField } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
@@ -116,7 +117,9 @@ class RecommendedActions extends Component {
       const letterOfficerInstance = fields.get(index);
       return (
         <Fragment key={letterOfficerInstance.id}>
-          <Typography style={{ marginBottom: styles.small, ...styles.section }}>
+          <Typography
+            style={{ marginBottom: standards.small, ...styles.section }}
+          >
             {letterOfficerInstance.fullName}
           </Typography>
           <Card style={styles.cardStyling}>
@@ -124,7 +127,7 @@ class RecommendedActions extends Component {
               <Typography style={{ marginBottom: "24px", fontWeight: "bold" }}>
                 Request for Review and Intervention
               </Typography>
-              <Typography style={{ marginBottom: styles.small }}>
+              <Typography style={{ marginBottom: standards.small }}>
                 {RECOMMENDED_ACTIONS_TEXT}
               </Typography>
               {this.renderOfficerFields(letterOfficerField)}
@@ -218,16 +221,20 @@ class RecommendedActions extends Component {
                 <CardContent style={styles.cardStyling}>
                   <BoldCheckBoxFormControlLabel
                     name="includeRetaliationConcerns"
-                    labelText={RETALIATION_CONCERNS_LABEL}
+                    label={RETALIATION_CONCERNS_LABEL}
                     dataTest="include-retaliation-concerns-field"
                   />
 
-                  <Typography style={{ marginLeft: styles.large }}>
+                  <Typography style={{ marginLeft: standards.large }}>
                     {RETALIATION_CONCERNS_TEXT}
                   </Typography>
                 </CardContent>
               </Card>
-              {this.props.classificationFeature && <Classifications />}
+              {this.props.classificationFeature && (
+                <Classifications
+                  initialDisabled={this.props.initialValues["csfn-4"]}
+                />
+              )}
               <FieldArray
                 name="letterOfficers"
                 component={this.renderOfficerCards}
