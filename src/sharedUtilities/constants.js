@@ -381,6 +381,11 @@ export const COMPLAINANT_LETTER = "Letter to Complainant";
 export const OFFICER_COMPLAINANT_TITLE = "Officer";
 
 // ----------------------------------------
+//         Classifications Options
+// ----------------------------------------
+export const DECLINES_OPTION = "Declines to classify";
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 export const CASE_STATUS = {

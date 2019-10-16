@@ -1,16 +1,19 @@
 import shiftSingleElementOfArray from "../../../sharedUtilities/shiftSingleElementOfArray";
+import { DECLINES_OPTION } from "../../../sharedUtilities/constants";
 
 const models = require("../../models");
 const _ = require("lodash");
 
 const asyncMiddleware = require("../asyncMiddleware");
 
-const DECLINES_OPTION = "Declines to classify";
-
 const getClassifications = asyncMiddleware(async (request, response, next) => {
   const classifications = await getSortedClassifications();
   const classificationValues = classifications.map(classification => {
-    return {name: classification.name, message: classification.message, id: classification.id};
+    return {
+      name: classification.name,
+      message: classification.message,
+      id: classification.id
+    };
   });
   response.status(200).send(classificationValues);
 });

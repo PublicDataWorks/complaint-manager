@@ -5,17 +5,33 @@ import FormGroup from "@material-ui/core/FormGroup";
 import { connect } from "react-redux";
 import getClassificationOptions from "../thunks/getClassificationOptions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
+import standards from "../../../globalStyling/standards";
 import styles from "../../../globalStyling/styles";
+import { DECLINES_OPTION } from "../../../../sharedUtilities/constants";
 
 class Classifications extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { classificationsDisabled: props.initialDisabled };
+  }
+
   componentDidMount() {
     this.props.getClassificationOptions();
   }
 
-  handleChange(name, isMarked) {
-    if (name === "Disabled") {
+  uncheckClassificationsIfDeclinesToClassifyIsChecked() {
+    this.props.classifications.map(classification => {
+      if (classification.name !== DECLINES_OPTION) {
+        this.props.change(`csfn-${classification.id}`, false);
+      }
+    });
+  }
+
+  handleChange(event, label) {
+    if (label === DECLINES_OPTION) {
+      this.uncheckClassificationsIfDeclinesToClassifyIsChecked();
       this.setState({
-        disableOptions: isMarked
+        classificationsDisabled: event
       });
     }
   }
@@ -25,7 +41,11 @@ class Classifications extends Component {
       <Card data-test="classificationsContainer" style={styles.cardStyling}>
         <CardContent style={styles.cardStyling}>
           <Typography
-            style={{ marginBottom: styles.medium, fontWeight: "bold" }}
+            style={{
+              marginBottom: standards.medium,
+              fontWeight: "bold",
+              fontSize: standards.fontSmall
+            }}
           >
             CLASSIFICATION
           </Typography>
@@ -33,14 +53,15 @@ class Classifications extends Component {
             <FormGroup>
               {this.props.classifications.map(classification => {
                 return (
-                  <div>
+                  <div key={classification.id}>
                     <BoldCheckBoxFormControlLabel
                       name={`csfn-${classification.id}`}
-                      key={classification.name}
-                      labelText={classification.name}
-                      onChange={this.handleChange}
+                      key={classification.id}
+                      label={classification.name}
+                      onChange={this.handleChange.bind(this)}
+                      disabled={this.state.classificationsDisabled}
                     />
-                    <Typography style={{ marginLeft: styles.large }}>
+                    <Typography style={{ marginLeft: standards.large }}>
                       {classification.message}
                     </Typography>
                   </div>
