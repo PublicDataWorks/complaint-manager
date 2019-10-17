@@ -331,12 +331,13 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
 
     <p class=\\"ql-align-center\\"><strong><u>Classification Recommendation</u></strong></p>
-        <p><strong>Cereal Misconduct</strong></p>
-        <ul>
-            <li>
-               Wasteful
-            </li>
-        </ul>
+    <p><br></p>
+            <p><strong>Cereal Misconduct</strong></p>
+            <ul>
+                <li>
+                    Wasteful
+                </li>
+            </ul>
     <p><br></p>
 
   <p>I appreciate your prompt attention to this matter.
