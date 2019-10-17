@@ -6,7 +6,7 @@ import {
   formatShortDate
 } from "../client/utilities/formatDate";
 import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
-import { SIGNATURE_URLS } from "../sharedUtilities/constants";
+import { DECLINES_OPTION, SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 const caseReferenceLength = 4;
 
@@ -163,3 +163,12 @@ export const isEqual = (input1, input2) => {
   return input1 === input2;
 };
 Handlebars.registerHelper("isEqual", isEqual);
+
+export const caseClassificationIsDeclinesToClassify = caseClassifications => {
+  console.log("Case Classifications: ", caseClassifications);
+  return caseClassifications[0].newClassification.name === DECLINES_OPTION;
+};
+Handlebars.registerHelper(
+  "caseClassificationIsDeclinesToClassify",
+  caseClassificationIsDeclinesToClassify
+);
