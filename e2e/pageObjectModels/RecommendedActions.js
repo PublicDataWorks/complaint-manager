@@ -18,6 +18,15 @@ const recommendedActionsCommands = {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
       "@nextButton"
     );
+  },
+  selectClassification: function(classificationName) {
+    return this.click(`[data-test=${classificationName}] input`);
+  },
+  classificationsAreDisabled: function() {
+    return this.waitForElementPresent(
+      "@useOfForce",
+      e2e.rerenderWait
+    ).assert.attributeEquals("@useOfForce", "disabled", "true");
   }
 };
 
@@ -32,6 +41,9 @@ module.exports = {
     },
     nextButton: {
       selector: "[data-test='next-button']"
+    },
+    useOfForce: {
+      selector: "[data-test='use-of-force'] input"
     }
   }
 };

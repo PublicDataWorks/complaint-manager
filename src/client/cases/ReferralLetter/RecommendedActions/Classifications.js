@@ -8,6 +8,7 @@ import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBo
 import standards from "../../../globalStyling/standards";
 import styles from "../../../globalStyling/styles";
 import { DECLINES_OPTION } from "../../../../sharedUtilities/constants";
+import _ from "lodash";
 
 class Classifications extends Component {
   constructor(props) {
@@ -60,6 +61,7 @@ class Classifications extends Component {
                       label={classification.name}
                       onChange={this.handleChange.bind(this)}
                       disabled={this.state.classificationsDisabled}
+                      dataTest={_.kebabCase(classification.name)}
                     />
                     <Typography style={{ marginLeft: standards.large }}>
                       {classification.message}
