@@ -51,5 +51,22 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
+  CaseClassification.prototype.getCaseId = async function(transaction) {
+    return this.caseId;
+  };
+
+  CaseClassification.prototype.modelDescription = async function(transaction) {
+    const classification = await sequelize
+      .model("new_classifications")
+      .findByPk(this.newClassificationId, {
+        transaction
+      });
+    return [
+      { "Classification Name": classification.name },
+      { Message: classification.message }
+    ];
+  };
+
+  CaseClassification.auditDataChange();
   return CaseClassification;
 };

@@ -287,7 +287,8 @@ export const AUDIT_SUBJECT = {
   DRAFT_REFERRAL_LETTER_PDF: "Draft Referral Letter PDF",
   FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
   LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
-  ALL_USER_DATA: "All User Data"
+  ALL_USER_DATA: "All User Data",
+  CASE_CLASSIFICATIONS: "Case Classifications"
 };
 
 export const AUDIT_FILE_TYPE = {

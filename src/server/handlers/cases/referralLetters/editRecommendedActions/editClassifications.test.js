@@ -25,6 +25,14 @@ describe("editClassifications", () => {
       { auditUser: "test" }
     );
 
+    for (let i = 1; i <= 4; i++) {
+      await models.new_classifications.create({
+        id: i,
+        name: `csfn-${i}`,
+        message: "HELP"
+      });
+    }
+
     const classifications = [1, 2, null, null];
     const requestBody = {
       classifications: classifications
