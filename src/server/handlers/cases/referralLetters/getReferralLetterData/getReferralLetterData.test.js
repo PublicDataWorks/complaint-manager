@@ -428,6 +428,14 @@ describe("getReferralLetterData", () => {
   });
 
   test("returns classification data when it exists", async () => {
+    await models.new_classifications.create(
+      {
+        id: 1,
+        name: "Weird",
+        message: "Jacob is immature"
+      },
+      { auditUser: "Wanchenlearn" }
+    );
     await models.case_classification.create(
       {
         caseId: existingCase.id,

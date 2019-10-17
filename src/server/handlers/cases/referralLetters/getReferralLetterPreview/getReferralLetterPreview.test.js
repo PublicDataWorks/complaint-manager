@@ -666,10 +666,13 @@ describe("getReferralLetterPreview", function() {
           message: "Wasteful"
         });
 
-        await models.case_classification.create({
-          caseId: existingCase.id,
-          newClassificationId: newClassification.id
-        });
+        await models.case_classification.create(
+          {
+            caseId: existingCase.id,
+            newClassificationId: newClassification.id
+          },
+          { auditUser: "test" }
+        );
 
         const civilianWitnessAttributes = new Civilian.Builder()
           .defaultCivilian()
