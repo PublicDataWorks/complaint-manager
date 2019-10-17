@@ -383,14 +383,19 @@
 
   {{#if caseClassifications}}
     <p class="ql-align-center"><strong><u>Classification Recommendation</u></strong></p>
-    {{#each caseClassifications}}
-        <p><strong>{{newClassification.name}}</strong></p>
-        <ul>
-            <li>
-               {{newClassification.message}}
-            </li>
-        </ul>
-    {{/each}}
+    <p><br></p>
+    {{#if (caseClassificationIsDeclinesToClassify caseClassifications) }}
+        {{caseClassifications.0.newClassification.message}}
+    {{else}}
+        {{#each caseClassifications}}
+            <p><strong>{{newClassification.name}}</strong></p>
+            <ul>
+                <li>
+                    {{newClassification.message}}
+                </li>
+            </ul>
+        {{/each}}
+    {{/if}}
     <p><br></p>
   {{/if}}
 
