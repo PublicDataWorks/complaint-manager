@@ -420,7 +420,17 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       recommendedActions
         .toggleRetaliationConcerns()
-        .toggleNthOfficersNthRecommendedAction(0, 1)
+        .toggleNthOfficersNthRecommendedAction(0, 1);
+    },
+    "should select multiple classifications that are not declines to classify": browser => {
+      const recommendedActions = browser.page.RecommendedActions();
+      recommendedActions.isOnPage();
+
+      recommendedActions
+        .selectClassification("use-of-force")
+        .selectClassification("criminal-misconduct")
+        .selectClassification("declines-to-classify")
+        .classificationsAreDisabled()
         .clickNext();
     },
 
@@ -447,6 +457,9 @@ if (TEST_PASS && TEST_USER && HOST) {
         )
         .letterContains(
           "Be temporarily or permanently reassigned from his/her current assignment"
+        )
+        .letterContains(
+          "OIPM declines to classify the complaint at this time."
         );
     },
 
