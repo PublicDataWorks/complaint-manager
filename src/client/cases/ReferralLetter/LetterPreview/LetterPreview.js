@@ -21,6 +21,7 @@ import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import {
   openEditLetterConfirmationDialog,
+  openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
   startLetterDownload,
   stopLetterDownload
@@ -35,6 +36,8 @@ import styles from "../../../globalStyling/styles";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
+import _ from "lodash";
+import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -140,6 +143,12 @@ class LetterPreview extends Component {
         return;
       }
     }
+
+    if (_.isEmpty(this.props.classifications)) {
+      this.props.openIncompleteClassificationsDialog();
+      return;
+    }
+
     this.props.openCaseStatusUpdateDialog(
       this.props.caseDetails.nextStatus,
       `/cases/${this.state.caseId}`
@@ -390,6 +399,7 @@ class LetterPreview extends Component {
           </div>
         </form>
         <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
+        <IncompleteClassificationsDialog caseId={this.state.caseId} />
         <UpdateCaseStatusDialog
           alternativeAction={this.saveAndSubmitForReview}
         />
@@ -407,7 +417,8 @@ const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   userInfo: state.users.current.userInfo,
-  letterOfficers: state.referralLetter.letterDetails.letterOfficers
+  letterOfficers: state.referralLetter.letterDetails.letterOfficers,
+  classifications: state.referralLetter.letterDetails.classifications
 });
 
 const mapDispatchToProps = {
@@ -416,7 +427,8 @@ const mapDispatchToProps = {
   stopLetterDownload,
   getReferralLetterData,
   getReferralLetterPreview,
-  openIncompleteOfficerHistoryDialog
+  openIncompleteOfficerHistoryDialog,
+  openIncompleteClassificationsDialog
 };
 
 export default connect(

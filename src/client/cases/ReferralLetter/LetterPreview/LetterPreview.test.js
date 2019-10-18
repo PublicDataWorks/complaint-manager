@@ -8,6 +8,8 @@ import {
   getReferralLetterPreviewSuccess,
   getReferralLetterSuccess,
   openEditLetterConfirmationDialog,
+  openIncompleteClassificationsDialog,
+  openIncompleteOfficerHistoryDialog,
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
@@ -195,7 +197,8 @@ describe("LetterPreview", function() {
             fullName: "somebody",
             officerHistoryOptionId: 1
           }
-        ]
+        ],
+        classifications: { "csfn-1": true }
       })
     );
     const openSubmitForReviewButton = wrapper
@@ -218,7 +221,8 @@ describe("LetterPreview", function() {
             fullName: "somebody",
             officerHistoryOptionId: 1
           }
-        ]
+        ],
+        classifications: { "csfn-1": true }
       })
     );
     const openSubmitForReviewButton = wrapper
@@ -709,5 +713,73 @@ describe("LetterPreview", function() {
       .first();
     expect(downloadButton.props().disabled).toBeFalsy();
     expect(progressIndicator.props().style.display).toEqual("none");
+  });
+
+  test("should call incomplete officer history modal when accused officer is missing officer history", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: null
+          }
+        ]
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openIncompleteOfficerHistoryDialog(expect.anything())
+    );
+  });
+
+  test("should call missing classifications modal when no classifications are selected", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: 2
+          }
+        ],
+        classifications: {}
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openIncompleteClassificationsDialog(expect.anything())
+    );
+  });
+
+  test("should call incomplete officer history dialog if both classifications and officer history are missing", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: null
+          }
+        ],
+        classifications: {}
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-test='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openIncompleteOfficerHistoryDialog(expect.anything())
+    );
   });
 });
