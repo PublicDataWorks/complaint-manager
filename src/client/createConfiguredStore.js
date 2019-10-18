@@ -53,6 +53,7 @@ import genderIdentityReducer from "./reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./reducers/ui/caseNoteActionReducer";
 import caseTagDialogReducer from "./reducers/ui/caseTagDialogReducer";
 import tagReducer from "./reducers/ui/tagReducer";
+import incompleteClassificationsDialogReducer from "./reducers/ui/incompleteClassificationsDialogReducer";
 import caseTagReducer from "./reducers/cases/caseTagsReducer";
 import removeCaseTagDialogReducer from "./reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./reducers/ui/civilianTitleReducer";
@@ -110,6 +111,7 @@ const rootReducer = combineReducers({
     genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
+    openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,
