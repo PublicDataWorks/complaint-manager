@@ -144,7 +144,10 @@ class LetterPreview extends Component {
       }
     }
 
-    if (_.isEmpty(this.props.classifications)) {
+    if (
+      this.props.classificationFeature &&
+      _.isEmpty(this.props.classifications)
+    ) {
       this.props.openIncompleteClassificationsDialog();
       return;
     }
@@ -418,7 +421,8 @@ const mapStateToProps = state => ({
   downloadInProgress: state.ui.letterDownload.downloadInProgress,
   userInfo: state.users.current.userInfo,
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-  classifications: state.referralLetter.letterDetails.classifications
+  classifications: state.referralLetter.letterDetails.classifications,
+  classificationFeature: state.featureToggles.classificationFeature
 });
 
 const mapDispatchToProps = {
