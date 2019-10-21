@@ -26,7 +26,7 @@ describe("IncompleteClassificationsDialog", () => {
 
   test("should dispatch close and redirect to correct url", () => {
     const incompleteClassificationsReturnButton = wrapper
-      .find('[data-test="close-incomplete-classifications-dialog"]')
+      .find('[data-test="close-incomplete-history-dialog"]')
       .first();
     expect(incompleteClassificationsReturnButton.exists()).toBeDefined();
     incompleteClassificationsReturnButton.simulate("click");

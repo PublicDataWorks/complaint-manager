@@ -20,7 +20,7 @@ const IncompleteOfficerHistoryDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <DialogTitle data-test="incompleteOfficerHistoryTitle">
+      <DialogTitle data-test="incomplete-officer-history-title">
         Missing Officer History
       </DialogTitle>
       <DialogContent>
@@ -32,7 +32,7 @@ const IncompleteOfficerHistoryDialog = ({
       </DialogContent>
       <DialogActions>
         <PrimaryButton
-          data-test="close-incomplete-officer-history-dialog"
+          data-test="close-incomplete-history-dialog"
           onClick={() => {
             closeIncompleteOfficerHistoryDialog();
             redirectBackToOfficerHistory(caseId, officerIndex);

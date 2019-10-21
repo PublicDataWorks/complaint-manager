@@ -12,6 +12,11 @@ const caseReviewCommands = {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
       "@nextButton"
     );
+  },
+  clickPreview: function() {
+    return this.waitForElementPresent("@previewButton", e2e.rerenderWait).click(
+      "@previewButton"
+    );
   }
 };
 
@@ -23,6 +28,9 @@ module.exports = {
     },
     pageHeader: {
       selector: "[data-test='letter-review-page-header']"
+    },
+    previewButton: {
+      selector: "[data-test='step-button-Preview']"
     }
   }
 };
