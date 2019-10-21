@@ -165,7 +165,6 @@ export const isEqual = (input1, input2) => {
 Handlebars.registerHelper("isEqual", isEqual);
 
 export const caseClassificationIsDeclinesToClassify = caseClassifications => {
-  console.log("Case Classifications: ", caseClassifications);
   return caseClassifications[0].newClassification.name === DECLINES_OPTION;
 };
 Handlebars.registerHelper(

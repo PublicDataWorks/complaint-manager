@@ -29,6 +29,8 @@ import {
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import timekeeper from "timekeeper";
+import featureTogglesReducer from "../../../reducers/featureToggles/featureTogglesReducer";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
@@ -750,6 +752,7 @@ describe("LetterPreview", function() {
         classifications: {}
       })
     );
+    store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
       .find("[data-test='submit-for-review-button']")
       .first();
