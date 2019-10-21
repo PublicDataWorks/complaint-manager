@@ -18,13 +18,13 @@ const letterPreviewCommands = {
     ).click("@dialogEditButton");
   },
   clickSubmit: function() {
-    return this.click("@submitButton").waitForElementPresent(
-      "@confirmSubmitButton",
-      e2e.rerenderWait
-    );
+    return this.click("@submitButton");
   },
   confirmSubmit: function() {
-    return this.click("@confirmSubmitButton");
+    return this.waitForElementPresent(
+      "@confirmSubmitButton",
+      e2e.rerenderWait
+    ).click("@confirmSubmitButton");
   },
   waitForData: function() {
     this.api.pause(e2e.dataLoadWait);

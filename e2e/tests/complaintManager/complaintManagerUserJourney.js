@@ -372,7 +372,16 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       snackbar.presentWithMessage("Status was successfully updated").close();
 
-      caseReview.clickNext();
+      caseReview.clickPreview();
+    },
+
+    "should show missing officer history modal when submitting letter with incomplete history details": browser => {
+      const letterPreview = browser.page.LetterPreview();
+      const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
+
+      letterPreview.clickSubmit();
+      incompleteHistoryDialog.incompleteOfficerHistoryDialogIsOpen();
+      incompleteHistoryDialog.clickReturn();
     },
 
     "should add allegations to officer complaint history": browser => {
@@ -420,8 +429,20 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       recommendedActions
         .toggleRetaliationConcerns()
-        .toggleNthOfficersNthRecommendedAction(0, 1);
+        .toggleNthOfficersNthRecommendedAction(0, 1)
+        .clickNext();
     },
+
+    "should show missing classifications modal when submitting letter with incomplete classifications": browser => {
+      const letterPreview = browser.page.LetterPreview();
+      const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
+      const snackbar = browser.page.SnackbarPOM();
+
+      letterPreview.clickSubmit();
+      incompleteHistoryDialog.incompleteClassificationsDialogIsOpen();
+      incompleteHistoryDialog.clickReturn();
+    },
+
     "should select multiple classifications that are not declines to classify": browser => {
       const recommendedActions = browser.page.RecommendedActions();
       recommendedActions.isOnPage();
@@ -439,7 +460,9 @@ if (TEST_PASS && TEST_USER && HOST) {
       const snackbar = browser.page.SnackbarPOM();
 
       snackbar
-        .presentWithMessage("Recommended actions were successfully updated")
+        .presentWithRegex(
+          "(Classifications were successfully updated)|(Recommended actions were successfully updated)"
+        )
         .close();
 
       letterPreview

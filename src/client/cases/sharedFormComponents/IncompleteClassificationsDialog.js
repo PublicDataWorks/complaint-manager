@@ -19,7 +19,7 @@ const IncompleteClassificationsDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <DialogTitle data-test="incompleteClassificationsTitle">
+      <DialogTitle data-test="incomplete-classifications-title">
         Missing Classifications
       </DialogTitle>
       <DialogContent>
@@ -31,7 +31,7 @@ const IncompleteClassificationsDialog = ({
       </DialogContent>
       <DialogActions>
         <PrimaryButton
-          data-test="close-incomplete-classifications-dialog"
+          data-test="close-incomplete-history-dialog"
           onClick={() => {
             closeIncompleteClassificationsDialog();
             redirectBackToRecommendedActions(caseId);
