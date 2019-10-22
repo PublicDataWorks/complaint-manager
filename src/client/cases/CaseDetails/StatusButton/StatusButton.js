@@ -8,14 +8,21 @@ import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import { openIncompleteOfficerHistoryDialog } from "../../../actionCreators/letterActionCreators";
+import {
+  openIncompleteClassificationsDialog,
+  openIncompleteOfficerHistoryDialog
+} from "../../../actionCreators/letterActionCreators";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetterData";
+import _ from "lodash";
+import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
+import history from "../../../history";
 
 class StatusButton extends Component {
   componentDidMount() {
     if (
-      this.props.status === CASE_STATUS.LETTER_IN_PROGRESS &&
+      (this.props.status === CASE_STATUS.LETTER_IN_PROGRESS ||
+        this.props.status === CASE_STATUS.READY_FOR_REVIEW) &&
       !this.props.isArchived
     ) {
       this.props.getReferralLetterData(this.props.caseId);
@@ -61,8 +68,49 @@ class StatusButton extends Component {
           return;
         }
       }
+      if (
+        this.props.classificationFeature &&
+        _.isEmpty(this.props.classifications)
+      ) {
+        this.props.openIncompleteClassificationsDialog();
+        return;
+      }
     }
     this.props.openCaseStatusUpdateDialog(nextStatus, redirectUrl);
+  };
+
+  validateLetterDetails = () => {
+    console.log("THIS DOT PROPS: ", this.props);
+    if (!this.props.letterOfficers) {
+      this.props.openIncompleteOfficerHistoryDialog();
+      return false;
+    }
+    for (let i = 0; i < this.props.letterOfficers.length; i++) {
+      if (
+        this.props.letterOfficers[i].fullName !== UNKNOWN_OFFICER_NAME &&
+        !this.props.letterOfficers[i].officerHistoryOptionId
+      ) {
+        this.props.openIncompleteOfficerHistoryDialog(i);
+        return false;
+      }
+    }
+
+    if (
+      this.props.classificationFeature &&
+      _.isEmpty(this.props.classifications)
+    ) {
+      this.props.openIncompleteClassificationsDialog();
+      return false;
+    }
+    return true;
+  };
+  saveAndGoToReviewAndApprove = async values => {
+    values.preventDefault();
+    console.log("DHJADJA");
+    const isLetterValid = await this.validateLetterDetails();
+    if (isLetterValid) {
+      history.push(`/cases/${this.props.caseId}/letter/review-and-approve`);
+    }
   };
 
   render() {
@@ -77,15 +125,18 @@ class StatusButton extends Component {
 
     if (status === CASE_STATUS.READY_FOR_REVIEW) {
       return (
-        <PrimaryButton
-          data-test={"review-and-approve-letter-button"}
-          to={`/cases/${caseId}/letter/review-and-approve`}
-          component={Link}
-          style={{ marginLeft: "16px" }}
-          disabled={this.props.isArchived}
-        >
-          Review and Approve Letter
-        </PrimaryButton>
+        <Fragment>
+          <PrimaryButton
+            data-test={"review-and-approve-letter-button"}
+            onClick={this.saveAndGoToReviewAndApprove}
+            style={{ marginLeft: "16px" }}
+            disabled={this.props.isArchived}
+          >
+            Review and Approve Letter
+          </PrimaryButton>
+          <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+          <IncompleteClassificationsDialog caseId={this.props.caseId} />
+        </Fragment>
       );
     } else {
       return (
@@ -101,6 +152,7 @@ class StatusButton extends Component {
               : `Mark as ${nextStatus}`}
           </PrimaryButton>
           <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+          <IncompleteClassificationsDialog caseId={this.props.caseId} />
         </Fragment>
       );
     }
@@ -113,11 +165,14 @@ const mapStateToProps = state => ({
   nextStatus: state.currentCase.details.nextStatus,
   isArchived: state.currentCase.details.isArchived,
   userInfo: state.users.current.userInfo,
-  letterOfficers: state.referralLetter.letterDetails.letterOfficers
+  letterOfficers: state.referralLetter.letterDetails.letterOfficers,
+  classifications: state.referralLetter.letterDetails.classifications,
+  classificationFeature: state.featureToggles.classificationFeature
 });
 
 const mapDispatchToProps = {
   openIncompleteOfficerHistoryDialog,
+  openIncompleteClassificationsDialog,
   openCaseStatusUpdateDialog,
   getReferralLetterData
 };
