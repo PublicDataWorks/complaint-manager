@@ -3,7 +3,6 @@ import {
   UNKNOWN_OFFICER_NAME,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
-import { Link } from "react-router-dom";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
@@ -17,6 +16,7 @@ import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetter
 import _ from "lodash";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import history from "../../../history";
+import validateLetterDetails from "../../../utilities/validateLetterDetails";
 
 class StatusButton extends Component {
   componentDidMount() {
@@ -48,66 +48,21 @@ class StatusButton extends Component {
     );
   };
 
-  openUpdateCaseStatusDialog = () => {
+  openUpdateCaseStatusDialog = async () => {
     const { nextStatus, caseId } = this.props;
     let redirectUrl;
     if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
       redirectUrl = `/cases/${caseId}/letter/review`;
     }
     if (nextStatus === CASE_STATUS.READY_FOR_REVIEW) {
-      if (!this.props.letterOfficers) {
-        this.props.openIncompleteOfficerHistoryDialog();
-        return;
-      }
-      for (let i = 0; i < this.props.letterOfficers.length; i++) {
-        if (
-          this.props.letterOfficers[i].fullName !== UNKNOWN_OFFICER_NAME &&
-          !this.props.letterOfficers[i].officerHistoryOptionId
-        ) {
-          this.props.openIncompleteOfficerHistoryDialog(i);
-          return;
-        }
-      }
-      if (
-        this.props.classificationFeature &&
-        _.isEmpty(this.props.classifications)
-      ) {
-        this.props.openIncompleteClassificationsDialog();
-        return;
-      }
+      await validateLetterDetails(this.props);
     }
     this.props.openCaseStatusUpdateDialog(nextStatus, redirectUrl);
   };
 
-  validateLetterDetails = () => {
-    console.log("THIS DOT PROPS: ", this.props);
-    if (!this.props.letterOfficers) {
-      this.props.openIncompleteOfficerHistoryDialog();
-      return false;
-    }
-    for (let i = 0; i < this.props.letterOfficers.length; i++) {
-      if (
-        this.props.letterOfficers[i].fullName !== UNKNOWN_OFFICER_NAME &&
-        !this.props.letterOfficers[i].officerHistoryOptionId
-      ) {
-        this.props.openIncompleteOfficerHistoryDialog(i);
-        return false;
-      }
-    }
-
-    if (
-      this.props.classificationFeature &&
-      _.isEmpty(this.props.classifications)
-    ) {
-      this.props.openIncompleteClassificationsDialog();
-      return false;
-    }
-    return true;
-  };
   saveAndGoToReviewAndApprove = async values => {
     values.preventDefault();
-    console.log("DHJADJA");
-    const isLetterValid = await this.validateLetterDetails();
+    const isLetterValid = await validateLetterDetails(this.props);
     if (isLetterValid) {
       history.push(`/cases/${this.props.caseId}/letter/review-and-approve`);
     }
