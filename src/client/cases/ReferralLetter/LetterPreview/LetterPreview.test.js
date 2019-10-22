@@ -29,7 +29,6 @@ import {
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../auth/actionCreators";
 import timekeeper from "timekeeper";
-import featureTogglesReducer from "../../../reducers/featureToggles/featureTogglesReducer";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
@@ -148,6 +147,7 @@ describe("LetterPreview", function() {
   });
 
   test("dispatches editReferralLetterAddresses with correct values for back button", () => {
+    dispatchSpy.mockClear();
     changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
     const backButton = wrapper.find("[data-test='back-button']").first();
     backButton.simulate("click");
@@ -161,6 +161,50 @@ describe("LetterPreview", function() {
         caseId,
         expectedFormValues,
         `/cases/${caseId}/letter/recommended-actions`
+      )
+    );
+  });
+
+  test("dispatches editReferralLetterAddresses with correct values for review and approve button button", async () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
+    );
+    store.dispatch(
+      userAuthSuccess({
+        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+      })
+    );
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: 1
+          }
+        ],
+        classifications: { "csfn-1": true }
+      })
+    );
+    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
+    const reviewAndApproveButton = wrapper
+      .find("[data-test='review-and-approve-letter-button']")
+      .first();
+    dispatchSpy.mockClear();
+    await reviewAndApproveButton.simulate("click");
+    const expectedFormValues = {
+      sender: "bob",
+      recipient: "jane",
+      transcribedBy: "transcriber"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterAddresses(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/review-and-approve`
       )
     );
   });
@@ -190,7 +234,7 @@ describe("LetterPreview", function() {
     expect(openSubmitForReviewButton.exists()).toBeFalsy();
   });
 
-  test("dispatch open case status dialog on click of submit for review button", () => {
+  test("dispatch open case status dialog on click of submit for review button", async () => {
     dispatchSpy.mockClear();
     store.dispatch(
       getReferralLetterSuccess({
@@ -203,10 +247,11 @@ describe("LetterPreview", function() {
         classifications: { "csfn-1": true }
       })
     );
+    store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
       .find("[data-test='submit-for-review-button']")
       .first();
-    openSubmitForReviewButton.simulate("click");
+    await openSubmitForReviewButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(
         CASE_STATUS.READY_FOR_REVIEW,
@@ -215,7 +260,7 @@ describe("LetterPreview", function() {
     );
   });
 
-  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", () => {
+  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", async () => {
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -230,11 +275,15 @@ describe("LetterPreview", function() {
     const openSubmitForReviewButton = wrapper
       .find("[data-test='submit-for-review-button']")
       .first();
-    openSubmitForReviewButton.simulate("click");
+    await openSubmitForReviewButton.simulate("click");
+
+    wrapper.update();
+
     const submitForReviewButton = wrapper
       .find("[data-test='update-case-status-button']")
       .first();
     submitForReviewButton.simulate("click");
+
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
@@ -446,39 +495,6 @@ describe("LetterPreview", function() {
 
     expect(message.exists()).toEqual(true);
     expect(preview.exists()).toEqual(false);
-  });
-
-  test("dispatches editReferralLetterAddresses with correct values for back button", () => {
-    store.dispatch(
-      getCaseDetailsSuccess({
-        id: 1,
-        status: CASE_STATUS.READY_FOR_REVIEW,
-        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
-      })
-    );
-    store.dispatch(
-      userAuthSuccess({
-        permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
-      })
-    );
-    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
-    const reviewAndApproveButton = wrapper
-      .find("[data-test='review-and-approve-letter-button']")
-      .first();
-    dispatchSpy.mockClear();
-    reviewAndApproveButton.simulate("click");
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      transcribedBy: "transcriber"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}/letter/review-and-approve`
-      )
-    );
   });
 
   describe("Saves and Redirects when click Stepper Buttons", function() {
@@ -784,5 +800,69 @@ describe("LetterPreview", function() {
     expect(dispatchSpy).toHaveBeenCalledWith(
       openIncompleteOfficerHistoryDialog(expect.anything())
     );
+  });
+
+  describe("validation when case status is ready for review", () => {
+    beforeEach(() => {
+      dispatchSpy.mockClear();
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: caseId,
+          status: CASE_STATUS.READY_FOR_REVIEW,
+          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
+      store.dispatch(
+        userAuthSuccess({
+          permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+        })
+      );
+      store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
+    });
+    test("should not approve letter with missing officer history details", async () => {
+      store.dispatch(
+        getReferralLetterSuccess({
+          letterOfficers: [
+            {
+              fullName: "somebody",
+              officerHistoryOptionId: null
+            }
+          ],
+          classifications: {}
+        })
+      );
+      wrapper.update();
+      const openReviewAndApproveButton = wrapper
+        .find("[data-test='review-and-approve-letter-button']")
+        .first();
+      openReviewAndApproveButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openIncompleteOfficerHistoryDialog(expect.anything())
+      );
+    });
+
+    test("should not approve letter with missing classifications", () => {
+      store.dispatch(
+        getReferralLetterSuccess({
+          letterOfficers: [
+            {
+              fullName: "somebody",
+              officerHistoryOptionId: 1
+            }
+          ],
+          classifications: {}
+        })
+      );
+      wrapper.update();
+      const openReviewAndApproveButton = wrapper
+        .find("[data-test='review-and-approve-letter-button']")
+        .first();
+      openReviewAndApproveButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openIncompleteClassificationsDialog(expect.anything())
+      );
+    });
   });
 });

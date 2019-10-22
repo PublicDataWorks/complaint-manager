@@ -93,10 +93,14 @@ class LetterPreview extends Component {
     );
   };
 
-  saveAndGoToReviewAndApproveLetter = () => {
-    return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
-    );
+  saveAndGoToReviewAndApproveLetter = async values => {
+    values.preventDefault();
+    const isLetterValid = await this.validateLetterDetails();
+    if (isLetterValid) {
+      return this.props.handleSubmit(
+        this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
+      )(values, this.props.dispatch);
+    }
   };
 
   saveAndSubmitForReview = (
@@ -128,11 +132,22 @@ class LetterPreview extends Component {
     );
   };
 
-  confirmSubmitForReview = values => {
+  confirmSubmitForReview = async values => {
     values.preventDefault();
+    const isLetterValid = await this.validateLetterDetails();
+    if (isLetterValid) {
+      this.props.openCaseStatusUpdateDialog(
+        this.props.caseDetails.nextStatus,
+        `/cases/${this.state.caseId}`
+      );
+    }
+  };
+
+  validateLetterDetails = () => {
+    console.log("Hello validation props: ", this.props);
     if (!this.props.letterOfficers) {
       this.props.openIncompleteOfficerHistoryDialog();
-      return;
+      return false;
     }
     for (let i = 0; i < this.props.letterOfficers.length; i++) {
       if (
@@ -140,7 +155,7 @@ class LetterPreview extends Component {
         !this.props.letterOfficers[i].officerHistoryOptionId
       ) {
         this.props.openIncompleteOfficerHistoryDialog(i);
-        return;
+        return false;
       }
     }
 
@@ -149,13 +164,9 @@ class LetterPreview extends Component {
       _.isEmpty(this.props.classifications)
     ) {
       this.props.openIncompleteClassificationsDialog();
-      return;
+      return false;
     }
-
-    this.props.openCaseStatusUpdateDialog(
-      this.props.caseDetails.nextStatus,
-      `/cases/${this.state.caseId}`
-    );
+    return true;
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
@@ -321,11 +332,14 @@ class LetterPreview extends Component {
         USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
       )
     ) {
+      /**
+       * Dont ask. Dont tell
+       */
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
           data-test="review-and-approve-letter-button"
-          onClick={this.saveAndGoToReviewAndApproveLetter()}
+          onClick={this.saveAndGoToReviewAndApproveLetter.bind(this)}
         >
           Review and Approve Letter
         </PrimaryButton>
