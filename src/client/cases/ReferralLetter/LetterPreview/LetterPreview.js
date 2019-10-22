@@ -38,6 +38,7 @@ import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/Incomplet
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 import _ from "lodash";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
+import validateLetterDetails from "../../../utilities/validateLetterDetails";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -95,7 +96,7 @@ class LetterPreview extends Component {
 
   saveAndGoToReviewAndApproveLetter = async values => {
     values.preventDefault();
-    const isLetterValid = await this.validateLetterDetails();
+    const isLetterValid = await validateLetterDetails(this.props);
     if (isLetterValid) {
       return this.props.handleSubmit(
         this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
@@ -134,39 +135,13 @@ class LetterPreview extends Component {
 
   confirmSubmitForReview = async values => {
     values.preventDefault();
-    const isLetterValid = await this.validateLetterDetails();
+    const isLetterValid = await validateLetterDetails(this.props);
     if (isLetterValid) {
       this.props.openCaseStatusUpdateDialog(
         this.props.caseDetails.nextStatus,
         `/cases/${this.state.caseId}`
       );
     }
-  };
-
-  validateLetterDetails = () => {
-    console.log("Hello validation props: ", this.props);
-    if (!this.props.letterOfficers) {
-      this.props.openIncompleteOfficerHistoryDialog();
-      return false;
-    }
-    for (let i = 0; i < this.props.letterOfficers.length; i++) {
-      if (
-        this.props.letterOfficers[i].fullName !== UNKNOWN_OFFICER_NAME &&
-        !this.props.letterOfficers[i].officerHistoryOptionId
-      ) {
-        this.props.openIncompleteOfficerHistoryDialog(i);
-        return false;
-      }
-    }
-
-    if (
-      this.props.classificationFeature &&
-      _.isEmpty(this.props.classifications)
-    ) {
-      this.props.openIncompleteClassificationsDialog();
-      return false;
-    }
-    return true;
   };
 
   editLetterWithPossibleConfirmationDialog = () => {
@@ -332,9 +307,6 @@ class LetterPreview extends Component {
         USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
       )
     ) {
-      /**
-       * Dont ask. Dont tell
-       */
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
