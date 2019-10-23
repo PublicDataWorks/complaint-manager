@@ -30,7 +30,6 @@ class IncidentDetails extends React.Component {
       incidentTime: this.props.incidentTime,
       incidentLocation: this.props.incidentLocation,
       districtId: this.props.districtId,
-      classificationId: this.props.classificationId,
       intakeSourceId: this.props.intakeSourceId,
       howDidYouHearAboutUsSourceId: this.props.howDidYouHearAboutUsSourceId,
       pibCaseNumber: this.props.pibCaseNumber
@@ -53,15 +52,11 @@ class IncidentDetails extends React.Component {
       caseId,
       incidentLocation,
       district,
-      classification,
       intakeSource,
       howDidYouHearAboutUsSource,
       classes,
       pibCaseNumber
     } = this.props;
-    const classificationInitialism = classification
-      ? classification.initialism
-      : "";
     const intakeSourceName = intakeSource ? intakeSource.name : "";
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
@@ -123,20 +118,13 @@ class IncidentDetails extends React.Component {
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel="Classification"
-                    value={classificationInitialism}
-                    testLabel="classification"
-                  />
-                </StyledInfoDisplay>
-              </div>
-              <div className={classes.detailsRow}>
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
                     displayLabel="Intake Source"
                     value={intakeSourceName}
                     testLabel="intakeSource"
                   />
                 </StyledInfoDisplay>
+              </div>
+              <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="How did you hear about us?"
@@ -144,11 +132,6 @@ class IncidentDetails extends React.Component {
                     testLabel="howDidYouHearAboutUsSource"
                   />
                 </StyledInfoDisplay>
-                <div
-                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
-                />
-              </div>
-              <div className={classes.detailsLastRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="PIB Case Number"
@@ -156,6 +139,9 @@ class IncidentDetails extends React.Component {
                     testLabel="pibCaseNumber"
                   />
                 </StyledInfoDisplay>
+                <div
+                  style={{ flex: 1, textAlign: "left", marginRight: "10px" }}
+                />
               </div>
             </div>
             <div className={classes.detailsPaneButtons}>
@@ -190,8 +176,6 @@ const mapStateToProps = state => ({
   districtId: state.currentCase.details.districtId,
   district: state.currentCase.details.caseDistrict,
   caseId: state.currentCase.details.id,
-  classificationId: state.currentCase.details.classificationId,
-  classification: state.currentCase.details.classification,
   intakeSourceId: state.currentCase.details.intakeSourceId,
   intakeSource: state.currentCase.details.intakeSource,
   howDidYouHearAboutUsSourceId:
