@@ -32,9 +32,6 @@ export const getIncidentInfoData = caseDetail => {
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,
       District: caseDetail.caseDistrict ? caseDetail.caseDistrict.name : null,
-      Classification: caseDetail.classification
-        ? caseDetail.classification.initialism
-        : null,
       "PIB Case Number": caseDetail.pibCaseNumber
     }
   ];

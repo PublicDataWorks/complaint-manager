@@ -31,7 +31,6 @@ import {
   inputDistrictMenu
 } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
-import getClassificationDropDownOptions from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
@@ -51,7 +50,6 @@ const submitIncidentDetails = (values, dispatch, props) => {
     incidentLocation: normalizeAddress(values.incidentLocation),
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
-    classificationId: nullifyFieldUnlessValid(values.classificationId),
     intakeSourceId: nullifyFieldUnlessValid(values.intakeSourceId),
     howDidYouHearAboutUsSourceId: nullifyFieldUnlessValid(
       values.howDidYouHearAboutUsSourceId
@@ -73,7 +71,6 @@ const styles = {
 
 class IncidentDetailsDialog extends Component {
   componentDidMount() {
-    this.props.getClassificationDropDownOptions();
     this.props.getIntakeSourceDropdownValues();
     this.props.getHowDidYouHearAboutUsSourceDropdownValues();
     this.props.getDistrictDropdownValues();
@@ -183,24 +180,6 @@ class IncidentDetailsDialog extends Component {
               />
               <div style={{ flex: 1 }} />
             </div>
-            <div style={{ display: "flex" }}>
-              <Field
-                label="Incident Classification"
-                name="classificationId"
-                component={DropdownSelect}
-                inputProps={{
-                  "data-test": "classificationDropdownInput"
-                }}
-                data-test="classificationDropdown"
-                style={{
-                  marginRight: "5%",
-                  flex: "2"
-                }}
-              >
-                {generateMenuOptions(props.classifications)}
-              </Field>
-              <div style={{ flex: 1 }} />
-            </div>
             <div style={{ marginTop: "16px" }}>
               <Field
                 required
@@ -293,7 +272,6 @@ const mapStateToProps = state => {
   return {
     formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
-    classifications: state.ui.classifications,
     intakeSources: state.ui.intakeSources,
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
     districts: state.ui.districts
@@ -301,7 +279,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getClassificationDropDownOptions,
   getIntakeSourceDropdownValues,
   getHowDidYouHearAboutUsSourceDropdownValues,
   getDistrictDropdownValues

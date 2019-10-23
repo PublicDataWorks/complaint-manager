@@ -17,7 +17,6 @@ import { getClassificationsSuccess } from "../../../actionCreators/classificatio
 import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 
@@ -164,10 +163,6 @@ describe("incident details", () => {
     ).toEqual("N/A");
   });
 
-  test("should fetch classifications on mount", () => {
-    expect(getClassificationDropdownValues).toHaveBeenCalled();
-  });
-
   test("should fetch intake sources on mount", () => {
     expect(getIntakeSourceDropdownValues).toHaveBeenCalled();
   });
@@ -195,15 +190,11 @@ describe("incident details", () => {
     const editIncidentTimeInput = wrapper.find(
       'input[data-test="editIncidentTimeInput"]'
     );
-    const editIncidentClassification = wrapper.find(
-      'div[data-test="classificationDropdownInput"]'
-    );
     const editDistrict = wrapper.find('div[data-test="districtInput"]');
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
     expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
     expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
-    expect(editIncidentClassification.prop("value")).toEqual(12);
     expect(editDistrict.prop("value")).toEqual(2);
   });
 
@@ -242,7 +233,6 @@ describe("incident details", () => {
         incidentDate: "1994-05-02",
         incidentTime: "13:00",
         districtId: 1,
-        classificationId: 12,
         intakeSourceId: 2
       })
     );

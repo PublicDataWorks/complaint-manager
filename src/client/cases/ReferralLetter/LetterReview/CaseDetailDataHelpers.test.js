@@ -27,7 +27,6 @@ describe("caseDetailDataHelpers", function() {
           id: "some id",
           name: "some district"
         },
-        classification: { initialism: "some classification" },
         pibCaseNumber: "2018-0002-CC"
       };
 
@@ -43,7 +42,6 @@ describe("caseDetailDataHelpers", function() {
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: "some district",
-            Classification: "some classification",
             "PIB Case Number": "2018-0002-CC"
           })
         ])
@@ -67,7 +65,6 @@ describe("caseDetailDataHelpers", function() {
           id: "some id",
           name: "some district"
         },
-        classification: { initialism: "some classification" },
         pibCaseNumber: "2013-0004-CC"
       };
 
@@ -83,7 +80,6 @@ describe("caseDetailDataHelpers", function() {
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",
-            Classification: "some classification",
             "PIB Case Number": "2013-0004-CC"
           })
         ])
@@ -104,7 +100,6 @@ describe("caseDetailDataHelpers", function() {
           zipCode: "10000"
         },
         caseDistrict: null,
-        classification: { initialism: "some classification" },
         pibCaseNumber: "2013-0004-CC"
       };
 
@@ -120,7 +115,6 @@ describe("caseDetailDataHelpers", function() {
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: null,
-            Classification: "some classification",
             "PIB Case Number": "2013-0004-CC"
           })
         ])
