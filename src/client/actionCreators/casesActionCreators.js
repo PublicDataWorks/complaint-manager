@@ -20,8 +20,6 @@ import {
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
   CIVILIAN_WITHIN_NOPD_TITLE,
-  CREATE_CASE_DIALOG_CLOSED,
-  CREATE_CASE_DIALOG_OPENED,
   CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_NOTE_SUCCEEDED,
   EDIT_CIVILIAN_DIALOG_CLOSED,
@@ -182,14 +180,6 @@ export const closeRemoveAttachmentConfirmationDialog = () => ({
 
 export const exitedRemoveAttachmentConfirmationDialog = () => ({
   type: REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_EXITED
-});
-
-export const openCreateCaseDialog = () => ({
-  type: CREATE_CASE_DIALOG_OPENED
-});
-
-export const closeCreateCaseDialog = () => ({
-  type: CREATE_CASE_DIALOG_CLOSED
 });
 
 export const openCivilianDialog = (title, submitButtonText, submitAction) => ({

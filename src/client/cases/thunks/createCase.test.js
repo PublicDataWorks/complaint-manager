@@ -1,6 +1,5 @@
 import nock from "nock";
 import {
-  closeCreateCaseDialog,
   createCaseFailure,
   createCaseSuccess,
   requestCaseCreation
@@ -21,6 +20,8 @@ import configureInterceptors from "../../axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
 import { initialize } from "redux-form";
+import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
+import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 
 jest.mock("../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -85,7 +86,7 @@ describe("createCase", () => {
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(closeCreateCaseDialog());
+    expect(dispatch).toHaveBeenCalledWith(closeCreateDialog(DialogTypes.CASE));
     expect(dispatch).toHaveBeenCalledWith(
       getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, ASCENDING, 3)
     );

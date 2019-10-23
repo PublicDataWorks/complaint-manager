@@ -10,7 +10,7 @@ import {
 import { withTheme } from "@material-ui/core/styles";
 import createCase from "../thunks/createCase";
 import { addressMustBeValid, atLeastOneRequired } from "../../formValidations";
-import { closeCreateCaseDialog } from "../../actionCreators/casesActionCreators";
+import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
 import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
 import { isEmpty } from "lodash";
 import {
@@ -18,10 +18,11 @@ import {
   CREATE_CASE_FORM_NAME
 } from "../../../sharedUtilities/constants";
 import normalizeAddress from "../../utilities/normalizeAddress";
+import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
-    this.props.closeCreateCaseDialog();
+    this.props.closeCreateCaseDialog(DialogTypes.CASE);
     this.props.reset("CreateCase");
   };
 
@@ -175,7 +176,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   createCase,
-  closeCreateCaseDialog,
+  closeCreateCaseDialog: closeCreateDialog,
   reset
 };
 export default connect(
