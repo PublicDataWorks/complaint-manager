@@ -1,5 +1,4 @@
 import {
-  closeCreateCaseDialog,
   createCaseSuccess,
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
@@ -8,7 +7,6 @@ import { push } from "connected-react-router";
 import axios from "axios";
 import {
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
   EMPLOYEE_TYPE,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
@@ -17,6 +15,8 @@ import {
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
+import { DialogTypes } from "../../common/actionCreators/dialogTypes";
+import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
 
 const createCase = creationDetails => async dispatch => {
   dispatch(requestCaseCreation());
@@ -27,7 +27,7 @@ const createCase = creationDetails => async dispatch => {
     );
     dispatch(snackbarSuccess("Case was successfully created"));
     dispatch(createCaseSuccess(response.data));
-    dispatch(closeCreateCaseDialog());
+    dispatch(closeCreateDialog(DialogTypes.CASE));
 
     const complaintType = creationDetails.caseDetails.case.complaintType;
     if (creationDetails.redirect) {
