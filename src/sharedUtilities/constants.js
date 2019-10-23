@@ -200,6 +200,7 @@ export const OFFICER_DETAILS_FORM_NAME = "OfficerDetails";
 export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
 export const EXPORT_AUDIT_LOG_FORM_NAME = "ExportAuditLogForm";
 export const EXPORT_CASES_FORM_NAME = "ExportCasesForm";
+export const CREATE_MATRIX_FORM_NAME = "CreateMatrix";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions

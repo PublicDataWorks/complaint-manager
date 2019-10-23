@@ -165,7 +165,7 @@ const mapStateToProps = state => {
   const complaintTypeValues = selector(state, "case.complaintType");
 
   return {
-    open: state.ui.createCaseDialog.case.open,
+    open: state.ui.createDialog.case.open,
     complaintType: complaintTypeValues,
     intakeSources: state.ui.intakeSources,
     formattedAddress: formatAddressAsString(addressValues.address),

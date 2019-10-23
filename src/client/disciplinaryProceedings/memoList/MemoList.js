@@ -5,6 +5,7 @@ import getUsers from "../memos/thunks/getUsers";
 import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import { disciplinaryProceedingsMenuOptions } from "../../shared/components/NavBar/disciplinaryProceedingsMenuOptions";
+import CreateMatrixButton from "../memos/CreateMatrixButton";
 
 class MemoList extends Component {
   componentDidMount() {
@@ -17,6 +18,7 @@ class MemoList extends Component {
         <NavBar showHome={false} menuType={disciplinaryProceedingsMenuOptions}>
           All Disciplinary Proceedings
         </NavBar>
+        <CreateMatrixButton />
         <DropdownSelect
           input={{
             value: null
