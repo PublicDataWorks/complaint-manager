@@ -88,7 +88,7 @@ const rootReducer = combineReducers({
     caseTagDialog: caseTagDialogReducer,
     caseNoteDialog: caseNoteDialogReducer,
     civilianDialog: civilianDialogReducer,
-    createCaseDialog: createDialogReducer,
+    createDialog: createDialogReducer,
     exportDialog: exportDialogReducer,
     allExports: allExportsReducer,
     removePersonDialog: removePersonDialogReducer,
