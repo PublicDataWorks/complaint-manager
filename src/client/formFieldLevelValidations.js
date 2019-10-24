@@ -27,6 +27,16 @@ export const isPhoneNumber = value => {
   return missingOrValid ? undefined : "Please enter a numeric 10 digit value";
 };
 
+export const isPIBCaseNumber = value => {
+  if (!value) {
+    return undefined;
+  }
+  const formattedVal = value.replace(/[- ]/g, "");
+  const missingOrValid =
+    !Boolean(formattedVal) || /^[0-9]{8}[A-Za-z]$/.test(formattedVal);
+  return missingOrValid ? undefined : "Please enter a valid PIB case number";
+};
+
 export const isEmail = value => {
   const missingOrValid = !Boolean(value) || validator.isEmail(value);
   return missingOrValid ? undefined : "Please enter a valid email address";

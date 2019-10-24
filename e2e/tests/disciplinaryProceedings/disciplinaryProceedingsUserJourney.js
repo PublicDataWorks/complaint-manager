@@ -31,12 +31,12 @@ if (TEST_PASS && TEST_USER && HOST) {
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
     "should redirect to disciplinary proceedings": browser => {
-      const memoList = browser.page.MemoList();
+      const memoList = browser.page.MatrixList();
 
-      memoList.isOnPage()
+      memoList.isOnPage();
     },
     "should find someone in user drop down": browser => {
-      const memoList = browser.page.MemoList();
+      const memoList = browser.page.MatrixList();
 
       memoList.displaysUserDropDown();
     },

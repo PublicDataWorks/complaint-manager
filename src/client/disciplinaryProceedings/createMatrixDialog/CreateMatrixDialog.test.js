@@ -2,7 +2,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import React from "react";
-import CreateMatrixButton from "./CreateMatrixButton";
+import CreateMatrixButton from "../matrixList/CreateMatrixButton";
 import { expectEventuallyNotToExist } from "../../testHelpers";
 
 describe("CreateMatrixDialog", () => {

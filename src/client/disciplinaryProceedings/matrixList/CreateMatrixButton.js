@@ -3,7 +3,7 @@ import { PrimaryButton } from "../../shared/components/StyledButtons";
 import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 import { connect } from "react-redux";
 import React from "react";
-import CreateMatrixDialog from "./CreateMatrixDialog";
+import CreateMatrixDialog from "../createMatrixDialog/CreateMatrixDialog";
 
 const CreateMatrixButton = ({ openCreateMatrixDialog, open }) => (
   <div>

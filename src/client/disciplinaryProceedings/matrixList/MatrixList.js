@@ -1,13 +1,13 @@
 import NavBar from "../../shared/components/NavBar/NavBar";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import getUsers from "../memos/thunks/getUsers";
+import getUsers from "../matrices/thunks/getUsers";
 import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import { disciplinaryProceedingsMenuOptions } from "../../shared/components/NavBar/disciplinaryProceedingsMenuOptions";
-import CreateMatrixButton from "../memos/CreateMatrixButton";
+import CreateMatrixButton from "./CreateMatrixButton";
 
-class MemoList extends Component {
+class MatrixList extends Component {
   componentDidMount() {
     this.props.getUsers();
   }
@@ -42,7 +42,7 @@ class MemoList extends Component {
   }
 }
 
-MemoList.defaultProps = {
+MatrixList.defaultProps = {
   allUsers: []
 };
 
@@ -57,4 +57,4 @@ const mapStateToProps = state => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MemoList);
+)(MatrixList);
