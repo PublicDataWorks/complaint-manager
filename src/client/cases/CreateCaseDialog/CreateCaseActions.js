@@ -23,7 +23,7 @@ import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
     this.props.closeCreateCaseDialog(DialogTypes.CASE);
-    this.props.reset("CreateCase");
+    this.props.reset(CREATE_CASE_FORM_NAME);
   };
 
   createAndView = values => this.createNewCase(values, true);

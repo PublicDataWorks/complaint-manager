@@ -1,10 +1,10 @@
 import React from "react";
-import MemoList from "./disciplinaryProceedings/memoList/MemoList";
+import MatrixList from "./disciplinaryProceedings/matrixList/MatrixList";
 
 const disciplinaryProceedingsRoutes = [
   {
     path: "/disciplinary-proceedings",
-    component: MemoList,
+    component: MatrixList,
     toggleName: "disciplinaryProceedingsFeature"
   }
 ];
