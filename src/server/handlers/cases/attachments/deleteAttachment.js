@@ -10,7 +10,6 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const deleteAttachment = asyncMiddleware(async (request, response) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {
     const s3 = createConfiguredS3Instance();
-
     const deleteRequest = s3.deleteObject({
       Bucket: config[process.env.NODE_ENV].s3Bucket,
       Key: `${request.params.caseId}/${request.params.fileName}`
@@ -31,9 +30,9 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       request.params.caseId,
       transaction
     );
+
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
-
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
@@ -41,7 +40,6 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       auditDetails,
       transaction
     );
-
     return caseDetails;
   });
 

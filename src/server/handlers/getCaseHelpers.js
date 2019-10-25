@@ -47,7 +47,8 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
     paranoid: false,
     include: [
       {
-        model: models.classification
+        model: models.case_classification,
+        as: "caseClassifications"
       },
       {
         model: models.intake_source,
@@ -112,6 +113,11 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
     ],
     transaction: transaction,
     order: [
+      [
+        { model: models.case_classification, as: "caseClassifications" },
+        "createdAt",
+        ASCENDING
+      ],
       [
         { model: models.case_officer, as: "accusedOfficers" },
         "createdAt",

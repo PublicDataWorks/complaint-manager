@@ -62,7 +62,7 @@ describe("audit details", () => {
               }
             ]
           },
-          { model: models.classification },
+          { model: models.case_classification, as: "caseClassifications" },
           {
             model: models.address,
             as: "incidentLocation"
@@ -149,6 +149,12 @@ describe("audit details", () => {
           recommendedAction: {
             attributes: ["id", "description", "createdAt", "updatedAt"],
             model: models.recommended_action.name
+          },
+          caseClassifications: {
+            attributes: expect.toIncludeSameMembers(
+              Object.keys(models.case_classification.rawAttributes)
+            ),
+            model: models.case_classification.name
           }
         })
       );

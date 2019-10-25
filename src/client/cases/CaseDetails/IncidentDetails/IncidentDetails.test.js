@@ -13,8 +13,6 @@ import {
   selectDropdownOption
 } from "../../../testHelpers";
 import { DialogContent } from "@material-ui/core";
-import { getClassificationsSuccess } from "../../../actionCreators/classificationActionCreators";
-import getClassificationDropdownValues from "../../../classifications/thunks/getClassificationDropdownValues";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import { getDistrictsSuccess } from "../../../actionCreators/districtsActionCreators";
@@ -25,15 +23,6 @@ jest.mock("../../thunks/editIncidentDetails", () =>
     type: "EDIT_INCIDENT_DETAILS_MOCK_THUNK",
     values
   }))
-);
-
-jest.mock(
-  "../../../classifications/thunks/getClassificationDropdownValues",
-  () =>
-    jest.fn(values => ({
-      type: "GET_CLASSIFICATION_MOCK",
-      values
-    }))
 );
 
 jest.mock("../../../districts/thunks/getDistrictDropdownValues", () =>
@@ -81,14 +70,12 @@ describe("incident details", () => {
       .withIncidentDate(incidentDate)
       .withIncidentTime(incidentTime)
       .withIncidentLocation(undefined)
-      .withClassificationId(12)
       .withDistrictId(2)
       .withIntakeSourceId(2)
       .build();
 
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
-    store.dispatch(getClassificationsSuccess([["UTD", 0], ["OTB", 12]]));
     store.dispatch(
       getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
     );

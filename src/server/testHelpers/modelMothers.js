@@ -1,7 +1,6 @@
 import models from "../models/index";
 import { ACCUSED, COMPLAINANT } from "../../sharedUtilities/constants";
 import Case from "../../client/testUtilities/case";
-import Classification from "../../client/testUtilities/classification";
 import CaseOfficer from "../../client/testUtilities/caseOfficer";
 import Officer from "../../client/testUtilities/Officer";
 import RaceEthnicity from "../../client/testUtilities/raceEthnicity";
@@ -74,21 +73,9 @@ export const createCase = async customCaseAttributes => {
     auditUser: "test"
   });
 
-  const classificationAttributes = new Classification.Builder()
-    .defaultClassification()
-    .withId(undefined);
-
-  const classification = await models.classification.create(
-    classificationAttributes,
-    {
-      auditUser: "test"
-    }
-  );
-
   const defaultCaseAttributes = new Case.Builder()
     .defaultCase()
     .withId(undefined)
-    .withClassificationId(classification.id)
     .withComplainantOfficers([
       new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -120,6 +107,5 @@ const caseAssociationsToInclude = [
     as: "complainantOfficers",
     auditUser: "someone"
   },
-  { model: models.case_officer, as: "accusedOfficers", auditUser: "someone" },
-  { model: models.classification, as: "classification", auditUser: "someone" }
+  { model: models.case_officer, as: "accusedOfficers", auditUser: "someone" }
 ];

@@ -25,7 +25,6 @@ import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
-import Classification from "../../../../../client/testUtilities/classification";
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
@@ -771,7 +770,6 @@ describe("getReferralLetterPreview", function() {
         const referralLetterPreviewCaseAttributes = [
           "assignedTo",
           "caseNumber",
-          "classificationId",
           "complaintType",
           "createdAt",
           "createdBy",
@@ -829,12 +827,6 @@ describe("getReferralLetterPreview", function() {
               referralLetterPreviewCaseAttributes
             ),
             model: models.cases.name
-          },
-          classification: {
-            attributes: expect.arrayContaining(
-              Object.keys(models.classification.rawAttributes)
-            ),
-            model: models.classification.name
           },
           caseClassifications: {
             attributes: expect.toIncludeSameMembers(
@@ -973,7 +965,6 @@ describe("getReferralLetterPreview", function() {
         const referralLetterPreviewCaseAttributes = [
           "assignedTo",
           "caseNumber",
-          "classificationId",
           "complaintType",
           "createdAt",
           "createdBy",
@@ -1032,12 +1023,12 @@ describe("getReferralLetterPreview", function() {
             ),
             model: models.cases.name
           }),
-          classification: expect.objectContaining({
-            attributes: expect.arrayContaining(
-              Object.keys(models.classification.rawAttributes)
+          caseClassifications: {
+            attributes: expect.toIncludeSameMembers(
+              Object.keys(models.case_classification.rawAttributes)
             ),
-            model: models.classification.name
-          }),
+            model: models.case_classification.name
+          },
           complainantCivilians: expect.objectContaining({
             attributes: expect.arrayContaining(
               Object.keys(models.civilian.rawAttributes)
