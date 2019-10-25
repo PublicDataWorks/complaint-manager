@@ -51,9 +51,7 @@ const generateFilename = dateRange => {
       .split(" ")
       .join("_");
 
-    return `${JOB_OPERATION.CASE_EXPORT.filename}_by_${dateType}_${
-      dateRange.exportStartDate
-    }_to_${dateRange.exportEndDate}`;
+    return `${JOB_OPERATION.CASE_EXPORT.filename}_by_${dateType}_${dateRange.exportStartDate}_to_${dateRange.exportEndDate}`;
   } else {
     return JOB_OPERATION.CASE_EXPORT.filename;
   }
@@ -88,7 +86,6 @@ const columns = {
   "incidentLocation.lng": "Incident Longitude",
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
-  classification_initialism: "Classification",
   intake_source: "Intake Source",
   how_did_you_hear_about_us_source: "How did you hear about us?",
   pib_case_number: "PIB Case Number",

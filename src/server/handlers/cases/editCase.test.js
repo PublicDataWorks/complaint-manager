@@ -27,8 +27,7 @@ describe("Edit Case", () => {
     valuesToUpdate,
     initialCaseAttributes,
     addressAttributes,
-    civilianAttributes,
-    classificationBWC;
+    civilianAttributes;
 
   const initialCityValue = "Old City";
 
@@ -94,11 +93,6 @@ describe("Edit Case", () => {
         .withComplainantCivilians([civilianAttributes])
         .withIncidentLocation(incidentLocation);
 
-      classificationBWC = await models.classification.create({
-        name: "Body Worn Camera",
-        initialism: "BWC"
-      });
-
       existingCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone",
         include: [
@@ -153,42 +147,6 @@ describe("Edit Case", () => {
         await editCase(request, response, next);
         await existingCase.reload();
         expect(existingCase.dataValues.firstContactDate).toEqual("2018-02-08");
-      });
-
-      test("should associate classification if given", async () => {
-        request.body["classificationId"] = classificationBWC.id;
-        await editCase(request, response, next);
-        await existingCase.reload({
-          include: [{ model: models.classification }]
-        });
-        expect(existingCase.dataValues.classificationId).toEqual(
-          classificationBWC.id
-        );
-        expect(existingCase.dataValues.classification.values).toEqual(
-          classificationBWC.values
-        );
-      });
-
-      test("should change classification if different one given", async () => {
-        await existingCase.update(
-          { classificationId: classificationBWC.id },
-          { auditUser: "someone" }
-        );
-        const classificationUTD = await models.classification.create({
-          name: "Unable to Determine",
-          initialism: "UTD"
-        });
-        request.body["classificationId"] = classificationUTD.id;
-        await editCase(request, response, next);
-        await existingCase.reload({
-          include: [{ model: models.classification }]
-        });
-        expect(existingCase.dataValues.classificationId).toEqual(
-          classificationUTD.id
-        );
-        expect(existingCase.dataValues.classification.values).toEqual(
-          classificationUTD.values
-        );
       });
 
       test("should send back case record on editing a case", async () => {

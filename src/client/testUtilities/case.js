@@ -33,7 +33,6 @@ class Case {
     this.district = build.district;
     this.districtId = build.districtId;
     this.caseDistrict = build.caseDistrict;
-    this.classificationId = build.classificationId;
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
@@ -41,6 +40,7 @@ class Case {
     this.intakeSourceId = build.intakeSourceId;
     this.deletedAt = build.deletedAt;
     this.primaryComplainant = build.primaryComplainant;
+    this.caseClassifications = build.caseClassifications;
   }
 
   static get Builder() {
@@ -130,7 +130,6 @@ class Case {
         this.district = null;
         this.districtId = null;
         this.caseDistrict = null;
-        this.classificationId = null;
         this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
@@ -142,6 +141,7 @@ class Case {
         this.witnessOfficers = [witnessOfficer];
         this.caseReference = "CC2017-0055";
         this.deletedAt = null;
+        this.caseClassifications = [1];
         return this;
       }
 
@@ -172,11 +172,6 @@ class Case {
 
       withCaseDistrict(caseDistrict) {
         this.caseDistrict = caseDistrict;
-        return this;
-      }
-
-      withClassificationId(classificationId) {
-        this.classificationId = classificationId;
         return this;
       }
 

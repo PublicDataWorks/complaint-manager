@@ -54,7 +54,6 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
           }
         ]
       },
-      { model: models.classification },
       {
         model: models.case_classification,
         as: "caseClassifications",

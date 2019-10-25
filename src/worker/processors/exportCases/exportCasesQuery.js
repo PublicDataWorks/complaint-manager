@@ -9,11 +9,7 @@ const getDateRangeCondition = dateRange => {
 
     const casesField = _.snakeCase(dateRange.type);
 
-    return `AND cases.${casesField} BETWEEN to_date('${
-      dateRange.exportStartDate
-    }', '${postgresDateFormat}') and to_date('${
-      dateRange.exportEndDate
-    }', '${postgresDateFormat}')`;
+    return `AND cases.${casesField} BETWEEN to_date('${dateRange.exportStartDate}', '${postgresDateFormat}') and to_date('${dateRange.exportEndDate}', '${postgresDateFormat}')`;
   } else {
     return "";
   }
@@ -54,7 +50,6 @@ const exportCasesQuery = (dateRange = null) => {
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
-    "classifications.initialism AS classification_initialism, " +
     "intake_sources.name AS intake_source, " +
     "how_did_you_hear_about_us_sources.name AS how_did_you_hear_about_us_source, " +
     "districts.name AS district, " +
@@ -157,8 +152,8 @@ const exportCasesQuery = (dateRange = null) => {
     'officerAllegations.severity as "officerAllegations.severity", ' +
     'attachments.attachment_types as "attachments.attachment_types" ' +
     "FROM cases AS cases " +
-    "LEFT OUTER JOIN classifications " +
-    " ON cases.classification_id = classifications.id " +
+    "LEFT OUTER JOIN case_classifications " +
+    " ON cases.id = case_classifications.case_id " +
     "LEFT OUTER JOIN intake_sources " +
     " ON cases.intake_source_id = intake_sources.id " +
     "LEFT OUTER JOIN how_did_you_hear_about_us_sources " +

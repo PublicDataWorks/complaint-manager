@@ -18,7 +18,6 @@ const auditDataAccess = async (
       dataAccessValues: transformAuditDetails(auditDetails)
     }
   };
-
   await models.audit.create(auditValues, {
     include: [
       {

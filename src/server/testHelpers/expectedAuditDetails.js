@@ -6,7 +6,6 @@ export const expectedCaseAuditDetails = {
       "assignedTo",
       "caseNumber",
       "caseReference",
-      "classificationId",
       "complaintType",
       "createdAt",
       "createdBy",
@@ -31,12 +30,6 @@ export const expectedCaseAuditDetails = {
     ]),
     model: models.cases.name
   }),
-  classification: {
-    attributes: expect.toIncludeSameMembers(
-      Object.keys(models.classification.rawAttributes)
-    ),
-    model: models.classification.name
-  },
   intakeSource: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.intake_source.rawAttributes)
@@ -108,6 +101,12 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.allegation.rawAttributes)
     ),
     model: models.allegation.name
+  },
+  caseClassifications: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.case_classification.rawAttributes)
+    ),
+    model: models.case_classification.name
   },
   complainantOfficers: {
     attributes: expect.toIncludeSameMembers(

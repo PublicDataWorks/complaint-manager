@@ -35,7 +35,6 @@ import audit from "./handlers/audits/auditAuthentication";
 import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
 import searchAllegations from "./handlers/allegations/searchAllegations";
 import getAllegations from "./handlers/allegations/getAllegations";
-import getClassifications from "./handlers/classifications/getClassifications";
 import getNewClassifications from "./handlers/newClassifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
@@ -390,13 +389,6 @@ export const API_ROUTES = {
       handler: getCaseNoteActions,
       errorMessage:
         "Something went wrong and the case note action values were not found. Please try again."
-    }
-  },
-  "/classifications": {
-    get: {
-      handler: getClassifications,
-      errorMessage:
-        "Something went wrong and the classification values were not found. Please try again."
     }
   },
   "/new-classifications": {

@@ -313,13 +313,6 @@ export default (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id" },
       scope: { role_on_case: WITNESS }
     });
-    Case.belongsTo(models.classification, {
-      foreignKey: {
-        name: "classificationId",
-        field: "classification_id",
-        allowNull: true
-      }
-    });
     Case.hasMany(models.case_classification, {
       as: "caseClassifications",
       foreignKey: {
