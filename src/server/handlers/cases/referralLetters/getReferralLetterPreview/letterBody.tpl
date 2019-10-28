@@ -385,13 +385,13 @@
     <p class="ql-align-center"><strong><u>Classification Recommendation</u></strong></p>
     <p><br></p>
     {{#if (caseClassificationIsDeclinesToClassify caseClassifications) }}
-        {{caseClassifications.0.newClassification.message}}
+        {{caseClassifications.0.classification.message}}
     {{else}}
         {{#each caseClassifications}}
-            <p><strong>{{newClassification.name}}</strong></p>
+            <p><strong>{{classification.name}}</strong></p>
             <ul>
                 <li>
-                    {{newClassification.message}}
+                    {{classification.message}}
                 </li>
             </ul>
         {{/each}}

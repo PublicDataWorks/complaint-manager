@@ -209,7 +209,7 @@ const getClassificationAndAuditDetails = async (caseId, transaction) => {
       transaction
     })
     .map(data => {
-      classificationIds[`csfn-${data.newClassificationId}`] = true;
+      classificationIds[`csfn-${data.classificationId}`] = true;
     });
   const classificationAuditDetails = getQueryAuditAccessDetails(
     {},

@@ -26,7 +26,7 @@ describe("editClassifications", () => {
     );
 
     for (let i = 1; i <= 4; i++) {
-      await models.new_classifications.create({
+      await models.classification.create({
         id: i,
         name: `csfn-${i}`,
         message: "HELP"
@@ -59,11 +59,11 @@ describe("editClassifications", () => {
     expect(caseClassification).toIncludeSameMembers([
       expect.objectContaining({
         caseId: existingCase.id,
-        newClassificationId: 1
+        classificationId: 1
       }),
       expect.objectContaining({
         caseId: existingCase.id,
-        newClassificationId: 2
+        classificationId: 2
       })
     ]);
   });
@@ -91,15 +91,15 @@ describe("editClassifications", () => {
     expect(caseClassification).toIncludeSameMembers([
       expect.objectContaining({
         caseId: existingCase.id,
-        newClassificationId: 3
+        classificationId: 3
       }),
       expect.objectContaining({
         caseId: existingCase.id,
-        newClassificationId: 4
+        classificationId: 4
       }),
       expect.objectContaining({
         caseId: existingCase.id,
-        newClassificationId: 2
+        classificationId: 2
       })
     ]);
   });

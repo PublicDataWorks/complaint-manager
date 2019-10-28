@@ -59,8 +59,8 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
         as: "caseClassifications",
         include: [
           {
-            model: models.new_classifications,
-            as: "newClassification"
+            model: models.classification,
+            as: "classification"
           }
         ]
       },

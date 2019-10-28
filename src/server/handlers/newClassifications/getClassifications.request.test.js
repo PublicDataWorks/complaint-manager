@@ -15,30 +15,30 @@ describe("getClassifications", () => {
   test("should return sorted classification options, sorted by alpha with Decline at end", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
-    const useOfForce = await models.new_classifications.create({
+    const useOfForce = await models.classification.create({
       name: "Use of Force",
       message: "forceful use",
       id: 1
     });
-    const decline = await models.new_classifications.create({
+    const decline = await models.classification.create({
       name: "Declines to classify",
       message: "no thank you",
       id: 2
     });
-    const criminalMisconduct = await models.new_classifications.create({
+    const criminalMisconduct = await models.classification.create({
       name: "Criminal Misconduct",
       message: "misconducting criminally",
       id: 3
     });
 
     const expectedResponseOrder = [
-        {name: useOfForce.name, message: useOfForce.message, id: useOfForce.id},
+      { name: useOfForce.name, message: useOfForce.message, id: useOfForce.id },
       {
         name: criminalMisconduct.name,
         message: criminalMisconduct.message,
         id: criminalMisconduct.id
       },
-      {name: decline.name, message: decline.message, id: decline.id}
+      { name: decline.name, message: decline.message, id: decline.id }
     ];
 
     const responsePromise = request(app)

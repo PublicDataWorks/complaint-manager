@@ -659,7 +659,7 @@ describe("getReferralLetterPreview", function() {
       });
 
       test("renders correctly with all details", async () => {
-        const newClassification = await models.new_classifications.create({
+        const newClassification = await models.classification.create({
           id: 1,
           name: "Cereal Misconduct",
           message: "Wasteful"
@@ -668,7 +668,7 @@ describe("getReferralLetterPreview", function() {
         await models.case_classification.create(
           {
             caseId: existingCase.id,
-            newClassificationId: newClassification.id
+            classificationId: newClassification.id
           },
           { auditUser: "test" }
         );
@@ -834,11 +834,11 @@ describe("getReferralLetterPreview", function() {
             ),
             model: models.case_classification.name
           },
-          newClassification: {
+          classification: {
             attributes: expect.toIncludeSameMembers(
-              Object.keys(models.new_classifications.rawAttributes)
+              Object.keys(models.classification.rawAttributes)
             ),
-            model: models.new_classifications.name
+            model: models.classification.name
           },
           complainantCivilians: {
             attributes: expect.arrayContaining(

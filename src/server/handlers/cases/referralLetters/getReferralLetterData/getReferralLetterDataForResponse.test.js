@@ -65,7 +65,7 @@ describe("getReferralLetterDataForResponse", () => {
         attributes: expect.arrayContaining([
           "id",
           "caseId",
-          "newClassificationId"
+          "classificationId"
         ]),
         model: models.case_classification.name
       }

@@ -98,11 +98,11 @@ const expectedReferralLetterCaseAuditDetails = {
     ),
     model: models.case_classification.name
   },
-  newClassification: {
+  classification: {
     attributes: expect.toIncludeSameMembers(
-      Object.keys(models.new_classifications.rawAttributes)
+      Object.keys(models.classification.rawAttributes)
     ),
-    model: models.new_classifications.name
+    model: models.classification.name
   },
   incidentLocation: {
     attributes: expect.toIncludeSameMembers(
