@@ -19,24 +19,6 @@ class MatrixList extends Component {
           All Disciplinary Proceedings
         </NavBar>
         <CreateMatrixButton />
-        <DropdownSelect
-          input={{
-            value: null
-          }}
-          inputProps={{
-            "data-test": "usersDropdownInput"
-          }}
-          data-test="usersDropdown"
-          name="userValue"
-          isCreatable={false}
-          style={{ width: "12rem" }}
-        >
-          {generateMenuOptions(
-            this.props.allUsers.map(user => {
-              return [user.name, user.email];
-            })
-          )}
-        </DropdownSelect>
       </div>
     );
   }
