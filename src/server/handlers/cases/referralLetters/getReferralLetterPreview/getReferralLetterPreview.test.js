@@ -28,6 +28,7 @@ import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilitie
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import ReferralLetterCaseClassification from "../../../../../client/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("../../../audits/auditDataAccess");
 
@@ -665,13 +666,13 @@ describe("getReferralLetterPreview", function() {
           message: "Wasteful"
         });
 
-        await models.case_classification.create(
-          {
-            caseId: existingCase.id,
-            classificationId: newClassification.id
-          },
-          { auditUser: "test" }
-        );
+        const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
+          .defaultReferralLetterCaseClassification()
+          .withCaseId(existingCase.id)
+          .withClassificationId(newClassification.id);
+        await models.case_classification.create(caseClassificationAttributes, {
+          auditUser: "test"
+        });
 
         const civilianWitnessAttributes = new Civilian.Builder()
           .defaultCivilian()
