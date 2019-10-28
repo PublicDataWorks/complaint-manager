@@ -24,6 +24,7 @@ describe("dataChangeAuditHooks for referral letter", () => {
       .withRecipient(RECIPIENT)
       .withIncludeRetaliationConcerns(true)
       .withSender(SENDER);
+
     referralLetter = await models.referral_letter.create(
       referralLetterAttributes,
       {

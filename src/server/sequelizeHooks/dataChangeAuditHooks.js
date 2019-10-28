@@ -6,7 +6,8 @@ const MODEL_ASSOCIATIONS_TO_LOOKUP = [
   {
     foreignKey: "classificationId",
     modelName: "classification",
-    identifyingAttribute: "initialism"
+    identifyingAttribute: "name",
+    as: "classification"
   },
   {
     foreignKey: "recommendedActionId",

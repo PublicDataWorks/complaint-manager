@@ -16,6 +16,7 @@ import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/R
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../client/testUtilities/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import ReferralLetterCaseClassification from "../../../../../client/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");
@@ -428,7 +429,7 @@ describe("getReferralLetterData", () => {
   });
 
   test("returns classification data when it exists", async () => {
-    await models.classification.create(
+    const classification = await models.classification.create(
       {
         id: 1,
         name: "Weird",
@@ -436,16 +437,13 @@ describe("getReferralLetterData", () => {
       },
       { auditUser: "Wanchenlearn" }
     );
-    await models.case_classification.create(
-      {
-        caseId: existingCase.id,
-        classificationId: 1
-      },
-      {
-        auditUser: "test"
-      }
-    );
-
+    const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
+      .defaultReferralLetterCaseClassification()
+      .withCaseId(existingCase.id)
+      .withClassificationId(classification.id);
+    await models.case_classification.create(caseClassificationAttributes, {
+      auditUser: "test"
+    });
     const expectedResponseBody = {
       id: referralLetter.id,
       caseId: existingCase.id,
