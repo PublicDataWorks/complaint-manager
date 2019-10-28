@@ -34,10 +34,10 @@ const TextMaskCustom = props => {
   );
 };
 
-const PIBControlField = props => {
+const PIBControlField = () => {
   return (
     <Field
-      name={props.name}
+      name="pibControlNumber"
       InputProps={{ inputComponent: TextMaskCustom }}
       component={TextField}
       label="PIB Control #"
@@ -47,10 +47,11 @@ const PIBControlField = props => {
       }}
       data-test="pib-control-field"
       validate={[isPIBCaseNumber]}
-      style={{ width: "35%", marginRight: "0%", marginBottom: "3%" }}
+      style={{ width: "50%", marginRight: "0%", marginBottom: "3%" }}
       InputLabelProps={{
         shrink: true
       }}
+      required
       placeholder="Ex. 2019-2312-R"
     />
   );

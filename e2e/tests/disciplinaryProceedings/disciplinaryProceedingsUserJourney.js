@@ -31,15 +31,16 @@ if (TEST_PASS && TEST_USER && HOST) {
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
     "should redirect to disciplinary proceedings": browser => {
-      const memoList = browser.page.MatrixList();
+      const matrixList = browser.page.MatrixList();
 
-      memoList.isOnPage();
+      matrixList.isOnPage();
     },
-    "should find someone in user drop down": browser => {
-      const memoList = browser.page.MatrixList();
-
-      memoList.displaysUserDropDown();
-    },
+    // TODO: Add create matrix dialog to e2e test
+    // "should find someone in user drop down": browser => {
+    //   const matrixList = browser.page.MatrixList();
+    //
+    //   matrixList.displaysUserDropDown();
+    // },
     "should open gear menu and click into complaints": browser => {
       const navBar = browser.page.NavBar();
       const caseDashboard = browser.page.CaseDashboard();
