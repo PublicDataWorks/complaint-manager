@@ -40,7 +40,7 @@ const getClassifications = asyncMiddleware(async (request, response, next) => {
 
 const getSortedClassificationsAndAuditDetails = async transaction => {
   const queryOptions = { attributes: ["name", "message", "id"], raw: true };
-  const allClassifications = await models.new_classifications.findAll(
+  const allClassifications = await models.classification.findAll(
     queryOptions,
     transaction
   );
@@ -52,7 +52,7 @@ const getSortedClassificationsAndAuditDetails = async transaction => {
 
   const classificationAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
-    models.new_classifications.name
+    models.classification.name
   );
   return {
     allClassifications: allClassifications,

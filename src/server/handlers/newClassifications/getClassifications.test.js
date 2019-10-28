@@ -37,9 +37,9 @@ describe("getClassifications", () => {
 
   test("should audit data access when getting classifications", async () => {
     const expectedAuditDetails = {
-      newClassifications: {
+      classification: {
         attributes: expect.toIncludeSameMembers(["id", "name", "message"]),
-        model: models.new_classifications.name
+        model: models.classification.name
       }
     };
 

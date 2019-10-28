@@ -1,8 +1,8 @@
 "use strict";
 
 module.exports = (sequelize, DataTypes) => {
-  const Classifications = sequelize.define(
-    "new_classifications",
+  const Classification = sequelize.define(
+    "classification",
     {
       name: {
         type: DataTypes.STRING,
@@ -14,20 +14,20 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      tableName: "new_classifications"
+      tableName: "classifications"
     }
   );
 
-  Classifications.associate = models => {
-    Classifications.hasMany(models.case_classification, {
+  Classification.associate = models => {
+    Classification.hasMany(models.case_classification, {
       as: "caseClassification",
       foreignKey: {
-        name: "newClassificationId",
-        field: "new_classification_id",
+        name: "classificationId",
+        field: "classification_id",
         allowNull: false
       }
     });
   };
 
-  return Classifications;
+  return Classification;
 };

@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
-      newClassificationId: {
+      classificationId: {
         allowNull: false,
         type: DataTypes.INTEGER,
-        field: "new_classification_id",
+        field: "classification_id",
         references: {
-          model: models.new_classifications,
+          model: models.classification,
           key: "id"
         }
       },
@@ -41,11 +41,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   CaseClassification.associate = models => {
-    CaseClassification.belongsTo(models.new_classifications, {
-      as: "newClassification",
+    CaseClassification.belongsTo(models.classification, {
+      as: "classification",
       foreignKey: {
-        name: "newClassificationId",
-        field: "new_classification_id",
+        name: "classificationId",
+        field: "classification_id",
         allowNull: false
       }
     });
@@ -57,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
 
   CaseClassification.prototype.modelDescription = async function(transaction) {
     const classification = await sequelize
-      .model("new_classifications")
-      .findByPk(this.newClassificationId, {
+      .model("classification")
+      .findByPk(this.classificationId, {
         transaction
       });
     return [

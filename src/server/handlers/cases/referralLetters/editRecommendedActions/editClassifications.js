@@ -45,7 +45,7 @@ const createNewClassifications = async (
       await models.case_classification.create(
         {
           caseId: caseId,
-          newClassificationId: classificationId
+          classificationId: classificationId
         },
         {
           auditUser: auditUser,
@@ -61,13 +61,13 @@ const getExistingClassifications = async (caseId, transaction) => {
     .findAll(
       {
         where: { caseId },
-        attributes: ["new_classification_id"],
+        attributes: ["classification_id"],
         raw: true
       },
       { transaction }
     )
-    .map(new_classification => {
-      return new_classification.new_classification_id;
+    .map(classification => {
+      return classification.classification_id;
     });
 };
 
@@ -89,7 +89,7 @@ const removeUnmarkedClassifications = async (
   await models.case_classification.destroy({
     where: {
       caseId: caseId,
-      newClassificationId: classificationsToBeDeleted
+      classificationId: classificationsToBeDeleted
     },
     auditUser: auditUser,
     transaction
