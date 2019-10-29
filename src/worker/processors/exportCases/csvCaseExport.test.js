@@ -24,6 +24,7 @@ import parse from "csv-parse/lib/sync";
 import Address from "../../../client/testUtilities/Address";
 import Attachment from "../../../client/testUtilities/attachment";
 import RaceEthnicity from "../../../client/testUtilities/raceEthnicity";
+import ReferralLetterCaseClassification from "../../../client/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("../fileUpload/uploadFileToS3");
 
@@ -104,6 +105,7 @@ describe("csvCaseExport request", () => {
           "Incident Longitude," +
           "Incident District," +
           "Additional Incident Location Info," +
+          "Classification," +
           "Intake Source," +
           "How did you hear about us?," +
           "PIB Case Number," +
@@ -215,7 +217,8 @@ describe("csvCaseExport request", () => {
       officerAllegation,
       caseReference,
       raceEthnicity,
-      genderIdentity;
+      genderIdentity,
+      classification;
 
     beforeEach(async done => {
       const officerAttributes = new Officer.Builder()
@@ -317,6 +320,23 @@ describe("csvCaseExport request", () => {
         officerAllegationAttributes,
         { auditUser: "tuser" }
       );
+
+      classification = await models.classification.create(
+        {
+          id: 1,
+          name: "Weird",
+          message: "Jacob is immature"
+        },
+        { auditUser: "Wanchenlearn" }
+      );
+
+      const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
+        .defaultReferralLetterCaseClassification()
+        .withCaseId(caseToExport.id)
+        .withClassificationId(classification.id);
+      await models.case_classification.create(caseClassificationAttributes, {
+        auditUser: "tuser"
+      });
       done();
     });
 

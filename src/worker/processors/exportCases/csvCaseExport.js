@@ -86,6 +86,7 @@ const columns = {
   "incidentLocation.lng": "Incident Longitude",
   district: "Incident District",
   "incidentLocation.street_address2": "Additional Incident Location Info",
+  classifications: "Classification",
   intake_source: "Intake Source",
   how_did_you_hear_about_us_source: "How did you hear about us?",
   pib_case_number: "PIB Case Number",
