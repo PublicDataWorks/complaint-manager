@@ -2,7 +2,7 @@ const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
 
 const config = {
-  src_folders: ["e2e/tests/disciplinaryProceedings"],
+  src_folders: ["e2e/tests/matrixManager"],
   output_folder: "reports",
   custom_commands_path: "",
   custom_assertions_path: "",

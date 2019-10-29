@@ -1,9 +1,9 @@
-import { openCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
-import { PrimaryButton } from "../../shared/components/StyledButtons";
-import { DialogTypes } from "../../common/actionCreators/dialogTypes";
+import { openCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
+import { PrimaryButton } from "../../../shared/components/StyledButtons";
+import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { connect } from "react-redux";
 import React from "react";
-import CreateMatrixDialog from "../createMatrixDialog/CreateMatrixDialog";
+import CreateMatrixDialog from "../CreateMatrixDialog/CreateMatrixDialog";
 
 const CreateMatrixButton = ({ openCreateMatrixDialog, open }) => (
   <div>
