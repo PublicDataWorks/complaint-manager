@@ -50,6 +50,7 @@ const exportCasesQuery = (dateRange = null) => {
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
+    "classifications.name as classifications, " +
     "intake_sources.name AS intake_source, " +
     "how_did_you_hear_about_us_sources.name AS how_did_you_hear_about_us_source, " +
     "districts.name AS district, " +
@@ -152,8 +153,8 @@ const exportCasesQuery = (dateRange = null) => {
     'officerAllegations.severity as "officerAllegations.severity", ' +
     'attachments.attachment_types as "attachments.attachment_types" ' +
     "FROM cases AS cases " +
-    "LEFT OUTER JOIN case_classifications " +
-    " ON cases.id = case_classifications.case_id " +
+    "LEFT OUTER JOIN case_classifications ON case_classifications.case_id = cases.id " +
+    "LEFT OUTER JOIN classifications ON classifications.id = case_classifications.classification_id " +
     "LEFT OUTER JOIN intake_sources " +
     " ON cases.intake_source_id = intake_sources.id " +
     "LEFT OUTER JOIN how_did_you_hear_about_us_sources " +
@@ -284,6 +285,7 @@ const exportCasesQuery = (dateRange = null) => {
     ") as attachments " +
     " ON attachments.case_id = cases.id " +
     "where cases.deleted_at IS NULL " +
+    "and case_classifications.deleted_at IS NULL " +
     getDateRangeCondition(dateRange) +
     "ORDER BY " +
     getOrderByClauseForCases(dateRange) +
