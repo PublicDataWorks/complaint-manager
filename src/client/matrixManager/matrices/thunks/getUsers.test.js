@@ -40,7 +40,7 @@ describe("getUsers", () => {
       .get("/api/users")
       .replyWithError({
         message: "Oh no",
-        code: "THE WORST ERROR",
+        code: "THE WORST ERROR"
       });
 
     await getUsers()(dispatch);

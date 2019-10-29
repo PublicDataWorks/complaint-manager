@@ -8,17 +8,17 @@ import {
 } from "@material-ui/core";
 import { Field, reduxForm } from "redux-form";
 import React from "react";
-import { CREATE_MATRIX_FORM_NAME } from "../../../sharedUtilities/constants";
+import { CREATE_MATRIX_FORM_NAME } from "../../../../sharedUtilities/constants";
 import {
   PrimaryButton,
   SecondaryButton
-} from "../../shared/components/StyledButtons";
-import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
-import { DialogTypes } from "../../common/actionCreators/dialogTypes";
-import PIBControlField from "../sharedFormComponents/PIBControlField";
-import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
-import { generateMenuOptions } from "../../utilities/generateMenuOptions";
-import getUsers from "../matrices/thunks/getUsers";
+} from "../../../shared/components/StyledButtons";
+import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
+import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
+import PIBControlField from "../../sharedFormComponents/PIBControlField";
+import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import getUsers from "../thunks/getUsers";
 
 const styles = theme => ({
   dialogPaper: {

@@ -9,7 +9,9 @@ const getUsers = () => async dispatch => {
     return dispatch(getUsersSuccess(response.data));
   } catch (error) {
     console.error(error);
-    return dispatch(snackbarError(INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE));
+    return dispatch(
+      snackbarError(INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE)
+    );
   }
 };
 

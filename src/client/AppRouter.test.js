@@ -6,7 +6,7 @@ import { MemoryRouter } from "react-router";
 import { getFeaturesSuccess } from "./actionCreators/featureTogglesActionCreators";
 import StyleGuide from "././globalStyling/StyleGuide";
 import AppRouter from "./AppRouter";
-import { MatrixList } from "./disciplinaryProceedings/matrixList/MatrixList";
+import { MatrixList } from "./matrixManager/matrices/MatrixList/MatrixList";
 
 describe("AppRouter", () => {
   let appWrapper, store;

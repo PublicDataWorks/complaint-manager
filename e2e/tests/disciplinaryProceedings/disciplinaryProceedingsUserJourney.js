@@ -37,9 +37,9 @@ if (TEST_PASS && TEST_USER && HOST) {
     },
     // TODO: Add create matrix dialog to e2e test
     // "should find someone in user drop down": browser => {
-    //   const matrixList = browser.page.MatrixList();
+    //   const MatrixList = browser.page.MatrixList();
     //
-    //   matrixList.displaysUserDropDown();
+    //   MatrixList.displaysUserDropDown();
     // },
     "should open gear menu and click into complaints": browser => {
       const navBar = browser.page.NavBar();

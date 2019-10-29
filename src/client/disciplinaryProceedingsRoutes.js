@@ -1,5 +1,5 @@
 import React from "react";
-import MatrixList from "./disciplinaryProceedings/matrixList/MatrixList";
+import MatrixList from "./matrixManager/matrices/MatrixList/MatrixList";
 
 const disciplinaryProceedingsRoutes = [
   {

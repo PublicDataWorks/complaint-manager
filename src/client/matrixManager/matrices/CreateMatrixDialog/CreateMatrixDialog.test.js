@@ -1,10 +1,10 @@
-import createConfiguredStore from "../../createConfiguredStore";
+import createConfiguredStore from "../../../createConfiguredStore";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import React from "react";
-import CreateMatrixButton from "../matrixList/CreateMatrixButton";
-import { expectEventuallyNotToExist } from "../../testHelpers";
-import { getUsersSuccess } from "../../actionCreators/shared/usersActionCreators";
+import CreateMatrixButton from "../MatrixList/CreateMatrixButton";
+import { expectEventuallyNotToExist } from "../../../testHelpers";
+import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
 
 describe("CreateMatrixDialog", () => {
   let store, wrapper, dispatchSpy;

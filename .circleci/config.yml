@@ -142,7 +142,7 @@ jobs:
             source $BASH_ENV
             cd e2e/tests/disciplinaryProceedings && nightwatch --env $ENVIRONMENT
       - store_artifacts:
-          path: e2e/tests/disciplinaryProceedings
+          path: e2e/tests/matrixManager
   e2e-testing-ci-cm:
     docker:
       - image: noipm/e2e:latest
