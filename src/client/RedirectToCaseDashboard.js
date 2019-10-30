@@ -1,7 +1,7 @@
 import React from "react";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import { snackbarError } from "./actionCreators/snackBarActionCreators";
+import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
 
 class RedirectToCaseDashboard extends React.Component {
   componentDidMount() {

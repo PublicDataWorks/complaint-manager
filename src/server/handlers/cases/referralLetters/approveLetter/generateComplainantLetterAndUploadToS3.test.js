@@ -6,7 +6,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import models from "../../../../models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";

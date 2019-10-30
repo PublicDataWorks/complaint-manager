@@ -5,7 +5,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 import auditDataAccess from "../audits/auditDataAccess";
 import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 
 jest.mock("../audits/auditDataAccess");
 

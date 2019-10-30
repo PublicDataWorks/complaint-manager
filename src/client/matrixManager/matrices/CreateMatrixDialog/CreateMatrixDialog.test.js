@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import CreateMatrixButton from "../MatrixList/CreateMatrixButton";
 import { expectEventuallyNotToExist } from "../../../testHelpers";
-import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
+import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
 
 describe("CreateMatrixDialog", () => {
   let store, wrapper, dispatchSpy;

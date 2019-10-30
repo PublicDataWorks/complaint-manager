@@ -7,9 +7,9 @@ import {
 import app from "../../../server";
 import request from "supertest";
 import models from "../../../models";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Case from "../../../../client/testUtilities/case";
-import Officer from "../../../../client/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
@@ -78,9 +78,7 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
 
     const responsePromise = request(app)
       .delete(
-        `/api/cases/${createdCase.id}/cases-officers/${
-          createdComplainantOfficer1.id
-        }`
+        `/api/cases/${createdCase.id}/cases-officers/${createdComplainantOfficer1.id}`
       )
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "application/json");

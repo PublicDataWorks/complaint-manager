@@ -1,6 +1,6 @@
 import models from "../../../models";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 
 jest.mock("../../cases/export/jobQueue");
 
@@ -71,9 +71,7 @@ describe("DELETE /officers-allegations/:officerAllegationId", () => {
 
     const responsePromise = request(app)
       .delete(
-        `/api/cases/${createdCase.id}/officers-allegations/${
-          officerAllegationToRemove.id
-        }`
+        `/api/cases/${createdCase.id}/officers-allegations/${officerAllegationToRemove.id}`
       )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);

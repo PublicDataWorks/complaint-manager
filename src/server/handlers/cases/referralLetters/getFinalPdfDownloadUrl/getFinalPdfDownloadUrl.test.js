@@ -1,4 +1,4 @@
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import models from "../../../../models";
 import {
   AUDIT_ACTION,
@@ -14,10 +14,10 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
 import Boom from "boom";
-import Civilian from "../../../../../client/testUtilities/civilian";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import Officer from "../../../../../client/testUtilities/Officer";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../../audits/auditFileAction";
 

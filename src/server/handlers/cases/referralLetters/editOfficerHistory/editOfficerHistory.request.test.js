@@ -5,10 +5,10 @@ import {
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models";
-import Case from "../../../../../client/testUtilities/case";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import Officer from "../../../../../client/testUtilities/Officer";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";

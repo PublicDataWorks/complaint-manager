@@ -4,10 +4,10 @@ import {
 } from "../../../testHelpers/modelMothers";
 import models from "../../../models";
 import getCases, { CASES_TYPE } from "./getCases";
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import RaceEthnicity from "../../../../client/testUtilities/raceEthnicity";
-import Civilian from "../../../../client/testUtilities/civilian";
+import RaceEthnicity from "../../../../client/complaintManager/testUtilities/raceEthnicity";
+import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 import {
   ACCUSED,
   ASCENDING,
@@ -18,8 +18,8 @@ import {
   PERSON_TYPE,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 
 describe("getCases", () => {
   afterEach(async () => {

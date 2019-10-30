@@ -1,10 +1,10 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../models/index";
-import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
-import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
-import Officer from "../../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
+import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {
@@ -12,11 +12,11 @@ import {
   CASE_STATUS,
   COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
-import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
-import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
-import Case from "../../../../../client/testUtilities/case";
+import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
-import ReferralLetterCaseClassification from "../../../../../client/testUtilities/ReferralLetterCaseClassification";
+import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");

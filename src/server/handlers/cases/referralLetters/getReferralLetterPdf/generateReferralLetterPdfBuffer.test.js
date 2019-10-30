@@ -1,8 +1,8 @@
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import models from "../../../../models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED

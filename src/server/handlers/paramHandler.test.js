@@ -3,7 +3,7 @@ import { handleCaseIdParam } from "./paramHandler";
 import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import models from "../models";
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 
 const Boom = require("boom");
 

@@ -1,10 +1,10 @@
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../models";
-import Officer from "../../client/testUtilities/Officer";
-import CaseOfficer from "../../client/testUtilities/caseOfficer";
-import LetterOfficer from "../../client/testUtilities/LetterOfficer";
+import Officer from "../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import LetterOfficer from "../../client/complaintManager/testUtilities/LetterOfficer";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import ReferralLetterOfficerHistoryNote from "../../client/testUtilities/ReferralLetterOfficerHistoryNote";
+import ReferralLetterOfficerHistoryNote from "../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("data change audit hooks for referral letter officer history note", () => {

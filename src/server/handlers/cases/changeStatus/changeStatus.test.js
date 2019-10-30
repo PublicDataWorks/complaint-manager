@@ -10,8 +10,8 @@ import {
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
 import models from "../../../models/index";
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";

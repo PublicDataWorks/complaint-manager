@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
+import { snackbarError } from "../../../complaintManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const getUsers = () => async dispatch => {

@@ -1,16 +1,16 @@
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import {
   addFieldsToCaseDetails,
   getCaseWithAllAssociationsAndAuditDetails,
   getCaseWithoutAssociations
 } from "./getCaseHelpers";
 import models from "../models";
-import ReferralLetter from "../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import CaseOfficer from "../../client/testUtilities/caseOfficer";
-import Officer from "../../client/testUtilities/Officer";
+import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../client/complaintManager/testUtilities/Officer";
 import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
-import Civilian from "../../client/testUtilities/civilian";
+import Civilian from "../../client/complaintManager/testUtilities/civilian";
 
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter, auditDetails;

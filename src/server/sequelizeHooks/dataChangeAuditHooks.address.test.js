@@ -3,9 +3,9 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION
 } from "../../sharedUtilities/constants";
-import Case from "../../client/testUtilities/case";
-import Address from "../../client/testUtilities/Address";
-import Civilian from "../../client/testUtilities/civilian";
+import Case from "../../client/complaintManager/testUtilities/case";
+import Address from "../../client/complaintManager/testUtilities/Address";
+import Civilian from "../../client/complaintManager/testUtilities/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks address", () => {

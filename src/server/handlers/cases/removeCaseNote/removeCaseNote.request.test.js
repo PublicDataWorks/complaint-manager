@@ -1,8 +1,8 @@
 import models from "../../../models/index";
 import app from "../../../server";
 import request from "supertest";
-import Case from "../../../../client/testUtilities/case";
-import CaseNote from "../../../../client/testUtilities/caseNote";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

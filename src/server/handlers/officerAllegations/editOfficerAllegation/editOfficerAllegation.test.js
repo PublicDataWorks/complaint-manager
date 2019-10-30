@@ -1,13 +1,13 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
 import {
   ACCUSED,
   ALLEGATION_SEVERITY,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../models";
 import editOfficerAllegation from "./editOfficerAllegation";

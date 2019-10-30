@@ -1,6 +1,6 @@
-import Case from "../../client/testUtilities/case";
-import CaseOfficer from "../../client/testUtilities/caseOfficer";
-import Officer from "../../client/testUtilities/Officer";
+import Case from "../../client/complaintManager/testUtilities/case";
+import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../client/complaintManager/testUtilities/Officer";
 import models from "../models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

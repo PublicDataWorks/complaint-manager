@@ -1,14 +1,14 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/testUtilities/case";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
-import Officer from "../../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
-import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
+import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 

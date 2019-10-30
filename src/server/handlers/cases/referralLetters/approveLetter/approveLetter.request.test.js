@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../../../server";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
@@ -8,16 +8,16 @@ import {
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
   suppressWinstonLogs,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import Civilian from "../../../../../client/testUtilities/civilian";
-import Officer from "../../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
+import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 

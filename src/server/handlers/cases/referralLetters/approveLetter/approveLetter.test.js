@@ -1,6 +1,6 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../models";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import approveLetter from "./approveLetter";
 import {
   AUDIT_ACTION,
@@ -14,12 +14,12 @@ import {
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
-import Civilian from "../../../../../client/testUtilities/civilian";
-import Officer from "../../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
+import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../audits/auditDataAccess";

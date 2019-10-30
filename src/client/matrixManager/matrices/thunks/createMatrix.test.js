@@ -1,12 +1,14 @@
 import nock from "nock";
-import configureInterceptors from "../../../axiosInterceptors/interceptors";
-import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
+import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
+import { snackbarSuccess } from "../../../complaintManager/actionCreators/snackBarActionCreators";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import createMatrix from "./createMatrix";
 import { createMatrixSuccess } from "../../actionCreators/matrixActionCreators";
 
-jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
+jest.mock("../../../common/auth/getAccessToken", () =>
+  jest.fn(() => "TEST_TOKEN")
+);
 
 describe("createCase", () => {
   const dispatch = jest.fn();

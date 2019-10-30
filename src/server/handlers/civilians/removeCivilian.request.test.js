@@ -1,9 +1,9 @@
 import app from "../../server";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import request from "supertest";
-import Civilian from "../../../client/testUtilities/civilian";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import models from "../../models";
-import Address from "../../../client/testUtilities/Address";
+import Address from "../../../client/complaintManager/testUtilities/Address";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

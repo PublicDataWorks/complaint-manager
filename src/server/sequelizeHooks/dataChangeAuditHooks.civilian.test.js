@@ -1,9 +1,9 @@
 import models from "../models";
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import Civilian from "../../client/testUtilities/civilian";
+import Civilian from "../../client/complaintManager/testUtilities/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import RaceEthnicity from "../../client/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
 
 describe("dataChangeAuditHooks for civilian", () => {
   let existingCase, civilian, raceEthnicity, civilianAttributes;

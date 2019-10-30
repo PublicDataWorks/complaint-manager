@@ -6,7 +6,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
-import Officer from "../../../../client/testUtilities/Officer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 
 jest.mock("../../cases/export/jobQueue");
 
@@ -81,9 +81,7 @@ describe("GET /officers/search", () => {
               firstName: bobOfficer.firstName,
               middleName: bobOfficer.middleName,
               lastName: bobOfficer.lastName,
-              fullName: `${bobOfficer.firstName} ${bobOfficer.middleName} ${
-                bobOfficer.lastName
-              }`
+              fullName: `${bobOfficer.firstName} ${bobOfficer.middleName} ${bobOfficer.lastName}`
             })
           ]
         })

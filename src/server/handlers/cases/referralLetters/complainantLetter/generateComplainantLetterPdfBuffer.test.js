@@ -1,10 +1,10 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import timekeeper from "timekeeper";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../models";
-import Civilian from "../../../../../client/testUtilities/civilian";
+import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
 import generateComplainantLetterPdfBuffer, {
   generateComplainantLetterHtml
 } from "./generateComplainantLetterPdfBuffer";

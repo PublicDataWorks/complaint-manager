@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import models from "../../models";
-import Tag from "../../../client/testUtilities/tag";
+import Tag from "../../../client/complaintManager/testUtilities/tag";
 import getTagsAndAuditDetails from "./getTagsHelper";
 import { ASCENDING } from "../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../sequelizeHelpers";

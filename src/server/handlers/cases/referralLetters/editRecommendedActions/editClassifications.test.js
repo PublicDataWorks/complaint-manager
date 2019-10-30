@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import httpMocks from "node-mocks-http";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import models from "../../../../models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import editClassifications from "./editClassifications";

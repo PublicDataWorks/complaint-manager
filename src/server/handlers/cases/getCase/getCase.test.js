@@ -1,4 +1,4 @@
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 

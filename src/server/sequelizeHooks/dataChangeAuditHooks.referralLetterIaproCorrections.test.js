@@ -1,12 +1,12 @@
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../models";
-import ReferralLetter from "../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import {
   RECIPIENT,
   SENDER
 } from "../handlers/cases/referralLetters/referralLetterDefaults";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import ReferralLetterIAProCorrection from "../../client/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterIAProCorrection from "../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks for referral letter iapro correction", () => {

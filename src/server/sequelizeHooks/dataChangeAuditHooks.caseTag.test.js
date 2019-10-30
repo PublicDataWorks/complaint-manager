@@ -1,9 +1,9 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import CaseTag from "../../client/testUtilities/caseTag";
-import Tag from "../../client/testUtilities/tag";
+import CaseTag from "../../client/complaintManager/testUtilities/caseTag";
+import Tag from "../../client/complaintManager/testUtilities/tag";
 
 describe("dataChangeAuditHooks for caseTag", () => {
   afterEach(async () => {

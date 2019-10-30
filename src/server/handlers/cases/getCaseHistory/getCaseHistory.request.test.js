@@ -1,4 +1,4 @@
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import models from "../../../models/index";
 import request from "supertest";
 import app from "../../../server";

@@ -1,6 +1,6 @@
 import models from "../../models";
 import createCivilian from "./createCivilian";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {

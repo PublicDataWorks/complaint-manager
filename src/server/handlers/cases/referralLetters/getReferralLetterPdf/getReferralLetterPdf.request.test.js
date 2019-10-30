@@ -3,13 +3,13 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import models from "../../../../models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
-import Officer from "../../../../../client/testUtilities/Officer";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
 import app from "../../../../server";
 import request from "supertest";
 

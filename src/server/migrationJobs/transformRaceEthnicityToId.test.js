@@ -1,7 +1,7 @@
 import models from "../models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
-import Civilian from "../../client/testUtilities/civilian";
+import Civilian from "../../client/complaintManager/testUtilities/civilian";
 import {
   revertTransformRaceEthnicityToId,
   transformRaceEthnicityToId
@@ -115,19 +115,9 @@ describe("transform race ethnicity to ID", () => {
     );
 
     const updateCivilians =
-      `UPDATE civilians SET race_ethnicity = '${
-        raceEthnicityProperties.korean.name
-      }', race_ethnicity_id = null WHERE id = ${
-        civilianWithRaceEthnicityStringKorean.id
-      };` +
-      ` UPDATE civilians SET race_ethnicity = '${
-        raceEthnicityProperties.unknown.name
-      }', race_ethnicity_id = null WHERE id = ${
-        civilianWithRaceEthnicityStringUnknown.id
-      };` +
-      ` UPDATE civilians SET race_ethnicity = '${
-        raceEthnicityProperties.unknown.name
-      }' WHERE id = ${civilianWithOldRaceEthnicityStringAndNewId.id}`;
+      `UPDATE civilians SET race_ethnicity = '${raceEthnicityProperties.korean.name}', race_ethnicity_id = null WHERE id = ${civilianWithRaceEthnicityStringKorean.id};` +
+      ` UPDATE civilians SET race_ethnicity = '${raceEthnicityProperties.unknown.name}', race_ethnicity_id = null WHERE id = ${civilianWithRaceEthnicityStringUnknown.id};` +
+      ` UPDATE civilians SET race_ethnicity = '${raceEthnicityProperties.unknown.name}' WHERE id = ${civilianWithOldRaceEthnicityStringAndNewId.id}`;
 
     await models.sequelize.query(updateCivilians, {
       type: models.sequelize.QueryTypes.UPDATE

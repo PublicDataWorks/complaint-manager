@@ -1,8 +1,8 @@
 import models from "../../../../models/index";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
-import Case from "../../../../../client/testUtilities/case";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

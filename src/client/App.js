@@ -3,16 +3,16 @@ import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
-import customTheme from "./globalStyling/muiTheme";
+import customTheme from "./common/globalStyling/muiTheme";
 import { Paper } from "@material-ui/core";
 import ScrollToTop from "./ScrollToTop";
-import SharedSnackbarContainer from "./shared/components/SharedSnackbarContainer";
+import SharedSnackbarContainer from "./complaintManager/shared/components/SharedSnackbarContainer";
 import AppRouter from "./AppRouter";
-import getAccessToken from "./auth/getAccessToken";
-import Auth from "./auth/Auth";
+import getAccessToken from "./common/auth/getAccessToken";
+import Auth from "./common/auth/Auth";
 import { connect } from "react-redux";
-import { userAuthSuccess } from "./auth/actionCreators";
-import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
+import { userAuthSuccess } from "./common/auth/actionCreators";
+import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatureToggles";
 
 class App extends Component {
   componentDidMount() {

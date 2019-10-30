@@ -1,7 +1,7 @@
 import models from "../../../../models";
 import { createTestCaseWithCivilian } from "../../../../testHelpers/modelMothers";
 import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
 describe("getReferralLetterDataForResponse", () => {
