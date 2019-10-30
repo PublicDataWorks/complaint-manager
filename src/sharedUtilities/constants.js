@@ -159,6 +159,8 @@ export const EXPORT_JOB_MAX_REFRESH_TIMES = 180;
 
 export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 
+export const MATRIX_CREATED_SUCCESS = "MATRIX_CREATED_SUCCESS";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------
