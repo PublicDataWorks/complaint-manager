@@ -1,5 +1,5 @@
 import models from "../models/index";
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import {
   AUDIT_ACTION,
   CASE_STATUS,
@@ -7,8 +7,8 @@ import {
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import IntakeSource from "../../client/testUtilities/intakeSource";
-import HowDidYouHearAboutUsSource from "../../client/testUtilities/HowDidYouHearAboutUsSource";
+import IntakeSource from "../../client/complaintManager/testUtilities/intakeSource";
+import HowDidYouHearAboutUsSource from "../../client/complaintManager/testUtilities/HowDidYouHearAboutUsSource";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {

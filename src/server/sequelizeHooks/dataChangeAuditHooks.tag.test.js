@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import Tag from "../../client/testUtilities/tag";
+import Tag from "../../client/complaintManager/testUtilities/tag";
 import models from "../models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 

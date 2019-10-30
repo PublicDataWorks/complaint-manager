@@ -1,8 +1,8 @@
 import models from "../../../models";
-import Allegation from "../../../../client/testUtilities/Allegation";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Case from "../../../../client/testUtilities/case";
-import Officer from "../../../../client/testUtilities/Officer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import * as httpMocks from "node-mocks-http";
 import createOfficerAllegation from "./createOfficerAllegation";
 import Boom from "boom";

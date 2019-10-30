@@ -2,7 +2,7 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "./createConfiguredStore";
 import App from "./App";
-import configureInterceptors from "./axiosInterceptors/interceptors";
+import configureInterceptors from "./common/axiosInterceptors/interceptors";
 
 const store = createConfiguredStore();
 

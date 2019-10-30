@@ -4,8 +4,8 @@ import {
   format12HourTime,
   formatLongDate,
   formatShortDate
-} from "../client/utilities/formatDate";
-import formatPhoneNumber from "../client/utilities/formatPhoneNumber";
+} from "../client/complaintManager/utilities/formatDate";
+import formatPhoneNumber from "../client/complaintManager/utilities/formatPhoneNumber";
 import { DECLINES_OPTION, SIGNATURE_URLS } from "../sharedUtilities/constants";
 
 const caseReferenceLength = 4;

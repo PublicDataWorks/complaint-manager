@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/testUtilities/case";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import getReferralLetterEditStatus from "./getReferralLetterEditStatus";
 import {
   AUDIT_SUBJECT,

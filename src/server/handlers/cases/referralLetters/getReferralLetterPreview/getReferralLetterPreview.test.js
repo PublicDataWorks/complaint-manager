@@ -11,24 +11,24 @@ import {
   REFERRAL_LETTER_VERSION,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
-import Case from "../../../../../client/testUtilities/case";
-import Address from "../../../../../client/testUtilities/Address";
+import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Address from "../../../../../client/complaintManager/testUtilities/Address";
 import models from "../../../../models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Civilian from "../../../../../client/testUtilities/civilian";
-import Officer from "../../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../../client/testUtilities/caseOfficer";
-import LetterOfficer from "../../../../../client/testUtilities/LetterOfficer";
-import Allegation from "../../../../../client/testUtilities/Allegation";
-import OfficerAllegation from "../../../../../client/testUtilities/OfficerAllegation";
-import ReferralLetter from "../../../../../client/testUtilities/ReferralLetter";
-import ReferralLetterOfficerRecommendedAction from "../../../../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
-import ReferralLetterIAProCorrection from "../../../../../client/testUtilities/ReferralLetterIAProCorrection";
-import ReferralLetterOfficerHistoryNote from "../../../../../client/testUtilities/ReferralLetterOfficerHistoryNote";
+import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import Allegation from "../../../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
+import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import constructFilename from "../constructFilename";
-import RaceEthnicity from "../../../../../client/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../../client/complaintManager/testUtilities/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
-import ReferralLetterCaseClassification from "../../../../../client/testUtilities/ReferralLetterCaseClassification";
+import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("../../../audits/auditDataAccess");
 

@@ -12,12 +12,12 @@ import { CREATE_MATRIX_FORM_NAME } from "../../../../sharedUtilities/constants";
 import {
   PrimaryButton,
   SecondaryButton
-} from "../../../shared/components/StyledButtons";
+} from "../../../complaintManager/shared/components/StyledButtons";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import PIBControlField from "../../sharedFormComponents/PIBControlField";
-import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
+import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
 import getUsers from "../thunks/getUsers";
 
 const styles = theme => ({

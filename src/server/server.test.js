@@ -1,11 +1,11 @@
 import app from "./server";
 import request from "supertest";
 import models from "./models";
-import Civilian from "../client/testUtilities/civilian";
-import Case from "../client/testUtilities/case";
-import Attachment from "../client/testUtilities/attachment";
-import { civilianWithAddress } from "../client/testUtilities/ObjectMothers";
-import Address from "../client/testUtilities/Address";
+import Civilian from "../client/complaintManager/testUtilities/civilian";
+import Case from "../client/complaintManager/testUtilities/case";
+import Attachment from "../client/complaintManager/testUtilities/attachment";
+import { civilianWithAddress } from "../client/complaintManager/testUtilities/ObjectMothers";
+import Address from "../client/complaintManager/testUtilities/Address";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
@@ -463,9 +463,7 @@ describe("server", () => {
 
       const responsePromise = request(app)
         .put(
-          `/api/cases/${civilianToUpdate.caseId}/civilians/${
-            civilianToUpdate.id
-          }`
+          `/api/cases/${civilianToUpdate.caseId}/civilians/${civilianToUpdate.id}`
         )
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
@@ -927,9 +925,7 @@ describe("server", () => {
 
         const responsePromise = request(app)
           .delete(
-            `/api/cases/${defaultCase.id}/attachments/${
-              attachmentToDelete.fileName
-            }`
+            `/api/cases/${defaultCase.id}/attachments/${attachmentToDelete.fileName}`
           )
           .set("Authorization", `Bearer ${token}`)
           .set("Content-Type", "multipart/form-data");

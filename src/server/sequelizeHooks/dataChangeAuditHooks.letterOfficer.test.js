@@ -1,10 +1,10 @@
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import LetterOfficer from "../../client/testUtilities/LetterOfficer";
-import Officer from "../../client/testUtilities/Officer";
-import CaseOfficer from "../../client/testUtilities/caseOfficer";
+import LetterOfficer from "../../client/complaintManager/testUtilities/LetterOfficer";
+import Officer from "../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
 
 describe("dataChangeAuditHooks for letter officer", () => {
   let existingCase, letterOfficer;

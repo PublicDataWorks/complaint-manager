@@ -1,5 +1,5 @@
-import Case from "../../client/testUtilities/case";
-import CaseNote from "../../client/testUtilities/caseNote";
+import Case from "../../client/complaintManager/testUtilities/case";
+import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
 import models from "../models";
 import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";

@@ -1,10 +1,10 @@
-import NavBar from "../../../shared/components/NavBar/NavBar";
+import NavBar from "../../../complaintManager/shared/components/NavBar/NavBar";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import getUsers from "../thunks/getUsers";
-import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
-import { disciplinaryProceedingsMenuOptions } from "../../../shared/components/NavBar/disciplinaryProceedingsMenuOptions";
+import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
+import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
+import { disciplinaryProceedingsMenuOptions } from "../../../complaintManager/shared/components/NavBar/disciplinaryProceedingsMenuOptions";
 import CreateMatrixButton from "./CreateMatrixButton";
 
 class MatrixList extends Component {

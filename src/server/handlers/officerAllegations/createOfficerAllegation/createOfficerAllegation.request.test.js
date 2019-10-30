@@ -1,8 +1,8 @@
 import models from "../../../models";
-import Case from "../../../../client/testUtilities/case";
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -64,9 +64,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
 
     const responsePromise = request(app)
       .post(
-        `/api/cases/${newCase.id}/cases-officers/${
-          newCase.accusedOfficers[0].id
-        }/officers-allegations`
+        `/api/cases/${newCase.id}/cases-officers/${newCase.accusedOfficers[0].id}/officers-allegations`
       )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)

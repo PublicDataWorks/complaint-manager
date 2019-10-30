@@ -1,11 +1,11 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import models from "../../models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
-import Tag from "../../../client/testUtilities/tag";
-import CaseTag from "../../../client/testUtilities/caseTag";
+import Tag from "../../../client/complaintManager/testUtilities/tag";
+import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
 import auditDataAccess from "../audits/auditDataAccess";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";

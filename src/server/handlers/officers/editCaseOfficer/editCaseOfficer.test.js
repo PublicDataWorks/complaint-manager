@@ -1,7 +1,7 @@
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import models from "../../../models";
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import editCaseOfficer from "./editCaseOfficer";
 import {
@@ -11,10 +11,10 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
-import Allegation from "../../../../client/testUtilities/Allegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import LetterOfficer from "../../../../client/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 

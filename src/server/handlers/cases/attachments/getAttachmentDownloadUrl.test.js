@@ -7,10 +7,10 @@ import {
   S3_URL_EXPIRATION
 } from "../../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Attachment from "../../../../client/testUtilities/attachment";
-import ComplainantLetter from "../../../../client/testUtilities/complainantLetter";
-import Civilian from "../../../../client/testUtilities/civilian";
-import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
+import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
+import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";
 import { auditFileAction } from "../../audits/auditFileAction";
 
 const httpMocks = require("node-mocks-http");

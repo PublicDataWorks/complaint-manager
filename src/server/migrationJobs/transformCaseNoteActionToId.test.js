@@ -1,5 +1,5 @@
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
-import CaseNote from "../../client/testUtilities/caseNote";
+import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
 import models from "../models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
@@ -86,12 +86,8 @@ describe("transform case note action to ID", () => {
     );
 
     const updateCaseNotes =
-      `UPDATE case_notes SET action = '${
-        caseNoteActionProperties.checkedStatus.name
-      }' WHERE id = ${caseNoteWithActionStringCheckedStatus.id};` +
-      ` UPDATE case_notes SET action = '${
-        caseNoteActionProperties.contactedNopd.name
-      }' WHERE id = ${caseNoteWithActionStringContactedNopd.id};`;
+      `UPDATE case_notes SET action = '${caseNoteActionProperties.checkedStatus.name}' WHERE id = ${caseNoteWithActionStringCheckedStatus.id};` +
+      ` UPDATE case_notes SET action = '${caseNoteActionProperties.contactedNopd.name}' WHERE id = ${caseNoteWithActionStringContactedNopd.id};`;
 
     await models.sequelize.query(updateCaseNotes, {
       type: models.sequelize.QueryTypes.UPDATE

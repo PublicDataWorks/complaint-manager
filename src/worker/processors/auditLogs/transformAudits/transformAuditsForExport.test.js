@@ -7,7 +7,7 @@ import {
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
 import transformAuditsForExport from "./transformAuditsForExport";
-import formatDate from "../../../../client/utilities/formatDate";
+import formatDate from "../../../../client/complaintManager/utilities/formatDate";
 import _ from "lodash";
 
 describe("transformAuditsForExport", () => {

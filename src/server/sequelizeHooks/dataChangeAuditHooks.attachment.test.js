@@ -1,7 +1,7 @@
 import models from "../models";
-import Attachment from "../../client/testUtilities/attachment";
+import Attachment from "../../client/complaintManager/testUtilities/attachment";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks for attachment", () => {

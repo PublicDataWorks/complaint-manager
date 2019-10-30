@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import Auth from "./auth/Auth";
-import { userAuthSuccess } from "./auth/actionCreators";
-import getFeatureToggles from "./featureToggles/thunks/getFeatureToggles";
+import Auth from "./common/auth/Auth";
+import { userAuthSuccess } from "./common/auth/actionCreators";
+import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatureToggles";
 
 class Callback extends React.Component {
   componentDidMount() {

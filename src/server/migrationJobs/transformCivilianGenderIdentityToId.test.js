@@ -1,5 +1,5 @@
 import models from "../models";
-import Civilian from "../../client/testUtilities/civilian";
+import Civilian from "../../client/complaintManager/testUtilities/civilian";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
@@ -98,16 +98,8 @@ describe("transform civilian gender identity to ID", () => {
     );
 
     const updateCivilians =
-      `UPDATE civilians SET gender_identity = '${
-        genderIdentityProperties.transMale.name
-      }', gender_identity_id = null WHERE id = ${
-        civilianWithGenderIdentityStringTransMale.id
-      };` +
-      ` UPDATE civilians SET gender_identity = '${
-        genderIdentityProperties.transFemale.name
-      }', gender_identity_id = null WHERE id = ${
-        civilianWithGenderIdentityString2TransFemale.id
-      };`;
+      `UPDATE civilians SET gender_identity = '${genderIdentityProperties.transMale.name}', gender_identity_id = null WHERE id = ${civilianWithGenderIdentityStringTransMale.id};` +
+      ` UPDATE civilians SET gender_identity = '${genderIdentityProperties.transFemale.name}', gender_identity_id = null WHERE id = ${civilianWithGenderIdentityString2TransFemale.id};`;
 
     await models.sequelize.query(updateCivilians, {
       type: models.sequelize.QueryTypes.UPDATE

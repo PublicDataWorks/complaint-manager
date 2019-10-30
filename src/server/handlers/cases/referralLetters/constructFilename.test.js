@@ -8,9 +8,9 @@ import {
   RANK_INITIATED,
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Officer from "../../../../client/testUtilities/Officer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 
 describe("constructFilename", function() {
   afterEach(async () => {

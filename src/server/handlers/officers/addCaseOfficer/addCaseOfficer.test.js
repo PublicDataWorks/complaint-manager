@@ -1,8 +1,8 @@
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import models from "../../../models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
-import Officer from "../../../../client/testUtilities/Officer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import {
   ACCUSED,
   AUDIT_SUBJECT,
@@ -12,7 +12,7 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import ReferralLetter from "../../../../client/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 

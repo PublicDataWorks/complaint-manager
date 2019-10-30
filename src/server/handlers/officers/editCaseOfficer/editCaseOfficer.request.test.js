@@ -1,9 +1,9 @@
 import models from "../../../models";
 import app from "../../../server";
 import request from "supertest";
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Case from "../../../../client/testUtilities/case";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
@@ -59,9 +59,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
     };
     const responsePromise = request(app)
       .put(
-        `/api/cases/${createdCase.id}/cases-officers/${
-          createdCase.accusedOfficers[0].id
-        }`
+        `/api/cases/${createdCase.id}/cases-officers/${createdCase.accusedOfficers[0].id}`
       )
       .set("Authorization", `Bearer ${token}`)
       .set("Content-Type", "application/json")

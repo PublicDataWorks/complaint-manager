@@ -1,9 +1,9 @@
-import Case from "../../client/testUtilities/case";
+import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../models";
-import Officer from "../../client/testUtilities/Officer";
-import CaseOfficer from "../../client/testUtilities/caseOfficer";
-import LetterOfficer from "../../client/testUtilities/LetterOfficer";
-import ReferralLetterOfficerRecommendedAction from "../../client/testUtilities/ReferralLetterOfficerRecommendedAction";
+import Officer from "../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import LetterOfficer from "../../client/complaintManager/testUtilities/LetterOfficer";
+import ReferralLetterOfficerRecommendedAction from "../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 

@@ -1,8 +1,8 @@
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import Officer from "../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../client/testUtilities/Allegation";
-import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
+import Officer from "../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
 import models from "../index";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 

@@ -1,13 +1,13 @@
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import models from "../../../models";
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import { AUDIT_SUBJECT, WITNESS } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 

@@ -1,6 +1,6 @@
 import models from "../index";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import Civilian from "../../../client/testUtilities/civilian";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
@@ -12,7 +12,7 @@ import {
   suppressWinstonLogs
 } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS

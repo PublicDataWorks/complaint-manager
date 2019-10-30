@@ -8,7 +8,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
-import Case from "../../../client/testUtilities/case";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../audits/auditDataAccess";

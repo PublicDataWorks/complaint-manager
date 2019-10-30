@@ -5,7 +5,7 @@ import {
   AUDIT_TYPE,
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
-import formatDate from "../../../../client/utilities/formatDate";
+import formatDate from "../../../../client/complaintManager/utilities/formatDate";
 import _ from "lodash";
 import striptags from "striptags";
 

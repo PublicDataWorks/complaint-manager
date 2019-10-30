@@ -1,4 +1,4 @@
-import Case from "../../../../client/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 const models = require("../../../models");
 const isDuplicateFileName = require("./isDuplicateFileName");
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

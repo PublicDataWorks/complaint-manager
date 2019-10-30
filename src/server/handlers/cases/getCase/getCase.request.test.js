@@ -1,12 +1,12 @@
 import request from "supertest";
 import app from "../../../server";
-import Attachment from "../../../../client/testUtilities/attachment";
+import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
 import models from "../../../models";
-import Civilian from "../../../../client/testUtilities/civilian";
-import Officer from "../../../../client/testUtilities/Officer";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Case from "../../../../client/testUtilities/case";
-import Address from "../../../../client/testUtilities/Address";
+import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import Address from "../../../../client/complaintManager/testUtilities/Address";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,

@@ -1,5 +1,5 @@
-import Case from "../../../../client/testUtilities/case";
-import Officer from "../../../../client/testUtilities/Officer";
+import Case from "../../../../client/complaintManager/testUtilities/case";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import models from "../../../models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
 

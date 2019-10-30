@@ -1,6 +1,6 @@
 import models from "../../../models";
-import CaseOfficer from "../../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../../client/testUtilities/Allegation";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -14,7 +14,7 @@ import {
   ACCUSED,
   ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../cases/export/jobQueue");
@@ -37,9 +37,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
       const nonExistantAllegationId = 9;
       const responsePromise = request(app)
         .put(
-          `/api/cases/${
-            createdCase.id
-          }/officers-allegations/${nonExistantAllegationId}`
+          `/api/cases/${createdCase.id}/officers-allegations/${nonExistantAllegationId}`
         )
         .set("Content-Header", "application/json")
         .set("Authorization", `Bearer ${token}`)
@@ -112,9 +110,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function() {
 
     const responsePromise = request(app)
       .put(
-        `/api/cases/${createdCase.id}/officers-allegations/${
-          officerAllegationToUpdate.id
-        }`
+        `/api/cases/${createdCase.id}/officers-allegations/${officerAllegationToUpdate.id}`
       )
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)

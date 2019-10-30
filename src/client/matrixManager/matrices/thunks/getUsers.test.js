@@ -1,11 +1,13 @@
 import nock from "nock";
-import configureInterceptors from "../../../axiosInterceptors/interceptors";
-import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
+import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
+import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
 import getUsers from "./getUsers";
-import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../../complaintManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("../../../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
+jest.mock("../../../common/auth/getAccessToken", () =>
+  jest.fn(() => "TEST_TOKEN")
+);
 
 describe("getUsers", () => {
   const dispatch = jest.fn();

@@ -1,11 +1,11 @@
 import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers";
-import Officer from "../../../client/testUtilities/Officer";
+import Officer from "../../../client/complaintManager/testUtilities/Officer";
 import models from "../../../server/models";
-import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import Allegation from "../../../client/testUtilities/Allegation";
-import OfficerAllegation from "../../../client/testUtilities/OfficerAllegation";
-import Civilian from "../../../client/testUtilities/civilian";
-import Case from "../../../client/testUtilities/case";
+import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import Case from "../../../client/complaintManager/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";
 import csvCaseExport from "./csvCaseExport";
@@ -21,10 +21,10 @@ import {
   WITNESS
 } from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
-import Address from "../../../client/testUtilities/Address";
-import Attachment from "../../../client/testUtilities/attachment";
-import RaceEthnicity from "../../../client/testUtilities/raceEthnicity";
-import ReferralLetterCaseClassification from "../../../client/testUtilities/ReferralLetterCaseClassification";
+import Address from "../../../client/complaintManager/testUtilities/Address";
+import Attachment from "../../../client/complaintManager/testUtilities/attachment";
+import RaceEthnicity from "../../../client/complaintManager/testUtilities/raceEthnicity";
+import ReferralLetterCaseClassification from "../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("../fileUpload/uploadFileToS3");
 

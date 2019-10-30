@@ -1,14 +1,14 @@
 import models from "../index";
-import RaceEthnicity from "../../../client/testUtilities/raceEthnicity";
-import Civilian from "../../../client/testUtilities/civilian";
+import RaceEthnicity from "../../../client/complaintManager/testUtilities/raceEthnicity";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import {
   ACCUSED,
   COMPLAINANT,
   PERSON_TYPE
 } from "../../../sharedUtilities/constants";
-import Case from "../../../client/testUtilities/case";
-import CaseOfficer from "../../../client/testUtilities/caseOfficer";
-import Officer from "../../../client/testUtilities/Officer";
+import Case from "../../../client/complaintManager/testUtilities/case";
+import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../../client/complaintManager/testUtilities/Officer";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 describe("sortableCasesView", () => {

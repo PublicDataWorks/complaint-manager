@@ -1,8 +1,8 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { removeCaseTag } from "./removeCaseTag";
-import Case from "../../../client/testUtilities/case";
-import CaseTag from "../../../client/testUtilities/caseTag";
-import tag from "../../../client/testUtilities/tag";
+import Case from "../../../client/complaintManager/testUtilities/case";
+import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
+import tag from "../../../client/complaintManager/testUtilities/tag";
 import models from "../../models";
 import httpMocks from "node-mocks-http";
 import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
