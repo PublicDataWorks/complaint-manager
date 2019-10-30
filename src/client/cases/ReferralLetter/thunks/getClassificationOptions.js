@@ -1,12 +1,11 @@
 import axios from "axios";
 import { getClassificationsSuccess } from "../../../actionCreators/letterActionCreators";
 
-
 const getClassificationOptions = () => async dispatch => {
   try {
-    const response = await axios.get(`api/new-classifications`);
+    const response = await axios.get(`api/classifications`);
     return dispatch(getClassificationsSuccess(response.data));
-  } catch(error) {}
+  } catch (error) {}
 };
 
 export default getClassificationOptions;

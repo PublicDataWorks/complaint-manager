@@ -42,7 +42,7 @@ describe("getClassifications", () => {
     ];
 
     const responsePromise = request(app)
-      .get("/api/new-classifications")
+      .get("/api/classifications")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 

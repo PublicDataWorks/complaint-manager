@@ -18,7 +18,7 @@ describe("getClassificationOptions", function() {
     ];
 
     nock("http://localhost")
-      .get("/api/new-classifications")
+      .get("/api/classifications")
       .reply(200, responseBody);
 
     await getClassificationOptions()(dispatch);
