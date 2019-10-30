@@ -56,7 +56,7 @@ import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
-import getUsers from "./disciplinaryProceedings/handlers/users/getUsers";
+import getUsers from "./matrixManager/handlers/users/getUsers";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
