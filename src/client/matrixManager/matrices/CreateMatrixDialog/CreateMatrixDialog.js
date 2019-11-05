@@ -19,6 +19,7 @@ import PIBControlField from "../../sharedFormComponents/PIBControlField";
 import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
 import getUsers from "../thunks/getUsers";
+import createMatrix from "../thunks/createMatrix";
 
 const styles = theme => ({
   dialogPaper: {
@@ -39,6 +40,14 @@ class CreateMatrixDialog extends React.Component {
   closeDialog = () => {
     this.props.closeCreateDialog(DialogTypes.MATRIX);
     this.props.reset(CREATE_MATRIX_FORM_NAME);
+  };
+
+  createAndSearch = values => {
+    this.props.createMatrix({
+      pibControlNumber: values.pibControlNumber,
+      firstReviewer: values.firstReviewer,
+      secondReviewer: values.secondReviewer
+    });
   };
 
   render() {
@@ -97,7 +106,12 @@ class CreateMatrixDialog extends React.Component {
           <SecondaryButton data-test="cancel-matrix" onClick={this.closeDialog}>
             Cancel
           </SecondaryButton>
-          <PrimaryButton>Create and Search</PrimaryButton>
+          <PrimaryButton
+            data-test="create-and-search"
+            onClick={this.props.handleSubmit(this.createAndSearch)}
+          >
+            Create and Search
+          </PrimaryButton>
         </DialogActions>
       </Dialog>
     );
@@ -111,6 +125,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   closeCreateDialog: closeCreateDialog,
+  createMatrix,
   getUsers: getUsers
 };
 
