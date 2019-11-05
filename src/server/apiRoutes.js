@@ -58,6 +58,7 @@ import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./matrixManager/handlers/users/getUsers";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
+import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -466,6 +467,13 @@ export const API_ROUTES = {
       handler: getUsers,
       errorMessage:
         "Something went wrong and the users could not be found. Please try again."
+    }
+  },
+  "/matrix-manager/matrices": {
+    post: {
+      handler: createMatrix,
+      errorMessage:
+        "Something went wrong and the matrix could not be created. Please try again."
     }
   }
 };

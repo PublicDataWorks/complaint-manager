@@ -3,11 +3,21 @@ import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import React from "react";
 import CreateMatrixButton from "../MatrixList/CreateMatrixButton";
-import { expectEventuallyNotToExist } from "../../../testHelpers";
+import {
+  changeInput,
+  expectEventuallyNotToExist,
+  findDropdownOption
+} from "../../../testHelpers";
 import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
+import createMatrix from "../thunks/createMatrix";
+
+jest.mock("../thunks/createMatrix", () => creationDetails => ({
+  type: "MOCK_CREATE_MATRIX_THUNK",
+  creationDetails
+}));
 
 describe("CreateMatrixDialog", () => {
-  let store, wrapper, dispatchSpy;
+  let store, wrapper, dispatchSpy, users;
 
   beforeEach(() => {
     store = createConfiguredStore();
@@ -26,6 +36,19 @@ describe("CreateMatrixDialog", () => {
       'button[data-test="create-matrix-button"]'
     );
     createMatrixDialog.simulate("click");
+
+    users = [
+      {
+        name: "Jacob",
+        email: "jacob@me.com"
+      },
+      {
+        name: "Kuba",
+        email: "kuba@me.com"
+      }
+    ];
+    store.dispatch(getUsersSuccess(users));
+    wrapper.update();
   });
 
   test("should dismiss when cancel button is clicked", async () => {
@@ -38,21 +61,43 @@ describe("CreateMatrixDialog", () => {
     );
   });
 
-  describe("reviewer dropdown", () => {
-    let users = [
-      {
-        name: "Jacob",
-        email: "jacob@me.com"
-      },
-      {
-        name: "Kuba",
-        email: "kuba@me.com"
-      }
-    ];
-    test("should load getUsers output in dropdown", () => {
-      store.dispatch(getUsersSuccess(users));
-      wrapper.update();
+  describe("Create and Search Button", () => {
+    beforeEach(() => {
+      changeInput(wrapper, '[data-test="pib-control-input"]', "2019-0001-Y");
+      findDropdownOption(
+        wrapper,
+        '[data-test="first-reviewer-dropdown"]',
+        "Jacob",
+        false
+      );
+      findDropdownOption(
+        wrapper,
+        '[data-test="second-reviewer-dropdown"]',
+        "Kuba",
+        false
+      );
+    });
 
+    test("should call the thunk with correct values", () => {
+      dispatchSpy.mockClear();
+      const submitButton = wrapper.find(
+        'PrimaryButton[data-test="create-and-search"]'
+      );
+
+      submitButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        createMatrix({
+          pibControlNumber: "2019-0001-Y",
+          firstReviewer: "jacob@me.com",
+          secondReviewer: "kuba@me.com"
+        })
+      );
+    });
+  });
+
+  describe("reviewer dropdown", () => {
+    test("should load getUsers output in dropdown", () => {
       let firstReviewer = wrapper
         .find('[data-test="first-reviewer-dropdown"]')
         .first();
