@@ -1,6 +1,5 @@
 import nock from "nock";
 import {
-  createCaseFailure,
   createCaseSuccess,
   requestCaseCreation
 } from "../../actionCreators/casesActionCreators";
@@ -11,10 +10,10 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
-  RANK_INITIATED,
-  SORT_CASES_BY,
+  COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
-  COMPLAINANT
+  RANK_INITIATED,
+  SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";

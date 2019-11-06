@@ -10,7 +10,8 @@ import {
   EMPLOYEE_TYPE,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
-  RANK_INITIATED
+  RANK_INITIATED,
+  CREATE_CASE_FORM_NAME
 } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
@@ -57,7 +58,7 @@ const createCase = creationDetails => async dispatch => {
         )
       );
     }
-    return dispatch(reset("CreateCase"));
+    return dispatch(reset(CREATE_CASE_FORM_NAME));
   } catch (e) {}
 };
 
