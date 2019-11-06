@@ -35,6 +35,10 @@ winston.configure({
 });
 
 const app = express();
+app.use(function (req, res, next) {
+  res.header("X-powered-by", "<3")
+  next()
+})
 const twoYearsInSeconds = 63113852;
 app.locals.shuttingDown = false;
 app.use(refuseNewConnectionDuringShutdown(app));

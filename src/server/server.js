@@ -31,6 +31,11 @@ winston.configure({
 });
 
 const app = express();
+
+app.use(function (req, res, next) {
+  res.header("X-powered-by", "<3")
+  next()
+})
 const twoYearsInSeconds = 63113852;
 app.locals.shuttingDown = false;
 
@@ -71,6 +76,7 @@ app.use(
   })
 );
 
+
 const buildDirectory = path.join(__dirname, "../../build");
 
 app.use(cookieParser());
@@ -94,6 +100,7 @@ app.use("/api", apiRouter);
 
 app.get("*", function(req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
+
 });
 
 app.use(
