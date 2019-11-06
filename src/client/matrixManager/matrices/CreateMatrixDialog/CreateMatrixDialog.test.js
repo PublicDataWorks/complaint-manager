@@ -16,6 +16,11 @@ jest.mock("../thunks/createMatrix", () => creationDetails => ({
   creationDetails
 }));
 
+jest.mock("../thunks/getUsers", () => users => ({
+  type: "MOCK_GET_USERS",
+  users
+}));
+
 describe("CreateMatrixDialog", () => {
   let store, wrapper, dispatchSpy, users;
 

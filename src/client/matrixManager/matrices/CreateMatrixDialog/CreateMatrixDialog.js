@@ -109,6 +109,7 @@ class CreateMatrixDialog extends React.Component {
           <PrimaryButton
             data-test="create-and-search"
             onClick={this.props.handleSubmit(this.createAndSearch)}
+            disabled={this.props.submitting}
           >
             Create and Search
           </PrimaryButton>
