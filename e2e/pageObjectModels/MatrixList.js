@@ -7,15 +7,11 @@ const disciplinaryProceedingsCommands = {
       e2e.roundtripWait
     ).assert.containsText("@pageTitle", "All Disciplinary Proceedings");
   },
-  displaysUserDropDown: function() {
-    this.waitForElementVisible(
-      "@usersDropdown",
+  pressesCreateMatrixButton: function() {
+    return this.waitForElementVisible(
+      "@createMatrixButton",
       e2e.roundtripWait
-    ).click("@usersDropdown")
-      .waitForElementVisible("@usersList", e2e.rerenderWait)
-      .api.pause(e2e.dataLoadWait);
-    return this.click("@lastUser");
-
+    ).click("@createMatrixButton");
   }
 };
 
@@ -23,8 +19,6 @@ module.exports = {
   commands: disciplinaryProceedingsCommands,
   elements: {
     pageTitle: { selector: "[data-test='pageTitle']" },
-    usersDropdown: {selector: "[data-test='usersDropdown']"},
-    usersList: {selector: "[role='listbox']"},
-    lastUser: {selector: '[role="listbox"] > div > li:last-child'}
+    createMatrixButton: { selector: "[data-test='create-matrix-button']" }
   }
 };

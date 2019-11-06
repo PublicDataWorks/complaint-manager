@@ -35,12 +35,24 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       matrixList.isOnPage();
     },
-    // TODO: Add create matrix dialog to e2e test
-    // "should find someone in user drop down": browser => {
-    //   const MatrixList = browser.page.MatrixList();
-    //
-    //   MatrixList.displaysUserDropDown();
-    // },
+    "should open create matrix dialog": browser => {
+      const matrixList = browser.page.MatrixList();
+      const createMatrixDialog = browser.page.CreateMatrixDialog();
+
+      matrixList.pressesCreateMatrixButton();
+      createMatrixDialog.dialogIsOpen();
+    },
+    "should create matrix": browser => {
+      const createMatrixDialog = browser.page.CreateMatrixDialog();
+      const snackbar = browser.page.SnackbarPOM();
+
+      createMatrixDialog.fillsInPIBControlNumber("20191235R");
+      createMatrixDialog.fillsInFirstReviewer("jacob.gacek@thoughtworks.com");
+      createMatrixDialog.fillsInSecondReviewer("wyao@thoughtworks.com");
+      createMatrixDialog.clicksCreateButton();
+
+      snackbar.presentWithMessage("Matrix was successfully created").close();
+    },
     "should open gear menu and click into complaints": browser => {
       const navBar = browser.page.NavBar();
       const caseDashboard = browser.page.CaseDashboard();
