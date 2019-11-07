@@ -17,16 +17,12 @@ const TextMaskCustom = props => {
         /\d/,
         /\d/,
         /\d/,
-        " ",
         "-",
-        " ",
         /\d/,
         /\d/,
         /\d/,
         /\d/,
-        " ",
         "-",
-        " ",
         /[A-Za-z]/
       ]}
       placeholderChar={"_"}
@@ -52,7 +48,7 @@ const PIBControlField = () => {
         shrink: true
       }}
       required
-      placeholder="Ex. 2019-2312-R"
+      placeholder="Ex. 2019-0021-R"
     />
   );
 };
