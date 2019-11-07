@@ -34,7 +34,7 @@ describe("PIB Control Field", () => {
       'div[data-test="pib-control-field"]'
     );
     expect(pibCaseField.text()).toContain(
-      "Please enter a valid PIB case number"
+      "Please enter a valid PIB control number"
     );
   });
 
@@ -47,7 +47,7 @@ describe("PIB Control Field", () => {
     containsValue(
       pibCaseFieldComponent,
       '[data-test="pib-control-input"]',
-      "8787 - 6765 - R"
+      "8787-6765-R"
     );
   });
 
@@ -60,7 +60,7 @@ describe("PIB Control Field", () => {
     containsValue(
       pibCaseFieldComponent,
       '[data-test="pib-control-input"]',
-      "1234 - ____ - _"
+      "1234-____-_"
     );
   });
 
@@ -71,7 +71,7 @@ describe("PIB Control Field", () => {
       "20191234"
     );
 
-    const expectedString = "2019 - 1234 - _";
+    const expectedString = "2019-1234-_";
 
     containsValue(
       pibCaseFieldComponent,
@@ -87,7 +87,7 @@ describe("PIB Control Field", () => {
       "2019"
     );
 
-    const expectedString = "2019 - ____ - _";
+    const expectedString = "2019-____-_";
 
     containsValue(
       pibCaseFieldComponent,

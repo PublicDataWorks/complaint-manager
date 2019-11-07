@@ -34,7 +34,7 @@ export const isPIBCaseNumber = value => {
   const formattedVal = value.replace(/[- ]/g, "");
   const missingOrValid =
     !Boolean(formattedVal) || /^[0-9]{8}[A-Za-z]$/.test(formattedVal);
-  return missingOrValid ? undefined : "Please enter a valid PIB case number";
+  return missingOrValid ? undefined : "Please enter a valid PIB control number";
 };
 
 export const isEmail = value => {
