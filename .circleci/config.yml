@@ -140,7 +140,7 @@ jobs:
             echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
             echo 'export AUTH0_CLIENT_SECRET=$CI_AUTH0_CLIENT_SECRET' >> $BASH_ENV
             source $BASH_ENV
-            cd e2e/tests/disciplinaryProceedings && nightwatch --env $ENVIRONMENT
+            cd e2e/tests/matrixManager && nightwatch --env $ENVIRONMENT
       - store_artifacts:
           path: e2e/tests/matrixManager
   e2e-testing-ci-cm:
