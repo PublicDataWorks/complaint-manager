@@ -48,7 +48,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       createMatrixDialog.fillsInPIBControlNumber("20191235R");
       createMatrixDialog.fillsInFirstReviewer("jacob.gacek@thoughtworks.com");
-      createMatrixDialog.fillsInSecondReviewer("wyao@thoughtworks.com");
+      createMatrixDialog.fillsInSecondReviewer("krkrishn@thoughtworks.com");
       createMatrixDialog.clicksCreateButton();
 
       snackbar.presentWithMessage("Matrix was successfully created").close();
