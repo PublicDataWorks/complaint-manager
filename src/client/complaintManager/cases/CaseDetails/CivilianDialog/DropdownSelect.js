@@ -33,7 +33,6 @@ const styles = theme => ({
     position: "relative",
     zIndex: 1,
     marginTop: theme.spacing.unit,
-    maxHeight: 260,
     // top controls the space between the paper and input box
     // menuPlacement on react select does not play nice with material UI so css tricks were used to get it to behave
     top: 20,
@@ -275,7 +274,7 @@ class DropdownSelect extends React.Component {
           onMenuOpen={this.onMenuOpen}
           menuPlacement="top"
           menuPosition="fixed"
-          maxMenuHeight="260"
+          maxHeight="260"
           filterOption={createFilter(getFilterConfig(isCreatable))}
           isDisabled={isDropdownDisabled(this.props)}
           isCreatable={isCreatable}

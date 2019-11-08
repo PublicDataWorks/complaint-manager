@@ -20,7 +20,7 @@ if (!HOST) {
 if (TEST_PASS && TEST_USER && HOST) {
   module.exports = {
     "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "disciplinary-proceedings");
+      browser.url(HOST + "disciplinary-proceedings").resizeWindow(1366, 768);
       browser.url(function(result) {
         console.log("URL:", result);
       });
@@ -48,7 +48,7 @@ if (TEST_PASS && TEST_USER && HOST) {
 
       createMatrixDialog.fillsInPIBControlNumber("20191235R");
       createMatrixDialog.fillsInFirstReviewer("jacob.gacek@thoughtworks.com");
-      createMatrixDialog.fillsInSecondReviewer("krkrishn@thoughtworks.com");
+      createMatrixDialog.fillsInSecondReviewer("wyao@thoughtworks.com");
       createMatrixDialog.clicksCreateButton();
 
       snackbar.presentWithMessage("Matrix was successfully created").close();
