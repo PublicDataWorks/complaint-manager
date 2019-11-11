@@ -1,8 +1,5 @@
-const path = require("path");
-
 const TEST_USER = process.env.TEST_USER;
 const TEST_PASS = process.env.TEST_PASS;
-const HOST = process.env.HOST;
 
 if (!TEST_PASS) {
   console.log("Set the password in the ENV VAR 'TEST_PASS' for login");
@@ -12,17 +9,14 @@ if (!TEST_USER) {
   console.log("Set the username in the ENV VAR 'TEST_USER' for login");
   process.exit(1);
 }
-if (!HOST) {
-  console.log("Set the host in the ENV VAR 'HOST' for login");
-  process.exit(1);
-}
 
-if (TEST_PASS && TEST_USER && HOST) {
+if (TEST_PASS && TEST_USER) {
   module.exports = {
     "should navigate to disciplinary proceedings": browser => {
-      browser.url(HOST + "disciplinary-proceedings").resizeWindow(1366, 768);
+      console.log("Browser Launch URL", browser.launch_url);
+      browser.url(browser.launch_url + "disciplinary-proceedings").resizeWindow(1366, 768);
       browser.url(function(result) {
-        console.log("URL:", result);
+        console.log("Current URL", result);
       });
     },
     "should authenticate": browser => {

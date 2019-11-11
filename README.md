@@ -113,11 +113,10 @@ docker-compose up app
 
 #### Then, set up environment variables for:
 
-(Use your credentials for auth0 ci and a host of http://localhost:3000/)
+(Use your credentials for auth0 ci)
 
     TEST_USER
     TEST_PASS
-    HOST
 
 #### Finally, run nightwatch tests:
 
