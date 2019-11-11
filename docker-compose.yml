@@ -19,7 +19,7 @@ services:
       - worker
     ports:
       - "1234:1234"
-      - "3000:3000"
+      - "443:443"
       - "4000:4000"
 #      Expose this port if using Node inspect flag for debugging purposes
 #     - "9229:9229"
@@ -29,6 +29,32 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
+
+  app-e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        - REACT_APP_ENV=static_development
+        - REACT_APP_GOOGLE_API_KEY
+    environment:
+      - NODE_ENV=development
+      - REACT_APP_ENV=development_e2e
+      - NEW_RELIC_ENABLED=false
+      - NEW_RELIC_NO_CONFIG_FILE=true
+      - REACT_APP_GOOGLE_API_KEY
+    depends_on:
+      - db
+      - worker
+    ports:
+      - "1234:1234"
+      - "443:443"
+      - "4000:4000"
+    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
+    command: ["yarn", "start:dev"]
+    volumes:
+      - ./src:/app/src
+      - "./e2e/.env.development:/app/.env.development"
   worker:
     build:
       context: .
@@ -58,16 +84,17 @@ services:
   e2e:
     image: noipm/e2e
     depends_on:
-      - app
+      - app-e2e
     volumes:
       - "./e2e/tests:/tests"
       - "./e2e/pageObjectModels:/pageObjectModels"
       - "./e2e/nightwatch.conf.js:/nightwatch.conf.js"
-    command: --env local
+      - "./wait-for-it.sh:/wait-for-it.sh"
+    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "--"]
+    command: ["nightwatch", "--env", "local"]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}
-      - HOST=${HOST}
   redis:
     image: redis
     ports:

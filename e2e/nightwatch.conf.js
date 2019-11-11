@@ -32,7 +32,10 @@ module.exports = {
       }
     },
     local: {
-      launch_url: "http://app:3000/"
+      launch_url: "https://app-e2e/"
+    },
+    ci: {
+      launch_url: "https://noipm-ci.herokuapp.com/"
     },
     staging: {
       launch_url: "https://noipm-staging.herokuapp.com/"

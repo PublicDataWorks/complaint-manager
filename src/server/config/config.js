@@ -23,7 +23,7 @@ module.exports = {
       connectSrc: [
         "'self'",
         "https://noipm-ci.auth0.com",
-        `ws://localhost:${LOCAL_DEV_PORT}`
+        `wss://localhost:${LOCAL_DEV_PORT}`
       ]
     },
     winston: {
@@ -60,7 +60,7 @@ module.exports = {
       connectSrc: [
         "'self'",
         "https://noipm-ci.auth0.com",
-        `ws://localhost:${LOCAL_DEV_PORT}`
+        `wss://localhost:${LOCAL_DEV_PORT}`
       ]
     },
     winston: {

@@ -1,4 +1,4 @@
-export const LOCAL_DEV_PORT = 3000;
+export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
 // ----------------------------------------
 //          Action Types

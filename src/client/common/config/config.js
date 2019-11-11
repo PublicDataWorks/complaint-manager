@@ -5,13 +5,25 @@ export default {
     auth: {
       domain: "noipm-ci.auth0.com",
       clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
-      redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,
+      redirectUri: `https://localhost:${LOCAL_DEV_PORT}/callback`,
       audience: "https://noipm-ci.herokuapp.com/",
       responseType: "token id_token",
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: `http://localhost:${LOCAL_DEV_PORT}`
+    hostname: `https://localhost:${LOCAL_DEV_PORT}`
+  },
+  development_e2e: {
+    auth: {
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
+      redirectUri: `https://app-e2e:${LOCAL_DEV_PORT}/callback`,
+      audience: "https://noipm-ci.herokuapp.com/",
+      responseType: "token id_token",
+      scope: "openid profile",
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
+    },
+    hostname: `https://app-e2e:${LOCAL_DEV_PORT}`
   },
   static_development: {
     auth: {
