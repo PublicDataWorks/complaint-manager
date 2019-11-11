@@ -116,8 +116,8 @@ app.use(
 app.use(errorHandler);
 
 const options = {
-  key: fs.readFileSync("/app/src/server.key"),
-  cert: fs.readFileSync("/app/src/server.crt")
+  key: fs.readFileSync("src/server.key"),
+  cert: fs.readFileSync("src/server.crt")
 };
 export const server = https.createServer(options, app);
 process.on("SIGTERM", () => {
