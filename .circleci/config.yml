@@ -127,11 +127,14 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
-  e2e-testing-ci-dp:
+  e2e-testing-ci-mm:
     docker:
       - image: noipm/e2e:latest
     steps:
       - checkout
+      - run:
+          name: Print E2E Environment
+          command: echo $ENVIRONMENT
       - run:
           name: Run E2E tests
           command: |
@@ -147,6 +150,9 @@ jobs:
       - image: noipm/e2e:latest
     steps:
       - checkout
+      - run:
+          name: Print E2E Environment
+          command: echo $ENVIRONMENT
       - run:
           name: Run E2E tests
           command: |
@@ -198,6 +204,9 @@ jobs:
       - image: noipm/e2e:latest
     steps:
       - checkout
+      - run:
+          name: Print E2E Environment
+          command: echo $ENVIRONMENT
       - run:
           name: Run E2E tests
           command: |
@@ -274,7 +283,7 @@ workflows:
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
-      - e2e-testing-ci-dp:
+      - e2e-testing-ci-mm:
           requires:
             - ensure-ci-deploy-succeeded
       - e2e-testing-ci-cm:
