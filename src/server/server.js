@@ -1,3 +1,4 @@
+import http from "http";
 import https from "https";
 import fs from "fs";
 
@@ -115,11 +116,18 @@ app.use(
 
 app.use(errorHandler);
 
-const options = {
-  key: fs.readFileSync("src/server.key"),
-  cert: fs.readFileSync("src/server.crt")
-};
-export const server = https.createServer(options, app);
+export let server;
+
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+  const options = {
+    key: fs.readFileSync("src/server.key"),
+    cert: fs.readFileSync("src/server.crt")
+  };
+  server = https.createServer(options, app);
+} else {
+  server = http.createServer(app);
+}
+
 process.on("SIGTERM", () => {
   handleSigterm(app);
 });
