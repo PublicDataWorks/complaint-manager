@@ -60,14 +60,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests it 
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -86,7 +86,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests it 
     <p class=\\"ql-align-center\\"><strong><u>IAPro Corrections</u></strong></p>
       <ul>
         <li>
-          <p class=\\"preserve-white-space\\">The IAPro entry for case 555 was wrong.</p>
+          <p style=\\"white-space: pre-wrap;\\">The IAPro entry for case 555 was wrong.</p>
         </li>
       </ul>
     <p><br></p>
@@ -167,14 +167,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -285,7 +285,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -306,7 +306,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
           <ul>
               <li>This is a description of the recommended action</li>
           </ul>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -325,7 +325,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p class=\\"ql-align-center\\"><strong><u>IAPro Corrections</u></strong></p>
       <ul>
         <li>
-          <p class=\\"preserve-white-space\\">The IAPro entry for case 555 was wrong.</p>
+          <p style=\\"white-space: pre-wrap;\\">The IAPro entry for case 555 was wrong.</p>
         </li>
       </ul>
     <p><br></p>
@@ -427,14 +427,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -521,14 +521,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -615,14 +615,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -710,14 +710,14 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
 
     <p class=\\"ql-align-center\\"><strong><u>Request for Review and Intervention</u></strong></p>
     <p><br></p>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
@@ -804,7 +804,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class=\\"preserve-white-space\\">test details</p>
+  <p style=\\"white-space: pre-wrap;\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -818,7 +818,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
           <ul>
               <li>This is a description of the recommended action</li>
           </ul>
-          <p class=\\"preserve-white-space\\">We recommend this officer is disciplined.</p>
+          <p style=\\"white-space: pre-wrap;\\">We recommend this officer is disciplined.</p>
           <p><br></p>
     <p><br></p>
 
