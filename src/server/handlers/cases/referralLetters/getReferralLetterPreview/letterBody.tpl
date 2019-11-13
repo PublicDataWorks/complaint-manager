@@ -248,7 +248,7 @@
   {{/each}}
   <p class="ql-align-center"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p class="preserve-white-space">{{narrativeDetails}}</p>
+  <p style="white-space: pre-wrap;">{{narrativeDetails}}</p>
   <p><br></p>
   <p><br></p>
 
@@ -347,7 +347,7 @@
           </ul>
         {{/if}}
         {{#if (isPresent letterOfficer.recommendedActionNotes)}}
-          <p class="preserve-white-space">{{letterOfficer.recommendedActionNotes}}</p>
+          <p style="white-space: pre-wrap;">{{letterOfficer.recommendedActionNotes}}</p>
           <p><br></p>
         {{/if}}
       {{/if}}
@@ -374,7 +374,7 @@
     {{#each referralLetter.referralLetterIaproCorrections}}
       <ul>
         <li>
-          <p class="preserve-white-space">{{details}}</p>
+          <p style="white-space: pre-wrap;">{{details}}</p>
         </li>
       </ul>
     {{/each}}

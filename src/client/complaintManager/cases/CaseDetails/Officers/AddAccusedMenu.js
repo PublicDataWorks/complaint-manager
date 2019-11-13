@@ -41,7 +41,7 @@ const AddAccusedMenu = props => {
           onClick={() => {
             props.handleMenuClose();
             props.dispatch(
-              initialize("OfficerDetails", {
+              initialize(OFFICER_DETAILS_FORM_NAME, {
                 roleOnCase: ACCUSED
               })
             );
