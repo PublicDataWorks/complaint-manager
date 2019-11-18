@@ -5,9 +5,12 @@ import {
   isEmail,
   isIntegerString,
   isPhoneNumber,
+  isPIBControlNumber,
   lastNameNotBlank,
   lastNameRequired,
   notFutureDate,
+  pibControlNumberRequired,
+  pibControlNumberNotBlank,
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
@@ -74,6 +77,25 @@ describe("Form Validations", () => {
     expect(isPhoneNumber(undefined)).toBeUndefined();
   });
 
+  test("isPIBControlNumber should not return an error message when is valid", () => {
+    expect(isPIBControlNumber("2019-0001-P")).toBeUndefined();
+  });
+
+  test("isPIBControlNumber should not run on empty falsy values", () => {
+    expect(isPIBControlNumber(null)).toBeUndefined();
+    expect(isPIBControlNumber("")).toBeUndefined();
+    expect(isPIBControlNumber(undefined)).toBeUndefined();
+  });
+
+  test("pibControlNumberRequired should return an error when pib control number is not provided", () => {
+    expect(pibControlNumberRequired()).toEqual("Please enter a PIB Control #");
+  });
+
+  test("pibControlNumberNotBlank should return an error when pib control number is empty", () => {
+    expect(pibControlNumberNotBlank("   ")).toEqual(
+      "Please enter a PIB Control #"
+    );
+  });
   test("emailRequired should return an error when email is not provided", () => {
     expect(emailIsRequired()).toEqual("Please enter Email Address");
   });

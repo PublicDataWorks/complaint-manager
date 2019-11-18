@@ -1,7 +1,11 @@
 import React from "react";
 import { Field } from "redux-form";
 import { TextField } from "redux-form-material-ui";
-import { isPIBCaseNumber } from "../../formFieldLevelValidations";
+import {
+  isPIBControlNumber,
+  pibControlNumberNotBlank,
+  pibControlNumberRequired
+} from "../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
 
 const TextMaskCustom = props => {
@@ -42,7 +46,11 @@ const PIBControlField = () => {
         autoComplete: "disabled"
       }}
       data-test="pib-control-field"
-      validate={[isPIBCaseNumber]}
+      validate={[
+        isPIBControlNumber,
+        pibControlNumberRequired,
+        pibControlNumberNotBlank
+      ]}
       style={{ width: "50%", marginRight: "0%", marginBottom: "3%" }}
       InputLabelProps={{
         shrink: true
