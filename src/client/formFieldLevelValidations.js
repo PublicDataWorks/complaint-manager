@@ -27,7 +27,7 @@ export const isPhoneNumber = value => {
   return missingOrValid ? undefined : "Please enter a numeric 10 digit value";
 };
 
-export const isPIBCaseNumber = value => {
+export const isPIBControlNumber = value => {
   if (!value) {
     return undefined;
   }
@@ -66,3 +66,5 @@ export const officerRoleRequired = selectRequired("Role on Case");
 export const titleIsRequired = isRequired("Title");
 export const intakeSourceIsRequired = isRequired("Intake Source");
 export const caseTagRequired = isRequired("a tag name");
+export const pibControlNumberRequired = isRequired("a PIB Control #");
+export const pibControlNumberNotBlank = notBlank("a PIB Control #");

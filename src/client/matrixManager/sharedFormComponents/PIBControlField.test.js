@@ -21,6 +21,34 @@ describe("PIB Control Field", () => {
     );
   });
 
+  test("should not be an empty string", () => {
+    const pibCaseInput = pibCaseFieldComponent.find(
+      'input[data-test="pib-control-input"]'
+    );
+
+    pibCaseInput.simulate("focus");
+    pibCaseInput.simulate("change", { target: { value: "" } });
+    pibCaseInput.simulate("blur");
+
+    expect(pibCaseFieldComponent.text()).toContain(
+      "Please enter a PIB Control #"
+    );
+  });
+
+  test("should not be blank", () => {
+    const pibCaseInput = pibCaseFieldComponent.find(
+      'input[data-test="pib-control-input"]'
+    );
+
+    pibCaseInput.simulate("focus");
+    pibCaseInput.simulate("change", { target: { value: "  " } });
+    pibCaseInput.simulate("blur");
+
+    expect(pibCaseFieldComponent.text()).toContain(
+      "Please enter a PIB Control #"
+    );
+  });
+
   test("should display error when pib case is invalid", () => {
     const pibCaseInput = pibCaseFieldComponent.find(
       'input[data-test="pib-control-input"]'
