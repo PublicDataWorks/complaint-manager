@@ -60,7 +60,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests it 
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -167,7 +167,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -285,7 +285,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -427,7 +427,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -521,7 +521,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -615,7 +615,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -710,7 +710,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 
@@ -804,7 +804,7 @@ exports[`getReferralLetterPreview in letter in progress status snapshotTests ren
     <p><br></p>
   <p class=\\"ql-align-center\\"><strong><u>Details of Complainant’s Account</u></strong></p>
   <p><br></p>
-  <p style=\\"white-space: pre-wrap;\\">test details</p>
+  <p class=\\"preserve-white-space\\">test details</p>
   <p><br></p>
   <p><br></p>
 

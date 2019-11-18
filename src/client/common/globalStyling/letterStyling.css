@@ -1,0 +1,11 @@
+p {
+    margin: 0;
+}
+
+.preserve-white-space {
+    white-space: pre-wrap;
+}
+
+.ql-align-center {
+    text-align: center;
+}

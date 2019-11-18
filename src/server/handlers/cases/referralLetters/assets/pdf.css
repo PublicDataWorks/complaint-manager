@@ -1,9 +1,5 @@
-.ql-align-center {
-    text-align: center;
-}
-p {
-    margin: 0;
-}
+@import "../../../../../client/common/globalStyling/letterStyling.css";
+
 * {
     font-size: 8.5pt;
 }
