@@ -1,3 +1,5 @@
+@import "./client/common/globalStyling/letterStyling.css";
+
 html,
 body {
   margin: 0;
@@ -18,12 +20,4 @@ div#root {
 .letter-preview p,
 .quill-editor-overrides p {
   margin: 0;
-}
-
-.ql-align-center {
-  text-align: center;
-}
-
-.preserve-white-space {
-  white-space: pre-wrap;
 }
