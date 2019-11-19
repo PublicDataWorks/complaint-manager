@@ -20,6 +20,10 @@ import DropdownSelect from "../../../complaintManager/cases/CaseDetails/Civilian
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
 import getUsers from "../thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
+import {
+  firstReviewerRequired,
+  secondReviewerRequired
+} from "../../../formFieldLevelValidations";
 
 const styles = theme => ({
   dialogPaper: {
@@ -82,6 +86,7 @@ class CreateMatrixDialog extends React.Component {
               isCreatable={false}
               style={{ width: "12rem" }}
               required
+              validate={[firstReviewerRequired]}
             >
               {generateMenuOptions(mappedUsers)}
             </Field>
@@ -97,6 +102,7 @@ class CreateMatrixDialog extends React.Component {
               isCreatable={false}
               style={{ width: "12rem" }}
               required
+              validate={[secondReviewerRequired]}
             >
               {generateMenuOptions(mappedUsers)}
             </Field>

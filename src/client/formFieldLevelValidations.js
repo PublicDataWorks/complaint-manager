@@ -68,3 +68,5 @@ export const intakeSourceIsRequired = isRequired("Intake Source");
 export const caseTagRequired = isRequired("a tag name");
 export const pibControlNumberRequired = isRequired("a PIB Control #");
 export const pibControlNumberNotBlank = notBlank("a PIB Control #");
+export const firstReviewerRequired = selectRequired("a First Reviewer");
+export const secondReviewerRequired = selectRequired("a Second Reviewer");
