@@ -102,6 +102,32 @@ describe("CreateMatrixDialog", () => {
   });
 
   describe("reviewer dropdown", () => {
+    test("first reviewer should display error when not set on save", () => {
+      const submitButton = wrapper.find(
+        'PrimaryButton[data-test="create-and-search"]'
+      );
+      submitButton.simulate("click");
+      expect(
+        wrapper
+          .find('[data-test="first-reviewer-dropdown"]')
+          .last()
+          .text()
+      ).toContain("Please select a First Reviewer");
+    });
+
+    test("second reviewer should display error when not set on save", () => {
+      const submitButton = wrapper.find(
+        'PrimaryButton[data-test="create-and-search"]'
+      );
+      submitButton.simulate("click");
+      expect(
+        wrapper
+          .find('[data-test="second-reviewer-dropdown"]')
+          .last()
+          .text()
+      ).toContain("Please select a Second Reviewer");
+    });
+
     test("should load getUsers output in dropdown", () => {
       let firstReviewer = wrapper
         .find('[data-test="first-reviewer-dropdown"]')

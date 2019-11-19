@@ -2,6 +2,7 @@ import {
   emailIsRequired,
   firstNameNotBlank,
   firstNameRequired,
+  firstReviewerRequired,
   isEmail,
   isIntegerString,
   isPhoneNumber,
@@ -9,8 +10,9 @@ import {
   lastNameNotBlank,
   lastNameRequired,
   notFutureDate,
-  pibControlNumberRequired,
   pibControlNumberNotBlank,
+  pibControlNumberRequired,
+  secondReviewerRequired,
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
@@ -98,6 +100,12 @@ describe("Form Validations", () => {
   });
   test("emailRequired should return an error when email is not provided", () => {
     expect(emailIsRequired()).toEqual("Please enter Email Address");
+  });
+  test("firstReviewerRequired should return an error when first reviewer is empty", () => {
+    expect(firstReviewerRequired()).toEqual("Please select a First Reviewer");
+  });
+  test("secondReviewerRequired should return an error when second reviewer is empty", () => {
+    expect(secondReviewerRequired()).toEqual("Please select a Second Reviewer");
   });
 
   test("notFutureDate should return an error when date is a future date", () => {
