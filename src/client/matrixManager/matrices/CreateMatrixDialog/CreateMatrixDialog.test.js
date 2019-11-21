@@ -184,5 +184,32 @@ describe("CreateMatrixDialog", () => {
         ])
       );
     });
+
+    test("should display error below second reviewer if both reviewers are the same", () => {
+      changeInput(wrapper, '[data-test="pib-control-input"]', "2019-0001-Y");
+      findDropdownOption(
+        wrapper,
+        '[data-test="first-reviewer-dropdown"]',
+        "Jacob",
+        false
+      );
+      findDropdownOption(
+        wrapper,
+        '[data-test="second-reviewer-dropdown"]',
+        "Jacob",
+        false
+      );
+      const secondDropdown = wrapper
+        .find('[data-test="second-reviewer-dropdown"]')
+        .last();
+      const submitButton = wrapper.find(
+        'PrimaryButton[data-test="create-and-search"]'
+      );
+      submitButton.simulate("click");
+
+      expect(secondDropdown.text()).toContain(
+        "You’ve selected the same user for both Reviewers. Please change one."
+      );
+    });
   });
 });

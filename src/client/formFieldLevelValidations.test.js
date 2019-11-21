@@ -13,6 +13,7 @@ import {
   pibControlNumberNotBlank,
   pibControlNumberRequired,
   secondReviewerRequired,
+  reviewersShouldBeDifferent,
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
@@ -108,6 +109,17 @@ describe("Form Validations", () => {
     expect(secondReviewerRequired()).toEqual("Please select a Second Reviewer");
   });
 
+  test("reviewersShouldBeDifferent returns an error when reviewers are the same", () => {
+    expect(
+      reviewersShouldBeDifferent("migos@three.com", {
+        firstReviewer: "migos@three.com",
+        secondReviewer: "migos@three.com"
+      })
+    ).toEqual(
+      "You’ve selected the same user for both Reviewers. Please change one."
+    );
+  });
+
   test("notFutureDate should return an error when date is a future date", () => {
     const today = moment(Date.now())
       .add(1, "days")
@@ -141,7 +153,6 @@ describe("Form Validations", () => {
   test("isIntegerString does not return an error when string with spaces given", () => {
     expect(isIntegerString("   ")).toBeUndefined();
   });
-
   test("isIntegerString does not return an error when blank given", () => {
     expect(isIntegerString("")).toBeUndefined();
     expect(isIntegerString(null)).toBeUndefined();
