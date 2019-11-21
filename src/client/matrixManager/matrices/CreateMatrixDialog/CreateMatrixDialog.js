@@ -6,7 +6,7 @@ import {
   DialogTitle,
   withStyles
 } from "@material-ui/core";
-import { Field, reduxForm } from "redux-form";
+import { Field, formValueSelector, reduxForm } from "redux-form";
 import React from "react";
 import { CREATE_MATRIX_FORM_NAME } from "../../../../sharedUtilities/constants";
 import {
@@ -22,6 +22,7 @@ import getUsers from "../thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
 import {
   firstReviewerRequired,
+  reviewersShouldBeDifferent,
   secondReviewerRequired
 } from "../../../formFieldLevelValidations";
 
@@ -102,7 +103,7 @@ class CreateMatrixDialog extends React.Component {
               isCreatable={false}
               style={{ width: "12rem" }}
               required
-              validate={[secondReviewerRequired]}
+              validate={[secondReviewerRequired, reviewersShouldBeDifferent]}
             >
               {generateMenuOptions(mappedUsers)}
             </Field>
@@ -125,10 +126,17 @@ class CreateMatrixDialog extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  open: state.ui.createDialog.matrix.open,
-  allUsers: state.users.all
-});
+const mapStateToProps = state => {
+  const selector = formValueSelector(CREATE_MATRIX_FORM_NAME);
+  const firstReviewer = selector(state, "firstReviewer");
+  const secondReviewer = selector(state, "secondReviewer");
+  return {
+    open: state.ui.createDialog.matrix.open,
+    allUsers: state.users.all,
+    firstReviewer,
+    secondReviewer
+  };
+};
 
 const mapDispatchToProps = {
   closeCreateDialog: closeCreateDialog,
@@ -137,7 +145,11 @@ const mapDispatchToProps = {
 };
 
 const connectedForm = reduxForm({
-  form: CREATE_MATRIX_FORM_NAME
+  form: CREATE_MATRIX_FORM_NAME,
+  initialValues: {
+    firstReviewer: "",
+    secondReviewer: ""
+  }
 })(CreateMatrixDialog);
 
 export default withStyles(styles)(
