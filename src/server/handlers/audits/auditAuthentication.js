@@ -13,7 +13,8 @@ const auditAuthentication = asyncMiddleware(async (request, response) => {
 
   await models.audit.create({
     auditAction: request.body.log,
-    user: request.nickname
+    user: request.nickname,
+    managerType: "complaint"
   });
 
   response.status(201).send();

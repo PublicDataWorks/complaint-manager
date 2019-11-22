@@ -29,6 +29,7 @@ describe("getTransformedAudits", () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.EXPORTED,
       user: testUser,
+      managerType: "complaint",
       exportAudit: {
         exportType: JOB_OPERATION.AUDIT_LOG_EXPORT.name
       }
@@ -53,23 +54,28 @@ describe("getTransformedAudits", () => {
     const audits = [
       {
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: testUser
+        user: testUser,
+        managerType: "complaint"
       },
       {
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: testUser
+        user: testUser,
+        managerType: "complaint"
       },
       {
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: testUser
+        user: testUser,
+        managerType: "complaint"
       },
       {
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: testUser
+        user: testUser,
+        managerType: "complaint"
       },
       {
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: testUser
+        user: testUser,
+        managerType: "complaint"
       }
     ];
 
@@ -84,6 +90,7 @@ describe("getTransformedAudits", () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.EXPORTED,
       user: testUser,
+      managerType: "complaint",
       dataAccessAudit: {
         auditSubject: "test subject",
         dataAccessValues: [
@@ -134,6 +141,7 @@ describe("getTransformedAudits", () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.DOWNLOADED,
       user: testUser,
+      managerType: "complaint",
       fileAudit: {
         fileName: fileName,
         fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF
@@ -166,6 +174,7 @@ describe("getTransformedAudits", () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.DATA_CREATED,
       user: testUser,
+      managerType: "complaint",
       dataChangeAudit: {
         modelName: "test model name",
         modelDescription: "test model description",
@@ -205,6 +214,7 @@ describe("getTransformedAudits", () => {
     const auditValues = {
       auditAction: AUDIT_ACTION.DATA_CREATED,
       user: testUser,
+      managerType: "complaint",
       legacyDataAccessAudit: {
         auditSubject: AUDIT_SUBJECT.CASE_DETAILS,
         auditDetails: [

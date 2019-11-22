@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         type: DataTypes.INTEGER
       },
+      managerType: {
+        field: "manager_type",
+        type: DataTypes.STRING
+      },
       auditAction: {
         field: "audit_action",
         type: DataTypes.STRING,

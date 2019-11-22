@@ -10,7 +10,8 @@ describe("data access audit", () => {
   test(" does not create audit on audit creation", async () => {
     await models.audit.create({
       auditAction: AUDIT_ACTION.LOGGED_IN,
-      user: "user"
+      user: "user",
+      managerType: "complaint"
     });
 
     const audit = await models.data_change_audit.findAll();

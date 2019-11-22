@@ -251,6 +251,7 @@ exports.init = (sequelize, model) => {
         user: getUserNickname(options, action, formattedModelName),
         auditAction: action,
         caseId: caseId,
+        managerType: "complaint",
         dataChangeAudit: {
           modelName: modelName,
           modelDescription: await getModelDescription(

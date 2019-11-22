@@ -12,6 +12,7 @@ export const auditFileAction = async (
     auditAction: auditAction,
     user: user,
     caseId: caseId,
+    managerType: "complaint",
     fileAudit: {
       fileName: fileName,
       fileType: fileType

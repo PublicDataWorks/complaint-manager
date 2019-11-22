@@ -174,6 +174,7 @@ describe("getCaseHistory", () => {
           user: testUser,
           auditAction: AUDIT_ACTION.DATA_ACCESSED,
           caseId: caseId,
+          managerType: "complaint",
           dataAccessAudit: {
             auditSubject: "test subject",
             dataAccessValues: [
@@ -223,6 +224,7 @@ describe("getCaseHistory", () => {
           user: testUser,
           auditAction: AUDIT_ACTION.UPLOADED,
           caseId: caseId,
+          managerType: "complaint",
           fileAudit: {
             fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
             fileName: "Test File"
@@ -249,6 +251,7 @@ describe("getCaseHistory", () => {
           user: testUser,
           auditAction: AUDIT_ACTION.DATA_UPDATED,
           caseId: caseId,
+          managerType: "complaint",
           createdAt: createdAt,
           dataChangeAudit: {
             modelName: modelName,

@@ -51,6 +51,7 @@ const generateExportDownloadUrl = async (
     const auditValues = {
       auditAction: AUDIT_ACTION.EXPORTED,
       user: userName,
+      managerType: "complaint",
       exportAudit: {
         exportType: jobName,
         rangeType: rangeType,
