@@ -87,7 +87,8 @@ describe("exportAuditLog", () => {
       timekeeper.freeze(timeOfLogin);
       await models.audit.create({
         auditAction: AUDIT_ACTION.LOGGED_IN,
-        user: "someuser"
+        user: "someuser",
+        managerType: "complaint"
       });
 
       await exportAuditLog(job, jobDone);
@@ -124,21 +125,25 @@ describe("exportAuditLog", () => {
       await models.audit.create({
         auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "dough",
+        managerType: "complaint",
         createdAt: moment.tz("1999-12-31 23:59:59", TIMEZONE)
       });
       await models.audit.create({
         auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "basil",
+        managerType: "complaint",
         createdAt: moment.tz("2000-01-01 00:00:00", TIMEZONE)
       });
       await models.audit.create({
         auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "mom",
+        managerType: "complaint",
         createdAt: moment.tz("2000-02-03 23:59:00", TIMEZONE)
       });
       await models.audit.create({
         auditAction: AUDIT_ACTION.LOGGED_IN,
         user: "bruce",
+        managerType: "complaint",
         createdAt: moment.tz("2000-02-04 00:00:00", TIMEZONE)
       });
 
