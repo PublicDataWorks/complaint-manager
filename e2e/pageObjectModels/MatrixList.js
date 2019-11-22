@@ -1,11 +1,11 @@
 const e2e = require("./e2eUtilities.js");
 
-const disciplinaryProceedingsCommands = {
+const matrixManagerCommands = {
   isOnPage: function() {
     return this.waitForElementVisible(
       "@pageTitle",
       e2e.roundtripWait
-    ).assert.containsText("@pageTitle", "All Disciplinary Proceedings");
+    ).assert.containsText("@pageTitle", "All Matrices");
   },
   pressesCreateMatrixButton: function() {
     return this.waitForElementVisible(
@@ -16,7 +16,7 @@ const disciplinaryProceedingsCommands = {
 };
 
 module.exports = {
-  commands: disciplinaryProceedingsCommands,
+  commands: matrixManagerCommands,
   elements: {
     pageTitle: { selector: "[data-test='pageTitle']" },
     createMatrixButton: { selector: "[data-test='create-matrix-button']" }

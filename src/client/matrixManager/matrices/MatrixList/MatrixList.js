@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import getUsers from "../thunks/getUsers";
 import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
-import { disciplinaryProceedingsMenuOptions } from "../../../complaintManager/shared/components/NavBar/disciplinaryProceedingsMenuOptions";
+import { matrixManagerMenuOptions } from "../../../complaintManager/shared/components/NavBar/matrixManagerMenuOptions";
 import CreateMatrixButton from "./CreateMatrixButton";
 
 class MatrixList extends Component {
@@ -15,8 +15,8 @@ class MatrixList extends Component {
   render() {
     return (
       <div>
-        <NavBar showHome={false} menuType={disciplinaryProceedingsMenuOptions}>
-          All Disciplinary Proceedings
+        <NavBar showHome={false} menuType={matrixManagerMenuOptions}>
+          All Matrices
         </NavBar>
         <CreateMatrixButton />
       </div>

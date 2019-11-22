@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import complaintManagerRoutes from "./complaintManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
-import disciplinaryProceedingsRoutes from "./disciplinaryProceedingsRoutes";
+import matrixManagerRoutes from "./matrixManagerRoutes";
 import { Route, Switch } from "react-router";
 import { connect } from "react-redux";
 
@@ -17,7 +17,7 @@ class AppRouter extends Component {
         {complaintManagerRoutes.map(route =>
           this.createRoute(route.path, route.component)
         )}
-        {disciplinaryProceedingsRoutes.map(
+        {matrixManagerRoutes.map(
           route =>
             this.shouldCreateRoute(route.toggleName) &&
             this.createRoute(route.path, route.component)

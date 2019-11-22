@@ -12,9 +12,9 @@ if (!TEST_USER) {
 
 if (TEST_PASS && TEST_USER) {
   module.exports = {
-    "should navigate to disciplinary proceedings": browser => {
+    "should navigate to matrix manager": browser => {
       console.log("Browser Launch URL", browser.launch_url);
-      browser.url(browser.launch_url + "disciplinary-proceedings").resizeWindow(1366, 768);
+      browser.url(browser.launch_url + "matrices").resizeWindow(1366, 768);
       browser.url(function(result) {
         console.log("Current URL", result);
       });
@@ -24,7 +24,7 @@ if (TEST_PASS && TEST_USER) {
 
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
-    "should redirect to disciplinary proceedings": browser => {
+    "should redirect to matrix manager": browser => {
       const matrixList = browser.page.MatrixList();
 
       matrixList.isOnPage();

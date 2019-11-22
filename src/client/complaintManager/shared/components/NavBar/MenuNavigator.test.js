@@ -1,15 +1,15 @@
 import React from "react";
 import { mount } from "enzyme";
-import { disciplinaryProceedingsMenuOptions } from "./disciplinaryProceedingsMenuOptions";
+import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import MenuNavigator from "./MenuNavigator";
 import { BrowserRouter as Router } from "react-router-dom";
 import { complaintManagerMenuOptions } from "./complaintManagerMenuOptions";
 
 describe("MenuNavigator", () => {
-  test("if menuType is disciplinaryProceedingsOptions, menu items should be Complaints,Export, and Logout", () => {
+  test("if menuType is matrixManagerOptions, menu items should be Complaints,Export, and Logout", () => {
     const wrapper = mount(
       <Router>
-        <MenuNavigator menuType={disciplinaryProceedingsMenuOptions} />
+        <MenuNavigator menuType={matrixManagerMenuOptions} />
       </Router>
     );
 

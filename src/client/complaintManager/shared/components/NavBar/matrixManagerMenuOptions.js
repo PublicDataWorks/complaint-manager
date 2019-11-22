@@ -1,4 +1,4 @@
-export const disciplinaryProceedingsMenuOptions = [
+export const matrixManagerMenuOptions = [
   {
     path: "/",
     dataTestName: "complaints",

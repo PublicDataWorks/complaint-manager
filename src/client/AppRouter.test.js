@@ -15,44 +15,38 @@ describe("AppRouter", () => {
     store = createConfiguredStore();
     appWrapper = mount(
       <Provider store={store}>
-        <MemoryRouter initialEntries={["/disciplinary-proceedings"]}>
+        <MemoryRouter initialEntries={["/matrices"]}>
           <AppRouter />
         </MemoryRouter>
       </Provider>
     );
   });
 
-  test("displays disciplinary proceedings route when feature flag enabled", () => {
+  test("displays matrix manager route when feature flag enabled", () => {
     store.dispatch(
       getFeaturesSuccess({
-        disciplinaryProceedingsFeature: true
+        matrixManagerFeature: true
       })
     );
     appWrapper.update();
-    const disProRoute = appWrapper.find(
-      "Route[path='/disciplinary-proceedings']"
-    );
+    const disProRoute = appWrapper.find("Route[path='/matrices']");
     expect(disProRoute.exists()).toBeTrue();
   });
 
-  test("displays disciplinary proceedings route when feature flag doesn't exist", () => {
-    const disProRoute = appWrapper.find(
-      "Route[path='/disciplinary-proceedings']"
-    );
+  test("displays matrix manager route when feature flag doesn't exist", () => {
+    const disProRoute = appWrapper.find("Route[path='/matrices']");
     expect(disProRoute.exists()).toBeTrue();
     expect(appWrapper.find("AppRouter").props().featureToggles).toEqual({});
   });
 
-  test("does not display disciplinary proceedings route when feature flag disabled", () => {
+  test("does not display matrix manager route when feature flag disabled", () => {
     store.dispatch(
       getFeaturesSuccess({
-        disciplinaryProceedingsFeature: false
+        matrixManagerFeature: false
       })
     );
     appWrapper.update();
-    const disProRoute = appWrapper.find(
-      "Route[path='/disciplinary-proceedings']"
-    );
+    const disProRoute = appWrapper.find("Route[path='/matrices']");
     expect(disProRoute.exists()).toBeFalse();
   });
 });
