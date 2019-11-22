@@ -18,9 +18,9 @@ hawkeye_report.json
 
 e2e/tests/userJourney/**/*.png
 e2e/tests/complaintManagerUserJourney/**/*.png
-e2e/tests/disciplinaryProceedingsUserJourney/**/*.png
+e2e/tests/matrixManagerUserJourney/**/*.png
 e2e/tests/complaintManager/complaintManagerUserJourney/**/*.png
-e2e/tests/disciplinaryProceedings/disciplinaryProceedingsUserJourney/**/*.png
+e2e/tests/matrixManager/matrixManagerUserJourney/**/*.png
 selenium-server.log
 
 # production

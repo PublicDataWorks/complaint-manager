@@ -98,7 +98,7 @@ class NavBar extends Component {
 
 NavBar.defaultProps = {
   showHome: true,
-  disciplinaryProceedings: false
+  matrixManager: false
 };
 
 const mapStateToProps = state => ({

@@ -36,9 +36,9 @@
     "enabled": true
   },
   {
-    "id": "disciplinaryProceedingsFeature",
-    "name": "disciplinaryProceedingsFeature",
-    "description": "Disciplinary Proceedings feature",
+    "id": "matrixManagerFeature",
+    "name": "matrixManagerFeature",
+    "description": "Matrix Manager feature",
     "criteria": {
       "isPreProd": true
     }

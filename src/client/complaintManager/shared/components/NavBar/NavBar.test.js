@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../../mockLocalStorage";
 import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
-import { disciplinaryProceedingsMenuOptions } from "./disciplinaryProceedingsMenuOptions";
+import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 
 describe("NavBar", () => {
   let wrapper, store;
@@ -19,7 +19,7 @@ describe("NavBar", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <NavBar menuType={disciplinaryProceedingsMenuOptions} />
+          <NavBar menuType={matrixManagerMenuOptions} />
         </Router>
       </Provider>
     );
