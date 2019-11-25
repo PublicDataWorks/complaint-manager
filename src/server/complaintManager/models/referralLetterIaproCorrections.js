@@ -1,5 +1,5 @@
 "use strict";
-const models = require("./");
+const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
   const ReferralLetterIaproCorrection = sequelize.define(

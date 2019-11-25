@@ -1,6 +1,6 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");

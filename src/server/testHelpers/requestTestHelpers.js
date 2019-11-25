@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
-import models from "../models/index";
+import models from "../complaintManager/models/index";
 import winston from "winston";
 
 const config = require("../config/config")[process.env.NODE_ENV];

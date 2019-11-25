@@ -1,4 +1,4 @@
-import models from "../../models";
+import models from "../../complaintManager/models";
 import legacyAuditDataAccess from "./legacyAuditDataAccess";
 import {
   AUDIT_ACTION,

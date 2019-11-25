@@ -2,9 +2,9 @@ import {
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
   RANK_INITIATED
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import Boom from "boom";
-import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 export const getCaseReference = (complaintType, caseNumber, year) => {
   let prefix;

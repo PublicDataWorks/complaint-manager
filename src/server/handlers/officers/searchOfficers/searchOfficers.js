@@ -4,7 +4,7 @@ import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 
-const models = require("../../../models/index");
+const models = require("../../../complaintManager/models/index");
 const {
   AUDIT_SUBJECT,
   DEFAULT_PAGINATION_LIMIT

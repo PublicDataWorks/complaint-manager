@@ -1,4 +1,4 @@
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import asyncMiddleware from "../../asyncMiddleware";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";

@@ -1,6 +1,6 @@
 import { ASCENDING } from "../../../sharedUtilities/constants";
 
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 
 const getAllegations = async (request, response, next) => {
   const uniqueRules = await models.allegation.findAll({

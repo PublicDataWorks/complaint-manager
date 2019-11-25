@@ -5,7 +5,7 @@ import {
 } from "../../../../testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "../../../../server";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 
 jest.mock("../../export/jobQueue");
 

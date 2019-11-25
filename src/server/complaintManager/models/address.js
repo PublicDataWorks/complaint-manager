@@ -1,6 +1,6 @@
 "use strict";
 
-import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
+import { ADDRESSABLE_TYPE } from "../../../sharedUtilities/constants";
 
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(

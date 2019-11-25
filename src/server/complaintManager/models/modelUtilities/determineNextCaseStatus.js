@@ -1,6 +1,6 @@
-const CASE_STATUS_MAP = require("../../../sharedUtilities/constants")
+const CASE_STATUS_MAP = require("../../../../sharedUtilities/constants")
   .CASE_STATUS_MAP;
-const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
+const CASE_STATUS = require("../../../../sharedUtilities/constants").CASE_STATUS;
 const _ = require("lodash");
 
 const determineNextCaseStatus = currentStatus => {

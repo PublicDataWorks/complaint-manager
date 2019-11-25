@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,

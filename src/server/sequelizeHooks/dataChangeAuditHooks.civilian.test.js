@@ -1,4 +1,4 @@
-import models from "../models";
+import models from "../complaintManager/models";
 import Case from "../../client/complaintManager/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";

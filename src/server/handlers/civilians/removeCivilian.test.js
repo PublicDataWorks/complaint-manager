@@ -5,7 +5,7 @@ import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
-const models = require("../../models/index");
+const models = require("../../complaintManager/models/index");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../audits/auditDataAccess");

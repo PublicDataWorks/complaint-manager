@@ -4,7 +4,7 @@ import {
   AUDIT_SUBJECT,
   JOB_OPERATION
 } from "../../../../sharedUtilities/constants";
-import models from "../../../../server/models";
+import models from "../../../../server/complaintManager/models";
 import transformAuditsForExport from "./transformAuditsForExport";
 import { cleanupDatabase } from "../../../../server/testHelpers/requestTestHelpers";
 import getTransformedAudits from "./getTransformedAudits";

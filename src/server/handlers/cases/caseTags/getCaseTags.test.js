@@ -1,7 +1,7 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getCaseTags from "./getCaseTags";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT

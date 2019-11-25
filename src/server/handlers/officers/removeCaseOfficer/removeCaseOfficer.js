@@ -2,7 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");

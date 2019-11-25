@@ -1,5 +1,5 @@
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models/index");
+const models = require("../../../complaintManager/models/index");
 
 const archiveCase = asyncMiddleware(async (request, response, next) => {
   await models.sequelize.transaction(async transaction => {

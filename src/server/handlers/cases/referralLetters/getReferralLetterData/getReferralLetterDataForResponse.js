@@ -1,4 +1,4 @@
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import shortid from "shortid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails, {

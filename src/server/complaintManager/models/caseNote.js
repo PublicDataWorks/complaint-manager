@@ -1,5 +1,5 @@
 const timezone = require("moment-timezone");
-const { TIMEZONE } = require("../../sharedUtilities/constants");
+const { TIMEZONE } = require("../../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const CaseNote = sequelize.define(

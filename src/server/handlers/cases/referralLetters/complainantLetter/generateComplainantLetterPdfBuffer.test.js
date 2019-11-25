@@ -3,7 +3,7 @@ import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLe
 import timekeeper from "timekeeper";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
 import generateComplainantLetterPdfBuffer, {
   generateComplainantLetterHtml

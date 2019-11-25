@@ -3,7 +3,7 @@ import {
   CIVILIAN_INITIATED,
   PERSON_TYPE,
   RANK_INITIATED
-} from "../../sharedUtilities/constants";
+} from "../../../sharedUtilities/constants";
 import {
   getOfficerFullName,
   getPersonFullName

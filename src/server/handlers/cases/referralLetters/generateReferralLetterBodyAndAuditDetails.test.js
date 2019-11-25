@@ -1,5 +1,5 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import {
   generateReferralLetterBodyAndAuditDetails,
   getReferralLetterCaseDataAndAuditDetails

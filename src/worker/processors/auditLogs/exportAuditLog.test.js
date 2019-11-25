@@ -8,7 +8,7 @@ import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers"
 import parse from "csv-parse/lib/sync";
 import timekeeper from "timekeeper";
 import moment from "moment-timezone";
-import models from "../../../server/models/index";
+import models from "../../../server/complaintManager/models/index";
 import uploadFileToS3 from "../fileUpload/uploadFileToS3";
 import exportAuditLog from "./exportAuditLog";
 

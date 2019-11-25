@@ -1,6 +1,6 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";

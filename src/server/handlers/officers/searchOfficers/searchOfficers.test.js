@@ -1,6 +1,6 @@
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
-import models from "../../../models/index";
+import models from "../../../complaintManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");

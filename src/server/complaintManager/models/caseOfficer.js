@@ -1,13 +1,13 @@
 "use strict";
 
 import { getOfficerFullName } from "./modelUtilities/getFullName";
-import { EMPLOYEE_TYPE } from "../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../sharedUtilities/constants";
 
 const {
   ACCUSED,
   COMPLAINANT,
   WITNESS
-} = require("../../sharedUtilities/constants");
+} = require("../../../sharedUtilities/constants");
 const moment = require("moment");
 const models = require("./index");
 

@@ -1,4 +1,4 @@
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import fs from "fs";
 import Handlebars from "handlebars";
 import { ASCENDING } from "../../../../sharedUtilities/constants";

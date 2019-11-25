@@ -1,5 +1,5 @@
 import transformAuditsForExport from "./transformAuditsForExport";
-import models from "../../../../server/models";
+import models from "../../../../server/complaintManager/models";
 import _ from "lodash";
 
 const winston = require("winston");
@@ -14,9 +14,7 @@ const getTransformedAudits = async (
     where: dateRangeCondition
   });
   winston.info(
-    `Database returned ${
-      totalAudits.length
-    } audits that need to be transformed.`
+    `Database returned ${totalAudits.length} audits that need to be transformed.`
   );
 
   while (

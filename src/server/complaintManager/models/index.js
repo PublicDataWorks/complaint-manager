@@ -6,10 +6,10 @@ let env = process.env.NODE_ENV || "development";
 if (env === "test") {
   env += process.env.JEST_WORKER_ID;
 }
-const config = require(__dirname + "/../config/sequelize_config.js")[env];
+const config = require(__dirname + "/../../config/sequelize_config.js")[env];
 const db = {};
-const dataChangeAuditHooks = require("../sequelizeHooks/dataChangeAuditHooks");
-const caseStatusHooks = require("../sequelizeHooks/caseStatusHooks");
+const dataChangeAuditHooks = require("../../sequelizeHooks/dataChangeAuditHooks");
+const caseStatusHooks = require("../../sequelizeHooks/caseStatusHooks");
 
 let sequelize;
 if (config.use_env_variable) {

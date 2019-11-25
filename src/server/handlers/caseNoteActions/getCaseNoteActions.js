@@ -1,5 +1,5 @@
 import asyncMiddleWare from "../asyncMiddleware";
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 const getCaseNoteActions = asyncMiddleWare(async (request, response, next) => {
   const caseNoteActions = await models.case_note_action.findAll({

@@ -4,7 +4,7 @@ import {
   getCaseWithAllAssociationsAndAuditDetails,
   getCaseWithoutAssociations
 } from "./getCaseHelpers";
-import models from "../models";
+import models from "../complaintManager/models";
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";

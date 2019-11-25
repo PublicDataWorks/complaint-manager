@@ -1,4 +1,4 @@
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 export const auditFileAction = async (
   user,

@@ -1,7 +1,7 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import models from "../../models";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import models from "../index";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 describe("attachment", () => {
   afterEach(async () => {

@@ -1,5 +1,5 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 import restoreArchivedCase from "./restoreArchivedCase";

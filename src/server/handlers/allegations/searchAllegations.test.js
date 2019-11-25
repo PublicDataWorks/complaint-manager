@@ -1,5 +1,5 @@
 import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";

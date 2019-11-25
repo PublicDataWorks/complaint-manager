@@ -2,7 +2,7 @@ import {
   cleanupDatabase,
   suppressWinstonLogs
 } from "../testHelpers/requestTestHelpers";
-import models from "../models";
+import models from "../complaintManager/models";
 import fs from "fs";
 import path from "path";
 import createSeedOfficerDataFromS3 from "./createSeedOfficerDataFromS3";

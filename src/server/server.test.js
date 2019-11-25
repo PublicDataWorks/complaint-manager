@@ -1,6 +1,6 @@
 import app from "./server";
 import request from "supertest";
-import models from "./models";
+import models from "./complaintManager/models";
 import Civilian from "../client/complaintManager/testUtilities/civilian";
 import Case from "../client/complaintManager/testUtilities/case";
 import Attachment from "../client/complaintManager/testUtilities/attachment";

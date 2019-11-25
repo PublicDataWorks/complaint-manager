@@ -1,4 +1,4 @@
-import models from "../../models";
+import models from "../../complaintManager/models";
 import request from "supertest";
 import app from "../../server";
 import {

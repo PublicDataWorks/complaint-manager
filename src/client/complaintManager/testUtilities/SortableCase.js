@@ -2,7 +2,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED
 } from "../../../sharedUtilities/constants";
-import { getPersonFullName } from "../../../server/models/modelUtilities/getFullName";
+import { getPersonFullName } from "../../../server/complaintManager/models/modelUtilities/getFullName";
 
 class SortableCase {
   constructor(build) {

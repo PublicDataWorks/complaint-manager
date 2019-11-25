@@ -1,5 +1,5 @@
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 import editReferralLetterAddresses from "./editReferralLetterAddresses";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../client/complaintManager/testUtilities/case";

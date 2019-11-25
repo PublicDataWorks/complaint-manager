@@ -8,7 +8,7 @@ const {
   buildOfficerAttributesForUnknownOfficer
 } = require("../helpers/buildOfficerAttributesHelpers");
 
-const models = require("../../../models/index");
+const models = require("../../../complaintManager/models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 

@@ -1,5 +1,5 @@
 const csvParse = require("csv-parse");
-const models = require("../models");
+const models = require("../complaintManager/models");
 const _ = require("lodash");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 const config = require("../config/config");

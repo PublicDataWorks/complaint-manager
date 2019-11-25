@@ -1,6 +1,6 @@
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import asyncMiddleware from "../../../asyncMiddleware";
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 
 const editClassifications = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;

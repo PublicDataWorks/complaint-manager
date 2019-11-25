@@ -1,5 +1,5 @@
 import Case from "../../client/complaintManager/testUtilities/case";
-import models from "../models";
+import models from "../complaintManager/models";
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import {
   RECIPIENT,

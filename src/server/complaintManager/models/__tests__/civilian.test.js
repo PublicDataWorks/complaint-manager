@@ -1,11 +1,11 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../models";
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import models from "../index";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import {
   createTestCaseWithCivilian,
   createTestCaseWithoutCivilian
-} from "../../testHelpers/modelMothers";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+} from "../../../testHelpers/modelMothers";
+import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 
 describe("civilian", () => {
   afterEach(async () => {

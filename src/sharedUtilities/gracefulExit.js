@@ -1,4 +1,4 @@
-import db from "../server/models";
+import db from "../server/complaintManager/models";
 
 const queue = require("../server/handlers/cases/export/jobQueue").createQueue();
 

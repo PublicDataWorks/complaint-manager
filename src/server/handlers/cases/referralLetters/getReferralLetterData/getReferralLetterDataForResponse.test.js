@@ -1,4 +1,4 @@
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import { createTestCaseWithCivilian } from "../../../../testHelpers/modelMothers";
 import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";

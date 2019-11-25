@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import Tag from "../../../client/complaintManager/testUtilities/tag";
 import getTagsAndAuditDetails from "./getTagsHelper";
 import { ASCENDING } from "../../../sharedUtilities/constants";

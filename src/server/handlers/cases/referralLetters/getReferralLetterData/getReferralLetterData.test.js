@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
 import Officer from "../../../../../client/complaintManager/testUtilities/Officer";

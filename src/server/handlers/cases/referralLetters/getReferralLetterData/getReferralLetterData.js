@@ -2,7 +2,7 @@ import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import { AUDIT_SUBJECT } from "../../../../../sharedUtilities/constants";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 const getReferralLetterData = asyncMiddleware(async (request, response) => {

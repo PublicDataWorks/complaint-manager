@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import Tag from "../../client/complaintManager/testUtilities/tag";
-import models from "../models";
+import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks for tag", () => {

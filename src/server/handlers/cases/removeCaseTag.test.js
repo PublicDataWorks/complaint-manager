@@ -3,7 +3,7 @@ import { removeCaseTag } from "./removeCaseTag";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
 import tag from "../../../client/complaintManager/testUtilities/tag";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";

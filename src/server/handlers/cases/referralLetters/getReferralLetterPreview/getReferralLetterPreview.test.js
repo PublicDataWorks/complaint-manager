@@ -13,7 +13,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import Address from "../../../../../client/complaintManager/testUtilities/Address";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
 import Officer from "../../../../../client/complaintManager/testUtilities/Officer";

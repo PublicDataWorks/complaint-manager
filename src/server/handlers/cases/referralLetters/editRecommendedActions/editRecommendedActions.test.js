@@ -1,5 +1,5 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";

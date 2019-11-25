@@ -1,7 +1,7 @@
 import Case from "../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
 import Officer from "../../client/complaintManager/testUtilities/Officer";
-import models from "../models";
+import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 

@@ -1,6 +1,6 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 
 const editRecommendedActions = asyncMiddleware(
   async (request, response, next) => {

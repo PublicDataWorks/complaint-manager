@@ -1,4 +1,4 @@
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import generateExportDownloadUrl from "./generateExportDownloadUrl";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {

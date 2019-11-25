@@ -9,7 +9,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import editOfficerAllegation from "./editOfficerAllegation";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";

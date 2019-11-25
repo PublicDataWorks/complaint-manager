@@ -13,7 +13,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 const editCase = require("./editCase");
 const Boom = require("boom");
 

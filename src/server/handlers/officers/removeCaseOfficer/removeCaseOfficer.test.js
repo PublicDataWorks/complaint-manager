@@ -1,6 +1,6 @@
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";
 import { AUDIT_SUBJECT, WITNESS } from "../../../../sharedUtilities/constants";

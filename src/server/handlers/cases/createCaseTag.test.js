@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
 import Case from "../../../client/complaintManager/testUtilities/case";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
 import Tag from "../../../client/complaintManager/testUtilities/tag";

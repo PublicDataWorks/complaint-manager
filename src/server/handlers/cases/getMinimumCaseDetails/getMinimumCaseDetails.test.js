@@ -4,7 +4,7 @@ import {
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED
 } from "../../../../sharedUtilities/constants";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
 import auditDataAccess from "../../audits/auditDataAccess";

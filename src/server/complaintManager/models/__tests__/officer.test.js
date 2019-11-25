@@ -1,7 +1,7 @@
 import models from "../index";
 import moment from "moment";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import Officer from "../../../client/complaintManager/testUtilities/Officer";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 
 describe("officers", () => {
   describe("fullName", () => {
