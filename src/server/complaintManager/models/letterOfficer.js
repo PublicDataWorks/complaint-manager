@@ -1,4 +1,4 @@
-const models = require("./");
+const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
   const LetterOfficer = sequelize.define(

@@ -2,7 +2,7 @@ import axios from "axios";
 import _ from "lodash";
 import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import { retrieveSecretFromAWS } from "../../../retrieveSecretFromAWS";
 

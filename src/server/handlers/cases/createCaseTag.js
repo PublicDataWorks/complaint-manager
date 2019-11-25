@@ -1,5 +1,5 @@
 import Boom from "boom";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import auditDataAccess from "../audits/auditDataAccess";
 import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";

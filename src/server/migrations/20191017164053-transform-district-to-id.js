@@ -1,6 +1,6 @@
 "use strict";
 
-import models from "../models";
+import models from "../complaintManager/models";
 import transformCasesDistrictToId, {
   revertTransformCasesDistrictToId
 } from "../migrationJobs/transformCasesDistrictToId";

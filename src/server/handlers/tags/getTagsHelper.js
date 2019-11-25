@@ -1,5 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import { ASCENDING } from "../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../sequelizeHelpers";
 

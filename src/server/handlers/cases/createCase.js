@@ -19,7 +19,7 @@ const {
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../models/index");
+const models = require("../../complaintManager/models/index");
 const Boom = require("boom");
 const MAX_RETRIES = 3;
 const FIRST_TRY = 1;

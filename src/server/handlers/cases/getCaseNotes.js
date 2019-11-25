@@ -3,7 +3,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
-const models = require("../../models/index");
+const models = require("../../complaintManager/models/index");
 
 const getCaseNotes = asyncMiddleWare(async (request, response) => {
   const caseNotes = await models.sequelize.transaction(async transaction => {

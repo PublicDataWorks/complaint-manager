@@ -10,7 +10,7 @@ import transformAuditsToCaseHistory, {
   transformDataChangeAuditToCaseHistory,
   transformUploadAuditToCaseHistory
 } from "./transformAuditsToCaseHistory";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 
 describe("transformAuditsToCaseHistory", () => {
   const testUser = "GRiZ";

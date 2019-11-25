@@ -4,7 +4,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 const Boom = require("boom");
 
 const removeOfficerAllegation = asyncMiddleware(

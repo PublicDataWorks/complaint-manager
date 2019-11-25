@@ -3,7 +3,7 @@ import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails"
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 const _ = require("lodash");
 
 const editCaseNote = asyncMiddleware(async (request, response, next) => {

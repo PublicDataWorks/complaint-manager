@@ -7,7 +7,7 @@ import {
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {

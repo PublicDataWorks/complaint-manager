@@ -5,7 +5,7 @@ const {
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../models/index");
+const models = require("../../complaintManager/models/index");
 const Op = require("sequelize").Op;
 
 const searchAllegations = asyncMiddleware(async (request, response) => {

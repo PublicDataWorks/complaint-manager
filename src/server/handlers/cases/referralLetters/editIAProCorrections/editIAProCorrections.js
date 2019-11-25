@@ -1,5 +1,5 @@
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";

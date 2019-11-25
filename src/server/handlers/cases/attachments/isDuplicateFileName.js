@@ -1,4 +1,4 @@
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 
 const isDuplicateFileName = async (caseId, requestedFileName) => {
   const attachmentsWithSimilarName = await models.attachment.count({

@@ -1,4 +1,4 @@
-import models from "../models";
+import models from "../complaintManager/models";
 import _ from "lodash";
 
 export const transformCivilianTitleToId = async (

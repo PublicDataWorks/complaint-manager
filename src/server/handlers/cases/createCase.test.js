@@ -15,7 +15,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
 const createCase = require("./createCase");
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 
 jest.mock("../audits/auditDataAccess");
 

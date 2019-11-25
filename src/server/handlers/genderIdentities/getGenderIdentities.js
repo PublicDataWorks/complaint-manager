@@ -1,5 +1,5 @@
 import asyncMiddleWare from "../asyncMiddleware";
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 const getGenderIdentities = asyncMiddleWare(async (request, response, next) => {
   const genderIdentities = await models.gender_identity.findAll({

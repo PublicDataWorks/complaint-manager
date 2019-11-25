@@ -9,7 +9,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
-import models from "../../../models/index";
+import models from "../../../complaintManager/models/index";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";

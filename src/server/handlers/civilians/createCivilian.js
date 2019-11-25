@@ -6,7 +6,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 
 const createCivilian = asyncMiddleware(async (request, response, next) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {

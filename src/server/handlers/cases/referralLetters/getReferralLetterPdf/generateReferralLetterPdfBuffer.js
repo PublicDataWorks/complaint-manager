@@ -1,4 +1,4 @@
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import fs from "fs";

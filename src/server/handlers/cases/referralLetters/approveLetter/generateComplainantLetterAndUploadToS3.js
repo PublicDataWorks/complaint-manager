@@ -6,7 +6,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";

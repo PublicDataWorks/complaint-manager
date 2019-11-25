@@ -1,5 +1,5 @@
 import Case from "../../../../../client/complaintManager/testUtilities/case";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,

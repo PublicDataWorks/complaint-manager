@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../models";
+import models from "../../complaintManager/models";
 import getGenderIdentities from "./getGenderIdentities";
 
 const httpMocks = require("node-mocks-http");

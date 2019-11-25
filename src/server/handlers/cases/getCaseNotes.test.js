@@ -7,7 +7,7 @@ import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
 
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
 describe("getCaseNotes", function() {

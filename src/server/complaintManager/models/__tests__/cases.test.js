@@ -1,22 +1,22 @@
 import models from "../index";
-import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED,
   COMPLAINANT
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import {
   cleanupDatabase,
   suppressWinstonLogs
-} from "../../testHelpers/requestTestHelpers";
+} from "../../../testHelpers/requestTestHelpers";
 import Boom from "boom";
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../client/complaintManager/testUtilities/case";
 import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
-} from "../../../sharedUtilities/errorMessageConstants";
+} from "../../../../sharedUtilities/errorMessageConstants";
 
 import { range, shuffle } from "lodash";
 

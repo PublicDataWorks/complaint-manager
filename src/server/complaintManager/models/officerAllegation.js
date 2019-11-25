@@ -1,5 +1,5 @@
 const models = require("./index");
-const { ALLEGATION_SEVERITY } = require("../../sharedUtilities/constants");
+const { ALLEGATION_SEVERITY } = require("../../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
   const OfficerAllegation = sequelize.define(

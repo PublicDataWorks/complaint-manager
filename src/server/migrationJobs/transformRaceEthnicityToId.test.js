@@ -1,4 +1,4 @@
-import models from "../models";
+import models from "../complaintManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";

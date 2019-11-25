@@ -1,12 +1,12 @@
-import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import models from "../index";
-import Officer from "../../../client/complaintManager/testUtilities/Officer";
-import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { ACCUSED, CASE_STATUS } from "../../../sharedUtilities/constants";
-import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
-import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
-import LetterOfficer from "../../../client/complaintManager/testUtilities/LetterOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {

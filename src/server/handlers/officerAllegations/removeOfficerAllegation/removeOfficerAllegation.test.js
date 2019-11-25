@@ -5,7 +5,7 @@ import Allegation from "../../../../client/complaintManager/testUtilities/Allega
 import { ACCUSED, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";

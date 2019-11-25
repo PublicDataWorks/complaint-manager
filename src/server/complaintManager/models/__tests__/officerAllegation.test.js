@@ -1,10 +1,10 @@
-import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import Officer from "../../../client/complaintManager/testUtilities/Officer";
-import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
-import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
+import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import models from "../index";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("officerAllegation", function() {
   let officerAllegation, allegation, createdCase, officer;

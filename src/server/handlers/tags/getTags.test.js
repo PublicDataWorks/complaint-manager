@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getTags from "./getTags";
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 const httpMocks = require("node-mocks-http");
 

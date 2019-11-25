@@ -6,7 +6,7 @@ import {
   AUDIT_SUBJECT,
   EDIT_STATUS
 } from "../../../../../sharedUtilities/constants";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import auditDataAccess from "../../../audits/auditDataAccess";
 

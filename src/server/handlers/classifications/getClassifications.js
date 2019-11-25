@@ -6,7 +6,7 @@ import {
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
-const models = require("../../models");
+const models = require("../../complaintManager/models");
 const _ = require("lodash");
 
 const asyncMiddleware = require("../asyncMiddleware");

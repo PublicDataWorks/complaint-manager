@@ -1,7 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
   CIVILIAN_WITHIN_NOPD_INITIATED
-} from "../../sharedUtilities/constants";
+} from "../../../sharedUtilities/constants";
 import moment from "moment";
 import { head, isEmpty, sortBy } from "lodash";
 import models from "./index";
@@ -9,22 +9,22 @@ import winston from "winston";
 import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
-} from "../../sharedUtilities/errorMessageConstants";
+} from "../../../sharedUtilities/errorMessageConstants";
 import { getCaseReference } from "./modelUtilities/getCaseReference";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
-const CASE_STATUS = require("../../sharedUtilities/constants").CASE_STATUS;
-const RANK_INITIATED = require("../../sharedUtilities/constants")
+const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
+const RANK_INITIATED = require("../../../sharedUtilities/constants")
   .RANK_INITIATED;
-const CIVILIAN_INITIATED = require("../../sharedUtilities/constants")
+const CIVILIAN_INITIATED = require("../../../sharedUtilities/constants")
   .CIVILIAN_INITIATED;
 
 const {
   ACCUSED,
   COMPLAINANT,
   WITNESS
-} = require("../../sharedUtilities/constants");
+} = require("../../../sharedUtilities/constants");
 
 export default (sequelize, DataTypes) => {
   const Case = sequelize.define(

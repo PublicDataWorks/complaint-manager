@@ -2,7 +2,7 @@ import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLet
 import uploadAttachment from "./uploadAttachment";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import Busboy from "busboy";
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";

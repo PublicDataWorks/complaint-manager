@@ -1,4 +1,4 @@
-import { PERSON_TYPE } from "../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
 
 export const getCivilianFullName = (
   givenFirst,

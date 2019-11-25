@@ -3,7 +3,7 @@ import {
   AUDIT_FILE_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import getCaseHistory from "./getCaseHistory";
 import transformAuditsToCaseHistory from "./transformAuditsToCaseHistory";

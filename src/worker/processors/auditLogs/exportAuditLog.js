@@ -7,7 +7,7 @@ const {
   JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
-const models = require("../../../server/models/index");
+const models = require("../../../server/complaintManager/models/index");
 const stringify = require("csv-stringify");
 const util = require("util");
 const promisifiedStringify = util.promisify(stringify);

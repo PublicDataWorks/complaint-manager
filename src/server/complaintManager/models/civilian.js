@@ -3,7 +3,7 @@ import {
   ADDRESSABLE_TYPE,
   COMPLAINANT,
   WITNESS
-} from "../../sharedUtilities/constants";
+} from "../../../sharedUtilities/constants";
 import { getCivilianFullName } from "./modelUtilities/getFullName";
 
 module.exports = (sequelize, DataTypes) => {

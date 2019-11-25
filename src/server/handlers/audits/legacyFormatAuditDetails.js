@@ -1,5 +1,5 @@
 import _ from "lodash";
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 export const legacyFormatAuditDetails = auditDetails => {
   let formattedAuditDetails = {};
@@ -60,7 +60,7 @@ const getExtraAttributesIfAllModelAttributesPresent = (
   while (
     modelAttributesIndex < sortedModelAttributes.length &&
     auditAttributesIndex < sortedAuditAttributes.length
-    ) {
+  ) {
     if (
       attributeIsInBothAuditAndModel(
         modelAttributesIndex,

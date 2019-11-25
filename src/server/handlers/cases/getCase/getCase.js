@@ -2,7 +2,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const getCase = asyncMiddleware(async (request, response) => {

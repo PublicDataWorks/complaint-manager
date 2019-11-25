@@ -1,14 +1,14 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   createTestCaseWithCivilian,
   createTestCaseWithoutCivilian
-} from "../../testHelpers/modelMothers";
-import Address from "../../../client/complaintManager/testUtilities/Address";
+} from "../../../testHelpers/modelMothers";
+import Address from "../../../../client/complaintManager/testUtilities/Address";
 import {
   ADDRESSABLE_TYPE,
   CASE_STATUS
-} from "../../../sharedUtilities/constants";
-import models from "../../models";
+} from "../../../../sharedUtilities/constants";
+import models from "../index";
 
 describe("address", () => {
   afterEach(async () => {

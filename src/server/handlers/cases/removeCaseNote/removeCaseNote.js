@@ -4,7 +4,7 @@ import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails"
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 
 const removeCaseNote = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;

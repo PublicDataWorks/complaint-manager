@@ -10,7 +10,7 @@ const {
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } = require("../../../../sharedUtilities/constants");
-const models = require("../../../models/index");
+const models = require("../../../complaintManager/models/index");
 
 export const getAuditDetailsForExport = dateRange => {
   const auditDetails = {};

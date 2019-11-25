@@ -1,6 +1,6 @@
 import request from "supertest";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
-import models from "../../../models/index";
+import models from "../../../complaintManager/models/index";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import app from "../../../server";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";

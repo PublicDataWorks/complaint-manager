@@ -1,4 +1,4 @@
-import models from "../../../../models/index";
+import models from "../../../../complaintManager/models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import Boom from "boom";

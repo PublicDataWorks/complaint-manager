@@ -5,7 +5,7 @@ import {
   AUDIT_FILE_TYPE
 } from "../../../sharedUtilities/constants";
 import { auditFileAction } from "./auditFileAction";
-import models from "../../models";
+import models from "../../complaintManager/models";
 
 describe("auditFileAction", () => {
   const testUser = "Obi-Wan Kenobi";

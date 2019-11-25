@@ -1,4 +1,4 @@
-import models from "../../../models";
+import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
 import request from "supertest";

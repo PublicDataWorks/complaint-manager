@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import models from "../../../../models";
+import models from "../../../../complaintManager/models";
 import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import { AUDIT_FILE_TYPE } from "../../../../../sharedUtilities/constants";

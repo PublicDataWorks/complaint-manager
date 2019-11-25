@@ -1,5 +1,5 @@
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import models from "../../../models/index";
+import models from "../../../complaintManager/models/index";
 import request from "supertest";
 import app from "../../../server";
 import {

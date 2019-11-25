@@ -7,7 +7,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../models");
+const models = require("../../../complaintManager/models");
 
 const getCaseHistory = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
