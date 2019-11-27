@@ -221,7 +221,8 @@ const transformAuditsForExport = audits => {
     const generalAuditAttributes = {
       audit_type: getAuditTypeFromAuditAction(audit.auditAction),
       action: audit.auditAction,
-      case_id: audit.caseId,
+      reference_id: audit.referenceId,
+      manager_type: audit.managerType,
       created_at: audit.createdAt,
       user: audit.user
     };

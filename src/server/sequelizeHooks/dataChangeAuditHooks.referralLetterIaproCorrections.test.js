@@ -62,11 +62,12 @@ describe("dataChangeAuditHooks for referral letter iapro correction", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(
       referralLetterIaproCorrection.id
     );
     expect(audit.dataChangeAudit.modelDescription).toEqual([]);
     expect(audit.user).toEqual("someone");
+    expect(audit.managerType).toEqual("complaint");
   });
 });

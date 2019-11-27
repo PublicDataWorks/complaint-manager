@@ -78,6 +78,10 @@ module.exports = (sequelize, DataTypes) => {
     return this.caseId;
   };
 
+  ReferralLetter.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   ReferralLetter.prototype.modelDescription = async function(transaction) {
     return [];
   };

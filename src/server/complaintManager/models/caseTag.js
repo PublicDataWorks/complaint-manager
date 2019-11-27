@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
     return this.caseId;
   };
 
+  CaseTag.prototype.getManagerType = async function() {
+    return "complaint";
+  };
+
   CaseTag.associate = models => {
     CaseTag.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }

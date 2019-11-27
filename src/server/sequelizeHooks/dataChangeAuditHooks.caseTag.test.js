@@ -45,7 +45,7 @@ describe("dataChangeAuditHooks for caseTag", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(caseTag.id);
     expect(audit.user).toEqual("A Person");
     expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -53,5 +53,6 @@ describe("dataChangeAuditHooks for caseTag", () => {
         "Tag Name": existingTag.name
       }
     ]);
+    expect(audit.managerType).toEqual("complaint");
   });
 });

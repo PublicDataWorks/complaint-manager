@@ -61,6 +61,12 @@ module.exports = (sequelize, DataTypes) => {
     return letterOfficer.caseOfficer.caseId;
   };
 
+  ReferralLetterOfficerHistoryNotes.prototype.getManagerType = async function(
+    transaction
+  ) {
+    return "complaint";
+  };
+
   ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function(
     transaction
   ) {

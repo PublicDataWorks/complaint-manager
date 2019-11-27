@@ -18,7 +18,8 @@ describe("transformAuditsForExport", () => {
       auditAction: AUDIT_ACTION.LOGGED_IN,
       user: user,
       createdAt: "Timestamp",
-      caseId: null,
+      referenceId: null,
+      managerType: "complaint",
       updatedAt: new Date(),
       id: 1
     };
@@ -26,7 +27,8 @@ describe("transformAuditsForExport", () => {
     expect(transformAuditsForExport([audit])).toEqual([
       {
         action: AUDIT_ACTION.LOGGED_IN,
-        case_id: null,
+        reference_id: null,
+        manager_type: "complaint",
         audit_type: AUDIT_TYPE.AUTHENTICATION,
         created_at: "Timestamp",
         user: user
@@ -43,7 +45,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.DATA_ACCESSED,
         user: user,
         createdAt: "Timestamp",
-        caseId: caseId,
+        referenceId: caseId,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 2,
         dataAccessAudit: {
@@ -63,7 +66,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.DATA_ACCESS,
           user: user,
-          case_id: caseId,
+          reference_id: caseId,
+          manager_type: "complaint",
           snapshot: "Referral Letter IAPro Corrections: Field 1",
           action: AUDIT_ACTION.DATA_ACCESSED,
           subject: testAuditSubject,
@@ -77,7 +81,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.DATA_ACCESSED,
         user: user,
         createdAt: "Timestamp",
-        caseId: caseId,
+        referenceId: caseId,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 2,
         dataAccessAudit: {
@@ -102,7 +107,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.DATA_ACCESS,
           user: user,
-          case_id: caseId,
+          reference_id: caseId,
+          manager_type: "complaint",
           snapshot:
             "Another Association Name: Field Last\n\nAssociation Name: Field 1, Field 2, Field 3",
           action: AUDIT_ACTION.DATA_ACCESSED,
@@ -119,7 +125,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.EXPORTED,
         user: user,
         createdAt: "Timestamp",
-        caseId: null,
+        referenceId: null,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         exportAudit: {
@@ -135,7 +142,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.EXPORT,
           user: user,
-          case_id: null,
+          reference_id: null,
+          manager_type: "complaint",
           snapshot: "Full Audit Log",
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject,
@@ -148,7 +156,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.EXPORTED,
         user: user,
         createdAt: "Timestamp",
-        caseId: null,
+        referenceId: null,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         exportAudit: {
@@ -164,7 +173,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.EXPORT,
           user: user,
-          case_id: null,
+          reference_id: null,
+          manager_type: "complaint",
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.AUDIT_LOG_EXPORT.auditSubject,
           snapshot: "Export Range: Dec 21, 2011 to Dec 21, 2012",
@@ -178,7 +188,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.EXPORTED,
         user: user,
         createdAt: "Timestamp",
-        caseId: null,
+        referenceId: null,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         exportAudit: {
@@ -192,7 +203,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.EXPORT,
           user: user,
-          case_id: null,
+          reference_id: null,
+          manager_type: "complaint",
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.CASE_EXPORT.auditSubject,
           snapshot: "All Cases",
@@ -206,7 +218,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.EXPORTED,
         user: user,
         createdAt: "Timestamp",
-        caseId: null,
+        referenceId: null,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         exportAudit: {
@@ -222,7 +235,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.EXPORT,
           user: user,
-          case_id: null,
+          reference_id: null,
+          manager_type: "complaint",
           action: AUDIT_ACTION.EXPORTED,
           subject: JOB_OPERATION.CASE_EXPORT.auditSubject,
           snapshot: `Date Type: ${_.startCase(
@@ -242,7 +256,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.DOWNLOADED,
         user: user,
         createdAt: "Timestamp",
-        caseId: 12,
+        referenceId: 12,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         fileAudit: {
@@ -256,7 +271,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.DATA_ACCESS,
           user: user,
-          case_id: 12,
+          reference_id: 12,
+          manager_type: "complaint",
           action: AUDIT_ACTION.DOWNLOADED,
           subject: audit.fileAudit.fileType,
           snapshot: `File Name: ${audit.fileAudit.fileName}`,
@@ -270,7 +286,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.UPLOADED,
         user: user,
         createdAt: "Timestamp",
-        caseId: 12,
+        referenceId: 12,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         fileAudit: {
@@ -284,7 +301,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.UPLOAD,
           user: user,
-          case_id: 12,
+          reference_id: 12,
+          manager_type: "complaint",
           action: AUDIT_ACTION.UPLOADED,
           subject: audit.fileAudit.fileType,
           snapshot: `File Name: ${audit.fileAudit.fileName}`,
@@ -306,7 +324,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.DATA_UPDATED,
         user: user,
         createdAt: "Timestamp",
-        caseId: 12,
+        referenceId: 12,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         dataChangeAudit: {
@@ -328,7 +347,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.DATA_CHANGE,
           user: user,
-          case_id: 12,
+          reference_id: 12,
+          manager_type: "complaint",
           action: AUDIT_ACTION.DATA_UPDATED,
           subject: _.startCase(testModelName),
           snapshot: expectedSnapshot,
@@ -622,7 +642,8 @@ describe("transformAuditsForExport", () => {
         auditAction: AUDIT_ACTION.DATA_ACCESSED,
         user: user,
         createdAt: "Timestamp",
-        caseId: 12,
+        referenceId: 12,
+        managerType: "complaint",
         updatedAt: new Date(),
         id: 1,
         legacyDataAccessAudit: {
@@ -641,7 +662,8 @@ describe("transformAuditsForExport", () => {
         {
           audit_type: AUDIT_TYPE.DATA_ACCESS,
           user: user,
-          case_id: 12,
+          reference_id: 12,
+          manager_type: "complaint",
           snapshot:
             "Case Information, Civilian Complainants, Officer Complainants, Accused Officers",
           action: AUDIT_ACTION.DATA_ACCESSED,

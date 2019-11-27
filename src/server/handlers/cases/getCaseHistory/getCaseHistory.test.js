@@ -40,7 +40,7 @@ describe("getCaseHistory", () => {
 
       const audit = await models.audit.findOne({
         where: {
-          caseId: caseId,
+          referenceId: caseId,
           auditAction: AUDIT_ACTION.DATA_ACCESSED
         },
         include: [
@@ -58,7 +58,7 @@ describe("getCaseHistory", () => {
         expect.objectContaining({
           user: testUser,
           auditAction: AUDIT_ACTION.DATA_ACCESSED,
-          caseId: createdCase.id,
+          referenceId: createdCase.id,
           dataAccessAudit: expect.objectContaining({
             auditSubject: AUDIT_SUBJECT.CASE_HISTORY,
             dataAccessValues: expect.toIncludeSameMembers([
@@ -223,7 +223,7 @@ describe("getCaseHistory", () => {
         {
           user: testUser,
           auditAction: AUDIT_ACTION.UPLOADED,
-          caseId: caseId,
+          referenceId: caseId,
           managerType: "complaint",
           fileAudit: {
             fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
@@ -250,7 +250,7 @@ describe("getCaseHistory", () => {
         {
           user: testUser,
           auditAction: AUDIT_ACTION.DATA_UPDATED,
-          caseId: caseId,
+          referenceId: caseId,
           managerType: "complaint",
           createdAt: createdAt,
           dataChangeAudit: {

@@ -57,7 +57,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -65,6 +65,7 @@ describe("dataChangeAuditHooks address", () => {
           "Address Type": "Incident Location"
         }
       ]);
+      expect(audit.managerType).toEqual("complaint");
     });
 
     test("should audit incident location update", async () => {
@@ -86,7 +87,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -115,7 +116,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(incidentLocationCreated.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -178,7 +179,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(createdCase.id);
+      expect(audit.referenceId).toEqual(createdCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -210,7 +211,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(createdCase.id);
+      expect(audit.referenceId).toEqual(createdCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -242,7 +243,7 @@ describe("dataChangeAuditHooks address", () => {
         ]
       });
 
-      expect(audit.caseId).toEqual(createdCase.id);
+      expect(audit.referenceId).toEqual(createdCase.id);
       expect(audit.dataChangeAudit.modelId).toEqual(createdAddress.id);
       expect(audit.user).toEqual("someone");
       expect(audit.dataChangeAudit.modelDescription).toEqual([

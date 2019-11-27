@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     return this.caseId;
   };
 
+  Attachment.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   Attachment.associate = models => {
     Attachment.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }

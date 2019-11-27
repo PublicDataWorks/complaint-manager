@@ -210,16 +210,35 @@ exports.init = (sequelize, model) => {
     );
   };
 
-  const getCaseId = async (modelName, instance, transaction) => {
-    if (instance.getCaseId) {
-      return await instance.getCaseId(transaction);
+  const getManagerType = async (modelName, instance, transaction) => {
+    if (instance.getManagerType) {
+      return await instance.getManagerType(transaction);
     }
 
     throw Boom.badImplementation(
-      `Model must implement getCaseId (${modelName})`
+      `Model must implement getManagerType (${modelName})`
     );
   };
 
+  const referenceDictionary = {
+    complaint: "getCaseId",
+    matrix: "getMatrixId"
+  };
+
+  const getReferenceId = async (
+    managerType,
+    modelName,
+    instance,
+    transaction
+  ) => {
+    const instanceIdFunction = referenceDictionary[managerType];
+    if (instance[instanceIdFunction]) {
+      return await instance[instanceIdFunction](transaction);
+    }
+    throw Boom.badImplementation(
+      `Model must implement ${instanceIdFunction} (${modelName})`
+    );
+  };
   const getModelName = instance => {
     const pluralName = instance._modelOptions.name.plural;
     const singularName = instance._modelOptions.name.singular;
@@ -239,7 +258,14 @@ exports.init = (sequelize, model) => {
       instance._modelOptions.name.singular
     );
 
-    const caseId = await getCaseId(
+    const managerType = await getManagerType(
+      formattedModelName,
+      instance,
+      options.transaction
+    );
+
+    const referenceId = await getReferenceId(
+      managerType,
       formattedModelName,
       instance,
       options.transaction
@@ -250,8 +276,8 @@ exports.init = (sequelize, model) => {
       {
         user: getUserNickname(options, action, formattedModelName),
         auditAction: action,
-        caseId: caseId,
-        managerType: "complaint",
+        referenceId: referenceId,
+        managerType: managerType,
         dataChangeAudit: {
           modelName: modelName,
           modelDescription: await getModelDescription(

@@ -48,7 +48,8 @@ describe("auditFileAction", () => {
       expect.objectContaining({
         auditAction: AUDIT_ACTION.DOWNLOADED,
         user: testUser,
-        caseId: existingCase.id,
+        referenceId: existingCase.id,
+        managerType: "complaint",
         fileAudit: expect.objectContaining({
           fileType: AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
           fileName: testFilename

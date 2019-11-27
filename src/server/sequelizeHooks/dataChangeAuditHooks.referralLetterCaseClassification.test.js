@@ -52,7 +52,7 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(caseClassification.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Classification Name": classification.name },
@@ -68,5 +68,6 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
       classification.id
     );
     expect(audit.user).toEqual("test");
+    expect(audit.managerType).toEqual("complaint");
   });
 });

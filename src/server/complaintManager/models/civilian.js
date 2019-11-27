@@ -100,6 +100,10 @@ module.exports = (sequelize, DataTypes) => {
     return this.caseId;
   };
 
+  Civilian.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   Civilian.associate = models => {
     Civilian.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }

@@ -93,7 +93,7 @@ const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
           AUDIT_ACTION.DATA_DELETED
         ]
       },
-      caseId: caseId
+      referenceId: caseId
     },
     attributes: ["auditAction", "user", "createdAt"],
     include: [
@@ -121,7 +121,11 @@ const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
 
 const getUploadAuditsAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
-    where: { auditAction: AUDIT_ACTION.UPLOADED, caseId: caseId },
+    where: {
+      auditAction: AUDIT_ACTION.UPLOADED,
+      referenceId: caseId,
+      managerType: "complaint"
+    },
     attributes: ["auditAction", "user", "createdAt"],
     include: [
       {

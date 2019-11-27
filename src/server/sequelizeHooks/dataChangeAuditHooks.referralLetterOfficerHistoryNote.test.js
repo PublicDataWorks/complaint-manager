@@ -72,11 +72,12 @@ describe("data change audit hooks for referral letter officer history note", () 
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(officerHistoryNote.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": caseOfficer.fullName }
     ]);
     expect(audit.user).toEqual("someone");
+    expect(audit.managerType).toEqual("complaint");
   });
 });

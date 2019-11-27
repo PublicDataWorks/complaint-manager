@@ -52,12 +52,13 @@ describe("dataChangeAuditHooks for civilian", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Civilian Name": civilian.fullName }
     ]);
+    expect(audit.managerType).toEqual("complaint");
   });
 
   test("should throw an exception if update is called with returning true", async () => {
@@ -102,7 +103,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(civilian.id);
     expect(audit.user).toEqual("someone");
     expect(audit.dataChangeAudit.changes.raceEthnicityId.new).toEqual(

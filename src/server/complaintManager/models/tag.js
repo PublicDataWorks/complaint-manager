@@ -29,6 +29,11 @@ module.exports = (sequelize, DataTypes) => {
     return null;
   };
 
+  // TODO if tags are used in both managers should they not return a specific manager type?
+  Tag.prototype.getManagerType = function() {
+    return "complaint";
+  };
+
   Tag.auditDataChange();
 
   return Tag;

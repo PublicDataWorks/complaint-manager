@@ -51,12 +51,13 @@ describe("dataChangeAuditHooks for referral letter", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([]);
     expect(audit.dataChangeAudit.modelId).toEqual(referralLetter.id);
     expect(audit.user).toEqual("someone");
     expect("recipient" in audit.dataChangeAudit.changes).toBeTruthy();
     expect("sender" in audit.dataChangeAudit.changes).toBeTruthy();
+    expect(audit.managerType).toEqual("complaint");
   });
 
   test("creates an audit for letter updates on model class", async () => {

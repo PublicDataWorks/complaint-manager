@@ -63,7 +63,6 @@ describe("dataChangeAuditHooks", () => {
       const createdCase = await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
-
       const audit = await models.audit.findOne({
         where: { auditAction: AUDIT_ACTION.DATA_CREATED },
         include: [
@@ -81,6 +80,7 @@ describe("dataChangeAuditHooks", () => {
       expect(audit.dataChangeAudit.modelId).toEqual(createdCase.id);
       expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
+      expect(audit.managerType).toEqual("complaint");
     });
 
     test("it saves the changes of the new values", async () => {

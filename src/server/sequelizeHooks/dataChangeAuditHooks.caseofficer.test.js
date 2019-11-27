@@ -59,12 +59,13 @@ describe("dataChangeAudithooks caseofficer", () => {
     expect(audit.dataChangeAudit.modelId).toEqual(
       createdCase.accusedOfficers[0].id
     );
-    expect(audit.caseId).toEqual(createdCase.id);
+    expect(audit.referenceId).toEqual(createdCase.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       {
         "Officer Name": createdCase.accusedOfficers[0].fullName
       }
     ]);
+    expect(audit.managerType).toEqual("complaint");
   });
 
   test("should audit caseofficer destroy and exclude deletedAt from changes", async () => {

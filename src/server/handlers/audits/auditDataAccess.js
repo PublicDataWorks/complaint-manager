@@ -12,7 +12,7 @@ const auditDataAccess = async (
   const auditValues = {
     auditAction: AUDIT_ACTION.DATA_ACCESSED,
     user: auditUser,
-    caseId: caseId,
+    referenceId: caseId,
     managerType: "complaint",
     dataAccessAudit: {
       auditSubject: auditSubject,

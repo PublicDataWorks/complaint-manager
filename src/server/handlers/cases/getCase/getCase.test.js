@@ -59,7 +59,7 @@ describe("getCase", () => {
 
       const audit = await models.audit.findOne({
         where: {
-          caseId: existingCase.id,
+          referenceId: existingCase.id,
           auditAction: AUDIT_ACTION.DATA_ACCESSED
         },
         include: [
@@ -79,7 +79,8 @@ describe("getCase", () => {
       expect(audit).toEqual(
         expect.objectContaining({
           auditAction: AUDIT_ACTION.DATA_ACCESSED,
-          caseId: existingCase.id,
+          referenceId: existingCase.id,
+          managerType: "complaint",
           user: request.nickname,
           dataAccessAudit: expect.objectContaining({
             auditSubject: AUDIT_SUBJECT.CASE_DETAILS,
