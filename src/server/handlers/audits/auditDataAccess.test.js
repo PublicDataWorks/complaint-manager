@@ -6,12 +6,12 @@ import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 describe("auditDataAccess", () => {
   const user = "testuser";
-  let caseId;
+  let referenceId;
   const auditSubject = "auditSubject";
 
   beforeEach(async () => {
     const existingCase = await createTestCaseWithoutCivilian(user);
-    caseId = existingCase.id;
+    referenceId = existingCase.id;
   });
 
   afterEach(async () => {
@@ -26,7 +26,7 @@ describe("auditDataAccess", () => {
       }
     };
 
-    await auditDataAccess(user, caseId, auditSubject, auditDetails);
+    await auditDataAccess(user, referenceId, auditSubject, auditDetails);
 
     const audit = await models.audit.findOne({
       where: {
@@ -48,7 +48,8 @@ describe("auditDataAccess", () => {
 
     expect(audit).toEqual(
       expect.objectContaining({
-        caseId: caseId,
+        referenceId: referenceId,
+        managerType: "complaint",
         user: user,
         dataAccessAudit: expect.objectContaining({
           auditSubject: auditSubject,

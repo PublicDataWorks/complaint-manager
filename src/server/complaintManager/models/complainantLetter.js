@@ -62,6 +62,10 @@ module.exports = (sequelize, DataTypes) => {
     return [];
   };
 
+  ComplainantLetter.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   ComplainantLetter.auditDataChange();
   return ComplainantLetter;
 };

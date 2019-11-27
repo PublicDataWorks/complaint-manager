@@ -10,6 +10,7 @@ export const transformRaceEthnicityToId = async (
   raceEthnicities.forEach(raceEthnicity => {
     raceEthnicityDictionary[raceEthnicity.name] = raceEthnicity.id;
   });
+  console.log("Dictionary ", raceEthnicityDictionary);
 
   for (let i = 0; i < civilians.length; i++) {
     if (

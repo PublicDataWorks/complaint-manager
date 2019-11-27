@@ -60,7 +60,7 @@ describe("getCaseNotes", function() {
 
       const audit = await models.audit.findOne({
         where: {
-          caseId: existingCase.id,
+          referenceId: existingCase.id,
           auditAction: AUDIT_ACTION.DATA_ACCESSED
         },
         include: [
@@ -81,7 +81,8 @@ describe("getCaseNotes", function() {
         expect.objectContaining({
           user: "tuser",
           auditAction: AUDIT_ACTION.DATA_ACCESSED,
-          caseId: existingCase.id,
+          referenceId: existingCase.id,
+          managerType: "complaint",
           dataAccessAudit: expect.objectContaining({
             auditSubject: AUDIT_SUBJECT.CASE_NOTES,
             dataAccessValues: expect.arrayContaining([

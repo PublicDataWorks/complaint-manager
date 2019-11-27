@@ -44,10 +44,11 @@ describe("dataChangeAuditHooks for attachment", () => {
       expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
       expect(audit.user).toEqual("someone");
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
       expect(audit.dataChangeAudit.modelDescription).toEqual([
         { "File Name": attachment.fileName }
       ]);
+      expect(audit.managerType).toEqual("complaint");
     });
 
     test("it saves snapshot of object values", async () => {
@@ -124,7 +125,7 @@ describe("dataChangeAuditHooks for attachment", () => {
     test("it creates a data change audit with basic attributes", async () => {
       expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
     });
 
     test("it stores the changes", async () => {
@@ -173,7 +174,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
       expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
     });
 
     test("it creates data change object when destroying from Model method", async () => {
@@ -196,7 +197,7 @@ describe("dataChangeAuditHooks for attachment", () => {
 
       expect(audit.dataChangeAudit.modelId).toEqual(attachment.id);
       expect(audit.user).toEqual("someone else");
-      expect(audit.caseId).toEqual(existingCase.id);
+      expect(audit.referenceId).toEqual(existingCase.id);
     });
 
     test("it stores the values being deleted in the changes field of the audit", async () => {

@@ -244,6 +244,10 @@ module.exports = (sequelize, DataTypes) => {
     return this.caseId;
   };
 
+  CaseOfficer.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   CaseOfficer.prototype.emptyCaseOfficerAttributes = function() {
     return {
       officerId: null,

@@ -36,7 +36,8 @@ describe("Audit", () => {
 
     const expectedLog = {
       auditAction: AUDIT_ACTION.LOGGED_OUT,
-      caseId: null,
+      managerType: "complaint",
+      referenceId: null,
       user: currentUser
     };
     expect(createdAudits[0]).toEqual(expect.objectContaining(expectedLog));
@@ -61,7 +62,8 @@ describe("Audit", () => {
 
     const expectedLog = {
       auditAction: AUDIT_ACTION.LOGGED_IN,
-      caseId: null,
+      referenceId: null,
+      managerType: "complaint",
       user: currentUser
     };
     expect(createdAudits[0]).toEqual(expect.objectContaining(expectedLog));

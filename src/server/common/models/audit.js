@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "manager_type",
         type: DataTypes.STRING
       },
+      referenceId: {
+        field: "reference_id",
+        type: DataTypes.INTEGER
+      },
       auditAction: {
         field: "audit_action",
         type: DataTypes.STRING,
@@ -39,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Audit.associate = models => {
     Audit.belongsTo(models.cases, {
-      foreignKey: { name: "caseId", field: "case_id" }
+      foreignKey: { name: "referenceId", field: "reference_id" }
     });
     Audit.hasOne(models.export_audit, {
       as: "exportAudit",

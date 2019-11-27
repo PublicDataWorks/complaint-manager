@@ -11,7 +11,6 @@ module.exports = {
           transaction
         }
       );
-      console.log("ABOUT TO CHANGE COLUMN");
       await queryInterface.changeColumn(
         "audits",
         "manager_type",
@@ -22,7 +21,6 @@ module.exports = {
         },
         { transaction }
       );
-      console.log("CHANGED COLUMN");
     });
   },
 

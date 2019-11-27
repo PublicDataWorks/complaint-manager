@@ -274,7 +274,17 @@ export default (sequelize, DataTypes) => {
     return this.id;
   };
 
+  Case.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   Case.associate = models => {
+    Case.hasMany(models.audit, {
+      foreignKey: { name: "referenceId", field: "reference_id" },
+      scope: {
+        managerType: "complaint"
+      }
+    });
     Case.hasMany(models.civilian, {
       as: "complainantCivilians",
       foreignKey: { name: "caseId", field: "case_id" },

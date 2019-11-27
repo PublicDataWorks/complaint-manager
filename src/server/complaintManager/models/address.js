@@ -127,6 +127,10 @@ module.exports = (sequelize, DataTypes) => {
     return civilian.caseId;
   };
 
+  Address.prototype.getManagerType = async function(transcation) {
+    return "complaint";
+  };
+
   Address.auditDataChange();
   Address.updateCaseStatusAfterCreate();
 

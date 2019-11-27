@@ -43,7 +43,7 @@ describe("dataChangeAuditHooks for caseNote", () => {
       .tz(caseNote.actionTakenAt, TIMEZONE)
       .format("MMM DD, YYYY h:mm:ss A z");
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(caseNote.id);
     expect(audit.user).toEqual("someone");
     expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -54,5 +54,6 @@ describe("dataChangeAuditHooks for caseNote", () => {
         "Action Taken At": formattedActionTakenAt
       }
     ]);
+    expect(audit.managerType).toEqual("complaint");
   });
 });

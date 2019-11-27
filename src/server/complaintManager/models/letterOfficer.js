@@ -119,6 +119,10 @@ module.exports = (sequelize, DataTypes) => {
     return caseOfficer.caseId;
   };
 
+  LetterOfficer.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
   LetterOfficer.prototype.modelDescription = async function(transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")

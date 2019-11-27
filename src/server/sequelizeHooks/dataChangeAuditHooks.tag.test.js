@@ -26,7 +26,7 @@ describe("dataChangeAuditHooks for tag", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(null);
+    expect(audit.referenceId).toEqual(null);
     expect(audit.dataChangeAudit.modelId).toEqual(existingTag.id);
     expect(audit.user).toEqual("A Person");
     expect(audit.dataChangeAudit.modelDescription).toEqual([
@@ -34,5 +34,6 @@ describe("dataChangeAuditHooks for tag", () => {
         "New Tag Name": existingTag.name
       }
     ]);
+    expect(audit.managerType).toEqual("complaint");
   });
 });

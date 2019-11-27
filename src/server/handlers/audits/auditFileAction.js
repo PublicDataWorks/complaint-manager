@@ -11,7 +11,7 @@ export const auditFileAction = async (
   const auditValues = {
     auditAction: auditAction,
     user: user,
-    caseId: caseId,
+    referenceId: caseId,
     managerType: "complaint",
     fileAudit: {
       fileName: fileName,

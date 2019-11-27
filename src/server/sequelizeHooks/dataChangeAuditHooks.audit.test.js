@@ -7,7 +7,7 @@ describe("data access audit", () => {
     await cleanupDatabase();
   });
 
-  test(" does not create audit on audit creation", async () => {
+  test("does not create audit on audit creation", async () => {
     await models.audit.create({
       auditAction: AUDIT_ACTION.LOGGED_IN,
       user: "user",

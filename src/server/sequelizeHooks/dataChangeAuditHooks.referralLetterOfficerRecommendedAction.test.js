@@ -79,7 +79,7 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(officerRecommendedAction.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": caseOfficer.fullName }
@@ -94,5 +94,6 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
       recommendedAction.id
     );
     expect(audit.user).toEqual("someone");
+    expect(audit.managerType).toEqual("complaint");
   });
 });

@@ -64,11 +64,12 @@ describe("dataChangeAuditHooks for letter officer", () => {
       ]
     });
 
-    expect(audit.caseId).toEqual(existingCase.id);
+    expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       { "Officer Name": "Grant M Young" }
     ]);
     expect(audit.dataChangeAudit.modelId).toEqual(letterOfficer.id);
     expect(audit.user).toEqual("someone");
+    expect(audit.managerType).toEqual("complaint");
   });
 });
