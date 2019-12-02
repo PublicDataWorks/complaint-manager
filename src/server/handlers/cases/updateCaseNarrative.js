@@ -3,7 +3,10 @@ import auditDataAccess from "../audits/auditDataAccess";
 
 const models = require("../../complaintManager/models/index");
 const asyncMiddleware = require("../asyncMiddleware");
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../sharedUtilities/constants");
 
 const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
   const updatedCase = await models.sequelize.transaction(async transaction => {
@@ -32,6 +35,7 @@ const updateCaseNarrative = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

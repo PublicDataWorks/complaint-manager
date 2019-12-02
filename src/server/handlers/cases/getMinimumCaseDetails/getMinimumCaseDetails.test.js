@@ -2,7 +2,8 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import {
   AUDIT_SUBJECT,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import models from "../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
@@ -70,6 +71,7 @@ describe("getMinimumCaseDetails", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           cases: {

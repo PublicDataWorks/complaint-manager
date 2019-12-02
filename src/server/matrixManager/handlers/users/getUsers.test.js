@@ -1,7 +1,10 @@
 import nock from "nock";
 import httpMocks from "node-mocks-http";
 import getUsers from "./getUsers";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
 
@@ -236,6 +239,7 @@ describe("getUsers tests", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           mockGetUserRequest.nickname,
           null,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.ALL_USER_DATA,
           { users: { attributes: ["name", "email"] } },
           expect.anything()

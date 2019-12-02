@@ -9,7 +9,8 @@ import Boom from "boom";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   ALLEGATION_SEVERITY,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -163,6 +164,7 @@ describe("createOfficerAllegation", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           newCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           expectedCaseAuditDetails,
           expect.anything()

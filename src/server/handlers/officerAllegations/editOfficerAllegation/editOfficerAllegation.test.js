@@ -5,7 +5,8 @@ import Allegation from "../../../../client/complaintManager/testUtilities/Allega
 import {
   ACCUSED,
   ALLEGATION_SEVERITY,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
@@ -126,6 +127,7 @@ describe("editOfficerAllegation", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         caseOfficer.caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

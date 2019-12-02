@@ -1,6 +1,9 @@
 import Case from "../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
@@ -78,6 +81,7 @@ describe("updateCaseNarrative handler", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

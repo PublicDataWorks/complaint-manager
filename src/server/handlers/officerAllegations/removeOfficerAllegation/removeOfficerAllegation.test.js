@@ -2,7 +2,11 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
-import { ACCUSED, AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../complaintManager/models";
@@ -129,6 +133,7 @@ describe("removeOfficerAllegation", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           createdAccusedOfficer.caseId,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           expectedCaseAuditDetails,
           expect.anything()

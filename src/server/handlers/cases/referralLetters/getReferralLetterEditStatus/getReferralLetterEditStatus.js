@@ -3,7 +3,8 @@ import models from "../../../../complaintManager/models";
 
 import {
   AUDIT_SUBJECT,
-  EDIT_STATUS
+  EDIT_STATUS,
+  MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import _ from "lodash";
@@ -36,6 +37,7 @@ const getReferralLetterEditStatus = asyncMiddleware(
       await auditDataAccess(
         request.nickname,
         caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
         auditDetails,
         transaction

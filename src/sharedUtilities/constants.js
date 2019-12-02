@@ -277,6 +277,11 @@ export const AUDIT_TYPE = {
   UPLOAD: "Upload"
 };
 
+export const MANAGER_TYPE = {
+  COMPLAINT: "complaint",
+  MATRIX: "matrix"
+};
+
 //TODO: when newAuditFeature toggle is removed, delete audit file type from audit_subject
 export const AUDIT_SUBJECT = {
   AUDIT_LOG: "Audit Log",

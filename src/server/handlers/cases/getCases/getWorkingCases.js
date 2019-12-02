@@ -1,6 +1,9 @@
 import models from "../../../complaintManager/models";
 import asyncMiddleware from "../../asyncMiddleware";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -26,6 +29,7 @@ const getWorkingCases = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       null,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.ALL_WORKING_CASES,
       GET_CASES_AUDIT_DETAILS,
       transaction

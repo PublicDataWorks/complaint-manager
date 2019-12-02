@@ -1,5 +1,9 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  CASE_STATUS,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
@@ -193,6 +197,7 @@ describe("createCaseTag", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.ALL_TAGS,
         expectedAuditDetails,
         expect.anything()
@@ -215,6 +220,7 @@ describe("createCaseTag", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_TAGS,
         expectedAuditDetails,
         expect.anything()

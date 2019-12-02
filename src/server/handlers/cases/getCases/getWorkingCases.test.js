@@ -3,7 +3,10 @@ import {
   cleanupDatabase
 } from "../../../testHelpers/requestTestHelpers";
 import getWorkingCases from "./getWorkingCases";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -78,6 +81,7 @@ describe("getWorkingCases", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.ALL_WORKING_CASES,
         GET_CASES_AUDIT_DETAILS,
         expect.anything()

@@ -5,6 +5,7 @@ import _ from "lodash";
 const auditDataAccess = async (
   auditUser,
   caseId,
+  managerType,
   auditSubject,
   auditDetails,
   transaction
@@ -13,7 +14,7 @@ const auditDataAccess = async (
     auditAction: AUDIT_ACTION.DATA_ACCESSED,
     user: auditUser,
     referenceId: caseId,
-    managerType: "complaint",
+    managerType: managerType,
     dataAccessAudit: {
       auditSubject: auditSubject,
       dataAccessValues: transformAuditDetails(auditDetails)

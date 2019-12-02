@@ -9,6 +9,7 @@ import {
   CASE_STATUS,
   COMPLAINANT,
   EMPLOYEE_TYPE,
+  MANAGER_TYPE,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -482,6 +483,7 @@ describe("addCaseOfficer", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

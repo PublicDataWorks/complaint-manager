@@ -1,7 +1,10 @@
 import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse";
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
-import { AUDIT_SUBJECT } from "../../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
@@ -21,6 +24,7 @@ const getReferralLetterData = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
       auditDetails,
       transaction

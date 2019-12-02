@@ -5,7 +5,8 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
-  CASE_STATUS
+  CASE_STATUS,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
@@ -61,6 +62,7 @@ describe("editCivilian", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           expectedCaseAuditDetails,
           expect.anything()

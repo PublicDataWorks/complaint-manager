@@ -1,6 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
@@ -81,6 +82,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
         await auditDataAccess(
           request.nickname,
           request.params.caseId,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           auditDetails,
           transaction

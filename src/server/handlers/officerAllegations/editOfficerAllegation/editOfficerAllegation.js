@@ -5,10 +5,8 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
+import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(
@@ -50,6 +48,7 @@ const editOfficerAllegation = asyncMiddleware(
         await auditDataAccess(
           request.nickname,
           caseOfficer.caseId,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           auditDetails,
           transaction

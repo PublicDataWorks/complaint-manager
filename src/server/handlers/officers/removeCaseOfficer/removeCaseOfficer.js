@@ -5,7 +5,10 @@ import auditDataAccess from "../../audits/auditDataAccess";
 const models = require("../../../complaintManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const officerToRemove = await models.case_officer.findByPk(
@@ -32,6 +35,7 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

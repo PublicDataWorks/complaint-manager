@@ -1,7 +1,10 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../audits/auditDataAccess";
 
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../sharedUtilities/constants");
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 
@@ -18,6 +21,7 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_NOTES,
       auditDetails,
       transaction

@@ -2,7 +2,10 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
-const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../complaintManager/models");
 
@@ -37,6 +40,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_NOTES,
       caseNoteAuditDetails,
       transaction
@@ -44,6 +48,7 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       caseAuditDetails,
       transaction

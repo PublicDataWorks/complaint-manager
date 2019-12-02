@@ -2,7 +2,10 @@ import asyncMiddleware from "../asyncMiddleware";
 import models from "../../complaintManager/models";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../audits/auditDataAccess";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 
 export const removeCaseTag = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
@@ -37,6 +40,7 @@ export const removeCaseTag = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_TAGS,
       caseTagAuditDetails,
       transaction

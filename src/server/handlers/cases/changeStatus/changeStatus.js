@@ -13,7 +13,10 @@ const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../complaintManager/models/index");
 const Boom = require("boom");
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const canUpdateCaseToNewStatus = (newStatus, permissions) => {
   return (
@@ -75,6 +78,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction
