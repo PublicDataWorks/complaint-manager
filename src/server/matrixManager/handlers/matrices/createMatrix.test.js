@@ -2,7 +2,10 @@ import createMatrix from "./createMatrix";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import models from "../../models";
 import Boom from "boom";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../../sharedUtilities/errorMessageConstants";
 
 const httpMocks = require("node-mocks-http");
 
@@ -53,7 +56,6 @@ describe("createMatrix handler", () => {
 
   test("should send response and 201 status with created entity", async () => {
     await createMatrix(request, response, next);
-    console.log("mamamia", response._getData());
 
     expect(response.statusCode).toEqual(201);
     expect(response._getData()).toEqual(
@@ -62,5 +64,17 @@ describe("createMatrix handler", () => {
       })
     );
     expect(response._isEndCalled()).toBeTruthy();
+  });
+
+  test("should send error response when PIB control number already exists", async () => {
+    // Create First Matrix
+    await createMatrix(request, response, next);
+
+    // Create Duplicate Matrix (existing PIB control number)
+    await createMatrix(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.PIB_CONTROL_NUMBER_ALREADY_EXISTS)
+    );
   });
 });

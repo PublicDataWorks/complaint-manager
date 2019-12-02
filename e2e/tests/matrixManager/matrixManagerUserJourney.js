@@ -40,7 +40,11 @@ if (TEST_PASS && TEST_USER) {
       const createMatrixDialog = browser.page.CreateMatrixDialog();
       const snackbar = browser.page.SnackbarPOM();
 
-      createMatrixDialog.fillsInPIBControlNumber("20191235R");
+      const min = 10000000;
+      const max = 99999999;
+      const num = Math.floor(Math.random() * (max - min + 1)) + min;
+      const pibControlNumber = `${num}R`;
+      createMatrixDialog.fillsInPIBControlNumber(pibControlNumber);
       createMatrixDialog.fillsInFirstReviewer("jacob.gacek@thoughtworks.com");
       createMatrixDialog.fillsInSecondReviewer("wyao@thoughtworks.com");
       createMatrixDialog.clicksCreateButton();
