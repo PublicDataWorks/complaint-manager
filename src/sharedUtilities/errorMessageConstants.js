@@ -28,7 +28,8 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_OFFICER_HISTORY_NOTE: "The officer's history note does not exist",
   INVALID_JOB: "Could not find specified job",
   OPERATION_NOT_PERMITTED: "Operation not permitted",
-  OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist"
+  OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
+  PIB_CONTROL_NUMBER_ALREADY_EXISTS: "PIB Control # is already in use"
 };
 
 export const BAD_DATA_ERRORS = {
@@ -68,10 +69,11 @@ export const INTERNAL_ERRORS = {
 };
 
 export const AWS_ERRORS = {
-  DECRYPTION_FAILURE_EXCEPTION: "Secrets Manager can't decrypt the protected secret text using the provided KMS key.",
+  DECRYPTION_FAILURE_EXCEPTION:
+    "Secrets Manager can't decrypt the protected secret text using the provided KMS key.",
   INTERNAL_SERVICE_ERROR_EXCEPTION: "An error occurred on the server side.",
   INVALID_PARAMETER_EXCEPTION: "You provided an invalid value for a parameter.",
-  INVALID_REQUEST_EXCEPTION: "You provided a parameter value that is not valid for the current state of the resource.",
+  INVALID_REQUEST_EXCEPTION:
+    "You provided a parameter value that is not valid for the current state of the resource.",
   RESOURCE_NOT_FOUND_EXCEPTION: "We can't find the resource that you asked for."
-}
-
+};
