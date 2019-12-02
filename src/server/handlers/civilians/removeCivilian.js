@@ -1,5 +1,6 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
+import { MANAGER_TYPE } from "../../../sharedUtilities/constants";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../complaintManager/models");
@@ -40,6 +41,7 @@ const removeCivilian = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       civilian.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

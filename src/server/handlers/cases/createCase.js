@@ -10,7 +10,8 @@ import getQueryAuditAccessDetails, {
 import {
   ADDRESSABLE_TYPE,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED
+  CIVILIAN_WITHIN_NOPD_INITIATED,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 
 const {
@@ -188,6 +189,7 @@ const attemptCreateCase = async (
     await auditDataAccess(
       nickname,
       createdCase.id,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

@@ -5,7 +5,10 @@ import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
 import tag from "../../../client/complaintManager/testUtilities/tag";
 import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 
 jest.mock("../audits/auditDataAccess");
@@ -77,6 +80,7 @@ describe("RemoveCaseTag", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_TAGS,
         {
           caseTag: {

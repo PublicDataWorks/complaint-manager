@@ -1,4 +1,7 @@
-import { AUDIT_ACTION } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_ACTION,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import transformAuditsToCaseHistory from "./transformAuditsToCaseHistory";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
@@ -32,6 +35,7 @@ const getCaseHistory = asyncMiddleware(async (request, response) => {
       await auditDataAccess(
         request.nickname,
         request.params.caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_HISTORY,
         auditDetails,
         transaction
@@ -93,6 +97,7 @@ const getDataChangeAuditsAndAuditDetails = async (caseId, transaction) => {
           AUDIT_ACTION.DATA_DELETED
         ]
       },
+      managerType: MANAGER_TYPE.COMPLAINT,
       referenceId: caseId
     },
     attributes: ["auditAction", "user", "createdAt"],

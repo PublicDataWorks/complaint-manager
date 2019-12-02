@@ -8,6 +8,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   EDIT_STATUS,
+  MANAGER_TYPE,
   REFERRAL_LETTER_VERSION,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
@@ -949,6 +950,7 @@ describe("getReferralLetterPreview", function() {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
           expectedAuditDetails,
           expect.anything()
@@ -1104,6 +1106,7 @@ describe("getReferralLetterPreview", function() {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
           expectedAuditDetails,
           expect.anything()

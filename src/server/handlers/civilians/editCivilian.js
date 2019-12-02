@@ -1,6 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
@@ -61,6 +62,7 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
       await auditDataAccess(
         request.nickname,
         civilian.caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         auditDetails,
         transaction

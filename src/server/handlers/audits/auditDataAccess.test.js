@@ -2,7 +2,7 @@ import auditDataAccess from "./auditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../complaintManager/models";
-import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
+import { AUDIT_ACTION, MANAGER_TYPE } from "../../../sharedUtilities/constants";
 
 describe("auditDataAccess", () => {
   const user = "testuser";
@@ -26,7 +26,13 @@ describe("auditDataAccess", () => {
       }
     };
 
-    await auditDataAccess(user, referenceId, auditSubject, auditDetails);
+    await auditDataAccess(
+      user,
+      referenceId,
+      MANAGER_TYPE.COMPLAINT,
+      auditSubject,
+      auditDetails
+    );
 
     const audit = await models.audit.findOne({
       where: {

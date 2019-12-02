@@ -3,7 +3,10 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
 import models from "../../../complaintManager/models/index";
 import deleteAttachment from "./deleteAttachment";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
@@ -62,6 +65,7 @@ describe("deleteAttachment", function() {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

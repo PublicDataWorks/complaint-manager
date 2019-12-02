@@ -2,6 +2,7 @@ import Case from "../../../../client/complaintManager/testUtilities/case";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import models from "../../../complaintManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
+import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 
 const { cleanupDatabase } = require("../../../testHelpers/requestTestHelpers");
 const httpMocks = require("node-mocks-http");
@@ -53,6 +54,7 @@ describe("searchOfficers", function() {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.OFFICER_DATA,
         {
           officerDistrict: {

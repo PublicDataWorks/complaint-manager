@@ -4,6 +4,7 @@ import {
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
+  MANAGER_TYPE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -275,6 +276,7 @@ describe("createCase handler", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         cases[0].id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           cases: {
@@ -298,6 +300,7 @@ describe("createCase handler", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         cases[0].id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           address: {

@@ -4,7 +4,10 @@ import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
 import auditDataAccess from "../audits/auditDataAccess";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import Case from "../../../client/complaintManager/testUtilities/case";
 
 jest.mock("../audits/auditDataAccess");
@@ -48,6 +51,7 @@ describe("getClassifications", () => {
     expect(auditDataAccess).toHaveBeenCalledWith(
       request.nickname,
       existingCase.id,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_CLASSIFICATIONS,
       expectedAuditDetails,
       expect.anything()

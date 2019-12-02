@@ -1,7 +1,11 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import models from "../../complaintManager/models";
-import { AUDIT_SUBJECT, CASE_STATUS } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  CASE_STATUS,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
@@ -53,6 +57,7 @@ describe("createCaseNote", function() {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_NOTES,
         {
           caseNote: {
@@ -73,6 +78,7 @@ describe("createCaseNote", function() {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

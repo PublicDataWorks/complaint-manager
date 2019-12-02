@@ -8,6 +8,7 @@ import {
   ACCUSED,
   AUDIT_SUBJECT,
   COMPLAINANT,
+  MANAGER_TYPE,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
@@ -1047,6 +1048,7 @@ describe("editCaseOfficer", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

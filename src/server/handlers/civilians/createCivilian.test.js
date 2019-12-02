@@ -5,7 +5,8 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
@@ -57,6 +58,7 @@ describe("createCivilian handler", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

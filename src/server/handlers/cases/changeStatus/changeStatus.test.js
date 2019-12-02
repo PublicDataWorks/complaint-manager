@@ -5,6 +5,7 @@ import {
   ACCUSED,
   AUDIT_SUBJECT,
   CASE_STATUS,
+  MANAGER_TYPE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
@@ -166,6 +167,7 @@ describe("changeStatus", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         initialCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

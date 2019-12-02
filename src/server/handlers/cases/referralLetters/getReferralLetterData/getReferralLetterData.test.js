@@ -10,7 +10,8 @@ import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  COMPLAINANT
+  COMPLAINANT,
+  MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
@@ -527,6 +528,7 @@ describe("getReferralLetterData", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
         expectedAuditDetails,
         expect.anything()

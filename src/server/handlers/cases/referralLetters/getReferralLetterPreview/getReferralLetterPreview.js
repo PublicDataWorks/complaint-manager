@@ -4,6 +4,7 @@ import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavaila
 import {
   AUDIT_SUBJECT,
   EDIT_STATUS,
+  MANAGER_TYPE,
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
@@ -59,6 +60,7 @@ const getReferralLetterPreview = asyncMiddleware(
       await auditDataAccess(
         request.nickname,
         caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.REFERRAL_LETTER_PREVIEW,
         auditDetails,
         transaction

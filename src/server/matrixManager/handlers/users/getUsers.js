@@ -3,7 +3,10 @@ import _ from "lodash";
 import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import models from "../../../complaintManager/models";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import { retrieveSecretFromAWS } from "../../../retrieveSecretFromAWS";
 
 const config = require("../../../config/config")[process.env.NODE_ENV];
@@ -74,6 +77,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       await auditDataAccess(
         request.nickname,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.ALL_USER_DATA,
         { users: { attributes: ["name", "email"] } },
         transaction

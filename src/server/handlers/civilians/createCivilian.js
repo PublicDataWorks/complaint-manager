@@ -1,6 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
-  AUDIT_SUBJECT
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
@@ -37,6 +38,7 @@ const createCivilian = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

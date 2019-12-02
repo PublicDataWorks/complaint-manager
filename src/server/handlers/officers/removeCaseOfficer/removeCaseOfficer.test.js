@@ -3,7 +3,11 @@ import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseO
 import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";
-import { AUDIT_SUBJECT, WITNESS } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE,
+  WITNESS
+} from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import removeCaseOfficer from "./removeCaseOfficer";
 import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
@@ -162,6 +166,7 @@ describe("removeCaseOfficer", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         existingCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()

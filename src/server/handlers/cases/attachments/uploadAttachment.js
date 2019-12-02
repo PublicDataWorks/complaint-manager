@@ -8,7 +8,8 @@ import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
   AUDIT_SUBJECT,
-  DUPLICATE_FILE_NAME
+  DUPLICATE_FILE_NAME,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import Boom from "boom";
@@ -92,6 +93,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
               await auditDataAccess(
                 request.nickname,
                 caseId,
+                MANAGER_TYPE.COMPLAINT,
                 AUDIT_SUBJECT.CASE_DETAILS,
                 auditDetails,
                 transaction

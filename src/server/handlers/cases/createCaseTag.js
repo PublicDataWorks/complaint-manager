@@ -1,7 +1,10 @@
 import Boom from "boom";
 import models from "../../complaintManager/models";
 import auditDataAccess from "../audits/auditDataAccess";
-import { AUDIT_SUBJECT } from "../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import getTagsAndAuditDetails from "../tags/getTagsHelper";
@@ -53,6 +56,7 @@ const createCaseTag = asyncMiddleware(async (request, response, next) => {
       await auditDataAccess(
         request.nickname,
         request.params.caseId,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_TAGS,
         caseTagAuditDetails,
         transaction
@@ -60,6 +64,7 @@ const createCaseTag = asyncMiddleware(async (request, response, next) => {
       await auditDataAccess(
         request.nickname,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.ALL_TAGS,
         tagAuditDetails,
         transaction

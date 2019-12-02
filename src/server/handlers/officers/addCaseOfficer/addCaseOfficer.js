@@ -10,7 +10,10 @@ const {
 
 const models = require("../../../complaintManager/models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
   const {
@@ -66,6 +69,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       retrievedCase.id,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

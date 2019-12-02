@@ -3,7 +3,8 @@ import Case from "../../../../../client/complaintManager/testUtilities/case";
 import models from "../../../../complaintManager/models";
 import {
   AUDIT_FILE_TYPE,
-  CASE_STATUS
+  CASE_STATUS,
+  MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
 import getReferralLetterPdf from "./getReferralLetterPdf";
@@ -87,6 +88,7 @@ describe("Generate referral letter pdf", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_FILE_TYPE.DRAFT_REFERRAL_LETTER_PDF,
           expectedAuditDetails,
           expect.anything()

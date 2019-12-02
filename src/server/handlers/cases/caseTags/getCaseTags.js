@@ -1,7 +1,10 @@
 import models from "../../../complaintManager/models";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 
 const asyncMiddleWare = require("../../asyncMiddleware");
 
@@ -19,6 +22,7 @@ const getCaseTags = asyncMiddleWare(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_TAGS,
       auditDetails,
       transaction

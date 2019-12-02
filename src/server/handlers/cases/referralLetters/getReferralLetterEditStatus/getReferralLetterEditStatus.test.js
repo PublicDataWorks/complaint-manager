@@ -4,7 +4,8 @@ import ReferralLetter from "../../../../../client/complaintManager/testUtilities
 import getReferralLetterEditStatus from "./getReferralLetterEditStatus";
 import {
   AUDIT_SUBJECT,
-  EDIT_STATUS
+  EDIT_STATUS,
+  MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
@@ -87,6 +88,7 @@ describe("getReferralLetterEditStatus", () => {
         expect(auditDataAccess).toHaveBeenCalledWith(
           request.nickname,
           existingCase.id,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.REFERRAL_LETTER_DATA,
           {
             referralLetter: {

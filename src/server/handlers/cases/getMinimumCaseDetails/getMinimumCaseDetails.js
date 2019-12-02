@@ -1,6 +1,9 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../complaintManager/models";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const getMinimumCaseDetails = asyncMiddleware(
@@ -35,6 +38,7 @@ const getMinimumCaseDetails = asyncMiddleware(
         await auditDataAccess(
           request.nickname,
           caseId,
+          MANAGER_TYPE.COMPLAINT,
           AUDIT_SUBJECT.CASE_DETAILS,
           auditDetails,
           transaction

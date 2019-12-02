@@ -7,7 +7,8 @@ import auditDataAccess from "../../audits/auditDataAccess";
 const models = require("../../../complaintManager/models/index");
 const {
   AUDIT_SUBJECT,
-  DEFAULT_PAGINATION_LIMIT
+  DEFAULT_PAGINATION_LIMIT,
+  MANAGER_TYPE
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Op = require("sequelize").Op;
@@ -54,6 +55,7 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       null,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.OFFICER_DATA,
       auditDetails,
       transaction

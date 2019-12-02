@@ -5,7 +5,10 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
 const models = require("../../../complaintManager/models/index");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
+const {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} = require("../../../../sharedUtilities/constants");
 
 const deleteAttachment = asyncMiddleware(async (request, response) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {
@@ -36,6 +39,7 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_DETAILS,
       auditDetails,
       transaction

@@ -1,7 +1,8 @@
 import shiftSingleElementOfArray from "../../../sharedUtilities/shiftSingleElementOfArray";
 import {
   AUDIT_SUBJECT,
-  DECLINES_OPTION
+  DECLINES_OPTION,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
@@ -29,6 +30,7 @@ const getClassifications = asyncMiddleware(async (request, response, next) => {
     await auditDataAccess(
       request.nickname,
       request.params.caseId,
+      MANAGER_TYPE.COMPLAINT,
       AUDIT_SUBJECT.CASE_CLASSIFICATIONS,
       classifications.auditDetails,
       transaction

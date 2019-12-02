@@ -6,7 +6,8 @@ import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
-  CASE_STATUS
+  CASE_STATUS,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 
@@ -134,6 +135,7 @@ describe("editCaseNote", function() {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_NOTES,
         {
           caseNote: {

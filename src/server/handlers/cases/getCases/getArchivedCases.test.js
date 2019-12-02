@@ -1,7 +1,10 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import getArchivedCases from "./getArchivedCases";
-import { AUDIT_SUBJECT } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -75,6 +78,7 @@ describe("getArchivedCases", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         auditUser,
         null,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.ALL_ARCHIVED_CASES,
         GET_CASES_AUDIT_DETAILS,
         expect.anything()

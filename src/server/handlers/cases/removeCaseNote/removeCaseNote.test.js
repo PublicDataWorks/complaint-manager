@@ -6,7 +6,8 @@ import removeCaseNote from "./removeCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
-  CASE_STATUS
+  CASE_STATUS,
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -85,6 +86,7 @@ describe("RemoveCaseNote unit", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_NOTES,
         {
           caseNote: {
@@ -103,6 +105,7 @@ describe("RemoveCaseNote unit", () => {
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
         createdCase.id,
+        MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.CASE_DETAILS,
         expectedCaseAuditDetails,
         expect.anything()
