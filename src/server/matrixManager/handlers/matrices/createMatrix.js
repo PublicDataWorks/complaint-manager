@@ -1,7 +1,4 @@
-import {
-  BAD_DATA_ERRORS,
-  BAD_REQUEST_ERRORS
-} from "../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 import getQueryAuditAccessDetails from "../../../handlers/audits/getQueryAuditAccessDetails";
 
@@ -18,6 +15,7 @@ const Boom = require("boom");
 const createMatrix = asyncMiddleware(async (request, response, next) => {
   let matrixDetails = null;
   let values = request.body;
+  values.pibControlNumber = values.pibControlNumber.toUpperCase();
   await models.matrices
     .findOne({
       where: {

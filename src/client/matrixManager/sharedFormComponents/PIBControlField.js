@@ -30,6 +30,7 @@ const TextMaskCustom = props => {
         /[A-Za-z]/
       ]}
       placeholderChar={"_"}
+      style={{ textTransform: "uppercase" }}
     />
   );
 };

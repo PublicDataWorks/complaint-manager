@@ -49,7 +49,7 @@ class CreateMatrixDialog extends React.Component {
 
   createAndSearch = values => {
     this.props.createMatrix({
-      pibControlNumber: values.pibControlNumber,
+      pibControlNumber: values.pibControlNumber.toUpperCase(),
       firstReviewer: values.firstReviewer,
       secondReviewer: values.secondReviewer
     });

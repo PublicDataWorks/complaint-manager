@@ -22,7 +22,7 @@ describe("createMatrix handler", () => {
     user = "TEST_USER_NICKNAME";
 
     matrixDetails = {
-      pibControlNumber: "2019-0001-R",
+      pibControlNumber: "2019-0001-r",
       firstReviewer: "jacob@me.com",
       secondReviewer: "wanchen@me.com"
     };
@@ -45,15 +45,15 @@ describe("createMatrix handler", () => {
     await cleanupDatabase();
   });
 
-  test("should create matrix", async () => {
+  test("should create matrix with capitalized pib control number", async () => {
     await createMatrix(request, response, next);
     const insertedMatrix = await models.matrices.findOne({
-      where: { pibControlNumber: matrixDetails.pibControlNumber }
+      where: { pibControlNumber: matrixDetails.pibControlNumber.toUpperCase() }
     });
 
     expect(insertedMatrix).toEqual(
       expect.objectContaining({
-        pibControlNumber: matrixDetails.pibControlNumber,
+        pibControlNumber: matrixDetails.pibControlNumber.toUpperCase(),
         firstReviewer: matrixDetails.firstReviewer,
         secondReviewer: matrixDetails.secondReviewer
       })
@@ -66,7 +66,8 @@ describe("createMatrix handler", () => {
     expect(response.statusCode).toEqual(201);
     expect(response._getData()).toEqual(
       expect.objectContaining({
-        ...matrixDetails
+        ...matrixDetails,
+        pibControlNumber: matrixDetails.pibControlNumber.toUpperCase()
       })
     );
     expect(response._isEndCalled()).toBeTruthy();
