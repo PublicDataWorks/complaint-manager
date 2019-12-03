@@ -15,6 +15,9 @@ following significant/noteworthy number of complaints.`;
 export const RETALIATION_CONCERNS_LABEL =
   "Include Retaliation Concerns and Request for Notice to Accused";
 
+export const CLASSIFICATIONS_INFORMATIONAL_TEXT = `Every complaint must receive at least one of the following classifications. 
+Please select Declines to Classify if the complaint does not fit into any of the other classifications.`;
+
 export const RETALIATION_CONCERNS_TEXT = `Based on the information provided by the complainant, the
 OIPM is concerned about retaliation against the complainant.
 We request that once the accused is made aware of

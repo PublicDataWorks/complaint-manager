@@ -9,6 +9,10 @@ import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import { DECLINES_OPTION } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
+import {
+  CLASSIFICATIONS_INFORMATIONAL_TEXT,
+  RETALIATION_CONCERNS_TEXT
+} from "../../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
 
 class Classifications extends Component {
   constructor(props) {
@@ -43,12 +47,16 @@ class Classifications extends Component {
         <CardContent style={styles.cardStyling}>
           <Typography
             style={{
-              marginBottom: standards.medium,
               fontWeight: "bold",
               fontSize: standards.fontSmall
             }}
           >
             CLASSIFICATION
+          </Typography>
+          <Typography
+            style={{ marginBottom: standards.small, fontStyle: "italic" }}
+          >
+            {CLASSIFICATIONS_INFORMATIONAL_TEXT}
           </Typography>
           <Fragment>
             <FormGroup>
