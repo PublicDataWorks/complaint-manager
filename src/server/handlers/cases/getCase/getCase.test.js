@@ -112,23 +112,5 @@ describe("getCase", () => {
       });
       expect(audits.length).toEqual(0);
     });
-
-    test("should not create audit data access record when accessing nonexistent case", async () => {
-      const invalidId = existingCase.id + 20;
-
-      request.params.caseId = invalidId;
-
-      const response = httpMocks.createResponse();
-      const next = jest.fn();
-
-      await getCase(request, response, next);
-
-      const audits = await models.audit.findAll({
-        where: {
-          auditAction: AUDIT_ACTION.DATA_ACCESSED
-        }
-      });
-      expect(audits.length).toEqual(0);
-    });
   });
 });

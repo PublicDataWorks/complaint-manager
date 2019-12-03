@@ -6,8 +6,14 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../../sharedUtilities/errorMessageConstants";
+import auditDataAccess from "../../../handlers/audits/auditDataAccess";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 
 const httpMocks = require("node-mocks-http");
+jest.mock("../../../handlers/audits/auditDataAccess");
 
 describe("createMatrix handler", () => {
   let request, response, next, matrixDetails, user;
@@ -76,5 +82,28 @@ describe("createMatrix handler", () => {
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.PIB_CONTROL_NUMBER_ALREADY_EXISTS)
     );
+  });
+
+  describe("auditing", () => {
+    test("should create data access audit when a new matrix is created", async () => {
+      await createMatrix(request, response, next);
+
+      const createdMatrix = await models.matrices.findOne({
+        where: { pibControlNumber: "2019-0001-R" }
+      });
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        createdMatrix.id,
+        MANAGER_TYPE.MATRIX,
+        AUDIT_SUBJECT.MATRIX_DETAILS,
+        {
+          matrices: {
+            attributes: Object.keys(models.matrices.rawAttributes),
+            model: models.matrices.name
+          }
+        },
+        expect.anything()
+      );
+    });
   });
 });

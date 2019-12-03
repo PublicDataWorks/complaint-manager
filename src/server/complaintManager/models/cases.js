@@ -1,6 +1,7 @@
 import {
   ADDRESSABLE_TYPE,
-  CIVILIAN_WITHIN_NOPD_INITIATED
+  CIVILIAN_WITHIN_NOPD_INITIATED,
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import moment from "moment";
 import { head, isEmpty, sortBy } from "lodash";
@@ -275,14 +276,14 @@ export default (sequelize, DataTypes) => {
   };
 
   Case.prototype.getManagerType = async function(transaction) {
-    return "complaint";
+    return MANAGER_TYPE.COMPLAINT;
   };
 
   Case.associate = models => {
     Case.hasMany(models.audit, {
       foreignKey: { name: "referenceId", field: "reference_id" },
       scope: {
-        managerType: "complaint"
+        managerType: MANAGER_TYPE.COMPLAINT
       }
     });
     Case.hasMany(models.civilian, {
