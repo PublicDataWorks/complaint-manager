@@ -1,3 +1,5 @@
+import { MANAGER_TYPE } from "../../../sharedUtilities/constants";
+
 export default (sequelize, DataTypes) => {
   const Matrix = sequelize.define("matrices", {
     id: {
@@ -35,5 +37,29 @@ export default (sequelize, DataTypes) => {
       as: "deletedAt"
     }
   });
+
+  Matrix.prototype.modelDescription = async function(transaction) {
+    return [{ "PIB Number": this.pibControlNumber }];
+  };
+
+  Matrix.prototype.getMatrixId = async function(transaction) {
+    return this.id;
+  };
+
+  Matrix.prototype.getManagerType = async function(transaction) {
+    return MANAGER_TYPE.MATRIX;
+  };
+
+  Matrix.associate = models => {
+    Matrix.hasMany(models.audit, {
+      foreignKey: { name: "referenceId", field: "reference_id" },
+      scope: {
+        managerType: MANAGER_TYPE.MATRIX
+      }
+    });
+  };
+
+  Matrix.auditDataChange();
+
   return Matrix;
 };

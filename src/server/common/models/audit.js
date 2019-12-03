@@ -42,9 +42,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Audit.associate = models => {
-    Audit.belongsTo(models.cases, {
-      foreignKey: { name: "referenceId", field: "reference_id" }
-    });
     Audit.hasOne(models.export_audit, {
       as: "exportAudit",
       foreignKey: {

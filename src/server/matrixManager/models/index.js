@@ -7,7 +7,9 @@ if (env === "test") {
   env += process.env.JEST_WORKER_ID;
 }
 const config = require(__dirname + "/../../config/sequelize_config.js")[env];
+const commonDir = __dirname + "/../../common/models";
 const db = {};
+const dataChangeAuditHooks = require("../../sequelizeHooks/dataChangeAuditHooks");
 
 let sequelize;
 if (config.use_env_variable) {
@@ -21,6 +23,8 @@ if (config.use_env_variable) {
   );
 }
 
+dataChangeAuditHooks.init(sequelize, Sequelize.Model);
+
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
@@ -32,6 +36,17 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+fs.readdirSync(commonDir)
+  .filter(file => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
+    );
+  })
+  .forEach(file => {
+    var model = sequelize["import"](path.join(commonDir, file));
+    db[model.name] = model;
+  });
+
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
@@ -40,4 +55,5 @@ Object.keys(db).forEach(modelName => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
+
 module.exports = db;

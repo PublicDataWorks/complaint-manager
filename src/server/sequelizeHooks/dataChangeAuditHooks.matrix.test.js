@@ -17,33 +17,32 @@ describe("dataChangeAuditHooks", () => {
         .withId(undefined);
     });
 
-    test("ShOuLd PaSs", () => {
-      expect(true).not.toBe(false);
-    });
+    test("creates an audit entry for the matrix creation with the basic attributes", async () => {
+      const createdMatrix = await models.matrices.create(
+        initialMatrixAttributes,
+        {
+          auditUser: "Neo"
+        }
+      );
 
-    // test("creates an audit entry for the matrix creation with the basic attributes", async () => {
-    //   const createdMatrix = await models.matrices.create(
-    //     initialMatrixAttributes
-    //   );
-    //
-    //   const audit = await models.audit.findOne({
-    //     where: { auditAction: AUDIT_ACTION.DATA_CREATED },
-    //     include: [
-    //       {
-    //         as: "dataChangeAudit",
-    //         model: models.data_change_audit,
-    //         where: {
-    //           modelName: "matrices"
-    //         }
-    //       }
-    //     ]
-    //   });
-    //
-    //   expect(audit.dataChangeAudit.modelName).toEqual("matrices");
-    //   expect(audit.dataChangeAudit.modelId).toEqual(createdMatrix.id);
-    //   expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
-    //   expect(audit.user).toEqual("bruce");
-    //   expect(audit.managerType).toEqual("matrix");
-    // });
+      const audit = await models.audit.findOne({
+        where: { auditAction: AUDIT_ACTION.DATA_CREATED },
+        include: [
+          {
+            as: "dataChangeAudit",
+            model: models.data_change_audit,
+            where: {
+              modelName: "matrices"
+            }
+          }
+        ]
+      });
+
+      expect(audit.dataChangeAudit.modelName).toEqual("matrices");
+      expect(audit.dataChangeAudit.modelId).toEqual(createdMatrix.id);
+      expect(audit.auditAction).toEqual(AUDIT_ACTION.DATA_CREATED);
+      expect(audit.user).toEqual("Neo");
+      expect(audit.managerType).toEqual("matrix");
+    });
   });
 });

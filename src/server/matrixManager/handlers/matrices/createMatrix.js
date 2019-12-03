@@ -3,8 +3,15 @@ import {
   BAD_REQUEST_ERRORS
 } from "../../../../sharedUtilities/errorMessageConstants";
 
+import getQueryAuditAccessDetails from "../../../handlers/audits/getQueryAuditAccessDetails";
+
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 import models from "../../models";
+import auditDataAccess from "../../../handlers/audits/auditDataAccess";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 
 const Boom = require("boom");
 
@@ -29,6 +36,25 @@ const createMatrix = asyncMiddleware(async (request, response, next) => {
               auditUser: request.nickname,
               transaction
             });
+
+            const matricesQueryOptions = {
+              auditUser: request.nickname,
+              transaction
+            };
+
+            const matrixAuditDetails = getQueryAuditAccessDetails(
+              matricesQueryOptions,
+              models.matrices.name
+            );
+
+            await auditDataAccess(
+              request.nickname,
+              matrixCreated.id,
+              MANAGER_TYPE.MATRIX,
+              AUDIT_SUBJECT.MATRIX_DETAILS,
+              matrixAuditDetails,
+              transaction
+            );
             return matrixCreated;
           }
         );

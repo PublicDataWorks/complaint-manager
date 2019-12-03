@@ -1,5 +1,8 @@
 import _ from "lodash";
-import models from "../../complaintManager/models";
+import complaintModels from "../../complaintManager/models";
+import matrixModels from "../../matrixManager/models";
+
+const models = _.assign(complaintModels, matrixModels);
 
 export const removeFromExistingAuditDetails = (
   existingDetails,

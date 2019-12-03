@@ -1,6 +1,6 @@
 const {
-  AUDIT_TYPE,
-  AUDIT_ACTION
+  AUDIT_ACTION,
+  MANAGER_TYPE
 } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
@@ -14,7 +14,7 @@ const auditAuthentication = asyncMiddleware(async (request, response) => {
   await models.audit.create({
     auditAction: request.body.log,
     user: request.nickname,
-    managerType: "complaint"
+    managerType: MANAGER_TYPE.COMPLAINT
   });
 
   response.status(201).send();
