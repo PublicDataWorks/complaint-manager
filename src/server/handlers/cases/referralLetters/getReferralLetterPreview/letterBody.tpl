@@ -240,8 +240,7 @@
     NOPD policy, rules, or procedure when:
     <ol>
       {{#each allegations}}
-        <li>{{this.details}}</li>
-        <i>{{allegation.rule}}: {{allegation.paragraph}}: {{allegation.directive}}</i>
+        <li>{{this.details}} This is in violation of <b><i>{{allegation.rule}}: {{allegation.paragraph}}{{#if (isPresent allegation.directive)}}: {{allegation.directive}}{{/if}}</i></b></li>
       {{/each}}
     </ol>
     <p><br></p>
