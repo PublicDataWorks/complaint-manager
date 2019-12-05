@@ -14,7 +14,7 @@ const UnknownOfficerDisplay = ({ caseId, dispatch, officerSearchUrl }) => (
     <Typography
       data-test="unknownOfficerMessage"
       style={{ marginBottom: "32px" }}
-      variant="body1"
+      variant="body2"
     >
       You have selected Unknown Officer. Change this officer to a known officer
       by selecting Search for Officer.

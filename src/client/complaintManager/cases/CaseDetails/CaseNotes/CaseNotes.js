@@ -24,7 +24,7 @@ class CaseNotes extends Component {
         <div style={{ margin: "0px 24px" }}>
           <div style={{ display: "flex" }}>
             <Typography
-              variant={"title"}
+              variant={"h6"}
               style={{
                 marginBottom: "16px",
                 flex: 1
@@ -42,7 +42,7 @@ class CaseNotes extends Component {
           </div>
           <div data-test="caseNotesContainer" style={{ paddingBottom: "16px" }}>
             {caseNotes.length === 0 ? (
-              <Typography variant="body1">
+              <Typography variant="body2">
                 No case notes have been added
               </Typography>
             ) : (

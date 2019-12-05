@@ -18,8 +18,8 @@ import {
   FormControlLabel
 } from "@material-ui/core";
 import ExportDateRange from "./ExportDateRange/ExportDateRange";
-import { RadioGroup } from "redux-form-material-ui";
 import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 const formLabel = "exportCases";
 
@@ -40,7 +40,11 @@ const openExportCasesConfirmationDialogForDateRange = (
 
 const ExportCasesTypeRadioGroup = props => (
   <FormControl>
-    <RadioGroup style={{ flexDirection: "row" }} {...props}>
+    <RadioGroup
+      style={{ flexDirection: "row" }}
+      {...props}
+      value={props.input.value}
+    >
       <FormControlLabel
         data-test={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}`}
         value={CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}
@@ -65,8 +69,8 @@ const ExportCasesForm = props => {
   const { handleSubmit } = props;
   return (
     <div style={{ marginBottom: "36px" }}>
-      <Typography variant="title">Export Cases</Typography>
-      <Typography variant="body1" color="inherit">
+      <Typography variant="h6">Export Cases</Typography>
+      <Typography variant="body2" color="inherit">
         Select a range of <strong>first contacted dates</strong> or{" "}
         <strong>incident dates</strong> to export cases or export all cases in
         Complaint Manager.

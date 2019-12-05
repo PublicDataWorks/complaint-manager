@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import ActivityMenu from "./ActivityMenu";
-import { Backdrop, Menu } from "@material-ui/core";
+import { Menu } from "@material-ui/core";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import {
   openCaseNoteDialog,
@@ -46,7 +46,7 @@ describe("ActivityMenu", () => {
 
   test("should close when clicking outside", () => {
     activityMenuButton.simulate("click");
-    const background = wrapper.find(Backdrop);
+    const background = wrapper.find("ForwardRef(SimpleBackdrop)");
     background.simulate("click");
     const activityMenu = wrapper.find(Menu);
 

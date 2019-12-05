@@ -36,9 +36,8 @@ const AllegationsCommands = {
     this.waitForElementVisible("@allegationSeverityDropdown", e2e.rerenderWait)
       .click("@allegationSeverityDropdown")
       .waitForElementVisible("@allegationSeverityMenu", e2e.rerenderWait)
-      .click("@lastAllegationSeverityOption")
-      .api.pause(e2e.pause);
-    return this;
+      .api.pause(e2e.dataLoadWait);
+    return this.click("@firstAllegationSeverityOption");
   },
   addAllegation: function() {
     return this.waitForElementVisible(
@@ -64,7 +63,7 @@ module.exports = {
       selector: '[data-test="pageTitle"]'
     },
     ruleDropdown: {
-      selector: '[data-test="ruleDropdown"]'
+      selector: '[data-test="ruleDropdown"] > div > div'
     },
     ruleList: {
       selector: '[role="listbox"]'
@@ -87,8 +86,8 @@ module.exports = {
     allegationSeverityMenu: {
       selector: '[role="listbox"]'
     },
-    lastAllegationSeverityOption: {
-      selector: '[role="listbox"] > div > li:last-child'
+    firstAllegationSeverityOption: {
+      selector: '[role="listbox"] > div > li:nth-child(2)'
     },
     addAllegationButton: {
       selector: '[data-test="addAllegationButton"]'

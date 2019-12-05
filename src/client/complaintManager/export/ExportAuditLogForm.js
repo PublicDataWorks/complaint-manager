@@ -44,10 +44,10 @@ const ExportAuditLogForm = props => {
   return (
     <div>
       <div style={{ margin: "0 0 32px 0" }}>
-        <Typography variant="title" style={{ marginRight: "20px" }}>
+        <Typography variant="h6" style={{ marginRight: "20px" }}>
           Export Audit Log
         </Typography>
-        <Typography variant="body1" color="inherit">
+        <Typography variant="body2" color="inherit">
           Select a date range to export an audit log of Complaint Manager
           activities within range or export a full audit log.
         </Typography>

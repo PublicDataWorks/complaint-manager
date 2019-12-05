@@ -64,7 +64,7 @@ const getSubtitleText = complainantWitnesses => {
 
   return (
     <WarningMessage>
-      <Typography variant={"body1"}>
+      <Typography variant={"body2"}>
         Please add at least one complainant to this case
       </Typography>
     </WarningMessage>

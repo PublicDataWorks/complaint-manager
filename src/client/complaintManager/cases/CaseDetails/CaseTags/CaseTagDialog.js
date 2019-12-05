@@ -49,7 +49,7 @@ class CaseTagDialog extends Component {
         </DialogTitle>
         <DialogContent>
           <Typography
-            type="body1"
+            type="body2"
             style={{
               marginBottom: "24px"
             }}

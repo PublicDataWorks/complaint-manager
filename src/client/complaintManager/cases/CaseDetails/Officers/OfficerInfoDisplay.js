@@ -17,7 +17,7 @@ const OfficerInfoDisplay = ({
       <TextTruncate testLabel={testLabel} message={value ? value : "N/A"} />
     ) : (
       <Typography
-        variant="body1"
+        variant="body2"
         data-test={testLabel}
         style={{ whiteSpace: "pre-wrap" }}
       >

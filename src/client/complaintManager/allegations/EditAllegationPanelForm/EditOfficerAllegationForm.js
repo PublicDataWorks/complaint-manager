@@ -1,4 +1,3 @@
-import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import {
   PrimaryButton,
@@ -15,6 +14,7 @@ import { allegationSeverityMenu } from "../../utilities/generateMenuOptions";
 import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { connect } from "react-redux";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import { renderField } from "../../cases/sharedFormComponents/renderFunctions";
 
 const onSubmit = (values, dispatch, caseId) => {
   const { id, details, severity } = values;
@@ -50,7 +50,7 @@ const EditOfficerAllegationForm = ({
             <Field
               label={"Allegation Details"}
               name={"details"}
-              component={TextField}
+              component={renderField}
               inputProps={{
                 "data-test": "allegationInput"
               }}

@@ -191,7 +191,7 @@ class OfficerHistories extends Component {
             />
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
-                variant="title"
+                variant="h6"
                 data-test="complaint-history-page-header"
               >
                 Officer Complaint History

@@ -1,6 +1,6 @@
 import { withStyles } from "@material-ui/core/styles";
-import { Checkbox } from "redux-form-material-ui";
 import colors from "../../../common/globalStyling/colors";
+import { renderCheckbox } from "../../cases/sharedFormComponents/renderFunctions";
 
 const styles = {
   colorSecondary: { color: colors.primary.dark },
@@ -8,4 +8,4 @@ const styles = {
   checked: {}
 };
 
-export default withStyles(styles)(Checkbox);
+export default withStyles(styles)(renderCheckbox);

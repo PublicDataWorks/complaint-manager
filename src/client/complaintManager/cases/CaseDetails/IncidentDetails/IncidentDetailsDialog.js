@@ -7,7 +7,6 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import { TextField } from "redux-form-material-ui";
 import DateField from "../../sharedFormComponents/DateField";
 import {
   Field,
@@ -26,10 +25,7 @@ import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../../formValidations";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
-import {
-  generateMenuOptions,
-  inputDistrictMenu
-} from "../../../utilities/generateMenuOptions";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
@@ -38,6 +34,7 @@ import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
 import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -94,7 +91,7 @@ class IncidentDetailsDialog extends Component {
           <form>
             <div style={{ marginBottom: "16px" }}>
               <DateField
-                required={true}
+                required
                 name="firstContactDate"
                 label="First Contacted OIPM"
                 data-test="editFirstContactDateField"
@@ -107,24 +104,28 @@ class IncidentDetailsDialog extends Component {
               />
             </div>
 
-            <div>
+            <div
+              style={{
+                display: "inline-flex",
+                marginBottom: "16px"
+              }}
+            >
               <DateField
                 name="incidentDate"
-                label="Incident Date"
                 data-test="editIncidentDateField"
+                label="Incident Date"
                 inputProps={{
                   "data-test": "editIncidentDateInput",
                   type: "date",
                   max: moment(Date.now()).format("YYYY-MM-DD")
                 }}
                 style={{
-                  marginRight: "16px",
-                  marginBottom: "16px"
+                  marginRight: "16px"
                 }}
                 clearable={true}
               />
               <Field
-                component={TextField}
+                component={renderField}
                 name="incidentTime"
                 label="Incident Time"
                 data-test="editIncidentTimeField"
@@ -209,7 +210,7 @@ class IncidentDetailsDialog extends Component {
             <div style={{ display: "flex", marginTop: "16px" }}>
               <Field
                 name="pibCaseNumber"
-                component={TextField}
+                component={renderField}
                 label="PIB Case Number"
                 data-test="pibCaseNumber"
                 placeholder="Enter PIB Case Number"

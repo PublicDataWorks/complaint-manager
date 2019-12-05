@@ -31,7 +31,7 @@ const Attachments = props => {
               <Typography style={styles.section}>UPLOAD A FILE</Typography>
             </div>
             <div style={{ marginBottom: "4px" }}>
-              <Typography variant="body1">Maximum file size: 5GB</Typography>
+              <Typography variant="body2">Maximum file size: 5GB</Typography>
             </div>
             <DropzoneContainer />
           </div>

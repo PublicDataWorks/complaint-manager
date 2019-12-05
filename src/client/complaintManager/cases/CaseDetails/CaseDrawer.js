@@ -40,7 +40,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
           <div style={{ display: "flex" }}>
             <Typography
               data-test="case-reference"
-              variant="title"
+              variant="h6"
               style={{
                 marginTop: "4px",
                 flex: 1
@@ -54,7 +54,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
           <div className={classes.drawerRow}>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Created By</Typography>
-              <Typography data-test="created-by" variant="body1">
+              <Typography data-test="created-by" variant="body2">
                 {caseDetails.createdBy}
               </Typography>
             </div>
@@ -62,13 +62,13 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
           <div className={lastDrawerRowClassName}>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Created On</Typography>
-              <Typography data-test="created-on" variant="body1">
+              <Typography data-test="created-on" variant="body2">
                 {formatDate(caseDetails.createdAt)}
               </Typography>
             </div>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Complaint Type</Typography>
-              <Typography data-test="complaint-type" variant="body1">
+              <Typography data-test="complaint-type" variant="body2">
                 {caseDetails.complaintType}
               </Typography>
             </div>
@@ -77,7 +77,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
             <div className={classes.drawerRowEnd}>
               <div className={classes.drawerRowItem}>
                 <Typography variant="caption">Assigned To</Typography>
-                <Typography data-test="assigned-to" variant="body1">
+                <Typography data-test="assigned-to" variant="body2">
                   {caseDetails.assignedTo}
                 </Typography>
               </div>

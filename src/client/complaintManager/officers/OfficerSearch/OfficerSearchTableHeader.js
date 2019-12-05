@@ -17,49 +17,49 @@ const OfficerSearchTableHeader = props => {
           className={classes.cell}
           style={{ width: "17%" }}
         >
-          <Typography variant="body2">Name</Typography>
+          <Typography variant="subtitle2">Name</Typography>
         </TableCell>
         <TableCell
           data-test="casesComplainantHeader"
           className={classes.cell}
           style={{ width: "17%" }}
         >
-          <Typography variant="body2">Rank</Typography>
+          <Typography variant="subtitle2">Rank</Typography>
         </TableCell>
         <TableCell
           data-test="casesFirstContactDateHeader"
           className={classes.cell}
           style={{ width: "17%" }}
         >
-          <Typography variant="body2">Bureau</Typography>
+          <Typography variant="subtitle2">Bureau</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "11%" }}
         >
-          <Typography variant="body2">District</Typography>
+          <Typography variant="subtitle2">District</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "8%" }}
         >
-          <Typography variant="body2">Gender</Typography>
+          <Typography variant="subtitle2">Gender</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "14%" }}
         >
-          <Typography variant="body2">Race</Typography>
+          <Typography variant="subtitle2">Race</Typography>
         </TableCell>
         <TableCell
           data-test="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "6%" }}
         >
-          <Typography variant="body2">Age</Typography>
+          <Typography variant="subtitle2">Age</Typography>
         </TableCell>
         <TableCell className={classes.cell} style={{ width: "10%" }} />
       </TableRow>

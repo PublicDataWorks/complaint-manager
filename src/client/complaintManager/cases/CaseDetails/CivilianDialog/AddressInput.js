@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { TextField } from "redux-form-material-ui";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import { change, clearSubmitErrors, Field } from "redux-form";
 import { connect } from "react-redux";
@@ -15,6 +14,7 @@ import {
   updateAddressToConfirm
 } from "../../../actionCreators/casesActionCreators";
 import parseAddressFromGooglePlaceResult from "../../../utilities/parseAddressFromGooglePlaceResult";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 class AddressInput extends Component {
   //TODO  IS there a good way to do dependency injection in react/redux?
@@ -164,7 +164,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.streetAddress`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "streetAddressInput"
           }}
@@ -173,7 +173,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.intersection`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "intersectionInput"
           }}
@@ -182,7 +182,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.city`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "cityInput"
           }}
@@ -191,7 +191,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.state`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "stateInput"
           }}
@@ -200,7 +200,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.zipCode`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "zipCodeInput"
           }}
@@ -209,7 +209,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.country`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "countryInput"
           }}
@@ -218,7 +218,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.lat`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "latInput"
           }}
@@ -227,7 +227,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.lng`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "lngInput"
           }}
@@ -236,7 +236,7 @@ class AddressInput extends Component {
         <Field
           type={"hidden"}
           name={`${this.props.fieldName}.placeId`}
-          component={TextField}
+          component={renderField}
           inputProps={{
             "data-test": "placeIdInput"
           }}

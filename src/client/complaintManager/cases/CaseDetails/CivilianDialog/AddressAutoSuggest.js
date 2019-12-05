@@ -25,8 +25,8 @@ const styles = theme => ({
   },
   suggestionsContainerOpen: {
     position: "relative",
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing(),
+    marginBottom: theme.spacing(),
     left: 0,
     right: 0
   },
@@ -122,7 +122,12 @@ class AddressAutoSuggest extends Component {
   renderSuggestionsContainer = options => {
     const { containerProps, children } = options;
     return (
-      <Paper {...containerProps} data-test="suggestion-container" square>
+      <Paper
+        elevation={2}
+        {...containerProps}
+        data-test="suggestion-container"
+        square
+      >
         {children}
         {children ? (
           <div align="right">

@@ -24,7 +24,7 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
         <DialogContent>
           <Typography
             data-test={"removeAttachmentText"}
-            variant={"body1"}
+            variant={"body2"}
             style={{ wordBreak: "break-word" }}
           >
             Are you sure you wish to remove{" "}

@@ -19,7 +19,7 @@ const BaseCaseDetailsCard = ({ title, subtitle, classes, children }) => (
     }}
   >
     <CardContent>
-      <Typography variant="title">{title}</Typography>
+      <Typography variant="h6">{title}</Typography>
     </CardContent>
     {subtitle ? (
       <CardContent className={classes.subtitle}>{subtitle}</CardContent>

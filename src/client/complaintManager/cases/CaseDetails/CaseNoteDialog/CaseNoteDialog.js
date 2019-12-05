@@ -6,7 +6,6 @@ import {
   DialogTitle,
   Typography
 } from "@material-ui/core";
-import { TextField } from "redux-form-material-ui";
 import { connect } from "react-redux";
 import {
   PrimaryButton,
@@ -28,6 +27,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 class CaseNoteDialog extends Component {
   componentDidMount() {
@@ -79,7 +79,7 @@ class CaseNoteDialog extends Component {
           }}
         >
           <Typography
-            type="body1"
+            variant="body2"
             style={{
               marginBottom: "24px"
             }}
@@ -120,7 +120,7 @@ class CaseNoteDialog extends Component {
             <Field
               name="notes"
               label="Notes"
-              component={TextField}
+              component={renderField}
               inputProps={{
                 "data-test": "notesInput"
               }}

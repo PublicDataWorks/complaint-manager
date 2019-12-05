@@ -1,14 +1,14 @@
 import React from "react";
 import { Field } from "redux-form";
 import { notFutureDate } from "../../../formFieldLevelValidations";
-import { TextField } from "redux-form-material-ui";
 import moment from "moment";
+import { renderDateField } from "./renderFunctions";
 
 const DateField = ({ inputProps, style, clearable = false, ...fieldProps }) => {
   return (
     <Field
       {...fieldProps}
-      component={TextField}
+      component={renderDateField}
       inputProps={{
         ...inputProps,
         style: {

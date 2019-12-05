@@ -6,13 +6,13 @@ const OfficerNameDisplay = props => {
     <div>
       <Typography variant="caption">{props.displayLabel}</Typography>
       <Typography
-        variant="body1"
+        variant="body2"
         style={{ whiteSpace: "pre-wrap" }}
         data-test={`${props.displayLabel}FullName`}
       >
         {props.fullName ? props.fullName : "N/A"}
       </Typography>
-      <Typography variant="body1" style={{ whiteSpace: "pre-wrap" }}>
+      <Typography variant="body2" style={{ whiteSpace: "pre-wrap" }}>
         {props.windowsUsername ? `#${props.windowsUsername}` : "N/A"}
       </Typography>
     </div>

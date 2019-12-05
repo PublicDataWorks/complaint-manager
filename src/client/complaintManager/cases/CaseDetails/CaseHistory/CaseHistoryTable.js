@@ -15,11 +15,11 @@ class CaseHistoryTable extends Component {
     const { classes } = this.props;
     return (
       <div>
-        <Typography variant="title" className={classes.labelMargin}>
+        <Typography variant="h6" className={classes.labelMargin}>
           Case History
         </Typography>
         <Typography
-          variant="body1"
+          variant="body2"
           className={classes.labelMargin}
           style={{ marginBottom: "16px" }}
         >

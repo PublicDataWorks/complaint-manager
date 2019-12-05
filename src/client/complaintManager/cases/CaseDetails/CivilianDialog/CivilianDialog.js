@@ -6,7 +6,6 @@ import {
   reduxForm,
   SubmissionError
 } from "redux-form";
-import { RadioGroup, TextField } from "redux-form-material-ui";
 import {
   Dialog,
   DialogActions,
@@ -55,6 +54,11 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
+import InputLabel from "@material-ui/core/InputLabel";
+import {
+  renderField,
+  renderRadioGroup
+} from "../../sharedFormComponents/renderFunctions";
 
 const styles = {
   dialogPaper: {
@@ -105,12 +109,12 @@ class CivilianDialog extends Component {
         </DialogTitle>
         <DialogContent style={{ padding: "0px 24px" }}>
           <form>
-            <Typography variant="body2" style={{ marginBottom: "8px" }}>
+            <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
               Role On Case
             </Typography>
             <Field
               name="roleOnCase"
-              component={RadioGroup}
+              component={renderRadioGroup}
               style={{ flexDirection: "row", marginBottom: "24px" }}
               data-test="roleOnCaseRadioGroup"
             >
@@ -128,7 +132,7 @@ class CivilianDialog extends Component {
               />
             </Field>
 
-            <Typography variant="body2" style={{ marginBottom: "8px" }}>
+            <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
               Personal Information
             </Typography>
             <div>
@@ -165,23 +169,30 @@ class CivilianDialog extends Component {
                 }}
               />
             </div>
-            <div>
-              <DateField
-                name="birthDate"
-                label="Date of Birth"
-                data-test="birthDateField"
-                inputProps={{
-                  "data-test": "birthDateInput",
-                  type: "date",
-                  max: moment(Date.now()).format("YYYY-MM-DD")
-                }}
-                clearable={true}
-                style={{
-                  minWidth: "140px",
-                  marginRight: "5%",
-                  marginBottom: "3%"
-                }}
-              />
+            <div
+              style={{
+                display: "inline-flex",
+                justifyPosition: "flex-start",
+                marginBottom: "3%"
+              }}
+            >
+              <div>
+                <InputLabel shrink={true}>Date of Birth</InputLabel>
+                <DateField
+                  name="birthDate"
+                  data-test="birthDateField"
+                  inputProps={{
+                    "data-test": "birthDateInput",
+                    type: "date",
+                    max: moment(Date.now()).format("YYYY-MM-DD")
+                  }}
+                  clearable={true}
+                  style={{
+                    minWidth: "140px",
+                    marginRight: "5%"
+                  }}
+                />
+              </div>
               <Field
                 required
                 name="genderIdentityId"
@@ -189,8 +200,12 @@ class CivilianDialog extends Component {
                 label="Gender Identity"
                 hinttext="Gender Identity"
                 data-test="genderDropdown"
-                style={{ width: "30%" }}
                 validate={[genderIdentityIsRequired]}
+                style={{
+                  minWidth: "166px",
+                  marginBottom: "3%",
+                  marginLeft: "28px"
+                }}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -219,7 +234,7 @@ class CivilianDialog extends Component {
               }
             />
             <Typography
-              variant="body2"
+              variant="subtitle2"
               style={{ marginTop: "24px", marginBottom: "8px" }}
             >
               Contact Information
@@ -275,12 +290,12 @@ class CivilianDialog extends Component {
               />
             </div>
 
-            <Typography variant="body2" style={{ marginBottom: "8px" }}>
+            <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
               Notes
             </Typography>
             <Field
               name="additionalInfo"
-              component={TextField}
+              component={renderField}
               style={{ marginBottom: "16px" }}
               fullWidth
               multiline
@@ -291,13 +306,13 @@ class CivilianDialog extends Component {
               }}
               data-test="additionalInfoField"
             />
-            <Field type={"hidden"} name={"caseId"} component={TextField} />
+            <Field type={"hidden"} name={"caseId"} component={renderField} />
           </form>
         </DialogContent>
         <DialogActions
           style={{
             justifyContent: "space-between",
-            margin: `${this.props.theme.spacing.unit * 2}px`
+            margin: `${this.props.theme.spacing(2)}px`
           }}
         >
           <SecondaryButton
@@ -319,7 +334,7 @@ class CivilianDialog extends Component {
   }
 }
 
-const DialogWithTheme = withTheme()(withStyles(styles)(CivilianDialog));
+const DialogWithTheme = withTheme(withStyles(styles)(CivilianDialog));
 
 const connectedForm = reduxForm({
   form: CIVILIAN_FORM_NAME

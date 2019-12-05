@@ -1,16 +1,16 @@
 import React from "react";
 import { Field } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import {
   lastNameNotBlank,
   lastNameRequired
 } from "../../../formFieldLevelValidations";
+import { renderField } from "./renderFunctions";
 
 const LastNameField = props => (
   <Field
     required
     name={props.name}
-    component={TextField}
+    component={renderField}
     label="Last Name"
     inputProps={{
       maxLength: 25,

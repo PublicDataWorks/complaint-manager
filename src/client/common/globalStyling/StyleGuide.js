@@ -30,31 +30,31 @@ const StyleGuide = props => (
   <div data-test="styleGuide">
     <NavBar menuType={complaintManagerMenuOptions}>Style Guide</NavBar>
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-      <Typography variant="title" style={{ marginLeft: 20 }}>
+      <Typography variant="h6" style={{ marginLeft: 20 }}>
         TYPOGRAPHY
       </Typography>
       <CardContent>
-        <Typography variant="title">{`Title`}</Typography>
-        <Typography variant="subheading">{`Subtitle`}</Typography>
-        <Typography variant="body1">{`Body`}</Typography>
-        <Typography variant="body2">{`Section`}</Typography>
+        <Typography variant="h6">{`Title`}</Typography>
+        <Typography variant="subtitle1">{`Subtitle`}</Typography>
+        <Typography variant="body2">{`Body`}</Typography>
+        <Typography variant="subtitle2">{`Section`}</Typography>i
         <Typography variant="caption">{`Caption`}</Typography>
-        <Typography variant="display1">{`Hint Text`}</Typography>
+        <Typography variant="h4">{`Hint Text`}</Typography>
         <Typography
           variant="button"
           style={{ color: "black" }}
         >{`Button`}</Typography>
         <StyledLink to={"/styleguide"} style={{ marginRight: 20 }}>
-          {"Link"}
+          {`Link`}
         </StyledLink>
       </CardContent>
     </Card>
 
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-      <Typography variant="title" style={{ marginLeft: 20 }}>
+      <Typography variant="h6" style={{ marginLeft: 20 }}>
         COLORS
       </Typography>
-      <Typography variant="subheading" style={{ marginLeft: 20 }}>
+      <Typography variant="subtitle1" style={{ marginLeft: 20 }}>
         Primary
       </Typography>
       <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
@@ -88,7 +88,7 @@ const StyleGuide = props => (
         </GridList>
       </Card>
 
-      <Typography variant="subheading" style={{ marginLeft: 20 }}>
+      <Typography variant="subtitle1" style={{ marginLeft: 20 }}>
         Secondary
       </Typography>
 
@@ -136,7 +136,7 @@ const StyleGuide = props => (
         </GridList>
       </Card>
 
-      <Typography variant="subheading" style={{ marginLeft: 20 }}>
+      <Typography variant="subtitle1" style={{ marginLeft: 20 }}>
         Info, Error, and Warning colors
       </Typography>
       <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
@@ -179,7 +179,7 @@ const StyleGuide = props => (
     </Card>
 
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-      <Typography variant="title" style={{ marginLeft: 20 }}>
+      <Typography variant="h6" style={{ marginLeft: 20 }}>
         BUTTONS
       </Typography>
       <CardContent>
@@ -195,4 +195,4 @@ const StyleGuide = props => (
   </div>
 );
 
-export default withTheme()(StyleGuide);
+export default withTheme(StyleGuide);

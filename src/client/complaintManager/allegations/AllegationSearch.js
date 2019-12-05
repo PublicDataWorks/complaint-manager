@@ -7,7 +7,7 @@ const AllegationSearch = props => {
   return (
     <div>
       <div style={{ marginBottom: "16px" }}>
-        <Typography variant="title" className="allegationSearchHeader">
+        <Typography variant="h6" className="allegationSearchHeader">
           Search for an Allegation
         </Typography>
       </div>
@@ -19,7 +19,7 @@ const AllegationSearch = props => {
         }}
       >
         <CardContent style={{ paddingBottom: "8px" }}>
-          <Typography variant="body1" style={{ marginBottom: "16px" }}>
+          <Typography variant="body2" style={{ marginBottom: "16px" }}>
             Search by selecting a rule or entering at least one allegation
             keyword. For example, ‘Body Worn Camera’.
           </Typography>

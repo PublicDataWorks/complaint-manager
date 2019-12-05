@@ -1,12 +1,12 @@
 import React from "react";
 import { Field } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import { isEmail } from "../../../formFieldLevelValidations";
+import { renderField } from "./renderFunctions";
 
 const EmailField = props => (
   <Field
     name={props.name}
-    component={TextField}
+    component={renderField}
     label="Email"
     inputProps={{ "data-test": "emailInput" }}
     data-test="emailField"

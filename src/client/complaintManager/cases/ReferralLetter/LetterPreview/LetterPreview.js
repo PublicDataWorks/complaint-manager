@@ -3,7 +3,6 @@ import {
   CASE_STATUS,
   EDIT_STATUS,
   LETTER_PROGRESS,
-  UNKNOWN_OFFICER_NAME,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import NavBar from "../../../shared/components/NavBar/NavBar";
@@ -17,7 +16,6 @@ import {
 } from "../../../shared/components/StyledButtons";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, reduxForm } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import {
   openEditLetterConfirmationDialog,
@@ -36,9 +34,9 @@ import styles from "../../../../common/globalStyling/styles";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
-import _ from "lodash";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -221,7 +219,7 @@ class LetterPreview extends Component {
             <Field
               style={{ flex: 4 }}
               name="recipient"
-              component={TextField}
+              component={renderField}
               label="Address To"
               fullWidth
               multiline
@@ -255,7 +253,7 @@ class LetterPreview extends Component {
           <CardContent>
             <Field
               name="sender"
-              component={TextField}
+              component={renderField}
               label="Sincerely"
               fullWidth
               multiline
@@ -265,7 +263,7 @@ class LetterPreview extends Component {
 
             <Field
               name="transcribedBy"
-              component={TextField}
+              component={renderField}
               label="Transcribed By"
               fullWidth
               inputProps={{
@@ -361,7 +359,7 @@ class LetterPreview extends Component {
                 style={{
                   marginBottom: "24px"
                 }}
-                variant="title"
+                variant="h6"
                 data-test="preview-page-header"
               >
                 Preview {this.timestampIfEdited()}

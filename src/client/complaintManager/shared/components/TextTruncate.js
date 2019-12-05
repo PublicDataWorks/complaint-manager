@@ -31,7 +31,7 @@ class TextTruncate extends React.Component {
   getDisplay = (message, buttonText, onButtonClick) => {
     return (
       <Typography
-        variant="body1"
+        variant="body2"
         data-test={this.props.testLabel}
         style={{ whiteSpace: "pre-wrap" }}
       >
@@ -80,7 +80,7 @@ class TextTruncate extends React.Component {
     ) {
       return (
         <Typography
-          variant="body1"
+          variant="body2"
           data-test={testLabel}
           style={{ whiteSpace: "pre-wrap" }}
         >

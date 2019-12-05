@@ -60,11 +60,11 @@ describe("DropdownSelect test", () => {
       </Provider>
     );
 
-    const menuItem = wrapper
+    const selectContainer = wrapper
       .find('[data-test="testDropdown"]')
       .first()
-      .find("MenuItem");
+      .find("SelectContainer");
 
-    expect(menuItem.length).toEqual(2);
+    expect(selectContainer.length).toEqual(2);
   });
 });

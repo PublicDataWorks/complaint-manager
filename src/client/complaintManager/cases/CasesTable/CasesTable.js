@@ -138,7 +138,7 @@ class CasesTable extends React.Component {
                         this.props.sortBy === SORT_CASES_BY.CASE_REFERENCE
                       }
                     >
-                      <Typography variant="body2">Case #</Typography>
+                      <Typography variant="subtitle2">Case #</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
@@ -152,7 +152,7 @@ class CasesTable extends React.Component {
                       direction={this.props.sortDirection}
                       active={this.props.sortBy === SORT_CASES_BY.STATUS}
                     >
-                      <Typography variant="body2">Status</Typography>
+                      <Typography variant="subtitle2">Status</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
@@ -170,7 +170,7 @@ class CasesTable extends React.Component {
                         this.props.sortBy === SORT_CASES_BY.PRIMARY_COMPLAINANT
                       }
                     >
-                      <Typography variant="body2">Complainant</Typography>
+                      <Typography variant="subtitle2">Complainant</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
@@ -191,7 +191,9 @@ class CasesTable extends React.Component {
                         SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
                       }
                     >
-                      <Typography variant="body2">Accused Officer</Typography>
+                      <Typography variant="subtitle2">
+                        Accused Officer
+                      </Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
@@ -209,7 +211,7 @@ class CasesTable extends React.Component {
                         this.props.sortBy === SORT_CASES_BY.FIRST_CONTACT_DATE
                       }
                     >
-                      <Typography variant="body2">First Contact</Typography>
+                      <Typography variant="subtitle2">First Contact</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
@@ -225,7 +227,7 @@ class CasesTable extends React.Component {
                       direction={this.props.sortDirection}
                       active={this.props.sortBy === SORT_CASES_BY.ASSIGNED_TO}
                     >
-                      <Typography variant="body2">Assigned To</Typography>
+                      <Typography variant="subtitle2">Assigned To</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell

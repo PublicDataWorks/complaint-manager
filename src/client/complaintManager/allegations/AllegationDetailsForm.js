@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
 import {
@@ -12,6 +11,7 @@ import {
 import DropdownSelect from "../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
 import { ALLEGATION_DETAILS_LABEL } from "../../../sharedUtilities/constants";
+import { renderField } from "../cases/sharedFormComponents/renderFunctions";
 
 const AllegationDetailsForm = props => {
   const onSubmit = (values, dispatch) => {
@@ -48,7 +48,7 @@ const AllegationDetailsForm = props => {
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
           style={{ width: "40%", marginBottom: `${marginBottomOffset}px` }}
-          component={TextField}
+          component={renderField}
           name="details"
           inputProps={{
             autoComplete: "off",

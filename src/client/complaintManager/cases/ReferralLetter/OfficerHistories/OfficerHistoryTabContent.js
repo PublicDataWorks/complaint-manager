@@ -14,16 +14,7 @@ import shortid from "shortid";
 import OfficerAllegationHistory from "./OfficerAllegationHistory";
 import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
 import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
-
-const renderRadioGroup = ({ input, ...rest }) => (
-  <RadioGroup
-    {...input}
-    {...rest}
-    onChange={(event, value) => {
-      input.onChange(value);
-    }}
-  />
-);
+import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
 
 class OfficerHistoryTabContent extends React.Component {
   constructor(props) {
@@ -150,7 +141,7 @@ class OfficerHistoryTabContent extends React.Component {
         data-test={`tab-content-${caseOfficerId}`}
       >
         <Typography
-          variant="title"
+          variant="h6"
           style={{ paddingBottom: "16px", ...styles.section }}
         >
           {caseOfficerName}

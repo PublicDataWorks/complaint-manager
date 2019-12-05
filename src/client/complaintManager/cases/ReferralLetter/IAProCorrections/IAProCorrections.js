@@ -7,7 +7,6 @@ import LetterProgressStepper from "../LetterProgressStepper";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
-import { TextField } from "redux-form-material-ui";
 import { openRemoveIAProCorrectionDialog } from "../../../actionCreators/letterActionCreators";
 
 import _ from "lodash";
@@ -22,6 +21,7 @@ import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterSta
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -89,7 +89,7 @@ class IAProCorrections extends Component {
               <Field
                 style={{ flex: 4 }}
                 name={`${iaProCorrectionsField}.details`}
-                component={TextField}
+                component={renderField}
                 label="Correction Description"
                 data-test={`${iaProCorrectionsField}-details`}
                 fullWidth
@@ -164,7 +164,7 @@ class IAProCorrections extends Component {
             />
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
-                variant="title"
+                variant="h6"
                 data-test="iapro-corrections-page-header"
               >
                 IAPro Corrections
