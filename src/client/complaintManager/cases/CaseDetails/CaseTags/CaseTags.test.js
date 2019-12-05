@@ -115,7 +115,7 @@ describe("Case Tags", () => {
 
     dialog.update();
 
-    const tagToDelete = dialog.find("Chip").first();
+    const tagToDelete = dialog.find("ForwardRef(Chip)").first();
     tagToDelete.prop("onDelete")();
 
     const firstCaseTag = caseTags[0];

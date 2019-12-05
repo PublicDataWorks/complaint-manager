@@ -4,9 +4,9 @@ import {
   FormControlLabel,
   FormLabel,
   Radio,
+  RadioGroup,
   Typography
 } from "@material-ui/core";
-import { RadioGroup } from "redux-form-material-ui";
 import {
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
@@ -16,11 +16,15 @@ import {
 
 export default props => (
   <FormControl>
-    <Typography variant="body2" style={{ marginBottom: "8px" }}>
+    <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
       Complainant Information
     </Typography>
     <FormLabel>The complainant is a...</FormLabel>
-    <RadioGroup style={{ flexDirection: "row" }} {...props}>
+    <RadioGroup
+      style={{ flexDirection: "row" }}
+      {...props}
+      value={props.input.value}
+    >
       <FormControlLabel
         style={{ marginRight: "48px" }}
         data-test="civilianRadioButton"

@@ -60,7 +60,7 @@ class NavBar extends Component {
           ) : (
             ""
           )}
-          <Typography data-test={dataTestTitle} variant="title" color="inherit">
+          <Typography data-test={dataTestTitle} variant="h6" color="inherit">
             {children}
           </Typography>
 
@@ -68,7 +68,7 @@ class NavBar extends Component {
 
           <Typography
             data-test="userNickName"
-            variant="title"
+            variant="h6"
             color="inherit"
           >{`${nickname}`}</Typography>
           <IconButton

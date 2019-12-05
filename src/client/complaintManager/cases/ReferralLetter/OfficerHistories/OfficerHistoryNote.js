@@ -1,12 +1,12 @@
 import React from "react";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import { Field, formValueSelector } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import styles from "../../../../common/globalStyling/styles";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import LinkButton from "../../../shared/components/LinkButton";
 import { openRemoveOfficerHistoryNoteDialog } from "../../../actionCreators/letterActionCreators";
 import { connect } from "react-redux";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -49,7 +49,7 @@ const OfficerHistoryNote = props => {
         >
           <Field
             name={`${referralLetterOfficerHistoryNote}.pibCaseNumber`}
-            component={TextField}
+            component={renderField}
             label="Case Reference Number"
             style={{ width: "40%", marginBottom: "32px" }}
             inputProps={{ "data-test": "note-pib-case-number", maxLength: 255 }}

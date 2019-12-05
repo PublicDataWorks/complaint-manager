@@ -41,7 +41,7 @@ class AttachmentsList extends Component {
           )
         ) : (
           <div>
-            <Typography variant="body1" data-test="noAttachmentsText">
+            <Typography variant="body2" data-test="noAttachmentsText">
               No files are attached
             </Typography>
           </div>

@@ -100,7 +100,7 @@ export class CreateCaseActions extends React.Component {
       <DialogActions
         style={{
           justifyContent: "space-between",
-          margin: `${theme.spacing.unit * 2}px`
+          margin: `${theme.spacing(2)}px`
         }}
       >
         <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
@@ -163,7 +163,7 @@ const OfficerComplainantButtons = ({ createAndSearch }) => (
   </PrimaryButton>
 );
 
-export const ActionsWithTheme = withTheme()(CreateCaseActions);
+export const ActionsWithTheme = withTheme(CreateCaseActions);
 
 const selector = formValueSelector(CREATE_CASE_FORM_NAME);
 

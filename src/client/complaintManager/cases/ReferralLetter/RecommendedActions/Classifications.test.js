@@ -32,8 +32,11 @@ describe("Classifications", () => {
   });
 
   test("should disable all other checkboxes if 'Declines to Classify' is checked", () => {
+    const event = { target: { value: true } };
     const declinesBox = wrapper.find('[label="Declines to classify"]').last();
-    declinesBox.props().onChange(true, "Declines to classify");
+    declinesBox
+      .props()
+      .onChange(event, event.target.value, "Declines to classify");
 
     wrapper.update();
 

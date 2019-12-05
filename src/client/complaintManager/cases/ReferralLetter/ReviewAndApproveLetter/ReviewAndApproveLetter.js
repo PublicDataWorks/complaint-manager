@@ -143,14 +143,14 @@ class ReviewAndApproveLetter extends Component {
             style={{
               marginBottom: "24px"
             }}
-            variant="title"
+            variant="h6"
             data-test="review-and-approve-page-header"
           >
             Review and Approve Letter
           </Typography>
           <Typography
             data-test="edit-history"
-            variant="body1"
+            variant="body2"
             style={{ marginBottom: "24px" }}
           >
             {this.getTimestamp()}

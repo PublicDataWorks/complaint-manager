@@ -107,7 +107,7 @@ class CreateCaseDialog extends React.Component {
 
 const Timeline = () => (
   <>
-    <Typography variant="body2" style={{ marginBottom: "8px" }}>
+    <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
       Timeline
     </Typography>
     <DateField

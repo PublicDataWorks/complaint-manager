@@ -208,7 +208,7 @@ describe("OfficerHistories page", function() {
       expect(wrapper.find(OfficerHistoryNote).length).toEqual(1);
     });
 
-    test("it should remove a note when click add note button", () => {
+    test("it should remove a note when click remove note button", () => {
       const addNoteButton = wrapper
         .find('[data-test="addOfficerHistoryNoteButton"]')
         .first();

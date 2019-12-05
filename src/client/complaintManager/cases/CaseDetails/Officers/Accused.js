@@ -130,7 +130,7 @@ const renderNoOfficers = cnComplaintTypeFeature => {
     <Fragment>
       <CardContent>
         <WarningMessage>
-          <Typography data-test="noAccusedOfficersMessage" variant="body1">
+          <Typography data-test="noAccusedOfficersMessage" variant="body2">
             {noAccusedEmployeesMessage}
           </Typography>
         </WarningMessage>

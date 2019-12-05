@@ -51,14 +51,14 @@ const ExportConfirmationDialog = props => {
       <DialogTitle>Export {props.title}</DialogTitle>
       <DialogContent data-test="exportConfirmationText">
         <Typography
-          variant={"body1"}
+          variant={"body2"}
           style={{ wordBreak: "break-word", marginBottom: "16px" }}
         >
           This action will export {props.warningText} the system
           {dateRangeText(props.dateRange)}as a .csv file. This file will
           download automatically and may take a few seconds to generate.
         </Typography>
-        <Typography variant={"body1"} style={{ wordBreak: "break-word" }}>
+        <Typography variant={"body2"} style={{ wordBreak: "break-word" }}>
           Are you sure you wish to continue?
         </Typography>
       </DialogContent>

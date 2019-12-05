@@ -10,7 +10,6 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import styles from "../../../../common/globalStyling/styles";
 import standards from "../../../../common/globalStyling/standards";
-import { TextField } from "redux-form-material-ui";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormGroup from "@material-ui/core/FormGroup";
 import {
@@ -32,6 +31,7 @@ import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 import Classifications from "./Classifications";
 import editClassifications from "../thunks/editClassifications";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -162,7 +162,7 @@ class RecommendedActions extends Component {
           <Field
             name={`${letterOfficerField}.recommendedActionNotes`}
             style={{ width: "70%" }}
-            component={TextField}
+            component={renderField}
             multiline
             rowsMax={5}
             data-test={`${letterOfficerField}-recommendedActionNotes`}
@@ -210,7 +210,7 @@ class RecommendedActions extends Component {
                 style={{
                   marginBottom: "24px"
                 }}
-                variant="title"
+                variant="h6"
                 data-test="recommended-actions-page-header"
               >
                 Recommended Actions

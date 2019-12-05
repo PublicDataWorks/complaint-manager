@@ -23,7 +23,7 @@ class CaseTags extends Component {
           <div style={{ display: "flex" }}>
             <Typography
               data-test="caseTagDialogTitle"
-              variant={"title"}
+              variant={"h6"}
               style={{
                 marginBottom: "16px",
                 flex: 1
@@ -34,7 +34,7 @@ class CaseTags extends Component {
           </div>
           <div data-test="caseTagsContainer" style={{ paddingBottom: "16px" }}>
             {caseTags.length === 0 ? (
-              <Typography variant="body1">No tags have been added</Typography>
+              <Typography variant="body2">No tags have been added</Typography>
             ) : (
               caseTags.map(caseTag => {
                 return (

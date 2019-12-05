@@ -135,7 +135,7 @@ export class EditLetter extends Component {
               style={{
                 marginBottom: "24px"
               }}
-              variant="title"
+              variant="h6"
               data-test="edit-letter-page-header"
             >
               Edit Letter

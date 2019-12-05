@@ -14,7 +14,7 @@ const styles = theme => ({
   root: {},
   input: {
     display: "flex",
-    padding: 0
+    padding: 4
   },
   valueContainer: {
     display: "flex",
@@ -32,7 +32,7 @@ const styles = theme => ({
   paper: {
     position: "relative",
     zIndex: 1,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(),
     // top controls the space between the paper and input box
     // menuPlacement on react select does not play nice with material UI so css tricks were used to get it to behave
     top: 20,
@@ -85,7 +85,6 @@ function Option(props) {
     <MenuItem
       buttonRef={props.innerRef}
       selected={props.isFocused}
-      component="li"
       style={{
         fontWeight: props.isSelected ? 500 : 400,
         display: shouldHide ? "none" : "flex",
@@ -125,6 +124,7 @@ function ValueContainer(props) {
 function Menu(props) {
   return (
     <Paper
+      elevation={2}
       role="listbox"
       id={props.selectProps.name}
       data-test="menu-paper"
@@ -136,7 +136,7 @@ function Menu(props) {
   );
 }
 
-function DropdownIndicator() {
+function DropdownIndicator(props) {
   return <ArrowDropDownIcon />;
 }
 
@@ -245,7 +245,6 @@ class DropdownSelect extends React.Component {
 
     const hasError =
       custom.required && custom.meta.touched && custom.meta.invalid;
-
     return (
       <FormControl style={custom.style} data-test={custom["data-test"]}>
         <SelectContainer

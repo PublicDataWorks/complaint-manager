@@ -20,11 +20,11 @@ const AddressInfoDisplay = ({
   return (
     <div>
       <Typography variant="caption">{displayLabel}</Typography>
-      <Typography variant="body1" data-test={testLabel}>
+      <Typography variant="body2" data-test={testLabel}>
         {formattedAddress}
       </Typography>
       <Typography
-        variant="body1"
+        variant="body2"
         data-test={`${testLabel}AdditionalLocationInfo`}
       >
         {address && address.additionalLocationInfo

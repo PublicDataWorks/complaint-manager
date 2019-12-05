@@ -1,7 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
 import NavBar from "./NavBar";
-import { Backdrop } from "@material-ui/core";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
@@ -58,7 +57,7 @@ describe("NavBar", () => {
       const gearButton = wrapper.find('[data-test="gearButton"]').last();
       gearButton.simulate("click");
 
-      const backdrop = wrapper.find(Backdrop);
+      const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
       backdrop.simulate("click");
 
       const menu = wrapper

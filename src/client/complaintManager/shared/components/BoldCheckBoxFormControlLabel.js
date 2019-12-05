@@ -38,7 +38,7 @@ class BoldCheckBoxFormControlLabel extends React.Component {
             disabled={disabled && label !== DECLINES_OPTION}
           />
         }
-        onChange={event => onChange && onChange(event, label)}
+        onChange={(event, value) => onChange && onChange(event, value, label)}
       />
     );
   }

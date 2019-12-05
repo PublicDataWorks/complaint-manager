@@ -56,7 +56,7 @@ const AttachmentsRow = ({
           </Typography>
         </div>
         <div style={{ flex: 2, textAlign: "left" }}>
-          <Typography variant="body1" data-test="attachmentDescription">
+          <Typography variant="body2" data-test="attachmentDescription">
             {attachment.description}
           </Typography>
         </div>

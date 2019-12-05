@@ -200,7 +200,9 @@ describe("CreateCaseDialog component", () => {
 
       test("should default to civilian complainant whenever dialog opened", () => {
         const civilianRadioButton = dialog
-          .find(`Radio[value="${CIVILIAN_INITIATED}"]`)
+          .find(
+            `WithStyles(ForwardRef(SwitchBase))[value="${CIVILIAN_INITIATED}"]`
+          )
           .last();
 
         expect(civilianRadioButton.prop("checked")).toEqual(true);

@@ -1,13 +1,13 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
 import styles from "../../../../common/globalStyling/styles";
-import { TextField } from "redux-form-material-ui";
 import { Field, formValueSelector, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
 import { OFFICER_HISTORY_MESSAGE } from "../../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
+import { renderField } from "../../sharedFormComponents/renderFunctions";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -44,7 +44,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalHighAllegations`}
-            component={TextField}
+            component={renderField}
             label="High Level"
             data-test={`${letterOfficer}-numHistoricalHighAllegations`}
             normalize={numbersOnly}
@@ -53,7 +53,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalMedAllegations`}
-            component={TextField}
+            component={renderField}
             label="Medium Level"
             data-test={`${letterOfficer}-numHistoricalMedAllegations`}
             normalize={numbersOnly}
@@ -62,7 +62,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalLowAllegations`}
-            component={TextField}
+            component={renderField}
             label="Low Level"
             data-test={`${letterOfficer}-numHistoricalLowAllegations`}
             normalize={numbersOnly}

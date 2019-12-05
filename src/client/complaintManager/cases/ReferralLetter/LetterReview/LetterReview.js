@@ -111,7 +111,7 @@ export class LetterReview extends Component {
           />
 
           <div style={{ margin: "0 0 32px 0" }}>
-            <Typography variant="title" data-test="letter-review-page-header">
+            <Typography variant="h6" data-test="letter-review-page-header">
               Review Case Details
             </Typography>
           </div>

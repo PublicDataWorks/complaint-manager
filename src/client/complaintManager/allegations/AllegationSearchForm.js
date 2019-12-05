@@ -1,5 +1,4 @@
 import React from "react";
-import { TextField } from "redux-form-material-ui";
 import { change, Field, formValueSelector, reduxForm } from "redux-form";
 import validate from "./validateAllegationSearchForm";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../../sharedUtilities/constants";
@@ -13,6 +12,7 @@ import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import { MenuItem, Typography } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
+import { renderField } from "../cases/sharedFormComponents/renderFunctions";
 
 class AllegationSearchForm extends React.Component {
   async componentDidMount() {
@@ -58,7 +58,7 @@ class AllegationSearchForm extends React.Component {
             <Field
               label="Directive Keyword"
               name="directive"
-              component={TextField}
+              component={renderField}
               placeholder="Enter one or more keywords"
               inputProps={{ "data-test": "directiveField" }}
               style={{ flex: "1", marginRight: "24px" }}

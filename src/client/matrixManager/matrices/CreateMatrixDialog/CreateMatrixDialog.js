@@ -33,7 +33,7 @@ const styles = theme => ({
   },
   dialogAction: {
     justifyContent: "space-between",
-    margin: `${theme.spacing.unit * 2}px`
+    margin: `${theme.spacing(2)}px`
   }
 });
 

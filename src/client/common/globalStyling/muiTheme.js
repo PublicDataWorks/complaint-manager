@@ -4,13 +4,13 @@ import styles from "./styles";
 const muiTheme = createMuiTheme({
   palette: styles.colors,
   typography: {
-    title: styles.title,
-    subheading: styles.subheading,
-    body1: styles.body1,
+    h6: styles.title,
+    subtitle1: styles.subheading,
+    body2: styles.body1,
     caption: styles.caption,
     button: styles.button,
-    display1: styles.display1,
-    body2: styles.section
+    h4: styles.display1,
+    subtitle2: styles.section
   }
 });
 

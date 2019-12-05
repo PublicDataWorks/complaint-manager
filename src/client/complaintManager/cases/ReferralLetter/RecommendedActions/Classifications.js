@@ -32,11 +32,11 @@ class Classifications extends Component {
     });
   }
 
-  handleChange(event, label) {
+  handleChange(event, value, label) {
     if (label === DECLINES_OPTION) {
       this.uncheckClassificationsIfDeclinesToClassifyIsChecked();
       this.setState({
-        classificationsDisabled: event
+        classificationsDisabled: value
       });
     }
   }

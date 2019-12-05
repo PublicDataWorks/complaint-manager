@@ -5,7 +5,6 @@ import {
   FormControlLabel,
   Typography
 } from "@material-ui/core";
-import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import styles from "../../../common/globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
@@ -26,6 +25,7 @@ import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 import _ from "lodash";
 import EmailField from "../../cases/sharedFormComponents/EmailField";
 import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField";
+import { renderField } from "../../cases/sharedFormComponents/renderFunctions";
 
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
@@ -64,13 +64,13 @@ class OfficerDetails extends React.Component {
 
     return (
       <div>
-        <Typography variant="title">Selected {caseEmployeeTitle}</Typography>
+        <Typography variant="h6">Selected {caseEmployeeTitle}</Typography>
         {this.props.selectedOfficer ? (
           <SelectedOfficerDisplay {...this.props} />
         ) : (
           <UnknownOfficerDisplay {...this.props} />
         )}
-        <Typography variant="title" style={{ marginBottom: "16px" }}>
+        <Typography variant="h6" style={{ marginBottom: "16px" }}>
           Additional Info
         </Typography>
         <Card style={{ backgroundColor: "white", marginBottom: "16px" }}>
@@ -119,11 +119,11 @@ class OfficerDetails extends React.Component {
                 </div>
               ) : null}
               <Typography style={styles.section}>Notes</Typography>
-              <Typography variant="body1">
+              <Typography variant="body2">
                 {additionalInformationText}
               </Typography>
               <Field
-                component={TextField}
+                component={renderField}
                 name="notes"
                 data-test="notesField"
                 multiline

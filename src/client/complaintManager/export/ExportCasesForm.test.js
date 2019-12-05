@@ -1,5 +1,4 @@
 import createConfiguredStore from "../../createConfiguredStore";
-import { getFeaturesSuccess } from "../actionCreators/featureTogglesActionCreators";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
 import React from "react";

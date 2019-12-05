@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
-import { TextField } from "redux-form-material-ui";
+import { renderField } from "./renderFunctions";
 
 const SuffixField = props => (
   <Field
@@ -12,7 +12,7 @@ const SuffixField = props => (
     }}
     data-test="suffixField"
     label="Suffix"
-    component={TextField}
+    component={renderField}
     normalize={(value, previousValue) =>
       value === "" || /^([^#/])*$/.test(value) ? value : previousValue
     }

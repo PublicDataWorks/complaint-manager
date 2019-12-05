@@ -22,7 +22,6 @@ const tableStyles = theme => ({
   },
   body: {
     row: {
-      height: 80,
       backgroundColor: "white",
       borderTop: `8px solid ${theme.palette.secondary.lighter}`,
       borderBottom: `8px solid ${theme.palette.secondary.lighter}`,

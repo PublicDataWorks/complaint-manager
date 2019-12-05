@@ -77,7 +77,7 @@ export class AllegationSearchContainer extends Component {
           Back to Case
         </LinkButton>
         <div style={{ margin: "0% 5% 3%" }}>
-          <Typography variant="title">{titleText}</Typography>
+          <Typography variant="h6">{titleText}</Typography>
           <Table>
             <OfficerSearchTableHeader />
             <TableBody>

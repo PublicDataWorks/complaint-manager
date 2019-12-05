@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { TextField } from "redux-form-material-ui";
 import { Field, reduxForm } from "redux-form";
 import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
@@ -9,10 +8,8 @@ import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { OFFICER_SEARCH_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { connect } from "react-redux";
-import {
-  nullifyFieldUnlessValid,
-  trimWhiteSpace
-} from "../../../utilities/fieldNormalizers";
+import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+import { renderField } from "../../../cases/sharedFormComponents/renderFunctions";
 
 const normalizeValues = values => {
   const normalizedValues = {};
@@ -50,7 +47,7 @@ class OfficerSearchForm extends Component {
             <Field
               label="First Name"
               name="firstName"
-              component={TextField}
+              component={renderField}
               inputProps={{ "data-test": "firstNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />
@@ -58,7 +55,7 @@ class OfficerSearchForm extends Component {
             <Field
               label="Last Name"
               name="lastName"
-              component={TextField}
+              component={renderField}
               inputProps={{ "data-test": "lastNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />
@@ -68,7 +65,7 @@ class OfficerSearchForm extends Component {
               name="districtId"
               component={DropdownSelect}
               data-test="districtField"
-              style={{ flex: "1", marginRight: "24px" }}
+              style={{ flex: "1", marginRight: "24px", padding: "5px" }}
             >
               {generateMenuOptions(props.districts, "Any District")}
             </Field>

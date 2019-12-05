@@ -1,12 +1,12 @@
 import React from "react";
 import { Field } from "redux-form";
-import { TextField } from "redux-form-material-ui";
 import {
   isPIBControlNumber,
   pibControlNumberNotBlank,
   pibControlNumberRequired
 } from "../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
+import { renderField } from "../../complaintManager/cases/sharedFormComponents/renderFunctions";
 
 const TextMaskCustom = props => {
   const passedProps = (({ inputRef, ...passedProps }) => ({
@@ -40,7 +40,7 @@ const PIBControlField = () => {
     <Field
       name="pibControlNumber"
       InputProps={{ inputComponent: TextMaskCustom }}
-      component={TextField}
+      component={renderField}
       label="PIB Control #"
       inputProps={{
         "data-test": "pib-control-input",
