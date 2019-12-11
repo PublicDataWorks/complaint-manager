@@ -8,7 +8,6 @@
   <p><br></p>
   <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>
   <p><br></p>
-  <p><strong><u>OIPM Complaint #:</u></strong> {{caseReference}}</p>
   {{#if (isPresent firstContactDate)}}
     <p>Date filed with OIPM: {{{formatShortDate firstContactDate}}}</p>
   {{/if}}

@@ -5,12 +5,16 @@ import timekeeper from "timekeeper";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import {
   CASE_STATUS,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  COMPLAINANT,
+  RANK_INITIATED
 } from "../../../../../sharedUtilities/constants";
 import generateReferralLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateReferralLetterPdfBuffer";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
+import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
@@ -45,14 +49,38 @@ describe("generateReferralLetterPdfBuffer", function() {
   beforeEach(async () => {
     timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
+
+    const officerAttributes = new Officer.Builder()
+      .defaultOfficer()
+      .withId(undefined);
+
+    const officer = await models.officer.create(officerAttributes, {
+      auditUser: "user"
+    });
+
+    const complainantOfficer = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(undefined)
+      .withOfficerId(officer.id)
+      .withCreatedAt(new Date("2018-09-22"))
+      .withRoleOnCase(COMPLAINANT);
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
-      .withComplaintType(CIVILIAN_INITIATED);
+      .withComplaintType(RANK_INITIATED)
+      .withComplainantOfficers([complainantOfficer]);
     existingCase = await models.cases.create(caseAttributes, {
-      auditUser: "test"
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "someone"
+        }
+      ],
+      auditUser: "someone"
     });
     await existingCase.update(
       { status: CASE_STATUS.ACTIVE },
