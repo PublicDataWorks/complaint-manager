@@ -62,6 +62,7 @@ const generateReferralLetterPdfBuffer = async (
 const getReferralLetterPdfData = async (caseId, transaction) => {
   const queryOptions = {
     attributes: [
+      "primaryComplainant",
       "firstContactDate",
       "complaintType",
       "id",
@@ -71,6 +72,14 @@ const getReferralLetterPdfData = async (caseId, transaction) => {
       "pibCaseNumber"
     ],
     include: [
+      {
+        model: models.civilian,
+        as: "complainantCivilians"
+      },
+      {
+        model: models.case_officer,
+        as: "complainantOfficers"
+      },
       {
         model: models.referral_letter,
         as: "referralLetter",
