@@ -10,6 +10,7 @@ import models from "../../../../complaintManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
+import { getPersonType } from "../../../../complaintManager/models/modelUtilities/getPersonType";
 
 const generateComplainantLetterAndUploadToS3 = async (
   existingCase,
@@ -64,14 +65,7 @@ const generateComplainantLetterAndUploadToS3 = async (
 
 const getFirstComplainant = existingCase => {
   const primaryComplainant = existingCase.primaryComplainant;
-  let complainantType;
-  if (primaryComplainant.officerId) {
-    complainantType = PERSON_TYPE.KNOWN_OFFICER;
-  } else if (primaryComplainant.fullName === "Unknown Officer") {
-    complainantType = PERSON_TYPE.UNKNOWN_OFFICER;
-  } else {
-    complainantType = PERSON_TYPE.CIVILIAN;
-  }
+  const complainantType = getPersonType(primaryComplainant);
   return {
     primaryComplainant: primaryComplainant,
     primaryComplainantType: complainantType

@@ -8,6 +8,7 @@ import {
   getOfficerFullName,
   getPersonFullName
 } from "./modelUtilities/getFullName";
+import { getCaseReference } from "./modelUtilities/getCaseReference";
 
 export default (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
@@ -87,8 +88,20 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER
       },
       caseReference: {
-        type: DataTypes.STRING,
-        field: "case_reference"
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "primaryComplainant",
+          "caseNumber",
+          "year"
+        ]),
+        get: function() {
+          return getCaseReference(
+            this.get("primaryComplainant")
+              ? this.get("primaryComplainant").personType
+              : null,
+            this.get("caseNumber"),
+            this.get("year")
+          );
+        }
       },
       firstContactDate: {
         field: "first_contact_date",

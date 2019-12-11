@@ -216,6 +216,18 @@ describe("sortableCasesView", () => {
       );
     });
 
+    test("returns CC as case reference prefix when civilian primary complainant", async () => {
+      const sortedCase = await models.sortable_cases_view.findOne({
+        where: { id: existingCase.id }
+      });
+
+      expect(sortedCase).toEqual(
+        expect.objectContaining({
+          caseReference: "CC2012-0001"
+        })
+      );
+    });
+
     test("returns officer as primary complainant when added first", async () => {
       await models.case_officer.update(
         {
@@ -240,6 +252,30 @@ describe("sortableCasesView", () => {
           complainantMiddleName: complainantCaseOfficer.middleName,
           complainantLastName: complainantCaseOfficer.lastName,
           id: existingCase.id
+        })
+      );
+    });
+
+    test("returns PO as case reference prefix when officer primary complainant", async () => {
+      await models.case_officer.update(
+        {
+          createdAt: new Date("2016-06-12")
+        },
+        {
+          where: {
+            officerId: officer.id
+          },
+          auditUser: "test user"
+        }
+      );
+
+      const sortedCase = await models.sortable_cases_view.findOne({
+        where: { id: existingCase.id }
+      });
+
+      expect(sortedCase).toEqual(
+        expect.objectContaining({
+          caseReference: "PO2012-0001"
         })
       );
     });
