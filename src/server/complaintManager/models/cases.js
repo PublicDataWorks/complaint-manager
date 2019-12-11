@@ -12,6 +12,7 @@ import {
   BAD_REQUEST_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
 import { getCaseReference } from "./modelUtilities/getCaseReference";
+import { getPersonType } from "./modelUtilities/getPersonType";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -97,8 +98,18 @@ export default (sequelize, DataTypes) => {
         allowNull: false
       },
       caseReference: {
-        field: "case_reference",
-        type: DataTypes.STRING
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "primaryComplainant",
+          "caseNumber",
+          "year"
+        ]),
+        get: function() {
+          return getCaseReference(
+            getPersonType(this.get("primaryComplainant")),
+            this.get("caseNumber"),
+            this.get("year")
+          );
+        }
       },
       firstContactDate: {
         field: "first_contact_date",
@@ -187,30 +198,17 @@ export default (sequelize, DataTypes) => {
         },
         beforeCreate: async (instance, options) => {
           if (options.validate === false) {
-            instance.generateCaseReference(instance, options);
+            instance.generateCaseNumberAndYear(instance, options);
           }
-
-          const nextCaseNumber =
-            (await Case.max("case_number", {
-              where: { year: instance.year }
-            })) + 1;
-          instance.set(
-            "caseReference",
-            getCaseReference(
-              instance.complaintType,
-              nextCaseNumber,
-              instance.year
-            )
-          );
         },
         beforeValidate: (instance, options) => {
-          instance.generateCaseReference(instance, options);
+          instance.generateCaseNumberAndYear(instance, options);
         }
       }
     }
   );
 
-  Case.prototype.generateCaseReference = (instance, options) => {
+  Case.prototype.generateCaseNumberAndYear = (instance, options) => {
     // Generate case number if creating new record
     // Note: We cannot use Postgres sequence b/c we need to reset each year and a cron to reset sequence once a year seems risky
     // Note: We cannot lock table for update on aggregate function, so will retry on unique key violation

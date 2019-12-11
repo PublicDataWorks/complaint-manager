@@ -1,26 +1,25 @@
 import {
-  CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
-  RANK_INITIATED
+  EMPLOYEE_TYPE,
+  PERSON_TYPE
 } from "../../../../sharedUtilities/constants";
-import Boom from "boom";
-import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-export const getCaseReference = (complaintType, caseNumber, year) => {
+export const getCaseReference = (personType, caseNumber, year) => {
   let prefix;
-  switch (complaintType) {
-    case CIVILIAN_INITIATED:
+  switch (personType) {
+    case PERSON_TYPE.CIVILIAN:
       prefix = "CC";
       break;
-    case RANK_INITIATED:
+    case PERSON_TYPE.KNOWN_OFFICER:
+    case PERSON_TYPE.UNKNOWN_OFFICER:
       prefix = "PO";
       break;
-    case CIVILIAN_WITHIN_NOPD_INITIATED:
+    case PERSON_TYPE.CIVILIAN_WITHIN_NOPD:
       prefix = "CN";
       break;
     default:
-      throw Boom.badData(BAD_DATA_ERRORS.INVALID_COMPLAINANT_TYPE);
+      prefix = "CC";
   }
+
   const paddedCaseId = `${caseNumber}`.padStart(4, "0");
   return `${prefix}${year}-${paddedCaseId}`;
 };

@@ -4,7 +4,6 @@ import Civilian from "../../../../client/complaintManager/testUtilities/civilian
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  RANK_INITIATED,
   COMPLAINANT
 } from "../../../../sharedUtilities/constants";
 import {
@@ -19,6 +18,8 @@ import {
 } from "../../../../sharedUtilities/errorMessageConstants";
 
 import { range, shuffle } from "lodash";
+import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 
 describe("cases", function() {
   let createdCase;
@@ -302,16 +303,40 @@ describe("cases", function() {
     });
 
     test("returns a case reference starting with PO for rank initiated complainant", async () => {
-      const officerCaseAttributes = new Case.Builder()
-        .defaultCase()
-        .withComplaintType(RANK_INITIATED)
-        .withIncidentDate("2000-05-26")
-        .withFirstContactDate("2002-05-17")
-        .withId(12);
-      const officerCase = await models.cases.create(officerCaseAttributes, {
-        auditUser: "someone"
+      const officerAttributes = new Officer.Builder()
+        .defaultOfficer()
+        .withId(undefined);
+
+      const officer = await models.officer.create(officerAttributes, {
+        auditUser: "user"
       });
-      expect(officerCase.caseReference).toEqual("PO2002-0001");
+
+      const complainantOfficer = new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withOfficerId(officer.id)
+        .withCreatedAt(new Date("2018-09-22"))
+        .withRoleOnCase(COMPLAINANT);
+
+      const existingCase = await models.cases.create(
+        new Case.Builder()
+          .defaultCase()
+          .withId(undefined)
+          .withIncidentDate("2002-12-01")
+          .withFirstContactDate("2002-12-02")
+          .withComplainantOfficers([complainantOfficer]),
+        {
+          include: [
+            {
+              model: models.case_officer,
+              as: "complainantOfficers",
+              auditUser: "someone"
+            }
+          ],
+          auditUser: "someone"
+        }
+      );
+      expect(existingCase.caseReference).toEqual("PO2002-0001");
     });
   });
 
@@ -511,6 +536,7 @@ describe("cases", function() {
     it("has primaryComplainant, the first existing case complainant", async () => {
       const complainants = shuffle(
         range(5).map(i => ({
+          firstName: `${i}complainant`,
           lastName: `complainant${i}`,
           caseId: 1,
           roleOnCase: COMPLAINANT
@@ -522,12 +548,12 @@ describe("cases", function() {
         auditUser
       });
       for (const complainant of complainants) {
-        await createdCase.createComplainantOfficer(complainant, { auditUser });
+        await createdCase.createComplainantCivilian(complainant, { auditUser });
       }
       createdCase = await models.cases.findByPk(1, {
         include: {
-          model: models.case_officer,
-          as: "complainantOfficers",
+          model: models.civilian,
+          as: "complainantCivilians",
           auditUser
         }
       });

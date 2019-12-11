@@ -4,6 +4,7 @@ import {
   AUDIT_ACTION,
   CASE_STATUS,
   CIVILIAN_INITIATED,
+  EMPLOYEE_TYPE,
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -41,7 +42,11 @@ describe("dataChangeAuditHooks", () => {
         .withIncidentTime(null)
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails(null)
-        .withCaseReference("PO2017-0001")
+        .withYear("2017")
+        .withPrimaryComplainant({
+          officerId: "1234",
+          caseEmployeeType: EMPLOYEE_TYPE.OFFICER
+        })
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
 
@@ -111,8 +116,8 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
-        caseReference: { new: createdCase.caseReference },
         caseNumber: { new: 1 },
+        primaryComplainant: {},
         year: { new: 2017 }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
@@ -149,10 +154,10 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
-        caseReference: { new: createdCase.caseReference },
         intakeSourceId: { new: emailIntakeSource.id },
         intakeSource: { new: emailIntakeSource.name },
         caseNumber: { new: 1 },
+        primaryComplainant: {},
         year: { new: 2017 }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
@@ -189,7 +194,6 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
-        caseReference: { new: createdCase.caseReference },
         howDidYouHearAboutUsSourceId: {
           new: friendHowDidYouHearAboutUsSource.id
         },
@@ -197,6 +201,7 @@ describe("dataChangeAuditHooks", () => {
           new: friendHowDidYouHearAboutUsSource.name
         },
         caseNumber: { new: 1 },
+        primaryComplainant: {},
         year: { new: 2017 }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
@@ -794,7 +799,6 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: { new: null },
         year: { new: 2017 },
         caseNumber: { new: 1 },
-        caseReference: { new: existingCase.caseReference },
         id: { new: existingCase.id },
         incidentDate: { new: "2017-01-01" },
         incidentTime: { new: "16:00:00" },
@@ -836,7 +840,6 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: { previous: null },
         year: { previous: 2017 },
         caseNumber: { previous: 1 },
-        caseReference: { previous: existingCase.caseReference },
         id: { previous: existingCase.id },
         incidentDate: { previous: "2017-01-01" },
         incidentTime: { previous: "16:00:00" },

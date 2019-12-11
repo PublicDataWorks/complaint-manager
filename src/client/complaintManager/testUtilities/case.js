@@ -138,7 +138,7 @@ class Case {
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
-        this.caseReference = "CC2017-0055";
+        this.year = "2017";
         this.deletedAt = null;
         return this;
       }
@@ -262,8 +262,13 @@ class Case {
         return this;
       }
 
-      withCaseReference(caseReference) {
-        this.caseReference = caseReference;
+      withCaseNumber(caseNumber) {
+        this.caseNumber = caseNumber;
+        return this;
+      }
+
+      withYear(year) {
+        this.year = year;
         return this;
       }
 
