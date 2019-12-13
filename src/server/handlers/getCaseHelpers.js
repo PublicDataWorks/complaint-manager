@@ -76,7 +76,8 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
         as: "witnessCivilians",
         include: [
           models.address,
-          { model: models.race_ethnicity, as: "raceEthnicity" }
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
         ]
       },
       {
