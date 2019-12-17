@@ -5,7 +5,7 @@ import { CardActions, CardContent, Typography } from "@material-ui/core";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
 import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
 import { NARRATIVE_FORM } from "../../../../sharedUtilities/constants";
-import { renderField } from "../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../sharedFormComponents/renderFunctions";
 
 const Narrative = props => {
   return (
@@ -25,7 +25,7 @@ const Narrative = props => {
             name="narrativeSummary"
             label="Narrative Summary"
             disabled={props.isArchived}
-            component={renderField}
+            component={renderTextField}
             fullWidth
             multiline
             rowsMax={5}
@@ -54,7 +54,7 @@ const Narrative = props => {
             name="narrativeDetails"
             label="Narrative Details"
             disabled={props.isArchived}
-            component={renderField}
+            component={renderTextField}
             fullWidth
             multiline
             rowsMax={20}

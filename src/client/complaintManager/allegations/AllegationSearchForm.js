@@ -12,7 +12,7 @@ import { PrimaryButton } from "../shared/components/StyledButtons";
 import { connect } from "react-redux";
 import { MenuItem, Typography } from "@material-ui/core";
 import getAllegationDropdownValues from "../cases/thunks/getAllegationDropdownValues";
-import { renderField } from "../cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 
 class AllegationSearchForm extends React.Component {
   async componentDidMount() {
@@ -58,7 +58,7 @@ class AllegationSearchForm extends React.Component {
             <Field
               label="Directive Keyword"
               name="directive"
-              component={renderField}
+              component={renderTextField}
               placeholder="Enter one or more keywords"
               inputProps={{ "data-test": "directiveField" }}
               style={{ flex: "1", marginRight: "24px" }}

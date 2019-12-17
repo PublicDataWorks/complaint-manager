@@ -4,7 +4,7 @@ import {
   firstNameNotBlank,
   firstNameRequired
 } from "../../../formFieldLevelValidations";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 const FirstNameField = props => (
   <Field
@@ -12,7 +12,7 @@ const FirstNameField = props => (
     classes={props.classes}
     name={props.name}
     label="First Name"
-    component={renderField}
+    component={renderTextField}
     inputProps={{
       maxLength: 25,
       autoComplete: "disabled",

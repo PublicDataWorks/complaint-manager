@@ -4,13 +4,13 @@ import {
   lastNameNotBlank,
   lastNameRequired
 } from "../../../formFieldLevelValidations";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 const LastNameField = props => (
   <Field
     required
     name={props.name}
-    component={renderField}
+    component={renderTextField}
     label="Last Name"
     inputProps={{
       maxLength: 25,

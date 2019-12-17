@@ -31,7 +31,7 @@ import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 import Classifications from "./Classifications";
 import editClassifications from "../thunks/editClassifications";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -162,7 +162,7 @@ class RecommendedActions extends Component {
           <Field
             name={`${letterOfficerField}.recommendedActionNotes`}
             style={{ width: "70%" }}
-            component={renderField}
+            component={renderTextField}
             multiline
             rowsMax={5}
             data-test={`${letterOfficerField}-recommendedActionNotes`}

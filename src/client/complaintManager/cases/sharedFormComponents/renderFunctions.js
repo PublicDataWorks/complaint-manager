@@ -6,6 +6,7 @@ import { RadioGroup } from "@material-ui/core";
 export const renderRadioGroup = props => {
   return <RadioGroup {...props} {...props.input} />;
 };
+
 export const renderCheckbox = props => {
   return (
     <Checkbox
@@ -16,39 +17,18 @@ export const renderCheckbox = props => {
   );
 };
 
-export const renderField = props => {
+export const renderTextField = props => {
   const {
-    required,
-    name,
     input,
-    label,
-    style,
-    type,
-    inputProps,
-    placeholder,
-    fullWidth,
-    multiline,
     rowsMax,
-    InputProps,
     meta: { touched, error, warning }
   } = props;
   return (
     <TextField
       {...props}
-      required={required}
-      label={label}
-      name={name}
       error={touched && !!error}
       helperText={touched && error ? touched && error : null}
       {...input}
-      inputProps={inputProps}
-      InputProps={InputProps}
-      data-test={props["data-test"]}
-      style={style}
-      type={type}
-      placeholder={placeholder}
-      fullWidth={fullWidth}
-      multiline={multiline}
       rowsMax={rowsMax ? rowsMax : 1}
     />
   );

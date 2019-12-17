@@ -25,7 +25,7 @@ import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 import _ from "lodash";
 import EmailField from "../../cases/sharedFormComponents/EmailField";
 import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField";
-import { renderField } from "../../cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
@@ -123,7 +123,7 @@ class OfficerDetails extends React.Component {
                 {additionalInformationText}
               </Typography>
               <Field
-                component={renderField}
+                component={renderTextField}
                 name="notes"
                 data-test="notesField"
                 multiline
