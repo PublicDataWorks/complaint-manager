@@ -36,26 +36,17 @@ export const renderTextField = props => {
 
 export const renderDateField = props => {
   const {
-    required,
     input,
-    label,
     inputProps,
-    style,
-    InputLabelProps,
     meta: { touched, error, warning }
   } = props;
   return (
     <TextField
-      required={required}
-      label={label}
+      {...props}
       type={inputProps.type}
       error={touched && !!error}
       helperText={touched && error ? touched && error : null}
       {...input}
-      inputProps={inputProps}
-      style={style}
-      data-test={props["data-test"]}
-      InputLabelProps={InputLabelProps}
     />
   );
 };
