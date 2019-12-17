@@ -21,7 +21,7 @@ import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterSta
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 class IAProCorrections extends Component {
   constructor(props) {
@@ -89,7 +89,7 @@ class IAProCorrections extends Component {
               <Field
                 style={{ flex: 4 }}
                 name={`${iaProCorrectionsField}.details`}
-                component={renderField}
+                component={renderTextField}
                 label="Correction Description"
                 data-test={`${iaProCorrectionsField}-details`}
                 fullWidth

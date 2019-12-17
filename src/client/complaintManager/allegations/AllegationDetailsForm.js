@@ -11,7 +11,7 @@ import {
 import DropdownSelect from "../cases/CaseDetails/CivilianDialog/DropdownSelect";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
 import { ALLEGATION_DETAILS_LABEL } from "../../../sharedUtilities/constants";
-import { renderField } from "../cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 
 const AllegationDetailsForm = props => {
   const onSubmit = (values, dispatch) => {
@@ -48,7 +48,7 @@ const AllegationDetailsForm = props => {
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
           data-test="allegationDetailsField"
           style={{ width: "40%", marginBottom: `${marginBottomOffset}px` }}
-          component={renderField}
+          component={renderTextField}
           name="details"
           inputProps={{
             autoComplete: "off",

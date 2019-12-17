@@ -1,13 +1,13 @@
 import React from "react";
 import { Field } from "redux-form";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 const AddressSecondLine = ({ label, fieldName, style }) => {
   return (
     <Field
       label={label}
       name={`${fieldName}.streetAddress2`}
-      component={renderField}
+      component={renderTextField}
       style={style}
       inputProps={{
         "data-test": "streetAddress2Input",

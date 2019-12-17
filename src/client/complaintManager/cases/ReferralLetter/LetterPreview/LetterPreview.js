@@ -36,7 +36,7 @@ import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/Incomplet
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -219,7 +219,7 @@ class LetterPreview extends Component {
             <Field
               style={{ flex: 4 }}
               name="recipient"
-              component={renderField}
+              component={renderTextField}
               label="Address To"
               fullWidth
               multiline
@@ -253,7 +253,7 @@ class LetterPreview extends Component {
           <CardContent>
             <Field
               name="sender"
-              component={renderField}
+              component={renderTextField}
               label="Sincerely"
               fullWidth
               multiline
@@ -263,7 +263,7 @@ class LetterPreview extends Component {
 
             <Field
               name="transcribedBy"
-              component={renderField}
+              component={renderTextField}
               label="Transcribed By"
               fullWidth
               inputProps={{

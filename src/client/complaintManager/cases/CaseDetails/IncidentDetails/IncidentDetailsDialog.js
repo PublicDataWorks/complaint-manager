@@ -34,7 +34,7 @@ import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
 import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -125,7 +125,7 @@ class IncidentDetailsDialog extends Component {
                 clearable={true}
               />
               <Field
-                component={renderField}
+                component={renderTextField}
                 name="incidentTime"
                 label="Incident Time"
                 data-test="editIncidentTimeField"
@@ -210,7 +210,7 @@ class IncidentDetailsDialog extends Component {
             <div style={{ display: "flex", marginTop: "16px" }}>
               <Field
                 name="pibCaseNumber"
-                component={renderField}
+                component={renderTextField}
                 label="PIB Case Number"
                 data-test="pibCaseNumber"
                 placeholder="Enter PIB Case Number"

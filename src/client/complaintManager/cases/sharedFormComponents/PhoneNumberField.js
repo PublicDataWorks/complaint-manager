@@ -2,7 +2,7 @@ import React from "react";
 import { Field } from "redux-form";
 import { isPhoneNumber } from "../../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 function strip_nondigits(value) {
   return value.replace(/[^\d]/g, "");
@@ -42,7 +42,7 @@ const PhoneNumberField = props => {
     <Field
       name={props.name}
       InputProps={{ inputComponent: TextMaskCustom }}
-      component={renderField}
+      component={renderTextField}
       label="Phone Number"
       inputProps={{
         "data-test": "phoneNumberInput",

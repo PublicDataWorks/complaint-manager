@@ -9,7 +9,7 @@ import { OFFICER_SEARCH_FORM_NAME } from "../../../../../sharedUtilities/constan
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { connect } from "react-redux";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import { renderField } from "../../../cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../../cases/sharedFormComponents/renderFunctions";
 
 const normalizeValues = values => {
   const normalizedValues = {};
@@ -47,7 +47,7 @@ class OfficerSearchForm extends Component {
             <Field
               label="First Name"
               name="firstName"
-              component={renderField}
+              component={renderTextField}
               inputProps={{ "data-test": "firstNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />
@@ -55,7 +55,7 @@ class OfficerSearchForm extends Component {
             <Field
               label="Last Name"
               name="lastName"
-              component={renderField}
+              component={renderTextField}
               inputProps={{ "data-test": "lastNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />

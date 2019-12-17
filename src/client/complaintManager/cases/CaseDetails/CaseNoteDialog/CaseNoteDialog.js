@@ -27,7 +27,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 class CaseNoteDialog extends Component {
   componentDidMount() {
@@ -120,7 +120,7 @@ class CaseNoteDialog extends Component {
             <Field
               name="notes"
               label="Notes"
-              component={renderField}
+              component={renderTextField}
               inputProps={{
                 "data-test": "notesInput"
               }}

@@ -7,7 +7,7 @@ import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEd
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
 import { OFFICER_HISTORY_MESSAGE } from "../../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
-import { renderField } from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -44,7 +44,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalHighAllegations`}
-            component={renderField}
+            component={renderTextField}
             label="High Level"
             data-test={`${letterOfficer}-numHistoricalHighAllegations`}
             normalize={numbersOnly}
@@ -53,7 +53,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalMedAllegations`}
-            component={renderField}
+            component={renderTextField}
             label="Medium Level"
             data-test={`${letterOfficer}-numHistoricalMedAllegations`}
             normalize={numbersOnly}
@@ -62,7 +62,7 @@ class OfficerAllegationHistory extends React.Component {
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
             name={`${letterOfficer}.numHistoricalLowAllegations`}
-            component={renderField}
+            component={renderTextField}
             label="Low Level"
             data-test={`${letterOfficer}-numHistoricalLowAllegations`}
             normalize={numbersOnly}

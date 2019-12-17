@@ -56,7 +56,7 @@ import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCi
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import InputLabel from "@material-ui/core/InputLabel";
 import {
-  renderField,
+  renderTextField,
   renderRadioGroup
 } from "../../sharedFormComponents/renderFunctions";
 
@@ -295,7 +295,7 @@ class CivilianDialog extends Component {
             </Typography>
             <Field
               name="additionalInfo"
-              component={renderField}
+              component={renderTextField}
               style={{ marginBottom: "16px" }}
               fullWidth
               multiline
@@ -306,7 +306,11 @@ class CivilianDialog extends Component {
               }}
               data-test="additionalInfoField"
             />
-            <Field type={"hidden"} name={"caseId"} component={renderField} />
+            <Field
+              type={"hidden"}
+              name={"caseId"}
+              component={renderTextField}
+            />
           </form>
         </DialogContent>
         <DialogActions

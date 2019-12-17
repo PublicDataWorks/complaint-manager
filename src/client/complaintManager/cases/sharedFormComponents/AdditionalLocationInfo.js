@@ -1,13 +1,13 @@
 import React from "react";
 import { Field } from "redux-form";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 const AdditionalLocationInfo = ({ label, fieldName, style }) => {
   return (
     <Field
       label={label}
       name={`${fieldName}.additionalLocationInfo`}
-      component={renderField}
+      component={renderTextField}
       style={style}
       inputProps={{
         "data-test": "additionalLocationInfoInput",

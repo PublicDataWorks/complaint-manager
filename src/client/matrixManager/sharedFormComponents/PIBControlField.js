@@ -6,7 +6,7 @@ import {
   pibControlNumberRequired
 } from "../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
-import { renderField } from "../../complaintManager/cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../complaintManager/cases/sharedFormComponents/renderFunctions";
 
 const TextMaskCustom = props => {
   const passedProps = (({ inputRef, ...passedProps }) => ({
@@ -40,7 +40,7 @@ const PIBControlField = () => {
     <Field
       name="pibControlNumber"
       InputProps={{ inputComponent: TextMaskCustom }}
-      component={renderField}
+      component={renderTextField}
       label="PIB Control #"
       inputProps={{
         "data-test": "pib-control-input",

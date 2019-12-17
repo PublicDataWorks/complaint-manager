@@ -1,6 +1,6 @@
 import React from "react";
 import { Field } from "redux-form";
-import { renderField } from "./renderFunctions";
+import { renderTextField } from "./renderFunctions";
 
 const MiddleInitialField = props => (
   <Field
@@ -15,7 +15,7 @@ const MiddleInitialField = props => (
     normalize={(value, previousValue) =>
       value === "" || /^[a-zA-Z]?$/.test(value) ? value : previousValue
     }
-    component={renderField}
+    component={renderTextField}
   />
 );
 
