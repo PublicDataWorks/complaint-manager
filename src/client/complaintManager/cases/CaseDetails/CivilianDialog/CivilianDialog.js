@@ -177,7 +177,6 @@ class CivilianDialog extends Component {
               }}
             >
               <div>
-                <InputLabel shrink={true}>Date of Birth</InputLabel>
                 <DateField
                   name="birthDate"
                   data-test="birthDateField"
@@ -186,6 +185,7 @@ class CivilianDialog extends Component {
                     type: "date",
                     max: moment(Date.now()).format("YYYY-MM-DD")
                   }}
+                  label="Date of Birth"
                   clearable={true}
                   style={{
                     minWidth: "140px",
