@@ -57,6 +57,8 @@ function Control(props) {
       ? true
       : null;
 
+  const textFieldProps = props.selectProps.textFieldProps;
+
   return (
     <TextField
       fullWidth
@@ -73,8 +75,11 @@ function Control(props) {
             dataTestExists && props.selectProps.inputProps["data-test"]
         }
       }}
-      value={props.selectProps.textFieldProps.value}
-      {...props.selectProps.textFieldProps}
+      {...textFieldProps}
+      InputLabelProps={{
+        ...textFieldProps.InputLabelProps,
+        shrink: !!textFieldProps.value || props.isFocused
+      }}
     />
   );
 }
