@@ -7,6 +7,15 @@ const caseDashboardCommands = {
       e2e.roundtripWait
     ).assert.containsText("@pageTitle", "View All Cases");
   },
+  hasCaseWithAC: function() {
+    return this.waitForElementVisible(
+      "@caseReference",
+      e2e.roundtripWait
+    ).assert.containsText("@caseReference", "AC");
+  },
+  goToACCase: function() {
+    this.click("@openCaseButton");
+  },
   createNewCase: function() {
     return this.waitForElementVisible("@newCaseButton", e2e.rerenderWait)
       .click("@newCaseButton")
@@ -40,6 +49,12 @@ module.exports = {
   commands: [caseDashboardCommands],
   elements: {
     pageTitle: { selector: "[data-test='pageTitle']" },
+    caseReference: {
+      selector: "[data-test='caseReference']"
+    },
+    openCaseButton: {
+      selector: "[data-test='openCaseButton']"
+    },
     newCaseButton: {
       selector: "[data-test='createCaseButton']"
     },

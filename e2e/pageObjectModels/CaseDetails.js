@@ -70,6 +70,9 @@ const caseDetailsCommands = {
       e2e.rerenderWait
     ).click("@backToAllCasesButton");
   },
+  returnToCaseDashboard: function() {
+    this.click("@backToAllCasesButton");
+  },
   clickAddTagButton: function() {
     return this.waitForElementVisible("@addTagButton", e2e.rerenderWait).click(
       "@addTagButton"
@@ -92,6 +95,15 @@ const caseDetailsCommands = {
       "@caseTagsContainer",
       e2e.rerenderWait
     ).assert.containsText("@caseTagsContainer", "No tags have been added");
+  },
+  caseReferenceIsAC: function() {
+    return this.waitForElementVisible(
+      "@caseReference",
+      e2e.rerenderWait
+    ).assert.containsText("@caseReference", "AC");
+  },
+  addCivilianComplainant: function() {
+    this.click("@addCivilianComplainant");
   }
 };
 
@@ -143,6 +155,12 @@ module.exports = {
       },
       backToAllCasesButton: {
         selector: "[data-test='all-cases-link']"
+      },
+      caseReference: {
+        selector: "[data-test='caseReference']"
+      },
+      addCivilianComplainant: {
+        selector: "[data-test='addCivilianComplainantWitness']"
       }
     },
     attachmentElements,

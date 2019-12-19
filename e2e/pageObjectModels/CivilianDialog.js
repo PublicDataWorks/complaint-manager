@@ -33,6 +33,9 @@ const civilianDialogCommands = {
       e2e.rerenderWait
     );
   },
+  toggleIsAnonymous: function() {
+    return this.click("@isAnonymous");
+  },
   typeInAddress: function(addressInput) {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
@@ -109,6 +112,9 @@ module.exports = {
     },
     titleMenu: {
       selector: "[id='civilianTitleId']"
+    },
+    isAnonymous: {
+      selector: "[data-test='isAnonymous']"
     },
     addressSuggestionField: {
       selector: '[data-test="addressSuggestionField"] > input'

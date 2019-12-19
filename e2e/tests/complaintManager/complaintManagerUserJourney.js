@@ -106,6 +106,12 @@ if (TEST_PASS && TEST_USER) {
         .setTitle("2");
     },
 
+    "should check civilian as anonymous in referral letter": browser => {
+      const civilianDialog = browser.page.CivilianDialog();
+
+      civilianDialog.toggleIsAnonymous();
+    },
+
     "should display address suggestions when text is entered": browser => {
       const civilianDialog = browser.page.CivilianDialog();
 
@@ -153,6 +159,42 @@ if (TEST_PASS && TEST_USER) {
         .dialogIsOpen()
         .setAddressSuggestionFieldToEmpty()
         .addressFieldsAreEmpty()
+        .submitCivilianDialog();
+
+      snackbar.presentWithMessage("Civilian was successfully updated").close();
+    },
+
+    "should show case reference with prefix AC in header of Case Details page": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+
+      caseDetailsPage.caseReferenceIsAC();
+    },
+
+    "should show case reference with prefix AC in list of cases on Case Dashboard": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+      const caseDashboard = browser.page.CaseDashboard();
+
+      caseDetailsPage.returnToCaseDashboard();
+
+      caseDashboard.isOnPage().hasCaseWithAC();
+    },
+
+    "should return to AC case details and un-anonymize the primary complainant": browser => {
+      const caseDashboard = browser.page.CaseDashboard();
+      const caseDetailsPage = browser.page.CaseDetails();
+      const civilianDialog = browser.page.CivilianDialog();
+      const snackbar = browser.page.SnackbarPOM();
+
+      caseDashboard.isOnPage().goToACCase();
+
+      caseDetailsPage
+        .isOnPage()
+        .caseReferenceIsAC()
+        .editComplainant();
+
+      civilianDialog
+        .dialogIsOpen()
+        .toggleIsAnonymous()
         .submitCivilianDialog();
 
       snackbar.presentWithMessage("Civilian was successfully updated").close();
