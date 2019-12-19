@@ -38,7 +38,7 @@ jest.mock("../generateReferralLetterBodyAndAuditDetails", () => {
 });
 
 describe("generateReferralLetterPdfBuffer", function() {
-  let existingCase, referralLetter, timeOfDownload;
+  let existingCase, referralLetter, timeOfDownload, officer;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -54,7 +54,7 @@ describe("generateReferralLetterPdfBuffer", function() {
       .defaultOfficer()
       .withId(undefined);
 
-    const officer = await models.officer.create(officerAttributes, {
+    officer = await models.officer.create(officerAttributes, {
       auditUser: "user"
     });
 
@@ -127,6 +127,29 @@ describe("generateReferralLetterPdfBuffer", function() {
         false
       );
       expect(letterPdfHtml).toMatchSnapshot();
+    });
+
+    test("should update case reference prefix to AC when primary complainant is anonymized", async () => {
+      await models.case_officer.update(
+        {
+          isAnonymous: true
+        },
+        {
+          where: {
+            officerId: officer.id
+          },
+          auditUser: "test user"
+        }
+      );
+      await models.sequelize.transaction(async transaction => {
+        const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
+          existingCase.id,
+          true,
+          transaction
+        );
+
+        expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
+      });
     });
 
     test("pdf create gets called with expected letter html when letter is generated", async () => {

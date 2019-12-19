@@ -22,6 +22,7 @@ class Civilian {
     this.genderIdentityId = build.genderIdentityId;
     this.address = build.address;
     this.additionalInfo = build.additionalInfo;
+    this.isAnonymous = build.isAnonymous;
     this.fullName = build.fullName;
     this.civilianTitleId = build.civilianTitleId;
     this.civilianTitle = build.civilianTitle;
@@ -53,6 +54,7 @@ class Civilian {
         this.address = address;
         this.additionalInfo =
           "Some additional information about this civilian.";
+        this.isAnonymous = false;
         this.fullName = "Chuck E. Berry XVI";
         this.civilianTitleId = null;
         this.civilianTitle = null;
@@ -144,6 +146,11 @@ class Civilian {
 
       withAdditionalInfo(additionalInfo) {
         this.additionalInfo = additionalInfo;
+        return this;
+      }
+
+      withIsAnonymous(isAnonymous) {
+        this.isAnonymous = isAnonymous;
         return this;
       }
 
