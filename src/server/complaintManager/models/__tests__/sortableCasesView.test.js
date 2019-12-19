@@ -10,6 +10,7 @@ import Case from "../../../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import sortableCasesView from "../sortableCasesView";
 
 describe("sortableCasesView", () => {
   afterEach(async () => {
@@ -228,6 +229,29 @@ describe("sortableCasesView", () => {
       );
     });
 
+    test("should return AC prefix in case reference when primary complainant is anonymized", async () => {
+      const caseCivilian = await models.civilian.findOne({
+        where: { caseId: existingCase.id }
+      });
+
+      await models.civilian.update(
+        { isAnonymous: true },
+        {
+          where: { id: caseCivilian.id },
+          auditUser: "test user"
+        }
+      );
+      const sortedCase = await models.sortable_cases_view.findOne({
+        where: { id: existingCase.id }
+      });
+
+      expect(sortedCase).toEqual(
+        expect.objectContaining({
+          caseReference: "AC2012-0001"
+        })
+      );
+    });
+
     test("returns officer as primary complainant when added first", async () => {
       await models.case_officer.update(
         {
@@ -273,6 +297,21 @@ describe("sortableCasesView", () => {
         where: { id: existingCase.id }
       });
 
+      expect(sortedCase).toEqual(
+        expect.objectContaining({
+          caseReference: "PO2012-0001"
+        })
+      );
+    });
+
+    test("should return PO as prefix in case reference when primary complainant is deleted", async () => {
+      await models.civilian.destroy({
+        where: { caseId: existingCase.id },
+        auditUser: "test user"
+      });
+      const sortedCase = await models.sortable_cases_view.findOne({
+        where: { id: existingCase.id }
+      });
       expect(sortedCase).toEqual(
         expect.objectContaining({
           caseReference: "PO2012-0001"

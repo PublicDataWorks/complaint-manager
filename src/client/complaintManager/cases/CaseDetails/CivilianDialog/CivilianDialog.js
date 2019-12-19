@@ -210,7 +210,13 @@ class CivilianDialog extends Component {
             <FormControlLabel
               key="isAnonymous"
               label="Anonymize complainant in referral letter"
-              control={<Field name="isAnonymous" component={PrimaryCheckBox} />}
+              control={
+                <Field
+                  data-test="isAnonymous"
+                  name="isAnonymous"
+                  component={PrimaryCheckBox}
+                />
+              }
             />
             <Typography
               variant="body2"

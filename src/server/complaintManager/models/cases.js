@@ -104,11 +104,10 @@ export default (sequelize, DataTypes) => {
           "year"
         ]),
         get: function() {
-          //const primaryComplainant = this.get("primaryComplainant");
-          //console.log("Primary Complainant", primaryComplainant);
-          //console.log("Person Type", getPersonType(primaryComplainant));
+          const primaryComplainant = this.get("primaryComplainant");
 
           return getCaseReference(
+            primaryComplainant && primaryComplainant.isAnonymous,
             getPersonType(this.get("primaryComplainant")),
             this.get("caseNumber"),
             this.get("year")

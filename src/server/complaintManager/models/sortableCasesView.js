@@ -29,7 +29,8 @@ export default (sequelize, DataTypes) => {
           "complainantMiddleName",
           "complainantLastName",
           "complainantSuffix",
-          "complainantPersonType"
+          "complainantPersonType",
+          "complainantIsAnonymous"
         ]),
         get: function() {
           if (this.get("complainantPersonType")) {
@@ -41,7 +42,8 @@ export default (sequelize, DataTypes) => {
                 this.get("complainantLastName"),
                 this.get("complainantSuffix"),
                 this.get("complainantPersonType")
-              )
+              ),
+              isAnonymous: this.get("complainantIsAnonymous")
             };
           } else {
             return null;
@@ -94,10 +96,13 @@ export default (sequelize, DataTypes) => {
           "year"
         ]),
         get: function() {
+          const primaryComplainant = this.get("primaryComplainant");
+          const primaryComplainantPersonType = primaryComplainant
+            ? primaryComplainant.personType
+            : null;
           return getCaseReference(
-            this.get("primaryComplainant")
-              ? this.get("primaryComplainant").personType
-              : null,
+            primaryComplainant && primaryComplainant.isAnonymous,
+            primaryComplainantPersonType,
             this.get("caseNumber"),
             this.get("year")
           );
@@ -150,6 +155,10 @@ export default (sequelize, DataTypes) => {
       complainantSuffix: {
         field: "complainant_suffix",
         type: DataTypes.STRING
+      },
+      complainantIsAnonymous: {
+        field: "complainant_is_anonymous",
+        type: DataTypes.BOOLEAN
       }
     },
     {

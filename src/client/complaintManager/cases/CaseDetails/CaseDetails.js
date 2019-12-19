@@ -140,7 +140,7 @@ class CaseDetails extends React.Component {
             showHome={false}
             customStyle={appBar}
           >
-            <div className={classes.caseReference}>
+            <div className={classes.caseReference} data-test="caseReference">
               {`Case #${this.props.caseDetails.caseReference}`}
             </div>
             <Typography

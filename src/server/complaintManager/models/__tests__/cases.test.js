@@ -20,6 +20,7 @@ import {
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import { getCaseReference } from "../modelUtilities/getCaseReference";
 
 describe("cases", function() {
   let createdCase;
@@ -272,37 +273,30 @@ describe("cases", function() {
   });
 
   describe("caseReference", () => {
-    test("returns a case reference starting with CC for civilian initiated case", async () => {
-      const civilianCaseAttributes = new Case.Builder()
-        .defaultCase()
-        .withComplaintType(CIVILIAN_INITIATED)
-        .withIncidentDate("2017-01-01")
-        .withFirstContactDate("2018-04-20")
-        .withId(555);
-      const civilianCase = await models.cases.create(civilianCaseAttributes, {
-        auditUser: "someone"
-      });
-      expect(civilianCase.caseReference).toEqual("CC2018-0001");
+    let complainantOfficer;
+    let civilian;
+    let caseAttributes;
+    let complainantCase;
+
+    beforeEach(async () => {
+      complainantOfficer = await createCaseOfficer();
+      civilian = new Civilian.Builder().defaultCivilian();
     });
 
-    test("returns currenct case reference even if first contact year has changed", async () => {
-      const civilianCaseAttributes = new Case.Builder()
+    const createCaseAttributesBasedOnComplainants = (
+      complainantCivilians,
+      complainantOfficers
+    ) => {
+      return new Case.Builder()
         .defaultCase()
-        .withComplaintType(CIVILIAN_INITIATED)
+        .withComplainantCivilians(complainantCivilians)
+        .withComplainantOfficers(complainantOfficers)
         .withIncidentDate("2017-01-01")
         .withFirstContactDate("2016-04-20")
         .withId(555);
-      const civilianCase = await models.cases.create(civilianCaseAttributes, {
-        auditUser: "someone"
-      });
-      await civilianCase.update(
-        { firstContactDate: "2018-01-01" },
-        { auditUser: "someone" }
-      );
-      expect(civilianCase.caseReference).toEqual("CC2016-0001");
-    });
+    };
 
-    test("returns a case reference starting with PO for rank initiated complainant", async () => {
+    const createCaseOfficer = async () => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined);
@@ -311,32 +305,198 @@ describe("cases", function() {
         auditUser: "user"
       });
 
-      const complainantOfficer = new CaseOfficer.Builder()
+      return new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withId(undefined)
         .withOfficerId(officer.id)
         .withCreatedAt(new Date("2018-09-22"))
         .withRoleOnCase(COMPLAINANT);
+    };
 
-      const existingCase = await models.cases.create(
-        new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withIncidentDate("2002-12-01")
-          .withFirstContactDate("2002-12-02")
-          .withComplainantOfficers([complainantOfficer]),
+    const createCase = caseAttributes => {
+      return models.cases.create(caseAttributes, {
+        auditUser: "someone",
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "someone"
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            auditUser: "someone"
+          }
+        ]
+      });
+    };
+
+    test("returns a case reference starting with CC for civilian initiated case", async () => {
+      caseAttributes = createCaseAttributesBasedOnComplainants([], []);
+
+      complainantCase = await createCase(caseAttributes);
+
+      expect(complainantCase.caseReference).toEqual("CC2016-0001");
+    });
+
+    test("returns current case reference even if first contact year has changed", async () => {
+      caseAttributes = createCaseAttributesBasedOnComplainants([], []);
+
+      complainantCase = await createCase(caseAttributes);
+
+      await complainantCase.update(
+        { firstContactDate: "2014-01-01" },
+        { auditUser: "someone" }
+      );
+
+      expect(complainantCase.caseReference).toEqual("CC2016-0001");
+    });
+
+    test("returns a case reference starting with PO for rank initiated complainant", async () => {
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [],
+        [complainantOfficer]
+      );
+
+      complainantCase = await createCase(caseAttributes);
+
+      expect(complainantCase.caseReference).toEqual("PO2016-0001");
+    });
+
+    test("should return case reference starting with AC when primary complainant is anonymous", async () => {
+      civilian.withIsAnonymous(true);
+
+      caseAttributes = createCaseAttributesBasedOnComplainants([civilian], []);
+
+      complainantCase = await createCase(caseAttributes);
+
+      expect(complainantCase.caseReference).toEqual("AC2016-0001");
+    });
+
+    test("should return case reference starting with CC when primary civilian complainant is no longer anonymous", async () => {
+      civilian.withIsAnonymous(true);
+
+      caseAttributes = createCaseAttributesBasedOnComplainants([civilian], []);
+
+      complainantCase = await createCase(caseAttributes);
+
+      const initialCaseReference = complainantCase.caseReference;
+
+      civilian.withIsAnonymous(false);
+
+      await complainantCase.update(
+        { complainantCivilians: [civilian] },
         {
+          auditUser: "someone",
+          include: [
+            {
+              model: models.civilian,
+              as: "complainantCivilians",
+              auditUser: "someone"
+            }
+          ]
+        }
+      );
+      expect(initialCaseReference).toEqual("AC2016-0001");
+      expect(complainantCase.caseReference).toEqual("CC2016-0001");
+    });
+
+    test("should return case reference starting with AC with multiple complainants where only primary complainant is anonymous ", async () => {
+      civilian.withIsAnonymous(true).withCreatedAt(new Date("2017-01-01"));
+
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
+
+      complainantCase = await createCase(caseAttributes);
+
+      const complainants = [
+        ...complainantCase.complainantCivilians,
+        ...complainantCase.complainantOfficers
+      ];
+      expect(complainants.length).toEqual(2);
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
+      expect(complainantCase.caseReference).toEqual("AC2016-0001");
+    });
+
+    test("should return case reference starting with PO with multiple complainants where only primary PO complainant is not anonymous ", async () => {
+      civilian.withIsAnonymous(true).withCreatedAt(new Date("2019-01-01"));
+
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
+
+      complainantCase = await createCase(caseAttributes);
+
+      const complainants = [
+        ...complainantCase.complainantCivilians,
+        ...complainantCase.complainantOfficers
+      ];
+      expect(complainants.length).toEqual(2);
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Grant");
+      expect(complainantCase.caseReference).toEqual("PO2016-0001");
+    });
+
+    test("should return case reference starting with AC when primary PO complainant is removed", async () => {
+      civilian.withIsAnonymous(true).withCreatedAt(new Date("2019-01-01"));
+
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
+
+      complainantCase = await createCase(caseAttributes);
+
+      const initialCaseReference = complainantCase.caseReference;
+      await complainantCase.update(
+        { complainantOfficers: [] },
+        {
+          auditUser: "someone",
           include: [
             {
               model: models.case_officer,
               as: "complainantOfficers",
               auditUser: "someone"
             }
-          ],
-          auditUser: "someone"
+          ]
         }
       );
-      expect(existingCase.caseReference).toEqual("PO2002-0001");
+      expect(initialCaseReference).toEqual("PO2016-0001");
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
+      expect(complainantCase.caseReference).toEqual("AC2016-0001");
+    });
+
+    test("should return case reference starting with CC when anonymous primary complainant is removed", async () => {
+      complainantOfficer.withIsAnonymous(true);
+
+      civilian.withCreatedAt(new Date("2019-01-01"));
+
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
+
+      complainantCase = await createCase(caseAttributes);
+
+      const initialCaseReference = complainantCase.caseReference;
+      await complainantCase.update(
+        { complainantOfficers: [] },
+        {
+          auditUser: "someone",
+          include: [
+            {
+              model: models.case_officer,
+              as: "complainantOfficers",
+              auditUser: "someone"
+            }
+          ]
+        }
+      );
+      expect(initialCaseReference).toEqual("AC2016-0001");
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
+      expect(complainantCase.caseReference).toEqual("CC2016-0001");
     });
   });
 
