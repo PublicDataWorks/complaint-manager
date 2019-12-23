@@ -45,7 +45,7 @@ if (TEST_PASS && TEST_USER) {
       const num = Math.floor(Math.random() * (max - min + 1)) + min;
       const pibControlNumber = `${num}R`;
       createMatrixDialog.fillsInPIBControlNumber(pibControlNumber);
-      createMatrixDialog.fillsInFirstReviewer("jacob.gacek@thoughtworks.com");
+      createMatrixDialog.fillsInFirstReviewer("krkrishn@thoughtworks.com");
       createMatrixDialog.fillsInSecondReviewer("wyao@thoughtworks.com");
       createMatrixDialog.clicksCreateButton();
 
