@@ -1,5 +1,7 @@
 # Complaint Manager
 
+This README is aimed at getting new users (Core Team and Contributors) set up to run Complaint Manager on their local machines. You will need the appropriate permissions to access the app for the code and its tests to run successfully.  
+
 ## Local development setup
 
 ### Install docker:
@@ -19,30 +21,30 @@ The pre-push hook will execute when you run `git push`.
 It will pull any remote changes, rebuild the app, 
 run all tests, and run the security checks before pushing.
 
-## Set up Google Maps Api Key
+### Set up Google Maps Api Key
 
-Core Team:
+#### Core Team:
   * Log into Google with the noipm infrastructure google account from 1Password.
   * Look up the Core Team api key for test environment at https://console.cloud.google.com/apis/credentials
   * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
 
-Contributor: 
+#### Contributor: 
   * You will receive a Contributor Test Key for Google Maps Api from a Core Team Member
   * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
 
 ### Set up local configuration for AWS S3
 
-Core Team:
+#### Core Team:
 * Log into AWS with root user (credentials are in the team 1Password)
 * Create a new user for yourself in the developer group in IAM
   * You will need programmatic access
   * No tags are required
   * Be sure to add yourself to the developer group
 
-Contributer:
+#### Contributer:
   * Ask a core team member to setup AWS credentials for you.
 
-Everyone:
+#### Everyone:
 * Save your login, access key ID and secret access key in your personal password manager
 * Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
 
@@ -56,7 +58,7 @@ Everyone:
 
 ### Setting docker hosts for Postgres db and Redis
 
-Using your text editor of choice, edit /etc/hosts file to add the following lines after the first localhost: 
+Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost: 
 
 ```bash
 127.0.0.1       db
@@ -121,15 +123,9 @@ docker-compose run app yarn test:once
 npm install -g nightwatch
 ```
 
-#### Then, bring up the app:
-
-```bash
-docker-compose up app
-```
-
 #### Then, set up environment variables for:
 
-(Use your credentials for auth0 ci)
+(Use your credentials for Auth0 ci; Contributors should receive these from a Core Team member)
 
     TEST_USER
     TEST_PASS
@@ -146,55 +142,14 @@ yarn e2e
 docker-compose down
 ```
 
-### Update the end-to-end testing image:
-From your terminal. Don't forget the dot on the second command.
-
-```bash
-docker login [enter your docker hub credentials]
-docker build -f e2e/Dockerfile.e2e -t noipm/e2e .
-docker push noipm/e2e
-```
-
-### Worker Container
-The application is  using a worker process to rub background jobs (exports).  The worker process processes jobs added to a queue (redis).  
-When running locally, worker and server connect to a local Redis Container.  On other environments they connect to RedisCloud instance.  To connect to a redis cloud instance you must set the `REDISCLOUD_URL` environment variable.
-When using RedisCloud plugin in Heroku, the `REDISCLOUD_URL` is automatically set.
-
-### Update the docker-heroku image:
-
-First update the Docker file in the docker-heroku directory to set the heroku npm version you want to use.
-Remember to update the circleci config file to point to the new tag you create.
-
-```bash
-docker login [enter your docker hub credentials]
-docker build -t noipm/docker-heroku:[heroku-cli-version] docker-heroku
-docker push noipm/docker-heroku:[heroku-cli-version]
-```
-
-### Update the docker-node-ubuntu image:
-
-First, update the Docker file in the docker-node-ubuntu directory and increment the label version. 
-NOTE: You can set the node version here by changing the link we enable the NodeSource repository from.
-Update the circleci config AND the Dockerfile.web/worker files to point to new tag created.
-
-```bash
-docker login [enter your docker hub credentials]
-docker build -t noipm/docker-node-ubuntu:[label version] docker-node-ubuntu
-docker push noipm/docker-node-ubuntu:[label version]
-```
-
-### Enter the running local db container with psql
-
-```
-docker-compose exec db psql -U postgres -d complaint-manager
-```
-
 ### Run security checks
+
 ```
 docker-compose run security-checks
 ```
 
 #### Docker Preferences
+
 If Docker is killing your jest tests Exit 137, you might need to increase memory that Docker is using under “Advanced” in Docker preferences. Here are the defaults we have:
 ```
 CPUs: 4,
@@ -203,6 +158,8 @@ Swap: 1.0 GB
 ```
 
 ### Known Warnings
+
+#### In the app:
 
 We currently see the following warnings from pdfjs. This is a known issue where pdfjs is not compatible with webpack 4.2 
 We use a workaround that copies the pdf.worker.js file to our build directory in a postbuild script.
@@ -213,3 +170,20 @@ More info here: https://github.com/wojtekmaj/react-pdf/wiki/Known-issues
 
 There is a warning about duplicate props on the PhoneNumberField. These are actually two different props that have 
 the same name, but different capitalization. inputProps and InputProps. They are needed.
+
+#### In the tests:
+
+You may see the following warning when running tests:
+
+```bash
+Cannot find module 'pg-native' from 'client.js'
+
+      However, Jest was able to find:
+      	'./client.js'
+
+      You might want to include a file extension in your import, or update your 'moduleFileExtensions', which is currently ['web.js', 'js', 'web.ts', 'ts', 'web.tsx', 'tsx', 'json', 'web.jsx', 'jsx', 'node'].
+
+      See https://jestjs.io/docs/en/configuration#modulefileextensions-array-string
+ ```
+ 
+ You may ignore this warning; the tests will still pass.
