@@ -19,19 +19,27 @@ The pre-push hook will execute when you run `git push`.
 It will pull any remote changes, rebuild the app, 
 run all tests, and run the security checks before pushing.
 
-## Set up google maps api key
+## Set up Google Maps Api Key
+Core Team:
+  * Log into Google with the noipm infrastructure google account from 1Password.
+  * Look up the Core Team api key for test environment at https://console.cloud.google.com/apis/credentials
+  * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
 
-* Log into Google with the noipm infrastructure google account from 1Password.
-* Look up the api key for test environment at https://console.cloud.google.com/apis/credentials
-* Set  a local environment variable of REACT_APP_GOOGLE_API_KEY with the value of the test api key.
+Contributor: 
+  * You will receive a Contributor Test Key for Google Maps Api from a Core Team Member
+  * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
 
 ### Set up local configuration for AWS S3
 
-If you are a core team member:
+Core Team:
 * Log into AWS with root user (credentials are in the team 1Password)
-* Create a new user for yourself in the development group in IAM
+* Create a new user for yourself in the developer group in IAM
+  * You will need programmatic access
+  * No tags are required
+  * Be sure to add yourself to the developer group
 
-If you are a contributor, ask a core team member to setup AWS credentials for you.
+Contributer:
+  * Ask a core team member to setup AWS credentials for you.
 
 Everyone:
 * Save your login, access key ID and secret access key in your personal password manager
