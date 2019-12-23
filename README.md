@@ -20,6 +20,7 @@ It will pull any remote changes, rebuild the app,
 run all tests, and run the security checks before pushing.
 
 ## Set up Google Maps Api Key
+
 Core Team:
   * Log into Google with the noipm infrastructure google account from 1Password.
   * Look up the Core Team api key for test environment at https://console.cloud.google.com/apis/credentials
@@ -53,13 +54,20 @@ Everyone:
 }
 ```
 
-## Local development tasks
+### Setting docker hosts for Postgres db and Redis
 
-### Run a Circleci job locally
+Using your text editor of choice, edit /etc/hosts file to add the following lines after the first localhost: 
 
 ```bash
-circleci build --job <job name from .circleci/config.yml>
+127.0.0.1       db
+127.0.0.1       redis
 ```
+
+### Install local dependencies
+
+Run ```yarn install``` to install dependencies on host machine (as opposed to in the docker container; you will need these for running integration and unit tests)
+
+## Local development tasks
 
 ### Build the app:
 
