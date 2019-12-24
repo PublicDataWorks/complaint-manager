@@ -35,6 +35,7 @@ import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/const
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import Dropdown from "../../../../common/components/Dropdown";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -185,12 +186,13 @@ class IncidentDetailsDialog extends Component {
               <Field
                 required
                 name="intakeSourceId"
-                component={DropdownSelect}
+                component={Dropdown}
                 label="Intake Source"
                 hinttext="Intake Source"
                 data-test="intakeSourceDropdown"
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
+                disableClearable={true}
               >
                 {generateMenuOptions(props.intakeSources)}
               </Field>
@@ -198,11 +200,12 @@ class IncidentDetailsDialog extends Component {
             <div style={{ marginTop: "16px" }}>
               <Field
                 name="howDidYouHearAboutUsSourceId"
-                component={DropdownSelect}
+                component={Dropdown}
                 label="How did you hear about us?"
                 hinttext="How did you hear about us?"
                 data-test="howDidYouHearAboutUsSourceDropdown"
                 style={{ width: "60%" }}
+                disableClearable={true}
               >
                 {generateMenuOptions(props.howDidYouHearAboutUsSources)}
               </Field>

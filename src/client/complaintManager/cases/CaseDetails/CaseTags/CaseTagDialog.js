@@ -19,6 +19,7 @@ import createCaseTag from "../../thunks/createCaseTag";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../../formFieldLevelValidations";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
+import Dropdown from "../../../../common/components/Dropdown";
 
 class CaseTagDialog extends Component {
   componentDidMount() {
@@ -58,16 +59,14 @@ class CaseTagDialog extends Component {
           </Typography>
           <form>
             <Field
-              inputProps={{
-                "data-test": "caseTagDropdownInput"
-              }}
-              data-test="caseTagDropdown"
-              component={DropdownSelect}
               name="caseTagValue"
-              isCreatable={true}
-              required
+              component={Dropdown}
+              data-test="caseTagDropdown"
               style={{ width: "12rem" }}
+              disableClearable={true}
+              required
               validate={[caseTagRequired]}
+              freeSolo={true}
             >
               {generateMenuOptions(this.props.tags)}
             </Field>
