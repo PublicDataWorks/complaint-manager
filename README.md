@@ -1,6 +1,6 @@
 # Complaint Manager
 
-This README is aimed at getting new users (Core Team and Contributors) set up to run Complaint Manager on their local machines. You will need the appropriate permissions to access the app for the code and its tests to run successfully.  
+This README is aimed at getting new users (Core Team and Contributors) set up to run Complaint Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully.  
 
 ## Local development setup
 
@@ -21,32 +21,32 @@ The pre-push hook will execute when you run `git push`.
 It will pull any remote changes, rebuild the app, 
 run all tests, and run the security checks before pushing.
 
-### Set up Google Maps Api Key
+### Set up Google Maps API Key
 
 #### Core Team:
-  * Log into Google with the noipm infrastructure google account from 1Password.
-  * Look up the Core Team api key for test environment at https://console.cloud.google.com/apis/credentials
-  * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
+  * Log into Google with the noipm infrastructure Google account from 1Password.
+  * Look up the Core Team API key for test environment at https://console.cloud.google.com/apis/credentials
+  * Set a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test API key.
 
 #### Contributor: 
-  * You will receive a Contributor Test Key for Google Maps Api from a Core Team Member
-  * Set  a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test api key.
+  * You will receive a Contributor Test Key for Google Maps API from a Core Team member
+  * Set a local environment variable (./~profile, ~/.zshrc) called REACT_APP_GOOGLE_API_KEY with the value of the test API key.
 
 ### Set up local configuration for AWS S3
 
 #### Core Team:
-* Log into AWS with root user (credentials are in the team 1Password)
-* Create a new user for yourself in the developer group in IAM
-  * You will need programmatic access
-  * No tags are required
-  * Be sure to add yourself to the developer group
+  * Log into AWS with root user (credentials are in the team 1Password)
+  * Create a new user for yourself in the developer group in IAM
+    * You will need programmatic access
+    * No tags are required
+    * Be sure to add yourself to the developer group
 
 #### Contributer:
-  * Ask a core team member to setup AWS credentials for you.
+  * Ask a Core Team member to setup AWS credentials for you.
 
 #### Everyone:
-* Save your login, access key ID and secret access key in your personal password manager
-* Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
+  * Save your login, access key ID and secret access key in your personal password manager
+  * Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
 
 ```json
 {
@@ -67,7 +67,7 @@ Using your text editor of choice, edit ```/etc/hosts``` file to add the followin
 
 ### Install local dependencies
 
-Run ```yarn install``` to install dependencies on host machine (as opposed to in the docker container; you will need these for running integration and unit tests)
+Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running integration and unit tests)
 
 ## Local development tasks
 
@@ -150,7 +150,7 @@ docker-compose run security-checks
 
 #### Docker Preferences
 
-If Docker is killing your jest tests Exit 137, you might need to increase memory that Docker is using under “Advanced” in Docker preferences. Here are the defaults we have:
+If Docker is killing your jest tests with Exit 137, you might need to increase memory that Docker is using. Under “Advanced” in Docker preferences, change your defaults to the following:
 ```
 CPUs: 4,
 Memory: 5.0 GB
