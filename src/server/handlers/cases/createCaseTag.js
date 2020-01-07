@@ -103,6 +103,7 @@ const checkIfTagExistsOnCase = async (caseId, tagId) => {
 };
 
 const validateTag = async request => {
+  console.log("Request body", request.body);
   if (!request.body.tagId && !request.body.tagName) {
     throw Boom.badData(BAD_DATA_ERRORS.MISSING_TAG_PARAMETERS);
   } else if (!request.body.tagId) {
