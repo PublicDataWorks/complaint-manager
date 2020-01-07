@@ -15,7 +15,7 @@ const createCaseTag = (values, caseId) => async dispatch => {
   if (_.isString(tagValue)) {
     requestBody.tagName = tagValue;
   } else {
-    requestBody.tagId = tagValue.value;
+    requestBody.tagId = tagValue;
   }
 
   try {

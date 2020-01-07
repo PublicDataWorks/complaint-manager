@@ -58,15 +58,18 @@ class CaseTagDialog extends Component {
           >
             Search for and select an existing tag or create a new one.
           </Typography>
-          <form onSubmit={handleSubmit(this.submit)}>
+          <form>
             <Field
-              name="caseTagValue"
-              component={Dropdown}
+              inputProps={{
+                "data-test": "caseTagDropdownInput"
+              }}
               data-test="caseTagDropdown"
-              style={{ width: "12rem" }}
+              component={DropdownSelect}
+              name="caseTagValue"
+              isCreatable={true}
               required
+              style={{ width: "12rem" }}
               validate={[caseTagRequired]}
-              freeSolo={true}
             >
               {generateMenuOptions(this.props.tags)}
             </Field>
