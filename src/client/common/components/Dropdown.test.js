@@ -48,50 +48,50 @@ describe("Dropdown test", () => {
     expect(autocomplete.length).toEqual(2);
   });
 
-  test("value passed in should be value of drop down", () => {
-    const inputValue = {
-      input: {
-        value: 2,
-        label: "label 2"
-      }
-    };
-
-    TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-      return (
-        <Field
-          label="TEST LABEL"
-          name="testDropdownID"
-          data-test="testDropdown"
-          inputProps={{ value: inputValue }}
-          component={Dropdown}
-        >
-          {children}
-        </Field>
-      );
-    });
-
-    wrapper = mount(
-      <Provider store={store}>
-        <Dialog open={true}>
-          <DialogContent>
-            <TestForm />
-          </DialogContent>
-        </Dialog>
-      </Provider>
-    );
-
-    const autocomplete = wrapper
-      .find('[data-test="testDropdown"]')
-      .first()
-      .find("ForwardRef(Autocomplete)")
-      .props();
-
-    wrapper.update();
-
-    console.log("autocomplete", autocomplete);
-
-    expect(autocomplete).toEqual(2);
-  });
+  // test("value passed in should be value of drop down", () => {
+  //   const inputValue = {
+  //     input: {
+  //       value: 2,
+  //       label: "label 2"
+  //     }
+  //   };
+  //
+  //   TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
+  //     return (
+  //       <Field
+  //         label="TEST LABEL"
+  //         name="testDropdownID"
+  //         data-test="testDropdown"
+  //         inputProps={{ value: inputValue }}
+  //         component={Dropdown}
+  //       >
+  //         {children}
+  //       </Field>
+  //     );
+  //   });
+  //
+  //   wrapper = mount(
+  //     <Provider store={store}>
+  //       <Dialog open={true}>
+  //         <DialogContent>
+  //           <TestForm />
+  //         </DialogContent>
+  //       </Dialog>
+  //     </Provider>
+  //   );
+  //
+  //   const autocomplete = wrapper
+  //     .find('[data-test="testDropdown"]')
+  //     .first()
+  //     .find("ForwardRef(Autocomplete)")
+  //     .props();
+  //
+  //   wrapper.update();
+  //
+  //   console.log("autocomplete", autocomplete);
+  //
+  //   expect(autocomplete).toEqual(2);
+  // });
 
   test("getSelectedValue should return existing option when given an input that is an existing option and freeSolo is false", () => {
     const props = {
