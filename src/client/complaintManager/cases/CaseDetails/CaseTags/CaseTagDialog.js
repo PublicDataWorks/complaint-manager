@@ -19,7 +19,9 @@ import createCaseTag from "../../thunks/createCaseTag";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../../formFieldLevelValidations";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
-import Dropdown from "../../../../common/components/Dropdown";
+import Dropdown, {
+  getSelectedValue
+} from "../../../../common/components/Dropdown";
 
 class CaseTagDialog extends Component {
   componentDidMount() {
@@ -28,7 +30,6 @@ class CaseTagDialog extends Component {
 
   submit = values => {
     const { caseId } = this.props;
-
     this.props.createCaseTag(values, caseId);
     this.props.reset(CASE_TAG_FORM_NAME);
   };
@@ -57,13 +58,12 @@ class CaseTagDialog extends Component {
           >
             Search for and select an existing tag or create a new one.
           </Typography>
-          <form>
+          <form onSubmit={handleSubmit(this.submit)}>
             <Field
               name="caseTagValue"
               component={Dropdown}
               data-test="caseTagDropdown"
               style={{ width: "12rem" }}
-              disableClearable={true}
               required
               validate={[caseTagRequired]}
               freeSolo={true}
