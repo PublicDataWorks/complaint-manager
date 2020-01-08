@@ -138,26 +138,48 @@ describe("Dropdown test", () => {
     expect(onChangeSpy).toHaveBeenCalledWith(1);
   });
 
-  test("getSelectedOption should return existing option when given an input that is an existing option", () => {
+  test("getSelectedOption should return existing option when given an input that is an existing option and freeSolo is false", () => {
     const props = {
       input: {
         value: 2,
         label: "label 2"
       }
     };
-    const selectedValue = getSelectedOption(props.input.value, children);
+    const selectedValue = getSelectedOption(props.input.value, children, false);
 
     expect(selectedValue).toEqual({ label: "label 2", value: 2 });
   });
 
-  test("getSelectedOption should return empty option when given an input that is new input", () => {
+  test("getSelectedOption should return existing option when given an existing input and freeSolo is true", () => {
+    const props = {
+      input: {
+        value: 2
+      }
+    };
+    const selectedValue = getSelectedOption(props.input.value, children, true);
+
+    expect(selectedValue).toEqual({ label: "label 2", value: 2 });
+  });
+
+  test("getSelectedOption should return empty option when given an input that is new input and freeSolo is false", () => {
     const props = {
       input: {
         value: "New string"
       }
     };
-    const selectedValue = getSelectedOption(props.input.value, children);
+    const selectedValue = getSelectedOption(props.input.value, children, false);
 
     expect(selectedValue).toEqual({ label: "", value: "" });
+  });
+
+  test("getSelectedOption should return a new object given an input that is not already an existing option and freesolo is true", () => {
+    const props = {
+      input: {
+        value: "New string"
+      }
+    };
+    const selectedValue = getSelectedOption(props.input.value, children, true);
+
+    expect(selectedValue).toEqual({ label: "New string", value: "New string" });
   });
 });
