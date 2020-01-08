@@ -19,9 +19,6 @@ import createCaseTag from "../../thunks/createCaseTag";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../../formFieldLevelValidations";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
-import Dropdown, {
-  getSelectedValue
-} from "../../../../common/components/Dropdown";
 
 class CaseTagDialog extends Component {
   componentDidMount() {
