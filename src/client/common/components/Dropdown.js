@@ -30,7 +30,7 @@ class Dropdown extends React.Component {
   };
 
   render() {
-    const { disableClearable, children, ...custom } = this.props;
+    const { children, ...custom } = this.props;
     const inputValue = this.props.input.value;
     const selectedValue = getSelectedOption(inputValue, children);
 
@@ -38,7 +38,7 @@ class Dropdown extends React.Component {
       <Autocomplete
         autoHighlight
         includeInputInList
-        disableClearable={disableClearable}
+        disableClearable={true}
         onChange={this.handleChange.bind(this)}
         value={selectedValue}
         options={children}
@@ -51,7 +51,8 @@ class Dropdown extends React.Component {
           }
         }}
         renderInput={params => {
-          return <TextField {...params} {...custom} />;
+          params.inputProps = { ...params.inputProps, ...custom.inputProps };
+          return <TextField {...params} />;
         }}
       />
     );

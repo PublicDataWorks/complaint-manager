@@ -10,7 +10,8 @@ import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {
   changeInput,
   expectEventuallyNotToExist,
-  selectDropdownOption
+  selectDropdownOption,
+  selectDropdownOptionMUI
 } from "../../../../testHelpers";
 import { DialogContent } from "@material-ui/core";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
@@ -177,12 +178,15 @@ describe("incident details", () => {
     const editIncidentTimeInput = wrapper.find(
       'input[data-test="editIncidentTimeInput"]'
     );
-    const editDistrict = wrapper.find('div[data-test="districtInput"]');
+
+    const editDistrict = wrapper
+      .find("[data-test='districtDropdown']")
+      .find("ForwardRef(Autocomplete)");
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
     expect(editIncidentDateInput.prop("value")).toEqual(incidentDate);
     expect(editIncidentTimeInput.prop("value")).toEqual(incidentTime);
-    expect(editDistrict.prop("value")).toEqual(2);
+    expect(editDistrict.prop("value").value).toEqual(2);
   });
 
   test("should submit form when Save is clicked", () => {
@@ -202,7 +206,7 @@ describe("incident details", () => {
       "1994-05-02"
     );
     changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00");
-    selectDropdownOption(
+    selectDropdownOptionMUI(
       wrapper,
       '[data-test="districtDropdown"]',
       "1st District"
