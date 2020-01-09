@@ -1,6 +1,10 @@
 "use strict";
 
 import models from "../complaintManager/models";
+import {
+  deleteDuplicateGenderIdentities,
+  transformDuplicateGenderIdentityId
+} from "../migrationJobs/transformDuplicateGenderIdentities";
 
 const LAST_GOOD_GENDER_IDENTITY_ID = 6;
 
@@ -9,57 +13,40 @@ module.exports = {
     const Op = Sequelize.Op;
 
     await queryInterface.sequelize.transaction(async transaction => {
+      const civiliansWithIncorrectGenderIdentityIds = await models.civilian.findAll(
+        {
+          where: {
+            gender_identity_id: { [Op.gt]: LAST_GOOD_GENDER_IDENTITY_ID }
+          }
+        }
+      );
       try {
-        const civiliansWithIncorrectGenderIdentityIds = await models.civilian.findAll(
-          {
-            where: {
-              gender_identity_id: { [Op.gt]: LAST_GOOD_GENDER_IDENTITY_ID }
-            }
-          }
+        await transformDuplicateGenderIdentityId(
+          civiliansWithIncorrectGenderIdentityIds,
+          LAST_GOOD_GENDER_IDENTITY_ID,
+          Op,
+          transaction
         );
+      } catch (error) {
+        console.log(error);
+      }
 
-        await civiliansWithIncorrectGenderIdentityIds.forEach(
-          async civilianRow => {
-            const genderIdentity = await models.gender_identity.findOne({
-              attributes: ["name"],
-              where: { id: civilianRow.genderIdentityId }
-            });
+      const duplicateRows = await models.gender_identity.findAll({
+        where: {
+          id: { [Op.gt]: LAST_GOOD_GENDER_IDENTITY_ID }
+        }
+      });
 
-            if (genderIdentity.name != null) {
-              const correctId = await models.gender_identity.findOne({
-                where: {
-                  name: genderIdentity.name,
-                  id: { [Op.lte]: LAST_GOOD_GENDER_IDENTITY_ID }
-                }
-              });
+      const originalRows = await models.gender_identity.findAll({
+        where: {
+          id: { [Op.lte]: LAST_GOOD_GENDER_IDENTITY_ID }
+        }
+      });
 
-              civilianRow.genderIdentityId = correctId.id;
-              civilianRow.save();
-            }
-          }
-        );
-
-        const duplicateRows = await models.gender_identity.findAll({
-          where: {
-            id: { [Op.gt]: LAST_GOOD_GENDER_IDENTITY_ID }
-          }
-        });
-
-        const originalRows = await models.gender_identity.findAll({
-          where: {
-            id: { [Op.lte]: LAST_GOOD_GENDER_IDENTITY_ID }
-          }
-        });
-
-        await duplicateRows.forEach(async duplicateRow => {
-          await originalRows.forEach(async originalRow => {
-            if (originalRow.name === duplicateRow.name) {
-              await duplicateRow.destroy();
-            }
-          });
-        });
-      } catch (e) {
-        console.error(e);
+      try {
+        await deleteDuplicateGenderIdentities(duplicateRows, originalRows, transaction);
+      }catch(error) {
+        console.log(error)
       }
     });
   },
