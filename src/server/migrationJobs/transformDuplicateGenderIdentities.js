@@ -1,4 +1,5 @@
 import models from "../complaintManager/models";
+import {deleteDuplicateRowsByName} from "./deleteDuplicateRowsByName";
 
 export const transformDuplicateGenderIdentityId = async (
   civiliansWithIncorrectGenderIdentityIds,
@@ -44,28 +45,4 @@ const updateDatabaseWithCorrectGenderIdentityId = async (
 ) => {
   civilianRow.genderIdentityId = correctId.id;
   await civilianRow.save({auditUser: "ThoughtWorks dev team"});
-};
-
-export const deleteDuplicateGenderIdentities = async (
-  duplicateRows,
-  originalRows,
-  transaction
-) => {
-
-    for (let i = 0; i < duplicateRows.length; i++) {
-      const duplicateRow = duplicateRows[i];
-      try {
-        for (let j = 0; j < originalRows.length; j++) {
-          const originalRow = originalRows[j];
-          if (originalRow.name === duplicateRow.name) {
-            await duplicateRow.destroy();
-          }
-        }
-      } catch (error) {
-        throw new Error(
-          `Error while deleting duplicate gender identities at gender identity with id ${duplicateRow.id}. \nInternal Error: ${error}`
-        )
-      }
-    }
-
 };
