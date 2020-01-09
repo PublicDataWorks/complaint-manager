@@ -4,10 +4,6 @@ import TextField from "@material-ui/core/TextField";
 import _ from "lodash";
 
 export const getSelectedOption = (inputValue, options, freeSolo) => {
-  console.log("Input Value", inputValue);
-  console.log("Options", options);
-  console.log("freeSolo", freeSolo);
-
   let indexOfSelectedValue = -1;
   // let inputValue = selectedInput.value.value
   //   ? selectedInput.value.value
@@ -32,14 +28,12 @@ export const getSelectedOption = (inputValue, options, freeSolo) => {
     selectedOption = options[indexOfSelectedValue];
   }
 
-  console.log("Selected option ", selectedOption);
   return selectedOption;
 };
 
-class Dropdown extends React.Component {
+class CreatableDropdown extends React.Component {
   constructor(props) {
     super(props);
-    console.log("Props", props);
     const selectedValue = getSelectedOption(
       props.input.value,
       props.children,
@@ -111,4 +105,4 @@ class Dropdown extends React.Component {
   }
 }
 
-export default Dropdown;
+export default CreatableDropdown;
