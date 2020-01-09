@@ -1,5 +1,5 @@
 import React from "react";
-import Dropdown, { getSelectedOption } from "./Dropdown";
+import CreatableDropdown, { getSelectedOption } from "./CreatableDropdown";
 import createConfiguredStore from "../../createConfiguredStore";
 import { Field, reduxForm } from "redux-form";
 import { mount } from "enzyme";
@@ -10,7 +10,7 @@ const children = [
   { label: "label 1", value: 1 },
   { label: "label 2", value: 2 }
 ];
-describe("Dropdown test", () => {
+describe("CreatableDropdown test", () => {
   let store, wrapper, TestForm;
   beforeEach(() => {
     store = createConfiguredStore();
@@ -21,7 +21,7 @@ describe("Dropdown test", () => {
           label="TEST LABEL"
           name="testDropdownID"
           data-test="testDropdown"
-          component={Dropdown}
+          component={CreatableDropdown}
         >
           {children}
         </Field>
@@ -56,7 +56,7 @@ describe("Dropdown test", () => {
           name="testDropdownID"
           data-test="testDropdown"
           input={{ value: 2 }}
-          component={Dropdown}
+          component={CreatableDropdown}
         >
           {children}
         </Field>
@@ -105,7 +105,7 @@ describe("Dropdown test", () => {
           name="testDropdownID"
           data-test="testDropdown"
           input={{ onChange: onChangeSpy }}
-          component={Dropdown}
+          component={CreatableDropdown}
         >
           {children}
         </Field>
