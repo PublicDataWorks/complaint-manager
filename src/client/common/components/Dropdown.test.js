@@ -43,7 +43,8 @@ describe("Dropdown test", () => {
     const autocomplete = wrapper
       .find('[data-test="testDropdown"]')
       .first()
-      .props().children;
+      .find("ForwardRef(Autocomplete)")
+      .props().options;
 
     expect(autocomplete.length).toEqual(2);
   });

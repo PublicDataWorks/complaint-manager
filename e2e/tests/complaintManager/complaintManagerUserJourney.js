@@ -228,7 +228,7 @@ if (TEST_PASS && TEST_USER) {
         .fillAddress()
         .setIncidentDate()
         .setIncidentTime()
-        .setDistrict("2")
+        .setDistrict(2)
         .saveIncidentDetails();
 
       snackbar

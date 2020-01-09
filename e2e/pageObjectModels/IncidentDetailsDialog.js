@@ -35,7 +35,7 @@ const incidentDetailsDialogCommands = {
     return this.waitForElementVisible("@districtDropdown", e2e.rerenderWait)
       .click("@districtDropdown")
       .waitForElementVisible("@districtMenu", e2e.rerenderWait)
-      .click(`li[data-value="${districtId}"]`)
+      .click({ selector: "@districtToSelect", index: districtId + 1 })
       .waitForElementNotPresent("@districtMenu", e2e.rerenderWait);
   }
 };
@@ -62,10 +62,13 @@ module.exports = {
       selector: '[data-test="editIncidentTimeInput"]'
     },
     districtDropdown: {
-      selector: '[data-test="districtDropdown"]'
+      selector: '[data-test="districtInput"]+div>button'
     },
     districtMenu: {
-      selector: '[id="districtId"]'
+      selector: ".MuiAutocomplete-popper"
+    },
+    districtToSelect: {
+      selector: "li"
     }
   }
 };

@@ -159,14 +159,12 @@ class IncidentDetailsDialog extends Component {
               <Field
                 label="District"
                 name="districtId"
-                component={DropdownSelect}
-                inputProps={{
-                  "data-test": "districtInput"
-                }}
+                component={Dropdown}
                 style={{
                   flex: "1"
                 }}
                 data-test="districtDropdown"
+                inputProps={{ "data-test": "districtInput" }}
               >
                 {generateMenuOptions(this.props.districts, "Unknown")}
               </Field>
@@ -192,7 +190,6 @@ class IncidentDetailsDialog extends Component {
                 data-test="intakeSourceDropdown"
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
-                disableClearable={true}
               >
                 {generateMenuOptions(props.intakeSources)}
               </Field>
@@ -205,7 +202,6 @@ class IncidentDetailsDialog extends Component {
                 hinttext="How did you hear about us?"
                 data-test="howDidYouHearAboutUsSourceDropdown"
                 style={{ width: "60%" }}
-                disableClearable={true}
               >
                 {generateMenuOptions(props.howDidYouHearAboutUsSources)}
               </Field>

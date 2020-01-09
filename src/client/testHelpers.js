@@ -5,6 +5,46 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
   input.simulate("change", { target: { value } });
 };
 
+export const findDropdownOptionMUI = (
+  mountedComponent,
+  dropdownSelector,
+  optionName
+) => {
+  // allows simulated clicks on Material UI Autocomplete options
+  // see documentation here: https://github.com/mui-org/material-ui/issues/15726
+  global.document.createRange = () => ({
+    setStart: () => {},
+    setEnd: () => {},
+    commonAncestorContainer: {
+      nodeName: "BODY",
+      ownerDocument: document
+    }
+  });
+
+  const autocomplete = mountedComponent
+    .find(dropdownSelector)
+    .first()
+    .find("ForwardRef(Autocomplete)");
+
+  const options = autocomplete.props().options;
+
+  const optionIndex = options
+    .map(option => {
+      return option.label;
+    })
+    .indexOf(optionName);
+
+  autocomplete
+    .find("ForwardRef(IconButton)")
+    .last()
+    .simulate("click");
+
+  mountedComponent
+    .find("ForwardRef(Popper)")
+    .find(`li[id$='option-${optionIndex}']`)
+    .simulate("click");
+};
+
 export const findDropdownOption = (
   mountedComponent,
   dropdownSelector,
@@ -38,6 +78,14 @@ export const selectDropdownOption = (
   optionName
 ) => {
   findDropdownOption(mountedComponent, dropdownSelector, optionName, false);
+};
+
+export const selectDropdownOptionMUI = (
+  mountedComponent,
+  dropdownSelector,
+  optionName
+) => {
+  findDropdownOptionMUI(mountedComponent, dropdownSelector, optionName);
 };
 
 export const selectCreatableDropdownOption = (
