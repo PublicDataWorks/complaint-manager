@@ -1,6 +1,8 @@
 "use strict";
 
 import models from "../complaintManager/models";
+import { deleteDuplicateRowsByName } from "../migrationJobs/deleteDuplicateRowsByName";
+import { transformDuplicateCaseNoteActionsId } from "../migrationJobs/transformDuplicateCaseNoteActions";
 
 const LAST_GOOD_CASE_NOTE_ACTION_ID = 18;
 
@@ -9,66 +11,43 @@ module.exports = {
     const Op = Sequelize.Op;
 
     await queryInterface.sequelize.transaction(async transaction => {
+      const caseNotesWithIncorrectActionIds = await models.case_note.findAll({
+        where: {
+          case_note_action_id: { [Op.gt]: LAST_GOOD_CASE_NOTE_ACTION_ID }
+        }
+      });
+
       try {
-        const caseNotesWithIncorrectActionIds = await models.case_note.findAll({
-          where: {
-            case_note_action_id: { [Op.gt]: LAST_GOOD_CASE_NOTE_ACTION_ID }
-          }
-        });
+        await transformDuplicateCaseNoteActionsId(
+          caseNotesWithIncorrectActionIds,
+          LAST_GOOD_CASE_NOTE_ACTION_ID,
+          Op,
+          transaction
+        )
+      } catch(error) {
+        console.log(error);
+      }
 
-        await caseNotesWithIncorrectActionIds.forEach(
-          async caseNoteRow => {
-            const actionName = await models.case_note_action.findOne({
-              attributes: ["name"],
-              where: { id: caseNoteRow.caseNoteActionId}
-            });
+      const duplicateRows = await models.case_note_action.findAll({
+        where: {
+          id: { [Op.gt]: LAST_GOOD_CASE_NOTE_ACTION_ID }
+        }
+      });
 
-            if(actionName.name != null) {
-              const correctId = await models.case_note_action.findOne({
-                where: {
-                  name: actionName.name,
-                  id: { [Op.lte]: LAST_GOOD_CASE_NOTE_ACTION_ID}
-                }
-              });
+      const originalRows = await models.case_note_action.findAll({
+        where: {
+          id: { [Op.lte]: LAST_GOOD_CASE_NOTE_ACTION_ID }
+        }
+      });
 
-              const user = caseNoteRow.user;
-
-              caseNoteRow.caseNoteActionId = correctId.id;
-              // const user = await models.case_note.findOne({
-              //   attributes: ["user"],
-              //   where: {
-              //     id: caseNoteRow.id
-              //   }
-              // });
-              caseNoteRow.save({
-                auditUser: user
-              });
-            }
-          }
+      try {
+        await deleteDuplicateRowsByName(
+          duplicateRows,
+          originalRows,
+          transaction
         );
-
-        const duplicateRows = await models.case_note_action.findAll({
-          where: {
-            id: { [Op.gt]: LAST_GOOD_CASE_NOTE_ACTION_ID}
-          }
-        });
-
-        const originalRows = await models.case_note_action.findAll({
-          where: {
-            id: { [Op.lte]: LAST_GOOD_CASE_NOTE_ACTION_ID}
-          }
-        });
-
-        await duplicateRows.forEach(async duplicateRow => {
-          await originalRows.forEach(async originalRow => {
-            if (originalRow.name === duplicateRow.name) {
-              await duplicateRow.destroy();
-            }
-          })
-        })
-
-      } catch (e) {
-        console.error(e);
+      } catch (error) {
+        console.log(error);
       }
     });
   },

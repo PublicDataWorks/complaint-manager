@@ -1,5 +1,4 @@
 import models from "../complaintManager/models";
-import {deleteDuplicateRowsByName} from "./deleteDuplicateRowsByName";
 
 export const transformDuplicateGenderIdentityId = async (
   civiliansWithIncorrectGenderIdentityIds,
@@ -24,8 +23,9 @@ export const transformDuplicateGenderIdentityId = async (
       });
 
       try {
-        await updateDatabaseWithCorrectGenderIdentityId(
+        await updateDatabaseWithCorrectAttributeId(
           civilianRow,
+          "genderIdentityId",
           correctId,
           transaction
         );
@@ -38,11 +38,12 @@ export const transformDuplicateGenderIdentityId = async (
   }
 };
 
-const updateDatabaseWithCorrectGenderIdentityId = async (
-  civilianRow,
+export const updateDatabaseWithCorrectAttributeId = async (
+  rowToUpdate,
+  attributeToUpdate,
   correctId,
   transaction
 ) => {
-  civilianRow.genderIdentityId = correctId.id;
-  await civilianRow.save({auditUser: "ThoughtWorks dev team"});
+  rowToUpdate[`${attributeToUpdate}`] = correctId.id;
+  await rowToUpdate.save({auditUser: "ThoughtWorks dev team"});
 };
