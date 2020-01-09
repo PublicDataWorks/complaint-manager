@@ -2,9 +2,9 @@
 
 import models from "../complaintManager/models";
 import {
-  deleteDuplicateGenderIdentities,
   transformDuplicateGenderIdentityId
 } from "../migrationJobs/transformDuplicateGenderIdentities";
+import {deleteDuplicateRowsByName} from "../migrationJobs/deleteDuplicateRowsByName";
 
 const LAST_GOOD_GENDER_IDENTITY_ID = 6;
 
@@ -44,7 +44,7 @@ module.exports = {
       });
 
       try {
-        await deleteDuplicateGenderIdentities(duplicateRows, originalRows, transaction);
+        await deleteDuplicateRowsByName(duplicateRows, originalRows, transaction);
       }catch(error) {
         console.log(error)
       }
