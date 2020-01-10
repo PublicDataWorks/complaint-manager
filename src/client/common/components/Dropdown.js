@@ -2,6 +2,7 @@ import React from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 import _ from "lodash";
+import FormControl from "@material-ui/core/FormControl";
 
 export const getSelectedOption = (inputValue, options) => {
   let selectedOption = {
@@ -30,31 +31,38 @@ class Dropdown extends React.Component {
   };
 
   render() {
-    const { children, ...custom } = this.props;
+    const { theme, children, ...custom } = this.props;
     const inputValue = this.props.input.value;
     const selectedValue = getSelectedOption(inputValue, children);
 
     return (
-      <Autocomplete
-        autoHighlight
-        includeInputInList
-        disableClearable={true}
-        onChange={this.handleChange.bind(this)}
-        value={selectedValue}
-        options={children}
-        autoSelect={true}
-        getOptionLabel={option => {
-          if (_.isString(option)) {
-            return option;
-          } else {
-            return option.label;
-          }
-        }}
-        renderInput={params => {
-          params.inputProps = { ...params.inputProps, ...custom.inputProps };
-          return <TextField {...params} />;
-        }}
-      />
+      <FormControl style={custom.style}>
+        <Autocomplete
+          autoHighlight
+          disableClearable={true}
+          onChange={this.handleChange.bind(this)}
+          value={selectedValue}
+          options={children}
+          getOptionLabel={option => {
+            if (_.isString(option)) {
+              return option;
+            } else {
+              return option.label;
+            }
+          }}
+          renderInput={params => {
+            params.inputProps = { ...params.inputProps, ...custom.inputProps };
+            return (
+              <TextField
+                fullWidth
+                {...params}
+                label={custom.label}
+                InputLabelProps={{ required: custom.required }}
+              />
+            );
+          }}
+        />
+      </FormControl>
     );
   }
 }
