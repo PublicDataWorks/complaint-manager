@@ -5,6 +5,7 @@ import { Field, reduxForm } from "redux-form";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { Dialog, DialogContent } from "@material-ui/core";
+import { findDropdownOptionMUI } from "../../testHelpers";
 
 const children = [
   { label: "label 1", value: 1 },
@@ -21,6 +22,7 @@ describe("Dropdown test", () => {
           label="TEST LABEL"
           name="testDropdownID"
           data-test="testDropdown"
+          input={{ value: 2 }}
           component={Dropdown}
         >
           {children}
@@ -50,30 +52,6 @@ describe("Dropdown test", () => {
   });
 
   test("value passed in should be value of drop down", () => {
-    TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-      return (
-        <Field
-          label="TEST LABEL"
-          name="testDropdownID"
-          data-test="testDropdown"
-          input={{ value: 2 }}
-          component={Dropdown}
-        >
-          {children}
-        </Field>
-      );
-    });
-
-    wrapper = mount(
-      <Provider store={store}>
-        <Dialog open={true}>
-          <DialogContent>
-            <TestForm />
-          </DialogContent>
-        </Dialog>
-      </Provider>
-    );
-
     const autocomplete = wrapper
       .find('[data-test="testDropdown"]')
       .first()
@@ -87,17 +65,6 @@ describe("Dropdown test", () => {
   });
 
   test("ensure input.onChange is happening on dropdown selection", () => {
-    // allows simulated clicks on Material UI Autocomplete options
-    // see documentation here: https://github.com/mui-org/material-ui/issues/15726
-    global.document.createRange = () => ({
-      setStart: () => {},
-      setEnd: () => {},
-      commonAncestorContainer: {
-        nodeName: "BODY",
-        ownerDocument: document
-      }
-    });
-
     const onChangeSpy = jest.fn();
     TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
       return (
@@ -123,18 +90,7 @@ describe("Dropdown test", () => {
       </Provider>
     );
 
-    wrapper
-      .find('[data-test="testDropdown"]')
-      .first()
-      .find("ForwardRef(Autocomplete)")
-      .find("ForwardRef(IconButton)")
-      .last()
-      .simulate("click");
-
-    wrapper
-      .find("ForwardRef(Portal)")
-      .find("[id$='option-0']")
-      .simulate("click");
+    findDropdownOptionMUI(wrapper, '[data-test="testDropdown"]', "label 1");
 
     expect(onChangeSpy).toHaveBeenCalledWith(1);
   });
