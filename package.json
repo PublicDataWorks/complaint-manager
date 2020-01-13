@@ -134,6 +134,7 @@
     "**/extend": "3.0.2",
     "**/eslint-utils": "1.4.1",
     "**/https-proxy-agent": "^3.0.0",
-    "**/serialize-javascript": "^2.1.1"
+    "**/serialize-javascript": "^2.1.1",
+    "**/tree-kill": "^1.2.2"
   }
 }
