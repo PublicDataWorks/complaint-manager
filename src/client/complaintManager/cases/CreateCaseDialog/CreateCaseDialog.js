@@ -18,7 +18,7 @@ import {
   CREATE_CASE_FORM_NAME
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
-import DropdownSelect from "../CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../../common/components/Dropdown";
 import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
@@ -136,11 +136,12 @@ const IntakeSource = props => {
     <Field
       required
       name="case.intakeSourceId"
-      component={DropdownSelect}
+      component={Dropdown}
       label="Intake Source"
       hinttext="Intake Source"
       data-test="intakeSourceDropdown"
       style={{ width: "50%" }}
+      inputProps={{ "data-test": "intakeSourceInput" }}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}

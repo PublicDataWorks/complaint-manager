@@ -4,24 +4,24 @@ const matrixDialogCommands = {
   dialogIsOpen: function() {
     return this.waitForElementVisible("@matrixDialog", e2e.rerenderWait);
   },
-  fillsInFirstReviewer: function(reviewerName) {
-    return this.waitForElementVisible(
+  fillsInFirstReviewer: function(reviewerNameId) {
+    return this.waitForElementPresent(
       "@firstReviewerDropdown",
       e2e.rerenderWait
     )
       .click("@firstReviewerDropdown")
-      .waitForElementVisible("@menu", e2e.rerenderWait)
-      .click(`li[data-value="${reviewerName}"]`)
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: reviewerNameId + 1 })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  fillsInSecondReviewer: function(reviewerName) {
-    return this.waitForElementVisible(
+  fillsInSecondReviewer: function(reviewerNameId) {
+    return this.waitForElementPresent(
       "@secondReviewerDropdown",
       e2e.rerenderWait
     )
       .click("@secondReviewerDropdown")
-      .waitForElementVisible("@menu", e2e.rerenderWait)
-      .click(`li[data-value="${reviewerName}"]`)
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: reviewerNameId + 1 })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   fillsInPIBControlNumber: function(pibControlNumber) {
@@ -44,15 +44,23 @@ module.exports = {
     matrixDialog: {
       selector: "[data-test='create-matrix-dialog-title']"
     },
+
     firstReviewerDropdown: {
-      selector: "[data-test='first-reviewer-dropdown']"
+      selector: "[data-test='firstReviewerInput'] + div > button"
     },
+
     secondReviewerDropdown: {
-      selector: "[data-test='second-reviewer-dropdown']"
+      selector: "[data-test='secondReviewerInput'] + div > button"
     },
-    usersList: { selector: "[role='listbox']" },
-    menu: { selector: "[data-test='menu-paper']" },
+
+    menu: { selector: ".MuiAutocomplete-popper" },
+
     pibControlNumber: { selector: "[data-test='pib-control-input']" },
-    createMatrixButton: { selector: "[data-test='create-and-search']" }
+
+    createMatrixButton: { selector: "[data-test='create-and-search']" },
+
+    toSelect: {
+      selector: "li"
+    }
   }
 };

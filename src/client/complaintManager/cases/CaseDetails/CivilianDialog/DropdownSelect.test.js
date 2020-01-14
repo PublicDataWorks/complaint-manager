@@ -65,8 +65,6 @@ describe("DropdownSelect test", () => {
       .first()
       .find("SelectContainer");
 
-    console.log("Select ", selectContainer.debug());
-
     expect(selectContainer.length).toEqual(2);
   });
 });

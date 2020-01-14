@@ -10,8 +10,7 @@ import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {
   changeInput,
   expectEventuallyNotToExist,
-  selectDropdownOption,
-  selectDropdownOptionMUI
+  selectDropdownOption
 } from "../../../../testHelpers";
 import { DialogContent } from "@material-ui/core";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
@@ -206,7 +205,7 @@ describe("incident details", () => {
       "1994-05-02"
     );
     changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00");
-    selectDropdownOptionMUI(
+    selectDropdownOption(
       wrapper,
       '[data-test="districtDropdown"]',
       "1st District"

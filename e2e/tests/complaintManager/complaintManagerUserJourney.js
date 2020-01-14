@@ -36,7 +36,7 @@ if (TEST_PASS && TEST_USER) {
         .setFirstName("Night")
         .setLastName("Watch")
         .setPhoneNumber("1234567890", browser)
-        .setIntakeSourceId("2")
+        .setIntakeSourceId(2)
         .submitCase();
 
       snackbar.presentWithMessage("successfully created").close();
@@ -101,9 +101,9 @@ if (TEST_PASS && TEST_USER) {
 
       civilianDialog
         .dialogIsOpen()
-        .setGenderIdentityId("4")
-        .setRaceEthnicityId("2")
-        .setTitle("2");
+        .setGenderIdentity(4)
+        .setRaceEthnicity(2)
+        .setTitle(2);
     },
 
     "should check civilian as anonymous in referral letter": browser => {
@@ -260,7 +260,7 @@ if (TEST_PASS && TEST_USER) {
 
       addCivilianWithinNopdDetailsPage
         .isOnPage()
-        .selectRole("Witness")
+        .selectRole(2)
         .submitCivilianWithinNopd();
 
       snackBar
@@ -280,7 +280,7 @@ if (TEST_PASS && TEST_USER) {
       caseDetailsPage.addAccusedOfficer();
     },
 
-    "should navigate to add officer form for unknown officer and add unknown officer": browser => {
+    "should navigate to add officer form for unknown officer and add unknown accused officer": browser => {
       const addOfficerSearchPage = browser.page.AddOfficerSearch();
       const addOfficerDetailsPage = browser.page.AddOfficerDetails();
 
@@ -288,7 +288,7 @@ if (TEST_PASS && TEST_USER) {
 
       addOfficerDetailsPage
         .isOnPageForUnknownOfficer()
-        .selectRole("Accused")
+        .selectRole(0)
         .submitOfficer();
     },
 
@@ -373,7 +373,7 @@ if (TEST_PASS && TEST_USER) {
 
       addOfficerDetailsPage
         .isOnPageForUnknownOfficer()
-        .selectRole("Accused")
+        .selectRole(0)
         .submitOfficer();
     },
 

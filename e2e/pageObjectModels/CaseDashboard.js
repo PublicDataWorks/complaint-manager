@@ -33,12 +33,11 @@ const caseDashboardCommands = {
     return this;
   },
   setIntakeSourceId: function(intakeSource) {
-    this.click("@intakeSourceDropdown")
-      .waitForElementVisible("@intakeSourceOption", e2e.roundtripWait)
-      .api.pause(e2e.animationPause);
-    return this.click(
-      `li[data-value="${intakeSource}"]`
-    ).waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
+    return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
+      .click("@intakeSourceDropdown")
+      .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
+      .click({ selector: "@intakeSourceToSelect", index: intakeSource + 1 })
+      .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {
     this.click("@createAndViewButton");
@@ -74,13 +73,13 @@ module.exports = {
       selector: "button[data-test=createAndView]"
     },
     intakeSourceDropdown: {
-      selector: "[data-test='intakeSourceDropdown'] > div > div"
+      selector: '[data-test="intakeSourceInput"]+div>button'
     },
     intakeSourceMenu: {
-      selector: "[id='menu-case.intakeSourceId']"
+      selector: ".MuiAutocomplete-popper"
     },
-    intakeSourceOption: {
-      selector: "[role='option']:last-child"
+    intakeSourceToSelect: {
+      selector: "li"
     }
   }
 };

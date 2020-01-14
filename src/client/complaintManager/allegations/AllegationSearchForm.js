@@ -2,7 +2,7 @@ import React from "react";
 import { change, Field, formValueSelector, reduxForm } from "redux-form";
 import validate from "./validateAllegationSearchForm";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../../sharedUtilities/constants";
-import DropdownSelect from "../cases/CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../common/components/Dropdown";
 import {
   searchParagraphMenu,
   searchRuleMenu
@@ -82,10 +82,10 @@ class AllegationSearchForm extends React.Component {
               onChange={clearParagraphValue}
               label="Rule"
               name="rule"
-              component={DropdownSelect}
+              component={Dropdown}
               data-test="ruleDropdown"
               inputProps={{
-                "data-test": "ruleField"
+                "data-test": "ruleInput"
               }}
               style={{ flex: "1", marginRight: "24px" }}
             >
@@ -95,8 +95,8 @@ class AllegationSearchForm extends React.Component {
               disabled={!currentRuleSelected}
               label="Paragraph"
               name="paragraph"
-              component={DropdownSelect}
-              inputProps={{ "data-test": "paragraphField" }}
+              component={Dropdown}
+              inputProps={{ "data-test": "paragraphInput" }}
               style={{ flex: "1", marginRight: "24px" }}
             >
               {currentRuleSelected || currentRuleSelected ? (
