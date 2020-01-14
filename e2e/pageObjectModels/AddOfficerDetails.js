@@ -11,7 +11,7 @@ const AddOfficerDetailsCommands = {
     return this.waitForElementPresent("@roleDropdown", e2e.rerenderWait)
       .click("@roleDropdown")
       .waitForElementPresent("@roleMenu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: roleId + 1 })
+      .click({ selector: "@toSelect", index: roleId })
       .waitForElementNotPresent("@roleMenu", e2e.rerenderWait);
   },
   submitOfficer: function() {

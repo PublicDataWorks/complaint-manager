@@ -32,6 +32,7 @@ class Dropdown extends React.Component {
 
   render() {
     const { children, ...parentProps } = this.props;
+    console.log("Options", children);
     const inputValue = this.props.input.value;
     const selectedOption = getSelectedOption(inputValue, children);
     const hasError =

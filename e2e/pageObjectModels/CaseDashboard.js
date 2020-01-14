@@ -36,7 +36,7 @@ const caseDashboardCommands = {
     return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
       .click("@intakeSourceDropdown")
       .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
-      .click({ selector: "@intakeSourceToSelect", index: intakeSource + 1 })
+      .click({ selector: "@intakeSourceToSelect", index: intakeSource })
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {
