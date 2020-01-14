@@ -35,7 +35,7 @@ const incidentDetailsDialogCommands = {
     return this.waitForElementVisible("@districtDropdown", e2e.rerenderWait)
       .click("@districtDropdown")
       .waitForElementVisible("@districtMenu", e2e.rerenderWait)
-      .click({ selector: "@districtToSelect", index: districtId + 1 })
+      .click({ selector: "@districtToSelect", index: districtId })
       .waitForElementNotPresent("@districtMenu", e2e.rerenderWait);
   }
 };

@@ -8,7 +8,7 @@ const civilianDialogCommands = {
     return this.waitForElementPresent("@genderDropdown", e2e.rerenderWait)
       .click("@genderDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: genderId + 1 })
+      .click({ selector: "@toSelect", index: genderId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   setRaceEthnicity: function(raceEthnicityId) {
@@ -18,14 +18,14 @@ const civilianDialogCommands = {
     )
       .click("@raceEthnicityDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: raceEthnicityId + 1 })
+      .click({ selector: "@toSelect", index: raceEthnicityId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   setTitle: function(titleId) {
     return this.waitForElementPresent("@titleDropdown", e2e.rerenderWait)
       .click("@titleDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: titleId + 1 })
+      .click({ selector: "@toSelect", index: titleId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   toggleIsAnonymous: function() {
