@@ -1,5 +1,5 @@
 import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 import _ from "lodash";
 import FormControl from "@material-ui/core/FormControl";
@@ -31,33 +31,37 @@ class Dropdown extends React.Component {
   };
 
   render() {
-    const { theme, children, ...custom } = this.props;
+    const { children, ...parentProps } = this.props;
     const inputValue = this.props.input.value;
-    const selectedValue = getSelectedOption(inputValue, children);
-
+    const selectedOption = getSelectedOption(inputValue, children);
+    const hasError =
+      parentProps.required &&
+      parentProps.meta.touched &&
+      parentProps.meta.invalid;
     return (
-      <FormControl style={custom.style}>
+      <FormControl style={parentProps.style}>
         <Autocomplete
           autoHighlight
           disableClearable={true}
           onChange={this.handleChange.bind(this)}
-          value={selectedValue}
+          value={selectedOption}
           options={children}
           getOptionLabel={option => {
-            if (_.isString(option)) {
-              return option;
-            } else {
-              return option.label;
-            }
+            return option.label;
           }}
           renderInput={params => {
-            params.inputProps = { ...params.inputProps, ...custom.inputProps };
+            params.inputProps = {
+              ...params.inputProps,
+              ...parentProps.inputProps
+            };
             return (
               <TextField
                 fullWidth
                 {...params}
-                label={custom.label}
-                InputLabelProps={{ required: custom.required }}
+                label={parentProps.label}
+                InputLabelProps={{ required: parentProps.required }}
+                helperText={hasError && parentProps.meta.error}
+                error={hasError}
               />
             );
           }}

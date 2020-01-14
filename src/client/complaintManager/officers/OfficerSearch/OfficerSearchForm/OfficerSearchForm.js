@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import DropdownSelect from "../../../cases/CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import validate from "./validateOfficerSearchForm";
@@ -63,9 +63,10 @@ class OfficerSearchForm extends Component {
             <Field
               label="District"
               name="districtId"
-              component={DropdownSelect}
+              component={Dropdown}
               data-test="districtField"
               style={{ flex: "1", marginRight: "24px", padding: "5px" }}
+              inputProps={{ "data-test": "districtInput" }}
             >
               {generateMenuOptions(props.districts, "Any District")}
             </Field>

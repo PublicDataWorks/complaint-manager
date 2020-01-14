@@ -5,7 +5,7 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
   input.simulate("change", { target: { value } });
 };
 
-export const findDropdownOptionMUI = (
+export const findDropdownOption = (
   mountedComponent,
   dropdownSelector,
   optionName
@@ -45,7 +45,7 @@ export const findDropdownOptionMUI = (
     .simulate("click");
 };
 
-export const findDropdownOption = (
+export const findDropdownOptionReactSelect = (
   mountedComponent,
   dropdownSelector,
   optionName,
@@ -72,20 +72,25 @@ export const findDropdownOption = (
     .onChange({ value: value });
 };
 
+export const selectDropdownOptionReactSelect = (
+  mountedComponent,
+  dropdownSelector,
+  optionName
+) => {
+  findDropdownOptionReactSelect(
+    mountedComponent,
+    dropdownSelector,
+    optionName,
+    true
+  );
+};
+
 export const selectDropdownOption = (
   mountedComponent,
   dropdownSelector,
   optionName
 ) => {
-  findDropdownOption(mountedComponent, dropdownSelector, optionName, false);
-};
-
-export const selectDropdownOptionMUI = (
-  mountedComponent,
-  dropdownSelector,
-  optionName
-) => {
-  findDropdownOptionMUI(mountedComponent, dropdownSelector, optionName);
+  findDropdownOption(mountedComponent, dropdownSelector, optionName);
 };
 
 export const selectCreatableDropdownOption = (

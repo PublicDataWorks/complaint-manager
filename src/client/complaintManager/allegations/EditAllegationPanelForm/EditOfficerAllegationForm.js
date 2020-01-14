@@ -11,7 +11,7 @@ import {
   allegationSeverityRequired
 } from "../../../formFieldLevelValidations";
 import { allegationSeverityMenu } from "../../utilities/generateMenuOptions";
-import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../../common/components/Dropdown";
 import { connect } from "react-redux";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
@@ -35,7 +35,7 @@ const EditOfficerAllegationForm = ({
           <div>
             <Field
               style={{ width: "15%", marginBottom: "32px" }}
-              component={DropdownSelect}
+              component={Dropdown}
               name="severity"
               inputProps={{
                 "data-test": "editAllegationSeverityInput"

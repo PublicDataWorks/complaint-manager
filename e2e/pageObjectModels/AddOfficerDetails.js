@@ -7,11 +7,11 @@ const AddOfficerDetailsCommands = {
       e2e.rerenderWait
     );
   },
-  selectRole: function(role) {
-    return this.waitForElementVisible("@roleDropdown", e2e.rerenderWait)
+  selectRole: function(roleId) {
+    return this.waitForElementPresent("@roleDropdown", e2e.rerenderWait)
       .click("@roleDropdown")
-      .waitForElementVisible("@roleMenu", e2e.rerenderWait)
-      .click(`li[data-value=${role}`)
+      .waitForElementPresent("@roleMenu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: roleId + 1 })
       .waitForElementNotPresent("@roleMenu", e2e.rerenderWait);
   },
   submitOfficer: function() {
@@ -28,13 +28,16 @@ module.exports = {
       selector: "[data-test='unknownOfficerMessage']"
     },
     roleDropdown: {
-      selector: '[data-test="roleOnCaseDropdown"] > div > div > div'
+      selector: '[data-test="roleOnCaseInput"] + div > button'
     },
     roleMenu: {
-      selector: '[id="roleOnCase"]'
+      selector: ".MuiAutocomplete-popper"
     },
     submitOfficerButton: {
       selector: '[data-test="officerSubmitButton"]'
+    },
+    toSelect: {
+      selector: "li"
     }
   }
 };

@@ -4,34 +4,29 @@ const civilianDialogCommands = {
   dialogIsOpen: function() {
     return this.waitForElementVisible("@dialogTitle", e2e.rerenderWait);
   },
-  setGenderIdentityId: function(gender) {
-    this.click("@genderDropdown")
-      .waitForElementPresent("@genderMenu", e2e.roundtripWait)
-      .waitForElementVisible("@menuOption", e2e.roundtripWait)
-      .api.pause(e2e.animationPause);
-    return this.click(`li[data-value="${gender}"]`).waitForElementNotPresent(
-      "@genderMenu",
-      e2e.rerenderWait
-    );
+  setGenderIdentity: function(genderId) {
+    return this.waitForElementPresent("@genderDropdown", e2e.rerenderWait)
+      .click("@genderDropdown")
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: genderId + 1 })
+      .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  setRaceEthnicityId: function(raceEthnicity) {
-    this.click("@raceEthnicityDropdown")
-      .waitForElementVisible("@raceEthnicityMenu", e2e.roundtripWait)
-      .waitForElementVisible("@menuOption", e2e.roundtripWait)
-      .api.pause(e2e.animationPause);
-    return this.click(
-      `li[data-value="${raceEthnicity}"]`
-    ).waitForElementNotPresent("@raceEthnicityMenu", e2e.rerenderWait);
-  },
-  setTitle: function(title) {
-    this.click("@titleDropdown")
-      .waitForElementVisible("@titleMenu", e2e.rerenderWait)
-      .waitForElementVisible("@menuOption", e2e.roundtripWait)
-      .api.pause(e2e.animationPause);
-    return this.click(`li[data-value="${title}"]`).waitForElementNotPresent(
-      "@titleMenu",
+  setRaceEthnicity: function(raceEthnicityId) {
+    return this.waitForElementPresent(
+      "@raceEthnicityDropdown",
       e2e.rerenderWait
-    );
+    )
+      .click("@raceEthnicityDropdown")
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: raceEthnicityId + 1 })
+      .waitForElementNotPresent("@menu", e2e.rerenderWait);
+  },
+  setTitle: function(titleId) {
+    return this.waitForElementPresent("@titleDropdown", e2e.rerenderWait)
+      .click("@titleDropdown")
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: titleId + 1 })
+      .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   toggleIsAnonymous: function() {
     return this.click("@isAnonymous");
@@ -96,19 +91,13 @@ module.exports = {
       selector: "[data-test='editDialogTitle']"
     },
     genderDropdown: {
-      selector: "[data-test='genderDropdown']"
-    },
-    genderMenu: {
-      selector: "[id='genderIdentityId']"
+      selector: '[data-test="genderInput"]+div>button'
     },
     raceEthnicityDropdown: {
-      selector: "[data-test='raceDropdown'] > div > div > div"
-    },
-    raceEthnicityMenu: {
-      selector: '[id="raceEthnicityId"]'
+      selector: '[data-test="raceEthnicityInput"]+div>button'
     },
     titleDropdown: {
-      selector: "[data-test='titleDropdown'] > div > div > div"
+      selector: '[data-test="titleInput"]+div>button'
     },
     titleMenu: {
       selector: "[id='civilianTitleId']"
@@ -142,6 +131,12 @@ module.exports = {
     },
     menuOption: {
       selector: "[role='option']:last-child"
+    },
+    menu: {
+      selector: ".MuiAutocomplete-popper"
+    },
+    toSelect: {
+      selector: "li"
     }
   }
 };
