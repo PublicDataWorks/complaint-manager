@@ -14,7 +14,7 @@ import {
 import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
-import DropdownSelect from "../CivilianDialog/DropdownSelect";
+import Dropdown from "../../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import addCaseNote from "../../thunks/addCaseNote";
 import { actionIsRequired } from "../../../../formFieldLevelValidations";
@@ -106,13 +106,14 @@ class CaseNoteDialog extends Component {
             <Field
               required
               name="caseNoteActionId"
-              component={DropdownSelect}
+              component={Dropdown}
               label={"Action Taken"}
               data-test="actionsDropdown"
               style={{
                 width: "75%",
                 marginBottom: "16px"
               }}
+              inputProps={{ "data-test": "actionTakenInput" }}
               validate={[actionIsRequired]}
             >
               {generateMenuOptions(this.props.caseNoteActions)}

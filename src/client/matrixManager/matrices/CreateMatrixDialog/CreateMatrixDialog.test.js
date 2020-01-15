@@ -136,10 +136,6 @@ describe("CreateMatrixDialog", () => {
       expect(firstReviewer.prop("children")).toEqual(
         expect.toIncludeSameMembers([
           expect.objectContaining({
-            label: "",
-            value: ""
-          }),
-          expect.objectContaining({
             label: "Jacob",
             value: "jacob@me.com"
           }),
@@ -165,10 +161,6 @@ describe("CreateMatrixDialog", () => {
 
       expect(firstReviewer.prop("children")).toEqual(
         expect.toIncludeSameMembers([
-          expect.objectContaining({
-            label: "",
-            value: ""
-          }),
           expect.objectContaining({
             label: "Jacob",
             value: "jacob@me.com"

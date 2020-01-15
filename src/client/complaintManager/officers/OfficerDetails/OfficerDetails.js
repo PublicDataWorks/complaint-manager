@@ -8,7 +8,7 @@ import {
 import { Field, reduxForm } from "redux-form";
 import styles from "../../../common/globalStyling/styles";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
-import DropdownSelect from "../../cases/CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../../common/components/Dropdown";
 import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
@@ -79,10 +79,10 @@ class OfficerDetails extends React.Component {
               <div style={{ marginBottom: "24px" }}>
                 <Field
                   inputProps={{
-                    "data-test": "roleOnCaseDropdownInput"
+                    "data-test": "roleOnCaseInput"
                   }}
                   data-test="roleOnCaseDropdown"
-                  component={DropdownSelect}
+                  component={Dropdown}
                   name="roleOnCase"
                   required
                   validate={[officerRoleRequired]}

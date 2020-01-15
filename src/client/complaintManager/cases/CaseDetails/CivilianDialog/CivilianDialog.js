@@ -28,7 +28,7 @@ import {
   raceEthnicityIsRequired,
   titleIsRequired
 } from "../../../../formFieldLevelValidations";
-import DropdownSelect from "./DropdownSelect";
+import Dropdown from "../../../../common/components/Dropdown";
 import { withTheme } from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
@@ -139,7 +139,7 @@ class CivilianDialog extends Component {
               <Field
                 required
                 name="civilianTitleId"
-                component={DropdownSelect}
+                component={Dropdown}
                 label="Title"
                 hinttext="Title"
                 data-test="titleDropdown"
@@ -147,6 +147,7 @@ class CivilianDialog extends Component {
                   width: "95px",
                   marginBottom: "3%"
                 }}
+                inputProps={{ "data-test": "titleInput" }}
                 validate={[titleIsRequired]}
               >
                 {generateMenuOptions(this.props.civilianTitles)}
@@ -196,7 +197,7 @@ class CivilianDialog extends Component {
               <Field
                 required
                 name="genderIdentityId"
-                component={DropdownSelect}
+                component={Dropdown}
                 label="Gender Identity"
                 hinttext="Gender Identity"
                 data-test="genderDropdown"
@@ -206,6 +207,7 @@ class CivilianDialog extends Component {
                   marginBottom: "3%",
                   marginLeft: "28px"
                 }}
+                inputProps={{ "data-test": "genderInput" }}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -213,11 +215,12 @@ class CivilianDialog extends Component {
             <Field
               required
               name="raceEthnicityId"
-              component={DropdownSelect}
+              component={Dropdown}
               label="Race/Ethnicity"
               hinttext="Race/Ethnicity"
               data-test="raceDropdown"
               style={{ width: "75%" }}
+              inputProps={{ "data-test": "raceEthnicityInput" }}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenuOptions(this.props.raceEthnicities)}

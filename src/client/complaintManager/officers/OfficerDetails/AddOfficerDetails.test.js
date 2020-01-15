@@ -58,7 +58,7 @@ describe("AddOfficerDetails", function() {
     wrapper.update();
     selectDropdownOption(wrapper, '[data-test="roleOnCaseDropdown"]', ACCUSED);
     wrapper.update();
-    let dropdown = wrapper.find('div[data-test="roleOnCaseDropdownInput"]');
+    let dropdown = wrapper.find('[data-test="roleOnCaseInput"]');
 
     expect(dropdown.prop("value")).toContain(ACCUSED);
     wrapper.unmount();
