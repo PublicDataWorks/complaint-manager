@@ -1,7 +1,6 @@
 import React from "react";
 import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
-import _ from "lodash";
 import FormControl from "@material-ui/core/FormControl";
 
 export const getSelectedOption = (inputValue, options) => {
@@ -42,11 +41,11 @@ class Dropdown extends React.Component {
     return (
       <FormControl style={parentProps.style}>
         <Autocomplete
-          autoHighlight
+          autoSelect={true}
           disableClearable={true}
           onChange={this.handleChange.bind(this)}
           value={selectedOption}
-          options={children}
+          options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
             return option.label;
           }}
