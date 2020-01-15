@@ -9,7 +9,6 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const createCaseTag = (values, caseId) => async dispatch => {
   const tagValue = values.caseTagValue;
-
   const requestBody = {};
 
   if (_.isString(tagValue)) {

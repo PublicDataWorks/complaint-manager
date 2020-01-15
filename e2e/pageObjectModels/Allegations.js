@@ -11,9 +11,12 @@ const AllegationsCommands = {
   setRule: function() {
     this.waitForElementVisible("@ruleDropdown", e2e.rerenderWait)
       .click("@ruleDropdown")
-      .waitForElementVisible("@ruleList", e2e.rerenderWait)
+      .waitForElementVisible("@menu", e2e.rerenderWait)
       .api.pause(e2e.dataLoadWait);
-    return this.click("@lastRule");
+    return this.click("@lastRule").waitForElementNotPresent(
+      "menu",
+      e2e.rerenderWait
+    );
   },
   searchForAllegations: function() {
     this.waitForElementVisible(
@@ -35,7 +38,7 @@ const AllegationsCommands = {
   setAllegationSeverity: function() {
     this.waitForElementVisible("@allegationSeverityDropdown", e2e.rerenderWait)
       .click("@allegationSeverityDropdown")
-      .waitForElementVisible("@allegationSeverityMenu", e2e.rerenderWait)
+      .waitForElementVisible("@menu", e2e.rerenderWait)
       .api.pause(e2e.dataLoadWait);
     return this.click("@firstAllegationSeverityOption");
   },
@@ -63,13 +66,13 @@ module.exports = {
       selector: '[data-test="pageTitle"]'
     },
     ruleDropdown: {
-      selector: '[data-test="ruleDropdown"] > div > div'
+      selector: '[data-test="ruleInput"]+div>button'
     },
-    ruleList: {
-      selector: '[role="listbox"]'
+    menu: {
+      selector: ".MuiAutocomplete-popper"
     },
     lastRule: {
-      selector: '[role="listbox"] > div > li:last-child'
+      selector: "li:last-child"
     },
     allegationSearchSubmitButton: {
       selector: '[data-test="allegationSearchSubmitButton"]'
@@ -81,14 +84,9 @@ module.exports = {
       selector: '[data-test="allegationDetailsInput"]'
     },
     allegationSeverityDropdown: {
-      selector: '[data-test="allegationSeverityField"]'
+      selector: '[data-test="allegationSeverityInput"]+div>button'
     },
-    allegationSeverityMenu: {
-      selector: '[role="listbox"]'
-    },
-    firstAllegationSeverityOption: {
-      selector: '[role="listbox"] > div > li:nth-child(2)'
-    },
+    firstAllegationSeverityOption: { selector: "li", index: 1 },
     addAllegationButton: {
       selector: '[data-test="addAllegationButton"]'
     },

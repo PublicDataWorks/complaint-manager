@@ -26,8 +26,6 @@ export const generateMenuOptions = (contents, extraMenuOption = null) => {
     menuOptionsArray.unshift({ label: extraMenuOption, value: "" });
   }
 
-  menuOptionsArray.unshift({ label: "", value: "" });
-
   return menuOptionsArray;
 };
 

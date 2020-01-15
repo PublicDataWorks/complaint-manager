@@ -7,11 +7,11 @@ const AddCivilainWithinNopdCommands = {
       e2e.rerenderWait
     );
   },
-  selectRole: function(role) {
-    return this.waitForElementVisible("@roleDropdown", e2e.rerenderWait)
+  selectRole: function(roleId) {
+    return this.waitForElementPresent("@roleDropdown", e2e.rerenderWait)
       .click("@roleDropdown")
-      .waitForElementVisible("@roleMenu", e2e.rerenderWait)
-      .click(`li[data-value=${role}`)
+      .waitForElementPresent("@roleMenu", e2e.rerenderWait)
+      .click({ selector: "@toSelect", index: roleId })
       .waitForElementNotPresent("@roleMenu", e2e.rerenderWait);
   },
   submitCivilianWithinNopd: function() {
@@ -26,13 +26,16 @@ module.exports = {
   commands: [AddCivilainWithinNopdCommands],
   elements: {
     roleDropdown: {
-      selector: '[data-test="roleOnCaseDropdown"] > div > div > div'
+      selector: '[data-test="roleOnCaseInput"] + div > button'
     },
     roleMenu: {
-      selector: '[id="roleOnCase"]'
+      selector: ".MuiAutocomplete-popper"
     },
     submitCivilianWithinNopdButton: {
       selector: '[data-test="officerSubmitButton"]'
+    },
+    toSelect: {
+      selector: "li"
     }
   }
 };

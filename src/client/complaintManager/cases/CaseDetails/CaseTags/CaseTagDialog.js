@@ -27,7 +27,6 @@ class CaseTagDialog extends Component {
 
   submit = values => {
     const { caseId } = this.props;
-
     this.props.createCaseTag(values, caseId);
     this.props.reset(CASE_TAG_FORM_NAME);
   };

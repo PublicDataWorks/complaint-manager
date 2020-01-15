@@ -16,7 +16,7 @@ import {
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import PIBControlField from "../../sharedFormComponents/PIBControlField";
-import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
+import Dropdown from "../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
 import getUsers from "../thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
@@ -78,10 +78,10 @@ class CreateMatrixDialog extends React.Component {
             <br />
             <Field
               inputProps={{
-                "data-test": "first-reviewer-dropdown-input"
+                "data-test": "firstReviewerInput"
               }}
               data-test="first-reviewer-dropdown"
-              component={DropdownSelect}
+              component={Dropdown}
               name="firstReviewer"
               label="First Reviewer"
               isCreatable={false}
@@ -94,10 +94,10 @@ class CreateMatrixDialog extends React.Component {
             <br />
             <Field
               inputProps={{
-                "data-test": "second-reviewer-dropdown-input"
+                "data-test": "secondReviewerInput"
               }}
               data-test="second-reviewer-dropdown"
-              component={DropdownSelect}
+              component={Dropdown}
               name="secondReviewer"
               label="Second Reviewer"
               isCreatable={false}

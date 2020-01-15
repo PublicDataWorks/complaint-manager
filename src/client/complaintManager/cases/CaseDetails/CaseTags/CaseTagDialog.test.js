@@ -9,7 +9,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import {
   containsText,
-  selectCreatableDropdownOption
+  selectDropdownOptionReactSelect
 } from "../../../../testHelpers";
 import mount from "enzyme/mount";
 import { reset } from "redux-form";
@@ -74,7 +74,7 @@ describe("CaseTagDialog", () => {
 
     dialog.update();
 
-    selectCreatableDropdownOption(
+    selectDropdownOptionReactSelect(
       dialog,
       '[data-test="caseTagDropdown"]',
       "testTagName"
