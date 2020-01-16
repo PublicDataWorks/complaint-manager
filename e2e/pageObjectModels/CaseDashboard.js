@@ -38,6 +38,7 @@ const caseDashboardCommands = {
         .click("@intakeSourceDropdown")
         .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
         //.click({ selector: "@intakeSourceToSelect", index: intakeSource })
+        .moveToElement("@intakeSourceToSelect", 20, 20)
         .click("@intakeSourceToSelect")
         .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait)
     );
@@ -82,7 +83,7 @@ module.exports = {
       selector: ".MuiAutocomplete-popper"
     },
     intakeSourceToSelect: {
-      selector: "li"
+      selector: '[data-option-index="2"]'
     }
   }
 };
