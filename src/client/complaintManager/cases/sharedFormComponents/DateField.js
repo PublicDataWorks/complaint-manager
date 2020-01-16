@@ -12,7 +12,7 @@ const DateField = ({ inputProps, style, clearable = false, ...fieldProps }) => {
       inputProps={{
         ...inputProps,
         style: {
-          paddingBottom: "2px"
+          paddingBottom: "6px"
         }
       }}
       style={style}

@@ -33,11 +33,14 @@ const caseDashboardCommands = {
     return this;
   },
   setIntakeSourceId: function(intakeSource) {
-    return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
-      .click("@intakeSourceDropdown")
-      .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
-      .click({ selector: "@intakeSourceToSelect", index: intakeSource })
-      .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
+    return (
+      this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
+        .click("@intakeSourceDropdown")
+        .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
+        //.click({ selector: "@intakeSourceToSelect", index: intakeSource })
+        .click("@intakeSourceToSelect")
+        .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait)
+    );
   },
   submitCase: function() {
     this.click("@createAndViewButton");
