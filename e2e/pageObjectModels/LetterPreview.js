@@ -18,7 +18,9 @@ const letterPreviewCommands = {
     ).click("@dialogEditButton");
   },
   clickSubmit: function() {
-    return this.click("@submitButton");
+    this.waitForElementPresent("@submitButton", e2e.rerenderWait).click(
+      "@submitButton"
+    );
   },
   confirmSubmit: function() {
     return this.waitForElementPresent(

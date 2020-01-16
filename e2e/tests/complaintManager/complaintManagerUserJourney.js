@@ -551,7 +551,9 @@ if (TEST_PASS && TEST_USER) {
       const caseDetails = browser.page.CaseDetails();
       const snackbar = browser.page.SnackbarPOM();
 
-      letterPreview.clickSubmit().confirmSubmit();
+      letterPreview.clickSubmit();
+
+      letterPreview.confirmSubmit();
 
       caseDetails.isOnPage();
 
