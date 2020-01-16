@@ -11,7 +11,7 @@ const matrixDialogCommands = {
     )
       .click("@firstReviewerDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: reviewerNameId + 1 })
+      .click({ selector: "@toSelect", index: reviewerNameId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   fillsInSecondReviewer: function(reviewerNameId) {
@@ -21,7 +21,7 @@ const matrixDialogCommands = {
     )
       .click("@secondReviewerDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: reviewerNameId + 1 })
+      .click({ selector: "@toSelect", index: reviewerNameId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   fillsInPIBControlNumber: function(pibControlNumber) {

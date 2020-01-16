@@ -24,7 +24,6 @@ import AddressInput from "../CivilianDialog/AddressInput";
 import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../../formValidations";
-import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
