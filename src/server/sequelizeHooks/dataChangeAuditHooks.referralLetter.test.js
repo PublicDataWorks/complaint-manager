@@ -5,6 +5,7 @@ import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   RECIPIENT,
+  RECIPIENT_ADDRESS,
   SENDER
 } from "../handlers/cases/referralLetters/referralLetterDefaults";
 
@@ -22,6 +23,7 @@ describe("dataChangeAuditHooks for referral letter", () => {
       .withId(undefined)
       .withCaseId(existingCase.id)
       .withRecipient(RECIPIENT)
+      .withRecipientAddress(RECIPIENT_ADDRESS)
       .withIncludeRetaliationConcerns(true)
       .withSender(SENDER);
 

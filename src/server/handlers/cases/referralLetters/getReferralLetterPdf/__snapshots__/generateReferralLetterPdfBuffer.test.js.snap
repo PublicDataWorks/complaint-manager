@@ -15,7 +15,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      Recipient Address<br/>
+      Recipient Title and Name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -39,11 +39,12 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    Recipient Title and Name</br>
     Recipient Address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint CC-2011-0099</strong></p>
     <p><br></p>
-    <p>Dear Recipient Address:</p>
+    <p>Dear Recipient Title and Name:</p>
     <p><br></p>
     <p> Letter Body </p>
     <p><br></p>
@@ -73,7 +74,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -97,11 +98,12 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint PO2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     Custom Letter HTML
     <p><br></p>
@@ -131,7 +133,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -155,11 +157,12 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint PO2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     
     <p><br></p>
@@ -189,7 +192,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' should updat
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -213,11 +216,12 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' should updat
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint AC2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     
     <p><br></p>
@@ -247,7 +251,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -271,11 +275,12 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint PO2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     Custom Letter HTML
     <p><br></p>
@@ -305,7 +310,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -329,11 +334,12 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint PO2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     
     <p><br></p>
@@ -363,7 +369,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is not inclu
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-      recipient address<br/>
+      recipient title and name<br/>
       July 01, 2018<br/>
       Page {{page}}
     </div>
@@ -387,11 +393,12 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is not inclu
     <p><br></p>
     July 01, 2018
     <p><br></p>
+    recipient title and name</br>
     recipient address
     <p><br></p>
     <p><strong>RE: Complaint Referral; OIPM Complaint PO2017-0001</strong></p>
     <p><br></p>
-    <p>Dear recipient address:</p>
+    <p>Dear recipient title and name:</p>
     <p><br></p>
     
     <p><br></p>

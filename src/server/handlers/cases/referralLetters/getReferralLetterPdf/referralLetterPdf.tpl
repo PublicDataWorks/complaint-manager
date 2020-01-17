@@ -12,7 +12,7 @@
       </div>
     </div>
     <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
-      {{{extractFirstLine recipient}}}<br/>
+      {{{recipient}}}<br/>
       {{{formatLongDate currentDate}}}<br/>
       Page \{{page}}
     </div>
@@ -36,11 +36,12 @@
     <p><br></p>
     {{{formatLongDate currentDate}}}
     <p><br></p>
-    {{{renderHtml (newLineToLineBreak recipient)}}}
+    {{{renderHtml recipient}}}</br>
+    {{{renderHtml (newLineToLineBreak recipientAddress)}}}
     <p><br></p>
     <p><strong>RE: {{{ generateSubjectLine caseReference pibCaseNumber}}}</strong></p>
     <p><br></p>
-    <p>Dear {{{extractFirstLine recipient}}}:</p>
+    <p>Dear {{{recipient}}}:</p>
     <p><br></p>
     {{{renderHtml letterBody}}}
     <p><br></p>

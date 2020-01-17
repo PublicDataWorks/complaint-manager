@@ -1,5 +1,6 @@
-export const RECIPIENT = `Deputy Superintendent Arlinda Westbrook
-Public Integrity Bureau
+export const RECIPIENT = `Deputy Superintendent Arlinda Westbrook`;
+
+export const RECIPIENT_ADDRESS = `Public Integrity Bureau
 New Orleans Police Department
 1340 Poydras St Suite 1900
 New Orleans, LA 70112`;

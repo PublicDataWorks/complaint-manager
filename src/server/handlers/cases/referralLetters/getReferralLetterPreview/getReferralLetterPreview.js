@@ -81,6 +81,7 @@ const getReferralLetterPreview = asyncMiddleware(
 
       let letterAddresses = {
         recipient: referralLetter.recipient,
+        recipientAddress: referralLetter.recipientAddress,
         sender: referralLetter.sender,
         transcribedBy: referralLetter.transcribedBy
       };

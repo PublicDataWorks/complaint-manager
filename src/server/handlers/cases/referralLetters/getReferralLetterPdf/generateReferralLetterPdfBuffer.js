@@ -83,7 +83,7 @@ const getReferralLetterPdfData = async (caseId, transaction) => {
       {
         model: models.referral_letter,
         as: "referralLetter",
-        attributes: ["recipient", "sender", "transcribedBy"]
+        attributes: ["recipient", "recipientAddress", "sender", "transcribedBy"]
       }
     ],
     transaction
@@ -108,6 +108,7 @@ export const generateLetterPdfHtml = (
   const letterPdfData = {
     letterBody: letterBody,
     recipient: pdfData.referralLetter.recipient,
+    recipientAddress: pdfData.referralLetter.recipientAddress,
     sender: pdfData.referralLetter.sender,
     transcribedBy: pdfData.referralLetter.transcribedBy,
     caseReference: pdfData.caseReference,
