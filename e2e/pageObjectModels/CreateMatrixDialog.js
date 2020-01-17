@@ -10,7 +10,8 @@ const matrixDialogCommands = {
       e2e.rerenderWait
     )
       .click("@firstReviewerDropdown")
-      .waitForElementVisible("@menu", e2e.rerenderWait)
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .moveToElement("@selectFirstReviewer", 20, 20)
       .click("@selectFirstReviewer")
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
@@ -20,7 +21,8 @@ const matrixDialogCommands = {
       e2e.rerenderWait
     )
       .click("@secondReviewerDropdown")
-      .waitForElementVisible("@menu", e2e.rerenderWait)
+      .waitForElementPresent("@menu", e2e.rerenderWait)
+      .moveToElement("@selectSecondReviewer", 20, 20)
       .click("@selectSecondReviewer")
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
