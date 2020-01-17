@@ -25,7 +25,10 @@ describe("getReferralLetterPreview", function() {
     getAccessToken.mockImplementation(() => "TOKEN");
     const responseBody = {
       letterHtml: "html string",
-      addresses: { recipient: "recipient" },
+      addresses: {
+        recipient: "recipient",
+        recipientAddress: "recipient address"
+      },
       caseDetails: { status: "Letter in Progress", id: 5 },
       editStatus: EDIT_STATUS.GENERATED,
       lastEdited: null,

@@ -88,6 +88,7 @@ describe("LetterPreview", function() {
         {
           sender: "bob",
           recipient: "jane",
+          recipientAddress: "jane's address",
           transcribedBy: "joe"
         },
         EDIT_STATUS.GENERATED,
@@ -122,6 +123,7 @@ describe("LetterPreview", function() {
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
+      recipientAddress: "jane's address",
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -139,6 +141,7 @@ describe("LetterPreview", function() {
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
+      recipientAddress: "jane's address",
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -154,6 +157,7 @@ describe("LetterPreview", function() {
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
+      recipientAddress: "jane's address",
       transcribedBy: "transcriber"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -198,6 +202,7 @@ describe("LetterPreview", function() {
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
+      recipientAddress: "jane's address",
       transcribedBy: "transcriber"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -287,6 +292,7 @@ describe("LetterPreview", function() {
     const expectedFormValues = {
       sender: "bob",
       recipient: "jane",
+      recipientAddress: "jane's address",
       transcribedBy: "joe"
     };
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -503,6 +509,7 @@ describe("LetterPreview", function() {
       expectedFormValues = {
         sender: "bob",
         recipient: "jane",
+        recipientAddress: "jane's address",
         transcribedBy: "joe"
       };
     });
@@ -584,6 +591,7 @@ describe("LetterPreview", function() {
         {
           sender: "bob",
           recipient: "jane",
+          recipientAddress: "jane's address",
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,
@@ -608,6 +616,7 @@ describe("LetterPreview", function() {
         {
           sender: "bob",
           recipient: "jane",
+          recipientAddress: "jane's address",
           transcribedBy: "joe"
         },
         `/cases/${caseId}/letter/edit-letter`
@@ -622,6 +631,7 @@ describe("LetterPreview", function() {
         {
           sender: "bob",
           recipient: "jane",
+          recipientAddress: "jane's address",
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,
@@ -693,6 +703,7 @@ describe("LetterPreview", function() {
         {
           sender: "bob",
           recipient: "jane",
+          recipientAddress: "jane's address",
           transcribedBy: "joe"
         },
         EDIT_STATUS.EDITED,
