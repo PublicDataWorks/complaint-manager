@@ -4,24 +4,24 @@ const matrixDialogCommands = {
   dialogIsOpen: function() {
     return this.waitForElementVisible("@matrixDialog", e2e.rerenderWait);
   },
-  fillsInFirstReviewer: function(reviewerNameId) {
+  fillsInFirstReviewer: function() {
     return this.waitForElementPresent(
       "@firstReviewerDropdown",
       e2e.rerenderWait
     )
       .click("@firstReviewerDropdown")
-      .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: reviewerNameId })
+      .waitForElementVisible("@menu", e2e.rerenderWait)
+      .click("@selectFirstReviewer")
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  fillsInSecondReviewer: function(reviewerNameId) {
+  fillsInSecondReviewer: function() {
     return this.waitForElementPresent(
       "@secondReviewerDropdown",
       e2e.rerenderWait
     )
       .click("@secondReviewerDropdown")
-      .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: reviewerNameId })
+      .waitForElementVisible("@menu", e2e.rerenderWait)
+      .click("@selectSecondReviewer")
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   fillsInPIBControlNumber: function(pibControlNumber) {
@@ -59,8 +59,12 @@ module.exports = {
 
     createMatrixButton: { selector: "[data-test='create-and-search']" },
 
-    toSelect: {
-      selector: "li"
+    selectFirstReviewer: {
+      selector: '[data-option-index="0"]'
+    },
+
+    selectSecondReviewer: {
+      selector: '[data-option-index="3"]'
     }
   }
 };
