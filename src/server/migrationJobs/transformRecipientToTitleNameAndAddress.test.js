@@ -9,7 +9,7 @@ import {
   getAddressOf
 } from "./transformRecipientToTitleNameAndAddress";
 
-describe("should transform recipient into title/name and recipient fields", () => {
+describe("transforming recipient into title/name and address fields", () => {
   let existingCase,
     referralLetters,
     referralLetterWithRecipientAddress,

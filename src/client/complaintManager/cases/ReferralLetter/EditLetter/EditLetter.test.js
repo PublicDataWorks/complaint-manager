@@ -49,6 +49,7 @@ describe("Edit Letter Html", () => {
       getReferralLetterPreviewSuccess(initialLetterHtml, {
         sender: "bob",
         recipient: "jane",
+        recipientAddress: "jane's address",
         transcribedBy: "joe"
       })
     );
