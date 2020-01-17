@@ -33,15 +33,12 @@ const caseDashboardCommands = {
     return this;
   },
   setIntakeSourceId: function(intakeSource) {
-    return (
-      this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
-        .click("@intakeSourceDropdown")
-        .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
-        //.click({ selector: "@intakeSourceToSelect", index: intakeSource })
-        .moveToElement("@intakeSourceToSelect", 20, 20)
-        .click("@intakeSourceToSelect")
-        .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait)
-    );
+    return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
+      .click("@intakeSourceDropdown")
+      .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
+      .moveToElement("@intakeSourceToSelect", 20, 20)
+      .click("@intakeSourceToSelect")
+      .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {
     this.click("@createAndViewButton");
