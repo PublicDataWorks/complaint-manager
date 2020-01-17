@@ -83,7 +83,8 @@ describe("Approve referral letter", () => {
       .defaultReferralLetter()
       .withId(undefined)
       .withCaseId(existingCase.id)
-      .withRecipient("recipient address")
+      .withRecipient("recipient title and name")
+      .withRecipientAddress("recipient address")
       .withSender("sender address")
       .withTranscribedBy("transcriber")
       .withIncludeRetaliationConcerns(true);

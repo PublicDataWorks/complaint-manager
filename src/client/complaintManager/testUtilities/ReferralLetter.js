@@ -4,6 +4,7 @@ class ReferralLetter {
     this.caseId = build.caseId;
     this.includeRetaliationConcerns = build.includeRetaliationConcerns;
     this.recipient = build.recipient;
+    this.recipientAddress = build.recipientAddress;
     this.sender = build.sender;
     this.transcribedBy = build.transcribedBy;
     this.editedLetterHtml = build.editedLetterHtml;
@@ -38,6 +39,11 @@ class ReferralLetter {
 
       withRecipient(recipient) {
         this.recipient = recipient;
+        return this;
+      }
+
+      withRecipientAddress(recipientAddress) {
+        this.recipientAddress = recipientAddress;
         return this;
       }
 

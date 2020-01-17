@@ -1,4 +1,8 @@
-import { RECIPIENT, SENDER } from "../referralLetters/referralLetterDefaults";
+import {
+  RECIPIENT,
+  SENDER,
+  RECIPIENT_ADDRESS
+} from "../referralLetters/referralLetterDefaults";
 import {
   ACCUSED,
   USER_PERMISSIONS
@@ -133,6 +137,7 @@ const createReferralLetterAndLetterOfficers = async (
     {
       caseId: caseToUpdate.id,
       recipient: RECIPIENT,
+      recipientAddress: RECIPIENT_ADDRESS,
       sender: SENDER
     },
     { auditUser: nickname, transaction }
