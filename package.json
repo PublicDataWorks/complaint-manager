@@ -67,7 +67,7 @@
     "file-saver": "~2.0.1",
     "handlebars": "^4.5.2",
     "helmet": "^3.21.1",
-    "history": "~4.9.0",
+    "history": "~4.10.1",
     "html-pdf": "~2.2.0",
     "jsonwebtoken": "~8.5.0",
     "jwks-rsa": "1.6.0",
