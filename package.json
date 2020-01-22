@@ -115,7 +115,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "~7.5.5",
     "child-process-promise": "^2.2.1",
-    "concurrently": "~4.1.0",
+    "concurrently": "~5.0.2",
     "enzyme": "~3.10.0",
     "enzyme-adapter-react-16": "~1.14.0",
     "enzyme-to-json": "~3.4.0",
