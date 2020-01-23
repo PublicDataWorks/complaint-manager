@@ -64,6 +64,7 @@ describe("Edit referral letter addresses", () => {
       );
       const requestBody = {
         recipient: "some recipient",
+        recipientAddress: "some recipient address",
         sender: "some sender",
         transcribedBy: "some transcriber"
       };
@@ -83,6 +84,9 @@ describe("Edit referral letter addresses", () => {
       await referralLetter.reload();
 
       expect(referralLetter.recipient).toEqual(requestBody.recipient);
+      expect(referralLetter.recipientAddress).toEqual(
+        requestBody.recipientAddress
+      );
       expect(referralLetter.sender).toEqual(requestBody.sender);
       expect(referralLetter.transcribedBy).toEqual(requestBody.transcribedBy);
     });

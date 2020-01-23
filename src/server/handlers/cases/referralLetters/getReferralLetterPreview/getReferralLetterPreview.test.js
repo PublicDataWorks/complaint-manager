@@ -79,7 +79,8 @@ describe("getReferralLetterPreview", function() {
       .defaultReferralLetter()
       .withId(undefined)
       .withCaseId(existingCase.id)
-      .withRecipient("recipient address")
+      .withRecipient("recipient title and name")
+      .withRecipientAddress("recipient address")
       .withSender("sender address")
       .withTranscribedBy("transcriber")
       .withIncludeRetaliationConcerns(true)
@@ -112,7 +113,8 @@ describe("getReferralLetterPreview", function() {
       await getReferralLetterPreview(request, response, next);
       const responseBody = response._getData();
       expect(responseBody.addresses).toEqual({
-        recipient: "recipient address",
+        recipient: "recipient title and name",
+        recipientAddress: "recipient address",
         sender: "sender address",
         transcribedBy: "transcriber"
       });

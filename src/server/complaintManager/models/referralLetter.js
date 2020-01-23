@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       recipient: {
         type: DataTypes.TEXT
       },
+      recipientAddress: {
+        type: DataTypes.TEXT,
+        field: "recipient_address"
+      },
       sender: {
         type: DataTypes.TEXT
       },

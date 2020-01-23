@@ -14,6 +14,7 @@ describe("editReferralLetterAddresses", () => {
   configureInterceptors({ dispatch });
   const addressData = {
     recipient: "bob",
+    recipientAddress: "bob's address",
     sender: "jane",
     transcribedBy: "smith"
   };

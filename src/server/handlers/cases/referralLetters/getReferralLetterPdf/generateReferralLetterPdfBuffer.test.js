@@ -98,7 +98,8 @@ describe("generateReferralLetterPdfBuffer", function() {
         .defaultReferralLetter()
         .withId(undefined)
         .withCaseId(existingCase.id)
-        .withRecipient("recipient address")
+        .withRecipient("recipient title and name")
+        .withRecipientAddress("recipient address")
         .withSender("sender address")
         .withTranscribedBy("transcriber")
         .withIncludeRetaliationConcerns(true);
@@ -114,7 +115,8 @@ describe("generateReferralLetterPdfBuffer", function() {
       const letterBody = "<p> Letter Body </p>";
       const pdfData = {
         referralLetter: {
-          recipient: "Recipient Address",
+          recipient: "Recipient Title and Name",
+          recipientAddress: "Recipient Address",
           sender: "Sender Address\n Sender Address Second Line",
           transcribedBy: "Transcriber"
         },
@@ -232,7 +234,8 @@ describe("generateReferralLetterPdfBuffer", function() {
         .defaultReferralLetter()
         .withId(undefined)
         .withCaseId(existingCase.id)
-        .withRecipient("recipient address")
+        .withRecipient("recipient title and name")
+        .withRecipientAddress("recipient address")
         .withSender("Stella Cziment")
         .withTranscribedBy("transcriber")
         .withIncludeRetaliationConcerns(true);

@@ -13,6 +13,7 @@ const editReferralLetterAddresses = asyncMiddleware(
     await referralLetter.update(
       {
         recipient: request.body.recipient,
+        recipientAddress: request.body.recipientAddress,
         sender: request.body.sender,
         transcribedBy: request.body.transcribedBy
       },
