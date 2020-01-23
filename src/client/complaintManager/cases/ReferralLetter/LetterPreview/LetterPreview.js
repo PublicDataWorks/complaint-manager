@@ -220,6 +220,16 @@ class LetterPreview extends Component {
               style={{ flex: 4 }}
               name="recipient"
               component={renderTextField}
+              label="Title and Name"
+              fullWidth
+              multiline
+              rowsMax={5}
+              style={{ marginBottom: "16px" }}
+            />
+            <Field
+              style={{ flex: 4 }}
+              name="recipientAddress"
+              component={renderTextField}
               label="Address To"
               fullWidth
               multiline

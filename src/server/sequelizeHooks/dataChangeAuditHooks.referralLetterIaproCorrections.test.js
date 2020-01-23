@@ -3,6 +3,7 @@ import models from "../complaintManager/models";
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import {
   RECIPIENT,
+  RECIPIENT_ADDRESS,
   SENDER
 } from "../handlers/cases/referralLetters/referralLetterDefaults";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -23,6 +24,7 @@ describe("dataChangeAuditHooks for referral letter iapro correction", () => {
       .withId(undefined)
       .withCaseId(existingCase.id)
       .withRecipient(RECIPIENT)
+      .withRecipientAddress(RECIPIENT_ADDRESS)
       .withIncludeRetaliationConcerns(true)
       .withSender(SENDER);
     referralLetter = await models.referral_letter.create(

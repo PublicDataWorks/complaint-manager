@@ -1,5 +1,4 @@
 import {
-  extractFirstLine,
   formatAddress,
   generateSignature,
   generateSubjectLine,
@@ -352,34 +351,9 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("extractFirstLine", function() {
-    test("should return an empty string when given an empty string", () => {
-      const emptyString = "";
-      const expectedResult = "";
-      expect(extractFirstLine(emptyString)).toEqual(expectedResult);
-    });
-
-    test("should return an empty string when given null", () => {
-      expect(extractFirstLine(null)).toEqual("");
-    });
-
-    test("should return an empty string when given undefined", () => {
-      expect(extractFirstLine(undefined)).toEqual("");
-    });
-
-    test("should extract first line of text", () => {
-      const stringWithMultipleLines = "first line\nsecond line\nthird line";
-      const expectedFirstLine = "first line";
-      const extractedFirstLine = extractFirstLine(stringWithMultipleLines);
-      expect(extractedFirstLine).toEqual(expectedFirstLine);
-    });
-  });
-
   describe("generateSignature", function() {
     const blankLine = "<p><br></p>";
-    const signaturePath = `<img style="max-height: 55px" src=${
-      SIGNATURE_URLS.STELLA
-    } />`;
+    const signaturePath = `<img style="max-height: 55px" src=${SIGNATURE_URLS.STELLA} />`;
     const stellaSender = "Stella Cziment\nDPM";
 
     test("returns an blank line without signature when includeSignature is false", () => {

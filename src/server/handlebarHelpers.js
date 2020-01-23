@@ -118,14 +118,6 @@ export const newLineToLineBreak = text => {
 };
 Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
 
-export const extractFirstLine = text => {
-  if (!text) {
-    return "";
-  }
-  return text.split("\n")[0];
-};
-Handlebars.registerHelper("extractFirstLine", extractFirstLine);
-
 export const generateSignature = (sender, includeSignature) => {
   if (includeSignature && sender.includes("Stella Cziment")) {
     return `<img style="max-height: 55px" src=${SIGNATURE_URLS.STELLA} />`;
