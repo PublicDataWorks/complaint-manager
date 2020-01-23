@@ -24,29 +24,33 @@ describe("transforming recipient into title/name and address fields", () => {
       auditUser: "test"
     });
 
+    const referralLetterAttributesForSomeone = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withRecipient(
+        "recipient title and name\nrecipient address\nrecipient address"
+      )
+      .withTranscribedBy("transcriber")
+      .withIncludeRetaliationConcerns(true);
+    
+    const referralLetterAttributesForSomeoneElse = new ReferralLetter.Builder()
+      .defaultReferralLetter()
+      .withId(undefined)
+      .withCaseId(existingCase.id)
+      .withRecipient("recipient title and name")
+      .withRecipientAddress("recipient address\nrecipient address")
+      .withTranscribedBy("transcriber")
+      .withIncludeRetaliationConcerns(true);
+
     referralLetterWithoutRecipientAddress = await models.referral_letter.create(
-      new ReferralLetter.Builder()
-        .defaultReferralLetter()
-        .withId(undefined)
-        .withCaseId(existingCase.id)
-        .withRecipient(
-          "recipient title and name\nrecipient address\nrecipient address"
-        )
-        .withTranscribedBy("transcriber")
-        .withIncludeRetaliationConcerns(true),
+      referralLetterAttributesForSomeone,
       { auditUser: "someone" }
     );
 
     referralLetterWithRecipientAddress = await models.referral_letter.create(
-      new ReferralLetter.Builder()
-        .defaultReferralLetter()
-        .withId(undefined)
-        .withCaseId(existingCase.id)
-        .withRecipient("recipient title and name")
-        .withRecipientAddress("recipient address\nrecipient address")
-        .withTranscribedBy("transcriber")
-        .withIncludeRetaliationConcerns(true),
-      { auditUser: "someone else" }
+      referralLetterAttributesForSomeoneElse,
+        { auditUser: "someone else" }
     );
 
     referralLetters = await models.sequelize.query(selectReferralLettersQuery, {
