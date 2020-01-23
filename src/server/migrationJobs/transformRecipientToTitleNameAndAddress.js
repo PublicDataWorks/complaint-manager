@@ -2,11 +2,15 @@ import models from "../complaintManager/models";
 import _ from "lodash";
 
 export const getTitleAndNameOf = recipientInformation => {
-  return recipientInformation.substring(0, recipientInformation.indexOf("\n"));
+  return !!recipientInformation
+    ? recipientInformation.substring(0, recipientInformation.indexOf("\n"))
+    : "";
 };
 
 export const getAddressOf = recipientInformation => {
-  return recipientInformation.substring(recipientInformation.indexOf("\n") + 1);
+  return !!recipientInformation
+    ? recipientInformation.substring(recipientInformation.indexOf("\n") + 1)
+    : "";
 };
 
 export const transformRecipientToTitleNameAndAddress = async (
