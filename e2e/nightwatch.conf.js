@@ -32,7 +32,13 @@ module.exports = {
       }
     },
     local: {
-      launch_url: "https://app-e2e/"
+      launch_url: "https://app-e2e/",
+      desiredCapabilities: {
+        browserName: "chrome",
+        chromeOptions: {
+          args: ["--headless", "--no-sandbox", "--ignore-certificate-errors"]
+        }
+      }
     },
     ci: {
       launch_url: "https://noipm-ci.herokuapp.com/"
