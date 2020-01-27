@@ -64,7 +64,7 @@ const styles = {
     width: "100%"
   },
   drawer: {
-    width: 550
+    width: 350
   }
 };
 

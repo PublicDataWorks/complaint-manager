@@ -15,12 +15,7 @@ import MenuNavigator from "./MenuNavigator";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
-import Drawer from "@material-ui/core/Drawer";
-import withStyles from "@material-ui/core/styles/withStyles";
-
-const style = {
-  paper: styles.drawer
-};
+import NotificationDrawer from "./NotificationDrawer";
 
 class NavBar extends Component {
   state = {
@@ -90,15 +85,10 @@ class NavBar extends Component {
               <NotificationsIcon />
             </IconButton>
           ) : null}
-          <StyledDrawer
+          <NotificationDrawer
             open={this.state.notificationDrawer}
-            onBackdropClick={this.handleNotificationClick}
-            variant="temporary"
-            anchor="right"
-            data-test="notificationDrawer"
-          >
-            {"You have no new notifications."}
-          </StyledDrawer>
+            onClose={this.handleNotificationClick}
+          />
           <IconButton
             color="inherit"
             data-test="gearButton"
@@ -123,8 +113,6 @@ class NavBar extends Component {
     );
   }
 }
-
-const StyledDrawer = withStyles(style)(Drawer);
 
 NavBar.defaultProps = {
   showHome: true,
