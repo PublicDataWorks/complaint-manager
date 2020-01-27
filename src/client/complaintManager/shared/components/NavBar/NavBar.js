@@ -14,6 +14,7 @@ import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import MenuNavigator from "./MenuNavigator";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import standards from "../../../../common/globalStyling/standards";
+import Drawer from "@material-ui/core/Drawer";
 
 const styles = {
   appBarStyle: {
@@ -26,7 +27,8 @@ class NavBar extends Component {
   state = {
     menuOpen: false,
     anchorEl: null,
-    exportDialogOpen: false
+    exportDialogOpen: false,
+    notificationDrawer: false
   };
 
   handleMenuOpen = event => {
@@ -40,6 +42,12 @@ class NavBar extends Component {
     this.setState({
       menuOpen: false,
       anchorEl: null
+    });
+  };
+
+  handleNotificationClick = () => {
+    this.setState({
+      notificationDrawer: !this.state.notificationDrawer
     });
   };
 
@@ -74,11 +82,24 @@ class NavBar extends Component {
             color="inherit"
           >{`${nickname}`}</Typography>
           {this.props.notificationFeature ? (
-            <NotificationsIcon
+            <IconButton
+              color="inherit"
               data-test="notificationBell"
               style={{ marginLeft: standards.small }}
-            />
+              onClick={this.handleNotificationClick}
+            >
+              <NotificationsIcon />
+            </IconButton>
           ) : null}
+          <Drawer
+            open={this.state.notificationDrawer}
+            onBackdropClick={this.handleNotificationClick}
+            variant="temporary"
+            anchor="right"
+            data-test="notificationDrawer"
+          >
+            {"You have no new notifications."}
+          </Drawer>
           <IconButton
             color="inherit"
             data-test="gearButton"
