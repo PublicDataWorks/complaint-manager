@@ -113,4 +113,48 @@ describe("NavBar", () => {
       ).toBeFalse();
     });
   });
+  describe("notifications menu", () => {
+    beforeEach(() => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: true
+        })
+      );
+      wrapper.update();
+    });
+
+    test("should see notifications drawer when click on notification bell", () => {
+      const notificationBell = wrapper
+        .find('[data-test="notificationBell"]')
+        .first();
+      notificationBell.simulate("click");
+
+      const notificationDrawer = wrapper
+        .find('[data-test="notificationDrawer"]')
+        .first();
+
+      expect(notificationDrawer.props()).toHaveProperty("open", true);
+      containsText(
+        notificationDrawer,
+        '[data-test="notificationDrawer"]',
+        "You have no new notifications."
+      );
+    });
+
+    test("should dismiss notification drawer when clicking outside of it", () => {
+      const notificationBell = wrapper
+        .find('[data-test="notificationBell"]')
+        .first();
+      notificationBell.simulate("click");
+
+      const backdrop = wrapper.find("ForwardRef(Backdrop)");
+      backdrop.simulate("click");
+
+      const notificationDrawer = wrapper
+        .find('[data-test="notificationDrawer"]')
+        .first();
+
+      expect(notificationDrawer.props()).toHaveProperty("open", false);
+    });
+  });
 });
