@@ -60,11 +60,20 @@ const styles = {
     marginBottom: "24px"
   },
   appBarStyle: {
-    position: "static",
-    width: "100%"
+    position: "relative",
+    width: "100%",
+    zIndex: standards.maxZIndex
   },
   drawer: {
-    width: 350
+    width: 350,
+    zIndex: standards.maxZIndex - 1,
+    position: "fixed"
+  },
+  drawerContent: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
+    justifyContent: "center"
   }
 };
 
