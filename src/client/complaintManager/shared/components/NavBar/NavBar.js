@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import MenuNavigator from "./MenuNavigator";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import standards from "../../../../common/globalStyling/standards";
 
 const styles = {
   appBarStyle: {
@@ -71,6 +73,12 @@ class NavBar extends Component {
             variant="h6"
             color="inherit"
           >{`${nickname}`}</Typography>
+          {this.props.notificationFeature ? (
+            <NotificationsIcon
+              data-test="notificationBell"
+              style={{ marginLeft: standards.small }}
+            />
+          ) : null}
           <IconButton
             color="inherit"
             data-test="gearButton"
@@ -103,7 +111,8 @@ NavBar.defaultProps = {
 
 const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
-  permissions: state.users.current.userInfo.permissions
+  permissions: state.users.current.userInfo.permissions,
+  notificationFeature: state.featureToggles.notificationFeature
 });
 
 export default connect(mapStateToProps)(NavBar);
