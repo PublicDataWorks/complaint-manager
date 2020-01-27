@@ -56,5 +56,13 @@
     "name": "classificationFeature",
     "description": "Classification feature",
     "enabled": true
+  },
+  {
+    "id": "notificationFeature",
+    "name": "notificationFeature",
+    "description": "Notification feature",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

@@ -8,6 +8,7 @@ import { mockLocalStorage } from "../../../../../mockLocalStorage";
 import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 describe("NavBar", () => {
   let wrapper, store;
@@ -84,6 +85,32 @@ describe("NavBar", () => {
         .find('[data-test="exports"]')
         .last();
       expect(exportAuditLogMenuItem.exists()).toBeTruthy();
+    });
+  });
+
+  describe("Notifications Feature Toggle", () => {
+    test("displays notification bell when toggled on", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: true
+        })
+      );
+      wrapper.update();
+      expect(
+        wrapper.find('[data-test="notificationBell"]').exists()
+      ).toBeTrue();
+    });
+
+    test("does not display notification bell when toggled off", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: false
+        })
+      );
+      wrapper.update();
+      expect(
+        wrapper.find('[data-test="notificationBell"]').exists()
+      ).toBeFalse();
     });
   });
 });
