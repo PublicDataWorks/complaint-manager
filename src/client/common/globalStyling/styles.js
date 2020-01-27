@@ -58,6 +58,13 @@ const styles = {
   cardStyling: {
     backgroundColor: "white",
     marginBottom: "24px"
+  },
+  appBarStyle: {
+    position: "static",
+    width: "100%"
+  },
+  drawer: {
+    width: 550
   }
 };
 
