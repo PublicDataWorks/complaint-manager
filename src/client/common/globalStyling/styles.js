@@ -61,12 +61,10 @@ const styles = {
   },
   appBarStyle: {
     position: "relative",
-    width: "100%",
-    zIndex: standards.maxZIndex
+    width: "100%"
   },
   drawer: {
     width: 350,
-    zIndex: standards.maxZIndex - 1,
     position: "fixed"
   },
   drawerContent: {

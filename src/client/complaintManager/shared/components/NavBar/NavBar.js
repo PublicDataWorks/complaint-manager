@@ -16,6 +16,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import NotificationDrawer from "./NotificationDrawer";
+import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 class NavBar extends Component {
   state = {
@@ -40,8 +41,9 @@ class NavBar extends Component {
   };
 
   handleNotificationClick = () => {
+    const open = this.state.notificationDrawer;
     this.setState({
-      notificationDrawer: !this.state.notificationDrawer
+      notificationDrawer: !open
     });
   };
 
@@ -49,8 +51,12 @@ class NavBar extends Component {
     const { showHome, nickname, children, menuType, dataTest } = this.props;
     const appBarStyle = showHome ? styles.appBarStyle : this.props.customStyle;
     const dataTestTitle = dataTest ? dataTest : "pageTitle";
+    const theme = createMuiTheme();
     return (
-      <AppBar position="static" style={appBarStyle}>
+      <AppBar
+        position="static"
+        style={{ ...appBarStyle, ...{ zIndex: theme.zIndex.drawer + 1000 } }}
+      >
         <Toolbar>
           {showHome ? (
             <IconButton
@@ -99,6 +105,7 @@ class NavBar extends Component {
           <Menu
             open={this.state.menuOpen}
             data-test="menu"
+            style={{ zIndex: theme.zIndex.drawer + 10000 }}
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
           >
