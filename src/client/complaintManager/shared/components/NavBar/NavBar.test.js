@@ -156,5 +156,34 @@ describe("NavBar", () => {
 
       expect(notificationDrawer.props()).toHaveProperty("open", false);
     });
+
+    test("should dismiss already open notification drawer when clicking on notification bell", () => {
+      const notificationBell = wrapper
+        .find('[data-test="notificationBell"]')
+        .first();
+      notificationBell.simulate("click");
+
+      notificationBell.simulate("click");
+
+      const notificationDrawer = wrapper
+        .find('[data-test="notificationDrawer"]')
+        .first();
+
+      expect(notificationDrawer.props()).toHaveProperty("open", false);
+    });
+
+    test("should keep notification drawer open when clicking on self", () => {
+      const notificationBell = wrapper
+        .find('[data-test="notificationBell"]')
+        .first();
+      notificationBell.simulate("click");
+
+      const notificationDrawer = wrapper
+        .find('[data-test="notificationDrawer"]')
+        .first();
+      notificationDrawer.simulate("click");
+
+      expect(notificationDrawer.props()).toHaveProperty("open", true);
+    });
   });
 });

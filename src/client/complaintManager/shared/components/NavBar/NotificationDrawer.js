@@ -8,16 +8,13 @@ import useOnClickOutside from "./useOnClickOutside";
 
 const useStyles = makeStyles(theme => ({
   // Show "fake/empty" tool bar": https://material-ui.com/components/app-bar/
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
+  paper: styles.drawer
 }));
 
 const NotificationDrawer = props => {
   const classes = useStyles();
   const ref = useRef();
-  const style = {
-    paper: styles.drawer
-  };
-  const StyledDrawer = withStyles(style)(Drawer);
 
   const handleClickAway = () => {
     props.onClose();
@@ -28,7 +25,7 @@ const NotificationDrawer = props => {
   });
 
   return (
-    <StyledDrawer
+    <Drawer
       ref={ref}
       open={props.open}
       onClose={handleClickAway}
@@ -53,7 +50,7 @@ const NotificationDrawer = props => {
           You have no new notifications.
         </div>
       </div>
-    </StyledDrawer>
+    </Drawer>
   );
 };
 
