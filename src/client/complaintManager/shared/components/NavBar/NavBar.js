@@ -41,6 +41,7 @@ class NavBar extends Component {
   };
 
   handleNotificationClick = () => {
+    // console.log("Inside Handle Click", open);
     const open = this.state.notificationDrawer;
     this.setState({
       notificationDrawer: !open
@@ -60,10 +61,13 @@ class NavBar extends Component {
         <Toolbar>
           {showHome ? (
             <IconButton
-              color="inherit"
               component={Link}
               to="/"
               data-test="homeButton"
+              style={{
+                color: !this.state.notificationDrawer ? "inherit" : "white"
+              }}
+              disabled={!!this.state.notificationDrawer}
             >
               <HomeIcon />
             </IconButton>
@@ -84,21 +88,25 @@ class NavBar extends Component {
           {this.props.notificationFeature ? (
             <IconButton
               color="inherit"
+              className="notificationBell"
               data-test="notificationBell"
               style={{ marginLeft: standards.small }}
-              onClick={this.handleNotificationClick}
+              onClick={() => this.handleNotificationClick()}
             >
               <NotificationsIcon />
             </IconButton>
           ) : null}
           <NotificationDrawer
             open={this.state.notificationDrawer}
-            onClose={this.handleNotificationClick}
+            onClose={() => this.handleNotificationClick()}
           />
           <IconButton
-            color="inherit"
             data-test="gearButton"
             onClick={this.handleMenuOpen}
+            style={{
+              color: !this.state.notificationDrawer ? "inherit" : "white"
+            }}
+            disabled={!!this.state.notificationDrawer}
           >
             <Settings />
           </IconButton>
