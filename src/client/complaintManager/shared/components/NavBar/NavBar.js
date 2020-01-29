@@ -12,11 +12,11 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import MenuNavigator from "./MenuNavigator";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import NotificationDrawer from "./NotificationDrawer";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 
 class NavBar extends Component {
   state = {
@@ -41,7 +41,6 @@ class NavBar extends Component {
   };
 
   handleNotificationClick = () => {
-    // console.log("Inside Handle Click", open);
     const open = this.state.notificationDrawer;
     this.setState({
       notificationDrawer: !open
@@ -67,7 +66,7 @@ class NavBar extends Component {
               style={{
                 color: !this.state.notificationDrawer ? "inherit" : "white"
               }}
-              disabled={!!this.state.notificationDrawer}
+              disabled={this.state.notificationDrawer}
             >
               <HomeIcon />
             </IconButton>
@@ -106,7 +105,7 @@ class NavBar extends Component {
             style={{
               color: !this.state.notificationDrawer ? "inherit" : "white"
             }}
-            disabled={!!this.state.notificationDrawer}
+            disabled={this.state.notificationDrawer}
           >
             <Settings />
           </IconButton>

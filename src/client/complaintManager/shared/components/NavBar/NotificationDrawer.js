@@ -4,7 +4,6 @@ import Drawer from "@material-ui/core/Drawer";
 import withStyles from "@material-ui/core/styles/withStyles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import useOnClickOutside from "./useOnClickOutside";
 
 const useStyles = makeStyles(theme => ({
@@ -20,13 +19,12 @@ const NotificationDrawer = props => {
   };
   const StyledDrawer = withStyles(style)(Drawer);
 
-  const handleClickAway = event => {
-    console.log("What's happening?", event.target);
+  const handleClickAway = () => {
     props.onClose();
   };
 
-  useOnClickOutside(ref, event => {
-    props.onClose();
+  useOnClickOutside(ref, () => {
+    handleClickAway();
   });
 
   return (
@@ -37,15 +35,12 @@ const NotificationDrawer = props => {
       variant="temporary"
       anchor="right"
       data-test="notificationDrawer"
-      // ModalProps={{closeAfterTransition: true}}
-      // same numbers as the code sandbox
       SlideProps={{
         timeout: { enter: 300, exit: 300 },
         enter: true,
         exit: true,
         appear: true
       }}
-      // transitionDuration={{ enter: 5000, exit: 5000 }}
     >
       <div className={classes.toolbar} />
       <div style={styles.drawerContent}>

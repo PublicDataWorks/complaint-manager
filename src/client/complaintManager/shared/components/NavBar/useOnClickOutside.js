@@ -1,24 +1,23 @@
 import { useEffect } from "react";
 
-export default function useOnClickOutside(bellRef, ref, handler) {
+//Referenced from https://github.com/Andarist/use-onclickoutside
+export default function useOnClickOutside(ref, handler) {
   useEffect(
     () => {
       const listener = event => {
-        console.log("What is in the event target?", event.target);
         // Do nothing if clicking ref's element or descendent elements
         if (!ref.current || ref.current.contains(event.target)) {
-          console.log("Nothing");
           return;
         }
 
         handler(event);
       };
 
-      document.addEventListener("mousedown", listener);
+      document.addEventListener("click", listener);
       document.addEventListener("touchstart", listener);
 
       return () => {
-        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("click", listener);
         document.removeEventListener("touchstart", listener);
       };
     },
