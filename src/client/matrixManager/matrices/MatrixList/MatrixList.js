@@ -2,10 +2,12 @@ import NavBar from "../../../complaintManager/shared/components/NavBar/NavBar";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import getUsers from "../thunks/getUsers";
-import DropdownSelect from "../../../complaintManager/cases/CaseDetails/CivilianDialog/DropdownSelect";
-import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
 import { matrixManagerMenuOptions } from "../../../complaintManager/shared/components/NavBar/matrixManagerMenuOptions";
 import CreateMatrixButton from "./CreateMatrixButton";
+
+const appBar = {
+  position: "relative"
+};
 
 class MatrixList extends Component {
   componentDidMount() {
@@ -15,7 +17,11 @@ class MatrixList extends Component {
   render() {
     return (
       <div>
-        <NavBar showHome={false} menuType={matrixManagerMenuOptions}>
+        <NavBar
+          showHome={false}
+          menuType={matrixManagerMenuOptions}
+          customStyle={appBar}
+        >
           All Matrices
         </NavBar>
         <CreateMatrixButton />

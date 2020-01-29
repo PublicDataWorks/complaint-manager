@@ -32,7 +32,7 @@ const caseDashboardCommands = {
     browser.keys(phoneNumber);
     return this;
   },
-  setIntakeSourceId: function(intakeSource) {
+  setIntakeSourceId: function() {
     return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
       .click("@intakeSourceDropdown")
       .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
