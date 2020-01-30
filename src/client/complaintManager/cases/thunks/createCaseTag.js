@@ -8,7 +8,11 @@ import { getTagsSuccess } from "../../actionCreators/tagActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const createCaseTag = (values, caseId) => async dispatch => {
-  const tagValue = values.caseTagValue;
+  let tagValue = values.caseTagValue;
+  if (tagValue.value) {
+    tagValue = tagValue.value;
+  }
+
   const requestBody = {};
 
   if (_.isString(tagValue)) {

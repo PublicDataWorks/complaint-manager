@@ -1,29 +1,22 @@
 import React from "react";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
-import _ from "lodash";
+import FormControl from "@material-ui/core/FormControl";
 
-export const getSelectedOption = (inputValue, options, freeSolo) => {
+export const getSelectedOption = (inputValue, options) => {
+  let selectedOption = {
+    label: inputValue,
+    value: inputValue
+  };
+
   let indexOfSelectedValue = -1;
-  // let inputValue = selectedInput.value.value
-  //   ? selectedInput.value.value
-  //   : selectedInput.value;
-
   if (options && Array.isArray(options)) {
     indexOfSelectedValue = options
       .map(option => {
-        return option.value;
+        return option.label;
       })
       .indexOf(inputValue);
   }
-
-  let selectedOption = freeSolo
-    ? { label: inputValue, value: inputValue }
-    : {
-        label: "",
-        value: ""
-      };
-
   if (indexOfSelectedValue >= 0) {
     selectedOption = options[indexOfSelectedValue];
   }
@@ -32,75 +25,54 @@ export const getSelectedOption = (inputValue, options, freeSolo) => {
 };
 
 class CreatableDropdown extends React.Component {
-  constructor(props) {
-    super(props);
-    const selectedValue = getSelectedOption(
-      props.input.value,
-      props.children,
-      props.freeSolo
-    );
-    this.state = {
-      selectedValue
-    };
-  }
   handleChange = (event, value) => {
-    if (this.props.freeSolo) {
-      this.props.input.onChange(event && value);
-    } else {
-      this.props.input.onChange(event && value.value);
-    }
-  };
-
-  handleBlur = (event, value) => {
-    const newSelectedValue = getSelectedOption(
-      this.props.input.value,
-      this.props.children,
-      this.props.freeSolo
-    );
-
-    this.setState({ selectedValue: newSelectedValue });
-    if (this.props.freeSolo) {
-      this.props.input.onBlur(event && value);
+    if (event) {
+      const selectedOption = getSelectedOption(value, this.props.children);
+      this.props.input.onChange(event && selectedOption);
     }
   };
 
   render() {
-    // console.log("Props.input", this.props.input);
-    const { freeSolo, disableClearable, children, ...custom } = this.props;
-    // const inputValue = custom.input.value.value
-    //  ? custom.input.value.value
-    //  : custom.input.value;
-    //const selectedValue = getSelectedOption(inputValue, children, freeSolo);
-
+    const { children, ...parentProps } = this.props;
+    const inputValue = this.props.input.value;
+    let selectedOption = { label: "", value: "" };
+    if (inputValue) {
+      selectedOption = getSelectedOption(inputValue.label, children);
+    }
+    const hasError =
+      parentProps.required &&
+      parentProps.meta.touched &&
+      parentProps.meta.invalid;
     return (
-      <Autocomplete
-        autoHighlight
-        freeSolo={freeSolo}
-        includeInputInList
-        disableClearable={disableClearable}
-        onChange={this.handleChange.bind(this)}
-        //onBlur={this.handleBlur.bind(this)}
-        value={this.state.selectedValue}
-        options={children}
-        autoSelect={true}
-        getOptionLabel={option => {
-          if (_.isString(option)) {
-            return option;
-          } else {
+      <FormControl style={parentProps.style}>
+        <Autocomplete
+          freeSolo
+          autoSelect={true}
+          disableClearable={true}
+          onInputChange={this.handleChange.bind(this)}
+          value={selectedOption}
+          options={children && Array.isArray(children) ? children : []}
+          getOptionLabel={option => {
             return option.label;
-          }
-        }}
-        renderInput={params => {
-          const isNotNewlyCreated =
-            !freeSolo || _.isInteger(this.state.selectedValue.value);
-          // console.log("Custom input and isNewTag?", custom.input, isNotNewlyCreated);
-          return isNotNewlyCreated ? (
-            <TextField {...params} {...custom} />
-          ) : (
-            <TextField {...params} {...custom.input} {...custom} />
-          );
-        }}
-      />
+          }}
+          renderInput={params => {
+            params.inputProps = {
+              ...params.inputProps,
+              ...parentProps.inputProps
+            };
+            return (
+              <TextField
+                fullWidth
+                {...params}
+                label={parentProps.label}
+                InputLabelProps={{ required: parentProps.required }}
+                helperText={hasError && parentProps.meta.error}
+                error={hasError}
+              />
+            );
+          }}
+        />
+      </FormControl>
     );
   }
 }
