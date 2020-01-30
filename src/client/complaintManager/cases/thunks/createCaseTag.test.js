@@ -21,14 +21,17 @@ describe("createCaseTag", () => {
   });
 
   test("should dispatch create and get tag success when case tag added successfully", async () => {
-    const caseTagValue = "Some super special awesome tag";
+    const caseTagValue = {
+      value: "Some super special awesome tag",
+      label: "Some super special awesome tag"
+    };
     const caseId = 234;
 
     const submitValues = {
       caseTagValue: caseTagValue
     };
 
-    const requestBody = { tagName: caseTagValue };
+    const requestBody = { tagName: caseTagValue.label };
 
     const responseBody = {
       caseTags: [[caseTagValue, 1]],
