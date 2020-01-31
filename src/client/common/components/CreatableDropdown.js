@@ -2,8 +2,17 @@ import React from "react";
 import { Autocomplete } from "@material-ui/lab";
 import TextField from "@material-ui/core/TextField";
 import FormControl from "@material-ui/core/FormControl";
+import * as _ from "lodash";
 
+const newTagPrefix = "Create";
 export const getSelectedOption = (inputValue, options) => {
+  if (inputValue.includes(newTagPrefix)) {
+    inputValue = inputValue.substring(
+      newTagPrefix.length + 2,
+      inputValue.length - 1
+    );
+  }
+
   let selectedOption = {
     label: inputValue,
     value: inputValue
@@ -32,12 +41,23 @@ class CreatableDropdown extends React.Component {
     }
   };
 
+  isNewOption = selectedOption => {
+    return (
+      !_.isEmpty(selectedOption.label) &&
+      selectedOption.label === selectedOption.value
+    );
+  };
+
   render() {
-    const { children, ...parentProps } = this.props;
+    let { children, ...parentProps } = this.props;
     const inputValue = this.props.input.value;
     let selectedOption = { label: "", value: "" };
     if (inputValue) {
       selectedOption = getSelectedOption(inputValue.label, children);
+    }
+    if (this.isNewOption(selectedOption)) {
+      const newTagString = `${newTagPrefix} "${selectedOption.label}"`;
+      children = [{ label: newTagString, value: newTagString }, ...children];
     }
     const hasError =
       parentProps.required &&
