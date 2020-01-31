@@ -12,91 +12,150 @@ const children = [
   { label: "label 2", value: 2 }
 ];
 describe("CreatableDropdown test", () => {
-  let store, wrapper, TestForm;
-  beforeEach(() => {
-    store = createConfiguredStore();
+  let store, wrapper, TestForm, autocomplete;
 
-    TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-      return (
-        <Field
-          label="TEST LABEL"
-          name="testDropdownID"
-          data-test="testDropdown"
-          input={{ value: { label: "label 2", value: 2 } }}
-          component={CreatableDropdown}
-        >
-          {children}
-        </Field>
-      );
-    });
-
-    wrapper = mount(
-      <Provider store={store}>
-        <Dialog open={true}>
-          <DialogContent>
-            <TestForm />
-          </DialogContent>
-        </Dialog>
-      </Provider>
-    );
-  });
-
-  test("should create menuItems from options array", () => {
-    const autocomplete = wrapper
-      .find('[data-test="testDropdown"]')
-      .first()
-      .find("ForwardRef(Autocomplete)")
-      .props().options;
-
-    expect(autocomplete.length).toEqual(2);
-  });
-
-  test("value passed in should be value of drop down", () => {
-    const autocomplete = wrapper
-      .find('[data-test="testDropdown"]')
-      .first()
-      .find("ForwardRef(Autocomplete)")
-      .props();
-
-    expect(autocomplete.value).toEqual({
-      value: 2,
-      label: "label 2"
-    });
-  });
-
-  test("ensure input.onChange is happening on dropdown selection", () => {
+  describe("Creating new tag", () => {
     const onChangeSpy = jest.fn();
-    TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-      return (
-        <Field
-          label="TEST LABEL"
-          name="testDropdownID"
-          data-test="testDropdown"
-          input={{ onChange: onChangeSpy }}
-          component={CreatableDropdown}
-        >
-          {children}
-        </Field>
+    beforeEach(() => {
+      store = createConfiguredStore();
+      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
+        return (
+          <Field
+            label="TEST LABEL"
+            name="testDropdownID"
+            data-test="testDropdown"
+            input={{
+              value: { label: "Birbs", value: "Birbs" },
+              onChange: onChangeSpy
+            }}
+            component={CreatableDropdown}
+          >
+            {children}
+          </Field>
+        );
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Dialog open={true}>
+            <DialogContent>
+              <TestForm />
+            </DialogContent>
+          </Dialog>
+        </Provider>
+      );
+
+      autocomplete = wrapper
+        .find('[data-test="testDropdown"]')
+        .first()
+        .find("ForwardRef(Autocomplete)");
+    });
+    test("should add 'Create tag' option for new tags", () => {
+      const props = autocomplete.props();
+
+      expect(props.options[0].label).toContain('Create "Birbs"');
+    });
+
+    test("should add new tag with correct label and value", () => {
+      selectCreatableDropdownOption(
+        wrapper,
+        '[data-test="testDropdown"]',
+        'Create "Birbs"'
+      );
+
+      expect(onChangeSpy).toHaveBeenCalledWith({
+        label: "Birbs",
+        value: "Birbs"
+      });
+    });
+  });
+
+  describe("should display and select previously created tags", () => {
+    beforeEach(() => {
+      store = createConfiguredStore();
+
+      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
+        return (
+          <Field
+            label="TEST LABEL"
+            name="testDropdownID"
+            data-test="testDropdown"
+            input={{ value: { label: "label 2", value: 2 } }}
+            component={CreatableDropdown}
+          >
+            {children}
+          </Field>
+        );
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Dialog open={true}>
+            <DialogContent>
+              <TestForm />
+            </DialogContent>
+          </Dialog>
+        </Provider>
       );
     });
 
-    wrapper = mount(
-      <Provider store={store}>
-        <Dialog open={true}>
-          <DialogContent>
-            <TestForm />
-          </DialogContent>
-        </Dialog>
-      </Provider>
-    );
+    test("should create menuItems from options array", () => {
+      autocomplete = wrapper
+        .find('[data-test="testDropdown"]')
+        .first()
+        .find("ForwardRef(Autocomplete)")
+        .props().options;
 
-    selectCreatableDropdownOption(
-      wrapper,
-      '[data-test="testDropdown"]',
-      "label 1"
-    );
+      expect(autocomplete.length).toEqual(2);
+    });
 
-    expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
+    test("value passed in should be value of drop down", () => {
+      autocomplete = wrapper
+        .find('[data-test="testDropdown"]')
+        .first()
+        .find("ForwardRef(Autocomplete)")
+        .props();
+
+      expect(autocomplete.value).toEqual({
+        value: 2,
+        label: "label 2"
+      });
+    });
+
+    test("ensure input.onChange is happening on dropdown selection", () => {
+      const onChangeSpy = jest.fn();
+      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
+        return (
+          <Field
+            label="TEST LABEL"
+            name="testDropdownID"
+            data-test="testDropdown"
+            input={{ onChange: onChangeSpy }}
+            component={CreatableDropdown}
+          >
+            {children}
+          </Field>
+        );
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Dialog open={true}>
+            <DialogContent>
+              <TestForm />
+            </DialogContent>
+          </Dialog>
+        </Provider>
+      );
+
+      selectCreatableDropdownOption(
+        wrapper,
+        '[data-test="testDropdown"]',
+        "label 1"
+      );
+
+      expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
+    });
   });
 
   describe("getSelectedOption test", () => {
