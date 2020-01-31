@@ -56,7 +56,7 @@ module.exports = {
       selector: "[data-test='openCaseButton']"
     },
     newCaseButton: {
-      selector: "[data-test='createCaseButton']"
+      selector: "[data-test='createCaseButton'] > span"
     },
     caseDialog: {
       selector: "[data-test='createCaseDialogTitle']"

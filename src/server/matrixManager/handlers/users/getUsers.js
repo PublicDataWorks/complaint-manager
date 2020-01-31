@@ -4,6 +4,7 @@ import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstan
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import models from "../../../complaintManager/models";
 import {
+  ASCENDING,
   AUDIT_SUBJECT,
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
@@ -68,9 +69,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       });
   }
 
-  const transformedUserData = userData.map(userInfo => {
-    return _.pick(userInfo, ["email", "name"]);
-  });
+  const transformedUserData = transformAndSortUserData(userData);
 
   await models.sequelize
     .transaction(async transaction => {
@@ -87,7 +86,6 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       // Transaction has been rolled back
       throw err;
     });
-
   response.send(200, transformedUserData);
 });
 
@@ -95,6 +93,16 @@ const throwTokenFailure = (next, error) => {
   throw Boom.badImplementation(
     INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE,
     error
+  );
+};
+
+const transformAndSortUserData = userData => {
+  const transformedUserData = userData.map(userInfo => {
+    return _.pick(userInfo, ["email", "name"]);
+  });
+
+  return transformedUserData.sort((first, second) =>
+    first.name > second.name ? 1 : -1
   );
 };
 

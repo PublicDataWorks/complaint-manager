@@ -26,22 +26,8 @@ if (TEST_PASS && TEST_USER) {
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
     },
 
-    "should open and close Notification Drawer": browser => {
-      browser.resizeWindow(1366, 768);
-      const caseDashboardPage = browser.page.CaseDashboard();
-      const navBar = browser.page.NavBar();
-      const notificationDrawer = browser.page.NotificationDrawer();
-
-      caseDashboardPage.isOnPage();
-
-      navBar.clickNotificationBell();
-
-      notificationDrawer.isOnPage();
-
-      navBar.clickNavBar();
-    },
-
     "should create case": browser => {
+      browser.resizeWindow(1366, 768);
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 
@@ -630,6 +616,21 @@ if (TEST_PASS && TEST_USER) {
         .confirmRestoreInDialog();
       snackbar.presentWithMessage("Case was successfully restored").close();
       caseDetailsPage.goBackToAllCases();
+
+      caseDashboardPage.isOnPage();
+    },
+    "should open and close Notification Drawer": browser => {
+      const caseDashboardPage = browser.page.CaseDashboard();
+      const navBar = browser.page.NavBar();
+      const notificationDrawer = browser.page.NotificationDrawer();
+
+      caseDashboardPage.isOnPage();
+
+      navBar.clickNotificationBell();
+
+      notificationDrawer.isOnPage();
+
+      navBar.clickNavBar();
 
       caseDashboardPage.isOnPage();
     },

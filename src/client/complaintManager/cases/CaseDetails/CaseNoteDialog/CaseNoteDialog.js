@@ -129,6 +129,7 @@ class CaseNoteDialog extends Component {
                 shrink: true
               }}
               multiline
+              rowsMax={8}
               placeholder="Enter any notes about this action"
               fullWidth
             />
