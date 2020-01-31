@@ -66,7 +66,7 @@ module.exports = {
     },
 
     selectSecondReviewer: {
-      selector: '[data-option-index="3"]'
+      selector: '[data-option-index="1"]'
     }
   }
 };
