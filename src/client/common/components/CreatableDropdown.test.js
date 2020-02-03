@@ -123,7 +123,7 @@ describe("CreatableDropdown test", () => {
         .find("ForwardRef(Autocomplete)")
         .props();
 
-      expect(autocomplete.value).toEqual({ value: 2, label: "label 2" });
+      expect(autocomplete.inputValue).toEqual("label 2");
     });
 
     test("ensure input.onChange is happening on dropdown selection", () => {
