@@ -76,8 +76,9 @@ class CreatableDropdown extends React.Component {
           freeSolo
           autoSelect={true}
           disableClearable={true}
+          // onInputChange and inputValue must be used together: https://github.com/mui-org/material-ui/issues/19423
           onInputChange={this.handleChange.bind(this)}
-          value={selectedOption}
+          inputValue={selectedOption.label}
           options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
             return option.label;
