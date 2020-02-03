@@ -6,12 +6,7 @@ import * as _ from "lodash";
 
 const newTagPrefix = "Create";
 export const getSelectedOption = (inputValue, options) => {
-  if (inputValue.includes(newTagPrefix)) {
-    inputValue = inputValue.substring(
-      newTagPrefix.length + 2,
-      inputValue.length - 1
-    );
-  }
+  console.log("input value", inputValue);
 
   let selectedOption = {
     label: inputValue,
@@ -30,18 +25,30 @@ export const getSelectedOption = (inputValue, options) => {
     selectedOption = options[indexOfSelectedValue];
   }
 
+  console.log("selectedOption End", selectedOption);
   return selectedOption;
 };
 
 class CreatableDropdown extends React.Component {
   handleChange = (event, value) => {
+    console.log("In handleChange", "value", value);
     if (event) {
+      console.log("event type", event.type);
+      if (
+        event.type &&
+        event.type === "click" &&
+        value.includes(newTagPrefix)
+      ) {
+        console.log("Cleaning my input");
+        value = value.substring(newTagPrefix.length + 2, value.length - 1);
+      }
       const selectedOption = getSelectedOption(value, this.props.children);
       this.props.input.onChange(event && selectedOption);
     }
   };
 
   isNewOption = selectedOption => {
+    console.log("Checking isNewOption", selectedOption);
     return (
       !_.isEmpty(selectedOption.label) &&
       selectedOption.label === selectedOption.value

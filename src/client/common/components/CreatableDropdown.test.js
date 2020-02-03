@@ -4,10 +4,13 @@ import { Field, reduxForm } from "redux-form";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { Dialog, DialogContent } from "@material-ui/core";
-import { selectCreatableDropdownOption } from "../../testHelpers";
+import {
+  changeCreatableDropdownInput,
+  selectCreatableDropdownOption
+} from "../../testHelpers";
 import CreatableDropdown, { getSelectedOption } from "./CreatableDropdown";
 
-const children = [
+let children = [
   { label: "label 1", value: 1 },
   { label: "label 2", value: 2 }
 ];
@@ -71,16 +74,20 @@ describe("CreatableDropdown test", () => {
   });
 
   describe("should display and select previously created tags", () => {
+    let onChangeSpy;
     beforeEach(() => {
       store = createConfiguredStore();
-
+      onChangeSpy = jest.fn();
       TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
         return (
           <Field
             label="TEST LABEL"
             name="testDropdownID"
             data-test="testDropdown"
-            input={{ value: { label: "label 2", value: 2 } }}
+            input={{
+              value: { label: "label 2", value: 2 },
+              onChange: onChangeSpy
+            }}
             component={CreatableDropdown}
           >
             {children}
@@ -116,14 +123,10 @@ describe("CreatableDropdown test", () => {
         .find("ForwardRef(Autocomplete)")
         .props();
 
-      expect(autocomplete.value).toEqual({
-        value: 2,
-        label: "label 2"
-      });
+      expect(autocomplete.value).toEqual({ value: 2, label: "label 2" });
     });
 
     test("ensure input.onChange is happening on dropdown selection", () => {
-      const onChangeSpy = jest.fn();
       TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
         return (
           <Field
@@ -155,6 +158,59 @@ describe("CreatableDropdown test", () => {
       );
 
       expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
+    });
+
+    test("should return option label when typing a new option", () => {
+      changeCreatableDropdownInput(
+        wrapper,
+        '[data-test="testDropdown"]',
+        "label 3"
+      );
+      expect(onChangeSpy).toHaveBeenCalledWith({
+        label: "label 3",
+        value: "label 3"
+      });
+    });
+
+    test("should return 'Create' when clicking on option 'Create 'Create'' ", () => {
+      children = [
+        { value: 'Create "Create"', label: 'Create "Create"' },
+        ...children
+      ];
+      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
+        return (
+          <Field
+            label="TEST LABEL"
+            name="testDropdownID"
+            data-test="testDropdown"
+            input={{ onChange: onChangeSpy }}
+            component={CreatableDropdown}
+          >
+            {children}
+          </Field>
+        );
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Dialog open={true}>
+            <DialogContent>
+              <TestForm />
+            </DialogContent>
+          </Dialog>
+        </Provider>
+      );
+
+      selectCreatableDropdownOption(
+        wrapper,
+        '[data-test="testDropdown"]',
+        'Create "Create"'
+      );
+
+      expect(onChangeSpy).toHaveBeenCalledWith({
+        label: "Create",
+        value: "Create"
+      });
     });
   });
 
