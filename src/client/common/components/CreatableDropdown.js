@@ -32,11 +32,11 @@ export const getSelectedOption = (inputValue, options) => {
 class CreatableDropdown extends React.Component {
   handleChange = (event, value) => {
     console.log("In handleChange", "value", value);
+
     if (event) {
-      console.log("event type", event.type);
       if (
         event.type &&
-        event.type === "click" &&
+        (event.type === "click" || event.type === "keydown") &&
         value.includes(newTagPrefix)
       ) {
         console.log("Cleaning my input");
@@ -82,7 +82,7 @@ class CreatableDropdown extends React.Component {
           inputValue={selectedOption.label}
           options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
-            return option.label;
+            return option.label && option.label;
           }}
           renderInput={params => {
             params.inputProps = {
