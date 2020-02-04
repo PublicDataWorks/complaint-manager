@@ -46,12 +46,6 @@ const snackbarReducer = (state = initialState, action) => {
         message:
           "Something went wrong and the user was not created. Please try again."
       };
-    case "CASE_CREATION_REQUESTED":
-      return {
-        open: false,
-        success: false,
-        message: ""
-      };
     case DOWNLOAD_FAILED:
       return {
         open: true,

@@ -1,8 +1,7 @@
 import {
-  createCaseSuccess,
-  requestCaseCreation
+  createCaseSuccess
 } from "../../actionCreators/casesActionCreators";
-import { initialize, reset } from "redux-form";
+import { initialize, reset, startSubmit, stopSubmit } from "redux-form";
 import { push } from "connected-react-router";
 import axios from "axios";
 import {
@@ -20,7 +19,7 @@ import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 
 const createCase = creationDetails => async dispatch => {
-  dispatch(requestCaseCreation());
+  dispatch(startSubmit(CREATE_CASE_FORM_NAME));
   try {
     const response = await axios.post(
       `api/cases`,
@@ -59,7 +58,9 @@ const createCase = creationDetails => async dispatch => {
       );
     }
     return dispatch(reset(CREATE_CASE_FORM_NAME));
-  } catch (e) {}
+  } catch (e) {
+    dispatch(stopSubmit(CREATE_CASE_FORM_NAME));
+  }
 };
 
 export default createCase;
