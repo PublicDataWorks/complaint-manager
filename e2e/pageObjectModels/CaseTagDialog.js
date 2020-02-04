@@ -23,7 +23,7 @@ module.exports = {
       selector: "[data-test='caseTagDialogTitle']"
     },
     tagInputField: {
-      selector: "[data-test='caseTagDropdownInput'] input"
+      selector: "[data-test='caseTagDropdownInput']"
     },
     submitTagButton: {
       selector: "[data-test='caseTagSubmitButton']"
