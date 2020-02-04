@@ -104,60 +104,21 @@ describe("CreatableDropdown test", () => {
           </Dialog>
         </Provider>
       );
-    });
-
-    test("should create menuItems from options array", () => {
-      autocomplete = wrapper
-        .find('[data-test="testDropdown"]')
-        .first()
-        .find("ForwardRef(Autocomplete)")
-        .props().options;
-
-      expect(autocomplete.length).toEqual(2);
-    });
-
-    test("value passed in should be value of drop down", () => {
       autocomplete = wrapper
         .find('[data-test="testDropdown"]')
         .first()
         .find("ForwardRef(Autocomplete)")
         .props();
-
-      expect(autocomplete.inputValue).toEqual("label 2");
     });
 
-    test("ensure input.onChange is happening on dropdown selection", () => {
-      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-        return (
-          <Field
-            label="TEST LABEL"
-            name="testDropdownID"
-            data-test="testDropdown"
-            input={{ onChange: onChangeSpy }}
-            component={CreatableDropdown}
-          >
-            {children}
-          </Field>
-        );
-      });
+    test("should create menuItems from options array", () => {
+      autocomplete = autocomplete.options;
 
-      wrapper = mount(
-        <Provider store={store}>
-          <Dialog open={true}>
-            <DialogContent>
-              <TestForm />
-            </DialogContent>
-          </Dialog>
-        </Provider>
-      );
+      expect(autocomplete.length).toEqual(2);
+    });
 
-      selectCreatableDropdownOption(
-        wrapper,
-        '[data-test="testDropdown"]',
-        "label 1"
-      );
-
-      expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
+    test("value passed in should be value of drop down", () => {
+      expect(autocomplete.inputValue).toEqual("label 2");
     });
 
     test("should return option label when typing a new option", () => {
@@ -171,8 +132,13 @@ describe("CreatableDropdown test", () => {
         value: "label 3"
       });
     });
+  });
 
-    test("should return 'Create' when clicking on option 'Create 'Create'' ", () => {
+  describe("dropdown on input change functionality", () => {
+    let onChangeSpy;
+    beforeEach(() => {
+      store = createConfiguredStore();
+      onChangeSpy = jest.fn();
       children = [
         { value: 'Create "Create"', label: 'Create "Create"' },
         ...children
@@ -200,7 +166,17 @@ describe("CreatableDropdown test", () => {
           </Dialog>
         </Provider>
       );
+    });
+    test("ensure input.onChange is happening on dropdown selection", () => {
+      selectCreatableDropdownOption(
+        wrapper,
+        '[data-test="testDropdown"]',
+        "label 1"
+      );
 
+      expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
+    });
+    test("should return 'Create' when clicking on option 'Create 'Create'' ", () => {
       selectCreatableDropdownOption(
         wrapper,
         '[data-test="testDropdown"]',
