@@ -16,7 +16,6 @@ import { closeCaseTagDialog } from "../../../actionCreators/casesActionCreators"
 import { CASE_TAG_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import createCaseTag from "../../thunks/createCaseTag";
-import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../../formFieldLevelValidations";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
 import CreatableDropdown from "../../../../common/components/CreatableDropdown";
@@ -62,9 +61,8 @@ class CaseTagDialog extends Component {
                 "data-test": "caseTagDropdownInput"
               }}
               data-test="caseTagDropdown"
-              component={DropdownSelect}
+              component={CreatableDropdown}
               name="caseTagValue"
-              isCreatable={true}
               required
               style={{ width: "12rem" }}
               validate={[caseTagRequired]}

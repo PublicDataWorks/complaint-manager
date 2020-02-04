@@ -98,7 +98,7 @@ export const changeCreatableDropdownInput = (
     }
   });
 
-  const autocomplete = mountedComponent
+  let autocomplete = mountedComponent
     .find(dropdownSelector)
     .first()
     .find("ForwardRef(InputBase)")

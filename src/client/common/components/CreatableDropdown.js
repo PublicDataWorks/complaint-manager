@@ -50,11 +50,9 @@ class CreatableDropdown extends React.Component {
   render() {
     let { children, ...parentProps } = this.props;
     const inputValue = this.props.input.value;
-    console.log("Input value at render", inputValue);
     let selectedOption = { label: "", value: "" };
     if (inputValue) {
       selectedOption = getSelectedOption(inputValue.label, children);
-      console.log("Selected Option at Render", selectedOption);
     }
     if (this.isNewOption(selectedOption)) {
       const newTagString = `${newTagPrefix} "${selectedOption.label}"`;
