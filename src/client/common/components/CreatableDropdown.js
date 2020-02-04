@@ -82,7 +82,7 @@ class CreatableDropdown extends React.Component {
           inputValue={selectedOption.label}
           options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
-            return option.label && option.label;
+            return option.label;
           }}
           renderInput={params => {
             params.inputProps = {

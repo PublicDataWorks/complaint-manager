@@ -19,6 +19,7 @@ import createCaseTag from "../../thunks/createCaseTag";
 import DropdownSelect from "../CivilianDialog/DropdownSelect";
 import { caseTagRequired } from "../../../../formFieldLevelValidations";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
+import CreatableDropdown from "../../../../common/components/CreatableDropdown";
 
 class CaseTagDialog extends Component {
   componentDidMount() {
@@ -55,7 +56,7 @@ class CaseTagDialog extends Component {
           >
             Search for and select an existing tag or create a new one.
           </Typography>
-          <form>
+          <form onSubmit={event => event.preventDefault()}>
             <Field
               inputProps={{
                 "data-test": "caseTagDropdownInput"
@@ -126,7 +127,4 @@ const mapDispatchToProps = {
   reset
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CaseTagDialogForm);
+export default connect(mapStateToProps, mapDispatchToProps)(CaseTagDialogForm);
