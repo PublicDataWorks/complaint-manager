@@ -6,8 +6,6 @@ import * as _ from "lodash";
 
 const newTagPrefix = "Create";
 export const getSelectedOption = (inputValue, options) => {
-  console.log("input value", inputValue);
-
   let selectedOption = {
     label: inputValue,
     value: inputValue
@@ -24,22 +22,17 @@ export const getSelectedOption = (inputValue, options) => {
   if (indexOfSelectedValue >= 0) {
     selectedOption = options[indexOfSelectedValue];
   }
-
-  console.log("selectedOption End", selectedOption);
   return selectedOption;
 };
 
 class CreatableDropdown extends React.Component {
   handleChange = (event, value) => {
-    console.log("In handleChange", "value", value);
-
     if (event) {
       if (
         event.type &&
         (event.type === "click" || event.type === "keydown") &&
         value.includes(newTagPrefix)
       ) {
-        console.log("Cleaning my input");
         value = value.substring(newTagPrefix.length + 2, value.length - 1);
       }
       const selectedOption = getSelectedOption(value, this.props.children);
@@ -48,7 +41,6 @@ class CreatableDropdown extends React.Component {
   };
 
   isNewOption = selectedOption => {
-    console.log("Checking isNewOption", selectedOption);
     return (
       !_.isEmpty(selectedOption.label) &&
       selectedOption.label === selectedOption.value
@@ -58,18 +50,16 @@ class CreatableDropdown extends React.Component {
   render() {
     let { children, ...parentProps } = this.props;
     const inputValue = this.props.input.value;
+    console.log("Input value at render", inputValue);
     let selectedOption = { label: "", value: "" };
     if (inputValue) {
       selectedOption = getSelectedOption(inputValue.label, children);
+      console.log("Selected Option at Render", selectedOption);
     }
     if (this.isNewOption(selectedOption)) {
       const newTagString = `${newTagPrefix} "${selectedOption.label}"`;
       children = [{ label: newTagString, value: newTagString }, ...children];
     }
-    const hasError =
-      parentProps.required &&
-      parentProps.meta.touched &&
-      parentProps.meta.invalid;
     return (
       <FormControl style={parentProps.style}>
         <Autocomplete
@@ -82,7 +72,7 @@ class CreatableDropdown extends React.Component {
           inputValue={selectedOption.label}
           options={children && Array.isArray(children) ? children : []}
           getOptionLabel={option => {
-            return option.label;
+            return _.isString(option) ? option : option.label;
           }}
           renderInput={params => {
             params.inputProps = {
@@ -95,8 +85,6 @@ class CreatableDropdown extends React.Component {
                 {...params}
                 label={parentProps.label}
                 InputLabelProps={{ required: parentProps.required }}
-                helperText={hasError && parentProps.meta.error}
-                error={hasError}
               />
             );
           }}
