@@ -89,6 +89,7 @@ class NavBar extends Component {
               color="inherit"
               className="notificationBell"
               data-test="notificationBell"
+              data-testid="notificationBell"
               style={{ marginLeft: standards.small }}
               onClick={() => this.handleNotificationClick()}
             >
@@ -101,6 +102,7 @@ class NavBar extends Component {
           />
           <IconButton
             data-test="gearButton"
+            data-testid="gearButton"
             onClick={this.handleMenuOpen}
             style={{
               color: !this.state.notificationDrawer ? "inherit" : "white"
