@@ -96,7 +96,7 @@ describe("CaseTagDialog", () => {
       .first();
 
     const expectedSubmittedValues = {
-      caseTagValue: testTagName
+      caseTagValue: { label: testTagName, value: testTagName }
     };
 
     store.dispatch({
@@ -107,7 +107,7 @@ describe("CaseTagDialog", () => {
         touch: false,
         persistentSubmitErrors: false
       },
-      payload: testTagName
+      payload: { label: testTagName, value: testTagName }
     });
 
     dialog.update();

@@ -15,22 +15,18 @@ let children = [
   { label: "label 2", value: 2 }
 ];
 describe("CreatableDropdown test", () => {
-  let store, wrapper, TestForm, autocomplete;
+  let store, wrapper, TestForm, autocomplete, dispatchSpy, autocompleteProps;
 
-  describe("Creating new tag", () => {
-    const onChangeSpy = jest.fn();
+  describe("dropdown behavior on typing", () => {
     beforeEach(() => {
       store = createConfiguredStore();
+      dispatchSpy = jest.spyOn(store, "dispatch");
       TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
         return (
           <Field
             label="TEST LABEL"
             name="testDropdownID"
             data-test="testDropdown"
-            input={{
-              value: { label: "Birbs", value: "Birbs" },
-              onChange: onChangeSpy
-            }}
             component={CreatableDropdown}
           >
             {children}
@@ -53,88 +49,67 @@ describe("CreatableDropdown test", () => {
         .first()
         .find("ForwardRef(Autocomplete)");
     });
-    test("should add 'Create tag' option for new tags", () => {
-      const props = autocomplete.props();
 
-      expect(props.options[0].label).toContain('Create "Birbs"');
+    test("should create menuItems from options array", () => {
+      autocompleteProps = autocomplete.props();
+
+      expect(autocompleteProps.options.length).toEqual(2);
     });
 
     test("should add new tag with correct label and value", () => {
+      changeCreatableDropdownInput(
+        wrapper,
+        '[data-test="testDropdown"]',
+        "Birbs"
+      );
+
       selectCreatableDropdownOption(
         wrapper,
         '[data-test="testDropdown"]',
         'Create "Birbs"'
       );
 
-      expect(onChangeSpy).toHaveBeenCalledWith({
-        label: "Birbs",
-        value: "Birbs"
-      });
-    });
-  });
-
-  describe("should display and select previously created tags", () => {
-    let onChangeSpy;
-    beforeEach(() => {
-      store = createConfiguredStore();
-      onChangeSpy = jest.fn();
-      TestForm = reduxForm({ form: "testMenuItemsForm" })(() => {
-        return (
-          <Field
-            label="TEST LABEL"
-            name="testDropdownID"
-            data-test="testDropdown"
-            input={{
-              value: { label: "label 2", value: 2 },
-              onChange: onChangeSpy
-            }}
-            component={CreatableDropdown}
-          >
-            {children}
-          </Field>
-        );
-      });
-
-      wrapper = mount(
-        <Provider store={store}>
-          <Dialog open={true}>
-            <DialogContent>
-              <TestForm />
-            </DialogContent>
-          </Dialog>
-        </Provider>
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: "@@redux-form/CHANGE",
+          payload: {
+            label: "Birbs",
+            value: "Birbs"
+          }
+        })
       );
-      autocomplete = wrapper
+    });
+    test("string typed should be value of dropdown", () => {
+      changeCreatableDropdownInput(
+        wrapper,
+        '[data-test="testDropdown"]',
+        "a new string"
+      );
+      autocompleteProps = wrapper
         .find('[data-test="testDropdown"]')
         .first()
         .find("ForwardRef(Autocomplete)")
         .props();
+
+      expect(autocompleteProps.inputValue).toEqual("a new string");
     });
-
-    test("should create menuItems from options array", () => {
-      autocomplete = autocomplete.options;
-
-      expect(autocomplete.length).toEqual(2);
-    });
-
-    test("value passed in should be value of drop down", () => {
-      expect(autocomplete.inputValue).toEqual("label 2");
-    });
-
-    test("should return option label when typing a new option", () => {
+    test("should add 'Create tag' option for new tags", () => {
       changeCreatableDropdownInput(
         wrapper,
         '[data-test="testDropdown"]',
-        "label 3"
+        "Birbs"
       );
-      expect(onChangeSpy).toHaveBeenCalledWith({
-        label: "label 3",
-        value: "label 3"
-      });
+      autocompleteProps = wrapper
+        .find('[data-test="testDropdown"]')
+        .first()
+        .find("ForwardRef(Autocomplete)")
+        .props();
+
+      expect(autocompleteProps.options[0].label).toContain('Create "Birbs"');
     });
   });
 
-  describe("dropdown on input change functionality", () => {
+  describe("dropdown behavior on selection", () => {
     let onChangeSpy;
     beforeEach(() => {
       store = createConfiguredStore();
@@ -167,6 +142,7 @@ describe("CreatableDropdown test", () => {
         </Provider>
       );
     });
+
     test("ensure input.onChange is happening on dropdown selection", () => {
       selectCreatableDropdownOption(
         wrapper,
