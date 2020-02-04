@@ -107,46 +107,6 @@ export const changeCreatableDropdownInput = (
   autocomplete.simulate("change", { type: "change", target: { value } });
 };
 
-export const findDropdownOptionReactSelect = (
-  mountedComponent,
-  dropdownSelector,
-  optionName,
-  isCreatable
-) => {
-  let dropdownComponent;
-  if (isCreatable) {
-    dropdownComponent = "Creatable";
-  } else {
-    dropdownComponent = "Select";
-  }
-  const options = mountedComponent
-    .find(dropdownSelector)
-    .find(dropdownComponent)
-    .prop("options")
-    .filter(option => option.label.toString() === optionName);
-
-  const value = options[0].value;
-
-  mountedComponent
-    .find(dropdownSelector)
-    .find(dropdownComponent)
-    .props()
-    .onChange({ value: value });
-};
-
-export const selectDropdownOptionReactSelect = (
-  mountedComponent,
-  dropdownSelector,
-  optionName
-) => {
-  findDropdownOptionReactSelect(
-    mountedComponent,
-    dropdownSelector,
-    optionName,
-    true
-  );
-};
-
 export const selectDropdownOption = (
   mountedComponent,
   dropdownSelector,
