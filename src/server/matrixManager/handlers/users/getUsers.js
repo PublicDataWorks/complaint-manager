@@ -102,7 +102,7 @@ const transformAndSortUserData = userData => {
   });
 
   return transformedUserData.sort((first, second) =>
-    first.name > second.name ? 1 : -1
+    first.name.toLowerCase() > second.name.toLowerCase() ? 1 : -1
   );
 };
 
