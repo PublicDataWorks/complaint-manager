@@ -1,12 +1,12 @@
 import nock from "nock";
 import {
-  createCaseSuccess,
-  requestCaseCreation
+  createCaseSuccess
 } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
 import { push } from "connected-react-router";
 import {
   ASCENDING,
+  CREATE_CASE_FORM_NAME,
   CASE_STATUS,
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,
@@ -18,7 +18,7 @@ import {
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
-import { initialize } from "redux-form";
+import { initialize, startSubmit, stopSubmit } from "redux-form";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 
@@ -39,13 +39,6 @@ describe("createCase", () => {
   beforeEach(() => {
     configureInterceptors({ dispatch });
     dispatch.mockClear();
-  });
-
-  //TODO Can we remove it?
-  test("should dispatch case creation requested action", () => {
-    createCase()(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(requestCaseCreation());
   });
 
   test("should dispatch success and close the dialog when case created successfully and no redirect", async () => {
@@ -84,6 +77,9 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
@@ -92,6 +88,46 @@ describe("createCase", () => {
       getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, ASCENDING, 3)
     );
   });
+
+  test("should dispatch failure when case creation fails", async() => {
+    const dispatch = jest.fn();
+    configureInterceptors({dispatch});
+
+    const creationDetails = {
+      caseDetails: {
+        case: {
+          firstName: "Fats",
+          lastName: "Domino"
+        }
+      },
+      redirect: false,
+      sorting: {
+        sortBy: SORT_CASES_BY.CASE_REFERENCE,
+        sortDirection: ASCENDING
+      },
+      pagination: {
+        currentPage: 3
+      }
+    };
+
+    nock("http://localhost", {
+      reqheaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer TEST_TOKEN`
+      }
+    })
+      .post("/api/cases", creationDetails.caseDetails)
+      .reply(500);
+      
+    await createCase(creationDetails)(dispatch);
+    
+    expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(CREATE_CASE_FORM_NAME)
+    );
+  })
 
   test("should redirect to add officer if complainant is officer", async () => {
     const caseId = 12;

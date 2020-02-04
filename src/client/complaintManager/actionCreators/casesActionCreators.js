@@ -61,10 +61,6 @@ export const createCaseSuccess = caseDetails => ({
   caseDetails
 });
 
-export const requestCaseCreation = () => ({
-  type: "CASE_CREATION_REQUESTED"
-});
-
 export const getWorkingCasesSuccess = (cases, totalCaseCount, page) => ({
   type: GET_WORKING_CASES_SUCCESS,
   cases,
