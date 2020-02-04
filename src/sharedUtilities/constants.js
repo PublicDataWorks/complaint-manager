@@ -561,3 +561,4 @@ export const ALLEGATION_DETAILS_LABEL =
   "Enter narrative details pertaining to this allegation";
 export const CIVILIAN_WITHIN_NOPD_TITLE = "Civilian (NOPD)";
 export const OFFICER_TITLE = "Officer";
+export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
