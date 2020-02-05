@@ -27,6 +27,8 @@ export const getSelectedOption = (inputValue, options) => {
 
 class CreatableDropdown extends React.Component {
   handleChange = (event, value) => {
+    //if we want to tab over to make a decision, need to get rid of first if statement
+    //this does allow clicks outside of drop down of some selection to update the input
     if (event) {
       if (
         event.type &&
@@ -35,6 +37,7 @@ class CreatableDropdown extends React.Component {
       ) {
         value = value.substring(newTagPrefix.length + 2, value.length - 1);
       }
+      console.log("value and event", value, event);
       const selectedOption = getSelectedOption(value, this.props.children);
       this.props.input.onChange(event && selectedOption);
     }
