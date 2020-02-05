@@ -32,6 +32,7 @@ const NotificationDrawer = props => {
       variant="temporary"
       anchor="right"
       data-test="notificationDrawer"
+      data-testid="notificationDrawer"
       SlideProps={{
         timeout: { enter: 300, exit: 300 },
         enter: true,

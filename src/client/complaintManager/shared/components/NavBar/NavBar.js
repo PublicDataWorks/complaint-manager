@@ -56,6 +56,7 @@ class NavBar extends Component {
       <AppBar
         position="static"
         style={{ ...appBarStyle, ...{ zIndex: theme.zIndex.drawer + 1000 } }}
+        data-testid="header"
       >
         <Toolbar>
           {showHome ? (
@@ -81,6 +82,7 @@ class NavBar extends Component {
 
           <Typography
             data-test="userNickName"
+            data-testid="userNickName"
             variant="h6"
             color="inherit"
           >{`${nickname}`}</Typography>

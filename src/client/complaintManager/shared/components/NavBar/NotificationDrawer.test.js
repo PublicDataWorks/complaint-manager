@@ -1,97 +1,123 @@
 import React from "react";
-import { mount } from "enzyme";
+import { fireEvent, render } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import NavBar from "./NavBar";
+import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import createConfiguredStore from "../../../../createConfiguredStore";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { containsText } from "../../../../testHelpers";
-import { mockLocalStorage } from "../../../../../mockLocalStorage";
-import NavBar from "./NavBar";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import { wait } from "@testing-library/dom";
+import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
 
 describe("notifications menu", () => {
-  let wrapper, store;
-
-  beforeEach(() => {
-    mockLocalStorage();
-    store = createConfiguredStore();
-    wrapper = mount(
+  function renderNavBar() {
+    const store = createConfiguredStore();
+    const wrapper = render(
       <Provider store={store}>
         <Router>
           <NavBar menuType={matrixManagerMenuOptions} />
         </Router>
       </Provider>
     );
-    wrapper.setState({ notificationDrawer: false });
 
     store.dispatch(
       getFeaturesSuccess({
         notificationFeature: true
       })
     );
-    wrapper.update();
+    return wrapper;
+  }
+
+  test("should open notification drawer when clicking bell icon and close drawer when clicking on navBar", async () => {
+    //ARRANGE
+    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const notificationBell = getByTestId("notificationBell");
+    const headerUserName = getByTestId("userNickName");
+
+    // ACT -- open drawer
+    fireEvent.click(notificationBell);
+
+    // ASSERT -- drawer is open
+    await wait(() => {
+      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
+
+    // ACT -- close drawer by clicking on header
+    fireEvent.click(headerUserName);
+
+    // ASSERT -- drawer is closed
+    await wait(() => {
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
+    });
   });
 
-  test("should see notifications drawer when click on notification bell", () => {
-    const notificationBell = wrapper
-      .find('[data-test="notificationBell"]')
-      .first();
-    notificationBell.simulate("click");
+  test("should open notification drawer when clicking bell icon and close drawer when clicking on backdrop", async () => {
+    //ARRANGE
+    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const notificationBell = getByTestId("notificationBell");
 
-    const notificationDrawer = wrapper
-      .find('[data-test="notificationDrawer"]')
-      .first();
+    // ACT -- open drawer
+    fireEvent.click(notificationBell);
 
-    expect(notificationDrawer.props()).toHaveProperty("open", true);
-    containsText(
-      notificationDrawer,
-      '[data-test="notificationDrawer"]',
-      "You have no new notifications."
-    );
+    // ASSERT -- drawer is open
+    await wait(() => {
+      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
+
+    // ACT -- close drawer by clicking on backdrop
+    fireEvent.click(document.body);
+
+    // ASSERT -- drawer is closed
+    await wait(() => {
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
+    });
   });
 
-  test("should dismiss notification drawer when clicking outside of it", () => {
-    const notificationBell = wrapper
-      .find('[data-test="notificationBell"]')
-      .first();
-    notificationBell.simulate("click");
+  test("should open notification drawer when clicking bell icon and close drawer when clicking on bell", async () => {
+    //ARRANGE
+    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const notificationBell = getByTestId("notificationBell");
 
-    const backdrop = wrapper.find("ForwardRef(Backdrop)");
-    backdrop.simulate("click");
+    // ACT -- open drawer
+    fireEvent.click(notificationBell);
 
-    const notificationDrawer = wrapper
-      .find('[data-test="notificationDrawer"]')
-      .first();
+    // ASSERT -- drawer is open
+    await wait(() => {
+      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
 
-    expect(notificationDrawer.props()).toHaveProperty("open", false);
+    // ACT -- close drawer by clicking on bell
+    fireEvent.click(notificationBell);
+
+    // ASSERT -- drawer is closed
+    await wait(() => {
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
+    });
   });
 
-  test("should dismiss already open notification drawer when clicking on notification bell", () => {
-    const notificationBell = wrapper
-      .find('[data-test="notificationBell"]')
-      .first();
-    notificationBell.simulate("click");
+  test("should open notification drawer when clicking bell icon and stay open when clicking on itself", async () => {
+    //ARRANGE
+    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const notificationBell = getByTestId("notificationBell");
 
-    notificationBell.simulate("click");
+    // ACT -- open drawer
+    fireEvent.click(notificationBell);
 
-    const notificationDrawer = wrapper
-      .find('[data-test="notificationDrawer"]')
-      .first();
+    // ASSERT -- drawer is open
+    await wait(() => {
+      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
 
-    expect(notificationDrawer.props()).toHaveProperty("open", false);
-  });
+    // ARRANGE
+    const notificationDrawer = getByTestId("notificationDrawer");
 
-  test("should keep notification drawer open when clicking on self", () => {
-    const notificationBell = wrapper
-      .find('[data-test="notificationBell"]')
-      .first();
-    notificationBell.simulate("click");
+    // ACT -- close drawer by clicking on bell
+    fireEvent.click(notificationDrawer);
 
-    const notificationDrawer = wrapper
-      .find('[data-test="notificationDrawer"]')
-      .first();
-    notificationDrawer.simulate("click");
-
-    expect(notificationDrawer.props()).toHaveProperty("open", true);
+    // ASSERT -- drawer is still open
+    await wait(() => {
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
   });
 });

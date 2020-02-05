@@ -619,21 +619,6 @@ if (TEST_PASS && TEST_USER) {
 
       caseDashboardPage.isOnPage();
     },
-    "should open and close Notification Drawer": browser => {
-      const caseDashboardPage = browser.page.CaseDashboard();
-      const navBar = browser.page.NavBar();
-      const notificationDrawer = browser.page.NotificationDrawer();
-
-      caseDashboardPage.isOnPage();
-
-      navBar.clickNotificationBell();
-
-      notificationDrawer.isOnPage();
-
-      navBar.clickNavBar();
-
-      caseDashboardPage.isOnPage();
-    },
     "should log out of the system": browser => {
       const navBar = browser.page.NavBar();
       const loginPage = browser.page.Login();
