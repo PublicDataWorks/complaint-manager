@@ -89,7 +89,7 @@ describe("createCase", () => {
     );
   });
 
-  test("should dispatch failure when case creation fails", async() => {
+  test("should dispatch stop submit when case creation fails", async() => {
     const dispatch = jest.fn();
     configureInterceptors({dispatch});
 
@@ -117,7 +117,7 @@ describe("createCase", () => {
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
-      .reply(500);
+      .reply(503);
       
     await createCase(creationDetails)(dispatch);
     
