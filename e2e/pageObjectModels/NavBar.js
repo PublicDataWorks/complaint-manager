@@ -10,9 +10,6 @@ const navBarCommands = {
   clickGearButton: function() {
     return this.click("@menuButton");
   },
-  clickNotificationBell: function() {
-    return this.click("@notificationBell");
-  },
   clickLogout: function() {
     return this.waitForElementVisible("@logoutButton", e2e.rerenderWait)
       .moveToElement("@logoutButton", undefined, undefined)
@@ -23,9 +20,6 @@ const navBarCommands = {
       .click("@menuButton")
       .waitForElementVisible("@complaintsLink", e2e.rerenderWait)
       .click("@complaintsLink");
-  },
-  clickNavBar: function() {
-    return this.click("@navBar");
   }
 };
 
@@ -39,8 +33,6 @@ module.exports = {
     logoutButton: {
       selector: '[data-test="logOutButton"]'
     },
-    complaintsLink: { selector: "[data-test='complaints']" },
-    notificationBell: { selector: "[data-test='notificationBell']" },
-    navBar: { selector: ".MuiToolbar-root" }
+    complaintsLink: { selector: "[data-test='complaints']" }
   }
 };
