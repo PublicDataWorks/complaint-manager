@@ -47,13 +47,13 @@ class CreateCaseDialog extends React.Component {
 
     return (
       <Dialog
-        data-test="createCaseDialog"
+        data-testid="createCaseDialog"
         classes={{ paper: classes.dialogPaper }}
         open={open}
         fullWidth
       >
         <DialogTitle
-          data-test="createCaseDialogTitle"
+          data-testid="createCaseDialogTitle"
           style={{ paddingBottom: "1%" }}
         >
           Create New Case
@@ -65,7 +65,7 @@ class CreateCaseDialog extends React.Component {
               be able to edit this information later.
             </Typography>
           </DialogContentText>
-          <form data-test="createCaseForm">
+          <form data-testid="createCaseForm">
             <Timeline />
             {this.props.createCaseAddressInputFeature && (
               <IntakeSource intakeSources={this.props.intakeSources} />
@@ -114,9 +114,9 @@ const Timeline = () => (
       required
       name="case.firstContactDate"
       label="First Contacted OIPM"
-      data-test="firstContactDateField"
+      data-testid="firstContactDateField"
       inputProps={{
-        "data-test": "firstContactDateInput",
+        "data-testid": "firstContactDateInput",
         type: "date",
         max: moment(Date.now()).format("YYYY-MM-DD")
       }}
@@ -139,9 +139,9 @@ const IntakeSource = props => {
       component={Dropdown}
       label="Intake Source"
       hinttext="Intake Source"
-      data-test="intakeSourceDropdown"
+      data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ "data-test": "intakeSourceInput" }}
+      inputProps={{ "data-testid": "intakeSourceInput" }}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}

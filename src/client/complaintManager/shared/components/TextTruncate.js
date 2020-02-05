@@ -32,7 +32,7 @@ class TextTruncate extends React.Component {
     return (
       <Typography
         variant="body2"
-        data-test={this.props.testLabel}
+        data-testid={this.props.testLabel}
         style={{ whiteSpace: "pre-wrap" }}
       >
         {message}
@@ -81,7 +81,7 @@ class TextTruncate extends React.Component {
       return (
         <Typography
           variant="body2"
-          data-test={testLabel}
+          data-testid={testLabel}
           style={{ whiteSpace: "pre-wrap" }}
         >
           {stringifiedMsg}

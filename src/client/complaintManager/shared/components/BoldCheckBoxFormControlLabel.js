@@ -34,7 +34,7 @@ class BoldCheckBoxFormControlLabel extends React.Component {
           <Field
             name={name}
             component={PrimaryCheckBox}
-            data-test={dataTest}
+            data-testid={dataTest}
             disabled={disabled && label !== DECLINES_OPTION}
           />
         }

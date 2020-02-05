@@ -49,7 +49,7 @@ const ExportConfirmationDialog = props => {
   return (
     <Dialog maxWidth="sm" fullWidth={true} open={props.open}>
       <DialogTitle>Export {props.title}</DialogTitle>
-      <DialogContent data-test="exportConfirmationText">
+      <DialogContent data-testid="exportConfirmationText">
         <Typography
           variant={"body2"}
           style={{ wordBreak: "break-word", marginBottom: "16px" }}
@@ -67,7 +67,7 @@ const ExportConfirmationDialog = props => {
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="exportAuditLogButton"
+          data-testid="exportAuditLogButton"
           onClick={startExportJob}
         >
           Export

@@ -24,7 +24,7 @@ const ComplainantWitnessMenu = props => {
           marginBottom: "8px"
         }}
         onClick={props.handleMenuOpen}
-        data-test="addComplainantWitness"
+        data-testid="addComplainantWitness"
       >
         + Add {props.civilianType}
       </LinkButton>
@@ -35,7 +35,7 @@ const ComplainantWitnessMenu = props => {
         getContentAnchorEl={null}
       >
         <MenuItem
-          data-test="addCivilianComplainantWitness"
+          data-testid="addCivilianComplainantWitness"
           onClick={() => {
             props.handleMenuClose();
             props.dispatch(
@@ -52,7 +52,7 @@ const ComplainantWitnessMenu = props => {
           Civilian {props.civilianType}
         </MenuItem>
         <MenuItem
-          data-test="addOfficerComplainantWitness"
+          data-testid="addOfficerComplainantWitness"
           onClick={() => {
             props.dispatch(
               initialize(OFFICER_DETAILS_FORM_NAME, {
@@ -69,7 +69,7 @@ const ComplainantWitnessMenu = props => {
         </MenuItem>
         {props.cnComplaintTypeFeature ? (
           <MenuItem
-            data-test="addCivilianWithinNopdComplainantWitness"
+            data-testid="addCivilianWithinNopdComplainantWitness"
             onClick={() => {
               props.dispatch(
                 initialize("OfficerDetails", {

@@ -136,12 +136,16 @@ describe("Case Details Component", () => {
       const navBar = caseDetails.find(NavBar);
       const expectedFormattedName = `Case #${expectedCase.caseReference}`;
 
-      containsText(navBar, '[data-test="pageTitle"]', expectedFormattedName);
+      containsText(navBar, '[data-testid="pageTitle"]', expectedFormattedName);
     });
 
     test("should display with case status", () => {
       const navBar = caseDetails.find(NavBar);
-      containsText(navBar, '[data-test="caseStatusBox"]', expectedCase.status);
+      containsText(
+        navBar,
+        '[data-testid="caseStatusBox"]',
+        expectedCase.status
+      );
     });
   });
 
@@ -149,7 +153,7 @@ describe("Case Details Component", () => {
     test("should provide an option to go back to all cases", () => {
       containsText(
         caseDetails,
-        '[data-test="all-cases-link"]',
+        '[data-testid="all-cases-link"]',
         "Back to all Cases"
       );
     });
@@ -157,19 +161,19 @@ describe("Case Details Component", () => {
     test("should display Case # as a default section title", () => {
       containsText(
         caseDetails,
-        '[data-test="case-reference"]',
+        '[data-testid="case-reference"]',
         `Case #${expectedCase.caseReference}`
       );
     });
 
     test("should display created on date", () => {
-      containsText(caseDetails, '[data-test="created-on"]', "Sep 13, 2015");
+      containsText(caseDetails, '[data-testid="created-on"]', "Sep 13, 2015");
     });
 
     test("should display complaint type", () => {
       containsText(
         caseDetails,
-        '[data-test="complaint-type"]',
+        '[data-testid="complaint-type"]',
         expectedCase.complaintType
       );
     });
@@ -177,7 +181,7 @@ describe("Case Details Component", () => {
     test("should display created by user", () => {
       containsText(
         caseDetails,
-        '[data-test="created-by"]',
+        '[data-testid="created-by"]',
         expectedCase.createdBy
       );
     });
@@ -185,7 +189,7 @@ describe("Case Details Component", () => {
     test("should display assigned to user", () => {
       containsText(
         caseDetails,
-        '[data-test="assigned-to"]',
+        '[data-testid="assigned-to"]',
         expectedCase.assignedTo
       );
     });
@@ -194,12 +198,12 @@ describe("Case Details Component", () => {
   describe("main", () => {
     test("should open Add Civilian Dialog when Add Civilian button is clicked", () => {
       const addButton = caseDetails
-        .find('button[data-test="addComplainantWitness"]')
+        .find('button[data-testid="addComplainantWitness"]')
         .first();
       addButton.simulate("click");
 
       const addCivilian = caseDetails.find(
-        'li[data-test="addCivilianComplainantWitness"]'
+        'li[data-testid="addCivilianComplainantWitness"]'
       );
       addCivilian.simulate("click");
 
@@ -210,7 +214,7 @@ describe("Case Details Component", () => {
 
     test("should open dialog when remove civilian button is clicked", () => {
       const removeComplainantButton = caseDetails
-        .find('[data-test="removeCivilianLink"]')
+        .find('[data-testid="removeCivilianLink"]')
         .first();
       removeComplainantButton.simulate("click");
 
@@ -224,7 +228,7 @@ describe("Case Details Component", () => {
 
     test("should open and initialize Case Note Dialog when Add Case Note button is clicked", () => {
       const addCaseNoteButton = caseDetails.find(
-        'button[data-test="addCaseNoteButton"]'
+        'button[data-testid="addCaseNoteButton"]'
       );
       addCaseNoteButton.simulate("click");
 

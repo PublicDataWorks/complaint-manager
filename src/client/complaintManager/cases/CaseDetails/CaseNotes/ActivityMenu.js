@@ -48,7 +48,7 @@ class ActivityMenu extends React.Component {
     return (
       <Fragment>
         <IconButton
-          data-test="activityMenuButton"
+          data-testid="activityMenuButton"
           onClick={this.handleMenuOpen}
         >
           <MoreVertIcon />
@@ -58,11 +58,14 @@ class ActivityMenu extends React.Component {
           anchorEl={this.state.anchorEl}
           onClose={this.handleMenuClose}
         >
-          <MenuItem data-test="editMenuItem" onClick={this.handleEditNoteClick}>
+          <MenuItem
+            data-testid="editMenuItem"
+            onClick={this.handleEditNoteClick}
+          >
             Edit Note
           </MenuItem>
           <MenuItem
-            data-test="removeMenuItem"
+            data-testid="removeMenuItem"
             onClick={this.handleRemoveNoteClick}
           >
             Remove Note

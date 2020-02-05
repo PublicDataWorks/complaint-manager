@@ -20,11 +20,11 @@ const IncompleteOfficerHistoryDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <DialogTitle data-test="incomplete-officer-history-title">
+      <DialogTitle data-testid="incomplete-officer-history-title">
         Missing Officer History
       </DialogTitle>
       <DialogContent>
-        <Typography style={{ marginBottom: "24px" }} data-test="dialogText">
+        <Typography style={{ marginBottom: "24px" }} data-testid="dialogText">
           In order to submit your letter, you must complete the{" "}
           <strong>Officer Complaint History</strong>. Please return to this step
           and fill in the pertinent details.
@@ -32,7 +32,7 @@ const IncompleteOfficerHistoryDialog = ({
       </DialogContent>
       <DialogActions>
         <PrimaryButton
-          data-test="close-incomplete-history-dialog"
+          data-testid="close-incomplete-history-dialog"
           onClick={() => {
             closeIncompleteOfficerHistoryDialog();
             redirectBackToOfficerHistory(caseId, officerIndex);

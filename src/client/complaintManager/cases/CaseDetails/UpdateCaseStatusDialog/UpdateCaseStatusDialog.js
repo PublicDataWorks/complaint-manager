@@ -64,7 +64,7 @@ const UpdateCaseStatusDialog = ({
 
   return (
     <Dialog open={open}>
-      <DialogTitle data-test="updateStatusDialogTitle">
+      <DialogTitle data-testid="updateStatusDialogTitle">
         Update Case Status
       </DialogTitle>
       <DialogContent>
@@ -72,7 +72,7 @@ const UpdateCaseStatusDialog = ({
           style={{
             marginBottom: "24px"
           }}
-          data-test="dialogText"
+          data-testid="dialogText"
         >
           {actionText} will mark the case as <strong>{nextStatus}</strong>
           .&nbsp;{STATUS_DESCRIPTION[nextStatus]}
@@ -84,12 +84,12 @@ const UpdateCaseStatusDialog = ({
       </DialogContent>
       <DialogActions>
         <CircularProgress
-          data-test={"update-status-progress"}
+          data-testid={"update-status-progress"}
           size={25}
           style={{ display: !submittable ? "" : "none" }}
         />
         <SecondaryButton
-          data-test="closeDialog"
+          data-testid="closeDialog"
           onClick={() => {
             closeCaseStatusUpdateDialog();
           }}
@@ -98,7 +98,7 @@ const UpdateCaseStatusDialog = ({
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="update-case-status-button"
+          data-testid="update-case-status-button"
           onClick={updateCaseStatusAction}
           disabled={!submittable}
         >

@@ -99,7 +99,7 @@ class OfficerAllegationPanelForm extends React.Component {
     return (
       <ExpansionPanel
         classes={{ root: classes.root }}
-        data-test={`officerAllegation${index}`}
+        data-testid={`officerAllegation${index}`}
         elevation={0}
         onChange={this.handleChange(editMode)}
         expanded={editMode || this.state.expanded}
@@ -117,7 +117,7 @@ class OfficerAllegationPanelForm extends React.Component {
             color="secondary"
             className="chevron-right"
             disabled={editMode}
-            data-test="expandIcon"
+            data-testid="expandIcon"
           >
             <Icon>unfold_more</Icon>
           </IconButton>
@@ -147,14 +147,14 @@ class OfficerAllegationPanelForm extends React.Component {
             {editMode ? null : (
               <div>
                 <LinkButton
-                  data-test={"editAllegationButton"}
+                  data-testid={"editAllegationButton"}
                   onClick={this.handleSubmit(id)}
                   style={{ flex: 1 }}
                 >
                   Edit
                 </LinkButton>
                 <LinkButton
-                  data-test={"removeAllegationButton"}
+                  data-testid={"removeAllegationButton"}
                   onClick={this.handleRemoveAllegation()}
                   style={{ flex: 1 }}
                 >
@@ -186,7 +186,4 @@ const mapDispatchToProps = {
 };
 
 const StyledComponent = withStyles(styles)(OfficerAllegationPanelForm);
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(StyledComponent);
+export default connect(undefined, mapDispatchToProps)(StyledComponent);

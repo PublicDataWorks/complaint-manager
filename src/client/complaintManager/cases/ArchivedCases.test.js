@@ -54,7 +54,7 @@ describe("CaseDashboard", () => {
     expect(
       containsText(
         archivedCasesWrapper,
-        '[data-test="searchResultsMessage"]',
+        '[data-testid="searchResultsMessage"]',
         "There are no archived cases to view"
       )
     );

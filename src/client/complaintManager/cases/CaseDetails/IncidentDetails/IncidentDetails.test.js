@@ -77,7 +77,10 @@ describe("incident details", () => {
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(currentCase));
     store.dispatch(
-      getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+      getDistrictsSuccess([
+        ["1st District", 1],
+        ["2nd District", 2]
+      ])
     );
     wrapper = mount(
       <Provider store={store}>
@@ -90,7 +93,7 @@ describe("incident details", () => {
   test("should display first contact date", () => {
     expect(
       wrapper
-        .find('[data-test="firstContactDate"]')
+        .find('[data-testid="firstContactDate"]')
         .first()
         .text()
     ).toEqual(formatDate(firstContactDate));
@@ -99,7 +102,7 @@ describe("incident details", () => {
   test("should display incident Date", () => {
     expect(
       wrapper
-        .find('[data-test="incidentDate"]')
+        .find('[data-testid="incidentDate"]')
         .first()
         .text()
     ).toEqual(formatDate(incidentDate));
@@ -108,7 +111,7 @@ describe("incident details", () => {
   test("should display incident time", () => {
     expect(
       wrapper
-        .find('[data-test="incidentTime"]')
+        .find('[data-testid="incidentTime"]')
         .first()
         .text()
     ).toEqual(formattedIncidentTime);
@@ -117,7 +120,7 @@ describe("incident details", () => {
   test("should display incident location", () => {
     expect(
       wrapper
-        .find('[data-test="incidentLocation"]')
+        .find('[data-testid="incidentLocation"]')
         .first()
         .text()
     ).toEqual("No address specified");
@@ -126,7 +129,7 @@ describe("incident details", () => {
   test("should display a district", () => {
     expect(
       wrapper
-        .find('[data-test="incidentDistrict"]')
+        .find('[data-testid="incidentDistrict"]')
         .first()
         .text()
     ).toEqual("N/A");
@@ -135,7 +138,7 @@ describe("incident details", () => {
   test("should display intake source", () => {
     expect(
       wrapper
-        .find('[data-test="intakeSource"]')
+        .find('[data-testid="intakeSource"]')
         .first()
         .text()
     ).toEqual("N/A");
@@ -144,7 +147,7 @@ describe("incident details", () => {
   test("should display how did you hear about us source", () => {
     expect(
       wrapper
-        .find('[data-test="howDidYouHearAboutUsSource"]')
+        .find('[data-testid="howDidYouHearAboutUsSource"]')
         .first()
         .text()
     ).toEqual("N/A");
@@ -164,22 +167,22 @@ describe("incident details", () => {
 
   test("should open dialog and prepopulate fields", () => {
     const editButton = wrapper.find(
-      'button[data-test="editIncidentDetailsButton"]'
+      'button[data-testid="editIncidentDetailsButton"]'
     );
     editButton.simulate("click");
 
     const editFirstContactDateInput = wrapper.find(
-      'input[data-test="editFirstContactDateInput"]'
+      'input[data-testid="editFirstContactDateInput"]'
     );
     const editIncidentDateInput = wrapper.find(
-      'input[data-test="editIncidentDateInput"]'
+      'input[data-testid="editIncidentDateInput"]'
     );
     const editIncidentTimeInput = wrapper.find(
-      'input[data-test="editIncidentTimeInput"]'
+      'input[data-testid="editIncidentTimeInput"]'
     );
 
     const editDistrict = wrapper
-      .find("[data-test='districtDropdown']")
+      .find("[data-testid='districtDropdown']")
       .find("ForwardRef(Autocomplete)");
 
     expect(editFirstContactDateInput.prop("value")).toEqual(firstContactDate);
@@ -190,29 +193,29 @@ describe("incident details", () => {
 
   test("should submit form when Save is clicked", () => {
     const editButton = wrapper.find(
-      'button[data-test="editIncidentDetailsButton"]'
+      'button[data-testid="editIncidentDetailsButton"]'
     );
     editButton.simulate("click");
 
     changeInput(
       wrapper,
-      'input[data-test="editFirstContactDateInput"]',
+      'input[data-testid="editFirstContactDateInput"]',
       "1994-05-03"
     );
     changeInput(
       wrapper,
-      'input[data-test="editIncidentDateInput"]',
+      'input[data-testid="editIncidentDateInput"]',
       "1994-05-02"
     );
-    changeInput(wrapper, 'input[data-test="editIncidentTimeInput"]', "13:00");
+    changeInput(wrapper, 'input[data-testid="editIncidentTimeInput"]', "13:00");
     selectDropdownOption(
       wrapper,
-      '[data-test="districtDropdown"]',
+      '[data-testid="districtDropdown"]',
       "1st District"
     );
 
     const saveButton = wrapper.find(
-      'button[data-test="saveIncidentDetailsButton"]'
+      'button[data-testid="saveIncidentDetailsButton"]'
     );
     saveButton.simulate("click");
 
@@ -230,12 +233,12 @@ describe("incident details", () => {
 
   test("should close dialog when cancel is clicked", async () => {
     const editButton = wrapper.find(
-      'button[data-test="editIncidentDetailsButton"]'
+      'button[data-testid="editIncidentDetailsButton"]'
     );
     editButton.simulate("click");
 
     const cancelButton = wrapper.find(
-      'button[data-test="cancelEditIncidentDetailsButton"]'
+      'button[data-testid="cancelEditIncidentDetailsButton"]'
     );
     cancelButton.simulate("click");
 

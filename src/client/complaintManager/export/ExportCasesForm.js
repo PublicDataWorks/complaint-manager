@@ -46,7 +46,7 @@ const ExportCasesTypeRadioGroup = props => (
       value={props.input.value}
     >
       <FormControlLabel
-        data-test={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}`}
+        data-testid={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}`}
         value={CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}
         control={<Radio color="primary" />}
         label={"First-contacted OIPM date"}
@@ -55,7 +55,7 @@ const ExportCasesTypeRadioGroup = props => (
         }
       />
       <FormControlLabel
-        data-test={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.INCIDENT_DATE}`}
+        data-testid={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.INCIDENT_DATE}`}
         value={CASE_EXPORT_TYPE.INCIDENT_DATE}
         control={<Radio color="primary" />}
         label="Incident Date"
@@ -79,7 +79,7 @@ const ExportCasesForm = props => {
       <ExportDateRange formLabel={formLabel} />
       <PrimaryButton
         disabled={props.buttonsDisabled}
-        data-test="exportRangedCases"
+        data-testid="exportRangedCases"
         onClick={handleSubmit(values =>
           openExportCasesConfirmationDialogForDateRange(
             values,
@@ -92,7 +92,7 @@ const ExportCasesForm = props => {
       </PrimaryButton>
 
       <SecondaryButton
-        data-test="exportAllCases"
+        data-testid="exportAllCases"
         disabled={props.buttonsDisabled}
         onClick={() => {
           props.openExportCasesConfirmationDialog();
@@ -119,7 +119,4 @@ const mapDispatchToProps = {
   openExportCasesConfirmationDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(connectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

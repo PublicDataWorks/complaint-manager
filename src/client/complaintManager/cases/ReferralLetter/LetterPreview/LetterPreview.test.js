@@ -117,7 +117,7 @@ describe("LetterPreview", function() {
 
   test("dispatches editReferralLetterAddresses with correct values for return to case button", () => {
     const button = wrapper
-      .find("[data-test='save-and-return-to-case-link']")
+      .find("[data-testid='save-and-return-to-case-link']")
       .first();
     button.simulate("click");
     const expectedFormValues = {
@@ -136,7 +136,9 @@ describe("LetterPreview", function() {
   });
 
   test("dispatches editReferralLetterAddresses with correct values for download button", () => {
-    const button = wrapper.find("[data-test='download-letter-as-pdf']").first();
+    const button = wrapper
+      .find("[data-testid='download-letter-as-pdf']")
+      .first();
     button.simulate("click");
     const expectedFormValues = {
       sender: "bob",
@@ -151,8 +153,8 @@ describe("LetterPreview", function() {
 
   test("dispatches editReferralLetterAddresses with correct values for back button", () => {
     dispatchSpy.mockClear();
-    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
-    const backButton = wrapper.find("[data-test='back-button']").first();
+    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
+    const backButton = wrapper.find("[data-testid='back-button']").first();
     backButton.simulate("click");
     const expectedFormValues = {
       sender: "bob",
@@ -193,9 +195,9 @@ describe("LetterPreview", function() {
         classifications: { "csfn-1": true }
       })
     );
-    changeInput(wrapper, "[data-test='transcribed-by-field']", "transcriber");
+    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
     const reviewAndApproveButton = wrapper
-      .find("[data-test='review-and-approve-letter-button']")
+      .find("[data-testid='review-and-approve-letter-button']")
       .first();
     dispatchSpy.mockClear();
     await reviewAndApproveButton.simulate("click");
@@ -216,7 +218,7 @@ describe("LetterPreview", function() {
 
   test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {
     const editButton = wrapper
-      .find("[data-test='edit-confirmation-dialog-button']")
+      .find("[data-testid='edit-confirmation-dialog-button']")
       .first();
     editButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -234,7 +236,7 @@ describe("LetterPreview", function() {
     wrapper.update();
 
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     expect(openSubmitForReviewButton.exists()).toBeFalsy();
   });
@@ -254,7 +256,7 @@ describe("LetterPreview", function() {
     );
     store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     await openSubmitForReviewButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -278,14 +280,14 @@ describe("LetterPreview", function() {
       })
     );
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     await openSubmitForReviewButton.simulate("click");
 
     wrapper.update();
 
     const submitForReviewButton = wrapper
-      .find("[data-test='update-case-status-button']")
+      .find("[data-testid='update-case-status-button']")
       .first();
     submitForReviewButton.simulate("click");
 
@@ -318,7 +320,7 @@ describe("LetterPreview", function() {
 
     wrapper.update();
     const reviewAndApproveLetterButton = wrapper
-      .find('[data-test="review-and-approve-letter-button"]')
+      .find('[data-testid="review-and-approve-letter-button"]')
       .first();
 
     expect(reviewAndApproveLetterButton.exists()).toEqual(false);
@@ -335,7 +337,7 @@ describe("LetterPreview", function() {
 
     wrapper.update();
     const reviewAndApproveLetterButton = wrapper
-      .find('[data-test="review-and-approve-letter-button"]')
+      .find('[data-testid="review-and-approve-letter-button"]')
       .first();
 
     expect(reviewAndApproveLetterButton.exists()).toEqual(false);
@@ -356,7 +358,7 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
     const reviewAndApproveLetterButton = wrapper
-      .find('[data-test="review-and-approve-letter-button"]')
+      .find('[data-testid="review-and-approve-letter-button"]')
       .first();
 
     expect(reviewAndApproveLetterButton.exists()).toEqual(true);
@@ -377,9 +379,9 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
     const message = wrapper
-      .find('[data-test="letter-preview-approved-message"]')
+      .find('[data-testid="letter-preview-approved-message"]')
       .first();
-    const preview = wrapper.find('[data-test="letter-preview"]').first();
+    const preview = wrapper.find('[data-testid="letter-preview"]').first();
 
     expect(message.exists()).toEqual(false);
     expect(preview.exists()).toEqual(true);
@@ -400,9 +402,9 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
     const message = wrapper
-      .find('[data-test="letter-preview-approved-message"]')
+      .find('[data-testid="letter-preview-approved-message"]')
       .first();
-    const preview = wrapper.find('[data-test="letter-preview"]').first();
+    const preview = wrapper.find('[data-testid="letter-preview"]').first();
 
     expect(message.exists()).toEqual(false);
     expect(preview.exists()).toEqual(true);
@@ -422,9 +424,9 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
     const message = wrapper
-      .find('[data-test="letter-preview-approved-message"]')
+      .find('[data-testid="letter-preview-approved-message"]')
       .first();
-    const preview = wrapper.find('[data-test="letter-preview"]').first();
+    const preview = wrapper.find('[data-testid="letter-preview"]').first();
 
     expect(message.exists()).toEqual(true);
     expect(preview.exists()).toEqual(false);
@@ -442,7 +444,7 @@ describe("LetterPreview", function() {
     wrapper.update();
 
     const editLetterButton = wrapper
-      .find('[data-test="edit-confirmation-dialog-button"]')
+      .find('[data-testid="edit-confirmation-dialog-button"]')
       .first();
 
     expect(editLetterButton.exists()).toEqual(false);
@@ -460,7 +462,7 @@ describe("LetterPreview", function() {
     wrapper.update();
 
     const editLetterButton = wrapper
-      .find('[data-test="edit-confirmation-dialog-button"]')
+      .find('[data-testid="edit-confirmation-dialog-button"]')
       .first();
 
     expect(editLetterButton.exists()).toEqual(true);
@@ -476,7 +478,7 @@ describe("LetterPreview", function() {
     );
 
     wrapper.update();
-    const backButton = wrapper.find('[data-test="back-button"]').first();
+    const backButton = wrapper.find('[data-testid="back-button"]').first();
     expect(backButton.exists()).toEqual(true);
   });
 
@@ -495,9 +497,9 @@ describe("LetterPreview", function() {
     );
     wrapper.update();
     const message = wrapper
-      .find('[data-test="letter-preview-approved-message"]')
+      .find('[data-testid="letter-preview-approved-message"]')
       .first();
-    const preview = wrapper.find('[data-test="letter-preview"]').first();
+    const preview = wrapper.find('[data-testid="letter-preview"]').first();
 
     expect(message.exists()).toEqual(true);
     expect(preview.exists()).toEqual(false);
@@ -516,7 +518,7 @@ describe("LetterPreview", function() {
 
     test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Review Case Details"]')
+        .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -530,7 +532,7 @@ describe("LetterPreview", function() {
 
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -544,7 +546,7 @@ describe("LetterPreview", function() {
 
     test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-IAPro Corrections"]')
+        .find('[data-testid="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -558,7 +560,7 @@ describe("LetterPreview", function() {
 
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Recommended Actions"]')
+        .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -572,7 +574,7 @@ describe("LetterPreview", function() {
 
     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Preview"]')
+        .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -603,7 +605,7 @@ describe("LetterPreview", function() {
 
     dispatchSpy.mockClear();
     const editButton = wrapper
-      .find("[data-test='edit-confirmation-dialog-button']")
+      .find("[data-testid='edit-confirmation-dialog-button']")
       .first();
     editButton.simulate("click");
 
@@ -645,7 +647,7 @@ describe("LetterPreview", function() {
     dispatchSpy.mockClear();
 
     const downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
@@ -659,7 +661,7 @@ describe("LetterPreview", function() {
     store.dispatch(getCaseDetailsSuccess(caseDetail));
     dispatchSpy.mockClear();
     const downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
@@ -684,7 +686,7 @@ describe("LetterPreview", function() {
     );
 
     const downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(stopLetterDownload());
@@ -692,7 +694,7 @@ describe("LetterPreview", function() {
 
   test("test that download button has correct text based on edit history", () => {
     const downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     let expectedText = "Download Generated Letter as PDF File";
     expect(downloadButton.text()).toEqual(expectedText);
@@ -717,16 +719,16 @@ describe("LetterPreview", function() {
 
   test("test that download button is disabled and progress indicator is visible when download is in progress", () => {
     let downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     downloadButton.simulate("click");
 
     wrapper.update();
     const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress"]')
+      .find('[data-testid="download-letter-progress"]')
       .first();
     downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
     expect(downloadButton.props().disabled).toBeTruthy();
     expect(progressIndicator.props().style.display).toEqual("");
@@ -734,11 +736,11 @@ describe("LetterPreview", function() {
 
   test("test that download button is enabled and progress indicator is not visible by default", () => {
     const downloadButton = wrapper
-      .find('[data-test="download-letter-as-pdf"]')
+      .find('[data-testid="download-letter-as-pdf"]')
       .first();
 
     const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress"]')
+      .find('[data-testid="download-letter-progress"]')
       .first();
     expect(downloadButton.props().disabled).toBeFalsy();
     expect(progressIndicator.props().style.display).toEqual("none");
@@ -757,7 +759,7 @@ describe("LetterPreview", function() {
       })
     );
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     openSubmitForReviewButton.simulate("click");
 
@@ -781,7 +783,7 @@ describe("LetterPreview", function() {
     );
     store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     openSubmitForReviewButton.simulate("click");
 
@@ -804,7 +806,7 @@ describe("LetterPreview", function() {
       })
     );
     const openSubmitForReviewButton = wrapper
-      .find("[data-test='submit-for-review-button']")
+      .find("[data-testid='submit-for-review-button']")
       .first();
     openSubmitForReviewButton.simulate("click");
 
@@ -844,7 +846,7 @@ describe("LetterPreview", function() {
       );
       wrapper.update();
       const openReviewAndApproveButton = wrapper
-        .find("[data-test='review-and-approve-letter-button']")
+        .find("[data-testid='review-and-approve-letter-button']")
         .first();
       openReviewAndApproveButton.simulate("click");
 
@@ -867,7 +869,7 @@ describe("LetterPreview", function() {
       );
       wrapper.update();
       const openReviewAndApproveButton = wrapper
-        .find("[data-test='review-and-approve-letter-button']")
+        .find("[data-testid='review-and-approve-letter-button']")
         .first();
       openReviewAndApproveButton.simulate("click");
 

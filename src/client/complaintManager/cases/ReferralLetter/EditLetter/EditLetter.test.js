@@ -78,7 +78,7 @@ describe("Edit Letter Html", () => {
   });
 
   test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button", () => {
-    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
     cancelButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -87,11 +87,11 @@ describe("Edit Letter Html", () => {
   });
 
   test("open Cancel Edit Letter Confirmation Dialog", () => {
-    const cancelButton = wrapper.find("[data-test='cancel-button']").first();
+    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
     cancelButton.simulate("click");
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-test='cancel-edit-letter-dialog']")
+      .find("[data-testid='cancel-edit-letter-dialog']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
@@ -100,7 +100,7 @@ describe("Edit Letter Html", () => {
     test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
       dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Review Case Details"]')
+        .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
 
@@ -117,7 +117,7 @@ describe("Edit Letter Html", () => {
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
       dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
 
@@ -134,7 +134,7 @@ describe("Edit Letter Html", () => {
     test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
       dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-IAPro Corrections"]')
+        .find('[data-testid="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
 
@@ -151,7 +151,7 @@ describe("Edit Letter Html", () => {
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Recommended Actions"]')
+        .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
 
@@ -168,7 +168,7 @@ describe("Edit Letter Html", () => {
     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
       dispatchSpy.mockClear();
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Preview"]')
+        .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
 

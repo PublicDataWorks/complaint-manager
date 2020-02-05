@@ -25,11 +25,11 @@ const RemovePersonDialog = ({
   submitting
 }) => (
   <Dialog open={open}>
-    <DialogTitle data-test="removePersonDialogTitle">
+    <DialogTitle data-testid="removePersonDialogTitle">
       Remove {personTypeTitleDisplay}
     </DialogTitle>
     <DialogContent>
-      <Typography data-test="warningText">
+      <Typography data-testid="warningText">
         This action will remove <strong>{personDetails.fullName}</strong> and
         all information associated to this person from the case.{optionalText}{" "}
         Are you sure you want to continue?
@@ -38,12 +38,12 @@ const RemovePersonDialog = ({
     <DialogActions>
       <SecondaryButton
         onClick={() => dispatch(closeRemovePersonDialog())}
-        data-test="cancelButton"
+        data-testid="cancelButton"
       >
         Cancel
       </SecondaryButton>
       <PrimaryButton
-        data-test="removeButton"
+        data-testid="removeButton"
         onClick={() => dispatch(removePerson(personDetails))}
         disabled={submitting}
       >

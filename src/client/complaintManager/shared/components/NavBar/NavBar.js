@@ -63,7 +63,7 @@ class NavBar extends Component {
             <IconButton
               component={Link}
               to="/"
-              data-test="homeButton"
+              data-testid="homeButton"
               style={{
                 color: !this.state.notificationDrawer ? "inherit" : "white"
               }}
@@ -74,14 +74,13 @@ class NavBar extends Component {
           ) : (
             ""
           )}
-          <Typography data-test={dataTestTitle} variant="h6" color="inherit">
+          <Typography data-testid={dataTestTitle} variant="h6" color="inherit">
             {children}
           </Typography>
 
           <div style={{ flex: 1, flexDirection: "row-reverse" }} />
 
           <Typography
-            data-test="userNickName"
             data-testid="userNickName"
             variant="h6"
             color="inherit"
@@ -90,7 +89,6 @@ class NavBar extends Component {
             <IconButton
               color="inherit"
               className="notificationBell"
-              data-test="notificationBell"
               data-testid="notificationBell"
               style={{ marginLeft: standards.small }}
               onClick={() => this.handleNotificationClick()}
@@ -103,7 +101,6 @@ class NavBar extends Component {
             onClose={() => this.handleNotificationClick()}
           />
           <IconButton
-            data-test="gearButton"
             data-testid="gearButton"
             onClick={this.handleMenuOpen}
             style={{
@@ -115,7 +112,7 @@ class NavBar extends Component {
           </IconButton>
           <Menu
             open={this.state.menuOpen}
-            data-test="menu"
+            data-testid="menu"
             style={{ zIndex: theme.zIndex.drawer + 10000 }}
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}

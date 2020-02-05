@@ -23,7 +23,7 @@ describe("PIB Control Field", () => {
 
   test("should not be an empty string", () => {
     const pibCaseInput = pibCaseFieldComponent.find(
-      'input[data-test="pib-control-input"]'
+      'input[data-testid="pib-control-input"]'
     );
 
     pibCaseInput.simulate("focus");
@@ -37,7 +37,7 @@ describe("PIB Control Field", () => {
 
   test("should not be blank", () => {
     const pibCaseInput = pibCaseFieldComponent.find(
-      'input[data-test="pib-control-input"]'
+      'input[data-testid="pib-control-input"]'
     );
 
     pibCaseInput.simulate("focus");
@@ -51,7 +51,7 @@ describe("PIB Control Field", () => {
 
   test("should display error when pib case is invalid", () => {
     const pibCaseInput = pibCaseFieldComponent.find(
-      'input[data-test="pib-control-input"]'
+      'input[data-testid="pib-control-input"]'
     );
 
     pibCaseInput.simulate("focus");
@@ -59,7 +59,7 @@ describe("PIB Control Field", () => {
     pibCaseInput.simulate("blur");
 
     const pibCaseField = pibCaseFieldComponent.find(
-      'div[data-test="pib-control-field"]'
+      'div[data-testid="pib-control-field"]'
     );
     expect(pibCaseField.text()).toContain(
       "Please enter a valid PIB control number"
@@ -69,12 +69,12 @@ describe("PIB Control Field", () => {
   test("should pass the pizza party test", () => {
     changeInput(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "8787---676-----pizza party 5-R6"
     );
     containsValue(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "8787-6765-R"
     );
   });
@@ -82,12 +82,12 @@ describe("PIB Control Field", () => {
   test("should display only numbers when letters are entered", () => {
     changeInput(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "1234ab"
     );
     containsValue(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "1234-____-_"
     );
   });
@@ -95,7 +95,7 @@ describe("PIB Control Field", () => {
   test("should display number with 2 dashes and spaces when length of 8", () => {
     changeInput(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "20191234"
     );
 
@@ -103,7 +103,7 @@ describe("PIB Control Field", () => {
 
     containsValue(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       expectedString
     );
   });
@@ -111,7 +111,7 @@ describe("PIB Control Field", () => {
   test("should display number with dashes and space with length > 4", () => {
     changeInput(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "2019"
     );
 
@@ -119,7 +119,7 @@ describe("PIB Control Field", () => {
 
     containsValue(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       expectedString
     );
   });
@@ -127,11 +127,11 @@ describe("PIB Control Field", () => {
   test("should display nothing when bad input entered", () => {
     changeInput(
       pibCaseFieldComponent,
-      '[data-test="pib-control-input"]',
+      '[data-testid="pib-control-input"]',
       "#!@%"
     );
     const pibCaseNumber = pibCaseFieldComponent
-      .find('[data-test="pib-control-input"]')
+      .find('[data-testid="pib-control-input"]')
       .last();
 
     expect(pibCaseNumber.instance().value.replace(/\s+/g, "")).toEqual("");

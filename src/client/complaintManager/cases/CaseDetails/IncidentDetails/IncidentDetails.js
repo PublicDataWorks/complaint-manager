@@ -149,7 +149,7 @@ class IncidentDetails extends React.Component {
                 <div />
               ) : (
                 <LinkButton
-                  data-test="editIncidentDetailsButton"
+                  data-testid="editIncidentDetailsButton"
                   onClick={this.handleDialogOpen}
                 >
                   Edit

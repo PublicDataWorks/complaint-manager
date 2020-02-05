@@ -38,7 +38,7 @@ describe("RemoveCaseTagDialog", () => {
     );
 
     const removeCaseTagButton = wrapper
-      .find('[data-test="removeCaseTag"]')
+      .find('[data-testid="removeCaseTag"]')
       .first();
     removeCaseTagButton.simulate("click");
 
@@ -69,7 +69,7 @@ describe("RemoveCaseTagDialog", () => {
       </Provider>
     );
 
-    const cancelButton = wrapper.find('[data-test="cancelButton"]').first();
+    const cancelButton = wrapper.find('[data-testid="cancelButton"]').first();
     cancelButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
   });

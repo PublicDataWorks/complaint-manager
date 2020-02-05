@@ -13,7 +13,7 @@ describe("CivilianInfoDisplay", () => {
     );
 
     const displayedValue = displayWrapper
-      .find('p[data-test="testLabel"]')
+      .find('p[data-testid="testLabel"]')
       .text();
 
     expect(displayedValue).toEqual("N/A");
@@ -30,7 +30,7 @@ describe("CivilianInfoDisplay", () => {
     );
 
     const displayedValue = displayWrapper
-      .find('p[data-test="testLabel"]')
+      .find('p[data-testid="testLabel"]')
       .text();
 
     expect(displayedValue).toEqual(expectedValue);

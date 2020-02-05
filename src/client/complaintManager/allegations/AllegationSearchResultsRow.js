@@ -56,7 +56,7 @@ export class AllegationSearchResultsRow extends React.Component {
 
     return (
       <LinkButton
-        data-test="selectAllegationButton"
+        data-testid="selectAllegationButton"
         onClick={this.selectAllegation}
       >
         Select

@@ -12,7 +12,7 @@ import StyledLink from "../../../shared/components/StyledLink";
 
 export const SelectNewOfficer = ({ path, officer, initialize, dispatch }) => (
   <LinkButton
-    data-test="selectNewOfficerButton"
+    data-testid="selectNewOfficerButton"
     component={Link}
     to={path}
     onClick={() => {
@@ -26,7 +26,7 @@ export const SelectNewOfficer = ({ path, officer, initialize, dispatch }) => (
 
 export const SelectUnknownOfficerLink = ({ dispatch, initialize, path }) => (
   <StyledLink
-    data-test="selectUnknownOfficerLink"
+    data-testid="selectUnknownOfficerLink"
     to={path}
     style={{ cursor: "pointer" }}
     onClick={() => {
@@ -41,7 +41,7 @@ export const SelectUnknownOfficerLink = ({ dispatch, initialize, path }) => (
 export const SelectUnknownOfficerButton = ({ dispatch, initialize, path }) => (
   <SecondaryButton
     style={{ marginRight: 20 }}
-    data-test="unknownOfficerButton"
+    data-testid="unknownOfficerButton"
     component={Link}
     to={path}
     onClick={() => {
@@ -54,14 +54,14 @@ export const SelectUnknownOfficerButton = ({ dispatch, initialize, path }) => (
 );
 
 export const PreviouslyAddedOfficer = () => (
-  <Button disabled={true} data-test="officerAlreadyAdded">
+  <Button disabled={true} data-testid="officerAlreadyAdded">
     added
   </Button>
 );
 
 export const ChangeOfficer = ({ children, dispatch, officerSearchUrl }) => (
   <LinkButton
-    data-test="changeOfficerLink"
+    data-testid="changeOfficerLink"
     component={Link}
     to={officerSearchUrl}
     onClick={() => {

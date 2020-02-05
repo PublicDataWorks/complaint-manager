@@ -14,9 +14,9 @@ describe("DateField", () => {
         <DateField
           name="dateTest"
           label="TEST DATE FIELD LABEL"
-          data-test="dateField"
+          data-testid="dateField"
           inputProps={{
-            "data-test": "dateInput"
+            "data-testid": "dateInput"
           }}
         />
       );
@@ -29,8 +29,8 @@ describe("DateField", () => {
       </Provider>
     );
 
-    datePicker = form.find('[data-test="dateInput"]').last();
-    datePickerField = form.find('[data-test="dateField"]').first();
+    datePicker = form.find('[data-testid="dateInput"]').last();
+    datePickerField = form.find('[data-testid="dateField"]').first();
   });
 
   test("should display label", () => {

@@ -43,7 +43,7 @@ class Classifications extends Component {
 
   render() {
     return (
-      <Card data-test="classificationsContainer" style={styles.cardStyling}>
+      <Card data-testid="classificationsContainer" style={styles.cardStyling}>
         <CardContent style={styles.cardStyling}>
           <Typography
             style={{

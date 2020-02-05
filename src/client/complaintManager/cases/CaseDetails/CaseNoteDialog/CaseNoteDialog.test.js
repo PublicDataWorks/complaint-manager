@@ -63,7 +63,7 @@ describe("CaseNoteDialog", () => {
 
     wrapper.update();
 
-    const closeButton = wrapper.find('[data-test="cancelButton"]').first();
+    const closeButton = wrapper.find('[data-testid="cancelButton"]').first();
     closeButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
@@ -80,8 +80,8 @@ describe("CaseNoteDialog", () => {
 
     wrapper.update();
 
-    const title = wrapper.find('[data-test="caseNoteDialogTitle"]').first();
-    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    const title = wrapper.find('[data-testid="caseNoteDialogTitle"]').first();
+    const submitButton = wrapper.find('[data-testid="submitButton"]').first();
 
     expect(title.text()).toEqual("Edit Case Note");
     expect(submitButton.text()).toEqual("Save");
@@ -94,11 +94,15 @@ describe("CaseNoteDialog", () => {
       caseNoteActionId: caseNoteActions.memoToFile[1]
     };
 
-    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
+    changeInput(
+      wrapper,
+      '[data-testid="dateAndTimeInput"]',
+      dateWithOutTimeZone
+    );
 
     selectDropdownOption(
       wrapper,
-      '[data-test="actionsDropdown"]',
+      '[data-testid="actionsDropdown"]',
       caseNoteActions.memoToFile[0]
     );
     submitButton.simulate("click");
@@ -118,9 +122,13 @@ describe("CaseNoteDialog", () => {
       actionTakenAt: "2018-05-16T18:47:00-05:00"
     };
 
-    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
+    changeInput(
+      wrapper,
+      '[data-testid="dateAndTimeInput"]',
+      dateWithOutTimeZone
+    );
 
-    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    const submitButton = wrapper.find('[data-testid="submitButton"]').first();
     submitButton.simulate("click");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editCaseNote(submittedValues));
@@ -145,15 +153,19 @@ describe("CaseNoteDialog", () => {
       notes: "these are notes"
     };
 
-    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
+    changeInput(
+      wrapper,
+      '[data-testid="dateAndTimeInput"]',
+      dateWithOutTimeZone
+    );
     selectDropdownOption(
       wrapper,
-      '[data-test="actionsDropdown"]',
+      '[data-testid="actionsDropdown"]',
       caseNoteActions.memoToFile[0]
     );
-    changeInput(wrapper, '[data-test="notesInput"]', submittedValues.notes);
+    changeInput(wrapper, '[data-testid="notesInput"]', submittedValues.notes);
 
-    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    const submitButton = wrapper.find('[data-testid="submitButton"]').first();
     submitButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(addCaseNote(submittedValues));
@@ -166,14 +178,18 @@ describe("CaseNoteDialog", () => {
 
     const dateWithOutTimeZone = "2018-05-16T18:47";
 
-    changeInput(wrapper, '[data-test="dateAndTimeInput"]', dateWithOutTimeZone);
+    changeInput(
+      wrapper,
+      '[data-testid="dateAndTimeInput"]',
+      dateWithOutTimeZone
+    );
 
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: "2018-05-16T18:47:00-05:00"
     };
 
-    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    const submitButton = wrapper.find('[data-testid="submitButton"]').first();
     submitButton.simulate("click");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(addCaseNote(submittedValues));
@@ -197,9 +213,9 @@ describe("CaseNoteDialog", () => {
 
     wrapper.update();
 
-    changeInput(wrapper, '[data-test="notesInput"]', caseNotes);
+    changeInput(wrapper, '[data-testid="notesInput"]', caseNotes);
 
-    const submitButton = wrapper.find('[data-test="submitButton"]').first();
+    const submitButton = wrapper.find('[data-testid="submitButton"]').first();
     submitButton.simulate("click");
 
     const valuesToSubmit = {

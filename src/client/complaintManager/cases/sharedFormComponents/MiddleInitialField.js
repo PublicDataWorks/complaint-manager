@@ -5,10 +5,10 @@ import { renderTextField } from "./renderFunctions";
 const MiddleInitialField = props => (
   <Field
     {...props}
-    data-test="middleInitialField"
+    data-testid="middleInitialField"
     label="M.I."
     inputProps={{
-      "data-test": "middleInitialInput",
+      "data-testid": "middleInitialInput",
       autoComplete: "disabled",
       maxLength: 1
     }}

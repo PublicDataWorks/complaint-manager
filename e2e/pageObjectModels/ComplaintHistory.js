@@ -30,25 +30,25 @@ module.exports = {
   commands: [complaintHistoryCommands],
   elements: {
     nextButton: {
-      selector: "[data-test='next-button']"
+      selector: "[data-testid='next-button']"
     },
     pageHeader: {
-      selector: '[data-test="complaint-history-page-header"]'
+      selector: '[data-testid="complaint-history-page-header"]'
     },
     officerHighAllegations: {
       selector:
-        '[data-test="letterOfficers[0]-numHistoricalHighAllegations"] input'
+        '[data-testid="letterOfficers[0]-numHistoricalHighAllegations"] input'
     },
     officerMedAllegations: {
       selector:
-        '[data-test="letterOfficers[0]-numHistoricalMedAllegations"] input'
+        '[data-testid="letterOfficers[0]-numHistoricalMedAllegations"] input'
     },
     officerLowAllegations: {
       selector:
-        '[data-test="letterOfficers[0]-numHistoricalLowAllegations"] input'
+        '[data-testid="letterOfficers[0]-numHistoricalLowAllegations"] input'
     },
     officerHistoryOptionFour: {
-      selector: '[data-test="letterOfficers[0]-option-4"]'
+      selector: '[data-testid="letterOfficers[0]-option-4"]'
     }
   }
 };

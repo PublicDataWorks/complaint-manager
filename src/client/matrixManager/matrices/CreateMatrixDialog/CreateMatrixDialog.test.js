@@ -38,7 +38,7 @@ describe("CreateMatrixDialog", () => {
     dispatchSpy.mockClear();
 
     const createMatrixDialog = wrapper.find(
-      'button[data-test="create-matrix-button"]'
+      'button[data-testid="create-matrix-button"]'
     );
     createMatrixDialog.simulate("click");
 
@@ -57,27 +57,27 @@ describe("CreateMatrixDialog", () => {
   });
 
   test("should dismiss when cancel button is clicked", async () => {
-    const cancel = wrapper.find('button[data-test="cancel-matrix"]');
+    const cancel = wrapper.find('button[data-testid="cancel-matrix"]');
     cancel.simulate("click");
 
     await expectEventuallyNotToExist(
       wrapper,
-      '[data-test="create-matrix-dialog-title"]'
+      '[data-testid="create-matrix-dialog-title"]'
     );
   });
 
   describe("Create and Search Button", () => {
     beforeEach(() => {
-      changeInput(wrapper, '[data-test="pib-control-input"]', "2019-0001-Y");
+      changeInput(wrapper, '[data-testid="pib-control-input"]', "2019-0001-Y");
       findDropdownOption(
         wrapper,
-        '[data-test="first-reviewer-dropdown"]',
+        '[data-testid="first-reviewer-dropdown"]',
         "Jacob",
         false
       );
       findDropdownOption(
         wrapper,
-        '[data-test="second-reviewer-dropdown"]',
+        '[data-testid="second-reviewer-dropdown"]',
         "Kuba",
         false
       );
@@ -86,7 +86,7 @@ describe("CreateMatrixDialog", () => {
     test("should call the thunk with correct values", () => {
       dispatchSpy.mockClear();
       const submitButton = wrapper.find(
-        'PrimaryButton[data-test="create-and-search"]'
+        'PrimaryButton[data-testid="create-and-search"]'
       );
 
       submitButton.simulate("click");
@@ -104,12 +104,12 @@ describe("CreateMatrixDialog", () => {
   describe("reviewer dropdown", () => {
     test("first reviewer should display error when not set on save", () => {
       const submitButton = wrapper.find(
-        'PrimaryButton[data-test="create-and-search"]'
+        'PrimaryButton[data-testid="create-and-search"]'
       );
       submitButton.simulate("click");
       expect(
         wrapper
-          .find('[data-test="first-reviewer-dropdown"]')
+          .find('[data-testid="first-reviewer-dropdown"]')
           .last()
           .text()
       ).toContain("Please select a First Reviewer");
@@ -117,12 +117,12 @@ describe("CreateMatrixDialog", () => {
 
     test("second reviewer should display error when not set on save", () => {
       const submitButton = wrapper.find(
-        'PrimaryButton[data-test="create-and-search"]'
+        'PrimaryButton[data-testid="create-and-search"]'
       );
       submitButton.simulate("click");
       expect(
         wrapper
-          .find('[data-test="second-reviewer-dropdown"]')
+          .find('[data-testid="second-reviewer-dropdown"]')
           .last()
           .text()
       ).toContain("Please select a Second Reviewer");
@@ -130,7 +130,7 @@ describe("CreateMatrixDialog", () => {
 
     test("should load getUsers output in dropdown", () => {
       let firstReviewer = wrapper
-        .find('[data-test="first-reviewer-dropdown"]')
+        .find('[data-testid="first-reviewer-dropdown"]')
         .first();
 
       expect(firstReviewer.prop("children")).toEqual(
@@ -156,7 +156,7 @@ describe("CreateMatrixDialog", () => {
       wrapper.update();
 
       firstReviewer = wrapper
-        .find('[data-test="first-reviewer-dropdown"]')
+        .find('[data-testid="first-reviewer-dropdown"]')
         .first();
 
       expect(firstReviewer.prop("children")).toEqual(
@@ -178,24 +178,24 @@ describe("CreateMatrixDialog", () => {
     });
 
     test("should display error below second reviewer if both reviewers are the same", () => {
-      changeInput(wrapper, '[data-test="pib-control-input"]', "2019-0001-Y");
+      changeInput(wrapper, '[data-testid="pib-control-input"]', "2019-0001-Y");
       findDropdownOption(
         wrapper,
-        '[data-test="first-reviewer-dropdown"]',
+        '[data-testid="first-reviewer-dropdown"]',
         "Jacob",
         false
       );
       findDropdownOption(
         wrapper,
-        '[data-test="second-reviewer-dropdown"]',
+        '[data-testid="second-reviewer-dropdown"]',
         "Jacob",
         false
       );
       const secondDropdown = wrapper
-        .find('[data-test="second-reviewer-dropdown"]')
+        .find('[data-testid="second-reviewer-dropdown"]')
         .last();
       const submitButton = wrapper.find(
-        'PrimaryButton[data-test="create-and-search"]'
+        'PrimaryButton[data-testid="create-and-search"]'
       );
       submitButton.simulate("click");
 

@@ -27,7 +27,7 @@ const getBoxStyle = color => ({
 });
 
 const StyleGuide = props => (
-  <div data-test="styleGuide">
+  <div data-testid="styleGuide">
     <NavBar menuType={complaintManagerMenuOptions}>Style Guide</NavBar>
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
       <Typography variant="h6" style={{ marginLeft: 20 }}>

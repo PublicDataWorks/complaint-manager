@@ -21,11 +21,11 @@ describe("AddressInfoDisplay", () => {
       />
     );
 
-    containsText(addressInfoWrapper, '[data-test="test"]', "200 E Randolph");
-    containsText(addressInfoWrapper, '[data-test="test"]', "APT 2");
+    containsText(addressInfoWrapper, '[data-testid="test"]', "200 E Randolph");
+    containsText(addressInfoWrapper, '[data-testid="test"]', "APT 2");
     containsText(
       addressInfoWrapper,
-      '[data-test="testAdditionalLocationInfo"]',
+      '[data-testid="testAdditionalLocationInfo"]',
       "In the parking lot"
     );
   });
@@ -37,7 +37,7 @@ describe("AddressInfoDisplay", () => {
 
     containsText(
       addressInfoWrapper,
-      '[data-test="test"]',
+      '[data-testid="test"]',
       "No address specified"
     );
   });
@@ -59,7 +59,7 @@ describe("AddressInfoDisplay", () => {
       />
     );
     const renderedAddressHTML = addressInfoWrapper
-      .find('[data-test="test"]')
+      .find('[data-testid="test"]')
       .last()
       .html();
     expect(renderedAddressHTML).toContain(
@@ -84,7 +84,7 @@ describe("AddressInfoDisplay", () => {
       />
     );
     const renderedAddressHTML = addressInfoWrapper
-      .find('[data-test="test"]')
+      .find('[data-testid="test"]')
       .last()
       .html();
     expect(renderedAddressHTML).toContain(

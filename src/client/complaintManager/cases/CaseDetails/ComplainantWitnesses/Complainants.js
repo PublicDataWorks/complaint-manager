@@ -22,7 +22,7 @@ const Complainants = props => {
 
   return (
     <BaseCaseDetailsCard
-      data-test="complainantWitnessesSection"
+      data-testid="complainantWitnessesSection"
       title="Complainants"
       subtitle={getSubtitleText(sortedComplainants)}
     >

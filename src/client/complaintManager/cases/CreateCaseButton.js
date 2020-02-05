@@ -8,7 +8,7 @@ import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 const CreateCaseButton = ({ openCreateCaseDialog, open }) => (
   <div>
     <PrimaryButton
-      data-test="createCaseButton"
+      data-testid="createCaseButton"
       onClick={() => openCreateCaseDialog(DialogTypes.CASE)}
       style={{ marginLeft: "5%", marginTop: "2%" }}
     >
@@ -22,7 +22,4 @@ const mapDispatchToProps = {
   openCreateCaseDialog: openCreateDialog
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CreateCaseButton);
+export default connect(null, mapDispatchToProps)(CreateCaseButton);

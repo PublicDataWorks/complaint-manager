@@ -31,11 +31,11 @@ describe("OfficerSearch test", () => {
     );
 
     const officerSearchTitle = officerSearch
-      .find('[data-test="search-page-header"]')
+      .find('[data-testid="search-page-header"]')
       .first();
 
     const unknownOfficerLink = officerSearch
-      .find('[data-test="unknown-officer-link"]')
+      .find('[data-testid="unknown-officer-link"]')
       .first();
 
     expect(officerSearchTitle.text()).toEqual(`Search for an ${OFFICER_TITLE}`);
@@ -58,11 +58,11 @@ describe("OfficerSearch test", () => {
     );
 
     const officerSearchTitle = officerSearch
-      .find('[data-test="search-page-header"]')
+      .find('[data-testid="search-page-header"]')
       .first();
 
     const unknownOfficerLink = officerSearch
-      .find('[data-test="unknown-officer-link"]')
+      .find('[data-testid="unknown-officer-link"]')
       .first();
 
     expect(officerSearchTitle.text()).toEqual(

@@ -22,14 +22,14 @@ const OfficerSearch = props => {
     <div>
       <div style={{ margin: "0 0 32px 0" }}>
         <Typography
-          data-test="search-page-header"
+          data-testid="search-page-header"
           variant="h6"
           className="officerSearchHeader"
         >
           {searchText}
         </Typography>
         {isCivilianWithinNopd ? null : (
-          <Typography data-test="unknown-officer-link" variant="body2">
+          <Typography data-testid="unknown-officer-link" variant="body2">
             Unable to find an officer? You can{" "}
             <SelectUnknownOfficerLink
               dispatch={props.dispatch}

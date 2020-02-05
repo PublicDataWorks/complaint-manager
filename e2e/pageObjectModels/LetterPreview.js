@@ -41,19 +41,19 @@ module.exports = {
       selector: ".letter-preview"
     },
     editButton: {
-      selector: '[data-test="edit-confirmation-dialog-button"]'
+      selector: '[data-testid="edit-confirmation-dialog-button"]'
     },
     dialogEditButton: {
-      selector: '[data-test="edit-letter-button"]'
+      selector: '[data-testid="edit-letter-button"]'
     },
     pageHeader: {
-      selector: '[data-test="preview-page-header"]'
+      selector: '[data-testid="preview-page-header"]'
     },
     submitButton: {
-      selector: "[data-test='submit-for-review-button']"
+      selector: "[data-testid='submit-for-review-button']"
     },
     confirmSubmitButton: {
-      selector: '[data-test="update-case-status-button"]'
+      selector: '[data-testid="update-case-status-button"]'
     }
   }
 };

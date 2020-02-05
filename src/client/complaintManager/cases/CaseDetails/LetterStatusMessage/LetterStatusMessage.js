@@ -75,7 +75,7 @@ class LetterStatusMessage extends React.Component {
 
     return (
       <div
-        data-test="letterStatusMessage"
+        data-testid="letterStatusMessage"
         style={{
           maxWidth: "850px",
           paddingBottom: "24px",

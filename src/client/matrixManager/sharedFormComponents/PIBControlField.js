@@ -43,10 +43,10 @@ const PIBControlField = () => {
       component={renderTextField}
       label="PIB Control #"
       inputProps={{
-        "data-test": "pib-control-input",
+        "data-testid": "pib-control-input",
         autoComplete: "disabled"
       }}
-      data-test="pib-control-field"
+      data-testid="pib-control-field"
       validate={[
         isPIBControlNumber,
         pibControlNumberRequired,

@@ -91,44 +91,45 @@ const officerCommands = {
 
 const officerElements = {
   unknownOfficerPanel: {
-    selector: "[data-test='unknownOfficerPanel']"
+    selector: "[data-testid='unknownOfficerPanel']"
   },
   manageKnownOfficerButton: {
-    selector: "[data-test='knownOfficerPanel'] [data-test='manageCaseOfficer']"
+    selector:
+      "[data-testid='knownOfficerPanel'] [data-testid='manageCaseOfficer']"
   },
   manageUnknownOfficerButton: {
     selector:
-      "[data-test='unknownOfficerPanel'] [data-test='manageCaseOfficer']"
+      "[data-testid='unknownOfficerPanel'] [data-testid='manageCaseOfficer']"
   },
   manageAllegationsButton: {
-    selector: '[data-test="addAllegation"]'
+    selector: '[data-testid="addAllegation"]'
   },
   editOfficerButton: {
-    selector: "[data-test='editCaseOfficer']"
+    selector: "[data-testid='editCaseOfficer']"
   },
   knownOfficerPanel: {
-    selector: '[data-test="knownOfficerPanel"]'
+    selector: '[data-testid="knownOfficerPanel"]'
   },
   addWitnessMenu: {
-    selector: '[data-test="addComplainantWitness"]'
+    selector: '[data-testid="addComplainantWitness"]'
   },
   addWitnessCivilianWithinNopd: {
-    selector: '[data-test="addCivilianWithinNopdComplainantWitness"]'
+    selector: '[data-testid="addCivilianWithinNopdComplainantWitness"]'
   },
   knownCivilianWithinNopdPanel: {
-    selector: "[data-test='knownCivilian(NOPD)Panel']"
+    selector: "[data-testid='knownCivilian(NOPD)Panel']"
   },
   addAccusedMenu: {
-    selector: '[data-test="addAccusedMenu"]'
+    selector: '[data-testid="addAccusedMenu"]'
   },
   addAccusedOfficer: {
-    selector: '[data-test="addAccusedOfficer"]'
+    selector: '[data-testid="addAccusedOfficer"]'
   },
   removeOfficerButton: {
-    selector: '[data-test="removeCaseOfficer"]'
+    selector: '[data-testid="removeCaseOfficer"]'
   },
   removeOfficerDialogButton: {
-    selector: '[data-test="removeButton"]'
+    selector: '[data-testid="removeButton"]'
   }
 };
 

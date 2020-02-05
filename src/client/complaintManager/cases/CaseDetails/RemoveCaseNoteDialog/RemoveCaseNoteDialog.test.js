@@ -33,7 +33,7 @@ describe("RemoveCaseNoteDialog", function() {
     );
 
     const removeCaseNoteButton = wrapper
-      .find('[data-test="removeCaseNote"]')
+      .find('[data-testid="removeCaseNote"]')
       .first();
     removeCaseNoteButton.simulate("click");
 
@@ -53,7 +53,7 @@ describe("RemoveCaseNoteDialog", function() {
       </Provider>
     );
 
-    const cancelButton = wrapper.find('[data-test="cancelButton"]').first();
+    const cancelButton = wrapper.find('[data-testid="cancelButton"]').first();
     cancelButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
   });

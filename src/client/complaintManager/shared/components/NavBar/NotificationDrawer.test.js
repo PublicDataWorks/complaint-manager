@@ -31,7 +31,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on navBar", async () => {
     //ARRANGE
-    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const { getByTestId, getByText, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
     const headerUserName = getByTestId("userNickName");
 
@@ -54,7 +54,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on backdrop", async () => {
     //ARRANGE
-    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const { getByTestId, getByText, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer
@@ -76,7 +76,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on bell", async () => {
     //ARRANGE
-    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const { getByTestId, getByText, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer
@@ -98,7 +98,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and stay open when clicking on itself", async () => {
     //ARRANGE
-    const { getByTestId, getByText, debug, queryByText } = renderNavBar();
+    const { getByTestId, getByText, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer

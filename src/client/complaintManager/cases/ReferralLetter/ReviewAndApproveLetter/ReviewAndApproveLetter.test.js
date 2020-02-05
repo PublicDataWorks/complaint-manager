@@ -67,12 +67,12 @@ describe("ReviewAndApproveLetter", () => {
   });
 
   test("should not display anything when lettertype is null", () => {
-    const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    const displayDate = wrapper.find('[data-testid="edit-history"]').first();
     expect(displayDate.text()).toEqual("");
   });
 
   test("should display today's date when letter is generated", () => {
-    const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    const displayDate = wrapper.find('[data-testid="edit-history"]').first();
     const letterHtml = "<p>html</p>";
     const addresses = "<p>addresses</p>";
     store.dispatch(
@@ -110,7 +110,7 @@ describe("ReviewAndApproveLetter", () => {
     );
     wrapper.update();
     const approveButton = wrapper
-      .find('[data-test="approve-letter-button"]')
+      .find('[data-testid="approve-letter-button"]')
       .first();
     expect(approveButton.exists()).toEqual(true);
   });
@@ -136,7 +136,7 @@ describe("ReviewAndApproveLetter", () => {
       )
     );
     wrapper.update();
-    const displayDate = wrapper.find('[data-test="edit-history"]').first();
+    const displayDate = wrapper.find('[data-testid="edit-history"]').first();
     expect(displayDate.text()).toEqual(
       `This letter was last edited on ${dateTimeFromString(inputDate)}`
     );
@@ -145,7 +145,7 @@ describe("ReviewAndApproveLetter", () => {
   test("displays progress indicator while loading pdf", () => {
     store.dispatch(startLoadingPdfPreview());
     const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress"]')
+      .find('[data-testid="download-letter-progress"]')
       .first();
     expect(progressIndicator.props().style.display).toEqual("");
   });
@@ -154,18 +154,18 @@ describe("ReviewAndApproveLetter", () => {
     store.dispatch(finishLoadingPdfPreview());
     wrapper.update();
     const progressIndicator = wrapper
-      .find('[data-test="download-letter-progress"]')
+      .find('[data-testid="download-letter-progress"]')
       .first();
     expect(progressIndicator.props().style.display).toEqual("none");
   });
 
   test("displays modal when approve letter button clicked", () => {
     const approveLetterButton = wrapper
-      .find('[data-test="approve-letter-button"]')
+      .find('[data-testid="approve-letter-button"]')
       .first();
     approveLetterButton.simulate("click");
     const approveLetterDialog = wrapper
-      .find('[data-test="dialogText"]')
+      .find('[data-testid="dialogText"]')
       .first();
     expect(approveLetterDialog.text()).toContain(
       `This action will mark the case as ${CASE_STATUS.FORWARDED_TO_AGENCY}`
@@ -174,12 +174,12 @@ describe("ReviewAndApproveLetter", () => {
 
   test("dispatches the approve letter thunk when update case status dialog button clicked", () => {
     const approveLetterButton = wrapper
-      .find('[data-test="approve-letter-button"]')
+      .find('[data-testid="approve-letter-button"]')
       .first();
     approveLetterButton.simulate("click");
 
     const dialogSubmitButton = wrapper
-      .find('[data-test="update-case-status-button"]')
+      .find('[data-testid="update-case-status-button"]')
       .first();
     dialogSubmitButton.simulate("click");
     expect(approveReferralLetter).toHaveBeenCalledWith(

@@ -7,7 +7,7 @@ class MenuNavigator extends Component {
   generateMenuItem = menuItem => (
     <MenuItem
       key={menuItem.path}
-      data-test={menuItem.dataTestName}
+      data-testid={menuItem.dataTestName}
       component={Link}
       onClick={() => {
         this.props.handleMenuClose();
@@ -23,7 +23,7 @@ class MenuNavigator extends Component {
       <div>
         {this.props.menuType.map(menuItem => this.generateMenuItem(menuItem))}
 
-        <MenuItem data-test="logOutButton" onClick={handleLogout}>
+        <MenuItem data-testid="logOutButton" onClick={handleLogout}>
           Log Out
         </MenuItem>
       </div>

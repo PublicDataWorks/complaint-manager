@@ -101,7 +101,10 @@ describe("civilian dialog", () => {
 
     store.dispatch(initialize(CIVILIAN_FORM_NAME, caseCivilian));
     store.dispatch(
-      getRaceEthnicitiesSuccess([["Japanese", 1], ["unknown2", 2]])
+      getRaceEthnicitiesSuccess([
+        ["Japanese", 1],
+        ["unknown2", 2]
+      ])
     );
     store.dispatch(
       getGenderIdentitiesSuccess([unknownGenderIdentity, otherGenderIdentity])
@@ -127,7 +130,7 @@ describe("civilian dialog", () => {
     );
 
     civilianDialog.update();
-    save = civilianDialog.find('button[data-test="submitEditCivilian"]');
+    save = civilianDialog.find('button[data-testid="submitEditCivilian"]');
   });
 
   test("should call getGenderIdentityDropdownValues on mount", () => {
@@ -160,7 +163,7 @@ describe("civilian dialog", () => {
 
       containsValue(
         otherCivilianDialog,
-        '[data-test="addressSuggestionField"] > input',
+        '[data-testid="addressSuggestionField"] > input',
         "Address lookup is down, please try again later"
       );
     });
@@ -170,7 +173,7 @@ describe("civilian dialog", () => {
     let genderDropdown;
     beforeEach(() => {
       genderDropdown = civilianDialog
-        .find('[data-test="genderDropdown"]')
+        .find('[data-testid="genderDropdown"]')
         .last();
     });
 
@@ -183,7 +186,7 @@ describe("civilian dialog", () => {
   describe("race and ethnicity", () => {
     let raceDropdown;
     beforeEach(() => {
-      raceDropdown = civilianDialog.find('[data-test="raceDropdown"]').last();
+      raceDropdown = civilianDialog.find('[data-testid="raceDropdown"]').last();
     });
 
     test("should have a label race/ethnicity", () => {
@@ -199,7 +202,9 @@ describe("civilian dialog", () => {
   describe("title", () => {
     let titleDropdown;
     beforeEach(() => {
-      titleDropdown = civilianDialog.find('[data-test="titleDropdown"]').last();
+      titleDropdown = civilianDialog
+        .find('[data-testid="titleDropdown"]')
+        .last();
     });
 
     test("should show error if not set on save", () => {
@@ -228,49 +233,49 @@ describe("civilian dialog", () => {
 
         changeInput(
           civilianDialog,
-          '[data-test="firstNameInput"]',
+          '[data-testid="firstNameInput"]',
           civilianToSubmit.firstName
         );
         changeInput(
           civilianDialog,
-          '[data-test="lastNameInput"]',
+          '[data-testid="lastNameInput"]',
           civilianToSubmit.lastName
         );
         changeInput(
           civilianDialog,
-          '[data-test="birthDateInput"]',
+          '[data-testid="birthDateInput"]',
           civilianToSubmit.birthDate
         );
         changeInput(
           civilianDialog,
-          '[data-test="phoneNumberInput"]',
+          '[data-testid="phoneNumberInput"]',
           civilianToSubmit.phoneNumber
         );
         changeInput(
           civilianDialog,
-          '[data-test="emailInput"]',
+          '[data-testid="emailInput"]',
           civilianToSubmit.email
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="genderDropdown"]',
+          '[data-testid="genderDropdown"]',
           "Other"
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="raceDropdown"]',
+          '[data-testid="raceDropdown"]',
           "Japanese"
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="titleDropdown"]',
+          '[data-testid="titleDropdown"]',
           doctorMrsCivilianTitle[0]
         );
         const phoneNumberField = civilianDialog.find(
-          'div[data-test="phoneNumberField"]'
+          'div[data-testid="phoneNumberField"]'
         );
         const phoneNumberInput = civilianDialog.find(
-          'input[data-test="phoneNumberInput"]'
+          'input[data-testid="phoneNumberInput"]'
         );
         phoneNumberInput.simulate("focus");
         phoneNumberInput.simulate("blur");
@@ -309,49 +314,49 @@ describe("civilian dialog", () => {
 
         changeInput(
           civilianDialog,
-          '[data-test="firstNameInput"]',
+          '[data-testid="firstNameInput"]',
           civilianToSubmit.firstName
         );
         changeInput(
           civilianDialog,
-          '[data-test="lastNameInput"]',
+          '[data-testid="lastNameInput"]',
           civilianToSubmit.lastName
         );
         changeInput(
           civilianDialog,
-          '[data-test="birthDateInput"]',
+          '[data-testid="birthDateInput"]',
           civilianToSubmit.birthDate
         );
         changeInput(
           civilianDialog,
-          '[data-test="phoneNumberInput"]',
+          '[data-testid="phoneNumberInput"]',
           civilianToSubmit.phoneNumber
         );
         changeInput(
           civilianDialog,
-          '[data-test="emailInput"]',
+          '[data-testid="emailInput"]',
           civilianToSubmit.email
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="genderDropdown"]',
+          '[data-testid="genderDropdown"]',
           "Other"
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="raceDropdown"]',
+          '[data-testid="raceDropdown"]',
           "Japanese"
         );
         selectDropdownOption(
           civilianDialog,
-          '[data-test="titleDropdown"]',
+          '[data-testid="titleDropdown"]',
           doctorMrsCivilianTitle[0]
         );
         const phoneNumberField = civilianDialog.find(
-          'div[data-test="phoneNumberField"]'
+          'div[data-testid="phoneNumberField"]'
         );
         const phoneNumberInput = civilianDialog.find(
-          'input[data-test="phoneNumberInput"]'
+          'input[data-testid="phoneNumberInput"]'
         );
         phoneNumberInput.simulate("focus");
         phoneNumberInput.simulate("blur");
@@ -366,7 +371,7 @@ describe("civilian dialog", () => {
   describe("dialog dismissal", () => {
     test("should dismiss when cancel button is clicked", async () => {
       const cancel = civilianDialog.find(
-        'button[data-test="cancelEditCivilian"]'
+        'button[data-testid="cancelEditCivilian"]'
       );
       cancel.simulate("click");
 
@@ -375,7 +380,7 @@ describe("civilian dialog", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
       await expectEventuallyNotToExist(
         civilianDialog,
-        '[data-test="editDialogTitle"]'
+        '[data-testid="editDialogTitle"]'
       );
     });
   });
@@ -400,52 +405,52 @@ describe("civilian dialog", () => {
 
       changeInput(
         civilianDialog,
-        '[data-test="firstNameInput"]',
+        '[data-testid="firstNameInput"]',
         civilianToSubmit.firstName
       );
       changeInput(
         civilianDialog,
-        '[data-test="middleInitialInput"]',
+        '[data-testid="middleInitialInput"]',
         civilianToSubmit.middleInitial
       );
       changeInput(
         civilianDialog,
-        '[data-test="lastNameInput"]',
+        '[data-testid="lastNameInput"]',
         civilianToSubmit.lastName
       );
       changeInput(
         civilianDialog,
-        '[data-test="suffixInput"]',
+        '[data-testid="suffixInput"]',
         civilianToSubmit.suffix
       );
       changeInput(
         civilianDialog,
-        '[data-test="birthDateInput"]',
+        '[data-testid="birthDateInput"]',
         civilianToSubmit.birthDate
       );
       changeInput(
         civilianDialog,
-        '[data-test="phoneNumberInput"]',
+        '[data-testid="phoneNumberInput"]',
         civilianToSubmit.phoneNumber
       );
       changeInput(
         civilianDialog,
-        '[data-test="emailInput"]',
+        '[data-testid="emailInput"]',
         civilianToSubmit.email
       );
       selectDropdownOption(
         civilianDialog,
-        '[data-test="genderDropdown"]',
+        '[data-testid="genderDropdown"]',
         unknownGenderIdentity[0]
       );
       selectDropdownOption(
         civilianDialog,
-        '[data-test="raceDropdown"]',
+        '[data-testid="raceDropdown"]',
         "Japanese"
       );
       selectDropdownOption(
         civilianDialog,
-        '[data-test="titleDropdown"]',
+        '[data-testid="titleDropdown"]',
         doctorMrsCivilianTitle[0]
       );
 

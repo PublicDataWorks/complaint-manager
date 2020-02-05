@@ -13,10 +13,10 @@ describe("MenuNavigator", () => {
       </Router>
     );
 
-    expect(wrapper.find('[data-test="complaints"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="exports"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="logOutButton"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="archivedCases"]').exists()).toBeFalse();
+    expect(wrapper.find('[data-testid="complaints"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="logOutButton"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="archivedCases"]').exists()).toBeFalse();
   });
 
   test("if menuType is complaintManagerMenuOptions, menu items should be Archived Cases, Export, and Logout", () => {
@@ -26,9 +26,9 @@ describe("MenuNavigator", () => {
       </Router>
     );
 
-    expect(wrapper.find('[data-test="archivedCases"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="exports"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="logOutButton"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-test="complaints"]').exists()).toBeFalse();
+    expect(wrapper.find('[data-testid="archivedCases"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="logOutButton"]').exists()).toBeTrue();
+    expect(wrapper.find('[data-testid="complaints"]').exists()).toBeFalse();
   });
 });

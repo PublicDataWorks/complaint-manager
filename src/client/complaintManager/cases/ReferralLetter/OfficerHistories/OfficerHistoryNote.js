@@ -52,12 +52,15 @@ const OfficerHistoryNote = props => {
             component={renderTextField}
             label="Case Reference Number"
             style={{ width: "40%", marginBottom: "32px" }}
-            inputProps={{ "data-test": "note-pib-case-number", maxLength: 255 }}
+            inputProps={{
+              "data-testid": "note-pib-case-number",
+              maxLength: 255
+            }}
           />
           <div style={{ marginTop: "16px" }}>
             <LinkButton
               onClick={openRemoveNoteDialog}
-              data-test={`note-${noteIndex}-openRemoveOfficerHistoryNoteButton`}
+              data-testid={`note-${noteIndex}-openRemoveOfficerHistoryNoteButton`}
             >
               Remove
             </LinkButton>
@@ -91,7 +94,4 @@ const mapDispatchToProps = {
   openRemoveOfficerHistoryNoteDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OfficerHistoryNote);
+export default connect(mapStateToProps, mapDispatchToProps)(OfficerHistoryNote);

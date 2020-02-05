@@ -63,10 +63,10 @@ module.exports = {
   commands: [AllegationsCommands],
   elements: {
     pageTitle: {
-      selector: '[data-test="pageTitle"]'
+      selector: '[data-testid="pageTitle"]'
     },
     ruleDropdown: {
-      selector: '[data-test="ruleInput"]+div>button'
+      selector: '[data-testid="ruleInput"]+div>button'
     },
     menu: {
       selector: ".MuiAutocomplete-popper"
@@ -75,26 +75,26 @@ module.exports = {
       selector: "li:last-child"
     },
     allegationSearchSubmitButton: {
-      selector: '[data-test="allegationSearchSubmitButton"]'
+      selector: '[data-testid="allegationSearchSubmitButton"]'
     },
     selectAllegationButton: {
-      selector: '[data-test="selectAllegationButton"]'
+      selector: '[data-testid="selectAllegationButton"]'
     },
     allegationDetails: {
-      selector: '[data-test="allegationDetailsInput"]'
+      selector: '[data-testid="allegationDetailsInput"]'
     },
     allegationSeverityDropdown: {
-      selector: '[data-test="allegationSeverityInput"]+div>button'
+      selector: '[data-testid="allegationSeverityInput"]+div>button'
     },
     firstAllegationSeverityOption: { selector: "li", index: 1 },
     addAllegationButton: {
-      selector: '[data-test="addAllegationButton"]'
+      selector: '[data-testid="addAllegationButton"]'
     },
     newAllegation: {
-      selector: '[data-test="officerAllegation0"]'
+      selector: '[data-testid="officerAllegation0"]'
     },
     backToCaseButton: {
-      selector: '[data-test="back-to-case-link"]'
+      selector: '[data-testid="back-to-case-link"]'
     }
   }
 };

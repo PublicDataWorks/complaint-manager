@@ -46,7 +46,7 @@ describe("AttachmentsRow", () => {
         <AttachmentsRow attachment={attachmentReferralLetter} />
       </Provider>
     );
-    const removeButton = wrapper.find('[data-test="removeAttachmentButton"]');
+    const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
     expect(removeButton.exists()).toEqual(false);
   });
 
@@ -56,7 +56,7 @@ describe("AttachmentsRow", () => {
         <AttachmentsRow attachment={attachmentComplainantLetter} />
       </Provider>
     );
-    const removeButton = wrapper.find('[data-test="removeAttachmentButton"]');
+    const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
     expect(removeButton.exists()).toEqual(false);
   });
 
@@ -69,7 +69,7 @@ describe("AttachmentsRow", () => {
       </Provider>
     );
 
-    const removeButton = wrapper.find('[data-test="removeAttachmentButton"]');
+    const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
     expect(removeButton.exists()).toEqual(false);
   });
 
@@ -79,7 +79,7 @@ describe("AttachmentsRow", () => {
         <AttachmentsRow attachment={attachment} />
       </Provider>
     );
-    const removeButton = wrapper.find('[data-test="removeAttachmentButton"]');
+    const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
     expect(removeButton.exists()).toEqual(true);
   });
 });

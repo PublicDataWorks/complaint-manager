@@ -27,7 +27,7 @@ const RemoveOfficerAllegationDialog = ({
       <DialogTitle>Remove Allegation</DialogTitle>
       <DialogContent>
         <Typography
-          data-test="removeAllegationPrompt"
+          data-testid="removeAllegationPrompt"
           style={{
             marginBottom: "24px"
           }}
@@ -37,7 +37,7 @@ const RemoveOfficerAllegationDialog = ({
         </Typography>
         {officerAllegation.allegation && (
           <div
-            data-test="allegationToRemove"
+            data-testid="allegationToRemove"
             style={{
               marginBottom: "24px",
               marginLeft: "24px",
@@ -62,13 +62,13 @@ const RemoveOfficerAllegationDialog = ({
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelRemoveAllegationButton"
+          data-testid="cancelRemoveAllegationButton"
           onClick={() => dispatch(closeRemoveOfficerAllegationDialog())}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="removeOfficerAllegationButton"
+          data-testid="removeOfficerAllegationButton"
           onClick={() =>
             dispatch(removeOfficerAllegation(officerAllegation.id, caseId))
           }

@@ -13,49 +13,49 @@ const OfficerSearchTableHeader = props => {
     <TableHead>
       <TableRow className={classes.row}>
         <TableCell
-          data-test="casesNumberHeader"
+          data-testid="casesNumberHeader"
           className={classes.cell}
           style={{ width: "17%" }}
         >
           <Typography variant="subtitle2">Name</Typography>
         </TableCell>
         <TableCell
-          data-test="casesComplainantHeader"
+          data-testid="casesComplainantHeader"
           className={classes.cell}
           style={{ width: "17%" }}
         >
           <Typography variant="subtitle2">Rank</Typography>
         </TableCell>
         <TableCell
-          data-test="casesFirstContactDateHeader"
+          data-testid="casesFirstContactDateHeader"
           className={classes.cell}
           style={{ width: "17%" }}
         >
           <Typography variant="subtitle2">Bureau</Typography>
         </TableCell>
         <TableCell
-          data-test="casesAssignedToHeader"
+          data-testid="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "11%" }}
         >
           <Typography variant="subtitle2">District</Typography>
         </TableCell>
         <TableCell
-          data-test="casesAssignedToHeader"
+          data-testid="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "8%" }}
         >
           <Typography variant="subtitle2">Gender</Typography>
         </TableCell>
         <TableCell
-          data-test="casesAssignedToHeader"
+          data-testid="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "14%" }}
         >
           <Typography variant="subtitle2">Race</Typography>
         </TableCell>
         <TableCell
-          data-test="casesAssignedToHeader"
+          data-testid="casesAssignedToHeader"
           className={classes.cell}
           style={{ width: "6%" }}
         >

@@ -158,7 +158,7 @@ class LetterPreview extends Component {
     }
     return (
       <SecondaryButton
-        data-test="edit-confirmation-dialog-button"
+        data-testid="edit-confirmation-dialog-button"
         onClick={this.editLetterWithPossibleConfirmationDialog()}
       >
         Edit Letter
@@ -175,7 +175,7 @@ class LetterPreview extends Component {
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
-          data-test="submit-for-review-button"
+          data-testid="submit-for-review-button"
           onClick={this.confirmSubmitForReview}
         >
           Submit for Review
@@ -199,14 +199,14 @@ class LetterPreview extends Component {
       return (
         <div
           style={{ marginBottom: "24px" }}
-          data-test="letter-preview-approved-message"
+          data-testid="letter-preview-approved-message"
         >
           <i>This letter has already been approved.</i>
         </div>
       );
     }
     return (
-      <div data-test="letter-preview">
+      <div data-testid="letter-preview">
         <Card
           style={{
             marginBottom: "24px",
@@ -277,7 +277,7 @@ class LetterPreview extends Component {
               label="Transcribed By"
               fullWidth
               inputProps={{
-                "data-test": "transcribed-by-field",
+                "data-testid": "transcribed-by-field",
                 maxLength: 255
               }}
             />
@@ -288,7 +288,7 @@ class LetterPreview extends Component {
           saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
         />
         <LinkButton
-          data-test="download-letter-as-pdf"
+          data-testid="download-letter-as-pdf"
           onClick={this.saveAndDownloadPdf}
           style={{ marginBottom: "16px" }}
           disabled={this.props.downloadInProgress}
@@ -299,7 +299,7 @@ class LetterPreview extends Component {
         </LinkButton>
 
         <CircularProgress
-          data-test={"download-letter-progress"}
+          data-testid={"download-letter-progress"}
           size={25}
           style={{ display: this.props.downloadInProgress ? "" : "none" }}
         />
@@ -318,7 +318,7 @@ class LetterPreview extends Component {
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
-          data-test="review-and-approve-letter-button"
+          data-testid="review-and-approve-letter-button"
           onClick={this.saveAndGoToReviewAndApproveLetter.bind(this)}
         >
           Review and Approve Letter
@@ -351,7 +351,7 @@ class LetterPreview extends Component {
 
         <form>
           <LinkButton
-            data-test="save-and-return-to-case-link"
+            data-testid="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -370,7 +370,7 @@ class LetterPreview extends Component {
                   marginBottom: "24px"
                 }}
                 variant="h6"
-                data-test="preview-page-header"
+                data-testid="preview-page-header"
               >
                 Preview {this.timestampIfEdited()}
               </Typography>
@@ -380,7 +380,7 @@ class LetterPreview extends Component {
                   <span style={{ flex: "auto" }}>
                     <SecondaryButton
                       onClick={this.saveAndGoBackToRecommendedActions()}
-                      data-test="back-button"
+                      data-testid="back-button"
                     >
                       Back
                     </SecondaryButton>

@@ -29,7 +29,7 @@ describe("ActivityMenu", () => {
     );
 
     activityMenuButton = wrapper
-      .find('[data-test="activityMenuButton"]')
+      .find('[data-testid="activityMenuButton"]')
       .last();
   });
 
@@ -55,7 +55,7 @@ describe("ActivityMenu", () => {
 
   test("should open edit note dialog and close menu when edit note button clicked", () => {
     activityMenuButton.simulate("click");
-    const editMenuItem = wrapper.find('[data-test="editMenuItem"]').last();
+    const editMenuItem = wrapper.find('[data-testid="editMenuItem"]').last();
     editMenuItem.simulate("click");
     const activityMenu = wrapper.find(Menu);
 
@@ -77,7 +77,9 @@ describe("ActivityMenu", () => {
 
   test("should open remove note dialog and close menu when remove note button clicked", () => {
     activityMenuButton.simulate("click");
-    const removeMenuItem = wrapper.find('[data-test="removeMenuItem"]').last();
+    const removeMenuItem = wrapper
+      .find('[data-testid="removeMenuItem"]')
+      .last();
     removeMenuItem.simulate("click");
     const activityMenu = wrapper.find(Menu);
 

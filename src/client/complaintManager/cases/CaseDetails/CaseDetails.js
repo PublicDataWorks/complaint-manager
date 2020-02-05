@@ -133,18 +133,18 @@ class CaseDetails extends React.Component {
     const { classes } = this.props;
 
     return (
-      <div className={classes.root} data-test="case-details-page">
+      <div className={classes.root} data-testid="case-details-page">
         <div className={classes.appFrame}>
           <NavBar
             menuType={complaintManagerMenuOptions}
             showHome={false}
             customStyle={appBar}
           >
-            <div className={classes.caseReference} data-test="caseReference">
+            <div className={classes.caseReference} data-testid="caseReference">
               {`Case #${this.props.caseDetails.caseReference}`}
             </div>
             <Typography
-              data-test="caseStatusBox"
+              data-testid="caseStatusBox"
               variant="caption"
               color="inherit"
               className={`${classes.statusBox} ${
@@ -212,7 +212,7 @@ class CaseDetails extends React.Component {
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <CivilianDialog />
-          <RemoveCivilianDialog data-test="removeCivilianDialog" />
+          <RemoveCivilianDialog data-testid="removeCivilianDialog" />
           <CaseNoteDialog />
         </div>
       </div>

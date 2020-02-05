@@ -75,12 +75,15 @@ describe("CreateCaseActions", () => {
     dispatchSpy.mockClear();
 
     const createCaseButton = dialog.find(
-      'button[data-test="createCaseButton"]'
+      'button[data-testid="createCaseButton"]'
     );
     createCaseButton.simulate("click");
 
     store.dispatch(
-      getIntakeSourcesSuccess([["NOIPM Website", 1], ["Email", 2]])
+      getIntakeSourcesSuccess([
+        ["NOIPM Website", 1],
+        ["Email", 2]
+      ])
     );
 
     caseDetails = {
@@ -104,22 +107,22 @@ describe("CreateCaseActions", () => {
 
     changeInput(
       dialog,
-      '[data-test="firstNameInput"]',
+      '[data-testid="firstNameInput"]',
       caseDetails.civilian.firstName
     );
     changeInput(
       dialog,
-      '[data-test="lastNameInput"]',
+      '[data-testid="lastNameInput"]',
       caseDetails.civilian.lastName
     );
     changeInput(
       dialog,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       caseDetails.civilian.phoneNumber
     );
     selectDropdownOption(
       dialog,
-      '[data-test="intakeSourceDropdown"]',
+      '[data-testid="intakeSourceDropdown"]',
       "NOIPM Website"
     );
   });
@@ -128,29 +131,29 @@ describe("CreateCaseActions", () => {
 
     beforeEach(() => {
       addressSuggestionField = dialog.find(
-        '[data-test="addressSuggestionField"] > input'
+        '[data-testid="addressSuggestionField"] > input'
       );
-      submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]');
+      submitButton = dialog.find('LinkButton[data-testid="createCaseOnly"]');
     });
     test("should create a case with address", async () => {
       changeInput(
         dialog,
-        '[data-test="addressSuggestionField"] > input',
+        '[data-testid="addressSuggestionField"] > input',
         caseDetails.civilian.address.streetAddress
       );
       addressSuggestionField.simulate("blur");
 
       const fillAddressToConfirmButton = dialog
-        .find('[data-test="fillAddressToConfirm"]')
+        .find('[data-testid="fillAddressToConfirm"]')
         .last();
       changeInput(
         dialog,
-        '[data-test="streetAddress2Input"]',
+        '[data-testid="streetAddress2Input"]',
         caseDetails.civilian.address.streetAddress2
       );
       await expectEventuallyToExist(
         dialog,
-        '[data-test="fillAddressToConfirm"]'
+        '[data-testid="fillAddressToConfirm"]'
       );
       fillAddressToConfirmButton.simulate("click");
 
@@ -179,22 +182,22 @@ describe("CreateCaseActions", () => {
       test("should call addressMustBeValid when address provided on civilian", async () => {
         changeInput(
           dialog,
-          '[data-test="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"] > input',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
 
         const fillAddressToConfirmButton = dialog
-          .find('[data-test="fillAddressToConfirm"]')
+          .find('[data-testid="fillAddressToConfirm"]')
           .last();
         changeInput(
           dialog,
-          '[data-test="streetAddress2Input"]',
+          '[data-testid="streetAddress2Input"]',
           caseDetails.civilian.address.streetAddress2
         );
         await expectEventuallyToExist(
           dialog,
-          '[data-test="fillAddressToConfirm"]'
+          '[data-testid="fillAddressToConfirm"]'
         );
         fillAddressToConfirmButton.simulate("click");
 
@@ -213,22 +216,22 @@ describe("CreateCaseActions", () => {
         });
         changeInput(
           dialog,
-          '[data-test="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"] > input',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
 
         const fillAddressToConfirmButton = dialog
-          .find('[data-test="fillAddressToConfirm"]')
+          .find('[data-testid="fillAddressToConfirm"]')
           .last();
         changeInput(
           dialog,
-          '[data-test="streetAddress2Input"]',
+          '[data-testid="streetAddress2Input"]',
           caseDetails.civilian.address.streetAddress2
         );
         await expectEventuallyToExist(
           dialog,
-          '[data-test="fillAddressToConfirm"]'
+          '[data-testid="fillAddressToConfirm"]'
         );
         fillAddressToConfirmButton.simulate("click");
 
@@ -244,22 +247,22 @@ describe("CreateCaseActions", () => {
       test("should call normalizeAddress when address provided on civilian", async () => {
         changeInput(
           dialog,
-          '[data-test="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"] > input',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
 
         const fillAddressToConfirmButton = dialog
-          .find('[data-test="fillAddressToConfirm"]')
+          .find('[data-testid="fillAddressToConfirm"]')
           .last();
         changeInput(
           dialog,
-          '[data-test="streetAddress2Input"]',
+          '[data-testid="streetAddress2Input"]',
           caseDetails.civilian.address.streetAddress2
         );
         await expectEventuallyToExist(
           dialog,
-          '[data-test="fillAddressToConfirm"]'
+          '[data-testid="fillAddressToConfirm"]'
         );
         fillAddressToConfirmButton.simulate("click");
 

@@ -30,7 +30,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
 
     containsText(
       birthDateInfoWrapper,
-      '[data-test="test"]',
+      '[data-testid="test"]',
       "Jan 1, 1990 (20)"
     );
   });
@@ -54,7 +54,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
       />
     );
 
-    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+    containsText(birthDateInfoWrapper, '[data-testid="test"]', "N/A");
   });
 
   test("displays date of birth but no age for civilian without incident date", () => {
@@ -78,7 +78,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
 
     containsText(
       birthDateInfoWrapper,
-      '[data-test="test"]',
+      '[data-testid="test"]',
       "Jan 1, 1990 (N/A)"
     );
   });
@@ -113,7 +113,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
 
     containsText(
       birthDateInfoWrapper,
-      '[data-test="test"]',
+      '[data-testid="test"]',
       "Jan 1, 1990 (20)"
     );
   });
@@ -146,7 +146,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
       />
     );
 
-    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+    containsText(birthDateInfoWrapper, '[data-testid="test"]', "N/A");
   });
 
   test("displays date of birth but no age for officer without incident date", () => {
@@ -179,7 +179,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
 
     containsText(
       birthDateInfoWrapper,
-      '[data-test="test"]',
+      '[data-testid="test"]',
       "Jan 1, 1990 (N/A)"
     );
   });
@@ -203,7 +203,7 @@ describe("DateOfBirthAgeInfoDisplay", () => {
       />
     );
 
-    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+    containsText(birthDateInfoWrapper, '[data-testid="test"]', "N/A");
   });
 
   test("displays N/A for officer without incident date or birthdate", () => {
@@ -234,6 +234,6 @@ describe("DateOfBirthAgeInfoDisplay", () => {
       />
     );
 
-    containsText(birthDateInfoWrapper, '[data-test="test"]', "N/A");
+    containsText(birthDateInfoWrapper, '[data-testid="test"]', "N/A");
   });
 });

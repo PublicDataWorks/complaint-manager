@@ -118,49 +118,49 @@ module.exports = {
   elements: Object.assign(
     {
       caseDetailsPage: {
-        selector: '[data-test="case-details-page"]'
+        selector: '[data-testid="case-details-page"]'
       },
       updateStatusButton: {
-        selector: "[data-test='update-status-button']"
+        selector: "[data-testid='update-status-button']"
       },
       caseTagsContainer: {
-        selector: "[data-test='caseTagsContainer']"
+        selector: "[data-testid='caseTagsContainer']"
       },
       addTagButton: {
-        selector: "[data-test='addTagButton']"
+        selector: "[data-testid='addTagButton']"
       },
       caseTagChip: {
-        selector: "[data-test='caseTagChip']"
+        selector: "[data-testid='caseTagChip']"
       },
       removeTagButton: {
-        selector: "div[role='button'][data-test='caseTagChip'] > svg"
+        selector: "div[role='button'][data-testid='caseTagChip'] > svg"
       },
       reviewAndApproveButton: {
-        selector: "[data-test='review-and-approve-letter-button']"
+        selector: "[data-testid='review-and-approve-letter-button']"
       },
       updateStatusDialogButton: {
-        selector: "[data-test='update-case-status-button']"
+        selector: "[data-testid='update-case-status-button']"
       },
       archiveCaseButton: {
-        selector: "[data-test='archiveCaseButton']"
+        selector: "[data-testid='archiveCaseButton']"
       },
       archiveCaseButtonInDialog: {
-        selector: "[data-test='confirmArchiveCase']"
+        selector: "[data-testid='confirmArchiveCase']"
       },
       restoreCaseButton: {
-        selector: "[data-test='restoreCaseButton']"
+        selector: "[data-testid='restoreCaseButton']"
       },
       restoreCaseButtonInDialog: {
-        selector: "[data-test='confirmRestoreArchivedCase']"
+        selector: "[data-testid='confirmRestoreArchivedCase']"
       },
       backToAllCasesButton: {
-        selector: "[data-test='all-cases-link']"
+        selector: "[data-testid='all-cases-link']"
       },
       caseReference: {
-        selector: "[data-test='caseReference']"
+        selector: "[data-testid='caseReference']"
       },
       addCivilianComplainant: {
-        selector: "[data-test='addCivilianComplainantWitness']"
+        selector: "[data-testid='addCivilianComplainantWitness']"
       }
     },
     attachmentElements,

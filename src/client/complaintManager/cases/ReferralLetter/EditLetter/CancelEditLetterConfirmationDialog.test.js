@@ -35,7 +35,9 @@ describe("Cancel Edit Confirmation Dialog", () => {
   });
 
   test("close the dialog when cancel is clicked", () => {
-    const button = wrapper.find("[data-test='continueEditingButton']").first();
+    const button = wrapper
+      .find("[data-testid='continueEditingButton']")
+      .first();
     button.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -45,7 +47,7 @@ describe("Cancel Edit Confirmation Dialog", () => {
 
   test("open letter preview page and close the dialog when discard edits is clicked", () => {
     const discardEditsButton = wrapper
-      .find("[data-test='discardEditsButton']")
+      .find("[data-testid='discardEditsButton']")
       .first();
     discardEditsButton.simulate("click");
 

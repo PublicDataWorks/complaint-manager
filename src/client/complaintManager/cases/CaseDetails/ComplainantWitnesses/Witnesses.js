@@ -16,7 +16,7 @@ const Witnesses = props => {
   const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
 
   return (
-    <BaseCaseDetailsCard data-test="witnessesSection" title="Witnesses">
+    <BaseCaseDetailsCard data-testid="witnessesSection" title="Witnesses">
       <CardContent style={{ padding: "0" }}>
         <ComplainantWitnessDisplay
           emptyMessage={"No witnesses have been added"}

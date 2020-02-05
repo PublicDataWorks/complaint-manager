@@ -49,13 +49,15 @@ describe("remove officer allegation dialog ", () => {
   });
 
   test("should include officer's full name in prompt", () => {
-    const prompt = wrapper.find('[data-test="removeAllegationPrompt"]').last();
+    const prompt = wrapper
+      .find('[data-testid="removeAllegationPrompt"]')
+      .last();
 
     expect(prompt.text()).toEqual(expect.stringContaining(officerFullName));
   });
 
   test("should include allegation in prompt", () => {
-    const prompt = wrapper.find('[data-test="allegationToRemove"]').last();
+    const prompt = wrapper.find('[data-testid="allegationToRemove"]').last();
 
     expect(prompt.text()).toEqual(expect.stringContaining(allegation.details));
     expect(prompt.text()).toEqual(
@@ -71,7 +73,7 @@ describe("remove officer allegation dialog ", () => {
 
   test("should call removeOfficerAllegation thunk with correct values", () => {
     const removeOfficerAllegationButton = wrapper
-      .find('[data-test="removeOfficerAllegationButton"]')
+      .find('[data-testid="removeOfficerAllegationButton"]')
       .first();
     removeOfficerAllegationButton.simulate("click");
 
@@ -82,7 +84,7 @@ describe("remove officer allegation dialog ", () => {
 
   test("should dispatch close action when cancel is clicked", () => {
     const cancelRemoveAllegationButton = wrapper
-      .find('[data-test="cancelRemoveAllegationButton"]')
+      .find('[data-testid="cancelRemoveAllegationButton"]')
       .last();
     cancelRemoveAllegationButton.simulate("click");
 

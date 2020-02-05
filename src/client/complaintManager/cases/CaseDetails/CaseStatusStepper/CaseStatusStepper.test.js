@@ -36,7 +36,7 @@ describe("CaseStatusStepper", () => {
         <CaseStatusStepper />
       </Provider>
     );
-    const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
+    const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
 
     expect(statusStepper.prop("activeStep")).toEqual(0);
   });
@@ -57,7 +57,7 @@ describe("CaseStatusStepper", () => {
         </Router>
       </Provider>
     );
-    const statusStepper = wrapper.find('[data-test="statusStepper"]').first();
+    const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
 
     expect(statusStepper.prop("activeStep")).toEqual(4);
   });
@@ -79,7 +79,7 @@ describe("CaseStatusStepper", () => {
     );
 
     const updateStatusButton = wrapper
-      .find('[data-test="update-status-button"]')
+      .find('[data-testid="update-status-button"]')
       .first();
 
     updateStatusButton.simulate("click");
@@ -116,7 +116,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       expect(updateStatusButton.exists()).toBeFalsy();
@@ -140,7 +140,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       expect(updateStatusButton.exists()).toBeTruthy();
@@ -165,7 +165,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Resume Letter`);
@@ -189,7 +189,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Edit Letter`);
@@ -213,7 +213,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Edit Letter Details`);
@@ -237,7 +237,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const reviewAndApproveLetterButton = wrapper
-        .find('[data-test="review-and-approve-letter-button"]')
+        .find('[data-testid="review-and-approve-letter-button"]')
         .first();
 
       expect(reviewAndApproveLetterButton.text()).toEqual(
@@ -264,7 +264,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       updateStatusButton.simulate("click");
@@ -291,7 +291,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Edit Letter Details`);
@@ -313,7 +313,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       expect(updateStatusButton.exists()).toBeFalsy();
@@ -346,7 +346,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       expect(updateStatusButton.exists()).toBeTruthy();
@@ -371,7 +371,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Resume Letter`);
@@ -395,7 +395,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="edit-letter-button"]')
+        .find('[data-testid="edit-letter-button"]')
         .first();
 
       expect(updateStatusButton.text()).toEqual(`Edit Letter`);
@@ -421,7 +421,7 @@ describe("CaseStatusStepper", () => {
       );
 
       const updateStatusButton = wrapper
-        .find('[data-test="update-status-button"]')
+        .find('[data-testid="update-status-button"]')
         .first();
 
       expect(updateStatusButton.exists()).toEqual(false);

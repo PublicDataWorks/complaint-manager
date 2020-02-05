@@ -41,7 +41,7 @@ const CivilianPanel = ({
         }}
       >
         <ExpansionPanel
-          data-test="complainantWitnessesPanel"
+          data-testid="complainantWitnessesPanel"
           elevation={0}
           style={{ backgroundColor: "white", width: "100%" }}
         >
@@ -131,7 +131,7 @@ const CivilianPanel = ({
           {isArchived ? null : (
             <div style={{ display: "flex" }}>
               <LinkButton
-                data-test="editComplainantLink"
+                data-testid="editComplainantLink"
                 onClick={event => {
                   event.stopPropagation();
                   dispatch(initialize(CIVILIAN_FORM_NAME, civilian));
@@ -143,7 +143,7 @@ const CivilianPanel = ({
                 Edit
               </LinkButton>
               <LinkButton
-                data-test="removeCivilianLink"
+                data-testid="removeCivilianLink"
                 onClick={event => {
                   event.stopPropagation();
                   dispatch(openRemovePersonDialog(civilian, "civilians"));

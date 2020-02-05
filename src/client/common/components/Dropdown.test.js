@@ -21,7 +21,7 @@ describe("Dropdown test", () => {
         <Field
           label="TEST LABEL"
           name="testDropdownID"
-          data-test="testDropdown"
+          data-testid="testDropdown"
           input={{ value: 2 }}
           component={Dropdown}
         >
@@ -43,7 +43,7 @@ describe("Dropdown test", () => {
 
   test("should create menuItems from options array", () => {
     const autocomplete = wrapper
-      .find('[data-test="testDropdown"]')
+      .find('[data-testid="testDropdown"]')
       .first()
       .find("ForwardRef(Autocomplete)")
       .props().options;
@@ -53,7 +53,7 @@ describe("Dropdown test", () => {
 
   test("value passed in should be value of drop down", () => {
     const autocomplete = wrapper
-      .find('[data-test="testDropdown"]')
+      .find('[data-testid="testDropdown"]')
       .first()
       .find("ForwardRef(Autocomplete)")
       .props();
@@ -71,7 +71,7 @@ describe("Dropdown test", () => {
         <Field
           label="TEST LABEL"
           name="testDropdownID"
-          data-test="testDropdown"
+          data-testid="testDropdown"
           input={{ onChange: onChangeSpy }}
           component={Dropdown}
         >
@@ -90,7 +90,7 @@ describe("Dropdown test", () => {
       </Provider>
     );
 
-    selectDropdownOption(wrapper, '[data-test="testDropdown"]', "label 1");
+    selectDropdownOption(wrapper, '[data-testid="testDropdown"]', "label 1");
 
     expect(onChangeSpy).toHaveBeenCalledWith(1);
   });

@@ -22,7 +22,7 @@ const EditLetterConfirmationDialog = ({
     <Dialog open={open}>
       <DialogTitle>Edit Letter</DialogTitle>
       <DialogContent>
-        <Typography data-test="warningText">
+        <Typography data-testid="warningText">
           This action will allow you to make edits to the system generated
           letter. Once saved, your custom edited letter will replace the current
           version. <strong>You cannot undo this action.</strong>
@@ -36,12 +36,12 @@ const EditLetterConfirmationDialog = ({
           onClick={() => {
             dispatch(closeEditLetterConfirmationDialog());
           }}
-          data-test="cancelButton"
+          data-testid="cancelButton"
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="edit-letter-button"
+          data-testid="edit-letter-button"
           onClick={() => {
             saveAndGoToEditLetterCallback();
             dispatch(closeEditLetterConfirmationDialog());

@@ -104,7 +104,7 @@ class CivilianDialog extends Component {
         classes={{ paper: classes.dialogPaper }}
         fullWidth
       >
-        <DialogTitle data-test="editDialogTitle">
+        <DialogTitle data-testid="editDialogTitle">
           {this.props.title}
         </DialogTitle>
         <DialogContent style={{ padding: "0px 24px" }}>
@@ -116,7 +116,7 @@ class CivilianDialog extends Component {
               name="roleOnCase"
               component={renderRadioGroup}
               style={{ flexDirection: "row", marginBottom: "24px" }}
-              data-test="roleOnCaseRadioGroup"
+              data-testid="roleOnCaseRadioGroup"
             >
               <FormControlLabel
                 style={{ marginRight: "48px" }}
@@ -142,12 +142,12 @@ class CivilianDialog extends Component {
                 component={Dropdown}
                 label="Title"
                 hinttext="Title"
-                data-test="titleDropdown"
+                data-testid="titleDropdown"
                 style={{
                   width: "95px",
                   marginBottom: "3%"
                 }}
-                inputProps={{ "data-test": "titleInput" }}
+                inputProps={{ "data-testid": "titleInput" }}
                 validate={[titleIsRequired]}
               >
                 {generateMenuOptions(this.props.civilianTitles)}
@@ -180,9 +180,9 @@ class CivilianDialog extends Component {
               <div>
                 <DateField
                   name="birthDate"
-                  data-test="birthDateField"
+                  data-testid="birthDateField"
                   inputProps={{
-                    "data-test": "birthDateInput",
+                    "data-testid": "birthDateInput",
                     type: "date",
                     max: moment(Date.now()).format("YYYY-MM-DD")
                   }}
@@ -200,14 +200,14 @@ class CivilianDialog extends Component {
                 component={Dropdown}
                 label="Gender Identity"
                 hinttext="Gender Identity"
-                data-test="genderDropdown"
+                data-testid="genderDropdown"
                 validate={[genderIdentityIsRequired]}
                 style={{
                   minWidth: "166px",
                   marginBottom: "3%",
                   marginLeft: "28px"
                 }}
-                inputProps={{ "data-test": "genderInput" }}
+                inputProps={{ "data-testid": "genderInput" }}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -218,9 +218,9 @@ class CivilianDialog extends Component {
               component={Dropdown}
               label="Race/Ethnicity"
               hinttext="Race/Ethnicity"
-              data-test="raceDropdown"
+              data-testid="raceDropdown"
               style={{ width: "75%" }}
-              inputProps={{ "data-test": "raceEthnicityInput" }}
+              inputProps={{ "data-testid": "raceEthnicityInput" }}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenuOptions(this.props.raceEthnicities)}
@@ -230,7 +230,7 @@ class CivilianDialog extends Component {
               label="Anonymize complainant in referral letter"
               control={
                 <Field
-                  data-test="isAnonymous"
+                  data-testid="isAnonymous"
                   name="isAnonymous"
                   component={PrimaryCheckBox}
                 />
@@ -305,9 +305,9 @@ class CivilianDialog extends Component {
               rowsMax={5}
               placeholder="Enter any additional details about the complainant here"
               inputProps={{
-                "data-test": "additionalInfoInput"
+                "data-testid": "additionalInfoInput"
               }}
-              data-test="additionalInfoField"
+              data-testid="additionalInfoField"
             />
             <Field
               type={"hidden"}
@@ -323,13 +323,13 @@ class CivilianDialog extends Component {
           }}
         >
           <SecondaryButton
-            data-test="cancelEditCivilian"
+            data-testid="cancelEditCivilian"
             onClick={() => this.props.dispatch(closeEditCivilianDialog())}
           >
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="submitEditCivilian"
+            data-testid="submitEditCivilian"
             onClick={this.props.handleSubmit(this.handleCivilian)}
             disabled={this.props.submitting}
           >
@@ -383,7 +383,4 @@ const mapDispatchToProps = {
   getCivilianTitleDropdownValues
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(connectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

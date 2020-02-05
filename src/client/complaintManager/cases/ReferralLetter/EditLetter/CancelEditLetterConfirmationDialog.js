@@ -17,11 +17,11 @@ import { connect } from "react-redux";
 const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
   return (
     <Dialog open={open} fullWidth={true}>
-      <DialogTitle data-test="cancel-edit-letter-dialog">
+      <DialogTitle data-testid="cancel-edit-letter-dialog">
         Cancel Editing Letter
       </DialogTitle>
       <DialogContent>
-        <Typography data-test="warningText">
+        <Typography data-testid="warningText">
           This action will discard any edits made to the letter.
         </Typography>
       </DialogContent>
@@ -30,12 +30,12 @@ const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
           onClick={() => {
             dispatch(closeCancelEditLetterConfirmationDialog());
           }}
-          data-test="continueEditingButton"
+          data-testid="continueEditingButton"
         >
           Continue Editing
         </SecondaryButton>
         <PrimaryButton
-          data-test="discardEditsButton"
+          data-testid="discardEditsButton"
           onClick={() => {
             dispatch(push(`/cases/${caseId}/letter/letter-preview`));
             dispatch(closeCancelEditLetterConfirmationDialog());

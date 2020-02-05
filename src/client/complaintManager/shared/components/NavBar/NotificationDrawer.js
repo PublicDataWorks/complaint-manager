@@ -31,7 +31,7 @@ const NotificationDrawer = props => {
       onClose={handleClickAway}
       variant="temporary"
       anchor="right"
-      data-test="notificationDrawer"
+      data-testid="notificationDrawer"
       data-testid="notificationDrawer"
       SlideProps={{
         timeout: { enter: 300, exit: 300 },

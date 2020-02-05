@@ -30,19 +30,19 @@ module.exports = {
   commands: [addCivilianWithinNopdCommands],
   elements: {
     pageTitle: {
-      selector: '[data-test="officer-search-title"]'
+      selector: '[data-testid="officer-search-title"]'
     },
     pageHeader: {
-      selector: "[data-test='search-page-header']"
+      selector: "[data-testid='search-page-header']"
     },
     lastNameField: {
-      selector: '[data-test="lastNameField"]'
+      selector: '[data-testid="lastNameField"]'
     },
     submitSearchButton: {
-      selector: '[data-test="officerSearchSubmitButton"]'
+      selector: '[data-testid="officerSearchSubmitButton"]'
     },
     selectNewCivilianWithinNopdButton: {
-      selector: '[data-test="selectNewOfficerButton"]'
+      selector: '[data-testid="selectNewOfficerButton"]'
     }
   }
 };

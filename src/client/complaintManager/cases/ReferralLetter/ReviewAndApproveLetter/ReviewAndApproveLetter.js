@@ -125,13 +125,13 @@ class ReviewAndApproveLetter extends Component {
     }
 
     return (
-      <div data-test="review-and-approve-letter">
+      <div data-testid="review-and-approve-letter">
         <NavBar menuType={complaintManagerMenuOptions}>
           {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
         <LinkButton
-          data-test="save-and-return-to-case-link"
+          data-testid="save-and-return-to-case-link"
           to={`/cases/${this.state.caseId}`}
           component={Link}
           style={{ margin: "2% 0% 2% 4%" }}
@@ -144,12 +144,12 @@ class ReviewAndApproveLetter extends Component {
               marginBottom: "24px"
             }}
             variant="h6"
-            data-test="review-and-approve-page-header"
+            data-testid="review-and-approve-page-header"
           >
             Review and Approve Letter
           </Typography>
           <Typography
-            data-test="edit-history"
+            data-testid="edit-history"
             variant="body2"
             style={{ marginBottom: "24px" }}
           >
@@ -181,7 +181,7 @@ class ReviewAndApproveLetter extends Component {
               </div>
               <div style={{ textAlign: "center", marginTop: "8px" }}>
                 <CircularProgress
-                  data-test={"download-letter-progress"}
+                  data-testid={"download-letter-progress"}
                   size={25}
                   style={{
                     display: this.props.loadingPdfPreview ? "" : "none"
@@ -193,7 +193,7 @@ class ReviewAndApproveLetter extends Component {
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
               onClick={this.openUpdateCaseDialog}
-              data-test="approve-letter-button"
+              data-testid="approve-letter-button"
             >
               Approve Letter
             </PrimaryButton>
@@ -231,8 +231,5 @@ const mapDispatchToProps = {
 };
 
 export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ReviewAndApproveLetter)
+  connect(mapStateToProps, mapDispatchToProps)(ReviewAndApproveLetter)
 );

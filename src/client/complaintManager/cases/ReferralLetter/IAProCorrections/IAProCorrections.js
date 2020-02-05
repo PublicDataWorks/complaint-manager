@@ -83,7 +83,7 @@ class IAProCorrections extends Component {
         >
           <CardContent style={{ backgroundColor: "white" }}>
             <div
-              data-test="iapro-correction"
+              data-testid="iapro-correction"
               style={{ display: "flex", width: "100%" }}
             >
               <Field
@@ -91,14 +91,14 @@ class IAProCorrections extends Component {
                 name={`${iaProCorrectionsField}.details`}
                 component={renderTextField}
                 label="Correction Description"
-                data-test={`${iaProCorrectionsField}-details`}
+                data-testid={`${iaProCorrectionsField}-details`}
                 fullWidth
                 multiline
                 rowsMax={10}
               />
               <div style={{ textAlign: "right", flex: 1, paddingTop: "16px" }}>
                 <LinkButton
-                  data-test={`${iaProCorrectionsField}-open-remove-dialog-button`}
+                  data-testid={`${iaProCorrectionsField}-open-remove-dialog-button`}
                   style={{ textAlign: "right" }}
                   onClick={() => {
                     this.props.openRemoveIAProCorrectionDialog(
@@ -128,7 +128,7 @@ class IAProCorrections extends Component {
         {this.renderIAProCorrectionsFields(fields)}
         <LinkButton
           onClick={this.addNewIAProCorrection(fields)}
-          data-test="addIAProCorrectionButton"
+          data-testid="addIAProCorrectionButton"
         >
           + Add A Correction
         </LinkButton>
@@ -149,7 +149,7 @@ class IAProCorrections extends Component {
 
         <form>
           <LinkButton
-            data-test="save-and-return-to-case-link"
+            data-testid="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -165,7 +165,7 @@ class IAProCorrections extends Component {
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
                 variant="h6"
-                data-test="iapro-corrections-page-header"
+                data-testid="iapro-corrections-page-header"
               >
                 IAPro Corrections
               </Typography>
@@ -182,7 +182,7 @@ class IAProCorrections extends Component {
               <span style={{ flex: 1 }}>
                 <SecondaryButton
                   onClick={this.saveAndGoBackToOfficerHistories()}
-                  data-test="back-button"
+                  data-testid="back-button"
                 >
                   Back
                 </SecondaryButton>
@@ -190,7 +190,7 @@ class IAProCorrections extends Component {
               <span style={{ flex: 1, textAlign: "right" }}>
                 <PrimaryButton
                   onClick={this.saveAndGoToNextPage()}
-                  data-test="next-button"
+                  data-testid="next-button"
                 >
                   Next
                 </PrimaryButton>

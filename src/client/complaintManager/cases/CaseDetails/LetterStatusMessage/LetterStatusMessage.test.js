@@ -41,7 +41,7 @@ describe("letter edit status message", () => {
     store.dispatch(getReferralLetterEditStatusSuccess(EDIT_STATUS.EDITED));
     wrapper.update();
     const letterStatusMessage = wrapper
-      .find('[data-test="letterStatusMessage"]')
+      .find('[data-testid="letterStatusMessage"]')
       .first();
 
     expect(letterStatusMessage.exists()).toEqual(false);
@@ -55,7 +55,7 @@ describe("letter edit status message", () => {
     wrapper.update();
 
     const letterStatusMessage = wrapper
-      .find('[data-test="letterStatusMessage"]')
+      .find('[data-testid="letterStatusMessage"]')
       .first();
 
     expect(letterStatusMessage.exists()).toEqual(false);
@@ -66,7 +66,7 @@ describe("letter edit status message", () => {
     wrapper.update();
 
     const letterStatusMessage = wrapper
-      .find('[data-test="letterStatusMessage"]')
+      .find('[data-testid="letterStatusMessage"]')
       .first();
     expect(letterStatusMessage.exists()).toEqual(false);
   });
@@ -82,7 +82,7 @@ describe("letter edit status message", () => {
     wrapper.update();
 
     const letterStatusMessage = wrapper
-      .find('[data-test="letterStatusMessage"]')
+      .find('[data-testid="letterStatusMessage"]')
       .first();
     expect(letterStatusMessage.exists()).toEqual(false);
   });
@@ -99,7 +99,7 @@ describe("letter edit status message", () => {
     wrapper.update();
 
     const letterStatusMessage = wrapper
-      .find('[data-test="letterStatusMessage"]')
+      .find('[data-testid="letterStatusMessage"]')
       .first();
     expect(letterStatusMessage.exists()).toEqual(true);
     expect(letterStatusMessage.text()).toEqual(ARCHIVED_MESSAGE);
@@ -117,7 +117,7 @@ describe("letter edit status message", () => {
       wrapper.update();
 
       const letterStatusMessage = wrapper
-        .find('[data-test="letterStatusMessage"]')
+        .find('[data-testid="letterStatusMessage"]')
         .first();
       expect(letterStatusMessage.exists()).toEqual(true);
       expect(letterStatusMessage.text()).toContain(
@@ -136,7 +136,7 @@ describe("letter edit status message", () => {
       wrapper.update();
 
       const letterStatusMessage = wrapper
-        .find('[data-test="letterStatusMessage"]')
+        .find('[data-testid="letterStatusMessage"]')
         .first();
 
       expect(letterStatusMessage.exists()).toEqual(true);
@@ -156,7 +156,7 @@ describe("letter edit status message", () => {
       wrapper.update();
 
       const letterStatusMessage = wrapper
-        .find('[data-test="letterStatusMessage"]')
+        .find('[data-testid="letterStatusMessage"]')
         .first();
 
       expect(letterStatusMessage.exists()).toEqual(true);
@@ -176,7 +176,7 @@ describe("letter edit status message", () => {
       wrapper.update();
 
       const letterStatusMessage = wrapper
-        .find('[data-test="letterStatusMessage"]')
+        .find('[data-testid="letterStatusMessage"]')
         .first();
 
       expect(letterStatusMessage.exists()).toEqual(true);
@@ -202,7 +202,7 @@ describe("letter edit status message", () => {
 
       containsText(
         wrapper,
-        '[data-test="letterStatusMessage"]',
+        '[data-testid="letterStatusMessage"]',
         "Any changes made to the letter details will not be reflected in the letter"
       );
     });
@@ -218,7 +218,7 @@ describe("letter edit status message", () => {
 
       containsText(
         wrapper,
-        '[data-test="letterStatusMessage"]',
+        '[data-testid="letterStatusMessage"]',
         "Any changes made to the case details will not be reflected in the letter"
       );
     });

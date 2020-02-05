@@ -51,18 +51,18 @@ describe("AllegationDetailsForm", () => {
   test("it calls createOfficerAllegation with appropriate values on submit", () => {
     changeInput(
       allegationDetailsForm,
-      '[data-test="allegationDetailsInput"]',
+      '[data-testid="allegationDetailsInput"]',
       "some details"
     );
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityField"]',
+      '[data-testid="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
     const addButton = allegationDetailsForm
-      .find('[data-test="addAllegationButton"]')
+      .find('[data-testid="addAllegationButton"]')
       .last();
     addButton.simulate("click");
 
@@ -84,12 +84,12 @@ describe("AllegationDetailsForm", () => {
 
   test("submit button is disabled when no allegation details have been entered", () => {
     const addButton = allegationDetailsForm
-      .find('[data-test="addAllegationButton"]')
+      .find('[data-testid="addAllegationButton"]')
       .last();
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityField"]',
+      '[data-testid="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
@@ -98,12 +98,12 @@ describe("AllegationDetailsForm", () => {
 
   test("submit button is disabled when no allegation severity has been selected", () => {
     const addButton = allegationDetailsForm
-      .find('[data-test="addAllegationButton"]')
+      .find('[data-testid="addAllegationButton"]')
       .last();
 
     changeInput(
       allegationDetailsForm,
-      '[data-test="allegationDetailsInput"]',
+      '[data-testid="allegationDetailsInput"]',
       "some details"
     );
 
@@ -113,18 +113,18 @@ describe("AllegationDetailsForm", () => {
   test("submit button is disabled when empty string has been entered as allegation details", () => {
     changeInput(
       allegationDetailsForm,
-      '[data-test="allegationDetailsInput"]',
+      '[data-testid="allegationDetailsInput"]',
       "   "
     );
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityField"]',
+      '[data-testid="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
     const addButton = allegationDetailsForm
-      .find('[data-test="addAllegationButton"]')
+      .find('[data-testid="addAllegationButton"]')
       .last();
 
     expect(addButton.props().disabled).toBeTruthy();
@@ -133,19 +133,19 @@ describe("AllegationDetailsForm", () => {
   test("submit button is enabled when allegation details and severity are present", () => {
     changeInput(
       allegationDetailsForm,
-      '[data-test="allegationDetailsInput"]',
+      '[data-testid="allegationDetailsInput"]',
       "details"
     );
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-test="allegationSeverityField"]',
+      '[data-testid="allegationSeverityField"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
     allegationDetailsForm.update();
 
     const addButton = allegationDetailsForm
-      .find('[data-test="addAllegationButton"]')
+      .find('[data-testid="addAllegationButton"]')
       .last();
 
     expect(addButton.props().disabled).toBeFalsy();

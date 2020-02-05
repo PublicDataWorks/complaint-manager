@@ -42,22 +42,22 @@ const attachmentCommands = {
 
 const attachmentElements = {
   attachmentDescription: {
-    selector: "[data-test='attachmentDescriptionInput']"
+    selector: "[data-testid='attachmentDescriptionInput']"
   },
   uploadAttachmentButton: {
-    selector: "[data-test=attachmentUploadButton]"
+    selector: "[data-testid=attachmentUploadButton]"
   },
   noAttachmentsText: {
-    selector: "[data-test='noAttachmentsText']"
+    selector: "[data-testid='noAttachmentsText']"
   },
   removeAttachmentButton: {
-    selector: "[data-test=removeAttachmentButton]"
+    selector: "[data-testid=removeAttachmentButton]"
   },
   removeAttachmentDialogButton: {
-    selector: "[data-test=confirmRemoveAttachmentButton]"
+    selector: "[data-testid=confirmRemoveAttachmentButton]"
   },
   attachment: {
-    selector: "[data-test='attachmentRow']"
+    selector: "[data-testid='attachmentRow']"
   },
   filenameInput: {
     selector: "input[type='file']"

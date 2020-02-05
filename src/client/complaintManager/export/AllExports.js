@@ -36,7 +36,7 @@ class AllExports extends Component {
     return (
       <div>
         <div style={margin}>
-          <div data-test="ExportAllCasesContainer" style={margin}>
+          <div data-testid="ExportAllCasesContainer" style={margin}>
             <ExportCasesForm />
             <ExportAuditLogForm />
           </div>
@@ -64,7 +64,4 @@ const mapDispatchToProps = {
   clearCurrentExportJob
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AllExports);
+export default connect(mapStateToProps, mapDispatchToProps)(AllExports);

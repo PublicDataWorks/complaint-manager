@@ -65,8 +65,8 @@ describe("OfficerAllegations", function() {
       </Provider>
     );
 
-    allegation1 = wrapper.find('[data-test="officerAllegation0"]').first();
-    allegation2 = wrapper.find('[data-test="officerAllegation1"]').first();
+    allegation1 = wrapper.find('[data-testid="officerAllegation0"]').first();
+    allegation2 = wrapper.find('[data-testid="officerAllegation1"]').first();
   });
 
   test("should render officer allegations", () => {
@@ -76,41 +76,43 @@ describe("OfficerAllegations", function() {
 
   test("should render edit allegation form after click", () => {
     const editButton1 = allegation1
-      .find('[data-test="editAllegationButton"]')
+      .find('[data-testid="editAllegationButton"]')
       .first();
     editButton1.simulate("click");
 
     wrapper.update();
 
     const updatedEditButton1 = wrapper
-      .find('[data-test="officerAllegation0"]')
+      .find('[data-testid="officerAllegation0"]')
       .first()
-      .find('[data-test="editAllegationButton"]')
+      .find('[data-testid="editAllegationButton"]')
       .first();
     expect(updatedEditButton1.exists()).toEqual(false);
 
     const cancelButton = wrapper
-      .find('[data-test="editAllegationCancel"]')
+      .find('[data-testid="editAllegationCancel"]')
       .first();
     expect(cancelButton.exists()).toEqual(true);
 
     const submitButton = wrapper
-      .find('[data-test="editAllegationSubmit"]')
+      .find('[data-testid="editAllegationSubmit"]')
       .first();
     expect(submitButton.exists()).toEqual(true);
   });
 
   test("expand icon should be disabled in edit mode", () => {
-    const expandIcon = wrapper.find('[data-test="expandIcon"]').first();
+    const expandIcon = wrapper.find('[data-testid="expandIcon"]').first();
 
     const editButton1 = allegation1
-      .find('[data-test="editAllegationButton"]')
+      .find('[data-testid="editAllegationButton"]')
       .first();
     editButton1.simulate("click");
 
     wrapper.update();
 
-    const updatedExpandIcon = wrapper.find('[data-test="expandIcon"]').first();
+    const updatedExpandIcon = wrapper
+      .find('[data-testid="expandIcon"]')
+      .first();
 
     expect(expandIcon.props().disabled).toBeFalsy();
     expect(updatedExpandIcon.props().disabled).toBeTruthy();
@@ -118,18 +120,18 @@ describe("OfficerAllegations", function() {
 
   test("should not render allegation form after submit", () => {
     const editButton1 = allegation1
-      .find('[data-test="editAllegationButton"]')
+      .find('[data-testid="editAllegationButton"]')
       .first();
     editButton1.simulate("click");
 
     wrapper.update();
 
     const submitButton = wrapper
-      .find('[data-test="editAllegationSubmit"]')
+      .find('[data-testid="editAllegationSubmit"]')
       .first();
     expect(submitButton.exists()).toEqual(true);
 
-    changeInput(wrapper, '[data-test="allegationInput"]', "different values");
+    changeInput(wrapper, '[data-testid="allegationInput"]', "different values");
 
     submitButton.simulate("click");
 
@@ -142,12 +144,12 @@ describe("OfficerAllegations", function() {
     wrapper.update();
 
     const updatedEditButton1 = wrapper
-      .find('[data-test="officerAllegation0"]')
+      .find('[data-testid="officerAllegation0"]')
       .first()
-      .find('[data-test="editAllegationButton"]')
+      .find('[data-testid="editAllegationButton"]')
       .first();
     const saveAllegationButton = wrapper
-      .find('[data-test="editAllegationSubmit"]')
+      .find('[data-testid="editAllegationSubmit"]')
       .first();
 
     expect(updatedEditButton1.exists()).toEqual(true);
@@ -156,7 +158,7 @@ describe("OfficerAllegations", function() {
 
   test("should open remove allegation dialog when remove button clicked", () => {
     const removeButton = allegation1
-      .find('[data-test="removeAllegationButton"]')
+      .find('[data-testid="removeAllegationButton"]')
       .last();
     removeButton.simulate("click");
 

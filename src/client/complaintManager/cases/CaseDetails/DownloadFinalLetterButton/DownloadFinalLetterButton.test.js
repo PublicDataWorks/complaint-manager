@@ -51,20 +51,20 @@ describe("DownloadFinalLetterButton", () => {
       })
     );
     wrapper.update();
-    const button = wrapper.find("[data-test='download-final-letter-button']");
+    const button = wrapper.find("[data-testid='download-final-letter-button']");
     expect(button.exists()).toBeFalsy();
   });
 
   test("renders button if case is in forwarded to agency status (or closed)", () => {
     const button = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     expect(button.exists()).toBeTruthy();
   });
 
   test("should dispatch inBrowserDownload with correct params on button click", () => {
     const button = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     button.simulate("click");
 
@@ -80,7 +80,7 @@ describe("DownloadFinalLetterButton", () => {
 
   test("should start download progress indicator on click button", () => {
     const button = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     button.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
@@ -88,26 +88,26 @@ describe("DownloadFinalLetterButton", () => {
 
   test("download letter button disabled when download in progress", () => {
     const buttonBeforeClick = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     buttonBeforeClick.simulate("click");
     wrapper.update();
     const buttonAfterClick = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     expect(buttonAfterClick.props().disabled).toEqual(true);
   });
 
   test("download letter button enabled when no download in progress", () => {
     const buttonBeforeClick = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     expect(buttonBeforeClick.props().disabled).toEqual(false);
   });
 
   test("does not display no file for download message if there is a file available", () => {
     const noFileForDownloadMessage = wrapper.find(
-      "[data-test='no-file-for-download-message']"
+      "[data-testid='no-file-for-download-message']"
     );
     expect(noFileForDownloadMessage.length).toEqual(0);
   });
@@ -123,13 +123,13 @@ describe("DownloadFinalLetterButton", () => {
     );
     wrapper.update();
     const downloadButton = wrapper
-      .find("[data-test='download-final-letter-button']")
+      .find("[data-testid='download-final-letter-button']")
       .first();
     expect(downloadButton.props().disabled).toEqual(true);
 
     containsText(
       wrapper,
-      "[data-test='no-file-for-download-message']",
+      "[data-testid='no-file-for-download-message']",
       "This case does not have a letter for download"
     );
   });

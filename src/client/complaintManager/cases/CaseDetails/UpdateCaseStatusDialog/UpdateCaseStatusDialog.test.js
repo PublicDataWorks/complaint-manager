@@ -42,7 +42,7 @@ describe("UpdateCaseStatusDialog", () => {
 
   test("submit button should display Mark as NEXT CASE STATUS", () => {
     const updateCaseStatusButton = wrapper
-      .find('[data-test="update-case-status-button"]')
+      .find('[data-testid="update-case-status-button"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();
@@ -51,7 +51,7 @@ describe("UpdateCaseStatusDialog", () => {
 
   test("should dispatch thunk with given redirect url if submit is clicked and no alt action given", () => {
     const updateCaseStatusButton = wrapper
-      .find('[data-test="update-case-status-button"]')
+      .find('[data-testid="update-case-status-button"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();
@@ -70,7 +70,7 @@ describe("UpdateCaseStatusDialog", () => {
     );
 
     const updateCaseStatusButton = wrapper
-      .find('[data-test="update-case-status-button"]')
+      .find('[data-testid="update-case-status-button"]')
       .first();
     updateCaseStatusButton.simulate("click");
     expect(alternativeAction).toHaveBeenCalledWith(
@@ -91,7 +91,7 @@ describe("UpdateCaseStatusDialog", () => {
     );
 
     const updateCaseStatusButton = wrapper
-      .find('[data-test="update-case-status-button"]')
+      .find('[data-testid="update-case-status-button"]')
       .first();
     updateCaseStatusButton.simulate("click");
     expect(alternativeAction).toHaveBeenCalledWith(
@@ -102,7 +102,7 @@ describe("UpdateCaseStatusDialog", () => {
 
   test("should dispatch close if cancelled is clicked", () => {
     const updateCaseStatusButton = wrapper
-      .find('[data-test="closeDialog"]')
+      .find('[data-testid="closeDialog"]')
       .first();
 
     expect(updateCaseStatusButton.exists()).toBeDefined();

@@ -67,10 +67,10 @@ describe("Complainants", () => {
       </Provider>
     );
     complainantWitnessesSection = complainantWitnesses
-      .find('[data-test="complainantWitnessesSection"]')
+      .find('[data-testid="complainantWitnessesSection"]')
       .first();
     complainantPanel = complainantWitnesses
-      .find('[data-test="complainantWitnessesPanel"]')
+      .find('[data-testid="complainantWitnessesPanel"]')
       .first();
   });
 
@@ -79,7 +79,7 @@ describe("Complainants", () => {
       const complainantName = complainant.fullName;
       containsText(
         complainantWitnessesSection,
-        '[data-test="complainantWitness"]',
+        '[data-testid="complainantWitness"]',
         complainantName
       );
     });
@@ -147,7 +147,7 @@ describe("Complainants", () => {
       );
 
       const complainantNames = complainantWitnesses.find(
-        '[data-test="complainantWitness"]'
+        '[data-testid="complainantWitness"]'
       );
       const uniqueComplainantNamesRendered = _.uniq(
         complainantNames.map(complainant => complainant.text())
@@ -163,7 +163,7 @@ describe("Complainants", () => {
   describe("Edit", () => {
     test("should open and initialize edit complainant dialog when edit is clicked", () => {
       const editLink = complainantWitnesses
-        .find('[data-test="editComplainantLink"]')
+        .find('[data-testid="editComplainantLink"]')
         .first();
       editLink.simulate("click");
 
@@ -179,7 +179,7 @@ describe("Complainants", () => {
       const expectedPhoneNumber = "(123) 456-7890";
       containsText(
         complainantPanel,
-        '[data-test="complainantPhoneNumber"]',
+        '[data-testid="complainantPhoneNumber"]',
         expectedPhoneNumber
       );
     });
@@ -188,11 +188,11 @@ describe("Complainants", () => {
   describe("email", () => {
     test("should display email when expanded", () => {
       const complainantPanel = complainantWitnessesSection
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
       containsText(
         complainantPanel,
-        '[data-test="complainantEmail"]',
+        '[data-testid="complainantEmail"]',
         complainant.email
       );
     });
@@ -225,11 +225,11 @@ describe("Complainants", () => {
       );
 
       complainantPanel = complainantWitnesses
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
       containsText(
         complainantPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         "No address specified"
       );
     });
@@ -241,7 +241,7 @@ describe("Complainants", () => {
 
       containsText(
         complainantPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         expectedAddress
       );
     });
@@ -274,14 +274,14 @@ describe("Complainants", () => {
       );
 
       complainantPanel = complainantWitnesses
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
-      containsText(complainantPanel, '[data-test="civilianAddress"]', "");
+      containsText(complainantPanel, '[data-testid="civilianAddress"]', "");
     });
     test("should display additional address info when present", () => {
       containsText(
         complainantPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         caseDetails.complainantCivilians[0].address.streetAddress2
       );
     });
@@ -291,7 +291,7 @@ describe("Complainants", () => {
     test("should display additional info when present", () => {
       containsText(
         complainantPanel,
-        '[data-test="complainantAdditionalInfo"]',
+        '[data-testid="complainantAdditionalInfo"]',
         complainant.additionalInfo
       );
     });
@@ -320,18 +320,18 @@ describe("Complainants", () => {
         />
       </Provider>
     );
-    const warn = wrapper.find("[data-test='warnIcon']");
+    const warn = wrapper.find("[data-testid='warnIcon']");
 
     expect(warn.exists()).toBeTruthy();
     containsText(
       wrapper,
-      "[data-test='complainantWitnessesSection']",
+      "[data-testid='complainantWitnessesSection']",
       "Please add at least one complainant to this case"
     );
   });
 
   test("warning message does not when no complainants", () => {
-    const title = complainantWitnesses.find("[data-test='warnIcon']");
+    const title = complainantWitnesses.find("[data-testid='warnIcon']");
 
     expect(title.exists()).toBeFalsy();
   });
@@ -355,7 +355,7 @@ describe("Complainants", () => {
         />
       </Provider>
     );
-    const noCivilianMessage = wrapper.find("[data-test='noCivilianMessage']");
+    const noCivilianMessage = wrapper.find("[data-testid='noCivilianMessage']");
 
     expect(noCivilianMessage.exists()).toBeTruthy();
   });
@@ -397,7 +397,7 @@ describe("Complainants", () => {
     );
 
     const complainantPanel = wrapper
-      .find('[data-test="complainantWitnessesPanel"]')
+      .find('[data-testid="complainantWitnessesPanel"]')
       .first();
 
     expect(complainantPanel.text()).toContain("Alpha");

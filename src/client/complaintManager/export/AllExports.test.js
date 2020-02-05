@@ -22,7 +22,7 @@ describe("Export all cases", () => {
   test("display job detail when job id is set", () => {
     store.dispatch(generateExportSuccess(19));
 
-    const jobDetail = allExports.find('[data-test="waitingForJob"]');
+    const jobDetail = allExports.find('[data-testid="waitingForJob"]');
     expect(jobDetail).toBeDefined();
   });
 });

@@ -17,7 +17,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists()).toBeFalsy();
 
     const displayedMessage = textTruncate
-      .find('[data-test="untruncatedMessage"]')
+      .find('[data-testid="untruncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual(message);
   });
@@ -31,7 +31,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists()).toBeFalsy();
 
     const displayedMessage = textTruncate
-      .find('[data-test="numericMessage"]')
+      .find('[data-testid="numericMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual("422");
   });
@@ -46,7 +46,7 @@ describe("TextTruncate", () => {
 
     const expectedDisplay = getStringOfLength(400) + "...(show more)";
     const displayedMessage = textTruncate
-      .find('[data-test="truncatedMessage"]')
+      .find('[data-testid="truncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual(expectedDisplay);
   });
@@ -61,7 +61,7 @@ describe("TextTruncate", () => {
     showMoreButton.simulate("click");
 
     const displayedMessage = textTruncate
-      .find('[data-test="truncatedMessage"]')
+      .find('[data-testid="truncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual(fullMessage + "(show less)");
   });
@@ -80,7 +80,7 @@ describe("TextTruncate", () => {
     const expectedDisplay = getStringOfLength(400) + "...(show more)";
 
     const displayedMessage = textTruncate
-      .find('[data-test="truncatedMessage"]')
+      .find('[data-testid="truncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual(expectedDisplay);
   });
@@ -95,7 +95,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists());
 
     const displayedMessage = textTruncate
-      .find('[data-test="untruncatedMessage"]')
+      .find('[data-testid="untruncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual("asdf...(show more)");
   });
@@ -110,7 +110,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists());
 
     const displayedMessage = textTruncate
-      .find('[data-test="untruncatedMessage"]')
+      .find('[data-testid="untruncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual(
       getStringOfLength(400) + "...(show more)"
@@ -127,7 +127,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists());
 
     const displayedMessage = textTruncate
-      .find('[data-test="untruncatedMessage"]')
+      .find('[data-testid="untruncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual("...(show more)");
   });
@@ -142,7 +142,7 @@ describe("TextTruncate", () => {
     expect(showMoreButton.exists());
 
     const displayedMessage = textTruncate
-      .find('[data-test="untruncatedMessage"]')
+      .find('[data-testid="untruncatedMessage"]')
       .last();
     expect(displayedMessage.text()).toEqual("...(show more)");
   });

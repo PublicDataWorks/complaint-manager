@@ -76,37 +76,39 @@ describe("IAProCorrections", function() {
   });
 
   test("there is a card for each iapro correction", () => {
-    const iaproCorrectionCards = wrapper.find("[data-test='iapro-correction']");
+    const iaproCorrectionCards = wrapper.find(
+      "[data-testid='iapro-correction']"
+    );
     expect(iaproCorrectionCards.length).toEqual(2);
   });
 
   test("it should add an iapro correction when click add iapro correction button", () => {
     const addIAProCorrectionButton = wrapper
-      .find('[data-test="addIAProCorrectionButton"]')
+      .find('[data-testid="addIAProCorrectionButton"]')
       .first();
     addIAProCorrectionButton.simulate("click");
-    expect(wrapper.find("[data-test='iapro-correction']").length).toEqual(3);
+    expect(wrapper.find("[data-testid='iapro-correction']").length).toEqual(3);
   });
 
   test("it should open the remove iapro correction dialog when click remove iapro correction button", () => {
     const openRemoveIAProCorrectionDialogButton = wrapper
       .find(
-        "[data-test='referralLetterIaproCorrections[0]-open-remove-dialog-button']"
+        "[data-testid='referralLetterIaproCorrections[0]-open-remove-dialog-button']"
       )
       .first();
     openRemoveIAProCorrectionDialogButton.simulate("click");
     const removeIAProCorrectionButton = wrapper
-      .find("[data-test='remove-iapro-correction-button']")
+      .find("[data-testid='remove-iapro-correction-button']")
       .first();
     removeIAProCorrectionButton.simulate("click");
-    expect(wrapper.find("[data-test='iapro-correction']").length).toEqual(1);
+    expect(wrapper.find("[data-testid='iapro-correction']").length).toEqual(1);
   });
 
   test("calls editIAProCorrections with case id, form values, and redirect url when click back to case", () => {
     dispatchSpy.mockClear();
 
     const button = wrapper
-      .find("[data-test='save-and-return-to-case-link']")
+      .find("[data-testid='save-and-return-to-case-link']")
       .first();
     button.simulate("click");
     const expectedFormValues = {
@@ -121,7 +123,7 @@ describe("IAProCorrections", function() {
   });
 
   test("calls editIAProCorrections with case id, form values, and redirect url when click back button", () => {
-    const backButton = wrapper.find("[data-test='back-button']").first();
+    const backButton = wrapper.find("[data-testid='back-button']").first();
     backButton.simulate("click");
     const expectedFormValues = {
       referralLetterIaproCorrections: [
@@ -139,7 +141,7 @@ describe("IAProCorrections", function() {
   });
 
   test("calls editIAProCorrections with case id, form values, and redirect url when click next button", () => {
-    const nextButton = wrapper.find("[data-test='next-button']").first();
+    const nextButton = wrapper.find("[data-testid='next-button']").first();
     nextButton.simulate("click");
     const expectedFormValues = {
       referralLetterIaproCorrections: [
@@ -169,7 +171,7 @@ describe("IAProCorrections", function() {
 
     test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Review Case Details"]')
+        .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -183,7 +185,7 @@ describe("IAProCorrections", function() {
 
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -197,7 +199,7 @@ describe("IAProCorrections", function() {
 
     test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-IAPro Corrections"]')
+        .find('[data-testid="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -211,7 +213,7 @@ describe("IAProCorrections", function() {
 
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Recommended Actions"]')
+        .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -225,7 +227,7 @@ describe("IAProCorrections", function() {
 
     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Preview"]')
+        .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(

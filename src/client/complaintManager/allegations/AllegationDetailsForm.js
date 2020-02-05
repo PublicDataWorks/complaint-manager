@@ -34,9 +34,9 @@ const AllegationDetailsForm = props => {
         <Field
           style={{ width: "15%", marginBottom: `${marginBottomOffset}px` }}
           component={Dropdown}
-          data-test="allegationSeverityField"
+          data-testid="allegationSeverityField"
           name="severity"
-          inputProps={{ "data-test": "allegationSeverityInput" }}
+          inputProps={{ "data-testid": "allegationSeverityInput" }}
           label="Allegation Severity"
           validate={[allegationSeverityRequired]}
         >
@@ -46,13 +46,13 @@ const AllegationDetailsForm = props => {
       <div>
         <Field
           validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
-          data-test="allegationDetailsField"
+          data-testid="allegationDetailsField"
           style={{ width: "40%", marginBottom: `${marginBottomOffset}px` }}
           component={renderTextField}
           name="details"
           inputProps={{
             autoComplete: "off",
-            "data-test": "allegationDetailsInput"
+            "data-testid": "allegationDetailsInput"
           }}
           multiline
           rowsMax={5}
@@ -66,7 +66,7 @@ const AllegationDetailsForm = props => {
       >
         <PrimaryButton
           disabled={props.invalid || props.pristine}
-          data-test="addAllegationButton"
+          data-testid="addAllegationButton"
           onClick={props.handleSubmit(onSubmit)}
         >
           Add Allegation

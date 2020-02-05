@@ -93,7 +93,7 @@ describe("recommendedActions", function() {
     dispatchSpy.mockClear();
 
     const button = wrapper
-      .find("[data-test='save-and-return-to-case-link']")
+      .find("[data-testid='save-and-return-to-case-link']")
       .first();
     button.simulate("click");
     const expectedFormValues = {
@@ -122,7 +122,7 @@ describe("recommendedActions", function() {
   });
 
   test("calls editRecommendedActions with case id, form values, and redirect url when click back button", () => {
-    const backButton = wrapper.find("[data-test='back-button']").first();
+    const backButton = wrapper.find("[data-testid='back-button']").first();
     backButton.simulate("click");
     const expectedFormValues = {
       id: referralLetterId,
@@ -154,7 +154,7 @@ describe("recommendedActions", function() {
   });
 
   test("calls editRecommendedActions with case id, form values, and redirect url when click next button", () => {
-    const nextButton = wrapper.find("[data-test='next-button']").first();
+    const nextButton = wrapper.find("[data-testid='next-button']").first();
     nextButton.simulate("click");
     const expectedFormValues = {
       id: referralLetterId,
@@ -194,7 +194,7 @@ describe("recommendedActions", function() {
       );
       wrapper.update();
       expect(
-        wrapper.find('[data-test="classificationsContainer"]').exists()
+        wrapper.find('[data-testid="classificationsContainer"]').exists()
       ).toBeTrue();
     });
 
@@ -206,7 +206,7 @@ describe("recommendedActions", function() {
       );
       wrapper.update();
       expect(
-        wrapper.find('[data-test="classificationsContainer"]').exists()
+        wrapper.find('[data-testid="classificationsContainer"]').exists()
       ).toBeFalse();
     });
   });
@@ -238,7 +238,7 @@ describe("recommendedActions", function() {
 
     test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Review Case Details"]')
+        .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -252,7 +252,7 @@ describe("recommendedActions", function() {
 
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -266,7 +266,7 @@ describe("recommendedActions", function() {
 
     test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-IAPro Corrections"]')
+        .find('[data-testid="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -280,7 +280,7 @@ describe("recommendedActions", function() {
 
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Recommended Actions"]')
+        .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -294,7 +294,7 @@ describe("recommendedActions", function() {
 
     test("it dispatches edit and redirects to preview when click preview stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Preview"]')
+        .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(

@@ -25,19 +25,19 @@ const AddAccusedMenu = props => {
           marginBottom: "8px"
         }}
         onClick={props.handleMenuOpen}
-        data-test="addAccusedMenu"
+        data-testid="addAccusedMenu"
       >
         + Add Accused
       </LinkButton>
       <Menu
-        data-test="addAccusedMenu"
+        data-testid="addAccusedMenu"
         open={props.menuOpen}
         onClose={props.handleMenuClose}
         anchorEl={props.anchorEl}
         getContentAnchorEl={null}
       >
         <MenuItem
-          data-test="addAccusedOfficer"
+          data-testid="addAccusedOfficer"
           onClick={() => {
             props.handleMenuClose();
             props.dispatch(
@@ -52,7 +52,7 @@ const AddAccusedMenu = props => {
           Accused {OFFICER_TITLE}
         </MenuItem>
         <MenuItem
-          data-test="addAccusedCivilianWithinNOPD"
+          data-testid="addAccusedCivilianWithinNOPD"
           onClick={() => {
             props.handleMenuClose();
             props.dispatch(

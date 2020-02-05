@@ -15,7 +15,7 @@ import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreat
 const OfficerActions = ({ caseOfficer, dispatch }) => (
   <div style={{ display: "flex" }}>
     <LinkButton
-      data-test="editOfficerLink"
+      data-testid="editOfficerLink"
       onClick={event => {
         event.stopPropagation();
 
@@ -43,7 +43,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
       Edit
     </LinkButton>
     <LinkButton
-      data-test="removeOfficerLink"
+      data-testid="removeOfficerLink"
       onClick={event => {
         event.stopPropagation();
         dispatch(openRemovePersonDialog(caseOfficer, "cases-officers"));

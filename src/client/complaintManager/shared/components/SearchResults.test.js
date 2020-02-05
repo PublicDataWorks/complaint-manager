@@ -14,7 +14,7 @@ describe("SearchResults", () => {
         render={jest.fn()}
       />
     );
-    const spinner = wrapper.find("[data-test='spinner']");
+    const spinner = wrapper.find("[data-testid='spinner']");
     expect(spinner.exists()).toEqual(true);
   });
 
@@ -27,7 +27,7 @@ describe("SearchResults", () => {
         render={jest.fn()}
       />
     );
-    const spinner = wrapper.find("[data-test='spinner']");
+    const spinner = wrapper.find("[data-testid='spinner']");
     expect(spinner.exists()).toEqual(false);
   });
 
@@ -41,7 +41,7 @@ describe("SearchResults", () => {
       />
     );
     const searchResultsMessage = wrapper.find(
-      "[data-test='searchResultsMessage']"
+      "[data-testid='searchResultsMessage']"
     );
     expect(searchResultsMessage.exists()).toEqual(true);
   });
@@ -57,7 +57,7 @@ describe("SearchResults", () => {
     );
     expect(
       wrapper
-        .find("[data-test='searchResultsMessage']")
+        .find("[data-testid='searchResultsMessage']")
         .children()
         .text()
     ).toEqual("1 result found");
@@ -73,7 +73,7 @@ describe("SearchResults", () => {
       />
     );
     const searchResultsMessage = wrapper.find(
-      "[data-test='searchResultsMessage']"
+      "[data-testid='searchResultsMessage']"
     );
     expect(searchResultsMessage.exists()).toEqual(false);
   });
@@ -92,7 +92,7 @@ describe("SearchResults", () => {
     );
     expect(
       wrapper
-        .find("[data-test='searchResultsMessage']")
+        .find("[data-testid='searchResultsMessage']")
         .children()
         .text()
     ).toEqual("2 results found");
@@ -112,7 +112,7 @@ describe("SearchResults", () => {
       />
     );
     const containsText = wrapper
-      .find("[data-test='searchResultsMessage'] p")
+      .find("[data-testid='searchResultsMessage'] p")
       .first();
 
     return expect(containsText.text()).toBeFalsy();
@@ -129,7 +129,7 @@ describe("SearchResults", () => {
       />
     );
     const resultsMessage = wrapper
-      .find("[data-test='searchResultsMessage']")
+      .find("[data-testid='searchResultsMessage']")
       .children()
       .text();
 
@@ -146,7 +146,7 @@ describe("SearchResults", () => {
       />
     );
     const resultsMessage = wrapper
-      .find("[data-test='searchResultsMessage']")
+      .find("[data-testid='searchResultsMessage']")
       .children()
       .text();
 
@@ -169,7 +169,7 @@ describe("SearchResults", () => {
     );
 
     const header = wrapper
-      .find("[data-test='searchHeader']")
+      .find("[data-testid='searchHeader']")
       .children()
       .text();
 
@@ -191,7 +191,7 @@ describe("SearchResults", () => {
     );
 
     const header = wrapper
-      .find("[data-test='searchHeader']")
+      .find("[data-testid='searchHeader']")
       .children()
       .text();
 

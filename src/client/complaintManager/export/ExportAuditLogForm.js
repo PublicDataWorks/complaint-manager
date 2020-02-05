@@ -55,7 +55,7 @@ const ExportAuditLogForm = props => {
       <ExportDateRange formLabel={formLabel} />
       <PrimaryButton
         disabled={props.buttonsDisabled}
-        data-test="exportRangedAudits"
+        data-testid="exportRangedAudits"
         onClick={handleSubmit(values =>
           openExportAuditLogConfirmationDialogForDateRange(
             values,
@@ -67,7 +67,7 @@ const ExportAuditLogForm = props => {
         Export Selected Audit Log
       </PrimaryButton>
       <SecondaryButton
-        data-test="exportAllAudits"
+        data-testid="exportAllAudits"
         disabled={props.buttonsDisabled}
         onClick={() => {
           props.openExportAuditLogConfirmationDialog();
@@ -92,7 +92,4 @@ const mapDispatchToProps = {
   openExportAuditLogConfirmationDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(connectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

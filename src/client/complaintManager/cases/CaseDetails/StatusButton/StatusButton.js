@@ -82,7 +82,7 @@ class StatusButton extends Component {
       return (
         <Fragment>
           <PrimaryButton
-            data-test={"review-and-approve-letter-button"}
+            data-testid={"review-and-approve-letter-button"}
             onClick={this.saveAndGoToReviewAndApprove}
             style={{ marginLeft: "16px" }}
             disabled={this.props.isArchived}
@@ -97,7 +97,7 @@ class StatusButton extends Component {
       return (
         <Fragment>
           <PrimaryButton
-            data-test="update-status-button"
+            data-testid="update-status-button"
             onClick={this.openUpdateCaseStatusDialog}
             style={{ marginLeft: "16px" }}
             disabled={this.props.isArchived}
@@ -132,7 +132,4 @@ const mapDispatchToProps = {
   getReferralLetterData
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(StatusButton);
+export default connect(mapStateToProps, mapDispatchToProps)(StatusButton);

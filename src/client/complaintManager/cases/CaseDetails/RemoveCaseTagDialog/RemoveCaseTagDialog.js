@@ -22,7 +22,7 @@ class RemoveCaseTagDialog extends Component {
 
     return (
       <Dialog open={dialogOpen} fullWidth={true}>
-        <DialogTitle data-test="removeCaseTagDialogTitle">
+        <DialogTitle data-testid="removeCaseTagDialogTitle">
           Remove Case Tag
         </DialogTitle>
         <DialogContent>
@@ -44,13 +44,13 @@ class RemoveCaseTagDialog extends Component {
             style={{
               marginLeft: "0px"
             }}
-            data-test="cancelButton"
+            data-testid="cancelButton"
             onClick={() => dispatch(closeRemoveCaseTagDialog())}
           >
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="removeCaseTag"
+            data-testid="removeCaseTag"
             onClick={() => dispatch(removeCaseTag(caseTag.caseId, caseTag.id))}
             disabled={submitting}
           >

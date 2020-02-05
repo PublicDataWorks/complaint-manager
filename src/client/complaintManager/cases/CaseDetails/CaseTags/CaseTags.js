@@ -22,7 +22,7 @@ class CaseTags extends Component {
         <div style={{ margin: "0px 24px" }}>
           <div style={{ display: "flex" }}>
             <Typography
-              data-test="caseTagDialogTitle"
+              data-testid="caseTagDialogTitle"
               variant={"h6"}
               style={{
                 marginBottom: "16px",
@@ -32,7 +32,10 @@ class CaseTags extends Component {
               Tags
             </Typography>
           </div>
-          <div data-test="caseTagsContainer" style={{ paddingBottom: "16px" }}>
+          <div
+            data-testid="caseTagsContainer"
+            style={{ paddingBottom: "16px" }}
+          >
             {caseTags.length === 0 ? (
               <Typography variant="body2">No tags have been added</Typography>
             ) : (
@@ -42,7 +45,7 @@ class CaseTags extends Component {
                     style={{ margin: "5px" }}
                     key={caseTag.id}
                     label={caseTag && caseTag.tag.name}
-                    data-test="caseTagChip"
+                    data-testid="caseTagChip"
                     onDelete={() =>
                       this.props.dispatch(openRemoveCaseTagDialog(caseTag))
                     }
@@ -56,7 +59,7 @@ class CaseTags extends Component {
         <LinkButton
           onClick={() => this.props.dispatch(openCaseTagDialog())}
           style={{ margin: "0% 0% 5% 2%" }}
-          data-test="addTagButton"
+          data-testid="addTagButton"
         >
           + Add Tag
         </LinkButton>

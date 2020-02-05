@@ -25,7 +25,7 @@ describe("Accused", function() {
       </Provider>
     );
 
-    const officersDisplayed = wrapper.find('[data-test="knownOfficerPanel"]');
+    const officersDisplayed = wrapper.find('[data-testid="knownOfficerPanel"]');
     const firstOfficer = officersDisplayed.first();
 
     expect(firstOfficer.text()).toContain(anOfficer.fullName);
@@ -46,7 +46,9 @@ describe("Accused", function() {
       </Provider>
     );
 
-    const officersDisplayed = wrapper.find('[data-test="unknownOfficerPanel"]');
+    const officersDisplayed = wrapper.find(
+      '[data-testid="unknownOfficerPanel"]'
+    );
     const firstOfficer = officersDisplayed.first();
 
     expect(firstOfficer.text()).toContain("Unknown Officer");

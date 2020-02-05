@@ -26,13 +26,13 @@ const navBarCommands = {
 module.exports = {
   commands: [navBarCommands],
   elements: {
-    menuButton: { selector: "[data-test='gearButton']" },
+    menuButton: { selector: "[data-testid='gearButton']" },
     archivedCasesLink: {
-      selector: "[data-test='archivedCases']"
+      selector: "[data-testid='archivedCases']"
     },
     logoutButton: {
-      selector: '[data-test="logOutButton"]'
+      selector: '[data-testid="logOutButton"]'
     },
-    complaintsLink: { selector: "[data-test='complaints']" }
+    complaintsLink: { selector: "[data-testid='complaints']" }
   }
 };

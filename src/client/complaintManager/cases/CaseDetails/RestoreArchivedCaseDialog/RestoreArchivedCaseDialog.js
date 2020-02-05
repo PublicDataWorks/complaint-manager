@@ -41,14 +41,14 @@ const RestoreArchivedCaseDialog = ({
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelRestoreArchivedCaseButton"
+          data-testid="cancelRestoreArchivedCaseButton"
           onClick={closeRestoreArchivedCaseDialog}
           disabled={submitting}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="confirmRestoreArchivedCase"
+          data-testid="confirmRestoreArchivedCase"
           onClick={() => {
             restoreArchivedCase(caseId);
           }}
@@ -75,7 +75,4 @@ const connectedForm = reduxForm({
   form: RESTORE_ARCHIVED_CASE_FORM
 })(RestoreArchivedCaseDialog);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(connectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

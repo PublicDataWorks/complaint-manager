@@ -85,7 +85,7 @@ class AddressAutoSuggest extends Component {
             classes: {
               input: classes.input
             },
-            "data-test": dataTest,
+            "data-testid": dataTest,
             inputProps: {
               value: "Address lookup is down, please try again later"
             }
@@ -102,7 +102,7 @@ class AddressAutoSuggest extends Component {
           classes: {
             input: classes.input
           },
-          "data-test": dataTest,
+          "data-testid": dataTest,
           ...other,
           autoComplete: "disabled" // "off" does not work on chrome
         }}
@@ -125,7 +125,7 @@ class AddressAutoSuggest extends Component {
       <Paper
         elevation={2}
         {...containerProps}
-        data-test="suggestion-container"
+        data-testid="suggestion-container"
         square
       >
         {children}
@@ -243,7 +243,7 @@ class AddressAutoSuggest extends Component {
       classes = {},
       meta,
       inputProps,
-      "data-test": dataTest
+      "data-testid": dataTest
     } = this.props;
 
     const theme = {
@@ -264,7 +264,7 @@ class AddressAutoSuggest extends Component {
         renderSuggestionsContainer={this.renderSuggestionsContainer}
         getSuggestionValue={this.getSuggestionValue}
         renderSuggestion={this.renderSuggestion}
-        data-test={"base-auto-suggest"}
+        data-testid={"base-auto-suggest"}
         inputProps={{
           label,
           dataTest,

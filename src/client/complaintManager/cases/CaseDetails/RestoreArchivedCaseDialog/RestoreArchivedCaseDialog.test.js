@@ -33,7 +33,7 @@ describe("RestoreArchivedCaseDialog", () => {
   });
   test("should call restoreArchivedCase thunk with the correct values", () => {
     const restoreArchivedCaseButton = wrapper
-      .find('[data-test="confirmRestoreArchivedCase"]')
+      .find('[data-testid="confirmRestoreArchivedCase"]')
       .first();
     restoreArchivedCaseButton.simulate("click");
 
@@ -41,7 +41,7 @@ describe("RestoreArchivedCaseDialog", () => {
   });
   test("should dispatch close dialog when cancel clicked", () => {
     const cancelRestoreArchivedCaseButton = wrapper
-      .find('[data-test="cancelRestoreArchivedCaseButton"]')
+      .find('[data-testid="cancelRestoreArchivedCaseButton"]')
       .first();
     cancelRestoreArchivedCaseButton.simulate("click");
 

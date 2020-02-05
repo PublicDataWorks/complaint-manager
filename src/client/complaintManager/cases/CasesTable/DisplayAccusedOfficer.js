@@ -3,7 +3,7 @@ import WarningMessage from "../../shared/components/WarningMessage";
 
 const DisplayAccusedOfficer = ({ primaryAccusedOfficer }) => {
   return (
-    <div data-test="primaryAccusedOfficerName">
+    <div data-testid="primaryAccusedOfficerName">
       {primaryAccusedOfficer ? (
         primaryAccusedOfficer.fullName
       ) : (

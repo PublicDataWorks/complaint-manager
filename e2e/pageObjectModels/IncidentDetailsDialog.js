@@ -44,25 +44,25 @@ module.exports = {
   commands: [incidentDetailsDialogCommands],
   elements: {
     dialogTitle: {
-      selector: "[data-test='editIncidentDetailsTitle']"
+      selector: "[data-testid='editIncidentDetailsTitle']"
     },
     addressSuggestionField: {
-      selector: '[data-test="addressSuggestionField"] > input'
+      selector: '[data-testid="addressSuggestionField"] > input'
     },
     saveIncidentDetailsButton: {
-      selector: '[data-test="saveIncidentDetailsButton"]'
+      selector: '[data-testid="saveIncidentDetailsButton"]'
     },
     fillAddressLink: {
-      selector: '[data-test="fillAddressToConfirm"]'
+      selector: '[data-testid="fillAddressToConfirm"]'
     },
     incidentDate: {
-      selector: '[data-test="editIncidentDateInput"]'
+      selector: '[data-testid="editIncidentDateInput"]'
     },
     incidentTime: {
-      selector: '[data-test="editIncidentTimeInput"]'
+      selector: '[data-testid="editIncidentTimeInput"]'
     },
     districtDropdown: {
-      selector: '[data-test="districtInput"]+div>button'
+      selector: '[data-testid="districtInput"]+div>button'
     },
     districtMenu: {
       selector: ".MuiAutocomplete-popper"

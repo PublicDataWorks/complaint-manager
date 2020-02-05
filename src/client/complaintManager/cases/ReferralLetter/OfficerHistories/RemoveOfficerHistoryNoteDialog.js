@@ -57,13 +57,13 @@ const RemoveOfficerHistoryNoteDialog = ({
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelButton"
+          data-testid="cancelButton"
           onClick={closeRemoveOfficerHistoryNoteDialog}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="removeOfficerHistoryNoteButton"
+          data-testid="removeOfficerHistoryNoteButton"
           onClick={removeOfficerHistoryNote}
         >
           Remove

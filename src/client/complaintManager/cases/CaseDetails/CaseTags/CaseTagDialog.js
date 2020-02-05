@@ -42,7 +42,7 @@ class CaseTagDialog extends Component {
           style={{
             paddingBottom: "8px"
           }}
-          data-test="caseTagDialogTitle"
+          data-testid="caseTagDialogTitle"
         >
           Add New Tag
         </DialogTitle>
@@ -58,9 +58,9 @@ class CaseTagDialog extends Component {
           <form onSubmit={event => event.preventDefault()}>
             <Field
               inputProps={{
-                "data-test": "caseTagDropdownInput"
+                "data-testid": "caseTagDropdownInput"
               }}
-              data-test="caseTagDropdown"
+              data-testid="caseTagDropdown"
               component={CreatableDropdown}
               name="caseTagValue"
               required
@@ -83,7 +83,7 @@ class CaseTagDialog extends Component {
             style={{
               marginLeft: "0px"
             }}
-            data-test="caseTagCancelButton"
+            data-testid="caseTagCancelButton"
             onClick={() => {
               this.props.closeCaseTagDialog();
               this.props.reset(CASE_TAG_FORM_NAME);
@@ -92,7 +92,7 @@ class CaseTagDialog extends Component {
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="caseTagSubmitButton"
+            data-testid="caseTagSubmitButton"
             onClick={handleSubmit(this.submit)}
             disabled={submitting || !isTagSelected}
           >

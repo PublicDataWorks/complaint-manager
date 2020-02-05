@@ -26,7 +26,7 @@ describe("CreatableDropdown test", () => {
           <Field
             label="TEST LABEL"
             name="testDropdownID"
-            data-test="testDropdown"
+            data-testid="testDropdown"
             component={CreatableDropdown}
           >
             {children}
@@ -45,7 +45,7 @@ describe("CreatableDropdown test", () => {
       );
 
       autocomplete = wrapper
-        .find('[data-test="testDropdown"]')
+        .find('[data-testid="testDropdown"]')
         .first()
         .find("ForwardRef(Autocomplete)");
     });
@@ -59,13 +59,13 @@ describe("CreatableDropdown test", () => {
     test("should add new tag with correct label and value", () => {
       changeCreatableDropdownInput(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         "Birbs"
       );
 
       selectCreatableDropdownOption(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         'Create "Birbs"'
       );
 
@@ -82,11 +82,11 @@ describe("CreatableDropdown test", () => {
     test("string typed should be value of dropdown", () => {
       changeCreatableDropdownInput(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         "a new string"
       );
       autocompleteProps = wrapper
-        .find('[data-test="testDropdown"]')
+        .find('[data-testid="testDropdown"]')
         .first()
         .find("ForwardRef(Autocomplete)")
         .props();
@@ -96,11 +96,11 @@ describe("CreatableDropdown test", () => {
     test("should add 'Create tag' option for new tags", () => {
       changeCreatableDropdownInput(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         "Birbs"
       );
       autocompleteProps = wrapper
-        .find('[data-test="testDropdown"]')
+        .find('[data-testid="testDropdown"]')
         .first()
         .find("ForwardRef(Autocomplete)")
         .props();
@@ -123,7 +123,7 @@ describe("CreatableDropdown test", () => {
           <Field
             label="TEST LABEL"
             name="testDropdownID"
-            data-test="testDropdown"
+            data-testid="testDropdown"
             input={{ onChange: onChangeSpy }}
             component={CreatableDropdown}
           >
@@ -146,7 +146,7 @@ describe("CreatableDropdown test", () => {
     test("ensure input.onChange is happening on dropdown selection", () => {
       selectCreatableDropdownOption(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         "label 1"
       );
 
@@ -155,7 +155,7 @@ describe("CreatableDropdown test", () => {
     test("should return 'Create' when clicking on option 'Create 'Create'' ", () => {
       selectCreatableDropdownOption(
         wrapper,
-        '[data-test="testDropdown"]',
+        '[data-testid="testDropdown"]',
         'Create "Create"'
       );
 

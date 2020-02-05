@@ -124,12 +124,12 @@ class CasesTable extends React.Component {
               <TableHead>
                 <TableRow className={classes.row}>
                   <TableCell
-                    data-test="casesNumberHeader"
+                    data-testid="casesNumberHeader"
                     style={{ width: "10%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="caseReferenceSortLabel"
+                      data-testid="caseReferenceSortLabel"
                       onClick={() =>
                         this.updateSorting(SORT_CASES_BY.CASE_REFERENCE)
                       }
@@ -142,12 +142,12 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-test="casesStatusHeader"
+                    data-testid="casesStatusHeader"
                     style={{ width: "13%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="statusSortLabel"
+                      data-testid="statusSortLabel"
                       onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
                       direction={this.props.sortDirection}
                       active={this.props.sortBy === SORT_CASES_BY.STATUS}
@@ -156,12 +156,12 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-test="casesComplainantHeader"
+                    data-testid="casesComplainantHeader"
                     style={{ width: "16%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="complainantSortLabel"
+                      data-testid="complainantSortLabel"
                       onClick={() =>
                         this.updateSorting(SORT_CASES_BY.PRIMARY_COMPLAINANT)
                       }
@@ -174,12 +174,12 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-test="casesAccusedOfficerHeader"
+                    data-testid="casesAccusedOfficerHeader"
                     style={{ width: "16%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="primaryAccusedOfficerSortLabel"
+                      data-testid="primaryAccusedOfficerSortLabel"
                       onClick={() =>
                         this.updateSorting(
                           SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
@@ -197,12 +197,12 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-test="casesFirstContactDateHeader"
+                    data-testid="casesFirstContactDateHeader"
                     style={{ width: "15%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="firstContactDateSortLabel"
+                      data-testid="firstContactDateSortLabel"
                       onClick={() =>
                         this.updateSorting(SORT_CASES_BY.FIRST_CONTACT_DATE)
                       }
@@ -215,12 +215,12 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-test="casesAssignedToHeader"
+                    data-testid="casesAssignedToHeader"
                     style={{ width: "14%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
-                      data-test="casesAssignedToSortLabel"
+                      data-testid="casesAssignedToSortLabel"
                       onClick={() =>
                         this.updateSorting(SORT_CASES_BY.ASSIGNED_TO)
                       }

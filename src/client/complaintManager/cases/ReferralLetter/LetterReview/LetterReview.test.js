@@ -65,7 +65,7 @@ describe("LetterReview", () => {
       store.dispatch(getCaseDetailsSuccess(testCase));
       wrapper.update();
       const accusedCard = wrapper.find(
-        '[data-test="case-detail-card-accused"]'
+        '[data-testid="case-detail-card-accused"]'
       );
       expect(accusedCard.props().cardTitle).toEqual("Accused Officer");
     });
@@ -87,7 +87,7 @@ describe("LetterReview", () => {
       wrapper.update();
 
       const accusedCard = wrapper.find(
-        '[data-test="case-detail-card-accused"]'
+        '[data-testid="case-detail-card-accused"]'
       );
       expect(accusedCard.props().cardTitle).toEqual("Accused Civilian (NOPD)");
     });
@@ -225,7 +225,7 @@ describe("LetterReview", () => {
     });
     test("it redirects to review letter when click review case details stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Review Case Details"]')
+        .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -235,7 +235,7 @@ describe("LetterReview", () => {
 
     test("it redirects to officer history when click officer history stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Officer Complaint Histories"]')
+        .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -245,7 +245,7 @@ describe("LetterReview", () => {
 
     test("it redirects to iapro corrections when click iapro corrections stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-IAPro Corrections"]')
+        .find('[data-testid="step-button-IAPro Corrections"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -255,7 +255,7 @@ describe("LetterReview", () => {
 
     test("it redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Recommended Actions"]')
+        .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(
@@ -265,7 +265,7 @@ describe("LetterReview", () => {
 
     test("it redirects to preview when click preview stepper button", () => {
       const reviewCaseDetailsButton = wrapper
-        .find('[data-test="step-button-Preview"]')
+        .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
       expect(dispatchSpy).toHaveBeenCalledWith(

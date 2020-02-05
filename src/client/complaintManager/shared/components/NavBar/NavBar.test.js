@@ -26,7 +26,7 @@ describe("NavBar", () => {
   });
 
   test("should contain a home icon button when showHome is true", () => {
-    const homeButton = wrapper.find('[data-test="homeButton"]').last();
+    const homeButton = wrapper.find('[data-testid="homeButton"]').last();
 
     homeButton.simulate("click");
     expect(homeButton.prop("href")).toEqual("/");
@@ -35,27 +35,27 @@ describe("NavBar", () => {
   test("should not contain a home icon button when showHome is false", () => {
     wrapper.setProps({ children: <NavBar showHome={false} /> });
     wrapper.update();
-    expect(wrapper.find('[data-test="homeButton"]').exists()).toBeFalse();
+    expect(wrapper.find('[data-testid="homeButton"]').exists()).toBeFalse();
   });
 
   test("should display default nickname", () => {
-    const nickname = wrapper.find('[data-test="userNickName"]').last();
+    const nickname = wrapper.find('[data-testid="userNickName"]').last();
     expect(nickname.text()).toEqual("");
   });
 
   describe("gear menu", () => {
     test("should see log out button", () => {
-      const gearButton = wrapper.find('button[data-test="gearButton"]');
+      const gearButton = wrapper.find('button[data-testid="gearButton"]');
       gearButton.simulate("click");
 
-      const logOutButton = wrapper.find('[data-test="logOutButton"]');
+      const logOutButton = wrapper.find('[data-testid="logOutButton"]');
 
       expect(logOutButton.exists()).toBeTruthy();
-      containsText(logOutButton, '[data-test="logOutButton"]', "Log Out");
+      containsText(logOutButton, '[data-testid="logOutButton"]', "Log Out");
     });
 
     test("should dismiss menu when clicking away", () => {
-      const gearButton = wrapper.find('[data-test="gearButton"]').last();
+      const gearButton = wrapper.find('[data-testid="gearButton"]').last();
       gearButton.simulate("click");
 
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
@@ -63,7 +63,7 @@ describe("NavBar", () => {
 
       const menu = wrapper
         .find(NavBar)
-        .find('[data-test="menu"]')
+        .find('[data-testid="menu"]')
         .first();
 
       expect(menu.props()).toHaveProperty("open", false);
@@ -78,11 +78,11 @@ describe("NavBar", () => {
       store.dispatch(userAuthSuccess(userInfo));
       wrapper.update();
 
-      const gearButton = wrapper.find('[data-test="gearButton"]').last();
+      const gearButton = wrapper.find('[data-testid="gearButton"]').last();
       gearButton.simulate("click");
 
       const exportAuditLogMenuItem = wrapper
-        .find('[data-test="exports"]')
+        .find('[data-testid="exports"]')
         .last();
       expect(exportAuditLogMenuItem.exists()).toBeTruthy();
     });
@@ -97,7 +97,7 @@ describe("NavBar", () => {
       );
       wrapper.update();
       expect(
-        wrapper.find('[data-test="notificationBell"]').exists()
+        wrapper.find('[data-testid="notificationBell"]').exists()
       ).toBeTrue();
     });
 
@@ -109,7 +109,7 @@ describe("NavBar", () => {
       );
       wrapper.update();
       expect(
-        wrapper.find('[data-test="notificationBell"]').exists()
+        wrapper.find('[data-testid="notificationBell"]').exists()
       ).toBeFalse();
     });
   });

@@ -103,7 +103,7 @@ export class CreateCaseActions extends React.Component {
           margin: `${theme.spacing(2)}px`
         }}
       >
-        <SecondaryButton data-test="cancelCase" onClick={this.closeDialog}>
+        <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
         {this.props.complaintType === CIVILIAN_INITIATED ? (
@@ -140,7 +140,7 @@ const CivilianComplainantButtons = ({
 }) => (
   <div>
     <LinkButton
-      data-test="createCaseOnly"
+      data-testid="createCaseOnly"
       onClick={createCaseOnly}
       style={{ marginRight: "10px" }}
       disabled={disabled}
@@ -148,7 +148,7 @@ const CivilianComplainantButtons = ({
       Create Only
     </LinkButton>
     <PrimaryButton
-      data-test="createAndView"
+      data-testid="createAndView"
       onClick={createAndView}
       disabled={disabled}
     >
@@ -158,7 +158,7 @@ const CivilianComplainantButtons = ({
 );
 
 const OfficerComplainantButtons = ({ createAndSearch }) => (
-  <PrimaryButton data-test="createAndSearch" onClick={createAndSearch}>
+  <PrimaryButton data-testid="createAndSearch" onClick={createAndSearch}>
     Create and Search
   </PrimaryButton>
 );
@@ -182,7 +182,4 @@ const mapDispatchToProps = {
   closeCreateCaseDialog: closeCreateDialog,
   reset
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActionsWithTheme);
+export default connect(mapStateToProps, mapDispatchToProps)(ActionsWithTheme);

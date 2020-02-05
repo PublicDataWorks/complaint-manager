@@ -38,7 +38,7 @@ const EditOfficerAllegationForm = ({
               component={Dropdown}
               name="severity"
               inputProps={{
-                "data-test": "editAllegationSeverityInput"
+                "data-testid": "editAllegationSeverityInput"
               }}
               label="Allegation Severity"
               validate={[allegationSeverityRequired]}
@@ -52,7 +52,7 @@ const EditOfficerAllegationForm = ({
               name={"details"}
               component={renderTextField}
               inputProps={{
-                "data-test": "allegationInput"
+                "data-testid": "allegationInput"
               }}
               validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
               multiline
@@ -67,14 +67,14 @@ const EditOfficerAllegationForm = ({
           }}
         >
           <SecondaryButton
-            data-test="editAllegationCancel"
+            data-testid="editAllegationCancel"
             onClick={onCancel}
             style={{ marginRight: "8px" }}
           >
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="editAllegationSubmit"
+            data-testid="editAllegationSubmit"
             disabled={invalid || pristine}
             onClick={handleSubmit((values, dispatch) => {
               onSubmit(values, dispatch, caseId);

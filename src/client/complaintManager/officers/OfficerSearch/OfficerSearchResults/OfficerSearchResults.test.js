@@ -50,7 +50,7 @@ describe("OfficerSearchResults", () => {
     );
 
     const selectNewOfficerButton = wrapper
-      .find('[data-test="selectNewOfficerButton"]')
+      .find('[data-testid="selectNewOfficerButton"]')
       .first();
     selectNewOfficerButton.simulate("click");
 
@@ -96,7 +96,7 @@ describe("OfficerSearchResults", () => {
     );
 
     const officerAlreadyAddedButton = wrapper
-      .find('[data-test="officerAlreadyAdded"]')
+      .find('[data-testid="officerAlreadyAdded"]')
       .first();
 
     expect(officerAlreadyAddedButton.text()).toEqual("added");

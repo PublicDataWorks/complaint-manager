@@ -4,7 +4,7 @@ import TextTruncate from "../../../shared/components/TextTruncate";
 
 const CivilianInfoDisplay = props => (
   <div>
-    <Typography variant="caption" data-test={`${props.testLabel}Label`}>
+    <Typography variant="caption" data-testid={`${props.testLabel}Label`}>
       {props.displayLabel}
     </Typography>
     <TextTruncate

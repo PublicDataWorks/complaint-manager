@@ -35,7 +35,7 @@ describe("ArchiveCaseDialog", () => {
 
   test("should call archiveCase thunk with correct caseId", () => {
     const archiveCaseButton = wrapper
-      .find('[data-test="confirmArchiveCase"]')
+      .find('[data-testid="confirmArchiveCase"]')
       .first();
     archiveCaseButton.simulate("click");
 
@@ -44,7 +44,7 @@ describe("ArchiveCaseDialog", () => {
 
   test("should close dialog when cancel button clicked", () => {
     const cancelButton = wrapper
-      .find('[data-test="cancelArchiveCaseButton"]')
+      .find('[data-testid="cancelArchiveCaseButton"]')
       .first();
     cancelButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeArchiveCaseDialog());

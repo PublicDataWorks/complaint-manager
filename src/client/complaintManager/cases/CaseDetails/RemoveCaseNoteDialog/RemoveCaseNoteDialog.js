@@ -59,13 +59,13 @@ const RemoveCaseNoteDialog = ({
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelButton"
+          data-testid="cancelButton"
           onClick={() => dispatch(closeRemoveCaseNoteDialog())}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="removeCaseNote"
+          data-testid="removeCaseNote"
           onClick={() => dispatch(removeCaseNote(activity.caseId, activity.id))}
           disabled={submitting}
         >

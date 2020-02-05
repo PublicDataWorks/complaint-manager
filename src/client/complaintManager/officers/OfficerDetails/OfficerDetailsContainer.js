@@ -61,7 +61,7 @@ export class OfficerDetailsContainer extends Component {
           {`Case #${caseReference}   : ${titleAction} ${caseEmployeeTitle}`}
         </NavBar>
         <LinkButton
-          data-test="back-to-case-link"
+          data-testid="back-to-case-link"
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}

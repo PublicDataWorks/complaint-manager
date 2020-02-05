@@ -20,6 +20,10 @@ describe("AdditionalLocationInfo", function() {
       </Provider>
     );
 
-    containsText(wrapper, '[data-test="additionalLocationInfo"]', addressLabel);
+    containsText(
+      wrapper,
+      '[data-testid="additionalLocationInfo"]',
+      addressLabel
+    );
   });
 });
