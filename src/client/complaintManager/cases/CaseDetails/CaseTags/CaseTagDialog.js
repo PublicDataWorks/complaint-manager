@@ -34,7 +34,8 @@ class CaseTagDialog extends Component {
   render() {
     const { open, submitting, handleSubmit } = this.props;
 
-    const isTagSelected = !!this.props.selectedTag;
+    const isTagSelected =
+      !!this.props.selectedTag && this.props.selectedTag.label !== "";
 
     return (
       <Dialog open={open}>
