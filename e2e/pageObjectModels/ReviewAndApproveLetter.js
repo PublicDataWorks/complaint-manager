@@ -20,13 +20,13 @@ module.exports = {
   commands: [reviewAndApproveCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="review-and-approve-page-header"]'
+      selector: '[data-testid="review-and-approve-page-header"]'
     },
     reviewAndApproveButton: {
-      selector: '[data-test="approve-letter-button"]'
+      selector: '[data-testid="approve-letter-button"]'
     },
     dialogApproveButton: {
-      selector: '[data-test="update-case-status-button"]'
+      selector: '[data-testid="update-case-status-button"]'
     }
   }
 };

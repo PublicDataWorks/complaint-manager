@@ -8,7 +8,7 @@ import CreateMatrixDialog from "../CreateMatrixDialog/CreateMatrixDialog";
 const CreateMatrixButton = ({ openCreateMatrixDialog, open }) => (
   <div>
     <PrimaryButton
-      data-test="create-matrix-button"
+      data-testid="create-matrix-button"
       onClick={() => openCreateMatrixDialog(DialogTypes.MATRIX)}
       style={{ marginLeft: "5%", marginTop: "2%" }}
     >
@@ -22,7 +22,4 @@ const mapDispatchToProps = {
   openCreateMatrixDialog: openCreateDialog
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(CreateMatrixButton);
+export default connect(null, mapDispatchToProps)(CreateMatrixButton);

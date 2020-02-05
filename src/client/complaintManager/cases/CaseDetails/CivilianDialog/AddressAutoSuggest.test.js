@@ -40,7 +40,7 @@ describe("AddressAutoSuggest", () => {
       <Provider store={store}>
         <AddressAutoSuggest
           label={label}
-          data-test="my-custom-autosuggest"
+          data-testid="my-custom-autosuggest"
           mapService={mapService}
           input={{}}
           meta={{ error: "Error" }}
@@ -51,7 +51,7 @@ describe("AddressAutoSuggest", () => {
 
     containsText(
       autoSuggestWrapper,
-      '[data-test="my-custom-autosuggest"]',
+      '[data-testid="my-custom-autosuggest"]',
       label
     );
   });
@@ -63,7 +63,7 @@ describe("AddressAutoSuggest", () => {
       <Provider store={store}>
         <AddressAutoSuggest
           label={label}
-          data-test="my-custom-autosuggest"
+          data-testid="my-custom-autosuggest"
           mapService={mapService}
           input={{}}
           meta={{ error: "Error" }}
@@ -73,7 +73,7 @@ describe("AddressAutoSuggest", () => {
     );
 
     const input = autoSuggestWrapper.find(
-      '[data-test="my-custom-autosuggest"] > input'
+      '[data-testid="my-custom-autosuggest"] > input'
     );
 
     expect(input.props().placeholder).toBe("Search for an Address");
@@ -92,7 +92,7 @@ describe("AddressAutoSuggest", () => {
       <Provider store={store}>
         <AddressAutoSuggest
           label={label}
-          data-test="my-custom-autosuggest"
+          data-testid="my-custom-autosuggest"
           mapService={mapService}
           input={{}}
           meta={{ error: "Error" }}
@@ -102,7 +102,7 @@ describe("AddressAutoSuggest", () => {
     );
 
     const input = autoSuggestWrapper.find(
-      '[data-test="my-custom-autosuggest"] > input'
+      '[data-testid="my-custom-autosuggest"] > input'
     );
 
     expect(input.props().value).toBe(
@@ -123,7 +123,7 @@ describe("AddressAutoSuggest", () => {
       <Provider store={store}>
         <AddressAutoSuggest
           label={label}
-          data-test="my-custom-autosuggest"
+          data-testid="my-custom-autosuggest"
           mapService={mapService}
           input={{}}
           meta={{ error: "Error" }}
@@ -133,7 +133,7 @@ describe("AddressAutoSuggest", () => {
     );
 
     const input = autoSuggestWrapper.find(
-      '[data-test="my-custom-autosuggest"] > input'
+      '[data-testid="my-custom-autosuggest"] > input'
     );
 
     expect(input.props().value).toBe(

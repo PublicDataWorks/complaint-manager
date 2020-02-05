@@ -35,7 +35,7 @@ const OfficerSearchResultsRow = ({ classes, officer, children }) => {
   return (
     <TableRow className={classes.row}>
       <TableCell className={classes.cell}>
-        <div data-test="officerFullName">{officer.fullName}</div>
+        <div data-testid="officerFullName">{officer.fullName}</div>
         <div className={getClassName(classes, workStatus)}>{workStatus}</div>
       </TableCell>
       <TableCell className={classes.cell}>{officer.rank}</TableCell>

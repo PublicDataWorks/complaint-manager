@@ -19,7 +19,7 @@ const EditLetterButton = ({ status, caseId }) => {
   if (CASE_STATUSES_ALLOWED_TO_EDIT_LETTER.includes(status)) {
     return (
       <LinkButton
-        data-test={"edit-letter-button"}
+        data-testid={"edit-letter-button"}
         to={`/cases/${caseId}/letter/review`}
         component={Link}
       >

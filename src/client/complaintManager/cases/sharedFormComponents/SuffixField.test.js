@@ -20,8 +20,8 @@ describe("suffix", () => {
       </Provider>
     );
 
-    suffixInput = form.find('[data-test="suffixInput"]').last();
-    suffixField = form.find('[data-test="suffixField"]');
+    suffixInput = form.find('[data-testid="suffixInput"]').last();
+    suffixField = form.find('[data-testid="suffixField"]');
   });
 
   test("should have a suffix field", () => {
@@ -29,16 +29,16 @@ describe("suffix", () => {
   });
 
   test("should have a label Suffix", () => {
-    containsText(form, '[data-test="suffixField"]', "Suffix");
+    containsText(form, '[data-testid="suffixField"]', "Suffix");
   });
 
   test("should be alphanumerical and not contain # /", () => {
     const validInput = "the 4th";
     const invalidInput = "asa sd / f #asdf,.|~";
 
-    changeInput(form, '[data-test="suffixInput"]', validInput);
-    changeInput(form, '[data-test="suffixInput"]', invalidInput);
+    changeInput(form, '[data-testid="suffixInput"]', validInput);
+    changeInput(form, '[data-testid="suffixInput"]', invalidInput);
 
-    containsValue(form, '[data-test="suffixInput"]', validInput);
+    containsValue(form, '[data-testid="suffixInput"]', validInput);
   });
 });

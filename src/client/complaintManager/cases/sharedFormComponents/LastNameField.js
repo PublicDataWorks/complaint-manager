@@ -15,9 +15,9 @@ const LastNameField = props => (
     inputProps={{
       maxLength: 25,
       autoComplete: "disabled",
-      "data-test": "lastNameInput"
+      "data-testid": "lastNameInput"
     }}
-    data-test="lastNameField"
+    data-testid="lastNameField"
     validate={[lastNameRequired, lastNameNotBlank]}
     style={{ width: "140px", marginRight: "5%", marginBottom: "3%" }}
   />

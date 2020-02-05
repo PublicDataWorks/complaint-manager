@@ -79,9 +79,9 @@ class OfficerDetails extends React.Component {
               <div style={{ marginBottom: "24px" }}>
                 <Field
                   inputProps={{
-                    "data-test": "roleOnCaseInput"
+                    "data-testid": "roleOnCaseInput"
                   }}
-                  data-test="roleOnCaseDropdown"
+                  data-testid="roleOnCaseDropdown"
                   component={Dropdown}
                   name="roleOnCase"
                   required
@@ -95,7 +95,7 @@ class OfficerDetails extends React.Component {
                 <br />
                 {!this.shouldShowAnonymousCheckbox() ? null : (
                   <FormControlLabel
-                    data-test="isOfficerAnonymous"
+                    data-testid="isOfficerAnonymous"
                     key="isAnonymous"
                     label={`Anonymize ${this.props.caseEmployeeTitle} in referral letter`}
                     control={
@@ -125,7 +125,7 @@ class OfficerDetails extends React.Component {
               <Field
                 component={renderTextField}
                 name="notes"
-                data-test="notesField"
+                data-testid="notesField"
                 multiline
                 style={{ width: "60%" }}
               />
@@ -134,7 +134,7 @@ class OfficerDetails extends React.Component {
         </Card>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <PrimaryButton
-            data-test="officerSubmitButton"
+            data-testid="officerSubmitButton"
             disabled={this.props.submitting}
             onClick={this.props.handleSubmit(this.onSubmit)}
           >

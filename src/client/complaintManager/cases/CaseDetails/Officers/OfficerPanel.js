@@ -49,7 +49,7 @@ const OfficerPanel = ({
   return (
     <div>
       <div
-        data-test={knownEmployeePanelDataTest}
+        data-testid={knownEmployeePanelDataTest}
         style={{ display: "flex", width: "100%", paddingRight: 0 }}
       >
         <ExpansionPanel

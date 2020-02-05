@@ -45,10 +45,10 @@ const PhoneNumberField = props => {
       component={renderTextField}
       label="Phone Number"
       inputProps={{
-        "data-test": "phoneNumberInput",
+        "data-testid": "phoneNumberInput",
         autoComplete: "disabled"
       }}
-      data-test="phoneNumberField"
+      data-testid="phoneNumberField"
       validate={[isPhoneNumber]}
       normalize={strip_nondigits}
       style={{ width: "35%", marginRight: "0%", marginBottom: "3%" }}

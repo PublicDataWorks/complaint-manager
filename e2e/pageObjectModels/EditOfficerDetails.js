@@ -31,16 +31,16 @@ module.exports = {
   commands: [EditOfficerDetailsCommands],
   elements: {
     pageTitle: {
-      selector: "[data-test='pageTitle']"
+      selector: "[data-testid='pageTitle']"
     },
     unknownOfficerMessage: {
-      selector: "[data-test='unknownOfficerMessage']"
+      selector: "[data-testid='unknownOfficerMessage']"
     },
     changeOfficerButton: {
-      selector: '[data-test="changeOfficerLink"]'
+      selector: '[data-testid="changeOfficerLink"]'
     },
     saveOfficerButton: {
-      selector: '[data-test="officerSubmitButton"]'
+      selector: '[data-testid="officerSubmitButton"]'
     }
   }
 };

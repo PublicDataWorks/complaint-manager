@@ -11,7 +11,7 @@ class RestoreArchivedCaseButton extends Component {
         <LinkButton
           onClick={this.props.openRestoreArchivedCaseDialog}
           style={{ textAlign: "right", marginBottom: "16px" }}
-          data-test="restoreCaseButton"
+          data-testid="restoreCaseButton"
         >
           Restore Case
         </LinkButton>
@@ -25,7 +25,4 @@ const mapDispatchToProps = {
   openRestoreArchivedCaseDialog
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(RestoreArchivedCaseButton);
+export default connect(null, mapDispatchToProps)(RestoreArchivedCaseButton);

@@ -43,14 +43,14 @@ describe("OfficerDetails", () => {
 
     test("should not render Anonymous checkbox", () => {
       expect(
-        wrapper.find('[data-test="isOfficerAnonymous"]').exists()
+        wrapper.find('[data-testid="isOfficerAnonymous"]').exists()
       ).toBeFalse();
     });
 
     test("should display proper button text", () => {
       expect(
         wrapper
-          .find('[data-test="officerSubmitButton"]')
+          .find('[data-testid="officerSubmitButton"]')
           .first()
           .html()
       ).toContain(mockButtonText);
@@ -64,9 +64,9 @@ describe("OfficerDetails", () => {
     });
     test("should not show contact information fields if officer is an accused", () => {
       expect(
-        wrapper.find('[data-test="phoneNumberField"]').exists()
+        wrapper.find('[data-testid="phoneNumberField"]').exists()
       ).toBeFalse();
-      expect(wrapper.find('[data-test="emailField"]').exists()).toBeFalse();
+      expect(wrapper.find('[data-testid="emailField"]').exists()).toBeFalse();
     });
   });
 
@@ -89,13 +89,13 @@ describe("OfficerDetails", () => {
 
     test("should render Change Officer", () => {
       expect(
-        wrapper.find('[data-test="unknownOfficerMessage"]').exists()
+        wrapper.find('[data-testid="unknownOfficerMessage"]').exists()
       ).toBeTrue();
     });
 
     test("should hide the Anonymous checkbox", () => {
       expect(
-        wrapper.find('[data-test="isOfficerAnonymous"]').exists()
+        wrapper.find('[data-testid="isOfficerAnonymous"]').exists()
       ).toBeFalse();
     });
 
@@ -107,9 +107,9 @@ describe("OfficerDetails", () => {
     });
     test("should show contact information fields if officer is a Unknown and not accused", () => {
       expect(
-        wrapper.find('[data-test="phoneNumberField"]').exists()
+        wrapper.find('[data-testid="phoneNumberField"]').exists()
       ).toBeTrue();
-      expect(wrapper.find('[data-test="emailField"]').exists()).toBeTrue();
+      expect(wrapper.find('[data-testid="emailField"]').exists()).toBeTrue();
     });
   });
 
@@ -136,15 +136,15 @@ describe("OfficerDetails", () => {
 
     test("should show the Anonymous checkbox", () => {
       expect(
-        wrapper.find('[data-test="isOfficerAnonymous"]').exists()
+        wrapper.find('[data-testid="isOfficerAnonymous"]').exists()
       ).toBeTrue();
     });
 
     test("should show contact information fields if officer is a complainant", () => {
       expect(
-        wrapper.find('[data-test="phoneNumberField"]').exists()
+        wrapper.find('[data-testid="phoneNumberField"]').exists()
       ).toBeTrue();
-      expect(wrapper.find('[data-test="emailField"]').exists()).toBeTrue();
+      expect(wrapper.find('[data-testid="emailField"]').exists()).toBeTrue();
     });
   });
 
@@ -170,11 +170,11 @@ describe("OfficerDetails", () => {
     );
 
     test("should show the Anonymous checkbox", () => {
-      expect(wrapper.exists('[data-test="isOfficerAnonymous"]')).toBeTrue();
+      expect(wrapper.exists('[data-testid="isOfficerAnonymous"]')).toBeTrue();
     });
     test("should show contact information fields if officer is a witness", () => {
-      expect(wrapper.exists('[data-test="phoneNumberField"]')).toBeTrue();
-      expect(wrapper.exists('[data-test="emailField"]')).toBeTrue();
+      expect(wrapper.exists('[data-testid="phoneNumberField"]')).toBeTrue();
+      expect(wrapper.exists('[data-testid="emailField"]')).toBeTrue();
     });
   });
 });

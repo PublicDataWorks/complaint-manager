@@ -24,7 +24,7 @@ const LetterProgressStepper = ({
         <Step key={key} completed={false}>
           <StepButton
             onClick={handlePageChange(key)}
-            data-test={`step-button-${key}`}
+            data-testid={`step-button-${key}`}
           >
             <StepLabel>{key}</StepLabel>
           </StepButton>
@@ -41,7 +41,7 @@ const LetterProgressStepper = ({
     <Fragment>
       <Stepper
         nonLinear
-        data-test="statusStepper"
+        data-testid="statusStepper"
         activeStep={LETTER_PROGRESS_MAP[currentLetterStatus]}
         alternativeLabel
         style={{ margin: "0 0 3% 5%", padding: "24px 0px" }}

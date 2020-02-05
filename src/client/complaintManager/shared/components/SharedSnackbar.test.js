@@ -10,7 +10,7 @@ describe("SharedSnackbar", () => {
     );
 
     const resultMessage = sharedSnackbar.find(
-      '[data-test="sharedSnackbarBannerText"]'
+      '[data-testid="sharedSnackbarBannerText"]'
     );
     expect(resultMessage.exists()).toEqual(false);
   });
@@ -26,7 +26,7 @@ describe("SharedSnackbar", () => {
     });
 
     const resultMessage = sharedSnackbar.find(
-      'span[data-test="sharedSnackbarBannerText"]'
+      'span[data-testid="sharedSnackbarBannerText"]'
     );
 
     expect(resultMessage.text()).toEqual("successfully created.");
@@ -45,7 +45,7 @@ describe("SharedSnackbar", () => {
 
     await expectEventuallyNotToExist(
       sharedSnackbar,
-      '[data-test="sharedSnackbarBannerText"]'
+      '[data-testid="sharedSnackbarBannerText"]'
     );
   });
 });

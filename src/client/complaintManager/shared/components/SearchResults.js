@@ -38,7 +38,7 @@ export class SearchResults extends Component {
     const paginating = this.props.pagination != null;
     return (
       <div>
-        <Typography variant="h6" data-test={"searchHeader"}>
+        <Typography variant="h6" data-testid={"searchHeader"}>
           {this.renderHeader(this.props.header)}
         </Typography>
         <Paper elevation={0}>
@@ -62,7 +62,7 @@ export class SearchResults extends Component {
     return (
       <div style={{ textAlign: "center" }}>
         <LinearProgress
-          data-test="spinner"
+          data-testid="spinner"
           style={{ marginTop: "24px", marginBottom: "32px" }}
           size={300}
         />
@@ -95,7 +95,7 @@ export class SearchResults extends Component {
     return (
       <Typography
         variant="body2"
-        data-test={"searchResultsMessage"}
+        data-testid={"searchResultsMessage"}
         style={{ marginBottom: "16px" }}
       >
         {message}

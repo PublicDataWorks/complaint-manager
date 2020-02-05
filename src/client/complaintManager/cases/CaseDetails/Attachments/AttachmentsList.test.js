@@ -35,7 +35,7 @@ describe("AttachmentsList", () => {
         <AttachmentsList attachments={attachmentsToDisplay} />
       </Provider>
     );
-    const attachmentList = wrapper.find('[data-test="attachmentName"]');
+    const attachmentList = wrapper.find('[data-testid="attachmentName"]');
 
     const actualFileNames = attachmentList.reduce((acc, node) => {
       return acc.add(node.text());
@@ -60,7 +60,7 @@ describe("AttachmentsList", () => {
       </Provider>
     );
     const removeAttachmentButton = wrapper
-      .find('[data-test="removeAttachmentButton"]')
+      .find('[data-testid="removeAttachmentButton"]')
       .first();
 
     removeAttachmentButton.simulate("click");
@@ -71,7 +71,7 @@ describe("AttachmentsList", () => {
     );
     expect(
       wrapper
-        .find('[data-test="removeAttachmentText"]')
+        .find('[data-testid="removeAttachmentText"]')
         .first()
         .text()
     ).toEqual("Are you sure you wish to remove Z_file.pdf from this case?");

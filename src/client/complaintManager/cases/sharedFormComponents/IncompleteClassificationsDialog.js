@@ -19,11 +19,11 @@ const IncompleteClassificationsDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <DialogTitle data-test="incomplete-classifications-title">
+      <DialogTitle data-testid="incomplete-classifications-title">
         Missing Classifications
       </DialogTitle>
       <DialogContent>
-        <Typography style={{ marginBottom: "24px" }} data-test="dialogText">
+        <Typography style={{ marginBottom: "24px" }} data-testid="dialogText">
           In order to submit your letter, you must complete{" "}
           <strong>Recommended Actions - Classifications</strong>. Please return
           to this step and fill in the pertinent details.
@@ -31,7 +31,7 @@ const IncompleteClassificationsDialog = ({
       </DialogContent>
       <DialogActions>
         <PrimaryButton
-          data-test="close-incomplete-history-dialog"
+          data-testid="close-incomplete-history-dialog"
           onClick={() => {
             closeIncompleteClassificationsDialog();
             redirectBackToRecommendedActions(caseId);

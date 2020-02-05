@@ -13,10 +13,10 @@ module.exports = {
   commands: [removeCaseTagDialogCommands],
   elements: {
     dialogTitle: {
-      selector: "[data-test='removeCaseTagDialogTitle']"
+      selector: "[data-testid='removeCaseTagDialogTitle']"
     },
     removeCaseTagButton: {
-      selector: "[data-test='removeCaseTag']"
+      selector: "[data-testid='removeCaseTag']"
     }
   }
 };

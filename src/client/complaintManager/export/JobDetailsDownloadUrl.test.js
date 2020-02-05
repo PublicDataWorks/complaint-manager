@@ -27,7 +27,7 @@ describe("Job Detail", () => {
   test("display download url when url is available", () => {
     jobDetails.setProps({ downloadUrl: "url" });
 
-    const downloadAnchor = jobDetails.find('[data-test="downloadUrl"]');
+    const downloadAnchor = jobDetails.find('[data-testid="downloadUrl"]');
     expect(downloadAnchor.type()).toEqual("a");
     expect(downloadAnchor.props().href).toEqual("url");
     expect(anchorNode.click).toHaveBeenCalled();

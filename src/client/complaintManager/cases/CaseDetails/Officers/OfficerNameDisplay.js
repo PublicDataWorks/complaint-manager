@@ -8,7 +8,7 @@ const OfficerNameDisplay = props => {
       <Typography
         variant="body2"
         style={{ whiteSpace: "pre-wrap" }}
-        data-test={`${props.displayLabel}FullName`}
+        data-testid={`${props.displayLabel}FullName`}
       >
         {props.fullName ? props.fullName : "N/A"}
       </Typography>

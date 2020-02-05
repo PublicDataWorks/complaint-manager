@@ -10,14 +10,14 @@ const AddressSecondLine = ({ label, fieldName, style }) => {
       component={renderTextField}
       style={style}
       inputProps={{
-        "data-test": "streetAddress2Input",
+        "data-testid": "streetAddress2Input",
         autoComplete: "disabled", // "off" does not work on chrome
         maxLength: 25
       }}
       InputLabelProps={{
         shrink: true
       }}
-      data-test="streetAddress2Field"
+      data-testid="streetAddress2Field"
       placeholder={"Ex: Apt #, Unit, etc"}
     />
   );

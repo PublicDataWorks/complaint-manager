@@ -8,8 +8,8 @@ const EmailField = props => (
     name={props.name}
     component={renderTextField}
     label="Email"
-    inputProps={{ "data-test": "emailInput" }}
-    data-test="emailField"
+    inputProps={{ "data-testid": "emailInput" }}
+    data-testid="emailField"
     validate={[isEmail]}
     style={{ width: "50%" }}
     props={{ autoComplete: props.autoComplete }}

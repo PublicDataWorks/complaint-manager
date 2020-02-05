@@ -119,7 +119,7 @@ describe("AllegationSearchContainer", () => {
       </Provider>
     );
 
-    expect(wrapper.find("[data-test='pageTitle']").exists()).toBeFalsy();
+    expect(wrapper.find("[data-testid='pageTitle']").exists()).toBeFalsy();
   });
 
   test("should show the correct accused officer when state matches route", () => {
@@ -141,7 +141,7 @@ describe("AllegationSearchContainer", () => {
     );
     expect(wrapper.find(Table).exists()).toBeTruthy();
 
-    expect(wrapper.find('[data-test="officerFullName"]').text()).toEqual(
+    expect(wrapper.find('[data-testid="officerFullName"]').text()).toEqual(
       officer.fullName
     );
   });

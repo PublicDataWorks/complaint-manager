@@ -23,10 +23,10 @@ module.exports = {
   commands: [editLetterCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="edit-letter-page-header"]'
+      selector: '[data-testid="edit-letter-page-header"]'
     },
     saveButton: {
-      selector: "[data-test='saveButton'"
+      selector: "[data-testid='saveButton'"
     },
     editor: {
       selector: ".ql-editor"

@@ -38,7 +38,7 @@ class OfficerHistoryTabContent extends React.Component {
       {this.renderOfficerHistoryNotes(fields)}
       <LinkButton
         onClick={this.addNewOfficerNote(fields)}
-        data-test="addOfficerHistoryNoteButton"
+        data-testid="addOfficerHistoryNoteButton"
       >
         + Add A Note
       </LinkButton>
@@ -65,7 +65,7 @@ class OfficerHistoryTabContent extends React.Component {
         name={`${letterOfficer}.officerHistoryOptionId`}
         component={renderRadioGroup}
         style={{ flexDirection: "column", marginLeft: "24px" }}
-        data-test="officerHistoryOptionRadioGroup"
+        data-testid="officerHistoryOptionRadioGroup"
         onChange={(event, value) =>
           this.setState({
             selectedOfficerHistoryOption: value
@@ -79,7 +79,7 @@ class OfficerHistoryTabContent extends React.Component {
               control={<Radio color="primary" />}
               label={historyOption.name}
               key={historyOption.id}
-              data-test={`${letterOfficer}-option-${historyOption.id}`}
+              data-testid={`${letterOfficer}-option-${historyOption.id}`}
             />
           );
         })}
@@ -138,7 +138,7 @@ class OfficerHistoryTabContent extends React.Component {
       <div
         style={{ padding: "24px", display }}
         key={caseOfficerId}
-        data-test={`tab-content-${caseOfficerId}`}
+        data-testid={`tab-content-${caseOfficerId}`}
       >
         <Typography
           variant="h6"

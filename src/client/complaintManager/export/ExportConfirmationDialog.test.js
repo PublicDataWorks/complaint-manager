@@ -32,7 +32,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
     );
 
     const exportButton = wrapper
-      .find('[data-test="exportAuditLogButton"]')
+      .find('[data-testid="exportAuditLogButton"]')
       .last();
     exportButton.simulate("click");
 
@@ -63,7 +63,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
     );
 
     const exportButton = wrapper
-      .find('[data-test="exportAuditLogButton"]')
+      .find('[data-testid="exportAuditLogButton"]')
       .last();
     exportButton.simulate("click");
 
@@ -92,7 +92,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
 
       containsText(
         wrapper,
-        '[data-test="exportConfirmationText"]',
+        '[data-testid="exportConfirmationText"]',
         `This action will export a log of all actions taken in the system as a .csv file. This file will download automatically and may take a few seconds to generate.`
       );
     });
@@ -117,7 +117,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
 
       containsText(
         wrapper,
-        '[data-test="exportConfirmationText"]',
+        '[data-testid="exportConfirmationText"]',
         `This action will export a log of all actions taken in the system between ${formatDate(
           exportStartDate
         )} and ${formatDate(
@@ -148,7 +148,7 @@ describe("ExportAuditLogConfirmationDialog", () => {
 
       containsText(
         wrapper,
-        '[data-test="exportConfirmationText"]',
+        '[data-testid="exportConfirmationText"]',
         `This action will export a log of all actions taken in the system with a first contact date between ${formatDate(
           exportStartDate
         )} and ${formatDate(

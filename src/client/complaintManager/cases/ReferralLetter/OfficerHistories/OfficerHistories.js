@@ -97,7 +97,7 @@ class OfficerHistories extends Component {
         <Tab
           key={letterOfficer.caseOfficerId}
           label={letterOfficer.fullName}
-          data-test={`tab-${letterOfficer.caseOfficerId}`}
+          data-testid={`tab-${letterOfficer.caseOfficerId}`}
         />
       );
     });
@@ -124,7 +124,7 @@ class OfficerHistories extends Component {
     return (
       <WarningMessage
         variant="grayText"
-        data-test="no-officers-message"
+        data-testid="no-officers-message"
         style={{ margin: "0 0 32px" }}
       >
         There are no officers on this case
@@ -176,7 +176,7 @@ class OfficerHistories extends Component {
 
         <form>
           <LinkButton
-            data-test="save-and-return-to-case-link"
+            data-testid="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -192,7 +192,7 @@ class OfficerHistories extends Component {
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
                 variant="h6"
-                data-test="complaint-history-page-header"
+                data-testid="complaint-history-page-header"
               >
                 Officer Complaint History
               </Typography>
@@ -207,14 +207,14 @@ class OfficerHistories extends Component {
               <span style={{ flex: 1 }}>
                 <SecondaryButton
                   onClick={this.saveAndGoBackToReview()}
-                  data-test="back-button"
+                  data-testid="back-button"
                 >
                   Back
                 </SecondaryButton>
               </span>
               <span style={{ flex: 1, textAlign: "right" }}>
                 <PrimaryButton
-                  data-test="next-button"
+                  data-testid="next-button"
                   onClick={this.saveAndGoToNextPage()}
                 >
                   Next

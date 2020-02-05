@@ -68,18 +68,21 @@ describe("CreateCaseDialog component", () => {
     dispatchSpy.mockClear();
 
     const createCaseButton = dialog.find(
-      'button[data-test="createCaseButton"]'
+      'button[data-testid="createCaseButton"]'
     );
     createCaseButton.simulate("click");
     store.dispatch(
-      getIntakeSourcesSuccess([["NOIPM Website", 1], ["Email", 2]])
+      getIntakeSourcesSuccess([
+        ["NOIPM Website", 1],
+        ["Email", 2]
+      ])
     );
   });
 
   test("should dismiss visible snackbars when dialog opened", () => {
     store.dispatch(openSnackbar());
     const createCaseButton = dialog.find(
-      'button[data-test="createCaseButton"]'
+      'button[data-testid="createCaseButton"]'
     );
 
     createCaseButton.simulate("click");
@@ -107,34 +110,34 @@ describe("CreateCaseDialog component", () => {
 
       changeInput(
         dialog,
-        '[data-test="firstNameInput"]',
+        '[data-testid="firstNameInput"]',
         caseDetails.civilian.firstName
       );
       changeInput(
         dialog,
-        '[data-test="lastNameInput"]',
+        '[data-testid="lastNameInput"]',
         caseDetails.civilian.lastName
       );
       changeInput(
         dialog,
-        '[data-test="phoneNumberInput"]',
+        '[data-testid="phoneNumberInput"]',
         caseDetails.civilian.phoneNumber
       );
       changeInput(
         dialog,
-        '[data-test="emailInput"]',
+        '[data-testid="emailInput"]',
         caseDetails.civilian.email
       );
       selectDropdownOption(
         dialog,
-        '[data-test="intakeSourceDropdown"]',
+        '[data-testid="intakeSourceDropdown"]',
         "NOIPM Website"
       );
     });
 
     test("should plan to redirect when clicking Create-And-View", () => {
       const submitButton = dialog.find(
-        'PrimaryButton[data-test="createAndView"]'
+        'PrimaryButton[data-testid="createAndView"]'
       );
       submitButton.simulate("click");
 
@@ -155,7 +158,7 @@ describe("CreateCaseDialog component", () => {
 
     test("should create case when clicking Create Only", () => {
       const submitButton = dialog.find(
-        'LinkButton[data-test="createCaseOnly"]'
+        'LinkButton[data-testid="createCaseOnly"]'
       );
       submitButton.simulate("click");
 
@@ -177,12 +180,12 @@ describe("CreateCaseDialog component", () => {
 
   describe("dismissing dialog", () => {
     test("should dismiss when cancel button is clicked", async () => {
-      const cancel = dialog.find('button[data-test="cancelCase"]');
+      const cancel = dialog.find('button[data-testid="cancelCase"]');
       cancel.simulate("click");
 
       await expectEventuallyNotToExist(
         dialog,
-        '[data-test="createCaseDialogTitle"]'
+        '[data-testid="createCaseDialogTitle"]'
       );
     });
   });
@@ -191,7 +194,7 @@ describe("CreateCaseDialog component", () => {
     describe("firstContactDatePicker", () => {
       test("should default date to current date", () => {
         const datePicker = dialog
-          .find('[data-test="firstContactDateInput"]')
+          .find('[data-testid="firstContactDateInput"]')
           .last();
         expect(datePicker.instance().value).toEqual(
           moment(Date.now()).format("YYYY-MM-DD")
@@ -207,13 +210,13 @@ describe("CreateCaseDialog component", () => {
 
         expect(civilianRadioButton.prop("checked")).toEqual(true);
         expect(
-          dialog.find('[data-test="firstNameField"]').exists()
+          dialog.find('[data-testid="firstNameField"]').exists()
         ).toBeTruthy();
         expect(
-          dialog.find('[data-test="createAndView"]').exists()
+          dialog.find('[data-testid="createAndView"]').exists()
         ).toBeTruthy();
         expect(
-          dialog.find('[data-test="createCaseOnly"]').exists()
+          dialog.find('[data-testid="createCaseOnly"]').exists()
         ).toBeTruthy();
       });
     });
@@ -222,59 +225,63 @@ describe("CreateCaseDialog component", () => {
   describe("field validation", () => {
     let submitButton;
     beforeEach(() => {
-      submitButton = dialog.find('LinkButton[data-test="createCaseOnly"]');
+      submitButton = dialog.find('LinkButton[data-testid="createCaseOnly"]');
     });
 
     describe("first name", () => {
       test("should display error message on submit when no value", () => {
-        const firstNameField = dialog.find('div[data-test="firstNameField"]');
+        const firstNameField = dialog.find('div[data-testid="firstNameField"]');
         submitButton.simulate("click");
         expect(firstNameField.text()).toContain("Please enter First Name");
       });
 
       test("should display error message when no value and clicked on and off", () => {
-        const firstNameField = dialog.find('div[data-test="firstNameField"]');
-        const firstNameInput = dialog.find('input[data-test="firstNameInput"]');
+        const firstNameField = dialog.find('div[data-testid="firstNameField"]');
+        const firstNameInput = dialog.find(
+          'input[data-testid="firstNameInput"]'
+        );
         firstNameInput.simulate("focus");
         firstNameInput.simulate("blur");
         expect(firstNameField.text()).toContain("Please enter First Name");
       });
 
       test("should display error when whitespace", () => {
-        const firstNameInput = dialog.find('input[data-test="firstNameInput"]');
+        const firstNameInput = dialog.find(
+          'input[data-testid="firstNameInput"]'
+        );
 
         firstNameInput.simulate("focus");
         firstNameInput.simulate("change", { target: { value: "   " } });
         firstNameInput.simulate("blur");
 
-        const firstNameField = dialog.find('div[data-test="firstNameField"]');
+        const firstNameField = dialog.find('div[data-testid="firstNameField"]');
         expect(firstNameField.text()).toContain("Please enter First Name");
       });
     });
 
     describe("last name", () => {
       test("should display error message when no value", () => {
-        const lastNameField = dialog.find('div[data-test="lastNameField"]');
+        const lastNameField = dialog.find('div[data-testid="lastNameField"]');
         submitButton.simulate("click");
         expect(lastNameField.text()).toContain("Please enter Last Name");
       });
 
       test("should display error message when no value and clicked on and off", () => {
-        const lastNameField = dialog.find('div[data-test="lastNameField"]');
-        const lastNameInput = dialog.find('input[data-test="lastNameInput"]');
+        const lastNameField = dialog.find('div[data-testid="lastNameField"]');
+        const lastNameInput = dialog.find('input[data-testid="lastNameInput"]');
         lastNameInput.simulate("focus");
         lastNameInput.simulate("blur");
         expect(lastNameField.text()).toContain("Please enter Last Name");
       });
 
       test("should display error when whitespace", () => {
-        const lastNameInput = dialog.find('input[data-test="lastNameInput"]');
+        const lastNameInput = dialog.find('input[data-testid="lastNameInput"]');
 
         lastNameInput.simulate("focus");
         lastNameInput.simulate("change", { target: { value: "\t\t   " } });
         lastNameInput.simulate("blur");
 
-        const lastNameField = dialog.find('div[data-test="lastNameField"]');
+        const lastNameField = dialog.find('div[data-testid="lastNameField"]');
         expect(lastNameField.text()).toContain("Please enter Last Name");
       });
     });
@@ -284,7 +291,7 @@ describe("CreateCaseDialog component", () => {
         submitButton.simulate("click");
 
         const phoneNumberField = dialog.find(
-          'div[data-test="phoneNumberField"]'
+          'div[data-testid="phoneNumberField"]'
         );
         expect(phoneNumberField.text()).not.toContain(
           "Please enter a numeric 10 digit value"
@@ -295,12 +302,12 @@ describe("CreateCaseDialog component", () => {
     describe("intake source", () => {
       test("should display error when not set on save", () => {
         const submitButton = dialog.find(
-          'LinkButton[data-test="createCaseOnly"]'
+          'LinkButton[data-testid="createCaseOnly"]'
         );
         submitButton.simulate("click");
         expect(
           dialog
-            .find('[data-test="intakeSourceDropdown"]')
+            .find('[data-testid="intakeSourceDropdown"]')
             .last()
             .text()
         ).toContain("Please enter Intake Source");
@@ -322,18 +329,18 @@ describe("CreateCaseDialog component", () => {
         });
 
         test("should display phone number error message when phone, address, and email are undefined", () => {
-          changeInput(dialog, '[data-test="lastNameInput"]', "test");
-          changeInput(dialog, '[data-test="firstNameInput"]', "test");
+          changeInput(dialog, '[data-testid="lastNameInput"]', "test");
+          changeInput(dialog, '[data-testid="firstNameInput"]', "test");
           selectDropdownOption(
             dialog,
-            '[data-test="intakeSourceDropdown"]',
+            '[data-testid="intakeSourceDropdown"]',
             "Email"
           );
           const phoneNumberField = dialog.find(
-            'div[data-test="phoneNumberField"]'
+            'div[data-testid="phoneNumberField"]'
           );
           const phoneNumberInput = dialog.find(
-            'input[data-test="phoneNumberInput"]'
+            'input[data-testid="phoneNumberInput"]'
           );
           phoneNumberInput.simulate("focus");
           phoneNumberInput.simulate("blur");
@@ -346,18 +353,18 @@ describe("CreateCaseDialog component", () => {
       });
       describe("createCaseAddressInputFeature off", () => {
         test("should display phone number error message when phone, address, and email are undefined", () => {
-          changeInput(dialog, '[data-test="lastNameInput"]', "test");
-          changeInput(dialog, '[data-test="firstNameInput"]', "test");
+          changeInput(dialog, '[data-testid="lastNameInput"]', "test");
+          changeInput(dialog, '[data-testid="firstNameInput"]', "test");
           selectDropdownOption(
             dialog,
-            '[data-test="intakeSourceDropdown"]',
+            '[data-testid="intakeSourceDropdown"]',
             "Email"
           );
           const phoneNumberField = dialog.find(
-            'div[data-test="phoneNumberField"]'
+            'div[data-testid="phoneNumberField"]'
           );
           const phoneNumberInput = dialog.find(
-            'input[data-test="phoneNumberInput"]'
+            'input[data-testid="phoneNumberInput"]'
           );
           phoneNumberInput.simulate("focus");
           phoneNumberInput.simulate("blur");
@@ -413,38 +420,42 @@ describe("CreateCaseDialog component", () => {
           civilian: civilian
         };
 
-        changeInput(dialog, '[data-test="lastNameInput"]', civilian.lastName);
-        changeInput(dialog, '[data-test="firstNameInput"]', civilian.firstName);
+        changeInput(dialog, '[data-testid="lastNameInput"]', civilian.lastName);
+        changeInput(
+          dialog,
+          '[data-testid="firstNameInput"]',
+          civilian.firstName
+        );
         selectDropdownOption(
           dialog,
-          '[data-test="intakeSourceDropdown"]',
+          '[data-testid="intakeSourceDropdown"]',
           "NOIPM Website"
         );
         changeInput(
           dialog,
-          '[data-test="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"] > input',
           addressString
         );
         dialog
-          .find('[data-test="addressSuggestionField"] > input')
+          .find('[data-testid="addressSuggestionField"] > input')
           .last()
           .simulate("blur");
         changeInput(
           dialog,
-          '[data-test="streetAddress2Input"]',
+          '[data-testid="streetAddress2Input"]',
           addressObject.streetAddress2
         );
         await expectEventuallyToExist(
           dialog,
-          '[data-test="fillAddressToConfirm"]'
+          '[data-testid="fillAddressToConfirm"]'
         );
         dialog
-          .find('[data-test="fillAddressToConfirm"]')
+          .find('[data-testid="fillAddressToConfirm"]')
           .last()
           .simulate("click");
 
         const submitButton = dialog.find(
-          'LinkButton[data-test="createCaseOnly"]'
+          'LinkButton[data-testid="createCaseOnly"]'
         );
 
         submitButton.simulate("click");
@@ -482,18 +493,22 @@ describe("CreateCaseDialog component", () => {
         }
       };
 
-      changeInput(dialog, 'input[data-test="firstNameInput"]', "   Hello   ");
-      changeInput(dialog, 'input[data-test="lastNameInput"]', "   Kitty   ");
-      changeInput(dialog, 'input[data-test="phoneNumberInput"]', "1234567890");
+      changeInput(dialog, 'input[data-testid="firstNameInput"]', "   Hello   ");
+      changeInput(dialog, 'input[data-testid="lastNameInput"]', "   Kitty   ");
+      changeInput(
+        dialog,
+        'input[data-testid="phoneNumberInput"]',
+        "1234567890"
+      );
 
       selectDropdownOption(
         dialog,
-        '[data-test="intakeSourceDropdown"]',
+        '[data-testid="intakeSourceDropdown"]',
         "Email"
       );
 
       const submitButton = dialog.find(
-        'LinkButton[data-test="createCaseOnly"]'
+        'LinkButton[data-testid="createCaseOnly"]'
       );
       submitButton.simulate("click");
 
@@ -516,57 +531,73 @@ describe("CreateCaseDialog component", () => {
   describe("police officer radio button", () => {
     beforeEach(() => {
       const officerRadioButton = dialog
-        .find('[data-test="officerRadioButton"]')
+        .find('[data-testid="officerRadioButton"]')
         .last();
       officerRadioButton.simulate("click");
     });
 
     test("should not see civilian details or civilian create buttons when officer selected", () => {
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeFalsy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeFalsy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
       expect(
-        dialog.find('[data-test="intakeSourceDropdown"]').exists()
+        dialog.find('[data-testid="firstNameField"]').exists()
+      ).toBeFalsy();
+      expect(dialog.find('[data-testid="createAndView"]').exists()).toBeFalsy();
+      expect(
+        dialog.find('[data-testid="createCaseOnly"]').exists()
+      ).toBeFalsy();
+      expect(
+        dialog.find('[data-testid="intakeSourceDropdown"]').exists()
       ).toBeTruthy();
     });
 
     test("should default to civilian complainant whenever dialog opened", () => {
-      const cancelButton = dialog.find('[data-test="cancelCase"]').last();
+      const cancelButton = dialog.find('[data-testid="cancelCase"]').last();
       cancelButton.simulate("click");
       const createCaseButton = dialog.find(
-        'button[data-test="createCaseButton"]'
+        'button[data-testid="createCaseButton"]'
       );
       createCaseButton.simulate("click");
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="firstNameField"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createAndView"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createCaseOnly"]').exists()
+      ).toBeTruthy();
     });
 
     test("should see create and search button when officer complainant selected", () => {
       expect(
-        dialog.find('[data-test="createAndSearch"]').exists()
+        dialog.find('[data-testid="createAndSearch"]').exists()
       ).toBeTruthy();
     });
 
     test("should see civilian details & buttons when civilian reselected", () => {
       const civilianRadioButton = dialog
-        .find('[data-test="civilianRadioButton"]')
+        .find('[data-testid="civilianRadioButton"]')
         .last();
       civilianRadioButton.simulate("click");
 
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="firstNameField"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createAndView"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createCaseOnly"]').exists()
+      ).toBeTruthy();
     });
 
     test("should dispatch createCase with redirect to add officer when create & search clicked", () => {
       selectDropdownOption(
         dialog,
-        '[data-test="intakeSourceDropdown"]',
+        '[data-testid="intakeSourceDropdown"]',
         "Email"
       );
       const createAndSearch = dialog
-        .find('[data-test="createAndSearch"]')
+        .find('[data-testid="createAndSearch"]')
         .last();
       createAndSearch.simulate("click");
 
@@ -587,34 +618,38 @@ describe("CreateCaseDialog component", () => {
   describe("civilian within nopd radio button", () => {
     beforeEach(() => {
       const civilianWithinNOPDRadioButton = dialog
-        .find('[data-test="civilianWithinNOPDRadioButton"]')
+        .find('[data-testid="civilianWithinNOPDRadioButton"]')
         .last();
       civilianWithinNOPDRadioButton.simulate("click");
     });
 
     test("should not see civilian details or civilian create buttons when civilian within nopd selected", () => {
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeFalsy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeFalsy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeFalsy();
       expect(
-        dialog.find('[data-test="intakeSourceDropdown"]').exists()
+        dialog.find('[data-testid="firstNameField"]').exists()
+      ).toBeFalsy();
+      expect(dialog.find('[data-testid="createAndView"]').exists()).toBeFalsy();
+      expect(
+        dialog.find('[data-testid="createCaseOnly"]').exists()
+      ).toBeFalsy();
+      expect(
+        dialog.find('[data-testid="intakeSourceDropdown"]').exists()
       ).toBeTruthy();
     });
 
     test("should see create and search button when civilian within nopd complainant selected", () => {
       expect(
-        dialog.find('[data-test="createAndSearch"]').exists()
+        dialog.find('[data-testid="createAndSearch"]').exists()
       ).toBeTruthy();
     });
 
     test("should dispatch createCase with redirect to add employee when create & search clicked", () => {
       selectDropdownOption(
         dialog,
-        '[data-test="intakeSourceDropdown"]',
+        '[data-testid="intakeSourceDropdown"]',
         "Email"
       );
       const createAndSearch = dialog
-        .find('[data-test="createAndSearch"]')
+        .find('[data-testid="createAndSearch"]')
         .last();
       createAndSearch.simulate("click");
 
@@ -633,13 +668,19 @@ describe("CreateCaseDialog component", () => {
 
     test("should see civilian details & buttons when civilian reselected", () => {
       const civilianRadioButton = dialog
-        .find('[data-test="civilianRadioButton"]')
+        .find('[data-testid="civilianRadioButton"]')
         .last();
       civilianRadioButton.simulate("click");
 
-      expect(dialog.find('[data-test="firstNameField"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createAndView"]').exists()).toBeTruthy();
-      expect(dialog.find('[data-test="createCaseOnly"]').exists()).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="firstNameField"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createAndView"]').exists()
+      ).toBeTruthy();
+      expect(
+        dialog.find('[data-testid="createCaseOnly"]').exists()
+      ).toBeTruthy();
     });
   });
 });

@@ -32,7 +32,7 @@ describe("Attachments card", () => {
 
     containsText(
       wrapper,
-      'div[data-test="attachmentsField"]',
+      'div[data-testid="attachmentsField"]',
       attachmentFileName
     );
   });
@@ -53,7 +53,7 @@ describe("Attachments card", () => {
 
     containsText(
       wrapper,
-      'div[data-test="attachmentsField"]',
+      'div[data-testid="attachmentsField"]',
       "No files are attached"
     );
   });
@@ -74,7 +74,7 @@ describe("Attachments card", () => {
 
     containsText(
       wrapper,
-      'div[data-test="attachmentsField"]',
+      'div[data-testid="attachmentsField"]',
       "No files are attached"
     );
   });

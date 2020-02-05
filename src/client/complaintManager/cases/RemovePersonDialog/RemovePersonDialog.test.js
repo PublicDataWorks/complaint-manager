@@ -39,14 +39,14 @@ describe("removePersonDialog", () => {
   });
 
   test("should close dialog when cancel button is clicked", () => {
-    const cancelButton = wrapper.find('[data-test="cancelButton"]').first();
+    const cancelButton = wrapper.find('[data-testid="cancelButton"]').first();
     cancelButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
   });
 
   test("should dispatch thunk when remove button is clicked", () => {
-    const removeButton = wrapper.find('[data-test="removeButton"]').first();
+    const removeButton = wrapper.find('[data-testid="removeButton"]').first();
     removeButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -56,7 +56,7 @@ describe("removePersonDialog", () => {
 
   test("should contain civilian full name", () => {
     const dialogText = wrapper
-      .find('[data-test="warningText"]')
+      .find('[data-testid="warningText"]')
       .first()
       .text();
     expect(dialogText).toContain(civilianDetails.fullName);

@@ -28,20 +28,20 @@ class AttachmentsList extends Component {
     const { attachments } = this.props;
 
     return (
-      <div data-test="attachmentsField">
+      <div data-testid="attachmentsField">
         {attachments && attachments.length > 0 ? (
-          _.sortBy(attachments, obj => obj.fileName.toUpperCase()).map(
-            attachment => (
-              <AttachmentsRow
-                onRemoveAttachment={this.onRemoveAttachment}
-                attachment={attachment}
-                key={attachment.id}
-              />
-            )
-          )
+          _.sortBy(attachments, obj =>
+            obj.fileName.toUpperCase()
+          ).map(attachment => (
+            <AttachmentsRow
+              onRemoveAttachment={this.onRemoveAttachment}
+              attachment={attachment}
+              key={attachment.id}
+            />
+          ))
         ) : (
           <div>
-            <Typography variant="body2" data-test="noAttachmentsText">
+            <Typography variant="body2" data-testid="noAttachmentsText">
               No files are attached
             </Typography>
           </div>
@@ -79,7 +79,4 @@ const mapDispatchToProps = {
   exitedRemoveAttachmentConfirmationDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AttachmentsList);
+export default connect(mapStateToProps, mapDispatchToProps)(AttachmentsList);

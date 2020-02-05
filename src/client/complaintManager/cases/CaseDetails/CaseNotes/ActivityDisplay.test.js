@@ -24,15 +24,15 @@ describe("ActivityDisplay", () => {
 
     containsText(
       wrapper,
-      '[data-test="userAndActionText"]',
+      '[data-testid="userAndActionText"]',
       caseNote.caseNoteAction.name
     );
-    containsText(wrapper, '[data-test="userAndActionText"]', caseNote.user);
+    containsText(wrapper, '[data-testid="userAndActionText"]', caseNote.user);
     containsText(
       wrapper,
-      '[data-test="activityTimeText"]',
+      '[data-testid="activityTimeText"]',
       "a few seconds ago"
     );
-    containsText(wrapper, '[data-test="notesText"]', caseNote.notes);
+    containsText(wrapper, '[data-testid="notesText"]', caseNote.notes);
   });
 });

@@ -48,14 +48,14 @@ describe("CaseTagDialog", () => {
   test("should open dialog when openCaseTagDialog is dispatched", () => {
     dialog.update();
 
-    containsText(dialog, '[data-test="caseTagDialogTitle"]', "Add New Tag");
+    containsText(dialog, '[data-testid="caseTagDialogTitle"]', "Add New Tag");
   });
 
   test("should close dialog and reset form when cancel button is clicked", () => {
     dialog.update();
 
     const cancelButton = dialog
-      .find('[data-test="caseTagCancelButton"]')
+      .find('[data-testid="caseTagCancelButton"]')
       .first();
     cancelButton.simulate("click");
 
@@ -76,7 +76,7 @@ describe("CaseTagDialog", () => {
 
     findCreatableDropdownOption(
       dialog,
-      '[data-test="caseTagDropdown"]',
+      '[data-testid="caseTagDropdown"]',
       "testTagName"
     );
   });
@@ -92,7 +92,7 @@ describe("CaseTagDialog", () => {
     dialog.update();
 
     const submitButton = dialog
-      .find('[data-test="caseTagSubmitButton"]')
+      .find('[data-testid="caseTagSubmitButton"]')
       .first();
 
     const expectedSubmittedValues = {
@@ -131,13 +131,13 @@ describe("CaseTagDialog", () => {
     dialog.update();
 
     const submitButton = dialog
-      .find('[data-test="caseTagSubmitButton"]')
+      .find('[data-testid="caseTagSubmitButton"]')
       .first();
     submitButton.simulate("click");
 
     expect(
       dialog
-        .find('[data-test="caseTagDropdown"]')
+        .find('[data-testid="caseTagDropdown"]')
         .last()
         .text()
     ).not.toContain("Please enter a tag name");

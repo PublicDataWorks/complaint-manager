@@ -10,7 +10,7 @@ const OfficerInfoDisplay = ({
   style
 }) => (
   <div style={{ margin: "5px" }}>
-    <Typography variant="caption" data-test={`${testLabel}Label`}>
+    <Typography variant="caption" data-testid={`${testLabel}Label`}>
       {displayLabel}
     </Typography>
     {shouldTruncate ? (
@@ -18,7 +18,7 @@ const OfficerInfoDisplay = ({
     ) : (
       <Typography
         variant="body2"
-        data-test={testLabel}
+        data-testid={testLabel}
         style={{ whiteSpace: "pre-wrap" }}
       >
         {value ? value : "N/A"}

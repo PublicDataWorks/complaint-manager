@@ -48,33 +48,33 @@ const caseDashboardCommands = {
 module.exports = {
   commands: [caseDashboardCommands],
   elements: {
-    pageTitle: { selector: "[data-test='pageTitle']" },
+    pageTitle: { selector: "[data-testid='pageTitle']" },
     caseReference: {
-      selector: "[data-test='caseReference']"
+      selector: "[data-testid='caseReference']"
     },
     openCaseButton: {
-      selector: "[data-test='openCaseButton']"
+      selector: "[data-testid='openCaseButton']"
     },
     newCaseButton: {
-      selector: "[data-test='createCaseButton'] > span"
+      selector: "[data-testid='createCaseButton'] > span"
     },
     caseDialog: {
-      selector: "[data-test='createCaseDialogTitle']"
+      selector: "[data-testid='createCaseDialogTitle']"
     },
     firstName: {
-      selector: "[data-test=firstNameInput]"
+      selector: "[data-testid=firstNameInput]"
     },
     lastName: {
-      selector: "[data-test=lastNameInput]"
+      selector: "[data-testid=lastNameInput]"
     },
     phoneNumber: {
-      selector: "[data-test=phoneNumberInput]"
+      selector: "[data-testid=phoneNumberInput]"
     },
     createAndViewButton: {
-      selector: "button[data-test=createAndView]"
+      selector: "button[data-testid=createAndView]"
     },
     intakeSourceDropdown: {
-      selector: '[data-test="intakeSourceInput"]+div>button'
+      selector: '[data-testid="intakeSourceInput"]+div>button'
     },
     intakeSourceMenu: {
       selector: ".MuiAutocomplete-popper"

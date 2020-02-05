@@ -20,7 +20,7 @@ const Narrative = props => {
           will be used to populate a detailed account section of the referral
           letter.
         </Typography>
-        <form data-test="createUserForm">
+        <form data-testid="createUserForm">
           <Field
             name="narrativeSummary"
             label="Narrative Summary"
@@ -35,7 +35,7 @@ const Narrative = props => {
                 : "Enter a brief, 2-3 sentence summary of the incident"
             }
             inputProps={{
-              "data-test": "narrativeSummaryInput",
+              "data-testid": "narrativeSummaryInput",
               maxLength: 500,
               style: {
                 color: "black"
@@ -47,7 +47,7 @@ const Narrative = props => {
               },
               shrink: true
             }}
-            data-test="narrativeSummaryField"
+            data-testid="narrativeSummaryField"
             style={{ marginBottom: "24px" }}
           />
           <Field
@@ -65,7 +65,7 @@ const Narrative = props => {
                 : "Enter a transcript or details of the incident"
             }
             inputProps={{
-              "data-test": "narrativeDetailsInput",
+              "data-testid": "narrativeDetailsInput",
               style: {
                 color: "black"
               }
@@ -76,7 +76,7 @@ const Narrative = props => {
               },
               shrink: true
             }}
-            data-test="narrativeDetailsField"
+            data-testid="narrativeDetailsField"
           />
         </form>
       </CardContent>
@@ -89,7 +89,7 @@ const Narrative = props => {
       >
         {props.isArchived ? null : (
           <PrimaryButton
-            data-test="saveNarrative"
+            data-testid="saveNarrative"
             disabled={props.pristine}
             onClick={() => props.dispatch(submit(NARRATIVE_FORM))}
             style={{ margin: "0px" }}

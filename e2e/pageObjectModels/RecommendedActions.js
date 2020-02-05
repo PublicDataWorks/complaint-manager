@@ -12,7 +12,7 @@ const recommendedActionsCommands = {
     return this.click("@retaliationConcerns");
   },
   toggleNthOfficersNthRecommendedAction: function(officer, n) {
-    return this.click(`[data-test="letterOfficers[${officer}]-${n}"] input`);
+    return this.click(`[data-testid="letterOfficers[${officer}]-${n}"] input`);
   },
   clickNext: function() {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
@@ -20,7 +20,7 @@ const recommendedActionsCommands = {
     );
   },
   selectClassification: function(classificationName) {
-    return this.click(`[data-test=${classificationName}] input`);
+    return this.click(`[data-testid=${classificationName}] input`);
   },
   classificationsAreDisabled: function() {
     return this.waitForElementPresent(
@@ -34,16 +34,16 @@ module.exports = {
   commands: [recommendedActionsCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="recommended-actions-page-header"]'
+      selector: '[data-testid="recommended-actions-page-header"]'
     },
     retaliationConcerns: {
-      selector: '[data-test="include-retaliation-concerns-field"] input'
+      selector: '[data-testid="include-retaliation-concerns-field"] input'
     },
     nextButton: {
-      selector: "[data-test='next-button']"
+      selector: "[data-testid='next-button']"
     },
     useOfForce: {
-      selector: "[data-test='use-of-force'] input"
+      selector: "[data-testid='use-of-force'] input"
     }
   }
 };

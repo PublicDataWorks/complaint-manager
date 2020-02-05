@@ -18,7 +18,7 @@ const matrixManagerCommands = {
 module.exports = {
   commands: matrixManagerCommands,
   elements: {
-    pageTitle: { selector: "[data-test='pageTitle']" },
-    createMatrixButton: { selector: "[data-test='create-matrix-button']" }
+    pageTitle: { selector: "[data-testid='pageTitle']" },
+    createMatrixButton: { selector: "[data-testid='create-matrix-button']" }
   }
 };

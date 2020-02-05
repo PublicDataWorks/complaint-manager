@@ -27,7 +27,7 @@ const RichTextEditorComponent = props => {
     <RichTextEditor
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
-      data-test={"editLetterInput"}
+      data-testid={"editLetterInput"}
       initializeForm={(dispatch, value) => {
         dispatch(
           initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: value })
@@ -76,7 +76,7 @@ export class EditLetter extends Component {
   renderSaveButton = () => {
     return (
       <PrimaryButton
-        data-test="saveButton"
+        data-testid="saveButton"
         onClick={this.saveAndGoBackToPreview()}
         disabled={this.props.pristine}
       >
@@ -117,7 +117,7 @@ export class EditLetter extends Component {
         </NavBar>
 
         <LinkButton
-          data-test="save-and-return-to-case-link"
+          data-testid="save-and-return-to-case-link"
           onClick={this.saveAndReturnToCase()}
           style={{ margin: "2% 0% 2% 4%" }}
         >
@@ -136,7 +136,7 @@ export class EditLetter extends Component {
                 marginBottom: "24px"
               }}
               variant="h6"
-              data-test="edit-letter-page-header"
+              data-testid="edit-letter-page-header"
             >
               Edit Letter
             </Typography>
@@ -151,7 +151,7 @@ export class EditLetter extends Component {
                 <form>
                   <Field
                     name="editedLetterHtml"
-                    data-test="editLetterHtml"
+                    data-testid="editLetterHtml"
                     component={RichTextEditorComponent}
                     fullWidth
                     multiline
@@ -164,7 +164,7 @@ export class EditLetter extends Component {
             <div style={{ display: "flex" }}>
               <span style={{ flex: 1 }}>
                 <SecondaryButton
-                  data-test="cancel-button"
+                  data-testid="cancel-button"
                   onClick={() => {
                     this.props.dispatch(
                       openCancelEditLetterConfirmationDialog()

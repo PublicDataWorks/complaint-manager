@@ -64,9 +64,9 @@ describe("Witnesses", () => {
         />
       </Provider>
     );
-    witnessSection = witnesses.find('[data-test="witnessesSection"]').first();
+    witnessSection = witnesses.find('[data-testid="witnessesSection"]').first();
     witnessPanel = witnesses
-      .find('[data-test="complainantWitnessesPanel"]')
+      .find('[data-testid="complainantWitnessesPanel"]')
       .first();
   });
 
@@ -75,7 +75,7 @@ describe("Witnesses", () => {
       const witnessName = witness.fullName;
       containsText(
         witnessSection,
-        '[data-test="complainantWitness"]',
+        '[data-testid="complainantWitness"]',
         witnessName
       );
     });
@@ -138,7 +138,7 @@ describe("Witnesses", () => {
         </Provider>
       );
 
-      const witnessNames = witnesses.find('[data-test="complainantWitness"]');
+      const witnessNames = witnesses.find('[data-testid="complainantWitness"]');
       const uniqueWitnessNamesRendered = _.uniq(
         witnessNames.map(witness => witness.text())
       );
@@ -153,7 +153,7 @@ describe("Witnesses", () => {
   describe("Edit", () => {
     test("should open and initialize edit complainant dialog when edit is clicked", () => {
       const editLink = witnesses
-        .find('[data-test="editComplainantLink"]')
+        .find('[data-testid="editComplainantLink"]')
         .first();
       editLink.simulate("click");
 
@@ -169,7 +169,7 @@ describe("Witnesses", () => {
       const expectedPhoneNumber = "(123) 456-7890";
       containsText(
         witnessPanel,
-        '[data-test="complainantPhoneNumber"]',
+        '[data-testid="complainantPhoneNumber"]',
         expectedPhoneNumber
       );
     });
@@ -178,11 +178,11 @@ describe("Witnesses", () => {
   describe("email", () => {
     test("should display email when expanded", () => {
       const complainantPanel = witnessSection
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
       containsText(
         complainantPanel,
-        '[data-test="complainantEmail"]',
+        '[data-testid="complainantEmail"]',
         witness.email
       );
     });
@@ -216,11 +216,11 @@ describe("Witnesses", () => {
       );
 
       witnessPanel = witnesses
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
       containsText(
         witnessPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         "No address specified"
       );
     });
@@ -232,7 +232,7 @@ describe("Witnesses", () => {
 
       containsText(
         witnessPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         expectedAddress
       );
     });
@@ -266,14 +266,14 @@ describe("Witnesses", () => {
       );
 
       witnessPanel = witnesses
-        .find('[data-test="complainantWitnessesPanel"]')
+        .find('[data-testid="complainantWitnessesPanel"]')
         .first();
-      containsText(witnessPanel, '[data-test="civilianAddress"]', "");
+      containsText(witnessPanel, '[data-testid="civilianAddress"]', "");
     });
     test("should display additional address info when present", () => {
       containsText(
         witnessPanel,
-        '[data-test="civilianAddress"]',
+        '[data-testid="civilianAddress"]',
         caseDetails.witnessCivilians[0].address.streetAddress2
       );
     });
@@ -283,7 +283,7 @@ describe("Witnesses", () => {
     test("should display additional info when present", () => {
       containsText(
         witnessPanel,
-        '[data-test="complainantAdditionalInfo"]',
+        '[data-testid="complainantAdditionalInfo"]',
         witness.additionalInfo
       );
     });
@@ -328,7 +328,7 @@ describe("Witnesses", () => {
     );
 
     const complainantPanel = wrapper
-      .find('[data-test="complainantWitnessesPanel"]')
+      .find('[data-testid="complainantWitnessesPanel"]')
       .first();
 
     expect(complainantPanel.text()).toContain("Alpha");

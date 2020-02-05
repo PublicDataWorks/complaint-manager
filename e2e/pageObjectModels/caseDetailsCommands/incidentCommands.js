@@ -36,19 +36,19 @@ const incidentCommands = {
 
 const incidentElements = {
   editIncidentDetailsButton: {
-    selector: '[data-test="editIncidentDetailsButton"]'
+    selector: '[data-testid="editIncidentDetailsButton"]'
   },
   incidentAddress: {
-    selector: '[data-test="incidentLocation"]'
+    selector: '[data-testid="incidentLocation"]'
   },
   narrativeSummary: {
-    selector: '[data-test="narrativeSummaryInput"]'
+    selector: '[data-testid="narrativeSummaryInput"]'
   },
   narrativeDetails: {
-    selector: '[data-test="narrativeDetailsInput"]'
+    selector: '[data-testid="narrativeDetailsInput"]'
   },
   saveNarrativeButton: {
-    selector: '[data-test="saveNarrative"]'
+    selector: '[data-testid="saveNarrative"]'
   }
 };
 

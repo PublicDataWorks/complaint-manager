@@ -9,9 +9,9 @@ const ExportDateRange = props => {
         required
         name={`${props.formLabel}From`}
         label="From"
-        data-test={`${props.formLabel}FromField`}
+        data-testid={`${props.formLabel}FromField`}
         inputProps={{
-          "data-test": `${props.formLabel}FromInput`,
+          "data-testid": `${props.formLabel}FromInput`,
           type: "date",
           max: moment(Date.now()).format("YYYY-MM-DD")
         }}
@@ -26,9 +26,9 @@ const ExportDateRange = props => {
         required
         name={`${props.formLabel}To`}
         label="To"
-        data-test={`${props.formLabel}ToField`}
+        data-testid={`${props.formLabel}ToField`}
         inputProps={{
-          "data-test": `${props.formLabel}ToInput`,
+          "data-testid": `${props.formLabel}ToInput`,
           type: "date",
           max: moment(Date.now()).format("YYYY-MM-DD")
         }}

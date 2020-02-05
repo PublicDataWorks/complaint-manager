@@ -35,11 +35,11 @@ describe("AllegationSearchForm", () => {
       </Provider>
     );
 
-    selectDropdownOption(wrapper, '[data-test="ruleDropdown"]', "Rule 1");
+    selectDropdownOption(wrapper, '[data-testid="ruleDropdown"]', "Rule 1");
     wrapper.update();
     selectDropdownOption(
       wrapper,
-      '[data-test="ruleDropdown"]',
+      '[data-testid="ruleDropdown"]',
       "Select a Rule"
     );
     wrapper.update();
@@ -72,11 +72,11 @@ describe("AllegationSearchForm", () => {
       </Provider>
     );
 
-    selectDropdownOption(wrapper, '[data-test="ruleDropdown"]', "Rule 1");
+    selectDropdownOption(wrapper, '[data-testid="ruleDropdown"]', "Rule 1");
     wrapper.update();
 
     const searchButton = wrapper
-      .find('[data-test="allegationSearchSubmitButton"]')
+      .find('[data-testid="allegationSearchSubmitButton"]')
       .first();
     searchButton.simulate("click");
 

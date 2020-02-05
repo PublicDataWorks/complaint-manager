@@ -38,12 +38,12 @@ describe("Export audits", () => {
 
   test("open confirmation dialog without date range when export all audits button clicked", () => {
     const exportAllAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportAllAudits"]'
+      'button[data-testid="exportAllAudits"]'
     );
 
     exportAllAuditsButton.simulate("click");
     const dialog = exportAuditLogForm.find(
-      '[data-test="exportConfirmationText"]'
+      '[data-testid="exportConfirmationText"]'
     );
     expect(dialog).toBeDefined();
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -54,21 +54,21 @@ describe("Export audits", () => {
   test("open confirmation dialog with date range when ranged button clicked", () => {
     changeInput(
       exportAuditLogForm,
-      '[data-test="exportAuditLogFromInput"]',
+      '[data-testid="exportAuditLogFromInput"]',
       "2017-12-21"
     );
     changeInput(
       exportAuditLogForm,
-      '[data-test="exportAuditLogToInput"]',
+      '[data-testid="exportAuditLogToInput"]',
       "2018-12-21"
     );
 
     const exportRangedAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportRangedAudits"]'
+      'button[data-testid="exportRangedAudits"]'
     );
     exportRangedAuditsButton.simulate("click");
     const dialog = exportAuditLogForm.find(
-      '[data-test="exportConfirmationText"]'
+      '[data-testid="exportConfirmationText"]'
     );
 
     expect(dialog).toBeDefined();
@@ -95,16 +95,16 @@ describe("Export audits", () => {
 
     changeInput(
       exportAuditLogForm,
-      '[data-test="exportAuditLogFromInput"]',
+      '[data-testid="exportAuditLogFromInput"]',
       dateRange.exportStartDate
     );
     changeInput(
       exportAuditLogForm,
-      '[data-test="exportAuditLogToInput"]',
+      '[data-testid="exportAuditLogToInput"]',
       dateRange.exportEndDate
     );
     const exportRangedAuditsButton = exportAuditLogForm.find(
-      'button[data-test="exportRangedAudits"]'
+      'button[data-testid="exportRangedAudits"]'
     );
     exportRangedAuditsButton.simulate("click");
 

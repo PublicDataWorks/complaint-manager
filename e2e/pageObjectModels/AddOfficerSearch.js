@@ -20,10 +20,10 @@ module.exports = {
   commands: [addOfficerCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="officer-search-title"]'
+      selector: '[data-testid="officer-search-title"]'
     },
     unknownOfficerLink: {
-      selector: '[data-test="selectUnknownOfficerLink"]'
+      selector: '[data-testid="selectUnknownOfficerLink"]'
     }
   }
 };

@@ -44,7 +44,7 @@ const civilianDialogCommands = {
   },
   thereAreSuggestions: function() {
     this.waitForElementPresent(
-      '[data-test="suggestion-container"] > ul',
+      '[data-testid="suggestion-container"] > ul',
       e2e.rerenderWait
     ).api.pause(e2e.dataLoadWait);
     return this;
@@ -88,46 +88,46 @@ module.exports = {
   commands: [civilianDialogCommands],
   elements: {
     dialogTitle: {
-      selector: "[data-test='editDialogTitle']"
+      selector: "[data-testid='editDialogTitle']"
     },
     genderDropdown: {
-      selector: '[data-test="genderInput"]+div>button'
+      selector: '[data-testid="genderInput"]+div>button'
     },
     raceEthnicityDropdown: {
-      selector: '[data-test="raceEthnicityInput"]+div>button'
+      selector: '[data-testid="raceEthnicityInput"]+div>button'
     },
     titleDropdown: {
-      selector: '[data-test="titleInput"]+div>button'
+      selector: '[data-testid="titleInput"]+div>button'
     },
     titleMenu: {
       selector: "[id='civilianTitleId']"
     },
     isAnonymous: {
-      selector: "[data-test='isAnonymous']"
+      selector: "[data-testid='isAnonymous']"
     },
     addressSuggestionField: {
-      selector: '[data-test="addressSuggestionField"] > input'
+      selector: '[data-testid="addressSuggestionField"] > input'
     },
     suggestionContainer: {
-      selector: '[data-test="suggestion-container"] > ul'
+      selector: '[data-testid="suggestion-container"] > ul'
     },
     streetAddressInput: {
-      selector: '[data-test="streetAddressInput"]'
+      selector: '[data-testid="streetAddressInput"]'
     },
     cityInput: {
-      selector: '[data-test="cityInput"]'
+      selector: '[data-testid="cityInput"]'
     },
     stateInput: {
-      selector: '[data-test="stateInput"]'
+      selector: '[data-testid="stateInput"]'
     },
     zipCodeInput: {
-      selector: '[data-test="zipCodeInput"]'
+      selector: '[data-testid="zipCodeInput"]'
     },
     countryInput: {
-      selector: '[data-test="countryInput"]'
+      selector: '[data-testid="countryInput"]'
     },
     submitEditCivilianButton: {
-      selector: 'button[data-test="submitEditCivilian"]'
+      selector: 'button[data-testid="submitEditCivilian"]'
     },
     menuOption: {
       selector: "[role='option']:last-child"

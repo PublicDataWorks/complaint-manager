@@ -42,7 +42,10 @@ describe("OfficerSearchForm", () => {
       const dispatchSpy = jest.spyOn(store, "dispatch");
 
       store.dispatch(
-        getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+        getDistrictsSuccess([
+          ["1st District", 1],
+          ["2nd District", 2]
+        ])
       );
 
       const officerSearchForm = mount(
@@ -50,11 +53,11 @@ describe("OfficerSearchForm", () => {
           <OfficerSearchForm />
         </Provider>
       );
-      changeInput(officerSearchForm, "[data-test='firstNameField']", "emma");
-      changeInput(officerSearchForm, "[data-test='lastNameField']", "watson");
+      changeInput(officerSearchForm, "[data-testid='firstNameField']", "emma");
+      changeInput(officerSearchForm, "[data-testid='lastNameField']", "watson");
       selectDropdownOption(
         officerSearchForm,
-        "[data-test='districtField']",
+        "[data-testid='districtField']",
         "1st District"
       );
 
@@ -76,7 +79,10 @@ describe("OfficerSearchForm", () => {
       const dispatchSpy = jest.spyOn(store, "dispatch");
 
       store.dispatch(
-        getDistrictsSuccess([["1st District", 1], ["2nd District", 2]])
+        getDistrictsSuccess([
+          ["1st District", 1],
+          ["2nd District", 2]
+        ])
       );
 
       const officerSearchForm = mount(
@@ -86,13 +92,17 @@ describe("OfficerSearchForm", () => {
       );
       changeInput(
         officerSearchForm,
-        "[data-test='firstNameField']",
+        "[data-testid='firstNameField']",
         " bubba joe "
       );
-      changeInput(officerSearchForm, "[data-test='lastNameField']", " smith ");
+      changeInput(
+        officerSearchForm,
+        "[data-testid='lastNameField']",
+        " smith "
+      );
       selectDropdownOption(
         officerSearchForm,
-        "[data-test='districtField']",
+        "[data-testid='districtField']",
         "1st District"
       );
 

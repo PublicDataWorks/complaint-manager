@@ -61,26 +61,26 @@ class CreateMatrixDialog extends React.Component {
     });
     return (
       <Dialog
-        data-test="create-matrix-dialog"
+        data-testid="create-matrix-dialog"
         classes={{ paper: this.props.classes.dialogPaper }}
         open={this.props.open}
         fullWidth
       >
         <DialogTitle
-          data-test="create-matrix-dialog-title"
+          data-testid="create-matrix-dialog-title"
           style={{ paddingBottom: "1%" }}
         >
           Create New Matrix
         </DialogTitle>
         <DialogContent style={{ padding: "0px 24px" }}>
-          <form data-test="create-matrix-form">
+          <form data-testid="create-matrix-form">
             <PIBControlField />
             <br />
             <Field
               inputProps={{
-                "data-test": "firstReviewerInput"
+                "data-testid": "firstReviewerInput"
               }}
-              data-test="first-reviewer-dropdown"
+              data-testid="first-reviewer-dropdown"
               component={Dropdown}
               name="firstReviewer"
               label="First Reviewer"
@@ -94,9 +94,9 @@ class CreateMatrixDialog extends React.Component {
             <br />
             <Field
               inputProps={{
-                "data-test": "secondReviewerInput"
+                "data-testid": "secondReviewerInput"
               }}
-              data-test="second-reviewer-dropdown"
+              data-testid="second-reviewer-dropdown"
               component={Dropdown}
               name="secondReviewer"
               label="Second Reviewer"
@@ -110,11 +110,14 @@ class CreateMatrixDialog extends React.Component {
           </form>
         </DialogContent>
         <DialogActions classes={{ root: this.props.classes.dialogAction }}>
-          <SecondaryButton data-test="cancel-matrix" onClick={this.closeDialog}>
+          <SecondaryButton
+            data-testid="cancel-matrix"
+            onClick={this.closeDialog}
+          >
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="create-and-search"
+            data-testid="create-and-search"
             onClick={this.props.handleSubmit(this.createAndSearch)}
             disabled={this.props.submitting}
           >
@@ -153,8 +156,5 @@ const connectedForm = reduxForm({
 })(CreateMatrixDialog);
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(connectedForm)
+  connect(mapStateToProps, mapDispatchToProps)(connectedForm)
 );

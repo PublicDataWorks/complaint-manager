@@ -33,7 +33,7 @@ describe("Job Detail", () => {
     store.dispatch(exportJobStarted());
     jobDetails.update();
 
-    const waiting = jobDetails.find('[data-test="waitingForJob"]');
+    const waiting = jobDetails.find('[data-testid="waitingForJob"]');
     expect(waiting.type()).toEqual("div");
   });
 
@@ -43,7 +43,7 @@ describe("Job Detail", () => {
 
     jobDetails.update();
 
-    const waiting = jobDetails.find('[data-test="waitingForJob"]');
+    const waiting = jobDetails.find('[data-testid="waitingForJob"]');
     expect(waiting.type()).toEqual("div");
     const waitingStyle = waiting.children().props().style;
     expect(waitingStyle).toEqual({ display: "none" });

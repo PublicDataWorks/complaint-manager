@@ -19,6 +19,6 @@ describe("AddressSecondLine", () => {
       </Provider>
     );
 
-    containsText(wrapper, '[data-test="streetAddress2Field"]', "TEST LABEL");
+    containsText(wrapper, '[data-testid="streetAddress2Field"]', "TEST LABEL");
   });
 });

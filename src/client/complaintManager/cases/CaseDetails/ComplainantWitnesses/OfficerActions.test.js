@@ -26,7 +26,7 @@ describe("OfficerActions", () => {
       </Provider>
     );
 
-    const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
+    const editOfficer = wrapper.find('[data-testid="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(selectCaseOfficer(caseOfficer));
@@ -52,7 +52,7 @@ describe("OfficerActions", () => {
       </Provider>
     );
 
-    const editOfficer = wrapper.find('[data-test="editOfficerLink"]').last();
+    const editOfficer = wrapper.find('[data-testid="editOfficerLink"]').last();
     editOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(selectUnknownOfficer());
@@ -76,7 +76,7 @@ describe("OfficerActions", () => {
     );
 
     const removeOfficer = wrapper
-      .find('[data-test="removeOfficerLink"]')
+      .find('[data-testid="removeOfficerLink"]')
       .last();
     removeOfficer.simulate("click");
 

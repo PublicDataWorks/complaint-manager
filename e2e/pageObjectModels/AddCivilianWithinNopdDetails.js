@@ -26,13 +26,13 @@ module.exports = {
   commands: [AddCivilainWithinNopdCommands],
   elements: {
     roleDropdown: {
-      selector: '[data-test="roleOnCaseInput"] + div > button'
+      selector: '[data-testid="roleOnCaseInput"] + div > button'
     },
     roleMenu: {
       selector: ".MuiAutocomplete-popper"
     },
     submitCivilianWithinNopdButton: {
-      selector: '[data-test="officerSubmitButton"]'
+      selector: '[data-testid="officerSubmitButton"]'
     },
     toSelect: {
       selector: "li"

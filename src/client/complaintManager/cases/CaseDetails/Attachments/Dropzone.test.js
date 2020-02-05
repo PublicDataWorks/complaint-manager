@@ -43,7 +43,7 @@ describe("Dropzone", () => {
 
   test("should disable upload button by default", () => {
     const submitButton = wrapper
-      .find('[data-test="attachmentUploadButton"]')
+      .find('[data-testid="attachmentUploadButton"]')
       .last();
 
     expect(submitButton.props()).toHaveProperty("disabled", true);
@@ -51,13 +51,13 @@ describe("Dropzone", () => {
 
   test("should disable upload button when attachment absent, no upload ongoing, and description present", () => {
     const inputField = wrapper
-      .find('[data-test="attachmentDescriptionInput"]')
+      .find('[data-testid="attachmentDescriptionInput"]')
       .last();
 
     inputField.simulate("change", { target: { value: "some description" } });
 
     const submitButton = wrapper
-      .find('[data-test="attachmentUploadButton"]')
+      .find('[data-testid="attachmentUploadButton"]')
       .last();
     expect(submitButton.props()).toHaveProperty("disabled", true);
   });
@@ -70,7 +70,7 @@ describe("Dropzone", () => {
     });
 
     const submitButton = wrapper
-      .find('[data-test="attachmentUploadButton"]')
+      .find('[data-testid="attachmentUploadButton"]')
       .last();
     expect(submitButton.props()).toHaveProperty("disabled", true);
   });
@@ -83,7 +83,7 @@ describe("Dropzone", () => {
     });
 
     const submitButton = wrapper
-      .find('[data-test="attachmentUploadButton"]')
+      .find('[data-testid="attachmentUploadButton"]')
       .last();
     expect(submitButton.props()).toHaveProperty("disabled", false);
   });
@@ -96,7 +96,7 @@ describe("Dropzone", () => {
     });
 
     const submitButton = wrapper
-      .find('[data-test="attachmentUploadButton"]')
+      .find('[data-testid="attachmentUploadButton"]')
       .last();
     expect(submitButton.props()).toHaveProperty("disabled", true);
   });

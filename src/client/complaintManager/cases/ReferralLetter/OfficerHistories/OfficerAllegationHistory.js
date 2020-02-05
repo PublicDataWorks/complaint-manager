@@ -46,7 +46,7 @@ class OfficerAllegationHistory extends React.Component {
             name={`${letterOfficer}.numHistoricalHighAllegations`}
             component={renderTextField}
             label="High Level"
-            data-test={`${letterOfficer}-numHistoricalHighAllegations`}
+            data-testid={`${letterOfficer}-numHistoricalHighAllegations`}
             normalize={numbersOnly}
             inputProps={{ maxLength: 5 }}
           />
@@ -55,7 +55,7 @@ class OfficerAllegationHistory extends React.Component {
             name={`${letterOfficer}.numHistoricalMedAllegations`}
             component={renderTextField}
             label="Medium Level"
-            data-test={`${letterOfficer}-numHistoricalMedAllegations`}
+            data-testid={`${letterOfficer}-numHistoricalMedAllegations`}
             normalize={numbersOnly}
             inputProps={{ maxLength: 5 }}
           />
@@ -64,13 +64,13 @@ class OfficerAllegationHistory extends React.Component {
             name={`${letterOfficer}.numHistoricalLowAllegations`}
             component={renderTextField}
             label="Low Level"
-            data-test={`${letterOfficer}-numHistoricalLowAllegations`}
+            data-testid={`${letterOfficer}-numHistoricalLowAllegations`}
             normalize={numbersOnly}
             inputProps={{ maxLength: 5 }}
           />
           <Typography
             style={{ flex: 1, marginTop: "32px" }}
-            data-test={`officers-${caseOfficerId}-total-historical-allegations`}
+            data-testid={`officers-${caseOfficerId}-total-historical-allegations`}
           >
             <b>{calculateOfficerHistoryTotalAllegations(this.props)}</b> total
             allegations
@@ -84,7 +84,7 @@ class OfficerAllegationHistory extends React.Component {
             name={`${letterOfficer}.historicalBehaviorNotes`}
             component={RichTextEditorComponent}
             label="Notes on any patterns of behavior"
-            data-test={`${letterOfficer}-historicalBehaviorNotes`}
+            data-testid={`${letterOfficer}-historicalBehaviorNotes`}
           />
         </div>
       </div>

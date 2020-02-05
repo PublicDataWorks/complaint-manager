@@ -27,7 +27,7 @@ const UnknownOfficerPanel = ({
 }) => {
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);
   return (
-    <div data-test="unknownOfficerPanel">
+    <div data-testid="unknownOfficerPanel">
       <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
         <ExpansionPanel
           elevation={0}

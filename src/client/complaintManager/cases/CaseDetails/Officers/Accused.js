@@ -31,7 +31,7 @@ const Accused = props => {
   const titleText = cnComplaintTypeFeature ? "Accused" : "Accused Officers";
 
   return (
-    <BaseCaseDetailsCard data-test="officersSection" title={titleText}>
+    <BaseCaseDetailsCard data-testid="officersSection" title={titleText}>
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers(cnComplaintTypeFeature)
@@ -112,7 +112,7 @@ const renderAddAccused = (
             dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
             dispatch(push(`/cases/${caseId}/officers/search`));
           }}
-          data-test="addAccusedOfficerButton"
+          data-testid="addAccusedOfficerButton"
         >
           + Add Officer
         </LinkButton>
@@ -130,7 +130,7 @@ const renderNoOfficers = cnComplaintTypeFeature => {
     <Fragment>
       <CardContent>
         <WarningMessage>
-          <Typography data-test="noAccusedOfficersMessage" variant="body2">
+          <Typography data-testid="noAccusedOfficersMessage" variant="body2">
             {noAccusedEmployeesMessage}
           </Typography>
         </WarningMessage>

@@ -26,7 +26,7 @@ const iaproAllegationsCommands = {
   },
   removeNthCorrection: function(n) {
     return this.click(
-      `[data-test="referralLetterIaproCorrections[${n}]-open-remove-dialog-button"]`
+      `[data-testid="referralLetterIaproCorrections[${n}]-open-remove-dialog-button"]`
     )
       .waitForElementPresent("@removeCorrectionDialogButton", e2e.rerenderWait)
       .click("@removeCorrectionDialogButton")
@@ -50,16 +50,16 @@ module.exports = {
   commands: [iaproAllegationsCommands],
   elements: {
     pageHeader: {
-      selector: '[data-test="iapro-corrections-page-header"]'
+      selector: '[data-testid="iapro-corrections-page-header"]'
     },
     removeCorrectionDialogButton: {
-      selector: '[data-test="remove-iapro-correction-button"]'
+      selector: '[data-testid="remove-iapro-correction-button"]'
     },
     nextButton: {
-      selector: "[data-test='next-button']"
+      selector: "[data-testid='next-button']"
     },
     newCorrectionButton: {
-      selector: "[data-test='addIAProCorrectionButton']"
+      selector: "[data-testid='addIAProCorrectionButton']"
     }
   }
 };

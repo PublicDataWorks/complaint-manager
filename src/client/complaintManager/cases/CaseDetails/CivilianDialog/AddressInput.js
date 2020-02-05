@@ -62,7 +62,7 @@ class AddressInput extends Component {
           <StyledLink
             onClick={this.fillConfirmedAddress}
             style={{ fontSize: "0.75rem", cursor: "pointer" }}
-            data-test="fillAddressToConfirm"
+            data-testid="fillAddressToConfirm"
           >
             Fill Address
           </StyledLink>
@@ -156,7 +156,7 @@ class AddressInput extends Component {
             label: this.props.addressLabel,
             mapService: this.mapService,
             defaultText: this.props.formattedAddress,
-            "data-test": "addressSuggestionField",
+            "data-testid": "addressSuggestionField",
             setFormValues: this.setFormValues
           }}
         />
@@ -166,7 +166,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.streetAddress`}
           component={renderTextField}
           inputProps={{
-            "data-test": "streetAddressInput"
+            "data-testid": "streetAddressInput"
           }}
           style={{ display: "none" }}
         />
@@ -175,7 +175,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.intersection`}
           component={renderTextField}
           inputProps={{
-            "data-test": "intersectionInput"
+            "data-testid": "intersectionInput"
           }}
           style={{ display: "none" }}
         />
@@ -184,7 +184,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.city`}
           component={renderTextField}
           inputProps={{
-            "data-test": "cityInput"
+            "data-testid": "cityInput"
           }}
           style={{ display: "none" }}
         />
@@ -193,7 +193,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.state`}
           component={renderTextField}
           inputProps={{
-            "data-test": "stateInput"
+            "data-testid": "stateInput"
           }}
           style={{ display: "none" }}
         />
@@ -202,7 +202,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.zipCode`}
           component={renderTextField}
           inputProps={{
-            "data-test": "zipCodeInput"
+            "data-testid": "zipCodeInput"
           }}
           style={{ display: "none" }}
         />
@@ -211,7 +211,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.country`}
           component={renderTextField}
           inputProps={{
-            "data-test": "countryInput"
+            "data-testid": "countryInput"
           }}
           style={{ display: "none" }}
         />
@@ -220,7 +220,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.lat`}
           component={renderTextField}
           inputProps={{
-            "data-test": "latInput"
+            "data-testid": "latInput"
           }}
           style={{ display: "none" }}
         />
@@ -229,7 +229,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.lng`}
           component={renderTextField}
           inputProps={{
-            "data-test": "lngInput"
+            "data-testid": "lngInput"
           }}
           style={{ display: "none" }}
         />
@@ -238,7 +238,7 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.placeId`}
           component={renderTextField}
           inputProps={{
-            "data-test": "placeIdInput"
+            "data-testid": "placeIdInput"
           }}
           style={{ display: "none" }}
         />
@@ -277,7 +277,4 @@ const mapStateToProps = state => ({
   addressErrorMessage: state.ui.addressInput.addressErrorMessage
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddressInput);
+export default connect(mapStateToProps, mapDispatchToProps)(AddressInput);

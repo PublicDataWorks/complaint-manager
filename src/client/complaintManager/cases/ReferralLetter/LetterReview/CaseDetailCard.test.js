@@ -25,9 +25,11 @@ describe("Case Detail Card", function() {
       </Provider>
     );
 
-    const caseDetailCard = wrapper.find('[data-test="caseDetailCard"]').first();
+    const caseDetailCard = wrapper
+      .find('[data-testid="caseDetailCard"]')
+      .first();
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardItem"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardItem"]').length
     ).toEqual(2);
   });
 
@@ -43,9 +45,11 @@ describe("Case Detail Card", function() {
       </Provider>
     );
 
-    const caseDetailCard = wrapper.find('[data-test="caseDetailCard"]').first();
+    const caseDetailCard = wrapper
+      .find('[data-testid="caseDetailCard"]')
+      .first();
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardItem"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardItem"]').length
     ).toEqual(1);
     expect(caseDetailCard.text()).toContain("No witnesses have been added");
   });
@@ -68,12 +72,14 @@ describe("Case Detail Card", function() {
       </Provider>
     );
 
-    const caseDetailCard = wrapper.find('[data-test="caseDetailCard"]').first();
+    const caseDetailCard = wrapper
+      .find('[data-testid="caseDetailCard"]')
+      .first();
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardItem"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardItem"]').length
     ).toEqual(1);
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardAllegation"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardAllegation"]').length
     ).toEqual(3);
   });
 
@@ -91,12 +97,14 @@ describe("Case Detail Card", function() {
       </Provider>
     );
 
-    const caseDetailCard = wrapper.find('[data-test="caseDetailCard"]').first();
+    const caseDetailCard = wrapper
+      .find('[data-testid="caseDetailCard"]')
+      .first();
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardItem"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardItem"]').length
     ).toEqual(1);
     expect(
-      caseDetailCard.find('[data-test="caseDetailCardAllegation"]').length
+      caseDetailCard.find('[data-testid="caseDetailCardAllegation"]').length
     ).toEqual(0);
   });
 });

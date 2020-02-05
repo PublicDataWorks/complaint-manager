@@ -23,13 +23,13 @@ const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
         >
           <div>
             <Typography
-              data-test="userAndActionText"
+              data-testid="userAndActionText"
               style={{ marginBottom: "2px" }}
             >
               <strong>[{activity.user}]</strong>{" "}
               {activity.caseNoteAction && activity.caseNoteAction.name}
             </Typography>
-            <Typography variant={"caption"} data-test="activityTimeText">
+            <Typography variant={"caption"} data-testid="activityTimeText">
               {`${moment(
                 activity.actionTakenAt,
                 "YYYY-MM-DDTHH:mm:ssZ"
@@ -47,7 +47,7 @@ const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
                     message={activity.notes ? activity.notes : "N/A"}
                   />
                 ) : (
-                  <Typography data-test="notesText">
+                  <Typography data-testid="notesText">
                     {activity.notes}
                   </Typography>
                 )

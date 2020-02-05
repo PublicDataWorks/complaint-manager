@@ -23,7 +23,7 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
         <DialogTitle>Remove Attachment</DialogTitle>
         <DialogContent>
           <Typography
-            data-test={"removeAttachmentText"}
+            data-testid={"removeAttachmentText"}
             variant={"body2"}
             style={{ wordBreak: "break-word" }}
           >
@@ -36,7 +36,7 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="confirmRemoveAttachmentButton"
+            data-testid="confirmRemoveAttachmentButton"
             onClick={this.props.removeAttachment}
           >
             Remove

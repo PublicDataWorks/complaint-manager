@@ -22,13 +22,13 @@ module.exports = {
   commands: [incompleteHistoryDialogCommands],
   elements: {
     incompleteOfficerHistoryDialogTitle: {
-      selector: "[data-test='incomplete-officer-history-title']"
+      selector: "[data-testid='incomplete-officer-history-title']"
     },
     incompleteClassificationsDialogTitle: {
-      selector: "[data-test='incomplete-classifications-title']"
+      selector: "[data-testid='incomplete-classifications-title']"
     },
     returnButton: {
-      selector: "[data-test='close-incomplete-history-dialog']"
+      selector: "[data-testid='close-incomplete-history-dialog']"
     }
   }
 };

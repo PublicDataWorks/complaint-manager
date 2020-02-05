@@ -12,7 +12,7 @@ const UnknownOfficerDisplay = ({ caseId, dispatch, officerSearchUrl }) => (
     }}
   >
     <Typography
-      data-test="unknownOfficerMessage"
+      data-testid="unknownOfficerMessage"
       style={{ marginBottom: "32px" }}
       variant="body2"
     >

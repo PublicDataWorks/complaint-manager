@@ -48,7 +48,7 @@ class OfficerSearchForm extends Component {
               label="First Name"
               name="firstName"
               component={renderTextField}
-              inputProps={{ "data-test": "firstNameField" }}
+              inputProps={{ "data-testid": "firstNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />
 
@@ -56,7 +56,7 @@ class OfficerSearchForm extends Component {
               label="Last Name"
               name="lastName"
               component={renderTextField}
-              inputProps={{ "data-test": "lastNameField" }}
+              inputProps={{ "data-testid": "lastNameField" }}
               style={{ flex: "1", marginRight: "24px" }}
             />
 
@@ -64,9 +64,9 @@ class OfficerSearchForm extends Component {
               label="District"
               name="districtId"
               component={Dropdown}
-              data-test="districtField"
+              data-testid="districtField"
               style={{ flex: "1", marginRight: "24px", padding: "5px" }}
-              inputProps={{ "data-test": "districtInput" }}
+              inputProps={{ "data-testid": "districtInput" }}
             >
               {generateMenuOptions(props.districts, "Any District")}
             </Field>
@@ -75,7 +75,7 @@ class OfficerSearchForm extends Component {
                 disabled={props.invalid}
                 onClick={props.handleSubmit(this.onSubmit)}
                 style={{ margin: "18px 0" }}
-                data-test="officerSearchSubmitButton"
+                data-testid="officerSearchSubmitButton"
               >
                 search
               </PrimaryButton>
@@ -102,7 +102,4 @@ const connectedForm = reduxForm({
   validate
 })(OfficerSearchForm);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(connectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

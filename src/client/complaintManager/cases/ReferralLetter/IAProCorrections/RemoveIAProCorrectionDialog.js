@@ -43,13 +43,13 @@ const RemoveIAProCorrectionDialog = ({
       </DialogContent>
       <DialogActions>
         <SecondaryButton
-          data-test="cancelButton"
+          data-testid="cancelButton"
           onClick={closeRemoveIAProCorrectionDialog}
         >
           Cancel
         </SecondaryButton>
         <PrimaryButton
-          data-test="remove-iapro-correction-button"
+          data-testid="remove-iapro-correction-button"
           onClick={removeIAProCorrection}
         >
           Remove

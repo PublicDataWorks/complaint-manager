@@ -26,7 +26,7 @@ export class JobDetails extends Component {
   render() {
     return this.props.downloadUrl ? (
       <a
-        data-test="downloadUrl"
+        data-testid="downloadUrl"
         type="application/octet-stream"
         href={this.props.downloadUrl}
       >
@@ -34,7 +34,7 @@ export class JobDetails extends Component {
       </a>
     ) : (
       <div
-        data-test="waitingForJob"
+        data-testid="waitingForJob"
         style={{
           textAlign: "center",
           alignItems: "center",
@@ -60,7 +60,4 @@ const mapDispatchToProps = {
   clearCurrentExportJob
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(JobDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(JobDetails);

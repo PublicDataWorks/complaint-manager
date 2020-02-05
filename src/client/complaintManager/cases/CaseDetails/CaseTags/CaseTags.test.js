@@ -38,13 +38,13 @@ describe("Case Tags", () => {
   });
 
   test("should display button to add tag", () => {
-    containsText(dialog, '[data-test="addTagButton"]', "+ Add Tag");
+    containsText(dialog, '[data-testid="addTagButton"]', "+ Add Tag");
   });
 
   test("should display placeholder text when no tags exist on case", () => {
     containsText(
       dialog,
-      '[data-test="caseTagsContainer"]',
+      '[data-testid="caseTagsContainer"]',
       "No tags have been added"
     );
   });
@@ -75,15 +75,15 @@ describe("Case Tags", () => {
 
     dialog.update();
 
-    const firstCaseTagChip = dialog.find('[data-test="caseTagChip"]').first();
-    const secondCaseTagChip = dialog.find('[data-test="caseTagChip"]').last();
+    const firstCaseTagChip = dialog.find('[data-testid="caseTagChip"]').first();
+    const secondCaseTagChip = dialog.find('[data-testid="caseTagChip"]').last();
 
     expect(firstCaseTagChip.text()).toEqual("Penguins");
     expect(secondCaseTagChip.text()).toEqual("Osprey");
   });
 
   test("add tag button should call openCaseTagDialog when clicked", () => {
-    const addTagButton = dialog.find('button[data-test="addTagButton"]');
+    const addTagButton = dialog.find('button[data-testid="addTagButton"]');
     addTagButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(openCaseTagDialog());

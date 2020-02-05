@@ -24,13 +24,13 @@ module.exports = {
   commands: [caseReviewCommands],
   elements: {
     nextButton: {
-      selector: "[data-test='next-button']"
+      selector: "[data-testid='next-button']"
     },
     pageHeader: {
-      selector: "[data-test='letter-review-page-header']"
+      selector: "[data-testid='letter-review-page-header']"
     },
     previewButton: {
-      selector: "[data-test='step-button-Preview']"
+      selector: "[data-testid='step-button-Preview']"
     }
   }
 };

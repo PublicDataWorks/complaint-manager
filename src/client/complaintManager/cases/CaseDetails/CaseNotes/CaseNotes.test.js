@@ -27,7 +27,7 @@ describe("Case Notes", () => {
 
     containsText(
       wrapper,
-      '[data-test="caseNotesContainer"]',
+      '[data-testid="caseNotesContainer"]',
       "No case notes have been added"
     );
   });
@@ -61,19 +61,19 @@ describe("Case Notes", () => {
     wrapper.update();
 
     const activityContainer = wrapper
-      .find('[data-test="caseNotesContainer"]')
+      .find('[data-testid="caseNotesContainer"]')
       .first();
     const activityItems = activityContainer
-      .find('[data-test="caseNotesItem"]')
+      .find('[data-testid="caseNotesItem"]')
       .first();
 
     const activityItem = activityItems.at(0);
 
     const userAndActionText = activityItem
-      .find('[data-test="userAndActionText"]')
+      .find('[data-testid="userAndActionText"]')
       .first();
     const activityTimeText = activityItem
-      .find('[data-test="activityTimeText"]')
+      .find('[data-testid="activityTimeText"]')
       .first();
 
     expect(userAndActionText.text()).toEqual("[tuser] Memo to file");
@@ -121,18 +121,20 @@ describe("Case Notes", () => {
     );
 
     const activityContainer = wrapper
-      .find('[data-test="caseNotesContainer"]')
+      .find('[data-testid="caseNotesContainer"]')
       .first();
-    const activityItems = activityContainer.find('[data-test="caseNotesItem"]');
+    const activityItems = activityContainer.find(
+      '[data-testid="caseNotesItem"]'
+    );
 
     const firstActivity = activityItems.first();
     const firstUserAndActivityActionText = firstActivity
-      .find('[data-test="userAndActionText"]')
+      .find('[data-testid="userAndActionText"]')
       .first()
       .text();
     const secondActivity = activityItems.last();
     const secondUserAndActivityActionText = secondActivity
-      .find('[data-test="userAndActionText"]')
+      .find('[data-testid="userAndActionText"]')
       .first()
       .text();
 

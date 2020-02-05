@@ -151,7 +151,7 @@ class RecommendedActions extends Component {
                   <Field
                     name={`${letterOfficerField}.action-${recommendedAction.id}`}
                     component={PrimaryCheckBox}
-                    data-test={`${letterOfficerField}-${recommendedAction.id}`}
+                    data-testid={`${letterOfficerField}-${recommendedAction.id}`}
                   />
                 }
               />
@@ -165,7 +165,7 @@ class RecommendedActions extends Component {
             component={renderTextField}
             multiline
             rowsMax={5}
-            data-test={`${letterOfficerField}-recommendedActionNotes`}
+            data-testid={`${letterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
           />
         </div>
@@ -192,7 +192,7 @@ class RecommendedActions extends Component {
 
         <form>
           <LinkButton
-            data-test="save-and-return-to-case-link"
+            data-testid="save-and-return-to-case-link"
             onClick={this.saveAndReturnToCase()}
             style={{ margin: "2% 0% 2% 4%" }}
           >
@@ -211,7 +211,7 @@ class RecommendedActions extends Component {
                   marginBottom: "24px"
                 }}
                 variant="h6"
-                data-test="recommended-actions-page-header"
+                data-testid="recommended-actions-page-header"
               >
                 Recommended Actions
               </Typography>
@@ -243,7 +243,7 @@ class RecommendedActions extends Component {
                 <span style={{ flex: 1 }}>
                   <SecondaryButton
                     onClick={this.saveAndGoBackToIAProCorrections()}
-                    data-test="back-button"
+                    data-testid="back-button"
                   >
                     Back
                   </SecondaryButton>
@@ -251,7 +251,7 @@ class RecommendedActions extends Component {
                 <span style={{ flex: 1, textAlign: "right" }}>
                   <PrimaryButton
                     onClick={this.saveAndGoToLetterPreview()}
-                    data-test="next-button"
+                    data-testid="next-button"
                   >
                     Next
                   </PrimaryButton>

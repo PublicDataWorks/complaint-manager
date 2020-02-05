@@ -28,11 +28,11 @@ const SharedSnackbar = props => (
         style: { maxWidth: "800px" }
       }}
       message={
-        <span data-test="sharedSnackbarBannerText">{props.message}</span>
+        <span data-testid="sharedSnackbarBannerText">{props.message}</span>
       }
       action={[
         <IconButton
-          data-test="closeSnackbar"
+          data-testid="closeSnackbar"
           key={"closeSnackbar"}
           onClick={() => props.closeSnackbar()}
           color="inherit"

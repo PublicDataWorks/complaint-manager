@@ -29,11 +29,13 @@ describe("export cases", () => {
 
   test("open confirmation dialog without date range when export all cases button clicked", () => {
     const exportAllCasesButton = exportCasesForm.find(
-      'button[data-test="exportAllCases"]'
+      'button[data-testid="exportAllCases"]'
     );
 
     exportAllCasesButton.simulate("click");
-    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
+    const dialog = exportCasesForm.find(
+      '[data-testid="exportConfirmationText"]'
+    );
     expect(dialog).toBeDefined();
     expect(dispatchSpy).toHaveBeenCalledWith(
       openExportCasesConfirmationDialog()
@@ -43,20 +45,22 @@ describe("export cases", () => {
   test("first contact date selected by default", () => {
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesFromInput"]',
+      '[data-testid="exportCasesFromInput"]',
       "2017-12-21"
     );
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesToInput"]',
+      '[data-testid="exportCasesToInput"]',
       "2018-12-21"
     );
 
     const exportRangedCasesButton = exportCasesForm.find(
-      'button[data-test="exportRangedCases"]'
+      'button[data-testid="exportRangedCases"]'
     );
     exportRangedCasesButton.simulate("click");
-    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
+    const dialog = exportCasesForm.find(
+      '[data-testid="exportConfirmationText"]'
+    );
 
     expect(dialog).toBeDefined();
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -72,25 +76,27 @@ describe("export cases", () => {
     const firstContactDate = CASE_EXPORT_TYPE.FIRST_CONTACT_DATE;
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesFromInput"]',
+      '[data-testid="exportCasesFromInput"]',
       "2017-12-21"
     );
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesToInput"]',
+      '[data-testid="exportCasesToInput"]',
       "2018-12-21"
     );
 
     const dateRangeTypeRadioButton = exportCasesForm
-      .find(`[data-test="dateRangeTypeRadioButton.${firstContactDate}"]`)
+      .find(`[data-testid="dateRangeTypeRadioButton.${firstContactDate}"]`)
       .last();
     dateRangeTypeRadioButton.simulate("click");
 
     const exportRangedCasesButton = exportCasesForm.find(
-      'button[data-test="exportRangedCases"]'
+      'button[data-testid="exportRangedCases"]'
     );
     exportRangedCasesButton.simulate("click");
-    const dialog = exportCasesForm.find('[data-test="exportConfirmationText"]');
+    const dialog = exportCasesForm.find(
+      '[data-testid="exportConfirmationText"]'
+    );
 
     expect(dialog).toBeDefined();
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -119,16 +125,16 @@ describe("export cases", () => {
 
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesFromInput"]',
+      '[data-testid="exportCasesFromInput"]',
       dateRange.exportStartDate
     );
     changeInput(
       exportCasesForm,
-      '[data-test="exportCasesToInput"]',
+      '[data-testid="exportCasesToInput"]',
       dateRange.exportEndDate
     );
     const exportRangedCasesButton = exportCasesForm.find(
-      'button[data-test="exportRangedCases"]'
+      'button[data-testid="exportRangedCases"]'
     );
     exportRangedCasesButton.simulate("click");
 

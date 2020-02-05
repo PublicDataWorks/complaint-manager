@@ -44,22 +44,22 @@ module.exports = {
   commands: [matrixDialogCommands],
   elements: {
     matrixDialog: {
-      selector: "[data-test='create-matrix-dialog-title']"
+      selector: "[data-testid='create-matrix-dialog-title']"
     },
 
     firstReviewerDropdown: {
-      selector: "[data-test='firstReviewerInput'] + div > button"
+      selector: "[data-testid='firstReviewerInput'] + div > button"
     },
 
     secondReviewerDropdown: {
-      selector: "[data-test='secondReviewerInput'] + div > button"
+      selector: "[data-testid='secondReviewerInput'] + div > button"
     },
 
     menu: { selector: ".MuiAutocomplete-popper" },
 
-    pibControlNumber: { selector: "[data-test='pib-control-input']" },
+    pibControlNumber: { selector: "[data-testid='pib-control-input']" },
 
-    createMatrixButton: { selector: "[data-test='create-and-search']" },
+    createMatrixButton: { selector: "[data-testid='create-and-search']" },
 
     selectFirstReviewer: {
       selector: '[data-option-index="0"]'

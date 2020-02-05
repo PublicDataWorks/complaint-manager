@@ -27,7 +27,10 @@ const WarningMessage = ({ classes, children, variant, style }) => {
   return (
     <div className={classesToApply} style={style}>
       {variant === "grayText" ? null : (
-        <ReportProblemIcon data-test="warnIcon" className={classes.warnIcon} />
+        <ReportProblemIcon
+          data-testid="warnIcon"
+          className={classes.warnIcon}
+        />
       )}
       <em className={classes.text}>{children}</em>
     </div>

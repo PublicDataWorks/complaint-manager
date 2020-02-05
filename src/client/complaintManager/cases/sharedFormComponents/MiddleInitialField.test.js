@@ -20,26 +20,26 @@ describe("middle initial", () => {
       </Provider>
     );
 
-    middleInitialInput = form.find('[data-test="middleInitialInput"]').last();
+    middleInitialInput = form.find('[data-testid="middleInitialInput"]').last();
   });
 
   test("should allow single alphabetical character", () => {
-    changeInput(form, '[data-test="middleInitialInput"]', "A");
+    changeInput(form, '[data-testid="middleInitialInput"]', "A");
 
-    containsValue(form, '[data-test="middleInitialInput"]', "A");
+    containsValue(form, '[data-testid="middleInitialInput"]', "A");
   });
 
   test("should replace non alphabetical character with previous input", () => {
-    changeInput(form, '[data-test="middleInitialInput"]', "A");
-    changeInput(form, '[data-test="middleInitialInput"]', "1");
+    changeInput(form, '[data-testid="middleInitialInput"]', "A");
+    changeInput(form, '[data-testid="middleInitialInput"]', "1");
 
-    containsValue(form, '[data-test="middleInitialInput"]', "A");
+    containsValue(form, '[data-testid="middleInitialInput"]', "A");
   });
 
   test("should not allow multiple characters", () => {
-    changeInput(form, '[data-test="middleInitialInput"]', "A");
-    changeInput(form, '[data-test="middleInitialInput"]', "AA");
+    changeInput(form, '[data-testid="middleInitialInput"]', "A");
+    changeInput(form, '[data-testid="middleInitialInput"]', "AA");
 
-    containsValue(form, '[data-test="middleInitialInput"]', "A");
+    containsValue(form, '[data-testid="middleInitialInput"]', "A");
   });
 });

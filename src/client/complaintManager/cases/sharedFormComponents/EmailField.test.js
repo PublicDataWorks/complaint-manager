@@ -22,14 +22,16 @@ describe("Email field", () => {
 
   test("should display error when not an email address", () => {
     const emailInput = emailFieldComponent.find(
-      'input[data-test="emailInput"]'
+      'input[data-testid="emailInput"]'
     );
 
     emailInput.simulate("focus");
     emailInput.simulate("change", { target: { value: "ethome@thoughtworks" } });
     emailInput.simulate("blur");
 
-    const emailField = emailFieldComponent.find('div[data-test="emailField"]');
+    const emailField = emailFieldComponent.find(
+      'div[data-testid="emailField"]'
+    );
     expect(emailField.text()).toContain("Please enter a valid email address");
   });
 });

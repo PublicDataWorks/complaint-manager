@@ -64,7 +64,7 @@ describe("OfficerSearchContainer", () => {
     );
 
     const selectUnknown = officerDashboard
-      .find('[data-test="unknownOfficerButton"]')
+      .find('[data-testid="unknownOfficerButton"]')
       .first();
     expect(selectUnknown.prop("to")).toEqual(path);
   });
@@ -99,7 +99,7 @@ describe("OfficerSearchContainer", () => {
     );
 
     const selectNewOfficer = officerDashboard
-      .find('[data-test="selectNewOfficerButton"]')
+      .find('[data-testid="selectNewOfficerButton"]')
       .first();
     expect(selectNewOfficer.prop("to")).toEqual(path);
   });
@@ -134,7 +134,7 @@ describe("OfficerSearchContainer", () => {
     );
 
     const selectUnknownOfficer = officerDashboard
-      .find('[data-test="unknownOfficerButton"]')
+      .find('[data-testid="unknownOfficerButton"]')
       .first();
     selectUnknownOfficer.simulate("click");
 
@@ -177,7 +177,7 @@ describe("OfficerSearchContainer", () => {
     );
 
     const backToCaseButton = officerDashboard
-      .find('[data-test="back-to-case-link"]')
+      .find('[data-testid="back-to-case-link"]')
       .last();
     backToCaseButton.simulate("click");
 

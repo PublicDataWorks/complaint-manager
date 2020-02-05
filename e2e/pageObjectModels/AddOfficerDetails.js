@@ -25,16 +25,16 @@ module.exports = {
   commands: [AddOfficerDetailsCommands],
   elements: {
     unknownOfficerMessage: {
-      selector: "[data-test='unknownOfficerMessage']"
+      selector: "[data-testid='unknownOfficerMessage']"
     },
     roleDropdown: {
-      selector: '[data-test="roleOnCaseInput"] + div > button'
+      selector: '[data-testid="roleOnCaseInput"] + div > button'
     },
     roleMenu: {
       selector: ".MuiAutocomplete-popper"
     },
     submitOfficerButton: {
-      selector: '[data-test="officerSubmitButton"]'
+      selector: '[data-testid="officerSubmitButton"]'
     },
     toSelect: {
       selector: "li"

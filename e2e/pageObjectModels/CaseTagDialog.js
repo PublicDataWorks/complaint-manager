@@ -20,13 +20,13 @@ module.exports = {
   commands: [caseTagDialogCommands],
   elements: {
     dialogTitle: {
-      selector: "[data-test='caseTagDialogTitle']"
+      selector: "[data-testid='caseTagDialogTitle']"
     },
     tagInputField: {
-      selector: "[data-test='caseTagDropdownInput']"
+      selector: "[data-testid='caseTagDropdownInput']"
     },
     submitTagButton: {
-      selector: "[data-test='caseTagSubmitButton']"
+      selector: "[data-testid='caseTagSubmitButton']"
     }
   }
 };

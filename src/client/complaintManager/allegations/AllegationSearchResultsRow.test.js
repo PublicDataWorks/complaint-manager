@@ -19,7 +19,7 @@ describe("AllegationSearchResultsRow", function() {
 
     expect(
       allegationSearchResultsRow
-        .find('[data-test="selectAllegationButton"]')
+        .find('[data-testid="selectAllegationButton"]')
         .exists()
     ).toBeTruthy();
     expect(
@@ -33,13 +33,13 @@ describe("AllegationSearchResultsRow", function() {
     );
 
     const selectButton = allegationSearchResultsRow.find(
-      '[data-test="selectAllegationButton"]'
+      '[data-testid="selectAllegationButton"]'
     );
     selectButton.simulate("click");
 
     expect(
       allegationSearchResultsRow
-        .find('[data-test="selectAllegationButton"]')
+        .find('[data-testid="selectAllegationButton"]')
         .exists()
     ).toBeFalsy();
 

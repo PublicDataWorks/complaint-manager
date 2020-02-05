@@ -29,7 +29,9 @@ class Dropzone extends Component {
   };
 
   dropZoneComponentConfig = {
-    postUrl: `${config[process.env.REACT_APP_ENV].hostname}/api/cases/${this.props.caseId}/attachments`
+    postUrl: `${config[process.env.REACT_APP_ENV].hostname}/api/cases/${
+      this.props.caseId
+    }/attachments`
   };
 
   eventHandlers = {
@@ -150,7 +152,7 @@ class Dropzone extends Component {
               rowsMax={3}
               inputProps={{
                 maxLength: 200,
-                "data-test": "attachmentDescriptionInput"
+                "data-testid": "attachmentDescriptionInput"
               }}
               placeholder={"Please enter a description for your attachment"}
               onChange={this.updateDescription}
@@ -169,7 +171,7 @@ class Dropzone extends Component {
         <div style={{ alignSelf: "flex-end", marginBottom: "20px" }}>
           <PrimaryButton
             onClick={this.uploadAttachment}
-            data-test="attachmentUploadButton"
+            data-testid="attachmentUploadButton"
             disabled={
               !this.state.attachmentValid ||
               this.invalidDescription() ||
@@ -185,7 +187,7 @@ class Dropzone extends Component {
 
   invalidFileMarkup(errorMessage) {
     return (
-      <FormHelperText data-test="invalidFileTypeErrorMessage" error={true}>
+      <FormHelperText data-testid="invalidFileTypeErrorMessage" error={true}>
         {errorMessage}
       </FormHelperText>
     );

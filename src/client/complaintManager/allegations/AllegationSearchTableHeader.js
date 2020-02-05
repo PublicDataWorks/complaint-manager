@@ -13,21 +13,21 @@ const AllegationSearchTableHeader = props => {
     <TableHead>
       <TableRow className={classes.row}>
         <TableCell
-          data-test="allegationsRuleHeader"
+          data-testid="allegationsRuleHeader"
           className={classes.cell}
           style={{ width: "20%" }}
         >
           <Typography variant="subtitle2">Rule</Typography>
         </TableCell>
         <TableCell
-          data-test="allegationsParagraphHeader"
+          data-testid="allegationsParagraphHeader"
           className={classes.cell}
           style={{ width: "25%" }}
         >
           <Typography variant="subtitle2">Paragraph</Typography>
         </TableCell>
         <TableCell
-          data-test="allegationsDirectiveHeader"
+          data-testid="allegationsDirectiveHeader"
           className={classes.cell}
           style={{ width: "45%" }}
         >

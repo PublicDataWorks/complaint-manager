@@ -18,9 +18,9 @@ const archivedCasesCommands = {
 module.exports = {
   commands: [archivedCasesCommands],
   elements: {
-    pageTitle: { selector: "[data-test='pageTitle']" },
+    pageTitle: { selector: "[data-testid='pageTitle']" },
     openCaseButton: {
-      selector: '[data-test="openCaseButton"]'
+      selector: '[data-testid="openCaseButton"]'
     }
   }
 };

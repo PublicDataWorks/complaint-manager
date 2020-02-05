@@ -27,36 +27,36 @@ const formatCaseStatusForDPM = status => {
 
 const CaseRow = ({ classes, caseDetails, currentUser }) => {
   return (
-    <TableRow data-test={`caseRow${caseDetails.id}`} className={classes.row}>
-      <TableCell data-test="caseReference" className={classes.cell}>
+    <TableRow data-testid={`caseRow${caseDetails.id}`} className={classes.row}>
+      <TableCell data-testid="caseReference" className={classes.cell}>
         <div>{caseDetails.caseReference}</div>
       </TableCell>
-      <TableCell data-test="caseStatus" className={classes.cell}>
+      <TableCell data-testid="caseStatus" className={classes.cell}>
         {currentUser.permissions.includes(
           USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
         )
           ? formatCaseStatusForDPM(caseDetails.status)
           : caseDetails.status}
       </TableCell>
-      <TableCell data-test="caseName" className={classes.cell}>
+      <TableCell data-testid="caseName" className={classes.cell}>
         <DisplayComplainant complainant={caseDetails.primaryComplainant} />
       </TableCell>
-      <TableCell data-test="primaryAccusedOfficer" className={classes.cell}>
+      <TableCell data-testid="primaryAccusedOfficer" className={classes.cell}>
         <DisplayAccusedOfficer
           primaryAccusedOfficer={caseDetails.primaryAccusedOfficer}
         />
       </TableCell>
-      <TableCell data-test="caseFirstContactDate" className={classes.cell}>
+      <TableCell data-testid="caseFirstContactDate" className={classes.cell}>
         <div>{formatDate(caseDetails.firstContactDate)}</div>
       </TableCell>
-      <TableCell data-test="caseAssignedTo" className={classes.cell}>
+      <TableCell data-testid="caseAssignedTo" className={classes.cell}>
         <div>{caseDetails.assignedTo}</div>
       </TableCell>
-      <TableCell data-test="openCase" className={classes.buttonCell}>
+      <TableCell data-testid="openCase" className={classes.buttonCell}>
         <LinkButton
           component={Link}
           to={`/cases/${caseDetails.id}`}
-          data-test="openCaseButton"
+          data-testid="openCaseButton"
         >
           Open Case
         </LinkButton>

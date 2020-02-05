@@ -6,11 +6,11 @@ const SuffixField = props => (
   <Field
     {...props}
     inputProps={{
-      "data-test": "suffixInput",
+      "data-testid": "suffixInput",
       maxLength: 25,
       autoComplete: "disabled"
     }}
-    data-test="suffixField"
+    data-testid="suffixField"
     label="Suffix"
     component={renderTextField}
     normalize={(value, previousValue) =>

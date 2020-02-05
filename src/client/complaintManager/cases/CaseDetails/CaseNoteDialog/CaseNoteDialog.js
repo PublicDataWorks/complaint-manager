@@ -68,7 +68,7 @@ class CaseNoteDialog extends Component {
           style={{
             paddingBottom: "8px"
           }}
-          data-test="caseNoteDialogTitle"
+          data-testid="caseNoteDialogTitle"
         >
           {dialogType === "Add" ? "Add Case Note" : "Edit Case Note"}
         </DialogTitle>
@@ -94,7 +94,7 @@ class CaseNoteDialog extends Component {
               name={"actionTakenAt"}
               inputProps={{
                 type: "datetime-local",
-                "data-test": "dateAndTimeInput"
+                "data-testid": "dateAndTimeInput"
               }}
               label={"Date and Time"}
               style={{
@@ -108,12 +108,12 @@ class CaseNoteDialog extends Component {
               name="caseNoteActionId"
               component={Dropdown}
               label={"Action Taken"}
-              data-test="actionsDropdown"
+              data-testid="actionsDropdown"
               style={{
                 width: "75%",
                 marginBottom: "16px"
               }}
-              inputProps={{ "data-test": "actionTakenInput" }}
+              inputProps={{ "data-testid": "actionTakenInput" }}
               validate={[actionIsRequired]}
             >
               {generateMenuOptions(this.props.caseNoteActions)}
@@ -123,7 +123,7 @@ class CaseNoteDialog extends Component {
               label="Notes"
               component={renderTextField}
               inputProps={{
-                "data-test": "notesInput"
+                "data-testid": "notesInput"
               }}
               InputLabelProps={{
                 shrink: true
@@ -147,7 +147,7 @@ class CaseNoteDialog extends Component {
             style={{
               marginLeft: "0px"
             }}
-            data-test="cancelButton"
+            data-testid="cancelButton"
             onClick={() => {
               this.props.reset("CaseNotes");
               this.props.closeCaseNoteDialog();
@@ -156,7 +156,7 @@ class CaseNoteDialog extends Component {
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="submitButton"
+            data-testid="submitButton"
             onClick={handleSubmit(this.submit)}
             disabled={submitting}
           >
@@ -188,7 +188,4 @@ const mapDispatchToProps = {
   closeCaseNoteDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectedForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectedForm);

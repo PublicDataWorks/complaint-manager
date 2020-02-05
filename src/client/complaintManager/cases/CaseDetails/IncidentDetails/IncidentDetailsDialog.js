@@ -84,7 +84,7 @@ class IncidentDetailsDialog extends Component {
           paperWidthSm: props.classes.paperWidthSm
         }}
       >
-        <DialogTitle data-test="editIncidentDetailsTitle">
+        <DialogTitle data-testid="editIncidentDetailsTitle">
           Edit Incident Details
         </DialogTitle>
         <DialogContent>
@@ -94,9 +94,9 @@ class IncidentDetailsDialog extends Component {
                 required
                 name="firstContactDate"
                 label="First Contacted OIPM"
-                data-test="editFirstContactDateField"
+                data-testid="editFirstContactDateField"
                 inputProps={{
-                  "data-test": "editFirstContactDateInput",
+                  "data-testid": "editFirstContactDateInput",
                   type: "date",
                   max: moment(Date.now()).format("YYYY-MM-DD")
                 }}
@@ -112,10 +112,10 @@ class IncidentDetailsDialog extends Component {
             >
               <DateField
                 name="incidentDate"
-                data-test="editIncidentDateField"
+                data-testid="editIncidentDateField"
                 label="Incident Date"
                 inputProps={{
-                  "data-test": "editIncidentDateInput",
+                  "data-testid": "editIncidentDateInput",
                   type: "date",
                   max: moment(Date.now()).format("YYYY-MM-DD")
                 }}
@@ -128,9 +128,9 @@ class IncidentDetailsDialog extends Component {
                 component={renderTextField}
                 name="incidentTime"
                 label="Incident Time"
-                data-test="editIncidentTimeField"
+                data-testid="editIncidentTimeField"
                 inputProps={{
-                  "data-test": "editIncidentTimeInput",
+                  "data-testid": "editIncidentTimeInput",
                   type: "time"
                 }}
                 InputLabelProps={{
@@ -162,8 +162,8 @@ class IncidentDetailsDialog extends Component {
                 style={{
                   flex: "1"
                 }}
-                data-test="districtDropdown"
-                inputProps={{ "data-test": "districtInput" }}
+                data-testid="districtDropdown"
+                inputProps={{ "data-testid": "districtInput" }}
               >
                 {generateMenuOptions(this.props.districts, "Unknown")}
               </Field>
@@ -186,7 +186,7 @@ class IncidentDetailsDialog extends Component {
                 component={Dropdown}
                 label="Intake Source"
                 hinttext="Intake Source"
-                data-test="intakeSourceDropdown"
+                data-testid="intakeSourceDropdown"
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
               >
@@ -199,7 +199,7 @@ class IncidentDetailsDialog extends Component {
                 component={Dropdown}
                 label="How did you hear about us?"
                 hinttext="How did you hear about us?"
-                data-test="howDidYouHearAboutUsSourceDropdown"
+                data-testid="howDidYouHearAboutUsSourceDropdown"
                 style={{ width: "60%" }}
               >
                 {generateMenuOptions(props.howDidYouHearAboutUsSources)}
@@ -210,10 +210,10 @@ class IncidentDetailsDialog extends Component {
                 name="pibCaseNumber"
                 component={renderTextField}
                 label="PIB Case Number"
-                data-test="pibCaseNumber"
+                data-testid="pibCaseNumber"
                 placeholder="Enter PIB Case Number"
                 inputProps={{
-                  "data-test": "pibCaseNumberInput",
+                  "data-testid": "pibCaseNumberInput",
                   maxLength: 25
                 }}
                 InputLabelProps={{ shrink: true }}
@@ -231,13 +231,13 @@ class IncidentDetailsDialog extends Component {
           style={{ justifyContent: "space-between", margin: "16px" }}
         >
           <SecondaryButton
-            data-test="cancelEditIncidentDetailsButton"
+            data-testid="cancelEditIncidentDetailsButton"
             onClick={props.handleDialogClose}
           >
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-test="saveIncidentDetailsButton"
+            data-testid="saveIncidentDetailsButton"
             onClick={props.handleSubmit(submitIncidentDetails)}
             disabled={this.props.submitting}
           >
@@ -284,8 +284,5 @@ const mapDispatchToProps = {
 };
 
 export default withStyles(styles)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(connectedForm)
+  connect(mapStateToProps, mapDispatchToProps)(connectedForm)
 );

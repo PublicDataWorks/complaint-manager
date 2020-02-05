@@ -25,10 +25,10 @@ module.exports = {
   commands: [snackbarCommands],
   elements: {
     snackbarText: {
-      selector: '[data-test="sharedSnackbarBannerText"]'
+      selector: '[data-testid="sharedSnackbarBannerText"]'
     },
     closeButton: {
-      selector: '[data-test="closeSnackbar"]'
+      selector: '[data-testid="closeSnackbar"]'
     }
   }
 };

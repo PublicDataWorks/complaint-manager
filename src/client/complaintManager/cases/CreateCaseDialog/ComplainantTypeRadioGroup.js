@@ -27,14 +27,14 @@ export default props => (
     >
       <FormControlLabel
         style={{ marginRight: "48px" }}
-        data-test="civilianRadioButton"
+        data-testid="civilianRadioButton"
         value={CIVILIAN_INITIATED}
         control={<Radio color="primary" />}
         label="Civilian"
         onClick={() => props.input.onChange(CIVILIAN_INITIATED)}
       />
       <FormControlLabel
-        data-test="officerRadioButton"
+        data-testid="officerRadioButton"
         value={RANK_INITIATED}
         control={<Radio color="primary" />}
         label="Police Officer"
@@ -42,7 +42,7 @@ export default props => (
       />
       {props.input_props.cnComplaintTypeFeature && (
         <FormControlLabel
-          data-test="civilianWithinNOPDRadioButton"
+          data-testid="civilianWithinNOPDRadioButton"
           value={CIVILIAN_WITHIN_NOPD_INITIATED}
           control={<Radio color="primary" />}
           label={CIVILIAN_WITHIN_NOPD_TITLE}

@@ -95,7 +95,7 @@ export class LetterReview extends Component {
         </NavBar>
 
         <LinkButton
-          data-test="return-to-case-link"
+          data-testid="return-to-case-link"
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}
@@ -111,7 +111,7 @@ export class LetterReview extends Component {
           />
 
           <div style={{ margin: "0 0 32px 0" }}>
-            <Typography variant="h6" data-test="letter-review-page-header">
+            <Typography variant="h6" data-testid="letter-review-page-header">
               Review Case Details
             </Typography>
           </div>
@@ -151,7 +151,7 @@ export class LetterReview extends Component {
               <CaseDetailCard
                 cardTitle={cardTitle}
                 cardData={getAccusedOfficerData(officer)}
-                data-test="case-detail-card-accused"
+                data-testid="case-detail-card-accused"
                 cardSecondTitle={"Allegations"}
                 allegations={getAllegationData(officer)}
                 key={officer.id}
@@ -160,7 +160,7 @@ export class LetterReview extends Component {
           })}
           <div style={{ textAlign: "right" }}>
             <PrimaryButton
-              data-test="next-button"
+              data-testid="next-button"
               component={Link}
               to={`/cases/${caseId}/letter/officer-history`}
             >
@@ -184,7 +184,4 @@ const mapStateToProps = state => ({
   caseDetails: state.currentCase.details
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LetterReview);
+export default connect(mapStateToProps, mapDispatchToProps)(LetterReview);

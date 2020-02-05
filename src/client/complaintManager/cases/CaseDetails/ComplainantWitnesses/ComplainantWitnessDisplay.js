@@ -20,7 +20,7 @@ const ComplainantWitnessDisplay = ({
       {civiliansAndOfficers.length === 0 ? (
         <div>
           <Typography
-            data-test="noCivilianMessage"
+            data-testid="noCivilianMessage"
             style={{
               margin: "16px 24px"
             }}

@@ -32,7 +32,7 @@ class DownloadFinalLetterButton extends React.Component {
     if (!this.props.pdfAvailable) {
       return (
         <div
-          data-test="no-file-for-download-message"
+          data-testid="no-file-for-download-message"
           style={{ marginLeft: "16px" }}
         >
           <i style={styles.caption}>
@@ -50,7 +50,7 @@ class DownloadFinalLetterButton extends React.Component {
     return (
       <div>
         <LinkButton
-          data-test={"download-final-letter-button"}
+          data-testid={"download-final-letter-button"}
           style={{ textAlign: "left" }}
           onClick={this.startLetterDownload}
           disabled={this.props.downloadInProgress || !this.props.pdfAvailable}

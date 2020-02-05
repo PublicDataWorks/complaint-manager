@@ -42,12 +42,12 @@ describe("narrative", () => {
   test("should have initial values", () => {
     containsText(
       narrative,
-      '[data-test="narrativeDetailsInput"]',
+      '[data-testid="narrativeDetailsInput"]',
       expectedCase.narrativeDetails
     );
     containsText(
       narrative,
-      '[data-test="narrativeSummaryInput"]',
+      '[data-testid="narrativeSummaryInput"]',
       expectedCase.narrativeSummary
     );
   });
@@ -61,16 +61,16 @@ describe("narrative", () => {
 
     changeInput(
       narrative,
-      'textarea[data-test="narrativeDetailsInput"]',
+      'textarea[data-testid="narrativeDetailsInput"]',
       updateDetails.narrativeDetails
     );
     changeInput(
       narrative,
-      'textarea[data-test="narrativeSummaryInput"]',
+      'textarea[data-testid="narrativeSummaryInput"]',
       updateDetails.narrativeSummary
     );
 
-    const saveButton = narrative.find('button[data-test="saveNarrative"]');
+    const saveButton = narrative.find('button[data-testid="saveNarrative"]');
     saveButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
@@ -80,7 +80,7 @@ describe("narrative", () => {
   test("should disable the submit button when pristine", () => {
     updateNarrative.mockReset();
 
-    const saveButton = narrative.find('button[data-test="saveNarrative"]');
+    const saveButton = narrative.find('button[data-testid="saveNarrative"]');
     saveButton.simulate("click");
 
     expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);

@@ -10,12 +10,12 @@ const AdditionalLocationInfo = ({ label, fieldName, style }) => {
       component={renderTextField}
       style={style}
       inputProps={{
-        "data-test": "additionalLocationInfoInput",
+        "data-testid": "additionalLocationInfoInput",
         maxLength: 255
       }}
       multiline
       InputLabelProps={{ shrink: true }}
-      data-test="additionalLocationInfo"
+      data-testid="additionalLocationInfo"
       placeholder={"Ex: In front of building"}
     />
   );

@@ -29,7 +29,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
     >
       <div>
         <LinkButton
-          data-test="all-cases-link"
+          data-testid="all-cases-link"
           component={Link}
           to={"/"}
           style={{ margin: "4% 0% 5% 2%" }}
@@ -39,7 +39,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
         <div style={{ margin: "0px 24px" }}>
           <div style={{ display: "flex" }}>
             <Typography
-              data-test="case-reference"
+              data-testid="case-reference"
               variant="h6"
               style={{
                 marginTop: "4px",
@@ -54,7 +54,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
           <div className={classes.drawerRow}>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Created By</Typography>
-              <Typography data-test="created-by" variant="body2">
+              <Typography data-testid="created-by" variant="body2">
                 {caseDetails.createdBy}
               </Typography>
             </div>
@@ -62,13 +62,13 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
           <div className={lastDrawerRowClassName}>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Created On</Typography>
-              <Typography data-test="created-on" variant="body2">
+              <Typography data-testid="created-on" variant="body2">
                 {formatDate(caseDetails.createdAt)}
               </Typography>
             </div>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Complaint Type</Typography>
-              <Typography data-test="complaint-type" variant="body2">
+              <Typography data-testid="complaint-type" variant="body2">
                 {caseDetails.complaintType}
               </Typography>
             </div>
@@ -77,7 +77,7 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
             <div className={classes.drawerRowEnd}>
               <div className={classes.drawerRowItem}>
                 <Typography variant="caption">Assigned To</Typography>
-                <Typography data-test="assigned-to" variant="body2">
+                <Typography data-testid="assigned-to" variant="body2">
                   {caseDetails.assignedTo}
                 </Typography>
               </div>

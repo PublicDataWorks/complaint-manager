@@ -69,7 +69,7 @@ export class AllegationSearchContainer extends Component {
           {`Case #${this.props.caseDetails.caseReference}   : Manage Allegations`}
         </NavBar>
         <LinkButton
-          data-test="back-to-case-link"
+          data-testid="back-to-case-link"
           component={Link}
           to={`/cases/${caseId}`}
           style={{ margin: "2% 0% 2% 4%" }}

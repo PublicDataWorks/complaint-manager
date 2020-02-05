@@ -52,7 +52,7 @@ class AllegationSearchForm extends React.Component {
     };
 
     return (
-      <div data-test="allegationSearchBox">
+      <div data-testid="allegationSearchBox">
         <form>
           <div style={{ display: "flex" }}>
             <Field
@@ -60,7 +60,7 @@ class AllegationSearchForm extends React.Component {
               name="directive"
               component={renderTextField}
               placeholder="Enter one or more keywords"
-              inputProps={{ "data-test": "directiveField" }}
+              inputProps={{ "data-testid": "directiveField" }}
               style={{ flex: "1", marginRight: "24px" }}
               InputLabelProps={{
                 shrink: true
@@ -83,9 +83,9 @@ class AllegationSearchForm extends React.Component {
               label="Rule"
               name="rule"
               component={Dropdown}
-              data-test="ruleDropdown"
+              data-testid="ruleDropdown"
               inputProps={{
-                "data-test": "ruleInput"
+                "data-testid": "ruleInput"
               }}
               style={{ flex: "1", marginRight: "24px" }}
             >
@@ -96,7 +96,7 @@ class AllegationSearchForm extends React.Component {
               label="Paragraph"
               name="paragraph"
               component={Dropdown}
-              inputProps={{ "data-test": "paragraphInput" }}
+              inputProps={{ "data-testid": "paragraphInput" }}
               style={{ flex: "1", marginRight: "24px" }}
             >
               {currentRuleSelected || currentRuleSelected ? (
@@ -111,7 +111,7 @@ class AllegationSearchForm extends React.Component {
                 disabled={invalid}
                 onClick={handleSubmit(onSubmit)}
                 style={{ margin: "18px 0" }}
-                data-test="allegationSearchSubmitButton"
+                data-testid="allegationSearchSubmitButton"
               >
                 search
               </PrimaryButton>

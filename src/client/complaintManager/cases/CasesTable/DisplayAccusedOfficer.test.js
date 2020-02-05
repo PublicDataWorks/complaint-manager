@@ -19,7 +19,7 @@ describe("DisplayAccusedOfficer", () => {
 
     containsText(
       wrapper,
-      '[data-test="primaryAccusedOfficerName"]',
+      '[data-testid="primaryAccusedOfficerName"]',
       accusedOfficer.fullName
     );
   });
@@ -28,7 +28,7 @@ describe("DisplayAccusedOfficer", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={[]} />);
 
     const nameDisplay = wrapper.find(
-      'div[data-test="primaryAccusedOfficerName"]'
+      'div[data-testid="primaryAccusedOfficerName"]'
     );
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
@@ -37,7 +37,7 @@ describe("DisplayAccusedOfficer", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={null} />);
 
     const nameDisplay = wrapper.find(
-      'div[data-test="primaryAccusedOfficerName"]'
+      'div[data-testid="primaryAccusedOfficerName"]'
     );
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });

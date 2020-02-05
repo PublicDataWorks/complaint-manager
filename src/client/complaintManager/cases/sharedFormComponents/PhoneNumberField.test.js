@@ -23,7 +23,7 @@ describe("Phone number field", () => {
 
   test("should display error when phone number is invalid", () => {
     const phoneNumberInput = phoneNumberFieldComponent.find(
-      'input[data-test="phoneNumberInput"]'
+      'input[data-testid="phoneNumberInput"]'
     );
 
     phoneNumberInput.simulate("focus");
@@ -31,7 +31,7 @@ describe("Phone number field", () => {
     phoneNumberInput.simulate("blur");
 
     const phoneNumberField = phoneNumberFieldComponent.find(
-      'div[data-test="phoneNumberField"]'
+      'div[data-testid="phoneNumberField"]'
     );
     expect(phoneNumberField.text()).toContain(
       "Please enter a numeric 10 digit value"
@@ -41,12 +41,12 @@ describe("Phone number field", () => {
   test("should display number with 1 parentheses when under length of 3", () => {
     changeInput(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "12"
     );
     containsValue(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "(12 )    -    "
     );
   });
@@ -54,12 +54,12 @@ describe("Phone number field", () => {
   test("should display number with 1 parentheses when length of 3", () => {
     changeInput(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "123"
     );
     containsValue(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "(123)    -    "
     );
   });
@@ -67,12 +67,12 @@ describe("Phone number field", () => {
   test("should display number with parentheses and space with length > 3", () => {
     changeInput(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "(123) 4"
     );
     containsValue(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "(123) 4  -    "
     );
   });
@@ -80,11 +80,11 @@ describe("Phone number field", () => {
   test("should display nothing when bad input entered", () => {
     changeInput(
       phoneNumberFieldComponent,
-      '[data-test="phoneNumberInput"]',
+      '[data-testid="phoneNumberInput"]',
       "abc"
     );
     const phoneNumberField = phoneNumberFieldComponent
-      .find('[data-test="phoneNumberInput"]')
+      .find('[data-testid="phoneNumberInput"]')
       .last();
 
     expect(phoneNumberField.instance().value.replace(/\s+/g, "")).toEqual("");

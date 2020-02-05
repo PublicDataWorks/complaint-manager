@@ -47,7 +47,7 @@ const CaseStatusStepper = ({ caseId, status, isArchived }) => {
   return (
     <Fragment>
       <Stepper
-        data-test="statusStepper"
+        data-testid="statusStepper"
         activeStep={getActiveStep(CASE_STATUS_MAP, status)}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}

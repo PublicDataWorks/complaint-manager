@@ -40,7 +40,10 @@ class CaseNotes extends Component {
               View Case History
             </LinkButton>
           </div>
-          <div data-test="caseNotesContainer" style={{ paddingBottom: "16px" }}>
+          <div
+            data-testid="caseNotesContainer"
+            style={{ paddingBottom: "16px" }}
+          >
             {caseNotes.length === 0 ? (
               <Typography variant="body2">
                 No case notes have been added
@@ -53,7 +56,7 @@ class CaseNotes extends Component {
                     activity={activity}
                     caseId={caseId}
                     shouldTruncate={true}
-                    data-test="caseNotesItem"
+                    data-testid="caseNotesItem"
                   />
                 );
               })
@@ -73,7 +76,7 @@ class CaseNotes extends Component {
             this.props.dispatch(openCaseNoteDialog("Add", {}));
           }}
           style={{ margin: "0% 0% 5% 2%" }}
-          data-test="addCaseNoteButton"
+          data-testid="addCaseNoteButton"
         >
           + Add Case Note
         </LinkButton>

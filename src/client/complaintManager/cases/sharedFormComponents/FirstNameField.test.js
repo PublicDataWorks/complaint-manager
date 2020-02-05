@@ -20,18 +20,20 @@ describe("First name field", () => {
       </Provider>
     );
     firstNameInput = firstNameField
-      .find('input[data-test="firstNameInput"]')
+      .find('input[data-testid="firstNameInput"]')
       .last();
   });
 
   test("first name should have max length of 25 characters", () => {
-    const firstName = firstNameField.find('input[data-test="firstNameInput"]');
+    const firstName = firstNameField.find(
+      'input[data-testid="firstNameInput"]'
+    );
     expect(firstName.props().maxLength).toEqual(25);
   });
 
   test("should not be an empty string", () => {
     firstNameInput.simulate("focus");
-    changeInput(firstNameInput, '[data-test="firstNameInput"]', "");
+    changeInput(firstNameInput, '[data-testid="firstNameInput"]', "");
     firstNameInput.simulate("blur");
 
     expect(firstNameField.text()).toContain("Please enter First Name");
@@ -46,7 +48,9 @@ describe("First name field", () => {
   });
 
   test("first name should not use autoComplete", () => {
-    const firstName = firstNameField.find('input[data-test="firstNameInput"]');
+    const firstName = firstNameField.find(
+      'input[data-testid="firstNameInput"]'
+    );
     expect(firstName.props().autoComplete).toEqual("disabled");
   });
 });

@@ -27,7 +27,7 @@ const civilianCommands = {
     this.getAttribute("@expansionPanel", "aria-expanded", expanded => {
       if (expanded.value === "false") {
         api
-          .click('[data-test="complainantWitnessesPanel"] > div')
+          .click('[data-testid="complainantWitnessesPanel"] > div')
           .pause(e2e.pause);
       }
     });
@@ -38,13 +38,13 @@ const civilianCommands = {
 
 const civilianElements = {
   civilianAddress: {
-    selector: '[data-test="civilianAddress"]'
+    selector: '[data-testid="civilianAddress"]'
   },
   editComplainantButton: {
-    selector: "[data-test=editComplainantLink]"
+    selector: "[data-testid=editComplainantLink]"
   },
   expansionPanel: {
-    selector: '[data-test="complainantWitnessesPanel"] > div'
+    selector: '[data-testid="complainantWitnessesPanel"] > div'
   }
 };
 

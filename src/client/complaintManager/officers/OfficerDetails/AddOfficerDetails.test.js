@@ -45,7 +45,7 @@ describe("AddOfficerDetails", function() {
       })
     );
     wrapper.update();
-    const dropdown = wrapper.find('[data-test="roleOnCaseDropdown"]').first();
+    const dropdown = wrapper.find('[data-testid="roleOnCaseDropdown"]').first();
     expect(dropdown.text()).toContain(defaultMessage);
   });
 
@@ -56,14 +56,18 @@ describe("AddOfficerDetails", function() {
       })
     );
     wrapper.update();
-    selectDropdownOption(wrapper, '[data-test="roleOnCaseDropdown"]', ACCUSED);
+    selectDropdownOption(
+      wrapper,
+      '[data-testid="roleOnCaseDropdown"]',
+      ACCUSED
+    );
     wrapper.update();
-    let dropdown = wrapper.find('[data-test="roleOnCaseInput"]');
+    let dropdown = wrapper.find('[data-testid="roleOnCaseInput"]');
 
     expect(dropdown.prop("value")).toContain(ACCUSED);
     wrapper.unmount();
     wrapper.mount();
-    dropdown = wrapper.find('[data-test="roleOnCaseDropdown"]').first();
+    dropdown = wrapper.find('[data-testid="roleOnCaseDropdown"]').first();
     expect(dropdown.text()).toContain(defaultMessage);
   });
 

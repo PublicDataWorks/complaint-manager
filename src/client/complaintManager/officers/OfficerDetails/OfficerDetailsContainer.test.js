@@ -70,7 +70,7 @@ describe("OfficerDetailsContainer", () => {
     );
 
     const backToCaseButton = officerDashboard
-      .find('[data-test="back-to-case-link"]')
+      .find('[data-testid="back-to-case-link"]')
       .last();
     backToCaseButton.simulate("click");
 
@@ -154,7 +154,7 @@ describe("OfficerDetailsContainer", () => {
       </Provider>
     );
     const pageTitle = officerDashboard
-      .find('[data-test="pageTitle"]')
+      .find('[data-testid="pageTitle"]')
       .last()
       .text();
 

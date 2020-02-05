@@ -4,10 +4,10 @@ import { Typography } from "@material-ui/core";
 const DateOfBirthAgeInfoDisplay = props => {
   return (
     <div>
-      <Typography variant="caption" data-test={`${props.testLabel}Label`}>
+      <Typography variant="caption" data-testid={`${props.testLabel}Label`}>
         {props.displayLabel}
       </Typography>
-      <Typography data-test={props.testLabel}>
+      <Typography data-testid={props.testLabel}>
         {!props.birthDate ? "N/A" : `${props.birthDate} (${props.age})`}
       </Typography>
     </div>

@@ -17,7 +17,7 @@ const CaseDetailCard = props => {
 
   const renderCardData = data => {
     return (
-      <div data-test={"caseDetailCardItem"} key={cardData.indexOf(data)}>
+      <div data-testid={"caseDetailCardItem"} key={cardData.indexOf(data)}>
         <br />
         {_.isObject(data) ? (
           Object.keys(data).map(key => {
@@ -76,7 +76,7 @@ const CaseDetailCard = props => {
   const renderAllegationData = allegation => {
     return (
       <div
-        data-test="caseDetailCardAllegation"
+        data-testid="caseDetailCardAllegation"
         key={props.allegations.indexOf(allegation)}
       >
         <br />
@@ -107,7 +107,7 @@ const CaseDetailCard = props => {
       }}
     >
       <CardContent
-        data-test={"caseDetailCard"}
+        data-testid={"caseDetailCard"}
         style={{ paddingBottom: "16px" }}
       >
         <Typography style={styles.section}>{cardTitle}</Typography>

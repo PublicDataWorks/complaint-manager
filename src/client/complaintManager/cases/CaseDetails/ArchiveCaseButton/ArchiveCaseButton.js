@@ -10,7 +10,7 @@ const ArchiveCaseButton = ({ openArchiveCaseDialog }) => {
       <LinkButton
         onClick={openArchiveCaseDialog}
         style={{ textAlign: "right", marginBottom: "16px" }}
-        data-test="archiveCaseButton"
+        data-testid="archiveCaseButton"
       >
         Archive Case
       </LinkButton>
@@ -23,7 +23,4 @@ const mapDispatchToProps = {
   openArchiveCaseDialog
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ArchiveCaseButton);
+export default connect(null, mapDispatchToProps)(ArchiveCaseButton);

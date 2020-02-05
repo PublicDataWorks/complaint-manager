@@ -27,12 +27,12 @@ describe("ManageOfficerMenu", () => {
       </Provider>
     );
 
-    const manage = wrapper.find('[data-test="manageCaseOfficer"]').last();
+    const manage = wrapper.find('[data-testid="manageCaseOfficer"]').last();
     manage.simulate("click");
   });
 
   test("should select officer and redirect when edit known Officer is clicked", () => {
-    const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
+    const editOfficer = wrapper.find('[data-testid="editCaseOfficer"]').last();
     editOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(selectCaseOfficer(caseOfficer));
@@ -58,10 +58,10 @@ describe("ManageOfficerMenu", () => {
       </Provider>
     );
 
-    const manage = wrapper.find('[data-test="manageCaseOfficer"]').last();
+    const manage = wrapper.find('[data-testid="manageCaseOfficer"]').last();
 
     manage.simulate("click");
-    const editOfficer = wrapper.find('[data-test="editCaseOfficer"]').last();
+    const editOfficer = wrapper.find('[data-testid="editCaseOfficer"]').last();
 
     editOfficer.simulate("click");
 
@@ -73,7 +73,7 @@ describe("ManageOfficerMenu", () => {
 
   test("should open remove person dialog with officer details when remove officer is selected", () => {
     const removeOfficer = wrapper
-      .find('[data-test="removeCaseOfficer"]')
+      .find('[data-testid="removeCaseOfficer"]')
       .last();
 
     removeOfficer.simulate("click");
