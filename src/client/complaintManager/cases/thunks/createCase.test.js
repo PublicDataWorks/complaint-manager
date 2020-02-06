@@ -80,6 +80,9 @@ describe("createCase", () => {
       startSubmit(CREATE_CASE_FORM_NAME)
     );
     expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
@@ -162,6 +165,12 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
@@ -208,6 +217,12 @@ describe("createCase", () => {
     await createCase(creationDetails)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
@@ -253,6 +268,12 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
+    expect(dispatch).toHaveBeenCalledWith(
+      startSubmit(CREATE_CASE_FORM_NAME)
+    );
+    expect(dispatch).toHaveBeenCalledWith(
+      stopSubmit(CREATE_CASE_FORM_NAME)
+    );
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );

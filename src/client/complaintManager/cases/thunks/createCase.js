@@ -58,7 +58,8 @@ const createCase = creationDetails => async dispatch => {
       );
     }
     return dispatch(reset(CREATE_CASE_FORM_NAME));
-  } catch (e) {
+  } catch (e) {}
+  finally {
     dispatch(stopSubmit(CREATE_CASE_FORM_NAME));
   }
 };
