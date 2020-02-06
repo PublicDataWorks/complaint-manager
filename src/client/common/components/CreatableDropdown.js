@@ -35,7 +35,6 @@ class CreatableDropdown extends React.Component {
       ) {
         value = value.substring(newTagPrefix.length + 2, value.length - 1);
       }
-      console.log("value and event", value, event);
       const selectedOption = getSelectedOption(value, this.props.children);
       this.props.input.onChange(event && selectedOption);
     }
