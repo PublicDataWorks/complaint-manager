@@ -27,8 +27,6 @@ export const getSelectedOption = (inputValue, options) => {
 
 class CreatableDropdown extends React.Component {
   handleChange = (event, value) => {
-    //if we want to tab over to make a decision, need to get rid of first if statement
-    //this does allow clicks outside of drop down of some selection to update the input
     if (event) {
       if (
         event.type &&
