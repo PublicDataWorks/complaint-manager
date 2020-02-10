@@ -623,7 +623,7 @@ if (TEST_PASS && TEST_USER) {
       const navBar = browser.page.NavBar();
       const loginPage = browser.page.Login();
 
-      navBar.clickGearButton().clickLogout();
+      navBar.clickHamburgerButton().clickLogout();
 
       loginPage.isOnPage();
     },
