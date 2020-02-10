@@ -18,7 +18,7 @@ import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import PIBControlField from "../../sharedFormComponents/PIBControlField";
 import Dropdown from "../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
-import getUsers from "../thunks/getUsers";
+import getUsers from "../../../common/thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
 import {
   firstReviewerRequired,

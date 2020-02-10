@@ -1,7 +1,7 @@
 import axios from "axios";
-import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
-import { snackbarError } from "../../../complaintManager/actionCreators/snackBarActionCreators";
-import { INTERNAL_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { getUsersSuccess } from "../../complaintManager/actionCreators/shared/usersActionCreators";
+import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
+import { INTERNAL_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const getUsers = () => async dispatch => {
   try {
