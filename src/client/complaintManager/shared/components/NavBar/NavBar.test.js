@@ -43,10 +43,10 @@ describe("NavBar", () => {
     expect(nickname.text()).toEqual("");
   });
 
-  describe("gear menu", () => {
+  describe("hamburger menu", () => {
     test("should see log out button", () => {
-      const gearButton = wrapper.find('button[data-testid="gearButton"]');
-      gearButton.simulate("click");
+      const hamburgerButton = wrapper.find('button[data-testid="hamburgerButton"]');
+      hamburgerButton.simulate("click");
 
       const logOutButton = wrapper.find('[data-testid="logOutButton"]');
 
@@ -55,8 +55,8 @@ describe("NavBar", () => {
     });
 
     test("should dismiss menu when clicking away", () => {
-      const gearButton = wrapper.find('[data-testid="gearButton"]').last();
-      gearButton.simulate("click");
+      const hamburgerButton = wrapper.find('[data-testid="hamburgerButton"]').last();
+      hamburgerButton.simulate("click");
 
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
       backdrop.simulate("click");
@@ -78,8 +78,8 @@ describe("NavBar", () => {
       store.dispatch(userAuthSuccess(userInfo));
       wrapper.update();
 
-      const gearButton = wrapper.find('[data-testid="gearButton"]').last();
-      gearButton.simulate("click");
+      const hamburgerButton = wrapper.find('[data-testid="hamburgerButton"]').last();
+      hamburgerButton.simulate("click");
 
       const exportAuditLogMenuItem = wrapper
         .find('[data-testid="exports"]')
