@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import HomeIcon from "@material-ui/icons/Home";
-import Settings from "@material-ui/icons/SettingsSharp";
+import Settings from "@material-ui/icons/MenuSharp";
 import {
   AppBar,
   IconButton,
@@ -101,7 +101,7 @@ class NavBar extends Component {
             onClose={() => this.handleNotificationClick()}
           />
           <IconButton
-            data-testid="gearButton"
+            data-testid="hamburgerButton"
             onClick={this.handleMenuOpen}
             style={{
               color: !this.state.notificationDrawer ? "inherit" : "white"
@@ -114,6 +114,11 @@ class NavBar extends Component {
             open={this.state.menuOpen}
             data-testid="menu"
             style={{ zIndex: theme.zIndex.drawer + 10000 }}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
           >
