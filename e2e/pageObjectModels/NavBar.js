@@ -7,7 +7,7 @@ const navBarCommands = {
       .waitForElementVisible("@archivedCasesLink", e2e.rerenderWait)
       .click("@archivedCasesLink");
   },
-  clickGearButton: function() {
+  clickHamburgerButton: function() {
     return this.click("@menuButton");
   },
   clickLogout: function() {
@@ -26,7 +26,7 @@ const navBarCommands = {
 module.exports = {
   commands: [navBarCommands],
   elements: {
-    menuButton: { selector: "[data-testid='gearButton']" },
+    menuButton: { selector: "[data-testid='hamburgerButton']" },
     archivedCasesLink: {
       selector: "[data-testid='archivedCases']"
     },
