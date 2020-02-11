@@ -34,7 +34,6 @@ class CaseNoteDialog extends Component {
   componentDidMount() {
     this.props.getCaseNoteActionDropdownValues();
     this.props.getUsers();
-    console.log("this.props", this.props);
   }
 
   submit = values => {
@@ -67,10 +66,6 @@ class CaseNoteDialog extends Component {
     const mappedUsers = this.props.allUsers.map(user => {
       return [user.name, user.email];
     });
-    const users = generateMenuOptions(mappedUsers);
-    console.log("Our Users", users);
-
-    //const currentUsers = [{userName: "Syd Botz", id: 1}, {userName: "Veronica Blackwell", id: 2}, {userName: "Wanchen Yao", id: 3}];
 
     return (
       <Dialog open={open} maxWidth={"sm"}>
@@ -138,11 +133,7 @@ class CaseNoteDialog extends Component {
               InputLabelProps={{
                 shrink: true
               }}
-              multiline
-              rowsMax={8}
-              placeholder="Enter any notes about this action"
-              fullWidth
-              props={{ users: generateMenuOptions(mappedUsers) }}
+              users={generateMenuOptions(mappedUsers)}
             />
           </form>
         </DialogContent>
@@ -179,10 +170,6 @@ class CaseNoteDialog extends Component {
   }
 }
 
-const ConnectedForm = reduxForm({
-  form: CASE_NOTE_FORM_NAME
-})(CaseNoteDialog);
-
 const mapStateToProps = state => ({
   open: state.ui.caseNoteDialog.open,
   caseId: state.currentCase.details.id,
@@ -201,4 +188,11 @@ const mapDispatchToProps = {
   getUsers: getUsers
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedForm);
+const connectedForm = reduxForm({
+  form: CASE_NOTE_FORM_NAME,
+  initialValue: {
+    notes: "initial value"
+  }
+})(CaseNoteDialog);
+
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

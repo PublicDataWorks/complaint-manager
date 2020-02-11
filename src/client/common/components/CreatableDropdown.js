@@ -58,6 +58,7 @@ class CreatableDropdown extends React.Component {
       const newTagString = `${newTagPrefix} "${selectedOption.label}"`;
       children = [{ label: newTagString, value: newTagString }, ...children];
     }
+
     return (
       <FormControl style={parentProps.style}>
         <Autocomplete
