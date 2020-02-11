@@ -1,41 +1,87 @@
 import TextField from "@material-ui/core/TextField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Autocomplete, {
+  createFilterOptions
+} from "@material-ui/lab/Autocomplete";
+import FormControl from "@material-ui/core/FormControl";
 
 export const TextFieldWithUserMention = props => {
-  const [caseNoteText, setCaseNoteText] = useState("");
-  const [showUsers, setShowUsers] = useState(false);
-  console.log("Users in Our Component", props.users);
-
   const {
     input,
     rowsMax,
-    meta: { touched, error, warning }
+    meta: { touched, error, warning },
+    users,
+    style,
+    ...parentProps
   } = props;
+  const [caseNoteText, setCaseNoteText] = useState(input.value);
+  const [showUsers, setShowUsers] = useState(false);
 
-  function handleChange(event) {
-    console.log("Event", event.target.value);
-    setCaseNoteText(event.target.value);
+  useEffect(() => {
+    input.onChange(caseNoteText);
+  }, [caseNoteText]);
 
-    if (event.target.value.includes("@")) {
-      setShowUsers(true);
-      console.log("Show me some users!");
-    } else {
-      setShowUsers(false);
-      console.log("Please dont mention me");
+  function handleChange(event, value) {
+    if (event) {
+      if (event.type === "click" || event.type === "keydown") {
+        const indexOfTrigger = caseNoteText.indexOf("@");
+        const updatedCaseNoteText = caseNoteText.substring(
+          0,
+          indexOfTrigger + 1
+        );
+
+        setCaseNoteText(updatedCaseNoteText + value);
+        setShowUsers(false);
+      }
+
+      if (event.type === "change") {
+        setCaseNoteText(event.target.value);
+
+        if (event.target.value.includes("@")) {
+          setShowUsers(true);
+        } else {
+          setShowUsers(false);
+        }
+      }
     }
   }
+
+  const filterOptions = createFilterOptions({
+    stringify: option => option.label
+  });
+
+  const filterAfterTrigger = (options, ref) => {
+    const indexOfTrigger = ref.inputValue.indexOf("@");
+    const updatedInput = ref.inputValue.substring(indexOfTrigger + 1);
+    const newRef = { inputValue: updatedInput };
+    return filterOptions(options, newRef);
+  };
+
   return (
-    <div>
-      <TextField
-        error={touched && !!error}
-        helperText={touched && error ? touched && error : null}
-        rowsMax={rowsMax ? rowsMax : 1}
-        {...input}
-        {...props}
-        onChange={event => handleChange(event)}
-        value={caseNoteText}
-      />
-      {showUsers ? <p> this is a dropdown</p> : null}
-    </div>
+    <Autocomplete
+      filterOptions={(options, ref) => filterAfterTrigger(options, ref)}
+      freeSolo
+      options={users}
+      getOptionLabel={option => option.label}
+      onInputChange={(event, value) => handleChange(event, value)}
+      inputValue={caseNoteText}
+      open={showUsers}
+      disableClearable
+      renderInput={params => {
+        params.inputProps = {
+          ...params.inputProps,
+          ...parentProps.inputProps
+        };
+        return (
+          <TextField
+            {...params}
+            multiline
+            rowsMax={8}
+            fullWidth
+            placeholder="Enter any notes about this action"
+          />
+        );
+      }}
+    />
   );
 };

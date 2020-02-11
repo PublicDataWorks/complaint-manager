@@ -84,7 +84,6 @@ class CreateMatrixDialog extends React.Component {
               component={Dropdown}
               name="firstReviewer"
               label="First Reviewer"
-              isCreatable={false}
               style={{ width: "12rem" }}
               required
               validate={[firstReviewerRequired]}
@@ -100,7 +99,6 @@ class CreateMatrixDialog extends React.Component {
               component={Dropdown}
               name="secondReviewer"
               label="Second Reviewer"
-              isCreatable={false}
               style={{ width: "12rem" }}
               required
               validate={[secondReviewerRequired, reviewersShouldBeDifferent]}
