@@ -14,6 +14,7 @@ import { initialize, reset } from "redux-form";
 import editCaseNote from "../../thunks/editCaseNote";
 import moment from "moment";
 import { getCaseNoteActionsSuccess } from "../../../actionCreators/caseNoteActionActionCreators";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../thunks/addCaseNote", () => values => ({
   type: "MOCK_THUNK",
@@ -225,5 +226,54 @@ describe("CaseNoteDialog", () => {
     };
 
     expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));
+  });
+
+  describe("Notification Feature Toggle", () => {
+    const actionTakenAt = new Date();
+    const initialValues = {
+      actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
+      caseNoteActionId: caseNoteActions.memoToFile[1]
+    };
+
+    beforeEach(() => {
+      store.dispatch(initialize("CaseNotes", initialValues));
+      store.dispatch(openCaseNoteDialog("Edit", initialValues));
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: caseId
+        })
+      );
+
+      wrapper.update();
+    });
+
+    test("should not show user mention dropdown when notificationFeatureFlag is disabled", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: false
+        })
+      );
+      wrapper.update();
+
+      const notesInput = wrapper.find('[data-testid="notes"]');
+
+      expect(
+        notesInput.find("ForwardRef(Autocomplete)").exists()
+      ).not.toBeTrue();
+    });
+
+    test("should show user mention dropdown when notificationFeatureFlag is enabled", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: true
+        })
+      );
+
+      wrapper.update();
+
+      const notesInput = wrapper.find('[data-testid="notes"]');
+
+      expect(notesInput.find("ForwardRef(Autocomplete)").exists()).toBeTrue();
+    });
   });
 });
