@@ -153,32 +153,6 @@ describe("TextFieldWithUserMention", () => {
   //   });
   // });
 
-  test("should see correct options in drop down when drop down occurs filter dropdown choices when user starts typing aft '@' symbol", async () => {
-    //ARRANGE
-    const { queryByText, getByTestId } = renderTextFieldWithUserMention();
-    const textField = getByTestId("notesInput");
-
-    //ACT
-    fireEvent.change(textField, { target: { value: "@" } });
-
-    //ASSERT
-    await wait(() => {
-      expect(queryByText(userList[0].label)).toBeInTheDocument();
-      expect(queryByText(userList[1].label)).toBeInTheDocument();
-      expect(queryByText(userList[2].label)).toBeInTheDocument();
-    });
-
-    //ACT
-    fireEvent.change(textField, { target: { value: "@v" } });
-
-    //ASSERT
-    await wait(() => {
-      expect(queryByText(userList[0].label)).not.toBeInTheDocument();
-      expect(queryByText(userList[1].label)).toBeInTheDocument();
-      expect(queryByText(userList[2].label)).not.toBeInTheDocument();
-    });
-  });
-
   // test("should see '@' and the following text if user chooses option in dropdown in bold", () => {});
   //
   // test("if user deletes a character after selecting an option, dropdown should reoccur and the text along with '@' should no longer be in bold", () => {});

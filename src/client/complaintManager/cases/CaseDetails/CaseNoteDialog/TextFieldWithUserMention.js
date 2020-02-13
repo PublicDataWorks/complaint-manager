@@ -1,9 +1,18 @@
 import TextField from "@material-ui/core/TextField";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Autocomplete, {
   createFilterOptions
 } from "@material-ui/lab/Autocomplete";
-import FormControl from "@material-ui/core/FormControl";
+import * as _ from "lodash";
+import {
+  filterAfterTrigger,
+  getIndexOfCurrentMention,
+  getMentionedUsers
+} from "./userMentionHelperFunctions";
+import {
+  useDetectCursorPosition,
+  useSetCursorPosition
+} from "./userMentionHooks";
 
 export const TextFieldWithUserMention = props => {
   const {
@@ -16,27 +25,38 @@ export const TextFieldWithUserMention = props => {
   } = props;
   const [caseNoteText, setCaseNoteText] = useState(input.value);
   const [showUsers, setShowUsers] = useState(false);
+  const [mentionedUsers, setMentionedUsers] = useState([]);
+  const [cursorPosition, setCursorPosition] = useState(0);
 
   useEffect(() => {
     input.onChange(caseNoteText);
+    const newUsers = getMentionedUsers(users, caseNoteText);
+    setMentionedUsers(newUsers);
   }, [caseNoteText]);
 
-  function handleChange(event, value) {
+  useDetectCursorPosition(useSetCursorPosition(setCursorPosition));
+
+  const addUserMentionNameToCaseNote = value => {
+    const indexOfTrigger = getIndexOfCurrentMention(
+      caseNoteText,
+      cursorPosition
+    );
+    const beginningOfCaseNote = caseNoteText.substring(0, indexOfTrigger + 1);
+    const endOfCaseNote = caseNoteText.substring(cursorPosition + 1);
+
+    return beginningOfCaseNote + value + endOfCaseNote;
+  };
+
+  const handleChange = (event, value) => {
     if (event) {
       if (event.type === "click" || event.type === "keydown") {
-        const indexOfTrigger = caseNoteText.indexOf("@");
-        const updatedCaseNoteText = caseNoteText.substring(
-          0,
-          indexOfTrigger + 1
-        );
-
-        setCaseNoteText(updatedCaseNoteText + value);
+        const updatedCaseNote = addUserMentionNameToCaseNote(value);
+        setCaseNoteText(updatedCaseNote);
         setShowUsers(false);
       }
 
       if (event.type === "change") {
         setCaseNoteText(event.target.value);
-
         if (event.target.value.includes("@")) {
           setShowUsers(true);
         } else {
@@ -44,25 +64,18 @@ export const TextFieldWithUserMention = props => {
         }
       }
     }
-  }
-
-  const filterOptions = createFilterOptions({
-    stringify: option => option.label
-  });
-
-  const filterAfterTrigger = (options, ref) => {
-    const indexOfTrigger = ref.inputValue.indexOf("@");
-    const updatedInput = ref.inputValue.substring(indexOfTrigger + 1);
-    const newRef = { inputValue: updatedInput };
-    return filterOptions(options, newRef);
   };
 
   return (
     <Autocomplete
-      filterOptions={(options, ref) => filterAfterTrigger(options, ref)}
+      filterOptions={(options, ref) =>
+        filterAfterTrigger(options, ref, cursorPosition)
+      }
       freeSolo
       options={users}
-      getOptionLabel={option => option.label}
+      getOptionLabel={option => {
+        return _.isString(option) ? option : option.label;
+      }}
       onInputChange={(event, value) => handleChange(event, value)}
       inputValue={caseNoteText}
       open={showUsers}
