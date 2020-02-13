@@ -5,9 +5,7 @@ import getUsers from "./getUsers";
 import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("../../../common/auth/getAccessToken", () =>
-  jest.fn(() => "TEST_TOKEN")
-);
+jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
 describe("getUsers", () => {
   const dispatch = jest.fn();
