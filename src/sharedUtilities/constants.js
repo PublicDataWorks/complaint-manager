@@ -401,6 +401,18 @@ export const OFFICER_COMPLAINANT_TITLE = "Officer";
 export const DECLINES_OPTION = "Declines to classify";
 
 // ----------------------------------------
+//          Data Dashboard Map
+// ----------------------------------------
+
+export const QUERY_TYPES = {
+  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource"
+};
+
+export const QUERY_TYPE_FILE_MAP = {
+  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource.js"
+};
+
+// ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
 export const CASE_STATUS = {

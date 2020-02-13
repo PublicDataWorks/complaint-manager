@@ -57,6 +57,7 @@ import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./matrixManager/handlers/users/getUsers";
+import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 
@@ -467,6 +468,13 @@ export const API_ROUTES = {
       handler: getUsers,
       errorMessage:
         "Something went wrong and the users could not be found. Please try again."
+    }
+  },
+  "/data": {
+    get: {
+      handler: getData,
+      errorMessage:
+        "Something went wrong and the data could not be retrieved. Please try again."
     }
   },
   "/matrix-manager/matrices": {
