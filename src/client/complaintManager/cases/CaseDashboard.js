@@ -8,6 +8,7 @@ import {
   updateSort
 } from "../actionCreators/casesActionCreators";
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
+import { Visualization } from "../../common/components/Visualization/Visualization";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -20,6 +21,7 @@ class CaseDashboard extends Component {
         <NavBar menuType={complaintManagerMenuOptions}>View All Cases</NavBar>
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
+        <Visualization />
       </div>
     );
   }
@@ -34,7 +36,4 @@ const mapStateToProps = (state, ownProps) => ({
   currentPage: state.cases.working.currentPage
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CaseDashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(CaseDashboard);
