@@ -3,6 +3,7 @@ export const PAGE_NOT_AVAILABLE = "Sorry, that page is not available";
 export const BAD_REQUEST_ERRORS = {
   ACTION_NOT_ALLOWED: `This action is not allowed`,
   CASE_DOES_NOT_EXIST: `This case does not exist`,
+  DATA_QUERY_TYPE_NOT_SUPPORTED: `This query type is not supported`,
   PERMISSIONS_MISSING_TO_UPDATE_STATUS:
     "Missing permissions to update case status",
   PERMISSIONS_MISSING_TO_APPROVE_LETTER:
