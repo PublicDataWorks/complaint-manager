@@ -7,6 +7,7 @@ import models from "../../complaintManager/models";
 import request from "supertest";
 import app from "../../server";
 import Case from "../../../client/complaintManager/testUtilities/case";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 describe("getData", () => {
   afterEach(async () => {
@@ -26,7 +27,7 @@ describe("getData", () => {
       name: "Other"
     });
 
-    const createdCase = await models.cases.create(
+    await models.cases.create(
       new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -79,5 +80,23 @@ describe("getData", () => {
 
     await expectResponse(responsePromise, 200, expectedData);
     done();
+  });
+
+  test("throws an error when query param is not supported", async done => {
+    const unknownQueryType = "unknown";
+    const token = buildTokenWithPermissions("", "tuser");
+
+    request(app)
+      .get("/api/data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .query({ queryType: unknownQueryType })
+      .expect(400)
+      .then(response => {
+        expect(response.body.message).toContain(
+          BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED
+        );
+        done();
+      });
   });
 });
