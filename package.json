@@ -41,6 +41,7 @@
     ]
   },
   "dependencies": {
+    "@hapi/hoek": "~9.0.3",
     "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.40",
@@ -138,6 +139,7 @@
     "**/eslint-utils": "1.4.1",
     "**/https-proxy-agent": "^3.0.0",
     "**/serialize-javascript": "^2.1.1",
-    "**/tree-kill": "^1.2.2"
+    "**/tree-kill": "^1.2.2",
+    "**/mem": "^4.0.0"
   }
 }
