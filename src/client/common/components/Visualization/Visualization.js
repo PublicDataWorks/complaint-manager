@@ -24,8 +24,8 @@ export function Visualization(props) {
   }, []);
   return (
     <Plot
-      data={data.data}
-      layout={{ width: 320, height: 240, title: "A Fancy Plot" }}
+      data={[data.data]}
+      layout={{ width: 500, height: 500, title: "A Fancy Plot" }}
     />
   );
 }
