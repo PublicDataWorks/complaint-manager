@@ -9,6 +9,7 @@ import {
 } from "../actionCreators/casesActionCreators";
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 import { Visualization } from "../../common/components/Visualization/Visualization";
+import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -21,7 +22,9 @@ class CaseDashboard extends Component {
         <NavBar menuType={complaintManagerMenuOptions}>View All Cases</NavBar>
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
-        <Visualization />
+        <Visualization
+          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+        />
       </div>
     );
   }
