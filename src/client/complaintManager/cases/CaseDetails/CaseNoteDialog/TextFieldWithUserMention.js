@@ -49,7 +49,11 @@ export const TextFieldWithUserMention = props => {
 
   const handleChange = (event, value) => {
     if (event) {
-      if (event.type === "click" || event.type === "keydown") {
+      if (
+        event.type === "blur" ||
+        event.type === "click" ||
+        event.type === "keydown"
+      ) {
         const updatedCaseNote = addUserMentionNameToCaseNote(value);
         setCaseNoteText(updatedCaseNote);
         setShowUsers(false);
@@ -68,15 +72,16 @@ export const TextFieldWithUserMention = props => {
 
   return (
     <Autocomplete
+      freeSolo
+      autoSelect={true}
       filterOptions={(options, ref) =>
         filterAfterTrigger(options, ref, cursorPosition)
       }
-      freeSolo
       options={users}
       getOptionLabel={option => {
         return _.isString(option) ? option : option.label;
       }}
-      onInputChange={(event, value) => handleChange(event, value)}
+      onInputChange={handleChange}
       inputValue={caseNoteText}
       open={showUsers}
       disableClearable
