@@ -4,7 +4,7 @@ ISSUES_REPORT_FILE=hawkeye_report.json
 
 hawkeye scan --show-code -t $(pwd) --json $ISSUES_REPORT_FILE -m node-yarnoutdated -f medium;
 yarn_outdated_return=$?;
-hawkeye scan --show-code -t $(pwd) --json $ISSUES_REPORT_FILE -m "files-contents" -m "node-yarnaudit" -f low | grep -v -P --line-buffered '^\[info\] (?!Checking|Running|Scan complete)';
+hawkeye scan --show-code -t $(pwd) --json $ISSUES_REPORT_FILE -m "files-contents" -m "node-yarnaudit" -f low | grep -v '^\[info\] (?!Checking|Running|Scan complete)';
 yarn_audit_return=${PIPESTATUS[0]};
 
 if [[ ${yarn_audit_return} -ne 0 ]]
