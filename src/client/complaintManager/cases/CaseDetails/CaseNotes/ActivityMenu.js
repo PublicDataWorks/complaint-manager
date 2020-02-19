@@ -64,16 +64,22 @@ class ActivityMenu extends React.Component {
           >
             Edit Note
           </MenuItem>
-          <MenuItem
-            data-testid="removeMenuItem"
-            onClick={this.handleRemoveNoteClick}
-          >
-            Remove Note
-          </MenuItem>
+          {this.props.disableCaseNotesRemoval ? null : (
+            <MenuItem
+              data-testid="removeMenuItem"
+              onClick={this.handleRemoveNoteClick}
+            >
+              Remove Note
+            </MenuItem>
+          )}
         </Menu>
       </Fragment>
     );
   }
 }
 
-export default connect()(ActivityMenu);
+const mapStateToProps = state => ({
+  disableCaseNotesRemoval: state.featureToggles.disableCaseNotesRemoval
+});
+
+export default connect(mapStateToProps)(ActivityMenu);
