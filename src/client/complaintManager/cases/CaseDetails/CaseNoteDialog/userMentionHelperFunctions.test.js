@@ -12,7 +12,7 @@ describe("filterAfterTrigger", () => {
   test("should return user as Veronica when case note text is '@v' and cursor follows the 'v'", async () => {
     //ARRANGE
     const ref = { inputValue: "@v" };
-    const cursorPosition = ref.inputValue.indexOf("v");
+    const cursorPosition = ref.inputValue.indexOf("v") + 1;
 
     //ACT
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
@@ -26,7 +26,7 @@ describe("filterAfterTrigger", () => {
   test("should return user as Veronica when case note text is 'my test text @v' and cursor follows the 'v'", async () => {
     //ARRANGE
     const ref = { inputValue: "my test text @v" };
-    const cursorPosition = ref.inputValue.indexOf("v");
+    const cursorPosition = ref.inputValue.indexOf("v") + 1;
 
     //ACT
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
@@ -40,7 +40,7 @@ describe("filterAfterTrigger", () => {
   test("should return user as Veronica when case note text is 'more @v more words' and cursor follows the 'v' ", async () => {
     //ARRANGE
     const ref = { inputValue: "more @v more words" };
-    const cursorPosition = ref.inputValue.indexOf("v");
+    const cursorPosition = ref.inputValue.indexOf("v") + 1;
 
     //ACT
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
@@ -56,7 +56,7 @@ describe("filterAfterTrigger", () => {
     const ref = {
       inputValue: "more @Syd Botz more more @v more @Wanchen Yao words"
     };
-    const cursorPosition = ref.inputValue.indexOf("v");
+    const cursorPosition = ref.inputValue.indexOf("v") + 1;
 
     //ACT
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);

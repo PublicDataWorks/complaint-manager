@@ -8,6 +8,7 @@ import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesAction
 import React from "react";
 import { wait } from "@testing-library/dom";
 import { Field, reduxForm } from "redux-form";
+import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
 describe("TextFieldWithUserMention", () => {
   const userList = [
@@ -16,10 +17,18 @@ describe("TextFieldWithUserMention", () => {
     { label: "Wanchen Yao", value: "some@some.com" }
   ];
 
-  function renderTextFieldWithUserMention() {
+  function renderTextFieldWithUserMention(filterValue = "") {
     const store = createConfiguredStore();
     const TestForm = reduxForm({ form: "testTextFieldWithUserMentionForm" })(
       () => {
+        const filterAfterMention = jest
+          .fn()
+          .mockReturnValue(
+            createFilterOptions({ stringify: option => option.label })(
+              userList,
+              { inputValue: filterValue }
+            )
+          );
         return (
           <Field
             name="notes"
@@ -36,6 +45,7 @@ describe("TextFieldWithUserMention", () => {
             placeholder="Enter any notes about this action"
             fullWidth
             users={userList}
+            filterAfterMention={filterAfterMention}
           />
         );
       }
@@ -134,26 +144,41 @@ describe("TextFieldWithUserMention", () => {
   });
 
   // test("if user chooses an option by pressing enter, the option chosen should be displayed after the '@' sign", async () => {
-  //   //ARRANGE
-  //   const { getByText, getByTestId } = renderTextFieldWithUserMention();
-  //   const textField = getByTestId("notesInput");
-  //   //ACT
-  //   fireEvent.change(textField, { target: { value: "@" } });
+
+  // // Selecting on Enter (a JSDOM limitation?): https://github.com/testing-library/react-testing-library/issues/269
+  // //ARRANGE
+  // const { getByText, getByTestId } = renderTextFieldWithUserMention();
+  // const textField = getByTestId("notesInput");
+  // //ACT
+  // fireEvent.change(textField, { target: { value: "@" } });
   //
-  //   //ARRANGE
-  //   const user1 = getByText(userList[0].label);
+  // //ARRANGE
+  // const user1 = getByText(userList[0].label);
+  // const dropdown = getByTestId("user-dropdown");
+  // user1.focus();
+  // fireEvent.keyDown(user1,{ key: 'enter', keyCode:13 });
   //
-  //   const dropdown = getByTestId("user-dropdown");
-  //   console.log(dropdown.children);
-  //   fireEvent.keyDown(user1,{ key: 'Enter', code: 13 });
-  //
-  //   //ASSERT
-  //   await wait(() => {
-  //     expect(textField.value).toContain("@"+userList[0].label);
-  //   });
+  // //ASSERT
+  // await wait(() => {
+  //   expect(textField.value).toContain("@" + userList[0].label);
+  // });
   // });
 
-  // test("should see '@' and the following text if user chooses option in dropdown in bold", () => {});
-  //
-  // test("if user deletes a character after selecting an option, dropdown should reoccur and the text along with '@' should no longer be in bold", () => {});
+  test("if user deletes a character after selecting an option, dropdown should reoccur and the text along with '@'", async () => {
+    //ARRANGE
+    const { getByTestId, queryByText } = renderTextFieldWithUserMention(
+      "Syd Bot"
+    );
+    const textField = getByTestId("notesInput");
+
+    //ACT (remove last char)
+    fireEvent.change(textField, { target: { value: "@Syd Bot" } });
+
+    //ASSERT (dropdown to appear again)
+    await wait(() => {
+      expect(queryByText(userList[0].label)).toBeInTheDocument();
+      expect(queryByText(userList[1].label)).not.toBeInTheDocument();
+      expect(queryByText(userList[2].label)).not.toBeInTheDocument();
+    });
+  });
 });

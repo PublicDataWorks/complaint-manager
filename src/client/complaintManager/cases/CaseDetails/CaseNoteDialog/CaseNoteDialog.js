@@ -30,6 +30,7 @@ import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/get
 import { TextFieldWithUserMention } from "./TextFieldWithUserMention";
 import getUsers from "../../../../common/thunks/getUsers";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import { filterAfterTrigger } from "./userMentionHelperFunctions";
 
 class CaseNoteDialog extends Component {
   componentDidMount() {
@@ -94,7 +95,7 @@ class CaseNoteDialog extends Component {
             take place outside of the Complaint Manager System. Your name will
             automatically be recorded.
           </Typography>
-          <form>
+          <form onSubmit={event => event.preventDefault()}>
             <DateField
               required
               name={"actionTakenAt"}
@@ -137,6 +138,7 @@ class CaseNoteDialog extends Component {
                   shrink: true
                 }}
                 users={generateMenuOptions(mappedUsers)}
+                filterAfterMention={filterAfterTrigger}
               />
             ) : (
               <Field
