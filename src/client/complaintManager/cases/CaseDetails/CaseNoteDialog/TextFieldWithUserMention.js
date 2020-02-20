@@ -1,18 +1,14 @@
 import TextField from "@material-ui/core/TextField";
-import React, { useCallback, useEffect, useState } from "react";
-import Autocomplete, {
-  createFilterOptions
-} from "@material-ui/lab/Autocomplete";
+import React, { useEffect, useRef, useState } from "react";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import * as _ from "lodash";
 import {
   filterAfterTrigger,
   getIndexOfCurrentMention,
   getMentionedUsers
 } from "./userMentionHelperFunctions";
-import {
-  useDetectCursorPosition,
-  useSetCursorPosition
-} from "./userMentionHooks";
+import { useRunAfterUpdate } from "./userMentionHooks";
+import useOnClickOutside from "../../../shared/components/NavBar/useOnClickOutside";
 
 export const TextFieldWithUserMention = props => {
   const {
@@ -21,12 +17,15 @@ export const TextFieldWithUserMention = props => {
     meta: { touched, error, warning },
     users,
     style,
+    filterAfterMention,
     ...parentProps
   } = props;
   const [caseNoteText, setCaseNoteText] = useState(input.value);
   const [showUsers, setShowUsers] = useState(false);
   const [mentionedUsers, setMentionedUsers] = useState([]);
   const [cursorPosition, setCursorPosition] = useState(0);
+  const runAfterUpdate = useRunAfterUpdate();
+  const ref = useRef();
 
   useEffect(() => {
     input.onChange(caseNoteText);
@@ -34,7 +33,9 @@ export const TextFieldWithUserMention = props => {
     setMentionedUsers(newUsers);
   }, [caseNoteText]);
 
-  useDetectCursorPosition(useSetCursorPosition(setCursorPosition));
+  useOnClickOutside(ref, () => {
+    setShowUsers(false);
+  });
 
   const addUserMentionNameToCaseNote = value => {
     const indexOfTrigger = getIndexOfCurrentMention(
@@ -42,45 +43,65 @@ export const TextFieldWithUserMention = props => {
       cursorPosition
     );
     const beginningOfCaseNote = caseNoteText.substring(0, indexOfTrigger + 1);
-    const endOfCaseNote = caseNoteText.substring(cursorPosition + 1);
+    const endOfCaseNote = caseNoteText.substring(cursorPosition);
 
-    return beginningOfCaseNote + value + endOfCaseNote;
+    return beginningOfCaseNote + value + " " + endOfCaseNote;
+  };
+
+  const updateCursorPosition = (value, input) => {
+    const newCursorPosition =
+      getIndexOfCurrentMention(caseNoteText, cursorPosition) + value.length + 2;
+    input.selectionStart = newCursorPosition;
+    input.selectionEnd = newCursorPosition;
+    setCursorPosition(newCursorPosition);
   };
 
   const handleChange = (event, value) => {
     if (event) {
-      if (
-        event.type === "blur" ||
-        event.type === "click" ||
-        event.type === "keydown"
-      ) {
-        const updatedCaseNote = addUserMentionNameToCaseNote(value);
-        setCaseNoteText(updatedCaseNote);
-        setShowUsers(false);
-      }
+      const input = event.target;
+      const type = event.type;
+      switch (type) {
+        case "blur":
+        case "click":
+        case "keydown":
+          const updatedCaseNote = addUserMentionNameToCaseNote(value);
 
-      if (event.type === "change") {
-        setCaseNoteText(event.target.value);
-        if (event.target.value.includes("@")) {
-          setShowUsers(true);
-        } else {
+          setCaseNoteText(updatedCaseNote);
           setShowUsers(false);
-        }
+
+          runAfterUpdate(() => {
+            updateCursorPosition(value, input);
+          });
+          return;
+        case "change":
+          setCaseNoteText(value);
+          setCursorPosition(input.selectionStart);
+          if (value.includes("@")) {
+            setShowUsers(true);
+          } else {
+            setShowUsers(false);
+          }
+          return;
+        default:
+          break;
       }
     }
   };
 
   return (
     <Autocomplete
+      data-testid={"user-dropdown"}
       freeSolo
+      ref={ref}
       autoSelect={true}
       filterOptions={(options, ref) =>
-        filterAfterTrigger(options, ref, cursorPosition)
+        filterAfterMention(options, ref, cursorPosition)
       }
       options={users}
       getOptionLabel={option => {
         return _.isString(option) ? option : option.label;
       }}
+      value={{ label: "", value: "" }}
       onInputChange={handleChange}
       inputValue={caseNoteText}
       open={showUsers}

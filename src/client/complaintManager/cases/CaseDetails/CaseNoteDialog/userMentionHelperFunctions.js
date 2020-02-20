@@ -30,9 +30,8 @@ export const getIndexOfCurrentMention = (message, cursorPosition) => {
 export const filterAfterTrigger = (options, ref, cursorPosition) => {
   const updatedInput = ref.inputValue.substring(
     getIndexOfCurrentMention(ref.inputValue, cursorPosition) + 1,
-    cursorPosition + 1
+    cursorPosition
   );
-
   const newRef = { inputValue: updatedInput };
   return createFilterOptions({ stringify: option => option.label })(
     options,
