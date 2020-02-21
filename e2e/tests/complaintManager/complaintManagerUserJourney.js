@@ -401,12 +401,34 @@ if (TEST_PASS && TEST_USER) {
       caseDetailsPage.thereIsNoUnknownOfficer();
     },
 
+    "should create a case note and tag someone": browser => {
+      const caseDetailsPage = browser.page.CaseDetails();
+      const snackbar = browser.page.SnackbarPOM();
+      const caseNoteDialog = browser.page.CaseNoteDialog();
+
+      caseDetailsPage.isOnPage().clickAddCaseNoteButton();
+
+      caseNoteDialog
+        .dialogIsOpen()
+        .setActionTaken()
+        .writeCaseNote("Needs another review ")
+        .tagPersonInCaseNote("Syd Botz")
+        .clickSubmitButton();
+
+      snackbar.presentWithMessage("Case note was successfully created").close();
+
+      caseDetailsPage.caseNoteIsPresent("Needs another review @Syd Botz");
+    },
+
     "should begin letter and navigate to case details review page": browser => {
       const caseDetails = browser.page.CaseDetails();
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetails.beginLetter().confirmUpdateStatusInDialog();
+      caseDetails
+        .isOnPage()
+        .beginLetter()
+        .confirmUpdateStatusInDialog();
 
       caseReview.isOnPage();
 

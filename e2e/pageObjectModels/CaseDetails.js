@@ -96,6 +96,18 @@ const caseDetailsCommands = {
       e2e.rerenderWait
     ).assert.containsText("@caseTagsContainer", "No tags have been added");
   },
+  clickAddCaseNoteButton: function() {
+    return this.waitForElementVisible(
+      "@addCaseNoteButton",
+      e2e.rerenderWait
+    ).click("@addCaseNoteButton");
+  },
+  caseNoteIsPresent: function(caseNote) {
+    return this.waitForElementVisible(
+      "@caseNoteText",
+      e2e.rerenderWait
+    ).assert.containsText("@caseNoteText", caseNote);
+  },
   caseReferenceIsAC: function() {
     return this.waitForElementVisible(
       "@caseReference",
@@ -134,6 +146,12 @@ module.exports = {
       },
       removeTagButton: {
         selector: "div[role='button'][data-testid='caseTagChip'] > svg"
+      },
+      addCaseNoteButton: {
+        selector: "[data-testid='addCaseNoteButton']"
+      },
+      caseNoteText: {
+        selector: "[data-testid='notesText']"
       },
       reviewAndApproveButton: {
         selector: "[data-testid='review-and-approve-letter-button']"

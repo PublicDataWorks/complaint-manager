@@ -90,7 +90,7 @@ export const TextFieldWithUserMention = props => {
 
   return (
     <Autocomplete
-      data-testid={"user-dropdown"}
+      data-testid="user-dropdown"
       freeSolo
       ref={ref}
       autoSelect={true}
