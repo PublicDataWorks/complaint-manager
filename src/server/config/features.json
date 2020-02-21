@@ -64,5 +64,13 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "dataVisualizationFeature",
+    "name": "dataVisualizationFeature",
+    "description": "Data Visualization feature",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]
