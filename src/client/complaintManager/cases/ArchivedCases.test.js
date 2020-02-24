@@ -1,6 +1,5 @@
 import React from "react";
 import { mount } from "enzyme";
-import CaseDashboard from "./CaseDashboard";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -19,7 +18,7 @@ getArchivedCases.mockImplementation((sortBy, sortDirection, page) => ({
   type: "MOCK_GET_ARCHIVED_CASES_THUNK"
 }));
 
-describe("CaseDashboard", () => {
+describe("ArchivedCases", () => {
   let archivedCasesWrapper, store, dispatchSpy, cases;
 
   beforeEach(() => {

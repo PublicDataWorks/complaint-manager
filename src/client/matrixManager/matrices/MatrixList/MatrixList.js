@@ -1,7 +1,7 @@
 import NavBar from "../../../complaintManager/shared/components/NavBar/NavBar";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import getUsers from "../thunks/getUsers";
+import getUsers from "../../../common/thunks/getUsers";
 import { matrixManagerMenuOptions } from "../../../complaintManager/shared/components/NavBar/matrixManagerMenuOptions";
 import CreateMatrixButton from "./CreateMatrixButton";
 
@@ -42,7 +42,4 @@ const mapStateToProps = state => ({
   allUsers: state.users.all
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MatrixList);
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixList);

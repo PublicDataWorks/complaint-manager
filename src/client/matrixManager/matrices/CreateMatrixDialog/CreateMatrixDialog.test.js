@@ -16,7 +16,7 @@ jest.mock("../thunks/createMatrix", () => creationDetails => ({
   creationDetails
 }));
 
-jest.mock("../thunks/getUsers", () => users => ({
+jest.mock("../../../common/thunks/getUsers.js", () => users => ({
   type: "MOCK_GET_USERS",
   users
 }));

@@ -36,9 +36,9 @@ class AppRouter extends Component {
     return true;
   };
 
-  createRoute = (path, component) => (
-    <Route exact key={path} path={path} component={component} />
-  );
+  createRoute = (path, component) => {
+    return <Route exact key={path} path={path} component={component}/>
+  };
 }
 
 const mapStateToProps = state => ({
