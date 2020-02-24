@@ -27,11 +27,15 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
+import { TextFieldWithUserMention } from "./TextFieldWithUserMention";
+import getUsers from "../../../../common/thunks/getUsers";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import { filterAfterTrigger } from "./userMentionHelperFunctions";
 
 class CaseNoteDialog extends Component {
   componentDidMount() {
     this.props.getCaseNoteActionDropdownValues();
+    this.props.getUsers();
   }
 
   submit = values => {
@@ -61,6 +65,9 @@ class CaseNoteDialog extends Component {
 
   render() {
     const { open, handleSubmit, dialogType, submitting } = this.props;
+    const mappedUsers = this.props.allUsers.map(user => {
+      return [user.name, user.email];
+    });
 
     return (
       <Dialog open={open} maxWidth={"sm"}>
@@ -88,7 +95,7 @@ class CaseNoteDialog extends Component {
             take place outside of the Complaint Manager System. Your name will
             automatically be recorded.
           </Typography>
-          <form>
+          <form onSubmit={event => event.preventDefault()}>
             <DateField
               required
               name={"actionTakenAt"}
@@ -118,21 +125,39 @@ class CaseNoteDialog extends Component {
             >
               {generateMenuOptions(this.props.caseNoteActions)}
             </Field>
-            <Field
-              name="notes"
-              label="Notes"
-              component={renderTextField}
-              inputProps={{
-                "data-testid": "notesInput"
-              }}
-              InputLabelProps={{
-                shrink: true
-              }}
-              multiline
-              rowsMax={8}
-              placeholder="Enter any notes about this action"
-              fullWidth
-            />
+            {this.props.notificationFeature ? (
+              <Field
+                data-testid="notes"
+                name="notes"
+                label="Notes"
+                component={TextFieldWithUserMention}
+                inputProps={{
+                  "data-testid": "notesInput"
+                }}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                users={generateMenuOptions(mappedUsers)}
+                filterAfterMention={filterAfterTrigger}
+              />
+            ) : (
+              <Field
+                data-testid="notes"
+                name="notes"
+                label="Notes"
+                component={renderTextField}
+                inputProps={{
+                  "data-testid": "notesInput"
+                }}
+                InputLabelProps={{
+                  shrink: true
+                }}
+                multiline
+                rowsMax={8}
+                placeholder="Enter any notes about this action"
+                fullWidth
+              />
+            )}
           </form>
         </DialogContent>
         <DialogActions
@@ -168,16 +193,14 @@ class CaseNoteDialog extends Component {
   }
 }
 
-const ConnectedForm = reduxForm({
-  form: CASE_NOTE_FORM_NAME
-})(CaseNoteDialog);
-
 const mapStateToProps = state => ({
   open: state.ui.caseNoteDialog.open,
   caseId: state.currentCase.details.id,
   dialogType: state.ui.caseNoteDialog.dialogType,
   initialCaseNote: state.ui.caseNoteDialog.initialCaseNote,
-  caseNoteActions: state.ui.caseNoteActions
+  caseNoteActions: state.ui.caseNoteActions,
+  allUsers: state.users.all,
+  notificationFeature: state.featureToggles.notificationFeature
 });
 
 const mapDispatchToProps = {
@@ -185,7 +208,15 @@ const mapDispatchToProps = {
   addCaseNote,
   editCaseNote,
   reset,
-  closeCaseNoteDialog
+  closeCaseNoteDialog,
+  getUsers: getUsers
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConnectedForm);
+const connectedForm = reduxForm({
+  form: CASE_NOTE_FORM_NAME,
+  initialValue: {
+    notes: "initial value"
+  }
+})(CaseNoteDialog);
+
+export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

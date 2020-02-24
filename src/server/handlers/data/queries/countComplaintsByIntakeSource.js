@@ -2,8 +2,11 @@ import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
 
 export const executeQuery = async () => {
+  const date = new Date();
   const where = {
-    deletedAt: null
+    deletedAt: null,
+    firstContactDate: 
+    {[sequelize.Op.gt]: date.setFullYear(date.getFullYear() - 1)}
   };
 
   const queryOptions = {

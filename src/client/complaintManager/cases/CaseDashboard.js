@@ -22,9 +22,15 @@ class CaseDashboard extends Component {
         <NavBar menuType={complaintManagerMenuOptions}>View All Cases</NavBar>
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
-        <Visualization
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-        />
+        {this.props.dataVisualizationFeature ? (
+        <div data-testid={"dataVisualization"}>
+        {this.props.isTest || false ? <div >This is a test</div> : 
+          <Visualization
+            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+          />
+        }
+        </div>
+        ) : null}
       </div>
     );
   }
@@ -36,7 +42,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  currentPage: state.cases.working.currentPage
+  currentPage: state.cases.working.currentPage,
+  dataVisualizationFeature: state.featureToggles.dataVisualizationFeature
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaseDashboard);

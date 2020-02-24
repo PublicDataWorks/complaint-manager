@@ -18,7 +18,7 @@ import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import PIBControlField from "../../sharedFormComponents/PIBControlField";
 import Dropdown from "../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../../complaintManager/utilities/generateMenuOptions";
-import getUsers from "../thunks/getUsers";
+import getUsers from "../../../common/thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
 import {
   firstReviewerRequired,
@@ -84,7 +84,6 @@ class CreateMatrixDialog extends React.Component {
               component={Dropdown}
               name="firstReviewer"
               label="First Reviewer"
-              isCreatable={false}
               style={{ width: "12rem" }}
               required
               validate={[firstReviewerRequired]}
@@ -100,7 +99,6 @@ class CreateMatrixDialog extends React.Component {
               component={Dropdown}
               name="secondReviewer"
               label="Second Reviewer"
-              isCreatable={false}
               style={{ width: "12rem" }}
               required
               validate={[secondReviewerRequired, reviewersShouldBeDifferent]}

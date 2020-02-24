@@ -209,7 +209,7 @@ exports[`generateComplainantLetterPdfBuffer pdf buffer should generate complaina
             </div>
         </div>
         <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
-            Chuck<br/>
+            <br/>
             July 01, 2018<br/>
             Page {{page}}
         </div>
@@ -236,14 +236,14 @@ exports[`generateComplainantLetterPdfBuffer pdf buffer should generate complaina
         </p>
         <p><br/></p>
         <p>
-         Berry
+         
             <p>cberry@cberry.com</p>
         </p>
         <p><br/></p>
         <p>Re: OIPM Complaint# AC2017-0001</p>
         <p><br/></p>
         <p>Dear 
-                            Chuck Berry:
+                             :
         </p>
         <p><br/></p>
         <p>

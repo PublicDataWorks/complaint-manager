@@ -30,7 +30,9 @@ class CreatableDropdown extends React.Component {
     if (event) {
       if (
         event.type &&
-        (event.type === "click" || event.type === "keydown") &&
+        (event.type === "blur" ||
+          event.type === "click" ||
+          event.type === "keydown") &&
         value.includes(newTagPrefix)
       ) {
         value = value.substring(newTagPrefix.length + 2, value.length - 1);
@@ -58,6 +60,7 @@ class CreatableDropdown extends React.Component {
       const newTagString = `${newTagPrefix} "${selectedOption.label}"`;
       children = [{ label: newTagString, value: newTagString }, ...children];
     }
+
     return (
       <FormControl style={parentProps.style}>
         <Autocomplete
