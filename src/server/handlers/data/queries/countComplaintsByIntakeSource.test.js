@@ -8,6 +8,7 @@ import request from "supertest";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import app from "../../../server";
+import { response } from "express";
 
 describe("executeQuery", () => {
   afterEach(async () => {
@@ -82,7 +83,11 @@ describe("executeQuery", () => {
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
 
-    await expectResponse(responsePromise, 200, expectedData);
+    await responsePromise.then(response => {
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toHaveLength(3);
+      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+    });
     done();
   });
 
