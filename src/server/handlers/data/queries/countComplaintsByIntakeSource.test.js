@@ -30,6 +30,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
+        .withFirstContactDate("2020-02-21")
         .withId(undefined)
         .withIntakeSourceId(emailIntakeSource.id),
       {
@@ -40,6 +41,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
+        .withFirstContactDate("2020-02-21")
         .withIntakeSourceId(facebookIntakeSource.id),
       {
         auditUser: "someone"
@@ -49,6 +51,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
+        .withFirstContactDate("2020-02-21")
         .withId(undefined)
         .withIntakeSourceId(facebookIntakeSource.id),
       {
@@ -59,6 +62,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
+        .withFirstContactDate("2020-02-21")
         .withId(undefined)
         .withIntakeSourceId(otherIntakeSource.id),
       {
@@ -67,9 +71,9 @@ describe("executeQuery", () => {
     );
 
     const expectedData = [
-      { cases: "1", name: "Email" },
       { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
+      { cases: "1", name: "Other" },
+      { cases: "1", name: "Email" }
     ];
 
     const responsePromise = request(app)
