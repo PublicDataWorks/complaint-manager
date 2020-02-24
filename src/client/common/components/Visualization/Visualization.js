@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
-import Plot from "react-plotly.js";
+// import Plot from "react-plotly.js";
 import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -34,9 +34,10 @@ export function Visualization(props) {
     fetchData();
   }, []);
   return (
-    <Plot
-      data={[data.data]}
-      layout={{ width: 500, height: 500, title: "Complaints by Intake Source", margin: 20}}
-    />
+    <div></div>
+    // <Plot
+    //   data={[data.data]}
+    //   layout={{ width: 500, height: 500, title: "Complaints by Intake Source", margin: 20}}
+    // />
   );
 }
