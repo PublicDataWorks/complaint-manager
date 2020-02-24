@@ -142,10 +142,7 @@
     "**/https-proxy-agent": "^3.0.0",
     "**/serialize-javascript": "^2.1.1",
     "**/tree-kill": "^1.2.2",
-<<<<<<< HEAD
-    "**/mem": "^4.0.0"
-=======
+    "**/mem": "^4.0.0",
     "**/static-eval": "^2.0.2"
->>>>>>> Sabrina/Syd [#171221336] Added feature toggle for visualizations and stopped plotly visualizations from rendering in client tests
   }
 }
