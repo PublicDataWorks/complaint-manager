@@ -69,8 +69,6 @@
     "id": "dataVisualizationFeature",
     "name": "dataVisualizationFeature",
     "description": "Data Visualization feature",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": false
   }
 ]
