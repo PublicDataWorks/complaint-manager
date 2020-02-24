@@ -31,7 +31,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on navBar", async () => {
     //ARRANGE
-    const { getByTestId, getByText, queryByText } = renderNavBar();
+    const { getByTestId, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
     const headerUserName = getByTestId("userNickName");
 
@@ -40,7 +40,7 @@ describe("notifications menu", () => {
 
     // ASSERT -- drawer is open
     await wait(() => {
-      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
     // ACT -- close drawer by clicking on header
@@ -54,7 +54,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on backdrop", async () => {
     //ARRANGE
-    const { getByTestId, getByText, queryByText } = renderNavBar();
+    const { getByTestId, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer
@@ -62,7 +62,7 @@ describe("notifications menu", () => {
 
     // ASSERT -- drawer is open
     await wait(() => {
-      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
     // ACT -- close drawer by clicking on backdrop
@@ -76,7 +76,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and close drawer when clicking on bell", async () => {
     //ARRANGE
-    const { getByTestId, getByText, queryByText } = renderNavBar();
+    const { getByTestId, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer
@@ -84,7 +84,7 @@ describe("notifications menu", () => {
 
     // ASSERT -- drawer is open
     await wait(() => {
-      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
     // ACT -- close drawer by clicking on bell
@@ -98,7 +98,7 @@ describe("notifications menu", () => {
 
   test("should open notification drawer when clicking bell icon and stay open when clicking on itself", async () => {
     //ARRANGE
-    const { getByTestId, getByText, queryByText } = renderNavBar();
+    const { getByTestId, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
 
     // ACT -- open drawer
@@ -106,7 +106,7 @@ describe("notifications menu", () => {
 
     // ASSERT -- drawer is open
     await wait(() => {
-      expect(getByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
     // ARRANGE

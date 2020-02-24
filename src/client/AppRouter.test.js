@@ -8,6 +8,8 @@ import StyleGuide from "./common/globalStyling/StyleGuide";
 import AppRouter from "./AppRouter";
 import { MatrixList } from "./matrixManager/matrices/MatrixList/MatrixList";
 
+jest.mock("./common/components/Visualization/Visualization", () => 'Visualization');
+
 describe("AppRouter", () => {
   let appWrapper, store;
 
