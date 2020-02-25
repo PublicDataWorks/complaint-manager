@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import * as _ from "lodash";
 import {
-  filterAfterTrigger,
   getIndexOfCurrentMention,
   getMentionedUsers
 } from "./userMentionHelperFunctions";
@@ -22,7 +21,6 @@ export const TextFieldWithUserMention = props => {
   } = props;
   const [caseNoteText, setCaseNoteText] = useState(input.value);
   const [showUsers, setShowUsers] = useState(false);
-  const [mentionedUsers, setMentionedUsers] = useState([]);
   const [cursorPosition, setCursorPosition] = useState(0);
   const runAfterUpdate = useRunAfterUpdate();
   const ref = useRef();
@@ -30,7 +28,7 @@ export const TextFieldWithUserMention = props => {
   useEffect(() => {
     input.onChange(caseNoteText);
     const newUsers = getMentionedUsers(users, caseNoteText);
-    setMentionedUsers(newUsers);
+    props.onSetMentionedUsers(newUsers);
   }, [caseNoteText]);
 
   useOnClickOutside(ref, () => {
