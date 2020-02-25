@@ -1,3 +1,5 @@
+const models = "./";
+
 module.exports = (sequelize, DataTypes) => {
   const Notification = sequelize.define(
     "notification",
@@ -13,25 +15,27 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       previewText: {
+        field: "preview_text",
         allowNull: false,
         type: DataTypes.STRING
       },
       hasBeenRead: {
+        field: "has_been_read",
         allowNull: false,
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-      created_at: {
+      createdAt: {
         allowNull: false,
         field: "created_at",
         type: DataTypes.DATE
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         field: "updated_at",
         type: DataTypes.DATE
       },
-      deleted_at: {
+      deletedAt: {
         field: "deleted_at",
         type: DataTypes.DATE
       }
@@ -40,13 +44,25 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Notification.associate = models => {
-    Notification.belongsTo(models.cases, {
+    Notification.belongsTo(models.case_note, {
       foreignKey: {
-        name: "caseId",
-        field: "case_id",
+        name: "caseNoteId",
+        field: "case_note_id",
         allowNull: false
       }
     });
   };
+
+  Notification.prototype.getCaseNoteId = async function(transaction) {
+    return this.caseNoteId;
+  };
+
+  // Notification.prototype.getCaseId = async function(transaction) {
+  //   const caseNote = await sequelize
+  //     .model("case_note")
+  //     .findByPk(this.caseNoteId, transaction);
+  //   return caseNote.getCaseId();
+  // };
+
   return Notification;
 };

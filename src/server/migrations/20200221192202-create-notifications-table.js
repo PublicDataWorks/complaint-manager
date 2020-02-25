@@ -10,15 +10,19 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER
         },
+        case_note_id: {
+          allowNull: false,
+          type: Sequelize.INTEGER
+        },
         user: {
           allowNull: false,
           type: Sequelize.STRING
         },
-        previewText: {
+        preview_text: {
           allowNull: false,
           type: Sequelize.STRING
         },
-        hasBeenRead: {
+        has_been_read: {
           allowNull: false,
           type: Sequelize.BOOLEAN
         },
