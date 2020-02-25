@@ -1,6 +1,8 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import Boom from "boom";
 
 const {
   AUDIT_SUBJECT,
@@ -9,17 +11,29 @@ const {
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../complaintManager/models");
 
-const createCaseNote = asyncMiddleware(async (request, response) => {
+const createCaseNote = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
-    await models.case_note.create(
-      {
-        ...request.body,
-        user: request.nickname,
-        caseId: request.params.caseId
-      },
-      {
-        transaction,
-        auditUser: request.nickname
+    const { mentionedUsers, ...requestBody } = request.body;
+    let caseNoteId = null;
+    await models.case_note
+      .create(
+        {
+          ...requestBody,
+          user: request.nickname,
+          caseId: request.params.caseId
+        },
+        {
+          transaction,
+          auditUser: request.nickname
+        }
+      )
+      .then(data => {
+        caseNoteId = data.dataValues.id;
+      });
+
+    await createNotification(mentionedUsers, requestBody, caseNoteId).catch(
+      () => {
+        throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
       }
     );
 
@@ -58,6 +72,20 @@ const createCaseNote = asyncMiddleware(async (request, response) => {
 
   response.status(201).send(currentCase);
 });
+
+export const createNotification = async (
+  mentionedUsers,
+  requestBody,
+  caseNoteId
+) => {
+  for (const user in mentionedUsers) {
+    await models.notification.create({
+      user: mentionedUsers[user].value,
+      previewText: requestBody.notes,
+      caseNoteId
+    });
+  }
+};
 
 async function getCaseNotesAndAuditDetails(caseId, transaction) {
   const caseNotesQueryOptions = {

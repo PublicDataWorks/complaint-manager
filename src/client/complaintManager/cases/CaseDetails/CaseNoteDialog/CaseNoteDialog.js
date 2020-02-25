@@ -33,10 +33,24 @@ import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import { filterAfterTrigger } from "./userMentionHelperFunctions";
 
 class CaseNoteDialog extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mentionedUsers: []
+    };
+    this.handleMentionedUsers = this.handleMentionedUsers.bind(this);
+  }
+
   componentDidMount() {
     this.props.getCaseNoteActionDropdownValues();
     this.props.getUsers();
   }
+
+  handleMentionedUsers = mentionedUsers => {
+    this.setState({
+      mentionedUsers
+    });
+  };
 
   submit = values => {
     const { caseId, initialCaseNote, dialogType } = this.props;
@@ -44,11 +58,16 @@ class CaseNoteDialog extends Component {
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
       initialCaseNote.actionTakenAt
     )
-      ? { ..._.omit(values, ["actionTakenAt"]), caseId }
+      ? {
+          ..._.omit(values, ["actionTakenAt"]),
+          caseId,
+          mentionedUsers: this.state.mentionedUsers
+        }
       : {
           ...values,
           actionTakenAt: timezone.tz(values.actionTakenAt, TIMEZONE).format(),
-          caseId
+          caseId,
+          mentionedUsers: this.state.mentionedUsers
         };
 
     switch (dialogType) {
@@ -139,6 +158,7 @@ class CaseNoteDialog extends Component {
                 }}
                 users={generateMenuOptions(mappedUsers)}
                 filterAfterMention={filterAfterTrigger}
+                onSetMentionedUsers={this.handleMentionedUsers}
               />
             ) : (
               <Field
@@ -219,4 +239,7 @@ const connectedForm = reduxForm({
   }
 })(CaseNoteDialog);
 
-export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(connectedForm);

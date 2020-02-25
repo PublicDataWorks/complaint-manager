@@ -11,11 +11,14 @@ import * as httpMocks from "node-mocks-http";
 import moment from "moment";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import Boom from "boom";
 
 jest.mock("../audits/auditDataAccess");
 
 describe("createCaseNote", function() {
   let createdCase, request, response, next;
+  const actionTaken = moment();
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -35,12 +38,13 @@ describe("createCaseNote", function() {
     createdCase = await models.cases.create(caseToCreate, {
       auditUser: "someone"
     });
+
     request = httpMocks.createRequest({
       method: "POST",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      body: { action: "some action", actionTakenAt: moment() },
+      body: { actionTakenAt: actionTaken, notes: "wow" },
       params: {
         caseId: createdCase.id
       },
@@ -48,6 +52,72 @@ describe("createCaseNote", function() {
     });
     response = httpMocks.createResponse();
     next = jest.fn();
+  });
+
+  describe("create a case note", () => {
+    test("should create a case note", async () => {
+      await createCaseNote(request, response, next);
+      const caseNote = await models.case_note.findOne();
+      const notification = await models.notification.findOne({
+        where: { caseNoteId: caseNote.id }
+      });
+
+      expect(caseNote).toEqual(
+        expect.objectContaining({
+          caseId: createdCase.id,
+          notes: "wow"
+        })
+      );
+
+      expect(notification).toBeNull();
+    });
+
+    test("should create a case note with a notification", async () => {
+      const mentionedUsers = [{ label: "Test", value: "test@test.com" }];
+      request.body = {
+        ...request.body,
+        notes: "Sup @Test",
+        mentionedUsers
+      };
+      await createCaseNote(request, response, next);
+      const caseNote = await models.case_note.findOne({
+        where: {
+          notes: "Sup @Test"
+        }
+      });
+
+      const notification = await models.notification.findOne({
+        where: { caseNoteId: caseNote.id }
+      });
+
+      expect(caseNote).toEqual(
+        expect.objectContaining({
+          caseId: createdCase.id,
+          notes: "Sup @Test"
+        })
+      );
+
+      expect(notification).toEqual(
+        expect.objectContaining({
+          previewText: "Sup @Test",
+          user: "test@test.com"
+        })
+      );
+    });
+
+    test("should throw error if error in notification", async () => {
+      const mentionedUsers = [{ label: "Test", value: undefined }];
+      request.body = {
+        ...request.body,
+        notes: "Sup @Test",
+        mentionedUsers
+      };
+      await createCaseNote(request, response, next);
+
+      expect(next).toHaveBeenCalledWith(
+        Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR)
+      );
+    });
   });
 
   describe("auditing", () => {
