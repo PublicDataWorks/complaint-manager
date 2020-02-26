@@ -46,6 +46,7 @@ describe("TextFieldWithUserMention", () => {
             fullWidth
             users={userList}
             filterAfterMention={filterAfterMention}
+            onSetMentionedUsers={jest.fn()}
           />
         );
       }
