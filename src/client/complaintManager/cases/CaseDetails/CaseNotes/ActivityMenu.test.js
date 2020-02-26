@@ -10,12 +10,13 @@ import {
 import { Provider } from "react-redux";
 import moment from "moment";
 import { initialize } from "redux-form";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 describe("ActivityMenu", () => {
-  let wrapper, activityMenuButton, dispatchSpy, caseId, activity;
+  let wrapper, activityMenuButton, dispatchSpy, caseId, activity, store;
 
   beforeEach(() => {
-    const store = createConfiguredStore();
+    store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = 1;
     activity = {
@@ -75,17 +76,41 @@ describe("ActivityMenu", () => {
     expect(activityMenu.props().open).toEqual(false);
   });
 
-  test("should open remove note dialog and close menu when remove note button clicked", () => {
-    activityMenuButton.simulate("click");
-    const removeMenuItem = wrapper
-      .find('[data-testid="removeMenuItem"]')
-      .last();
-    removeMenuItem.simulate("click");
-    const activityMenu = wrapper.find(Menu);
+  describe("when DisableCaseNotesRemoval feature is enabled", () => {
+    test("does NOT display option to remove case note", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          disableCaseNotesRemoval: true
+        })
+      );
+      wrapper.update();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemoveCaseNoteDialog(activity)
-    );
-    expect(activityMenu.props().open).toEqual(false);
+      expect(
+        wrapper.find('[data-testid="removeMenuItem"]').exists()
+      ).toBeFalse();
+    });
+  });
+
+  describe("when DisableCaseNotesRemoval feature is disabled", () => {
+    test("should open remove note dialog and close menu when remove note button clicked", () => {
+      store.dispatch(
+        getFeaturesSuccess({
+          disableCaseNotesRemoval: false
+        })
+      );
+      wrapper.update();
+
+      activityMenuButton.simulate("click");
+      const removeMenuItem = wrapper
+        .find('[data-testid="removeMenuItem"]')
+        .last();
+      removeMenuItem.simulate("click");
+      const activityMenu = wrapper.find(Menu);
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openRemoveCaseNoteDialog(activity)
+      );
+      expect(activityMenu.props().open).toEqual(false);
+    });
   });
 });
