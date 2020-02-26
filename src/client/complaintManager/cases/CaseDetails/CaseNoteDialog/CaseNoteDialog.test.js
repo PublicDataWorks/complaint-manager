@@ -15,6 +15,8 @@ import editCaseNote from "../../thunks/editCaseNote";
 import moment from "moment";
 import { getCaseNoteActionsSuccess } from "../../../actionCreators/caseNoteActionActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import getUsers from "../../../../common/thunks/getUsers";
+import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
 
 jest.mock("../../thunks/addCaseNote", () => values => ({
   type: "MOCK_THUNK",
@@ -38,6 +40,7 @@ jest.mock(
 describe("CaseNoteDialog", () => {
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
+  const mentionedUsers = [{ label: "Test", value: "test@test.com" }];
   let wrapper;
   const caseId = 12;
   const caseNoteActions = {
@@ -92,7 +95,8 @@ describe("CaseNoteDialog", () => {
     const submittedValues = {
       caseId: caseId,
       actionTakenAt: "2018-05-16T18:47:00-05:00",
-      caseNoteActionId: caseNoteActions.memoToFile[1]
+      caseNoteActionId: caseNoteActions.memoToFile[1],
+      mentionedUsers: []
     };
 
     changeInput(
@@ -120,7 +124,8 @@ describe("CaseNoteDialog", () => {
 
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: "2018-05-16T18:47:00-05:00"
+      actionTakenAt: "2018-05-16T18:47:00-05:00",
+      mentionedUsers: []
     };
 
     changeInput(
@@ -143,6 +148,14 @@ describe("CaseNoteDialog", () => {
       })
     );
 
+    store.dispatch(
+      getFeaturesSuccess({
+        notificationFeature: true
+      })
+    );
+    store.dispatch(getUsers());
+    store.dispatch(getUsersSuccess([{ name: "Test", email: "test@test.com" }]));
+
     wrapper.update();
 
     const dateWithOutTimeZone = "2018-05-16T18:47";
@@ -151,7 +164,9 @@ describe("CaseNoteDialog", () => {
       caseId: caseId,
       actionTakenAt: "2018-05-16T18:47:00-05:00",
       caseNoteActionId: caseNoteActions.memoToFile[1],
-      notes: "these are notes"
+
+      notes: "these are notes @Test",
+      mentionedUsers: mentionedUsers
     };
 
     changeInput(
@@ -222,7 +237,8 @@ describe("CaseNoteDialog", () => {
     const valuesToSubmit = {
       caseId: caseId,
       notes: caseNotes,
-      caseNoteActionId: caseNoteActions.memoToFile[1]
+      caseNoteActionId: caseNoteActions.memoToFile[1],
+      mentionedUsers: []
     };
 
     expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));
