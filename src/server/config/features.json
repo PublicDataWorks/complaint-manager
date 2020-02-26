@@ -69,6 +69,12 @@
     "id": "dataVisualizationFeature",
     "name": "dataVisualizationFeature",
     "description": "Data Visualization feature",
+    "enabled": false
+  },
+  {
+    "id": "disableCaseNotesRemoval",
+    "name": "disableCaseNotesRemoval",
+    "description": "Disable removal of case notes",
     "criteria": {
       "isPreProd": true
     }
