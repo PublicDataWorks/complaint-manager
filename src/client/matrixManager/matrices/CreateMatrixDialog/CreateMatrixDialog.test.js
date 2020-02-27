@@ -8,7 +8,7 @@ import {
   expectEventuallyNotToExist,
   findDropdownOption
 } from "../../../testHelpers";
-import { getUsersSuccess } from "../../../complaintManager/actionCreators/shared/usersActionCreators";
+import { getUsersSuccess } from "../../../common/actionCreators/usersActionCreators";
 import createMatrix from "../thunks/createMatrix";
 
 jest.mock("../thunks/createMatrix", () => creationDetails => ({

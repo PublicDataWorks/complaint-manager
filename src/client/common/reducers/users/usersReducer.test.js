@@ -1,4 +1,4 @@
-import { getUsersSuccess } from "../../actionCreators/shared/usersActionCreators";
+import { getUsersSuccess } from "../../actionCreators/usersActionCreators";
 import usersReducer from "./usersReducer";
 
 describe("userReducer", () => {

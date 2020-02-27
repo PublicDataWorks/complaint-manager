@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getUsersSuccess } from "../../complaintManager/actionCreators/shared/usersActionCreators";
+import { getUsersSuccess } from "../actionCreators/usersActionCreators";
 import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
