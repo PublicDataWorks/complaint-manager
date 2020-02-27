@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      mentioner: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       previewText: {
         field: "preview_text",
         allowNull: false,
@@ -56,13 +60,6 @@ module.exports = (sequelize, DataTypes) => {
   Notification.prototype.getCaseNoteId = async function(transaction) {
     return this.caseNoteId;
   };
-
-  // Notification.prototype.getCaseId = async function(transaction) {
-  //   const caseNote = await sequelize
-  //     .model("case_note")
-  //     .findByPk(this.caseNoteId, transaction);
-  //   return caseNote.getCaseId();
-  // };
 
   return Notification;
 };

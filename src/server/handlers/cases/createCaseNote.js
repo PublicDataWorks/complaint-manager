@@ -14,28 +14,32 @@ const models = require("../../complaintManager/models");
 const createCaseNote = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
     const { mentionedUsers, ...requestBody } = request.body;
+    const mentioner = request.nickname;
     let caseNoteId = null;
     await models.case_note
       .create(
         {
           ...requestBody,
-          user: request.nickname,
+          user: mentioner,
           caseId: request.params.caseId
         },
         {
           transaction,
-          auditUser: request.nickname
+          auditUser: mentioner
         }
       )
       .then(data => {
         caseNoteId = data.dataValues.id;
       });
 
-    await createNotification(mentionedUsers, requestBody, caseNoteId).catch(
-      () => {
-        throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
-      }
-    );
+    await createNotification(
+      mentionedUsers,
+      requestBody,
+      caseNoteId,
+      mentioner
+    ).catch(() => {
+      throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
+    });
 
     const caseNotesAndAuditDetails = await getCaseNotesAndAuditDetails(
       request.params.caseId,
@@ -76,13 +80,15 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
 export const createNotification = async (
   mentionedUsers,
   requestBody,
-  caseNoteId
+  caseNoteId,
+  mentioner
 ) => {
   for (const user in mentionedUsers) {
     await models.notification.create({
       user: mentionedUsers[user].value,
       previewText: requestBody.notes,
-      caseNoteId
+      caseNoteId,
+      mentioner
     });
   }
 };
