@@ -58,16 +58,12 @@ import {
   renderTextField,
   renderRadioGroup
 } from "../../sharedFormComponents/renderFunctions";
+import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 const styles = {
   dialogPaper: {
     minWidth: "40%"
   }
-};
-
-const scrollToFirstError = (errors) => {
-  const firstError = Object.keys(errors)[0];
-  document.querySelector(`[name="${firstError}"]`).focus();
 };
 
 class CivilianDialog extends Component {
@@ -151,7 +147,7 @@ class CivilianDialog extends Component {
                   width: "95px",
                   marginBottom: "3%"
                 }}
-                inputProps={{ "data-testid": "titleInput" , "name": "civilianTitleId"}}
+                inputProps={{ "data-testid": "titleInput"}}
                 validate={[titleIsRequired]}
               >
                 {generateMenuOptions(this.props.civilianTitles)}
@@ -211,7 +207,7 @@ class CivilianDialog extends Component {
                   marginBottom: "3%",
                   marginLeft: "28px"
                 }}
-                inputProps={{ "data-testid": "genderInput", "name": "genderIdentityId"}}
+                inputProps={{ "data-testid": "genderInput"}}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -224,7 +220,7 @@ class CivilianDialog extends Component {
               hinttext="Race/Ethnicity"
               data-testid="raceDropdown"
               style={{ width: "75%" }}
-              inputProps={{ "data-testid": "raceEthnicityInput", "name": "raceEthnicityId"}}
+              inputProps={{ "data-testid": "raceEthnicityInput"}}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenuOptions(this.props.raceEthnicities)}
