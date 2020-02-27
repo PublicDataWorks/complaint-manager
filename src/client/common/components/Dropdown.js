@@ -57,6 +57,7 @@ class Dropdown extends React.Component {
               <TextField
                 fullWidth
                 {...params}
+                name={parentProps.input.name}
                 label={parentProps.label}
                 InputLabelProps={{ required: parentProps.required }}
                 helperText={hasError && parentProps.meta.error}
