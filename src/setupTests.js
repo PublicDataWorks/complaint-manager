@@ -23,3 +23,14 @@ winston.configure({
   level: config.winston.logLevel,
   colorize: true
 });
+
+if (global.document) {
+  document.createRange = () => ({
+    setStart: () => {},
+    setEnd: () => {},
+    commonAncestorContainer: {
+      nodeName: 'BODY',
+      ownerDocument: document,
+    },
+  });
+}
