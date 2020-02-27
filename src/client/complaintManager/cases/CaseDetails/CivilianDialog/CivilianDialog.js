@@ -54,7 +54,6 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
-import InputLabel from "@material-ui/core/InputLabel";
 import {
   renderTextField,
   renderRadioGroup
@@ -64,6 +63,11 @@ const styles = {
   dialogPaper: {
     minWidth: "40%"
   }
+};
+
+const scrollToFirstError = (errors) => {
+  const firstError = Object.keys(errors)[0];
+  document.querySelector(`[name="${firstError}"]`).focus();
 };
 
 class CivilianDialog extends Component {
@@ -147,7 +151,7 @@ class CivilianDialog extends Component {
                   width: "95px",
                   marginBottom: "3%"
                 }}
-                inputProps={{ "data-testid": "titleInput" }}
+                inputProps={{ "data-testid": "titleInput" , "name": "civilianTitleId"}}
                 validate={[titleIsRequired]}
               >
                 {generateMenuOptions(this.props.civilianTitles)}
@@ -207,7 +211,7 @@ class CivilianDialog extends Component {
                   marginBottom: "3%",
                   marginLeft: "28px"
                 }}
-                inputProps={{ "data-testid": "genderInput" }}
+                inputProps={{ "data-testid": "genderInput", "name": "genderIdentityId"}}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -220,7 +224,7 @@ class CivilianDialog extends Component {
               hinttext="Race/Ethnicity"
               data-testid="raceDropdown"
               style={{ width: "75%" }}
-              inputProps={{ "data-testid": "raceEthnicityInput" }}
+              inputProps={{ "data-testid": "raceEthnicityInput", "name": "raceEthnicityId"}}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenuOptions(this.props.raceEthnicities)}
@@ -344,7 +348,8 @@ class CivilianDialog extends Component {
 const DialogWithTheme = withTheme(withStyles(styles)(CivilianDialog));
 
 const connectedForm = reduxForm({
-  form: CIVILIAN_FORM_NAME
+  form: CIVILIAN_FORM_NAME,
+  onSubmitFail: scrollToFirstError
 })(DialogWithTheme);
 
 const mapStateToProps = state => {
