@@ -58,7 +58,7 @@ import removeCaseTagDialogReducer from "./complaintManager/reducers/ui/removeCas
 import civilianTitleReducer from "./complaintManager/reducers/ui/civilianTitleReducer";
 import districtReducer from "./complaintManager/reducers/ui/districtReducer";
 import addOfficerReducer from "./complaintManager/reducers/officers/addOfficerReducer";
-import usersReducer from "./complaintManager/reducers/users/usersReducer";
+import usersReducer from "./common/reducers/users/usersReducer";
 import classificationsReducer from "./complaintManager/reducers/cases/classificationsReducer";
 
 const rootReducer = combineReducers({

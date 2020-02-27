@@ -16,7 +16,7 @@ import moment from "moment";
 import { getCaseNoteActionsSuccess } from "../../../actionCreators/caseNoteActionActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import getUsers from "../../../../common/thunks/getUsers";
-import { getUsersSuccess } from "../../../actionCreators/shared/usersActionCreators";
+import { getUsersSuccess } from "../../../../common/actionCreators/usersActionCreators";
 
 jest.mock("../../thunks/addCaseNote", () => values => ({
   type: "MOCK_THUNK",
