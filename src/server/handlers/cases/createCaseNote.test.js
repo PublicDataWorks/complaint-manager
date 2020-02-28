@@ -100,8 +100,7 @@ describe("createCaseNote", function() {
       expect(notification).toEqual(
         expect.objectContaining({
           previewText: "Sup @Test",
-          user: "test@test.com",
-          mentioner: request.nickname
+          user: "test@test.com"
         })
       );
     });

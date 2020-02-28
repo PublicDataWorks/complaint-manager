@@ -14,10 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      mentioner: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       previewText: {
         field: "preview_text",
         allowNull: false,
