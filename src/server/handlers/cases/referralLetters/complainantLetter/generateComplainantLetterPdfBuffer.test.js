@@ -83,38 +83,38 @@ describe("generateComplainantLetterPdfBuffer", function() {
     expect(pdfResults).toMatchSnapshot();
   });
 
-  test("pdf buffer should generate complainant letter with case reference prefix AC when primary complainant is anonymized", async () => {
-    const civilian = await models.civilian.findOne({
-      where: { caseId: existingCase.id }
-    });
-
-    await models.civilian.update(
-      {
-        isAnonymous: true
-      },
-      {
-        where: {
-          id: civilian.id
-        },
-        auditUser: "test user"
-      }
-    );
-    const newCase = await models.cases.findOne({
-      where: { id: existingCase.id },
-      include: [
-        {
-          model: models.civilian,
-          as: "complainantCivilians",
-          auditUser: "someone"
-        }
-      ],
-      auditUser: "someone"
-    });
-
-    const pdfResults = await generateComplainantLetterPdfBuffer(
-      newCase,
-      newCase.primaryComplainant
-    );
-    expect(pdfResults).toMatchSnapshot();
-  });
+  // test("pdf buffer should generate complainant letter with case reference prefix AC when primary complainant is anonymized", async () => {
+  //   const civilian = await models.civilian.findOne({
+  //     where: { caseId: existingCase.id }
+  //   });
+  //
+  //   await models.civilian.update(
+  //     {
+  //       isAnonymous: true
+  //     },
+  //     {
+  //       where: {
+  //         id: civilian.id
+  //       },
+  //       auditUser: "test user"
+  //     }
+  //   );
+  //   const newCase = await models.cases.findOne({
+  //     where: { id: existingCase.id },
+  //     include: [
+  //       {
+  //         model: models.civilian,
+  //         as: "complainantCivilians",
+  //         auditUser: "someone"
+  //       }
+  //     ],
+  //     auditUser: "someone"
+  //   });
+  //
+  //   const pdfResults = await generateComplainantLetterPdfBuffer(
+  //     newCase,
+  //     newCase.primaryComplainant
+  //   );
+  //   expect(pdfResults).toMatchSnapshot();
+  // });
 });
