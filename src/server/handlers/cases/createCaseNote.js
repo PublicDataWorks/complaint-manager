@@ -3,6 +3,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
+import { createNotification } from "./helpers/caseNoteHelpers";
 
 const {
   AUDIT_SUBJECT,
@@ -73,20 +74,6 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
 
   response.status(201).send(currentCase);
 });
-
-export const createNotification = async (
-  mentionedUsers,
-  requestBody,
-  caseNoteId
-) => {
-  for (const user in mentionedUsers) {
-    await models.notification.create({
-      user: mentionedUsers[user].value,
-      previewText: requestBody.notes,
-      caseNoteId
-    });
-  }
-};
 
 async function getCaseNotesAndAuditDetails(caseId, transaction) {
   const caseNotesQueryOptions = {
