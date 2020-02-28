@@ -1,6 +1,9 @@
 import auditDataAccess from "../../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { createNotification } from "../helpers/caseNoteHelpers";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -8,6 +11,7 @@ const models = require("../../../complaintManager/models");
 const _ = require("lodash");
 
 const editCaseNote = asyncMiddleware(async (request, response, next) => {
+  const { mentionedUsers, ...requestBody } = request.body;
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
   const valuesToUpdate = _.pick(request.body, [
@@ -24,6 +28,12 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       transaction,
       auditUser: request.nickname
     });
+
+    await createNotification(mentionedUsers, requestBody, caseNoteId).catch(
+      () => {
+        throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
+      }
+    );
 
     const accessQueryOptions = {
       where: { caseId },
