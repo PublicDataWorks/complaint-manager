@@ -1,20 +1,20 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import AddressAutoSuggest from "./AddressAutoSuggest";
-import { change, clearSubmitErrors, Field } from "redux-form";
-import { connect } from "react-redux";
+import {change, clearSubmitErrors, Field} from "redux-form";
+import {connect} from "react-redux";
 import colors from "../../../../common/globalStyling/colors";
 import MapService from "./MapServices/MapService";
-import { formatAddressAsString } from "../../../utilities/formatAddress";
+import {formatAddressAsString} from "../../../utilities/formatAddress";
 import _ from "lodash";
 import StyledLink from "../../../shared/components/StyledLink";
 import {
-  updateAddressDisplayValue,
-  updateAddressErrorMessage,
-  updateAddressInputValidity,
-  updateAddressToConfirm
+    updateAddressDisplayValue,
+    updateAddressErrorMessage,
+    updateAddressInputValidity,
+    updateAddressToConfirm
 } from "../../../actionCreators/casesActionCreators";
 import parseAddressFromGooglePlaceResult from "../../../utilities/parseAddressFromGooglePlaceResult";
-import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import {renderTextField} from "../../sharedFormComponents/renderFunctions";
 
 class AddressInput extends Component {
   //TODO  IS there a good way to do dependency injection in react/redux?
@@ -150,7 +150,6 @@ class AddressInput extends Component {
     return (
       <div>
         <Field
-          name="autoSuggestValue"
           component={AddressAutoSuggest}
           props={{
             label: this.props.addressLabel,
@@ -158,6 +157,9 @@ class AddressInput extends Component {
             defaultText: this.props.formattedAddress,
             "data-testid": "addressSuggestionField",
             setFormValues: this.setFormValues
+          }}
+          inputProps={{
+              name: this.props.name
           }}
         />
         {this.renderValidMessage()}

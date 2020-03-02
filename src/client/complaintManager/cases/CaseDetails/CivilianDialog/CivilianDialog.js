@@ -1,11 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import {
-  Field,
-  formValueSelector,
-  reduxForm,
-  SubmissionError
-} from "redux-form";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
 import {
   Dialog,
   DialogActions,
@@ -18,35 +13,28 @@ import {
 } from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
-import {
-  PrimaryButton,
-  SecondaryButton
-} from "../../../shared/components/StyledButtons";
-import { closeEditCivilianDialog } from "../../../actionCreators/casesActionCreators";
+import {PrimaryButton, SecondaryButton} from "../../../shared/components/StyledButtons";
+import {closeEditCivilianDialog} from "../../../actionCreators/casesActionCreators";
 import {
   genderIdentityIsRequired,
   raceEthnicityIsRequired,
   titleIsRequired
 } from "../../../../formFieldLevelValidations";
 import Dropdown from "../../../../common/components/Dropdown";
-import { withTheme } from "@material-ui/core/styles";
+import {withTheme} from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
-import { formatAddressAsString } from "../../../utilities/formatAddress";
+import {formatAddressAsString} from "../../../utilities/formatAddress";
 import moment from "moment";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import {generateMenuOptions} from "../../../utilities/generateMenuOptions";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
-import {
-  CIVILIAN_FORM_NAME,
-  COMPLAINANT,
-  WITNESS
-} from "../../../../../sharedUtilities/constants";
-import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import { addressMustBeValid } from "../../../../formValidations";
+import {CIVILIAN_FORM_NAME, COMPLAINANT, WITNESS} from "../../../../../sharedUtilities/constants";
+import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
+import {addressMustBeValid} from "../../../../formValidations";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
@@ -54,10 +42,7 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
-import {
-  renderTextField,
-  renderRadioGroup
-} from "../../sharedFormComponents/renderFunctions";
+import {renderRadioGroup, renderTextField} from "../../sharedFormComponents/renderFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 const styles = {
@@ -277,6 +262,7 @@ class CivilianDialog extends Component {
             <div style={{ display: "flex" }}>
               <div style={{ marginBottom: "16px", width: "100%" }}>
                 <AddressInput
+                  name={"autoSuggestValue"}
                   formName={CIVILIAN_FORM_NAME}
                   fieldName={"address"}
                   addressLabel={"Address"}

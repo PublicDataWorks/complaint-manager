@@ -1,40 +1,29 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import moment from "moment/moment";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from "@material-ui/core";
-import { withStyles } from "@material-ui/core/styles";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core";
+import {withStyles} from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
-import {
-  Field,
-  formValueSelector,
-  reduxForm,
-  SubmissionError
-} from "redux-form";
-import {
-  PrimaryButton,
-  SecondaryButton
-} from "../../../shared/components/StyledButtons";
+import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
+import {PrimaryButton, SecondaryButton} from "../../../shared/components/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
-import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
-import { connect } from "react-redux";
-import { formatAddressAsString } from "../../../utilities/formatAddress";
-import { addressMustBeValid } from "../../../../formValidations";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import {connect} from "react-redux";
+import {formatAddressAsString} from "../../../utilities/formatAddress";
+import {addressMustBeValid} from "../../../../formValidations";
+import {generateMenuOptions} from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
-import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
-import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
-import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
+import {intakeSourceIsRequired} from "../../../../formFieldLevelValidations";
+import {INCIDENT_DETAILS_FORM_NAME} from "../../../../../sharedUtilities/constants";
+import getHowDidYouHearAboutUsSourceDropdownValues
+  from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
-import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import {renderTextField} from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
+import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -140,6 +129,7 @@ class IncidentDetailsDialog extends Component {
             </div>
             <div style={{ marginBottom: "16px" }}>
               <AddressInput
+                name={"autoSuggestValue"}
                 formName={"IncidentDetails"}
                 fieldName={"incidentLocation"}
                 addressLabel={"Incident Location"}
@@ -249,7 +239,7 @@ class IncidentDetailsDialog extends Component {
   }
 }
 
-const connectedForm = reduxForm({ form: INCIDENT_DETAILS_FORM_NAME })(
+const connectedForm = reduxForm({ form: INCIDENT_DETAILS_FORM_NAME, onSubmitFail: scrollToFirstError })(
   IncidentDetailsDialog
 );
 
