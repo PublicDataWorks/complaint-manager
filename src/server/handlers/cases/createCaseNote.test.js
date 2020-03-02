@@ -92,7 +92,6 @@ describe("createCaseNote", function() {
 
       expect(notification).toEqual(
         expect.objectContaining({
-          previewText: "Sup @Test",
           user: "test@test.com"
         })
       );
