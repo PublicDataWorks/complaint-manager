@@ -19,6 +19,8 @@ jest.mock("../audits/auditDataAccess");
 describe("createCaseNote", function() {
   let createdCase, request, response, next;
   const actionTaken = moment();
+  response = httpMocks.createResponse();
+  next = jest.fn();
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -50,8 +52,6 @@ describe("createCaseNote", function() {
       },
       nickname: "TEST_USER_NICKNAME"
     });
-    response = httpMocks.createResponse();
-    next = jest.fn();
   });
 
   describe("create a case note", () => {
@@ -90,13 +90,6 @@ describe("createCaseNote", function() {
         where: { caseNoteId: caseNote.id }
       });
 
-      expect(caseNote).toEqual(
-        expect.objectContaining({
-          caseId: createdCase.id,
-          notes: "Sup @Test"
-        })
-      );
-
       expect(notification).toEqual(
         expect.objectContaining({
           previewText: "Sup @Test",
@@ -105,7 +98,7 @@ describe("createCaseNote", function() {
       );
     });
 
-    test("should throw error if error in notification", async () => {
+    test("should throw error if error in mentionedUsers list", async () => {
       const mentionedUsers = [{ label: "Test", value: undefined }];
       request.body = {
         ...request.body,
