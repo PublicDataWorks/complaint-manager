@@ -4,9 +4,11 @@ import {
 } from "./userMentionHelperFunctions";
 import { wait } from "@testing-library/dom";
 const userList = [
-  { label: "Syd Botz", value: "some@some.com" },
-  { label: "Veronica Blackwell", value: "some@some.com" },
-  { label: "Wanchen Yao", value: "some@some.com" }
+  { label: "Syd Botz", value: "some1@some.com" },
+  { label: "Veronica Blackwell", value: "some2@some.com" },
+  { label: "Wanchen Yao", value: "some3@some.com" },
+  { label: "Sean Rutledge", value: "some4@some.com" },
+  { label: "Sean Rutledge DPM", value: "some5@some.com" }
 ];
 describe("filterAfterTrigger", () => {
   test("should return user as Veronica when case note text is '@v' and cursor follows the 'v'", async () => {
@@ -96,5 +98,12 @@ describe("getMentionedUsers", () => {
     const mentionedUsers = getMentionedUsers(userList, caseNote);
 
     expect(mentionedUsers).toEqual([userList[2], userList[0]]);
+  });
+
+  test("should return correct mentioned user when users' names are substrings of each other", () => {
+    const caseNote = "@Sean Rutledge DPM please mentioned another user";
+    const mentionedUsers = getMentionedUsers(userList, caseNote);
+
+    expect(mentionedUsers).toEqual([userList[4]]);
   });
 });
