@@ -167,7 +167,6 @@ describe("editCaseNote", function() {
 
       expect(notification).toEqual(
         expect.objectContaining({
-          previewText: "updated notes @Test",
           user: "test@test.com"
         })
       );
@@ -201,7 +200,6 @@ describe("editCaseNote", function() {
 
       await models.notification.create({
         user: "test@test.com",
-        previewText: "default notes @Test",
         caseNoteId: createdCaseNote.id
       });
 
@@ -235,11 +233,9 @@ describe("editCaseNote", function() {
       expect(notification).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            previewText: "default notes @Test",
             user: "test@test.com"
           }),
           expect.objectContaining({
-            previewText: "new notes @Test",
             user: "test@test.com"
           })
         ])

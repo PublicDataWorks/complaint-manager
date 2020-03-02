@@ -29,11 +29,9 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
-    await createNotification(mentionedUsers, requestBody, caseNoteId).catch(
-      () => {
-        throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
-      }
-    );
+    await createNotification(mentionedUsers, caseNoteId).catch(() => {
+      throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
+    });
 
     const accessQueryOptions = {
       where: { caseId },

@@ -14,11 +14,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      previewText: {
-        field: "preview_text",
-        allowNull: false,
-        type: DataTypes.STRING
-      },
       hasBeenRead: {
         field: "has_been_read",
         allowNull: false,
