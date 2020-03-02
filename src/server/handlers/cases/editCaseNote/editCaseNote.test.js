@@ -10,6 +10,9 @@ import {
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
+import createCaseNote from "../createCaseNote";
+import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -18,11 +21,14 @@ describe("editCaseNote", function() {
     createdCaseNote,
     updatedCaseNote,
     caseNoteAction,
-    newCaseNoteAction;
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
-  let request, response;
+    newCaseNoteAction,
+    request,
+    response,
+    next;
+
+  response = httpMocks.createResponse();
+  next = jest.fn();
+
   beforeEach(async () => {
     caseNoteAction = await models.case_note_action.create(
       { name: "some action" },
@@ -75,13 +81,15 @@ describe("editCaseNote", function() {
       body: updatedCaseNote,
       nickname: "TEST_USER_NICKNAME"
     });
-
-    const response = httpMocks.createResponse();
   });
 
-  describe("editing case note already with mentions", () => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  describe("editing case note with no mentions yet", () => {
     test("should update case status and case notes in the db after case note edited", async () => {
-      await editCaseNote(request, response, jest.fn());
+      await editCaseNote(request, response, next);
 
       const updatedCase = await models.cases.findOne({
         where: { id: createdCase.id }
@@ -123,7 +131,7 @@ describe("editCaseNote", function() {
       ];
       updatedCaseNote.notes += " @Test";
 
-      await editCaseNote(request, response, jest.fn());
+      await editCaseNote(request, response, next);
 
       const updatedCase = await models.cases.findOne({
         where: { id: createdCase.id }
@@ -164,10 +172,21 @@ describe("editCaseNote", function() {
         })
       );
     });
+
+    test("should throw error if error in mentionedUsers list", async () => {
+      updatedCaseNote.mentionedUsers = [{ label: "Test", value: undefined }];
+
+      request.body = updatedCaseNote;
+
+      await editCaseNote(request, response, next);
+
+      expect(next).toHaveBeenCalledWith(
+        Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR)
+      );
+    });
   });
 
   describe("editing case note already with mentions", () => {
-    let request, response;
     beforeEach(async () => {
       const caseNoteToCreate = new CaseNote.Builder()
         .defaultCaseNote()
@@ -204,12 +223,10 @@ describe("editCaseNote", function() {
         body: updatedCaseNote,
         nickname: "TEST_USER_NICKNAME"
       });
-
-      response = httpMocks.createResponse();
     });
 
     test("should create one new notification when case notes edited with same mention", async () => {
-      await editCaseNote(request, response, jest.fn());
+      await editCaseNote(request, response, next);
 
       const notification = await models.notification.findAll({
         where: { caseNoteId: createdCaseNote.id }
@@ -231,7 +248,6 @@ describe("editCaseNote", function() {
   });
 
   describe("auditing", () => {
-    let request, response, next;
     beforeEach(() => {
       request = httpMocks.createRequest({
         method: "PUT",
@@ -245,8 +261,6 @@ describe("editCaseNote", function() {
         body: updatedCaseNote,
         nickname: "TEST_USER_NICKNAME"
       });
-      response = httpMocks.createResponse();
-      next = jest.fn();
     });
 
     test("should audit when case note accessed through edit", async () => {
