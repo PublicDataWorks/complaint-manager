@@ -30,10 +30,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
-<<<<<<< HEAD
         .withFirstContactDate("2020-02-21")
-=======
->>>>>>> fb9dcd906a0648d9e9c560cadb1865323d1cac5d
         .withId(undefined)
         .withIntakeSourceId(emailIntakeSource.id),
       {
@@ -44,10 +41,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
-<<<<<<< HEAD
         .withFirstContactDate("2020-02-21")
-=======
->>>>>>> fb9dcd906a0648d9e9c560cadb1865323d1cac5d
         .withIntakeSourceId(facebookIntakeSource.id),
       {
         auditUser: "someone"
@@ -57,10 +51,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
-<<<<<<< HEAD
         .withFirstContactDate("2020-02-21")
-=======
->>>>>>> fb9dcd906a0648d9e9c560cadb1865323d1cac5d
         .withId(undefined)
         .withIntakeSourceId(facebookIntakeSource.id),
       {
@@ -71,10 +62,7 @@ describe("executeQuery", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
-<<<<<<< HEAD
         .withFirstContactDate("2020-02-21")
-=======
->>>>>>> fb9dcd906a0648d9e9c560cadb1865323d1cac5d
         .withId(undefined)
         .withIntakeSourceId(otherIntakeSource.id),
       {
@@ -83,15 +71,9 @@ describe("executeQuery", () => {
     );
 
     const expectedData = [
-<<<<<<< HEAD
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" },
-      { cases: "1", name: "Email" }
-=======
       { cases: "1", name: "Email" },
       { cases: "2", name: "Facebook" },
       { cases: "1", name: "Other" }
->>>>>>> fb9dcd906a0648d9e9c560cadb1865323d1cac5d
     ];
 
     const responsePromise = request(app)
