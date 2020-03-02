@@ -1,28 +1,19 @@
 import React from "react";
-import { Field, formValueSelector, reduxForm } from "redux-form";
-import { connect } from "react-redux";
-import {
-  Dialog,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Typography,
-  withStyles
-} from "@material-ui/core";
+import {Field, formValueSelector, reduxForm} from "redux-form";
+import {connect} from "react-redux";
+import {Dialog, DialogContent, DialogContentText, DialogTitle, Typography, withStyles} from "@material-ui/core";
 import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
-import {
-  CIVILIAN_INITIATED,
-  CREATE_CASE_FORM_NAME
-} from "../../../../sharedUtilities/constants";
-import { generateMenuOptions } from "../../utilities/generateMenuOptions";
+import {CIVILIAN_INITIATED, CREATE_CASE_FORM_NAME} from "../../../../sharedUtilities/constants";
+import {generateMenuOptions} from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
+import {intakeSourceIsRequired} from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
-import { formatAddressAsString } from "../../utilities/formatAddress";
+import {formatAddressAsString} from "../../utilities/formatAddress";
+import {scrollToFirstErrorWithValue} from "../../../common/helpers/scrollToFirstError";
 
 const styles = {
   dialogPaper: {
@@ -141,7 +132,7 @@ const IntakeSource = props => {
       hinttext="Intake Source"
       data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ "data-testid": "intakeSourceInput" }}
+      inputProps={{ "data-testid": "intakeSourceInput"}}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}
@@ -183,6 +174,7 @@ const ConnectedDialog = connect(mapStateToProps)(
 
 export default reduxForm({
   form: CREATE_CASE_FORM_NAME,
+  onSubmitFail: scrollToFirstErrorWithValue,
   initialValues: {
     case: {
       complaintType: CIVILIAN_INITIATED,

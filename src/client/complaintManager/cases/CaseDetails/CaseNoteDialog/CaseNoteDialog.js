@@ -1,36 +1,25 @@
-import React, { Component } from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Typography
-} from "@material-ui/core";
-import { connect } from "react-redux";
-import {
-  PrimaryButton,
-  SecondaryButton
-} from "../../../shared/components/StyledButtons";
-import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
-import { Field, reduxForm, reset } from "redux-form";
+import React, {Component} from "react";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@material-ui/core";
+import {connect} from "react-redux";
+import {PrimaryButton, SecondaryButton} from "../../../shared/components/StyledButtons";
+import {closeCaseNoteDialog} from "../../../actionCreators/casesActionCreators";
+import {Field, reduxForm, reset} from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
 import Dropdown from "../../../../common/components/Dropdown";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import {generateMenuOptions} from "../../../utilities/generateMenuOptions";
 import addCaseNote from "../../thunks/addCaseNote";
-import { actionIsRequired } from "../../../../formFieldLevelValidations";
+import {actionIsRequired} from "../../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
 import moment from "moment";
 import _ from "lodash";
-import {
-  CASE_NOTE_FORM_NAME,
-  TIMEZONE
-} from "../../../../../sharedUtilities/constants";
+import {CASE_NOTE_FORM_NAME, TIMEZONE} from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
-import { TextFieldWithUserMention } from "./TextFieldWithUserMention";
+import {TextFieldWithUserMention} from "./TextFieldWithUserMention";
 import getUsers from "../../../../common/thunks/getUsers";
-import { renderTextField } from "../../sharedFormComponents/renderFunctions";
-import { filterAfterTrigger } from "./userMentionHelperFunctions";
+import {renderTextField} from "../../sharedFormComponents/renderFunctions";
+import {filterAfterTrigger} from "./userMentionHelperFunctions";
+import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 class CaseNoteDialog extends Component {
   constructor(props) {
@@ -234,6 +223,7 @@ const mapDispatchToProps = {
 
 const connectedForm = reduxForm({
   form: CASE_NOTE_FORM_NAME,
+  onSubmitFail: scrollToFirstError,
   initialValue: {
     notes: "initial value"
   }

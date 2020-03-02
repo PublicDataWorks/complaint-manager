@@ -5,7 +5,7 @@ import LastNameField from "../sharedFormComponents/LastNameField";
 import SuffixField from "../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
-import { Typography } from "@material-ui/core";
+import {Typography} from "@material-ui/core";
 import AddressInput from "../CaseDetails/CivilianDialog/AddressInput";
 import AddressSecondLine from "../sharedFormComponents/AddressSecondLine";
 
@@ -62,6 +62,7 @@ const CivilianComplainantFields = ({
         <div style={{ display: "flex" }}>
           <div style={{ marginBottom: "16px", width: "100%" }}>
             <AddressInput
+              name={"civilian.autoSuggestValue"}
               formName={formName}
               fieldName={"civilian.address"}
               addressLabel={"Address"}
