@@ -1,16 +1,16 @@
 import { createFilterOptions } from "@material-ui/lab/Autocomplete";
 
+const compare = (user1, user2) => {
+  if (user1.label.length > user2.label.length) return -1;
+  if (user1.label.length < user2.label.length) return 1;
+
+  return 0;
+};
+
 export const getMentionedUsers = (users, caseNoteText) => {
   let updatedMentionedUsers = [];
   caseNoteText = caseNoteText.substring(caseNoteText.indexOf("@"));
   const splitCaseNotes = caseNoteText.split("@");
-
-  const compare = (user1, user2) => {
-    if (user1.label.length > user2.label.length) return -1;
-    if (user1.label.length < user2.label.length) return 1;
-
-    return 0;
-  };
 
   const sortedUsers = [...users];
   sortedUsers.sort(compare);
@@ -20,7 +20,7 @@ export const getMentionedUsers = (users, caseNoteText) => {
     for (const user in sortedUsers) {
       let userName = sortedUsers[user].label;
       if (
-        subString.startsWith(userName) &&
+        subString.toLowerCase().startsWith(userName.toLowerCase()) &&
         !updatedMentionedUsers.includes(sortedUsers[user])
       ) {
         updatedMentionedUsers.push(sortedUsers[user]);

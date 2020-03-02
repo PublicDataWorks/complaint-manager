@@ -106,4 +106,11 @@ describe("getMentionedUsers", () => {
 
     expect(mentionedUsers).toEqual([userList[4]]);
   });
+
+  test("should return correct mentioned user when only using lowercase letters", () => {
+    const caseNote = "@sean rutledge dpm please mentioned another user";
+    const mentionedUsers = getMentionedUsers(userList, caseNote);
+
+    expect(mentionedUsers).toEqual([userList[4]]);
+  });
 });
