@@ -223,23 +223,49 @@ describe("editCaseNote", function() {
       });
     });
 
-    test("should create one new notification when case notes edited with same mention", async () => {
+    test("should update previous notification with timestamp when case notes edited with same mention", async () => {
+      const previousNotification = await models.notification.findAll({
+        where: { caseNoteId: createdCaseNote.id }
+      });
+
+      const previousTimeStamp = previousNotification[0].updatedAt;
+
       await editCaseNote(request, response, next);
 
       const notification = await models.notification.findAll({
         where: { caseNoteId: createdCaseNote.id }
       });
 
-      expect(notification).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            user: "test@test.com"
-          }),
-          expect.objectContaining({
-            user: "test@test.com"
-          })
-        ])
+      const currentTimeStamp = notification[0].updatedAt;
+
+      expect(notification.length).toEqual(1);
+
+      expect(previousTimeStamp).not.toEqual(currentTimeStamp);
+    });
+
+    test("should delete previous notification when user is no longer mentioned in case note", async () => {
+      const previousNotification = await models.notification.findOne({
+        where: { caseNoteId: createdCaseNote.id }
+      });
+
+      expect(previousNotification).toEqual(
+        expect.objectContaining({
+          user: "test@test.com"
+        })
       );
+
+      updatedCaseNote.mentionedUsers = [];
+      updatedCaseNote.notes = "no one is mentioned here";
+
+      request.body = updatedCaseNote;
+
+      await editCaseNote(request, response, next);
+
+      const notification = await models.notification.findAll({
+        where: { caseNoteId: createdCaseNote.id }
+      });
+
+      expect(notification).toEqual([]);
     });
   });
 
