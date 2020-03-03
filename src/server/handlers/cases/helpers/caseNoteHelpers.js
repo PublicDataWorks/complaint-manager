@@ -1,10 +1,61 @@
 const models = require("../../../complaintManager/models");
 
-export const createNotification = async (mentionedUsers, caseNoteId) => {
-  for (const user in mentionedUsers) {
-    await models.notification.create({
-      user: mentionedUsers[user].value,
-      caseNoteId
+export const handleNotifications = async (mentionedUsers, caseNoteId) => {
+  const workingListMentionedUsers = [...mentionedUsers];
+  const workingListUsersEmails = workingListMentionedUsers.map(user => {
+    return user.value;
+  });
+
+  const allNotifications = await models.notification.findAll({
+    where: {
+      caseNoteId: caseNoteId
+    }
+  });
+
+  for (const notification in allNotifications) {
+    const currentUser = allNotifications[notification].user;
+    const mentionedUsersEmails = mentionedUsers.map(user => {
+      return user.value;
     });
+    if (currentUser in mentionedUsersEmails) {
+      await updateNotification(currentUser, caseNoteId);
+      const workingListIndex = workingListUsersEmails.indexOf(currentUser);
+      workingListMentionedUsers.splice(workingListIndex);
+    } else {
+      await deleteNotification(currentUser, caseNoteId);
+    }
   }
+
+  for (const user in workingListMentionedUsers) {
+    await createNotification(workingListMentionedUsers[user], caseNoteId);
+  }
+};
+
+const createNotification = async (user, caseNoteId) => {
+  await models.notification.create({
+    user: user.value,
+    caseNoteId
+  });
+};
+
+const deleteNotification = async (user, caseNoteId) => {
+  const currentNotification = await models.notification.findOne({
+    where: {
+      caseNoteId: caseNoteId,
+      user: user
+    }
+  });
+
+  await currentNotification.destroy();
+};
+
+const updateNotification = async (user, caseNoteId) => {
+  const currentNotification = await models.notification.findOne({
+    where: {
+      caseNoteId: caseNoteId,
+      user: user
+    }
+  });
+
+  await currentNotification.save();
 };

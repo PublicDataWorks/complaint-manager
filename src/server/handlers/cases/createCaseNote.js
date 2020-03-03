@@ -3,7 +3,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-import { createNotification } from "./helpers/caseNoteHelpers";
+import { handleNotifications } from "./helpers/caseNoteHelpers";
 
 const {
   AUDIT_SUBJECT,
@@ -33,7 +33,7 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
         caseNoteId = data.dataValues.id;
       });
 
-    await createNotification(mentionedUsers, caseNoteId).catch(() => {
+    await handleNotifications(mentionedUsers, caseNoteId).catch(() => {
       throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
     });
 
