@@ -46,7 +46,7 @@ describe("createCaseNote", function() {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      body: { actionTakenAt: actionTaken, notes: "wow" },
+      body: { actionTakenAt: actionTaken, notes: "wow", mentionedUsers: [] },
       params: {
         caseId: createdCase.id
       },
@@ -58,6 +58,7 @@ describe("createCaseNote", function() {
     test("should create a case note", async () => {
       await createCaseNote(request, response, next);
       const caseNote = await models.case_note.findOne();
+
       const notification = await models.notification.findOne({
         where: { caseNoteId: caseNote.id }
       });

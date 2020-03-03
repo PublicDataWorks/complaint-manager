@@ -1,3 +1,6 @@
+import Sequelize, { DataTypes } from "sequelize";
+import moment from "moment";
+
 const models = require("../../../complaintManager/models");
 
 export const handleNotifications = async (mentionedUsers, caseNoteId) => {
@@ -17,7 +20,7 @@ export const handleNotifications = async (mentionedUsers, caseNoteId) => {
     const mentionedUsersEmails = mentionedUsers.map(user => {
       return user.value;
     });
-    if (currentUser in mentionedUsersEmails) {
+    if (mentionedUsersEmails.includes(currentUser)) {
       await updateNotification(currentUser, caseNoteId);
       const workingListIndex = workingListUsersEmails.indexOf(currentUser);
       workingListMentionedUsers.splice(workingListIndex);
@@ -56,6 +59,6 @@ const updateNotification = async (user, caseNoteId) => {
       user: user
     }
   });
-
+  currentNotification.changed("user", true);
   await currentNotification.save();
 };
