@@ -8,8 +8,8 @@ import {
   updateSort
 } from "../actionCreators/casesActionCreators";
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
-import { Visualization } from "../../common/components/Visualization/Visualization";
 import { QUERY_TYPES } from "../../../sharedUtilities/constants";
+import Visualization from "../../common/components/Visualization/Visualization";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -23,14 +23,10 @@ class CaseDashboard extends Component {
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
         {this.props.dataVisualizationFeature ? (
-        <div data-testid={"dataVisualization"}>
-        {this.props.isTest || false ? <div >This is a test</div> : 
-          <Visualization
-            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-          />
-        }
-        </div>
-        ) : null}
+              <Visualization data-testid={"dataVisualization"}
+                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+              />
+              ) : null}
       </div>
     );
   }

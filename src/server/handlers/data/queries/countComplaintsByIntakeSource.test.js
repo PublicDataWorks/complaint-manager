@@ -72,9 +72,9 @@ describe("executeQuery", () => {
     );
 
     const expectedData = [
+      { cases: "1", name: "Email" },
       { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" },
-      { cases: "1", name: "Email" }
+      { cases: "1", name: "Other" }
     ];
 
     const responsePromise = request(app)

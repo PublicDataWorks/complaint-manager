@@ -18,7 +18,10 @@ jest.mock("./thunks/getWorkingCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
 }));
 
-jest.mock("../../common/components/Visualization/Visualization", () => 'Visualization');
+jest.mock("../../common/components/Visualization/PlotlyWrapper", () => {
+  const FakeWrapper = jest.fn(() => "PlotlyWrapper");
+  return { PlotlyWrapper: FakeWrapper };
+});
 
 describe("CaseDashboard", () => {
   let caseDashboardWrapper, store, dispatchSpy, cases;
@@ -42,7 +45,7 @@ describe("CaseDashboard", () => {
     caseDashboardWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CaseDashboard isTest={true}/>
+          <CaseDashboard/>
         </Router>
       </Provider>
     );
