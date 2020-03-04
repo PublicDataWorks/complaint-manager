@@ -54,6 +54,7 @@ describe("editCaseNote request", function() {
     const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
       auditUser: "someone"
     });
+
     const updatedCaseNote = {
       caseNoteActionId: newCaseNoteAction.id,
       notes: "updated notes"
@@ -63,7 +64,7 @@ describe("editCaseNote request", function() {
       .put(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .send(updatedCaseNote);
+      .send({ ...updatedCaseNote, mentionedUsers: [] });
 
     await expectResponse(
       responsePromise,

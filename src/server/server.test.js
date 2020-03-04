@@ -648,7 +648,8 @@ describe("server", () => {
           name: caseNoteAction.name
         },
         notes: "some interesting notes....",
-        actionTakenAt: new Date().toISOString()
+        actionTakenAt: new Date().toISOString(),
+        mentionedUsers: []
       };
 
       const numberOfCaseNotesBeforeRequest = await models.case_note.count({
