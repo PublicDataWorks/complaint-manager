@@ -129,9 +129,13 @@ exports[`it can render officer search results with correct styles 1`] = `
                     "overrides": Object {},
                     "palette": Object {
                       "action": Object {
+                        "activatedOpaciy": 0.12,
                         "active": "rgba(0, 0, 0, 0.54)",
                         "disabled": "rgba(0, 0, 0, 0.26)",
                         "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                        "disabledOpacity": 0.38,
+                        "focus": "rgba(0, 0, 0, 0.12)",
+                        "focusOpacity": 0.12,
                         "hover": "rgba(0, 0, 0, 0.04)",
                         "hoverOpacity": 0.04,
                         "selected": "rgba(0, 0, 0, 0.08)",
