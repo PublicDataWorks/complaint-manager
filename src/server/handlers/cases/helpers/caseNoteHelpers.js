@@ -1,6 +1,3 @@
-import Sequelize, { DataTypes } from "sequelize";
-import moment from "moment";
-
 const models = require("../../../complaintManager/models");
 
 export const handleNotifications = async (mentionedUsers, caseNoteId) => {

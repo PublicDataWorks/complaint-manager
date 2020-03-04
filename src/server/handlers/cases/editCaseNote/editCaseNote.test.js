@@ -10,7 +10,6 @@ import {
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
-import createCaseNote from "../createCaseNote";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
