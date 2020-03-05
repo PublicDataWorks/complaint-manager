@@ -3,7 +3,7 @@ import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails"
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import { handleNotifications } from "../helpers/caseNoteHelpers";
+import { handleNotifications } from "../helpers/handleNotifications";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -29,7 +29,12 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
-    await handleNotifications(mentionedUsers, caseNoteId).catch(() => {
+    await handleNotifications(
+      transaction,
+      request,
+      mentionedUsers,
+      caseNoteId
+    ).catch(() => {
       throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR);
     });
 

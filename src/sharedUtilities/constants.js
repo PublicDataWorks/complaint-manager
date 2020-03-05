@@ -302,7 +302,8 @@ export const AUDIT_SUBJECT = {
   LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
   ALL_USER_DATA: "All User Data",
   CASE_CLASSIFICATIONS: "Case Classifications",
-  MATRIX_DETAILS: "All Matrix Details"
+  MATRIX_DETAILS: "All Matrix Details",
+  NOTIFICATIONS: "Notifications"
 };
 
 export const AUDIT_FILE_TYPE = {
