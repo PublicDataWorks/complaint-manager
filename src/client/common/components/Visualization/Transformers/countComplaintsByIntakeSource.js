@@ -9,5 +9,17 @@ export function transformData(rawData) {
     return parseInt(element.cases);
   });
 
-  return { type: "pie", labels: labels, values: values };
+  const layout = {
+    width: 500,
+        height: 500,
+        title: "Complaints by Intake Source",
+        margin: 20
+  }
+
+  return {data: {
+    type: "pie",
+    labels: labels,
+    values: values,
+
+  }, layout};
 }

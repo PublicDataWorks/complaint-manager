@@ -13,9 +13,17 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
     );
 
     const expectedTransformedData = {
-      type: "pie",
-      labels: ["Email", "Facebook", "Other"],
-      values: [2, 5, 3]
+      data: {
+        type: "pie",
+        labels: ["Email", "Facebook", "Other"],
+        values: [2, 5, 3]
+      },
+      layout: {
+        height: 500,
+        margin: 20,
+        title: "Complaints by Intake Source",
+        width: 500
+      }
     };
 
     expect(transformedData).toEqual(expectedTransformedData);
