@@ -5,9 +5,11 @@ import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsBy
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import {PlotlyWrapper} from "./PlotlyWrapper";
+import updateCaseStatusDialogReducer from "../../../complaintManager/reducers/ui/updateCaseStatusDialogReducer";
 
 const Visualization = (props) => {
     const [data, setData] = useState({ data: {}, isFetching: false });
+    const [layout, setLayout] = useState({});
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -25,7 +27,8 @@ const Visualization = (props) => {
                     default:
                         throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
                 }
-                setData({ data: transformedData, isFetching: false });
+                setData({ data: transformedData.data, isFetching: false });
+                setLayout(transformedData.layout)
             } catch (e) {
                 console.log(e);
                 setData({ data: data.data, isFetching: false });
@@ -33,15 +36,11 @@ const Visualization = (props) => {
         };
         fetchData();
     }, []);
+
     return (
         <PlotlyWrapper
             data={[data.data]}
-            layout={{
-                width: 500,
-                height: 500,
-                title: "Complaints by Intake Source",
-                margin: 20
-            }}
+            layout={layout}
         />
     );
 }
