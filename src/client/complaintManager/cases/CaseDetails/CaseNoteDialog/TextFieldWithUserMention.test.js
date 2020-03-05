@@ -145,7 +145,7 @@ describe("TextFieldWithUserMention", () => {
   });
 
   // test("if user chooses an option by pressing enter, the option chosen should be displayed after the '@' sign", async () => {
-
+  //
   // // Selecting on Enter (a JSDOM limitation?): https://github.com/testing-library/react-testing-library/issues/269
   // //ARRANGE
   // const { getByText, getByTestId } = renderTextFieldWithUserMention();
