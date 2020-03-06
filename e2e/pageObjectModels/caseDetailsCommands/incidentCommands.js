@@ -28,9 +28,9 @@ const incidentCommands = {
   },
   saveNarrative: function() {
     return this.waitForElementVisible(
-      "@saveNarrativeButton",
+      "@narrativePromptDetails",
       e2e.rerenderWait
-    ).click("@saveNarrativeButton");
+    ).click("@narrativePromptDetails");
   }
 };
 
@@ -47,8 +47,8 @@ const incidentElements = {
   narrativeDetails: {
     selector: '[data-testid="narrativeDetailsInput"]'
   },
-  saveNarrativeButton: {
-    selector: '[data-testid="saveNarrative"]'
+  narrativePromptDetails: {
+    selector: '[data-testid="narrativePromptDetails"]'
   }
 };
 

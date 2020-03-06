@@ -43,7 +43,6 @@ import { reset } from "redux-form";
 import { complaintManagerMenuOptions } from "../../shared/components/NavBar/complaintManagerMenuOptions";
 
 const drawerWidthPercentage = "30%";
-
 const appBar = {
   position: "absolute",
   marginLeft: drawerWidthPercentage,

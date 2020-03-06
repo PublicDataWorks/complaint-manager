@@ -52,10 +52,9 @@ describe("narrative", () => {
     );
   });
 
-  test("should update case narrative when save button is clicked", () => {
+  test("should update case narrative when focus lost on narrative details", () => {
     const updateDetails = {
       narrativeDetails: "sample narrative with additional details.",
-      narrativeSummary: "sample narrative with a summary",
       id: expectedCase.id
     };
 
@@ -64,24 +63,44 @@ describe("narrative", () => {
       'textarea[data-testid="narrativeDetailsInput"]',
       updateDetails.narrativeDetails
     );
-    changeInput(
-      narrative,
-      'textarea[data-testid="narrativeSummaryInput"]',
-      updateDetails.narrativeSummary
-    );
 
-    const saveButton = narrative.find('button[data-testid="saveNarrative"]');
-    saveButton.simulate("click");
+    narrative.find('textarea[data-testid="narrativeDetailsInput"]').simulate("blur");
 
     expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
     expect(updateNarrative).toHaveBeenCalledWith(updateDetails);
   });
 
-  test("should disable the submit button when pristine", () => {
+  test("should update case narrative when focus lost on narrative summary", () => {
+    const updateDetails = {
+      narrativeSummary: "sample narrative with a summary",
+      id: expectedCase.id
+    };
+
+    changeInput(
+        narrative,
+        'textarea[data-testid="narrativeSummaryInput"]',
+        updateDetails.narrativeSummary
+    );
+
+    narrative.find('textarea[data-testid="narrativeSummaryInput"]').simulate("blur");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
+    expect(updateNarrative).toHaveBeenCalledWith(updateDetails);
+  });
+
+  test("should not update case narrative summary when pristine", () => {
     updateNarrative.mockReset();
 
-    const saveButton = narrative.find('button[data-testid="saveNarrative"]');
-    saveButton.simulate("click");
+    narrative.find('textarea[data-testid="narrativeSummaryInput"]').simulate("blur");
+
+    expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);
+    expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(expectedCase));
+  });
+
+  test("should not update case narrative details when pristine", () => {
+    updateNarrative.mockReset();
+
+    narrative.find('textarea[data-testid="narrativeDetailsInput"]').simulate("blur");
 
     expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);
     expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(expectedCase));
