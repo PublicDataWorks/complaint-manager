@@ -1,0 +1,26 @@
+"use strict";
+
+import models from "../complaintManager/models";
+
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.transaction(async transaction => {
+      try {
+        await models.notification.destroy({
+          where: {},
+          force: true
+        });
+      } catch (error) {
+        throw new Error(
+          `Error while deleting notifications from table. \n Intenal Error: ${error}`
+        );
+      }
+    });
+  },
+
+  down: (queryInterface, Sequelize) => {
+    /*
+        Since we are reverting a bad state of data, we do not need a down migration.
+      */
+  }
+};
