@@ -5,7 +5,6 @@ import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsBy
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import {PlotlyWrapper} from "./PlotlyWrapper";
-import updateCaseStatusDialogReducer from "../../../complaintManager/reducers/ui/updateCaseStatusDialogReducer";
 
 const Visualization = (props) => {
     const [data, setData] = useState({ data: {}, isFetching: false });

@@ -150,6 +150,7 @@ class AddressInput extends Component {
     return (
       <div>
         <Field
+          name={"autoSuggestValue"}
           component={AddressAutoSuggest}
           props={{
             label: this.props.addressLabel,
