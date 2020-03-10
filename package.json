@@ -143,6 +143,7 @@
     "**/serialize-javascript": "^2.1.1",
     "**/tree-kill": "^1.2.2",
     "**/mem": "^4.0.0",
-    "**/static-eval": "^2.0.2"
+    "**/static-eval": "^2.0.5",
+    "**/acorn": "^6.4.1"
   }
 }
