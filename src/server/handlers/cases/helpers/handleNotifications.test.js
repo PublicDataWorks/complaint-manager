@@ -128,9 +128,13 @@ describe("case note helpers", function() {
 
     const notification = await models.notification.findOne({
       where: {
-        caseNoteId: createdCaseNote.id
+        caseNoteId: createdCaseNote.id,
+        user: newUser.value
       }
     });
+
+    const anotherUser = { label: "Another One", value: "another1@1.com" };
+    mentionedUsers.push(anotherUser);
 
     await models.sequelize.transaction(async transaction => {
       await handleNotifications(
@@ -143,7 +147,15 @@ describe("case note helpers", function() {
 
     const updatedNotification = await models.notification.findOne({
       where: {
-        caseNoteId: createdCaseNote.id
+        caseNoteId: createdCaseNote.id,
+        user: newUser.value
+      }
+    });
+
+    const anotherNotification = await models.notification.findOne({
+      where: {
+        caseNoteId: createdCaseNote.id,
+        user: anotherUser.value
       }
     });
 
@@ -157,6 +169,8 @@ describe("case note helpers", function() {
     expect(updatedNotification).not.toEqual(
       expect.objectContaining({ updatedAt: notification.updatedAt })
     );
+
+    expect(anotherNotification).not.toBeNull();
   });
 
   test("should delete notification", async () => {
