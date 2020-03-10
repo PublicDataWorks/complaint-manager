@@ -197,10 +197,13 @@ describe("editCaseNote", function() {
         auditUser: "someone"
       });
 
-      await models.notification.create({
-        user: "test@test.com",
-        caseNoteId: createdCaseNote.id
-      });
+      await models.notification.create(
+        {
+          user: "test@test.com",
+          caseNoteId: createdCaseNote.id
+        },
+        { auditUser: "someone" }
+      );
 
       updatedCaseNote = {
         caseNoteActionId: newCaseNoteAction.id,
