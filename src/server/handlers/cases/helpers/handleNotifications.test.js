@@ -6,13 +6,6 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { handleNotifications } from "./handleNotifications";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment/moment";
-import auditDataAccess from "../../audits/auditDataAccess";
-import {
-  AUDIT_SUBJECT,
-  MANAGER_TYPE
-} from "../../../../sharedUtilities/constants";
-
-jest.mock("../../audits/auditDataAccess");
 
 describe("case note helpers", function() {
   let mentionedUsers = [],
@@ -70,7 +63,7 @@ describe("case note helpers", function() {
     await cleanupDatabase();
   });
 
-  test("should do nothing and no audit", async () => {
+  test("should do nothing", async () => {
     await models.sequelize.transaction(async transaction => {
       await handleNotifications(
         transaction,
@@ -86,23 +79,10 @@ describe("case note helpers", function() {
       }
     });
 
-    expect(auditDataAccess).not.toHaveBeenCalledWith(
-      request.nickname,
-      request.params.caseId,
-      MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.NOTIFICATIONS,
-      {
-        notification: {
-          attributes: Object.keys(models.notification.rawAttributes),
-          model: models.notification.name
-        }
-      }
-    );
-
     expect(notifications).toBeEmpty();
   });
 
-  test("should create notification and audit", async () => {
+  test("should create notification", async () => {
     const newUser = { label: "Syd Botz", value: "some1@some.com" };
     mentionedUsers.push(newUser);
 
@@ -131,23 +111,9 @@ describe("case note helpers", function() {
         })
       ])
     );
-
-    expect(auditDataAccess).toHaveBeenCalledWith(
-      request.nickname,
-      request.params.caseId,
-      MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.NOTIFICATIONS,
-      {
-        notification: {
-          attributes: Object.keys(models.notification.rawAttributes),
-          model: models.notification.name
-        }
-      },
-      expect.anything()
-    );
   });
 
-  test("should update notification and audit", async () => {
+  test("should update notification", async () => {
     const newUser = { label: "Sean Rutledge", value: "some2@some.com" };
     mentionedUsers.push(newUser);
 
@@ -191,23 +157,9 @@ describe("case note helpers", function() {
     expect(updatedNotification).not.toEqual(
       expect.objectContaining({ updatedAt: notification.updatedAt })
     );
-
-    expect(auditDataAccess).toHaveBeenCalledWith(
-      request.nickname,
-      request.params.caseId,
-      MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.NOTIFICATIONS,
-      {
-        notification: {
-          attributes: Object.keys(models.notification.rawAttributes),
-          model: models.notification.name
-        }
-      },
-      expect.anything()
-    );
   });
 
-  test("should delete notification and audit", async () => {
+  test("should delete notification", async () => {
     const newUser = { label: "Wanchen Yao", value: "some3@some.com" };
     mentionedUsers.push(newUser);
 
@@ -254,20 +206,6 @@ describe("case note helpers", function() {
 
     expect(deletedNotification).not.toEqual(
       expect.objectContaining({ deletedAt: null })
-    );
-
-    expect(auditDataAccess).toHaveBeenCalledWith(
-      request.nickname,
-      request.params.caseId,
-      MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.NOTIFICATIONS,
-      {
-        notification: {
-          attributes: Object.keys(models.notification.rawAttributes),
-          model: models.notification.name
-        }
-      },
-      expect.anything()
     );
   });
 });

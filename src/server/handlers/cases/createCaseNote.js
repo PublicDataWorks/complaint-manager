@@ -17,6 +17,7 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     const { mentionedUsers, ...requestBody } = request.body;
     const mentioner = request.nickname;
     let caseNoteId = null;
+
     await models.case_note
       .create(
         {
@@ -75,7 +76,6 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     );
     return { caseNotes, caseDetails };
   });
-
   response.status(201).send(currentCase);
 });
 
