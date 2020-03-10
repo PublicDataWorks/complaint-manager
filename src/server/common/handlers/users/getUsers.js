@@ -13,6 +13,7 @@ import { retrieveSecretFromAWS } from "../../../retrieveSecretFromAWS";
 const config = require("../../../config/config")[process.env.NODE_ENV];
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 const Boom = require("boom");
+const winston = require("winston");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
   let authResponse;
@@ -45,6 +46,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       authResponse = response.data;
     })
     .catch(error => {
+      winston.error(INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE, error);
       throwTokenFailure(next, error);
     });
 
@@ -62,6 +64,10 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
         userData = response.data;
       })
       .catch(error => {
+        winston.error(
+          INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE,
+          error
+        );
         throw Boom.badImplementation(
           INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE,
           error
