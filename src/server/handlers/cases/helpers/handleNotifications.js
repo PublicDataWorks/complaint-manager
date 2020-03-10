@@ -25,7 +25,8 @@ export const handleNotifications = async (
     if (mentionedUsersEmails.includes(currentUser)) {
       await updateNotification(transaction, request, currentUser, caseNoteId);
       const workingListIndex = workingListUsersEmails.indexOf(currentUser);
-      workingListMentionedUsers.splice(workingListIndex);
+      workingListUsersEmails.splice(workingListIndex, 1);
+      workingListMentionedUsers.splice(workingListIndex, 1);
     } else {
       await deleteNotification(transaction, request, currentUser, caseNoteId);
     }
