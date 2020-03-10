@@ -1,5 +1,3 @@
-const models = "./";
-
 module.exports = (sequelize, DataTypes) => {
   const Notification = sequelize.define(
     "notification",
@@ -38,8 +36,25 @@ module.exports = (sequelize, DataTypes) => {
     { paranoid: true }
   );
 
+  Notification.prototype.modelDescription = async function(transaction) {
+    return [{ "Notification Mentioned User": this.user }];
+  };
+
+  Notification.prototype.getManagerType = async function(transaction) {
+    return "complaint";
+  };
+
+  Notification.prototype.getCaseId = async function(transaction) {
+    const caseNote = await sequelize
+      .model("case_note")
+      .findByPk(this.caseNoteId, { transaction });
+
+    return caseNote.caseId;
+  };
+
   Notification.associate = models => {
     Notification.belongsTo(models.case_note, {
+      as: "caseNote",
       foreignKey: {
         name: "caseNoteId",
         field: "case_note_id",
@@ -48,9 +63,6 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  Notification.prototype.getCaseNoteId = async function(transaction) {
-    return this.caseNoteId;
-  };
-
+  Notification.auditDataChange();
   return Notification;
 };

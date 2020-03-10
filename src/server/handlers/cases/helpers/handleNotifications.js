@@ -1,10 +1,3 @@
-import { getNotificationAuditDetails } from "./getNotificationAuditDetails";
-import auditDataAccess from "../../audits/auditDataAccess";
-
-const {
-  AUDIT_SUBJECT,
-  MANAGER_TYPE
-} = require("../../../../sharedUtilities/constants");
 const models = require("../../../complaintManager/models");
 
 export const handleNotifications = async (
@@ -49,12 +42,16 @@ export const handleNotifications = async (
 };
 
 const createNotification = async (transaction, request, user, caseNoteId) => {
-  await models.notification.create({
-    caseNoteId: caseNoteId,
-    user: user.value
-  });
-
-  await auditNotificationDetails(transaction, request, caseNoteId);
+  await models.notification.create(
+    {
+      caseNoteId: caseNoteId,
+      user: user.value
+    },
+    {
+      transaction,
+      auditUser: request.nickname
+    }
+  );
 };
 
 const deleteNotification = async (transaction, request, user, caseNoteId) => {
@@ -65,8 +62,10 @@ const deleteNotification = async (transaction, request, user, caseNoteId) => {
     }
   });
 
-  await currentNotification.destroy();
-  await auditNotificationDetails(transaction, request, caseNoteId);
+  await currentNotification.destroy({
+    transaction,
+    auditUser: request.nickname
+  });
 };
 
 const updateNotification = async (transaction, request, user, caseNoteId) => {
@@ -78,22 +77,6 @@ const updateNotification = async (transaction, request, user, caseNoteId) => {
   });
 
   currentNotification.changed("user", true);
-  await currentNotification.save();
-  await auditNotificationDetails(transaction, request, caseNoteId);
-};
 
-const auditNotificationDetails = async (transaction, request, caseNoteId) => {
-  const notificationAuditDetails = getNotificationAuditDetails(
-    caseNoteId,
-    transaction
-  );
-
-  await auditDataAccess(
-    request.nickname,
-    request.params.caseId,
-    MANAGER_TYPE.COMPLAINT,
-    AUDIT_SUBJECT.NOTIFICATIONS,
-    notificationAuditDetails,
-    transaction
-  );
+  await currentNotification.save({ transaction, auditUser: request.nickname });
 };
