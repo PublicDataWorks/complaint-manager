@@ -9,5 +9,18 @@ module.exports = {
     });
   },
 
-  down: async (queryInterface, Sequelize) => {}
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.transaction(async transaction => {
+      await queryInterface.addColumn(
+        "notifications",
+        "preview_text",
+        {
+          type: Sequelize.STRING,
+          allowNull: false,
+          defaultValue: ""
+        },
+        { transaction }
+      );
+    });
+  }
 };
