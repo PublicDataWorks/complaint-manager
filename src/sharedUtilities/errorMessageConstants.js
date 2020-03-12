@@ -31,7 +31,8 @@ export const BAD_REQUEST_ERRORS = {
   OPERATION_NOT_PERMITTED: "Operation not permitted",
   OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
   PIB_CONTROL_NUMBER_ALREADY_EXISTS: "PIB Control # is already in use",
-  NOTIFICATION_CREATION_ERROR: "There was an error creating the notification."
+  NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",
+  NOTIFICATION_DELETION_ERROR: "There was an error removing the notification."
 };
 
 export const BAD_DATA_ERRORS = {
