@@ -11,6 +11,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import Notification from "../../../../client/complaintManager/testUtilities/notification";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -76,6 +77,35 @@ describe("RemoveCaseNote unit", () => {
       where: { caseId: createdCase.id }
     });
     expect(updatedCaseNotes).toEqual([]);
+  });
+
+  test("should delete case note notifications when case note is removed", async () => {
+    const response = httpMocks.createResponse();
+
+    const notificationAttributes = new Notification.Builder()
+      .defaultNotification()
+      .withCaseNoteId(createdCaseNote.id);
+
+    const notification = await models.notification.create(
+      notificationAttributes,
+      { auditUser: "someone" }
+    );
+
+    await removeCaseNote(request, response, jest.fn());
+    const deletedNotification = await models.notification.findOne({
+      where: { caseNoteId: createdCaseNote.id },
+      paranoid: false
+    });
+
+    expect(deletedNotification).toEqual(
+      expect.objectContaining({
+        caseNoteId: notification.caseNoteId
+      })
+    );
+
+    expect(deletedNotification).not.toEqual(
+      expect.objectContaining({ deletedAt: null })
+    );
   });
 
   describe("auditing", () => {

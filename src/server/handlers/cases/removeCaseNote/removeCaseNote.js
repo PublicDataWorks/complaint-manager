@@ -1,6 +1,8 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import Boom from "boom";
+import {BAD_REQUEST_ERRORS} from "../../../../sharedUtilities/errorMessageConstants";
 
 const {
   AUDIT_SUBJECT,
@@ -14,6 +16,26 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
   const caseNoteId = request.params.caseNoteId;
 
   const currentCase = await models.sequelize.transaction(async transaction => {
+    await models.notification.destroy({
+      where: {
+        caseNoteId: caseNoteId
+      },
+      transaction,
+      auditUser: request.nickname
+    });
+
+    const notificationsStillThere = await models.notification.findOne({
+      where: {
+        caseNoteId: caseNoteId
+      },
+      transaction,
+      auditUser: request.nickname
+    });
+
+    if(notificationsStillThere) {
+      throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_DELETION_ERROR);
+    }
+
     await models.case_note.destroy({
       where: {
         id: caseNoteId
