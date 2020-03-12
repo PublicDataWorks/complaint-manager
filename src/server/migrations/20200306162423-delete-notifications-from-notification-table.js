@@ -8,7 +8,7 @@ module.exports = {
       try {
         await models.notification.destroy({
           where: {},
-          force: true
+          force: false
         });
       } catch (error) {
         throw new Error(
