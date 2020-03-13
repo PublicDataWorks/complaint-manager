@@ -8,7 +8,9 @@ module.exports = {
       try {
         await models.notification.destroy({
           where: {},
-          force: true
+          force: true,
+          transaction: transaction,
+          auditUser: "someone"
         });
       } catch (error) {
         throw new Error(
