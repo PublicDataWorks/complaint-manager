@@ -75,8 +75,6 @@
     "id": "disableCaseNotesRemoval",
     "name": "disableCaseNotesRemoval",
     "description": "Disable removal of case notes",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
