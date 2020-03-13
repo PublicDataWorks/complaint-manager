@@ -85,6 +85,8 @@ describe("ActivityMenu", () => {
       );
       wrapper.update();
 
+      activityMenuButton.simulate("click");
+
       expect(
         wrapper.find('[data-testid="removeMenuItem"]').exists()
       ).toBeFalse();
