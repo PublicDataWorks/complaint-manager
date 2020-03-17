@@ -4,13 +4,13 @@ import {
 } from "../../../../sharedUtilities/errorMessageConstants";
 import moment from "moment";
 import { CASE_EXPORT_TYPE } from "../../../../sharedUtilities/constants";
+import getInstance from "./queueFactory";
 
 const {
   JOB_OPERATION,
   USER_PERMISSIONS
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const kueJobQueue = require("./jobQueue");
 const config = require("../../../config/config")[process.env.NODE_ENV];
 const Boom = require("boom");
 
@@ -32,22 +32,23 @@ const scheduleExport = asyncMiddleware(async (request, response, next) => {
 
   const fflipFeatures = request.fflip ? request.fflip.features : null;
 
-  const job = kueJobQueue
-    .createQueue()
-    .create(JOB_OPERATION[request.params.operation].key, {
+  const queue = getInstance();
+
+  const job = await queue.add(
+    JOB_OPERATION[request.params.operation].key,
+    {
       title: JOB_OPERATION[request.params.operation].title,
       name: JOB_OPERATION[request.params.operation].name,
       user: request.nickname,
       features: fflipFeatures,
       ...dateRangeData
-    });
-  job.attempts(config.queue.failedJobAttempts);
-  job.backoff({ delay: config.queue.exponentialDelay, type: "exponential" });
-  job.ttl(config.queue.jobTimeToLive);
-
-  job.save(() => {
-    response.json({ jobId: job.id });
-  });
+    },
+    {
+      attempts: config.queue.failedJobAttempts,
+      timeout: config.queue.jobTimeToLive
+    }
+  );
+  response.json({ jobId: job.id });
 });
 
 const throwErrorIfMissingDateRangeParameters = (query, operation) => {

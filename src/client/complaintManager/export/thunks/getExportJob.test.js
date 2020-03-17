@@ -24,7 +24,7 @@ describe("Get Export Job by id", () => {
   test("job Complete should trigger job complete action", async () => {
     nock("http://localhost")
       .get(`/api/export/job/${jobId}`)
-      .reply(200, { state: "complete", downLoadUrl: "some url" });
+      .reply(200, { state: "completed", downLoadUrl: "some url" });
 
     await getExportJob(jobId, 1)(mockedDispatch);
 
