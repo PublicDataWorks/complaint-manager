@@ -1,72 +1,92 @@
-import { JOB_OPERATION } from "../../../../sharedUtilities/constants";
+import {
+  JOB_OPERATION,
+  QUEUE_PREFIX
+} from "../../../../sharedUtilities/constants";
 import generateExportDownloadUrl from "./generateExportDownloadUrl";
-
-const kue = require("kue");
+import getInstance from "./queueFactory";
+import Queue from "bull/lib/queue";
+import Job from "bull/lib/job";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const AUTHENTICATED_URL = "authenticated url";
 jest.mock("./generateExportDownloadUrl", () =>
   jest.fn((file, user, auditSubject) => "authenticated url")
 );
-jest.mock("kue");
+jest.mock("./queueFactory");
+jest.mock("bull/lib/queue");
+jest.mock("bull/lib/job");
 
 const exportJob = require("./exportJob");
+const Boom = require("boom");
 
-const request = { nickname: "someUser", params: { id: 123 } };
 const response = { json: jest.fn() };
 
 describe("Get an export job", () => {
-  afterEach(() => {
-    kue.Job.get.mockReset();
+  let queueMock;
+  beforeEach(() => {
+    queueMock = new Queue(QUEUE_PREFIX);
+    getInstance.mockImplementation(() => queueMock);
   });
 
   test("get an export job by id", async () => {
-    const job = { id: 123, result: {}, state: () => "current state" };
+    const jobMock = new Job();
+    jobMock.getState.mockResolvedValue("waiting");
+    jobMock.id = 123;
+    queueMock.getJob.mockResolvedValue(jobMock);
 
-    kue.Job.get.mockImplementation((id, callBack) => {
-      callBack(undefined, job);
-    });
+    const request = { nickname: "someUser", params: { jobId: 123 } };
 
     await exportJob(request, response, jest.fn());
 
     expect(response.json).toHaveBeenCalledWith({
-      id: job.id,
-      state: job.state(),
+      id: 123,
+      state: "waiting",
       downLoadUrl: undefined
     });
   });
 
-  test("set job download url when job is complete", async () => {
-    const job = {
-      id: 123,
-      data: { name: JOB_OPERATION.CASE_EXPORT.name },
-      result: {},
-      state: () => "complete"
-    };
+  test("should returns a BAD REQUEST when job cannot be retrieved by id", async () => {
+    queueMock.getJob.mockResolvedValue(null);
 
-    kue.Job.get.mockImplementation((id, callBack) => {
-      callBack(undefined, job);
-    });
+    const next = jest.fn();
+
+    const request = { nickname: "someUser", params: { jobId: 150 } };
+
+    await exportJob(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_JOB)
+    );
+  });
+
+  test("set job download url when job is complete", async () => {
+    const jobMock = new Job();
+    jobMock.getState.mockResolvedValue("completed");
+    jobMock.id = 123;
+    jobMock.returnvalue = { Key: "file.name" };
+    jobMock.data = { name: "blah", dateRange: null };
+    queueMock.getJob.mockResolvedValue(jobMock);
+
+    const request = { nickname: "someUser", params: { jobId: 123 } };
 
     await exportJob(request, response, jest.fn());
 
     expect(response.json).toHaveBeenCalledWith({
-      id: job.id,
-      state: job.state(),
+      id: 123,
+      state: "completed",
       downLoadUrl: AUTHENTICATED_URL
     });
   });
 
   test("send audit all case subject when job type is export cases", async () => {
-    const job = {
-      id: 123,
-      data: { name: JOB_OPERATION.CASE_EXPORT.name },
-      result: { Key: "file.name" },
-      state: () => "complete"
-    };
+    const jobMock = new Job();
+    jobMock.getState.mockResolvedValue("completed");
+    jobMock.id = 123;
+    jobMock.returnvalue = { Key: "file.name" };
+    jobMock.data = { title: "test job", name: JOB_OPERATION.CASE_EXPORT.name };
+    queueMock.getJob.mockResolvedValue(jobMock);
 
-    kue.Job.get.mockImplementation((id, callBack) => {
-      callBack(undefined, job);
-    });
+    const request = { nickname: "someUser", params: { jobId: 123 } };
 
     await exportJob(request, response, jest.fn());
 
@@ -79,19 +99,18 @@ describe("Get an export job", () => {
   });
 
   test("send audit audit log subject and date range when job type is audit log", async () => {
-    const job = {
-      id: 123,
-      data: {
-        name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
-        dateRange: { exportStartDate: "date", exportEndDate: "date" }
-      },
-      result: { Key: "file.name" },
-      state: () => "complete"
+    const jobMock = new Job();
+    jobMock.getState.mockResolvedValue("completed");
+    jobMock.id = 123;
+    jobMock.returnvalue = { Key: "file.name" };
+    jobMock.data = {
+      title: "test job",
+      name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
+      dateRange: { exportStartDate: "date", exportEndDate: "date" }
     };
+    queueMock.getJob.mockResolvedValue(jobMock);
 
-    kue.Job.get.mockImplementation((id, callBack) => {
-      callBack(undefined, job);
-    });
+    const request = { nickname: "someUser", params: { jobId: 123 } };
 
     await exportJob(request, response, jest.fn());
 
@@ -99,7 +118,7 @@ describe("Get an export job", () => {
       "file.name",
       request.nickname,
       JOB_OPERATION.AUDIT_LOG_EXPORT.name,
-      job.data.dateRange
+      jobMock.data.dateRange
     );
   });
 });

@@ -13,7 +13,7 @@ const getExportJob = (jobId, currentRefreshCount = 1) => async dispatch => {
   try {
     const response = await axios.get(`api/export/job/${jobId}`);
     const job = response.data;
-    if (job && job.state === "complete") {
+    if (job && job.state === "completed") {
       return dispatch(exportJobCompleted(job.downLoadUrl));
     }
     if (
