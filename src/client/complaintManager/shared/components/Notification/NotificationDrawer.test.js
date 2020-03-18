@@ -1,11 +1,11 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import NavBar from "./NavBar";
+import NavBar from "../NavBar/NavBar";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
+import { matrixManagerMenuOptions } from "../NavBar/matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { wait } from "@testing-library/dom";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";

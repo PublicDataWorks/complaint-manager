@@ -14,16 +14,18 @@ import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import MenuNavigator from "./MenuNavigator";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
-import NotificationDrawer from "./NotificationDrawer";
+import NotificationDrawer from "../Notification/NotificationDrawer";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import getNotifications from "../../thunks/getNotifications";
 
 class NavBar extends Component {
   state = {
     menuOpen: false,
     anchorEl: null,
     exportDialogOpen: false,
-    notificationDrawer: false
+    notificationDrawer: false,
+    notifications: []
   };
 
   handleMenuOpen = event => {
@@ -44,6 +46,9 @@ class NavBar extends Component {
     const open = this.state.notificationDrawer;
     this.setState({
       notificationDrawer: !open
+    });
+    this.setState({
+      notifications: this.props.getNotifications(this.props.nickname)
     });
   };
 
@@ -99,6 +104,7 @@ class NavBar extends Component {
           <NotificationDrawer
             open={this.state.notificationDrawer}
             onClose={() => this.handleNotificationClick()}
+            notifications={this.state.notifications}
           />
           <IconButton
             data-testid="hamburgerButton"
@@ -116,8 +122,8 @@ class NavBar extends Component {
             style={{ zIndex: theme.zIndex.drawer + 10000 }}
             getContentAnchorEl={null}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
+              vertical: "bottom",
+              horizontal: "center"
             }}
             anchorEl={this.state.anchorEl}
             onClose={this.handleMenuClose}
@@ -145,4 +151,8 @@ const mapStateToProps = state => ({
   notificationFeature: state.featureToggles.notificationFeature
 });
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = {
+  getNotifications
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
