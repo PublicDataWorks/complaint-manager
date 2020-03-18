@@ -7,7 +7,7 @@ import {
   getMentionedUsers
 } from "./userMentionHelperFunctions";
 import { useRunAfterUpdate } from "./userMentionHooks";
-import useOnClickOutside from "../../../shared/components/NavBar/useOnClickOutside";
+import useOnClickOutside from "../../../shared/components/Notification/useOnClickOutside";
 
 export const TextFieldWithUserMention = props => {
   const {

@@ -5,16 +5,18 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import useOnClickOutside from "./useOnClickOutside";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
+import NotificationCard from "./NotificationCard";
 
 const useStyles = makeStyles(theme => ({
   // Show "fake/empty" tool bar": https://material-ui.com/components/app-bar/
-  toolbar: theme.mixins.toolbar,
-  paper: styles.drawer
+  toolbar: theme.mixins.toolbar
 }));
 
 const NotificationDrawer = props => {
   const classes = useStyles();
   const ref = useRef();
+
+  //console.log("my Notifications", props.notifications)
 
   const handleClickAway = () => {
     props.onClose();
@@ -24,6 +26,7 @@ const NotificationDrawer = props => {
     handleClickAway();
   });
 
+
   return (
     <Drawer
       ref={ref}
@@ -31,7 +34,6 @@ const NotificationDrawer = props => {
       onClose={handleClickAway}
       variant="temporary"
       anchor="right"
-      data-testid="notificationDrawer"
       data-testid="notificationDrawer"
       SlideProps={{
         timeout: { enter: 300, exit: 300 },
@@ -41,6 +43,7 @@ const NotificationDrawer = props => {
       }}
     >
       <div className={classes.toolbar} />
+      {/*<NotificationCard />*/}
       <div style={styles.drawerContent}>
         <NotificationsIcon
           style={{ justifyContent: "center", width: "100%" }}
@@ -54,5 +57,7 @@ const NotificationDrawer = props => {
     </Drawer>
   );
 };
+
+
 
 export default NotificationDrawer;
