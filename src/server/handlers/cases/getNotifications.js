@@ -5,7 +5,7 @@ import sequelize from "sequelize";
 const getNotifications = asyncMiddleWare(async (request, response, next) => {
   const params = {
     where: {
-      updatedAt: { [sequelize.Op.gt]: request.params.timestamp },
+      updatedAt: { [sequelize.Op.gt]: request.query.timestamp },
       user: request.params.user
     }
   };
@@ -16,7 +16,6 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       return allNotifications;
     }
   );
-
   response.send(notifications);
 });
 

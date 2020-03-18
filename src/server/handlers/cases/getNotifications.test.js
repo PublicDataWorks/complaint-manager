@@ -48,7 +48,8 @@ describe("getNotifications", () => {
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
-      params: { user: currentNotif.user, timestamp: timestamp },
+      params: { user: currentNotif.user },
+      query: { timestamp: timestamp },
       nickname: "tuser"
     });
 
@@ -70,8 +71,8 @@ describe("getNotifications", () => {
     ]);
   });
 
-  test("should not return notifications that were updated or created more than 30 days ago", async () => {
-    request.params.timestamp = new Date(now());
+  test("should not return notifications that were updated or created before timestamp", async () => {
+    request.query.timestamp = new Date(now());
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
