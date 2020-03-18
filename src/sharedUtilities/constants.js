@@ -161,6 +161,9 @@ export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 
 export const MATRIX_CREATED_SUCCESS = "MATRIX_CREATED_SUCCESS";
 
+export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
+export const GET_NOTIFICATIONS_FAILURE = "GET_NOTIFICATIONS_FAILURE";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------
