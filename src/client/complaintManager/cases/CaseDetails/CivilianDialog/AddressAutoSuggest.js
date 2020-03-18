@@ -168,8 +168,12 @@ class AddressAutoSuggest extends Component {
     return this.props.mapService.getSuggestionValue(suggestion);
   };
 
-  handleValidatedAddress = address => {
+  handleValidatedAddress = (address, displayAddress) => {
+    console.log("Address that gets sent to redux and backend", address);
     this.props.setFormValues(address);
+
+    console.log("Recieved New Display Address", displayAddress);
+    this.props.updateAddressDisplayValue(displayAddress);
   };
 
   showAddressLookupError = message => {
@@ -182,7 +186,14 @@ class AddressAutoSuggest extends Component {
   };
 
   onSuggestionSelected = (event, { suggestion }) => {
+    // this.props.mapService.testGeocoderLimits(10);
+    console.log("Suggestion That Was Choosen from Dropdown", suggestion);
+    //this.props.mapService.getAddressOfSelectedOption({ placeId: suggestion.place_id })
+
+    // fetchaddressdetails == SUCCESS CALLBACK WILL SUBMITE COMPLETE ADDRESS TO BACKEND !!!
+    // HANDLE VALDIDATE ADDRESS SETS FORM VALUES
     this.setState({ suggestionSelected: true });
+
     this.props.mapService.fetchAddressDetails(
       { placeId: suggestion.place_id },
       this.handleValidatedAddress,
@@ -226,14 +237,16 @@ class AddressAutoSuggest extends Component {
   };
 
   handleChange = (event, { newValue }) => {
-    this.props.updateAddressDisplayValue(newValue);
-    this.setState({ suggestionSelected: false });
-    this.props.updateAddressToConfirm({});
-    this.props.updateShowAddressMessage(false);
-    if (newValue.trim() === "") {
-      this.props.setFormValues(parseAddressFromGooglePlaceResult({}));
-    } else {
-      this.props.updateAddressInputValidity(false);
+    if (event.type === "change") {
+      this.props.updateAddressDisplayValue(newValue);
+      this.setState({ suggestionSelected: false });
+      this.props.updateAddressToConfirm({});
+      this.props.updateShowAddressMessage(false);
+      if (newValue.trim() === "") {
+        this.props.setFormValues(parseAddressFromGooglePlaceResult({}));
+      } else {
+        this.props.updateAddressInputValidity(false);
+      }
     }
   };
 
