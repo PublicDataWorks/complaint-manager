@@ -8,17 +8,24 @@ const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
 describe("getNotifications", () => {
-  let request, response, next, currentCaseNote, currentNotif, timestamp;
+  let request,
+    response,
+    next,
+    currentCaseNote,
+    currentNotif,
+    timestamp,
+    currentCase;
 
   beforeEach(async () => {
     timestamp = new Date(now());
     const caseAttributes = new Case.Builder().defaultCase();
-    const currentCase = await models.cases.create(caseAttributes, {
+    currentCase = await models.cases.create(caseAttributes, {
       auditUser: "tuser"
     });
 
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
+      .withUser("wancheny@gmail.com")
       .withCaseId(currentCase.id);
 
     currentCaseNote = await models.case_note.create(caseNoteAttributes, {
@@ -120,5 +127,25 @@ describe("getNotifications", () => {
     await getNotifications(request, response, next);
 
     expect(response._getData()).toEqual([]);
+  });
+
+  test("should return correct case reference for notification", async () => {
+    const caseReference = currentCase.caseReference;
+
+    await getNotifications(request, response, next);
+
+    expect(
+      response._getData()[0].dataValues.caseNote.case.caseReference
+    ).toEqual(caseReference);
+  });
+
+  test("should return correct mentioner for notification", async () => {
+    const mentioner = currentCaseNote.user;
+
+    await getNotifications(request, response, next);
+
+    expect(
+      response._getData()[0].dataValues.caseNote.dataValues.mentioner
+    ).toEqual(mentioner);
   });
 });

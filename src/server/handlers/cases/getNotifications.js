@@ -7,7 +7,37 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     where: {
       updatedAt: { [sequelize.Op.gt]: request.query.timestamp },
       user: request.params.user
-    }
+    },
+    include: [
+      {
+        model: models.case_note,
+        as: "caseNote",
+        attributes: [["user", "mentioner"]],
+        include: [
+          {
+            model: models.cases,
+            attributes: [
+              "caseReference",
+              "year",
+              "caseNumber",
+              "primaryComplainant"
+            ],
+            include: [
+              {
+                model: models.civilian,
+                as: "complainantCivilians",
+                attributes: ["isAnonymous"]
+              },
+              {
+                model: models.case_officer,
+                as: "complainantOfficers",
+                attributes: ["isAnonymous"]
+              }
+            ]
+          }
+        ]
+      }
+    ]
   };
 
   const notifications = await models.sequelize.transaction(

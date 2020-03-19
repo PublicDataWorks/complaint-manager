@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "../../../../common/globalStyling/styles";
 import Drawer from "@material-ui/core/Drawer";
 import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -15,8 +15,19 @@ const useStyles = makeStyles(theme => ({
 const NotificationDrawer = props => {
   const classes = useStyles();
   const ref = useRef();
+  const [hasNotifications, setHasNotifications] = useState(false);
 
-  //console.log("my Notifications", props.notifications)
+  console.log("my Notifications in drawer", props.notifications);
+
+  useEffect(() => {
+    if (props.notifications.length > 0) {
+      console.log("has notifications", props.notifications);
+      setHasNotifications(true);
+    } else {
+      console.log("length less than 0", props.notifications);
+      setHasNotifications(false);
+    }
+  }, [props.notifications]);
 
   const handleClickAway = () => {
     props.onClose();
@@ -25,7 +36,6 @@ const NotificationDrawer = props => {
   useOnClickOutside(ref, () => {
     handleClickAway();
   });
-
 
   return (
     <Drawer
@@ -43,21 +53,23 @@ const NotificationDrawer = props => {
       }}
     >
       <div className={classes.toolbar} />
-      {/*<NotificationCard />*/}
-      <div style={styles.drawerContent}>
-        <NotificationsIcon
-          style={{ justifyContent: "center", width: "100%" }}
-          fontSize="large"
-          color="secondary"
-        />
-        <div style={{ textAlign: "center", width: "100%", color: "#62757f" }}>
-          {DEFAULT_NOTIFICATION_TEXT}
+
+      {hasNotifications ? (
+        <NotificationCard />
+      ) : (
+        <div style={styles.drawerContent}>
+          <NotificationsIcon
+            style={{ justifyContent: "center", width: "100%" }}
+            fontSize="large"
+            color="secondary"
+          />
+          <div style={{ textAlign: "center", width: "100%", color: "#62757f" }}>
+            {DEFAULT_NOTIFICATION_TEXT}
+          </div>
         </div>
-      </div>
+      )}
     </Drawer>
   );
 };
-
-
 
 export default NotificationDrawer;
