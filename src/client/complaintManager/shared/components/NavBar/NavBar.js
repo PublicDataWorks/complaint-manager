@@ -43,12 +43,12 @@ class NavBar extends Component {
   };
 
   handleNotificationClick = () => {
+    this.setState({
+      notifications: this.props.getNotifications(this.props.nickname)
+    });
     const open = this.state.notificationDrawer;
     this.setState({
       notificationDrawer: !open
-    });
-    this.setState({
-      notifications: this.props.getNotifications(this.props.nickname)
     });
   };
 

@@ -2,10 +2,7 @@ import configureInterceptors from "../../../common/axiosInterceptors/interceptor
 import nock from "nock";
 import getAccessToken from "../../../common/auth/getAccessToken";
 import getNotifications from "./getNotifications";
-import {
-  getNotificationsSuccess,
-  getNotificationsFailure
-} from "../../actionCreators/notificationActionCreators";
+import { getNotificationsSuccess } from "../../actionCreators/notificationActionCreators";
 import moment from "moment";
 
 jest.mock("../../../common/auth/getAccessToken");
@@ -37,27 +34,6 @@ describe("get notifications", () => {
     await getNotifications(user, thirtyDaysAgo)(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       getNotificationsSuccess(responseBody)
-    );
-  });
-
-  // unsure why or how this is dispatching 2 failure messages
-  test("dispatches failure", async () => {
-    nock("http://localhost/", {
-      reqheaders: {
-        Authorization: `Bearer ${token}`
-      }
-    })
-      .get(`/api/notifications/${user}/`)
-      .query(true)
-      .reply(500);
-
-    getAccessToken.mockImplementation(() => token);
-
-    await getNotifications(user, thirtyDaysAgo)(dispatch);
-    expect(dispatch).toHaveBeenCalledWith(
-      getNotificationsFailure(
-        "Something went wrong, and your notifications could not be retrieved."
-      )
     );
   });
 });
