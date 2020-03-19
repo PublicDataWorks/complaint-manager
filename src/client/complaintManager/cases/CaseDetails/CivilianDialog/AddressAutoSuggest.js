@@ -169,10 +169,8 @@ class AddressAutoSuggest extends Component {
   };
 
   handleValidatedAddress = (address, displayAddress) => {
-    console.log("Address that gets sent to redux and backend", address);
     this.props.setFormValues(address);
 
-    console.log("Recieved New Display Address", displayAddress);
     this.props.updateAddressDisplayValue(displayAddress);
   };
 
@@ -186,12 +184,6 @@ class AddressAutoSuggest extends Component {
   };
 
   onSuggestionSelected = (event, { suggestion }) => {
-    // this.props.mapService.testGeocoderLimits(10);
-    console.log("Suggestion That Was Choosen from Dropdown", suggestion);
-    //this.props.mapService.getAddressOfSelectedOption({ placeId: suggestion.place_id })
-
-    // fetchaddressdetails == SUCCESS CALLBACK WILL SUBMITE COMPLETE ADDRESS TO BACKEND !!!
-    // HANDLE VALDIDATE ADDRESS SETS FORM VALUES
     this.setState({ suggestionSelected: true });
 
     this.props.mapService.fetchAddressDetails(
