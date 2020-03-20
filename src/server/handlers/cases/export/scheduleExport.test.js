@@ -1,34 +1,37 @@
 import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const { JOB_OPERATION } = require("../../../../sharedUtilities/constants");
-const kueJobQueue = require("./jobQueue");
 import scheduleExport from "./scheduleExport";
 import Boom from "boom";
 import { getAndValidateDateRangeData } from "./scheduleExport";
 import { expectError } from "../../../../sharedTestHelpers/expectError";
 import {
   CASE_EXPORT_TYPE,
+  QUEUE_PREFIX,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
+const config = require("../../../config/config")[process.env.NODE_ENV];
 const httpMocks = require("node-mocks-http");
+import getInstance from "./queueFactory";
+import Queue from "bull/lib/queue";
+import Job from "bull/lib/job";
+
+jest.mock("./queueFactory");
+jest.mock("bull/lib/queue");
+jest.mock("bull/lib/job");
 
 describe("exportCases request", function() {
-  let queue;
+  let queueMock;
 
   beforeEach(() => {
-    queue = kueJobQueue.createQueue();
-    queue.testMode.enter();
+    queueMock = new Queue(QUEUE_PREFIX);
+    getInstance.mockImplementation(() => queueMock);
   });
+  test("create a job in the job Queue", async () => {
+    const jobMock = new Job();
+    jobMock.id = 123;
+    queueMock.add.mockResolvedValue(jobMock);
 
-  afterEach(() => {
-    queue.testMode.clear();
-  });
-
-  afterAll(() => {
-    queue.shutdown(1000, () => {});
-  });
-
-  test("create a job in the job Queue", async done => {
     const request = {
       nickname: "someUser",
       params: { operation: JOB_OPERATION.CASE_EXPORT.name }
@@ -37,20 +40,22 @@ describe("exportCases request", function() {
 
     await scheduleExport(request, response, () => {});
 
-    expect(queue.testMode.jobs.length).toEqual(1);
-    expect(queue.testMode.jobs[0].type).toEqual(JOB_OPERATION.CASE_EXPORT.key);
-    expect(queue.testMode.jobs[0].data).toEqual(
+    expect(queueMock.add).toHaveBeenCalledWith(
+      JOB_OPERATION[request.params.operation].key,
       expect.objectContaining({
-        title: JOB_OPERATION.CASE_EXPORT.title,
-        name: JOB_OPERATION.CASE_EXPORT.name,
+        title: JOB_OPERATION[request.params.operation].title,
+        name: JOB_OPERATION[request.params.operation].name,
         user: request.nickname
+      }),
+      expect.objectContaining({
+        attempts: config.queue.failedJobAttempts,
+        timeout: config.queue.jobTimeToLive
       })
     );
 
     expect(response.json).toHaveBeenCalledWith({
-      jobId: queue.testMode.jobs[0].id
+      jobId: 123
     });
-    done();
   });
 
   test("throws error with invalid date range", async () => {
@@ -69,10 +74,13 @@ describe("exportCases request", function() {
     await scheduleExport(request, response, next);
 
     expect(next).toHaveBeenCalledWith(expect.any(Error));
-    expect(queue.testMode.jobs.length).toEqual(0);
   });
 
-  test("job should include date range for audit log export", async done => {
+  test("job should include date range for audit log export", async () => {
+    const jobMock = new Job();
+    jobMock.id = 123;
+    queueMock.add.mockResolvedValue(jobMock);
+
     const request = {
       nickname: "user",
       params: { operation: JOB_OPERATION.AUDIT_LOG_EXPORT.name },
@@ -89,8 +97,8 @@ describe("exportCases request", function() {
 
     await scheduleExport(request, response, () => {});
 
-    expect(queue.testMode.jobs.length).toEqual(1);
-    expect(queue.testMode.jobs[0].data).toEqual(
+    expect(queueMock.add).toHaveBeenCalledWith(
+      JOB_OPERATION[request.params.operation].key,
       expect.objectContaining({
         title: JOB_OPERATION.AUDIT_LOG_EXPORT.title,
         name: JOB_OPERATION.AUDIT_LOG_EXPORT.name,
@@ -99,12 +107,16 @@ describe("exportCases request", function() {
           exportStartDate: "2018-12-02",
           exportEndDate: "2019-01-14"
         }
-      })
+      }),
+      expect.anything()
     );
-    done();
   });
 
-  test("job should include date range and type for case export", async done => {
+  test("job should include date range and type for case export", async () => {
+    const jobMock = new Job();
+    jobMock.id = 123;
+    queueMock.add.mockResolvedValue(jobMock);
+
     const request = {
       nickname: "user",
       params: { operation: JOB_OPERATION.CASE_EXPORT.name },
@@ -119,8 +131,8 @@ describe("exportCases request", function() {
 
     await scheduleExport(request, response, () => {});
 
-    expect(queue.testMode.jobs.length).toEqual(1);
-    expect(queue.testMode.jobs[0].data).toEqual(
+    expect(queueMock.add).toHaveBeenCalledWith(
+      JOB_OPERATION[request.params.operation].key,
       expect.objectContaining({
         title: JOB_OPERATION.CASE_EXPORT.title,
         name: JOB_OPERATION.CASE_EXPORT.name,
@@ -130,9 +142,9 @@ describe("exportCases request", function() {
           exportEndDate: "2019-01-14",
           type: CASE_EXPORT_TYPE.FIRST_CONTACT_DATE
         }
-      })
+      }),
+      expect.anything()
     );
-    done();
   });
 
   describe("getAndValidateDateRangeData", () => {

@@ -3,6 +3,7 @@ import {
   refuseNewConnectionDuringShutdown
 } from "./workerHelpers";
 import http from "http";
+import getInstance from "../server/handlers/cases/export/queueFactory";
 
 const newRelic = require("newrelic");
 
@@ -21,7 +22,6 @@ const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
 const csvCaseExport = require("./processors/exportCases/csvCaseExport");
 const exportAuditLog = require("./processors/auditLogs/exportAuditLog");
-const jobQueue = require("../server/handlers/cases/export/jobQueue");
 
 winston.configure({
   transports: [
@@ -35,10 +35,10 @@ winston.configure({
 });
 
 const app = express();
-app.use(function (req, res, next) {
-  res.header("X-powered-by", "<3")
-  next()
-})
+app.use(function(req, res, next) {
+  res.header("X-powered-by", "<3");
+  next();
+});
 const twoYearsInSeconds = 63113852;
 app.locals.shuttingDown = false;
 app.use(refuseNewConnectionDuringShutdown(app));
@@ -100,7 +100,7 @@ app.use(
 
 app.use(errorHandler);
 
-const queue = jobQueue.createQueue();
+const queue = getInstance();
 
 queue.process(JOB_OPERATION.CASE_EXPORT.key, 1, (job, done) => {
   csvCaseExport(job, done);

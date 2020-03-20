@@ -1,6 +1,7 @@
 import db from "../server/complaintManager/models";
+import getInstance from "../server/handlers/cases/export/queueFactory";
 
-const queue = require("../server/handlers/cases/export/jobQueue").createQueue();
+const queue = getInstance();
 
 const gracefulExit = server => {
   console.warn("Received kill signal (SIGTERM), shutting down");
@@ -14,7 +15,7 @@ const gracefulExit = server => {
 
   server.close(() => {
     db.sequelize.close().then(
-      queue.shutdown(30000, () => {
+      queue.close().then(() => {
         process.exit(0);
       })
     );
