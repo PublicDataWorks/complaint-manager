@@ -7,8 +7,6 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 
-jest.mock("../cases/export/jobQueue");
-
 describe("GET /allegations", function() {
   let token;
   beforeEach(() => {

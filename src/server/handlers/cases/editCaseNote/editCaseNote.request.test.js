@@ -9,8 +9,6 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
-jest.mock("../export/jobQueue");
-
 describe("editCaseNote request", function() {
   afterEach(async () => {
     await cleanupDatabase();

@@ -21,8 +21,6 @@ import CaseOfficer from "../../../../../client/complaintManager/testUtilities/ca
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
-jest.mock("../../export/jobQueue");
-
 describe("Approve referral letter", () => {
   let existingCase, token;
 

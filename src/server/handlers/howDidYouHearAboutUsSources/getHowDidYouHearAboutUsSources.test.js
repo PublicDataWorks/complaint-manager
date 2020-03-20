@@ -7,8 +7,6 @@ import getHowDidYouHearAboutUsSources from "./getHowDidYouHearAboutUsSources";
 
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../cases/export/jobQueue");
-
 describe("getHowDidYouHearAboutUsSources", () => {
   let request, response, next;
 

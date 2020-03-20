@@ -14,8 +14,6 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
-jest.mock("../../export/jobQueue");
-
 describe("GET /cases/:id/referral-letter", function() {
   afterEach(async () => {
     await cleanupDatabase();

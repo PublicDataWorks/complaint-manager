@@ -12,8 +12,6 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 
-jest.mock("../../cases/export/jobQueue");
-
 describe("DELETE /officers-allegations/:officerAllegationId", () => {
   afterEach(async function() {
     await cleanupDatabase();

@@ -8,8 +8,6 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
-jest.mock("../export/jobQueue");
-
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {
     await cleanupDatabase();
