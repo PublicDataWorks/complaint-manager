@@ -1,30 +1,18 @@
-import React from "react";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import makeStyles from "@material-ui/core/styles/makeStyles";
+import React from "react";
 import Typography from "@material-ui/core/Typography";
+import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: "#FFFFFF"
-  }
-}));
+import { getDateAsString } from "./getDateAsString";
 
 const NotificationCard = props => {
-  const title = "Temporary Notif. Title";
-  const timestamp = "3/12/2020 at 3:10PM";
-  const classes = useStyles;
+  const title = `${props.notification.mentioner} mentioned you in ${props.notification.caseReference}`;
 
+  const dateAsString = getDateAsString(props.notification.updatedAt);
+  const timestamp = dateAsString;
   return (
-    <List
-      className={classes.root}
-      style={{ paddingTop: "0px", paddingBottom: "0px" }}
-    >
-      <ListItem style={{ backgroundColor: "white" }}>
+    <div>
+      <ListItem style={{ backgroundColor: "white", width: "300px" }}>
         <ListItemText
           primary={
             <React.Fragment>
@@ -37,7 +25,7 @@ const NotificationCard = props => {
         />
       </ListItem>
       <Divider component="li" />
-    </List>
+    </div>
   );
 };
 
