@@ -46,7 +46,23 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       return allNotifications;
     }
   );
-  response.send(notifications);
+
+  const newNotifications = notifications.map(notification => {
+    let simplifiedNotif;
+    const caseReference = notification.dataValues.caseNote.dataValues.case.get(
+      "caseReference"
+    );
+    const caseNote = { ...notification.dataValues.caseNote.dataValues };
+    delete notification["dataValues"]["caseNote"];
+    simplifiedNotif = {
+      ...notification.dataValues,
+      mentioner: caseNote.mentioner,
+      caseReference: caseReference
+    };
+    return simplifiedNotif;
+  });
+
+  response.send(newNotifications);
 });
 
 module.exports = getNotifications;

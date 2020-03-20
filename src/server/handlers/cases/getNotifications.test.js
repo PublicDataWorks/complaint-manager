@@ -134,9 +134,7 @@ describe("getNotifications", () => {
 
     await getNotifications(request, response, next);
 
-    expect(
-      response._getData()[0].dataValues.caseNote.case.caseReference
-    ).toEqual(caseReference);
+    expect(response._getData()[0].caseReference).toEqual(caseReference);
   });
 
   test("should return correct mentioner for notification", async () => {
@@ -144,8 +142,6 @@ describe("getNotifications", () => {
 
     await getNotifications(request, response, next);
 
-    expect(
-      response._getData()[0].dataValues.caseNote.dataValues.mentioner
-    ).toEqual(mentioner);
+    expect(response._getData()[0].mentioner).toEqual(mentioner);
   });
 });
