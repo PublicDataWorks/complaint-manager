@@ -16,8 +16,6 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
-jest.mock("../../export/jobQueue");
-
 describe("edit referral letter", () => {
   describe("officer histories (letter officers with history notes)", () => {
     afterEach(async () => {

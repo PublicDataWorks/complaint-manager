@@ -18,8 +18,6 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
-jest.mock("../export/jobQueue");
-
 describe("GET /cases/:id", () => {
   let caseToRetrieve, incidentLocation, expectedStreetAddress, token;
 

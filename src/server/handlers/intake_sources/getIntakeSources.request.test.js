@@ -7,8 +7,6 @@ import app from "../../server";
 import models from "../../complaintManager/models";
 import request from "supertest";
 
-jest.mock("../cases/export/jobQueue");
-
 describe("getHowDidYouHearAboutUsSources", () => {
   afterEach(async () => {
     await cleanupDatabase();

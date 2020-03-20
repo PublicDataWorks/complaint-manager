@@ -7,8 +7,6 @@ import request from "supertest";
 import app from "../../../../server";
 import models from "../../../../complaintManager/models";
 
-jest.mock("../../export/jobQueue");
-
 describe("getRecommendedActions", function() {
   afterEach(async () => {
     await cleanupDatabase();

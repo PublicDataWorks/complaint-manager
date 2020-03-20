@@ -13,8 +13,6 @@ import Officer from "../../../../../client/complaintManager/testUtilities/Office
 import app from "../../../../server";
 import request from "supertest";
 
-jest.mock("../../export/jobQueue");
-
 describe("Generate referral letter pdf", () => {
   let existingCase, referralLetter, letterOfficer, token;
 

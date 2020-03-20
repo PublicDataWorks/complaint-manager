@@ -9,8 +9,6 @@ import request from "supertest";
 import app from "../../../server";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
-jest.mock("../export/jobQueue");
-
 describe("changeStatus request", () => {
   let initialCase, token;
   beforeEach(async () => {

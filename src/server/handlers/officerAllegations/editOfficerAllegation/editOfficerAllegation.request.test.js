@@ -17,8 +17,6 @@ import {
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("../../cases/export/jobQueue");
-
 describe("PUT /officers-allegations/:officerAllegationId", function() {
   let createdCase;
 

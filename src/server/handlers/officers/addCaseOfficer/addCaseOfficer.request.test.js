@@ -10,8 +10,6 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
-jest.mock("../../cases/export/jobQueue");
-
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
   beforeAll(() => {

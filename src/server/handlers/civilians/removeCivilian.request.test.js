@@ -14,8 +14,6 @@ import {
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
 
-jest.mock("../cases/export/jobQueue");
-
 describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
 

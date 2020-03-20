@@ -12,8 +12,6 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { ALLEGATION_SEVERITY } from "../../../../sharedUtilities/constants";
 
-jest.mock("../../cases/export/jobQueue");
-
 describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function() {
   afterEach(async () => {
     await cleanupDatabase();
