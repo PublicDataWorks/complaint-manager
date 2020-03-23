@@ -43,9 +43,7 @@ class NavBar extends Component {
   };
 
   handleNotificationClick = () => {
-    this.setState({
-      notifications: this.props.getNotifications(this.props.nickname)
-    });
+    this.props.getNotifications(this.props.nickname);
     const open = this.state.notificationDrawer;
     this.setState({
       notificationDrawer: !open
@@ -104,7 +102,6 @@ class NavBar extends Component {
           <NotificationDrawer
             open={this.state.notificationDrawer}
             onClose={() => this.handleNotificationClick()}
-            notifications={this.state.notifications}
           />
           <IconButton
             data-testid="hamburgerButton"

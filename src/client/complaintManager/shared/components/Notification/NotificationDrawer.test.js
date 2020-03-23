@@ -9,10 +9,11 @@ import { matrixManagerMenuOptions } from "../NavBar/matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { wait } from "@testing-library/dom";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
+import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 
-describe("notifications menu", () => {
+describe("notifications drawer", () => {
+  const store = createConfiguredStore();
   function renderNavBar() {
-    const store = createConfiguredStore();
     const wrapper = render(
       <Provider store={store}>
         <Router>
@@ -118,6 +119,36 @@ describe("notifications menu", () => {
     // ASSERT -- drawer is still open
     await wait(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
+    });
+  });
+
+  test("should show notificaton in notification drawer and no default notification text", async () => {
+    //ARRANGE
+    store.dispatch(
+      getNotificationsSuccess([
+        {
+          user: "veronicablackwell@tw.com",
+          updatedAt: "2019-11-29T19:31:41.953Z",
+          caseReference: "CC2019-0018",
+          mentioner: "",
+          id: 2
+        }
+      ])
+    );
+
+    const { getByTestId, queryByText } = renderNavBar();
+    const notificationBell = getByTestId("notificationBell");
+
+    // ACT -- open drawer
+    fireEvent.click(notificationBell);
+
+    // ASSERT
+    await wait(() => {
+      expect(queryByText("mentioned you in CC2019-0018")).toBeInTheDocument();
+    });
+
+    await wait(() => {
+      expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
     });
   });
 });

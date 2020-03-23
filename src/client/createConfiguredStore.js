@@ -60,6 +60,7 @@ import districtReducer from "./complaintManager/reducers/ui/districtReducer";
 import addOfficerReducer from "./complaintManager/reducers/officers/addOfficerReducer";
 import usersReducer from "./common/reducers/users/usersReducer";
 import classificationsReducer from "./complaintManager/reducers/cases/classificationsReducer";
+import getNotificationsReducer from "./complaintManager/reducers/notifications/getNotificationsReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -131,7 +132,8 @@ const rootReducer = combineReducers({
   export: combineReducers({
     downloadUrl: exportJobDownloadUrlReducer,
     generateJob: generateJobReducer
-  })
+  }),
+  notifications: getNotificationsReducer
 });
 
 const routingMiddleware = routerMiddleware(history);
