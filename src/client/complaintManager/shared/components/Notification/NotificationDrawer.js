@@ -5,7 +5,8 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import useOnClickOutside from "./useOnClickOutside";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
-import NotificationCard from "./NotificationCard";
+import NotificationList from "./NotificationList";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   // Show "fake/empty" tool bar": https://material-ui.com/components/app-bar/
@@ -17,14 +18,10 @@ const NotificationDrawer = props => {
   const ref = useRef();
   const [hasNotifications, setHasNotifications] = useState(false);
 
-  console.log("my Notifications in drawer", props.notifications);
-
   useEffect(() => {
-    if (props.notifications.length > 0) {
-      console.log("has notifications", props.notifications);
+    if (props.notifications && props.notifications.length > 0) {
       setHasNotifications(true);
     } else {
-      console.log("length less than 0", props.notifications);
       setHasNotifications(false);
     }
   }, [props.notifications]);
@@ -55,7 +52,7 @@ const NotificationDrawer = props => {
       <div className={classes.toolbar} />
 
       {hasNotifications ? (
-        <NotificationCard />
+        <NotificationList />
       ) : (
         <div style={styles.drawerContent}>
           <NotificationsIcon
@@ -72,4 +69,8 @@ const NotificationDrawer = props => {
   );
 };
 
-export default NotificationDrawer;
+const mapStateToProps = state => ({
+  notifications: state.notifications
+});
+
+export default connect(mapStateToProps)(NotificationDrawer);

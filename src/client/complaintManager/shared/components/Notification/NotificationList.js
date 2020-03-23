@@ -1,8 +1,8 @@
 import React from "react";
 import List from "@material-ui/core/List";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Divider from "@material-ui/core/Divider";
 import NotificationCard from "./NotificationCard";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,4 +38,9 @@ const NotificationList = props => {
   );
 };
 
-export default NotificationList;
+const mapStateToProps = state => ({
+  notifications: state.notifications,
+  allUsers: state.users.all
+});
+
+export default connect(mapStateToProps)(NotificationList);
