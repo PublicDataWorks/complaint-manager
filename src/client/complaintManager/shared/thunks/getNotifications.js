@@ -8,7 +8,6 @@ const getNotifications = user => async dispatch => {
   try {
     const url = `/api/notifications/${user}/?timestamp=${thirtyDaysAgo}`;
     const response = await axios.get(url);
-    console.log("Got notifications", response.data);
     return dispatch(getNotificationsSuccess(response.data));
   } catch (error) {}
 };

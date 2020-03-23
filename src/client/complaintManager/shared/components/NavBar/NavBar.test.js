@@ -9,13 +9,21 @@ import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import getNotifications from "../../thunks/getNotifications";
+
+jest.mock("../../thunks/getNotifications", () => values => ({
+  type: "MOCK_THUNK",
+  values
+}));
 
 describe("NavBar", () => {
-  let wrapper, store;
+  let wrapper, store, dispatchSpy;
+
   beforeEach(() => {
     mockLocalStorage();
 
     store = createConfiguredStore();
+    dispatchSpy = jest.spyOn(store, "dispatch");
     wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -45,7 +53,9 @@ describe("NavBar", () => {
 
   describe("hamburger menu", () => {
     test("should see log out button", () => {
-      const hamburgerButton = wrapper.find('button[data-testid="hamburgerButton"]');
+      const hamburgerButton = wrapper.find(
+        'button[data-testid="hamburgerButton"]'
+      );
       hamburgerButton.simulate("click");
 
       const logOutButton = wrapper.find('[data-testid="logOutButton"]');
@@ -55,7 +65,9 @@ describe("NavBar", () => {
     });
 
     test("should dismiss menu when clicking away", () => {
-      const hamburgerButton = wrapper.find('[data-testid="hamburgerButton"]').last();
+      const hamburgerButton = wrapper
+        .find('[data-testid="hamburgerButton"]')
+        .last();
       hamburgerButton.simulate("click");
 
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
@@ -78,7 +90,9 @@ describe("NavBar", () => {
       store.dispatch(userAuthSuccess(userInfo));
       wrapper.update();
 
-      const hamburgerButton = wrapper.find('[data-testid="hamburgerButton"]').last();
+      const hamburgerButton = wrapper
+        .find('[data-testid="hamburgerButton"]')
+        .last();
       hamburgerButton.simulate("click");
 
       const exportAuditLogMenuItem = wrapper
@@ -111,6 +125,25 @@ describe("NavBar", () => {
       expect(
         wrapper.find('[data-testid="notificationBell"]').exists()
       ).toBeFalse();
+    });
+  });
+
+  describe("notification bell", () => {
+    beforeEach(() => {
+      store.dispatch(
+        getFeaturesSuccess({
+          notificationFeature: true
+        })
+      );
+    });
+
+    test("getNotifications should be dispatched when bell is clicked", () => {
+      wrapper.update();
+      wrapper
+        .find('[data-testid="notificationBell"]')
+        .first()
+        .simulate("click");
+      expect(dispatchSpy).toHaveBeenLastCalledWith(getNotifications(""));
     });
   });
 });
