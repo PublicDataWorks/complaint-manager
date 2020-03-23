@@ -3,13 +3,14 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import ListItem from "@material-ui/core/ListItem";
 import Divider from "@material-ui/core/Divider";
-import { getDateAsString } from "./getDateAsString";
+import moment from "moment";
 
 const NotificationCard = props => {
   const title = `${props.notification.mentioner} mentioned you in ${props.notification.caseReference}`;
 
-  const dateAsString = getDateAsString(props.notification.updatedAt);
-  const timestamp = dateAsString;
+  const timestamp = moment(props.notification.updatedAt).format(
+    "MM/DD/YYYY h:mm A"
+  );
   return (
     <div>
       <ListItem style={{ backgroundColor: "white", width: "300px" }}>

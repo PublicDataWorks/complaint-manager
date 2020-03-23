@@ -5,9 +5,9 @@ import { BrowserRouter as Router } from "react-router-dom";
 import NotificationCard from "./NotificationCard";
 import React from "react";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { now } from "moment";
 import { wait } from "@testing-library/dom";
 import "@testing-library/jest-dom";
+import moment from "moment";
 
 describe("notification card", () => {
   let newNotif;
@@ -38,6 +38,8 @@ describe("notification card", () => {
     };
     const { queryByText } = renderNotificationCard(newNotif);
 
+    const expectedTime = moment(newNotif.updatedAt).format("MM/DD/YYYY h:mm A");
+
     // ASSERT
     await wait(() => {
       expect(
@@ -46,7 +48,7 @@ describe("notification card", () => {
     });
 
     await wait(() => {
-      expect(queryByText("3/19/2020 1:57 PM")).toBeInTheDocument();
+      expect(queryByText(expectedTime)).toBeInTheDocument();
     });
   });
 });
