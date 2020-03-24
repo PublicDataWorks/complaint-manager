@@ -25,20 +25,12 @@ const getInstance = () => {
         redis: redisOpts
       });
     }
-    // TODO Fix for singleton implementation
-
-    //Object.freeze(singletonQueue);
   }
 
   if (!singletonQueue) {
     createQueue();
   }
   return singletonQueue;
-};
-
-export const destroyInstance = async () => {
-  await singletonQueue.close();
-  singletonQueue = null;
 };
 
 export default getInstance;
