@@ -12,22 +12,21 @@ if (!TEST_USER) {
 
 if (TEST_PASS && TEST_USER) {
   module.exports = {
-    "should see sign-in title": browser => {
+    before: browser => {
       console.log("Browser Launch URL", browser.launch_url);
       browser.url(browser.launch_url).resizeWindow(1366, 768);
       browser.url(function(result) {
         console.log("Current URL", result);
       });
-    },
 
-    "should authenticate": browser => {
       const loginPage = browser.page.Login();
 
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
+      const caseDashboardPage = browser.page.CaseDashboard();
+      caseDashboardPage.isOnPage();
     },
 
     "should create case": browser => {
-      browser.resizeWindow(1366, 768);
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 
@@ -640,6 +639,18 @@ if (TEST_PASS && TEST_USER) {
       caseDetailsPage.goBackToAllCases();
 
       caseDashboardPage.isOnPage();
+    },
+    "should navigate to all exports page and export all cases": browser => {
+      const navBar = browser.page.NavBar();
+      const allExportsPage = browser.page.AllExports();
+
+      navBar.goToAllExports();
+
+      allExportsPage
+        .isOnPage()
+        .exportAllCases()
+        .confirmExportInDialog()
+        .waitForJobCompletion();
     },
     "should log out of the system": browser => {
       const navBar = browser.page.NavBar();

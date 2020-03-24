@@ -12,23 +12,22 @@ if (!TEST_USER) {
 
 if (TEST_PASS && TEST_USER) {
   module.exports = {
-    "should navigate to matrix manager": browser => {
+    before: browser => {
       console.log("Browser Launch URL", browser.launch_url);
       browser.url(browser.launch_url + "matrices").resizeWindow(1366, 768);
       browser.url(function(result) {
         console.log("Current URL", result);
       });
-    },
-    "should authenticate": browser => {
+
       const loginPage = browser.page.Login();
 
       loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
-    },
-    "should redirect to matrix manager": browser => {
+
       const matrixList = browser.page.MatrixList();
 
       matrixList.isOnPage();
     },
+
     "should open create matrix dialog": browser => {
       const matrixList = browser.page.MatrixList();
       const createMatrixDialog = browser.page.CreateMatrixDialog();
