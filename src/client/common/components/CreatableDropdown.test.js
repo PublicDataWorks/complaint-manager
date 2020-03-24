@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { Dialog, DialogContent } from "@material-ui/core";
 import {
   changeCreatableDropdownInput,
+  findCreatableDropdownOption,
   selectCreatableDropdownOption
 } from "../../testHelpers";
 import CreatableDropdown, { getSelectedOption } from "./CreatableDropdown";
@@ -144,7 +145,7 @@ describe("CreatableDropdown test", () => {
     });
 
     test("ensure input.onChange is happening on dropdown selection", () => {
-      selectCreatableDropdownOption(
+      findCreatableDropdownOption(
         wrapper,
         '[data-testid="testDropdown"]',
         "label 1"
@@ -153,7 +154,7 @@ describe("CreatableDropdown test", () => {
       expect(onChangeSpy).toHaveBeenCalledWith({ label: "label 1", value: 1 });
     });
     test("should return 'Create' when clicking on option 'Create 'Create'' ", () => {
-      selectCreatableDropdownOption(
+      findCreatableDropdownOption(
         wrapper,
         '[data-testid="testDropdown"]',
         'Create "Create"'
