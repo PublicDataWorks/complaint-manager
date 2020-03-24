@@ -7,6 +7,12 @@ const navBarCommands = {
       .waitForElementVisible("@archivedCasesLink", e2e.rerenderWait)
       .click("@archivedCasesLink");
   },
+  goToAllExports: function() {
+    return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
+      .click("@menuButton")
+      .waitForElementVisible("@allExportsLink", e2e.rerenderWait)
+      .click("@allExportsLink");
+  },
   clickHamburgerButton: function() {
     return this.click("@menuButton");
   },
@@ -29,6 +35,9 @@ module.exports = {
     menuButton: { selector: "[data-testid='hamburgerButton']" },
     archivedCasesLink: {
       selector: "[data-testid='archivedCases']"
+    },
+    allExportsLink: {
+      selector: "[data-testid='exports']"
     },
     logoutButton: {
       selector: '[data-testid="logOutButton"]'

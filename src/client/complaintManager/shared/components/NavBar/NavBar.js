@@ -131,7 +131,6 @@ class NavBar extends Component {
             />
           </Menu>
         </Toolbar>
-        <ExportConfirmationDialog />
       </AppBar>
     );
   }
