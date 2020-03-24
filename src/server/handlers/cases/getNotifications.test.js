@@ -4,6 +4,10 @@ import Notification from "../../../client/complaintManager/testUtilities/notific
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getNotifications from "./getNotifications";
 import { now } from "moment";
+import {
+  AUDIT_ACTION,
+  AUDIT_SUBJECT
+} from "../../../sharedUtilities/constants";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
@@ -143,5 +147,50 @@ describe("getNotifications", () => {
     await getNotifications(request, response, next);
 
     expect(response._getData()[0].mentioner).toEqual(mentioner);
+  });
+
+  describe("auditing", () => {
+    test("should audit accessing notifications", async () => {
+      await getNotifications(request, response, next);
+
+      const audit = await models.audit.findOne({
+        where: {
+          referenceId: null,
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        },
+        include: [
+          {
+            model: models.data_access_audit,
+            as: "dataAccessAudit",
+            include: [
+              {
+                model: models.data_access_value,
+                as: "dataAccessValues"
+              }
+            ]
+          }
+        ]
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user: "tuser",
+          auditAction: AUDIT_ACTION.DATA_ACCESSED,
+          referenceId: null,
+          managerType: "complaint",
+          dataAccessAudit: expect.objectContaining({
+            auditSubject: AUDIT_SUBJECT.NOTIFICATIONS,
+            dataAccessValues: expect.arrayContaining([
+              expect.objectContaining({
+                association: "notification",
+                fields: expect.arrayContaining(
+                  Object.keys(models.notification.rawAttributes)
+                )
+              })
+            ])
+          })
+        })
+      );
+    });
   });
 });
