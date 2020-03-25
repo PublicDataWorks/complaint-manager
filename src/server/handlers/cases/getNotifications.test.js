@@ -83,10 +83,22 @@ describe("getNotifications", () => {
   });
 
   test("should not return notifications that were updated or created before timestamp", async () => {
+    console.log("Current Timezone", moment().format("ZZ"));
+
     request.query.timestamp = utc().toDate();
     console.log("Request Timestamp", request.query.timestamp);
-    console.log("Current Timezone", moment().format("ZZ"));
-    console.log("UTC Timezone", utc().format("ZZ"));
+
+    console.log("Request", request);
+    const anotherRequest = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: { user: currentNotif.user },
+      query: { timestamp: request.query.timestamp },
+      nickname: "tuser"
+    });
+    console.log("Another Request", anotherRequest);
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
