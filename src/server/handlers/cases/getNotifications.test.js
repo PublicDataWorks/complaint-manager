@@ -3,11 +3,11 @@ import Case from "../../../client/complaintManager/testUtilities/case";
 import Notification from "../../../client/complaintManager/testUtilities/notification";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getNotifications from "./getNotifications";
-import { now } from "moment";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
+import { utc } from "moment";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
@@ -21,7 +21,7 @@ describe("getNotifications", () => {
     currentCase;
 
   beforeEach(async () => {
-    timestamp = new Date(now());
+    timestamp = utc().toDate();
     const caseAttributes = new Case.Builder().defaultCase();
     currentCase = await models.cases.create(caseAttributes, {
       auditUser: "tuser"
@@ -83,7 +83,7 @@ describe("getNotifications", () => {
   });
 
   test("should not return notifications that were updated or created before timestamp", async () => {
-    request.query.timestamp = new Date(now());
+    request.query.timestamp = utc().toDate();
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
