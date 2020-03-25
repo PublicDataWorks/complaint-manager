@@ -568,8 +568,8 @@ export const CASE_EXPORT_TYPE = {
   INCIDENT_DATE: "incidentDate"
 };
 
-export const QUEUE_NAME = "NOIPM Queue";
-export const QUEUE_PREFIX = "noimp_q";
+export const QUEUE_NAME = "NOIPMQueue";
+export const QUEUE_PREFIX = "noipm_q";
 // ------------------------------------------
 //           Front-end Labels
 // ------------------------------------------
