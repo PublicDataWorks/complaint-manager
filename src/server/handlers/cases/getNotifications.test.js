@@ -7,7 +7,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
-import { utc } from "moment";
+import moment, { now, utc } from "moment";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
@@ -84,6 +84,9 @@ describe("getNotifications", () => {
 
   test("should not return notifications that were updated or created before timestamp", async () => {
     request.query.timestamp = utc().toDate();
+    console.log("Request Timestamp", request.query.timestamp);
+    console.log("Current Timezone", moment().format("ZZ"));
+    console.log("UTC Timezone", utc().format("ZZ"));
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
