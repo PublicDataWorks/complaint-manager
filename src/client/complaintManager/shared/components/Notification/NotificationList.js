@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import List from "@material-ui/core/List";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NotificationCard from "./NotificationCard";
 import { connect } from "react-redux";
+import getUsers from "../../../../common/thunks/getUsers";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +15,10 @@ const useStyles = makeStyles(theme => ({
 
 const NotificationList = props => {
   const classes = useStyles;
+
+  useEffect(() => {
+    props.getUsers();
+  }, []);
 
   const replaceMentionerName = notification => {
     for (const user in props.allUsers) {
@@ -43,4 +48,6 @@ const mapStateToProps = state => ({
   allUsers: state.users.all
 });
 
-export default connect(mapStateToProps)(NotificationList);
+const mapDispatchToProps = { getUsers: getUsers };
+
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);

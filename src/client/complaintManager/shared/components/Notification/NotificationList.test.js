@@ -9,9 +9,16 @@ import { wait } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import { getUsersSuccess } from "../../../../common/actionCreators/usersActionCreators";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
+import getUsers from "../../../../common/thunks/getUsers";
+
+jest.mock("../../../../common/thunks/getUsers", () => values => ({
+  type: "MOCK_THUNK",
+  values
+}));
 
 describe("notification list", () => {
   const store = createConfiguredStore();
+  const dispatchSpy = jest.spyOn(store, "dispatch");
   const renderNotificationList = () => {
     const wrapper = render(
       <Provider store={store}>
@@ -69,5 +76,11 @@ describe("notification list", () => {
         queryByText("Wanchen Y mentioned you in CC2019-0018")
       ).toBeInTheDocument();
     });
+  });
+
+  test("getUsers should be dispatched when notificationList is rendered", () => {
+    renderNotificationList();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
   });
 });

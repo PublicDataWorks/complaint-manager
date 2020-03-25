@@ -143,7 +143,7 @@ describe("NavBar", () => {
         .find('[data-testid="notificationBell"]')
         .first()
         .simulate("click");
-      expect(dispatchSpy).toHaveBeenLastCalledWith(getNotifications(""));
+      expect(dispatchSpy).toHaveBeenCalledWith(getNotifications(""));
     });
   });
 });
