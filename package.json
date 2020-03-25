@@ -57,6 +57,7 @@
     "body-parser": "~1.19.0",
     "boom": "~7.3.0",
     "bull": "^3.13.0",
+    "bull-repl": "^0.23.0",
     "busboy": "~0.3.0",
     "connected-react-router": "~6.5.2",
     "cookie-parser": "~1.4.4",
