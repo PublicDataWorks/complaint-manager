@@ -33,12 +33,17 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
               {
                 model: models.civilian,
                 as: "complainantCivilians",
-                attributes: ["isAnonymous"]
+                attributes: ["isAnonymous", "createdAt"]
               },
               {
                 model: models.case_officer,
                 as: "complainantOfficers",
-                attributes: ["isAnonymous"]
+                attributes: [
+                  "isAnonymous",
+                  "caseEmployeeType",
+                  "createdAt",
+                  "officerId"
+                ]
               }
             ]
           }
