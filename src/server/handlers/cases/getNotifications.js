@@ -19,7 +19,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       {
         model: models.case_note,
         as: "caseNote",
-        attributes: [["user", "mentioner"]],
+        attributes: [["user", "mentioner"], "case_id"],
         include: [
           {
             model: models.cases,
@@ -71,21 +71,25 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     }
   );
 
-  const newNotifications = notifications.map(notification => {
-    let simplifiedNotif;
-    const caseReference = notification.dataValues.caseNote.dataValues.case.get(
-      "caseReference"
-    );
-    const caseNote = { ...notification.dataValues.caseNote.dataValues };
-    delete notification["dataValues"]["caseNote"];
-    simplifiedNotif = {
-      ...notification.dataValues,
-      mentioner: caseNote.mentioner,
-      caseReference: caseReference
-    };
-    return simplifiedNotif;
-  });
+  const newNotifications = await Promise.all(
+    notifications.map(async notification => {
+      let simplifiedNotif;
+      const caseNote = notification.get("caseNote");
 
+      const caseModel = await models.cases.findByPk(caseNote.get("case_id"), {
+        paranoid: false
+      });
+
+      const caseReference = caseModel.get("caseReference");
+      delete notification["dataValues"]["caseNote"];
+      simplifiedNotif = {
+        ...notification.dataValues,
+        mentioner: caseNote.get("mentioner"),
+        caseReference: caseReference
+      };
+      return simplifiedNotif;
+    })
+  );
   response.send(newNotifications);
 });
 
