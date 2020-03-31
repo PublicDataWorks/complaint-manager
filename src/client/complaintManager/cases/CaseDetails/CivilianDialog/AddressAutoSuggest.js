@@ -85,9 +85,9 @@ class AddressAutoSuggest extends Component {
             classes: {
               input: classes.input
             },
-            "data-testid": dataTest,
             inputProps: {
-              value: "Address lookup is down, please try again later"
+              value: "Address lookup is down, please try again later",
+              "data-testid": dataTest
             }
           }}
         />
@@ -102,7 +102,7 @@ class AddressAutoSuggest extends Component {
           classes: {
             input: classes.input
           },
-          "data-testid": dataTest,
+          inputProps: { "data-testid": dataTest },
           ...other,
           autoComplete: "disabled" // "off" does not work on chrome
         }}
@@ -142,11 +142,15 @@ class AddressAutoSuggest extends Component {
     const suggestionValue = this.props.mapService.getSuggestionValue(
       suggestion
     );
-    const matches = match(suggestionValue, query);
+    const matches = match(suggestionValue + "", query);
     const parts = parse(suggestionValue, matches);
 
     return (
-      <MenuItem selected={isHighlighted} component="div">
+      <MenuItem
+        data-testid="suggestion-option"
+        selected={isHighlighted}
+        component="div"
+      >
         <div>
           {parts.map((part, index) => {
             return part.highlight ? (

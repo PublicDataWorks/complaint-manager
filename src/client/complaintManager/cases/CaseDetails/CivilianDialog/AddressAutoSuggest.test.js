@@ -1,144 +1,124 @@
-import { mount } from "enzyme";
 import AddressAutoSuggest from "./AddressAutoSuggest";
 import React from "react";
-import { containsText } from "../../../../testHelpers";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
+import { fireEvent, render } from "@testing-library/react";
+import { wait } from "@testing-library/dom";
+import userEvent from "@testing-library/user-event";
+import "@testing-library/jest-dom";
 
-describe("AddressAutoSuggest", () => {
-  let store, cannedSuggestions, mapService;
-  beforeEach(() => {
-    store = createConfiguredStore();
-    cannedSuggestions = ["123 main street", "Chicago, IL", "Burma"];
-    mapService = {
-      //returns suggestion value for updating input value
-      getSuggestionValue: jest.fn(() => suggestion => {
-        return suggestion;
-      }),
+describe("AddressAutoSuggest ", () => {
+  let cannedSuggestions, cannedDisplayAddress, mapService;
+  cannedSuggestions = ["123 main street", "Chicago, IL", "Burma"];
+  cannedDisplayAddress = "123 North Street";
+  mapService = {
+    getSuggestionValue: jest.fn(suggestion => {
+      return suggestion;
+    }),
 
-      //fetches suggestions if need be, call calback with results
-      onFetchSuggestions: jest.fn(() => (input, callback) => {
-        callback(cannedSuggestions);
-      }),
+    fetchSuggestions: jest.fn((input, callback) => {
+      callback(cannedSuggestions);
+    }),
 
-      //after selecting a suggestion, what else should be done?
-      onSuggestionSelected: jest.fn(() => suggestion => {
-        return suggestion;
-      }),
-
-      healthCheck: setServiceAvailableProps => {
-        setServiceAvailableProps({ googleAddressServiceIsAvailable: true });
-        setServiceAvailableProps({ geocoderServiceIsAvailable: true });
+    fetchAddressDetails: jest.fn(
+      (placeId, successCallback, failureCallback) => {
+        const fakeParsedAddress = { street: "123" };
+        return successCallback(fakeParsedAddress, cannedDisplayAddress);
       }
-    };
-  });
+    ),
 
-  test("should display a label", () => {
-    let autoSuggestWrapper, label;
-    label = "Test Label";
-    autoSuggestWrapper = mount(
+    healthCheck: setServiceAvailableProps => {
+      setServiceAvailableProps({ googleAddressServiceIsAvailable: true });
+      setServiceAvailableProps({ geocoderServiceIsAvailable: true });
+    }
+  };
+  const renderAddressAutoSuggest = mapService => {
+    const store = createConfiguredStore();
+    const label = "Test Label";
+    const wrapper = render(
       <Provider store={store}>
         <AddressAutoSuggest
           label={label}
           data-testid="my-custom-autosuggest"
           mapService={mapService}
-          input={{}}
           meta={{ error: "Error" }}
           onBlur={() => {}}
+          setFormValues={jest.fn()}
         />
       </Provider>
     );
 
-    containsText(
-      autoSuggestWrapper,
-      '[data-testid="my-custom-autosuggest"]',
-      label
+    return wrapper;
+  };
+
+  test("should display a label", async () => {
+    const label = "Test Label";
+    const { queryByText } = renderAddressAutoSuggest(mapService);
+
+    await wait(() => {
+      expect(queryByText(label)).toBeInTheDocument();
+    });
+  });
+
+  test("should fill address from fetchAddressDetails when map service is available and click on option from dropdown", async () => {
+    const { getByTestId, getAllByTestId } = renderAddressAutoSuggest(
+      mapService
     );
+    const input = getByTestId("my-custom-autosuggest");
+
+    await userEvent.type(input, "12");
+    input.focus();
+
+    let suggestions;
+    await wait(() => {
+      suggestions = getAllByTestId("suggestion-option");
+    });
+
+    fireEvent.click(suggestions[0]);
+
+    await wait(() => {
+      expect(input.value).toBe(cannedDisplayAddress);
+    });
   });
 
   test(" lookup address when map service is available", () => {
-    let autoSuggestWrapper, label;
-    label = "Test Label";
-    autoSuggestWrapper = mount(
-      <Provider store={store}>
-        <AddressAutoSuggest
-          label={label}
-          data-testid="my-custom-autosuggest"
-          mapService={mapService}
-          input={{}}
-          meta={{ error: "Error" }}
-          onBlur={() => {}}
-        />
-      </Provider>
-    );
+    const { getByTestId } = renderAddressAutoSuggest(mapService);
+    const input = getByTestId("my-custom-autosuggest");
 
-    const input = autoSuggestWrapper.find(
-      '[data-testid="my-custom-autosuggest"] > input'
-    );
-
-    expect(input.props().placeholder).toBe("Search for an Address");
-    expect(input.props().disabled).toBe(false);
+    expect(input.placeholder).toBe("Search for an Address");
+    expect(input.disabled).toBe(false);
   });
 
-  test("address lookup should be down if places map service is down", () => {
+  test("address lookup should be down if places map service is down", async () => {
     mapService.healthCheck = setServiceAvailableProps => {
       setServiceAvailableProps({ googleAddressServiceIsAvailable: false });
       setServiceAvailableProps({ geocoderServiceIsAvailable: true });
     };
 
-    let autoSuggestWrapper, label;
-    label = "Test Label";
-    autoSuggestWrapper = mount(
-      <Provider store={store}>
-        <AddressAutoSuggest
-          label={label}
-          data-testid="my-custom-autosuggest"
-          mapService={mapService}
-          input={{}}
-          meta={{ error: "Error" }}
-          onBlur={() => {}}
-        />
-      </Provider>
-    );
+    const { getByTestId } = renderAddressAutoSuggest(mapService);
+    const input = getByTestId("my-custom-autosuggest");
 
-    const input = autoSuggestWrapper.find(
-      '[data-testid="my-custom-autosuggest"] > input'
-    );
-
-    expect(input.props().value).toBe(
-      "Address lookup is down, please try again later"
-    );
-    expect(input.props().disabled).toBe(true);
+    await wait(() => {
+      expect(input.value).toBe(
+        "Address lookup is down, please try again later"
+      );
+      expect(input.disabled).toBe(true);
+    });
   });
 
-  test("address lookup should be down if geo map service is down", () => {
+  test("address lookup should be down if geo map service is down", async () => {
     mapService.healthCheck = setServiceAvailableProps => {
       setServiceAvailableProps({ googleAddressServiceIsAvailable: true });
       setServiceAvailableProps({ geocoderServiceIsAvailable: false });
     };
+    const { getByTestId } = renderAddressAutoSuggest(mapService);
+    const input = getByTestId("my-custom-autosuggest");
 
-    let autoSuggestWrapper, label;
-    label = "Test Label";
-    autoSuggestWrapper = mount(
-      <Provider store={store}>
-        <AddressAutoSuggest
-          label={label}
-          data-testid="my-custom-autosuggest"
-          mapService={mapService}
-          input={{}}
-          meta={{ error: "Error" }}
-          onBlur={() => {}}
-        />
-      </Provider>
-    );
-
-    const input = autoSuggestWrapper.find(
-      '[data-testid="my-custom-autosuggest"] > input'
-    );
-
-    expect(input.props().value).toBe(
-      "Address lookup is down, please try again later"
-    );
-    expect(input.props().disabled).toBe(true);
+    await wait(() => {
+      expect(input.value).toBe(
+        "Address lookup is down, please try again later"
+      );
+      expect(input.disabled).toBe(true);
+    });
   });
 });

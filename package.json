@@ -119,6 +119,7 @@
     "@babel/preset-env": "~7.9.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "~7.9.0",
+    "@testing-library/user-event": "^10.0.1",
     "child-process-promise": "^2.2.1",
     "chromedriver": "~79",
     "concurrently": "~5.1.0",
