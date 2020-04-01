@@ -1,17 +1,17 @@
 const e2e = require("./e2eUtilities.js");
 
 const civilianDialogCommands = {
-  dialogIsOpen: function() {
+  dialogIsOpen: function () {
     return this.waitForElementVisible("@dialogTitle", e2e.rerenderWait);
   },
-  setGenderIdentity: function(genderId) {
+  setGenderIdentity: function (genderId) {
     return this.waitForElementPresent("@genderDropdown", e2e.rerenderWait)
       .click("@genderDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
       .click({ selector: "@toSelect", index: genderId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  setRaceEthnicity: function(raceEthnicityId) {
+  setRaceEthnicity: function (raceEthnicityId) {
     return this.waitForElementPresent(
       "@raceEthnicityDropdown",
       e2e.rerenderWait
@@ -21,20 +21,20 @@ const civilianDialogCommands = {
       .click({ selector: "@toSelect", index: raceEthnicityId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  setTitle: function(titleId) {
+  setTitle: function (titleId) {
     return this.waitForElementPresent("@titleDropdown", e2e.rerenderWait)
       .click("@titleDropdown")
       .waitForElementPresent("@menu", e2e.rerenderWait)
       .click({ selector: "@toSelect", index: titleId })
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
-  toggleIsAnonymous: function() {
+  toggleIsAnonymous: function () {
     return this.click("@isAnonymous");
   },
-  typeInAddress: function(addressInput) {
+  typeInAddress: function (addressInput) {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
-  setAddressSuggestionFieldToEmpty: function() {
+  setAddressSuggestionFieldToEmpty: function () {
     this.click("@addressSuggestionField").api.keys(
       Array(50)
         .fill(this.api.Keys.BACK_SPACE)
@@ -42,22 +42,22 @@ const civilianDialogCommands = {
     );
     return this;
   },
-  thereAreSuggestions: function() {
+  thereAreSuggestions: function () {
     this.waitForElementPresent(
       '[data-testid="suggestion-container"] > ul',
       e2e.rerenderWait
     ).api.pause(e2e.dataLoadWait);
     return this;
   },
-  arrowDown: function() {
+  arrowDown: function () {
     return this.setValue("@addressSuggestionField", [this.api.Keys.ARROW_DOWN]);
   },
-  addressSuggestionFieldPopulated: function() {
+  addressSuggestionFieldNotPopulated: function () {
     return this.getValue("@addressSuggestionField", result => {
-      this.assert.ok(result.value.length > 4);
+      this.assert.ok((result.value.length = 4));
     });
   },
-  addressFieldsAreEmpty: function() {
+  addressFieldsAreEmpty: function () {
     this.expect.element("@streetAddressInput").value.to.equal("");
     this.expect.element("@cityInput").value.to.equal("");
     this.expect.element("@stateInput").value.to.equal("");
@@ -65,13 +65,13 @@ const civilianDialogCommands = {
     this.expect.element("@countryInput").value.to.equal("");
     return this;
   },
-  selectSuggestion: function() {
+  selectSuggestion: function () {
     this.setValue("@addressSuggestionField", [this.api.Keys.ENTER]).api.pause(
       e2e.pause
     );
     return this;
   },
-  addressFieldsAreNotEmpty: function() {
+  addressFieldsAreNotEmpty: function () {
     this.expect.element("@streetAddressInput").value.to.not.equal("");
     this.expect.element("@cityInput").value.to.not.equal("");
     this.expect.element("@stateInput").value.to.not.equal("");
@@ -79,7 +79,7 @@ const civilianDialogCommands = {
     this.expect.element("@countryInput").value.to.not.equal("");
     return this;
   },
-  submitCivilianDialog: function() {
+  submitCivilianDialog: function () {
     return this.click("@submitEditCivilianButton");
   }
 };
@@ -106,7 +106,7 @@ module.exports = {
       selector: "[data-testid='isAnonymous']"
     },
     addressSuggestionField: {
-      selector: '[data-testid="addressSuggestionField"] > input'
+      selector: '[data-testid="addressSuggestionField"]'
     },
     suggestionContainer: {
       selector: '[data-testid="suggestion-container"] > ul'

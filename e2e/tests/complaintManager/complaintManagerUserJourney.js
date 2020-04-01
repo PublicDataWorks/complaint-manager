@@ -15,7 +15,7 @@ if (TEST_PASS && TEST_USER) {
     before: browser => {
       console.log("Browser Launch URL", browser.launch_url);
       browser.url(browser.launch_url).resizeWindow(1366, 768);
-      browser.url(function(result) {
+      browser.url(function (result) {
         console.log("Current URL", result);
       });
 
@@ -50,10 +50,7 @@ if (TEST_PASS && TEST_USER) {
 
       caseDetailsPage.isOnPage().clickAddTagButton();
 
-      caseTagDialog
-        .dialogIsOpen()
-        .setTagValue(tagName)
-        .clickSubmitNewTag();
+      caseTagDialog.dialogIsOpen().setTagValue(tagName).clickSubmitNewTag();
 
       snackbar.presentWithMessage("Case tag was successfully added").close();
       caseDetailsPage.caseTagIsPresent(tagName);
@@ -118,12 +115,12 @@ if (TEST_PASS && TEST_USER) {
       civilianDialog.typeInAddress("6500").thereAreSuggestions();
     },
 
-    "should complete suggestion but not select address when navigating through them": browser => {
+    "should not complete suggestion and not select address when navigating through them": browser => {
       const civilianDialog = browser.page.CivilianDialog();
 
       civilianDialog
         .arrowDown()
-        .addressSuggestionFieldPopulated()
+        .addressSuggestionFieldNotPopulated()
         .addressFieldsAreEmpty();
     },
 
@@ -187,15 +184,9 @@ if (TEST_PASS && TEST_USER) {
 
       caseDashboard.isOnPage().goToACCase();
 
-      caseDetailsPage
-        .isOnPage()
-        .caseReferenceIsAC()
-        .editComplainant();
+      caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
 
-      civilianDialog
-        .dialogIsOpen()
-        .toggleIsAnonymous()
-        .submitCivilianDialog();
+      civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
 
       snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
@@ -424,10 +415,7 @@ if (TEST_PASS && TEST_USER) {
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetails
-        .isOnPage()
-        .beginLetter()
-        .confirmUpdateStatusInDialog();
+      caseDetails.isOnPage().beginLetter().confirmUpdateStatusInDialog();
 
       caseReview.isOnPage();
 
@@ -631,10 +619,7 @@ if (TEST_PASS && TEST_USER) {
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage
-        .isOnPage()
-        .restoreCase()
-        .confirmRestoreInDialog();
+      caseDetailsPage.isOnPage().restoreCase().confirmRestoreInDialog();
       snackbar.presentWithMessage("Case was successfully restored").close();
       caseDetailsPage.goBackToAllCases();
 
