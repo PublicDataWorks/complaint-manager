@@ -163,7 +163,7 @@ describe("civilian dialog", () => {
 
       containsValue(
         otherCivilianDialog,
-        '[data-testid="addressSuggestionField"] > input',
+        '[data-testid="addressSuggestionField"]',
         "Address lookup is down, please try again later"
       );
     });
