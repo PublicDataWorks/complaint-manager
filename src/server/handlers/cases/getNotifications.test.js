@@ -167,23 +167,14 @@ describe("getNotifications", () => {
   });
 
   test("should return correct case reference for notification when case is archived", async () => {
-    const archiveCaseRequest = httpMocks.createRequest({
-      method: "DELETE",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: {
-        caseId: currentCase.id
-      },
-      nickname: "tuser"
+    await models.cases.destroy({
+      where: { id: currentCase.id },
+      auditUser: "tuser"
     });
 
-    const archiveCaseResponse = httpMocks.createResponse();
-    const archiveCaseNext = jest.fn();
-
-    await archiveCase(archiveCaseRequest, archiveCaseResponse, archiveCaseNext);
-
-    const archivedCase = await getCaseWithoutAssociations(currentCase.id);
+    const archivedCase = await models.cases.findByPk(currentCase.id, {
+      paranoid: false
+    });
 
     await getNotifications(request, response, next);
 
