@@ -306,10 +306,7 @@ describe("CreateCaseDialog component", () => {
         );
         submitButton.simulate("click");
         expect(
-          dialog
-            .find('[data-testid="intakeSourceDropdown"]')
-            .last()
-            .text()
+          dialog.find('[data-testid="intakeSourceDropdown"]').last().text()
         ).toContain("Please enter Intake Source");
       });
     });
@@ -433,11 +430,11 @@ describe("CreateCaseDialog component", () => {
         );
         changeInput(
           dialog,
-          '[data-testid="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"]',
           addressString
         );
         dialog
-          .find('[data-testid="addressSuggestionField"] > input')
+          .find('input[data-testid="addressSuggestionField"]')
           .last()
           .simulate("blur");
         changeInput(
