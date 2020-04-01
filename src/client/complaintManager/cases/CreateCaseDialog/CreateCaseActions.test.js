@@ -1,16 +1,27 @@
 import createConfiguredStore from "../../../createConfiguredStore";
-import {mount} from "enzyme/build";
-import {Provider} from "react-redux";
+import { mount } from "enzyme/build";
+import { Provider } from "react-redux";
 import React from "react";
-import {CreateCaseActions} from "./CreateCaseActions";
-import {CIVILIAN_INITIATED, DESCENDING, SORT_CASES_BY} from "../../../../sharedUtilities/constants";
+import { CreateCaseActions } from "./CreateCaseActions";
+import {
+  CIVILIAN_INITIATED,
+  DESCENDING,
+  SORT_CASES_BY
+} from "../../../../sharedUtilities/constants";
 import CreateCaseButton from "../CreateCaseButton";
-import {getIntakeSourcesSuccess} from "../../actionCreators/intakeSourceActionCreators";
-import {changeInput, expectEventuallyToExist, selectDropdownOption} from "../../../testHelpers";
+import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
+import {
+  changeInput,
+  expectEventuallyToExist,
+  selectDropdownOption
+} from "../../../testHelpers";
 import moment from "moment";
-import {getFeaturesSuccess} from "../../actionCreators/featureTogglesActionCreators";
-import {addressMustBeValid} from "../../../formValidations";
-import {updateAddressInputValidity, updateSort} from "../../actionCreators/casesActionCreators";
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+import { addressMustBeValid } from "../../../formValidations";
+import {
+  updateAddressInputValidity,
+  updateSort
+} from "../../actionCreators/casesActionCreators";
 import normalizeAddress from "../../utilities/normalizeAddress";
 
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
@@ -119,14 +130,14 @@ describe("CreateCaseActions", () => {
 
     beforeEach(() => {
       addressSuggestionField = dialog.find(
-        '[data-testid="addressSuggestionField"] > input'
+        'input[data-testid="addressSuggestionField"]'
       );
       submitButton = dialog.find('LinkButton[data-testid="createCaseOnly"]');
     });
     test("should create a case with address", async () => {
       changeInput(
         dialog,
-        '[data-testid="addressSuggestionField"] > input',
+        '[data-testid="addressSuggestionField"]',
         caseDetails.civilian.address.streetAddress
       );
       addressSuggestionField.simulate("blur");
@@ -170,7 +181,7 @@ describe("CreateCaseActions", () => {
       test("should call addressMustBeValid when address provided on civilian", async () => {
         changeInput(
           dialog,
-          '[data-testid="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"]',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
@@ -204,7 +215,7 @@ describe("CreateCaseActions", () => {
         });
         changeInput(
           dialog,
-          '[data-testid="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"]',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
@@ -235,7 +246,7 @@ describe("CreateCaseActions", () => {
       test("should call normalizeAddress when address provided on civilian", async () => {
         changeInput(
           dialog,
-          '[data-testid="addressSuggestionField"] > input',
+          '[data-testid="addressSuggestionField"]',
           caseDetails.civilian.address.streetAddress
         );
         addressSuggestionField.simulate("blur");
