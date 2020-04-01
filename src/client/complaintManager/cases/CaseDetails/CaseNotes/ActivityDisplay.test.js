@@ -7,13 +7,17 @@ import { Provider } from "react-redux";
 
 describe("ActivityDisplay", () => {
   test("should be able to display case note", () => {
+    const actionTakenAtDateTime = new Date(
+      "December 17, 1995 03:24:00"
+    ).toISOString();
+    console.log(actionTakenAtDateTime);
     const caseNote = {
       id: 1,
       caseId: 2,
       user: "tuser",
       caseNoteAction: { name: "Miscellaneous", id: 1 },
       notes: "notes",
-      actionTakenAt: new Date().toISOString()
+      actionTakenAt: actionTakenAtDateTime
     };
 
     const wrapper = mount(
@@ -31,7 +35,7 @@ describe("ActivityDisplay", () => {
     containsText(
       wrapper,
       '[data-testid="activityTimeText"]',
-      "a few seconds ago"
+      "Dec 17 1995 3:24 AM"
     );
     containsText(wrapper, '[data-testid="notesText"]', caseNote.notes);
   });

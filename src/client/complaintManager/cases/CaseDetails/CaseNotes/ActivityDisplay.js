@@ -5,6 +5,7 @@ import ActivityMenu from "./ActivityMenu";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
 const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
+  const TIMESTAMP_FORMAT = "MMM D YYYY h:mm A";
   return (
     <Card
       key={activity.id}
@@ -30,10 +31,9 @@ const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
               {activity.caseNoteAction && activity.caseNoteAction.name}
             </Typography>
             <Typography variant={"caption"} data-testid="activityTimeText">
-              {`${moment(
-                activity.actionTakenAt,
-                "YYYY-MM-DDTHH:mm:ssZ"
-              ).fromNow()}`}
+              {`${moment(activity.actionTakenAt, "YYYY-MM-DDTHH:mm:ssZ").format(
+                TIMESTAMP_FORMAT
+              )}`}
             </Typography>
             <div
               style={{

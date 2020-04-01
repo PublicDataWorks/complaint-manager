@@ -42,7 +42,7 @@ describe("Case Notes", () => {
           name: caseNoteActions.memoToFile[0],
           id: caseNoteActions.memoToFile[1]
         },
-        actionTakenAt: moment().subtract(3, "days")
+        actionTakenAt: new Date("December 17, 1995 03:24:00").toISOString()
       }
     ];
 
@@ -77,7 +77,7 @@ describe("Case Notes", () => {
       .first();
 
     expect(userAndActionText.text()).toEqual("[tuser] Memo to file");
-    expect(activityTimeText.text()).toEqual("3 days ago");
+    expect(activityTimeText.text()).toEqual("Dec 17 1995 3:24 AM");
   });
 
   test("should display most case notes first ", () => {
