@@ -8,6 +8,8 @@ import {
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import moment, { now, utc } from "moment";
+import archiveCase from "./archiveCase/archiveCase";
+import { getCaseWithoutAssociations } from "../getCaseHelpers";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
@@ -162,6 +164,18 @@ describe("getNotifications", () => {
     await getNotifications(request, response, next);
 
     expect(response._getData()[0].mentioner).toEqual(mentioner);
+  });
+
+  test("should return correct case reference for notification when case is archived", async () => {
+    await archiveCase(request, response, next);
+
+    const archivedCase = await getCaseWithoutAssociations(currentCase.id);
+
+    await getNotifications(request, response, next);
+
+    expect(response._getData()[0].caseReference).toEqual(
+      archivedCase.caseReference
+    );
   });
 
   describe("auditing", () => {
