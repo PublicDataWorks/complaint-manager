@@ -30,10 +30,7 @@ describe("CaseDashboard", () => {
     mockLocalStorage();
 
     const newCase = new Case.Builder().defaultCase().build();
-    const newCase2 = new Case.Builder()
-      .defaultCase()
-      .withId(1)
-      .build();
+    const newCase2 = new Case.Builder().defaultCase().withId(1).build();
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();
@@ -45,7 +42,7 @@ describe("CaseDashboard", () => {
     caseDashboardWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CaseDashboard/>
+          <CaseDashboard />
         </Router>
       </Provider>
     );
@@ -77,31 +74,5 @@ describe("CaseDashboard", () => {
 
   test("should close snackbar when mounted", () => {
     expect(store.getState()).toHaveProperty("ui.snackbar.open", false);
-  });
-
-  describe("Data Visualization Feature Toggle", () => {
-    test("displays data visualizations when toggled on", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          dataVisualizationFeature: true
-        })
-      ); 
-      caseDashboardWrapper.update();
-      expect(
-        caseDashboardWrapper.find('[data-testid="dataVisualization"]').exists()
-      ).toBeTrue();
-    });
-
-    test("does not display data visualizations when toggled off", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          dataVisualizationFeature: false
-        })
-      );
-      caseDashboardWrapper.update();
-      expect(
-        caseDashboardWrapper.find('[data-testid="dataVisualization"]').exists()
-      ).toBeFalse();
-    });
   });
 });
