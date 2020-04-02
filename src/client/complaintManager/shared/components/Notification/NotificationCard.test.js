@@ -38,7 +38,7 @@ describe("notification card", () => {
     };
     const { queryByText } = renderNotificationCard(newNotif);
 
-    const expectedTime = moment(newNotif.updatedAt).format("MM/DD/YYYY h:mm A");
+    const expectedTime = moment(newNotif.updatedAt).format("MMM D h:mm A");
 
     // ASSERT
     await wait(() => {
