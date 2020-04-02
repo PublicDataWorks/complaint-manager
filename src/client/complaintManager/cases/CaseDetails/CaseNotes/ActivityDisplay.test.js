@@ -35,7 +35,7 @@ describe("ActivityDisplay", () => {
     containsText(
       wrapper,
       '[data-testid="activityTimeText"]',
-      "Dec 17 1995 3:24 AM"
+      "Dec 17, 1995 3:24 AM"
     );
     containsText(wrapper, '[data-testid="notesText"]', caseNote.notes);
   });

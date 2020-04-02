@@ -5,7 +5,7 @@ import ActivityMenu from "./ActivityMenu";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
 const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
-  const TIMESTAMP_FORMAT = "MMM D YYYY h:mm A";
+  const TIMESTAMP_FORMAT = "MMM D, YYYY h:mm A";
   return (
     <Card
       key={activity.id}

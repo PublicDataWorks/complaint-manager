@@ -8,8 +8,6 @@ import {
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import moment, { now, utc } from "moment";
-import archiveCase from "./archiveCase/archiveCase";
-import { getCaseWithoutAssociations } from "../getCaseHelpers";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
