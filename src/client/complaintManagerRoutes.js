@@ -17,6 +17,7 @@ import JobDashboard from "./complaintManager/export/JobDashboard";
 import EditOfficerDetails from "./complaintManager/officers/OfficerDetails/EditOfficerDetails";
 import LetterPreview from "./complaintManager/cases/ReferralLetter/LetterPreview/LetterPreview";
 import ReviewAndApproveLetter from "./complaintManager/cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
+import DataDashboard from "./complaintManager/data/DataDashboard";
 
 const complaintManagerRoutes = [
   {
@@ -26,6 +27,11 @@ const complaintManagerRoutes = [
   {
     path: "/",
     component: CaseDashboard
+  },
+  {
+    path: "/data",
+    component: DataDashboard,
+    toggleName: "dataVisualizationFeature"
   },
   {
     path: "/cases/:id/officers/search",
