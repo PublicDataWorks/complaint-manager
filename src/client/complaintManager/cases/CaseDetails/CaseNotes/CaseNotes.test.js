@@ -77,7 +77,7 @@ describe("Case Notes", () => {
       .first();
 
     expect(userAndActionText.text()).toEqual("[tuser] Memo to file");
-    expect(activityTimeText.text()).toEqual("Dec 17 1995 3:24 AM");
+    expect(activityTimeText.text()).toEqual("Dec 17, 1995 3:24 AM");
   });
 
   test("should display most case notes first ", () => {
