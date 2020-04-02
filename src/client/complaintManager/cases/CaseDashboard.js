@@ -22,11 +22,6 @@ class CaseDashboard extends Component {
         <NavBar menuType={complaintManagerMenuOptions}>View All Cases</NavBar>
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
-        {this.props.dataVisualizationFeature ? (
-              <Visualization data-testid={"dataVisualization"}
-                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-              />
-              ) : null}
       </div>
     );
   }
