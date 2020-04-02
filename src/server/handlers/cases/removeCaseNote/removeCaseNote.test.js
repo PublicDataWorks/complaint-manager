@@ -12,8 +12,12 @@ import {
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 import Notification from "../../../../client/complaintManager/testUtilities/notification";
+import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
+import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../audits/auditDataAccess");
+jest.mock("../helpers/caseNoteOperationsPermitted");
 
 describe("RemoveCaseNote unit", () => {
   let createdCase, createdCaseNote, request;
@@ -56,6 +60,25 @@ describe("RemoveCaseNote unit", () => {
         caseNoteId: createdCaseNote.id
       },
       nickname: "TEST_USER_NICKNAME"
+    });
+  });
+
+  describe("only remove case notes when operations are permitted", () => {
+    test("should return bad request response with not allowed message", async () => {
+      const next = jest.fn();
+      const response = httpMocks.createResponse();
+
+      caseNoteOperationsPermitted.mockReturnValue(false);
+
+      await removeCaseNote(request, response, next);
+
+      expect(caseNoteOperationsPermitted).toHaveBeenCalledWith(
+        request.nickname,
+        createdCaseNote.id
+      );
+      expect(next).toHaveBeenCalledWith(
+        Boom.badData(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED)
+      );
     });
   });
 
