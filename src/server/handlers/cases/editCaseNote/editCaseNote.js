@@ -4,6 +4,7 @@ import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { handleNotifications } from "../helpers/handleNotifications";
+import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -19,6 +20,13 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
     "actionTakenAt",
     "notes"
   ]);
+
+  const operationsPermitted = await caseNoteOperationsPermitted(
+    request.nickname,
+    caseNoteId
+  );
+  if (!operationsPermitted)
+    next(Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED));
 
   const caseNotes = await models.sequelize.transaction(async transaction => {
     await models.case_note.update(valuesToUpdate, {

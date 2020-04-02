@@ -11,9 +11,14 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import Boom from "boom";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import {
+  BAD_DATA_ERRORS,
+  BAD_REQUEST_ERRORS
+} from "../../../../sharedUtilities/errorMessageConstants";
+import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
 
 jest.mock("../../audits/auditDataAccess");
+jest.mock("../helpers/caseNoteOperationsPermitted");
 
 describe("editCaseNote", function() {
   let createdCase,
@@ -84,6 +89,22 @@ describe("editCaseNote", function() {
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  describe("only editing case notes when operations are permitted", () => {
+    test("should return bad request response with not allowed message", async () => {
+      caseNoteOperationsPermitted.mockReturnValue(false);
+
+      await editCaseNote(request, response, next);
+
+      expect(caseNoteOperationsPermitted).toHaveBeenCalledWith(
+        request.nickname,
+        createdCaseNote.id
+      );
+      expect(next).toHaveBeenCalledWith(
+        Boom.badData(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED)
+      );
+    });
   });
 
   describe("editing case note with no mentions yet", () => {
