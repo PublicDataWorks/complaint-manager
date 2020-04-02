@@ -14,8 +14,10 @@ class AppRouter extends Component {
             this.shouldCreateRoute(route.toggleName) &&
             this.createRoute(route.path, route.component)
         )}
-        {complaintManagerRoutes.map(route =>
-          this.createRoute(route.path, route.component)
+        {complaintManagerRoutes.map(
+          route =>
+            this.shouldCreateRoute(route.toggleName) &&
+            this.createRoute(route.path, route.component)
         )}
         {matrixManagerRoutes.map(
           route =>
@@ -37,7 +39,7 @@ class AppRouter extends Component {
   };
 
   createRoute = (path, component) => {
-    return <Route exact key={path} path={path} component={component}/>
+    return <Route exact key={path} path={path} component={component} />;
   };
 }
 
