@@ -18,10 +18,24 @@ class MenuNavigator extends Component {
     </MenuItem>
   );
 
+  shouldGenerateMenuItem = toggleName => {
+    if (toggleName) {
+      const toggleState = this.props.featureToggles[toggleName];
+      if (toggleState === false) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   render() {
     return (
       <div>
-        {this.props.menuType.map(menuItem => this.generateMenuItem(menuItem))}
+        {this.props.menuType.map(
+          menuItem =>
+            this.shouldGenerateMenuItem(menuItem.toggleName) &&
+            this.generateMenuItem(menuItem)
+        )}
 
         <MenuItem data-testid="logOutButton" onClick={handleLogout}>
           Log Out

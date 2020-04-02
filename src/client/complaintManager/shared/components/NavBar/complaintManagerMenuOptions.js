@@ -4,5 +4,11 @@ export const complaintManagerMenuOptions = [
     path: "/archived-cases",
     dataTestName: "archivedCases",
     title: "Archived Cases"
+  },
+  {
+    path: "/data",
+    dataTestName: "dataDashboard",
+    title: "Data Dashboard",
+    toggleName: "dataVisualizationFeature"
   }
 ];
