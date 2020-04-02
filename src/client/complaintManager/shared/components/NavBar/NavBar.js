@@ -128,6 +128,7 @@ class NavBar extends Component {
             <MenuNavigator
               menuType={menuType}
               handleMenuClose={this.handleMenuClose}
+              featureToggles={this.props.featureToggles}
             />
           </Menu>
         </Toolbar>
@@ -144,7 +145,8 @@ NavBar.defaultProps = {
 const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
   permissions: state.users.current.userInfo.permissions,
-  notificationFeature: state.featureToggles.notificationFeature
+  notificationFeature: state.featureToggles.notificationFeature,
+  featureToggles: state.featureToggles
 });
 
 const mapDispatchToProps = {
