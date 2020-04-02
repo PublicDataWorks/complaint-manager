@@ -2,7 +2,8 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import Boom from "boom";
-import {BAD_REQUEST_ERRORS} from "../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
 
 const {
   AUDIT_SUBJECT,
@@ -11,9 +12,16 @@ const {
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../complaintManager/models");
 
-const removeCaseNote = asyncMiddleware(async (request, response) => {
+const removeCaseNote = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
+
+  const operationsPermitted = await caseNoteOperationsPermitted(
+    request.nickname,
+    caseNoteId
+  );
+  if (!operationsPermitted)
+    next(Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED));
 
   const currentCase = await models.sequelize.transaction(async transaction => {
     await models.notification.destroy({
@@ -32,7 +40,7 @@ const removeCaseNote = asyncMiddleware(async (request, response) => {
       auditUser: request.nickname
     });
 
-    if(notificationsStillThere) {
+    if (notificationsStillThere) {
       throw Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_DELETION_ERROR);
     }
 
