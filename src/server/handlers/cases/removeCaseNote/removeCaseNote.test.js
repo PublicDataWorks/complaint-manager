@@ -61,6 +61,8 @@ describe("RemoveCaseNote unit", () => {
       },
       nickname: "TEST_USER_NICKNAME"
     });
+
+    caseNoteOperationsPermitted.mockReturnValue(true);
   });
 
   describe("only remove case notes when operations are permitted", () => {

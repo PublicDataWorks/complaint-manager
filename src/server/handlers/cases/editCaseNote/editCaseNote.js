@@ -26,7 +26,7 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
     caseNoteId
   );
   if (!operationsPermitted)
-    next(Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED));
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
 
   const caseNotes = await models.sequelize.transaction(async transaction => {
     await models.case_note.update(valuesToUpdate, {
