@@ -85,6 +85,8 @@ describe("editCaseNote", function() {
       body: updatedCaseNote,
       nickname: "TEST_USER_NICKNAME"
     });
+
+    caseNoteOperationsPermitted.mockReturnValue(true);
   });
 
   afterEach(async () => {
