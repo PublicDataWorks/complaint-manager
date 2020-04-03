@@ -7,7 +7,8 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
-import moment, { now, utc } from "moment";
+import moment, { utc } from "moment";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
@@ -22,9 +23,27 @@ describe("getNotifications", () => {
 
   beforeEach(async () => {
     timestamp = utc().toDate();
-    const caseAttributes = new Case.Builder().defaultCase();
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withComplainantCivilians([
+        { ...new Civilian.Builder().defaultCivilian().withIsAnonymous(true) }
+      ])
+      .withComplainantOfficers([]);
+
     currentCase = await models.cases.create(caseAttributes, {
-      auditUser: "tuser"
+      auditUser: "tuser",
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "someone"
+        },
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "someone"
+        }
+      ]
     });
 
     const caseNoteAttributes = new CaseNote.Builder()
@@ -83,12 +102,8 @@ describe("getNotifications", () => {
   });
 
   test("should not return notifications that were updated or created before timestamp", async () => {
-    console.log("Current Timezone", moment().format("ZZ"));
-
     request.query.timestamp = utc().toDate();
-    console.log("Request Timestamp", request.query.timestamp);
 
-    console.log("Request", request);
     const anotherRequest = httpMocks.createRequest({
       method: "GET",
       headers: {
@@ -98,7 +113,6 @@ describe("getNotifications", () => {
       query: { timestamp: request.query.timestamp },
       nickname: "tuser"
     });
-    console.log("Another Request", anotherRequest);
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
@@ -149,19 +163,15 @@ describe("getNotifications", () => {
   });
 
   test("should return correct case reference for notification", async () => {
-    const caseReference = currentCase.caseReference;
-
     await getNotifications(request, response, next);
 
-    expect(response._getData()[0].caseReference).toEqual(caseReference);
+    expect(response._getData()[0].caseReference).toEqual("AC2017-0001");
   });
 
   test("should return correct mentioner for notification", async () => {
-    const mentioner = currentCaseNote.user;
-
     await getNotifications(request, response, next);
 
-    expect(response._getData()[0].mentioner).toEqual(mentioner);
+    expect(response._getData()[0].mentioner).toEqual("wancheny@gmail.com");
   });
 
   test("should return correct case reference for notification when case is archived", async () => {
@@ -170,15 +180,9 @@ describe("getNotifications", () => {
       auditUser: "tuser"
     });
 
-    const archivedCase = await models.cases.findByPk(currentCase.id, {
-      paranoid: false
-    });
-
     await getNotifications(request, response, next);
 
-    expect(response._getData()[0].caseReference).toEqual(
-      archivedCase.caseReference
-    );
+    expect(response._getData()[0].caseReference).toEqual("AC2017-0001");
   });
 
   describe("auditing", () => {

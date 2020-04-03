@@ -19,35 +19,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       {
         model: models.case_note,
         as: "caseNote",
-        attributes: [["user", "mentioner"], "case_id"],
-        include: [
-          {
-            model: models.cases,
-            attributes: [
-              "caseReference",
-              "year",
-              "caseNumber",
-              "primaryComplainant"
-            ],
-            include: [
-              {
-                model: models.civilian,
-                as: "complainantCivilians",
-                attributes: ["isAnonymous", "createdAt"]
-              },
-              {
-                model: models.case_officer,
-                as: "complainantOfficers",
-                attributes: [
-                  "isAnonymous",
-                  "caseEmployeeType",
-                  "createdAt",
-                  "officerId"
-                ]
-              }
-            ]
-          }
-        ]
+        attributes: [["user", "mentioner"], "case_id"]
       }
     ]
   };
@@ -77,6 +49,29 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       const caseNote = notification.get("caseNote");
 
       const caseModel = await models.cases.findByPk(caseNote.get("case_id"), {
+        attributes: [
+          "caseReference",
+          "year",
+          "caseNumber",
+          "primaryComplainant"
+        ],
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            attributes: ["isAnonymous", "createdAt"]
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            attributes: [
+              "isAnonymous",
+              "caseEmployeeType",
+              "createdAt",
+              "officerId"
+            ]
+          }
+        ],
         paranoid: false
       });
 
