@@ -47,12 +47,21 @@ class ActivityMenu extends React.Component {
   render() {
     return (
       <Fragment>
-        <IconButton
-          data-testid="activityMenuButton"
-          onClick={this.handleMenuOpen}
-        >
-          <MoreVertIcon />
-        </IconButton>
+        {this.props.nickname === this.props.activity.user ? (
+          <IconButton
+            data-testid="activityMenuButton"
+            onClick={this.handleMenuOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        ) : (
+          <div
+            data-testid="menuButtonPadding"
+            style={{
+              width: "48px"
+            }}
+          />
+        )}
         <Menu
           open={this.state.menuOpen}
           anchorEl={this.state.anchorEl}
@@ -79,7 +88,8 @@ class ActivityMenu extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  disableCaseNotesRemoval: state.featureToggles.disableCaseNotesRemoval
+  disableCaseNotesRemoval: state.featureToggles.disableCaseNotesRemoval,
+  nickname: state.users.current.userInfo.nickname
 });
 
 export default connect(mapStateToProps)(ActivityMenu);

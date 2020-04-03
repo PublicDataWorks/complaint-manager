@@ -11,17 +11,31 @@ import { Provider } from "react-redux";
 import moment from "moment";
 import { initialize } from "redux-form";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 
 describe("ActivityMenu", () => {
-  let wrapper, activityMenuButton, dispatchSpy, caseId, activity, store;
+  const currentUserEmail = "owner.author@productive.org";
+  let wrapper,
+    activityMenuButton,
+    menuButtonPadding,
+    dispatchSpy,
+    caseId,
+    activity,
+    store;
 
   beforeEach(() => {
     store = createConfiguredStore();
+    store.dispatch(
+      userAuthSuccess({
+        nickname: currentUserEmail
+      })
+    );
     dispatchSpy = jest.spyOn(store, "dispatch");
     caseId = 1;
     activity = {
       id: 1,
-      actionTakenAt: moment()
+      actionTakenAt: moment(),
+      user: currentUserEmail
     };
     wrapper = mount(
       <Provider store={store}>
@@ -32,10 +46,32 @@ describe("ActivityMenu", () => {
     activityMenuButton = wrapper
       .find('[data-testid="activityMenuButton"]')
       .last();
+    menuButtonPadding = wrapper
+      .find('[data-testid="menuButtonPadding"]')
+      .last();
   });
 
-  test("should contain kebab icon", () => {
+  test("should contain kebab icon when activity user is current logged in user", () => {
     expect(activityMenuButton.exists()).toEqual(true);
+    expect(menuButtonPadding.exists()).toEqual(false);
+  });
+
+  test("should NOT contain kebab icon when activity user is NOT current logged in user", () => {
+    store.dispatch(
+      userAuthSuccess({
+        nickname: "i.delete.notes@productive.org"
+      })
+    );
+    wrapper.update();
+    activityMenuButton = wrapper
+      .find('[data-testid="activityMenuButton"]')
+      .last();
+    menuButtonPadding = wrapper
+      .find('[data-testid="menuButtonPadding"]')
+      .last();
+
+    expect(activityMenuButton.exists()).toEqual(false);
+    expect(menuButtonPadding.exists()).toEqual(true);
   });
 
   test("should open menu when icon clicked", () => {
