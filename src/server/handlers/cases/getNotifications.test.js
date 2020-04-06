@@ -17,8 +17,6 @@ describe("getNotifications", () => {
     response,
     next,
     currentCaseNote,
-    currentCaseNote2,
-    currentCaseNote3,
     currentNotif,
     timestamp,
     currentCase;
@@ -237,18 +235,10 @@ describe("getNotifications", () => {
   });
 
   describe("sorting notifications", () => {
-    // beforeEach(async () => {
-    //
-    // });
-
-    afterEach(async () => {
-      await cleanupDatabase();
-    });
-
-    test("should return notifications in descending order by updated at timestamp", async () => {
+    const generateNotification = async (mentioner, hasBeenRead) => {
       const caseNoteAttributes = new CaseNote.Builder()
         .defaultCaseNote()
-        .withUser("johnsmith@gmail.com")
+        .withUser(mentioner)
         .withCaseId(currentCase.id);
 
       currentCaseNote = await models.case_note.create(caseNoteAttributes, {
@@ -258,54 +248,30 @@ describe("getNotifications", () => {
       const notificationAttributes = new Notification.Builder()
         .defaultNotification()
         .withCaseNoteId(currentCaseNote.id)
+        .withHasBeenRead(hasBeenRead)
         .withUser("seanrut@gmail.com");
 
-      currentNotif = await models.notification.create(notificationAttributes, {
+      await models.notification.create(notificationAttributes, {
         auditUser: "tuser"
       });
+    };
 
-      const caseNoteAttributes2 = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("catpower@gmail.com")
-        .withCaseId(currentCase.id);
+    beforeEach(async () => {
+      await currentNotif.destroy({ auditUser: "tuser" });
+    });
 
-      currentCaseNote2 = await models.case_note.create(caseNoteAttributes2, {
-        auditUser: "tuser"
-      });
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
 
-      const notificationAttributes2 = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote2.id)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes2, {
-        auditUser: "tuser"
-      });
-
-      const caseNoteAttributes3 = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("random@gmail.com")
-        .withCaseId(currentCase.id);
-
-      currentCaseNote3 = await models.case_note.create(caseNoteAttributes3, {
-        auditUser: "tuser"
-      });
-
-      const notificationAttributes3 = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote3.id)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes3, {
-        auditUser: "tuser"
-      });
+    test("should return notifications in descending order by updated at timestamp", async () => {
+      await generateNotification("wancheny@gmail.com", false);
+      await generateNotification("johnsmith@gmail.com", false);
+      await generateNotification("catpower@gmail.com", false);
 
       await getNotifications(request, response, next);
 
       expect(response._getData()).toEqual([
-        expect.objectContaining({
-          mentioner: "random@gmail.com"
-        }),
         expect.objectContaining({
           mentioner: "catpower@gmail.com"
         }),
@@ -319,24 +285,8 @@ describe("getNotifications", () => {
     });
 
     test("should return all unread notifications before read notifications", async () => {
-      const caseNoteAttributes = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("johnsmith@gmail.com")
-        .withCaseId(currentCase.id);
-
-      currentCaseNote = await models.case_note.create(caseNoteAttributes, {
-        auditUser: "tuser"
-      });
-
-      const notificationAttributes = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote.id)
-        .withHasBeenRead(true)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes, {
-        auditUser: "tuser"
-      });
+      await generateNotification("wancheny@gmail.com", false);
+      await generateNotification("johnsmith@gmail.com", true);
 
       await getNotifications(request, response, next);
 
@@ -351,61 +301,10 @@ describe("getNotifications", () => {
     });
 
     test("should prioritize unread/read sorting over updated at timestamp sorting", async () => {
-      const caseNoteAttributes = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("johnsmith@gmail.com")
-        .withCaseId(currentCase.id);
-
-      currentCaseNote = await models.case_note.create(caseNoteAttributes, {
-        auditUser: "tuser"
-      });
-
-      const notificationAttributes = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote.id)
-        .withHasBeenRead(true)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes, {
-        auditUser: "tuser"
-      });
-
-      const caseNoteAttributes2 = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("catpower@gmail.com")
-        .withCaseId(currentCase.id);
-
-      currentCaseNote2 = await models.case_note.create(caseNoteAttributes2, {
-        auditUser: "tuser"
-      });
-
-      const notificationAttributes2 = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote2.id)
-        .withHasBeenRead(true)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes2, {
-        auditUser: "tuser"
-      });
-
-      const caseNoteAttributes3 = new CaseNote.Builder()
-        .defaultCaseNote()
-        .withUser("random@gmail.com")
-        .withCaseId(currentCase.id);
-
-      currentCaseNote3 = await models.case_note.create(caseNoteAttributes3, {
-        auditUser: "tuser"
-      });
-
-      const notificationAttributes3 = new Notification.Builder()
-        .defaultNotification()
-        .withCaseNoteId(currentCaseNote3.id)
-        .withUser("seanrut@gmail.com");
-
-      currentNotif = await models.notification.create(notificationAttributes3, {
-        auditUser: "tuser"
-      });
+      await generateNotification("wancheny@gmail.com", false);
+      await generateNotification("johnsmith@gmail.com", true);
+      await generateNotification("catpower@gmail.com", true);
+      await generateNotification("random@gmail.com", false);
 
       await getNotifications(request, response, next);
 
