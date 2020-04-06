@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
-import List from "@material-ui/core/List";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NotificationCard from "./NotificationCard";
 import { connect } from "react-redux";
 import getUsers from "../../../../common/thunks/getUsers";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: "#FFFFFF"
+    backgroundColor: "#FFFFFF",
+    paddingTop: "0px",
+    paddingBottom: "0px"
   }
 }));
 
@@ -31,15 +34,26 @@ const NotificationList = props => {
   };
 
   return (
-    <List
-      className={classes.root}
-      style={{ paddingTop: "0px", paddingBottom: "0px" }}
-    >
+    <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
         const newNotif = replaceMentionerName(notification);
-        return <NotificationCard notification={newNotif} key={newNotif.id} />;
+        return (
+          <Button
+            style={{
+              backgroundColor: "white",
+              width: "300px",
+              textTransform: "none",
+              textAlign: "left",
+              paddingTop: "7.5px",
+              paddingBottom: "8px",
+              borderRadius: "0px"
+            }}
+          >
+            <NotificationCard notification={newNotif} key={newNotif.id} />
+          </Button>
+        );
       })}
-    </List>
+    </ButtonGroup>
   );
 };
 
