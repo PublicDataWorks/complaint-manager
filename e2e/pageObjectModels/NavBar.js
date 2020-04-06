@@ -5,6 +5,7 @@ const navBarCommands = {
     return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
       .click("@menuButton")
       .waitForElementVisible("@archivedCasesLink", e2e.rerenderWait)
+      .moveToElement("@archivedCasesLink", undefined, undefined)
       .click("@archivedCasesLink");
   },
   goToAllExports: function() {
