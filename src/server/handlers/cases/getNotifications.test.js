@@ -17,6 +17,8 @@ describe("getNotifications", () => {
     response,
     next,
     currentCaseNote,
+    currentCaseNote2,
+    currentCaseNote3,
     currentNotif,
     timestamp,
     currentCase;
@@ -231,6 +233,196 @@ describe("getNotifications", () => {
           })
         })
       );
+    });
+  });
+
+  describe("sorting notifications", () => {
+    // beforeEach(async () => {
+    //
+    // });
+
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
+
+    test("should return notifications in descending order by updated at timestamp", async () => {
+      const caseNoteAttributes = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("johnsmith@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote = await models.case_note.create(caseNoteAttributes, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote.id)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes, {
+        auditUser: "tuser"
+      });
+
+      const caseNoteAttributes2 = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("catpower@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote2 = await models.case_note.create(caseNoteAttributes2, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes2 = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote2.id)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes2, {
+        auditUser: "tuser"
+      });
+
+      const caseNoteAttributes3 = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("random@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote3 = await models.case_note.create(caseNoteAttributes3, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes3 = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote3.id)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes3, {
+        auditUser: "tuser"
+      });
+
+      await getNotifications(request, response, next);
+
+      expect(response._getData()).toEqual([
+        expect.objectContaining({
+          mentioner: "random@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "catpower@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "johnsmith@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "wancheny@gmail.com"
+        })
+      ]);
+    });
+
+    test("should return all unread notifications before read notifications", async () => {
+      const caseNoteAttributes = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("johnsmith@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote = await models.case_note.create(caseNoteAttributes, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote.id)
+        .withHasBeenRead(true)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes, {
+        auditUser: "tuser"
+      });
+
+      await getNotifications(request, response, next);
+
+      expect(response._getData()).toEqual([
+        expect.objectContaining({
+          mentioner: "wancheny@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "johnsmith@gmail.com"
+        })
+      ]);
+    });
+
+    test("should prioritize unread/read sorting over updated at timestamp sorting", async () => {
+      const caseNoteAttributes = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("johnsmith@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote = await models.case_note.create(caseNoteAttributes, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote.id)
+        .withHasBeenRead(true)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes, {
+        auditUser: "tuser"
+      });
+
+      const caseNoteAttributes2 = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("catpower@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote2 = await models.case_note.create(caseNoteAttributes2, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes2 = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote2.id)
+        .withHasBeenRead(true)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes2, {
+        auditUser: "tuser"
+      });
+
+      const caseNoteAttributes3 = new CaseNote.Builder()
+        .defaultCaseNote()
+        .withUser("random@gmail.com")
+        .withCaseId(currentCase.id);
+
+      currentCaseNote3 = await models.case_note.create(caseNoteAttributes3, {
+        auditUser: "tuser"
+      });
+
+      const notificationAttributes3 = new Notification.Builder()
+        .defaultNotification()
+        .withCaseNoteId(currentCaseNote3.id)
+        .withUser("seanrut@gmail.com");
+
+      currentNotif = await models.notification.create(notificationAttributes3, {
+        auditUser: "tuser"
+      });
+
+      await getNotifications(request, response, next);
+
+      expect(response._getData()).toEqual([
+        expect.objectContaining({
+          mentioner: "random@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "wancheny@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "catpower@gmail.com"
+        }),
+        expect.objectContaining({
+          mentioner: "johnsmith@gmail.com"
+        })
+      ]);
     });
   });
 });
