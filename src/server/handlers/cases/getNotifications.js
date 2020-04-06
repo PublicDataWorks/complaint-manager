@@ -4,7 +4,9 @@ const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 import sequelize from "sequelize";
 import {
+  ASCENDING,
   AUDIT_SUBJECT,
+  DESCENDING,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
@@ -21,6 +23,10 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
         as: "caseNote",
         attributes: [["user", "mentioner"], "case_id"]
       }
+    ],
+    order: [
+      ["has_been_read", ASCENDING],
+      ["updated_at", DESCENDING]
     ]
   };
 
