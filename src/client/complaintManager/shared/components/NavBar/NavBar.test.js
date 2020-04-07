@@ -137,13 +137,20 @@ describe("NavBar", () => {
       );
     });
 
-    test("getNotifications should be dispatched when bell is clicked", () => {
+    test("getNotifications should be dispatched when bell is clicked to open drawer ONLY", () => {
       wrapper.update();
-      wrapper
+      const notificationBell = wrapper
         .find('[data-testid="notificationBell"]')
-        .first()
-        .simulate("click");
+        .first();
+
+      notificationBell.simulate("click");
+
       expect(dispatchSpy).toHaveBeenCalledWith(getNotifications(""));
+
+      dispatchSpy.mockClear();
+      notificationBell.simulate("click");
+
+      expect(dispatchSpy).not.toHaveBeenCalledWith(getNotifications(""));
     });
   });
 });
