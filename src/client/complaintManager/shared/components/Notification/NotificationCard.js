@@ -8,7 +8,10 @@ import moment from "moment";
 const NotificationCard = props => {
   const title = `${props.notification.mentioner} mentioned you in ${props.notification.caseReference}`;
 
-  const timestamp = moment(props.notification.updatedAt).format("MMM D h:mm A");
+  const NOTIFICATION_TIME_FORMAT = "MMM D h:mm A";
+  const timestamp = moment(props.notification.updatedAt).format(
+    NOTIFICATION_TIME_FORMAT
+  );
   return (
     <div>
       <ListItem style={{ backgroundColor: "white", width: "300px" }}>
