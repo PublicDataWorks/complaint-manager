@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import getUsers from "../../../../common/thunks/getUsers";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,6 +41,12 @@ const NotificationList = props => {
         const newNotif = replaceMentionerName(notification);
         return (
           <Button
+            data-testid={"notificationCard"}
+            component={Link}
+            to={`/cases/${notification.caseId}`}
+            onClick={() => {
+              props.getCaseDetails(notification.caseId);
+            }}
             style={{
               backgroundColor: "white",
               width: "300px",
@@ -48,8 +56,9 @@ const NotificationList = props => {
               paddingBottom: "8px",
               borderRadius: "0px"
             }}
+            key={newNotif.id}
           >
-            <NotificationCard notification={newNotif} key={newNotif.id} />
+            <NotificationCard notification={newNotif} />
           </Button>
         );
       })}
@@ -62,6 +71,6 @@ const mapStateToProps = state => ({
   allUsers: state.users.all
 });
 
-const mapDispatchToProps = { getUsers: getUsers };
+const mapDispatchToProps = { getUsers, getCaseDetails };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);
