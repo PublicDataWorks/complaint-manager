@@ -86,7 +86,8 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       notification = {
         ...rawNotification.dataValues,
         mentioner: caseNote.get("mentioner"),
-        caseReference: caseReference
+        caseReference: caseReference,
+        caseId: caseNote.get("case_id")
       };
       return notification;
     })
