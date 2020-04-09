@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import getUsers from "../../../../common/thunks/getUsers";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 import getCaseDetails from "../../../cases/thunks/getCaseDetails";
+import axios from "axios";
+import history from "../../../../history";
+import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,10 +44,29 @@ const NotificationList = props => {
         return (
           <Button
             data-testid={"notificationCard"}
-            component={Link}
-            to={`/cases/${notification.caseId}`}
-            onClick={() => {
-              props.getCaseDetails(notification.caseId);
+            onClick={async () => {
+              const response = await axios.get(
+                `/api/notifications/${notification.caseNoteId}/${notification.id}`
+              );
+              const notificationStatus = response.data;
+
+              if (
+                !notificationStatus.caseNoteExists ||
+                !notificationStatus.notificationExists
+              ) {
+                if (!notificationStatus.caseNoteExists) {
+                  props.snackbarError(
+                    "The case note for this notification has been removed from the complaint"
+                  );
+                } else {
+                  props.snackbarError(
+                    "The case note for this notification no longer mentions you"
+                  );
+                }
+              } else {
+                history.push(`/cases/${notification.caseId}`);
+                props.getCaseDetails(notification.caseId);
+              }
             }}
             style={{
               backgroundColor: "white",
@@ -71,6 +92,6 @@ const mapStateToProps = state => ({
   allUsers: state.users.all
 });
 
-const mapDispatchToProps = { getUsers, getCaseDetails };
+const mapDispatchToProps = { getUsers, getCaseDetails, snackbarError };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);

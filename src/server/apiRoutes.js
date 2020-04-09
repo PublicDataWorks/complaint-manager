@@ -58,6 +58,7 @@ import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
 import getNotifications from "./handlers/cases/getNotifications";
+import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
@@ -477,6 +478,13 @@ export const API_ROUTES = {
       handler: getNotifications,
       errorMessage:
         "Something went wrong and notifications could not be retrieved. Please try again."
+    }
+  },
+  "/notifications/:caseNoteId/:notificationId": {
+    get: {
+      handler: getNotificationStatus,
+      errorMessage:
+        "Something went wrong and notifications could not be verified. Please try again."
     }
   },
   "/data": {
