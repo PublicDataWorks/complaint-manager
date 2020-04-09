@@ -11,28 +11,39 @@ import { getUsersSuccess } from "../../../../common/actionCreators/usersActionCr
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 import getUsers from "../../../../common/thunks/getUsers";
 import getCaseDetails from "../../../cases/thunks/getCaseDetails";
+import axios from "axios";
+import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../../../common/thunks/getUsers", () => values => ({
   type: "MOCK_THUNK",
   values
 }));
 
-jest.mock("../../../cases/thunks/getCaseDetails", () => values => ({
+jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_THUNK",
-  values
+  caseId
 }));
+
+jest.mock("axios");
 
 describe("notification list", () => {
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
+
+  let responseBody = {
+    data: { caseNoteExists: true, notificationExists: true }
+  };
+  let wrapper;
   const renderNotificationList = () => {
-    const wrapper = render(
+    wrapper = render(
       <Provider store={store}>
         <Router>
           <NotificationList />
         </Router>
       </Provider>
     );
+
+    axios.get.mockReturnValue({ ...responseBody });
 
     store.dispatch(
       getFeaturesSuccess({
@@ -55,6 +66,7 @@ describe("notification list", () => {
           updatedAt: "2020-03-19T18:57:31.953Z",
           caseReference: "AC2020-0004",
           mentioner: "sydbotz@tw.com",
+          caseNoteId: 8,
           id: 1,
           caseId: 4
         },
@@ -63,11 +75,13 @@ describe("notification list", () => {
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0018",
           mentioner: "wanchenyao@tw.com",
+          caseNoteId: 6,
           id: 2,
           caseId: 18
         }
       ])
     );
+
     return wrapper;
   };
 
@@ -87,27 +101,86 @@ describe("notification list", () => {
     });
   });
 
-  test("getUsers should be dispatched when notificationList is rendered", () => {
+  test("getUsers should be dispatched when notificationList is rendered", async () => {
     renderNotificationList();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
+    });
   });
 
-  test("getCaseDetails should be dispatched when a notification card is clicked", () => {
+  test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
     const { getAllByTestId } = renderNotificationList();
 
     const notificationCard = getAllByTestId("notificationCard")[1];
 
     fireEvent.click(notificationCard);
 
-    expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
+    });
   });
 
-  test("notification card should reference correct case details link", () => {
+  test("notification card should reference correct case details link", async () => {
     const { getAllByTestId } = renderNotificationList();
 
     const notificationCard = getAllByTestId("notificationCard")[1];
 
-    expect(notificationCard.href).toEqual(`${window.location.origin}/cases/18`);
+    fireEvent.click(notificationCard);
+
+    await wait(() => {
+      expect(window.location.href).toEqual(
+        `${window.location.origin}/cases/18`
+      );
+    });
+  });
+
+  test("should see red snackbar for when notification is deleted from case note", async () => {
+    responseBody = {
+      data: { caseNoteExists: true, notificationExists: false }
+    };
+
+    const { getAllByTestId } = renderNotificationList();
+    const notificationCard = getAllByTestId("notificationCard")[1];
+
+    fireEvent.click(notificationCard);
+
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        snackbarError(
+          "The case note for this notification no longer mentions you"
+        )
+      );
+    });
+  });
+
+  test("should see red snackbar for when case note is removed", async () => {
+    responseBody = {
+      data: { caseNoteExists: false, notificationExists: false }
+    };
+
+    const { getAllByTestId } = renderNotificationList();
+    const notificationCard = getAllByTestId("notificationCard")[1];
+
+    fireEvent.click(notificationCard);
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        snackbarError(
+          "The case note for this notification has been removed from the complaint"
+        )
+      );
+    });
+  });
+
+  test("should make axios get request to get notification status endpoint", async () => {
+    const { getAllByTestId } = renderNotificationList();
+
+    const notificationCard = getAllByTestId("notificationCard")[1];
+
+    fireEvent.click(notificationCard);
+
+    await wait(() => {
+      expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/2`);
+    });
   });
 });
