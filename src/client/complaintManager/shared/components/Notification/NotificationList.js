@@ -41,6 +41,38 @@ const NotificationList = props => {
     props.handleClickAway();
   };
 
+  const handleNotificationCardClick = notification => {
+    return async () => {
+      const response = await axios.get(
+        `/api/notifications/${notification.caseNoteId}/${notification.id}`
+      );
+      const notificationStatus = response.data;
+
+      if (
+        !notificationStatus.caseNoteExists ||
+        !notificationStatus.notificationExists
+      ) {
+        closeNotificationDrawer();
+        if (!notificationStatus.caseNoteExists) {
+          props.snackbarError(
+            "The case note for this notification has been removed from the complaint"
+          );
+        } else {
+          props.snackbarError(
+            "The case note for this notification no longer mentions you"
+          );
+        }
+      } else {
+        if (window.location.href.endsWith(notification.caseId)) {
+          closeNotificationDrawer();
+        } else {
+          history.push(`/cases/${notification.caseId}`);
+          props.getCaseDetails(notification.caseId);
+        }
+      }
+    };
+  };
+
   return (
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
@@ -48,35 +80,7 @@ const NotificationList = props => {
         return (
           <Button
             data-testid={"notificationCard"}
-            onClick={async () => {
-              const response = await axios.get(
-                `/api/notifications/${notification.caseNoteId}/${notification.id}`
-              );
-              const notificationStatus = response.data;
-
-              if (
-                !notificationStatus.caseNoteExists ||
-                !notificationStatus.notificationExists
-              ) {
-                closeNotificationDrawer();
-                if (!notificationStatus.caseNoteExists) {
-                  props.snackbarError(
-                    "The case note for this notification has been removed from the complaint"
-                  );
-                } else {
-                  props.snackbarError(
-                    "The case note for this notification no longer mentions you"
-                  );
-                }
-              } else {
-                if (window.location.href.endsWith(notification.caseId)) {
-                  closeNotificationDrawer();
-                } else {
-                  history.push(`/cases/${notification.caseId}`);
-                  props.getCaseDetails(notification.caseId);
-                }
-              }
-            }}
+            onClick={handleNotificationCardClick(notification)}
             style={{
               backgroundColor: "white",
               width: "300px",
