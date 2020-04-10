@@ -33,9 +33,9 @@ describe("notification list", () => {
   let responseBody = {
     data: { caseNoteExists: true, notificationExists: true }
   };
-
   let handleClickAway;
   let wrapper;
+
   const renderNotificationList = () => {
     handleClickAway = jest.fn();
 
@@ -57,7 +57,7 @@ describe("notification list", () => {
 
     store.dispatch(
       getUsersSuccess([
-        { email: "veronicablackwel@tw.com", name: "Veronica B" },
+        { email: "veronicablackwell@tw.com", name: "Veronica B" },
         { email: "sydbotz@tw.com", name: "Syd B" },
         { email: "wanchenyao@tw.com", name: "Wanchen Y" }
       ])
@@ -98,6 +98,18 @@ describe("notification list", () => {
     return wrapper;
   };
 
+  const findAndClickNotif = notificationCardId => {
+    const { getAllByTestId } = renderNotificationList();
+
+    const notificationCard = getAllByTestId("notificationCard")[
+      notificationCardId
+    ];
+
+    fireEvent.click(notificationCard);
+
+    return notificationCard;
+  };
+
   test("should render 3 notification cards if the user has 3 notifications", async () => {
     const { queryByText } = renderNotificationList();
 
@@ -129,11 +141,7 @@ describe("notification list", () => {
   });
 
   test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
-    const { getAllByTestId } = renderNotificationList();
-
-    const notificationCard = getAllByTestId("notificationCard")[1];
-
-    fireEvent.click(notificationCard);
+    findAndClickNotif(1);
 
     await wait(() => {
       expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
@@ -141,11 +149,7 @@ describe("notification list", () => {
   });
 
   test("notification card should reference correct case details link", async () => {
-    const { getAllByTestId } = renderNotificationList();
-
-    const notificationCard = getAllByTestId("notificationCard")[0];
-
-    fireEvent.click(notificationCard);
+    findAndClickNotif(0);
 
     await wait(() => {
       expect(window.location.href).toEqual(`${window.location.origin}/cases/4`);
@@ -157,10 +161,7 @@ describe("notification list", () => {
       data: { caseNoteExists: true, notificationExists: false }
     };
 
-    const { getAllByTestId } = renderNotificationList();
-    const notificationCard = getAllByTestId("notificationCard")[1];
-
-    fireEvent.click(notificationCard);
+    findAndClickNotif(1);
 
     await wait(() => {
       expect(handleClickAway).toHaveBeenCalledTimes(1);
@@ -177,10 +178,7 @@ describe("notification list", () => {
       data: { caseNoteExists: false, notificationExists: false }
     };
 
-    const { getAllByTestId } = renderNotificationList();
-    const notificationCard = getAllByTestId("notificationCard")[1];
-
-    fireEvent.click(notificationCard);
+    findAndClickNotif(1);
 
     await wait(() => {
       expect(handleClickAway).toHaveBeenCalledTimes(1);
@@ -193,11 +191,7 @@ describe("notification list", () => {
   });
 
   test("should make axios get request to get notification status endpoint", async () => {
-    const { getAllByTestId } = renderNotificationList();
-
-    const notificationCard = getAllByTestId("notificationCard")[1];
-
-    fireEvent.click(notificationCard);
+    findAndClickNotif(1);
 
     await wait(() => {
       expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/2`);
@@ -209,11 +203,8 @@ describe("notification list", () => {
       data: { caseNoteExists: true, notificationExists: true }
     };
 
-    const { getAllByTestId } = renderNotificationList();
+    const notificationCard = findAndClickNotif(2);
 
-    const notificationCard = getAllByTestId("notificationCard")[2];
-
-    fireEvent.click(notificationCard);
     fireEvent.click(notificationCard);
 
     await wait(() => {
