@@ -8,9 +8,10 @@ const loginCommands = {
       .click("@submitButton");
   },
   isOnPage: function() {
-    return this.waitForElementVisible("body", e2e.rerenderWait).assert.title(
-      "Sign In with Auth0"
-    );
+    return this.waitForElementVisible(
+      "@loginWidget",
+      e2e.rerenderWait
+    ).assert.title("Sign In with Auth0");
   }
 };
 
@@ -25,6 +26,9 @@ module.exports = {
     },
     submitButton: {
       selector: "button[type=submit]"
+    },
+    loginWidget: {
+      selector: "div.auth0-lock-widget-container"
     }
   }
 };
