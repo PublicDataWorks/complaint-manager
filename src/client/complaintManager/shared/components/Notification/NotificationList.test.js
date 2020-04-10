@@ -33,12 +33,16 @@ describe("notification list", () => {
   let responseBody = {
     data: { caseNoteExists: true, notificationExists: true }
   };
+
+  let handleClickAway;
   let wrapper;
   const renderNotificationList = () => {
+    handleClickAway = jest.fn();
+
     wrapper = render(
       <Provider store={store}>
         <Router>
-          <NotificationList />
+          <NotificationList handleClickAway={handleClickAway} />
         </Router>
       </Provider>
     );
@@ -78,6 +82,15 @@ describe("notification list", () => {
           caseNoteId: 6,
           id: 2,
           caseId: 18
+        },
+        {
+          user: "veronicablackwell@tw.com",
+          updatedAt: "2019-11-29T19:31:41.953Z",
+          caseReference: "CC2019-0030",
+          mentioner: "wanchenyao@tw.com",
+          caseNoteId: 3,
+          id: 7,
+          caseId: 20
         }
       ])
     );
@@ -85,7 +98,7 @@ describe("notification list", () => {
     return wrapper;
   };
 
-  test("should render 2 notification cards if the user has 2 notifications", async () => {
+  test("should render 3 notification cards if the user has 3 notifications", async () => {
     const { queryByText } = renderNotificationList();
 
     await wait(() => {
@@ -97,6 +110,12 @@ describe("notification list", () => {
     await wait(() => {
       expect(
         queryByText("Wanchen Y mentioned you in CC2019-0018")
+      ).toBeInTheDocument();
+    });
+
+    await wait(() => {
+      expect(
+        queryByText("Wanchen Y mentioned you in CC2019-0030")
       ).toBeInTheDocument();
     });
   });
@@ -124,14 +143,12 @@ describe("notification list", () => {
   test("notification card should reference correct case details link", async () => {
     const { getAllByTestId } = renderNotificationList();
 
-    const notificationCard = getAllByTestId("notificationCard")[1];
+    const notificationCard = getAllByTestId("notificationCard")[0];
 
     fireEvent.click(notificationCard);
 
     await wait(() => {
-      expect(window.location.href).toEqual(
-        `${window.location.origin}/cases/18`
-      );
+      expect(window.location.href).toEqual(`${window.location.origin}/cases/4`);
     });
   });
 
@@ -146,6 +163,7 @@ describe("notification list", () => {
     fireEvent.click(notificationCard);
 
     await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         snackbarError(
           "The case note for this notification no longer mentions you"
@@ -163,7 +181,9 @@ describe("notification list", () => {
     const notificationCard = getAllByTestId("notificationCard")[1];
 
     fireEvent.click(notificationCard);
+
     await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         snackbarError(
           "The case note for this notification has been removed from the complaint"
@@ -181,6 +201,23 @@ describe("notification list", () => {
 
     await wait(() => {
       expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/2`);
+    });
+  });
+
+  test("drawer should close when user clicks on notification and is already on notification's case details page", async () => {
+    responseBody = {
+      data: { caseNoteExists: true, notificationExists: true }
+    };
+
+    const { getAllByTestId } = renderNotificationList();
+
+    const notificationCard = getAllByTestId("notificationCard")[2];
+
+    fireEvent.click(notificationCard);
+    fireEvent.click(notificationCard);
+
+    await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
     });
   });
 });

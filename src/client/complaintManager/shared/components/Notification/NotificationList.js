@@ -37,6 +37,10 @@ const NotificationList = props => {
     return notification;
   };
 
+  const closeNotificationDrawer = () => {
+    props.handleClickAway();
+  };
+
   return (
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
@@ -54,6 +58,7 @@ const NotificationList = props => {
                 !notificationStatus.caseNoteExists ||
                 !notificationStatus.notificationExists
               ) {
+                closeNotificationDrawer();
                 if (!notificationStatus.caseNoteExists) {
                   props.snackbarError(
                     "The case note for this notification has been removed from the complaint"
@@ -64,8 +69,12 @@ const NotificationList = props => {
                   );
                 }
               } else {
-                history.push(`/cases/${notification.caseId}`);
-                props.getCaseDetails(notification.caseId);
+                if (window.location.href.endsWith(notification.caseId)) {
+                  closeNotificationDrawer();
+                } else {
+                  history.push(`/cases/${notification.caseId}`);
+                  props.getCaseDetails(notification.caseId);
+                }
               }
             }}
             style={{
