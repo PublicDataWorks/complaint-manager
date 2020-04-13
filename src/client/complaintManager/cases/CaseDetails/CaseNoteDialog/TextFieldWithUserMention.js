@@ -27,8 +27,8 @@ export const TextFieldWithUserMention = props => {
 
   useEffect(() => {
     input.onChange(caseNoteText);
-    const newUsers = getMentionedUsers(users, caseNoteText);
-    props.onSetMentionedUsers(newUsers);
+    const mentionedUsers = getMentionedUsers(users, caseNoteText);
+    props.onSetMentionedUsers(mentionedUsers);
   }, [caseNoteText]);
 
   useOnClickOutside(ref, () => {
