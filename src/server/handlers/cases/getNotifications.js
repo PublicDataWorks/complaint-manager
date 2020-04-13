@@ -21,7 +21,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       {
         model: models.case_note,
         as: "caseNote",
-        attributes: [["user", "mentioner"], "case_id"]
+        attributes: [["user", "author"], "case_id"]
       }
     ],
     order: [
@@ -85,7 +85,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       delete rawNotification["dataValues"]["caseNote"];
       notification = {
         ...rawNotification.dataValues,
-        mentioner: caseNote.get("mentioner"),
+        author: caseNote.get("author"),
         caseReference: caseReference,
         caseId: caseNote.get("case_id")
       };
