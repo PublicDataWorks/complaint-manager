@@ -30,7 +30,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     ]
   };
 
-  const notifications = await models.sequelize.transaction(
+  const rawNotifications = await models.sequelize.transaction(
     async transaction => {
       const allNotifications = await models.notification.findAll(params);
       const auditDetails = getQueryAuditAccessDetails(
@@ -49,10 +49,10 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     }
   );
 
-  const newNotifications = await Promise.all(
-    notifications.map(async notification => {
-      let simplifiedNotif;
-      const caseNote = notification.get("caseNote");
+  const notifications = await Promise.all(
+    rawNotifications.map(async rawNotification => {
+      let notification;
+      const caseNote = rawNotification.get("caseNote");
 
       const caseModel = await models.cases.findByPk(caseNote.get("case_id"), {
         attributes: [
@@ -82,16 +82,16 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       });
 
       const caseReference = caseModel.get("caseReference");
-      delete notification["dataValues"]["caseNote"];
-      simplifiedNotif = {
-        ...notification.dataValues,
+      delete rawNotification["dataValues"]["caseNote"];
+      notification = {
+        ...rawNotification.dataValues,
         mentioner: caseNote.get("mentioner"),
         caseReference: caseReference
       };
-      return simplifiedNotif;
+      return notification;
     })
   );
-  response.send(newNotifications);
+  response.send(notifications);
 });
 
 module.exports = getNotifications;
