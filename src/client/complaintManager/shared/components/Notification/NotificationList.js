@@ -9,6 +9,32 @@ import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 import axios from "axios";
 import history from "../../../../history";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+
+const buttonTheme = createMuiTheme({
+  overrides: {
+    MuiButton: {
+      root: {
+        backgroundColor: "white",
+        "&:hover": {
+          backgroundColor: "#d8d8d8"
+        },
+        color: "#eceff1",
+        width: "300px",
+        textTransform: "none",
+        textAlign: "left",
+        borderRadius: "2px"
+      },
+      text: {
+        paddingTop: "7.5px",
+        paddingBottom: "8px",
+        paddingLeft: "16px",
+        paddingRight: "16px"
+      }
+    }
+  }
+});
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -76,23 +102,18 @@ const NotificationList = props => {
       {props.notifications.map(notification => {
         const newNotif = replaceAuthorName(notification);
         return (
-          <Button
-            data-testid={"notificationCard"}
-            onClick={handleNotificationCardClick(notification)}
-            style={{
-              backgroundColor: "white",
-              width: "300px",
-              textTransform: "none",
-              textAlign: "left",
-              paddingTop: "7.5px",
-              paddingBottom: "8px",
-              borderRadius: "0px"
-              // color: "#CBCED0"
-            }}
-            key={newNotif.id}
-          >
-            <NotificationCard notification={newNotif} />
-          </Button>
+          <MuiThemeProvider theme={buttonTheme}>
+            <div>
+              <Button
+                data-testid={"notificationCard"}
+                onClick={handleNotificationCardClick(notification)}
+                key={newNotif.id}
+              >
+                <NotificationCard notification={newNotif} />
+              </Button>
+              <Divider />
+            </div>
+          </MuiThemeProvider>
         );
       })}
     </ButtonGroup>
