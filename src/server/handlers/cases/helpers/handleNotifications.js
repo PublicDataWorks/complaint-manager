@@ -23,7 +23,12 @@ export const handleNotifications = async (
       return user.value;
     });
     if (mentionedUsersEmails.includes(currentUser)) {
-      await updateNotification(transaction, request, currentUser, caseNoteId);
+      await updateNotificationTimestamp(
+        transaction,
+        request,
+        currentUser,
+        caseNoteId
+      );
       const workingListIndex = workingListUsersEmails.indexOf(currentUser);
       workingListUsersEmails.splice(workingListIndex, 1);
       workingListMentionedUsers.splice(workingListIndex, 1);
@@ -69,7 +74,12 @@ const deleteNotification = async (transaction, request, user, caseNoteId) => {
   });
 };
 
-const updateNotification = async (transaction, request, user, caseNoteId) => {
+const updateNotificationTimestamp = async (
+  transaction,
+  request,
+  user,
+  caseNoteId
+) => {
   const currentNotification = await models.notification.findOne({
     where: {
       caseNoteId: caseNoteId,
@@ -77,7 +87,7 @@ const updateNotification = async (transaction, request, user, caseNoteId) => {
     }
   });
 
-  currentNotification.changed("user", true);
+  currentNotification.changed("updatedAt", true);
 
   await currentNotification.save({ transaction, auditUser: request.nickname });
 };
