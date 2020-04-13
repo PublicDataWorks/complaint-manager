@@ -130,7 +130,7 @@ describe("notifications drawer", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0018",
-          mentioner: "",
+          author: "",
           id: 2
         }
       ])

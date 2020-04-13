@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
     maxWidth: 360,
-    backgroundColor: "#FFFFFF",
     paddingTop: "0px",
     paddingBottom: "0px"
   }
@@ -27,11 +26,10 @@ const NotificationList = props => {
     props.getUsers();
   }, []);
 
-  const replaceMentionerName = notification => {
+  const replaceAuthorName = notification => {
     for (const user in props.allUsers) {
-      if (props.allUsers[user].email === notification.mentioner) {
-        const mentioner = props.allUsers[user].name;
-        notification.mentioner = mentioner;
+      if (props.allUsers[user].email === notification.author) {
+        notification.author = props.allUsers[user].name;
       }
     }
     return notification;
@@ -76,7 +74,7 @@ const NotificationList = props => {
   return (
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
-        const newNotif = replaceMentionerName(notification);
+        const newNotif = replaceAuthorName(notification);
         return (
           <Button
             data-testid={"notificationCard"}
@@ -89,6 +87,7 @@ const NotificationList = props => {
               paddingTop: "7.5px",
               paddingBottom: "8px",
               borderRadius: "0px"
+              // color: "#CBCED0"
             }}
             key={newNotif.id}
           >
