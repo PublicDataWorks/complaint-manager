@@ -15,7 +15,7 @@ describe("getNotificationsReducer", () => {
         user: "veronicablackwell@tw.com",
         updatedAt: "2020-03-19T18:57:31.953Z",
         caseReference: "AC2020-0004",
-        mentioner: "Syd Botz"
+        author: "Syd Botz"
       }
     ];
 

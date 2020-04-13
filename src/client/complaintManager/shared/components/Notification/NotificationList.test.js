@@ -69,7 +69,7 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2020-03-19T18:57:31.953Z",
           caseReference: "AC2020-0004",
-          mentioner: "sydbotz@tw.com",
+          author: "sydbotz@tw.com",
           caseNoteId: 8,
           id: 1,
           caseId: 4
@@ -78,7 +78,7 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0018",
-          mentioner: "wanchenyao@tw.com",
+          author: "wanchenyao@tw.com",
           caseNoteId: 6,
           id: 2,
           caseId: 18
@@ -87,7 +87,7 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0030",
-          mentioner: "wanchenyao@tw.com",
+          author: "wanchenyao@tw.com",
           caseNoteId: 3,
           id: 7,
           caseId: 20
