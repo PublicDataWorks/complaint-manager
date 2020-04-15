@@ -139,7 +139,7 @@ jobs:
             echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
             echo 'export AUTH0_CLIENT_SECRET=$CI_AUTH0_CLIENT_SECRET' >> $BASH_ENV
             source $BASH_ENV
-            cd e2e && nightwatch --env ci tests/matrixManager
+            cd e2e && nightwatch --env ci tests/matrixManager --retries 2
       - store_artifacts:
           path: e2e/tests/matrixManager
   e2e-testing-ci-cm:
@@ -153,7 +153,7 @@ jobs:
             echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
             echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
             source $BASH_ENV
-            cd e2e && nightwatch --env ci tests/complaintManager
+            cd e2e && nightwatch --env ci tests/complaintManager --retries 2
       - store_artifacts:
           path: e2e/tests/complaintManager
   deploy-staging:
@@ -205,7 +205,7 @@ jobs:
             echo 'export TEST_PASS=$STAGING_TEST_PASS' >> $BASH_ENV
             echo 'export AUTH0_CLIENT_SECRET=$STAGING_AUTH0_CLIENT_SECRET' >> $BASH_ENV
             source $BASH_ENV
-            cd e2e && nightwatch --env staging
+            cd e2e && nightwatch --env staging --retries 2
       - store_artifacts:
           path: e2e/tests
 
