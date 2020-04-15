@@ -15,19 +15,19 @@ const models = require("../../complaintManager/models");
 const createCaseNote = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
     const { mentionedUsers, ...requestBody } = request.body;
-    const mentioner = request.nickname;
+    const author = request.nickname;
     let caseNoteId = null;
 
     await models.case_note
       .create(
         {
           ...requestBody,
-          user: mentioner,
+          user: author,
           caseId: request.params.caseId
         },
         {
           transaction,
-          auditUser: mentioner
+          auditUser: author
         }
       )
       .then(data => {

@@ -52,7 +52,7 @@ const NotificationDrawer = props => {
       <div className={classes.toolbar} />
 
       {hasNotifications ? (
-        <NotificationList />
+        <NotificationList handleClickAway={handleClickAway} />
       ) : (
         <div style={styles.drawerContent}>
           <NotificationsIcon

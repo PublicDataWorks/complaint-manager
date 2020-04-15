@@ -21,7 +21,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       {
         model: models.case_note,
         as: "caseNote",
-        attributes: [["user", "mentioner"], "case_id"]
+        attributes: [["user", "author"], "case_id"]
       }
     ],
     order: [
@@ -30,7 +30,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     ]
   };
 
-  const notifications = await models.sequelize.transaction(
+  const rawNotifications = await models.sequelize.transaction(
     async transaction => {
       const allNotifications = await models.notification.findAll(params);
       const auditDetails = getQueryAuditAccessDetails(
@@ -49,10 +49,10 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     }
   );
 
-  const newNotifications = await Promise.all(
-    notifications.map(async notification => {
-      let simplifiedNotif;
-      const caseNote = notification.get("caseNote");
+  const notifications = await Promise.all(
+    rawNotifications.map(async rawNotification => {
+      let notification;
+      const caseNote = rawNotification.get("caseNote");
 
       const caseModel = await models.cases.findByPk(caseNote.get("case_id"), {
         attributes: [
@@ -82,16 +82,17 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       });
 
       const caseReference = caseModel.get("caseReference");
-      delete notification["dataValues"]["caseNote"];
-      simplifiedNotif = {
-        ...notification.dataValues,
-        mentioner: caseNote.get("mentioner"),
-        caseReference: caseReference
+      delete rawNotification["dataValues"]["caseNote"];
+      notification = {
+        ...rawNotification.dataValues,
+        author: caseNote.get("author"),
+        caseReference: caseReference,
+        caseId: caseNote.get("case_id")
       };
-      return simplifiedNotif;
+      return notification;
     })
   );
-  response.send(newNotifications);
+  response.send(notifications);
 });
 
 module.exports = getNotifications;

@@ -1,5 +1,5 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
@@ -10,36 +10,54 @@ import "@testing-library/jest-dom";
 import { getUsersSuccess } from "../../../../common/actionCreators/usersActionCreators";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 import getUsers from "../../../../common/thunks/getUsers";
+import getCaseDetails from "../../../cases/thunks/getCaseDetails";
+import axios from "axios";
+import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 jest.mock("../../../../common/thunks/getUsers", () => values => ({
   type: "MOCK_THUNK",
   values
 }));
 
+jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
+  type: "MOCK_THUNK",
+  caseId
+}));
+
+jest.mock("axios");
+
 describe("notification list", () => {
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
+
+  let responseBody = {
+    data: { caseNoteExists: true, notificationExists: true }
+  };
+  let handleClickAway;
+  let wrapper;
+
   const renderNotificationList = () => {
-    const wrapper = render(
+    handleClickAway = jest.fn();
+
+    wrapper = render(
       <Provider store={store}>
         <Router>
-          <NotificationList />
+          <NotificationList handleClickAway={handleClickAway} />
         </Router>
       </Provider>
     );
+
+    axios.get.mockReturnValue({ ...responseBody });
 
     store.dispatch(
       getFeaturesSuccess({
         notificationFeature: true
       })
     );
-    return wrapper;
-  };
 
-  test("should render 2 notification cards if the user has 2 notifications", async () => {
     store.dispatch(
       getUsersSuccess([
-        { email: "veronicablackwel@tw.com", name: "Veronica B" },
+        { email: "veronicablackwell@tw.com", name: "Veronica B" },
         { email: "sydbotz@tw.com", name: "Syd B" },
         { email: "wanchenyao@tw.com", name: "Wanchen Y" }
       ])
@@ -51,18 +69,48 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2020-03-19T18:57:31.953Z",
           caseReference: "AC2020-0004",
-          mentioner: "sydbotz@tw.com",
-          id: 1
+          author: "sydbotz@tw.com",
+          caseNoteId: 8,
+          id: 1,
+          caseId: 4
         },
         {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0018",
-          mentioner: "wanchenyao@tw.com",
-          id: 2
+          author: "wanchenyao@tw.com",
+          caseNoteId: 6,
+          id: 2,
+          caseId: 18
+        },
+        {
+          user: "veronicablackwell@tw.com",
+          updatedAt: "2019-11-29T19:31:41.953Z",
+          caseReference: "CC2019-0030",
+          author: "wanchenyao@tw.com",
+          caseNoteId: 3,
+          id: 7,
+          caseId: 20
         }
       ])
     );
+
+    return wrapper;
+  };
+
+  const findAndClickNotif = notificationCardId => {
+    const { getAllByTestId } = renderNotificationList();
+
+    const notificationCard = getAllByTestId("notificationCard")[
+      notificationCardId
+    ];
+
+    fireEvent.click(notificationCard);
+
+    return notificationCard;
+  };
+
+  test("should render 3 notification cards if the user has 3 notifications", async () => {
     const { queryByText } = renderNotificationList();
 
     await wait(() => {
@@ -76,11 +124,91 @@ describe("notification list", () => {
         queryByText("Wanchen Y mentioned you in CC2019-0018")
       ).toBeInTheDocument();
     });
+
+    await wait(() => {
+      expect(
+        queryByText("Wanchen Y mentioned you in CC2019-0030")
+      ).toBeInTheDocument();
+    });
   });
 
-  test("getUsers should be dispatched when notificationList is rendered", () => {
+  test("getUsers should be dispatched when notificationList is rendered", async () => {
     renderNotificationList();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
+    });
+  });
+
+  test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
+    findAndClickNotif(1);
+
+    await wait(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
+    });
+  });
+
+  test("notification card should reference correct case details link", async () => {
+    findAndClickNotif(0);
+
+    await wait(() => {
+      expect(window.location.href).toEqual(`${window.location.origin}/cases/4`);
+    });
+  });
+
+  test("should see red snackbar for when notification is deleted from case note", async () => {
+    responseBody = {
+      data: { caseNoteExists: true, notificationExists: false }
+    };
+
+    findAndClickNotif(1);
+
+    await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        snackbarError(
+          "The case note for this notification no longer mentions you"
+        )
+      );
+    });
+  });
+
+  test("should see red snackbar for when case note is removed", async () => {
+    responseBody = {
+      data: { caseNoteExists: false, notificationExists: false }
+    };
+
+    findAndClickNotif(1);
+
+    await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        snackbarError(
+          "The case note for this notification has been removed from the complaint"
+        )
+      );
+    });
+  });
+
+  test("should make axios get request to get notification status endpoint", async () => {
+    findAndClickNotif(1);
+
+    await wait(() => {
+      expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/2`);
+    });
+  });
+
+  test("drawer should close when user clicks on notification and is already on notification's case details page", async () => {
+    responseBody = {
+      data: { caseNoteExists: true, notificationExists: true }
+    };
+
+    const notificationCard = findAndClickNotif(2);
+
+    fireEvent.click(notificationCard);
+
+    await wait(() => {
+      expect(handleClickAway).toHaveBeenCalledTimes(1);
+    });
   });
 });
