@@ -1,6 +1,8 @@
 FROM noipm/docker-node-ubuntu:1.2.0
 
-RUN apt-get update && apt-get install bash
+# RUN apt-get update
+
+RUN apt-get install bash
 
 WORKDIR /app
 
