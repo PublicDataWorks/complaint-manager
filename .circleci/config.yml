@@ -286,7 +286,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v2.47.0
+                - release_v2.48.0
       - test-client:
           requires:
             - security-check
