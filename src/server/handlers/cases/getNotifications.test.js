@@ -172,10 +172,10 @@ describe("getNotifications", () => {
     expect(response._getData()[0].caseReference).toEqual("AC2017-0001");
   });
 
-  test("should return correct mentioner for notification", async () => {
+  test("should return correct author for notification", async () => {
     await getNotifications(request, response, next);
 
-    expect(response._getData()[0].mentioner).toEqual("wancheny@gmail.com");
+    expect(response._getData()[0].author).toEqual("wancheny@gmail.com");
   });
 
   test("should return correct case reference for notification when case is archived", async () => {
@@ -235,10 +235,10 @@ describe("getNotifications", () => {
   });
 
   describe("sorting notifications", () => {
-    const generateNotification = async (mentioner, hasBeenRead) => {
+    const generateNotification = async (author, hasBeenRead) => {
       const caseNoteAttributes = new CaseNote.Builder()
         .defaultCaseNote()
-        .withUser(mentioner)
+        .withUser(author)
         .withCaseId(currentCase.id);
 
       currentCaseNote = await models.case_note.create(caseNoteAttributes, {
@@ -273,13 +273,13 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          mentioner: "catpower@gmail.com"
+          author: "catpower@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "johnsmith@gmail.com"
+          author: "johnsmith@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "wancheny@gmail.com"
+          author: "wancheny@gmail.com"
         })
       ]);
     });
@@ -292,10 +292,10 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          mentioner: "wancheny@gmail.com"
+          author: "wancheny@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "johnsmith@gmail.com"
+          author: "johnsmith@gmail.com"
         })
       ]);
     });
@@ -310,16 +310,16 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          mentioner: "random@gmail.com"
+          author: "random@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "wancheny@gmail.com"
+          author: "wancheny@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "catpower@gmail.com"
+          author: "catpower@gmail.com"
         }),
         expect.objectContaining({
-          mentioner: "johnsmith@gmail.com"
+          author: "johnsmith@gmail.com"
         })
       ]);
     });

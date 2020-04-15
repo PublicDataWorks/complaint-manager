@@ -12,12 +12,12 @@ import {
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 import Notification from "../../../../client/complaintManager/testUtilities/notification";
-import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
+import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../audits/auditDataAccess");
-jest.mock("../helpers/caseNoteOperationsPermitted");
+jest.mock("../helpers/isCaseNoteAuthor");
 
 describe("RemoveCaseNote unit", () => {
   let createdCase, createdCaseNote, request;
@@ -62,7 +62,7 @@ describe("RemoveCaseNote unit", () => {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    caseNoteOperationsPermitted.mockReturnValue(true);
+    isCaseNoteAuthor.mockReturnValue(true);
   });
 
   describe("only remove case notes when operations are permitted", () => {
@@ -70,11 +70,11 @@ describe("RemoveCaseNote unit", () => {
       const next = jest.fn();
       const response = httpMocks.createResponse();
 
-      caseNoteOperationsPermitted.mockReturnValue(false);
+      isCaseNoteAuthor.mockReturnValue(false);
 
       await removeCaseNote(request, response, next);
 
-      expect(caseNoteOperationsPermitted).toHaveBeenCalledWith(
+      expect(isCaseNoteAuthor).toHaveBeenCalledWith(
         request.nickname,
         createdCaseNote.id
       );

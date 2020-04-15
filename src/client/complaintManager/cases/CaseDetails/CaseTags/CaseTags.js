@@ -22,7 +22,7 @@ class CaseTags extends Component {
         <div style={{ margin: "0px 24px" }}>
           <div style={{ display: "flex" }}>
             <Typography
-              data-testid="caseTagDialogTitle"
+              data-testid="caseTagTitle"
               variant={"h6"}
               style={{
                 marginBottom: "16px",

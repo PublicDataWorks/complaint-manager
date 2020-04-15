@@ -15,10 +15,10 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../../sharedUtilities/errorMessageConstants";
-import { caseNoteOperationsPermitted } from "../helpers/caseNoteOperationsPermitted";
+import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 
 jest.mock("../../audits/auditDataAccess");
-jest.mock("../helpers/caseNoteOperationsPermitted");
+jest.mock("../helpers/isCaseNoteAuthor");
 
 describe("editCaseNote", function() {
   let createdCase,
@@ -86,7 +86,7 @@ describe("editCaseNote", function() {
       nickname: "TEST_USER_NICKNAME"
     });
 
-    caseNoteOperationsPermitted.mockReturnValue(true);
+    isCaseNoteAuthor.mockReturnValue(true);
   });
 
   afterEach(async () => {
@@ -95,11 +95,11 @@ describe("editCaseNote", function() {
 
   describe("only editing case notes when operations are permitted", () => {
     test("should return bad request response with not allowed message", async () => {
-      caseNoteOperationsPermitted.mockReturnValue(false);
+      isCaseNoteAuthor.mockReturnValue(false);
 
       await editCaseNote(request, response, next);
 
-      expect(caseNoteOperationsPermitted).toHaveBeenCalledWith(
+      expect(isCaseNoteAuthor).toHaveBeenCalledWith(
         request.nickname,
         createdCaseNote.id
       );
@@ -202,7 +202,7 @@ describe("editCaseNote", function() {
       await editCaseNote(request, response, next);
 
       expect(next).toHaveBeenCalledWith(
-        Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR)
+        Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_EDIT_ERROR)
       );
     });
   });
