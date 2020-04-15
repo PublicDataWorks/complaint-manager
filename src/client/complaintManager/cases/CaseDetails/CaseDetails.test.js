@@ -90,6 +90,24 @@ describe("Case Details Component", () => {
     );
   });
 
+  test("should dispatch get case details action when navigating from case to case", () => {
+    const previousCase = new Case.Builder().defaultCase().withId(500).build();
+
+    store.dispatch(getCaseDetailsSuccess(previousCase));
+
+    caseDetails = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseDetails match={{ params: { id: expectedCase.id.toString() } }} />
+        </Router>
+      </Provider>
+    );
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      getCaseDetails(expectedCase.id.toString())
+    );
+  });
+
   test("loads letter type on mount so message can be displayed", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       getReferralLetterEditStatus(expectedCase.id.toString())

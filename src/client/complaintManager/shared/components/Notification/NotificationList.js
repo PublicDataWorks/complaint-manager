@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import getUsers from "../../../../common/thunks/getUsers";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
-import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 import axios from "axios";
 import history from "../../../../history";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
@@ -91,7 +90,6 @@ const NotificationList = props => {
           closeNotificationDrawer();
         } else {
           history.push(`/cases/${notification.caseId}`);
-          props.getCaseDetails(notification.caseId);
         }
       }
     };
@@ -102,12 +100,11 @@ const NotificationList = props => {
       {props.notifications.map(notification => {
         const newNotif = replaceAuthorName(notification);
         return (
-          <MuiThemeProvider theme={buttonTheme}>
+          <MuiThemeProvider theme={buttonTheme} key={newNotif.id}>
             <div>
               <Button
                 data-testid={"notificationCard"}
                 onClick={handleNotificationCardClick(notification)}
-                key={newNotif.id}
               >
                 <NotificationCard notification={newNotif} />
               </Button>
@@ -125,6 +122,6 @@ const mapStateToProps = state => ({
   allUsers: state.users.all
 });
 
-const mapDispatchToProps = { getUsers, getCaseDetails, snackbarError };
+const mapDispatchToProps = { getUsers, snackbarError };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);
