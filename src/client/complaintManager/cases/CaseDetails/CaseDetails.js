@@ -121,7 +121,16 @@ class CaseDetails extends React.Component {
     );
   }
 
+  navigateCaseToCase() {
+    const caseId = this.props.match.params.id;
+    if (`${this.props.caseDetails.id}` !== caseId) {
+      this.props.dispatch(getCaseDetails(caseId));
+    }
+  }
+
   render() {
+    this.navigateCaseToCase();
+
     if (this.caseDetailsNotYetLoaded()) {
       return null;
     }

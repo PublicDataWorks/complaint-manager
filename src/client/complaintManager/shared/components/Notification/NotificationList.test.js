@@ -140,14 +140,6 @@ describe("notification list", () => {
     });
   });
 
-  test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
-    findAndClickNotif(1);
-
-    await wait(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
-    });
-  });
-
   test("notification card should reference correct case details link", async () => {
     findAndClickNotif(0);
 
