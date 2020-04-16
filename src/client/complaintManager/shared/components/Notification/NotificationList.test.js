@@ -7,17 +7,10 @@ import React from "react";
 import NotificationList from "./NotificationList";
 import { wait } from "@testing-library/dom";
 import "@testing-library/jest-dom";
-import { getUsersSuccess } from "../../../../common/actionCreators/usersActionCreators";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
-import getUsers from "../../../../common/thunks/getUsers";
 import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 import axios from "axios";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-
-jest.mock("../../../../common/thunks/getUsers", () => values => ({
-  type: "MOCK_THUNK",
-  values
-}));
 
 jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
   type: "MOCK_THUNK",
@@ -56,20 +49,12 @@ describe("notification list", () => {
     );
 
     store.dispatch(
-      getUsersSuccess([
-        { email: "veronicablackwell@tw.com", name: "Veronica B" },
-        { email: "sydbotz@tw.com", name: "Syd B" },
-        { email: "wanchenyao@tw.com", name: "Wanchen Y" }
-      ])
-    );
-
-    store.dispatch(
       getNotificationsSuccess([
         {
           user: "veronicablackwell@tw.com",
           updatedAt: "2020-03-19T18:57:31.953Z",
           caseReference: "AC2020-0004",
-          author: "sydbotz@tw.com",
+          author: { name: "Syd B", email: "sydbotz@tw.com" },
           caseNoteId: 8,
           id: 1,
           caseId: 4
@@ -78,7 +63,7 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0018",
-          author: "wanchenyao@tw.com",
+          author: { name: "Wanchen Y", email: "wanchenyao@tw.com" },
           caseNoteId: 6,
           id: 2,
           caseId: 18
@@ -87,7 +72,7 @@ describe("notification list", () => {
           user: "veronicablackwell@tw.com",
           updatedAt: "2019-11-29T19:31:41.953Z",
           caseReference: "CC2019-0030",
-          author: "wanchenyao@tw.com",
+          author: { name: "Wanchen Y", email: "wanchenyao@tw.com" },
           caseNoteId: 3,
           id: 7,
           caseId: 20
@@ -132,11 +117,11 @@ describe("notification list", () => {
     });
   });
 
-  test("getUsers should be dispatched when notificationList is rendered", async () => {
-    renderNotificationList();
+  test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
+    findAndClickNotif(1);
 
     await wait(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith(getUsers());
+      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
     });
   });
 

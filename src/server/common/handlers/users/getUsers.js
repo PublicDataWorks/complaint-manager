@@ -14,8 +14,32 @@ const config = require("../../../config/config")[process.env.NODE_ENV];
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 const Boom = require("boom");
 const winston = require("winston");
+let globalNext;
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
+  globalNext = next;
+
+  const transformedUserData = await getUsersFromAuth0();
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_USER_DATA,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
+
+  response.send(200, transformedUserData);
+});
+
+export let getUsersFromAuth0 = async () => {
   let authResponse;
   let userData = [];
   let secret;
@@ -47,7 +71,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
     })
     .catch(error => {
       winston.error(INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE, error);
-      throwTokenFailure(next, error);
+      throwTokenFailure(globalNext, error);
     });
 
   if (authResponse && authResponse.access_token) {
@@ -77,23 +101,8 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
 
   const transformedUserData = transformAndSortUserData(userData);
 
-  await models.sequelize
-    .transaction(async transaction => {
-      await auditDataAccess(
-        request.nickname,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.ALL_USER_DATA,
-        { users: { attributes: ["name", "email"] } },
-        transaction
-      );
-    })
-    .catch(err => {
-      // Transaction has been rolled back
-      throw err;
-    });
-  response.send(200, transformedUserData);
-});
+  return transformedUserData;
+};
 
 const throwTokenFailure = (next, error) => {
   throw Boom.badImplementation(
