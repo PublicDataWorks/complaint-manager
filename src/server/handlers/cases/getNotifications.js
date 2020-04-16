@@ -10,6 +10,7 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
+import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 
 const getNotifications = asyncMiddleWare(async (request, response, next) => {
   const params = {
@@ -49,6 +50,13 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     }
   );
 
+  const getAuthorName = async authorEmail => {
+    const users = await getUsersFromAuth0();
+    const user = users.find(user => user.email === authorEmail);
+
+    return user.name;
+  };
+
   const notifications = await Promise.all(
     rawNotifications.map(async rawNotification => {
       let notification;
@@ -82,10 +90,14 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       });
 
       const caseReference = caseModel.get("caseReference");
+      const caseNoteAuthor = caseNote.get("author");
       delete rawNotification["dataValues"]["caseNote"];
       notification = {
         ...rawNotification.dataValues,
-        author: caseNote.get("author"),
+        author: {
+          name: await getAuthorName(caseNoteAuthor),
+          email: caseNoteAuthor
+        },
         caseReference: caseReference,
         caseId: caseNote.get("case_id")
       };

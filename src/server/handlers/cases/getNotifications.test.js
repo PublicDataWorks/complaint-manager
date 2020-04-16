@@ -12,6 +12,17 @@ import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
+jest.mock("../../common/handlers/users/getUsers", () => ({
+  getUsersFromAuth0: () => {
+    return [
+      { name: "wancheny", email: "wancheny@gmail.com" },
+      { name: "random", email: "random@gmail.com" },
+      { name: "johnsmith", email: "johnsmith@gmail.com" },
+      { name: "catpower", email: "catpower@gmail.com" }
+    ];
+  }
+}));
+
 describe("getNotifications", () => {
   let request,
     response,
@@ -175,7 +186,7 @@ describe("getNotifications", () => {
   test("should return correct author for notification", async () => {
     await getNotifications(request, response, next);
 
-    expect(response._getData()[0].author).toEqual("wancheny@gmail.com");
+    expect(response._getData()[0].author.name).toEqual("wancheny");
   });
 
   test("should return correct case reference for notification when case is archived", async () => {
@@ -273,13 +284,13 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          author: "catpower@gmail.com"
+          author: { name: "catpower", email: "catpower@gmail.com" }
         }),
         expect.objectContaining({
-          author: "johnsmith@gmail.com"
+          author: { name: "johnsmith", email: "johnsmith@gmail.com" }
         }),
         expect.objectContaining({
-          author: "wancheny@gmail.com"
+          author: { name: "wancheny", email: "wancheny@gmail.com" }
         })
       ]);
     });
@@ -292,10 +303,10 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          author: "wancheny@gmail.com"
+          author: { name: "wancheny", email: "wancheny@gmail.com" }
         }),
         expect.objectContaining({
-          author: "johnsmith@gmail.com"
+          author: { name: "johnsmith", email: "johnsmith@gmail.com" }
         })
       ]);
     });
@@ -310,16 +321,16 @@ describe("getNotifications", () => {
 
       expect(response._getData()).toEqual([
         expect.objectContaining({
-          author: "random@gmail.com"
+          author: { name: "random", email: "random@gmail.com" }
         }),
         expect.objectContaining({
-          author: "wancheny@gmail.com"
+          author: { name: "wancheny", email: "wancheny@gmail.com" }
         }),
         expect.objectContaining({
-          author: "catpower@gmail.com"
+          author: { name: "catpower", email: "catpower@gmail.com" }
         }),
         expect.objectContaining({
-          author: "johnsmith@gmail.com"
+          author: { name: "johnsmith", email: "johnsmith@gmail.com" }
         })
       ]);
     });

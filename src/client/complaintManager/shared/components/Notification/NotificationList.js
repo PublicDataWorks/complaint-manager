@@ -47,19 +47,6 @@ const useStyles = makeStyles(theme => ({
 const NotificationList = props => {
   const classes = useStyles;
 
-  useEffect(() => {
-    props.getUsers();
-  }, []);
-
-  const replaceAuthorName = notification => {
-    for (const user in props.allUsers) {
-      if (props.allUsers[user].email === notification.author) {
-        notification.author = props.allUsers[user].name;
-      }
-    }
-    return notification;
-  };
-
   const closeNotificationDrawer = () => {
     props.handleClickAway();
   };
@@ -98,15 +85,15 @@ const NotificationList = props => {
   return (
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
-        const newNotif = replaceAuthorName(notification);
         return (
           <MuiThemeProvider theme={buttonTheme} key={newNotif.id}>
             <div>
               <Button
                 data-testid={"notificationCard"}
                 onClick={handleNotificationCardClick(notification)}
+                key={notification.id}
               >
-                <NotificationCard notification={newNotif} />
+                <NotificationCard notification={notification} />
               </Button>
               <Divider />
             </div>
