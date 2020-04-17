@@ -50,3 +50,18 @@ export const filterAfterTrigger = (options, ref, cursorPosition) => {
     newRef
   );
 };
+
+export const keyDownEvent = async () => {
+  const event = new KeyboardEvent("keydown", {
+    code: "ArrowDown",
+    keyCode: "40",
+    bubbles: true
+  });
+  const caseNoteTextField = document.querySelector(
+    'textarea[placeholder="Enter any notes about this action"]'
+  );
+  await (() => {
+    document.querySelector("ul[role=listbox]");
+  });
+  caseNoteTextField.dispatchEvent(event);
+};
