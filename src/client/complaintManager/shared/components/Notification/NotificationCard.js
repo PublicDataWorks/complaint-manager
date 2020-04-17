@@ -8,6 +8,7 @@ const NotificationCard = props => {
   const author = _.isEmpty(props.notification.author.name)
     ? props.notification.author.email
     : props.notification.author.name;
+
   const title = `${author} mentioned you in ${props.notification.caseReference}`;
 
   const NOTIFICATION_TIME_FORMAT = "MMM D h:mm A";

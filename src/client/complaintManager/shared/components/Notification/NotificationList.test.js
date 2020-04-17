@@ -8,14 +8,8 @@ import NotificationList from "./NotificationList";
 import { wait } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
-import getCaseDetails from "../../../cases/thunks/getCaseDetails";
 import axios from "axios";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-
-jest.mock("../../../cases/thunks/getCaseDetails", () => caseId => ({
-  type: "MOCK_THUNK",
-  caseId
-}));
 
 jest.mock("axios");
 
@@ -114,14 +108,6 @@ describe("notification list", () => {
       expect(
         queryByText("Wanchen Y mentioned you in CC2019-0030")
       ).toBeInTheDocument();
-    });
-  });
-
-  test("getCaseDetails should be dispatched when a notification card is clicked", async () => {
-    findAndClickNotif(1);
-
-    await wait(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(18));
     });
   });
 
