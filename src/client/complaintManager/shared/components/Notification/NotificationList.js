@@ -86,7 +86,7 @@ const NotificationList = props => {
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
         return (
-          <MuiThemeProvider theme={buttonTheme} key={newNotif.id}>
+          <MuiThemeProvider theme={buttonTheme} key={notification.id}>
             <div>
               <Button
                 data-testid={"notificationCard"}

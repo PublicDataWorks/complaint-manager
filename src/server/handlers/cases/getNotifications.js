@@ -31,6 +31,8 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     ]
   };
 
+  const users = await getUsersFromAuth0();
+
   const rawNotifications = await models.sequelize.transaction(
     async transaction => {
       const allNotifications = await models.notification.findAll(params);
@@ -46,12 +48,12 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
         auditDetails,
         transaction
       );
+
       return allNotifications;
     }
   );
 
   const getAuthorName = async authorEmail => {
-    const users = await getUsersFromAuth0();
     const user = users.find(user => user.email === authorEmail);
 
     return user.name;
@@ -104,6 +106,22 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       return notification;
     })
   );
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_USER_DATA_FOR_NOTIFICATIONS,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
+
   response.send(notifications);
 });
 
