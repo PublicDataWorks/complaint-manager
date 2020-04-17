@@ -145,24 +145,26 @@ describe("TextFieldWithUserMention", () => {
   });
 
   // test("if user chooses an option by pressing enter, the option chosen should be displayed after the '@' sign", async () => {
+  //   // Selecting on Enter (a JSDOM limitation?): https://github.com/testing-library/react-testing-library/issues/269
+  //   //ARRANGE
+  //   const { getByTestId } = renderTextFieldWithUserMention();
+  //   const textField = getByTestId("notesInput");
+  //   //ACT
+  //   fireEvent.change(textField, { target: { value: "@" } });
   //
-  // // Selecting on Enter (a JSDOM limitation?): https://github.com/testing-library/react-testing-library/issues/269
-  // //ARRANGE
-  // const { getByText, getByTestId } = renderTextFieldWithUserMention();
-  // const textField = getByTestId("notesInput");
-  // //ACT
-  // fireEvent.change(textField, { target: { value: "@" } });
+  //   //ARRANGE
+  //   textField.focus();
+  //   fireEvent.keyDown(textField, {
+  //     key: "Enter",
+  //     charCode: "13",
+  //     keyCode: "13",
+  //     bubbles: true
+  //   });
   //
-  // //ARRANGE
-  // const user1 = getByText(userList[0].label);
-  // const dropdown = getByTestId("user-dropdown");
-  // user1.focus();
-  // fireEvent.keyDown(user1,{ key: 'enter', keyCode:13 });
-  //
-  // //ASSERT
-  // await wait(() => {
-  //   expect(textField.value).toContain("@" + userList[0].label);
-  // });
+  //   //ASSERT
+  //   await wait(() => {
+  //     expect(textField.value).toContain("@" + userList[0].label);
+  //   });
   // });
 
   test("if user deletes a character after selecting an option, dropdown should reoccur and the text along with '@'", async () => {

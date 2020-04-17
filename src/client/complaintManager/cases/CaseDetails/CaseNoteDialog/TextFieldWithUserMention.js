@@ -4,7 +4,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import * as _ from "lodash";
 import {
   getIndexOfCurrentMention,
-  getMentionedUsers
+  getMentionedUsers,
+  keyDownEvent
 } from "./userMentionHelperFunctions";
 import { useRunAfterUpdate } from "./userMentionHooks";
 import useOnClickOutside from "../../../shared/components/Notification/useOnClickOutside";
@@ -76,6 +77,7 @@ export const TextFieldWithUserMention = props => {
           setCursorPosition(input.selectionStart);
           if (value.includes("@")) {
             setShowUsers(true);
+            keyDownEvent();
           } else {
             setShowUsers(false);
           }
