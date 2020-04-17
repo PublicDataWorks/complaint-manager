@@ -39,7 +39,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
   response.send(200, transformedUserData);
 });
 
-export let getUsersFromAuth0 = async () => {
+export const getUsersFromAuth0 = async () => {
   let authResponse;
   let userData = [];
   let secret;
