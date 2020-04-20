@@ -58,7 +58,7 @@ describe("notification card", () => {
       user: "veronicablackwell@tw.com",
       updatedAt: "2020-03-19T18:57:31.953Z",
       caseReference: "AC2020-0004",
-      author: { name: {}, email: "sydbotz@gmail.com" }
+      author: { name: "", email: "sydbotz@gmail.com" }
     };
     const { queryByText } = renderNotificationCard(newNotif);
 

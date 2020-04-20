@@ -31,7 +31,21 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
     ]
   };
 
-  const users = await getUsersFromAuth0();
+  const getUsers = async () => {
+    try {
+      return await getUsersFromAuth0();
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const users = await getUsers();
+
+  const getAuthorName = authorEmail => {
+    const user = users.find(user => user.email === authorEmail);
+
+    return user ? user.name : "";
+  };
 
   const rawNotifications = await models.sequelize.transaction(
     async transaction => {
@@ -52,12 +66,6 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       return allNotifications;
     }
   );
-
-  const getAuthorName = async authorEmail => {
-    const user = users.find(user => user.email === authorEmail);
-
-    return user.name;
-  };
 
   const notifications = await Promise.all(
     rawNotifications.map(async rawNotification => {
@@ -97,7 +105,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       notification = {
         ...rawNotification.dataValues,
         author: {
-          name: await getAuthorName(caseNoteAuthor),
+          name: getAuthorName(caseNoteAuthor),
           email: caseNoteAuthor
         },
         caseReference: caseReference,
