@@ -75,7 +75,8 @@ export const TextFieldWithUserMention = props => {
         case "change":
           setCaseNoteText(value);
           setCursorPosition(input.selectionStart);
-          if (value.includes("@")) {
+
+          if (props.displayUserDropdown(value, input.selectionStart)) {
             setShowUsers(true);
             keyDownEvent();
           } else {
