@@ -47,44 +47,43 @@ export const TextFieldWithUserMention = props => {
     return beginningOfCaseNote + value + " " + endOfCaseNote;
   };
 
-  const updateCursorPosition = (value, input) => {
+  const updateCursorPosition = (value, textInput) => {
     const newCursorPosition =
       getIndexOfCurrentMention(caseNoteText, cursorPosition) + value.length + 2;
-    input.selectionStart = newCursorPosition;
-    input.selectionEnd = newCursorPosition;
+    textInput.selectionStart = newCursorPosition;
+    textInput.selectionEnd = newCursorPosition;
     setCursorPosition(newCursorPosition);
   };
 
   const handleChange = (event, value) => {
     if (event) {
-      const input = event.target;
+      let textInput = event.target;
       const type = event.type;
-      switch (type) {
-        case "blur":
-        case "click":
-        case "keydown":
-          const updatedCaseNote = addUserMentionNameToCaseNote(value);
+      if (type === "change") {
+        setCaseNoteText(value);
+        setCursorPosition(textInput.selectionStart);
 
-          setCaseNoteText(updatedCaseNote);
+        if (props.displayUserDropdown(value, textInput.selectionStart)) {
+          setShowUsers(true);
+          keyDownEvent();
+        } else {
           setShowUsers(false);
+        }
+        return;
+      } else {
+        if (type === "click") {
+          textInput = document.querySelector(
+            'textarea[placeholder="Enter any notes about this action"]'
+          );
+        }
+        const updatedCaseNote = addUserMentionNameToCaseNote(value);
 
-          runAfterUpdate(() => {
-            updateCursorPosition(value, input);
-          });
-          return;
-        case "change":
-          setCaseNoteText(value);
-          setCursorPosition(input.selectionStart);
-
-          if (props.displayUserDropdown(value, input.selectionStart)) {
-            setShowUsers(true);
-            keyDownEvent();
-          } else {
-            setShowUsers(false);
-          }
-          return;
-        default:
-          break;
+        setCaseNoteText(updatedCaseNote);
+        setShowUsers(false);
+        runAfterUpdate(() => {
+          updateCursorPosition(value, textInput);
+        });
+        return;
       }
     }
   };
