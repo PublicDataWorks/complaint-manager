@@ -15,7 +15,7 @@ if (TEST_PASS && TEST_USER) {
     before: browser => {
       console.log("Browser Launch URL", browser.launch_url);
       browser.url(browser.launch_url).resizeWindow(1366, 768);
-      browser.url(function (result) {
+      browser.url(function(result) {
         console.log("Current URL", result);
       });
 
@@ -50,7 +50,10 @@ if (TEST_PASS && TEST_USER) {
 
       caseDetailsPage.isOnPage().clickAddTagButton();
 
-      caseTagDialog.dialogIsOpen().setTagValue(tagName).clickSubmitNewTag();
+      caseTagDialog
+        .dialogIsOpen()
+        .setTagValue(tagName)
+        .clickSubmitNewTag();
 
       snackbar.presentWithMessage("Case tag was successfully added").close();
       caseDetailsPage.caseTagIsPresent(tagName);
@@ -184,9 +187,15 @@ if (TEST_PASS && TEST_USER) {
 
       caseDashboard.isOnPage().goToACCase();
 
-      caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
+      caseDetailsPage
+        .isOnPage()
+        .caseReferenceIsAC()
+        .editComplainant();
 
-      civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
+      civilianDialog
+        .dialogIsOpen()
+        .toggleIsAnonymous()
+        .submitCivilianDialog();
 
       snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
@@ -415,7 +424,10 @@ if (TEST_PASS && TEST_USER) {
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetails.isOnPage().beginLetter().confirmUpdateStatusInDialog();
+      caseDetails
+        .isOnPage()
+        .beginLetter()
+        .confirmUpdateStatusInDialog();
 
       caseReview.isOnPage();
 
@@ -494,6 +506,8 @@ if (TEST_PASS && TEST_USER) {
 
     "should select multiple classifications that are not declines to classify": browser => {
       const recommendedActions = browser.page.RecommendedActions();
+      const snackbar = browser.page.SnackbarPOM();
+
       recommendedActions.isOnPage();
 
       recommendedActions
@@ -502,17 +516,16 @@ if (TEST_PASS && TEST_USER) {
         .selectClassification("declines-to-classify")
         .classificationsAreDisabled()
         .clickNext();
-    },
-
-    "should check letter preview contents": browser => {
-      const letterPreview = browser.page.LetterPreview();
-      const snackbar = browser.page.SnackbarPOM();
 
       snackbar
         .presentWithRegex(
           "(Classifications were successfully updated)|(Recommended actions were successfully updated)"
         )
         .close();
+    },
+
+    "should check letter preview contents": browser => {
+      const letterPreview = browser.page.LetterPreview();
 
       letterPreview
         .isOnPage()
@@ -619,7 +632,10 @@ if (TEST_PASS && TEST_USER) {
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage.isOnPage().restoreCase().confirmRestoreInDialog();
+      caseDetailsPage
+        .isOnPage()
+        .restoreCase()
+        .confirmRestoreInDialog();
       snackbar.presentWithMessage("Case was successfully restored").close();
       caseDetailsPage.goBackToAllCases();
 
