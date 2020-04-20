@@ -9,22 +9,25 @@ const compare = (user1, user2) => {
 
 export const getMentionedUsers = (users, caseNoteText) => {
   let updatedMentionedUsers = [];
-  caseNoteText = caseNoteText.substring(caseNoteText.indexOf("@"));
-  const splitCaseNotes = caseNoteText.split("@");
 
-  const sortedUsers = [...users];
-  sortedUsers.sort(compare);
+  if (caseNoteText.includes("@")) {
+    caseNoteText = caseNoteText.substring(caseNoteText.indexOf("@"));
+    const splitCaseNotes = caseNoteText.split("@");
 
-  for (const subStringIndex in splitCaseNotes) {
-    let subString = splitCaseNotes[subStringIndex];
-    for (const user in sortedUsers) {
-      let userName = sortedUsers[user].label;
-      if (
-        subString.toLowerCase().startsWith(userName.toLowerCase()) &&
-        !updatedMentionedUsers.includes(sortedUsers[user])
-      ) {
-        updatedMentionedUsers.push(sortedUsers[user]);
-        break;
+    const sortedUsers = [...users];
+    sortedUsers.sort(compare);
+
+    for (const subStringIndex in splitCaseNotes) {
+      let subString = splitCaseNotes[subStringIndex];
+      for (const user in sortedUsers) {
+        let userName = sortedUsers[user].label;
+        if (
+          subString.toLowerCase().startsWith(userName.toLowerCase()) &&
+          !updatedMentionedUsers.includes(sortedUsers[user])
+        ) {
+          updatedMentionedUsers.push(sortedUsers[user]);
+          break;
+        }
       }
     }
   }
