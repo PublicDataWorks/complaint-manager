@@ -84,7 +84,8 @@ class CaseNoteDialog extends Component {
   };
 
   displayUserDropdown = (value, cursorPosition) => {
-    return value.includes("@") && cursorPosition !== 0;
+    const indexOfFirstMention = value.indexOf("@");
+    return value.includes("@") && cursorPosition > indexOfFirstMention;
   };
 
   render() {

@@ -34,7 +34,8 @@ describe("TextFieldWithUserMention", () => {
           );
 
         const displayUserDropdown = value => {
-          return value.includes("@") && cursorPosition !== 0;
+          const indexOfFirstMention = value.indexOf("@");
+          return value.includes("@") && cursorPosition > indexOfFirstMention;
         };
 
         return (
@@ -101,11 +102,15 @@ describe("TextFieldWithUserMention", () => {
 
   test("should see drop down when '@' is typed by user as not the first character", async () => {
     //ARRANGE
-    const { queryByText, getByTestId } = renderTextFieldWithUserMention();
+    const caseNoteText = "blah blah blah NOW @";
+    const { queryByText, getByTestId } = renderTextFieldWithUserMention(
+      "",
+      caseNoteText.length
+    );
     const textField = getByTestId("notesInput");
 
     //ACT
-    fireEvent.change(textField, { target: { value: "blah blah blah NOW @" } });
+    fireEvent.change(textField, { target: { value: caseNoteText } });
 
     //ASSERT
     await wait(() => {
@@ -199,13 +204,15 @@ describe("TextFieldWithUserMention", () => {
 
   test("if user deletes a character after selecting an option, dropdown should reoccur and the text along with '@'", async () => {
     //ARRANGE
+    const caseNoteText = "@Syd Bot";
     const { getByTestId, queryByText } = renderTextFieldWithUserMention(
-      "Syd Bot"
+      "Syd Bot",
+      caseNoteText.length
     );
     const textField = getByTestId("notesInput");
 
     //ACT (remove last char)
-    fireEvent.change(textField, { target: { value: "@Syd Bot" } });
+    fireEvent.change(textField, { target: { value: caseNoteText } });
 
     //ASSERT (dropdown to appear again)
     await wait(() => {
