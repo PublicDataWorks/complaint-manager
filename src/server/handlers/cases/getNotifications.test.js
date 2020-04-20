@@ -9,18 +9,19 @@ import {
 } from "../../../sharedUtilities/constants";
 import moment, { utc } from "moment";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../common/handlers/users/getUsers", () => ({
-  getUsersFromAuth0: () => {
+  getUsersFromAuth0: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
       { name: "random", email: "random@gmail.com" },
       { name: "johnsmith", email: "johnsmith@gmail.com" },
       { name: "catpower", email: "catpower@gmail.com" }
     ];
-  }
+  })
 }));
 
 describe("getNotifications", () => {
@@ -167,6 +168,38 @@ describe("getNotifications", () => {
         user: "seanrut@gmail.com"
       })
     ]);
+  });
+
+  test("when user details are not returned from auth0, user should receive notification with only email", async () => {
+    const caseNoteAttributes = new CaseNote.Builder()
+      .defaultCaseNote()
+      .withUser("author@gmail.com")
+      .withCaseId(currentCase.id);
+
+    currentCaseNote = await models.case_note.create(caseNoteAttributes, {
+      auditUser: "tuser"
+    });
+
+    const notificationAttributes = new Notification.Builder()
+      .defaultNotification()
+      .withCaseNoteId(currentCaseNote.id)
+      .withHasBeenRead(false)
+      .withUser("seanrut@gmail.com");
+
+    await models.notification.create(notificationAttributes, {
+      auditUser: "tuser"
+    });
+
+    await getNotifications(request, response, next);
+
+    expect(response._getData()[0].author.name).toEqual("");
+    expect(response._getData()[0].author.email).toEqual("author@gmail.com");
+  });
+
+  test("should call getUsersFromAuth0 when getting notifications", async () => {
+    await getNotifications(request, response, next);
+
+    expect(getUsersFromAuth0).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {
