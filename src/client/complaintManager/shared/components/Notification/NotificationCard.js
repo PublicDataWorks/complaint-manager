@@ -2,12 +2,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
-import * as _ from "lodash";
 
 const NotificationCard = props => {
-  const author = _.isEmpty(props.notification.author.name)
-    ? props.notification.author.email
-    : props.notification.author.name;
+  const author = props.notification.author.name
+    ? props.notification.author.name
+    : props.notification.author.email;
 
   const title = `${author} mentioned you in ${props.notification.caseReference}`;
 
