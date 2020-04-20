@@ -17,7 +17,10 @@ describe("TextFieldWithUserMention", () => {
     { label: "Wanchen Yao", value: "some@some.com" }
   ];
 
-  function renderTextFieldWithUserMention(filterValue = "") {
+  function renderTextFieldWithUserMention(
+    filterValue = "",
+    cursorPosition = 1
+  ) {
     const store = createConfiguredStore();
     const TestForm = reduxForm({ form: "testTextFieldWithUserMentionForm" })(
       () => {
@@ -29,6 +32,11 @@ describe("TextFieldWithUserMention", () => {
               { inputValue: filterValue }
             )
           );
+
+        const displayUserDropdown = value => {
+          return value.includes("@") && cursorPosition !== 0;
+        };
+
         return (
           <Field
             name="notes"
@@ -47,6 +55,7 @@ describe("TextFieldWithUserMention", () => {
             users={userList}
             filterAfterMention={filterAfterMention}
             onSetMentionedUsers={jest.fn()}
+            displayUserDropdown={displayUserDropdown}
           />
         );
       }
@@ -123,6 +132,27 @@ describe("TextFieldWithUserMention", () => {
     //ASSERT
     await wait(() => {
       expect(queryByText(userList[0].label)).not.toBeInTheDocument();
+    });
+  });
+
+  test("drop down should be removed if user deletes first '@Mention' at the beginning of case note and case note contains a later mention", async () => {
+    //ARRANGE
+    const { getByTestId, queryByText } = renderTextFieldWithUserMention("", 0);
+    const textField = getByTestId("notesInput");
+
+    //ACT
+    fireEvent.change(textField, {
+      target: { value: "@Veronica Blackwell please notify @Syd Botz" }
+    });
+
+    //ACT
+    fireEvent.change(textField, {
+      target: { value: " please notify @Syd Botz" }
+    });
+
+    //ASSERT
+    await wait(() => {
+      expect(queryByText(userList[1].label)).not.toBeInTheDocument();
     });
   });
 
