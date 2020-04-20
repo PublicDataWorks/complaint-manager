@@ -113,4 +113,11 @@ describe("getMentionedUsers", () => {
 
     expect(mentionedUsers).toEqual([userList[4]]);
   });
+
+  test("should not return mentioned user when beginning of case note is a user's name without another mention in the note", () => {
+    const caseNote = "Veronica Blackwell with some more text";
+    const mentionedUsers = getMentionedUsers(userList, caseNote);
+
+    expect(mentionedUsers).not.toEqual([userList[1]]);
+  });
 });
