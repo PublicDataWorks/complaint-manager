@@ -303,7 +303,8 @@ export const AUDIT_SUBJECT = {
   FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
   LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
   ALL_USER_DATA: "All User Data",
-  ALL_USER_DATA_FOR_NOTIFICATIONS: "All User Data for Notifications",
+  ALL_AUTHOR_DATA_FOR_NOTIFICATIONS: "All Author Data for Notifications",
+  ALL_AUTHOR_DATA_FOR_CASE_NOTES: "All Author Data for Case Notes",
   CASE_CLASSIFICATIONS: "Case Classifications",
   MATRIX_DETAILS: "All Matrix Details",
   NOTIFICATIONS: "Notifications"

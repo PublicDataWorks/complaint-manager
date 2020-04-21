@@ -35,7 +35,7 @@ describe("ActivityMenu", () => {
     activity = {
       id: 1,
       actionTakenAt: moment(),
-      user: currentUserEmail
+      author: { name: "tuser", email: currentUserEmail }
     };
     wrapper = mount(
       <Provider store={store}>

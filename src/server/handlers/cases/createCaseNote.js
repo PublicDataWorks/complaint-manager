@@ -4,6 +4,7 @@ import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import { handleNotifications } from "./helpers/handleNotifications";
+import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 
 const {
   AUDIT_SUBJECT,
@@ -47,7 +48,8 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       request.params.caseId,
       transaction
     );
-    const caseNotes = caseNotesAndAuditDetails.caseNotes;
+    const rawCaseNotes = caseNotesAndAuditDetails.caseNotes;
+    const caseNotes = await addAuthorDetailsToCaseNote(rawCaseNotes);
     const caseNoteAuditDetails = caseNotesAndAuditDetails.auditDetails;
 
     const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
@@ -76,6 +78,23 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     );
     return { caseNotes, caseDetails };
   });
+
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_CASE_NOTES,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
+
   response.status(201).send(currentCase);
 });
 

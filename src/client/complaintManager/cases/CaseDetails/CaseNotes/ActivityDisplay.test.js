@@ -14,7 +14,7 @@ describe("ActivityDisplay", () => {
     const caseNote = {
       id: 1,
       caseId: 2,
-      user: "tuser",
+      author: { name: "tuser", email: "some@some.com" },
       caseNoteAction: { name: "Miscellaneous", id: 1 },
       notes: "notes",
       actionTakenAt: actionTakenAtDateTime
@@ -31,7 +31,11 @@ describe("ActivityDisplay", () => {
       '[data-testid="userAndActionText"]',
       caseNote.caseNoteAction.name
     );
-    containsText(wrapper, '[data-testid="userAndActionText"]', caseNote.user);
+    containsText(
+      wrapper,
+      '[data-testid="userAndActionText"]',
+      caseNote.author.name
+    );
     containsText(
       wrapper,
       '[data-testid="activityTimeText"]',

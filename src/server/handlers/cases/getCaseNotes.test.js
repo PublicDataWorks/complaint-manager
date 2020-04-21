@@ -6,11 +6,17 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
-
+import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 
-describe("getCaseNotes", function() {
+jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({
+  addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
+    return caseNotes;
+  })
+}));
+
+describe("getCaseNotes", function () {
   let request, response, next, existingCase, caseNoteAction;
 
   beforeEach(async () => {
@@ -22,6 +28,7 @@ describe("getCaseNotes", function() {
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(existingCase.id)
+      .withUser("sydbotz@gmail.com")
       .withCaseNoteActionId(caseNoteAction.id);
     await models.case_note.create(caseNoteAttributes, { auditUser: "tuser" });
 
@@ -54,6 +61,13 @@ describe("getCaseNotes", function() {
       })
     ]);
   });
+
+  test("should call addAuthorDetailsToCaseNote", async () => {
+    await getCaseNotes(request, response, next);
+
+    expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
+  });
+
   describe("auditing", () => {
     test("should audit accessing case notes", async () => {
       await getCaseNotes(request, response, next);

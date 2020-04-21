@@ -47,7 +47,7 @@ class ActivityMenu extends React.Component {
   render() {
     return (
       <Fragment>
-        {this.props.nickname === this.props.activity.user ? (
+        {this.props.nickname === this.props.activity.author.email ? (
           <IconButton
             data-testid="activityMenuButton"
             onClick={this.handleMenuOpen}

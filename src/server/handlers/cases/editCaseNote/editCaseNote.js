@@ -5,6 +5,7 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { handleNotifications } from "../helpers/handleNotifications";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -52,7 +53,8 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       transaction
     };
 
-    const caseNotes = await models.case_note.findAll(accessQueryOptions);
+    const rawCaseNotes = await models.case_note.findAll(accessQueryOptions);
+    const caseNotes = await addAuthorDetailsToCaseNote(rawCaseNotes);
 
     const caseNoteAuditDetails = getQueryAuditAccessDetails(
       accessQueryOptions,
@@ -70,6 +72,22 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
 
     return caseNotes;
   });
+
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_CASE_NOTES,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
 
   response.status(200).send(caseNotes);
 });

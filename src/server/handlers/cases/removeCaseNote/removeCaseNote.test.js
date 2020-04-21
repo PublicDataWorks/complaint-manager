@@ -15,9 +15,16 @@ import Notification from "../../../../client/complaintManager/testUtilities/noti
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
+
+jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
+  addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
+    return caseNotes;
+  })
+}));
 
 describe("RemoveCaseNote unit", () => {
   let createdCase, createdCaseNote, request;
@@ -82,6 +89,14 @@ describe("RemoveCaseNote unit", () => {
         Boom.badData(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED)
       );
     });
+  });
+
+  test("should call addAuthorDetailsToCaseNote", async () => {
+    const next = jest.fn();
+    const response = httpMocks.createResponse();
+    await removeCaseNote(request, response, next);
+
+    expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
   });
 
   test("should update case status and case notes in the db after case note removed", async () => {

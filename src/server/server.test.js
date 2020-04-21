@@ -617,7 +617,7 @@ describe("server", () => {
               id: caseNoteAction.id,
               name: caseNoteAction.name
             }),
-            user: "tuser",
+            author: { email: "tuser", name: "" },
             notes: "some notes"
           })
         ])

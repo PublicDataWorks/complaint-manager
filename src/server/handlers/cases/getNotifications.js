@@ -120,7 +120,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
         request.nickname,
         null,
         MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.ALL_USER_DATA_FOR_NOTIFICATIONS,
+        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
         { users: { attributes: ["name", "email"] } },
         transaction
       );
