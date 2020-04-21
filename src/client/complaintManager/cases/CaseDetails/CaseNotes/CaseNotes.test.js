@@ -37,7 +37,7 @@ describe("Case Notes", () => {
       {
         id: 1,
         caseId: 1,
-        user: "tuser",
+        author: { name: "tuser", email: "some@test.com" },
         caseNoteAction: {
           name: caseNoteActions.memoToFile[0],
           id: caseNoteActions.memoToFile[1]
@@ -76,7 +76,7 @@ describe("Case Notes", () => {
       .find('[data-testid="activityTimeText"]')
       .first();
 
-    expect(userAndActionText.text()).toEqual("[tuser] Memo to file");
+    expect(userAndActionText.text()).toEqual("tuser Memo to file");
     expect(activityTimeText.text()).toEqual("Dec 17, 1995 3:24 AM");
   });
 
@@ -85,7 +85,7 @@ describe("Case Notes", () => {
       {
         id: 1,
         caseId: 1,
-        user: "tuser",
+        author: { name: "tuser", email: "some@test.com" },
         caseNoteAction: {
           name: caseNoteActions.memoToFile[0],
           id: caseNoteActions.memoToFile[1]
@@ -95,7 +95,7 @@ describe("Case Notes", () => {
       {
         id: 3,
         caseId: 1,
-        user: "fooUser",
+        author: { name: "fooUser", email: "some@test.com" },
         caseNoteAction: {
           name: caseNoteActions.contactedOutsideAgency[0],
           id: caseNoteActions.contactedOutsideAgency[1]
@@ -139,10 +139,10 @@ describe("Case Notes", () => {
       .text();
 
     expect(firstUserAndActivityActionText).toEqual(
-      `[fooUser] ${caseNoteActions.contactedOutsideAgency[0]}`
+      `fooUser ${caseNoteActions.contactedOutsideAgency[0]}`
     );
     expect(secondUserAndActivityActionText).toEqual(
-      `[tuser] ${caseNoteActions.memoToFile[0]}`
+      `tuser ${caseNoteActions.memoToFile[0]}`
     );
   });
 });

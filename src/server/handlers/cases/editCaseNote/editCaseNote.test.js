@@ -11,16 +11,20 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import Boom from "boom";
-import {
-  BAD_DATA_ERRORS,
-  BAD_REQUEST_ERRORS
-} from "../../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
 
-describe("editCaseNote", function() {
+jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
+  addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
+    return caseNotes;
+  })
+}));
+
+describe("editCaseNote", function () {
   let createdCase,
     createdCaseNote,
     updatedCaseNote,
@@ -204,6 +208,12 @@ describe("editCaseNote", function() {
       expect(next).toHaveBeenCalledWith(
         Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_EDIT_ERROR)
       );
+    });
+
+    test("should call addAuthorDetailsToCaseNote", async () => {
+      await editCaseNote(request, response, next);
+
+      expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
     });
   });
 

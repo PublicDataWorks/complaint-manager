@@ -9,7 +9,7 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
-describe("editCaseNote request", function() {
+describe("editCaseNote request", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -71,7 +71,7 @@ describe("editCaseNote request", function() {
         expect.objectContaining({
           ...updatedCaseNote,
           id: createdCaseNote.id,
-          user: "tuser"
+          author: { email: "tuser", name: "" }
         })
       ])
     );
