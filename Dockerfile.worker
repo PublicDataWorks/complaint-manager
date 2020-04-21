@@ -1,6 +1,6 @@
-FROM noipm/docker-node-ubuntu:1.2.0
+FROM noipm/docker-node-ubuntu:2.0.0
 
-# RUN apt-get update
+RUN apt-get update
 RUN apt-get install bash
 
 WORKDIR /app

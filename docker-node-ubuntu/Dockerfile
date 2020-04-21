@@ -6,26 +6,26 @@
 #
 
 # Pull base image.
+FROM ubuntu:18.04
 
-FROM ubuntu:14.04
-
-LABEL version="1.2.0"
+LABEL version="2.0.0"
+ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get install --yes curl
-
-# Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-RUN sudo apt-get install -y nodejs
-
 RUN apt-get install --yes build-essential
 
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+# Install Yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
 
-RUN sudo apt-get update && sudo apt-get install yarn
+RUN apt-get update && apt-get install yarn
 
+# Install PhantomJS
 RUN apt-get install --yes fontconfig && \
  mkdir -p /usr/share && \
  cd /usr/share \
@@ -33,6 +33,7 @@ RUN apt-get install --yes fontconfig && \
  && ln -s /usr/share/phantomjs-2.1.1-linux-x86_64/bin/phantomjs /usr/bin/phantomjs \
  && phantomjs --version
 
-RUN apt-get update && apt-get install -y postgresql
+# Install PostgreSQL
+RUN apt-get install -y postgresql
 
 CMD ["node"]
