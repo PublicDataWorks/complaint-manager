@@ -23,6 +23,13 @@ const RemoveCaseNoteDialog = ({
   dispatch,
   submitting
 }) => {
+  let author = "";
+  if (activity.author) {
+    author = activity.author.name
+      ? activity.author.name
+      : "[" + activity.author.email + "]";
+  }
+
   return (
     <Dialog open={dialogOpen} fullWidth={true}>
       <DialogTitle>Remove Case Note</DialogTitle>
@@ -43,7 +50,7 @@ const RemoveCaseNoteDialog = ({
           }}
         >
           <Typography>
-            <strong>[{activity.user}]</strong> {activity.action}
+            <strong>{author}</strong> {activity.action}
           </Typography>
           <Typography
             variant="caption"

@@ -5,6 +5,10 @@ import ActivityMenu from "./ActivityMenu";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
 const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
+  const author = activity.author.name
+    ? activity.author.name
+    : "[" + activity.author.email + "]";
+
   const TIMESTAMP_FORMAT = "MMM D, YYYY h:mm A";
   return (
     <Card
@@ -27,7 +31,7 @@ const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
               data-testid="userAndActionText"
               style={{ marginBottom: "2px" }}
             >
-              <strong>[{activity.user}]</strong>{" "}
+              <strong>{author}</strong>{" "}
               {activity.caseNoteAction && activity.caseNoteAction.name}
             </Typography>
             <Typography variant={"caption"} data-testid="activityTimeText">

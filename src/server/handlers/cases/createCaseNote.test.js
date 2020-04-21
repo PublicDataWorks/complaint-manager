@@ -13,10 +13,17 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
+import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 
 jest.mock("../audits/auditDataAccess");
 
-describe("createCaseNote", function() {
+jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({
+  addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
+    return caseNotes;
+  })
+}));
+
+describe("createCaseNote", function () {
   let createdCase, request, response, next;
   const actionTaken = moment();
   response = httpMocks.createResponse();
@@ -109,6 +116,12 @@ describe("createCaseNote", function() {
       expect(next).toHaveBeenCalledWith(
         Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_CREATION_ERROR)
       );
+    });
+
+    test("should call addAuthorDetailsToCaseNote", async () => {
+      await createCaseNote(request, response, next);
+
+      expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
     });
   });
 

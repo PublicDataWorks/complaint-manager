@@ -1,5 +1,7 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../audits/auditDataAccess";
+import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
+import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 
 const {
   AUDIT_SUBJECT,
@@ -9,13 +11,13 @@ const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 
 const getCaseNotes = asyncMiddleWare(async (request, response) => {
-  const caseNotes = await models.sequelize.transaction(async transaction => {
+  const rawCaseNotes = await models.sequelize.transaction(async transaction => {
     const caseNotesAndAuditDetails = await getAllCaseNotesAndAuditDetails(
       request.params.caseId,
       request.nickname,
       transaction
     );
-    const caseNotes = caseNotesAndAuditDetails.caseNotes;
+    const allCaseNotes = caseNotesAndAuditDetails.caseNotes;
     const auditDetails = caseNotesAndAuditDetails.auditDetails;
 
     await auditDataAccess(
@@ -27,8 +29,27 @@ const getCaseNotes = asyncMiddleWare(async (request, response) => {
       transaction
     );
 
-    return caseNotes;
+    return allCaseNotes;
   });
+
+  const caseNotes = await addAuthorDetailsToCaseNote(rawCaseNotes);
+
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        request.nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_CASE_NOTES,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
+
   response.send(caseNotes);
 });
 
@@ -52,6 +73,7 @@ const getAllCaseNotesAndAuditDetails = async (
   );
 
   const caseNotes = await models.case_note.findAll(queryOptions);
+
   return { caseNotes: caseNotes, auditDetails: auditDetails };
 };
 
