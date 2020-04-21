@@ -61,9 +61,7 @@
     "id": "notificationFeature",
     "name": "notificationFeature",
     "description": "Notification feature",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   },
   {
     "id": "dataVisualizationFeature",
