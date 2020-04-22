@@ -1,4 +1,10 @@
 import * as countComplaintsByIntakeSource from "./countComplaintsByIntakeSource";
+import {
+  COLORS,
+  generateDonutCenterAnnotations,
+  LABEL_FONT,
+  TITLE_FONT
+} from "../dataVizStyling";
 
 describe("countComplaintsByIntakeSource Data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
@@ -15,14 +21,26 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
     const expectedTransformedData = {
       data: {
         type: "pie",
-        labels: ["Email", "Facebook", "Other"],
-        values: [2, 5, 3]
+        labels: ["Facebook", "Other", "Email"],
+        values: [5, 3, 2],
+        marker: {
+          colors: COLORS
+        },
+        hoverinfo: "label+percent",
+        textinfo: "label+value",
+        textposition: "outside",
+        hole: 0.5
       },
       layout: {
+        title: {
+          text: "Complaints by Intake Source",
+          font: TITLE_FONT
+        },
         height: 500,
-        margin: 20,
-        title: "Complaints by Intake Source",
-        width: 500
+        width: 800,
+        annotations: generateDonutCenterAnnotations(10),
+        showlegend: false,
+        font: LABEL_FONT
       }
     };
 
