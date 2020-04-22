@@ -1,25 +1,58 @@
+import { sortRawDataDict } from "../helpers/sortRawDataDict";
+import {
+  COLORS,
+  generateDonutCenterAnnotations,
+  LABEL_FONT,
+  TITLE_FONT
+} from "../dataVizStyling";
+
 export function transformData(rawData) {
   let labels, values;
+  let count = 0;
 
-  labels = rawData.map(element => {
+  const sortData = (intakeSourceA, intakeSourceB) => {
+    return intakeSourceB.cases - intakeSourceA.cases;
+  };
+
+  const sortedData = sortRawDataDict(rawData, sortData);
+
+  labels = sortedData.map(element => {
     return element.name;
   });
 
-  values = rawData.map(element => {
+  values = sortedData.map(element => {
     return parseInt(element.cases);
   });
 
+  values.map(element => {
+    return (count += element);
+  });
+
   const layout = {
-    width: 500,
-        height: 500,
-        title: "Complaints by Intake Source",
-        margin: 20
-  }
+    title: {
+      text: "Complaints by Intake Source",
+      font: TITLE_FONT
+    },
+    height: 500,
+    width: 800,
+    annotations: generateDonutCenterAnnotations(count),
+    showlegend: false,
+    font: LABEL_FONT
+  };
 
-  return {data: {
-    type: "pie",
-    labels: labels,
-    values: values,
-
-  }, layout};
+  return {
+    data: {
+      type: "pie",
+      labels: labels,
+      values: values,
+      marker: {
+        colors: COLORS
+      },
+      hoverinfo: "label+percent",
+      textinfo: "label+value",
+      textposition: "outside",
+      hole: 0.5
+    },
+    layout
+  };
 }

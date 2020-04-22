@@ -4,6 +4,12 @@ import React from "react";
 import { act, render } from "@testing-library/react";
 import Visualization from "./Visualization";
 import axios from "axios";
+import {
+  COLORS,
+  generateDonutCenterAnnotations,
+  LABEL_FONT,
+  TITLE_FONT
+} from "./dataVizStyling";
 
 jest.mock("./PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
@@ -40,14 +46,26 @@ describe("Visualization", () => {
           expect.objectContaining({
             labels: expect.arrayContaining(["Email", "Facebook", "Other"]),
             type: "pie",
-            values: expect.arrayContaining([2, 5, 3])
+            values: expect.arrayContaining([2, 5, 3]),
+            marker: {
+              colors: COLORS
+            },
+            hoverinfo: "label+percent",
+            textinfo: "label+value",
+            textposition: "outside",
+            hole: 0.5
           })
         ]),
         layout: expect.objectContaining({
+          title: {
+            text: "Complaints by Intake Source",
+            font: TITLE_FONT
+          },
           height: 500,
-          margin: 20,
-          title: "Complaints by Intake Source",
-          width: 500
+          width: 800,
+          annotations: generateDonutCenterAnnotations(10),
+          showlegend: false,
+          font: LABEL_FONT
         })
       }),
       {}
