@@ -33,8 +33,11 @@ export function transformData(rawData) {
       text: "Complaints by Intake Source",
       font: TITLE_FONT
     },
-    height: 500,
+    height: 600,
     width: 800,
+    margin: {
+      b: 170
+    },
     annotations: generateDonutCenterAnnotations(count),
     showlegend: false,
     font: LABEL_FONT
