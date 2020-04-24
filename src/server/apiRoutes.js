@@ -64,6 +64,7 @@ import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
+  "/cases/:caseId/case-notes/:caseNoteId",
   "/cases/:caseId/restore",
   "/cases/:caseId/attachments"
 ];
