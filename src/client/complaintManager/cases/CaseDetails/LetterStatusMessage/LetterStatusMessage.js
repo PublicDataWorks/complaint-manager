@@ -20,7 +20,7 @@ export const EDIT_LETTER_STATUS = {
 };
 
 export const ARCHIVED_MESSAGE =
-  "This case has been archived. Changes to case details and letter flow are not allowed while case is archived.";
+  "This case has been archived. Changes to some case details and letter flow are not allowed while case is archived.";
 
 class LetterStatusMessage extends React.Component {
   shouldShowMessage = () => {
