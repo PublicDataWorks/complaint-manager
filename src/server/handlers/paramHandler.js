@@ -15,7 +15,7 @@ export const handleCaseIdParam = async function (
     request.caseId = caseId;
     request.isArchived = existingCase.isArchived;
 
-    if (caseCannotBeEdited(existingCase.isArchived, request)) {
+    if (caseCannotBeEdited(request)) {
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE)
       );
@@ -33,10 +33,9 @@ const throwBadRequestErrorIfCaseIdInvalid = (caseId, next) => {
   }
 };
 
-const caseCannotBeEdited = (isArchived, request) => {
+const caseCannotBeEdited = request => {
   return (
-    isArchived &&
-    request.method !== "GET" &&
+    (request.method !== "GET" || request.method !== "PUT") &&
     request.route &&
     !ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE.includes(request.route.path)
   );

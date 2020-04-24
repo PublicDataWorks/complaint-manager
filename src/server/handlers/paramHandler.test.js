@@ -78,7 +78,7 @@ describe("param handler", () => {
       expect(next).not.toHaveBeenCalledWith(expect.any(Error));
       expect(next).toHaveBeenCalled();
     });
-
+    
     test("can delete case notes", async () => {
       request.method = "DELETE";
       request.route = { path: "/cases/:caseId/case-notes/:caseNoteId" };
