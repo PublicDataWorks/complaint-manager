@@ -254,4 +254,42 @@ describe("executeQuery", () => {
       expect(response.body).toEqual(expect.arrayContaining(expectedData));
     });
   });
+
+  test("should return only cases that are NOT archived", async () => {
+    const instagramIntakeSource = await models.intake_source.create({
+      name: "Instagram"
+    });
+
+    const archivedCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2020-02-21")
+        .withId(undefined)
+        .withIntakeSourceId(instagramIntakeSource.id),
+      {
+        auditUser: "someone"
+      }
+    );
+    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+
+    await archivedCase.destroy({ auditUser: "someone" });
+
+    const expectedData = [
+      { cases: "1", name: "Email" },
+      { cases: "2", name: "Facebook" },
+      { cases: "1", name: "Other" }
+    ];
+
+    const responsePromise = request(app)
+      .get("/api/data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .query({ queryType: "countComplaintsByIntakeSource" });
+
+    await responsePromise.then(response => {
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toHaveLength(3);
+      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+    });
+  });
 });
