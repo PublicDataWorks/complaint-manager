@@ -307,7 +307,9 @@ export const AUDIT_SUBJECT = {
   ALL_AUTHOR_DATA_FOR_CASE_NOTES: "All Author Data for Case Notes",
   CASE_CLASSIFICATIONS: "Case Classifications",
   MATRIX_DETAILS: "All Matrix Details",
-  NOTIFICATIONS: "Notifications"
+  NOTIFICATIONS: "Notifications",
+  VISUALIZATION_INTAKE_SOURCE:
+    "All Complainant Data for Complaints by Intake Source"
 };
 
 export const AUDIT_FILE_TYPE = {

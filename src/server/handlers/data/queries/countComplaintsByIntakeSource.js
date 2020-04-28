@@ -1,8 +1,14 @@
 import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  MANAGER_TYPE,
+  AUDIT_SUBJECT
+} from "../../../../sharedUtilities/constants";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import auditDataAccess from "../../audits/auditDataAccess";
 
-export const executeQuery = async () => {
+export const executeQuery = async nickname => {
   const date = new Date();
   const yearToDate = date.setFullYear(date.getFullYear(), 0, 1);
 
@@ -29,5 +35,25 @@ export const executeQuery = async () => {
     where: where
   };
 
-  return await models.cases.findAll(queryOptions);
+  const complaintsByIntakeSource = await models.sequelize.transaction(
+    async transaction => {
+      const complaintsByIntakeSource = await models.cases.findAll(queryOptions);
+      const auditDetails = getQueryAuditAccessDetails(
+        queryOptions,
+        models.cases.name
+      );
+
+      await auditDataAccess(
+        nickname,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.VISUALIZATION_INTAKE_SOURCE,
+        auditDetails,
+        transaction
+      );
+      return complaintsByIntakeSource;
+    }
+  );
+
+  return complaintsByIntakeSource;
 };
