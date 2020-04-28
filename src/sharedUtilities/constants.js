@@ -309,7 +309,7 @@ export const AUDIT_SUBJECT = {
   MATRIX_DETAILS: "All Matrix Details",
   NOTIFICATIONS: "Notifications",
   VISUALIZATION_INTAKE_SOURCE:
-    "All Complainant Data for Complaints by Intake Source"
+    "All Complaint Data for Complaints by Intake Source"
 };
 
 export const AUDIT_FILE_TYPE = {
