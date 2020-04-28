@@ -10,13 +10,14 @@ const getData = asyncMiddleware(async (request, response, next) => {
 
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
-      data = await countComplaintsByIntakeSource.executeQuery();
+      data = await countComplaintsByIntakeSource.executeQuery(request.nickname);
       break;
     default:
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED)
       );
   }
+
   response.status(200).send(data);
 });
 
