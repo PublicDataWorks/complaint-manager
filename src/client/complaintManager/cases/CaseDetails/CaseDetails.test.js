@@ -35,6 +35,8 @@ import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLet
 import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 
+require("../../testUtilities/MockMutationObserver");
+
 jest.mock("../../../ScrollToTop", () => ({
   scrollToTop: jest.fn(() => "MOCK_SCROLL_TO_TOP")
 }));

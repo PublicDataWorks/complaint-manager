@@ -43,13 +43,40 @@ const CaseDetailCard = props => {
     );
   };
 
-  const renderNarrativeData = () => {
-    return (
-      <Fragment>
-        <br />
-        {cardData}
-      </Fragment>
-    );
+  function narrativeDetailsData(strippedNarrDetails) {
+    if (strippedNarrDetails) {
+      return (
+        <Fragment>
+          <br />
+          <div dangerouslySetInnerHTML={{ __html: cardData.props.message }} />
+        </Fragment>
+      );
+    } else {
+      return (
+        <Fragment>
+          <br />
+          <Typography style={{ fontStyle: "italic", color: "grey" }}>
+            Not specified
+          </Typography>
+        </Fragment>
+      );
+    }
+  }
+
+  const renderNarrativeData = cardTitle => {
+    if (cardTitle === "Narrative Details" && cardData.props.message) {
+      const regex = /(<([^>]+)>)/gi;
+      const strippedNarrDetails = cardData.props.message.replace(regex, "");
+
+      return narrativeDetailsData(strippedNarrDetails);
+    } else {
+      return (
+        <Fragment>
+          <br />
+          {cardData}
+        </Fragment>
+      );
+    }
   };
 
   const renderAllegationSection = () => {
@@ -113,7 +140,7 @@ const CaseDetailCard = props => {
         <Typography style={styles.section}>{cardTitle}</Typography>
         {_.isArray(cardData)
           ? renderComplainantWitnessOfficerData()
-          : renderNarrativeData()}
+          : renderNarrativeData(cardTitle)}
         {props.cardSecondTitle ? renderAllegationSection() : null}
       </CardContent>
     </Card>

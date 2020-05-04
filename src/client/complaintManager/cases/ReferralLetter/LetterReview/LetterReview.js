@@ -77,15 +77,11 @@ export class LetterReview extends Component {
       </Typography>
     );
 
-    const narrativeDetailsCardData = caseDetails.narrativeDetails ? (
+    const narrativeDetailsCardData = (
       <TextTruncate
         testLabel="letterReviewNarrativeDetails"
         message={caseDetails.narrativeDetails}
       />
-    ) : (
-      <Typography style={{ fontStyle: "italic", color: "grey" }}>
-        Not specified
-      </Typography>
     );
 
     return (
