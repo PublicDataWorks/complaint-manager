@@ -1,32 +1,32 @@
 const e2e = require("../e2eUtilities.js");
 
 const incidentCommands = {
-  openIncidentDetails: function() {
+  openIncidentDetails: function () {
     return this.waitForElementVisible(
       "@editIncidentDetailsButton",
       e2e.rerenderWait
     ).click("@editIncidentDetailsButton");
   },
-  incidentAddressIsSpecified: function() {
+  incidentAddressIsSpecified: function () {
     this.waitForElementPresent("@incidentAddress", e2e.rerenderWait)
       .expect.element("@incidentAddress")
       .text.to.not.equal("No address specified");
     this.expect.element("@incidentAddress").text.to.not.equal("");
     return this;
   },
-  setNarrativeSummary: function() {
+  setNarrativeSummary: function () {
     return this.waitForElementVisible(
       "@narrativeSummary",
       e2e.rerenderWait
     ).setValue("@narrativeSummary", "test summary data");
   },
-  setNarrativeDetails: function() {
+  setNarrativeDetails: function () {
     return this.waitForElementVisible(
       "@narrativeDetails",
       e2e.rerenderWait
     ).setValue("@narrativeDetails", "test details data");
   },
-  saveNarrative: function() {
+  saveNarrative: function () {
     return this.waitForElementVisible(
       "@narrativePromptDetails",
       e2e.rerenderWait
@@ -45,7 +45,7 @@ const incidentElements = {
     selector: '[data-testid="narrativeSummaryInput"]'
   },
   narrativeDetails: {
-    selector: '[data-testid="narrativeDetailsInput"]'
+    selector: '[class="ql-editor ql-blank"]'
   },
   narrativePromptDetails: {
     selector: '[data-testid="narrativePromptDetails"]'
