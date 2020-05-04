@@ -62,9 +62,12 @@ class RichTextEditor extends React.Component {
         onChange={value =>
           this.handleChange(value, this.state.formInitializedToQuillFormat)
         }
+        onBlur={this.props.handleBlur}
         modules={modules}
         formats={formats}
+        readOnly={this.props.disabled}
         style={this.props.style}
+        placeholder={this.props.placeholder}
         data-testid={"editLetterQuill"}
       />
     );

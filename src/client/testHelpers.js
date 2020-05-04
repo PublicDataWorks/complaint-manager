@@ -46,10 +46,7 @@ export const findDropdownOption = (
     })
     .indexOf(optionName);
 
-  autocomplete
-    .find("ForwardRef(IconButton)")
-    .last()
-    .simulate("click");
+  autocomplete.find("ForwardRef(IconButton)").last().simulate("click");
 
   mountedComponent
     .find("ForwardRef(Popper)")
@@ -192,6 +189,14 @@ export const containsText = (mountedComponent, selector, expectedText) => {
 
   expect(containsText).not.toBeUndefined();
   return expect(containsText.text()).toContain(expectedText);
+};
+
+//handles if node contains html
+export const containsHTML = (mountedComponent, selector, expectedHTML) => {
+  const containsHTML = mountedComponent.find(selector).first();
+
+  expect(containsHTML).not.toBeUndefined();
+  return expect(containsHTML.html()).toContain(expectedHTML);
 };
 
 export const retry = async retriableFunction => {

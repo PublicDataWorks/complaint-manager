@@ -1,15 +1,19 @@
 import React from "react";
 import { mount } from "enzyme";
 import updateNarrative from "../thunks/updateNarrative";
-import { changeInput, containsText } from "../../../testHelpers";
+import { changeInput, containsHTML, containsText } from "../../../testHelpers";
 import Narrative from "./Narrative";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 
+require("../../testUtilities/MockMutationObserver");
+
 jest.mock("../thunks/updateNarrative", () =>
-  jest.fn(() => ({
-    type: "MOCK_UPDATE_NARRATIVE_THUNK"
-  }))
+  jest.fn(details => {
+    return {
+      type: "MOCK_UPDATE_NARRATIVE_THUNK"
+    };
+  })
 );
 
 describe("narrative", () => {
@@ -18,7 +22,7 @@ describe("narrative", () => {
   beforeEach(() => {
     expectedCase = {
       id: 5,
-      narrativeDetails: "MOCK NARRATIVE DETAILS",
+      narrativeDetails: "<p>MOCK NARRATIVE DETAILS HTML</p>",
       narrativeSummary: "MOCK NARRATIVE SUMMARY"
     };
 
@@ -40,11 +44,8 @@ describe("narrative", () => {
   });
 
   test("should have initial values", () => {
-    containsText(
-      narrative,
-      '[data-testid="narrativeDetailsInput"]',
-      expectedCase.narrativeDetails
-    );
+    containsHTML(narrative, "Quill", expectedCase.narrativeDetails);
+
     containsText(
       narrative,
       '[data-testid="narrativeSummaryInput"]',
@@ -52,23 +53,8 @@ describe("narrative", () => {
     );
   });
 
-  test("should update case narrative when focus lost on narrative details", () => {
-    const updateDetails = {
-      narrativeDetails: "sample narrative with additional details.",
-      id: expectedCase.id
-    };
-
-    changeInput(
-      narrative,
-      'textarea[data-testid="narrativeDetailsInput"]',
-      updateDetails.narrativeDetails
-    );
-
-    narrative.find('textarea[data-testid="narrativeDetailsInput"]').simulate("blur");
-
-    expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
-    expect(updateNarrative).toHaveBeenCalledWith(updateDetails);
-  });
+  // Deleted tests involving autoSave onBlur for Narrative Details due to the change
+  // to Quill. Testing via e2e.
 
   test("should update case narrative when focus lost on narrative summary", () => {
     const updateDetails = {
@@ -77,12 +63,14 @@ describe("narrative", () => {
     };
 
     changeInput(
-        narrative,
-        'textarea[data-testid="narrativeSummaryInput"]',
-        updateDetails.narrativeSummary
+      narrative,
+      'textarea[data-testid="narrativeSummaryInput"]',
+      updateDetails.narrativeSummary
     );
 
-    narrative.find('textarea[data-testid="narrativeSummaryInput"]').simulate("blur");
+    narrative
+      .find('textarea[data-testid="narrativeSummaryInput"]')
+      .simulate("blur");
 
     expect(dispatchSpy).toHaveBeenCalledWith(updateNarrative(updateDetails));
     expect(updateNarrative).toHaveBeenCalledWith(updateDetails);
@@ -91,16 +79,9 @@ describe("narrative", () => {
   test("should not update case narrative summary when pristine", () => {
     updateNarrative.mockReset();
 
-    narrative.find('textarea[data-testid="narrativeSummaryInput"]').simulate("blur");
-
-    expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);
-    expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(expectedCase));
-  });
-
-  test("should not update case narrative details when pristine", () => {
-    updateNarrative.mockReset();
-
-    narrative.find('textarea[data-testid="narrativeDetailsInput"]').simulate("blur");
+    narrative
+      .find('textarea[data-testid="narrativeSummaryInput"]')
+      .simulate("blur");
 
     expect(updateNarrative).not.toHaveBeenCalledWith(expectedCase);
     expect(dispatchSpy).not.toHaveBeenCalledWith(updateNarrative(expectedCase));

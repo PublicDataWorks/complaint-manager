@@ -132,7 +132,7 @@ class Case {
         this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
-        this.narrativeDetails = "test details";
+        this.narrativeDetails = "<p> test details </p>";
         this.narrativeSummary = "test summary";
         this.attachments = [attachment];
         this.accusedOfficers = [accusedOfficer];
