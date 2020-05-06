@@ -88,6 +88,15 @@ describe("param handler", () => {
       expect(next).toHaveBeenCalled();
     });
 
+    test("can delete case notes", async () => {
+      request.method = "DELETE";
+      request.route = { path: "/cases/:caseId/case-notes/:caseNoteId" };
+      await handleCaseIdParam(request, response, next, archivedCase.id);
+
+      expect(next).not.toHaveBeenCalledWith(expect.any(Error));
+      expect(next).toHaveBeenCalled();
+    });
+
     test("calls next with error when receiving a post request for archived case other than case note", async () => {
       request.method = "POST";
       request.route = { path: "/cases/:caseId/status" };
