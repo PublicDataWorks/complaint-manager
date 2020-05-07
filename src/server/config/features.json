@@ -74,5 +74,13 @@
     "name": "disableCaseNotesRemoval",
     "description": "Disable removal of case notes",
     "enabled": true
+  },
+  {
+    "id": "realtimeNotificationsFeature",
+    "name": "realtimeNotificationsFeature",
+    "description": "Realtime Notifications using Server-Sent Events",
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

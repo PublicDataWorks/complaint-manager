@@ -62,6 +62,7 @@ import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
+import { getNotificationStream } from "./handlers/cases/getNotificationStream";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -470,6 +471,13 @@ export const API_ROUTES = {
       handler: getUsers,
       errorMessage:
         "Something went wrong and the users could not be found. Please try again."
+    }
+  },
+  "/notificationStream": {
+    get: {
+      handler: getNotificationStream,
+      errorMessage:
+        "Something went wrong and notification stream could not be created. Please try again."
     }
   },
   "/notifications/:user": {
