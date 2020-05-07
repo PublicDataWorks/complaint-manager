@@ -65,7 +65,7 @@ beforeEach(async () => {
   );
 });
 
-describe("generateComplainantLetterPdfBuffer", function() {
+describe("generateComplainantLetterPdfBuffer", function () {
   test("generates complainant letter pdf html correctly", async () => {
     const letterHtml = await generateComplainantLetterHtml(
       existingCase,
@@ -80,10 +80,11 @@ describe("generateComplainantLetterPdfBuffer", function() {
       existingCase,
       complainant
     );
+
     expect(pdfResults).toMatchSnapshot();
   });
 
-  // test("pdf buffer should generate complainant letter with case reference prefix AC when primary complainant is anonymized", async () => {
+  // test("pdf buffer should generate complainant letter with case reference prefiC when primary complainant is anonymized", async () => {
   //   const civilian = await models.civilian.findOne({
   //     where: { caseId: existingCase.id }
   //   });

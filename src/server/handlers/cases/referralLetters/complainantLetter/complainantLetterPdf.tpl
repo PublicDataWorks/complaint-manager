@@ -12,7 +12,7 @@
             </div>
         </div>
         <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
-            {{recipient.firstName}}<br/>
+            {{recipientFirstName}}<br/>
             {{{formatLongDate currentDate}}}<br/>
             Page \{{page}}
         </div>
@@ -39,7 +39,7 @@
         </p>
         <p><br/></p>
         <p>
-        {{title}} {{recipient.lastName}}
+        {{title}} {{recipientLastName}}
             {{#if (isPresent (formatAddress complainantAddress))}}
             <p>{{{formatAddress complainantAddress}}}</p>
             {{/if}}
@@ -51,9 +51,9 @@
         <p>Re: OIPM Complaint# {{caseReference}}</p>
         <p><br/></p>
         <p>Dear 
-            {{#if (isPresent title)}} {{title}} {{recipient.lastName}}:
+            {{#if (isPresent title)}} {{title}} {{recipientLastName}}:
             {{else}}
-                {{recipient.firstName}} {{recipient.lastName}}:
+                {{recipientFirstName}} {{recipientLastName}}:
             {{/if}}
         </p>
         <p><br/></p>
