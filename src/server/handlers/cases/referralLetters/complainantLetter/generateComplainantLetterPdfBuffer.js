@@ -46,7 +46,8 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
 
   return {
     caseReference: existingCase.caseReference,
-    recipient: complainant,
+    recipientFirstName: complainant.firstName,
+    recipientLastName: complainant.lastName,
     currentDate: currentDate,
     complainantAddress: complainant.address ? complainant.address : null,
     complainantEmail: complainant.email ? complainant.email : null,
