@@ -11,7 +11,8 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: `https://localhost:${LOCAL_DEV_PORT}`
+    hostname: `https://localhost:${LOCAL_DEV_PORT}`,
+    backendUrl: `https://localhost:${PORT}`
   },
   development_e2e: {
     auth: {
@@ -23,7 +24,8 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: `https://app-e2e:${LOCAL_DEV_PORT}`
+    hostname: `https://app-e2e:${LOCAL_DEV_PORT}`,
+    backendUrl: `https://localhost:${PORT}`
   },
   static_development: {
     auth: {
@@ -35,7 +37,8 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: `http://localhost:${PORT}`
+    hostname: `http://localhost:${PORT}`,
+    backendUrl: `https://localhost:${PORT}`
   },
   test: {
     auth: {
@@ -47,7 +50,8 @@ export default {
       scope: "openid profile read:cases",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: "http://localhost"
+    hostname: "http://localhost",
+    backendUrl: `https://localhost:${PORT}`
   },
   ci: {
     auth: {
@@ -59,7 +63,8 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
-    hostname: "https://noipm-ci.herokuapp.com"
+    hostname: "https://noipm-ci.herokuapp.com",
+    backendUrl: "https://noipm-ci.herokuapp.com"
   },
   staging: {
     auth: {
@@ -71,7 +76,8 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    hostname: "https://noipm-staging.herokuapp.com"
+    hostname: "https://noipm-staging.herokuapp.com",
+    backendUrl: "https://noipm-staging.herokuapp.com"
   },
   production: {
     auth: {
@@ -83,6 +89,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
-    hostname: "https://noipm-production.herokuapp.com"
+    hostname: "https://noipm-production.herokuapp.com",
+    backendUrl: "https://noipm-production.herokuapp.com"
   }
 };
