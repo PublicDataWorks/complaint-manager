@@ -13,8 +13,11 @@ import Auth from "./common/auth/Auth";
 import { connect } from "react-redux";
 import { userAuthSuccess } from "./common/auth/actionCreators";
 import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatureToggles";
+import config from "./common/config/config";
 
 class App extends Component {
+  eventSource = undefined;
+
   componentDidMount() {
     const accessToken = getAccessToken();
     if (accessToken) {
@@ -25,6 +28,30 @@ class App extends Component {
   }
 
   render() {
+    const token = getAccessToken();
+    if (
+      this.props.realtimeNotificationsFeature &&
+      this.props.currentUser.nickname &&
+      token &&
+      !this.eventSource
+    ) {
+      console.log("Creating EventSource for ", this.props.currentUser.nickname);
+
+      this.eventSource = new EventSource(
+        `${
+          config[process.env.REACT_APP_ENV].backendUrl
+        }/api/notificationStream?token=${token}`
+      );
+
+      this.eventSource.onmessage = event => {
+        const parsedData = JSON.parse(event.data);
+        console.log("Event from Server: ", parsedData);
+      };
+      this.eventSource.onerror = event => {
+        console.log("Error from Event Stream", event);
+      };
+    }
+
     return (
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={customTheme}>
@@ -44,7 +71,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  featureToggles: state.featureToggles
+  currentUser: state.users.current.userInfo,
+  featureToggles: state.featureToggles,
+  realtimeNotificationsFeature:
+    state.featureToggles.realtimeNotificationsFeature
 });
 
 const mapDispatchToProps = {
@@ -52,7 +82,4 @@ const mapDispatchToProps = {
   getFeatureToggles
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
