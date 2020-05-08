@@ -15,9 +15,6 @@ export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
     throw new Error(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
   }
 
-  // Same as Auth0 Token Expiration
-  res.setTimeout(10 * 60 * 60 * 1000);
-
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Connection", "keep-alive");
@@ -64,6 +61,12 @@ export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
     console.log(`${clientEmail} Connection closed`);
     clients = clients.filter(c => c.id !== clientEmail);
   });
+
+  const pingMessage = `data: ${JSON.stringify("PING!")} \n\n`;
+
+  setInterval(() => {
+    res.write(pingMessage);
+  }, 30 * 1000);
 });
 
 // Iterate clients list and use write res object method to send messages to all
