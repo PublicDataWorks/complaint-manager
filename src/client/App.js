@@ -49,7 +49,13 @@ class App extends Component {
 
       this.eventSource.onmessage = event => {
         const parsedData = JSON.parse(event.data);
-        console.log("Event from Server: ", parsedData);
+        if (parsedData.type === "ping") {
+          console.log("Ping from Server: ", parsedData.message);
+        } else if (parsedData.type === "connection") {
+          console.log("Connection: ", parsedData.message);
+        } else if (parsedData.type === "notifications") {
+          console.log("Got Notifications: ", parsedData.message);
+        }
       };
       this.eventSource.onerror = event => {
         console.log("Error from Event Stream", event);
