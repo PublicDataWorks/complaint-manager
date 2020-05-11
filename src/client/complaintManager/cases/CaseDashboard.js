@@ -10,6 +10,7 @@ import {
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 import Visualization from "../../common/components/Visualization/Visualization";
+import ComplaintTotals from "./ComplaintTotals";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -20,6 +21,7 @@ class CaseDashboard extends Component {
     return (
       <div>
         <NavBar menuType={complaintManagerMenuOptions}>View All Cases</NavBar>
+        <ComplaintTotals />
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />
       </div>
