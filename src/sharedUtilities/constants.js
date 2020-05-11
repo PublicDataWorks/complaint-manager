@@ -309,7 +309,10 @@ export const AUDIT_SUBJECT = {
   MATRIX_DETAILS: "All Matrix Details",
   NOTIFICATIONS: "Notifications",
   VISUALIZATION_INTAKE_SOURCE:
-    "All Complaint Data for Complaints by Intake Source"
+    "All Complaint Data for Complaints by Intake Source",
+  COMPLAINT_TOTAL_YTD: "All Complaint Data for Complaints Year to Date",
+  COMPLAINT_TOTAL_PREVIOUS_YEAR:
+    "All Complaint Data for Complaints in the Previous Year"
 };
 
 export const AUDIT_FILE_TYPE = {
@@ -412,11 +415,13 @@ export const DECLINES_OPTION = "Declines to classify";
 // ----------------------------------------
 
 export const QUERY_TYPES = {
-  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource"
+  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource",
+  COUNT_COMPLAINT_TOTALS: "countComplaintTotals"
 };
 
 export const QUERY_TYPE_FILE_MAP = {
-  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource.js"
+  COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource.js",
+  COUNT_COMPLAINT_TOTALS: "countComplaintTotals.js"
 };
 
 // ----------------------------------------
