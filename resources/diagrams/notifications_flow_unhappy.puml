@@ -3,7 +3,7 @@ title Notification Flow using Server-Sent Events\n(Sad Path)
 
 actor "User A Frontend"
 
-"User A Frontend" -> Backend: GET /api/notificationStream
+"User A Frontend" -> Backend: GET /api/messageStream
 Backend -[#green]-> "User A Frontend": Open Event Stream
 Backend -[#green]-> "User A Frontend": All User A Notifications
 Backend ->> Backend: Add User A to\nconnection list

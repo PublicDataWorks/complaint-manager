@@ -5,7 +5,7 @@ const asyncMiddleWare = require("../asyncMiddleware");
 
 let clients = [];
 
-export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
+export const getMessageStream = asyncMiddleWare(async (req, res, next) => {
   const realtimeNotificationsFeature = checkFeatureToggleEnabled(
     req,
     "realtimeNotificationsFeature"
@@ -29,11 +29,11 @@ export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
   const clientEmail = req.nickname;
   const jsonMessage = {
     type: "connection",
-    message: `${clientEmail} has subscribed to notifications.`
+    message: `${clientEmail} has subscribed to streaming messages including Notifications.`
   };
   res.write(`data: ${JSON.stringify(jsonMessage)} \n\n`);
 
-  console.log("Initial Message sent from Notification Stream");
+  console.log("Initial Message sent from Message Stream");
 
   const newClient = {
     id: clientEmail,

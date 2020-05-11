@@ -44,7 +44,7 @@ class App extends Component {
       this.eventSource = new EventSource(
         `${
           config[process.env.REACT_APP_ENV].backendUrl
-        }/api/notificationStream?token=${token}`
+        }/api/messageStream?token=${token}`
       );
 
       this.eventSource.onmessage = event => {
