@@ -114,7 +114,6 @@ class CasesTable extends React.Component {
       <div style={{ marginTop: "24px" }} className={classes.tableMargin}>
         <SearchResults
           pagination={this.getPagination()}
-          header={"Results"}
           subtitleResultCount={false}
           searchResults={this.props.cases}
           noResultsMessage={this.renderNoCasesMessage()}

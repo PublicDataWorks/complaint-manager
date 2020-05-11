@@ -56,10 +56,7 @@ describe("SearchResults", () => {
       />
     );
     expect(
-      wrapper
-        .find("[data-testid='searchResultsMessage']")
-        .children()
-        .text()
+      wrapper.find("[data-testid='searchResultsMessage']").children().text()
     ).toEqual("1 result found");
   });
 
@@ -91,10 +88,7 @@ describe("SearchResults", () => {
       />
     );
     expect(
-      wrapper
-        .find("[data-testid='searchResultsMessage']")
-        .children()
-        .text()
+      wrapper.find("[data-testid='searchResultsMessage']").children().text()
     ).toEqual("2 results found");
   });
 
@@ -151,51 +145,6 @@ describe("SearchResults", () => {
       .text();
 
     return expect(resultsMessage).toEqual(defaultNoResultsMessage);
-  });
-
-  test("should show correct header when supplied", () => {
-    const testHeader = "Special Header";
-    const wrapper = shallow(
-      <SearchResults
-        header={testHeader}
-        spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joanne", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        render={jest.fn()}
-      />
-    );
-
-    const header = wrapper
-      .find("[data-testid='searchHeader']")
-      .children()
-      .text();
-
-    return expect(header).toEqual(testHeader);
-  });
-
-  test("should show default header when no header is supplied", () => {
-    const defaultHeader = "Search Results";
-    const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joanne", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        render={jest.fn()}
-      />
-    );
-
-    const header = wrapper
-      .find("[data-testid='searchHeader']")
-      .children()
-      .text();
-
-    return expect(header).toEqual(defaultHeader);
   });
 
   test("should not find pagination component when not paginating", () => {
