@@ -5,14 +5,6 @@ import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsBy
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../../../complaintManager/actionCreators/snackBarActionCreators";
-import { userAuthSuccess } from "../../auth/actionCreators";
-import getFeatureToggles from "../../../complaintManager/featureToggles/thunks/getFeatureToggles";
-import { connect } from "react-redux";
-import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 
 const Visualization = props => {
   const [data, setData] = useState({ data: {}, isFetching: false });

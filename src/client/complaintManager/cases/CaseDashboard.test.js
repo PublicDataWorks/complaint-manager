@@ -75,4 +75,14 @@ describe("CaseDashboard", () => {
   test("should close snackbar when mounted", () => {
     expect(store.getState()).toHaveProperty("ui.snackbar.open", false);
   });
+
+  test("should display complaint totals", () => {
+    expect(
+      containsText(
+        caseDashboardWrapper,
+        '[data-testid="complaintTotals"]',
+        "Complaints YTD: Complaints 2019: "
+      )
+    );
+  });
 });
