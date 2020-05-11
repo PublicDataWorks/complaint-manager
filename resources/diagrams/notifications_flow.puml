@@ -3,7 +3,7 @@ title Notification Flow using Server-Sent Events\n(Happy Path)
 
 actor "User A Frontend"
 
-"User A Frontend" -> Backend: GET /api/notificationStream
+"User A Frontend" -> Backend: GET /api/messageStream
 Backend -[#green]-> "User A Frontend": Open Event Stream
 Backend -[#green]-> "User A Frontend": All User A Notifications
 Backend ->> Backend: Add User A to\nconnection list
@@ -13,7 +13,7 @@ note left: Ping occurs\nevery 30 seconds
 
 actor "User B Frontend"
 
-"User B Frontend" -> Backend: GET /api/notificationStream
+"User B Frontend" -> Backend: GET /api/messageStream
 Backend -[#green]-> "User B Frontend": Open Event Stream
 Backend -[#green]-> "User B Frontend": All User B Notifications
 Backend ->> Backend: Add User B to\nconnection list
