@@ -310,9 +310,9 @@ export const AUDIT_SUBJECT = {
   NOTIFICATIONS: "Notifications",
   VISUALIZATION_INTAKE_SOURCE:
     "All Complaint Data for Complaints by Intake Source",
-  COMPLAINT_TOTAL_YTD: "All Complaint Data for Complaints Year to Date",
+  COMPLAINT_TOTAL_YTD: "Complaint Count for Complaints Year to Date",
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
-    "All Complaint Data for Complaints in the Previous Year"
+    "Complaint Count for Complaints in the Previous Year"
 };
 
 export const AUDIT_FILE_TYPE = {

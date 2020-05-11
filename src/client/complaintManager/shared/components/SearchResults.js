@@ -38,9 +38,6 @@ export class SearchResults extends Component {
     const paginating = this.props.pagination != null;
     return (
       <div>
-        <Typography variant="h6" data-testid={"searchHeader"}>
-          {this.renderHeader(this.props.header)}
-        </Typography>
         <Paper elevation={0}>
           {this.renderSearchResultsMessage(paginating)}
           {this.renderSearchResults()}
@@ -50,10 +47,6 @@ export class SearchResults extends Component {
       </div>
     );
   }
-
-  renderHeader = header => {
-    return header ? header : "Search Results";
-  };
 
   renderSpinner = () => {
     if (!this.props.spinnerVisible) {
