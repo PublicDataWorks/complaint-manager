@@ -27,8 +27,11 @@ export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
   res.flushHeaders();
 
   const clientEmail = req.nickname;
-  const message = `${clientEmail} has subscribed to notifications.`;
-  res.write(`data: ${JSON.stringify(message)} \n\n`);
+  const jsonMessage = {
+    type: "connection",
+    message: `${clientEmail} has subscribed to notifications.`
+  };
+  res.write(`data: ${JSON.stringify(jsonMessage)} \n\n`);
 
   console.log("Initial Message sent from Notification Stream");
 
@@ -62,14 +65,15 @@ export const getNotificationStream = asyncMiddleWare(async (req, res, next) => {
     clients = clients.filter(c => c.id !== clientEmail);
   });
 
-  const pingMessage = `data: ${JSON.stringify("PING!")} \n\n`;
+  const jsonPingMessage = { type: "ping", message: "PING!" };
 
   setInterval(() => {
-    res.write(pingMessage);
+    res.write(`data: ${JSON.stringify(jsonPingMessage)} \n\n`);
   }, 30 * 1000);
 });
 
 // Iterate clients list and use write res object method to send messages to all
 export const sendNotification = message => {
-  clients.forEach(c => c.res.write(`data: ${JSON.stringify(message)}\n\n`));
+  const jsonMessage = { type: "notifications", message: message };
+  clients.forEach(c => c.res.write(`data: ${JSON.stringify(jsonMessage)}\n\n`));
 };
