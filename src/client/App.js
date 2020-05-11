@@ -27,6 +27,10 @@ class App extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.eventSource.close();
+  }
+
   render() {
     const token = getAccessToken();
     if (
