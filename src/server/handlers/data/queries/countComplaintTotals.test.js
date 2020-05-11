@@ -9,29 +9,19 @@ import app from "../../../server";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 
-describe("executeQuery", () => {
+describe("getCountByDateRange", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
   const token = buildTokenWithPermissions("", "tuser");
+  const expectedData = { ytd: 2, previousYear: 2 };
 
   beforeEach(async () => {
-    const emailIntakeSource = await models.intake_source.create({
-      name: "Email"
-    });
-    const facebookIntakeSource = await models.intake_source.create({
-      name: "Facebook"
-    });
-    const otherIntakeSource = await models.intake_source.create({
-      name: "Other"
-    });
-
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(emailIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -40,10 +30,7 @@ describe("executeQuery", () => {
     await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     const secondCase = await models.cases.create(
-      new Case.Builder()
-        .defaultCase()
-        .withFirstContactDate("2020-02-21")
-        .withIntakeSourceId(facebookIntakeSource.id),
+      new Case.Builder().defaultCase().withFirstContactDate("2020-02-21"),
       {
         auditUser: "someone"
       }
@@ -54,9 +41,8 @@ describe("executeQuery", () => {
     const thirdCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(facebookIntakeSource.id),
+        .withFirstContactDate("2019-02-21")
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -67,9 +53,8 @@ describe("executeQuery", () => {
     const fourthCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(otherIntakeSource.id),
+        .withFirstContactDate("2019-02-21")
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -77,74 +62,50 @@ describe("executeQuery", () => {
     await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
   });
 
-  test("returns count of complaints broken down by Intake Source", async done => {
-    const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
-    ];
-
+  test("returns count of complaints broken down by year to date and previous year", async done => {
     const responsePromise = request(app)
       .get("/api/data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ queryType: "countComplaintsByIntakeSource" });
+      .query({ queryType: "countComplaintTotals" });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+      expect(response.body).toEqual(expectedData);
     });
     done();
   });
 
-  test("should return only cases within the current year to date", async () => {
-    const instagramIntakeSource = await models.intake_source.create({
-      name: "Instagram"
-    });
-
+  test("should return only cases within the current year to date or previous year", async () => {
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2019-12-31")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withFirstContactDate("2018-12-31")
+        .withId(undefined),
       {
         auditUser: "someone"
       }
     );
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
-    const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
-    ];
-
     const responsePromise = request(app)
       .get("/api/data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ queryType: "countComplaintsByIntakeSource" });
+      .query({ queryType: "countComplaintTotals" });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+      expect(response.body).toEqual(expectedData);
     });
   });
 
   test("should return only cases where status is forwarded to agency or closed", async () => {
-    const instagramIntakeSource = await models.intake_source.create({
-      name: "Instagram"
-    });
-
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -154,8 +115,7 @@ describe("executeQuery", () => {
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -167,8 +127,7 @@ describe("executeQuery", () => {
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -183,8 +142,7 @@ describe("executeQuery", () => {
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -192,36 +150,24 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
 
-    const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
-    ];
-
     const responsePromise = request(app)
       .get("/api/data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ queryType: "countComplaintsByIntakeSource" });
+      .query({ queryType: "countComplaintTotals" });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+      expect(response.body).toEqual(expectedData);
     });
   });
 
   test("should return only cases that are NOT archived", async () => {
-    const instagramIntakeSource = await models.intake_source.create({
-      name: "Instagram"
-    });
-
     const archivedCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate("2020-02-21")
-        .withId(undefined)
-        .withIntakeSourceId(instagramIntakeSource.id),
+        .withId(undefined),
       {
         auditUser: "someone"
       }
@@ -230,22 +176,15 @@ describe("executeQuery", () => {
 
     await archivedCase.destroy({ auditUser: "someone" });
 
-    const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
-    ];
-
     const responsePromise = request(app)
       .get("/api/data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ queryType: "countComplaintsByIntakeSource" });
+      .query({ queryType: "countComplaintTotals" });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+      expect(response.body).toEqual(expectedData);
     });
   });
 });
