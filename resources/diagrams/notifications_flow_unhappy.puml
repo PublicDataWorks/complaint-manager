@@ -1,0 +1,27 @@
+@startuml
+title Notification Flow using Server-Sent Events\n(Sad Path)
+
+actor "User A Frontend"
+
+"User A Frontend" -> Backend: GET /api/notificationStream
+Backend -[#green]-> "User A Frontend": Open Event Stream
+Backend -[#green]-> "User A Frontend": All User A Notifications
+Backend ->> Backend: Add User A to\nconnection list
+
+Backend -[#green]-> "User A Frontend": Keep Alive Message
+note left: Ping occurs\nevery 30 seconds
+
+"User A Frontend" -[#red]>x Backend: Connection Lost
+Backend ->> Backend: Remove User A from\nconnection list
+
+"User A Frontend" -[#red]>x Backend: Reconnect 1st Attempt
+note left: EventSource automatically\nretries
+"User A Frontend" -> Backend: Reconnect 2nd Attempt
+Backend -[#green]-> "User A Frontend": Open Event Stream
+Backend -[#green]-> "User A Frontend": All User A Notifications
+Backend ->> Backend: Add User A to\nconnection list
+
+Backend -[#green]-> "User A Frontend": Keep Alive Message
+note left: Ping occurs\nevery 30 seconds
+
+@enduml
