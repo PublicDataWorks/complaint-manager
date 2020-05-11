@@ -1,0 +1,26 @@
+@startuml
+title Notification Flow using Server-Sent Events\n(Happy Path)
+
+actor "User A Frontend"
+
+"User A Frontend" -> Backend: GET /api/notificationStream
+Backend -[#green]-> "User A Frontend": Open Event Stream
+Backend -[#green]-> "User A Frontend": All User A Notifications
+Backend ->> Backend: Add User A to\nconnection list
+
+Backend -[#green]-> "User A Frontend": Keep Alive Message
+note left: Ping occurs\nevery 30 seconds
+
+actor "User B Frontend"
+
+"User B Frontend" -> Backend: GET /api/notificationStream
+Backend -[#green]-> "User B Frontend": Open Event Stream
+Backend -[#green]-> "User B Frontend": All User B Notifications
+Backend ->> Backend: Add User B to\nconnection list
+
+"User A Frontend" -> Backend: POST /api/caseNote
+note right: Creates/edits a Case\nNote mentioning User B
+Backend ->> Backend: User B notification \ncreated
+Backend -[#green]-> "User B Frontend": All User B Notifications
+
+@enduml
