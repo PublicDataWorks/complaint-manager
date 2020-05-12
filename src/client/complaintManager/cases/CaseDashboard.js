@@ -8,8 +8,6 @@ import {
   updateSort
 } from "../actionCreators/casesActionCreators";
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
-import { QUERY_TYPES } from "../../../sharedUtilities/constants";
-import Visualization from "../../common/components/Visualization/Visualization";
 import ComplaintTotals from "./ComplaintTotals";
 
 class CaseDashboard extends Component {
