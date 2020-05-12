@@ -3,7 +3,7 @@ import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants"
 import Boom from "boom";
 import { ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE } from "../apiRoutes";
 
-export const handleCaseIdParam = async function(
+export const handleCaseIdParam = async function (
   request,
   response,
   next,
