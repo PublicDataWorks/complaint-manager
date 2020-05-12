@@ -25,7 +25,7 @@ const ComplaintTotals = () => {
   return (
     <div
       data-testid={"complaintTotals"}
-      style={{ marginLeft: "5%", marginTop: "2%" }}
+      style={{ marginLeft: "5%", marginTop: "1%" }}
     >
       <Typography variant="h6">Complaints YTD: {data.ytd}</Typography>
       <Typography variant="h6">

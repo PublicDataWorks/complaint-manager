@@ -10,7 +10,7 @@ const CreateCaseButton = ({ openCreateCaseDialog, open }) => (
     <PrimaryButton
       data-testid="createCaseButton"
       onClick={() => openCreateCaseDialog(DialogTypes.CASE)}
-      style={{ marginLeft: "5%", marginTop: "2%" }}
+      style={{ marginLeft: "5%", marginTop: "1%" }}
     >
       Create New Case
     </PrimaryButton>
