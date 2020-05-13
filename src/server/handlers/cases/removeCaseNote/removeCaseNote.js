@@ -5,6 +5,9 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import moment from "moment";
+import { sendNotification } from "../getMessageStream";
+import { extractNotifications } from "../getNotifications";
 
 const {
   AUDIT_SUBJECT,
@@ -25,6 +28,14 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
 
   const currentCase = await models.sequelize.transaction(async transaction => {
+    const notifs = await models.notification.findAll({
+      where: { caseNoteId: caseNoteId },
+      attributes: ["user"]
+    });
+    const usersWithNotifs = notifs.map(notif => {
+      return notif.get("user");
+    });
+
     await models.notification
       .destroy({
         where: {
@@ -84,7 +95,8 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
 
     return {
       caseDetails,
-      caseNotes
+      caseNotes,
+      usersWithNotifs
     };
   });
 
@@ -104,7 +116,22 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  response.status(200).send(currentCase);
+  const timestamp = moment().subtract(30, "days");
+
+  for (const user in currentCase.usersWithNotifs) {
+    const userWithNotif = currentCase.usersWithNotifs[user];
+    sendNotification(
+      userWithNotif,
+      await extractNotifications(timestamp, userWithNotif)
+    );
+  }
+
+  response
+    .status(200)
+    .send({
+      caseNotes: currentCase.caseNotes,
+      caseDetails: currentCase.caseDetails
+    });
 });
 
 module.exports = removeCaseNote;

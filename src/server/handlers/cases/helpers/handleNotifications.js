@@ -10,6 +10,7 @@ export const handleNotifications = async (
   const workingListUsersEmails = workingListMentionedUsers.map(user => {
     return user.value;
   });
+  const usersWithNewNotifs = [];
 
   const allNotifications = await models.notification.findAll({
     where: {
@@ -29,29 +30,30 @@ export const handleNotifications = async (
         currentUser,
         caseNoteId
       );
+      usersWithNewNotifs.push(currentUser);
       const workingListIndex = workingListUsersEmails.indexOf(currentUser);
       workingListUsersEmails.splice(workingListIndex, 1);
       workingListMentionedUsers.splice(workingListIndex, 1);
     } else {
       await deleteNotification(transaction, request, currentUser, caseNoteId);
+      usersWithNewNotifs.push(currentUser);
     }
   }
 
   for (const user in workingListMentionedUsers) {
-    await createNotification(
-      transaction,
-      request,
-      workingListMentionedUsers[user],
-      caseNoteId
-    );
+    const mentionedUser = workingListMentionedUsers[user].value;
+    await createNotification(transaction, request, mentionedUser, caseNoteId);
+    usersWithNewNotifs.push(mentionedUser);
   }
+
+  return usersWithNewNotifs;
 };
 
 const createNotification = async (transaction, request, user, caseNoteId) => {
   await models.notification.create(
     {
       caseNoteId: caseNoteId,
-      user: user.value
+      user: user
     },
     {
       transaction,
