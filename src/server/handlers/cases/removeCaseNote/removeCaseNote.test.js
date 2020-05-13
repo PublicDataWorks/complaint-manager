@@ -16,6 +16,7 @@ import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "../getMessageStream";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
@@ -24,6 +25,10 @@ jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
   addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
     return caseNotes;
   })
+}));
+
+jest.mock("../getMessageStream", () => ({
+  sendNotification: jest.fn()
 }));
 
 describe("RemoveCaseNote unit", () => {
@@ -124,6 +129,7 @@ describe("RemoveCaseNote unit", () => {
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
+      .withUser("test@test.com")
       .withCaseNoteId(createdCaseNote.id);
 
     const notification = await models.notification.create(
@@ -145,6 +151,11 @@ describe("RemoveCaseNote unit", () => {
 
     expect(deletedNotification).not.toEqual(
       expect.objectContaining({ deletedAt: null })
+    );
+
+    expect(sendNotification).toHaveBeenCalledWith(
+      "test@test.com",
+      expect.arrayContaining([])
     );
   });
 

@@ -14,6 +14,7 @@ import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "./getMessageStream";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -21,6 +22,10 @@ jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({
   addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
     return caseNotes;
   })
+}));
+
+jest.mock("./getMessageStream", () => ({
+  sendNotification: jest.fn()
 }));
 
 describe("createCaseNote", function () {
@@ -101,6 +106,12 @@ describe("createCaseNote", function () {
         expect.objectContaining({
           user: "test@test.com"
         })
+      );
+      expect(sendNotification).toHaveBeenCalledWith(
+        "test@test.com",
+        expect.arrayContaining([
+          expect.objectContaining({ user: "test@test.com" })
+        ])
       );
     });
 

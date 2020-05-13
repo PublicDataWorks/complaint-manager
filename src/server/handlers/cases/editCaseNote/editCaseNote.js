@@ -6,6 +6,9 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { handleNotifications } from "../helpers/handleNotifications";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import moment from "moment";
+import { sendNotification } from "../getMessageStream";
+import { extractNotifications } from "../getNotifications";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -38,7 +41,7 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
-    await handleNotifications(
+    const usersWithNotifs = await handleNotifications(
       transaction,
       request,
       mentionedUsers,
@@ -70,7 +73,7 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       transaction
     );
 
-    return caseNotes;
+    return { caseNotes, usersWithNotifs };
   });
 
   await models.sequelize
@@ -89,7 +92,17 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  response.status(200).send(caseNotes);
+  const timestamp = moment().subtract(30, "days");
+
+  for (const user in caseNotes.usersWithNotifs) {
+    const userWithNotif = caseNotes.usersWithNotifs[user];
+    sendNotification(
+      userWithNotif,
+      await extractNotifications(timestamp, userWithNotif)
+    );
+  }
+
+  response.status(200).send([...caseNotes.caseNotes]);
 });
 
 module.exports = editCaseNote;

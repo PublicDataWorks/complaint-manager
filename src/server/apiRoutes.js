@@ -57,7 +57,7 @@ import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
-import getNotifications from "./handlers/cases/getNotifications";
+import { getNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
