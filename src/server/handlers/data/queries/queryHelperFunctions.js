@@ -20,3 +20,27 @@ export const updateCaseStatus = async (caseToUpdate, status) => {
   }
   caseToUpdate.reload();
 };
+
+export const getComplainantType = caseReference => {
+  let prefix = caseReference.substring(0, 2);
+  let complainantType;
+
+  if (prefix === "AC") {
+    complainantType = "Anonymous (AC)";
+  } else {
+    switch (prefix) {
+      case "CC":
+        complainantType = "Civilian (CC)";
+        break;
+      case "PO":
+        complainantType = "Police Officer (PO)";
+        break;
+      case "CN":
+        complainantType = "Civilian Within NOPD (CN)";
+        break;
+      default:
+        complainantType = "Civilian (CC)";
+    }
+  }
+  return complainantType;
+};
