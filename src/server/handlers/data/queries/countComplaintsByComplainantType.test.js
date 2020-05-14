@@ -16,7 +16,7 @@ import Civilian from "../../../../client/complaintManager/testUtilities/civilian
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 
 describe("executeQuery", () => {
-  let complainantOfficerPO, complainantOfficerCN;
+  let complainantOfficerPO;
   let civilianCC, civilianAC;
 
   let caseAttributes;
@@ -100,7 +100,6 @@ describe("executeQuery", () => {
       .defaultCaseOfficer()
       .withId(undefined)
       .withOfficerId(undefined)
-      .withCreatedAt(new Date("2018-09-22"))
       .withRoleOnCase(COMPLAINANT)
       .withCaseEmployeeType(caseEmployeeType);
   };
