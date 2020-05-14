@@ -59,5 +59,17 @@ describe("get message stream", () => {
       expect.objectContaining({ id: "test1@test.com" }),
       expect.objectContaining({ id: "test2@test.com" })
     ]);
+
+    request.nickname = "test@test.com";
+
+    await getMessageStream(request, response, next);
+
+    const sameClients = getClients();
+
+    expect(sameClients).toEqual([
+      expect.objectContaining({ id: "test@test.com" }),
+      expect.objectContaining({ id: "test1@test.com" }),
+      expect.objectContaining({ id: "test2@test.com" })
+    ]);
   });
 });
