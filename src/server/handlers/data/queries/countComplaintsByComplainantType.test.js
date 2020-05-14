@@ -21,15 +21,11 @@ describe("executeQuery", () => {
 
   let caseAttributes;
 
-  let complainantCaseCC,
-    complainantCaseAC,
-    complainantCasePO,
-    complainantCaseCN;
+  let complainantCaseCC, complainantCaseAC, complainantCasePO;
 
   const token = buildTokenWithPermissions("", "tuser");
 
   const expectedData = [
-    // { complainantType: "Civilian Within NOPD (CN)" },
     { complainantType: "Civilian (CC)" },
     { complainantType: "Anonymous (AC)" },
     { complainantType: "Police Officer (PO)" }
@@ -46,10 +42,6 @@ describe("executeQuery", () => {
   });
 
   beforeEach(async () => {
-    // complainantOfficerCN = (
-    //   await createCaseOfficer(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
-    // ).withId(1);
-
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
 
     civilianAC = new Civilian.Builder()
@@ -60,15 +52,6 @@ describe("executeQuery", () => {
     complainantOfficerPO = (
       await createCaseOfficer(EMPLOYEE_TYPE.OFFICER)
     ).withId(4);
-
-    // caseAttributes = createCaseAttributesBasedOnComplainants(
-    //   [],
-    //   [complainantOfficerCN],
-    //   "2020-02-02",
-    //   11
-    // );
-    // complainantCaseCN = await createCase(caseAttributes);
-    // await updateCaseStatus(complainantCaseCN, CASE_STATUS.CLOSED);
 
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianCC],
