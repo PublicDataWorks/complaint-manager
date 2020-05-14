@@ -1,5 +1,7 @@
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import { extractNotifications } from "./getNotifications";
+import moment from "moment";
 
 const asyncMiddleWare = require("../asyncMiddleware");
 
@@ -7,6 +9,8 @@ let clients = [];
 
 export const getMessageStream = asyncMiddleWare(
   async (request, response, next) => {
+    const timestamp = moment().subtract(30, "days");
+
     const realtimeNotificationsFeature = checkFeatureToggleEnabled(
       request,
       "realtimeNotificationsFeature"
@@ -42,7 +46,6 @@ export const getMessageStream = asyncMiddleWare(
     let isNewClient = true;
     clients = clients.map(client => {
       if (client.id === newClient.id) {
-        console.log("Client was replaced.");
         isNewClient = false;
         return newClient;
       } else {
@@ -50,9 +53,12 @@ export const getMessageStream = asyncMiddleWare(
       }
     });
     if (isNewClient) {
-      console.log("This is a new client");
       clients.push(newClient);
     }
+    sendNotification(
+      newClient.id,
+      await extractNotifications(timestamp, newClient.id)
+    );
 
     clients.map(client => console.log("ID", client.id));
 
