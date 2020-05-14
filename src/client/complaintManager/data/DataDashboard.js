@@ -9,10 +9,22 @@ class DataDashboard extends Component {
     return (
       <div>
         <NavBar menuType={complaintManagerMenuOptions}>Data Dashboard</NavBar>
-        <Visualization
-          data-testid={"dataVisualization"}
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column"
+          }}
+        >
+          <Visualization
+            data-testid={"intakeSourceGraph"}
+            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+          />
+          <br />
+          <Visualization
+            data-testid={"complainantTypeGraph"}
+            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+          />
+        </div>
       </div>
     );
   }

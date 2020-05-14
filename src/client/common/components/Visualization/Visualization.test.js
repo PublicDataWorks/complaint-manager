@@ -15,10 +15,73 @@ jest.mock("./PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
   return { PlotlyWrapper: FakeWrapper };
 });
+
 jest.mock("axios");
 
 describe("Visualization", () => {
-  test("should pass correct data and layout options to PlotlyWrapper", async () => {
+  test("should pass correct data and layout options to PlotlyWrapper for countComplaintsByComplainantType", async () => {
+    // Arrange
+    const responseBody = {
+      data: [
+        { complainantType: "Civilian Within NOPD (CN)" },
+        { complainantType: "Civilian (CC)" },
+        { complainantType: "Anonymous (AC)" },
+        { complainantType: "Anonymous (AC)" }
+      ]
+    };
+
+    axios.get.mockResolvedValue({ ...responseBody });
+
+    // Act
+    await act(async () => {
+      render(
+        <Visualization
+          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+        />
+      );
+    });
+
+    // Assert
+    expect(PlotlyWrapper).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            labels: expect.arrayContaining([
+              "Civilian Within NOPD (CN)",
+              "Civilian (CC)",
+              "Anonymous (AC)"
+            ]),
+            type: "pie",
+            values: expect.arrayContaining([1, 1, 2]),
+            marker: {
+              colors: COLORS
+            },
+            hoverinfo: "label+percent",
+            textinfo: "label+value",
+            textposition: "outside",
+            hole: 0.5
+          })
+        ]),
+        layout: expect.objectContaining({
+          title: {
+            text: "Complaints by Complainant Type",
+            font: TITLE_FONT
+          },
+          height: 600,
+          width: 800,
+          margin: {
+            b: 170
+          },
+          annotations: generateDonutCenterAnnotations(4),
+          showlegend: false,
+          font: LABEL_FONT
+        })
+      }),
+      {}
+    );
+  });
+
+  test("should pass correct data and layout options to PlotlyWrapper for countComplaintsByIntakeSource", async () => {
     // Arrange
     const responseBody = {
       data: [

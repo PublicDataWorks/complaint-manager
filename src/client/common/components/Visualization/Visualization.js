@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
 import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
+import * as countComplaintsByComplainantType from "./Transformers/countComplaintsByComplainantType";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
@@ -20,6 +21,11 @@ const Visualization = props => {
         switch (props.queryType) {
           case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
             transformedData = countComplaintsByIntakeSource.transformData(
+              response.data
+            );
+            break;
+          case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
+            transformedData = countComplaintsByComplainantType.transformData(
               response.data
             );
             break;
