@@ -4,6 +4,7 @@ import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
+import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 
 const getData = asyncMiddleware(async (request, response, next) => {
   let data;
@@ -15,6 +16,11 @@ const getData = asyncMiddleware(async (request, response, next) => {
       break;
     case QUERY_TYPES.COUNT_COMPLAINT_TOTALS:
       data = await countComplaintTotals.executeQuery(request.nickname);
+      break;
+    case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
+      data = await countComplaintsByComplainantType.executeQuery(
+        request.nickname
+      );
       break;
     default:
       return next(
