@@ -35,7 +35,14 @@ describe("DataDashboard", () => {
   test("should display Complaints by Intake Source Visualization", async () => {
     dataDashboardWrapper.update();
     expect(
-      dataDashboardWrapper.find('[data-testid="dataVisualization"]').exists()
+      dataDashboardWrapper.find('[data-testid="intakeSourceGraph"]').exists()
+    ).toBeTrue();
+  });
+
+  test("should display Complaints by Complainant Type Visualization", async () => {
+    dataDashboardWrapper.update();
+    expect(
+      dataDashboardWrapper.find('[data-testid="complainantTypeGraph"]').exists()
     ).toBeTrue();
   });
 });
