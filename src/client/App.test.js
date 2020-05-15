@@ -1,4 +1,3 @@
-import { stringContaining } from "expect";
 import createConfiguredStore from "./createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
@@ -7,6 +6,14 @@ import App from "./App";
 import { getFeaturesSuccess } from "./complaintManager/actionCreators/featureTogglesActionCreators";
 import { mockLocalStorage } from "../mockLocalStorage";
 import { userAuthSuccess } from "./common/auth/actionCreators";
+import getNotifications from "./complaintManager/shared/thunks/getNotifications";
+import EventSource from "eventsourcemock";
+import { sources } from "eventsourcemock";
+import config from "./common/config/config";
+
+Object.defineProperty(window, "EventSource", {
+  value: EventSource
+});
 
 jest.mock("./common/components/Visualization/PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
@@ -19,16 +26,24 @@ jest.mock("./common/auth/Auth", () =>
   }))
 );
 
-describe("App", () => {
-  let eventSourceMock = jest.fn();
-  let wrapper, store, dispatchSpy;
+jest.mock(
+  "./complaintManager/shared/thunks/getNotifications",
+  () => values => ({
+    type: "MOCK_THUNK",
+    values: values
+  })
+);
 
-  process.env.REACT_APP_ENV = "test";
+process.env.REACT_APP_ENV = "test";
+const backendUrl = config[process.env.REACT_APP_ENV].backendUrl;
+
+describe("App", () => {
+  let wrapper, store, dispatchSpy;
+  const eventSourceUrl = `${backendUrl}/api/messageStream?token=MOCK_TOKEN`;
 
   beforeEach(() => {
     mockLocalStorage();
     window.localStorage.__proto__.getItem.mockReturnValue("MOCK_TOKEN");
-    window.EventSource = eventSourceMock;
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -51,14 +66,59 @@ describe("App", () => {
     );
   });
 
-  test("Creates an eventSource only on first render", () => {
-    expect(eventSourceMock).toHaveBeenCalledWith(
-      stringContaining("/api/messageStream?token=MOCK_TOKEN")
-    );
+  test("should create an eventSource at correct location with correct token and connection opened at correct time", () => {
+    expect(sources[eventSourceUrl].readyState).toBe(0);
+    sources[eventSourceUrl].emitOpen();
 
-    // Triggers a re-render
+    expect(sources[eventSourceUrl].readyState).toBe(1);
+
+    for (let [key] of Object.entries(sources)) {
+      expect(key).toEqual(eventSourceUrl);
+    }
+  });
+
+  test("should creates an eventSource only on first render and stay open", () => {
+    expect(sources[eventSourceUrl].readyState).toBe(0);
+    sources[eventSourceUrl].emitOpen();
+
+    expect(sources[eventSourceUrl].readyState).toBe(1);
+
+    const connection = {
+      type: "connection",
+      message: "connection succeeded"
+    };
+    const jsonConnect = JSON.stringify(connection);
+    sources[eventSourceUrl].emitMessage(jsonConnect);
+
+    expect(sources[eventSourceUrl].readyState).toBe(1);
+
+    // Triggers a re-rerender
     wrapper.update();
 
-    expect(eventSourceMock).toHaveBeenCalledTimes(1);
+    expect(sources[eventSourceUrl].readyState).toBe(1);
+  });
+
+  test("getNotifications should be dispatched when bell is clicked to open drawer ONLY", () => {
+    const notifications = {
+      type: "notifications",
+      message: [
+        { user: "MOCK_USER", hasBeenRead: true },
+        { user: "MOCK_USER", hasBeenRead: false }
+      ]
+    };
+    const jsonNotifications = JSON.stringify(notifications);
+
+    sources[eventSourceUrl].emitOpen();
+
+    sources[eventSourceUrl].emitMessage(jsonNotifications);
+
+    expect(dispatchSpy).toHaveBeenLastCalledWith(
+      getNotifications(notifications.message)
+    );
+  });
+
+  test("should close the EventSource on unmount", () => {
+    wrapper.unmount();
+    expect(sources[eventSourceUrl].readyState).toBe(2);
   });
 });
