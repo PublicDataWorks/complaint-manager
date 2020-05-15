@@ -9,8 +9,6 @@ let clients = [];
 
 export const getMessageStream = asyncMiddleWare(
   async (request, response, next) => {
-    const timestamp = moment().subtract(30, "days");
-
     const realtimeNotificationsFeature = checkFeatureToggleEnabled(
       request,
       "realtimeNotificationsFeature"
@@ -19,43 +17,21 @@ export const getMessageStream = asyncMiddleWare(
       throw new Error(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
     }
 
-    response.setHeader("Cache-Control", "no-cache");
-    response.setHeader("Content-Type", "text/event-stream");
-    response.setHeader("Connection", "keep-alive");
-
-    const env = process.env.NODE_ENV || "development";
-    if (env === "development") {
-      response.setHeader("Access-Control-Allow-Origin", "https://localhost");
-    }
+    setResHeaders(response);
 
     const clientEmail = request.nickname;
-    const jsonMessage = {
+    const jsonConnectionMessage = {
       type: "connection",
       message: `${clientEmail} has subscribed to streaming messages including Notifications.`
     };
-    response.write(`data: ${JSON.stringify(jsonMessage)} \n\n`);
+    response.write(`data: ${JSON.stringify(jsonConnectionMessage)} \n\n`);
 
     const newClient = {
       id: clientEmail,
       response: response
     };
 
-    let isNewClient = true;
-    clients = clients.map(client => {
-      if (client.id === newClient.id) {
-        isNewClient = false;
-        return newClient;
-      } else {
-        return client;
-      }
-    });
-    if (isNewClient) {
-      clients.push(newClient);
-    }
-    sendNotification(
-      newClient.id,
-      await getNotifications(timestamp, newClient.id)
-    );
+    await handleClients(newClient);
 
     request.on("close", () => {
       clients = clients.filter(c => c.id !== clientEmail);
@@ -68,6 +44,38 @@ export const getMessageStream = asyncMiddleWare(
     }, 30 * 1000);
   }
 );
+
+const setResHeaders = response => {
+  response.setHeader("Cache-Control", "no-cache");
+  response.setHeader("Content-Type", "text/event-stream");
+  response.setHeader("Connection", "keep-alive");
+
+  const env = process.env.NODE_ENV || "development";
+  if (env === "development") {
+    response.setHeader("Access-Control-Allow-Origin", "https://localhost");
+  }
+};
+
+const handleClients = async newClient => {
+  let isNewClient = true;
+  clients = clients.map(client => {
+    if (client.id === newClient.id) {
+      isNewClient = false;
+      return newClient;
+    } else {
+      return client;
+    }
+  });
+  if (isNewClient) {
+    clients.push(newClient);
+  }
+
+  const timestamp = moment().subtract(30, "days");
+  sendNotification(
+    newClient.id,
+    await getNotifications(timestamp, newClient.id)
+  );
+};
 
 export const getClients = () => {
   return clients;
