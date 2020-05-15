@@ -1,6 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
-const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 import sequelize from "sequelize";
 import {
@@ -12,7 +11,7 @@ import {
 import auditDataAccess from "../audits/auditDataAccess";
 import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 
-const extractNotifications = async (date, userEmail) => {
+const getNotifications = async (date, userEmail) => {
   const params = {
     where: {
       updatedAt: { [sequelize.Op.gt]: date },
@@ -114,31 +113,23 @@ const extractNotifications = async (date, userEmail) => {
       return notification;
     })
   );
-  await models.sequelize
-    .transaction(async transaction => {
-      await auditDataAccess(
-        userEmail,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
-        { users: { attributes: ["name", "email"] } },
-        transaction
-      );
-    })
-    .catch(err => {
-      // Transaction has been rolled back
-      throw err;
-    });
+  // await models.sequelize
+  //   .transaction(async transaction => {
+  //     await auditDataAccess(
+  //       userEmail,
+  //       null,
+  //       MANAGER_TYPE.COMPLAINT,
+  //       AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
+  //       { users: { attributes: ["name", "email"] } },
+  //       transaction
+  //     );
+  //   })
+  //   .catch(err => {
+  //     // Transaction has been rolled back
+  //     throw err;
+  //   });
 
   return notifications;
 };
 
-const getNotifications = asyncMiddleWare(async (request, response, next) => {
-  const notifications = await extractNotifications(
-    request.query.timestamp,
-    request.params.user
-  );
-  response.send(notifications);
-});
-
-module.exports = { getNotifications, extractNotifications };
+module.exports = getNotifications;

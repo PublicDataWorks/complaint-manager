@@ -42,7 +42,6 @@ class App extends Component {
       token &&
       !this.eventSource
     ) {
-      console.log("Creating EventSource for ", this.props.currentUser.nickname);
       this.eventSource = new EventSource(
         `${
           config[process.env.REACT_APP_ENV].backendUrl
