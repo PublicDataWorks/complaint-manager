@@ -9,12 +9,6 @@ import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import getNotifications from "../../thunks/getNotifications";
-
-jest.mock("../../thunks/getNotifications", () => values => ({
-  type: "MOCK_THUNK",
-  values
-}));
 
 describe("NavBar", () => {
   let wrapper, store, dispatchSpy;
@@ -73,10 +67,7 @@ describe("NavBar", () => {
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
       backdrop.simulate("click");
 
-      const menu = wrapper
-        .find(NavBar)
-        .find('[data-testid="menu"]')
-        .first();
+      const menu = wrapper.find(NavBar).find('[data-testid="menu"]').first();
 
       expect(menu.props()).toHaveProperty("open", false);
     });
@@ -135,22 +126,6 @@ describe("NavBar", () => {
           notificationFeature: true
         })
       );
-    });
-
-    test("getNotifications should be dispatched when bell is clicked to open drawer ONLY", () => {
-      wrapper.update();
-      const notificationBell = wrapper
-        .find('[data-testid="notificationBell"]')
-        .first();
-
-      notificationBell.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(getNotifications(""));
-
-      dispatchSpy.mockClear();
-      notificationBell.simulate("click");
-
-      expect(dispatchSpy).not.toHaveBeenCalledWith(getNotifications(""));
     });
   });
 });

@@ -1,14 +1,8 @@
-import axios from "axios";
 import { getNotificationsSuccess } from "../../actionCreators/notificationActionCreators";
-import moment from "moment";
 
-const getNotifications = user => async dispatch => {
-  const thirtyDaysAgo = moment().subtract(30, "days");
-
+const getNotifications = notifications => async dispatch => {
   try {
-    const url = `/api/notifications/${user}/?timestamp=${thirtyDaysAgo}`;
-    const response = await axios.get(url);
-    return dispatch(getNotificationsSuccess(response.data));
+    return dispatch(getNotificationsSuccess(notifications));
   } catch (error) {
     console.error(error);
   }

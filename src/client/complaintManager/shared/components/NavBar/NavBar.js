@@ -10,14 +10,12 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import ExportConfirmationDialog from "../../../export/ExportConfirmationDialog";
 import MenuNavigator from "./MenuNavigator";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import NotificationDrawer from "../Notification/NotificationDrawer";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import NotificationsIcon from "@material-ui/icons/Notifications";
-import getNotifications from "../../thunks/getNotifications";
 
 class NavBar extends Component {
   state = {
@@ -44,9 +42,6 @@ class NavBar extends Component {
 
   handleNotificationClick = () => {
     const open = this.state.notificationDrawer;
-    if (!open) {
-      this.props.getNotifications(this.props.nickname);
-    }
     this.setState({
       notificationDrawer: !open
     });
@@ -151,8 +146,4 @@ const mapStateToProps = state => ({
   featureToggles: state.featureToggles
 });
 
-const mapDispatchToProps = {
-  getNotifications
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps)(NavBar);
