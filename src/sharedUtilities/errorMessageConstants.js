@@ -69,7 +69,9 @@ export const INTERNAL_ERRORS = {
   USER_MANAGEMENT_API_TOKEN_FAILURE:
     "Could not retrieve user management api token",
   USER_MANAGEMENT_API_GET_USERS_FAILURE:
-    "Could not retrieve user data from authentication server"
+    "Could not retrieve user data from authentication server",
+  NOTIFICATIONS_RETRIEVAL_FAILURE:
+    "Something went wrong while refreshing your notifications."
 };
 
 export const AWS_ERRORS = {
