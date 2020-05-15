@@ -7,7 +7,7 @@ import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import moment from "moment";
 import { sendNotification } from "../getMessageStream";
-import { extractNotifications } from "../getNotifications";
+import getNotifications from "../getNotifications";
 
 const {
   AUDIT_SUBJECT,
@@ -122,16 +122,14 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
     const userWithNotif = currentCase.usersWithNotifs[user];
     sendNotification(
       userWithNotif,
-      await extractNotifications(timestamp, userWithNotif)
+      await getNotifications(timestamp, userWithNotif)
     );
   }
 
-  response
-    .status(200)
-    .send({
-      caseNotes: currentCase.caseNotes,
-      caseDetails: currentCase.caseDetails
-    });
+  response.status(200).send({
+    caseNotes: currentCase.caseNotes,
+    caseDetails: currentCase.caseDetails
+  });
 });
 
 module.exports = removeCaseNote;

@@ -1,6 +1,6 @@
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import { extractNotifications } from "./getNotifications";
+import getNotifications from "./getNotifications";
 import moment from "moment";
 
 const asyncMiddleWare = require("../asyncMiddleware");
@@ -22,7 +22,7 @@ export const getMessageStream = asyncMiddleWare(
     response.setHeader("Cache-Control", "no-cache");
     response.setHeader("Content-Type", "text/event-stream");
     response.setHeader("Connection", "keep-alive");
-    // only set this header in local
+
     const env = process.env.NODE_ENV || "development";
     if (env === "development") {
       response.setHeader("Access-Control-Allow-Origin", "https://localhost");
@@ -35,14 +35,11 @@ export const getMessageStream = asyncMiddleWare(
     };
     response.write(`data: ${JSON.stringify(jsonMessage)} \n\n`);
 
-    console.log("Initial Message sent from Message Stream");
-
     const newClient = {
       id: clientEmail,
       response: response
     };
 
-    // replace any old connect with new connection if client is in clients array already
     let isNewClient = true;
     clients = clients.map(client => {
       if (client.id === newClient.id) {
@@ -57,15 +54,10 @@ export const getMessageStream = asyncMiddleWare(
     }
     sendNotification(
       newClient.id,
-      await extractNotifications(timestamp, newClient.id)
+      await getNotifications(timestamp, newClient.id)
     );
 
-    clients.map(client => console.log("ID", client.id));
-
-    // When client closes connection we update the clients list
-    // avoiding the disconnected one
     request.on("close", () => {
-      console.log(`${clientEmail} Connection closed`);
       clients = clients.filter(c => c.id !== clientEmail);
     });
 
@@ -81,7 +73,6 @@ export const getClients = () => {
   return clients;
 };
 
-// Iterate clients list and use write res object method to send messages to all
 export const sendNotification = (user, message) => {
   const jsonMessage = { type: "notifications", message: message };
   clients.forEach(c => {

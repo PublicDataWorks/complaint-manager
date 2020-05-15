@@ -481,13 +481,6 @@ export const API_ROUTES = {
         "Something went wrong and message stream could not be created. Please try again."
     }
   },
-  "/notifications/:user": {
-    get: {
-      handler: getNotifications,
-      errorMessage:
-        "Something went wrong and notifications could not be retrieved. Please try again."
-    }
-  },
   "/notifications/:caseNoteId/:notificationId": {
     get: {
       handler: getNotificationStatus,

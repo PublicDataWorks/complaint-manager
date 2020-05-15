@@ -8,7 +8,7 @@ import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import moment from "moment";
 import { sendNotification } from "../getMessageStream";
-import { extractNotifications } from "../getNotifications";
+import getNotifications from "../getNotifications";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -98,7 +98,7 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
     const userWithNotif = caseNotes.usersWithNotifs[user];
     sendNotification(
       userWithNotif,
-      await extractNotifications(timestamp, userWithNotif)
+      await getNotifications(timestamp, userWithNotif)
     );
   }
 

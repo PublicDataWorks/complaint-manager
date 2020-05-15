@@ -6,7 +6,7 @@ import Boom from "boom";
 import { handleNotifications } from "./helpers/handleNotifications";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "./getMessageStream";
-import { extractNotifications } from "./getNotifications";
+import getNotifications from "./getNotifications";
 import moment from "moment";
 
 const {
@@ -104,16 +104,14 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     const userWithNotif = currentCase.usersWithNotifs[user];
     sendNotification(
       userWithNotif,
-      await extractNotifications(timestamp, userWithNotif)
+      await getNotifications(timestamp, userWithNotif)
     );
   }
 
-  response
-    .status(201)
-    .send({
-      caseNotes: currentCase.caseNotes,
-      caseDetails: currentCase.caseDetails
-    });
+  response.status(201).send({
+    caseNotes: currentCase.caseNotes,
+    caseDetails: currentCase.caseDetails
+  });
 });
 
 async function getCaseNotesAndAuditDetails(caseId, transaction) {
