@@ -10,6 +10,8 @@ import getNotifications from "./complaintManager/shared/thunks/getNotifications"
 import EventSource from "eventsourcemock";
 import { sources } from "eventsourcemock";
 import config from "./common/config/config";
+import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
+import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 
 Object.defineProperty(window, "EventSource", {
   value: EventSource
@@ -114,6 +116,16 @@ describe("App", () => {
 
     expect(dispatchSpy).toHaveBeenLastCalledWith(
       getNotifications(notifications.message)
+    );
+  });
+
+  test("should dispatch red snackbar when eventSource receives an error", () => {
+    sources[eventSourceUrl].emitOpen();
+
+    sources[eventSourceUrl].emitError();
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      snackbarError(INTERNAL_ERRORS.NOTIFICATIONS_RETRIEVAL_FAILURE)
     );
   });
 

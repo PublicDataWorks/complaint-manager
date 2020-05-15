@@ -15,6 +15,8 @@ import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatu
 import config from "./common/config/config";
 import { onMessage } from "./onMessage";
 import getNotifications from "./complaintManager/shared/thunks/getNotifications";
+import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
+import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 
 class App extends Component {
   eventSource = undefined;
@@ -54,8 +56,10 @@ class App extends Component {
         onMessage(parsedData, this.props.getNotifications);
       };
 
-      this.eventSource.onerror = event => {
-        console.log("Error from Event Stream", event);
+      this.eventSource.onerror = () => {
+        this.props.snackbarError(
+          INTERNAL_ERRORS.NOTIFICATIONS_RETRIEVAL_FAILURE
+        );
       };
     }
 
@@ -87,7 +91,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   userAuthSuccess,
   getFeatureToggles,
-  getNotifications
+  getNotifications,
+  snackbarError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

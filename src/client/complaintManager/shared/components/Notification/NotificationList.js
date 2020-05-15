@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NotificationCard from "./NotificationCard";
 import { connect } from "react-redux";
