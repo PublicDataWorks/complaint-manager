@@ -1,7 +1,26 @@
-import { getClients, getMessageStream } from "./getMessageStream";
+import {
+  getClients,
+  getMessageStream,
+  isActiveClient,
+  sendNotification
+} from "./getMessageStream";
 import mockFflipObject from "../../testHelpers/mockFflipObject";
+import { sendMessage } from "./helpers/messageStreamHelpers";
 
 const httpMocks = require("node-mocks-http");
+
+jest.mock("./getNotifications", () => ({
+  getNotifications: jest.fn(() => {
+    return [
+      { user: "wancheny@gmail.com", hasBeenRead: true },
+      { user: "random@gmail.com", hasBeenRead: false }
+    ];
+  })
+}));
+
+jest.mock("./helpers/messageStreamHelpers", () => ({
+  sendMessage: jest.fn()
+}));
 
 describe("get message stream", () => {
   let request, response, next;
@@ -71,5 +90,30 @@ describe("get message stream", () => {
       expect.objectContaining({ id: "test1@test.com" }),
       expect.objectContaining({ id: "test2@test.com" })
     ]);
+  });
+
+  test("should return only active clients", () => {
+    const activeClient = isActiveClient("test@test.com");
+
+    expect(activeClient).toEqual(
+      expect.objectContaining({ id: "test@test.com" })
+    );
+
+    const undefindClient = isActiveClient("test3@test.com");
+
+    expect(undefindClient).toEqual(undefined);
+  });
+
+  test("should call sendMessage and getNotifications from sendNotifications", async () => {
+    await sendNotification("test@test.com");
+
+    expect(sendMessage).toHaveBeenCalledWith(
+      "notifications",
+      isActiveClient("test@test.com"),
+      [
+        { user: "wancheny@gmail.com", hasBeenRead: true },
+        { user: "random@gmail.com", hasBeenRead: false }
+      ]
+    );
   });
 });
