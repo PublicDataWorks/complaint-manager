@@ -16,6 +16,7 @@ import styles from "../../../../common/globalStyling/styles";
 import NotificationDrawer from "../Notification/NotificationDrawer";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 
 class NavBar extends Component {
   state = {
@@ -42,6 +43,9 @@ class NavBar extends Component {
 
   handleNotificationClick = () => {
     const open = this.state.notificationDrawer;
+    if (!open && !this.props.realtimeNotificationFeature) {
+      this.props.getNotificationsForUser(this.props.nickname);
+    }
     this.setState({
       notificationDrawer: !open
     });
@@ -143,7 +147,12 @@ const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
   permissions: state.users.current.userInfo.permissions,
   notificationFeature: state.featureToggles.notificationFeature,
+  realtimeNotificationFeature: state.featureToggles.realtimeNotificationFeature,
   featureToggles: state.featureToggles
 });
 
-export default connect(mapStateToProps)(NavBar);
+const mapDispatchToProps = {
+  getNotificationsForUser
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -107,12 +107,7 @@ describe("createCaseNote", function () {
           user: "test@test.com"
         })
       );
-      expect(sendNotification).toHaveBeenCalledWith(
-        "test@test.com",
-        expect.arrayContaining([
-          expect.objectContaining({ user: "test@test.com" })
-        ])
-      );
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
 
     test("should throw error if error in mentionedUsers list", async () => {

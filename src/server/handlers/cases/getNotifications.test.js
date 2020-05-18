@@ -5,12 +5,14 @@ import Case from "../../../client/complaintManager/testUtilities/case";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
 import Notification from "../../../client/complaintManager/testUtilities/notification";
-import getNotifications from "./getNotifications";
+import { getNotifications, extractNotifications } from "./getNotifications";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
+
+const httpMocks = require("node-mocks-http");
 
 jest.mock("../../common/handlers/users/getUsers", () => ({
   getUsersFromAuth0: jest.fn(() => {
@@ -202,6 +204,29 @@ describe("getNotifications", () => {
     const notifications = await getNotifications(timestamp, currentNotif.user);
 
     expect(notifications[0].caseReference).toEqual("AC2017-0001");
+  });
+
+  test("getNotifications called correctly from exractNotifications", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: { user: currentNotif.user },
+      query: { timestamp: timestamp },
+      nickname: "tuser"
+    });
+
+    const response = httpMocks.createResponse();
+    const next = jest.fn();
+
+    await extractNotifications(request, response, next);
+
+    expect(response._getData()).toEqual([
+      expect.objectContaining({
+        user: "seanrut@gmail.com"
+      })
+    ]);
   });
 
   describe("sorting notifications", () => {

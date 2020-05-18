@@ -1,5 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-
+const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 import sequelize from "sequelize";
 import {
@@ -132,4 +132,14 @@ const getNotifications = async (date, userEmail) => {
   return notifications;
 };
 
-module.exports = getNotifications;
+const extractNotifications = asyncMiddleWare(
+  async (request, response, next) => {
+    const notifications = await getNotifications(
+      request.query.timestamp,
+      request.params.user
+    );
+    response.send(notifications);
+  }
+);
+
+module.exports = { getNotifications, extractNotifications };

@@ -6,9 +6,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { handleNotifications } from "../helpers/handleNotifications";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
-import moment from "moment";
 import { sendNotification } from "../getMessageStream";
-import getNotifications from "../getNotifications";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -92,14 +90,9 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  const timestamp = moment().subtract(30, "days");
-
   for (const user in caseNotes.usersWithNotifs) {
     const userWithNotif = caseNotes.usersWithNotifs[user];
-    sendNotification(
-      userWithNotif,
-      await getNotifications(timestamp, userWithNotif)
-    );
+    await sendNotification(userWithNotif);
   }
 
   response.status(200).send([...caseNotes.caseNotes]);
