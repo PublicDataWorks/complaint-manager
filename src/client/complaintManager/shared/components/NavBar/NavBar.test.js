@@ -9,6 +9,12 @@ import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
+import getNotificationsForUser from "../../thunks/getNotificationsForUser";
+
+jest.mock("../../thunks/getNotificationsForUser", () => values => ({
+  type: "MOCK_THUNK",
+  values
+}));
 
 describe("NavBar", () => {
   let wrapper, store, dispatchSpy;
@@ -123,9 +129,26 @@ describe("NavBar", () => {
     beforeEach(() => {
       store.dispatch(
         getFeaturesSuccess({
-          notificationFeature: true
+          notificationFeature: true,
+          realtimeNotificationFeature: false
         })
       );
+    });
+
+    test("getNotifications should be dispatched when bell is clicked to open drawer ONLY", () => {
+      wrapper.update();
+      const notificationBell = wrapper
+        .find('[data-testid="notificationBell"]')
+        .first();
+
+      notificationBell.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(getNotificationsForUser(""));
+
+      dispatchSpy.mockClear();
+      notificationBell.simulate("click");
+
+      expect(dispatchSpy).not.toHaveBeenCalledWith(getNotificationsForUser(""));
     });
   });
 });

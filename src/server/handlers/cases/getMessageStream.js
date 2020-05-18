@@ -1,6 +1,6 @@
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import getNotifications from "./getNotifications";
+import { getNotifications } from "./getNotifications";
 import moment from "moment";
 
 const asyncMiddleWare = require("../asyncMiddleware");
@@ -70,22 +70,33 @@ const handleClients = async newClient => {
     clients.push(newClient);
   }
 
-  const timestamp = moment().subtract(30, "days");
-  sendNotification(
-    newClient.id,
-    await getNotifications(timestamp, newClient.id)
-  );
+  await sendNotification(newClient.id);
 };
 
 export const getClients = () => {
   return clients;
 };
 
-export const sendNotification = (user, message) => {
-  const jsonMessage = { type: "notifications", message: message };
-  clients.forEach(c => {
-    if (c.id === user) {
-      c.response.write(`data: ${JSON.stringify(jsonMessage)}\n\n`);
+const isActiveClient = client => {
+  let isActive = false;
+  clients.map(c => {
+    if (c.id === client) {
+      isActive = true;
     }
   });
+  return isActive;
+};
+
+export const sendNotification = async user => {
+  if (isActiveClient(user)) {
+    const timestamp = moment().subtract(30, "days");
+    const message = await getNotifications(timestamp, user);
+
+    clients.forEach(c => {
+      if (c.id === user) {
+        const jsonMessage = { type: "notifications", message: message };
+        c.response.write(`data: ${JSON.stringify(jsonMessage)}\n\n`);
+      }
+    });
+  }
 };

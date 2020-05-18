@@ -202,12 +202,7 @@ describe("editCaseNote", function () {
         })
       );
 
-      expect(sendNotification).toHaveBeenCalledWith(
-        "test@test.com",
-        expect.arrayContaining([
-          expect.objectContaining({ user: "test@test.com" })
-        ])
-      );
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
 
     test("should throw error if error in mentionedUsers list", async () => {
@@ -289,12 +284,7 @@ describe("editCaseNote", function () {
 
       expect(previousTimeStamp).not.toEqual(currentTimeStamp);
 
-      expect(sendNotification).toHaveBeenCalledWith(
-        "test@test.com",
-        expect.arrayContaining([
-          expect.objectContaining({ user: "test@test.com" })
-        ])
-      );
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
 
     test("should delete previous notification when user is no longer mentioned in case note", async () => {
@@ -321,12 +311,7 @@ describe("editCaseNote", function () {
 
       expect(notification).toEqual([]);
 
-      expect(sendNotification).toHaveBeenCalledWith(
-        "test@test.com",
-        expect.arrayContaining([
-          expect.objectContaining({ user: "test@test.com" })
-        ])
-      );
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
   });
 

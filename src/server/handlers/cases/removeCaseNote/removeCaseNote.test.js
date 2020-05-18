@@ -153,10 +153,7 @@ describe("RemoveCaseNote unit", () => {
       expect.objectContaining({ deletedAt: null })
     );
 
-    expect(sendNotification).toHaveBeenCalledWith(
-      "test@test.com",
-      expect.arrayContaining([])
-    );
+    expect(sendNotification).toHaveBeenCalledWith("test@test.com");
   });
 
   describe("auditing", () => {
