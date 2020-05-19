@@ -310,6 +310,8 @@ export const AUDIT_SUBJECT = {
   NOTIFICATIONS: "Notifications",
   VISUALIZATION_INTAKE_SOURCE:
     "All Complaint Data for Complaints by Intake Source",
+  VISUALIZATION_COMPLAINANT_TYPE:
+    "All Complaint Data for Complaints by Complainant Type",
   COMPLAINT_TOTAL_YTD: "Complaint Count for Complaints Year to Date",
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
     "Complaint Count for Complaints in the Previous Year"
@@ -416,12 +418,14 @@ export const DECLINES_OPTION = "Declines to classify";
 
 export const QUERY_TYPES = {
   COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource",
-  COUNT_COMPLAINT_TOTALS: "countComplaintTotals"
+  COUNT_COMPLAINT_TOTALS: "countComplaintTotals",
+  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType"
 };
 
 export const QUERY_TYPE_FILE_MAP = {
   COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource.js",
-  COUNT_COMPLAINT_TOTALS: "countComplaintTotals.js"
+  COUNT_COMPLAINT_TOTALS: "countComplaintTotals.js",
+  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType.js"
 };
 
 // ----------------------------------------
@@ -505,6 +509,11 @@ export const ALLEGATION_SEVERITY = {
   HIGH: "High",
   ALL: ["Low", "Medium", "High"]
 };
+// ----------------------------------------
+//               NODE_CACHE
+// ----------------------------------------
+export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY"
+export const TTL_SEC = 60 * 60;
 
 // ----------------------------------------
 //               Image URLs

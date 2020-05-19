@@ -10,7 +10,8 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
-import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
+
+const auth0UserService = require("../../services/auth0UserServices");
 
 const getNotifications = asyncMiddleWare(async (request, response, next) => {
   const params = {
@@ -33,7 +34,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
 
   const getUsers = async () => {
     try {
-      return await getUsersFromAuth0();
+      return await auth0UserService.getUsersFromAuth0();
     } catch (error) {
       return [];
     }

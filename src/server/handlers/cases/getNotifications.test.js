@@ -9,11 +9,11 @@ import {
 } from "../../../sharedUtilities/constants";
 import moment, { utc } from "moment";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
-import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
+const auth0UserServices = require("../../services/auth0UserServices");
 
-jest.mock("../../common/handlers/users/getUsers", () => ({
+jest.mock("../../services/auth0UserServices", () => ({
   getUsersFromAuth0: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
@@ -199,7 +199,7 @@ describe("getNotifications", () => {
   test("should call getUsersFromAuth0 when getting notifications", async () => {
     await getNotifications(request, response, next);
 
-    expect(getUsersFromAuth0).toHaveBeenCalled();
+    expect(auth0UserServices.getUsersFromAuth0).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {
