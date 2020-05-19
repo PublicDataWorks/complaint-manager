@@ -35,7 +35,7 @@ describe("Error Handling", () => {
                 .replyWithError({message: customError, code: 500});
 
             try {
-                await Auth0UserService.getUsersFromAuth0();
+                await Auth0UserService.getUsers();
             } catch (e) {
                 expect(e).toBeInstanceOf(Boom)
                 expect(e.message).toMatch(INTERNAL_ERRORS.USER_MANAGEMENT_API_TOKEN_FAILURE);
@@ -76,7 +76,7 @@ describe("Error Handling", () => {
                 .replyWithError({message: customError, code: 500});
 
             try {
-                await Auth0UserService.getUsersFromAuth0();
+                await Auth0UserService.getUsers();
             } catch (e) {
                 expect(e).toBeInstanceOf(Boom)
                 expect(e.message).toMatch(INTERNAL_ERRORS.USER_MANAGEMENT_API_GET_USERS_FAILURE);
@@ -146,7 +146,7 @@ describe("Auth0UserService", () => {
     test(
         "should call auth0 token api to get bearer token and should call get_users endpoint from auth0 api",
         suppressWinstonLogs(async () => {
-            const auth0Users = await Auth0UserService.getUsersFromAuth0();
+            const auth0Users = await Auth0UserService.getUsers();
 
             expect(tokenCall.isDone()).toBeTrue();
             expect(getUsersCall.isDone()).toBeTrue();
@@ -163,7 +163,7 @@ describe("Auth0UserService", () => {
     test(
         "should not call Auth0 for subsequent Calls",
         suppressWinstonLogs(async () => {
-            const auth0Users = await Auth0UserService.getUsersFromAuth0();
+            const auth0Users = await Auth0UserService.getUsers();
 
             expect(tokenCall.isDone()).not.toBeTrue();
             expect(getUsersCall.isDone()).not.toBeTrue();

@@ -9,7 +9,7 @@ const auth0UserService = require("../../../services/auth0UserServices");
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
-    const transformedUserData = await auth0UserService.getUsersFromAuth0();
+    const transformedUserData = await auth0UserService.getUsers();
     await models.sequelize
         .transaction(async transaction => {
             await auditDataAccess(
