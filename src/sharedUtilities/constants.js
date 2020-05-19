@@ -509,6 +509,11 @@ export const ALLEGATION_SEVERITY = {
   HIGH: "High",
   ALL: ["Low", "Medium", "High"]
 };
+// ----------------------------------------
+//               NODE_CACHE
+// ----------------------------------------
+export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY"
+export const TTL_SEC = 60 * 60;
 
 // ----------------------------------------
 //               Image URLs
