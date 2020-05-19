@@ -13,7 +13,7 @@ const key = AUTH0_USERS_CACHE_KEY
 let users;
 let cache = new NodeCache({stdTTL: TTL_SEC})
 
-export const getUsersFromAuth0 = async () => {
+export const getUsers = async () => {
     if (cache.has(key)) {
         users = cache.get(key)
         if (users) return users;

@@ -34,7 +34,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
 
   const getUsers = async () => {
     try {
-      return await auth0UserService.getUsersFromAuth0();
+      return await auth0UserService.getUsers();
     } catch (error) {
       return [];
     }
