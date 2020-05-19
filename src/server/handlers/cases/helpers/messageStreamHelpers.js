@@ -1,4 +1,4 @@
-export const sendMessage = (type, user, message) => {
+export const sendMessage = (type, client, message) => {
   const jsonMessage = { type: type, message: message };
-  user.response.write(`data: ${JSON.stringify(jsonMessage)}\n\n`);
+  client.response.write(`data: ${JSON.stringify(jsonMessage)}\n\n`);
 };

@@ -21,6 +21,7 @@ export const getMessageStream = asyncMiddleWare(
     setResHeaders(response);
 
     const clientEmail = request.nickname;
+    const clientId = Date.now();
     const jsonConnectionMessage = {
       type: "connection",
       message: `${clientEmail} has subscribed to streaming messages including Notifications.`
@@ -28,14 +29,17 @@ export const getMessageStream = asyncMiddleWare(
     response.write(`data: ${JSON.stringify(jsonConnectionMessage)} \n\n`);
 
     const newClient = {
-      id: clientEmail,
+      id: clientId,
+      email: clientEmail,
       response: response
     };
 
-    await handleClients(newClient);
+    clients.push(newClient);
+
+    await sendNotification(newClient.email);
 
     request.on("close", () => {
-      clients = clients.filter(c => c.id !== clientEmail);
+      clients = clients.filter(c => c.id !== clientId);
     });
 
     const jsonPingMessage = { type: "ping", message: "PING!" };
@@ -60,43 +64,27 @@ const setResHeaders = response => {
   }
 };
 
-const handleClients = async newClient => {
-  let isNewClient = true;
-  clients = clients.map(client => {
-    if (client.id === newClient.id) {
-      isNewClient = false;
-      return newClient;
-    } else {
-      return client;
-    }
-  });
-  if (isNewClient) {
-    clients.push(newClient);
-  }
-
-  await sendNotification(newClient.id);
-};
-
 export const getClients = () => {
   return clients;
 };
 
-export const isActiveClient = client => {
-  let isActive = undefined;
+export const getActiveClients = clientEmail => {
+  let activeClients = [];
   clients.map(c => {
-    if (c.id === client) {
-      isActive = c;
+    if (c.email === clientEmail) {
+      activeClients.push(c);
     }
   });
-  return isActive;
+  return activeClients;
 };
 
-export const sendNotification = async user => {
-  let client = isActiveClient(user);
-  if (client) {
+export const sendNotification = async userEmail => {
+  let activeClients = getActiveClients(userEmail);
+  for (const activeClient in activeClients) {
+    const currentClient = activeClients[activeClient];
     const timestamp = moment().subtract(30, "days");
-    const message = await getNotifications(timestamp, client.id);
+    const message = await getNotifications(timestamp, currentClient.email);
 
-    sendMessage("notifications", client, message);
+    sendMessage("notifications", currentClient, message);
   }
 };

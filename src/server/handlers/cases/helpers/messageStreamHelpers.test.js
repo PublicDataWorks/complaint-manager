@@ -5,7 +5,7 @@ const httpMocks = require("node-mocks-http");
 describe("message stream helpers", () => {
   test("sendMessage should write message to response", () => {
     const response = httpMocks.createResponse();
-    const user = { id: "test@test.com", response: response };
+    const user = { id: Date.now(), email: "test@test.com", response: response };
     const type = "mockType";
     const message = "we testing out here!";
 
