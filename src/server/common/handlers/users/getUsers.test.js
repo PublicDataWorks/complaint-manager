@@ -5,7 +5,7 @@ import {
     MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
-import {getUsersFromAuth0} from "../../../services/auth0UserServices";
+import {getUsers} from "../../../services/auth0UserServices";
 
 import Boom from "boom";
 import {suppressWinstonLogs} from "../../../testHelpers/requestTestHelpers";
@@ -33,17 +33,17 @@ describe("getUsers tests", () => {
 
         next = jest.fn();
         process.env.NODE_ENV = "development";
-        getUsersFromAuth0.mockClear();
+        getUsers.mockClear();
     });
 
     describe("Successful path", () => {
 
         test("Should Call getUsersFromAuth0", async () => {
-            getUsersFromAuth0.mockImplementation(() => auth0Users)
+            getUsers.mockImplementation(() => auth0Users)
 
             await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-            expect(getUsersFromAuth0).toBeCalledTimes(1);
+            expect(getUsers).toBeCalledTimes(1);
             expect(mockGetUserResponse.statusCode).toEqual(200);
             expect(mockGetUserResponse._getData()).toEqual(auth0Users)
         })
@@ -54,7 +54,7 @@ describe("getUsers tests", () => {
             "Should throw error if getUsersFromAuth0 fails",
             suppressWinstonLogs(async () => {
 
-                getUsersFromAuth0.mockImplementationOnce(() => {
+                getUsers.mockImplementationOnce(() => {
                     throw new Error("I am failing!")
                 });
 
@@ -66,7 +66,7 @@ describe("getUsers tests", () => {
 
     describe("Auditing", () => {
         beforeAll(() => {
-            getUsersFromAuth0.mockImplementation(() => auth0Users)
+            getUsers.mockImplementation(() => auth0Users)
         })
 
         test(

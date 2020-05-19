@@ -33,7 +33,7 @@ const getNotifications = async (date, userEmail) => {
 
   const getUsers = async () => {
     try {
-      return await auth0UserService.getUsersFromAuth0();
+      return await auth0UserService.getUsers();
     } catch (error) {
       return [];
     }

@@ -173,7 +173,7 @@ describe("getNotifications", () => {
   test("should call getUsersFromAuth0 when getting notifications", async () => {
     await getNotifications(timestamp, currentNotif.user);
 
-    expect(auth0UserServices.getUsersFromAuth0).toHaveBeenCalled();
+    expect(auth0UserServices.getUsers).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {
