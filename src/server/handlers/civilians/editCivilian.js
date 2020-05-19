@@ -5,6 +5,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
+import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
@@ -72,6 +73,7 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
     }
   );
 
+  await sendNotifsIfComplainantChange(updatedCaseDetails.id);
   response.status(200).send(updatedCaseDetails);
 });
 

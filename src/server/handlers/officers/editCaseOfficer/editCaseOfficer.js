@@ -10,6 +10,7 @@ import {
 } from "../helpers/buildOfficerAttributesHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
+import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
 const models = require("../../../complaintManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -91,6 +92,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
+  await sendNotifsIfComplainantChange(updatedCase.id);
   response.status(200).send(updatedCase);
 });
 

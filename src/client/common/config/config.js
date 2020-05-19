@@ -25,7 +25,7 @@ export default {
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: `https://app-e2e:${LOCAL_DEV_PORT}`,
-    backendUrl: `https://localhost:${PORT}`
+    backendUrl: `https://app-e2e:${LOCAL_DEV_PORT}`
   },
   static_development: {
     auth: {

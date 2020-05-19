@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
@@ -14,6 +13,10 @@ import { connect } from "react-redux";
 import { userAuthSuccess } from "./common/auth/actionCreators";
 import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatureToggles";
 import config from "./common/config/config";
+import { onMessage } from "./onMessage";
+import getNotifications from "./complaintManager/shared/thunks/getNotifications";
+import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
+import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 
 class App extends Component {
   eventSource = undefined;
@@ -39,8 +42,6 @@ class App extends Component {
       token &&
       !this.eventSource
     ) {
-      console.log("Creating EventSource for ", this.props.currentUser.nickname);
-
       this.eventSource = new EventSource(
         `${
           config[process.env.REACT_APP_ENV].backendUrl
@@ -48,17 +49,16 @@ class App extends Component {
       );
 
       this.eventSource.onmessage = event => {
-        const parsedData = JSON.parse(event.data);
-        if (parsedData.type === "ping") {
-          console.log("Ping from Server: ", parsedData.message);
-        } else if (parsedData.type === "connection") {
-          console.log("Connection: ", parsedData.message);
-        } else if (parsedData.type === "notifications") {
-          console.log("Got Notifications: ", parsedData.message);
-        }
+        const data = event.data ? event.data : event;
+        const parsedData = JSON.parse(data);
+
+        onMessage(parsedData, this.props.getNotifications);
       };
-      this.eventSource.onerror = event => {
-        console.log("Error from Event Stream", event);
+
+      this.eventSource.onerror = () => {
+        this.props.snackbarError(
+          INTERNAL_ERRORS.NOTIFICATIONS_RETRIEVAL_FAILURE
+        );
       };
     }
 
@@ -89,7 +89,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   userAuthSuccess,
-  getFeatureToggles
+  getFeatureToggles,
+  getNotifications,
+  snackbarError
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

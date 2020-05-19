@@ -1,6 +1,7 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
+import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
 const models = require("../../../complaintManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -44,6 +45,7 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
+  await sendNotifsIfComplainantChange(updatedCase.id);
   response.status(200).send(updatedCase);
 });
 

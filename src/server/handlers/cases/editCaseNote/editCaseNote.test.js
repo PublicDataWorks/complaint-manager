@@ -14,6 +14,7 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "../getMessageStream";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
@@ -22,6 +23,10 @@ jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
   addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
     return caseNotes;
   })
+}));
+
+jest.mock("../getMessageStream", () => ({
+  sendNotification: jest.fn()
 }));
 
 describe("editCaseNote", function () {
@@ -196,6 +201,8 @@ describe("editCaseNote", function () {
           user: "test@test.com"
         })
       );
+
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
 
     test("should throw error if error in mentionedUsers list", async () => {
@@ -276,6 +283,8 @@ describe("editCaseNote", function () {
       expect(notification.length).toEqual(1);
 
       expect(previousTimeStamp).not.toEqual(currentTimeStamp);
+
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
 
     test("should delete previous notification when user is no longer mentioned in case note", async () => {
@@ -301,6 +310,8 @@ describe("editCaseNote", function () {
       });
 
       expect(notification).toEqual([]);
+
+      expect(sendNotification).toHaveBeenCalledWith("test@test.com");
     });
   });
 

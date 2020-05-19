@@ -1,5 +1,4 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 import sequelize from "sequelize";
@@ -13,11 +12,11 @@ import auditDataAccess from "../audits/auditDataAccess";
 
 const auth0UserService = require("../../services/auth0UserServices");
 
-const getNotifications = asyncMiddleWare(async (request, response, next) => {
+const getNotifications = async (date, userEmail) => {
   const params = {
     where: {
-      updatedAt: { [sequelize.Op.gt]: request.query.timestamp },
-      user: request.params.user
+      updatedAt: { [sequelize.Op.gt]: date },
+      user: userEmail
     },
     include: [
       {
@@ -56,7 +55,7 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
         models.notification.name
       );
       await auditDataAccess(
-        request.nickname,
+        userEmail,
         null,
         MANAGER_TYPE.COMPLAINT,
         AUDIT_SUBJECT.NOTIFICATIONS,
@@ -115,23 +114,33 @@ const getNotifications = asyncMiddleWare(async (request, response, next) => {
       return notification;
     })
   );
-  await models.sequelize
-    .transaction(async transaction => {
-      await auditDataAccess(
-        request.nickname,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
-        { users: { attributes: ["name", "email"] } },
-        transaction
-      );
-    })
-    .catch(err => {
-      // Transaction has been rolled back
-      throw err;
-    });
+  // await models.sequelize
+  //   .transaction(async transaction => {
+  //     await auditDataAccess(
+  //       userEmail,
+  //       null,
+  //       MANAGER_TYPE.COMPLAINT,
+  //       AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
+  //       { users: { attributes: ["name", "email"] } },
+  //       transaction
+  //     );
+  //   })
+  //   .catch(err => {
+  //     // Transaction has been rolled back
+  //     throw err;
+  //   });
 
-  response.send(notifications);
-});
+  return notifications;
+};
 
-module.exports = getNotifications;
+const extractNotifications = asyncMiddleWare(
+  async (request, response, next) => {
+    const notifications = await getNotifications(
+      request.query.timestamp,
+      request.params.user
+    );
+    response.send(notifications);
+  }
+);
+
+module.exports = { getNotifications, extractNotifications };

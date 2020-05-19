@@ -9,9 +9,9 @@ import { containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import getNotifications from "../../thunks/getNotifications";
+import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 
-jest.mock("../../thunks/getNotifications", () => values => ({
+jest.mock("../../thunks/getNotificationsForUser", () => values => ({
   type: "MOCK_THUNK",
   values
 }));
@@ -73,10 +73,7 @@ describe("NavBar", () => {
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
       backdrop.simulate("click");
 
-      const menu = wrapper
-        .find(NavBar)
-        .find('[data-testid="menu"]')
-        .first();
+      const menu = wrapper.find(NavBar).find('[data-testid="menu"]').first();
 
       expect(menu.props()).toHaveProperty("open", false);
     });
@@ -132,7 +129,8 @@ describe("NavBar", () => {
     beforeEach(() => {
       store.dispatch(
         getFeaturesSuccess({
-          notificationFeature: true
+          notificationFeature: true,
+          realtimeNotificationFeature: false
         })
       );
     });
@@ -145,12 +143,12 @@ describe("NavBar", () => {
 
       notificationBell.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(getNotifications(""));
+      expect(dispatchSpy).toHaveBeenCalledWith(getNotificationsForUser(""));
 
       dispatchSpy.mockClear();
       notificationBell.simulate("click");
 
-      expect(dispatchSpy).not.toHaveBeenCalledWith(getNotifications(""));
+      expect(dispatchSpy).not.toHaveBeenCalledWith(getNotificationsForUser(""));
     });
   });
 });

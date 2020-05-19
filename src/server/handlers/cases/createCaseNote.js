@@ -5,6 +5,8 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import Boom from "boom";
 import { handleNotifications } from "./helpers/handleNotifications";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "./getMessageStream";
+import moment from "moment";
 
 const {
   AUDIT_SUBJECT,
@@ -35,7 +37,7 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
         caseNoteId = data.dataValues.id;
       });
 
-    await handleNotifications(
+    const usersWithNotifs = await handleNotifications(
       transaction,
       request,
       mentionedUsers,
@@ -76,7 +78,7 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       caseAuditDetails,
       transaction
     );
-    return { caseNotes, caseDetails };
+    return { caseNotes, caseDetails, usersWithNotifs };
   });
 
   await models.sequelize
@@ -95,7 +97,15 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  response.status(201).send(currentCase);
+  for (const user in currentCase.usersWithNotifs) {
+    const userWithNotif = currentCase.usersWithNotifs[user];
+    await sendNotification(userWithNotif);
+  }
+
+  response.status(201).send({
+    caseNotes: currentCase.caseNotes,
+    caseDetails: currentCase.caseDetails
+  });
 });
 
 async function getCaseNotesAndAuditDetails(caseId, transaction) {

@@ -1,50 +1,69 @@
 import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import { sendMessage } from "./helpers/messageStreamHelpers";
+import moment from "moment";
+import { getNotifications } from "./getNotifications";
 
 const asyncMiddleWare = require("../asyncMiddleware");
 
 let clients = [];
 
-export const getMessageStream = asyncMiddleWare(async (req, res, next) => {
-  const realtimeNotificationsFeature = checkFeatureToggleEnabled(
-    req,
-    "realtimeNotificationsFeature"
-  );
+export const getMessageStream = asyncMiddleWare(
+  async (request, response, next) => {
+    const realtimeNotificationsFeature = checkFeatureToggleEnabled(
+      request,
+      "realtimeNotificationsFeature"
+    );
+    if (!realtimeNotificationsFeature) {
+      throw new Error(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
+    }
 
-  if (!realtimeNotificationsFeature) {
-    throw new Error(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
+    setResHeaders(response);
+
+    const clientEmail = request.nickname;
+    const jsonConnectionMessage = {
+      type: "connection",
+      message: `${clientEmail} has subscribed to streaming messages including Notifications.`
+    };
+    response.write(`data: ${JSON.stringify(jsonConnectionMessage)} \n\n`);
+
+    const newClient = {
+      id: clientEmail,
+      response: response
+    };
+
+    await handleClients(newClient);
+
+    request.on("close", () => {
+      clients = clients.filter(c => c.id !== clientEmail);
+    });
+
+    const jsonPingMessage = { type: "ping", message: "PING!" };
+
+    setInterval(() => {
+      response.write(`data: ${JSON.stringify(jsonPingMessage)} \n\n`);
+    }, 30 * 1000);
   }
+);
 
-  res.setHeader("Cache-Control", "no-cache");
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Connection", "keep-alive");
-  // only set this header in local
+const setResHeaders = response => {
+  response.setHeader("Cache-Control", "no-cache");
+  response.setHeader("Content-Type", "text/event-stream");
+  response.setHeader("Connection", "keep-alive");
+
   const env = process.env.NODE_ENV || "development";
   if (env === "development") {
-    res.setHeader("Access-Control-Allow-Origin", "https://localhost");
+    response.setHeader("Access-Control-Allow-Origin", "https://localhost");
   }
+  if (env === "development_e2e") {
+    response.setHeader("Access-Control-Allow-Origin", "https://app-e2e");
+  }
+};
 
-  res.flushHeaders();
-
-  const clientEmail = req.nickname;
-  const jsonMessage = {
-    type: "connection",
-    message: `${clientEmail} has subscribed to streaming messages including Notifications.`
-  };
-  res.write(`data: ${JSON.stringify(jsonMessage)} \n\n`);
-
-  console.log("Initial Message sent from Message Stream");
-
-  const newClient = {
-    id: clientEmail,
-    res
-  };
-
-  // replace any old connect with new connection if client is in clients array already
+const handleClients = async newClient => {
   let isNewClient = true;
   clients = clients.map(client => {
     if (client.id === newClient.id) {
-      console.log("Client was replaced.");
       isNewClient = false;
       return newClient;
     } else {
@@ -52,28 +71,32 @@ export const getMessageStream = asyncMiddleWare(async (req, res, next) => {
     }
   });
   if (isNewClient) {
-    console.log("This is a new client");
     clients.push(newClient);
   }
 
-  clients.map(client => console.log("ID", client.id));
+  await sendNotification(newClient.id);
+};
 
-  // When client closes connection we update the clients list
-  // avoiding the disconnected one
-  req.on("close", () => {
-    console.log(`${clientEmail} Connection closed`);
-    clients = clients.filter(c => c.id !== clientEmail);
+export const getClients = () => {
+  return clients;
+};
+
+export const isActiveClient = client => {
+  let isActive = undefined;
+  clients.map(c => {
+    if (c.id === client) {
+      isActive = c;
+    }
   });
+  return isActive;
+};
 
-  const jsonPingMessage = { type: "ping", message: "PING!" };
+export const sendNotification = async user => {
+  let client = isActiveClient(user);
+  if (client) {
+    const timestamp = moment().subtract(30, "days");
+    const message = await getNotifications(timestamp, client.id);
 
-  setInterval(() => {
-    res.write(`data: ${JSON.stringify(jsonPingMessage)} \n\n`);
-  }, 30 * 1000);
-});
-
-// Iterate clients list and use write res object method to send messages to all
-export const sendNotification = message => {
-  const jsonMessage = { type: "notifications", message: message };
-  clients.forEach(c => c.res.write(`data: ${JSON.stringify(jsonMessage)}\n\n`));
+    sendMessage("notifications", client, message);
+  }
 };
