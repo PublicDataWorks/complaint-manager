@@ -2,6 +2,7 @@ import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
+import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
 const {
   buildOfficerAttributesForNewOfficer,
@@ -78,6 +79,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
+  await sendNotifsIfComplainantChange(updatedCase.id);
   return response.send(updatedCase);
 });
 
