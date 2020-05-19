@@ -130,7 +130,7 @@ describe("NavBar", () => {
       store.dispatch(
         getFeaturesSuccess({
           notificationFeature: true,
-          realtimeNotificationFeature: false
+          realtimeNotificationsFeature: false
         })
       );
     });
