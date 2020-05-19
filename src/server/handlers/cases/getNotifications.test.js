@@ -1,8 +1,5 @@
 import { utc } from "moment";
-const models = require("../../complaintManager/models");
-import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 import Case from "../../../client/complaintManager/testUtilities/case";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
 import Notification from "../../../client/complaintManager/testUtilities/notification";
 import { getNotifications, extractNotifications } from "./getNotifications";
@@ -11,10 +8,14 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
+import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 
+
+const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
+const auth0UserServices = require("../../services/auth0UserServices");
 
-jest.mock("../../common/handlers/users/getUsers", () => ({
+jest.mock("../../services/auth0UserServices", () => ({
   getUsersFromAuth0: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
@@ -172,7 +173,7 @@ describe("getNotifications", () => {
   test("should call getUsersFromAuth0 when getting notifications", async () => {
     await getNotifications(timestamp, currentNotif.user);
 
-    expect(getUsersFromAuth0).toHaveBeenCalled();
+    expect(auth0UserServices.getUsersFromAuth0).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {

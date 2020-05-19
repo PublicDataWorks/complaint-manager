@@ -1,6 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../audits/auditDataAccess";
-import { getUsersFromAuth0 } from "../../common/handlers/users/getUsers";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 
 const {
