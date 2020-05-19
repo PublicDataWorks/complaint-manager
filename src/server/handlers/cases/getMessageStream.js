@@ -55,6 +55,9 @@ const setResHeaders = response => {
   if (env === "development") {
     response.setHeader("Access-Control-Allow-Origin", "https://localhost");
   }
+  if (env === "development_e2e") {
+    response.setHeader("Access-Control-Allow-Origin", "https://app-e2e");
+  }
 };
 
 const handleClients = async newClient => {
