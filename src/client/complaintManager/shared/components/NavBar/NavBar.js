@@ -43,7 +43,7 @@ class NavBar extends Component {
 
   handleNotificationClick = () => {
     const open = this.state.notificationDrawer;
-    if (!open && !this.props.realtimeNotificationFeature) {
+    if (!open && !this.props.realtimeNotificationsFeature) {
       this.props.getNotificationsForUser(this.props.nickname);
     }
     this.setState({
@@ -147,7 +147,8 @@ const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
   permissions: state.users.current.userInfo.permissions,
   notificationFeature: state.featureToggles.notificationFeature,
-  realtimeNotificationFeature: state.featureToggles.realtimeNotificationFeature,
+  realtimeNotificationsFeature:
+    state.featureToggles.realtimeNotificationsFeature,
   featureToggles: state.featureToggles
 });
 
