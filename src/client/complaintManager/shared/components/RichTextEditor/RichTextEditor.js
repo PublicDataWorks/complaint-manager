@@ -41,6 +41,14 @@ class RichTextEditor extends React.Component {
     this.props.onChange(nextProps.initialValue);
   }
 
+  componentDidMount() {
+    document.querySelectorAll(".ql-formats").forEach(element => {
+      element.addEventListener("mousedown", e => {
+        e.preventDefault();
+      });
+    });
+  }
+
   render() {
     const modules = {
       toolbar: [
@@ -56,20 +64,21 @@ class RichTextEditor extends React.Component {
     const formats = ["bold", "italic", "underline", "list", "bullet", "align"];
 
     return (
-      <ReactQuill
-        theme={"snow"}
-        value={this.state.text}
-        onChange={value =>
-          this.handleChange(value, this.state.formInitializedToQuillFormat)
-        }
-        onBlur={this.props.handleBlur}
-        modules={modules}
-        formats={formats}
-        readOnly={this.props.disabled}
-        style={this.props.style}
-        placeholder={this.props.placeholder}
-        data-testid={"editLetterQuill"}
-      />
+      <div onBlur={this.props.handleBlur}>
+        <ReactQuill
+          theme={"snow"}
+          value={this.state.text}
+          onChange={value =>
+            this.handleChange(value, this.state.formInitializedToQuillFormat)
+          }
+          modules={modules}
+          formats={formats}
+          readOnly={this.props.disabled}
+          style={this.props.style}
+          placeholder={this.props.placeholder}
+          data-testid={"editLetterQuill"}
+        />
+      </div>
     );
   }
 }
