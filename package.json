@@ -123,7 +123,7 @@
     "@babel/register": "~7.9.0",
     "@testing-library/user-event": "^10.0.1",
     "child-process-promise": "^2.2.1",
-    "chromedriver": "~79",
+    "chromedriver": "^83",
     "concurrently": "~5.1.0",
     "enzyme": "~3.10.0",
     "enzyme-adapter-react-16": "~1.14.0",
