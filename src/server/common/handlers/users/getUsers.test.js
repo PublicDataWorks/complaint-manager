@@ -4,18 +4,16 @@ import {
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
-import { getUsers } from "../../../services/auth0UserServices";
+import getUsers from "./getUsers";
+import { getUsers as auth0GetUsers } from "../../../services/auth0UserServices";
 import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../../../handlers/audits/auditDataAccess");
+
 jest.mock("../../../services/auth0UserServices");
-let auth0Users = {
-  name: "john doe",
-  email: "john.doe@thoughtworks.com"
-};
 
 describe("getUsers tests", () => {
-  let mockGetUserRequest, mockGetUserResponse, next;
+  let mockGetUserRequest, mockGetUserResponse, next, auth0Users;
 
   beforeEach(() => {
     mockGetUserRequest = httpMocks.createRequest({
@@ -29,16 +27,26 @@ describe("getUsers tests", () => {
 
     next = jest.fn();
     process.env.NODE_ENV = "development";
-    getUsers.mockClear();
+
+    auth0Users = {
+      name: "john doe",
+      email: "john.doe@thoughtworks.com"
+    };
+  });
+
+  afterEach(() => {
+    auth0GetUsers.mockClear();
   });
 
   describe("Successful path", () => {
-    test("Should Call getUsers", async () => {
-      getUsers.mockImplementation(() => auth0Users);
+    test("Should call getUsers", async () => {
+      auth0GetUsers.mockImplementationOnce(() => {
+        return auth0Users;
+      });
 
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(getUsers).toBeCalledTimes(1);
+      expect(auth0GetUsers).toBeCalledTimes(1);
       expect(mockGetUserResponse.statusCode).toEqual(200);
       expect(mockGetUserResponse._getData()).toEqual(auth0Users);
     });
@@ -48,7 +56,7 @@ describe("getUsers tests", () => {
     test(
       "Should throw error if getUsers fails",
       suppressWinstonLogs(async () => {
-        getUsers.mockImplementationOnce(() => {
+        auth0GetUsers.mockImplementationOnce(() => {
           throw new Error("I am failing!");
         });
 
@@ -60,7 +68,7 @@ describe("getUsers tests", () => {
 
   describe("Auditing", () => {
     beforeAll(() => {
-      getUsers.mockImplementation(() => auth0Users);
+      auth0GetUsers.mockImplementation(() => auth0Users);
     });
 
     test(
