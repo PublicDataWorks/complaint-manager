@@ -5,7 +5,7 @@ import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../complaintManager/models");
 
-jest.mock("../../../common/handlers/users/getUsers", () => ({
+jest.mock("../../../services/auth0UserServices", () => ({
   getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
