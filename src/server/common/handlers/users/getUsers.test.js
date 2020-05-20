@@ -33,7 +33,7 @@ describe("getUsers tests", () => {
   });
 
   describe("Successful path", () => {
-    test("Should Call getUsersFromAuth0", async () => {
+    test("Should Call getUsers", async () => {
       getUsers.mockImplementation(() => auth0Users);
 
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
@@ -46,7 +46,7 @@ describe("getUsers tests", () => {
 
   describe("Error Handling", () => {
     test(
-      "Should throw error if getUsersFromAuth0 fails",
+      "Should throw error if getUsers fails",
       suppressWinstonLogs(async () => {
         getUsers.mockImplementationOnce(() => {
           throw new Error("I am failing!");

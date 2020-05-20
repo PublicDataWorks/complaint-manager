@@ -1,4 +1,4 @@
-import { getUsersFromAuth0 } from "../../../common/handlers/users/getUsers";
+import { getUsers } from "../../../services/auth0UserServices";
 import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
@@ -6,7 +6,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../complaintManager/models");
 
 jest.mock("../../../common/handlers/users/getUsers", () => ({
-  getUsersFromAuth0: jest.fn(() => {
+  getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
       { name: "random", email: "random@gmail.com" },
@@ -57,9 +57,9 @@ describe("addAuthorDetailsToCaseNote", () => {
     expect(caseNotes[1].author.email).toEqual("removedFromAuth0@gmail.com");
   });
 
-  test("should call getUsersFromAuth0 when getting notifications", async () => {
+  test("should call getUsers when getting notifications", async () => {
     await addAuthorDetailsToCaseNote(rawCaseNotes);
 
-    expect(getUsersFromAuth0).toHaveBeenCalled();
+    expect(getUsers).toHaveBeenCalled();
   });
 });

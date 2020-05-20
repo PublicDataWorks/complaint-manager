@@ -1,15 +1,15 @@
-import { getUsersFromAuth0 } from "../../../common/handlers/users/getUsers";
+import { getUsers } from "../../../services/auth0UserServices";
 
 export const addAuthorDetailsToCaseNote = async rawCaseNotes => {
-  const getUsers = async () => {
+  const getUsersFromAuth0 = async () => {
     try {
-      return await getUsersFromAuth0();
+      return await getUsers();
     } catch (error) {
       return [];
     }
   };
 
-  const users = await getUsers();
+  const users = await getUsersFromAuth0();
 
   const getAuthorName = authorEmail => {
     const user = users.find(user => user.email === authorEmail);
