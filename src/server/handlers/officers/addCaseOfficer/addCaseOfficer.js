@@ -79,8 +79,9 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
+  response.status(200).send(updatedCase);
+
   await sendNotifsIfComplainantChange(updatedCase.id);
-  return response.send(updatedCase);
 });
 
 module.exports = addCaseOfficer;

@@ -51,8 +51,9 @@ const removeCivilian = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
-  await sendNotifsIfComplainantChange(caseDetails.id);
   response.status(200).send(caseDetails);
+
+  await sendNotifsIfComplainantChange(caseDetails.id);
 });
 
 module.exports = removeCivilian;

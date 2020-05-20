@@ -97,15 +97,15 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  for (const user in currentCase.usersWithNotifs) {
-    const userWithNotif = currentCase.usersWithNotifs[user];
-    await sendNotification(userWithNotif);
-  }
-
   response.status(201).send({
     caseNotes: currentCase.caseNotes,
     caseDetails: currentCase.caseDetails
   });
+
+  for (const user in currentCase.usersWithNotifs) {
+    const userWithNotif = currentCase.usersWithNotifs[user];
+    await sendNotification(userWithNotif);
+  }
 });
 
 async function getCaseNotesAndAuditDetails(caseId, transaction) {

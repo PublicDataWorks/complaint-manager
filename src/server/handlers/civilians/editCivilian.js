@@ -73,8 +73,9 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
     }
   );
 
-  await sendNotifsIfComplainantChange(updatedCaseDetails.id);
   response.status(200).send(updatedCaseDetails);
+
+  await sendNotifsIfComplainantChange(updatedCaseDetails.id);
 });
 
 module.exports = editCivilian;

@@ -47,8 +47,9 @@ const createCivilian = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
-  await sendNotifsIfComplainantChange(caseDetails.id);
   response.status(201).send(caseDetails);
+
+  await sendNotifsIfComplainantChange(caseDetails.id);
 });
 
 module.exports = createCivilian;
