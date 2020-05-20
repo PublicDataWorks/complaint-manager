@@ -2,7 +2,6 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import NotificationCard from "./NotificationCard";
 import { connect } from "react-redux";
-import getUsers from "../../../../common/thunks/getUsers";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import Button from "@material-ui/core/Button";
 import axios from "axios";
@@ -105,10 +104,9 @@ const NotificationList = props => {
 };
 
 const mapStateToProps = state => ({
-  notifications: state.notifications,
-  allUsers: state.users.all
+  notifications: state.notifications
 });
 
-const mapDispatchToProps = { getUsers, snackbarError };
+const mapDispatchToProps = { snackbarError };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);
