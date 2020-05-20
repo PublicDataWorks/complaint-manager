@@ -114,21 +114,21 @@ const getNotifications = async (date, userEmail) => {
       return notification;
     })
   );
-  // await models.sequelize
-  //   .transaction(async transaction => {
-  //     await auditDataAccess(
-  //       userEmail,
-  //       null,
-  //       MANAGER_TYPE.COMPLAINT,
-  //       AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
-  //       { users: { attributes: ["name", "email"] } },
-  //       transaction
-  //     );
-  //   })
-  //   .catch(err => {
-  //     // Transaction has been rolled back
-  //     throw err;
-  //   });
+  await models.sequelize
+    .transaction(async transaction => {
+      await auditDataAccess(
+        userEmail,
+        null,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.ALL_AUTHOR_DATA_FOR_NOTIFICATIONS,
+        { users: { attributes: ["name", "email"] } },
+        transaction
+      );
+    })
+    .catch(err => {
+      // Transaction has been rolled back
+      throw err;
+    });
 
   return notifications;
 };

@@ -1,4 +1,4 @@
-import { utc } from "moment";
+import moment, { utc } from "moment";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
 import Notification from "../../../client/complaintManager/testUtilities/notification";
@@ -10,13 +10,12 @@ import {
 } from "../../../sharedUtilities/constants";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 
-
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
 const auth0UserServices = require("../../services/auth0UserServices");
 
 jest.mock("../../services/auth0UserServices", () => ({
-  getUsersFromAuth0: jest.fn(() => {
+  getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
       { name: "random", email: "random@gmail.com" },
@@ -98,7 +97,9 @@ describe("getNotifications", () => {
   });
 
   test("should not return notifications that were updated or created before timestamp", async () => {
+    console.log("Current Timezone", moment().format("ZZ"));
     const newTimestamp = utc().toDate();
+    console.log("New Timestamp", newTimestamp);
 
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
@@ -170,7 +171,7 @@ describe("getNotifications", () => {
     expect(notifications[0].author.email).toEqual("author@gmail.com");
   });
 
-  test("should call getUsersFromAuth0 when getting notifications", async () => {
+  test("should call getUsers when getting notifications", async () => {
     await getNotifications(timestamp, currentNotif.user);
 
     expect(auth0UserServices.getUsers).toHaveBeenCalled();
@@ -330,48 +331,48 @@ describe("getNotifications", () => {
     });
   });
 
-  // describe("auditing", () => {
-  //   test("should audit accessing notifications", async () => {
-  //     await getNotifications(request, response, next);
-  //
-  //     const audit = await models.audit.findOne({
-  //       where: {
-  //         referenceId: null,
-  //         auditAction: AUDIT_ACTION.DATA_ACCESSED
-  //       },
-  //       include: [
-  //         {
-  //           model: models.data_access_audit,
-  //           as: "dataAccessAudit",
-  //           include: [
-  //             {
-  //               model: models.data_access_value,
-  //               as: "dataAccessValues"
-  //             }
-  //           ]
-  //         }
-  //       ]
-  //     });
-  //
-  //     expect(audit).toEqual(
-  //       expect.objectContaining({
-  //         user: "tuser",
-  //         auditAction: AUDIT_ACTION.DATA_ACCESSED,
-  //         referenceId: null,
-  //         managerType: "complaint",
-  //         dataAccessAudit: expect.objectContaining({
-  //           auditSubject: AUDIT_SUBJECT.NOTIFICATIONS,
-  //           dataAccessValues: expect.arrayContaining([
-  //             expect.objectContaining({
-  //               association: "notification",
-  //               fields: expect.arrayContaining(
-  //                 Object.keys(models.notification.rawAttributes)
-  //               )
-  //             })
-  //           ])
-  //         })
-  //       })
-  //     );
-  //   });
-  // });
+  describe("auditing", () => {
+    test("should audit accessing notifications", async () => {
+      await getNotifications(timestamp, "seanrut@gmail.com");
+
+      const audit = await models.audit.findOne({
+        where: {
+          referenceId: null,
+          auditAction: AUDIT_ACTION.DATA_ACCESSED
+        },
+        include: [
+          {
+            model: models.data_access_audit,
+            as: "dataAccessAudit",
+            include: [
+              {
+                model: models.data_access_value,
+                as: "dataAccessValues"
+              }
+            ]
+          }
+        ]
+      });
+
+      expect(audit).toEqual(
+        expect.objectContaining({
+          user: "seanrut@gmail.com",
+          auditAction: AUDIT_ACTION.DATA_ACCESSED,
+          referenceId: null,
+          managerType: "complaint",
+          dataAccessAudit: expect.objectContaining({
+            auditSubject: AUDIT_SUBJECT.NOTIFICATIONS,
+            dataAccessValues: expect.arrayContaining([
+              expect.objectContaining({
+                association: "notification",
+                fields: expect.arrayContaining(
+                  Object.keys(models.notification.rawAttributes)
+                )
+              })
+            ])
+          })
+        })
+      );
+    });
+  });
 });
