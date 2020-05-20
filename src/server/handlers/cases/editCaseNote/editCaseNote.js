@@ -90,12 +90,12 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
+  response.status(200).send([...caseNotes.caseNotes]);
+
   for (const user in caseNotes.usersWithNotifs) {
     const userWithNotif = caseNotes.usersWithNotifs[user];
     await sendNotification(userWithNotif);
   }
-
-  response.status(200).send([...caseNotes.caseNotes]);
 });
 
 module.exports = editCaseNote;
