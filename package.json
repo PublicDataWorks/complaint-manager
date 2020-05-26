@@ -149,6 +149,7 @@
     "**/static-eval": "^2.0.5",
     "**/acorn": "^6.4.1",
     "**/minimist": "^1.2.5",
-    "**/yargs-parser": "^13.1.2"
+    "**/yargs-parser": "^13.1.2",
+    "**/http-proxy": "^1.18.1"
   }
 }
