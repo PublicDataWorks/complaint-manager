@@ -51,11 +51,14 @@ class StatusButton extends Component {
   openUpdateCaseStatusDialog = async () => {
     const { nextStatus, caseId } = this.props;
     let redirectUrl;
+    let isValidLetterDetails;
+
     if (nextStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
       redirectUrl = `/cases/${caseId}/letter/review`;
     }
     if (nextStatus === CASE_STATUS.READY_FOR_REVIEW) {
-      await validateLetterDetails(this.props);
+      isValidLetterDetails = await validateLetterDetails(this.props);
+      if (!isValidLetterDetails) return
     }
     this.props.openCaseStatusUpdateDialog(nextStatus, redirectUrl);
   };
