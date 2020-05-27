@@ -26,6 +26,8 @@ import {
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
   EMPLOYEE_TYPE,
+  FETCHING_CASE_NOTES,
+  FETCHING_CASE_TAGS,
   GET_ARCHIVED_CASES_SUCCESS,
   GET_CASE_DETAILS_SUCCESS,
   GET_CASE_NOTES_SUCCEEDED,
@@ -101,6 +103,7 @@ export const getCaseNotesSuccess = caseNotes => ({
   type: GET_CASE_NOTES_SUCCEEDED,
   caseNotes
 });
+
 export const updateNarrativeSuccess = caseDetails => ({
   type: "NARRATIVE_UPDATE_SUCCEEDED",
   caseDetails
@@ -154,6 +157,16 @@ export const removeCaseTagSuccess = caseTags => ({
 export const getCaseTagSuccess = caseTags => ({
   type: GET_CASE_TAG_SUCCESS,
   caseTags
+});
+
+export const fetchingCaseTags = fetching => ({
+  type: FETCHING_CASE_TAGS,
+  fetching
+});
+
+export const fetchingCaseNotes = fetching => ({
+  type: FETCHING_CASE_NOTES,
+  fetching
 });
 
 export const openRemoveCaseTagDialog = (caseTag = {}) => ({

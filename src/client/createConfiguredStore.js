@@ -54,6 +54,8 @@ import caseTagDialogReducer from "./complaintManager/reducers/ui/caseTagDialogRe
 import tagReducer from "./complaintManager/reducers/ui/tagReducer";
 import incompleteClassificationsDialogReducer from "./complaintManager/reducers/ui/incompleteClassificationsDialogReducer";
 import caseTagReducer from "./complaintManager/reducers/cases/caseTagsReducer";
+import fetchingCaseTagsReducer from "./complaintManager/reducers/cases/fetchingCaseTagsReducer";
+import fetchingCaseNotesReducer from "./complaintManager/reducers/cases/fetchingCaseNotesReducer";
 import removeCaseTagDialogReducer from "./complaintManager/reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./complaintManager/reducers/ui/civilianTitleReducer";
 import districtReducer from "./complaintManager/reducers/ui/districtReducer";
@@ -72,8 +74,10 @@ const rootReducer = combineReducers({
   currentCase: combineReducers({
     details: caseDetailsReducer,
     caseNotes: caseNotesReducer,
+    fetchingCaseNotes: fetchingCaseNotesReducer,
     caseHistory: caseHistoryReducer,
-    caseTags: caseTagReducer
+    caseTags: caseTagReducer,
+    fetchingCaseTags: fetchingCaseTagsReducer
   }),
   referralLetter: referralLetterReducer,
   recommendedActions: recommendedActionsReducer,

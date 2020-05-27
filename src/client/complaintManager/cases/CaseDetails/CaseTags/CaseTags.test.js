@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { mount } from "enzyme";
 import { containsText } from "../../../../testHelpers";
 import {
+  fetchingCaseTags,
   getCaseTagSuccess,
   openCaseTagDialog,
   openRemoveCaseTagDialog
@@ -42,6 +43,10 @@ describe("Case Tags", () => {
   });
 
   test("should display placeholder text when no tags exist on case", () => {
+    containsText(dialog, '[data-testid="caseTagsContainer"]', "");
+
+    store.dispatch(fetchingCaseTags(false));
+
     containsText(
       dialog,
       '[data-testid="caseTagsContainer"]',
@@ -72,6 +77,10 @@ describe("Case Tags", () => {
     ];
 
     store.dispatch(getCaseTagSuccess(caseTag));
+
+    containsText(dialog, '[data-testid="caseTagsContainer"]', "");
+
+    store.dispatch(fetchingCaseTags(false));
 
     dialog.update();
 
@@ -112,6 +121,7 @@ describe("Case Tags", () => {
     ];
 
     store.dispatch(getCaseTagSuccess(caseTags));
+    store.dispatch(fetchingCaseTags(false));
 
     dialog.update();
 
