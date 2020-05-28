@@ -20,16 +20,20 @@ jest.mock(
 describe("OfficerSearchForm", () => {
   describe("submit button", () => {
     test("submit button should be disabled when form is not valid", () => {
-      const searchForm = shallow(
-        <OfficerSearchForm handleSubmit={() => {}} invalid={true} />
+      const searchForm = mount(
+        <Provider store={createConfiguredStore()}>
+          <OfficerSearchForm handleSubmit={() => {}} invalid={true} />
+        </Provider>
       );
       const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeTruthy;
     });
 
     test("submit button should be enabled when form is valid", () => {
-      const searchForm = shallow(
-        <OfficerSearchForm handleSubmit={() => {}} invalid={false} />
+      const searchForm = mount(
+        <Provider store={createConfiguredStore()}>
+          <OfficerSearchForm handleSubmit={() => {}} invalid={false} />
+        </Provider>
       );
       const submitButton = searchForm.find(PrimaryButton);
       expect(!!submitButton.disabled).toBeFalsy();
