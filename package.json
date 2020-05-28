@@ -83,7 +83,7 @@
     "newrelic": "~6.6.0",
     "node-cache": "^5.1.0",
     "nodemon": "~1.19.1",
-    "pg": "^8.2.1",
+    "pg": "7.12.1",
     "pg-hstore": "~2.3.2",
     "plotly.js": "^1.52.2",
     "rc-pagination": "^2.2.2",
