@@ -104,11 +104,6 @@ export const getCaseNotesSuccess = caseNotes => ({
   caseNotes
 });
 
-export const updateNarrativeSuccess = caseDetails => ({
-  type: "NARRATIVE_UPDATE_SUCCEEDED",
-  caseDetails
-});
-
 export const updateSort = (sortBy, sortDirection) => {
   return {
     type: UPDATE_CASES_TABLE_SORTING,
