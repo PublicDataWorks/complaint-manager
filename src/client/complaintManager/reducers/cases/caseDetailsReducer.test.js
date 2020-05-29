@@ -9,7 +9,6 @@ import {
   removeCaseNoteSuccess,
   removePersonSuccess,
   updateIncidentDetailsSuccess,
-  updateNarrativeSuccess,
   uploadAttachmentSuccess
 } from "../../actionCreators/casesActionCreators";
 import { removeAttachmentSuccess } from "../../actionCreators/attachmentsActionCreators";
@@ -64,19 +63,6 @@ describe("caseDetailsReducers", () => {
     });
   });
 
-  describe("NARRATIVE_UPDATE_SUCCEEDED", () => {
-    test("should update current case details", () => {
-      const oldState = { caseDetailProp: "old detail value" };
-
-      const caseDetails = { caseDetailProp: "new detail value" };
-      const action = updateNarrativeSuccess(caseDetails);
-
-      const newState = caseDetailsReducer(oldState, action);
-
-      expect(newState).toEqual(caseDetails);
-    });
-  });
-
   describe("INCIDENT_DETAILS_UPDATE_SUCCEEDED", () => {
     test("updates the case details", () => {
       const oldState = { caseDetailProp: "old detail value" };
@@ -116,7 +102,7 @@ describe("caseDetailsReducers", () => {
     });
   });
 
-  describe("REMOVE_CASE_NOTE_SUCCEEDED", function() {
+  describe("REMOVE_CASE_NOTE_SUCCEEDED", function () {
     test("should replace current case on remove case note", () => {
       const oldState = {
         some: "old state"
