@@ -9,9 +9,9 @@ import { wait } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import moment from "moment";
 
-describe("unread notification card", () => {
+describe("unread notification text", () => {
   let newNotif;
-  const renderNotificationCard = newNotif => {
+  const renderNotificationText = newNotif => {
     const store = createConfiguredStore();
     const wrapper = render(
       <Provider store={store}>
@@ -36,7 +36,7 @@ describe("unread notification card", () => {
       caseReference: "AC2020-0004",
       author: { name: "Syd Botz", email: "sydbotz@gmail.com" }
     };
-    const { queryByText } = renderNotificationCard(newNotif);
+    const { queryByText } = renderNotificationText(newNotif);
 
     const expectedTime = moment(newNotif.updatedAt).format("MMM D h:mm A");
 
@@ -60,7 +60,7 @@ describe("unread notification card", () => {
       caseReference: "AC2020-0004",
       author: { name: "", email: "sydbotz@gmail.com" }
     };
-    const { queryByText } = renderNotificationCard(newNotif);
+    const { queryByText } = renderNotificationText(newNotif);
 
     const expectedTime = moment(newNotif.updatedAt).format("MMM D h:mm A");
 
