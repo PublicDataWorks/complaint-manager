@@ -12,37 +12,40 @@ const styleSheet = theme => ({
   }
 });
 
-const SharedSnackbar = props => (
-  <div>
-    <Snackbar
-      anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      open={props.open}
-      autoHideDuration={15000}
-      onClose={() => {
-        props.closeSnackbar();
-      }}
-      ContentProps={{
-        classes: {
-          root: props.success ? props.classes.success : props.classes.error
-        },
-        style: { maxWidth: "800px" }
-      }}
-      message={
-        <span data-testid="sharedSnackbarBannerText">{props.message}</span>
-      }
-      action={[
-        <IconButton
-          data-testid="closeSnackbar"
-          key={"closeSnackbar"}
-          onClick={() => props.closeSnackbar()}
-          color="inherit"
-        >
-          <CloseIcon />
-        </IconButton>
-      ]}
-    />
-  </div>
-);
+const SharedSnackbar = props => {
+  const autoHideValue = props.success ? 4000 : 15000;
+  return (
+    <div>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={props.open}
+        autoHideDuration={autoHideValue}
+        onClose={() => {
+          props.closeSnackbar();
+        }}
+        ContentProps={{
+          classes: {
+            root: props.success ? props.classes.success : props.classes.error
+          },
+          style: { maxWidth: "800px" }
+        }}
+        message={
+          <span data-testid="sharedSnackbarBannerText">{props.message}</span>
+        }
+        action={[
+          <IconButton
+            data-testid="closeSnackbar"
+            key={"closeSnackbar"}
+            onClick={() => props.closeSnackbar()}
+            color="inherit"
+          >
+            <CloseIcon />
+          </IconButton>
+        ]}
+      />
+    </div>
+  );
+};
 
 SharedSnackbar.defaultProps = {
   message: "",

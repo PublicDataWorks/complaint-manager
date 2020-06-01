@@ -46,6 +46,8 @@ export const CASE_TAG_DIALOG_OPENED = "CASE_TAG_DIALOG_OPENED";
 export const CASE_TAG_DIALOG_CLOSED = "CASE_TAG_DIALOG_CLOSED";
 export const CREATE_CASE_TAG_SUCCESS = "CREATE_CASE_TAG_SUCCESS";
 export const GET_CASE_TAG_SUCCESS = "GET_CASE_TAG_SUCCESS";
+export const FETCHING_CASE_TAGS = "FETCHING_CASE_TAGS";
+export const FETCHING_CASE_NOTES = "FETCHING_CASE_NOTES";
 export const REMOVE_CASE_TAG_SUCCESS = "REMOVE_CASE_TAG_SUCCESS";
 export const CIVILIAN_DIALOG_OPENED = "CIVILIAN_DIALOG_OPENED";
 export const EDIT_CIVILIAN_DIALOG_CLOSED = "EDIT_CIVILIAN_DIALOG_CLOSED";
@@ -512,7 +514,7 @@ export const ALLEGATION_SEVERITY = {
 // ----------------------------------------
 //               NODE_CACHE
 // ----------------------------------------
-export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY"
+export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY";
 export const TTL_SEC = 60 * 60;
 
 // ----------------------------------------

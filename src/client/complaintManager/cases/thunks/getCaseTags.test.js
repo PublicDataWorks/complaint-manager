@@ -1,6 +1,9 @@
 import nock from "nock";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
-import { getCaseTagSuccess } from "../../actionCreators/casesActionCreators";
+import {
+  fetchingCaseTags,
+  getCaseTagSuccess
+} from "../../actionCreators/casesActionCreators";
 import getCaseTags from "./getCaseTags";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
@@ -32,5 +35,16 @@ describe("getCaseTags", () => {
     await getCaseTags(caseId)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(getCaseTagSuccess(responseBody));
+  });
+
+  test("should dispatch fetchingCaseTags as true while fetching and as false when finished", async () => {
+    nock("http://localhost")
+      .get(`/api/cases/${caseId}/case-tags`)
+      .reply(200, responseBody);
+
+    await getCaseTags(caseId)(dispatch);
+
+    expect(dispatch).toHaveBeenNthCalledWith(1, fetchingCaseTags(true));
+    expect(dispatch).toHaveBeenLastCalledWith(fetchingCaseTags(false));
   });
 });

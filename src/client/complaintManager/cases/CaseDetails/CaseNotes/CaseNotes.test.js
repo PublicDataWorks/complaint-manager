@@ -6,24 +6,37 @@ import { containsText } from "../../../../testHelpers";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { getCaseNotesSuccess } from "../../../actionCreators/casesActionCreators";
+import {
+  fetchingCaseNotes,
+  getCaseNotesSuccess
+} from "../../../actionCreators/casesActionCreators";
 
 describe("Case Notes", () => {
+  let store;
+
   const caseNoteActions = {
     memoToFile: ["Memo to file", 1],
     contactedOutsideAgency: ["Contacted outside agency", 2]
   };
 
+  beforeEach(() => {
+    store = createConfiguredStore();
+  });
+
   test("should display placeholder text when no case notes", () => {
     const caseNotes = [];
 
     const wrapper = mount(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
           <CaseNotes caseId={1} dispatch={jest.fn()} caseNotes={caseNotes} />
         </Router>
       </Provider>
     );
+
+    containsText(wrapper, '[data-testid="caseNotesContainer"]', "");
+
+    store.dispatch(fetchingCaseNotes(false));
 
     containsText(
       wrapper,
@@ -46,8 +59,6 @@ describe("Case Notes", () => {
       }
     ];
 
-    const store = createConfiguredStore();
-
     const wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -57,6 +68,10 @@ describe("Case Notes", () => {
     );
 
     store.dispatch(getCaseNotesSuccess(someCaseNotes));
+
+    containsText(wrapper, '[data-testid="caseNotesContainer"]', "");
+
+    store.dispatch(fetchingCaseNotes(false));
 
     wrapper.update();
 
@@ -80,7 +95,7 @@ describe("Case Notes", () => {
     expect(activityTimeText.text()).toEqual("Dec 17, 1995 3:24 AM");
   });
 
-  test("should display most case notes first ", () => {
+  test("should display most recent case notes first ", () => {
     const someCaseNotes = [
       {
         id: 1,
@@ -105,9 +120,6 @@ describe("Case Notes", () => {
       }
     ];
 
-    const store = createConfiguredStore();
-    store.dispatch(getCaseNotesSuccess(someCaseNotes));
-
     const wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -119,6 +131,10 @@ describe("Case Notes", () => {
         </Router>
       </Provider>
     );
+
+    store.dispatch(getCaseNotesSuccess(someCaseNotes));
+    store.dispatch(fetchingCaseNotes(false));
+    wrapper.update();
 
     const activityContainer = wrapper
       .find('[data-testid="caseNotesContainer"]')

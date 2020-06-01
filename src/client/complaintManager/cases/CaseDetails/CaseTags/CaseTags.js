@@ -9,10 +9,15 @@ import { connect } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
 import RemoveCaseTagDialog from "../RemoveCaseTagDialog/RemoveCaseTagDialog";
+import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 
 class CaseTags extends Component {
   componentDidMount() {
     this.props.dispatch(getCaseTags(this.props.caseId));
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(getTagsSuccess([]));
   }
 
   render() {
@@ -36,7 +41,8 @@ class CaseTags extends Component {
             data-testid="caseTagsContainer"
             style={{ paddingBottom: "16px" }}
           >
-            {caseTags.length === 0 ? (
+            {this.props.fetchingCaseTags === true ? null : caseTags.length ===
+              0 ? (
               <Typography variant="body2">No tags have been added</Typography>
             ) : (
               caseTags.map(caseTag => {
@@ -71,7 +77,8 @@ class CaseTags extends Component {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
-  caseTags: state.currentCase.caseTags
+  caseTags: state.currentCase.caseTags,
+  fetchingCaseTags: state.currentCase.fetchingCaseTags
 });
 
 export default connect(mapStateToProps)(CaseTags);
