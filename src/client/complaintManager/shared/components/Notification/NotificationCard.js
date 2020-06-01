@@ -29,10 +29,11 @@ const NotificationCard = props => {
       }
     }
   });
+  const notifDataTestId = "notificationCard-" + props.notification.id;
   return (
     <MuiThemeProvider theme={buttonTheme}>
       <Button
-        data-testid={"notificationCard"}
+        data-testid={notifDataTestId}
         onClick={props.handleNotificationCardClick(props.notification)}
       >
         <ListItemIcon style={{ minWidth: "20px" }}>
