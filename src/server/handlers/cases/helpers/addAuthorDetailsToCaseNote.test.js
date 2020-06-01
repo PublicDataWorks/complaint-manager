@@ -1,11 +1,11 @@
-import { getUsers } from "../../../services/auth0UserServices";
+import { getUsers } from "../../../services/auth0UserService";
 import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../complaintManager/models");
 
-jest.mock("../../../services/auth0UserServices", () => ({
+jest.mock("../../../services/auth0UserService", () => ({
   getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },

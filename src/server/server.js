@@ -17,6 +17,7 @@ const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
+const adminRouter = require("./adminRouter")
 const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
@@ -99,6 +100,7 @@ app.use(
   })
 );
 
+app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
 
 app.get("*", function (req, res) {

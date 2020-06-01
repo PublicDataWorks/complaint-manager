@@ -121,5 +121,27 @@ describe("errorHandler", () => {
         })
       );
     });
+
+    test("should return 401 status code for Unauthorized Requests ", ()=> {
+      const errorMessage = "No authorization token was found";
+      const request = httpMocks.createRequest({
+        method: "GET",
+        headers: {
+          authorization: "Bearer token"
+        }
+      });
+      const response = httpMocks.createResponse();
+
+      errorHandler(Boom.unauthorized(errorMessage), request, response);
+      expect(response.statusCode).toEqual(401);
+      expect(response._getData()).toEqual(
+          JSON.stringify({
+            statusCode: 401,
+            error: "Unauthorized",
+            message: errorMessage
+          })
+      );
+
+    })
   });
 });

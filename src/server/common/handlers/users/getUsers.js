@@ -5,7 +5,7 @@ import {
     MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 
-const auth0UserService = require("../../../services/auth0UserServices");
+const auth0UserService = require("../../../services/auth0UserService");
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
