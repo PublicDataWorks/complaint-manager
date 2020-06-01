@@ -15,7 +15,23 @@ const auth0UserService = require("../../services/auth0UserServices");
 const getNotifications = async (date, userEmail) => {
   const params = {
     where: {
-      updatedAt: { [sequelize.Op.gt]: date },
+      [sequelize.Op.or]: [
+        {
+          [sequelize.Op.and]: [
+            {
+              updatedAt: {
+                [sequelize.Op.gt]: date
+              }
+            },
+            {
+              hasBeenRead: { [sequelize.Op.eq]: true }
+            }
+          ]
+        },
+        {
+          hasBeenRead: { [sequelize.Op.eq]: false }
+        }
+      ],
       user: userEmail
     },
     include: [
