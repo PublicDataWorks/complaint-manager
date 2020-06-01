@@ -6,7 +6,10 @@ import { Typography } from "@material-ui/core";
 import RemoveCaseNoteDialog from "../RemoveCaseNoteDialog/RemoveCaseNoteDialog";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
-import { openCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
+import {
+  getCaseNotesSuccess,
+  openCaseNoteDialog
+} from "../../../actionCreators/casesActionCreators";
 import timezone from "moment-timezone";
 import { TIMEZONE } from "../../../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
@@ -15,6 +18,10 @@ import { connect } from "react-redux";
 class CaseNotes extends Component {
   componentDidMount() {
     this.props.dispatch(getCaseNotes(this.props.caseId));
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(getCaseNotesSuccess([]));
   }
 
   render() {
@@ -44,7 +51,8 @@ class CaseNotes extends Component {
             data-testid="caseNotesContainer"
             style={{ paddingBottom: "16px" }}
           >
-            {caseNotes.length === 0 ? (
+            {this.props.fetchingCaseNotes === true ? null : caseNotes.length ===
+              0 ? (
               <Typography variant="body2">
                 No case notes have been added
               </Typography>
@@ -88,7 +96,8 @@ class CaseNotes extends Component {
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   caseNotes: state.currentCase.caseNotes,
-  isArchived: state.currentCase.details.isArchived
+  isArchived: state.currentCase.details.isArchived,
+  fetchingCaseNotes: state.currentCase.fetchingCaseNotes
 });
 
 export default connect(mapStateToProps)(CaseNotes);

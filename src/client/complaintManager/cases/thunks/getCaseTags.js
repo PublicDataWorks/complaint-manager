@@ -1,10 +1,15 @@
 import axios from "axios";
-import { getCaseTagSuccess } from "../../actionCreators/casesActionCreators";
+import {
+  fetchingCaseTags,
+  getCaseTagSuccess
+} from "../../actionCreators/casesActionCreators";
 
 const getCaseTags = caseId => async dispatch => {
   try {
+    dispatch(fetchingCaseTags(true));
     const response = await axios.get(`api/cases/${caseId}/case-tags`);
-    return dispatch(getCaseTagSuccess(response.data));
+    dispatch(getCaseTagSuccess(response.data));
+    return dispatch(fetchingCaseTags(false));
   } catch (error) {}
 };
 
