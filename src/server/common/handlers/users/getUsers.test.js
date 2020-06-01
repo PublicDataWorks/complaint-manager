@@ -5,12 +5,12 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import getUsers from "./getUsers";
-import { getUsers as auth0GetUsers } from "../../../services/auth0UserServices";
+import { getUsers as auth0GetUsers } from "../../../services/auth0UserService";
 import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
 
 jest.mock("../../../handlers/audits/auditDataAccess");
 
-jest.mock("../../../services/auth0UserServices");
+jest.mock("../../../services/auth0UserService");
 
 describe("getUsers tests", () => {
   let mockGetUserRequest, mockGetUserResponse, next, auth0Users;

@@ -1,7 +1,7 @@
 import nock from "nock";
 import Boom from "boom";
 
-const Auth0UserService = require("./auth0UserServices");
+const Auth0UserService = require("./auth0UserService");
 import {suppressWinstonLogs} from "../testHelpers/requestTestHelpers";
 import {INTERNAL_ERRORS} from "../../sharedUtilities/errorMessageConstants";
 

@@ -10,7 +10,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 
-const auth0UserService = require("../../services/auth0UserServices");
+const auth0UserService = require("../../services/auth0UserService");
 
 const getNotifications = async (date, userEmail) => {
   const params = {
