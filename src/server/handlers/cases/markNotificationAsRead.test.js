@@ -52,12 +52,17 @@ describe("mark notification as read", () => {
   });
 
   test("should mark notification as read", async () => {
+    const previousUpdatedAt = currentNotif.updatedAt;
     await markNotificationAsRead(request, response, next);
 
     const notification = await models.notification.findOne({
       where: { id: currentNotif.id }
     });
 
+    const postUpdatedAt = notification.updatedAt;
+
     expect(notification.get("hasBeenRead")).toEqual(true);
+
+    expect(previousUpdatedAt).toEqual(postUpdatedAt);
   });
 });
