@@ -46,6 +46,7 @@ const NotificationList = props => {
           );
         }
       } else {
+        await axios.get(`/api/notifications/mark-as-read/${notification.id}`);
         if (window.location.href.endsWith(notification.caseId)) {
           closeNotificationDrawer();
         } else {
