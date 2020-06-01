@@ -12,9 +12,9 @@ import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
-const auth0UserServices = require("../../services/auth0UserServices");
+const auth0UserService = require("../../services/auth0UserService");
 
-jest.mock("../../services/auth0UserServices", () => ({
+jest.mock("../../services/auth0UserService", () => ({
   getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
@@ -217,7 +217,7 @@ describe("getNotifications", () => {
   test("should call getUsers when getting notifications", async () => {
     await getNotifications(timestamp, currentNotif.user);
 
-    expect(auth0UserServices.getUsers).toHaveBeenCalled();
+    expect(auth0UserService.getUsers).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {

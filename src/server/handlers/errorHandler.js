@@ -12,6 +12,12 @@ const errorHandler = (error, request, response, next) => {
 
   let errorMessage = getErrorMessage(boomError, request);
 
+  if (boomError.status === 401) {
+    response.status(401).json({
+      message: errorMessage
+    });
+  }
+
   response.status(boomError.output.statusCode).json({
     ...boomError.output.payload,
     message: errorMessage,
@@ -36,6 +42,10 @@ const get500ErrorMessage = request => {
 };
 
 const getErrorMessage = (boomError, request) => {
+  if (boomError.isServer && boomError.status === 401){
+    return "No authorization token was found";
+  }
+
   if (boomError.isServer) {
     return get500ErrorMessage(request);
   }
