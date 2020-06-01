@@ -66,6 +66,7 @@ describe("getNotifications", () => {
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
       .withCaseNoteId(currentCaseNote.id)
+      .withHasBeenRead(true)
       .withUser("seanrut@gmail.com");
 
     currentNotif = await models.notification.create(notificationAttributes, {
@@ -96,19 +97,61 @@ describe("getNotifications", () => {
     ]);
   });
 
-  test("should not return notifications that were updated or created before timestamp", async () => {
+  test("should not return read notifications that were updated or created before timestamp", async () => {
     console.log("Current Timezone", moment().format("ZZ"));
     const newTimestamp = utc().toDate();
     console.log("New Timestamp", newTimestamp);
 
+    const unreadNotificationAttributes = new Notification.Builder()
+      .defaultNotification()
+      .withCaseNoteId(currentCaseNote.id)
+      .withHasBeenRead(false)
+      .withUser("seanrut@gmail.com");
+
+    await models.notification.create(unreadNotificationAttributes, {
+      auditUser: "tuser"
+    });
+
+    const readNotificationAttributes = new Notification.Builder()
+      .defaultNotification()
+      .withCaseNoteId(currentCaseNote.id)
+      .withHasBeenRead(true)
+      .withUser("seanrut@gmail.com");
+
+    await models.notification.create(readNotificationAttributes, {
+      auditUser: "tuser"
+    });
+
+    const newNotifs = await getNotifications(newTimestamp, "seanrut@gmail.com");
+
+    expect(newNotifs).toEqual([
+      expect.objectContaining({
+        user: "seanrut@gmail.com",
+        hasBeenRead: false
+      }),
+      expect.objectContaining({
+        user: "seanrut@gmail.com",
+        hasBeenRead: true
+      })
+    ]);
+
+    expect(newNotifs).toHaveLength(2);
+  });
+
+  test("should return unread notifications that were updated or created before timestamp", async () => {
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()
       .withCaseNoteId(currentCaseNote.id)
+      .withHasBeenRead(false)
       .withUser("seanrut@gmail.com");
 
     const newNotif = await models.notification.create(notificationAttributes, {
       auditUser: "tuser"
     });
+
+    console.log("Current Timezone", moment().format("ZZ"));
+    const newTimestamp = utc().toDate();
+    console.log("New Timestamp", newTimestamp);
 
     const newNotifs = await getNotifications(newTimestamp, newNotif.user);
 

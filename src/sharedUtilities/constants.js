@@ -515,7 +515,7 @@ export const ALLEGATION_SEVERITY = {
 //               NODE_CACHE
 // ----------------------------------------
 export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY";
-export const TTL_SEC = 60 * 60;
+export const TTL_SEC = 24 * 60 * 60;
 
 // ----------------------------------------
 //               Image URLs

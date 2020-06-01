@@ -1,33 +1,55 @@
-import ListItemText from "@material-ui/core/ListItemText";
 import React from "react";
-import Typography from "@material-ui/core/Typography";
-import moment from "moment";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import NotificationCardText from "./NotificationCardText";
+import Divider from "@material-ui/core/Divider";
 
 const NotificationCard = props => {
-  const author = props.notification.author.name
-    ? props.notification.author.name
-    : props.notification.author.email;
-
-  const title = `${author} mentioned you in ${props.notification.caseReference}`;
-
-  const NOTIFICATION_TIME_FORMAT = "MMM D h:mm A";
-  const timestamp = moment(props.notification.updatedAt).format(
-    NOTIFICATION_TIME_FORMAT
-  );
-  return (
-    <ListItemText
-      primary={
-        <React.Fragment>
-          <Typography
-            component="span"
-            style={{ fontWeight: 600, color: "black" }}
-          >
-            {title}
-          </Typography>
-        </React.Fragment>
+  const buttonTheme = createMuiTheme({
+    overrides: {
+      MuiButton: {
+        root: {
+          backgroundColor: props.notification.hasBeenRead ? "#ECEFF1" : "white",
+          "&:hover": {
+            backgroundColor: "#d8d8d8"
+          },
+          width: "300px",
+          textTransform: "none",
+          textAlign: "left",
+          borderRadius: "2px"
+        },
+        text: {
+          paddingTop: "7.5px",
+          paddingBottom: "8px",
+          paddingLeft: "16px",
+          paddingRight: "16px"
+        }
       }
-      secondary={timestamp}
-    />
+    }
+  });
+  const notifDataTestId = "notificationCard-" + props.notification.id;
+  return (
+    <MuiThemeProvider theme={buttonTheme}>
+      <Button
+        data-testid={notifDataTestId}
+        onClick={props.handleNotificationCardClick(props.notification)}
+      >
+        <ListItemIcon style={{ minWidth: "20px" }}>
+          {props.notification.hasBeenRead ? (
+            <div></div>
+          ) : (
+            <FiberManualRecordIcon
+              data-testid={"unreadDot"}
+              style={{ color: "#d32f2f", fontSize: 9 }}
+            />
+          )}
+        </ListItemIcon>
+        <NotificationCardText notification={props.notification} />
+      </Button>
+      <Divider />
+    </MuiThemeProvider>
   );
 };
 

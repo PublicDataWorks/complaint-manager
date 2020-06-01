@@ -63,6 +63,7 @@ import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 import { getMessageStream } from "./handlers/cases/getMessageStream";
+import markNotificationAsRead from "./handlers/cases/markNotificationAsRead";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -486,6 +487,13 @@ export const API_ROUTES = {
       handler: extractNotifications,
       errorMessage:
         "Something went wrong and notifications could not be retrieved. Please try again."
+    }
+  },
+  "/notifications/mark-as-read/:notificationId": {
+    get: {
+      handler: markNotificationAsRead,
+      errorMessage:
+        "Something went wrong, and there was a problem updating your notifications."
     }
   },
   "/notifications/:caseNoteId/:notificationId": {
