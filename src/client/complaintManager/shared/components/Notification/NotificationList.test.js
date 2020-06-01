@@ -50,7 +50,7 @@ describe("notification list", () => {
           caseReference: "AC2020-0004",
           author: { name: "Syd B", email: "sydbotz@tw.com" },
           caseNoteId: 8,
-          id: 1,
+          id: 0,
           caseId: 4
         },
         {
@@ -59,7 +59,7 @@ describe("notification list", () => {
           caseReference: "CC2019-0018",
           author: { name: "Wanchen Y", email: "wanchenyao@tw.com" },
           caseNoteId: 6,
-          id: 2,
+          id: 1,
           caseId: 18
         },
         {
@@ -68,7 +68,7 @@ describe("notification list", () => {
           caseReference: "CC2019-0030",
           author: { name: "Wanchen Y", email: "wanchenyao@tw.com" },
           caseNoteId: 3,
-          id: 7,
+          id: 2,
           caseId: 20
         }
       ])
@@ -77,12 +77,12 @@ describe("notification list", () => {
     return wrapper;
   };
 
-  const findAndClickNotif = notificationCardId => {
-    const { getAllByTestId } = renderNotificationList();
+  const findAndClickNotif = notificationId => {
+    const { getByTestId } = renderNotificationList();
 
-    const notificationCard = getAllByTestId("notificationCard")[
-      notificationCardId
-    ];
+    const notifDataTestId = "notificationCard-" + notificationId;
+
+    const notificationCard = getByTestId(notifDataTestId);
 
     fireEvent.click(notificationCard);
 
@@ -157,7 +157,17 @@ describe("notification list", () => {
     findAndClickNotif(1);
 
     await wait(() => {
-      expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/2`);
+      expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/1`);
+    });
+  });
+
+  test("should make axios get request to mark notification as read when clicking on notif", async () => {
+    findAndClickNotif(0);
+
+    await wait(() => {
+      expect(axios.get).toHaveBeenCalledWith(
+        `/api/notifications/mark-as-read/0`
+      );
     });
   });
 

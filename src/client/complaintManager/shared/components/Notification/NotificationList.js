@@ -1,38 +1,12 @@
 import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import NotificationCard from "./NotificationCard";
 import { connect } from "react-redux";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
 import axios from "axios";
 import history from "../../../../history";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import Divider from "@material-ui/core/Divider";
 
-const buttonTheme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      root: {
-        backgroundColor: "white",
-        "&:hover": {
-          backgroundColor: "#d8d8d8"
-        },
-        color: "#eceff1",
-        width: "300px",
-        textTransform: "none",
-        textAlign: "left",
-        borderRadius: "2px"
-      },
-      text: {
-        paddingTop: "7.5px",
-        paddingBottom: "8px",
-        paddingLeft: "16px",
-        paddingRight: "16px"
-      }
-    }
-  }
-});
+import NotificationCard from "./NotificationCard";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -72,6 +46,7 @@ const NotificationList = props => {
           );
         }
       } else {
+        await axios.get(`/api/notifications/mark-as-read/${notification.id}`);
         if (window.location.href.endsWith(notification.caseId)) {
           closeNotificationDrawer();
         } else {
@@ -85,18 +60,11 @@ const NotificationList = props => {
     <ButtonGroup orientation="vertical" className={classes.root}>
       {props.notifications.map(notification => {
         return (
-          <MuiThemeProvider theme={buttonTheme} key={notification.id}>
-            <div>
-              <Button
-                data-testid={"notificationCard"}
-                onClick={handleNotificationCardClick(notification)}
-                key={notification.id}
-              >
-                <NotificationCard notification={notification} />
-              </Button>
-              <Divider />
-            </div>
-          </MuiThemeProvider>
+          <NotificationCard
+            notification={notification}
+            key={notification.id}
+            handleNotificationCardClick={handleNotificationCardClick}
+          />
         );
       })}
     </ButtonGroup>
