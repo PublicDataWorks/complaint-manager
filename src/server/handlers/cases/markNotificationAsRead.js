@@ -11,7 +11,8 @@ const markNotificationAsRead = asyncMiddleWare(
       { hasBeenRead: true },
       {
         where: { id: notificationId },
-        auditUser: request.nickname
+        auditUser: request.nickname,
+        silent: true
       }
     );
 
