@@ -489,18 +489,18 @@ export const API_ROUTES = {
         "Something went wrong and notifications could not be retrieved. Please try again."
     }
   },
-  "/notifications/:caseNoteId/:notificationId": {
-    get: {
-      handler: getNotificationStatus,
-      errorMessage:
-        "Something went wrong and notifications could not be verified. Please try again."
-    }
-  },
   "/notifications/mark-as-read/:notificationId": {
     get: {
       handler: markNotificationAsRead,
       errorMessage:
         "Something went wrong, and there was a problem updating your notifications."
+    }
+  },
+  "/notifications/:caseNoteId/:notificationId": {
+    get: {
+      handler: getNotificationStatus,
+      errorMessage:
+        "Something went wrong and notifications could not be verified. Please try again."
     }
   },
   "/data": {

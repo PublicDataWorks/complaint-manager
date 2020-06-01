@@ -1,3 +1,5 @@
+import { sendNotification } from "./getMessageStream";
+
 const asyncMiddleWare = require("../asyncMiddleware");
 const models = require("../../complaintManager/models/index");
 
@@ -12,6 +14,8 @@ const markNotificationAsRead = asyncMiddleWare(
         auditUser: request.nickname
       }
     );
+
+    await sendNotification(request.nickname);
 
     response.status(200).send();
   }

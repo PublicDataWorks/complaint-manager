@@ -161,6 +161,16 @@ describe("notification list", () => {
     });
   });
 
+  test("should make axios get request to mark notification as read when clicking on notif", async () => {
+    findAndClickNotif(1);
+
+    await wait(() => {
+      expect(axios.get).toHaveBeenCalledWith(
+        `/api/notifications/mark-as-read/2`
+      );
+    });
+  });
+
   test("drawer should close when user clicks on notification and is already on notification's case details page", async () => {
     responseBody = {
       data: { caseNoteExists: true, notificationExists: true }
