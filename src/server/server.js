@@ -15,7 +15,6 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
-const securityMonitoring = require("./handlers/securityMonitoring");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
 const featureToggleRouter = require("./featureToggleRouter");
@@ -88,7 +87,6 @@ app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
-app.post("/security-monitoring", securityMonitoring);
 
 app.use(featureToggleRouter);
 
