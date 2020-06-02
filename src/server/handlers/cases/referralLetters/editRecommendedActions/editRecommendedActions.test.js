@@ -12,7 +12,7 @@ import ReferralLetterOfficerRecommendedAction from "../../../../../client/compla
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-describe("editRecommendedActions", function() {
+describe("editRecommendedActions", function () {
   const recommendedActionId1 = 1;
   const recommendedActionId2 = 2;
   const recommendedActionId3 = 3;
@@ -171,7 +171,7 @@ describe("editRecommendedActions", function() {
       });
     });
 
-    describe("there is an officer", function() {
+    describe("there is an officer", function () {
       let letterOfficer;
 
       beforeEach(async () => {
@@ -285,7 +285,7 @@ describe("editRecommendedActions", function() {
         );
       });
 
-      describe("existing referral letter officer recommended actions", function() {
+      describe("existing referral letter officer recommended actions", function () {
         let recommendedAction, recommendedAction1;
         beforeEach(async () => {
           const recommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
@@ -310,18 +310,50 @@ describe("editRecommendedActions", function() {
           );
         });
 
-        test("removes existing referral letter officer recommended action", async () => {
+        test("removes existing referral letter officer recommended action for only the correct letter officer", async () => {
+          const otherOfficerAttributes = new Officer.Builder()
+            .defaultOfficer()
+            .withOfficerNumber(1)
+            .withId(1);
+
+          const otherOfficer = await models.officer.create(
+            otherOfficerAttributes,
+            {
+              auditUser: "someone"
+            }
+          );
+
+          const otherCaseOfficerAttributes = new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(undefined)
+            .withOfficerId(otherOfficer.id)
+            .withCaseId(existingCase.id);
+
+          const otherCaseOfficer = await models.case_officer.create(
+            otherCaseOfficerAttributes,
+            { auditUser: "someone" }
+          );
+
+          const otherLetterOfficerAttributes = new LetterOfficer.Builder()
+            .defaultLetterOfficer()
+            .withId(undefined)
+            .withCaseOfficerId(otherCaseOfficer.id)
+            .withRecommendedActionNotes(undefined);
+
+          const otherLetterOfficer = await models.letter_officer.create(
+            otherLetterOfficerAttributes,
+            { auditUser: "someone" }
+          );
+
           const requestBody = {
             letterOfficers: [
               {
-                id: letterOfficer.id,
-                referralLetterOfficerRecommendedActions: [
-                  recommendedActionId1,
-                  recommendedActionId3
-                ]
+                id: otherLetterOfficer.id,
+                referralLetterOfficerRecommendedActions: [recommendedActionId1]
               }
             ]
           };
+
           const request = httpMocks.createRequest({
             method: "PUT",
             headers: {
@@ -331,14 +363,41 @@ describe("editRecommendedActions", function() {
             body: requestBody,
             nickname: "nickname"
           });
+
           await editRecommendedActions(request, response, next);
+
+          const secondRequestBody = {
+            letterOfficers: [
+              {
+                id: letterOfficer.id,
+                referralLetterOfficerRecommendedActions: [recommendedActionId1]
+              }
+            ]
+          };
+
+          const secondRequest = httpMocks.createRequest({
+            method: "PUT",
+            headers: {
+              authorization: "Bearer token"
+            },
+            params: { caseId: existingCase.id },
+            body: secondRequestBody,
+            nickname: "nickname"
+          });
+
+          await editRecommendedActions(secondRequest, response, next);
           expect(response.statusCode).toEqual(200);
 
           const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
-            { where: { referralLetterOfficerId: letterOfficer.id } }
+            {
+              where: {
+                recommendedActionId: recommendedActionId1,
+                referralLetterOfficerId: letterOfficer.id
+              }
+            }
           );
 
-          expect(createdRecommendedActions.length).toEqual(2);
+          expect(createdRecommendedActions.length).toEqual(1);
 
           expect(createdRecommendedActions).toEqual(
             expect.arrayContaining([
@@ -348,11 +407,23 @@ describe("editRecommendedActions", function() {
               })
             ])
           );
-          expect(createdRecommendedActions).toEqual(
+
+          const otherCreatedRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+            {
+              where: {
+                recommendedActionId: recommendedActionId1,
+                referralLetterOfficerId: otherLetterOfficer.id
+              }
+            }
+          );
+
+          expect(otherCreatedRecommendedActions.length).toEqual(1);
+
+          expect(otherCreatedRecommendedActions).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
-                recommendedActionId: recommendedActionId3,
-                referralLetterOfficerId: letterOfficer.id
+                recommendedActionId: recommendedActionId1,
+                referralLetterOfficerId: otherLetterOfficer.id
               })
             ])
           );
