@@ -88,7 +88,7 @@ app.use(bodyParser.json());
 app.use(express.static(buildDirectory));
 
 app.get("/health-check", healthCheck);
-app.get("/security-monitoring", securityMonitoring);
+app.post("/security-monitoring", securityMonitoring);
 
 app.use(featureToggleRouter);
 
