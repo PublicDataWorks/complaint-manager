@@ -17,6 +17,7 @@ import NotificationDrawer from "../Notification/NotificationDrawer";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
+import Badge from "@material-ui/core/Badge";
 
 class NavBar extends Component {
   state = {
@@ -49,6 +50,18 @@ class NavBar extends Component {
     this.setState({
       notificationDrawer: !open
     });
+  };
+
+  countUnreadNotifications = () => {
+    let count = 0;
+    const allNotifications = this.props.notifications;
+
+    for (let i = 0; i < allNotifications.length; i++) {
+      if (!allNotifications[i].hasBeenRead) {
+        count++;
+      }
+    }
+    return count;
   };
 
   render() {
@@ -97,7 +110,12 @@ class NavBar extends Component {
               style={{ marginLeft: standards.small }}
               onClick={() => this.handleNotificationClick()}
             >
-              <NotificationsIcon />
+              <Badge
+                color={"error"}
+                badgeContent={this.countUnreadNotifications()}
+              >
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
           ) : null}
           <NotificationDrawer
@@ -149,7 +167,8 @@ const mapStateToProps = state => ({
   notificationFeature: state.featureToggles.notificationFeature,
   realtimeNotificationsFeature:
     state.featureToggles.realtimeNotificationsFeature,
-  featureToggles: state.featureToggles
+  featureToggles: state.featureToggles,
+  notifications: state.notifications
 });
 
 const mapDispatchToProps = {
