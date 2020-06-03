@@ -10,6 +10,7 @@ import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
+import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 
 jest.mock("../../thunks/getNotificationsForUser", () => values => ({
   type: "MOCK_THUNK",
@@ -149,6 +150,70 @@ describe("NavBar", () => {
       notificationBell.simulate("click");
 
       expect(dispatchSpy).not.toHaveBeenCalledWith(getNotificationsForUser(""));
+    });
+
+    test("should display badge icon on notification bell when user with 0 unread notifications receives 1 new notification", () => {
+      let notificationBadge = wrapper.find("ForwardRef(Badge)");
+      expect(notificationBadge.exists()).toBeFalsy();
+
+      store.dispatch(
+        getNotificationsSuccess([
+          {
+            user: "veronicablackwell@tw.com",
+            updatedAt: "2020-03-19T18:57:31.953Z",
+            caseReference: "AC2020-0004",
+            author: { name: "Syd B", email: "sydbotz@tw.com" },
+            caseNoteId: 8,
+            id: 0,
+            caseId: 4
+          }
+        ])
+      );
+      wrapper.update();
+      notificationBadge = wrapper.find("ForwardRef(Badge)");
+
+      expect(notificationBadge.props()).toHaveProperty("badgeContent", 1);
+    });
+
+    test("should not display badge icon on notification bell when user has read all notifications", () => {
+      store.dispatch(
+        getNotificationsSuccess([
+          {
+            user: "veronicablackwell@tw.com",
+            updatedAt: "2020-03-19T18:57:31.953Z",
+            caseReference: "AC2020-0004",
+            author: { name: "Syd B", email: "sydbotz@tw.com" },
+            caseNoteId: 8,
+            id: 0,
+            caseId: 4
+          }
+        ])
+      );
+      wrapper.update();
+      let notificationBadge = wrapper.find("ForwardRef(Badge)");
+
+      expect(notificationBadge.props()).toHaveProperty("badgeContent", 1);
+
+      store.dispatch(
+        getNotificationsSuccess([
+          {
+            user: "veronicablackwell@tw.com",
+            updatedAt: "2020-03-19T18:57:31.953Z",
+            caseReference: "AC2020-0004",
+            author: { name: "Syd B", email: "sydbotz@tw.com" },
+            caseNoteId: 8,
+            id: 0,
+            caseId: 4,
+            hasBeenRead: true
+          }
+        ])
+      );
+
+      wrapper.update();
+
+      notificationBadge = wrapper.find("ForwardRef(Badge)");
+
+      expect(notificationBadge.props()).toHaveProperty("badgeContent", 0);
     });
   });
 });
