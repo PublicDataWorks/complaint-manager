@@ -8,6 +8,7 @@ const asyncMiddleWare = require("../asyncMiddleware");
 
 let clients = [];
 
+const CONNECTION_PING_SECS = 30;
 export const getMessageStream = asyncMiddleWare(
   async (request, response, next) => {
     const realtimeNotificationsFeature = checkFeatureToggleEnabled(
@@ -46,7 +47,7 @@ export const getMessageStream = asyncMiddleWare(
 
     setInterval(() => {
       response.write(`data: ${JSON.stringify(jsonPingMessage)} \n\n`);
-    }, 30 * 1000);
+    }, CONNECTION_PING_SECS * 1000);
   }
 );
 
