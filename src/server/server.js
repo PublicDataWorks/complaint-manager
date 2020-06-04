@@ -17,7 +17,7 @@ const config = require("./config/config")[process.env.NODE_ENV];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
-const adminRouter = require("./adminRouter")
+const adminRouter = require("./adminRouter");
 const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
@@ -63,7 +63,7 @@ app.use(
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
-      imgSrc: ["'self'", "data:"],
+      imgSrc: ["'self'", "data:", "blob:"],
       scriptSrc: [
         "'self'",
         "https://maps.googleapis.com",
