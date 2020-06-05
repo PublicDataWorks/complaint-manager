@@ -1,4 +1,4 @@
-# 2. Use Plot.ly for Visualizations
+# 3. Use Plot.ly for Visualizations
 
 Date: 2020-06-03
 
