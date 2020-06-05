@@ -1,4 +1,4 @@
-# 2. Use Server-Sent Events (SSE) for Push Notifications
+# 4. Use Server-Sent Events (SSE) for Push Notifications
 
 Date: 2020-06-03
 
