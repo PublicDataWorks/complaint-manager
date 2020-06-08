@@ -127,7 +127,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
   };
   server = spdy.createServer(options, app);
 } else {
-  server = spdy.createServer(app);
+  server = spdy.createServer({}, app);
 }
 
 process.on("SIGTERM", () => {
