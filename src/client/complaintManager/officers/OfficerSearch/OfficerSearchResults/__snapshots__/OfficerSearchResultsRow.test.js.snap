@@ -12,7 +12,6 @@ exports[`it can render officer search results with correct styles 1`] = `
   >
     <table
       className="MuiTable-root"
-      role={null}
     >
       <WithStyles(ForwardRef(TableBody))>
         <ForwardRef(TableBody)
@@ -24,7 +23,6 @@ exports[`it can render officer search results with correct styles 1`] = `
         >
           <tbody
             className="MuiTableBody-root"
-            role={null}
           >
             <WithStyles(OfficerSearchResultsRow)
               officer={
@@ -55,17 +53,17 @@ exports[`it can render officer search results with correct styles 1`] = `
               <OfficerSearchResultsRow
                 classes={
                   Object {
-                    "active": "OfficerSearchResultsRow-active-7",
-                    "buttonCell": "OfficerSearchResultsRow-buttonCell-5",
-                    "cell": "OfficerSearchResultsRow-cell-4",
-                    "deceased": "OfficerSearchResultsRow-deceased-9",
-                    "inactive": "OfficerSearchResultsRow-inactive-11",
-                    "noBorderBottom": "OfficerSearchResultsRow-noBorderBottom-2",
-                    "noBorderTop": "OfficerSearchResultsRow-noBorderTop-3",
-                    "retired": "OfficerSearchResultsRow-retired-10",
-                    "row": "OfficerSearchResultsRow-row-1",
-                    "terminated": "OfficerSearchResultsRow-terminated-8",
-                    "topAlignCell": "OfficerSearchResultsRow-topAlignCell-6",
+                    "active": "OfficerSearchResultsRow-active-10",
+                    "buttonCell": "OfficerSearchResultsRow-buttonCell-8",
+                    "cell": "OfficerSearchResultsRow-cell-7",
+                    "deceased": "OfficerSearchResultsRow-deceased-12",
+                    "inactive": "OfficerSearchResultsRow-inactive-14",
+                    "noBorderBottom": "OfficerSearchResultsRow-noBorderBottom-5",
+                    "noBorderTop": "OfficerSearchResultsRow-noBorderTop-6",
+                    "retired": "OfficerSearchResultsRow-retired-13",
+                    "row": "OfficerSearchResultsRow-row-4",
+                    "terminated": "OfficerSearchResultsRow-terminated-11",
+                    "topAlignCell": "OfficerSearchResultsRow-topAlignCell-9",
                   }
                 }
                 officer={
@@ -384,10 +382,10 @@ exports[`it can render officer search results with correct styles 1`] = `
                 }
               >
                 <WithStyles(ForwardRef(TableRow))
-                  className="OfficerSearchResultsRow-row-1"
+                  className="OfficerSearchResultsRow-row-4"
                 >
                   <ForwardRef(TableRow)
-                    className="OfficerSearchResultsRow-row-1"
+                    className="OfficerSearchResultsRow-row-4"
                     classes={
                       Object {
                         "footer": "MuiTableRow-footer",
@@ -399,14 +397,13 @@ exports[`it can render officer search results with correct styles 1`] = `
                     }
                   >
                     <tr
-                      className="MuiTableRow-root OfficerSearchResultsRow-row-1"
-                      role={null}
+                      className="MuiTableRow-root OfficerSearchResultsRow-row-4"
                     >
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -426,7 +423,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           >
                             <div
                               data-testid="officerFullName"
@@ -434,7 +431,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                               Ugochi Grant Smith
                             </div>
                             <div
-                              className="OfficerSearchResultsRow-inactive-11"
+                              className="OfficerSearchResultsRow-inactive-14"
                             >
                               Inactive
                             </div>
@@ -442,10 +439,10 @@ exports[`it can render officer search results with correct styles 1`] = `
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -465,17 +462,17 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           >
                             Police Commander
                           </td>
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -495,17 +492,17 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           >
                             FOB - Field Operations Bureau
                           </td>
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -525,15 +522,15 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           />
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -553,17 +550,17 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           >
                             Female
                           </td>
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -583,17 +580,17 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           >
                             Cuban
                           </td>
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-cell-4"
+                        className="OfficerSearchResultsRow-cell-7"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-cell-4"
+                          className="OfficerSearchResultsRow-cell-7"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -613,15 +610,15 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-4"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-cell-7"
                           />
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
                       <WithStyles(ForwardRef(TableCell))
-                        className="OfficerSearchResultsRow-buttonCell-5"
+                        className="OfficerSearchResultsRow-buttonCell-8"
                       >
                         <ForwardRef(TableCell)
-                          className="OfficerSearchResultsRow-buttonCell-5"
+                          className="OfficerSearchResultsRow-buttonCell-8"
                           classes={
                             Object {
                               "alignCenter": "MuiTableCell-alignCenter",
@@ -641,7 +638,7 @@ exports[`it can render officer search results with correct styles 1`] = `
                         >
                           <td
                             aria-sort={null}
-                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-buttonCell-5"
+                            className="MuiTableCell-root MuiTableCell-body OfficerSearchResultsRow-buttonCell-8"
                           />
                         </ForwardRef(TableCell)>
                       </WithStyles(ForwardRef(TableCell))>
