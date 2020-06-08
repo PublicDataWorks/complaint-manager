@@ -20,7 +20,6 @@ const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
-const spdy = require("spdy");
 
 winston.configure({
   transports: [
@@ -125,9 +124,9 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     key: fs.readFileSync("src/server.key"),
     cert: fs.readFileSync("src/server.crt")
   };
-  server = spdy.createServer(options, app);
+  server = https.createServer(options, app);
 } else {
-  server = spdy.createServer({}, app);
+  server = http.createServer(app);
 }
 
 process.on("SIGTERM", () => {

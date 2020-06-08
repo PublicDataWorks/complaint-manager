@@ -107,7 +107,6 @@
     "sequelize": "~5.21.6",
     "sequelize-cli": "~5.5.0",
     "shortid": "~2.2.14",
-    "spdy": "^4.0.2",
     "striptags": "~3.1.1",
     "timekeeper": "~2.2.0",
     "validator": "~13.0.0",
