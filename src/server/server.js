@@ -1,5 +1,3 @@
-import http from "http";
-import https from "https";
 import fs from "fs";
 
 import {
@@ -22,6 +20,7 @@ const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
+const spdy = require("spdy");
 
 winston.configure({
   transports: [
@@ -126,9 +125,9 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     key: fs.readFileSync("src/server.key"),
     cert: fs.readFileSync("src/server.crt")
   };
-  server = https.createServer(options, app);
+  server = spdy.createServer(options, app);
 } else {
-  server = http.createServer(app);
+  server = spdy.createServer(app);
 }
 
 process.on("SIGTERM", () => {
