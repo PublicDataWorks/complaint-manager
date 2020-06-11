@@ -38,7 +38,7 @@ const RichTextEditorComponent = props => {
     />
   );
 };
-let unblock;
+let shouldBlockRoutingRedirects;
 export class EditLetter extends Component {
   constructor(props) {
     super(props);
@@ -46,7 +46,7 @@ export class EditLetter extends Component {
   }
 
   componentDidMount() {
-    unblock = shouldNotRedirect => {
+    shouldBlockRoutingRedirects = shouldNotRedirect => {
       history.block(location => {
         if (
           location.pathname !==
@@ -60,7 +60,7 @@ export class EditLetter extends Component {
         }
       });
     };
-    unblock(true);
+    shouldBlockRoutingRedirects(true);
     this.props.dispatch(getReferralLetterPreview(this.state.caseId));
   }
 
@@ -85,8 +85,7 @@ export class EditLetter extends Component {
   saveAndGoBackToPreview = () => {
     return this.props.handleSubmit(
       this.submitEditedLetterForm(
-        `/cases/${this.state.caseId}/letter/letter-preview`,
-        true
+        `/cases/${this.state.caseId}/letter/letter-preview`
       )
     );
   };
@@ -103,37 +102,50 @@ export class EditLetter extends Component {
     );
   };
 
-  saveAndReturnToCase = () => {
-    return this.props.handleSubmit(
-      this.submitEditedLetterForm(`/cases/${this.state.caseId}`, false)
+  renderBackToCaseButton = () => {
+    return (
+      <LinkButton
+        data-testid="save-and-return-to-case-link"
+        onClick={this.pageChangeCallback(`/cases/${this.state.caseId}`)}
+        style={{ margin: "2% 0% 2% 4%" }}
+      >
+        Back to Case
+      </LinkButton>
+    );
+  };
+
+  renderCancelButton = () => {
+    return (
+      <SecondaryButton
+        data-testid="cancel-button"
+        onClick={() => {
+          this.props.dispatch(
+            push(`/cases/${this.state.caseId}/letter/letter-preview`)
+          );
+        }}
+        disabled={this.props.pristine}
+      >
+        Cancel
+      </SecondaryButton>
     );
   };
 
   pageChangeCallback = redirectUrl => {
-    return this.props.handleSubmit(
-      this.submitEditedLetterForm(redirectUrl, false)
-    );
+    return this.props.handleSubmit((values, dispatch) => {
+      dispatch(push(redirectUrl));
+    });
   };
 
   stripWhitespaceBeforeLastParagraphElement = htmlString => {
     return htmlString.substring(0, htmlString.length - 4).trim() + "</p>";
   };
 
-  submitEditedLetterForm = (redirectUrl, shouldSaveEdits) => (
-    values,
-    dispatch
-  ) => {
-    if (shouldSaveEdits) {
-      unblock(false);
-      values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
-        values.editedLetterHtml
-      );
-      dispatch(
-        editReferralLetterContent(this.state.caseId, values, redirectUrl)
-      );
-    } else {
-      dispatch(push(redirectUrl));
-    }
+  submitEditedLetterForm = redirectUrl => (values, dispatch) => {
+    shouldBlockRoutingRedirects(false);
+    values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
+      values.editedLetterHtml
+    );
+    dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
   };
 
   render() {
@@ -147,13 +159,7 @@ export class EditLetter extends Component {
           {`Case #${this.props.caseReference}   : Letter Generation`}
         </NavBar>
 
-        <LinkButton
-          data-testid="save-and-return-to-case-link"
-          onClick={this.saveAndReturnToCase()}
-          style={{ margin: "2% 0% 2% 4%" }}
-        >
-          Back to Case
-        </LinkButton>
+        {this.renderBackToCaseButton()}
 
         <div
           style={{
@@ -179,7 +185,7 @@ export class EditLetter extends Component {
             </Typography>
             <CancelEditLetterConfirmationDialog
               caseId={this.state.caseId}
-              unblock={unblock}
+              shouldBlockRoutingRedirects={shouldBlockRoutingRedirects}
               redirectUrl={this.state.redirectUrl}
             />
             <Card
@@ -203,19 +209,7 @@ export class EditLetter extends Component {
             </Card>
 
             <div style={{ display: "flex" }}>
-              <span style={{ flex: 1 }}>
-                <SecondaryButton
-                  data-testid="cancel-button"
-                  onClick={() => {
-                    this.props.dispatch(
-                      push(`/cases/${this.state.caseId}/letter/letter-preview`)
-                    );
-                  }}
-                  disabled={this.props.pristine}
-                >
-                  Cancel
-                </SecondaryButton>
-              </span>
+              <span style={{ flex: 1 }}>{this.renderCancelButton()}</span>
               <span style={{ flex: 1, textAlign: "right" }}>
                 {this.renderSaveButton()}
               </span>
