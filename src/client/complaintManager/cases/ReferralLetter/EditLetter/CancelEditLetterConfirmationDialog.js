@@ -14,7 +14,12 @@ import { closeCancelEditLetterConfirmationDialog } from "../../../actionCreators
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
 
-const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
+const CancelEditLetterConfirmationDialog = ({
+  open,
+  dispatch,
+  unblock,
+  redirectUrl
+}) => {
   return (
     <Dialog open={open} fullWidth={true}>
       <DialogTitle data-testid="cancel-edit-letter-dialog">
@@ -37,7 +42,8 @@ const CancelEditLetterConfirmationDialog = ({ open, dispatch, caseId }) => {
         <PrimaryButton
           data-testid="discardEditsButton"
           onClick={() => {
-            dispatch(push(`/cases/${caseId}/letter/letter-preview`));
+            unblock(false);
+            dispatch(push(redirectUrl));
             dispatch(closeCancelEditLetterConfirmationDialog());
           }}
         >

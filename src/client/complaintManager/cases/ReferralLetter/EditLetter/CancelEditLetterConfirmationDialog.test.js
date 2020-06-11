@@ -11,7 +11,7 @@ import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDi
 import { push } from "connected-react-router";
 
 describe("Cancel Edit Confirmation Dialog", () => {
-  let store, dispatchSpy, wrapper;
+  let store, dispatchSpy, wrapper, unblock;
 
   const caseId = 123;
 
@@ -20,11 +20,16 @@ describe("Cancel Edit Confirmation Dialog", () => {
     store.dispatch(openCancelEditLetterConfirmationDialog());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
+    unblock = jest.fn();
 
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <CancelEditLetterConfirmationDialog caseId={caseId} />
+          <CancelEditLetterConfirmationDialog
+            caseId={caseId}
+            unblock={unblock}
+            redirectUrl={"/cases/123/letter/letter-preview"}
+          />
         </Router>
       </Provider>
     );
@@ -45,11 +50,13 @@ describe("Cancel Edit Confirmation Dialog", () => {
     );
   });
 
-  test("open letter preview page and close the dialog when discard edits is clicked", () => {
+  test("open redirectURL and close the dialog when discard edits is clicked", () => {
     const discardEditsButton = wrapper
       .find("[data-testid='discardEditsButton']")
       .first();
     discardEditsButton.simulate("click");
+
+    expect(unblock).toHaveBeenCalledWith(false);
 
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       1,
