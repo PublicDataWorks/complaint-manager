@@ -81,11 +81,11 @@ export const getActiveClients = clientEmail => {
 
 export const sendNotification = async userEmail => {
   let activeClients = getActiveClients(userEmail);
+  const timestamp = moment().subtract(30, "days");
+  const message = await getNotifications(timestamp, userEmail);
+
   for (const activeClient in activeClients) {
     const currentClient = activeClients[activeClient];
-    const timestamp = moment().subtract(30, "days");
-    const message = await getNotifications(timestamp, currentClient.email);
-
     sendMessage("notifications", currentClient, message);
   }
 };
