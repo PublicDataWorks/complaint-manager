@@ -30,11 +30,6 @@ const RichTextEditorComponent = props => {
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
       data-testid={"editLetterInput"}
-      initializeForm={(dispatch, value) => {
-        dispatch(
-          initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: value })
-        );
-      }}
     />
   );
 };
@@ -234,4 +229,8 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm({ form: EDIT_LETTER_HTML_FORM })(EditLetter));
+)(
+  reduxForm({ form: EDIT_LETTER_HTML_FORM, enableReinitialize: true })(
+    EditLetter
+  )
+);
