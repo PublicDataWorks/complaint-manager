@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 const CancelEditLetterConfirmationDialog = ({
   open,
   dispatch,
-  unblock,
+  shouldBlockRoutingRedirects,
   redirectUrl
 }) => {
   return (
@@ -42,7 +42,7 @@ const CancelEditLetterConfirmationDialog = ({
         <PrimaryButton
           data-testid="discardEditsButton"
           onClick={() => {
-            unblock(false);
+            shouldBlockRoutingRedirects(false);
             dispatch(push(redirectUrl));
             dispatch(closeCancelEditLetterConfirmationDialog());
           }}

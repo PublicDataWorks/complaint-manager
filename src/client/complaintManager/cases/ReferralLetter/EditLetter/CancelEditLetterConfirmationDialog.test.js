@@ -11,7 +11,7 @@ import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDi
 import { push } from "connected-react-router";
 
 describe("Cancel Edit Confirmation Dialog", () => {
-  let store, dispatchSpy, wrapper, unblock;
+  let store, dispatchSpy, wrapper, shouldBlockRoutingRedirects;
 
   const caseId = 123;
 
@@ -20,14 +20,14 @@ describe("Cancel Edit Confirmation Dialog", () => {
     store.dispatch(openCancelEditLetterConfirmationDialog());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
-    unblock = jest.fn();
+    shouldBlockRoutingRedirects = jest.fn();
 
     wrapper = mount(
       <Provider store={store}>
         <Router>
           <CancelEditLetterConfirmationDialog
             caseId={caseId}
-            unblock={unblock}
+            shouldBlockRoutingRedirects={shouldBlockRoutingRedirects}
             redirectUrl={"/cases/123/letter/letter-preview"}
           />
         </Router>
@@ -56,7 +56,7 @@ describe("Cancel Edit Confirmation Dialog", () => {
       .first();
     discardEditsButton.simulate("click");
 
-    expect(unblock).toHaveBeenCalledWith(false);
+    expect(shouldBlockRoutingRedirects).toHaveBeenCalledWith(false);
 
     expect(dispatchSpy).toHaveBeenNthCalledWith(
       1,
