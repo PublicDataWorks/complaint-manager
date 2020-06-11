@@ -21,6 +21,8 @@ import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDi
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { complaintManagerMenuOptions } from "../../../shared/components/NavBar/complaintManagerMenuOptions";
+import history from "../../../../history";
+import { push } from "connected-react-router";
 
 const RichTextEditorComponent = props => {
   return (
@@ -36,14 +38,29 @@ const RichTextEditorComponent = props => {
     />
   );
 };
-
+let unblock;
 export class EditLetter extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id };
+    this.state = { caseId: this.props.match.params.id, redirectUrl: null };
   }
 
   componentDidMount() {
+    unblock = shouldNotRedirect => {
+      history.block(location => {
+        if (
+          location.pathname !==
+            `cases/${this.state.caseId}/letter/edit-letter` &&
+          this.props.dirty &&
+          shouldNotRedirect
+        ) {
+          this.setState({ redirectUrl: location.pathname });
+          this.props.dispatch(openCancelEditLetterConfirmationDialog());
+          return false;
+        }
+      });
+    };
+    unblock(true);
     this.props.dispatch(getReferralLetterPreview(this.state.caseId));
   }
 
@@ -68,7 +85,8 @@ export class EditLetter extends Component {
   saveAndGoBackToPreview = () => {
     return this.props.handleSubmit(
       this.submitEditedLetterForm(
-        `/cases/${this.state.caseId}/letter/letter-preview`
+        `/cases/${this.state.caseId}/letter/letter-preview`,
+        true
       )
     );
   };
@@ -84,25 +102,38 @@ export class EditLetter extends Component {
       </PrimaryButton>
     );
   };
+
   saveAndReturnToCase = () => {
     return this.props.handleSubmit(
-      this.submitEditedLetterForm(`/cases/${this.state.caseId}`)
+      this.submitEditedLetterForm(`/cases/${this.state.caseId}`, false)
     );
   };
 
   pageChangeCallback = redirectUrl => {
-    return this.props.handleSubmit(this.submitEditedLetterForm(redirectUrl));
+    return this.props.handleSubmit(
+      this.submitEditedLetterForm(redirectUrl, false)
+    );
   };
 
   stripWhitespaceBeforeLastParagraphElement = htmlString => {
     return htmlString.substring(0, htmlString.length - 4).trim() + "</p>";
   };
 
-  submitEditedLetterForm = redirectUrl => (values, dispatch) => {
-    values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
-      values.editedLetterHtml
-    );
-    dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
+  submitEditedLetterForm = (redirectUrl, shouldSaveEdits) => (
+    values,
+    dispatch
+  ) => {
+    if (shouldSaveEdits) {
+      unblock(false);
+      values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
+        values.editedLetterHtml
+      );
+      dispatch(
+        editReferralLetterContent(this.state.caseId, values, redirectUrl)
+      );
+    } else {
+      dispatch(push(redirectUrl));
+    }
   };
 
   render() {
@@ -146,7 +177,11 @@ export class EditLetter extends Component {
             >
               Edit Letter
             </Typography>
-            <CancelEditLetterConfirmationDialog caseId={this.state.caseId} />
+            <CancelEditLetterConfirmationDialog
+              caseId={this.state.caseId}
+              unblock={unblock}
+              redirectUrl={this.state.redirectUrl}
+            />
             <Card
               style={{
                 marginBottom: "24px",
@@ -173,9 +208,10 @@ export class EditLetter extends Component {
                   data-testid="cancel-button"
                   onClick={() => {
                     this.props.dispatch(
-                      openCancelEditLetterConfirmationDialog()
+                      push(`/cases/${this.state.caseId}/letter/letter-preview`)
                     );
                   }}
+                  disabled={this.props.pristine}
                 >
                   Cancel
                 </SecondaryButton>

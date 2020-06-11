@@ -13,6 +13,8 @@ import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
+import { push } from "connected-react-router";
+import history from "../../../../history";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -77,125 +79,134 @@ describe("Edit Letter Html", () => {
     expect(rtfEditor.props().value).toEqual(initialLetterHtml);
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button", () => {
+  test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button only when letter is 'dirty'", () => {
     const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("testing");
+
+    wrapper.update();
+
     cancelButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCancelEditLetterConfirmationDialog()
     );
-  });
-
-  test("open Cancel Edit Letter Confirmation Dialog", () => {
-    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
-    cancelButton.simulate("click");
-
     const cancelEditLetterDialog = wrapper
       .find("[data-testid='cancel-edit-letter-dialog']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  describe("Saves and Redirects when click Stepper Buttons", function() {
-    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
-      dispatchSpy.mockClear();
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Review Case Details"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
+  test("dispatch openCancelEditLetterConfirmationDialog and do not save edits when clicking any stepper button only when letter is 'dirty'", () => {
+    const statusStepper = wrapper
+      .find("[data-testid='step-button-Review Case Details']")
+      .first();
+    statusStepper.simulate("click");
 
-      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterContent(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/review`
-        )
-      );
-    });
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
 
-    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
-      dispatchSpy.mockClear();
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Officer Complaint Histories"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
+    expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
-      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterContent(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/officer-history`
-        )
-      );
-    });
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/letter/review`)
+    );
 
-    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
-      dispatchSpy.mockClear();
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-IAPro Corrections"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("testing");
 
-      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterContent(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/iapro-corrections`
-        )
-      );
-    });
+    wrapper.update();
 
-    test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
-      dispatchSpy.mockClear();
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Recommended Actions"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
+    statusStepper.simulate("click");
 
-      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterContent(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/recommended-actions`
-        )
-      );
-    });
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
 
-    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
-      dispatchSpy.mockClear();
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Preview"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
+  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking back to case button only when letter is 'dirty'", () => {
+    const backToCaseButton = wrapper
+      .find("[data-testid='save-and-return-to-case-link']")
+      .first();
+    backToCaseButton.simulate("click");
 
-      const expectedFormValues = { editedLetterHtml: initialLetterHtml };
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterContent(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/letter-preview`
-        )
-      );
-    });
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
 
-    test("redirects to case details page if not in a valid status", () => {
-      store.dispatch(
-        getCaseDetailsSuccess({ status: CASE_STATUS.FORWARDED_TO_AGENCY })
-      );
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        invalidCaseStatusRedirect(caseId)
-      );
-    });
+    expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
-    test("does not redirect on invalid status if haven't fetched status yet", () => {
-      store.dispatch(getCaseDetailsSuccess({ status: null }));
-      expect(dispatchSpy).not.toHaveBeenCalledWith(
-        invalidCaseStatusRedirect(caseId)
-      );
-    });
+    expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("testing");
+
+    wrapper.update();
+
+    backToCaseButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
+
+  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking nav bar buttons", () => {
+    history.push("/");
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
+
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("testing");
+    wrapper.update();
+
+    history.push("/");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
+
+  test("does not dispatch openCancelEditLetterConfirmationDialog and saves edits when clicking save button", () => {
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("<p>Letter Preview HTML change </p>");
+
+    const saveButton = wrapper.find("[data-testid='saveButton']").first();
+    saveButton.simulate("click");
+
+    const expectedFormValues = {
+      editedLetterHtml: "<p>Letter Preview HTML change</p>"
+    };
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      editReferralLetterContent(
+        caseId,
+        expectedFormValues,
+        `/cases/${caseId}/letter/letter-preview`
+      )
+    );
+  });
+
+  test("redirects to case details page if not in a valid status", () => {
+    store.dispatch(
+      getCaseDetailsSuccess({ status: CASE_STATUS.FORWARDED_TO_AGENCY })
+    );
+    expect(dispatchSpy).toHaveBeenCalledWith(invalidCaseStatusRedirect(caseId));
+  });
+
+  test("does not redirect on invalid status if haven't fetched status yet", () => {
+    store.dispatch(getCaseDetailsSuccess({ status: null }));
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      invalidCaseStatusRedirect(caseId)
+    );
   });
 });
