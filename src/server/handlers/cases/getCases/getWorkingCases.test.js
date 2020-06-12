@@ -38,9 +38,6 @@ describe("getWorkingCases", () => {
       headers: {
         authorization: "Bearer token"
       },
-      fflip: mockFflipObject({
-        caseDashboardPaginationFeature: true
-      }),
       query: {
         sortBy: "by",
         sortDirection: "direction",

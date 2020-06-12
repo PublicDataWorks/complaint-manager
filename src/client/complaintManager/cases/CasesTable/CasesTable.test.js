@@ -86,11 +86,7 @@ describe("cases table", () => {
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
-    store.dispatch(
-      getFeaturesSuccess({
-        caseDashboardPaginationFeature: true
-      })
-    );
+
     store.dispatch(getWorkingCasesSuccess(cases));
     tableWrapper = mount(
       <Provider store={store}>
