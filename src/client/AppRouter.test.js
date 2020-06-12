@@ -68,33 +68,10 @@ describe("AppRouter", () => {
       );
     });
 
-    test("displays /data complainant manager route when feature flag enabled", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          dataVisualizationFeature: true
-        })
-      );
-
+    test("displays /data complainant manager route", () => {
       appWrapper.update();
       const disProRoute = appWrapper.find("Route[path='/data']");
       expect(disProRoute.exists()).toBeTrue();
-    });
-
-    test("displays /data complainant manager route when feature flag doesn't exist", () => {
-      const disProRoute = appWrapper.find("Route[path='/data']");
-      expect(disProRoute.exists()).toBeTrue();
-      expect(appWrapper.find("AppRouter").props().featureToggles).toEqual({});
-    });
-
-    test("does not display /data complainant manager route when feature flag disabled", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          dataVisualizationFeature: false
-        })
-      );
-      appWrapper.update();
-      const disProRoute = appWrapper.find("Route[path='/data']");
-      expect(disProRoute.exists()).toBeFalse();
     });
   });
 });
