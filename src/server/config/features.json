@@ -1,11 +1,5 @@
 [
   {
-    "id": "caseDashboardPaginationFeature",
-    "name": "caseDashboardPaginationFeature",
-    "description": "Enables pagination of the cases on the dashboard",
-    "enabled": true
-  },
-  {
     "id": "caseValidationFeature",
     "name": "caseValidationFeature",
     "description": "Toggle to validate case",

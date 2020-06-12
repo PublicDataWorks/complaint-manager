@@ -56,14 +56,12 @@ class CasesTable extends React.Component {
   }
 
   getPagination() {
-    return this.props.caseDashboardPaginationFeature
-      ? {
-          onChange: this.onChange,
-          totalMessage: total => `${total} results found`,
-          count: this.props.totalCaseCount,
-          currentPage: this.props.currentPage
-        }
-      : {};
+    return {
+      onChange: this.onChange,
+      totalMessage: total => `${total} results found`,
+      count: this.props.totalCaseCount,
+      currentPage: this.props.currentPage
+    };
   }
 
   componentDidMount() {
@@ -264,9 +262,7 @@ const mapStateToProps = (state, ownProps) => ({
     : state.cases.working.loaded,
   currentUser: state.users.current.userInfo,
   sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection,
-  caseDashboardPaginationFeature:
-    state.featureToggles.caseDashboardPaginationFeature
+  sortDirection: state.ui.casesTable.sortDirection
 });
 
 export default withStyles(styles, { withTheme: true })(

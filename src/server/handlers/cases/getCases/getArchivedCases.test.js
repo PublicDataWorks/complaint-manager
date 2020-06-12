@@ -29,9 +29,6 @@ describe("getArchivedCases", () => {
       headers: {
         authorization: "Bearer token"
       },
-      fflip: mockFflipObject({
-        caseDashboardPaginationFeature: true
-      }),
       query: {
         page: 2,
         sortBy: "by",
