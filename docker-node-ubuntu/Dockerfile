@@ -8,7 +8,7 @@
 # Pull base image.
 FROM ubuntu:18.04
 
-LABEL version="2.0.0"
+LABEL version="2.0.1"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
