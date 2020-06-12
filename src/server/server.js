@@ -45,7 +45,8 @@ const corsOptions = {
 };
 
 if (process.env.NODE_ENV === "ci") {
-  app.options("*", cors(corsOptions));
+  console.log("Adding OPTIONS across all routes...");
+  app.options("*", cors());
 }
 
 app.use(function (req, res, next) {
@@ -112,6 +113,7 @@ app.use(
   })
 );
 if (process.env.NODE_ENV === "ci") {
+  console.log("Adding CORS configurations to routes...");
   app.use("/admin", cors(corsOptions), adminRouter);
   app.use("/api", cors(corsOptions), apiRouter);
 } else {
