@@ -1,11 +1,5 @@
 [
   {
-    "id": "caseTaggingFeature",
-    "name": "caseTaggingFeature",
-    "description": "Toggle to enable new case tagging feature",
-    "enabled": true
-  },
-  {
     "id": "cnComplaintTypeFeature",
     "name": "cnComplaintTypeFeature",
     "description": "Civilian within NOPD complainant type feature",
