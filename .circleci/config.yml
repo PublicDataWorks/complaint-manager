@@ -2,7 +2,7 @@ version: 2
 jobs:
   test-client:
     docker:
-      - image: noipm/docker-node-ubuntu:1.2.0
+      - image: noipm/docker-node-ubuntu:2.0.1
         environment:
           NODE_ENV: test
     steps:
@@ -18,7 +18,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers:
     docker:
-      - image: noipm/docker-node-ubuntu:1.2.0
+      - image: noipm/docker-node-ubuntu:2.0.1
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -38,7 +38,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-worker-non-handlers:
     docker:
-      - image: noipm/docker-node-ubuntu:1.2.0
+      - image: noipm/docker-node-ubuntu:2.0.1
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
