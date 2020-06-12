@@ -1,11 +1,5 @@
 [
   {
-    "id": "caseValidationFeature",
-    "name": "caseValidationFeature",
-    "description": "Toggle to validate case",
-    "enabled": false
-  },
-  {
     "id": "createCaseAddressInputFeature",
     "name": "createCaseAddressInputFeature",
     "description": "Toggle to enable address input upon case creation as a field for contact information",

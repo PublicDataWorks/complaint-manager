@@ -39,11 +39,6 @@ const catchValidationErrors = e => {
 const changeStatus = asyncMiddleware(async (request, response, next) => {
   const newStatus = request.body.status;
 
-  const caseValidationToggle = checkFeatureToggleEnabled(
-    request,
-    "caseValidationFeature"
-  );
-
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
 
@@ -59,7 +54,6 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       caseToUpdate,
       newStatus,
       validationErrors,
-      caseValidationToggle,
       request,
       transaction
     );
@@ -103,7 +97,6 @@ const updateCaseIfValid = async (
   caseToUpdate,
   newStatus,
   validationErrors,
-  caseValidationToggle,
   request,
   transaction
 ) => {
@@ -112,8 +105,7 @@ const updateCaseIfValid = async (
       { status: newStatus },
       {
         auditUser: request.nickname,
-        transaction,
-        validate: caseValidationToggle
+        transaction
       }
     );
   } catch (e) {
