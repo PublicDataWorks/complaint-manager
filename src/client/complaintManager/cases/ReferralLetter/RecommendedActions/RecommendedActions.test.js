@@ -36,7 +36,7 @@ jest.mock(
   })
 );
 
-describe("recommendedActions", function() {
+describe("recommendedActions", function () {
   let referralLetterId, caseId, store, dispatchSpy, wrapper;
   beforeEach(() => {
     referralLetterId = "44";
@@ -185,35 +185,15 @@ describe("recommendedActions", function() {
     );
   });
 
-  describe("Classification Feature Toggle", () => {
-    test("displays classification card when toggled on", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          classificationFeature: true
-        })
-      );
-      wrapper.update();
-      expect(
-        wrapper.find('[data-testid="classificationsContainer"]').exists()
-      ).toBeTrue();
-    });
-
-    test("does not display classification card when toggled off", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          classificationFeature: false
-        })
-      );
-      wrapper.update();
-      expect(
-        wrapper.find('[data-testid="classificationsContainer"]').exists()
-      ).toBeFalse();
-    });
+  test("displays classification card", () => {
+    expect(
+      wrapper.find('[data-testid="classificationsContainer"]').exists()
+    ).toBeTrue();
   });
 
-  describe("Saves and Redirects when click Stepper Buttons", function() {
+  describe("Saves and Redirects when click Stepper Buttons", function () {
     let expectedFormValues;
-    beforeEach(function() {
+    beforeEach(function () {
       expectedFormValues = {
         id: referralLetterId,
         includeRetaliationConcerns: true,

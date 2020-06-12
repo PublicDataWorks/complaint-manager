@@ -236,11 +236,9 @@ class RecommendedActions extends Component {
                   </Typography>
                 </CardContent>
               </Card>
-              {this.props.classificationFeature && (
-                <Classifications
-                  initialDisabled={this.props.initialValues["csfn-4"]}
-                />
-              )}
+              <Classifications
+                initialDisabled={this.props.initialValues["csfn-4"]}
+              />
               <FieldArray
                 name="letterOfficers"
                 component={this.renderOfficerCards}
@@ -282,8 +280,7 @@ const mapStateToProps = state => ({
     ...state.referralLetter.letterDetails.classifications
   },
   caseReference: state.currentCase.details.caseReference,
-  classifications: state.classifications,
-  classificationFeature: state.featureToggles.classificationFeature
+  classifications: state.classifications
 });
 
 const mapDispatchToProps = {

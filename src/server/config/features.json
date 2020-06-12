@@ -28,12 +28,6 @@
     }
   },
   {
-    "id": "classificationFeature",
-    "name": "classificationFeature",
-    "description": "Classification feature",
-    "enabled": true
-  },
-  {
     "id": "disableCaseNotesRemoval",
     "name": "disableCaseNotesRemoval",
     "description": "Disable removal of case notes",

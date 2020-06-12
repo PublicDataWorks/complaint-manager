@@ -61,7 +61,7 @@ jest.mock(
   }
 );
 
-describe("LetterPreview", function() {
+describe("LetterPreview", function () {
   const finalFilename = "final_filename.pdf";
   const draftFilename = "draft_filename.pdf";
   const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
@@ -254,7 +254,6 @@ describe("LetterPreview", function() {
         classifications: { "csfn-1": true }
       })
     );
-    store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
@@ -505,9 +504,9 @@ describe("LetterPreview", function() {
     expect(preview.exists()).toEqual(false);
   });
 
-  describe("Saves and Redirects when click Stepper Buttons", function() {
+  describe("Saves and Redirects when click Stepper Buttons", function () {
     let expectedFormValues;
-    beforeEach(function() {
+    beforeEach(function () {
       expectedFormValues = {
         sender: "bob",
         recipient: "jane",
@@ -781,7 +780,6 @@ describe("LetterPreview", function() {
         classifications: {}
       })
     );
-    store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
@@ -830,7 +828,6 @@ describe("LetterPreview", function() {
           permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
         })
       );
-      store.dispatch(getFeaturesSuccess({ classificationFeature: true }));
     });
     test("should not approve letter with missing officer history details", async () => {
       store.dispatch(
