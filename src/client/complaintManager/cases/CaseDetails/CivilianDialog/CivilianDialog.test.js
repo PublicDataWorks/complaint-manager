@@ -214,157 +214,78 @@ describe("civilian dialog", () => {
   });
 
   describe("email, phone number, and address", () => {
-    describe("createCaseAddressInputFeature off", () => {
-      beforeEach(() => {
-        store.dispatch(
-          getFeaturesSuccess({ createCaseAddressInputFeature: false })
-        );
-      });
-
-      test("should display phone error when phone and email marked as touched on form submit", () => {
-        let civilianToSubmit = new Civilian.Builder()
-          .defaultCivilian()
-          .withFirstName("test first name")
-          .withLastName("test last name")
-          .withEmail("")
-          .withPhoneNumber("")
-          .withCivilianTitleId(doctorMrsCivilianTitle[1])
-          .build();
-
-        changeInput(
-          civilianDialog,
-          '[data-testid="firstNameInput"]',
-          civilianToSubmit.firstName
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="lastNameInput"]',
-          civilianToSubmit.lastName
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="birthDateInput"]',
-          civilianToSubmit.birthDate
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="phoneNumberInput"]',
-          civilianToSubmit.phoneNumber
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="emailInput"]',
-          civilianToSubmit.email
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="genderDropdown"]',
-          "Other"
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="raceDropdown"]',
-          "Japanese"
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="titleDropdown"]',
-          doctorMrsCivilianTitle[0]
-        );
-        const phoneNumberField = civilianDialog.find(
-          'div[data-testid="phoneNumberField"]'
-        );
-        const phoneNumberInput = civilianDialog.find(
-          'input[data-testid="phoneNumberInput"]'
-        );
-        phoneNumberInput.simulate("focus");
-        phoneNumberInput.simulate("blur");
-        save.simulate("click");
-        expect(phoneNumberField.text()).toContain(
-          "Please enter phone number or email address"
-        );
-      });
+    beforeEach(() => {
+      caseCivilian.address = undefined;
+      store.dispatch(change(CIVILIAN_FORM_NAME, caseCivilian));
     });
-    describe("createCaseAddressInputFeature on", () => {
-      beforeEach(() => {
-        store.dispatch(
-          getFeaturesSuccess({ createCaseAddressInputFeature: true })
-        );
-        caseCivilian.address = undefined;
-        store.dispatch(change(CIVILIAN_FORM_NAME, caseCivilian));
-      });
 
-      afterEach(() => {
-        store.dispatch(reset(CIVILIAN_FORM_NAME));
-        store.dispatch(
-          getFeaturesSuccess({ createCaseAddressInputFeature: false })
-        );
-      });
+    afterEach(() => {
+      store.dispatch(reset(CIVILIAN_FORM_NAME));
+    });
 
-      test("should display phone error when phone and email marked as touched on form submit", () => {
-        let civilianToSubmit = new Civilian.Builder()
-          .defaultCivilian()
-          .withFirstName("test first name")
-          .withLastName("test last name")
-          .withEmail("")
-          .withPhoneNumber("")
-          .withCivilianTitleId(doctorMrsCivilianTitle[1])
-          .withNoAddress()
-          .build();
+    test("should display phone error when phone and email marked as touched on form submit", () => {
+      let civilianToSubmit = new Civilian.Builder()
+        .defaultCivilian()
+        .withFirstName("test first name")
+        .withLastName("test last name")
+        .withEmail("")
+        .withPhoneNumber("")
+        .withCivilianTitleId(doctorMrsCivilianTitle[1])
+        .withNoAddress()
+        .build();
 
-        changeInput(
-          civilianDialog,
-          '[data-testid="firstNameInput"]',
-          civilianToSubmit.firstName
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="lastNameInput"]',
-          civilianToSubmit.lastName
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="birthDateInput"]',
-          civilianToSubmit.birthDate
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="phoneNumberInput"]',
-          civilianToSubmit.phoneNumber
-        );
-        changeInput(
-          civilianDialog,
-          '[data-testid="emailInput"]',
-          civilianToSubmit.email
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="genderDropdown"]',
-          "Other"
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="raceDropdown"]',
-          "Japanese"
-        );
-        selectDropdownOption(
-          civilianDialog,
-          '[data-testid="titleDropdown"]',
-          doctorMrsCivilianTitle[0]
-        );
-        const phoneNumberField = civilianDialog.find(
-          'div[data-testid="phoneNumberField"]'
-        );
-        const phoneNumberInput = civilianDialog.find(
-          'input[data-testid="phoneNumberInput"]'
-        );
-        phoneNumberInput.simulate("focus");
-        phoneNumberInput.simulate("blur");
-        save.simulate("click");
-        expect(phoneNumberField.text()).toContain(
-          "Please enter one form of contact"
-        );
-      });
+      changeInput(
+        civilianDialog,
+        '[data-testid="firstNameInput"]',
+        civilianToSubmit.firstName
+      );
+      changeInput(
+        civilianDialog,
+        '[data-testid="lastNameInput"]',
+        civilianToSubmit.lastName
+      );
+      changeInput(
+        civilianDialog,
+        '[data-testid="birthDateInput"]',
+        civilianToSubmit.birthDate
+      );
+      changeInput(
+        civilianDialog,
+        '[data-testid="phoneNumberInput"]',
+        civilianToSubmit.phoneNumber
+      );
+      changeInput(
+        civilianDialog,
+        '[data-testid="emailInput"]',
+        civilianToSubmit.email
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-testid="genderDropdown"]',
+        "Other"
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-testid="raceDropdown"]',
+        "Japanese"
+      );
+      selectDropdownOption(
+        civilianDialog,
+        '[data-testid="titleDropdown"]',
+        doctorMrsCivilianTitle[0]
+      );
+      const phoneNumberField = civilianDialog.find(
+        'div[data-testid="phoneNumberField"]'
+      );
+      const phoneNumberInput = civilianDialog.find(
+        'input[data-testid="phoneNumberInput"]'
+      );
+      phoneNumberInput.simulate("focus");
+      phoneNumberInput.simulate("blur");
+      save.simulate("click");
+      expect(phoneNumberField.text()).toContain(
+        "Please enter one form of contact"
+      );
     });
   });
 

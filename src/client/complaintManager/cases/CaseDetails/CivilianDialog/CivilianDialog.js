@@ -1,6 +1,11 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import {
+  Field,
+  formValueSelector,
+  reduxForm,
+  SubmissionError
+} from "redux-form";
 import {
   Dialog,
   DialogActions,
@@ -13,28 +18,35 @@ import {
 } from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
-import {PrimaryButton, SecondaryButton} from "../../../shared/components/StyledButtons";
-import {closeEditCivilianDialog} from "../../../actionCreators/casesActionCreators";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
+import { closeEditCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import {
   genderIdentityIsRequired,
   raceEthnicityIsRequired,
   titleIsRequired
 } from "../../../../formFieldLevelValidations";
 import Dropdown from "../../../../common/components/Dropdown";
-import {withTheme} from "@material-ui/core/styles";
+import { withTheme } from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";
 import SuffixField from "../../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../../sharedFormComponents/PhoneNumberField";
 import EmailField from "../../sharedFormComponents/EmailField";
-import {formatAddressAsString} from "../../../utilities/formatAddress";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
 import moment from "moment";
-import {generateMenuOptions} from "../../../utilities/generateMenuOptions";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import validate from "./helpers/validateCivilianFields";
 import AddressInput from "./AddressInput";
-import {CIVILIAN_FORM_NAME, COMPLAINANT, WITNESS} from "../../../../../sharedUtilities/constants";
-import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
-import {addressMustBeValid} from "../../../../formValidations";
+import {
+  CIVILIAN_FORM_NAME,
+  COMPLAINANT,
+  WITNESS
+} from "../../../../../sharedUtilities/constants";
+import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
+import { addressMustBeValid } from "../../../../formValidations";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import _ from "lodash";
 import normalizeAddress from "../../../utilities/normalizeAddress";
@@ -42,7 +54,10 @@ import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getR
 import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/getGenderIdentityDropdownValues";
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
-import {renderRadioGroup, renderTextField} from "../../sharedFormComponents/renderFunctions";
+import {
+  renderRadioGroup,
+  renderTextField
+} from "../../sharedFormComponents/renderFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 const styles = {
@@ -64,10 +79,7 @@ class CivilianDialog extends Component {
     if (errors.autoSuggestValue) {
       throw new SubmissionError(errors);
     }
-    const contactErrors = validate(
-      values,
-      this.props.createCaseAddressInputFeature
-    );
+    const contactErrors = validate(values);
     if (!_.isEmpty(contactErrors)) {
       throw new SubmissionError(contactErrors);
     }
@@ -132,7 +144,7 @@ class CivilianDialog extends Component {
                   width: "95px",
                   marginBottom: "3%"
                 }}
-                inputProps={{ "data-testid": "titleInput"}}
+                inputProps={{ "data-testid": "titleInput" }}
                 validate={[titleIsRequired]}
               >
                 {generateMenuOptions(this.props.civilianTitles)}
@@ -192,7 +204,7 @@ class CivilianDialog extends Component {
                   marginBottom: "3%",
                   marginLeft: "28px"
                 }}
-                inputProps={{ "data-testid": "genderInput"}}
+                inputProps={{ "data-testid": "genderInput" }}
               >
                 {generateMenuOptions(this.props.genderIdentities)}
               </Field>
@@ -205,7 +217,7 @@ class CivilianDialog extends Component {
               hinttext="Race/Ethnicity"
               data-testid="raceDropdown"
               style={{ width: "75%" }}
-              inputProps={{ "data-testid": "raceEthnicityInput"}}
+              inputProps={{ "data-testid": "raceEthnicityInput" }}
               validate={[raceEthnicityIsRequired]}
             >
               {generateMenuOptions(this.props.raceEthnicities)}
@@ -246,18 +258,17 @@ class CivilianDialog extends Component {
                 OR
               </Typography>
               <EmailField name="email" autoComplete="disabled" />
-              {this.props.createCaseAddressInputFeature && (
-                <Typography
-                  variant="button"
-                  style={{
-                    marginLeft: "22px",
-                    marginTop: "22px",
-                    marginRight: "22px"
-                  }}
-                >
-                  OR
-                </Typography>
-              )}
+
+              <Typography
+                variant="button"
+                style={{
+                  marginLeft: "22px",
+                  marginTop: "22px",
+                  marginRight: "22px"
+                }}
+              >
+                OR
+              </Typography>
             </div>
             <div style={{ display: "flex" }}>
               <div style={{ marginBottom: "16px", width: "100%" }}>
@@ -358,9 +369,7 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     raceEthnicities: state.ui.raceEthnicities,
     genderIdentities: state.ui.genderIdentities,
-    civilianTitles: state.ui.civilianTitles,
-    createCaseAddressInputFeature:
-      state.featureToggles.createCaseAddressInputFeature
+    civilianTitles: state.ui.civilianTitles
   };
 };
 

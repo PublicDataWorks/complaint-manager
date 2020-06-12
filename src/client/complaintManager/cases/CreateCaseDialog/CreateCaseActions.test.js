@@ -16,7 +16,6 @@ import {
   selectDropdownOption
 } from "../../../testHelpers";
 import moment from "moment";
-import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 import { addressMustBeValid } from "../../../formValidations";
 import {
   updateAddressInputValidity,
@@ -60,7 +59,6 @@ describe("CreateCaseActions", () => {
 
   beforeEach(() => {
     store = createConfiguredStore();
-    store.dispatch(getFeaturesSuccess({ createCaseAddressInputFeature: true }));
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
 
     dispatchSpy = jest.spyOn(store, "dispatch");
