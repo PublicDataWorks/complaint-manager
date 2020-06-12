@@ -312,165 +312,110 @@ describe("CreateCaseDialog component", () => {
     });
 
     describe("contact information validation", () => {
-      describe("createCaseAddressInputFeature on", () => {
-        beforeEach(() => {
-          store.dispatch(
-            getFeaturesSuccess({ createCaseAddressInputFeature: true })
-          );
-        });
-
-        afterEach(() => {
-          store.dispatch(
-            getFeaturesSuccess({ createCaseAddressInputFeature: false })
-          );
-        });
-
-        test("should display phone number error message when phone, address, and email are undefined", () => {
-          changeInput(dialog, '[data-testid="lastNameInput"]', "test");
-          changeInput(dialog, '[data-testid="firstNameInput"]', "test");
-          selectDropdownOption(
-            dialog,
-            '[data-testid="intakeSourceDropdown"]',
-            "Email"
-          );
-          const phoneNumberField = dialog.find(
-            'div[data-testid="phoneNumberField"]'
-          );
-          const phoneNumberInput = dialog.find(
-            'input[data-testid="phoneNumberInput"]'
-          );
-          phoneNumberInput.simulate("focus");
-          phoneNumberInput.simulate("blur");
-          submitButton.simulate("click");
-
-          expect(phoneNumberField.text()).toContain(
-            "Please enter one form of contact"
-          );
-        });
-      });
-      describe("createCaseAddressInputFeature off", () => {
-        test("should display phone number error message when phone, address, and email are undefined", () => {
-          changeInput(dialog, '[data-testid="lastNameInput"]', "test");
-          changeInput(dialog, '[data-testid="firstNameInput"]', "test");
-          selectDropdownOption(
-            dialog,
-            '[data-testid="intakeSourceDropdown"]',
-            "Email"
-          );
-          const phoneNumberField = dialog.find(
-            'div[data-testid="phoneNumberField"]'
-          );
-          const phoneNumberInput = dialog.find(
-            'input[data-testid="phoneNumberInput"]'
-          );
-          phoneNumberInput.simulate("focus");
-          phoneNumberInput.simulate("blur");
-          submitButton.simulate("click");
-
-          expect(phoneNumberField.text()).toContain(
-            "Please enter phone number or email address"
-          );
-        });
-      });
-    });
-    describe("createCaseAddressInputFeature on", () => {
-      beforeEach(() => {
-        store.dispatch(
-          getFeaturesSuccess({ createCaseAddressInputFeature: true })
-        );
-      });
-
-      afterEach(() => {
-        store.dispatch(
-          getFeaturesSuccess({ createCaseAddressInputFeature: false })
-        );
-      });
-
-      test("should submit new case when only address provided for contact info", async () => {
-        const addressString = "200 E Randolph St, Chicago, IL, 60601, US";
-
-        const addressObject = {
-          city: "Chicago",
-          country: "US",
-          lat: 41.8855572,
-          lng: -87.6214826,
-          placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
-          state: "IL",
-          streetAddress: "200 E Randolph St",
-          streetAddress2: "Ste 2500",
-          zipCode: "60601"
-        };
-
-        const civilian = {
-          firstName: "Henry",
-          lastName: "Bubbler",
-          address: addressObject
-        };
-
-        const caseDetails = {
-          case: {
-            complaintType: CIVILIAN_INITIATED,
-            firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
-            intakeSourceId: 1,
-            incidentDate: undefined
-          },
-          civilian: civilian
-        };
-
-        changeInput(dialog, '[data-testid="lastNameInput"]', civilian.lastName);
-        changeInput(
-          dialog,
-          '[data-testid="firstNameInput"]',
-          civilian.firstName
-        );
+      test("should display phone number error message when phone, address, and email are undefined", () => {
+        changeInput(dialog, '[data-testid="lastNameInput"]', "test");
+        changeInput(dialog, '[data-testid="firstNameInput"]', "test");
         selectDropdownOption(
           dialog,
           '[data-testid="intakeSourceDropdown"]',
-          "NOIPM Website"
+          "Email"
         );
-        changeInput(
-          dialog,
-          '[data-testid="addressSuggestionField"]',
-          addressString
+        const phoneNumberField = dialog.find(
+          'div[data-testid="phoneNumberField"]'
         );
-        dialog
-          .find('input[data-testid="addressSuggestionField"]')
-          .last()
-          .simulate("blur");
-        changeInput(
-          dialog,
-          '[data-testid="streetAddress2Input"]',
-          addressObject.streetAddress2
+        const phoneNumberInput = dialog.find(
+          'input[data-testid="phoneNumberInput"]'
         );
-        await expectEventuallyToExist(
-          dialog,
-          '[data-testid="fillAddressToConfirm"]'
-        );
-        dialog
-          .find('[data-testid="fillAddressToConfirm"]')
-          .last()
-          .simulate("click");
-
-        const submitButton = dialog.find(
-          'LinkButton[data-testid="createCaseOnly"]'
-        );
-
+        phoneNumberInput.simulate("focus");
+        phoneNumberInput.simulate("blur");
         submitButton.simulate("click");
 
-        expect(dispatchSpy).toHaveBeenCalledWith(
-          createCase({
-            caseDetails: caseDetails,
-            redirect: false,
-            sorting: {
-              sortBy: SORT_CASES_BY.CASE_REFERENCE,
-              sortDirection: DESCENDING
-            },
-            pagination: {
-              currentPage: 1
-            }
-          })
+        expect(phoneNumberField.text()).toContain(
+          "Please enter one form of contact"
         );
       });
+    });
+
+    test("should submit new case when only address provided for contact info", async () => {
+      const addressString = "200 E Randolph St, Chicago, IL, 60601, US";
+
+      const addressObject = {
+        city: "Chicago",
+        country: "US",
+        lat: 41.8855572,
+        lng: -87.6214826,
+        placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
+        state: "IL",
+        streetAddress: "200 E Randolph St",
+        streetAddress2: "Ste 2500",
+        zipCode: "60601"
+      };
+
+      const civilian = {
+        firstName: "Henry",
+        lastName: "Bubbler",
+        address: addressObject
+      };
+
+      const caseDetails = {
+        case: {
+          complaintType: CIVILIAN_INITIATED,
+          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          intakeSourceId: 1,
+          incidentDate: undefined
+        },
+        civilian: civilian
+      };
+
+      changeInput(dialog, '[data-testid="lastNameInput"]', civilian.lastName);
+      changeInput(dialog, '[data-testid="firstNameInput"]', civilian.firstName);
+      selectDropdownOption(
+        dialog,
+        '[data-testid="intakeSourceDropdown"]',
+        "NOIPM Website"
+      );
+      changeInput(
+        dialog,
+        '[data-testid="addressSuggestionField"]',
+        addressString
+      );
+      dialog
+        .find('input[data-testid="addressSuggestionField"]')
+        .last()
+        .simulate("blur");
+      changeInput(
+        dialog,
+        '[data-testid="streetAddress2Input"]',
+        addressObject.streetAddress2
+      );
+      await expectEventuallyToExist(
+        dialog,
+        '[data-testid="fillAddressToConfirm"]'
+      );
+      dialog
+        .find('[data-testid="fillAddressToConfirm"]')
+        .last()
+        .simulate("click");
+
+      const submitButton = dialog.find(
+        'LinkButton[data-testid="createCaseOnly"]'
+      );
+
+      submitButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        createCase({
+          caseDetails: caseDetails,
+          redirect: false,
+          sorting: {
+            sortBy: SORT_CASES_BY.CASE_REFERENCE,
+            sortDirection: DESCENDING
+          },
+          pagination: {
+            currentPage: 1
+          }
+        })
+      );
     });
   });
 

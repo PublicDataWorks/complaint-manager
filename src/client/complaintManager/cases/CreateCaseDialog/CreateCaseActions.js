@@ -44,7 +44,7 @@ export class CreateCaseActions extends React.Component {
       caseDetails: {
         case: this.prepareCase(theCase),
         ...(civilian &&
-          this.isValid(civilian, this.props.createCaseAddressInputFeature) &&
+          this.isValid(civilian) &&
           this.prepareCivilian(civilian))
       },
       redirect,
@@ -64,34 +64,21 @@ export class CreateCaseActions extends React.Component {
   });
 
   prepareCivilian = civilian => {
-    let civilianData;
-    if (this.props.createCaseAddressInputFeature) {
-      civilianData = {
-        ...civilian,
-        firstName: civilian.firstName.trim(),
-        lastName: civilian.lastName.trim(),
-        address: normalizeAddress(civilian.address)
-      };
-    } else {
-      civilianData = {
-        ...civilian,
-        firstName: civilian.firstName.trim(),
-        lastName: civilian.lastName.trim()
-      };
-    }
+    const civilianData = {
+      ...civilian,
+      firstName: civilian.firstName.trim(),
+      lastName: civilian.lastName.trim(),
+      address: normalizeAddress(civilian.address)
+    };
     return {
       civilian: civilianData
     };
   };
 
-  isValid = (civilian, createCaseAddressInputFeature = false) => {
-    const errors = validate(civilian, createCaseAddressInputFeature);
-    if (this.props.createCaseAddressInputFeature) {
-      addressMustBeValid(this.props.addressValid, errors);
-    }
-
+  isValid = civilian => {
+    const errors = validate(civilian);
+    addressMustBeValid(this.props.addressValid, errors);
     if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
-
     return true;
   };
   render() {
@@ -122,14 +109,9 @@ export class CreateCaseActions extends React.Component {
   }
 }
 
-const validate = (civilian, createCaseAddressInputFeature) => {
-  const errorMessage = createCaseAddressInputFeature
-    ? "Please enter one form of contact"
-    : "Please enter phone number or email address";
-  const fieldsToValidate = createCaseAddressInputFeature
-    ? ["phoneNumber", "email", "address"]
-    : ["phoneNumber", "email"];
-
+const validate = civilian => {
+  const errorMessage = "Please enter one form of contact";
+  const fieldsToValidate = ["phoneNumber", "email", "address"];
   return atLeastOneRequired(civilian, errorMessage, fieldsToValidate);
 };
 
@@ -172,9 +154,7 @@ const mapStateToProps = state => ({
   sortBy: state.ui.casesTable.sortBy,
   sortDirection: state.ui.casesTable.sortDirection,
   currentPage: state.cases.working.currentPage,
-  addressValid: state.ui.addressInput.addressValid,
-  createCaseAddressInputFeature:
-    state.featureToggles.createCaseAddressInputFeature
+  addressValid: state.ui.addressInput.addressValid
 });
 
 const mapDispatchToProps = {

@@ -11,7 +11,6 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import mockFflipObject from "../../testHelpers/mockFflipObject";
 import auditDataAccess from "../audits/auditDataAccess";
 
 const httpMocks = require("node-mocks-http");
@@ -67,29 +66,24 @@ describe("createCase handler", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-  describe("createCaseAddressInputFeature on", () => {
-    beforeEach(() => {
-      request.fflip = mockFflipObject({ createCaseAddressInputFeature: true });
+
+  test("should create case with civilian address information", async () => {
+    await createCase(request, response, next);
+
+    const insertedCase = await models.cases.findOne({
+      where: { complaintType: CIVILIAN_INITIATED },
+      include: [{ model: models.civilian, as: "complainantCivilians" }]
+    });
+    const insertedAddress = await models.address.findOne({
+      where: { addressableId: insertedCase.primaryComplainant.id }
     });
 
-    test("should create case with civilian address information", async () => {
-      await createCase(request, response, next);
-
-      const insertedCase = await models.cases.findOne({
-        where: { complaintType: CIVILIAN_INITIATED },
-        include: [{ model: models.civilian, as: "complainantCivilians" }]
-      });
-      const insertedAddress = await models.address.findOne({
-        where: { addressableId: insertedCase.primaryComplainant.id }
-      });
-
-      expect(insertedAddress).toEqual(
-        expect.objectContaining({
-          ...civilianAttributes.address,
-          addressableType: ADDRESSABLE_TYPE.CIVILIAN
-        })
-      );
-    });
+    expect(insertedAddress).toEqual(
+      expect.objectContaining({
+        ...civilianAttributes.address,
+        addressableType: ADDRESSABLE_TYPE.CIVILIAN
+      })
+    );
   });
   test("should create case with civilian if civilian complainant type ", async () => {
     await createCase(request, response, next);
@@ -289,10 +283,6 @@ describe("createCase handler", () => {
     });
 
     test("should audit when creating a case with a civilian complainant", async () => {
-      request.fflip = mockFflipObject({
-        createCaseAddressInputFeature: true
-      });
-
       await createCase(request, response, next);
 
       const cases = await models.cases.findAll({ returning: true });
@@ -335,7 +325,12 @@ describe("createCase handler", () => {
           insertedCase.year,
           insertedCase.caseNumber
         ])
-      ).toEqual([[2017, 1], [2018, 1], [2018, 2], [2018, 3]]);
+      ).toEqual([
+        [2017, 1],
+        [2018, 1],
+        [2018, 2],
+        [2018, 3]
+      ]);
     });
 
     test("assigns the case number of 1 for this year when no cases for this year exist yet", async () => {
@@ -415,7 +410,11 @@ describe("createCase handler", () => {
           insertedCase.year,
           insertedCase.caseNumber
         ])
-      ).toEqual([[2018, 1], [2018, 2], [2018, 3]]);
+      ).toEqual([
+        [2018, 1],
+        [2018, 2],
+        [2018, 3]
+      ]);
     });
   });
 

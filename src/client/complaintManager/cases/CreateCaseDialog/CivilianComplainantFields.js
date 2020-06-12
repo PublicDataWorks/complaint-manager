@@ -5,15 +5,11 @@ import LastNameField from "../sharedFormComponents/LastNameField";
 import SuffixField from "../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
-import {Typography} from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import AddressInput from "../CaseDetails/CivilianDialog/AddressInput";
 import AddressSecondLine from "../sharedFormComponents/AddressSecondLine";
 
-const CivilianComplainantFields = ({
-  formattedAddress,
-  formName,
-  createCaseAddressInputFeature
-}) => {
+const CivilianComplainantFields = ({ formattedAddress, formName }) => {
   return (
     <div>
       <FirstNameField name="civilian.firstName" />
@@ -45,41 +41,37 @@ const CivilianComplainantFields = ({
           OR
         </Typography>
         <EmailField name={"civilian.email"} autoComplete="disabled" />
-        {createCaseAddressInputFeature && (
-          <Typography
-            variant="button"
-            style={{
-              marginLeft: "22px",
-              marginTop: "22px",
-              marginRight: "22px"
-            }}
-          >
-            OR
-          </Typography>
-        )}
+        <Typography
+          variant="button"
+          style={{
+            marginLeft: "22px",
+            marginTop: "22px",
+            marginRight: "22px"
+          }}
+        >
+          OR
+        </Typography>
       </div>
-      {createCaseAddressInputFeature && (
-        <div style={{ display: "flex" }}>
-          <div style={{ marginBottom: "16px", width: "100%" }}>
-            <AddressInput
-              name={"civilian.autoSuggestValue"}
-              formName={formName}
-              fieldName={"civilian.address"}
-              addressLabel={"Address"}
-              formattedAddress={formattedAddress}
-            />
-          </div>
-          <AddressSecondLine
-            label={"Address Line 2"}
+      <div style={{ display: "flex" }}>
+        <div style={{ marginBottom: "16px", width: "100%" }}>
+          <AddressInput
+            name={"civilian.autoSuggestValue"}
             formName={formName}
             fieldName={"civilian.address"}
-            style={{
-              marginBottom: "24px",
-              width: "50%"
-            }}
+            addressLabel={"Address"}
+            formattedAddress={formattedAddress}
           />
         </div>
-      )}
+        <AddressSecondLine
+          label={"Address Line 2"}
+          formName={formName}
+          fieldName={"civilian.address"}
+          style={{
+            marginBottom: "24px",
+            width: "50%"
+          }}
+        />
+      </div>
     </div>
   );
 };

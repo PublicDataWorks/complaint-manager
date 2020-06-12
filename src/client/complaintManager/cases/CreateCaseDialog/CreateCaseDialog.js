@@ -1,19 +1,29 @@
 import React from "react";
-import {Field, formValueSelector, reduxForm} from "redux-form";
-import {connect} from "react-redux";
-import {Dialog, DialogContent, DialogContentText, DialogTitle, Typography, withStyles} from "@material-ui/core";
+import { Field, formValueSelector, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import {
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Typography,
+  withStyles
+} from "@material-ui/core";
 import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
-import {CIVILIAN_INITIATED, CREATE_CASE_FORM_NAME} from "../../../../sharedUtilities/constants";
-import {generateMenuOptions} from "../../utilities/generateMenuOptions";
+import {
+  CIVILIAN_INITIATED,
+  CREATE_CASE_FORM_NAME
+} from "../../../../sharedUtilities/constants";
+import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
-import {intakeSourceIsRequired} from "../../../formFieldLevelValidations";
+import { intakeSourceIsRequired } from "../../../formFieldLevelValidations";
 import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
-import {formatAddressAsString} from "../../utilities/formatAddress";
-import {scrollToFirstErrorWithValue} from "../../../common/helpers/scrollToFirstError";
+import { formatAddressAsString } from "../../utilities/formatAddress";
+import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 
 const styles = {
   dialogPaper: {
@@ -58,9 +68,7 @@ class CreateCaseDialog extends React.Component {
           </DialogContentText>
           <form data-testid="createCaseForm">
             <Timeline />
-            {this.props.createCaseAddressInputFeature && (
-              <IntakeSource intakeSources={this.props.intakeSources} />
-            )}
+            <IntakeSource intakeSources={this.props.intakeSources} />
             <br />
             <Field
               name="case.complaintType"
@@ -75,13 +83,7 @@ class CreateCaseDialog extends React.Component {
               <CivilianComplainantFields
                 formattedAddress={this.props.formattedAddress}
                 formName={CREATE_CASE_FORM_NAME}
-                createCaseAddressInputFeature={
-                  this.props.createCaseAddressInputFeature
-                }
               />
-            )}
-            {!this.props.createCaseAddressInputFeature && (
-              <IntakeSource intakeSources={this.props.intakeSources} />
             )}
           </form>
         </DialogContent>
@@ -132,7 +134,7 @@ const IntakeSource = props => {
       hinttext="Intake Source"
       data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ "data-testid": "intakeSourceInput"}}
+      inputProps={{ "data-testid": "intakeSourceInput" }}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}
@@ -162,8 +164,6 @@ const mapStateToProps = state => {
     intakeSources: state.ui.intakeSources,
     formattedAddress: formatAddressAsString(addressValues.address),
     addressValid: state.ui.addressInput.addressValid,
-    createCaseAddressInputFeature:
-      state.featureToggles.createCaseAddressInputFeature,
     cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature
   };
 };

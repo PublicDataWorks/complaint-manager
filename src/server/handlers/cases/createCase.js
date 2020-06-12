@@ -26,11 +26,6 @@ const MAX_RETRIES = 3;
 const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
-  const createCaseAddressInputFeature = checkFeatureToggleEnabled(
-    request,
-    "createCaseAddressInputFeature"
-  );
-
   let newCase = {};
   const complaintType = request.body.case.complaintType;
   if (
@@ -40,10 +35,7 @@ const createCase = asyncMiddleware(async (request, response, next) => {
     newCase = await createCaseWithoutCivilian(request);
   } else {
     validateCivilianName(request.body.civilian);
-    newCase = await createCaseWithCivilian(
-      request,
-      createCaseAddressInputFeature
-    );
+    newCase = await createCaseWithCivilian(request);
   }
 
   response.status(201).send(newCase);
@@ -71,10 +63,7 @@ const createCaseWithoutCivilian = async request => {
   );
 };
 
-const createCaseWithCivilian = async (
-  request,
-  createCaseAddressInputFeature
-) => {
+const createCaseWithCivilian = async request => {
   const newCaseAttributes = {
     ...request.body.case,
     complainantCivilians: [request.body.civilian]
@@ -90,8 +79,7 @@ const createCaseWithCivilian = async (
     newCaseAttributes,
     includeOptions,
     request.nickname,
-    FIRST_TRY,
-    createCaseAddressInputFeature
+    FIRST_TRY
   );
 };
 
@@ -99,20 +87,14 @@ const createCaseWithRetry = async (
   newCaseAttributes,
   includeOptions,
   nickname,
-  retryNumber,
-  createCaseAddressInputFeature
+  retryNumber
 ) => {
   const caseAttributes = addMetadataToCaseAttributes(
     newCaseAttributes,
     nickname
   );
   try {
-    return await attemptCreateCase(
-      caseAttributes,
-      includeOptions,
-      nickname,
-      createCaseAddressInputFeature
-    );
+    return await attemptCreateCase(caseAttributes, includeOptions, nickname);
   } catch (error) {
     if (failedToCreateUniqueCaseReferenceNumber(error)) {
       if (retryNumber === MAX_RETRIES) {
@@ -137,12 +119,7 @@ const failedToCreateUniqueCaseReferenceNumber = error => {
   );
 };
 
-const attemptCreateCase = async (
-  caseAttributes,
-  includeOptions,
-  nickname,
-  createCaseAddressInputFeature = false
-) => {
+const attemptCreateCase = async (caseAttributes, includeOptions, nickname) => {
   return await models.sequelize.transaction(async transaction => {
     let addressAuditDetails;
 
@@ -164,7 +141,7 @@ const attemptCreateCase = async (
       caseAttributes.complaintType === CIVILIAN_INITIATED &&
       caseAttributes.complainantCivilians[0].address;
 
-    if (createCaseAddressInputFeature && isCivilianInitiatedWithAddress) {
+    if (isCivilianInitiatedWithAddress) {
       await upsertAddress(
         caseAttributes.complainantCivilians[0].address,
         createdCase.complainantCivilians[0].id,

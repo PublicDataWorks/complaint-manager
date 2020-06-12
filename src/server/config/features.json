@@ -1,11 +1,5 @@
 [
   {
-    "id": "createCaseAddressInputFeature",
-    "name": "createCaseAddressInputFeature",
-    "description": "Toggle to enable address input upon case creation as a field for contact information",
-    "enabled": true
-  },
-  {
     "id": "caseTaggingFeature",
     "name": "caseTaggingFeature",
     "description": "Toggle to enable new case tagging feature",
