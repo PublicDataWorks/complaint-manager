@@ -150,41 +150,22 @@ class CaseNoteDialog extends Component {
             >
               {generateMenuOptions(this.props.caseNoteActions)}
             </Field>
-            {this.props.notificationFeature ? (
-              <Field
-                data-testid="notes"
-                name="notes"
-                label="Notes"
-                component={TextFieldWithUserMention}
-                inputProps={{
-                  "data-testid": "notesInput"
-                }}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                users={generateMenuOptions(mappedUsers)}
-                filterAfterMention={filterAfterTrigger}
-                onSetMentionedUsers={this.handleMentionedUsers}
-                displayUserDropdown={this.displayUserDropdown}
-              />
-            ) : (
-              <Field
-                data-testid="notes"
-                name="notes"
-                label="Notes"
-                component={renderTextField}
-                inputProps={{
-                  "data-testid": "notesInput"
-                }}
-                InputLabelProps={{
-                  shrink: true
-                }}
-                multiline
-                rowsMax={8}
-                placeholder="Enter any notes about this action"
-                fullWidth
-              />
-            )}
+            <Field
+              data-testid="notes"
+              name="notes"
+              label="Notes"
+              component={TextFieldWithUserMention}
+              inputProps={{
+                "data-testid": "notesInput"
+              }}
+              InputLabelProps={{
+                shrink: true
+              }}
+              users={generateMenuOptions(mappedUsers)}
+              filterAfterMention={filterAfterTrigger}
+              onSetMentionedUsers={this.handleMentionedUsers}
+              displayUserDropdown={this.displayUserDropdown}
+            />
           </form>
         </DialogContent>
         <DialogActions
@@ -226,8 +207,7 @@ const mapStateToProps = state => ({
   dialogType: state.ui.caseNoteDialog.dialogType,
   initialCaseNote: state.ui.caseNoteDialog.initialCaseNote,
   caseNoteActions: state.ui.caseNoteActions,
-  allUsers: state.users.all,
-  notificationFeature: state.featureToggles.notificationFeature
+  allUsers: state.users.all
 });
 
 const mapDispatchToProps = {

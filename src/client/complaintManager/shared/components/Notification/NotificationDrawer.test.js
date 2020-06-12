@@ -21,12 +21,6 @@ describe("notifications drawer", () => {
         </Router>
       </Provider>
     );
-
-    store.dispatch(
-      getFeaturesSuccess({
-        notificationFeature: true
-      })
-    );
     return wrapper;
   }
 

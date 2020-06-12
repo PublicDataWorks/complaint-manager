@@ -68,12 +68,6 @@ describe("TextFieldWithUserMention", () => {
         </Router>
       </Provider>
     );
-
-    store.dispatch(
-      getFeaturesSuccess({
-        notificationFeature: true
-      })
-    );
     return wrapper;
   }
 

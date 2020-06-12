@@ -102,22 +102,20 @@ class NavBar extends Component {
             variant="h6"
             color="inherit"
           >{`${nickname}`}</Typography>
-          {this.props.notificationFeature ? (
-            <IconButton
-              color="inherit"
-              className="notificationBell"
-              data-testid="notificationBell"
-              style={{ marginLeft: standards.small }}
-              onClick={() => this.handleNotificationClick()}
+          <IconButton
+            color="inherit"
+            className="notificationBell"
+            data-testid="notificationBell"
+            style={{ marginLeft: standards.small }}
+            onClick={() => this.handleNotificationClick()}
+          >
+            <Badge
+              color={"error"}
+              badgeContent={this.countUnreadNotifications()}
             >
-              <Badge
-                color={"error"}
-                badgeContent={this.countUnreadNotifications()}
-              >
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-          ) : null}
+              <NotificationsIcon />
+            </Badge>
+          </IconButton>
           <NotificationDrawer
             open={this.state.notificationDrawer}
             onClose={() => this.handleNotificationClick()}
@@ -164,7 +162,6 @@ NavBar.defaultProps = {
 const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname,
   permissions: state.users.current.userInfo.permissions,
-  notificationFeature: state.featureToggles.notificationFeature,
   realtimeNotificationsFeature:
     state.featureToggles.realtimeNotificationsFeature,
   featureToggles: state.featureToggles,
