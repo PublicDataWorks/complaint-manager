@@ -30,8 +30,7 @@ const complaintManagerRoutes = [
   },
   {
     path: "/data",
-    component: DataDashboard,
-    toggleName: "dataVisualizationFeature"
+    component: DataDashboard
   },
   {
     path: "/cases/:id/officers/search",

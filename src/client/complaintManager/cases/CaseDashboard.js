@@ -33,8 +33,7 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  currentPage: state.cases.working.currentPage,
-  dataVisualizationFeature: state.featureToggles.dataVisualizationFeature
+  currentPage: state.cases.working.currentPage
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaseDashboard);

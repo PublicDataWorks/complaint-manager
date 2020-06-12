@@ -28,10 +28,7 @@ describe("MenuNavigator", () => {
       () => {
         wrapper = mount(
           <Router>
-            <MenuNavigator
-              menuType={complaintManagerMenuOptions}
-              featureToggles={{ dataVisualizationFeature: true }}
-            />
+            <MenuNavigator menuType={complaintManagerMenuOptions} />
           </Router>
         );
 
@@ -46,33 +43,6 @@ describe("MenuNavigator", () => {
         expect(
           wrapper.find('[data-testid="dataDashboard"]').exists()
         ).toBeTrue();
-      }
-    );
-
-    test(
-      "if menuType is complaintManagerMenuOptions and data visualization feature toggle is disabled, " +
-        "menu items should be Archived Cases, Export, and Logout",
-      () => {
-        wrapper = mount(
-          <Router>
-            <MenuNavigator
-              menuType={complaintManagerMenuOptions}
-              featureToggles={{ dataVisualizationFeature: false }}
-            />
-          </Router>
-        );
-
-        expect(
-          wrapper.find('[data-testid="archivedCases"]').exists()
-        ).toBeTrue();
-        expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
-        expect(
-          wrapper.find('[data-testid="logOutButton"]').exists()
-        ).toBeTrue();
-        expect(wrapper.find('[data-testid="complaints"]').exists()).toBeFalse();
-        expect(
-          wrapper.find('[data-testid="dataDashboard"]').exists()
-        ).toBeFalse();
       }
     );
   });

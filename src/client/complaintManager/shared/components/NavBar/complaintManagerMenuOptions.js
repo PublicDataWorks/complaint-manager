@@ -2,8 +2,7 @@ export const complaintManagerMenuOptions = [
   {
     path: "/data",
     dataTestName: "dataDashboard",
-    title: "Data Dashboard",
-    toggleName: "dataVisualizationFeature"
+    title: "Data Dashboard"
   },
   {
     path: "/export/all",
