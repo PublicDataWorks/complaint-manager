@@ -10,7 +10,6 @@ import {
 const newRelic = require("newrelic");
 
 const express = require("express");
-const cors = require("cors");
 const path = require("path");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
@@ -36,18 +35,6 @@ winston.configure({
 });
 
 const app = express();
-
-const corsOptions = {
-  origin: "https://noipm-ci.herokuapp.com",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  preflightContinue: false,
-  optionsSuccessStatus: 200
-};
-
-if (process.env.NODE_ENV === "ci") {
-  console.log("Adding OPTIONS across all routes...");
-  app.options("*", cors());
-}
 
 app.use(function (req, res, next) {
   res.header("X-powered-by", "<3");
@@ -112,14 +99,9 @@ app.use(
     bodyBlacklist: ""
   })
 );
-if (process.env.NODE_ENV === "ci") {
-  console.log("Adding CORS configurations to routes...");
-  app.use("/admin", cors(corsOptions), adminRouter);
-  app.use("/api", cors(corsOptions), apiRouter);
-} else {
-  app.use("/admin", adminRouter);
-  app.use("/api", apiRouter);
-}
+
+app.use("/admin", adminRouter);
+app.use("/api", apiRouter);
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
