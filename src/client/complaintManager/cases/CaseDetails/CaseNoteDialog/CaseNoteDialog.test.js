@@ -148,11 +148,6 @@ describe("CaseNoteDialog", () => {
       })
     );
 
-    store.dispatch(
-      getFeaturesSuccess({
-        notificationFeature: true
-      })
-    );
     store.dispatch(getUsers());
     store.dispatch(getUsersSuccess([{ name: "Test", email: "test@test.com" }]));
 
@@ -244,52 +239,24 @@ describe("CaseNoteDialog", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(valuesToSubmit));
   });
 
-  describe("Notification Feature Toggle", () => {
+  test("should show user mention dropdown ", () => {
     const actionTakenAt = new Date();
     const initialValues = {
       actionTakenAt: moment(actionTakenAt).format("YYYY-MM-DDTHH:mm:ss"),
       caseNoteActionId: caseNoteActions.memoToFile[1]
     };
+    store.dispatch(initialize("CaseNotes", initialValues));
+    store.dispatch(openCaseNoteDialog("Edit", initialValues));
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: caseId
+      })
+    );
 
-    beforeEach(() => {
-      store.dispatch(initialize("CaseNotes", initialValues));
-      store.dispatch(openCaseNoteDialog("Edit", initialValues));
-      store.dispatch(
-        getCaseDetailsSuccess({
-          id: caseId
-        })
-      );
+    wrapper.update();
 
-      wrapper.update();
-    });
+    const notesInput = wrapper.find('[data-testid="notes"]');
 
-    test("should not show user mention dropdown when notificationFeatureFlag is disabled", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          notificationFeature: false
-        })
-      );
-      wrapper.update();
-
-      const notesInput = wrapper.find('[data-testid="notes"]');
-
-      expect(
-        notesInput.find("ForwardRef(Autocomplete)").exists()
-      ).not.toBeTrue();
-    });
-
-    test("should show user mention dropdown when notificationFeatureFlag is enabled", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          notificationFeature: true
-        })
-      );
-
-      wrapper.update();
-
-      const notesInput = wrapper.find('[data-testid="notes"]');
-
-      expect(notesInput.find("ForwardRef(Autocomplete)").exists()).toBeTrue();
-    });
+    expect(notesInput.find("ForwardRef(Autocomplete)").exists()).toBeTrue();
   });
 });

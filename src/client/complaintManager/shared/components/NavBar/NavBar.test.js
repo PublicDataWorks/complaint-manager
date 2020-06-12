@@ -100,40 +100,11 @@ describe("NavBar", () => {
     });
   });
 
-  describe("Notifications Feature Toggle", () => {
-    test("displays notification bell when toggled on", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          notificationFeature: true
-        })
-      );
-      wrapper.update();
+  describe("notification bell", () => {
+    test("displays notification bell", () => {
       expect(
         wrapper.find('[data-testid="notificationBell"]').exists()
       ).toBeTrue();
-    });
-
-    test("does not display notification bell when toggled off", () => {
-      store.dispatch(
-        getFeaturesSuccess({
-          notificationFeature: false
-        })
-      );
-      wrapper.update();
-      expect(
-        wrapper.find('[data-testid="notificationBell"]').exists()
-      ).toBeFalse();
-    });
-  });
-
-  describe("notification bell", () => {
-    beforeEach(() => {
-      store.dispatch(
-        getFeaturesSuccess({
-          notificationFeature: true,
-          realtimeNotificationsFeature: false
-        })
-      );
     });
 
     test("getNotifications should be dispatched when bell is clicked to open drawer ONLY", () => {
@@ -154,7 +125,7 @@ describe("NavBar", () => {
 
     test("should display badge icon on notification bell when user with 0 unread notifications receives 1 new notification", () => {
       let notificationBadge = wrapper.find("ForwardRef(Badge)");
-      expect(notificationBadge.exists()).toBeFalsy();
+      expect(notificationBadge.props().badgeContent).toBe(0);
 
       store.dispatch(
         getNotificationsSuccess([

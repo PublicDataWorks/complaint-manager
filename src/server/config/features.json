@@ -34,12 +34,6 @@
     "enabled": true
   },
   {
-    "id": "notificationFeature",
-    "name": "notificationFeature",
-    "description": "Notification feature",
-    "enabled": true
-  },
-  {
     "id": "disableCaseNotesRemoval",
     "name": "disableCaseNotesRemoval",
     "description": "Disable removal of case notes",

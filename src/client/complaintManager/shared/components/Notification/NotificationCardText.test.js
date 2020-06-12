@@ -20,11 +20,6 @@ describe("unread notification text", () => {
         </Router>
       </Provider>
     );
-    store.dispatch(
-      getFeaturesSuccess({
-        notificationFeature: true
-      })
-    );
     return wrapper;
   };
 

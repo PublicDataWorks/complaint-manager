@@ -37,12 +37,6 @@ describe("notification list", () => {
     axios.get.mockReturnValue({ ...responseBody });
 
     store.dispatch(
-      getFeaturesSuccess({
-        notificationFeature: true
-      })
-    );
-
-    store.dispatch(
       getNotificationsSuccess([
         {
           user: "veronicablackwell@tw.com",
