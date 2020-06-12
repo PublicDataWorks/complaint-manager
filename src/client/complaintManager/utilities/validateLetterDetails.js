@@ -16,7 +16,7 @@ const validateLetterDetails = props => {
     }
   }
 
-  if (props.classificationFeature && _.isEmpty(props.classifications)) {
+  if (_.isEmpty(props.classifications)) {
     props.openIncompleteClassificationsDialog();
     return false;
   }

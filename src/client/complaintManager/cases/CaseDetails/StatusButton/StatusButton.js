@@ -1,6 +1,5 @@
 import {
   CASE_STATUS,
-  UNKNOWN_OFFICER_NAME,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
@@ -13,7 +12,6 @@ import {
 } from "../../../actionCreators/letterActionCreators";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetterData";
-import _ from "lodash";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import history from "../../../../history";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
@@ -58,7 +56,7 @@ class StatusButton extends Component {
     }
     if (nextStatus === CASE_STATUS.READY_FOR_REVIEW) {
       isValidLetterDetails = await validateLetterDetails(this.props);
-      if (!isValidLetterDetails) return
+      if (!isValidLetterDetails) return;
     }
     this.props.openCaseStatusUpdateDialog(nextStatus, redirectUrl);
   };
@@ -124,8 +122,7 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   userInfo: state.users.current.userInfo,
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-  classifications: state.referralLetter.letterDetails.classifications,
-  classificationFeature: state.featureToggles.classificationFeature
+  classifications: state.referralLetter.letterDetails.classifications
 });
 
 const mapDispatchToProps = {

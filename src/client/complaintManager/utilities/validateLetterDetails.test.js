@@ -1,17 +1,12 @@
 import validateLetterDetails from "./validateLetterDetails";
-import {
-  openIncompleteClassificationsDialog,
-  openIncompleteOfficerHistoryDialog
-} from "../actionCreators/letterActionCreators";
 
 describe("validate letter details test", () => {
-  let props, incompleteClassificationsSpy, incompleteOfficerHistorySpy;
+  let props;
 
   beforeEach(() => {
     props = {
       letterOfficers: [],
       classifications: {},
-      classificationFeature: true,
       openIncompleteClassificationsDialog: jest.fn(),
       openIncompleteOfficerHistoryDialog: jest.fn()
     };
