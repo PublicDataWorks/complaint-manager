@@ -11,13 +11,8 @@ import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchiv
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
 
-const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
-  let lastDrawerRowClassName;
-  if (caseTaggingFeature) {
-    lastDrawerRowClassName = classes.drawerRowEnd;
-  } else {
-    lastDrawerRowClassName = classes.drawerRow;
-  }
+const CaseDrawer = ({ classes, caseDetails }) => {
+  const lastDrawerRowClassName = classes.drawerRowEnd;
 
   return (
     <Drawer
@@ -73,20 +68,18 @@ const CaseDrawer = ({ classes, caseDetails, caseTaggingFeature = false }) => {
               </Typography>
             </div>
           </div>
-          {!caseTaggingFeature && (
-            <div className={classes.drawerRowEnd}>
-              <div className={classes.drawerRowItem}>
-                <Typography variant="caption">Assigned To</Typography>
-                <Typography data-testid="assigned-to" variant="body2">
-                  {caseDetails.assignedTo}
-                </Typography>
-              </div>
-              <div className={classes.drawerRowItem} />
-              <div className={classes.drawerRowItem} />
+          <div className={classes.drawerRowEnd}>
+            <div className={classes.drawerRowItem}>
+              <Typography variant="caption">Assigned To</Typography>
+              <Typography data-testid="assigned-to" variant="body2">
+                {caseDetails.assignedTo}
+              </Typography>
             </div>
-          )}
+            <div className={classes.drawerRowItem} />
+            <div className={classes.drawerRowItem} />
+          </div>
         </div>
-        {caseTaggingFeature && <CaseTags />}
+        <CaseTags />
         <CaseNotes />
       </div>
     </Drawer>

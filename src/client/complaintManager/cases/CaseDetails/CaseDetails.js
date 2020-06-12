@@ -164,11 +164,7 @@ class CaseDetails extends React.Component {
               {status}
             </Typography>
           </NavBar>
-          <CaseDrawer
-            classes={classes}
-            caseDetails={this.props.caseDetails}
-            caseTaggingFeature={this.props.caseTaggingFeature}
-          />
+          <CaseDrawer classes={classes} caseDetails={this.props.caseDetails} />
           <main className={classes.content}>
             <CaseStatusStepper />
             <div style={{ marginLeft: "5%", marginRight: "5%" }}>
@@ -235,7 +231,6 @@ CaseDetails.propTypes = {
 
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
-  caseTaggingFeature: state.featureToggles.caseTaggingFeature,
   cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature,
   contactInformationFeature: state.featureToggles.contactInformationFeature
 });

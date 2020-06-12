@@ -21,12 +21,6 @@ describe("Case Tags", () => {
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(
-      getFeaturesSuccess({
-        caseTaggingFeature: true
-      })
-    );
-
     dialog = mount(
       <Provider store={store}>
         <Router>
