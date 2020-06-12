@@ -94,11 +94,7 @@ module.exports = {
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: [
-        "'self'",
-        "https://noipm-ci.auth0.com",
-        "https://buae4310rh.execute-api.us-east-2.amazonaws.com"
-      ]
+      connectSrc: ["'self'", "https://noipm-ci.auth0.com"]
     },
     winston: {
       logLevel: "info",
