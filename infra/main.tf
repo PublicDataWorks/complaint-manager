@@ -6,6 +6,10 @@ variable "heroku_api_key" {
   description = "API key for Heroku account associated with email"
 }
 
+variable "team_name" {
+  description = "Name of the Heroku team under which the app should be provisioned"
+}
+
 variable "app_name" {
   description = "Name of the Heroku app to be provisioned"
 }
@@ -18,24 +22,24 @@ provider "heroku" {
 }
 
 resource "heroku_app" "app" {
-  name   = "${var.app_name}"
+  name   = var.app_name
   region = "us"
   organization {
-    name = "noipm"
+    name = var.team_name
   }
 }
 
 resource "heroku_addon" "redis_addon" {
-  app  = "${heroku_app.app.name}"
+  app  = heroku_app.app.name
   plan = "rediscloud:30"
 }
 
 resource "heroku_addon" "postgres_addon" {
-  app  = "${heroku_app.app.name}"
+  app  = heroku_app.app.name
   plan = "heroku-postgresql:hobby-dev"
 }
 
 resource "heroku_addon" "papertrail_addon" {
-  app  = "${heroku_app.app.name}"
+  app  = heroku_app.app.name
   plan = "papertrail:choklad"
 }
