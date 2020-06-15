@@ -25,7 +25,6 @@ const Witnesses = props => {
           incidentDate={props.caseDetails.incidentDate}
           isArchived={props.caseDetails.isArchived}
           classes={classes}
-          contactInformationFeature={props.contactInformationFeature}
         />
         {props.caseDetails.isArchived ? null : (
           <ComplainantWitnessMenu

@@ -49,10 +49,7 @@ describe("OfficerDetails", () => {
 
     test("should display proper button text", () => {
       expect(
-        wrapper
-          .find('[data-testid="officerSubmitButton"]')
-          .first()
-          .html()
+        wrapper.find('[data-testid="officerSubmitButton"]').first().html()
       ).toContain(mockButtonText);
     });
 
@@ -81,7 +78,6 @@ describe("OfficerDetails", () => {
             caseId={testCaseId}
             dispatch={stubFunction}
             initialRoleOnCase={COMPLAINANT}
-            contactInformationFeature={true}
           />
         </Router>
       </Provider>
@@ -128,7 +124,6 @@ describe("OfficerDetails", () => {
               roleOnCase: COMPLAINANT
             }}
             initialRoleOnCase={COMPLAINANT}
-            contactInformationFeature={true}
           />
         </Router>
       </Provider>
@@ -163,7 +158,6 @@ describe("OfficerDetails", () => {
               roleOnCase: WITNESS
             }}
             initialRoleOnCase={WITNESS}
-            contactInformationFeature={true}
           />
         </Router>
       </Provider>
