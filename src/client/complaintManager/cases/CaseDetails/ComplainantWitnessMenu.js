@@ -67,26 +67,24 @@ const ComplainantWitnessMenu = props => {
         >
           {OFFICER_TITLE} {props.civilianType}
         </MenuItem>
-        {props.cnComplaintTypeFeature ? (
-          <MenuItem
-            data-testid="addCivilianWithinNopdComplainantWitness"
-            onClick={() => {
-              props.dispatch(
-                initialize("OfficerDetails", {
-                  roleOnCase: props.civilianType
-                })
-              );
-              props.dispatch(
-                addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
-              );
-              props.dispatch(
-                push(`/cases/${props.caseDetails.id}/officers/search`)
-              );
-            }}
-          >
-            {CIVILIAN_WITHIN_NOPD_TITLE} {props.civilianType}
-          </MenuItem>
-        ) : null}
+        <MenuItem
+          data-testid="addCivilianWithinNopdComplainantWitness"
+          onClick={() => {
+            props.dispatch(
+              initialize("OfficerDetails", {
+                roleOnCase: props.civilianType
+              })
+            );
+            props.dispatch(
+              addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
+            );
+            props.dispatch(
+              push(`/cases/${props.caseDetails.id}/officers/search`)
+            );
+          }}
+        >
+          {CIVILIAN_WITHIN_NOPD_TITLE} {props.civilianType}
+        </MenuItem>
       </Menu>
     </div>
   );

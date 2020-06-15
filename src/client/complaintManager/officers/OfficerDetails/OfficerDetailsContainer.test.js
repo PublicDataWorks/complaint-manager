@@ -96,12 +96,6 @@ describe("OfficerDetailsContainer", () => {
       })
     );
 
-    store.dispatch(
-      getFeaturesSuccess({
-        cnComplaintTypeFeature: true
-      })
-    );
-
     mount(
       <Provider store={store}>
         <Router

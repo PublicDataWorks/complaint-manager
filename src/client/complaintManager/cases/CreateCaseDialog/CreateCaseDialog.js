@@ -73,10 +73,6 @@ class CreateCaseDialog extends React.Component {
             <Field
               name="case.complaintType"
               component={ComplaintTypeRadioGroup}
-              input_props={{
-                cnComplaintTypeFeature:
-                  this.props.cnComplaintTypeFeature || false
-              }}
             />
             <br />
             {civilianComplainant && (
@@ -163,8 +159,7 @@ const mapStateToProps = state => {
     complaintType: complaintTypeValues,
     intakeSources: state.ui.intakeSources,
     formattedAddress: formatAddressAsString(addressValues.address),
-    addressValid: state.ui.addressInput.addressValid,
-    cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature
+    addressValid: state.ui.addressInput.addressValid
   };
 };
 
