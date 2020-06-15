@@ -25,16 +25,15 @@ const Accused = props => {
     caseId,
     isArchived,
     menuOpen,
-    anchorEl,
-    cnComplaintTypeFeature
+    anchorEl
   } = props;
-  const titleText = cnComplaintTypeFeature ? "Accused" : "Accused Officers";
+  const titleText = "Accused";
 
   return (
     <BaseCaseDetailsCard data-testid="officersSection" title={titleText}>
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
-          ? renderNoOfficers(cnComplaintTypeFeature)
+          ? renderNoOfficers()
           : accusedOfficers.map(caseOfficer =>
               caseOfficer.isUnknownOfficer ? (
                 <UnknownOfficerPanel
@@ -65,8 +64,7 @@ const Accused = props => {
               anchorEl,
               dispatch,
               caseId,
-              ACCUSED,
-              cnComplaintTypeFeature
+              ACCUSED
             )}
       </CardContent>
     </BaseCaseDetailsCard>
@@ -79,52 +77,25 @@ const renderAddAccused = (
   handleMenuOpen,
   anchorEl,
   dispatch,
-  caseId,
-  civilianType,
-  cnComplaintTypeFeature
+  caseId
 ) => {
   return (
     <Fragment>
-      {cnComplaintTypeFeature ? (
-        <AddAccusedMenu
-          menuOpen={menuOpen}
-          handleMenuClose={handleMenuClose}
-          handleMenuOpen={handleMenuOpen}
-          anchorEl={anchorEl}
-          dispatch={dispatch}
-          caseId={caseId}
-          civilianType={ACCUSED}
-          cnComplaintTypeFeature={cnComplaintTypeFeature}
-        />
-      ) : (
-        <LinkButton
-          style={{
-            marginLeft: "8px",
-            marginTop: "8px",
-            marginBottom: "8px"
-          }}
-          onClick={() => {
-            dispatch(
-              initialize(OFFICER_DETAILS_FORM_NAME, {
-                roleOnCase: ACCUSED
-              })
-            );
-            dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
-            dispatch(push(`/cases/${caseId}/officers/search`));
-          }}
-          data-testid="addAccusedOfficerButton"
-        >
-          + Add Officer
-        </LinkButton>
-      )}
+      <AddAccusedMenu
+        menuOpen={menuOpen}
+        handleMenuClose={handleMenuClose}
+        handleMenuOpen={handleMenuOpen}
+        anchorEl={anchorEl}
+        dispatch={dispatch}
+        caseId={caseId}
+        civilianType={ACCUSED}
+      />
     </Fragment>
   );
 };
 
-const renderNoOfficers = cnComplaintTypeFeature => {
-  const noAccusedEmployeesMessage = cnComplaintTypeFeature
-    ? "No accused employees have been added"
-    : "No accused officers have been added";
+const renderNoOfficers = () => {
+  const noAccusedEmployeesMessage = "No accused employees have been added";
 
   return (
     <Fragment>

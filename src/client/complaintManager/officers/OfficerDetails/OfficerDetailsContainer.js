@@ -19,9 +19,8 @@ import { complaintManagerMenuOptions } from "../../shared/components/NavBar/comp
 
 export class OfficerDetailsContainer extends Component {
   componentDidMount() {
-    const snackbarErrorText = this.props.cnComplaintTypeFeature
-      ? "Please select an employee or unknown officer to continue"
-      : "Please select an officer or unknown officer to continue";
+    const snackbarErrorText =
+      "Please select an employee or unknown officer to continue";
     if (!this.props.officerCurrentlySelected) {
       this.props.dispatch(push(this.props.officerSearchUrl));
       this.props.dispatch(snackbarError(snackbarErrorText));
@@ -98,7 +97,6 @@ const mapStateToProps = state => {
     selectedOfficerData: state.officers.searchOfficers.selectedOfficerData,
     officerCurrentlySelected:
       state.officers.searchOfficers.officerCurrentlySelected,
-    cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature,
     contactInformationFeature: state.featureToggles.contactInformationFeature
   };
 };

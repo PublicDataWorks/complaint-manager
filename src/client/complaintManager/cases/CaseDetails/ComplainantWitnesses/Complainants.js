@@ -46,7 +46,6 @@ const Complainants = props => {
             dispatch={props.dispatch}
             caseDetails={props.caseDetails}
             civilianType={COMPLAINANT}
-            cnComplaintTypeFeature={props.cnComplaintTypeFeature}
           />
         )}
       </CardContent>

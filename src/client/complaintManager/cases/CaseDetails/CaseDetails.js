@@ -179,7 +179,6 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleComplainantMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
-              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
               contactInformationFeature={this.props.contactInformationFeature}
             />
             <Witnesses
@@ -190,7 +189,6 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleWitnessMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
-              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
               contactInformationFeature={this.props.contactInformationFeature}
             />
             <Narrative
@@ -211,7 +209,6 @@ class CaseDetails extends React.Component {
               menuOpen={this.state.addAccusedMenuOpen}
               handleMenuClose={this.handleAddAccusedMenuClose}
               anchorEl={this.state.anchorEl}
-              cnComplaintTypeFeature={this.props.cnComplaintTypeFeature}
             />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
@@ -231,7 +228,6 @@ CaseDetails.propTypes = {
 
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
-  cnComplaintTypeFeature: state.featureToggles.cnComplaintTypeFeature,
   contactInformationFeature: state.featureToggles.contactInformationFeature
 });
 

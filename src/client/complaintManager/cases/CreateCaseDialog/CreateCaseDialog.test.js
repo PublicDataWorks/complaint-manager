@@ -53,12 +53,6 @@ describe("CreateCaseDialog component", () => {
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
-    store.dispatch(
-      getFeaturesSuccess({
-        cnComplaintTypeFeature: true
-      })
-    );
-
     dialog = mount(
       <Provider store={store}>
         <CreateCaseButton />
