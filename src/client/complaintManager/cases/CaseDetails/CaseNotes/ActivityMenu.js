@@ -73,14 +73,14 @@ class ActivityMenu extends React.Component {
           >
             Edit Note
           </MenuItem>
-          {this.props.disableCaseNotesRemoval ? null : (
+          {this.props.removeCaseNotesFeature ? (
             <MenuItem
               data-testid="removeMenuItem"
               onClick={this.handleRemoveNoteClick}
             >
               Remove Note
             </MenuItem>
-          )}
+          ) : null}
         </Menu>
       </Fragment>
     );
@@ -88,7 +88,7 @@ class ActivityMenu extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  disableCaseNotesRemoval: state.featureToggles.disableCaseNotesRemoval,
+  removeCaseNotesFeature: state.featureToggles.removeCaseNotesFeature,
   nickname: state.users.current.userInfo.nickname
 });
 
