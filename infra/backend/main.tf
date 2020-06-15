@@ -14,11 +14,25 @@ variable "app_name" {
   description = "Name of the Heroku app to be provisioned"
 }
 
+variable "bucket_names" {
+  description = "Names of the buckets in this env"
+  default = [
+    "noipm-playground",
+    "nopd-officers-playground"
+  ]
+}
+
 provider "heroku" {
   version = "~> 2.0"
   email   = var.heroku_email
   api_key = var.heroku_api_key
+}
 
+provider "aws" {
+  version = "~> 2.0"
+  region  = "us-east-1"
+  shared_credentials_file = "~/.aws/credentials"
+  profile                 = "noipm-terraform"
 }
 
 resource "heroku_app" "app" {
@@ -43,3 +57,11 @@ resource "heroku_addon" "papertrail_addon" {
   app  = heroku_app.app.name
   plan = "papertrail:choklad"
 }
+
+resource "aws_s3_bucket" "env_bucket" {
+  for_each = toset(var.bucket_names)
+
+  bucket = each.value
+  acl    = "private"
+}
+
