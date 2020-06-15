@@ -112,11 +112,11 @@ describe("ActivityMenu", () => {
     expect(activityMenu.props().open).toEqual(false);
   });
 
-  describe("when DisableCaseNotesRemoval feature is enabled", () => {
+  describe("when removeCaseNotes feature is disabled", () => {
     test("does NOT display option to remove case note", () => {
       store.dispatch(
         getFeaturesSuccess({
-          disableCaseNotesRemoval: true
+          removeCaseNotes: false
         })
       );
       wrapper.update();
@@ -129,11 +129,11 @@ describe("ActivityMenu", () => {
     });
   });
 
-  describe("when DisableCaseNotesRemoval feature is disabled", () => {
+  describe("when removeCaseNotesFeature is enabled", () => {
     test("should open remove note dialog and close menu when remove note button clicked", () => {
       store.dispatch(
         getFeaturesSuccess({
-          disableCaseNotesRemoval: false
+          removeCaseNotesFeature: true
         })
       );
       wrapper.update();

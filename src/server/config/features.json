@@ -16,10 +16,10 @@
     }
   },
   {
-    "id": "disableCaseNotesRemoval",
-    "name": "disableCaseNotesRemoval",
-    "description": "Disable removal of case notes",
-    "enabled": true
+    "id": "removeCaseNotesFeature",
+    "name": "removeCaseNotesFeature",
+    "description": "Case notes can be removed",
+    "enabled": false
   },
   {
     "id": "realtimeNotificationsFeature",
