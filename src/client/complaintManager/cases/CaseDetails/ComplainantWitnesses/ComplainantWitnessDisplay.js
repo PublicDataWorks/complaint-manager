@@ -12,8 +12,7 @@ const ComplainantWitnessDisplay = ({
   dispatch,
   incidentDate,
   isArchived,
-  classes,
-  contactInformationFeature
+  classes
 }) => {
   return (
     <div>
@@ -37,7 +36,6 @@ const ComplainantWitnessDisplay = ({
                 <UnknownOfficerPanel
                   key={index}
                   caseOfficer={civilianOrOfficer}
-                  contactInformationFeature={contactInformationFeature}
                 >
                   {isArchived ? null : (
                     <OfficerActions caseOfficer={civilianOrOfficer} />
@@ -49,7 +47,6 @@ const ComplainantWitnessDisplay = ({
                 <OfficerPanel
                   key={index}
                   caseOfficer={civilianOrOfficer}
-                  contactInformationFeature={contactInformationFeature}
                   officerAge={calculateAgeBasedOnIncidentDate(
                     civilianOrOfficer,
                     incidentDate

@@ -179,7 +179,6 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleComplainantMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
-              contactInformationFeature={this.props.contactInformationFeature}
             />
             <Witnesses
               caseDetails={this.props.caseDetails}
@@ -189,7 +188,6 @@ class CaseDetails extends React.Component {
               handleMenuClose={this.handleWitnessMenuClose}
               anchorEl={this.state.anchorEl}
               classes={classes}
-              contactInformationFeature={this.props.contactInformationFeature}
             />
             <Narrative
               initialValues={{
@@ -227,8 +225,7 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details,
-  contactInformationFeature: state.featureToggles.contactInformationFeature
+  caseDetails: state.currentCase.details
 });
 
 export default withStyles(styles, { withTheme: true })(

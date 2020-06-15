@@ -19,12 +19,7 @@ import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelI
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 
-const UnknownOfficerPanel = ({
-  dispatch,
-  caseOfficer,
-  children,
-  contactInformationFeature
-}) => {
+const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);
   return (
     <div data-testid="unknownOfficerPanel">
@@ -57,27 +52,25 @@ const UnknownOfficerPanel = ({
               </StyledInfoDisplay>
             </div>
           </ExpansionPanelSummary>
-          {caseOfficer &&
-            caseOfficer.roleOnCase !== ACCUSED &&
-            contactInformationFeature && (
-              <StyledExpansionPanelDetails>
-                <StyledInfoDisplay>
-                  <OfficerInfoDisplay
-                    displayLabel="Phone Number"
-                    value={phoneNumber}
-                    testLabel="phoneNumber"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <OfficerInfoDisplay
-                    displayLabel="Email"
-                    value={caseOfficer.email}
-                    testLabel="email"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay />
-              </StyledExpansionPanelDetails>
-            )}
+          {caseOfficer && caseOfficer.roleOnCase !== ACCUSED && (
+            <StyledExpansionPanelDetails>
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Phone Number"
+                  value={phoneNumber}
+                  testLabel="phoneNumber"
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Email"
+                  value={caseOfficer.email}
+                  testLabel="email"
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay />
+            </StyledExpansionPanelDetails>
+          )}
           <StyledExpansionPanelDetails>
             <StyledInfoDisplay>
               <OfficerInfoDisplay

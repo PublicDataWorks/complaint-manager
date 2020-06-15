@@ -27,13 +27,7 @@ import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelI
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
 
-const OfficerPanel = ({
-  dispatch,
-  caseOfficer,
-  officerAge,
-  children,
-  contactInformationFeature
-}) => {
+const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const isCivilianWithinNopd =
     caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
   const caseEmployeeTitle = isCivilianWithinNopd
@@ -168,27 +162,25 @@ const OfficerPanel = ({
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
-          {caseOfficer &&
-            caseOfficer.roleOnCase !== ACCUSED &&
-            contactInformationFeature && (
-              <StyledExpansionPanelDetails>
-                <StyledInfoDisplay>
-                  <OfficerInfoDisplay
-                    displayLabel="Phone Number"
-                    value={phoneNumber}
-                    testLabel="phoneNumber"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <OfficerInfoDisplay
-                    displayLabel="Email"
-                    value={caseOfficer.email}
-                    testLabel="email"
-                  />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay />
-              </StyledExpansionPanelDetails>
-            )}
+          {caseOfficer && caseOfficer.roleOnCase !== ACCUSED && (
+            <StyledExpansionPanelDetails>
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Phone Number"
+                  value={phoneNumber}
+                  testLabel="phoneNumber"
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay>
+                <OfficerInfoDisplay
+                  displayLabel="Email"
+                  value={caseOfficer.email}
+                  testLabel="email"
+                />
+              </StyledInfoDisplay>
+              <StyledInfoDisplay />
+            </StyledExpansionPanelDetails>
+          )}
           <StyledExpansionPanelDetails>
             <StyledInfoDisplay>
               <OfficerInfoDisplay

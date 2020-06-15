@@ -1,11 +1,5 @@
 [
   {
-    "id": "contactInformationFeature",
-    "name": "contactInformationFeature",
-    "description": "Contact information feature",
-    "enabled": true
-  },
-  {
     "id": "matrixManagerFeature",
     "name": "matrixManagerFeature",
     "description": "Matrix Manager feature",
