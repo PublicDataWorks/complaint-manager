@@ -24,3 +24,18 @@ resource "heroku_app" "app" {
     name = "noipm"
   }
 }
+
+resource "heroku_addon" "redis_addon" {
+  app  = "${heroku_app.app.name}"
+  plan = "rediscloud:30"
+}
+
+resource "heroku_addon" "postgres_addon" {
+  app  = "${heroku_app.app.name}"
+  plan = "heroku-postgresql:hobby-dev"
+}
+
+resource "heroku_addon" "papertrail_addon" {
+  app  = "${heroku_app.app.name}"
+  plan = "papertrail:choklad"
+}
