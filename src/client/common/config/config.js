@@ -53,6 +53,19 @@ export default {
     hostname: "http://localhost",
     backendUrl: `https://localhost:${PORT}`
   },
+  playground: {
+    auth: {
+      domain: "noipm-ci.auth0.com",
+      clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
+      redirectUri: "https://noipm-playground.herokuapp.com/callback",
+      audience: "https://noipm-ci.herokuapp.com/",
+      responseType: "token id_token",
+      scope: "openid profile",
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
+    },
+    hostname: "https://noipm-playground.herokuapp.com",
+    backendUrl: "https://noipm-playground.herokuapp.com"
+  },
   ci: {
     auth: {
       domain: "noipm-ci.auth0.com",

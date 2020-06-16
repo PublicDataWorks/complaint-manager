@@ -92,6 +92,53 @@ jobs:
       - run: docker push noipm/complaint-manager-production:$CIRCLE_SHA1
       - run: docker push noipm/complaint-manager-worker:$CIRCLE_SHA1
 
+  build-and-publish-playground:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-playground:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-playground-worker:$CIRCLE_SHA1 .
+      - run: docker push noipm/complaint-manager-playground:$CIRCLE_SHA1
+      - run: docker push noipm/complaint-manager-playground-worker:$CIRCLE_SHA1
+
+  deploy-playground:
+    docker:
+      - image: noipm/docker-heroku:7.0.65
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/complaint-manager-playground:$CIRCLE_SHA1
+      - run: docker pull noipm/complaint-manager-playground-worker:$CIRCLE_SHA1
+      - run:
+          name: Migrate and Seed DB
+          command: |
+            docker run \
+            -e NODE_ENV=playground \
+            -e DATABASE_USERNAME=$PLAYGROUND_DATABASE_USERNAME \
+            -e DATABASE_PASS=$PLAYGROUND_DATABASE_PASS \
+            -e DATABASE_NAME=$PLAYGROUND_DATABASE_NAME \
+            -e DATABASE_HOST=$PLAYGROUND_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
+            noipm/complaint-manager-playground:$CIRCLE_SHA1 yarn setup:db
+
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag noipm/complaint-manager-playground:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/web
+      - run: docker push registry.heroku.com/noipm-playground/web
+      - run: docker tag noipm/complaint-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
+      - run: docker push registry.heroku.com/noipm-playground/worker
+      - run: heroku container:release web worker --app noipm-playground
+
+  ensure-playground-deploy-succeeded:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: scripts/ensure-deploy-succeeded.sh https://noipm-playground.herokuapp.com/health-check
+
   deploy-ci:
     docker:
       - image: noipm/docker-heroku:7.0.65
@@ -320,3 +367,20 @@ workflows:
       - ensure-production-deploy-succeeded:
           requires:
             - deploy-production
+
+build_and_deploy_playground:
+  jobs:
+    - security-check:
+        filters:
+          branches:
+            only:
+              - aws_api_gateway
+    - build-and-publish-playground:
+        requires:
+          - security-check
+    - deploy-playground:
+        requires:
+          - build-and-publish-playground
+    - ensure-playground-deploy-succeeded:
+        requires:
+          - deploy-playground
