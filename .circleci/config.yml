@@ -368,19 +368,19 @@ workflows:
           requires:
             - deploy-production
 
-build_and_deploy_playground:
-  jobs:
-    - security-check:
-        filters:
-          branches:
-            only:
-              - aws_api_gateway
-    - build-and-publish-playground:
-        requires:
-          - security-check
-    - deploy-playground:
-        requires:
-          - build-and-publish-playground
-    - ensure-playground-deploy-succeeded:
-        requires:
-          - deploy-playground
+  build_and_deploy_playground:
+    jobs:
+      - security-check:
+          filters:
+            branches:
+              only:
+                - aws_api_gateway
+      - build-and-publish-playground:
+          requires:
+            - security-check
+      - deploy-playground:
+          requires:
+            - build-and-publish-playground
+      - ensure-playground-deploy-succeeded:
+          requires:
+            - deploy-playground
