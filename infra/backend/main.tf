@@ -126,3 +126,9 @@ resource "aws_iam_policy" "env_policy" {
   description = "A policy to allow bucket listing and CRUD on bucket contents"
   policy = var.env_policy
 }
+
+resource "aws_iam_policy_attachment" "attach_policy" {
+  name       = "playground-policy-group-attachment"
+  groups     = ["developer", "contributor"]
+  policy_arn = aws_iam_policy.env_policy.arn
+}
