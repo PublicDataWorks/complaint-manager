@@ -76,6 +76,37 @@ module.exports = {
       jobUIPort: 5000
     }
   },
+  playground: {
+    port: 5432,
+    host: process.env.DATABASE_HOST,
+    s3Bucket: "noipm-playground",
+    officerBucket: "nopd-officers-playground",
+    exportsBucket: "noipm-exports-playground",
+    referralLettersBucket: "noipm-referral-letters-playground",
+    complainantLettersBucket: "noipm-complainant-letters-playground",
+    authentication: {
+      clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
+      domain: "noipm-ci.auth0.com",
+      publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
+      audience: "https://noipm-ci.herokuapp.com/",
+      issuer: "https://noipm-ci.auth0.com/",
+      algorithm: "RS256",
+      nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
+    },
+    contentSecurityPolicy: {
+      connectSrc: ["'self'", "https://noipm-ci.auth0.com"]
+    },
+    winston: {
+      logLevel: "info",
+      json: false
+    },
+    queue: {
+      failedJobAttempts: 1,
+      exponentialDelay: 60 * 1000,
+      jobTimeToLive: 120 * 1000,
+      jobUIPort: 5000
+    }
+  },
   ci: {
     port: 5432,
     host: process.env.DATABASE_HOST,
