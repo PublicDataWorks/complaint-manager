@@ -65,3 +65,55 @@ resource "aws_s3_bucket" "env_bucket" {
   acl    = "private"
 }
 
+resource "aws_s3_bucket_policy" "bucket_policy" {
+  for_each = toset(var.bucket_names)
+
+  bucket = aws_s3_bucket.env_bucket[each.value].id
+
+  policy = <<POLICY
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "DenyIncorrectEncryptionHeader",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::${each.value}/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-server-side-encryption": "AES256"
+                }
+            }
+        },
+        {
+            "Sid": "DenyUnEncryptedObjectUploads",
+            "Effect": "Deny",
+            "Principal": "*",
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::${each.value}/*",
+            "Condition": {
+                "Null": {
+                    "s3:x-amz-server-side-encryption": "true"
+                }
+            }
+        },
+        {
+            "Sid": "DenyUnSecureCommunications",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "*"
+            },
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::${each.value}/*",
+            "Condition": {
+                "Bool": {
+                    "aws:SecureTransport": "false"
+                }
+            }
+        }
+    ]
+}
+POLICY
+}
+
