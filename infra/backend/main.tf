@@ -14,6 +14,10 @@ variable "app_name" {
   description = "Name of the Heroku app to be provisioned"
 }
 
+variable "env_policy" {
+  description = "Policy for buckets across the environment"
+}
+
 variable "bucket_names" {
   description = "Names of the buckets in this env"
   default = [
@@ -117,3 +121,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
 POLICY
 }
 
+resource "aws_iam_policy" "env_policy" {
+  name        = "noipm-playground-bucket-access"
+  description = "A policy to allow bucket listing and CRUD on bucket contents"
+  policy = var.env_policy
+}
