@@ -12,19 +12,139 @@ import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 
-describe("constructFilename", function() {
+describe("constructFilename", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });
 
-  test("returns correct final pdf filename with first civilian complainant", async () => {
-    const existingCase = await createCase(CIVILIAN_INITIATED);
-    const filename = constructFilename(
-      existingCase,
-      REFERRAL_LETTER_VERSION.FINAL
-    );
-    const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral_Smith.pdf";
-    expect(filename).toEqual(expectedFilename);
+  describe("complainant is type: civilian initiated", () => {
+    let existingCase;
+
+    beforeEach(async () => {
+      existingCase = await createCase(CIVILIAN_INITIATED);
+    });
+
+    test("returns correct final pdf filename with first civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.FINAL
+      );
+      const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral_Smith.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct generated preview pdf filename with civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.GENERATED
+      );
+      const expectedFilename =
+        "5-5-2012_CC2012-0001_Generated_Referral_Draft_Smith.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct edited preview pdf filename with civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.EDITED
+      );
+      const expectedFilename =
+        "5-5-2012_CC2012-0001_Edited_Referral_Draft_Smith.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returned correct filename when letterType is complainant", async () => {
+      const filename = constructFilename(existingCase, COMPLAINANT_LETTER);
+      expect(filename).toEqual(
+        "5-5-2012_CC2012-0001_Letter_to_Complainant_Smith.pdf"
+      );
+    });
+  });
+
+  describe("complainant is type: civilian initiated and isAnonymous: true", () => {
+    let existingCase;
+
+    beforeEach(async () => {
+      existingCase = await createCase(CIVILIAN_INITIATED, true);
+    });
+
+    test("returns correct final pdf filename with anonymous first civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.FINAL
+      );
+      const expectedFilename =
+        "5-5-2012_AC2012-0001_PIB_Referral_Anonymous.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct generated preview pdf filename with anonymous civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.GENERATED
+      );
+      const expectedFilename =
+        "5-5-2012_AC2012-0001_Generated_Referral_Draft_Anonymous.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct edited preview pdf filename with anonymous civilian complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.EDITED
+      );
+      const expectedFilename =
+        "5-5-2012_AC2012-0001_Edited_Referral_Draft_Anonymous.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("should still return last in filename when letterType is complainant and complainant is anonymous", async () => {
+      const filename = constructFilename(existingCase, COMPLAINANT_LETTER);
+      expect(filename).toEqual(
+        "5-5-2012_AC2012-0001_Letter_to_Complainant_Smith.pdf"
+      );
+    });
+  });
+
+  describe("no complainant", () => {
+    let existingCase;
+    beforeEach(async () => {
+      existingCase = await createCase();
+    });
+
+    test("returns correct final pdf filename without complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.FINAL
+      );
+      const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct generated preview pdf filename without complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.GENERATED
+      );
+      const expectedFilename =
+        "5-5-2012_CC2012-0001_Generated_Referral_Draft.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
+
+    test("returns correct edited preview pdf filename without complainant", async () => {
+      const filename = constructFilename(
+        existingCase,
+        REFERRAL_LETTER_VERSION.DRAFT,
+        EDIT_STATUS.EDITED
+      );
+      const expectedFilename = "5-5-2012_CC2012-0001_Edited_Referral_Draft.pdf";
+      expect(filename).toEqual(expectedFilename);
+    });
   });
 
   test("returns correct final pdf filename with first officer complainant", async () => {
@@ -37,60 +157,13 @@ describe("constructFilename", function() {
     expect(filename).toEqual(expectedFilename);
   });
 
-  test("returns correct final pdf filename without complainant", async () => {
-    const existingCase = await createCase();
+  test("returns correct final pdf filename with anonymous first officer complainant", async () => {
+    const existingCase = await createCase(RANK_INITIATED, true);
     const filename = constructFilename(
       existingCase,
       REFERRAL_LETTER_VERSION.FINAL
     );
-    const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral.pdf";
-    expect(filename).toEqual(expectedFilename);
-  });
-
-  test("returns correct generated preview pdf filename with civilian complainant", async () => {
-    const existingCase = await createCase(CIVILIAN_INITIATED);
-    const filename = constructFilename(
-      existingCase,
-      REFERRAL_LETTER_VERSION.DRAFT,
-      EDIT_STATUS.GENERATED
-    );
-    const expectedFilename =
-      "5-5-2012_CC2012-0001_Generated_Referral_Draft_Smith.pdf";
-    expect(filename).toEqual(expectedFilename);
-  });
-
-  test("returns correct generated preview pdf filename without complainant", async () => {
-    const existingCase = await createCase();
-    const filename = constructFilename(
-      existingCase,
-      REFERRAL_LETTER_VERSION.DRAFT,
-      EDIT_STATUS.GENERATED
-    );
-    const expectedFilename =
-      "5-5-2012_CC2012-0001_Generated_Referral_Draft.pdf";
-    expect(filename).toEqual(expectedFilename);
-  });
-
-  test("returns correct edited preview pdf filename with civilian complainant", async () => {
-    const existingCase = await createCase(CIVILIAN_INITIATED);
-    const filename = constructFilename(
-      existingCase,
-      REFERRAL_LETTER_VERSION.DRAFT,
-      EDIT_STATUS.EDITED
-    );
-    const expectedFilename =
-      "5-5-2012_CC2012-0001_Edited_Referral_Draft_Smith.pdf";
-    expect(filename).toEqual(expectedFilename);
-  });
-
-  test("returns correct edited preview pdf filename without complainant", async () => {
-    const existingCase = await createCase();
-    const filename = constructFilename(
-      existingCase,
-      REFERRAL_LETTER_VERSION.DRAFT,
-      EDIT_STATUS.EDITED
-    );
-    const expectedFilename = "5-5-2012_CC2012-0001_Edited_Referral_Draft.pdf";
+    const expectedFilename = "5-5-2012_AC2012-0001_PIB_Referral_Anonymous.pdf";
     expect(filename).toEqual(expectedFilename);
   });
 
@@ -105,26 +178,24 @@ describe("constructFilename", function() {
       "5-5-2012_PO2012-0001_Edited_Referral_Draft_Unknown_Officer.pdf";
     expect(filename).toEqual(expectedFilename);
   });
-
-  test("returned correct filename when letterType is complainant", async () => {
-    const existingCase = await createCase(CIVILIAN_INITIATED);
-    const filename = constructFilename(existingCase, COMPLAINANT_LETTER);
-    expect(filename).toEqual(
-      "5-5-2012_CC2012-0001_Letter_to_Complainant_Smith.pdf"
-    );
-  });
 });
 
-const createCase = async complaintType => {
+const createCase = async (complaintType, isAnonymous = false) => {
   const civilianComplainants =
     complaintType === CIVILIAN_INITIATED
       ? [
           {
             firstName: "SecondCivFirstName",
             lastName: "Second Civ Complainant",
+            isAnonymous: isAnonymous,
             createdAt: "2018-02-01"
           },
-          { firstName: "First", lastName: "Smith", createdAt: "2018-01-01" }
+          {
+            firstName: "First",
+            lastName: "Smith",
+            isAnonymous: isAnonymous,
+            createdAt: "2018-01-01"
+          }
         ]
       : [];
 
@@ -146,6 +217,7 @@ const createCase = async complaintType => {
             firstName: "First",
             lastName: "2nd Off Complainant",
             roleOnCase: COMPLAINANT,
+            isAnonymous: isAnonymous,
             createdAt: "2018-02-01",
             officerId: firstOfficer.id
           },
@@ -153,6 +225,7 @@ const createCase = async complaintType => {
             firstName: "First",
             lastName: "Jones",
             roleOnCase: COMPLAINANT,
+            isAnonymous: isAnonymous,
             createdAt: "2018-01-01",
             officerId: secondOfficer.id
           }

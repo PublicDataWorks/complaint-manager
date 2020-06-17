@@ -10,25 +10,25 @@ const constructFilename = (existingCase, pdfLetterType, editStatus) => {
   const formattedFirstContactDate = moment(
     existingCase.firstContactDate
   ).format("M-D-YYYY");
-  const firstComplainantLastName = getFirstComplainantLastName(existingCase);
+  const firstComplainant = getFirstComplainant(existingCase);
+  let firstComplainantLastName = getFirstComplainantLastName(firstComplainant);
 
   if (pdfLetterType === REFERRAL_LETTER_VERSION.FINAL) {
-    return `${formattedFirstContactDate}_${
-      existingCase.caseReference
-    }_PIB_Referral${firstComplainantLastName}.pdf`;
+    if (firstComplainant && firstComplainant.isAnonymous) {
+      firstComplainantLastName = "_Anonymous";
+    }
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_PIB_Referral${firstComplainantLastName}.pdf`;
   } else if (pdfLetterType === REFERRAL_LETTER_VERSION.DRAFT) {
-    return `${formattedFirstContactDate}_${
-      existingCase.caseReference
-    }_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
+    if (firstComplainant && firstComplainant.isAnonymous) {
+      firstComplainantLastName = "_Anonymous";
+    }
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
   } else if (pdfLetterType === COMPLAINANT_LETTER) {
-    return `${formattedFirstContactDate}_${
-      existingCase.caseReference
-    }_Letter_to_Complainant${firstComplainantLastName}.pdf`;
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_Letter_to_Complainant${firstComplainantLastName}.pdf`;
   }
 };
 
-const getFirstComplainantLastName = existingCase => {
-  const firstComplainant = getFirstComplainant(existingCase);
+const getFirstComplainantLastName = firstComplainant => {
   if (!firstComplainant) {
     return "";
   }
