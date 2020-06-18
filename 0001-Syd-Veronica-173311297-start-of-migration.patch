@@ -1,0 +1,96 @@
+From f3bf598d2312b03eb5e5b126ddd41a1b9f84bcc7 Mon Sep 17 00:00:00 2001
+From: Veronica Blackwell <veronica.blackwell@thoughtworks.com>
+Date: Thu, 18 Jun 2020 09:17:55 -0700
+Subject: [PATCH] Syd/Veronica [#173311297] start of migration
+
+---
+ ...ormReferralLetterIfComplainantAnonymous.js | 31 +++++++++++++++
+ ...al-filenames-for-anonymous-complainants.js | 38 +++++++++++++++++++
+ 2 files changed, 69 insertions(+)
+ create mode 100644 src/server/migrationJobs/transformReferralLetterIfComplainantAnonymous.js
+ create mode 100644 src/server/migrations/20200617205929-transform-referral-filenames-for-anonymous-complainants.js
+
+diff --git a/src/server/migrationJobs/transformReferralLetterIfComplainantAnonymous.js b/src/server/migrationJobs/transformReferralLetterIfComplainantAnonymous.js
+new file mode 100644
+index 00000000..6c1294e1
+--- /dev/null
++++ b/src/server/migrationJobs/transformReferralLetterIfComplainantAnonymous.js
+@@ -0,0 +1,31 @@
++export const transformReferralLetterIfComplainantAnonymous = async (
++  referralLetters,
++  transaction
++) => {
++  for (let i = 0; i < referralLetters.length; i++) {
++    const caseId = referralLetters[i].caseId;
++    const letterCase = await models.cases.findByPk(caseId, {
++      attributes: ["primaryComplainant"],
++      include: [
++        {
++          model: models.civilian,
++          as: "complainantCivilians",
++          attributes: ["isAnonymous"]
++        },
++        {
++          model: models.case_officer,
++          as: "complainantOfficers",
++          attributes: ["isAnonymous"]
++        }
++      ]
++    });
++    const primaryComplainant = letterCase.get("primaryComplainant");
++
++    if (primaryComplainant.isAnonymous) {
++    }
++  }
++};
++
++const copyAndDeleteObjectS3 = () => {};
++
++const updateFilenameDB = () => {};
+diff --git a/src/server/migrations/20200617205929-transform-referral-filenames-for-anonymous-complainants.js b/src/server/migrations/20200617205929-transform-referral-filenames-for-anonymous-complainants.js
+new file mode 100644
+index 00000000..46cc574c
+--- /dev/null
++++ b/src/server/migrations/20200617205929-transform-referral-filenames-for-anonymous-complainants.js
+@@ -0,0 +1,38 @@
++"use strict";
++import models from "../complaintManager/models";
++import { transformReferralLetterIfComplainantAnonymous } from "../migrationJobs/transformReferralLetterIfComplainantAnonymous";
++
++module.exports = {
++  up: async (queryInterface, Sequelize) => {
++    await queryInterface.sequelize.transaction(async transaction => {
++      const referralLetters = await models.referral_letter.findAll({});
++
++      try {
++        await transformReferralLetterIfComplainantAnonymous(
++          referralLetters,
++          transaction
++        );
++      } catch (error) {
++        console.log(error);
++      }
++    });
++    /*
++      Add altering commands here.
++      Return a promise to correctly handle asynchronicity.
++
++      Example:
++      return queryInterface.createTable('users', { id: Sequelize.INTEGER });
++    */
++  },
++
++  down: async (queryInterface, Sequelize) => {
++    await queryInterface.sequelize.transaction(async transaction => {});
++    /*
++      Add reverting commands here.
++      Return a promise to correctly handle asynchronicity.
++
++      Example:
++      return queryInterface.dropTable('users');
++    */
++  }
++};
+-- 
+2.20.1 (Apple Git-117)
+
