@@ -39,11 +39,18 @@ provider "aws" {
   profile                 = "noipm-terraform"
 }
 
+data "aws_secretsmanager_secret_version" "env_secrets" {
+  secret_id     = "playground/Env/Config"
+}
 resource "heroku_app" "app" {
   name   = var.app_name
   region = "us"
   organization {
     name = var.team_name
+  }
+  sensitive_config_vars = {
+  for secret_key in keys(jsondecode(data.aws_secretsmanager_secret_version.env_secrets.secret_string)):
+  secret_key => jsondecode(data.aws_secretsmanager_secret_version.env_secrets.secret_string)[secret_key]
   }
 }
 
