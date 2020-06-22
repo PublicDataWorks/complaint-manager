@@ -3,9 +3,11 @@ import React from "react";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { fireEvent, render } from "@testing-library/react";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 describe("AddressAutoSuggest ", () => {
   let cannedSuggestions, cannedDisplayAddress, mapService;
@@ -55,7 +57,7 @@ describe("AddressAutoSuggest ", () => {
     const label = "Test Label";
     const { queryByText } = renderAddressAutoSuggest(mapService);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(label)).toBeInTheDocument();
     });
   });
@@ -67,16 +69,15 @@ describe("AddressAutoSuggest ", () => {
     const input = getByTestId("my-custom-autosuggest");
 
     await userEvent.type(input, "12");
-    input.focus();
 
     let suggestions;
-    await wait(() => {
+    await waitFor(() => {
       suggestions = getAllByTestId("suggestion-option");
     });
 
     fireEvent.click(suggestions[0]);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(input.value).toBe(cannedDisplayAddress);
     });
   });
@@ -98,7 +99,7 @@ describe("AddressAutoSuggest ", () => {
     const { getByTestId } = renderAddressAutoSuggest(mapService);
     const input = getByTestId("my-custom-autosuggest");
 
-    await wait(() => {
+    await waitFor(() => {
       expect(input.value).toBe(
         "Address lookup is down, please try again later"
       );
@@ -114,7 +115,7 @@ describe("AddressAutoSuggest ", () => {
     const { getByTestId } = renderAddressAutoSuggest(mapService);
     const input = getByTestId("my-custom-autosuggest");
 
-    await wait(() => {
+    await waitFor(() => {
       expect(input.value).toBe(
         "Address lookup is down, please try again later"
       );
