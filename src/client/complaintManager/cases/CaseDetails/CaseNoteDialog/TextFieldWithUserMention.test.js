@@ -6,9 +6,11 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import React from "react";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import { Field, reduxForm } from "redux-form";
 import { createFilterOptions } from "@material-ui/lab/Autocomplete";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 describe("TextFieldWithUserMention", () => {
   const userList = [
@@ -89,7 +91,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.change(textField, { target: { value: "@" } });
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[0].label)).toBeInTheDocument();
     });
   });
@@ -107,7 +109,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.change(textField, { target: { value: caseNoteText } });
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[0].label)).toBeInTheDocument();
     });
   });
@@ -121,7 +123,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.change(textField, { target: { value: "@" } });
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[0].label)).toBeInTheDocument();
     });
 
@@ -129,7 +131,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.change(textField, { target: { value: "" } });
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[0].label)).not.toBeInTheDocument();
     });
   });
@@ -150,7 +152,7 @@ describe("TextFieldWithUserMention", () => {
     });
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[1].label)).not.toBeInTheDocument();
     });
   });
@@ -168,7 +170,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.click(user1);
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(textField.value).toContain("@" + userList[0].label);
     });
   });
@@ -209,7 +211,7 @@ describe("TextFieldWithUserMention", () => {
     fireEvent.change(textField, { target: { value: caseNoteText } });
 
     //ASSERT (dropdown to appear again)
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(userList[0].label)).toBeInTheDocument();
       expect(queryByText(userList[1].label)).not.toBeInTheDocument();
       expect(queryByText(userList[2].label)).not.toBeInTheDocument();

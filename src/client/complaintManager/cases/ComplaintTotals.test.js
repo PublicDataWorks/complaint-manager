@@ -4,10 +4,12 @@ import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import ComplaintTotals from "./ComplaintTotals";
 import axios from "axios";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 import createConfiguredStore from "../../createConfiguredStore";
 import "@testing-library/jest-dom";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 jest.mock("axios");
 
@@ -37,11 +39,11 @@ describe("ComplaintTotals", () => {
 
     const { queryByText } = renderComplaintTotals();
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText("Complaints YTD:")).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText("Complaints 2019:")).toBeInTheDocument();
     });
   });
@@ -49,7 +51,7 @@ describe("ComplaintTotals", () => {
   test("should make axios get request to get data endpoint", async () => {
     renderComplaintTotals();
 
-    await wait(() => {
+    await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
         `/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
       );
@@ -60,11 +62,11 @@ describe("ComplaintTotals", () => {
     axios.get.mockReturnValue({ ...responseBody });
     const { queryByText } = renderComplaintTotals();
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText("Complaints YTD: 2")).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText("Complaints 2019: 3")).toBeInTheDocument();
     });
   });

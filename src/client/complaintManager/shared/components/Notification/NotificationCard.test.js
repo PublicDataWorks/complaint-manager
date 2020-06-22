@@ -2,10 +2,12 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import NotificationCard from "./NotificationCard";
 import createConfiguredStore from "../../../../createConfiguredStore";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 describe("notification card", () => {
   let wrapper;
@@ -41,7 +43,7 @@ describe("notification card", () => {
     };
     const { queryByTestId } = renderNotificationList(readNotification);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByTestId("unreadDot")).toBeInTheDocument();
     });
   });
@@ -59,7 +61,7 @@ describe("notification card", () => {
     };
     const { queryByTestId } = renderNotificationList(unreadNotification);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByTestId("unreadDot")).not.toBeInTheDocument();
     });
   });

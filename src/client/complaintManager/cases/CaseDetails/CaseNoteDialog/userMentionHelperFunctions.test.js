@@ -2,7 +2,9 @@ import {
   filterAfterTrigger,
   getMentionedUsers
 } from "./userMentionHelperFunctions";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 const userList = [
   { label: "Syd Botz", value: "some1@some.com" },
   { label: "Veronica Blackwell", value: "some2@some.com" },
@@ -20,7 +22,7 @@ describe("filterAfterTrigger", () => {
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(filteredUsers).toStrictEqual([userList[1]]);
     });
   });
@@ -34,7 +36,7 @@ describe("filterAfterTrigger", () => {
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(filteredUsers).toStrictEqual([userList[1]]);
     });
   });
@@ -48,7 +50,7 @@ describe("filterAfterTrigger", () => {
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(filteredUsers).toStrictEqual([userList[1]]);
     });
   });
@@ -64,7 +66,7 @@ describe("filterAfterTrigger", () => {
     const filteredUsers = filterAfterTrigger(userList, ref, cursorPosition);
 
     //ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(filteredUsers).toStrictEqual([userList[1]]);
     });
   });

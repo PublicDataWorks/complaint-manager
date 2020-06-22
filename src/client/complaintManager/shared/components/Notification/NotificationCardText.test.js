@@ -4,10 +4,11 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import NotificationCardText from "./NotificationCardText";
 import React from "react";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import moment from "moment";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 describe("unread notification text", () => {
   let newNotif;
@@ -36,13 +37,13 @@ describe("unread notification text", () => {
     const expectedTime = moment(newNotif.updatedAt).format("MMM D h:mm A");
 
     // ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(
         queryByText("Syd Botz mentioned you in AC2020-0004")
       ).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(expectedTime)).toBeInTheDocument();
     });
   });
@@ -60,13 +61,13 @@ describe("unread notification text", () => {
     const expectedTime = moment(newNotif.updatedAt).format("MMM D h:mm A");
 
     // ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(
         queryByText("sydbotz@gmail.com mentioned you in AC2020-0004")
       ).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(expectedTime)).toBeInTheDocument();
     });
   });

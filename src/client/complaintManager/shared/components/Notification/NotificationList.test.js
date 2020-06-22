@@ -2,14 +2,15 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import React from "react";
 import NotificationList from "./NotificationList";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import "@testing-library/jest-dom";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 import axios from "axios";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 jest.mock("axios");
 
@@ -86,19 +87,19 @@ describe("notification list", () => {
   test("should render 3 notification cards if the user has 3 notifications", async () => {
     const { queryByText } = renderNotificationList();
 
-    await wait(() => {
+    await waitFor(() => {
       expect(
         queryByText("Syd B mentioned you in AC2020-0004")
       ).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(
         queryByText("Wanchen Y mentioned you in CC2019-0018")
       ).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(
         queryByText("Wanchen Y mentioned you in CC2019-0030")
       ).toBeInTheDocument();
@@ -108,7 +109,7 @@ describe("notification list", () => {
   test("notification card should reference correct case details link", async () => {
     findAndClickNotif(0);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(window.location.href).toEqual(`${window.location.origin}/cases/4`);
     });
   });
@@ -120,7 +121,7 @@ describe("notification list", () => {
 
     findAndClickNotif(1);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(handleClickAway).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         snackbarError(
@@ -137,7 +138,7 @@ describe("notification list", () => {
 
     findAndClickNotif(1);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(handleClickAway).toHaveBeenCalledTimes(1);
       expect(dispatchSpy).toHaveBeenCalledWith(
         snackbarError(
@@ -150,7 +151,7 @@ describe("notification list", () => {
   test("should make axios get request to get notification status endpoint", async () => {
     findAndClickNotif(1);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(`/api/notifications/6/1`);
     });
   });
@@ -158,7 +159,7 @@ describe("notification list", () => {
   test("should make axios get request to mark notification as read when clicking on notif", async () => {
     findAndClickNotif(0);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
         `/api/notifications/mark-as-read/0`
       );
@@ -174,7 +175,7 @@ describe("notification list", () => {
 
     fireEvent.click(notificationCard);
 
-    await wait(() => {
+    await waitFor(() => {
       expect(handleClickAway).toHaveBeenCalledTimes(1);
     });
   });

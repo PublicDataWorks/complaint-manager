@@ -6,10 +6,11 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { matrixManagerMenuOptions } from "../NavBar/matrixManagerMenuOptions";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
-import { wait } from "@testing-library/dom";
+import { waitFor } from "@testing-library/dom";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
+import MutationObserver from "@sheerun/mutationobserver-shim";
+window.MutationObserver = MutationObserver;
 
 describe("notifications drawer", () => {
   const store = createConfiguredStore();
@@ -34,7 +35,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT -- drawer is open
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
@@ -42,7 +43,7 @@ describe("notifications drawer", () => {
     fireEvent.click(headerUserName);
 
     // ASSERT -- drawer is closed
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
     });
   });
@@ -56,7 +57,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT -- drawer is open
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
@@ -64,7 +65,7 @@ describe("notifications drawer", () => {
     fireEvent.click(document.body);
 
     // ASSERT -- drawer is closed
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
     });
   });
@@ -78,7 +79,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT -- drawer is open
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
@@ -86,7 +87,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT -- drawer is closed
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
     });
   });
@@ -100,7 +101,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT -- drawer is open
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
 
@@ -111,7 +112,7 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationDrawer);
 
     // ASSERT -- drawer is still open
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).toBeInTheDocument();
     });
   });
@@ -137,11 +138,11 @@ describe("notifications drawer", () => {
     fireEvent.click(notificationBell);
 
     // ASSERT
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText("mentioned you in CC2019-0018")).toBeInTheDocument();
     });
 
-    await wait(() => {
+    await waitFor(() => {
       expect(queryByText(DEFAULT_NOTIFICATION_TEXT)).not.toBeInTheDocument();
     });
   });
