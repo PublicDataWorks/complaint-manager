@@ -29,6 +29,18 @@ variable "bucket_names" {
   ]
 }
 
+terraform {
+  backend "s3" {
+    bucket = "noipm-terraform"
+    key = "tfstate"
+    region = "us-east-1"
+
+    encrypt = true
+    shared_credentials_file = "~/.aws/credentials"
+    profile                 = "noipm-terraform"
+  }
+}
+
 provider "heroku" {
   version = "~> 2.0"
   email   = var.heroku_email
