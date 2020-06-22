@@ -3,7 +3,7 @@ const path = require("path");
 
 const createConfiguredSecretsManagerInstance = () => {
   const secretsManager = new AWS.SecretsManager({
-    region: "us-east-2"
+    region: "us-east-1"
   });
 
   secretsManager.config.loadFromPath(path.join(__dirname, "./awsConfig.json"));
