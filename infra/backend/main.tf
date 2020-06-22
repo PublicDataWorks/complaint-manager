@@ -22,7 +22,10 @@ variable "bucket_names" {
   description = "Names of the buckets in this env"
   default = [
     "noipm-playground",
-    "nopd-officers-playground"
+    "nopd-officers-playground",
+    "noipm-complainant-letters-playground",
+    "noipm-referral-letters-playground",
+    "noipm-exports-playground"
   ]
 }
 
