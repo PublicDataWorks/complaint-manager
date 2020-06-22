@@ -110,7 +110,7 @@
     "striptags": "~3.1.1",
     "timekeeper": "~2.2.0",
     "validator": "~13.0.0",
-    "winston": "~3.2.1"
+    "winston": "3.3.1"
   },
   "devDependencies": {
     "@babel/cli": "~7.8.4",
