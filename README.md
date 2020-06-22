@@ -74,7 +74,7 @@ run all tests, and run the security checks before pushing.
     {
       "accessKeyId": "YOUR_ACCESS_KEY_ID",
       "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
-      "region": "us-east-2"
+      "region": "us-east-1"
     }
     ```
 
