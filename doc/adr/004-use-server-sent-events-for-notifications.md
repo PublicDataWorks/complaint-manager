@@ -10,7 +10,7 @@ Accepted
 
 We need a way to push messages from backend to React frontend in order to support notification functionality. 
 
-We are looking for something that is relatively easy to setup. We would like like the technology to handle disconnects and simplify retires. We want to ensure the security of any solution we select.       
+We are looking for something that is relatively easy to setup. We would like the technology to handle disconnects and simplify retires. We want to ensure the security of any solution we select.       
 
 ## Decision
 
