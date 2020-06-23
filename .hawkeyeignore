@@ -13,6 +13,7 @@ files-contents-.circleci/config.yml-13
 files-contents-.circleci/config.yml-14
 files-contents-e2e/pageObjectModels/Login.js-1
 files-contents-scripts/loadSchema.js-1
+files-contents-scripts/checkEmptySchema.js-1
 files-contents-docker-compose.yml-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
