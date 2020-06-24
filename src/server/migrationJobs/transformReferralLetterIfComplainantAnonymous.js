@@ -10,6 +10,7 @@ export const transformReferralLetterIfComplainantAnonymous = async (
   for (let i = 0; i < referralLetters.length; i++) {
     const caseId = referralLetters[i].caseId;
     const fileName = referralLetters[i].finalPdfFilename;
+    console.log("filename", fileName);
     const fileParts = fileName.split("_");
     const firstContactDate = fileParts[0];
     const caseReference = fileParts[1];
