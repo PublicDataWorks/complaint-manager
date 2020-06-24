@@ -9,8 +9,9 @@ export const transformReferralLetterIfComplainantAnonymous = async (
   const s3 = createConfiguredS3Instance();
   for (let i = 0; i < referralLetters.length; i++) {
     const caseId = referralLetters[i].caseId;
-    const fileName = referralLetters[i].finalPdfFilename;
-    console.log("filename", fileName);
+    const fileName = referralLetters[i].finalPdfFilename
+      ? referralLetters[i].finalPdfFilename
+      : "_____";
     const fileParts = fileName.split("_");
     const firstContactDate = fileParts[0];
     const caseReference = fileParts[1];
@@ -54,7 +55,9 @@ export const reverseTransformReferralLetterIfComplainantAnonymous = async (
       paranoid: false
     });
 
-    const fileName = referralLetters[i].finalPdfFilename;
+    const fileName = referralLetters[i].finalPdfFilename
+      ? referralLetters[i].finalPdfFilename
+      : "_____";
     const fileParts = fileName.split("_");
     const firstContactDate = fileParts[0];
     const caseReference = fileParts[1];
