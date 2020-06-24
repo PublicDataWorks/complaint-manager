@@ -1,3 +1,5 @@
+import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
+
 const csvParse = require("csv-parse");
 const models = require("../complaintManager/models");
 const _ = require("lodash");
@@ -76,10 +78,25 @@ const determineWhetherToCreateOrUpdateOfficer = async seedDataRow => {
 
   if (existingOfficer) {
     if (rowDataIsOfficerToBeUpdated(seedDataRow, existingOfficer)) {
+      await transformDistrictToDistrictId(seedDataRow);
       officersToUpdate.push(seedDataRow);
     }
   } else {
+    await transformDistrictToDistrictId(seedDataRow);
     officersToCreate.push(seedDataRow);
+  }
+};
+
+const transformDistrictToDistrictId = async seedDataRow => {
+  const ordinalDistrict = getOrdinalDistrict(seedDataRow.district);
+  if (ordinalDistrict) {
+    const foundDistrict = await models.district.findOne({
+      where: { name: ordinalDistrict }
+    });
+    if (foundDistrict) {
+      seedDataRow.districtId = foundDistrict.id;
+      seedDataRow.district = null;
+    }
   }
 };
 
