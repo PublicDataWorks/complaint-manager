@@ -374,7 +374,7 @@ workflows:
           filters:
             branches:
               only:
-                - aws-api-gateway
+                - aws-api-gateway-v2
       - build-and-publish-playground:
           requires:
             - security-check
