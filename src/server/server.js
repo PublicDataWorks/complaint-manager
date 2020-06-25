@@ -22,6 +22,7 @@ const featureToggleRouter = require("./featureToggleRouter");
 const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 winston.configure({
   transports: [
@@ -35,6 +36,8 @@ winston.configure({
 });
 
 const app = express();
+
+app.options("*", cors());
 
 app.use(function (req, res, next) {
   res.header("X-powered-by", "<3");
