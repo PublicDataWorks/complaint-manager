@@ -5,15 +5,16 @@ export const transformReferralLetterAttachmentsIfComplainantAnonymous = async (
   transaction
 ) => {
   for (let i = 0; i < attachments.length; i++) {
-    const caseId = attachments[i].caseId;
     const fileName = attachments[i].fileName;
     const fileParts = fileName.split("_");
     const firstContactDate = fileParts[0];
     const caseReference = fileParts[1];
-    const letterType = fileParts[2];
 
-    if (caseReference.startsWith("AC") && letterType.startsWith("PIB")) {
-      const newFilename = `${firstContactDate}_${caseReference}_${letterType}_Referral_Anonymous.pdf`;
+    if (
+      attachments[i].description === "Referral Letter" &&
+      caseReference.startsWith("AC")
+    ) {
+      const newFilename = `${firstContactDate}_${caseReference}_PIB_Referral_Anonymous.pdf`;
       await updateFilenameDB(attachments[i], newFilename);
     }
   }
@@ -57,6 +58,7 @@ export const reverseTransformReferralLetterAttachmentsIfComplainantAnonymous = a
     const lastname = attachmentCase.primaryComplainant.lastName;
 
     if (
+      attachments[i].description === "Referral Letter" &&
       caseReference.startsWith("AC") &&
       anonymousPortion === "Anonymous.pdf"
     ) {
