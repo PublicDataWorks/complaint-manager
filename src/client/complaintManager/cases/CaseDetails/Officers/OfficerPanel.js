@@ -33,6 +33,9 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const caseEmployeeTitle = isCivilianWithinNopd
     ? CIVILIAN_WITHIN_NOPD_TITLE
     : OFFICER_TITLE;
+  const fullNameIsAnonymous = caseOfficer.isAnonymous
+    ? `(AC) ${caseOfficer.fullName}`
+    : caseOfficer.fullName;
 
   const knownEmployeePanelDataTest = `known${caseEmployeeTitle.replace(
     /\s/g,
@@ -72,7 +75,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
               <StyledInfoDisplay>
                 <OfficerNameDisplay
                   displayLabel={caseEmployeeTitle}
-                  fullName={caseOfficer.fullName}
+                  fullName={fullNameIsAnonymous}
                   windowsUsername={caseOfficer.windowsUsername}
                 />
               </StyledInfoDisplay>
