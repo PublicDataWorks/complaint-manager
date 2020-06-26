@@ -9,5 +9,14 @@ export default ({ complainant }) =>
     <WarningMessage variant="grayText">No Complainants</WarningMessage>
   );
 
-const complainantName = ({ fullName, personType }) =>
-  personType === PERSON_TYPE.KNOWN_OFFICER ? `Officer ${fullName}` : fullName;
+const complainantName = ({ fullName, personType, isAnonymous }) => {
+  if (personType === PERSON_TYPE.KNOWN_OFFICER && isAnonymous === true) {
+    return `(AC) Officer ${fullName}`;
+  } else if (personType === PERSON_TYPE.KNOWN_OFFICER) {
+    return `Officer ${fullName}`;
+  } else if (isAnonymous === true) {
+    return `(AC) ${fullName}`;
+  } else {
+    return fullName;
+  }
+};
