@@ -8,8 +8,8 @@ import {
 } from "./CaseDetailDataHelpers";
 import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
 
-describe("caseDetailDataHelpers", function() {
-  describe("incident info", function() {
+describe("caseDetailDataHelpers", function () {
+  describe("incident info", function () {
     test("it returns correct incident info", () => {
       const incidentDate = "2014-12-12";
       const firstContactDate = "2015-01-01";
@@ -122,7 +122,7 @@ describe("caseDetailDataHelpers", function() {
     });
   });
 
-  describe("complainant data", function() {
+  describe("complainant data", function () {
     test("returns correct complainant data when single civilian complainant no address", () => {
       const birthDate = "1990-09-09";
 
@@ -205,7 +205,49 @@ describe("caseDetailDataHelpers", function() {
       );
     });
 
-    test("returns correct complainant data when multiple civilian complainants", () => {
+    test("returns correct complainant data when single civilian complainant is anonymous", () => {
+      const birthDate = "1990-09-09";
+
+      const caseDetail = {
+        complainantCivilians: [
+          {
+            fullName: "Civilian Joe",
+            isAnonymous: true,
+            raceEthnicity: { name: "some race" },
+            genderIdentity: { name: "some gender" },
+            birthDate: birthDate,
+            address: {
+              streetAddress: "123 some street drive",
+              city: "some city",
+              state: "some state",
+              zipCode: "10000"
+            },
+            phoneNumber: "1234567890",
+            email: "test@test.com"
+          }
+        ],
+        complainantOfficers: []
+      };
+
+      const complainantData = getComplainantData(caseDetail);
+      const formattedBirthDate = getFormattedDate(birthDate);
+
+      expect(complainantData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Civilian Name": "(AC) Civilian Joe",
+            Race: "some race",
+            "Gender Identity": "some gender",
+            DOB: formattedBirthDate,
+            Address: "123 some street drive, some city, some state, 10000",
+            "Cell Phone": "(123) 456-7890",
+            Email: "test@test.com"
+          })
+        ])
+      );
+    });
+
+    test("returns correct complainant data when multiple civilian complainants with one as anonymous", () => {
       const birthDate = "1990-09-09";
       const birthDate2 = "1991-09-09";
       const birthDate3 = "1992-09-09";
@@ -242,6 +284,7 @@ describe("caseDetailDataHelpers", function() {
           },
           {
             fullName: "Civilian Joe3",
+            isAnonymous: true,
             raceEthnicity: { name: "some race" },
             genderIdentity: { name: "some gender" },
             birthDate: birthDate3,
@@ -284,7 +327,7 @@ describe("caseDetailDataHelpers", function() {
             Email: "test2@test.com"
           }),
           expect.objectContaining({
-            "Civilian Name": "Civilian Joe3",
+            "Civilian Name": "(AC) Civilian Joe3",
             Race: "some race",
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
@@ -315,6 +358,33 @@ describe("caseDetailDataHelpers", function() {
         expect.arrayContaining([
           expect.objectContaining({
             "Officer Name": "officer joe",
+            ID: "#12345",
+            District: "some district"
+          })
+        ])
+      );
+    });
+
+    test("returns correct complainant data when single known officer complainant AND anonymous", () => {
+      const caseDetail = {
+        complainantCivilians: [],
+        complainantOfficers: [
+          {
+            isUnknownOfficer: false,
+            isAnonymous: true,
+            fullName: "officer joe",
+            windowsUsername: 12345,
+            district: "some district"
+          }
+        ]
+      };
+
+      const complainantData = getComplainantData(caseDetail);
+
+      expect(complainantData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Officer Name": "(AC) officer joe",
             ID: "#12345",
             District: "some district"
           })
@@ -370,7 +440,36 @@ describe("caseDetailDataHelpers", function() {
         ])
       );
     });
-    test("returns correct complainant data when multiple civilians, known and unknown officers", () => {
+
+    test("returns correct complainant data when single civilian within NOPD AND anonymous", () => {
+      const caseDetail = {
+        complainantCivilians: [],
+        complainantOfficers: [
+          {
+            isUnknownOfficer: false,
+            isAnonymous: true,
+            fullName: "complainant joe",
+            windowsUsername: 12345,
+            district: "some district",
+            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          }
+        ]
+      };
+
+      const complainantData = getComplainantData(caseDetail);
+
+      expect(complainantData).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            "Civilian (NOPD) Name": "(AC) complainant joe",
+            ID: "#12345",
+            District: "some district"
+          })
+        ])
+      );
+    });
+
+    test("returns correct complainant data when multiple civilians, known and unknown officers with some as anonymous", () => {
       const birthDate = "1990-09-09";
       const birthDate2 = "1991-09-09";
       const birthDate3 = "1992-09-09";
@@ -393,6 +492,7 @@ describe("caseDetailDataHelpers", function() {
           },
           {
             fullName: "Civilian Joe2",
+            isAnonymous: true,
             raceEthnicity: { name: "some race" },
             genderIdentity: { name: "some gender" },
             birthDate: birthDate2,
@@ -423,6 +523,7 @@ describe("caseDetailDataHelpers", function() {
         complainantOfficers: [
           {
             isUnknownOfficer: false,
+            isAnonymous: true,
             fullName: "officer joe",
             windowsUsername: 12345,
             district: "some district"
@@ -451,7 +552,7 @@ describe("caseDetailDataHelpers", function() {
             Email: "test@test.com"
           }),
           expect.objectContaining({
-            "Civilian Name": "Civilian Joe2",
+            "Civilian Name": "(AC) Civilian Joe2",
             Race: "some race",
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
@@ -469,7 +570,7 @@ describe("caseDetailDataHelpers", function() {
             Email: "test3@test.com"
           }),
           expect.objectContaining({
-            "Officer Name": "officer joe",
+            "Officer Name": "(AC) officer joe",
             ID: "#12345",
             District: "some district"
           }),
@@ -478,7 +579,7 @@ describe("caseDetailDataHelpers", function() {
       );
     });
 
-    describe("witness data", function() {
+    describe("witness data", function () {
       test("returns correct witness data when no witnesses", () => {
         const caseDetail = {
           witnessCivilians: [],
@@ -515,7 +616,33 @@ describe("caseDetailDataHelpers", function() {
         );
       });
 
-      test("returns correct witness data when multiple civilian witnesses", () => {
+      test("returns correct witness data when single civilian witness is anonymous", () => {
+        const caseDetail = {
+          witnessCivilians: [
+            {
+              fullName: "Witness Joe",
+              isAnonymous: true,
+              email: "email@email.com",
+              phoneNumber: "0000000000"
+            }
+          ],
+          witnessOfficers: []
+        };
+
+        const witnessData = getWitnessData(caseDetail);
+
+        expect(witnessData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian Name": "(AC) Witness Joe",
+              "Cell Phone": "(000) 000-0000",
+              "Email Address": "email@email.com"
+            })
+          ])
+        );
+      });
+
+      test("returns correct witness data when multiple civilian witnesses and one is anonymous", () => {
         const caseDetail = {
           witnessCivilians: [
             {
@@ -525,6 +652,7 @@ describe("caseDetailDataHelpers", function() {
             },
             {
               fullName: "Another Witness",
+              isAnonymous: true,
               email: "another@email.com",
               phoneNumber: "1111111111"
             },
@@ -547,7 +675,7 @@ describe("caseDetailDataHelpers", function() {
               "Email Address": "email@email.com"
             }),
             expect.objectContaining({
-              "Civilian Name": "Another Witness",
+              "Civilian Name": "(AC) Another Witness",
               "Cell Phone": "(111) 111-1111",
               "Email Address": "another@email.com"
             }),
@@ -587,6 +715,34 @@ describe("caseDetailDataHelpers", function() {
         );
       });
 
+      test("returns correct witness data when single known officer witness is anonymous", () => {
+        const caseDetail = {
+          witnessCivilians: [],
+          witnessOfficers: [
+            {
+              isUnknownOfficer: false,
+              isAnonymous: true,
+              fullName: "witness officer joe",
+              windowsUsername: 12345,
+              district: "some district",
+              caseEmployeeType: EMPLOYEE_TYPE.OFFICER
+            }
+          ]
+        };
+
+        const witnessData = getWitnessData(caseDetail);
+
+        expect(witnessData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Officer Name": "(AC) witness officer joe",
+              ID: "#12345",
+              District: "some district"
+            })
+          ])
+        );
+      });
+
       test("returns correct witness data when single civilian within NOPD", () => {
         const caseDetail = {
           witnessCivilians: [],
@@ -607,6 +763,34 @@ describe("caseDetailDataHelpers", function() {
           expect.arrayContaining([
             expect.objectContaining({
               "Civilian (NOPD) Name": "witness joe",
+              ID: "#12345",
+              District: "some district"
+            })
+          ])
+        );
+      });
+
+      test("returns correct witness data when single civilian within NOPD is anonymous", () => {
+        const caseDetail = {
+          witnessCivilians: [],
+          witnessOfficers: [
+            {
+              isUnknownOfficer: false,
+              isAnonymous: true,
+              fullName: "witness joe",
+              windowsUsername: 12345,
+              district: "some district",
+              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+            }
+          ]
+        };
+
+        const witnessData = getWitnessData(caseDetail);
+
+        expect(witnessData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian (NOPD) Name": "(AC) witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -636,7 +820,7 @@ describe("caseDetailDataHelpers", function() {
         );
       });
 
-      test("returns correct witness data when multiple civilians, known and unknown officers", () => {
+      test("returns correct witness data when multiple civilians, known and unknown officers, and with some as anonymous", () => {
         const caseDetail = {
           witnessCivilians: [
             {
@@ -651,6 +835,7 @@ describe("caseDetailDataHelpers", function() {
             },
             {
               fullName: "Final Witness",
+              isAnonymous: true,
               email: "final@email.com",
               phoneNumber: "2222222222"
             }
@@ -659,6 +844,7 @@ describe("caseDetailDataHelpers", function() {
             {
               isUnknownOfficer: false,
               fullName: "witness officer joe",
+              isAnonymous: true,
               windowsUsername: 12345,
               district: "some district"
             },
@@ -684,12 +870,12 @@ describe("caseDetailDataHelpers", function() {
               "Email Address": "another@email.com"
             }),
             expect.objectContaining({
-              "Civilian Name": "Final Witness",
+              "Civilian Name": "(AC) Final Witness",
               "Cell Phone": "(222) 222-2222",
               "Email Address": "final@email.com"
             }),
             expect.objectContaining({
-              "Officer Name": "witness officer joe",
+              "Officer Name": "(AC) witness officer joe",
               ID: "#12345",
               District: "some district"
             }),
@@ -699,7 +885,7 @@ describe("caseDetailDataHelpers", function() {
       });
     });
 
-    describe("accused officer data", function() {
+    describe("accused officer data", function () {
       test("returns correct accused officer data when single known officer", () => {
         const officer = {
           isUnknownOfficer: false,
@@ -762,7 +948,7 @@ describe("caseDetailDataHelpers", function() {
       });
     });
 
-    describe("allegation data", function() {
+    describe("allegation data", function () {
       test("returns correct allegation data when single officer with no allegations", () => {
         const officer = {
           isUnknownOfficer: false,

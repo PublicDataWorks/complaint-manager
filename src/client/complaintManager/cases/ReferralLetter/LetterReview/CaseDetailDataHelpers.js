@@ -37,6 +37,11 @@ export const getIncidentInfoData = caseDetail => {
   ];
 };
 
+const fullNameIsAnonymous = complainantOrWitness =>
+  complainantOrWitness.isAnonymous
+    ? `(AC) ${complainantOrWitness.fullName}`
+    : complainantOrWitness.fullName;
+
 export const getComplainantData = caseDetail => {
   let complainantCivilianData = caseDetail.complainantCivilians.map(
     complainant => {
@@ -47,7 +52,7 @@ export const getComplainantData = caseDetail => {
       const complainantPhoneNumber = formatPhoneNumber(complainant.phoneNumber);
 
       return {
-        "Civilian Name": complainant.fullName,
+        "Civilian Name": fullNameIsAnonymous(complainant),
         Race: complainant.raceEthnicity && complainant.raceEthnicity.name,
         "Gender Identity":
           complainant.genderIdentity && complainant.genderIdentity.name,
@@ -68,8 +73,9 @@ export const getComplainantData = caseDetail => {
           complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
             ? "Civilian (NOPD) Name"
             : "Officer Name";
+
         const complainantData = {
-          [nameTitle]: complainant.fullName,
+          [nameTitle]: fullNameIsAnonymous(complainant),
           ID: `#${complainant.windowsUsername}`,
           District: complainant.district
         };
@@ -85,7 +91,7 @@ export const getWitnessData = caseDetail => {
   let witnessCivilianData = caseDetail.witnessCivilians.map(witness => {
     const witnessPhoneNumber = formatPhoneNumber(witness.phoneNumber);
     return {
-      "Civilian Name": witness.fullName,
+      "Civilian Name": fullNameIsAnonymous(witness),
       "Cell Phone": witnessPhoneNumber,
       "Email Address": witness.email
     };
@@ -100,7 +106,7 @@ export const getWitnessData = caseDetail => {
           ? "Civilian (NOPD) Name"
           : "Officer Name";
       const witnessData = {
-        [nameTitle]: witness.fullName,
+        [nameTitle]: fullNameIsAnonymous(witness),
         ID: `#${witness.windowsUsername}`,
         District: witness.district
       };
