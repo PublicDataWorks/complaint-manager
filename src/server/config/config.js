@@ -97,7 +97,8 @@ module.exports = {
       connectSrc: [
         "'self'",
         "https://noipm-ci.auth0.com",
-        "https://buae4310rh.execute-api.us-east-2.amazonaws.com"
+        "https://buae4310rh.execute-api.us-east-2.amazonaws.com",
+        "https://exepgmpcv8.execute-api.us-east-2.amazonaws.com"
       ]
     },
     winston: {
