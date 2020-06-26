@@ -30,6 +30,9 @@ const CivilianPanel = ({
 }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
+  const fullNameIsAnonymous = civilian.isAnonymous
+    ? `(AC) ${civilian.fullName}`
+    : civilian.fullName;
 
   return (
     <div>
@@ -59,7 +62,8 @@ const CivilianPanel = ({
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel={"Civilian"}
-                    value={civilian.fullName}
+                    value={fullNameIsAnonymous}
+                    isAnonymous={civilian.isAnonymous}
                     testLabel="complainantWitness"
                   />
                 </StyledInfoDisplay>
