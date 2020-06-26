@@ -64,7 +64,7 @@ export default {
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     hostname: "https://buae4310rh.execute-api.us-east-2.amazonaws.com",
-    backendUrl: "https://buae4310rh.execute-api.us-east-2.amazonaws.com"
+    backendUrl: "https://noipm-playground.herokuapp.com"
   },
   ci: {
     auth: {
