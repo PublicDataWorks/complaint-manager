@@ -18,21 +18,18 @@ variable "env_policy" {
   description = "Policy for buckets across the environment"
 }
 
+variable "env_name" {
+  description = "Name of the environment"
+}
+
 variable "bucket_names" {
   description = "Names of the buckets in this env"
-  default = [
-    "noipm-playground",
-    "nopd-officers-playground",
-    "noipm-complainant-letters-playground",
-    "noipm-referral-letters-playground",
-    "noipm-exports-playground"
-  ]
 }
 
 terraform {
   backend "s3" {
     bucket = "noipm-terraform"
-    key = "tfstate"
+    key = "tfstate-playground"
     region = "us-east-1"
 
     encrypt = true
@@ -55,7 +52,7 @@ provider "aws" {
 }
 
 data "aws_secretsmanager_secret_version" "env_secrets" {
-  secret_id     = "playground/Env/Config"
+  secret_id     = "${var.env_name}/Env/Config"
 }
 resource "heroku_app" "app" {
   name   = var.app_name
@@ -89,6 +86,7 @@ resource "aws_s3_bucket" "env_bucket" {
 
   bucket = each.value
   acl    = "private"
+  force_destroy = true
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy" {
@@ -144,13 +142,13 @@ POLICY
 }
 
 resource "aws_iam_policy" "env_policy" {
-  name        = "noipm-playground-bucket-access"
+  name        = "noipm-${var.env_name}-bucket-access"
   description = "A policy to allow bucket listing and CRUD on bucket contents"
   policy = var.env_policy
 }
 
 resource "aws_iam_policy_attachment" "attach_policy" {
-  name       = "playground-policy-group-attachment"
+  name       = "${var.env_name}-policy-group-attachment"
   groups     = ["developer", "contributor"]
   policy_arn = aws_iam_policy.env_policy.arn
 }
