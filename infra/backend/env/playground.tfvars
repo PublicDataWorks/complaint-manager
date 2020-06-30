@@ -2,6 +2,16 @@ heroku_email = "noipm.infrastructure@gmail.com"
 team_name = "noipm"
 app_name = "noipm-playground"
 
+env_name = "playground"
+
+bucket_names = [
+  "noipm-playground",
+  "nopd-officers-playground",
+  "noipm-complainant-letters-playground",
+  "noipm-referral-letters-playground",
+  "noipm-exports-playground"
+]
+
 env_policy = <<POLICY
 {
     "Version": "2012-10-17",
