@@ -1,34 +1,34 @@
 heroku_email = "noipm.infrastructure@gmail.com"
 team_name = "noipm"
-app_name = "noipm-playground"
+app_name = "noipm-ci"
 
-env_name = "playground"
+env_name = "ci"
 
 bucket_names = [
-  "noipm-playground",
-  "nopd-officers-playground",
-  "noipm-complainant-letters-playground",
-  "noipm-referral-letters-playground"
+  "noipm-ci",
+  "nopd-officers-ci",
+  "noipm-complainant-letters-ci",
+  "noipm-referral-letters-ci"
 ]
 
-postgres_plan = "hobby-dev"
-papertrail_plan = "choklad"
+postgres_plan = "hobby-basic"
+papertrail_plan = "fixa"
 
 env_policy = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowListingBucketPlayground",
+            "Sid": "AllowListingBucketCI",
             "Effect": "Allow",
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-playground"
+            "Resource": "arn:aws:s3:::noipm-ci"
         },
         {
-            "Sid": "AllowBucketContentCRUDPlayground",
+            "Sid": "AllowBucketContentCRUDCI",
             "Effect": "Allow",
             "Action": [
                 "s3:PutObject",
@@ -37,7 +37,7 @@ env_policy = <<POLICY
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-playground/*"
+            "Resource": "arn:aws:s3:::noipm-ci/*"
         },
         {
             "Sid": "AllowListingBucketOfficers",
@@ -46,7 +46,7 @@ env_policy = <<POLICY
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-playground"
+            "Resource": "arn:aws:s3:::nopd-officers-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDOfficers",
@@ -58,7 +58,7 @@ env_policy = <<POLICY
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-playground/*"
+            "Resource": "arn:aws:s3:::nopd-officers-ci/*"
         },
         {
             "Sid": "AllowListingBucketExports",
@@ -67,7 +67,7 @@ env_policy = <<POLICY
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-playground"
+            "Resource": "arn:aws:s3:::noipm-exports-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDExports",
@@ -79,7 +79,7 @@ env_policy = <<POLICY
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-playground/*"
+            "Resource": "arn:aws:s3:::noipm-exports-ci/*"
         },
         {
             "Sid": "AllowListingBucketComplainantLetters",
@@ -88,7 +88,7 @@ env_policy = <<POLICY
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-playground"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDComplainantLetters",
@@ -100,7 +100,7 @@ env_policy = <<POLICY
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-playground/*"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci/*"
         },
         {
             "Sid": "AllowListingBucketReferralLetters",
@@ -109,7 +109,7 @@ env_policy = <<POLICY
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-playground"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDReferralLetters",
@@ -121,7 +121,7 @@ env_policy = <<POLICY
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-playground/*"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci/*"
         }
     ]
 }
