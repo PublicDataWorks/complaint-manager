@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-playground"
+    key = "tfstate-ci"
 
     encrypt = true
     shared_credentials_file = "~/.aws/credentials"
@@ -23,41 +23,39 @@ variable "heroku_api_key" {
 
 module "webapp" {
   source = "../modules/webapp"
-
   heroku_api_key = var.heroku_api_key
 
   heroku_email = "noipm.infrastructure@gmail.com"
-
   team_name = "noipm"
-  app_name = "noipm-playground"
+  app_name = "noipm-ci"
 
-  env_name = "playground"
+  env_name = "ci"
 
   bucket_names = [
-    "noipm-playground",
-    "nopd-officers-playground",
-    "noipm-complainant-letters-playground",
-    "noipm-referral-letters-playground"
+    "noipm-ci",
+    "nopd-officers-ci",
+    "noipm-complainant-letters-ci",
+    "noipm-referral-letters-ci"
   ]
 
-  postgres_plan = "hobby-dev"
-  papertrail_plan = "choklad"
+  postgres_plan = "hobby-basic"
+  papertrail_plan = "fixa"
 
   env_policy = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowListingBucketPlayground",
+            "Sid": "AllowListingBucketCI",
             "Effect": "Allow",
             "Action": [
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-playground"
+            "Resource": "arn:aws:s3:::noipm-ci"
         },
         {
-            "Sid": "AllowBucketContentCRUDPlayground",
+            "Sid": "AllowBucketContentCRUDCI",
             "Effect": "Allow",
             "Action": [
                 "s3:PutObject",
@@ -66,7 +64,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-playground/*"
+            "Resource": "arn:aws:s3:::noipm-ci/*"
         },
         {
             "Sid": "AllowListingBucketOfficers",
@@ -75,7 +73,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-playground"
+            "Resource": "arn:aws:s3:::nopd-officers-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDOfficers",
@@ -87,7 +85,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-playground/*"
+            "Resource": "arn:aws:s3:::nopd-officers-ci/*"
         },
         {
             "Sid": "AllowListingBucketExports",
@@ -96,7 +94,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-playground"
+            "Resource": "arn:aws:s3:::noipm-exports-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDExports",
@@ -108,7 +106,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-playground/*"
+            "Resource": "arn:aws:s3:::noipm-exports-ci/*"
         },
         {
             "Sid": "AllowListingBucketComplainantLetters",
@@ -117,7 +115,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-playground"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDComplainantLetters",
@@ -129,7 +127,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-playground/*"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci/*"
         },
         {
             "Sid": "AllowListingBucketReferralLetters",
@@ -138,7 +136,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-playground"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDReferralLetters",
@@ -150,10 +148,11 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-playground/*"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci/*"
         }
     ]
 }
 POLICY
+
 
 }
