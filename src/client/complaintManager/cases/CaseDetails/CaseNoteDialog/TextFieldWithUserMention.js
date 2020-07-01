@@ -109,7 +109,8 @@ export const TextFieldWithUserMention = props => {
       renderInput={params => {
         params.inputProps = {
           ...params.inputProps,
-          ...parentProps.inputProps
+          ...parentProps.inputProps,
+          spellCheck: true
         };
         return (
           <TextField
