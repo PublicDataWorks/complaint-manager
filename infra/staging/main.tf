@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-ci"
+    key = "tfstate-staging"
 
     encrypt = true
     shared_credentials_file = "~/.aws/credentials"
@@ -27,18 +27,18 @@ module "webapp" {
 
   heroku_email = "noipm.infrastructure@gmail.com"
   team_name = "noipm"
-  app_name = "noipm-ci"
+  app_name = "noipm-staging"
 
-  env_name = "ci"
+  env_name = "staging"
 
   bucket_names = [
-    "noipm-ci",
-    "nopd-officers-ci",
-    "noipm-complainant-letters-ci",
-    "noipm-referral-letters-ci"
+    "noipm-staging",
+    "nopd-officers-staging",
+    "noipm-complainant-letters-staging",
+    "noipm-referral-letters-staging"
   ]
 
-  api_target = "https://noipm-ci.herokuapp.com"
+  api_target = "https://noipm-staging.herokuapp.com"
 
   postgres_plan = "hobby-basic"
   papertrail_plan = "fixa"
@@ -54,7 +54,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-ci"
+            "Resource": "arn:aws:s3:::noipm-staging"
         },
         {
             "Sid": "AllowBucketContentCRUDCI",
@@ -66,7 +66,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-ci/*"
+            "Resource": "arn:aws:s3:::noipm-staging/*"
         },
         {
             "Sid": "AllowListingBucketOfficers",
@@ -75,7 +75,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-ci"
+            "Resource": "arn:aws:s3:::nopd-officers-staging"
         },
         {
             "Sid": "AllowBucketContentCRUDOfficers",
@@ -87,7 +87,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-ci/*"
+            "Resource": "arn:aws:s3:::nopd-officers-staging/*"
         },
         {
             "Sid": "AllowListingBucketExports",
@@ -96,7 +96,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-ci"
+            "Resource": "arn:aws:s3:::noipm-exports-staging"
         },
         {
             "Sid": "AllowBucketContentCRUDExports",
@@ -108,7 +108,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-ci/*"
+            "Resource": "arn:aws:s3:::noipm-exports-staging/*"
         },
         {
             "Sid": "AllowListingBucketComplainantLetters",
@@ -117,7 +117,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-staging"
         },
         {
             "Sid": "AllowBucketContentCRUDComplainantLetters",
@@ -129,7 +129,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci/*"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-staging/*"
         },
         {
             "Sid": "AllowListingBucketReferralLetters",
@@ -138,7 +138,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-ci"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-staging"
         },
         {
             "Sid": "AllowBucketContentCRUDReferralLetters",
@@ -150,7 +150,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-ci/*"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-staging/*"
         }
     ]
 }
