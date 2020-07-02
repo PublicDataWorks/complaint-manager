@@ -194,3 +194,17 @@ resource "aws_iam_policy_attachment" "attach_policy" {
     "contributor"]
   policy_arn = aws_iam_policy.env_policy.arn
 }
+
+resource "aws_apigatewayv2_api" "api_gateway" {
+  name          = "noipm-${var.env_name}-http-api"
+  protocol_type = "HTTP"
+
+  target = var.api_target
+
+  cors_configuration {
+    allow_origins = [var.api_target]
+    allow_methods = ["*"]
+    allow_headers = ["*"]
+    allow_credentials = true
+  }
+}
