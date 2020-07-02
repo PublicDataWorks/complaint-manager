@@ -26,6 +26,10 @@ variable "bucket_names" {
   description = "Names of the buckets in this env"
 }
 
+variable "api_target" {
+  description = "Proxy URL for the HTTP API Gateway"
+}
+
 variable "postgres_plan" {
   description = "Heroku Postgres Plan Name"
 }

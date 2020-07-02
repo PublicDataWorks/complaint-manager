@@ -40,6 +40,8 @@ module "webapp" {
     "noipm-referral-letters-playground"
   ]
 
+  api_target = "https://noipm-playground.herokuapp.com"
+
   postgres_plan = "hobby-dev"
   papertrail_plan = "choklad"
 
