@@ -37,6 +37,12 @@ winston.configure({
 
 const app = express();
 
+const corsConfig = {
+  origin: config.corsOrigin,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 app.options("*", cors());
 
 app.use(function (req, res, next) {
