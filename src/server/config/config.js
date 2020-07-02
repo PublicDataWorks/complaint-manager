@@ -26,6 +26,7 @@ module.exports = {
         `wss://localhost:${LOCAL_DEV_PORT}`
       ]
     },
+    corsOrigin: "*",
     winston: {
       logLevel: "info",
       json: true
@@ -63,6 +64,7 @@ module.exports = {
         `wss://localhost:${LOCAL_DEV_PORT}`
       ]
     },
+    corsOrigin: "*",
     winston: {
       logLevel: "error",
       json: true
@@ -100,6 +102,7 @@ module.exports = {
         "https://qofzbpm37l.execute-api.us-east-1.amazonaws.com"
       ]
     },
+    corsOrigin: "https://noipm-playground.herokuapp.com",
     winston: {
       logLevel: "info",
       json: false
@@ -131,6 +134,7 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-ci.auth0.com"]
     },
+    corsOrigin: "https://noipm-ci.herokuapp.com",
     winston: {
       logLevel: "info",
       json: false
@@ -162,6 +166,7 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-staging.auth0.com"]
     },
+    corsOrigin: "https://noipm-staging.herokuapp.com",
     winston: {
       logLevel: "info",
       json: false
@@ -193,6 +198,7 @@ module.exports = {
     contentSecurityPolicy: {
       connectSrc: ["'self'", "https://noipm-production.auth0.com"]
     },
+    corsOrigin: "https://noipm-production.herokuapp.com",
     winston: {
       logLevel: "info",
       json: false
