@@ -54,7 +54,8 @@ const OfficerHistoryNote = props => {
             style={{ width: "40%", marginBottom: "32px" }}
             inputProps={{
               "data-testid": "note-pib-case-number",
-              maxLength: 255
+              maxLength: 255,
+              autoComplete: "off"
             }}
           />
           <div style={{ marginTop: "16px" }}>
