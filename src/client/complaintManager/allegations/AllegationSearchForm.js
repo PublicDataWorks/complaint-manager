@@ -60,7 +60,10 @@ class AllegationSearchForm extends React.Component {
               name="directive"
               component={renderTextField}
               placeholder="Enter one or more keywords"
-              inputProps={{ "data-testid": "directiveField" }}
+              inputProps={{
+                "data-testid": "directiveField",
+                autoComplete: "off"
+              }}
               style={{ flex: "1", marginRight: "24px" }}
               InputLabelProps={{
                 shrink: true
@@ -85,7 +88,8 @@ class AllegationSearchForm extends React.Component {
               component={Dropdown}
               data-testid="ruleDropdown"
               inputProps={{
-                "data-testid": "ruleInput"
+                "data-testid": "ruleInput",
+                autoComplete: "off"
               }}
               style={{ flex: "1", marginRight: "24px" }}
             >
@@ -96,7 +100,10 @@ class AllegationSearchForm extends React.Component {
               label="Paragraph"
               name="paragraph"
               component={Dropdown}
-              inputProps={{ "data-testid": "paragraphInput" }}
+              inputProps={{
+                "data-testid": "paragraphInput",
+                autoComplete: "off"
+              }}
               style={{ flex: "1", marginRight: "24px" }}
             >
               {currentRuleSelected || currentRuleSelected ? (
