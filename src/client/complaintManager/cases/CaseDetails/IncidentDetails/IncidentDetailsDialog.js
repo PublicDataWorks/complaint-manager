@@ -1,27 +1,39 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import moment from "moment/moment";
-import {Dialog, DialogActions, DialogContent, DialogTitle} from "@material-ui/core";
-import {withStyles} from "@material-ui/core/styles";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 import DateField from "../../sharedFormComponents/DateField";
-import {Field, formValueSelector, reduxForm, SubmissionError} from "redux-form";
-import {PrimaryButton, SecondaryButton} from "../../../shared/components/StyledButtons";
+import {
+  Field,
+  formValueSelector,
+  reduxForm,
+  SubmissionError
+} from "redux-form";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../shared/components/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
-import {nullifyFieldUnlessValid} from "../../../utilities/fieldNormalizers";
+import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
 import AddressInput from "../CivilianDialog/AddressInput";
-import {connect} from "react-redux";
-import {formatAddressAsString} from "../../../utilities/formatAddress";
-import {addressMustBeValid} from "../../../../formValidations";
-import {generateMenuOptions} from "../../../utilities/generateMenuOptions";
+import { connect } from "react-redux";
+import { formatAddressAsString } from "../../../utilities/formatAddress";
+import { addressMustBeValid } from "../../../../formValidations";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import AddressSecondLine from "../../sharedFormComponents/AddressSecondLine";
 import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
-import {intakeSourceIsRequired} from "../../../../formFieldLevelValidations";
-import {INCIDENT_DETAILS_FORM_NAME} from "../../../../../sharedUtilities/constants";
-import getHowDidYouHearAboutUsSourceDropdownValues
-  from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
+import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
+import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
+import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
-import {renderTextField} from "../../sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
@@ -87,6 +99,7 @@ class IncidentDetailsDialog extends Component {
                 inputProps={{
                   "data-testid": "editFirstContactDateInput",
                   type: "date",
+                  autoComplete: "off",
                   max: moment(Date.now()).format("YYYY-MM-DD")
                 }}
                 style={{ display: "inherit" }}
@@ -106,7 +119,8 @@ class IncidentDetailsDialog extends Component {
                 inputProps={{
                   "data-testid": "editIncidentDateInput",
                   type: "date",
-                  max: moment(Date.now()).format("YYYY-MM-DD")
+                  max: moment(Date.now()).format("YYYY-MM-DD"),
+                  autoComplete: "off"
                 }}
                 style={{
                   marginRight: "16px"
@@ -120,7 +134,8 @@ class IncidentDetailsDialog extends Component {
                 data-testid="editIncidentTimeField"
                 inputProps={{
                   "data-testid": "editIncidentTimeInput",
-                  type: "time"
+                  type: "time",
+                  autoComplete: "off"
                 }}
                 InputLabelProps={{
                   shrink: true
@@ -153,7 +168,10 @@ class IncidentDetailsDialog extends Component {
                   flex: "1"
                 }}
                 data-testid="districtDropdown"
-                inputProps={{ "data-testid": "districtInput" }}
+                inputProps={{
+                  "data-testid": "districtInput",
+                  autoComplete: "off"
+                }}
               >
                 {generateMenuOptions(this.props.districts, "Unknown")}
               </Field>
@@ -204,7 +222,8 @@ class IncidentDetailsDialog extends Component {
                 placeholder="Enter PIB Case Number"
                 inputProps={{
                   "data-testid": "pibCaseNumberInput",
-                  maxLength: 25
+                  maxLength: 25,
+                  autoComplete: "off"
                 }}
                 InputLabelProps={{ shrink: true }}
                 style={{
@@ -239,9 +258,10 @@ class IncidentDetailsDialog extends Component {
   }
 }
 
-const connectedForm = reduxForm({ form: INCIDENT_DETAILS_FORM_NAME, onSubmitFail: scrollToFirstError })(
-  IncidentDetailsDialog
-);
+const connectedForm = reduxForm({
+  form: INCIDENT_DETAILS_FORM_NAME,
+  onSubmitFail: scrollToFirstError
+})(IncidentDetailsDialog);
 
 const mapStateToProps = state => {
   const selector = formValueSelector(INCIDENT_DETAILS_FORM_NAME);
