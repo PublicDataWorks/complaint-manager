@@ -302,7 +302,8 @@ class CivilianDialog extends Component {
               rowsMax={5}
               placeholder="Enter any additional details about the complainant here"
               inputProps={{
-                "data-testid": "additionalInfoInput"
+                "data-testid": "additionalInfoInput",
+                autoComplete: "off"
               }}
               data-testid="additionalInfoField"
             />
