@@ -48,7 +48,10 @@ class OfficerSearchForm extends Component {
               label="First Name"
               name="firstName"
               component={renderTextField}
-              inputProps={{ "data-testid": "firstNameField" }}
+              inputProps={{
+                "data-testid": "firstNameField",
+                autoComplete: "off"
+              }}
               style={{ flex: "1", marginRight: "24px" }}
             />
 
@@ -56,7 +59,10 @@ class OfficerSearchForm extends Component {
               label="Last Name"
               name="lastName"
               component={renderTextField}
-              inputProps={{ "data-testid": "lastNameField" }}
+              inputProps={{
+                "data-testid": "lastNameField",
+                autoComplete: "off"
+              }}
               style={{ flex: "1", marginRight: "24px" }}
             />
 
