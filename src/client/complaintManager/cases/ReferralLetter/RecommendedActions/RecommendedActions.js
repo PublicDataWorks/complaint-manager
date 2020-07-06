@@ -167,6 +167,7 @@ class RecommendedActions extends Component {
             rowsMax={5}
             data-testid={`${letterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
+            inputProps={{ autoComplete: "off" }}
           />
         </div>
       </Fragment>
