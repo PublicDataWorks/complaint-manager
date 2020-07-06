@@ -10,6 +10,7 @@ import { getNotificationsSuccess } from "../../../actionCreators/notificationAct
 import axios from "axios";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 import MutationObserver from "@sheerun/mutationobserver-shim";
+import { highlightCaseNote } from "../../../actionCreators/highlightCaseNoteActionCreators";
 window.MutationObserver = MutationObserver;
 
 jest.mock("axios");
@@ -83,6 +84,20 @@ describe("notification list", () => {
 
     return notificationCard;
   };
+
+  test("should dispatch highlightCaseNote when clicking on notification", async () => {
+    responseBody = {
+      data: { caseNoteExists: true, notificationExists: true }
+    };
+
+    const notificationCard = findAndClickNotif(2);
+
+    fireEvent.click(notificationCard);
+
+    await waitFor(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(highlightCaseNote(3));
+    });
+  });
 
   test("should render 3 notification cards if the user has 3 notifications", async () => {
     const { queryByText } = renderNotificationList();

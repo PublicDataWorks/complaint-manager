@@ -64,6 +64,7 @@ class CaseNotes extends Component {
                     activity={activity}
                     caseId={caseId}
                     shouldTruncate={true}
+                    highlightedCaseNote={this.props.highlightedCaseNote}
                     data-testid="caseNotesItem"
                   />
                 );
@@ -97,7 +98,8 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   caseNotes: state.currentCase.caseNotes,
   isArchived: state.currentCase.details.isArchived,
-  fetchingCaseNotes: state.currentCase.fetchingCaseNotes
+  fetchingCaseNotes: state.currentCase.fetchingCaseNotes,
+  highlightedCaseNote: state.ui.highlightedCaseNote
 });
 
 export default connect(mapStateToProps)(CaseNotes);
