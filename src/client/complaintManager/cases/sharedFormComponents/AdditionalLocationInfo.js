@@ -11,7 +11,8 @@ const AdditionalLocationInfo = ({ label, fieldName, style }) => {
       style={style}
       inputProps={{
         "data-testid": "additionalLocationInfoInput",
-        maxLength: 255
+        maxLength: 255,
+        autoComplete: "off"
       }}
       multiline
       InputLabelProps={{ shrink: true }}
