@@ -29,7 +29,6 @@ import {
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import timekeeper from "timekeeper";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
