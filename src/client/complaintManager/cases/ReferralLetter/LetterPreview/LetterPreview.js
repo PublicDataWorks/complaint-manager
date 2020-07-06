@@ -225,6 +225,7 @@ class LetterPreview extends Component {
               multiline
               rowsMax={5}
               style={{ marginBottom: "16px" }}
+              inputProps={{ autoComplete: "off" }}
             />
             <Field
               style={{ flex: 4 }}
@@ -234,6 +235,7 @@ class LetterPreview extends Component {
               fullWidth
               multiline
               rowsMax={5}
+              inputProps={{ autoComplete: "off" }}
             />
           </CardContent>
         </Card>
@@ -269,6 +271,7 @@ class LetterPreview extends Component {
               multiline
               rowsMax={5}
               style={{ marginBottom: "16px" }}
+              inputProps={{ autoComplete: "off" }}
             />
 
             <Field
@@ -280,6 +283,7 @@ class LetterPreview extends Component {
                 "data-testid": "transcribed-by-field",
                 maxLength: 255
               }}
+              inputProps={{ autoComplete: "off" }}
             />
           </CardContent>
         </Card>
