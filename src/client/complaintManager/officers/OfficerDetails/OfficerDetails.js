@@ -113,7 +113,7 @@ class OfficerDetails extends React.Component {
                   <div style={{ display: "flex" }}>
                     <PhoneNumberField name="phoneNumber" />
                     <span style={{ marginRight: "5%" }} />
-                    <EmailField name="email" autoComplete="disabled" />
+                    <EmailField name="email" />
                   </div>
                 </div>
               ) : null}
