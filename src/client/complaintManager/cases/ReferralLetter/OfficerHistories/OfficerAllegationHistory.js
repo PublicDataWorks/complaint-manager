@@ -48,7 +48,7 @@ class OfficerAllegationHistory extends React.Component {
             label="High Level"
             data-testid={`${letterOfficer}-numHistoricalHighAllegations`}
             normalize={numbersOnly}
-            inputProps={{ maxLength: 5 }}
+            inputProps={{ maxLength: 5, autoComplete: "off" }}
           />
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -57,7 +57,7 @@ class OfficerAllegationHistory extends React.Component {
             label="Medium Level"
             data-testid={`${letterOfficer}-numHistoricalMedAllegations`}
             normalize={numbersOnly}
-            inputProps={{ maxLength: 5 }}
+            inputProps={{ maxLength: 5, autoComplete: "off" }}
           />
           <Field
             style={{ margin: "8px 24px 0 0", flex: 1 }}
@@ -66,7 +66,7 @@ class OfficerAllegationHistory extends React.Component {
             label="Low Level"
             data-testid={`${letterOfficer}-numHistoricalLowAllegations`}
             normalize={numbersOnly}
-            inputProps={{ maxLength: 5 }}
+            inputProps={{ maxLength: 5, autoComplete: "off" }}
           />
           <Typography
             style={{ flex: 1, marginTop: "32px" }}
