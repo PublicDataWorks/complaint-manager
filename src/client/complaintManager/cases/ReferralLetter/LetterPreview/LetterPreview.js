@@ -281,9 +281,9 @@ class LetterPreview extends Component {
               fullWidth
               inputProps={{
                 "data-testid": "transcribed-by-field",
-                maxLength: 255
+                maxLength: 255,
+                autoComplete: "off"
               }}
-              inputProps={{ autoComplete: "off" }}
             />
           </CardContent>
         </Card>
