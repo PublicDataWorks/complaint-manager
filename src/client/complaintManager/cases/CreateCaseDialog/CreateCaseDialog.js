@@ -107,7 +107,8 @@ const Timeline = () => (
       inputProps={{
         "data-testid": "firstContactDateInput",
         type: "date",
-        max: moment(Date.now()).format("YYYY-MM-DD")
+        max: moment(Date.now()).format("YYYY-MM-DD"),
+        autoComplete: "off"
       }}
       style={{
         marginRight: "5%",
@@ -130,7 +131,7 @@ const IntakeSource = props => {
       hinttext="Intake Source"
       data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ "data-testid": "intakeSourceInput" }}
+      inputProps={{ "data-testid": "intakeSourceInput", autoComplete: "off" }}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}
