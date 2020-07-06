@@ -4,21 +4,37 @@ import moment from "moment";
 import ActivityMenu from "./ActivityMenu";
 import TextTruncate from "../../../shared/components/TextTruncate";
 
-const ActivityDisplay = ({ caseId, activity, shouldTruncate = true }) => {
+const ActivityDisplay = ({
+  caseId,
+  activity,
+  highlightedCaseNote,
+  shouldTruncate = true
+}) => {
   const author = activity.author.name
     ? activity.author.name
     : "[" + activity.author.email + "]";
 
   const TIMESTAMP_FORMAT = "MMM D, YYYY h:mm A";
+
   return (
     <Card
       key={activity.id}
       style={{
         marginBottom: "16px",
-        backgroundColor: "white"
+        backgroundColor: "white",
+        display: "flex"
       }}
       elevation={5}
     >
+      {highlightedCaseNote && highlightedCaseNote.caseNoteId === activity.id ? (
+        <CardContent
+          style={{
+            minWidth: 10,
+            backgroundColor: "#D32F2F",
+            padding: 0
+          }}
+        />
+      ) : null}
       <CardContent>
         <div
           style={{

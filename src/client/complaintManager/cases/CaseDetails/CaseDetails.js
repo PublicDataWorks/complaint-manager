@@ -41,6 +41,8 @@ import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLet
 import { scrollToTop } from "../../../ScrollToTop";
 import { reset } from "redux-form";
 import { complaintManagerMenuOptions } from "../../shared/components/NavBar/complaintManagerMenuOptions";
+import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
+import history from "../../../history";
 
 const drawerWidthPercentage = "30%";
 const appBar = {
@@ -108,10 +110,19 @@ class CaseDetails extends React.Component {
     const caseId = this.props.match.params.id;
     this.props.dispatch(getCaseDetails(caseId));
     this.props.dispatch(getReferralLetterEditStatus(caseId));
+
+    history.listen((location, action) => {
+      console.log("are we up in here??");
+      if (action === "POP") {
+        console.log("how bout here??");
+        this.props.dispatch(clearHighlightedCaseNote());
+      }
+    });
   }
 
   componentWillUnmount() {
     resetCaseDetailsPage(this.props.dispatch);
+    this.props.dispatch(clearHighlightedCaseNote());
   }
 
   caseDetailsNotYetLoaded() {

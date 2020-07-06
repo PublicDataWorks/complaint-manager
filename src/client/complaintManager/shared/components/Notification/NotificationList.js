@@ -7,6 +7,7 @@ import history from "../../../../history";
 import { snackbarError } from "../../../actionCreators/snackBarActionCreators";
 
 import NotificationCard from "./NotificationCard";
+import { highlightCaseNote } from "../../../actionCreators/highlightCaseNoteActionCreators";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,6 +47,7 @@ const NotificationList = props => {
           );
         }
       } else {
+        props.highlightCaseNote(notification.caseNoteId);
         await axios.get(`/api/notifications/mark-as-read/${notification.id}`);
         if (window.location.href.endsWith(notification.caseId)) {
           closeNotificationDrawer();
@@ -75,6 +77,6 @@ const mapStateToProps = state => ({
   notifications: state.notifications
 });
 
-const mapDispatchToProps = { snackbarError };
+const mapDispatchToProps = { snackbarError, highlightCaseNote };
 
 export default connect(mapStateToProps, mapDispatchToProps)(NotificationList);

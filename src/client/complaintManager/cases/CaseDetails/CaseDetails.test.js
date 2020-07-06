@@ -34,6 +34,8 @@ import { initialize, reset } from "redux-form";
 import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLetterEditStatus";
 import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
+import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
+import history from "../../../history";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -110,12 +112,6 @@ describe("Case Details Component", () => {
     );
   });
 
-  test("loads letter type on mount so message can be displayed", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      getReferralLetterEditStatus(expectedCase.id.toString())
-    );
-  });
-
   test("should scroll to top", () => {
     store.dispatch(
       getCaseDetailsSuccess({
@@ -134,7 +130,7 @@ describe("Case Details Component", () => {
     expect(scrollToTop).toHaveBeenCalled();
   });
 
-  test("should dispatch close dialog actions on unmount", () => {
+  test("should dispatch close dialogs and clear highlighted case note action on unmount", () => {
     caseDetails.unmount();
     expect(dispatchSpy).toHaveBeenCalledWith(reset(NARRATIVE_FORM));
     expect(dispatchSpy).toHaveBeenCalledWith(clearOfficerPanelData());
@@ -149,6 +145,7 @@ describe("Case Details Component", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       closeRemoveAttachmentConfirmationDialog()
     );
+    expect(dispatchSpy).toHaveBeenCalledWith(clearHighlightedCaseNote());
   });
 
   describe("nav bar", () => {

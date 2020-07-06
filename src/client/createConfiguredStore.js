@@ -63,6 +63,7 @@ import addOfficerReducer from "./complaintManager/reducers/officers/addOfficerRe
 import usersReducer from "./common/reducers/users/usersReducer";
 import classificationsReducer from "./complaintManager/reducers/cases/classificationsReducer";
 import getNotificationsReducer from "./complaintManager/reducers/notifications/getNotificationsReducer";
+import highlightCaseNoteReducer from "./complaintManager/reducers/ui/highlightCaseNoteReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -126,7 +127,8 @@ const rootReducer = combineReducers({
     archiveCaseDialog: archiveCaseDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
-    removeAttachmentConfirmationDialog: removeAttachmentConfirmationDialogReducer
+    removeAttachmentConfirmationDialog: removeAttachmentConfirmationDialogReducer,
+    highlightedCaseNote: highlightCaseNoteReducer
   }),
   officers: combineReducers({
     searchOfficers: searchOfficersReducer,

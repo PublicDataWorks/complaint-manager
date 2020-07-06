@@ -165,6 +165,9 @@ export const MATRIX_CREATED_SUCCESS = "MATRIX_CREATED_SUCCESS";
 
 export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
 
+export const HIGHLIGHT_CASE_NOTE = "HIGHLIGHT_CASE_NOTE";
+export const CLEAR_HIGHLIGHTED_CASE_NOTE = "UNHIGHLIGHT_CASE_NOTE";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------
