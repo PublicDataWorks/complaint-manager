@@ -46,7 +46,7 @@ const PhoneNumberField = props => {
       label="Phone Number"
       inputProps={{
         "data-testid": "phoneNumberInput",
-        autoComplete: "disabled"
+        autoComplete: "off"
       }}
       data-testid="phoneNumberField"
       validate={[isPhoneNumber]}
