@@ -132,7 +132,11 @@ module.exports = {
       nicknameKey: "https://noipm-ci.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: ["'self'", "https://noipm-ci.auth0.com"]
+      connectSrc: [
+        "'self'",
+        "https://noipm-ci.auth0.com",
+        "https://hggkf95dtf.execute-api.us-east-1.amazonaws.com"
+      ]
     },
     corsOrigin: "https://noipm-ci.herokuapp.com",
     winston: {
