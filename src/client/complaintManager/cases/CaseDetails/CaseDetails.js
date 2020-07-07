@@ -114,7 +114,6 @@ class CaseDetails extends React.Component {
     history.listen((location, action) => {
       console.log("are we up in here??");
       if (action === "POP") {
-        console.log("how bout here??");
         this.props.dispatch(clearHighlightedCaseNote());
       }
     });
