@@ -31,11 +31,9 @@ import {
 } from "../../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize, reset } from "redux-form";
-import getReferralLetterEditStatus from "../ReferralLetter/thunks/getReferralLetterEditStatus";
 import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
-import history from "../../../history";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -63,6 +61,7 @@ jest.mock("./CivilianDialog/MapServices/MapService");
 
 describe("Case Details Component", () => {
   let caseDetails, expectedCase, dispatchSpy, store;
+
   beforeEach(() => {
     const incidentDateInUTC = "2017-12-25T06:00Z";
     mockLocalStorage();

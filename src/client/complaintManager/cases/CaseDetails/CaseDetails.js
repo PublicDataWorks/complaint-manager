@@ -112,7 +112,6 @@ class CaseDetails extends React.Component {
     this.props.dispatch(getReferralLetterEditStatus(caseId));
 
     history.listen((location, action) => {
-      console.log("are we up in here??");
       if (action === "POP") {
         this.props.dispatch(clearHighlightedCaseNote());
       }
