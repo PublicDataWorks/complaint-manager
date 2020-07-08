@@ -22,7 +22,7 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
 ### Docker Preferences
 
   * To prevent Docker from killing your jest tests with Exit 137, you will need to increase memory that Docker is using.
-  * Under “Advanced” section in Docker preferences, change your default settings to the following:
+  * Under “Resources > Advanced” section in Docker preferences, change your default settings to the following:
     ```
     CPUs: 4,
     Memory: 5.0 GB
@@ -96,7 +96,8 @@ run all tests, and run the security checks before pushing.
     ```bash
     docker-compose up app
     ```
-  * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
+  * Navigate to `https://localhost`.
+    * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
     * In these case, please click "Advanced" and then "Proceed to localhost (unsafe)" to move to the local host web page.
 
 ### Stop all running containers:
