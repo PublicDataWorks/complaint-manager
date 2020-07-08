@@ -18,6 +18,10 @@ variable "env_policy" {
   description = "Policy for buckets across the environment"
 }
 
+variable "env_policy_groups" {
+  description = "Groups that will be associated with env policy"
+}
+
 variable "env_name" {
   description = "Name of the environment"
 }

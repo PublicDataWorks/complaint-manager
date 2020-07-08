@@ -156,5 +156,7 @@ module "webapp" {
 }
 POLICY
 
-
+  env_policy_groups = [
+    "developer",
+    "contributor"]
 }
