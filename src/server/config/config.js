@@ -168,7 +168,11 @@ module.exports = {
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: ["'self'", "https://noipm-staging.auth0.com"]
+      connectSrc: [
+        "'self'",
+        "https://noipm-staging.auth0.com",
+        "https://49o089njl2.execute-api.us-east-1.amazonaws.com/"
+      ]
     },
     corsOrigin: "https://noipm-staging.herokuapp.com",
     winston: {
@@ -200,7 +204,11 @@ module.exports = {
       nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
     contentSecurityPolicy: {
-      connectSrc: ["'self'", "https://noipm-production.auth0.com"]
+      connectSrc: [
+        "'self'",
+        "https://noipm-production.auth0.com",
+        "https://eo9e748ns4.execute-api.us-east-1.amazonaws.com"
+      ]
     },
     corsOrigin: "https://noipm-production.herokuapp.com",
     winston: {
