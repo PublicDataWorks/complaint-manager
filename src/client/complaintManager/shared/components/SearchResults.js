@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  LinearProgress,
+  CircularProgress,
   Paper,
   Table,
   TableBody,
@@ -54,10 +54,10 @@ export class SearchResults extends Component {
     }
     return (
       <div style={{ textAlign: "center" }}>
-        <LinearProgress
+        <CircularProgress
           data-testid="spinner"
-          style={{ marginTop: "24px", marginBottom: "32px" }}
-          size={300}
+          style={{ marginTop: "100px", marginBottom: "32px" }}
+          size={80}
         />
       </div>
     );

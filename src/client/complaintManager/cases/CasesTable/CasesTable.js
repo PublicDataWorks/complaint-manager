@@ -103,10 +103,6 @@ class CasesTable extends React.Component {
   }
 
   render() {
-    if (!this.props.loaded) {
-      return null;
-    }
-
     const { classes } = this.props;
     return (
       <div style={{ marginTop: "24px" }} className={classes.tableMargin}>
