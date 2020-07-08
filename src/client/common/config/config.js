@@ -89,7 +89,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-staging.herokuapp.com/nickname"
     },
-    hostname: "https://noipm-staging.herokuapp.com",
+    hostname: "https://49o089njl2.execute-api.us-east-1.amazonaws.com/",
     backendUrl: "https://noipm-staging.herokuapp.com"
   },
   production: {
@@ -102,7 +102,7 @@ export default {
       scope: "openid profile",
       nicknameKey: "https://noipm-production.herokuapp.com/nickname"
     },
-    hostname: "https://noipm-production.herokuapp.com",
+    hostname: "https://eo9e748ns4.execute-api.us-east-1.amazonaws.com",
     backendUrl: "https://noipm-production.herokuapp.com"
   }
 };
