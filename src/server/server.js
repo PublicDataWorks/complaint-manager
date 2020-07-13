@@ -43,7 +43,7 @@ const corsConfig = {
   preflightContinue: false,
   optionsSuccessStatus: 204
 };
-app.options("*", cors());
+app.options("*", cors(corsConfig));
 
 app.use(function (req, res, next) {
   res.header("X-powered-by", "<3");
