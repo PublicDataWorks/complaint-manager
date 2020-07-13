@@ -374,7 +374,7 @@ workflows:
           filters:
             branches:
               only:
-                - aws-api-gateway-v2
+                - gzip-compression
       - build-and-publish-playground:
           requires:
             - security-check
