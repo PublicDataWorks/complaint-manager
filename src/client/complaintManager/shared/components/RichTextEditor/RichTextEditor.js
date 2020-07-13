@@ -6,34 +6,22 @@ class RichTextEditor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.initialValue,
-      formInitializedToQuillFormat: false
+      text: props.initialValue
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  initializeFormToQuillFormat(
-    initializeForm,
-    value,
-    formInitializedToQuillGeneratedValue
-  ) {
-    if (!formInitializedToQuillGeneratedValue) {
-      initializeForm(this.props.dispatch, value);
-      this.setState({ formInitializedToQuillFormat: true });
-    }
-  }
-
-  handleChange(value, formInitializedToQuillFormat) {
-    if (this.props.initializeForm) {
-      this.initializeFormToQuillFormat(
-        this.props.initializeForm,
-        value,
-        formInitializedToQuillFormat
-      );
-    }
-
+  handleChange(value) {
     this.setState({ text: value });
     this.props.onChange(value);
+  }
+
+  delegateChange(value, source) {
+    if (this.props.initializeForm && source === "api") {
+      this.props.initializeForm(this.props.dispatch, value);
+    } else {
+      this.handleChange(value);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,8 +56,8 @@ class RichTextEditor extends React.Component {
         <ReactQuill
           theme={"snow"}
           value={this.state.text}
-          onChange={value =>
-            this.handleChange(value, this.state.formInitializedToQuillFormat)
+          onChange={(value, delta, source) =>
+            this.delegateChange(value, source)
           }
           modules={modules}
           formats={formats}

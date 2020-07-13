@@ -14,7 +14,7 @@ import {
   LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
-import { Field, initialize, reduxForm } from "redux-form";
+import { Field, initialize, reduxForm, reset } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
@@ -30,6 +30,11 @@ const RichTextEditorComponent = props => {
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
       data-testid={"editLetterInput"}
+      initializeForm={(dispatch, value) => {
+        dispatch(
+          initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: value })
+        );
+      }}
     />
   );
 };
@@ -57,6 +62,9 @@ export class EditLetter extends Component {
     };
     shouldBlockRoutingRedirects(true);
     this.props.dispatch(getReferralLetterPreview(this.state.caseId));
+    this.props.dispatch(
+      initialize(EDIT_LETTER_HTML_FORM, this.state.editedLetterHtml)
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -229,8 +237,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(
-  reduxForm({ form: EDIT_LETTER_HTML_FORM, enableReinitialize: true })(
-    EditLetter
-  )
-);
+)(reduxForm({ form: EDIT_LETTER_HTML_FORM })(EditLetter));
