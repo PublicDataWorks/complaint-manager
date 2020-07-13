@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://localhost:1234",
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "postbuild": "node scripts/postbuild.js",
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
     "start:dev": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server:dev'",
@@ -137,6 +138,7 @@
     "prettier": "~2.0.2",
     "promise-retry": "2.0.1",
     "redux-devtools-extension": "~2.13.8",
+    "source-map-explorer": "^2.4.2",
     "supertest": "~4.0.0",
     "yarn-run-all": "~3.1.1"
   },
