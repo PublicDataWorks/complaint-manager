@@ -11,10 +11,14 @@ import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import EditLetter from "./EditLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  EDIT_LETTER_HTML_FORM
+} from "../../../../../sharedUtilities/constants";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { push } from "connected-react-router";
 import history from "../../../../history";
+import { initialize } from "redux-form";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -73,7 +77,12 @@ describe("Edit Letter Html", () => {
   });
 
   test("load letter preview html and set it on the rtf editor when page is loaded", () => {
+    store.dispatch(
+      initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: initialLetterHtml })
+    );
     expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterPreview(caseId));
+
+    wrapper.update();
 
     const rtfEditor = wrapper.find("Quill").first();
     expect(rtfEditor.props().value).toEqual(initialLetterHtml);
