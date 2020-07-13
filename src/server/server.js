@@ -23,6 +23,7 @@ const expressWinston = require("express-winston");
 const winston = require("winston");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const compression = require("compression");
 
 winston.configure({
   transports: [
@@ -94,7 +95,7 @@ const buildDirectory = path.join(__dirname, "../../build");
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.static(buildDirectory));
+app.use(express.static(buildDirectory), compression());
 
 app.get("/health-check", healthCheck);
 
