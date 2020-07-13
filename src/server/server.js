@@ -95,7 +95,6 @@ const buildDirectory = path.join(__dirname, "../../build");
 
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.static(buildDirectory), compression());
 
 app.get("/health-check", healthCheck);
 
@@ -112,6 +111,9 @@ app.use(
 
 app.use("/admin", adminRouter);
 app.use("/api", apiRouter);
+
+app.use(compression());
+app.use(express.static(buildDirectory));
 
 app.get("*", function (req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
