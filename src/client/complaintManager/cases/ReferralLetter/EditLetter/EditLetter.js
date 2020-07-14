@@ -62,9 +62,12 @@ export class EditLetter extends Component {
     };
     shouldBlockRoutingRedirects(true);
     this.props.dispatch(getReferralLetterPreview(this.state.caseId));
-    this.props.dispatch(
-      initialize(EDIT_LETTER_HTML_FORM, this.state.editedLetterHtml)
-    );
+
+    if (this.props.initialValues.editedLetterHtml === "") {
+      this.props.dispatch(
+        initialize(EDIT_LETTER_HTML_FORM, this.state.initialValues)
+      );
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
