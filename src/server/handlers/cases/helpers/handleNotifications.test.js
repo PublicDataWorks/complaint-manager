@@ -7,7 +7,7 @@ import { handleNotifications } from "./handleNotifications";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment/moment";
 
-describe("case note helpers", function() {
+describe("case note helpers", function () {
   let mentionedUsers = [],
     createdCase,
     createdCaseNote,
@@ -63,7 +63,7 @@ describe("case note helpers", function() {
     await cleanupDatabase();
   });
 
-  test("should do nothing", async () => {
+  test("should not create notifications when there are no mentioned users", async () => {
     await models.sequelize.transaction(async transaction => {
       await handleNotifications(
         transaction,
@@ -82,7 +82,7 @@ describe("case note helpers", function() {
     expect(notifications).toBeEmpty();
   });
 
-  test("should create notification", async () => {
+  test("should create notification for mentioned user", async () => {
     const newUser = { label: "Syd Botz", value: "some1@some.com" };
     mentionedUsers.push(newUser);
 
@@ -113,7 +113,7 @@ describe("case note helpers", function() {
     );
   });
 
-  test("should update notification", async () => {
+  test("should update read notification on case note update", async () => {
     const newUser = { label: "Sean Rutledge", value: "some2@some.com" };
     mentionedUsers.push(newUser);
 
@@ -133,8 +133,7 @@ describe("case note helpers", function() {
       }
     });
 
-    const anotherUser = { label: "Another One", value: "another1@1.com" };
-    mentionedUsers.push(anotherUser);
+    await notification.update({ hasBeenRead: true }, { auditUser: "someone" });
 
     await models.sequelize.transaction(async transaction => {
       await handleNotifications(
@@ -152,23 +151,99 @@ describe("case note helpers", function() {
       }
     });
 
-    const anotherNotification = await models.notification.findOne({
-      where: {
-        caseNoteId: createdCaseNote.id,
-        user: anotherUser.value
-      }
-    });
-
     expect(updatedNotification).toEqual(
       expect.objectContaining({
         caseNoteId: notification.caseNoteId,
-        user: notification.user
+        user: notification.user,
+        hasBeenRead: false
       })
     );
 
     expect(updatedNotification).not.toEqual(
       expect.objectContaining({ updatedAt: notification.updatedAt })
     );
+  });
+
+  test("should update unread notification on case note update", async () => {
+    const newUser = { label: "Sean Rutledge", value: "some2@some.com" };
+    mentionedUsers.push(newUser);
+
+    await models.sequelize.transaction(async transaction => {
+      await handleNotifications(
+        transaction,
+        request,
+        mentionedUsers,
+        createdCaseNote.id
+      );
+    });
+
+    const notification = await models.notification.findOne({
+      where: {
+        caseNoteId: createdCaseNote.id,
+        user: newUser.value
+      }
+    });
+
+    await models.sequelize.transaction(async transaction => {
+      await handleNotifications(
+        transaction,
+        request,
+        mentionedUsers,
+        createdCaseNote.id
+      );
+    });
+
+    const updatedNotification = await models.notification.findOne({
+      where: {
+        caseNoteId: createdCaseNote.id,
+        user: newUser.value
+      }
+    });
+
+    expect(updatedNotification).toEqual(
+      expect.objectContaining({
+        caseNoteId: notification.caseNoteId,
+        user: notification.user,
+        hasBeenRead: false
+      })
+    );
+
+    expect(updatedNotification).not.toEqual(
+      expect.objectContaining({ updatedAt: notification.updatedAt })
+    );
+  });
+
+  test("should create notification for newly mentioned user on case note update", async () => {
+    const newUser = { label: "Sean Rutledge", value: "some2@some.com" };
+    mentionedUsers.push(newUser);
+
+    await models.sequelize.transaction(async transaction => {
+      await handleNotifications(
+        transaction,
+        request,
+        mentionedUsers,
+        createdCaseNote.id
+      );
+    });
+
+    const anotherUser = { label: "Another One", value: "another1@1.com" };
+    mentionedUsers.push(anotherUser);
+
+    await models.sequelize.transaction(async transaction => {
+      await handleNotifications(
+        transaction,
+        request,
+        mentionedUsers,
+        createdCaseNote.id
+      );
+    });
+
+    const anotherNotification = await models.notification.findOne({
+      where: {
+        caseNoteId: createdCaseNote.id,
+        user: anotherUser.value
+      }
+    });
 
     expect(anotherNotification).not.toBeNull();
   });
