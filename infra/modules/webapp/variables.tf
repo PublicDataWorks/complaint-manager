@@ -39,5 +39,9 @@ variable "postgres_plan" {
 }
 
 variable "papertrail_plan" {
-  default = "Papertrail Plan Name"
+  description = "Papertrail Plan Name"
+}
+
+variable "database_connection_regex" {
+  default = "://(?P<DATABASE_USERNAME>\\w+):(?P<DATABASE_PASS>\\w+)@(?P<DATABASE_HOST>[\\w-.]+):\\d+/(?P<DATABASE_NAME>\\w+)"
 }
