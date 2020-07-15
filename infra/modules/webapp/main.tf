@@ -35,6 +35,13 @@ resource "heroku_addon" "papertrail_addon" {
   plan = "papertrail:${var.papertrail_plan}"
 }
 
+resource "heroku_app_config_association" "database_details" {
+  app_id = heroku_app.app.id
+
+  sensitive_vars = regex(var.database_connection_regex, heroku_app.app.all_config_vars["DATABASE_URL"])
+}
+
+
 resource "aws_s3_bucket" "env_bucket" {
   for_each = toset(var.bucket_names)
 
