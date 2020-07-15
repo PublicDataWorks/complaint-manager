@@ -384,12 +384,3 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - security-check
-      - build-and-publish-playground:
-          requires:
-            - security-check
-      - deploy-playground:
-          requires:
-            - build-and-publish-playground
-      - ensure-playground-deploy-succeeded:
-          requires:
-            - deploy-playground

@@ -29,7 +29,8 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
-
+      - ./package.json:/app/package.json
+      - ./node_modules:/app/node_modules
   app-e2e:
     build:
       context: .
@@ -73,6 +74,8 @@ services:
     command: ["yarn", "start:worker:dev"]
     volumes:
       - ./src:/app/src
+      - ./package.json:/app/package.json
+      - ./node_modules:/app/node_modules
   db:
     image: postgres:10.9-alpine
     environment:

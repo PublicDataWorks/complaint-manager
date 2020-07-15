@@ -23,12 +23,12 @@
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
     "test:server": "yarn setup:test:db test1 && yarn setup:test:db test2 && react-scripts --max_old_space_size=1500 test src/server --logHeapUsage --maxWorkers=2 --forceExit --env=node",
     "test:server:ci": "CI=true yarn test:server",
-    "test:server-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && CI=true react-scripts --max_old_space_size=1500 test src/server/handlers.* --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage=true",
-    "test:server-worker-non-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && CI=true react-scripts test \"(?!.*handlers.*)src/(server|worker).*\" --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage=true",
+    "test:server-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && CI=true react-scripts --max_old_space_size=1500 test src/server/handlers.* --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage  --collectCoverageFrom='src/server/handlers/**/*.{js,jsx}'",
+    "test:server-worker-non-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && CI=true react-scripts test \"(?!.*handlers.*)src/(server|worker).*\" --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage --collectCoverageFrom='src/{server,worker}/!(handlers|migrations|seeders)/**/*.{js,jsx}'",
     "test:worker": "yarn setup:test:db test1 && yarn setup:test:db test2 && react-scripts --max_old_space_size=1500 test src/worker --logHeapUsage --maxWorkers=2 --env=node",
     "test:worker:ci": "CI=true yarn test:worker",
     "test:client": "REACT_APP_ENV=test react-scripts test src/client --logHeapUsage --env=jsdom",
-    "test:client:ci": "REACT_APP_ENV=test CI=true react-scripts test src/client --logHeapUsage --maxWorkers=2 --env=jsdom --coverage=true",
+    "test:client:ci": "REACT_APP_ENV=test CI=true react-scripts test src/client --logHeapUsage --maxWorkers=2 --env=jsdom --coverage --collectCoverageFrom='src/client/**/*.{js,jsx}'",
     "test:server:worker:ci": "NODE_ENV=test yarn test:server:ci && yarn test:worker:ci",
     "test:once": "run-p -c test:server:worker:ci test:client:ci",
     "test:debug": "NODE_ENV=test yarn setup:test:db && CI=true && react-scripts --max_old_space_size=1024 --inspect-brk=0.0.0.0 test src/server --logHeapUsage --runInBand --env=node",
@@ -40,14 +40,7 @@
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ],
-    "collectCoverageFrom": [
-      "**/*.{js,jsx}",
-      "!**/node_modules/**",
-      "!**/config/**",
-      "!**/migrations/**",
-      "!**/seeders/**"
-    ],
-    "coverageReporters": ["text-summary"]
+    "coverageReporters": ["text", "text-summary"]
   },
   "dependencies": {
     "@hapi/hoek": "~9.0.3",
