@@ -374,7 +374,16 @@ workflows:
           filters:
             branches:
               only:
-                - gzip-compression
+                - test-coverage
+      - test-client:
+          requires:
+            - security-check
+      - test-server-handlers:
+          requires:
+            - security-check
+      - test-server-worker-non-handlers:
+          requires:
+            - security-check
       - build-and-publish-playground:
           requires:
             - security-check
