@@ -1,4 +1,4 @@
-const jwtCheck = require("../server/handlers/jtwCheck");
+const jwtCheck = require("../server/handlers/jwtCheck");
 
 const verifyUserInfo = require("../server/handlers/verifyUserNickname");
 const authErrorHandler = require("../server/handlers/authErrorHandler");
