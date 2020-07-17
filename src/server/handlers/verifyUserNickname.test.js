@@ -62,12 +62,31 @@ describe("verifyUserNickname", () => {
       user: {
         "https://noipm-ci.herokuapp.com/nickname": "suzie",
         iss: "https://noipm.auth0.com/",
-        scope: `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES} ${
-          USER_PERMISSIONS.EXPORT_AUDIT_LOG
-        }`
+        scope: `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES} ${USER_PERMISSIONS.EXPORT_AUDIT_LOG}`
       }
     });
     await verifyUserNickname(request, response, jest.fn());
+    expect(
+      request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
+    ).toBeTruthy();
+    expect(
+      request.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
+    ).toBeTruthy();
+  });
+
+  test("should update nickname permission when grant type is 'client-credentials'", async () => {
+    const request = httpMocks.createRequest({
+      headers: {
+        authorization: "Bearer VALID_TOKEN_FORMAT"
+      },
+      user: {
+        gty: "client-credentials"
+      }
+    });
+
+    await verifyUserNickname(request, response, jest.fn());
+
+    expect(request.nickname).toEqual("noipm.infrastructure@gmail.com");
     expect(
       request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
     ).toBeTruthy();

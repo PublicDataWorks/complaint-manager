@@ -2,7 +2,7 @@ import { handleCaseIdParam } from "./handlers/paramHandler";
 import { addRoutesToRouter } from "./apiRoutes";
 import API_ROUTES from "./apiRoutes";
 
-const jwtCheck = require("./handlers/jtwCheck");
+const jwtCheck = require("./handlers/jwtCheck");
 const verifyUserInfo = require("./handlers/verifyUserNickname");
 const authErrorHandler = require("./handlers/authErrorHandler");
 
