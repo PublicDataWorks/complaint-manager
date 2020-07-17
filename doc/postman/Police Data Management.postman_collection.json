@@ -1,0 +1,2368 @@
+{
+	"info": {
+		"_postman_id": "50895309-0ed2-4b6d-bb0e-b6f4b957977a",
+		"name": "Police Data Management",
+		"description": "# Collection of APIs for the Complaint Manager\n\n## Setup \n\n#### Import all files\n* Once you have the appropriate files, you will need to import the collection as well as the environments. The files, at the time of writing, are:\n\n    - Police Data Management.*.json\n    - Local.*.json\n    - CI.*.json\n    - Staging.*.json\n\n#### Set environment level variables\n* The Postman environment will dictate which domain you'll be hitting. The Local and CI `client_id` and `client_secret` are the same. They can be accessed from [here]((https://manage.auth0.com/dashboard/us/noipm-ci/applications/iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB/quickstart).\n* To access Staging, you will need to use the `client_id` and `client_secret` located [here](https://manage.auth0.com/dashboard/us/noipm-staging/applications/ALqHj5NyIIfLzHJks7LI4LqarbDN8jhe/quickstart).\n\n#### Get access token\n* Before running the rest of the requests, you must get an access token. You can do this by selecting an appropriate environment and running the \"Authorize API Backend\" request.\n* Once you have an access token, you should be clear to run any other requests until it expires in 24 hours or you change environments.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authorize API Backend",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "62a24437-fe51-4d32-bb33-1288f5b64a72",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "62aaf376-b309-41cd-a12b-4e1de50d1220",
+						"exec": [
+							"const authResponse = JSON.parse(responseBody); ",
+							"pm.collectionVariables.set(\"access_token\", authResponse.access_token)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"audience\": \"{{auth0_audience}}/\",\n    \"grant_type\": \"client_credentials\"\n}"
+				},
+				"url": {
+					"raw": "{{auth0_hostname}}/oauth/token",
+					"host": [
+						"{{auth0_hostname}}"
+					],
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "This request returns an Auth0 access token and sets it as a collection-level variable called \"access_token\"."
+			},
+			"response": []
+		},
+		{
+			"name": "Create Civilians",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/civilians",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"civilians"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Civilian Titles",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/civilian-titles",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"civilian-titles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Race/Ethnicity",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/race-ethnicities",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"race-ethnicities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Referral Letter to Approved",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/approve-letter",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"approve-letter"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Case Tags",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-tags",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-tags"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Referral Letter Address",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/addresses",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"addresses"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Case Officer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers/:caseOfficerId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"cases-officers",
+						":caseOfficerId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseOfficerId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Officers",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/officers/search",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"officers",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Districts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/districts",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"districts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Civilian",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/civilians/:civilianId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"civilians",
+						":civilianId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "civilianId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Civilian",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/civilians/:civilianId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"civilians",
+						":civilianId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "civilianId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Recommended Actions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/recommended-actions",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"recommended-actions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve \"How Did You Hear About Us\" Sources",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/how-did-you-hear-about-us-sources",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"how-did-you-hear-about-us-sources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Allegations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/allegations",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"allegations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Minimum Case Details",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/minimum-case-details",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"minimum-case-details"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Allegations by Query",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/allegations/search",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"allegations",
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case to Restored",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/restore",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"restore"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Gender Identities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/gender-identities",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"gender-identities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Audit",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/audit",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"audit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Tags",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/tags",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"tags"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Intake Sources",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/intake-sources",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"intake-sources"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Referral Letter Content",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/content",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"content"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Case Officer Allegation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"cases-officers",
+						":caseOfficerId",
+						"officers-allegations"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseOfficerId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Referral Letter Classifications",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/classifications",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"classifications"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case Officer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers/:caseOfficerId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"cases-officers",
+						":caseOfficerId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseOfficerId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Case Officer",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"cases-officers"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Recommended Actions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/recommended-actions",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"recommended-actions"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Referral Letter Preview",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/preview",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"preview"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case Officer Allegation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"officers-allegations",
+						":officerAllegationId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "officerAllegationId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Case Officer Allegation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"officers-allegations",
+						":officerAllegationId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "officerAllegationId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Referral Letter Edit Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/edit-status",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"edit-status"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Case Tag",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-tags/:caseTagId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-tags",
+						":caseTagId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseTagId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Attachment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/attachments/:fileName",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"attachments",
+						":fileName"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "fileName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update IAPRO Corrections",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/iapro-corrections",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"iapro-corrections"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Officer History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/officer-history",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"officer-history"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Attachment",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/attachments",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"attachments"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Case Tag",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-tags",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-tags"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Case Note",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-notes/:caseNoteId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-notes",
+						":caseNoteId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseNoteId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Case Note",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-notes",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-notes"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Attachment URL",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/attachmentUrls/:fileName",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"attachmentUrls",
+						":fileName"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "fileName",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Referral Letter",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case Note",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-notes/:caseNoteId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-notes",
+						":caseNoteId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						},
+						{
+							"key": "caseNoteId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Referral Letter PDF",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/get-pdf",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"get-pdf"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Case History",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-history",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-history"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/status",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"status"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Final Referral Letter URL",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/final-pdf-download-url",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"referral-letter",
+						"final-pdf-download-url"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case Narrative",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/narrative",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"narrative"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Case Notes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId/case-notes",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId",
+						"case-notes"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Message Stream",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/messageStream",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"messageStream"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Case",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Case Note Actions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/case-note-actions",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"case-note-actions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Case",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Classifications",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/classifications",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"classifications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Notifications",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/notifications/:user",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"notifications",
+						":user"
+					],
+					"variable": [
+						{
+							"key": "user",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Notification Status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/notifications/:caseNoteId/:notificationId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"notifications",
+						":caseNoteId",
+						":notificationId"
+					],
+					"variable": [
+						{
+							"key": "caseNoteId",
+							"value": ""
+						},
+						{
+							"key": "notificationId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Case",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/:caseId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						":caseId"
+					],
+					"variable": [
+						{
+							"key": "caseId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Archived Cases",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases/archived-cases",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases",
+						"archived-cases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Notification as Read",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/notifications/mark-as-read/:notificationId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"notifications",
+						"mark-as-read",
+						":notificationId"
+					],
+					"variable": [
+						{
+							"key": "notificationId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Job",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/export/job/:jobId",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"export",
+						"job",
+						":jobId"
+					],
+					"variable": [
+						{
+							"key": "jobId",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Operation Schedule",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/export/schedule/:operation",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"export",
+						"schedule",
+						":operation"
+					],
+					"variable": [
+						{
+							"key": "operation",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/users",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Cases",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Matrices",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/matrix-manager/matrices",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"matrix-manager",
+						"matrices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/data",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Case",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/cases",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"cases"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve Officer History Options",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_hostname}}/api/officer-history-options",
+					"host": [
+						"{{api_hostname}}"
+					],
+					"path": [
+						"api",
+						"officer-history-options"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f2921815-3c2a-4a42-a999-f867174a5cc9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "da635a65-36c1-47a3-a83f-57c462ed3f86",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "866547ad-9ed3-4aa0-957c-a7ad444815c3",
+			"key": "access_token",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik5qQTFRakZFTVVSR09UVTJPRFExT1RsQ09ESXhRelV4UWtNME5qQXlORFkyUmpFMVF6TTBNdyJ9.eyJpc3MiOiJodHRwczovL25vaXBtLWNpLmF1dGgwLmNvbS8iLCJzdWIiOiJpVDNmMG1HcUpHRFp1OFV6UWFPSGVOR1Q3TzB4NDNaQkBjbGllbnRzIiwiYXVkIjoiaHR0cHM6Ly9ub2lwbS1jaS5oZXJva3VhcHAuY29tLyIsImlhdCI6MTU5NTAwMzk4NCwiZXhwIjoxNTk1MDMyNzg0LCJhenAiOiJpVDNmMG1HcUpHRFp1OFV6UWFPSGVOR1Q3TzB4NDNaQiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.qDsHA2GktpvmQeOJrr69b4sDo3F1J0YdelUvf9Zc73gHreSzf21-Lzu17UJXZbED28kepyrysZ3xKKFd62v6mRgBzYlb8n7iw-Qyy_qoATOBLFpxneBet7k_w0t5zscBE_-roAbxzMj2O4C7K6fpPugVFKmtO45OlWm7gwiIEsZsW7WO2q43t7gZGVddLRBOSzE0gKvwN9ip8OELMILGBisLVtuzFxgrZqWdCdpLSXaPb5Fi4GqFnaCeZUumN3VYFhgiEJ6EZ3ulWVe7Zi6ZQTEWlIV2AzvZoPHqSQfRMJXxba9sCMSbxZUtg5VWgV5gYi7_2j15WiuRyCsUrz_CzQ"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
