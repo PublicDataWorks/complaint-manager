@@ -1,6 +1,11 @@
 import React from "react";
 import { mount } from "enzyme/build/index";
 import TextTruncate from "./TextTruncate";
+import ActivityDisplay from "../../cases/CaseDetails/CaseNotes/ActivityDisplay";
+
+jest.mock("../../cases/CaseDetails/CaseNotes/ActivityDisplay", () => ({
+  getActivityNotes: jest.fn()
+}));
 
 describe("TextTruncate", () => {
   function getStringOfLength(length) {
@@ -44,11 +49,15 @@ describe("TextTruncate", () => {
       />
     );
 
-    const expectedDisplay = getStringOfLength(400) + "...(show more)";
+    const expectedDisplay = getStringOfLength(400) + "...";
     const displayedMessage = textTruncate
       .find('[data-testid="truncatedMessage"]')
       .last();
+
+    const displayedButton = textTruncate.find("button").last();
+
     expect(displayedMessage.text()).toEqual(expectedDisplay);
+    expect(displayedButton.text()).toEqual("(show more)");
   });
 
   test("should expand on 'show more' selection", () => {
@@ -63,7 +72,11 @@ describe("TextTruncate", () => {
     const displayedMessage = textTruncate
       .find('[data-testid="truncatedMessage"]')
       .last();
-    expect(displayedMessage.text()).toEqual(fullMessage + "(show less)");
+
+    const showLessButton = textTruncate.find("button").last();
+
+    expect(displayedMessage.text()).toEqual(fullMessage);
+    expect(showLessButton.text()).toEqual("(show less)");
   });
 
   test("should collapse on 'show less' selection", () => {
@@ -77,12 +90,16 @@ describe("TextTruncate", () => {
     textTruncate.find("button").simulate("click");
     textTruncate.find("button").simulate("click");
 
-    const expectedDisplay = getStringOfLength(400) + "...(show more)";
+    const expectedDisplay = getStringOfLength(400) + "...";
 
     const displayedMessage = textTruncate
       .find('[data-testid="truncatedMessage"]')
       .last();
+
+    const showMoreButton = textTruncate.find("button").last();
+
     expect(displayedMessage.text()).toEqual(expectedDisplay);
+    expect(showMoreButton.text()).toEqual("(show more)");
   });
 
   test("should display show more/less button when there are 2+ newlines", () => {
@@ -97,7 +114,9 @@ describe("TextTruncate", () => {
     const displayedMessage = textTruncate
       .find('[data-testid="untruncatedMessage"]')
       .last();
-    expect(displayedMessage.text()).toEqual("asdf...(show more)");
+
+    expect(displayedMessage.text()).toEqual("asdf...");
+    expect(showMoreButton.text()).toEqual("(show more)");
   });
 
   test("should display show more button after 400 characters but before newlines", () => {
@@ -112,9 +131,9 @@ describe("TextTruncate", () => {
     const displayedMessage = textTruncate
       .find('[data-testid="untruncatedMessage"]')
       .last();
-    expect(displayedMessage.text()).toEqual(
-      getStringOfLength(400) + "...(show more)"
-    );
+
+    expect(displayedMessage.text()).toEqual(getStringOfLength(400) + "...");
+    expect(showMoreButton.text()).toEqual("(show more)");
   });
 
   test("should display show more button after line breaks with over 400 characters and line breaks at beginning", () => {
@@ -129,7 +148,9 @@ describe("TextTruncate", () => {
     const displayedMessage = textTruncate
       .find('[data-testid="untruncatedMessage"]')
       .last();
-    expect(displayedMessage.text()).toEqual("...(show more)");
+
+    expect(displayedMessage.text()).toEqual("...");
+    expect(showMoreButton.text()).toEqual("(show more)");
   });
 
   test("should display show more button after line breaks with less than 400 chars", () => {
@@ -144,6 +165,20 @@ describe("TextTruncate", () => {
     const displayedMessage = textTruncate
       .find('[data-testid="untruncatedMessage"]')
       .last();
-    expect(displayedMessage.text()).toEqual("...(show more)");
+
+    expect(displayedMessage.text()).toEqual("...");
+    expect(showMoreButton.text()).toEqual("(show more)");
+  });
+
+  test("should call getActivityNotes when truncating case note", () => {
+    const textTruncate = mount(
+      <TextTruncate
+        message={getStringOfLength(401) + "@Tim Burton"}
+        testLabel={"truncatedMessage"}
+        getActivityNotes={ActivityDisplay.getActivityNotes}
+      />
+    );
+
+    expect(textTruncate.props().getActivityNotes).toHaveBeenCalled();
   });
 });

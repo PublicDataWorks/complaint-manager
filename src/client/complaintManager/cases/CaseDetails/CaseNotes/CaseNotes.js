@@ -14,6 +14,7 @@ import timezone from "moment-timezone";
 import { TIMEZONE } from "../../../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
 import { connect } from "react-redux";
+import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 
 class CaseNotes extends Component {
   componentDidMount() {
@@ -26,6 +27,10 @@ class CaseNotes extends Component {
 
   render() {
     const { caseNotes, caseId } = this.props;
+    const mappedUsers = this.props.allUsers.map(user => {
+      return [user.name, user.email];
+    });
+
     return (
       <div>
         <div style={{ margin: "0px 24px" }}>
@@ -63,8 +68,8 @@ class CaseNotes extends Component {
                     key={activity.id}
                     activity={activity}
                     caseId={caseId}
-                    shouldTruncate={true}
                     highlightedCaseNote={this.props.highlightedCaseNote}
+                    allUsers={generateMenuOptions(mappedUsers)}
                     data-testid="caseNotesItem"
                   />
                 );
@@ -99,7 +104,8 @@ const mapStateToProps = state => ({
   caseNotes: state.currentCase.caseNotes,
   isArchived: state.currentCase.details.isArchived,
   fetchingCaseNotes: state.currentCase.fetchingCaseNotes,
-  highlightedCaseNote: state.ui.highlightedCaseNote
+  highlightedCaseNote: state.ui.highlightedCaseNote,
+  allUsers: state.users.all
 });
 
 export default connect(mapStateToProps)(CaseNotes);

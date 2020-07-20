@@ -30,19 +30,25 @@ class TextTruncate extends React.Component {
 
   getDisplay = (message, buttonText, onButtonClick) => {
     return (
-      <Typography
-        variant="body2"
-        data-testid={this.props.testLabel}
-        style={{ whiteSpace: "pre-wrap" }}
-      >
-        {message}
+      <div>
+        {this.props.getActivityNotes ? (
+          this.renderActivityNotes(message)
+        ) : (
+          <Typography
+            variant="body2"
+            data-testid={this.props.testLabel}
+            style={{ whiteSpace: "pre-wrap" }}
+          >
+            {message}
+          </Typography>
+        )}
         <LinkButton
           style={this.expandCollapseLinkStyles}
           onClick={onButtonClick}
         >
           {buttonText}
         </LinkButton>
-      </Typography>
+      </div>
     );
   };
 
@@ -70,6 +76,10 @@ class TextTruncate extends React.Component {
     return newlineIndex ? newlineIndex.index : null;
   };
 
+  renderActivityNotes = msg => {
+    return this.props.getActivityNotes(msg);
+  };
+
   render() {
     const { message, testLabel } = this.props;
     const stringifiedMsg = String(message);
@@ -78,7 +88,9 @@ class TextTruncate extends React.Component {
       this.parseNewlineIndex(message) === null &&
       stringifiedMsg.length <= characterLimit
     ) {
-      return (
+      return this.props.getActivityNotes ? (
+        this.renderActivityNotes(stringifiedMsg)
+      ) : (
         <Typography
           variant="body2"
           data-testid={testLabel}
