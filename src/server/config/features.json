@@ -26,5 +26,14 @@
     "name": "realtimeNotificationsFeature",
     "description": "Realtime Notifications using Server-Sent Events",
     "enabled": true
+  },
+  {
+    "id": "nonUserAuthenticationFeature",
+    "name": "nonUserAuthenticationFeature",
+    "description": "Authenticate through Auth0 without user credentials",
+    "criteria": {
+      "isPreProd": true
+    }
   }
+
 ]

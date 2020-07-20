@@ -1,6 +1,7 @@
 import * as httpMocks from "node-mocks-http";
 import verifyUserNickname from "./verifyUserNickname";
 import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import mockFflipObject from "../testHelpers/mockFflipObject";
 
 describe("verifyUserNickname", () => {
   let response, next;
@@ -35,7 +36,7 @@ describe("verifyUserNickname", () => {
       }
     });
 
-    await verifyUserNickname(request, response, jest.fn());
+    await verifyUserNickname(request, response, next);
     expect(request.nickname).toEqual("mrsmith");
   });
 
@@ -65,7 +66,7 @@ describe("verifyUserNickname", () => {
         scope: `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES} ${USER_PERMISSIONS.EXPORT_AUDIT_LOG}`
       }
     });
-    await verifyUserNickname(request, response, jest.fn());
+    await verifyUserNickname(request, response, next);
     expect(
       request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
     ).toBeTruthy();
@@ -74,7 +75,7 @@ describe("verifyUserNickname", () => {
     ).toBeTruthy();
   });
 
-  test("should update nickname permission when grant type is 'client-credentials'", async () => {
+  test("should update nickname permission when grant type is 'client-credentials' when feature flag enabled", async () => {
     const request = httpMocks.createRequest({
       headers: {
         authorization: "Bearer VALID_TOKEN_FORMAT"
@@ -83,8 +84,9 @@ describe("verifyUserNickname", () => {
         gty: "client-credentials"
       }
     });
+    request.fflip = mockFflipObject({ nonUserAuthenticationFeature: true });
 
-    await verifyUserNickname(request, response, jest.fn());
+    await verifyUserNickname(request, response, next);
 
     expect(request.nickname).toEqual("noipm.infrastructure@gmail.com");
     expect(
@@ -93,5 +95,21 @@ describe("verifyUserNickname", () => {
     expect(
       request.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
     ).toBeTruthy();
+  });
+
+  test("should not update nickname permission when grant type is 'client-credentials' when feature flag disabled", async () => {
+    const request = httpMocks.createRequest({
+      headers: {
+        authorization: "Bearer VALID_TOKEN_FORMAT"
+      },
+      user: {
+        gty: "client-credentials"
+      }
+    });
+    request.fflip = mockFflipObject({ nonUserAuthenticationFeature: false });
+
+    await verifyUserNickname(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(new Error("User nickname missing"));
   });
 });
