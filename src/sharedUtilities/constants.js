@@ -316,7 +316,9 @@ export const AUDIT_SUBJECT = {
   VISUALIZATION_INTAKE_SOURCE:
     "All Complaint Data for Complaints by Intake Source",
   VISUALIZATION_COMPLAINANT_TYPE:
-    "All Complaint Data for Complaints by Complainant Type",
+    "All Complaint Data for Complaints by Complainant Type YTD",
+  VISUALIZATION_COMPLAINANT_TYPE_PAST_12_MONTHS:
+    "All Complaint Data for Complaints by Complainant Type over Past 12 Months",
   COMPLAINT_TOTAL_YTD: "Complaint Count for Complaints Year to Date",
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
     "Complaint Count for Complaints in the Previous Year"
@@ -424,7 +426,9 @@ export const DECLINES_OPTION = "Declines to classify";
 export const QUERY_TYPES = {
   COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource",
   COUNT_COMPLAINT_TOTALS: "countComplaintTotals",
-  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType"
+  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType",
+  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
+    "countComplaintsByComplainantTypePast12Months"
 };
 
 export const QUERY_TYPE_FILE_MAP = {
