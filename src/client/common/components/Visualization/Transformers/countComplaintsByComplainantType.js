@@ -71,18 +71,20 @@ export function transformData(rawData) {
   };
 
   return {
-    data: {
-      type: "pie",
-      labels: labels,
-      values: values,
-      marker: {
-        colors: COLORS
-      },
-      hoverinfo: "label+percent",
-      textinfo: "label+value",
-      textposition: "outside",
-      hole: 0.5
-    },
+    data: [
+      {
+        type: "pie",
+        labels: labels,
+        values: values,
+        marker: {
+          colors: COLORS
+        },
+        hoverinfo: "label+percent",
+        textinfo: "label+value",
+        textposition: "outside",
+        hole: 0.5
+      }
+    ],
     layout
   };
 }
