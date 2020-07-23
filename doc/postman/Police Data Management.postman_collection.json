@@ -75,7 +75,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"firstName\": \"Reed\",\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"phoneNumber\": \"3642763762\",\n    \"lastName\": \"Waters\"\n}",
+					"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"lastName\": \"Waters\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -96,7 +96,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1757"
+							"value": "1754"
 						}
 					]
 				}
@@ -198,6 +198,200 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"primaryComplainant\": {\n        \"fullName\": \"Night Watch\",\n        \"id\": 1752,\n        \"firstName\": \"Night\",\n        \"middleInitial\": null,\n        \"lastName\": \"Watch\",\n        \"suffix\": null,\n        \"birthDate\": null,\n        \"roleOnCase\": \"Complainant\",\n        \"phoneNumber\": \"1234567890\",\n        \"email\": null,\n        \"additionalInfo\": null,\n        \"isAnonymous\": false,\n        \"createdAt\": \"2020-07-22T16:15:22.774Z\",\n        \"updatedAt\": \"2020-07-22T16:15:41.673Z\",\n        \"deletedAt\": null,\n        \"caseId\": 1757,\n        \"raceEthnicityId\": 4,\n        \"genderIdentityId\": 5,\n        \"civilianTitleId\": 3,\n        \"address\": {\n            \"id\": 2330,\n            \"addressableId\": 1752,\n            \"addressableType\": \"civilian\",\n            \"streetAddress\": \"\",\n            \"intersection\": \"\",\n            \"streetAddress2\": null,\n            \"city\": \"\",\n            \"state\": \"\",\n            \"zipCode\": \"\",\n            \"country\": \"\",\n            \"lat\": null,\n            \"lng\": null,\n            \"placeId\": null,\n            \"additionalLocationInfo\": null,\n            \"createdAt\": \"2020-07-22T16:15:34.822Z\",\n            \"updatedAt\": \"2020-07-22T16:15:41.648Z\",\n            \"deletedAt\": null\n        },\n        \"raceEthnicity\": {\n            \"id\": 4,\n            \"name\": \"Black, African American\",\n            \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n            \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n        },\n        \"genderIdentity\": {\n            \"id\": 5,\n            \"name\": \"Other\",\n            \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n            \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n        }\n    },\n    \"nextStatus\": null,\n    \"caseReference\": \"CC2020-0407\",\n    \"id\": 1757,\n    \"complaintType\": \"Civilian Initiated\",\n    \"status\": \"Closed\",\n    \"year\": 2020,\n    \"caseNumber\": 407,\n    \"firstContactDate\": \"2020-07-22\",\n    \"incidentDate\": \"2017-12-20\",\n    \"intakeSourceId\": 3,\n    \"district\": null,\n    \"districtId\": 2,\n    \"incidentTime\": \"02:31:00\",\n    \"narrativeSummary\": \"test summary data\",\n    \"narrativeDetails\": \"<p>test details data</p>\",\n    \"pibCaseNumber\": null,\n    \"createdBy\": \"noipm.infrastructure@gmail.com\",\n    \"assignedTo\": \"noipm.infrastructure@gmail.com\",\n    \"createdAt\": \"2020-07-22T16:15:22.754Z\",\n    \"updatedAt\": \"2020-07-22T16:16:30.688Z\",\n    \"howDidYouHearAboutUsSourceId\": null,\n    \"caseClassifications\": [\n        {\n            \"id\": 609,\n            \"caseId\": 1757,\n            \"classificationId\": 4,\n            \"createdAt\": \"2020-07-22T16:16:19.053Z\",\n            \"updatedAt\": \"2020-07-22T16:16:19.053Z\",\n            \"deletedAt\": null\n        }\n    ],\n    \"intakeSource\": {\n        \"id\": 3,\n        \"name\": \"In Person\",\n        \"createdAt\": \"2018-12-21T02:07:39.872Z\",\n        \"updatedAt\": \"2018-12-21T02:07:39.872Z\"\n    },\n    \"howDidYouHearAboutUsSource\": null,\n    \"caseDistrict\": {\n        \"id\": 2,\n        \"name\": \"2nd District\",\n        \"createdAt\": \"2019-08-12T19:27:32.808Z\",\n        \"updatedAt\": \"2019-08-12T19:27:32.808Z\"\n    },\n    \"complainantCivilians\": [\n        {\n            \"fullName\": \"Night Watch\",\n            \"id\": 1752,\n            \"firstName\": \"Night\",\n            \"middleInitial\": null,\n            \"lastName\": \"Watch\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"1234567890\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:22.774Z\",\n            \"updatedAt\": \"2020-07-22T16:15:41.673Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 4,\n            \"genderIdentityId\": 5,\n            \"civilianTitleId\": 3,\n            \"address\": {\n                \"id\": 2330,\n                \"addressableId\": 1752,\n                \"addressableType\": \"civilian\",\n                \"streetAddress\": \"\",\n                \"intersection\": \"\",\n                \"streetAddress2\": null,\n                \"city\": \"\",\n                \"state\": \"\",\n                \"zipCode\": \"\",\n                \"country\": \"\",\n                \"lat\": null,\n                \"lng\": null,\n                \"placeId\": null,\n                \"additionalLocationInfo\": null,\n                \"createdAt\": \"2020-07-22T16:15:34.822Z\",\n                \"updatedAt\": \"2020-07-22T16:15:41.648Z\",\n                \"deletedAt\": null\n            },\n            \"raceEthnicity\": {\n                \"id\": 4,\n                \"name\": \"Black, African American\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 5,\n                \"name\": \"Other\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        },\n        {\n            \"fullName\": \"Reed Waters\",\n            \"id\": 1753,\n            \"firstName\": \"Reed\",\n            \"middleInitial\": null,\n            \"lastName\": \"Waters\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"3642763762\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T19:26:25.128Z\",\n            \"updatedAt\": \"2020-07-22T19:26:25.128Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 3,\n            \"genderIdentityId\": 1,\n            \"civilianTitleId\": 2,\n            \"address\": null,\n            \"raceEthnicity\": {\n                \"id\": 3,\n                \"name\": \"Asian Indian\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 1,\n                \"name\": \"Male\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        },\n        {\n            \"fullName\": \"Reed Waters\",\n            \"id\": 1754,\n            \"firstName\": \"Reed\",\n            \"middleInitial\": null,\n            \"lastName\": \"Waters\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"3642763762\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T19:29:38.900Z\",\n            \"updatedAt\": \"2020-07-22T19:29:38.900Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 3,\n            \"genderIdentityId\": 1,\n            \"civilianTitleId\": 2,\n            \"address\": null,\n            \"raceEthnicity\": {\n                \"id\": 3,\n                \"name\": \"Asian Indian\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 1,\n                \"name\": \"Male\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        }\n    ],\n    \"witnessCivilians\": [],\n    \"attachments\": [\n        {\n            \"id\": 2534,\n            \"fileName\": \"7-22-2020_CC2020-0407_Letter_to_Complainant_Watch.pdf\",\n            \"description\": \"Letter to Complainant\",\n            \"createdAt\": \"2020-07-22T16:16:28.803Z\",\n            \"updatedAt\": \"2020-07-22T16:16:28.803Z\",\n            \"caseId\": 1757\n        },\n        {\n            \"id\": 2535,\n            \"fileName\": \"7-22-2020_CC2020-0407_PIB_Referral_Watch.pdf\",\n            \"description\": \"Referral Letter\",\n            \"createdAt\": \"2020-07-22T16:16:29.564Z\",\n            \"updatedAt\": \"2020-07-22T16:16:29.564Z\",\n            \"caseId\": 1757\n        }\n    ],\n    \"incidentLocation\": {\n        \"id\": 2331,\n        \"addressableId\": 1757,\n        \"addressableType\": \"cases\",\n        \"streetAddress\": \"\",\n        \"intersection\": \"Bourbon St & Canal St\",\n        \"streetAddress2\": null,\n        \"city\": \"New Orleans\",\n        \"state\": \"LA\",\n        \"zipCode\": \"70112\",\n        \"country\": \"US\",\n        \"lat\": 29.9538711,\n        \"lng\": -90.0698991,\n        \"placeId\": \"EjFCb3VyYm9uIFN0ICYgQ2FuYWwgU3QsIE5ldyBPcmxlYW5zLCBMQSA3MDExMiwgVVNBImYiZAoUChIJeWgJgAymIIYRqGxrVGiTeUkSFAoSCXloCYAMpiCGEahsa1Rok3lJGhQKEgldhaLWEaYghhG9WOFr0BfYthoUChIJtzyGBfGlIIYRM5zAA_qGHT0iCg0XmdoRFZFsUMo\",\n        \"additionalLocationInfo\": null,\n        \"createdAt\": \"2020-07-22T16:15:45.936Z\",\n        \"updatedAt\": \"2020-07-22T16:15:45.936Z\",\n        \"deletedAt\": null\n    },\n    \"accusedOfficers\": [\n        {\n            \"fullName\": \"Ansel W Rice\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 54,\n            \"id\": 2989,\n            \"officerId\": 4263,\n            \"firstName\": \"Ansel\",\n            \"middleName\": \"W\",\n            \"lastName\": \"Rice\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9550,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE OFFICER 1\",\n            \"dob\": \"1966-02-06\",\n            \"endDate\": \"2003-12-28\",\n            \"hireDate\": \"1997-12-14\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Terminated\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:50.207Z\",\n            \"updatedAt\": \"2020-07-22T16:15:52.684Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"allegations\": [\n                {\n                    \"id\": 1400,\n                    \"details\": \"Used department property.\",\n                    \"caseOfficerId\": 2989,\n                    \"severity\": \"Medium\",\n                    \"createdAt\": \"2020-07-22T16:15:59.987Z\",\n                    \"updatedAt\": \"2020-07-22T16:15:59.987Z\",\n                    \"deletedAt\": null,\n                    \"allegationId\": 6564,\n                    \"allegation\": {\n                        \"id\": 6564,\n                        \"rule\": \"Rule 7: Departmental Property\",\n                        \"paragraph\": \"PARAGRAPH 01 - Use of Department Property\",\n                        \"directive\": null,\n                        \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n                        \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"complainantOfficers\": [],\n    \"witnessOfficers\": [\n        {\n            \"fullName\": \"Amira E Jaskolski\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"Everardo R Wiegand\",\n            \"age\": 50,\n            \"id\": 2988,\n            \"officerId\": 2176,\n            \"firstName\": \"Amira\",\n            \"middleName\": \"E\",\n            \"lastName\": \"Jaskolski\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7994,\n            \"supervisorFirstName\": \"Everardo\",\n            \"supervisorMiddleName\": \"R\",\n            \"supervisorLastName\": \"Wiegand\",\n            \"supervisorWindowsUsername\": 11819,\n            \"supervisorOfficerNumber\": 3545,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": \"7th District\",\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE LIEUTENANT\",\n            \"dob\": \"1970-02-10\",\n            \"endDate\": null,\n            \"hireDate\": \"1994-08-21\",\n            \"sex\": \"M\",\n            \"race\": \"Black / African American\",\n            \"workStatus\": \"Active\",\n            \"notes\": null,\n            \"roleOnCase\": \"Witness\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:48.536Z\",\n            \"updatedAt\": \"2020-07-22T16:15:48.536Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757\n        }\n    ],\n    \"pdfAvailable\": true,\n    \"isArchived\": false\n}"
+				},
+				{
+					"name": "Create Civilian (Internal Server Error)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"lastName\": \"Waters\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/civilians",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"civilians"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1757"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "151"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"97-iiU6aphQD8WAAlcJmG7gjX0b7PY\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:26:26 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Something went wrong and the civilian was not created. Please try again.\",\n    \"caseId\": \"1757\"\n}"
+				},
+				{
+					"name": "Create Civilian (Bad Request)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"firstName\": \"Reed\",\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"phoneNumber\": \"3642763762\",\n    \"lastName\": \"Waters\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/civilians",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"civilians"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"4d-LDihS/DDH/GS0ZIJ5438NGxB3ns\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:23:02 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"This case does not exist\"\n}"
 				}
 			]
 		},
@@ -536,6 +730,95 @@
 					],
 					"cookie": [],
 					"body": null
+				},
+				{
+					"name": "Update Referral Letter to Approved (Bad Request)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/approve-letter",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"approve-letter"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1754"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "123"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"7b-fdU49c2WVU2kf6j330jg+lWhcd8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:33:45 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Case status could not be updated due to invalid status\",\n    \"caseId\": \"1754\"\n}"
 				}
 			]
 		},
@@ -710,6 +993,104 @@
 			},
 			"response": [
 				{
+					"name": "Update Referral Letter Address (Bad Request)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/addresses",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"addresses"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"4d-LDihS/DDH/GS0ZIJ5438NGxB3ns\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:38:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"This case does not exist\"\n}"
+				},
+				{
 					"name": "Update Referral Letter Address",
 					"originalRequest": {
 						"method": "PUT",
@@ -806,6 +1187,104 @@
 					],
 					"cookie": [],
 					"body": "{}"
+				},
+				{
+					"name": "Update Referral Letter Address (Bad Request with case ID)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/addresses",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"addresses"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1765"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "107"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"6b-SQ8mms1LMevnf23PYTt6P4a35kk\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:36:19 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Case status is invalid for this action\",\n    \"caseId\": \"1765\"\n}"
 				}
 			]
 		},
@@ -849,6 +1328,99 @@
 				}
 			},
 			"response": [
+				{
+					"name": "Delete Case Officer (Internal Server Error)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers/:caseOfficerId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"cases-officers",
+								":caseOfficerId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1754"
+								},
+								{
+									"key": "caseOfficerId",
+									"value": "lizard"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "150"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"96-ZP3F/kqvpxZxhwy3hqOxYA/T/0U\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:44:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Something went wrong and the officer was not removed. Please try again.\",\n    \"caseId\": \"1754\"\n}"
+				},
 				{
 					"name": "Delete Case Officer",
 					"originalRequest": {
@@ -2600,6 +3172,95 @@
 			},
 			"response": [
 				{
+					"name": "Create Audit Log Entry (Bad Request as Plain Text)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/audit",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"audit"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "11"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"b-EFiDB1U+dmqzx9Mo2UjcZ1SJPO8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 16:13:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "Bad Request"
+				},
+				{
 					"name": "Create Audit Log Entry",
 					"originalRequest": {
 						"method": "POST",
@@ -2933,7 +3594,8 @@
 							"value": "1753"
 						}
 					]
-				}
+				},
+				"description": "This request takes in an object of structure \n```\n{\"editedLetterHtml\" : \"<p></p>\"}\n```"
 			},
 			"response": [
 				{
@@ -4029,6 +4691,108 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"primaryComplainant\": {\n        \"fullName\": \"Night Watch\",\n        \"id\": 1748,\n        \"firstName\": \"Night\",\n        \"middleInitial\": null,\n        \"lastName\": \"Watch\",\n        \"suffix\": null,\n        \"birthDate\": null,\n        \"roleOnCase\": \"Complainant\",\n        \"phoneNumber\": \"1234567890\",\n        \"email\": null,\n        \"additionalInfo\": null,\n        \"isAnonymous\": false,\n        \"createdAt\": \"2020-07-20T17:30:47.604Z\",\n        \"updatedAt\": \"2020-07-20T17:31:08.045Z\",\n        \"deletedAt\": null,\n        \"caseId\": 1753,\n        \"raceEthnicityId\": 4,\n        \"genderIdentityId\": 5,\n        \"civilianTitleId\": 3,\n        \"address\": {\n            \"id\": 2324,\n            \"addressableId\": 1748,\n            \"addressableType\": \"civilian\",\n            \"streetAddress\": \"\",\n            \"intersection\": \"\",\n            \"streetAddress2\": null,\n            \"city\": \"\",\n            \"state\": \"\",\n            \"zipCode\": \"\",\n            \"country\": \"\",\n            \"lat\": null,\n            \"lng\": null,\n            \"placeId\": null,\n            \"additionalLocationInfo\": null,\n            \"createdAt\": \"2020-07-20T17:31:00.640Z\",\n            \"updatedAt\": \"2020-07-20T17:31:08.000Z\",\n            \"deletedAt\": null\n        },\n        \"raceEthnicity\": {\n            \"id\": 4,\n            \"name\": \"Black, African American\",\n            \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n            \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n        },\n        \"genderIdentity\": {\n            \"id\": 5,\n            \"name\": \"Other\",\n            \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n            \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n        }\n    },\n    \"nextStatus\": \"Forwarded to Agency\",\n    \"caseReference\": \"CC2020-0403\",\n    \"id\": 1753,\n    \"complaintType\": \"Civilian Initiated\",\n    \"status\": \"Ready for Review\",\n    \"year\": 2020,\n    \"caseNumber\": 403,\n    \"firstContactDate\": \"2020-07-20\",\n    \"incidentDate\": \"2017-12-20\",\n    \"intakeSourceId\": 3,\n    \"district\": null,\n    \"districtId\": 2,\n    \"incidentTime\": \"02:31:00\",\n    \"narrativeSummary\": \"test summary data\",\n    \"narrativeDetails\": \"<p>test details data</p>\",\n    \"pibCaseNumber\": null,\n    \"createdBy\": \"noipm.infrastructure@gmail.com\",\n    \"assignedTo\": \"noipm.infrastructure@gmail.com\",\n    \"createdAt\": \"2020-07-20T17:30:47.585Z\",\n    \"updatedAt\": \"2020-07-20T19:20:39.233Z\",\n    \"howDidYouHearAboutUsSourceId\": null,\n    \"caseClassifications\": [],\n    \"intakeSource\": {\n        \"id\": 3,\n        \"name\": \"In Person\",\n        \"createdAt\": \"2018-12-21T02:07:39.872Z\",\n        \"updatedAt\": \"2018-12-21T02:07:39.872Z\"\n    },\n    \"howDidYouHearAboutUsSource\": null,\n    \"caseDistrict\": {\n        \"id\": 2,\n        \"name\": \"2nd District\",\n        \"createdAt\": \"2019-08-12T19:27:32.808Z\",\n        \"updatedAt\": \"2019-08-12T19:27:32.808Z\"\n    },\n    \"complainantCivilians\": [\n        {\n            \"fullName\": \"Night Watch\",\n            \"id\": 1748,\n            \"firstName\": \"Night\",\n            \"middleInitial\": null,\n            \"lastName\": \"Watch\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"1234567890\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:30:47.604Z\",\n            \"updatedAt\": \"2020-07-20T17:31:08.045Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"raceEthnicityId\": 4,\n            \"genderIdentityId\": 5,\n            \"civilianTitleId\": 3,\n            \"address\": {\n                \"id\": 2324,\n                \"addressableId\": 1748,\n                \"addressableType\": \"civilian\",\n                \"streetAddress\": \"\",\n                \"intersection\": \"\",\n                \"streetAddress2\": null,\n                \"city\": \"\",\n                \"state\": \"\",\n                \"zipCode\": \"\",\n                \"country\": \"\",\n                \"lat\": null,\n                \"lng\": null,\n                \"placeId\": null,\n                \"additionalLocationInfo\": null,\n                \"createdAt\": \"2020-07-20T17:31:00.640Z\",\n                \"updatedAt\": \"2020-07-20T17:31:08.000Z\",\n                \"deletedAt\": null\n            },\n            \"raceEthnicity\": {\n                \"id\": 4,\n                \"name\": \"Black, African American\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 5,\n                \"name\": \"Other\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        }\n    ],\n    \"witnessCivilians\": [],\n    \"attachments\": [],\n    \"incidentLocation\": {\n        \"id\": 2325,\n        \"addressableId\": 1753,\n        \"addressableType\": \"cases\",\n        \"streetAddress\": \"\",\n        \"intersection\": \"Bourbon St & Canal St\",\n        \"streetAddress2\": null,\n        \"city\": \"New Orleans\",\n        \"state\": \"LA\",\n        \"zipCode\": \"70112\",\n        \"country\": \"US\",\n        \"lat\": 29.9538711,\n        \"lng\": -90.0698991,\n        \"placeId\": \"EjFCb3VyYm9uIFN0ICYgQ2FuYWwgU3QsIE5ldyBPcmxlYW5zLCBMQSA3MDExMiwgVVNBImYiZAoUChIJeWgJgAymIIYRqGxrVGiTeUkSFAoSCXloCYAMpiCGEahsa1Rok3lJGhQKEgldhaLWEaYghhG9WOFr0BfYthoUChIJtzyGBfGlIIYRM5zAA_qGHT0iCg0XmdoRFZFsUMo\",\n        \"additionalLocationInfo\": null,\n        \"createdAt\": \"2020-07-20T17:31:12.155Z\",\n        \"updatedAt\": \"2020-07-20T17:31:12.155Z\",\n        \"deletedAt\": null\n    },\n    \"accusedOfficers\": [\n        {\n            \"fullName\": \"Ansel W Rice\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 54,\n            \"id\": 2980,\n            \"officerId\": 4263,\n            \"firstName\": \"Ansel\",\n            \"middleName\": \"W\",\n            \"lastName\": \"Rice\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9550,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE OFFICER 1\",\n            \"dob\": \"1966-02-06\",\n            \"endDate\": \"2003-12-28\",\n            \"hireDate\": \"1997-12-14\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Terminated\",\n            \"notes\": \"test\",\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:31:16.893Z\",\n            \"updatedAt\": \"2020-07-22T20:47:43.408Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": [\n                {\n                    \"id\": 1397,\n                    \"details\": \"Used department property.\",\n                    \"caseOfficerId\": 2980,\n                    \"severity\": \"Medium\",\n                    \"createdAt\": \"2020-07-20T17:31:27.289Z\",\n                    \"updatedAt\": \"2020-07-20T17:31:27.289Z\",\n                    \"deletedAt\": null,\n                    \"allegationId\": 6564,\n                    \"allegation\": {\n                        \"id\": 6564,\n                        \"rule\": \"Rule 7: Departmental Property\",\n                        \"paragraph\": \"PARAGRAPH 01 - Use of Department Property\",\n                        \"directive\": null,\n                        \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n                        \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n                    }\n                }\n            ]\n        },\n        {\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 57,\n            \"id\": 2995,\n            \"officerId\": 3400,\n            \"firstName\": \"Alfonso\",\n            \"middleName\": \"R\",\n            \"lastName\": \"Kiehn\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7228,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"MSB - Management Service Bureau\",\n            \"rank\": \"POLICE OFFICER 4\",\n            \"dob\": \"1963-05-27\",\n            \"endDate\": \"2005-04-03\",\n            \"hireDate\": \"1981-02-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:51:20.085Z\",\n            \"updatedAt\": \"2020-07-22T20:51:20.085Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": []\n        },\n        {\n            \"fullName\": \"Amy Z Tillman\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 53,\n            \"id\": 2996,\n            \"officerId\": 2210,\n            \"firstName\": \"Amy\",\n            \"middleName\": \"Z\",\n            \"lastName\": \"Tillman\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9071,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE SERGEANT\",\n            \"dob\": \"1966-12-06\",\n            \"endDate\": \"2003-05-04\",\n            \"hireDate\": \"1974-12-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:53:07.330Z\",\n            \"updatedAt\": \"2020-07-22T20:53:07.330Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": []\n        },\n        {\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 57,\n            \"id\": 2997,\n            \"officerId\": 3400,\n            \"firstName\": \"Alfonso\",\n            \"middleName\": \"R\",\n            \"lastName\": \"Kiehn\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7228,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"MSB - Management Service Bureau\",\n            \"rank\": \"POLICE OFFICER 4\",\n            \"dob\": \"1963-05-27\",\n            \"endDate\": \"2005-04-03\",\n            \"hireDate\": \"1981-02-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:53:50.362Z\",\n            \"updatedAt\": \"2020-07-22T20:53:50.362Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": [\n                {\n                    \"id\": 1403,\n                    \"details\": \"testing\",\n                    \"caseOfficerId\": 2997,\n                    \"severity\": \"High\",\n                    \"createdAt\": \"2020-07-22T21:07:14.869Z\",\n                    \"updatedAt\": \"2020-07-22T21:07:40.642Z\",\n                    \"deletedAt\": null,\n                    \"allegationId\": 3286,\n                    \"allegation\": {\n                        \"id\": 3286,\n                        \"rule\": \"RULE 2: MORAL CONDUCT\",\n                        \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n                        \"directive\": \"Municipal Code Section 154-236 (3) Steady Red Indication (b)\",\n                        \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n                        \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"complainantOfficers\": [],\n    \"witnessOfficers\": [\n        {\n            \"fullName\": \"Amira E Jaskolski\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"Everardo R Wiegand\",\n            \"age\": 50,\n            \"id\": 2979,\n            \"officerId\": 2176,\n            \"firstName\": \"Amira\",\n            \"middleName\": \"E\",\n            \"lastName\": \"Jaskolski\",\n            \"phoneNumber\": \"2355555556\",\n            \"email\": null,\n            \"windowsUsername\": 7994,\n            \"supervisorFirstName\": \"Everardo\",\n            \"supervisorMiddleName\": \"R\",\n            \"supervisorLastName\": \"Wiegand\",\n            \"supervisorWindowsUsername\": 11819,\n            \"supervisorOfficerNumber\": 3545,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": \"7th District\",\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE LIEUTENANT\",\n            \"dob\": \"1970-02-10\",\n            \"endDate\": null,\n            \"hireDate\": \"1994-08-21\",\n            \"sex\": \"M\",\n            \"race\": \"Black / African American\",\n            \"workStatus\": \"Active\",\n            \"notes\": null,\n            \"roleOnCase\": \"Witness\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:31:14.710Z\",\n            \"updatedAt\": \"2020-07-22T20:37:00.399Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753\n        }\n    ],\n    \"pdfAvailable\": false,\n    \"isArchived\": false\n}"
+				},
+				{
+					"name": "Update Case Officer Allegation (Bad Request with explicit message)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1403,\n    \"details\": \"testing\",\n    \"severity\": \"High\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"officers-allegations",
+								":officerAllegationId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1753"
+								},
+								{
+									"key": "officerAllegationId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "102"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"66-nDQ+E+D1NeY7xTy6wwXOYlANplI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 18:39:01 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Officer allegation does not exist\",\n    \"caseId\": \"1753\"\n}"
 				}
 			]
 		},
@@ -4072,6 +4836,99 @@
 				}
 			},
 			"response": [
+				{
+					"name": "Delete Case Officer Allegation (Bad Request with explicit message)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"officers-allegations",
+								":officerAllegationId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1753"
+								},
+								{
+									"key": "officerAllegationId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "102"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"66-nDQ+E+D1NeY7xTy6wwXOYlANplI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 18:44:25 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Officer allegation does not exist\",\n    \"caseId\": \"1753\"\n}"
+				},
 				{
 					"name": "Delete Case Officer Allegation",
 					"originalRequest": {
@@ -4606,7 +5463,8 @@
 							"value": "1753"
 						}
 					]
-				}
+				},
+				"description": "This request takes a body containing an array of Iapro Correction objects (see below) and updates all of these given objects.\n```\n{\n    \"referralLetterIaproCorrections\" : [\n        {\"id\" : 000, \"details\" : \"message\"},\n        ...\n    ]\n}\n```"
 			},
 			"response": [
 				{
@@ -5038,6 +5896,103 @@
 			},
 			"response": [
 				{
+					"name": "Create Case Tag (Unprocessable Entity)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/case-tags",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"case-tags"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "1753"
+								}
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "100"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"64-JhnYypsPA8/ksDdWHh/+aZ7GazI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 19:38:08 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 422,\n    \"error\": \"Unprocessable Entity\",\n    \"message\": \"Missing tag parameters\",\n    \"caseId\": \"1753\"\n}"
+				},
+				{
 					"name": "Create Case Tag",
 					"originalRequest": {
 						"method": "POST",
@@ -5451,7 +6406,8 @@
 							"value": ""
 						}
 					]
-				}
+				},
+				"description": "This request relies on s3 to provide a link to the file that is being retrieved, and so, we do not error out on fileNames that do not exist."
 			},
 			"response": [
 				{
@@ -7404,7 +8360,8 @@
 							"value": "1756"
 						}
 					]
-				}
+				},
+				"description": "If no caseId is specified, then this request acts like the \"Retrieve Cases\" request and returns all cases."
 			},
 			"response": [
 				{
@@ -8351,7 +9308,8 @@
 							"value": "countComplaintsByIntakeSource"
 						}
 					]
-				}
+				},
+				"description": "This request returns data (based on query type) for visualizations."
 			},
 			"response": [
 				{
