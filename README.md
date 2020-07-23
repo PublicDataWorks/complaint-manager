@@ -4,24 +4,28 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
 
 ## Local Development Setup
 
+### Platform Considerations
+
+  * Mac is the default developer platform for our Core Team
+  * On any other platform (Linux / Windows) the code show compile and run, but this isn't something we've tested
+
 ### Install Docker
 
-  * On Linux, run `apt-get install docker`.
-  * On Mac or Windows you may [download it here](https://www.docker.com/products/docker).
-    * Docker for Windows only supports Windows 10. If you have an earlier version of Windows you'll need to install [docker toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/) instead.
+  * On Mac, you may [download it here](https://www.docker.com/products/docker)
 
 ### Set docker hosts for Postgres db and Redis
-
-  * Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost: 
-
-    ```bash
+  
+  * We depend on access to the local db container for running tests in our IDE
+  * We depend on access to the local redis instance for debugging purposes
+  * Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost:
+    ```
     127.0.0.1       db
     127.0.0.1       redis
     ```
 
 ### Docker Preferences
 
-  * To prevent Docker from killing your jest tests with Exit 137, you will need to increase memory that Docker is using.
+  * To prevent Docker from running out of memory, you will need to adjust your Docker settings
   * Under “Resources > Advanced” section in Docker preferences, change your default settings to the following:
     ```
     CPUs: 4,
@@ -43,14 +47,14 @@ run all tests, and run the security checks before pushing.
 #### Core Team:
   * Log into Google with the noipm infrastructure Google account from 1Password.
   * Look up the Core Team API key for test environment at https://console.cloud.google.com/apis/credentials
-  * Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ./~profile or ~/.zshrc file depending on which one you use.
+  * Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ~/.profile or ~/.zshrc file depending on which one you use.
 
 #### Contributor: 
   * You will receive a Contributor Test Key for Google Maps API from a Core Team member
-  * Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ./~profile or ~/.zshrc file.
+  * Set a local environment variable called REACT_APP_GOOGLE_API_KEY with this test key in either your ~/.profile or ~/.zshrc file.
   
 ### Set up Test Environment Variables
-  * Using your credentials for Auth0 ci, set local test environment variables called TEST_USER and TEST_PASS in either your ./~profile or ~/.zshrc file.
+  * Using your credentials for Auth0 ci, set local test environment variables called TEST_USER and TEST_PASS in either your ~/.profile or ~/.zshrc file.
     * Make sure your credentials were given DPM access.
     * Contributors should receive these from a Core Team member.
 
@@ -79,7 +83,7 @@ run all tests, and run the security checks before pushing.
     ```
 
 ### Install Local Dependencies
-  * Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests)
+  * Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests outside the container e.g. your IDE)
 
 ## Local Development Tasks
 
@@ -96,6 +100,8 @@ run all tests, and run the security checks before pushing.
     ```bash
     docker-compose up app
     ```
+  * Wait for the backend and frontend to intialize
+    * 
   * Navigate to `https://localhost`.
     * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
     * In these case, please click "Advanced" and then "Proceed to localhost (unsafe)" to move to the local host web page.
@@ -154,17 +160,22 @@ run all tests, and run the security checks before pushing.
 
 ### Running end-to-end tests locally:
 
-  * First, ensure you have nightwatch installed:
-
-    ```bash
-    npm install -g nightwatch
-    ```
-
-  * Finally, run nightwatch tests:
+  * Run nightwatch tests:
 
     ```bash
     yarn e2e
     ```
+
+  * Troubleshooting e2e issues
+    * If Test User/Pass or the Google Maps API key environment variables are not available to the e2e container
+    
+      * Remove the app-e2e container (so that it can be recreated)
+      
+      ```
+      docker-compose kill app-e2e
+      docker-compose rm app-e2e
+      ```
+      * Rerun e2e tests
 
 ### Known Warnings
 
