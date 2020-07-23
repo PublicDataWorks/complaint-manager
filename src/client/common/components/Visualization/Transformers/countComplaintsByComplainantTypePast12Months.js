@@ -1,4 +1,5 @@
 import { COLORS, TITLE_FONT } from "../dataVizStyling";
+import _ from "lodash";
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
@@ -31,8 +32,9 @@ export const enableCountHighlight = complainantTypeData => {
 export const transformData = rawData => {
   let maximum = 0;
   const determineMax = count => {
-    if (count + 5 > maximum) {
-      maximum = count + 5;
+    const newCount = _.round((count + 0.5) * 1.1);
+    if (newCount > maximum) {
+      maximum = newCount;
     }
   };
 

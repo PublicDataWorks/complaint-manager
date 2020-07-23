@@ -48,10 +48,10 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
     ]
   };
 
-  test("should determine y-maximum as 5 units higher than highest count", () => {
+  test("should determine y-maximum as rounded 10% units higher than highest count", () => {
     const maximum = transformData(rawData).layout.yaxis.range[1];
 
-    expect(maximum).toEqual(15);
+    expect(maximum).toEqual(12);
   });
 
   test("should highlight within the date range", () => {

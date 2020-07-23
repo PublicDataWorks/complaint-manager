@@ -154,7 +154,7 @@ describe("Visualization", () => {
         ]),
         layout: expect.objectContaining({
           barmode: "group",
-          yaxis: { range: [0, 13] },
+          yaxis: { range: [0, 9] },
           font: {
             family: "Open Sans",
             color: "#A9A9A9",
