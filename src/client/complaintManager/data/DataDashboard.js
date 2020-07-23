@@ -24,6 +24,13 @@ class DataDashboard extends Component {
             data-testid={"complainantTypeGraph"}
             queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
           />
+          <br />
+          <Visualization
+            data-testid={"complainantTypePast12MonthsGraph"}
+            queryType={
+              QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
+            }
+          />
         </div>
       </div>
     );
