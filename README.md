@@ -15,7 +15,7 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
 
 ### Set docker hosts for Postgres db and Redis
   
-  * We depend on access to the local db container for running tests in our IDE
+  * We depend on access to the local db container for running tests in our IDE and also for running up/down migrations locally
   * We depend on access to the local redis instance for debugging purposes
   * Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost:
     ```
@@ -34,7 +34,6 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
     ```
 
 ### Set up Git Hooks
-  *
     ```bash
     ./scripts/setup-git-hooks.sh
     ```
@@ -88,7 +87,6 @@ run all tests, and run the security checks before pushing.
 ## Local Development Tasks
 
 ### Build the app:
-  *
     ```bash
     ./scripts/docker-compose-build.sh
     ```
@@ -96,18 +94,24 @@ run all tests, and run the security checks before pushing.
     * Whenever a new package is added, rebuild
 
 ### Run the app locally in watch mode:
-  *
     ```bash
     docker-compose up app
     ```
-  * Wait for the backend and frontend to intialize
-    * 
+  * Wait for the backend and frontend to initialize
+    * Healthy console outputs for backend 
+    ```
+    Application is listening on port 1234
+    Please visit http://localhost:1234
+    ```
+    * Healthy console outputs for frontend 
+    ```
+    Compiled with warnings.
+    ```
   * Navigate to `https://localhost`.
     * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
     * In these case, please click "Advanced" and then "Proceed to localhost (unsafe)" to move to the local host web page.
 
 ### Stop all running containers:
-  *
     ```bash
     docker-compose down
     ```
@@ -115,7 +119,6 @@ run all tests, and run the security checks before pushing.
 ## The following need to be performed before pushing:
 
 ### Run security checks
-  *
     ```
     docker-compose run security-checks
     ```
