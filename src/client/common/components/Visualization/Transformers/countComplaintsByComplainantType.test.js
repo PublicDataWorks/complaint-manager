@@ -24,23 +24,25 @@ describe("countComplaintsByComplainantType data transformer", () => {
     );
 
     const expectedTransformedData = {
-      data: {
-        type: "pie",
-        labels: [
-          "Civilian (CC)",
-          "Anonymous (AC)",
-          "Police Officer (PO)",
-          "Civilian Within NOPD (CN)"
-        ],
-        values: [3, 2, 2, 1],
-        marker: {
-          colors: COLORS
-        },
-        hoverinfo: "label+percent",
-        textinfo: "label+value",
-        textposition: "outside",
-        hole: 0.5
-      },
+      data: [
+        {
+          type: "pie",
+          labels: [
+            "Civilian (CC)",
+            "Anonymous (AC)",
+            "Police Officer (PO)",
+            "Civilian Within NOPD (CN)"
+          ],
+          values: [3, 2, 2, 1],
+          marker: {
+            colors: COLORS
+          },
+          hoverinfo: "label+percent",
+          textinfo: "label+value",
+          textposition: "outside",
+          hole: 0.5
+        }
+      ],
       layout: {
         title: {
           text: "Complaints by Complainant Type",
