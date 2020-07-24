@@ -64,6 +64,6 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
     const maximum = 12;
     const poCountHighlight = enableCountHighlight(rawData["PO"], maximum);
 
-    expect(poCountHighlight).toEqual([8.6, 10.6, 9.4, 7.4]);
+    expect(poCountHighlight).toEqual([8.3, 10.3, 9.7, 7.7]);
   });
 });

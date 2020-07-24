@@ -79,7 +79,7 @@ describe("Visualization", () => {
           }),
           expect.objectContaining({
             x: ["Jun 19", "Jun 19"],
-            y: [1.45, 0.55],
+            y: [1.225, 0.775],
             fillcolor: "rgba(0,33,113,0.2)",
             hoverinfo: "none",
             fill: "tozerox",
@@ -100,7 +100,7 @@ describe("Visualization", () => {
           }),
           expect.objectContaining({
             x: ["Jun 19", "Jun 19"],
-            y: [8.45, 7.55],
+            y: [8.225, 7.775],
             fillcolor: "rgba(95,173,86,0.3)",
             hoverinfo: "none",
             fill: "tozerox",
@@ -121,7 +121,7 @@ describe("Visualization", () => {
           }),
           expect.objectContaining({
             x: ["Jun 19", "Jun 19"],
-            y: [3.45, 2.55],
+            y: [3.225, 2.775],
             fillcolor: "rgba(157,93,155,0.3)",
             hoverinfo: "none",
             fill: "tozerox",
@@ -142,7 +142,7 @@ describe("Visualization", () => {
           }),
           expect.objectContaining({
             x: ["Jun 19", "Jun 19"],
-            y: [0.45, -0.45],
+            y: [0.225, -0.225],
             fillcolor: "rgba(230, 159, 1,0.3)",
             hoverinfo: "none",
             fill: "tozerox",

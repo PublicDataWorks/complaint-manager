@@ -20,11 +20,11 @@ export const enableCountHighlight = (complainantTypeData, maximum) => {
 
   return complainantTypeData
     .map(element => {
-      return element["count"] + maximum * 0.05;
+      return element["count"] + maximum * 0.025;
     })
     .concat(
       reversedComplainantType.map(element => {
-        return element["count"] - maximum * 0.05;
+        return element["count"] - maximum * 0.025;
       })
     );
 };
