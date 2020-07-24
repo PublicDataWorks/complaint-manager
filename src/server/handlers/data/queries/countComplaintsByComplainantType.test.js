@@ -14,6 +14,7 @@ import {
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import { executeQuery } from "./countComplaintsByComplainantType";
 
 describe("executeQuery", () => {
   let complainantOfficerPO;
@@ -25,11 +26,12 @@ describe("executeQuery", () => {
 
   const token = buildTokenWithPermissions("", "tuser");
 
-  const expectedData = [
-    { complainantType: "Civilian (CC)" },
-    { complainantType: "Anonymous (AC)" },
-    { complainantType: "Police Officer (PO)" }
-  ];
+  const expectedData = {
+    CC: 1,
+    PO: 1,
+    CN: 0,
+    AC: 1
+  };
 
   const getResponsePromise = request(app)
     .get("/api/data")
@@ -125,7 +127,6 @@ describe("executeQuery", () => {
   test("should return complainant types for ytd complaints forwarded to agency or closed", async () => {
     await getResponsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
       expect(response.body).toEqual(expectedData);
     });
   });
@@ -144,7 +145,6 @@ describe("executeQuery", () => {
 
     await getResponsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
       expect(response.body).toEqual(expectedData);
     });
   });
@@ -201,7 +201,6 @@ describe("executeQuery", () => {
 
     await getResponsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
       expect(response.body).toEqual(expectedData);
     });
   });
@@ -222,7 +221,6 @@ describe("executeQuery", () => {
 
     await getResponsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
       expect(response.body).toEqual(expectedData);
     });
   });

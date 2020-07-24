@@ -173,12 +173,12 @@ describe("Visualization", () => {
   test("should pass correct data and layout options to PlotlyWrapper for countComplaintsByComplainantType", async () => {
     // Arrange
     const responseBody = {
-      data: [
-        { complainantType: "Civilian Within NOPD (CN)" },
-        { complainantType: "Civilian (CC)" },
-        { complainantType: "Anonymous (AC)" },
-        { complainantType: "Anonymous (AC)" }
-      ]
+      data: {
+        CC: 1,
+        PO: 0,
+        CN: 1,
+        AC: 2
+      }
     };
 
     axios.get.mockResolvedValue({ ...responseBody });
@@ -198,8 +198,8 @@ describe("Visualization", () => {
         data: expect.arrayContaining([
           expect.objectContaining({
             labels: expect.arrayContaining([
-              "Civilian Within NOPD (CN)",
               "Civilian (CC)",
+              "Civilian NOPD Employee (CN)",
               "Anonymous (AC)"
             ]),
             type: "pie",

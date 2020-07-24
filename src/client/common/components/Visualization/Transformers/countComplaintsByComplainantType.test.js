@@ -8,16 +8,12 @@ import {
 
 describe("countComplaintsByComplainantType data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
-    const rawData = [
-      { complainantType: "Civilian Within NOPD (CN)" },
-      { complainantType: "Civilian (CC)" },
-      { complainantType: "Civilian (CC)" },
-      { complainantType: "Civilian (CC)" },
-      { complainantType: "Anonymous (AC)" },
-      { complainantType: "Anonymous (AC)" },
-      { complainantType: "Police Officer (PO)" },
-      { complainantType: "Police Officer (PO)" }
-    ];
+    const rawData = {
+      CC: 3,
+      PO: 2,
+      CN: 2,
+      AC: 1
+    };
 
     const transformedData = countComplaintsByComplainantType.transformData(
       rawData
@@ -29,9 +25,9 @@ describe("countComplaintsByComplainantType data transformer", () => {
           type: "pie",
           labels: [
             "Civilian (CC)",
-            "Anonymous (AC)",
             "Police Officer (PO)",
-            "Civilian Within NOPD (CN)"
+            "Civilian NOPD Employee (CN)",
+            "Anonymous (AC)"
           ],
           values: [3, 2, 2, 1],
           marker: {

@@ -7,32 +7,23 @@ import {
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 
 export function transformData(rawData) {
-  let labels, values, i;
+  let labels, values;
   let count = 0;
 
-  const countComplainantTypes = rawData => {
-    let complainantTypeCountDictionary = {};
-
-    rawData.forEach(element => {
-      if (
-        complainantTypeCountDictionary.hasOwnProperty(element.complainantType)
-      ) {
-        complainantTypeCountDictionary[element.complainantType]++;
-      } else {
-        complainantTypeCountDictionary[element.complainantType] = 1;
-      }
-    });
-
-    return complainantTypeCountDictionary;
+  const caseReferenceToName = {
+    CC: "Civilian (CC)",
+    PO: "Police Officer (PO)",
+    CN: "Civilian NOPD Employee (CN)",
+    AC: "Anonymous (AC)"
   };
 
-  const complaintsByComplainantType = countComplainantTypes(rawData);
-
-  let complaintsByComplainantTypeArray = Object.keys(
-    complaintsByComplainantType
-  ).map(key => {
-    return [key, complaintsByComplainantType[key]];
-  });
+  let complaintsByComplainantTypeArray = Object.keys(rawData)
+    .filter(key => {
+      return rawData[key] > 0;
+    })
+    .map(key => {
+      return [caseReferenceToName[key], rawData[key]];
+    });
 
   const sortData = (complainantTypeA, complainantTypeB) => {
     return complainantTypeB[1] - complainantTypeA[1];
