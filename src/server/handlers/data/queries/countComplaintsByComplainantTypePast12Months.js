@@ -105,11 +105,11 @@ export const executeQuery = async nickname => {
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {
     const complaint = complaints[i];
-    const complaintType = complaint.caseReference.slice(0, 2);
+    const complainantType = complaint.caseReference.slice(0, 2);
     const formattedFirstContactDate = moment(complaint.firstContactDate).format(
       "YYYY-MM"
     );
-    totalComplaints[complaintType][dateToIndex[formattedFirstContactDate]][
+    totalComplaints[complainantType][dateToIndex[formattedFirstContactDate]][
       "count"
     ] += 1;
   }

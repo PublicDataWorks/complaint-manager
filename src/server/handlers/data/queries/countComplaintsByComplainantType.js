@@ -8,6 +8,7 @@ import {
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { getComplainantType } from "./queryHelperFunctions";
+import _ from "lodash";
 
 export const executeQuery = async nickname => {
   const date = new Date();
@@ -60,14 +61,19 @@ export const executeQuery = async nickname => {
     return allComplaintsWithCaseRef;
   });
 
-  const complaintsByComplainantType = await Promise.all(
-    complaints.map(async complaint => {
-      const caseReference = complaint.get("caseReference");
-      const complainantType = await getComplainantType(caseReference);
+  let totalComplaints = {
+    CC: 0,
+    PO: 0,
+    CN: 0,
+    AC: 0
+  };
 
-      return { complainantType: complainantType };
-    })
-  );
+  const numComplaints = complaints.length;
+  for (let i = 0; i < numComplaints; i++) {
+    const complaint = complaints[i];
+    const complainantType = complaint.caseReference.slice(0, 2);
+    totalComplaints[complainantType] += 1;
+  }
 
-  return complaintsByComplainantType;
+  return totalComplaints;
 };
