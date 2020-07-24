@@ -19,18 +19,20 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
     );
 
     const expectedTransformedData = {
-      data: {
-        type: "pie",
-        labels: ["Facebook", "Other", "Email"],
-        values: [5, 3, 2],
-        marker: {
-          colors: COLORS
-        },
-        hoverinfo: "label+percent",
-        textinfo: "label+value",
-        textposition: "outside",
-        hole: 0.5
-      },
+      data: [
+        {
+          type: "pie",
+          labels: ["Facebook", "Other", "Email"],
+          values: [5, 3, 2],
+          marker: {
+            colors: COLORS
+          },
+          hoverinfo: "label+percent",
+          textinfo: "label+value",
+          textposition: "outside",
+          hole: 0.5
+        }
+      ],
       layout: {
         title: {
           text: "Complaints by Intake Source",

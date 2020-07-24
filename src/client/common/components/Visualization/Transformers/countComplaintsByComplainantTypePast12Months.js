@@ -15,16 +15,16 @@ export const enableDateHighlight = complainantTypeData => {
     );
 };
 
-export const enableCountHighlight = complainantTypeData => {
+export const enableCountHighlight = (complainantTypeData, maximum) => {
   const reversedComplainantType = [...complainantTypeData].reverse();
 
   return complainantTypeData
     .map(element => {
-      return element["count"] + 0.5;
+      return element["count"] + maximum * 0.05;
     })
     .concat(
       reversedComplainantType.map(element => {
-        return element["count"] - 0.5;
+        return element["count"] - maximum * 0.05;
       })
     );
 };
@@ -73,13 +73,6 @@ export const transformData = rawData => {
     legendgroup: "groupCC"
   };
 
-  let ccHighlight = {
-    x: enableDateHighlight(rawData["CC"]),
-    y: enableCountHighlight(rawData["CC"]),
-    fillcolor: "rgba(0,33,113,0.2)",
-    ...highlightOptions("CC")
-  };
-
   let poTrace = {
     x: insertDateValues(rawData["PO"]),
     y: insertCountValues(rawData["PO"]),
@@ -89,13 +82,6 @@ export const transformData = rawData => {
     },
     hoverinfo: "y+name",
     legendgroup: "groupPO"
-  };
-
-  let poHighlight = {
-    x: enableDateHighlight(rawData["PO"]),
-    y: enableCountHighlight(rawData["PO"]),
-    fillcolor: "rgba(95,173,86,0.3)",
-    ...highlightOptions("PO")
   };
 
   let cnTrace = {
@@ -109,13 +95,6 @@ export const transformData = rawData => {
     legendgroup: "groupCN"
   };
 
-  let cnHighlight = {
-    x: enableDateHighlight(rawData["CN"]),
-    y: enableCountHighlight(rawData["CN"]),
-    fillcolor: "rgba(157,93,155,0.3)",
-    ...highlightOptions("CN")
-  };
-
   let acTrace = {
     x: insertDateValues(rawData["AC"]),
     y: insertCountValues(rawData["AC"]),
@@ -127,9 +106,30 @@ export const transformData = rawData => {
     legendgroup: "groupAC"
   };
 
+  let ccHighlight = {
+    x: enableDateHighlight(rawData["CC"]),
+    y: enableCountHighlight(rawData["CC"], maximum),
+    fillcolor: "rgba(0,33,113,0.2)",
+    ...highlightOptions("CC")
+  };
+
+  let poHighlight = {
+    x: enableDateHighlight(rawData["PO"]),
+    y: enableCountHighlight(rawData["PO"], maximum),
+    fillcolor: "rgba(95,173,86,0.3)",
+    ...highlightOptions("PO")
+  };
+
+  let cnHighlight = {
+    x: enableDateHighlight(rawData["CN"]),
+    y: enableCountHighlight(rawData["CN"], maximum),
+    fillcolor: "rgba(157,93,155,0.3)",
+    ...highlightOptions("CN")
+  };
+
   let acHighlight = {
     x: enableDateHighlight(rawData["AC"]),
-    y: enableCountHighlight(rawData["AC"]),
+    y: enableCountHighlight(rawData["AC"], maximum),
     fillcolor: "rgba(230, 159, 1,0.3)",
     ...highlightOptions("AC")
   };
