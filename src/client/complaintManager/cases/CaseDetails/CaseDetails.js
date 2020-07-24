@@ -16,11 +16,13 @@ import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
   closeArchiveCaseDialog,
   closeCaseNoteDialog,
+  closeCaseTagDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
   closeEditIncidentDetailsDialog,
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
+  closeRemoveCaseTagDialog,
   closeRemovePersonDialog,
   closeRestoreArchivedCaseDialog
 } from "../../actionCreators/casesActionCreators";
@@ -56,8 +58,10 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
   dispatch(closeCaseNoteDialog());
+  dispatch(closeCaseTagDialog());
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());
+  dispatch(closeRemoveCaseTagDialog());
   dispatch(closeRemovePersonDialog());
   dispatch(closeEditIncidentDetailsDialog());
   dispatch(closeRestoreArchivedCaseDialog());
@@ -112,6 +116,9 @@ class CaseDetails extends React.Component {
     this.props.dispatch(getReferralLetterEditStatus(caseId));
 
     history.listen((location, action) => {
+      if (action === "PUSH") {
+        resetCaseDetailsPage(this.props.dispatch);
+      }
       if (action === "POP") {
         this.props.dispatch(clearHighlightedCaseNote());
       }
