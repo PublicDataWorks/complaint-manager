@@ -9,9 +9,12 @@ import {
 } from "../actionCreators/casesActionCreators";
 import { complaintManagerMenuOptions } from "../shared/components/NavBar/complaintManagerMenuOptions";
 import ComplaintTotals from "./ComplaintTotals";
+import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
+import { DialogTypes } from "../../common/actionCreators/dialogTypes";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
+    this.props.closeCreateDialog(DialogTypes.CASE);
     this.props.resetWorkingCasesLoaded();
   }
 
@@ -29,7 +32,8 @@ class CaseDashboard extends Component {
 
 const mapDispatchToProps = {
   updateSort,
-  resetWorkingCasesLoaded
+  resetWorkingCasesLoaded,
+  closeCreateDialog
 };
 
 const mapStateToProps = (state, ownProps) => ({
