@@ -5346,7 +5346,7 @@
 						},
 						{
 							"key": "fileName",
-							"value": "Screen Shot 2020-07-22 at 4.39.37 PM.png"
+							"value": "{{attachment_filename}}"
 						}
 					]
 				}
@@ -5724,6 +5724,19 @@
 		},
 		{
 			"name": "Create Attachment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c5054000-cd49-42d6-9e9f-4ebebf702496",
+						"exec": [
+							"const createAttachmentResponse=pm.response.json();",
+							"pm.environment.set(\"attachment_filename\", createAttachmentResponse.attachments[0].fileName);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5748,7 +5761,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/Users/sabrinasanchez/Desktop/Screen Shot 2020-07-22 at 4.39.37 PM.png"
+							"src": []
 						}
 					]
 				},
@@ -6429,7 +6442,7 @@
 						},
 						{
 							"key": "fileName",
-							"value": ""
+							"value": "{{attachment_filename}}"
 						}
 					]
 				},
