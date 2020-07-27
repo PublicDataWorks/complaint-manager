@@ -2,17 +2,11 @@ import {
   EMPLOYEE_TYPE,
   PERSON_TYPE
 } from "../../../../sharedUtilities/constants";
+import { getPersonType } from "./getPersonType";
 
-export const getCaseReference = (isAnonymous, personType, caseNumber, year) => {
-  let prefix;
-  if (isAnonymous) {
-    prefix = "AC";
-  } else {
-    prefix = getPrefix(personType);
-  }
-
+export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
   const paddedCaseId = `${caseNumber}`.padStart(4, "0");
-  return `${prefix}${year}-${paddedCaseId}`;
+  return `${caseReferencePrefix}${year}-${paddedCaseId}`;
 };
 
 const getPrefix = personType => {
@@ -30,4 +24,14 @@ const getPrefix = personType => {
     default:
       return "CC";
   }
+};
+
+export const getCaseReferencePrefix = (isAnonymous, personType) => {
+  let prefix;
+  if (isAnonymous) {
+    prefix = "AC";
+  } else {
+    prefix = getPrefix(personType);
+  }
+  return prefix;
 };

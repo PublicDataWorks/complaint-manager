@@ -36,7 +36,7 @@ export const getAllComplaints = async (startDate, endDate, nickname) => {
   };
 
   const queryOptions = {
-    attributes: ["caseReference", "firstContactDate"],
+    attributes: ["id", "caseReferencePrefix", "firstContactDate"],
     include: [
       {
         model: models.civilian,
@@ -105,7 +105,7 @@ export const executeQuery = async nickname => {
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {
     const complaint = complaints[i];
-    const complainantType = complaint.caseReference.slice(0, 2);
+    const complainantType = complaint.get("caseReferencePrefix");
     const formattedFirstContactDate = moment(complaint.firstContactDate).format(
       "YYYY-MM"
     );

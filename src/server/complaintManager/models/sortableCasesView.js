@@ -8,7 +8,10 @@ import {
   getOfficerFullName,
   getPersonFullName
 } from "./modelUtilities/getFullName";
-import { getCaseReference } from "./modelUtilities/getCaseReference";
+import {
+  getCaseReference,
+  getCaseReferencePrefix
+} from "./modelUtilities/caseReferenceHelpersFunctions";
 
 export default (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
@@ -32,7 +35,7 @@ export default (sequelize, DataTypes) => {
           "complainantPersonType",
           "complainantIsAnonymous"
         ]),
-        get: function() {
+        get: function () {
           if (this.get("complainantPersonType")) {
             return {
               personType: this.get("complainantPersonType"),
@@ -57,7 +60,7 @@ export default (sequelize, DataTypes) => {
           "accusedLastName",
           "accusedPersonType"
         ]),
-        get: function() {
+        get: function () {
           if (this.get("accusedPersonType")) {
             return {
               fullName: getOfficerFullName(
@@ -95,14 +98,17 @@ export default (sequelize, DataTypes) => {
           "caseNumber",
           "year"
         ]),
-        get: function() {
+        get: function () {
           const primaryComplainant = this.get("primaryComplainant");
           const primaryComplainantPersonType = primaryComplainant
             ? primaryComplainant.personType
             : null;
-          return getCaseReference(
+          const caseReferencePrefix = getCaseReferencePrefix(
             primaryComplainant && primaryComplainant.isAnonymous,
-            primaryComplainantPersonType,
+            primaryComplainantPersonType
+          );
+          return getCaseReference(
+            caseReferencePrefix,
             this.get("caseNumber"),
             this.get("year")
           );

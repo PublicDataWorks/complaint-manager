@@ -245,6 +245,7 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: null,
         deletedAt: null,
         caseNumber: 1,
+        caseReferencePrefix: createdCase.caseReferencePrefix,
         caseReference: createdCase.caseReference,
         year: 2017,
         pibCaseNumber: null
@@ -573,6 +574,7 @@ describe("dataChangeAuditHooks", () => {
         intakeSource: emailIntakeSource.name,
         deletedAt: null,
         caseNumber: 1,
+        caseReferencePrefix: existingCase.caseReferencePrefix,
         caseReference: existingCase.caseReference,
         year: 2017,
         pibCaseNumber: null
