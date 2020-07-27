@@ -6,6 +6,7 @@ export const expectedCaseAuditDetails = {
       "assignedTo",
       "caseNumber",
       "caseReference",
+      "caseReferencePrefix",
       "complaintType",
       "createdAt",
       "createdBy",

@@ -11,7 +11,11 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
-import { getCaseReference } from "./modelUtilities/getCaseReference";
+import {
+  getCaseReference,
+  getCaseReferencePrefix,
+  getPrefix
+} from "./modelUtilities/caseReferenceHelpersFunctions";
 import { getPersonType } from "./modelUtilities/getPersonType";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
@@ -39,7 +43,7 @@ export default (sequelize, DataTypes) => {
       },
       primaryComplainant: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING),
-        get: function() {
+        get: function () {
           return head(
             sortBy(
               [
@@ -84,7 +88,7 @@ export default (sequelize, DataTypes) => {
       },
       nextStatus: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, ["status"]),
-        get: function() {
+        get: function () {
           return determineNextCaseStatus(this.get("status"));
         }
       },
@@ -97,18 +101,25 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      caseReferencePrefix: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["primaryComplainant"]),
+        get: function () {
+          const primaryComplainant = this.get("primaryComplainant");
+          return getCaseReferencePrefix(
+            primaryComplainant && primaryComplainant.isAnonymous,
+            getPersonType(this.get("primaryComplainant"))
+          );
+        }
+      },
       caseReference: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "primaryComplainant",
+          "caseReferencePrefix",
           "caseNumber",
           "year"
         ]),
-        get: function() {
-          const primaryComplainant = this.get("primaryComplainant");
-
+        get: function () {
           return getCaseReference(
-            primaryComplainant && primaryComplainant.isAnonymous,
-            getPersonType(this.get("primaryComplainant")),
+            this.get("caseReferencePrefix"),
             this.get("caseNumber"),
             this.get("year")
           );
@@ -253,7 +264,7 @@ export default (sequelize, DataTypes) => {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
   };
 
-  Case.prototype.hasValueWhenLetterInProgress = function(field, value) {
+  Case.prototype.hasValueWhenLetterInProgress = function (field, value) {
     if (
       [
         CASE_STATUS.LETTER_IN_PROGRESS,
@@ -268,15 +279,15 @@ export default (sequelize, DataTypes) => {
     }
   };
 
-  Case.prototype.modelDescription = async function(transaction) {
+  Case.prototype.modelDescription = async function (transaction) {
     return [{ "Case Reference": this.caseReference }];
   };
 
-  Case.prototype.getCaseId = async function(transaction) {
+  Case.prototype.getCaseId = async function (transaction) {
     return this.id;
   };
 
-  Case.prototype.getManagerType = async function(transaction) {
+  Case.prototype.getManagerType = async function (transaction) {
     return MANAGER_TYPE.COMPLAINT;
   };
 

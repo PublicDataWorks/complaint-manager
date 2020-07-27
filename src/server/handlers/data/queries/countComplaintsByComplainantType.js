@@ -7,8 +7,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
-import { getComplainantType } from "./queryHelperFunctions";
-import _ from "lodash";
 
 export const executeQuery = async nickname => {
   const date = new Date();
@@ -21,7 +19,7 @@ export const executeQuery = async nickname => {
   };
 
   const queryOptions = {
-    attributes: ["caseReference"],
+    attributes: ["caseReferencePrefix"],
     include: [
       {
         model: models.civilian,
@@ -71,7 +69,7 @@ export const executeQuery = async nickname => {
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {
     const complaint = complaints[i];
-    const complainantType = complaint.caseReference.slice(0, 2);
+    const complainantType = complaint.get("caseReferencePrefix");
     totalComplaints[complainantType] += 1;
   }
 

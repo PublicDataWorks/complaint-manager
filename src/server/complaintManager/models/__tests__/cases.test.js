@@ -20,9 +20,9 @@ import {
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
-import { getCaseReference } from "../modelUtilities/getCaseReference";
+import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
 
-describe("cases", function() {
+describe("cases", function () {
   let createdCase;
 
   afterEach(async () => {
