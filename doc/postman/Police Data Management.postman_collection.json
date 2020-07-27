@@ -5211,7 +5211,7 @@
 						},
 						{
 							"key": "caseTagId",
-							"value": "937"
+							"value": "{{case_tag_id}}"
 						}
 					]
 				}
@@ -5892,6 +5892,19 @@
 		},
 		{
 			"name": "Create Case Tag",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3f1dd33-1261-457d-bfbb-cdd8a7e28431",
+						"exec": [
+							"const createCaseTagResponse=pm.response.json();",
+							"pm.environment.set(\"case_tag_id\", createCaseTagResponse.caseTags[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5907,7 +5920,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"tagName\": \"apricots\"\n}",
+					"raw": "{\n    \"tagName\": \"newg taz\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
