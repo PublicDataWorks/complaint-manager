@@ -186,7 +186,6 @@ describe("countComplaintsByComplainantTypePast12Months", () => {
       const complaints = await getAllComplaints(startDate, endDate, "tuser");
 
       expect(complaints.length).toEqual(1);
-      console.log("Case", complaints[0].dataValues);
       expect(complaints[0].dataValues.id).toEqual(complainantCasePO.id);
     });
   });
