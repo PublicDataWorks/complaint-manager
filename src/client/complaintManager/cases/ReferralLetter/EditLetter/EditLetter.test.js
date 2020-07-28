@@ -186,6 +186,26 @@ describe("Edit Letter Html", () => {
     );
   });
 
+  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking logout", () => {
+    history.push("/logout");
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+
+    expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
+
+    const input = wrapper.find("Quill").first();
+    input.props().onChange("testing");
+    wrapper.update();
+
+    history.push("/logout");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openCancelEditLetterConfirmationDialog()
+    );
+  });
+
   test("does not dispatch openCancelEditLetterConfirmationDialog and saves edits when clicking save button", () => {
     const input = wrapper.find("Quill").first();
     input.props().onChange("<p>Letter Preview HTML change </p>");

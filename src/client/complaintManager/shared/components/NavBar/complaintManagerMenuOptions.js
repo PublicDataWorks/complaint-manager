@@ -13,5 +13,10 @@ export const complaintManagerMenuOptions = [
     path: "/archived-cases",
     dataTestName: "archivedCases",
     title: "Archived Cases"
+  },
+  {
+    path: "/logout",
+    dataTestName: "logOutButton",
+    title: "Log Out"
   }
 ];

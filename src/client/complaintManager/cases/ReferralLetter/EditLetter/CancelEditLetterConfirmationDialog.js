@@ -42,6 +42,7 @@ const CancelEditLetterConfirmationDialog = ({
         <PrimaryButton
           data-testid="discardEditsButton"
           onClick={() => {
+            console.log("Discard edits redirect url", redirectUrl);
             shouldBlockRoutingRedirects(false);
             dispatch(push(redirectUrl));
             dispatch(closeCancelEditLetterConfirmationDialog());
