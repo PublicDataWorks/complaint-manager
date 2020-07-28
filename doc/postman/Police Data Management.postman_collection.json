@@ -6177,7 +6177,7 @@
 						},
 						{
 							"key": "caseNoteId",
-							"value": "704"
+							"value": "{{case_note_id}}"
 						}
 					]
 				}
@@ -6280,6 +6280,19 @@
 		},
 		{
 			"name": "Create Case Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "29767b21-13a5-4c7b-9b79-d5c241a78862",
+						"exec": [
+							"const createCaseNoteResponse=pm.response.json();",
+							"pm.environment.set(\"case_note_id\", createCaseNoteResponse.caseNotes[0].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6295,7 +6308,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!!\",\n    \"caseId\": 1753,\n    \"mentionedUsers\": []\n}",
+					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!!\",\n    \"caseId\": {{case_id}},\n    \"mentionedUsers\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6695,7 +6708,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 713,\n    \"notes\": \"Hello, there! this is an update\",\n    \"createdAt\": \"2020-07-22T21:15:12.192Z\",\n    \"updatedAt\": \"2020-07-22T21:15:12.192Z\",\n    \"deletedAt\": null,\n    \"caseId\": 1753,\n    \"caseNoteActionId\": 4,\n    \"caseNoteAction\": {\n        \"id\": 4,\n        \"name\": \"Contacted complainant\",\n        \"createdAt\": \"2019-05-06T14:55:57.210Z\",\n        \"updatedAt\": \"2019-05-06T14:55:57.210Z\"\n    },\n    \"author\": {\n        \"name\": \"Sabrina Sanchez\",\n        \"email\": \"sabrina.sanchez@thoughtworks.com\"\n    },\n    \"mentionedUsers\": []\n}",
+					"raw": "{\n    \"id\": {{case_note_id}},\n    \"notes\": \"Hello, there! this is an update\",\n    \"createdAt\": \"2020-07-22T21:15:12.192Z\",\n    \"updatedAt\": \"2020-07-22T21:15:12.192Z\",\n    \"deletedAt\": null,\n    \"caseId\": {{case_id}},\n    \"caseNoteActionId\": 4,\n    \"caseNoteAction\": {\n        \"id\": 4,\n        \"name\": \"Contacted complainant\",\n        \"createdAt\": \"2019-05-06T14:55:57.210Z\",\n        \"updatedAt\": \"2019-05-06T14:55:57.210Z\"\n    },\n    \"author\": {\n        \"name\": \"Sabrina Sanchez\",\n        \"email\": \"sabrina.sanchez@thoughtworks.com\"\n    },\n    \"mentionedUsers\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6721,7 +6734,7 @@
 						},
 						{
 							"key": "caseNoteId",
-							"value": "713"
+							"value": "{{case_note_id}}"
 						}
 					]
 				}
