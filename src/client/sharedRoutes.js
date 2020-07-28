@@ -1,5 +1,6 @@
 import React from "react";
 import Login from "./Login";
+import Logout from "./Logout";
 import Callback from "./Callback";
 import StyleGuide from "./common/globalStyling/StyleGuide";
 
@@ -7,6 +8,10 @@ const sharedRoutes = [
   {
     path: "/login",
     component: Login
+  },
+  {
+    path: "/logout",
+    component: Logout
   },
   {
     path: "/callback",

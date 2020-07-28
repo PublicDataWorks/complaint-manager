@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import handleLogout from "../../../users/thunks/handleLogout";
 import { Link } from "react-router-dom";
 import { MenuItem } from "@material-ui/core";
 
@@ -36,10 +35,6 @@ class MenuNavigator extends Component {
             this.shouldGenerateMenuItem(menuItem.toggleName) &&
             this.generateMenuItem(menuItem)
         )}
-
-        <MenuItem data-testid="logOutButton" onClick={handleLogout}>
-          Log Out
-        </MenuItem>
       </div>
     );
   }
