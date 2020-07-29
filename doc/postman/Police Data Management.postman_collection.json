@@ -964,7 +964,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+					"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook Updated\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Czimen Updatedt\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3576,6 +3576,15 @@
 				},
 				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"editedLetterHtml\": \"<html><body>I am a minimal letter!</body></html>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/content",
 					"host": [
@@ -3874,7 +3883,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1499,\n    \"classifications\": [\n        1,\n        2,\n        null,\n        null\n    ]\n}",
+					"raw": "{\n    \"id\": {{referral_letter_id}},\n    \"classifications\": [\n        1,\n        2,\n        null,\n        null\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -4320,7 +4329,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1499,\n    \"includeRetaliationConcerns\": false,\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": 2980,\n            \"fullName\": \"Ansel W Rice\",\n            \"id\": 1554,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"2\",\n            \"referralLetterOfficerRecommendedActions\": [\n                1\n            ],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"ploN-6DFF\"\n                }\n            ],\n            \"action-1\": true\n        },\n        {\n            \"caseOfficerId\": 2995,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1561,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"q13jjAKlaK\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2996,\n            \"fullName\": \"Amy Z Tillman\",\n            \"id\": 1562,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"SIFqGnwSkF\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2997,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1563,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"a_gTjY72vV\"\n                }\n            ]\n        }\n    ],\n    \"csfn-2\": true,\n    \"csfn-1\": true,\n    \"csfn-3\": true\n}",
+					"raw": "{\n    \"id\": {{referral_letter_id}},\n    \"includeRetaliationConcerns\": false,\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": {{case_officer_id}},\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": {{letter_officer_id}},\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"1\",\n            \"referralLetterOfficerRecommendedActions\": [\n                1\n            ],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"ploN-6DFF\"\n                }\n            ],\n            \"action-1\": true\n        }\n    ],\n    \"csfn-2\": true,\n    \"csfn-1\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5464,7 +5473,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"referralLetterIaproCorrections\": [\n        {\n            \"id\": 1237,\n            \"details\": \"IAPro Correction Details\"\n        },\n        {\n            \"tempId\": \"MSmaOB2Aw\",\n            \"details\": \"test it\"\n        }\n    ]\n}",
+					"raw": "{\n    \"referralLetterIaproCorrections\": [\n        {\n            \"tempId\": \"MSmaOB2Aq\",\n            \"details\": \"IAPro Correction Details\"\n        },\n        {\n            \"tempId\": \"MSmaOB2Aw\",\n            \"details\": \"test it\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5602,7 +5611,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": 2980,\n            \"fullName\": \"Ansel W Rice\",\n            \"id\": 1554,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"3\",\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"cpNA8NEPS\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2995,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1561,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"Cj2jMHFrNz\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2996,\n            \"fullName\": \"Amy Z Tillman\",\n            \"id\": 1562,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"wBYvR3XG-3\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2997,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1563,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"cJC9RYU-gD\"\n                }\n            ]\n        }\n    ]\n}",
+					"raw": "{\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": {{case_officer_id}},\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": {{letter_officer_id}},\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": 1,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"Cj2jMHFrNz\"\n                }\n            ]\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6308,7 +6317,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!!\",\n    \"caseId\": {{case_id}},\n    \"mentionedUsers\": []\n}",
+					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!! @NOIPM Infra\",\n    \"caseId\": {{case_id}},\n    \"mentionedUsers\": [\n        {\n            \"name\": \"NOIPM Infra\",\n            \"value\": \"{{user_email}}\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6568,6 +6577,20 @@
 		},
 		{
 			"name": "Retrieve Referral Letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7bfe6614-d499-4456-b9f3-507d90a78e4f",
+						"exec": [
+							"const createReferralLetterResponse=pm.response.json();",
+							"pm.environment.set(\"letter_officer_id\", createReferralLetterResponse.letterOfficers[0].id);",
+							"pm.environment.set(\"referral_letter_id\", createReferralLetterResponse.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -7098,6 +7121,19 @@
 		},
 		{
 			"name": "Update Case Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a016794e-ec05-4f3e-b2c9-ef39d1eaec08",
+						"exec": [
+							"// Available Statuses: Initial, Active, Letter In Progress, Ready for Review, Forwarded to Agency, Closed",
+							"pm.variables.set(\"case_status\", \"Letter in Progress\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -7113,7 +7149,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"status\": \"Letter in Progress\"\n}",
+					"raw": "{\n    \"status\": \"{{case_status}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -7383,7 +7419,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"narrativeSummary\": \"helloooo there\",\n    \"narrativeDetails\": \"\"\n}",
+					"raw": "{\n    \"narrativeSummary\": \"helloooo there\",\n    \"narrativeDetails\": \"details go here\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -8140,6 +8176,20 @@
 		},
 		{
 			"name": "Retrieve Notifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "28d20148-c3b0-4713-924b-0b081f360709",
+						"exec": [
+							"const notificationsResponse=pm.response.json();",
+							"const notifcationForCreatedCaseNote = notificationsResponse.filter(n => n.caseNoteId === pm.environment.get(\"case_note_id\"))[0];",
+							"pm.environment.set(\"notification_id\", notifcationForCreatedCaseNote.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -8166,7 +8216,7 @@
 					"variable": [
 						{
 							"key": "userEmail",
-							"value": "sydney.botz@thoughtworks.com"
+							"value": "{{user_email}}"
 						}
 					]
 				}
@@ -8290,11 +8340,11 @@
 					"variable": [
 						{
 							"key": "caseNoteId",
-							"value": "710"
+							"value": "{{case_note_id}}"
 						},
 						{
 							"key": "notificationId",
-							"value": "571"
+							"value": "{{notification_id}}"
 						}
 					]
 				}
@@ -8658,7 +8708,7 @@
 					"variable": [
 						{
 							"key": "notificationId",
-							"value": "571"
+							"value": "{{notification_id}}"
 						}
 					]
 				}
@@ -8775,7 +8825,7 @@
 					"variable": [
 						{
 							"key": "jobId",
-							"value": "211"
+							"value": "{{job_id}}"
 						}
 					]
 				}
@@ -8873,6 +8923,19 @@
 		},
 		{
 			"name": "Retrieve Operation Schedule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0011d02a-e09e-48bf-90e4-28ca6377e27a",
+						"exec": [
+							"const scheduleJobResponse=pm.response.json();",
+							"pm.environment.set(\"job_id\", scheduleJobResponse.jobId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
