@@ -54,8 +54,6 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
         ServerSideEncryption: "AES256"
       });
 
-      console.log("what is managedUpload?", managedUpload.promise());
-
       //The AWS S3 JS SDK has a non-standard promise implementation.
       //The success function and error functions are passed as arguments to then().
       //This means that we can't use await.
@@ -115,7 +113,6 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   });
 
   request.on("close", () => {
-    console.log("managed upload in on close", managedUpload);
     if (managedUpload) managedUpload.abort();
   });
 
