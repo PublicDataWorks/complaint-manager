@@ -3,14 +3,14 @@ const path = require("path");
 const config = require("./config/config");
 
 const createConfiguredS3Instance = () => {
-  const s3 = new AWS.S3();
+  let credentials;
 
-  if (
-    process.env.NODE_ENV === "development" ||
-    process.env.NODE_ENV === "test"
-  ) {
-    s3.config.loadFromPath(path.join(__dirname, "./awsConfig.json"));
+  if (["development", "test"].includes(process.env.NODE_ENV)) {
+    const localConfig = require(path.join(__dirname, "./awsConfig.json"));
+    credentials = { credentials: localConfig };
   }
+
+  const s3 = new AWS.S3(credentials);
 
   s3.config.update(config.s3config);
 

@@ -26,13 +26,13 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
 
   let attachmentDescription;
 
-  busboy.on("field", function(fieldname, value) {
+  busboy.on("field", function (fieldname, value) {
     if (fieldname === "description") {
       attachmentDescription = value;
     }
   });
 
-  await busboy.on("file", async function(
+  await busboy.on("file", async function (
     fieldname,
     file,
     fileName,
@@ -54,23 +54,25 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
         ServerSideEncryption: "AES256"
       });
 
+      console.log("what is managedUpload?", managedUpload.promise());
+
       //The AWS S3 JS SDK has a non-standard promise implementation.
       //The success function and error functions are passed as arguments to then().
       //This means that we can't use await.
       //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
       const promise = managedUpload.promise();
       await promise.then(
-        async function(data) {
+        async function (data) {
           const updatedCase = await models.sequelize.transaction(
             async transaction => {
               const attachment = await models.attachment.create(
                 {
-                  fileName: fileName,
+                  fileName,
                   description: attachmentDescription,
-                  caseId: caseId
+                  caseId
                 },
                 {
-                  transaction: transaction,
+                  transaction,
                   auditUser: request.nickname
                 }
               );
@@ -104,7 +106,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
           );
           response.send(updatedCase);
         },
-        function(error) {
+        function (error) {
           console.error(error);
           next(Boom.badImplementation(error));
         }
@@ -113,7 +115,8 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   });
 
   request.on("close", () => {
-    managedUpload.abort();
+    console.log("managed upload in on close", managedUpload);
+    if (managedUpload) managedUpload.abort();
   });
 
   request.pipe(busboy);
