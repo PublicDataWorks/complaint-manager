@@ -1,6 +1,6 @@
 const AWS = require("aws-sdk");
-const path = require("path");
 const config = require("./config/config");
+const path = require("path");
 
 const createConfiguredS3Instance = () => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;

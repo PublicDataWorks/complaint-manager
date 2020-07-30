@@ -1,10 +1,10 @@
 "use strict";
-const loadCsv = require("../seeder_jobs/loadCsv");
+const loadCsvFromS3 = require("../seeder_jobs/loadCsvFromS3");
 const models = require("../complaintManager/models/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return await loadCsv("caseNoteActionSeedData.csv", models.case_note_action);
+    await loadCsvFromS3("caseNoteActions.csv", models.case_note_action);
   },
 
   down: async (queryInterface, Sequelize) => {
