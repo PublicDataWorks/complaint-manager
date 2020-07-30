@@ -52,7 +52,9 @@ class Dropzone extends Component {
       this.setState({ attachmentValid: false });
       this.hideDropzoneErrorPopup();
 
-      const errorMessage = this.parseDropzoneError(error, xhr.status);
+      const { status } = xhr || {};
+
+      const errorMessage = this.parseDropzoneError(error, status);
 
       switch (errorMessage) {
         case DUPLICATE_FILE_NAME:

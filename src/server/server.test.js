@@ -811,7 +811,8 @@ describe("server", () => {
         AWS.S3.mockImplementation(() => {
           return {
             upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockKey })
+              promise: () => Promise.resolve({ Key: mockKey }),
+              abort: () => ({})
             }),
             config: {
               loadFromPath: jest.fn(),
@@ -852,7 +853,8 @@ describe("server", () => {
         AWS.S3.mockImplementation(() => {
           return {
             upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockKey })
+              promise: () => Promise.resolve({ Key: mockKey }),
+              abort: () => ({})
             }),
             config: {
               loadFromPath: jest.fn(),
@@ -877,7 +879,8 @@ describe("server", () => {
         AWS.S3.mockImplementation(() => {
           return {
             upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockFileName })
+              promise: () => Promise.resolve({ Key: mockFileName }),
+              abort: () => ({})
             }),
             config: {
               loadFromPath: jest.fn(),
