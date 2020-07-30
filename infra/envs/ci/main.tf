@@ -2,7 +2,7 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-staging"
+    key = "tfstate-ci"
 
     encrypt = true
     shared_credentials_file = "~/.aws/credentials"
@@ -22,23 +22,23 @@ variable "heroku_api_key" {
 }
 
 module "webapp" {
-  source = "../modules/webapp"
+  source = "../../modules/webapp"
   heroku_api_key = var.heroku_api_key
 
   heroku_email = "noipm.infrastructure@gmail.com"
   team_name = "noipm"
-  app_name = "noipm-staging"
+  app_name = "noipm-ci"
 
-  env_name = "staging"
+  env_name = "ci"
 
   bucket_names = [
-    "noipm-staging",
-    "nopd-officers-staging",
-    "noipm-complainant-letters-staging",
-    "noipm-referral-letters-staging"
+    "noipm-ci",
+    "nopd-officers-ci",
+    "noipm-complainant-letters-ci",
+    "noipm-referral-letters-ci"
   ]
 
-  api_target = "https://noipm-staging.herokuapp.com"
+  api_target = "https://noipm-ci.herokuapp.com"
 
   postgres_plan = "hobby-basic"
   papertrail_plan = "fixa"
@@ -54,7 +54,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-staging"
+            "Resource": "arn:aws:s3:::noipm-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDCI",
@@ -66,7 +66,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-staging/*"
+            "Resource": "arn:aws:s3:::noipm-ci/*"
         },
         {
             "Sid": "AllowListingBucketOfficers",
@@ -75,7 +75,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-staging"
+            "Resource": "arn:aws:s3:::nopd-officers-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDOfficers",
@@ -87,7 +87,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::nopd-officers-staging/*"
+            "Resource": "arn:aws:s3:::nopd-officers-ci/*"
         },
         {
             "Sid": "AllowListingBucketExports",
@@ -96,7 +96,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-staging"
+            "Resource": "arn:aws:s3:::noipm-exports-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDExports",
@@ -108,7 +108,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-exports-staging/*"
+            "Resource": "arn:aws:s3:::noipm-exports-ci/*"
         },
         {
             "Sid": "AllowListingBucketComplainantLetters",
@@ -117,7 +117,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-staging"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDComplainantLetters",
@@ -129,7 +129,7 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-complainant-letters-staging/*"
+            "Resource": "arn:aws:s3:::noipm-complainant-letters-ci/*"
         },
         {
             "Sid": "AllowListingBucketReferralLetters",
@@ -138,7 +138,7 @@ module "webapp" {
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-staging"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci"
         },
         {
             "Sid": "AllowBucketContentCRUDReferralLetters",
@@ -150,13 +150,14 @@ module "webapp" {
                 "s3:DeleteObject",
                 "s3:PutObjectAcl"
             ],
-            "Resource": "arn:aws:s3:::noipm-referral-letters-staging/*"
+            "Resource": "arn:aws:s3:::noipm-referral-letters-ci/*"
         }
     ]
 }
 POLICY
-
   env_policy_groups = [
     "developer",
     "contributor"]
+
+
 }
