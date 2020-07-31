@@ -70,7 +70,7 @@ export const getAllComplaints = async (startDate, endDate, nickname) => {
       nickname,
       null,
       MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.VISUALIZATION_INTAKE_SOURCE,
+      AUDIT_SUBJECT.VISUALIZATION_COMPLAINANT_TYPE_PAST_12_MONTHS,
       auditDetails,
       transaction
     );
