@@ -7,7 +7,7 @@ const createConfiguredS3Instance = () => {
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
   let credentials = { accessKeyId, secretAccessKey };
 
-  if (["development", "test"].includes(process.env.NODE_ENV)) {
+  if (process.env.NODE_ENV === "development") {
     const localConfig = require(path.join(__dirname, "./awsConfig.json"));
     credentials = { credentials: localConfig };
   }
