@@ -374,7 +374,7 @@ workflows:
           filters:
             branches:
               only:
-                - test-coverage
+                - delete-attachments
       - test-client:
           requires:
             - security-check
