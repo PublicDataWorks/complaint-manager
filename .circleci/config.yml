@@ -375,12 +375,12 @@ workflows:
             branches:
               only:
                 - delete-attachments
-      - test-client:
+      - build-and-publish-playground:
           requires:
             - security-check
-      - test-server-handlers:
+      - deploy-playground:
           requires:
-            - security-check
-      - test-server-worker-non-handlers:
+            - build-and-publish-playground
+      - ensure-playground-deploy-succeeded:
           requires:
-            - security-check
+            - deploy-playground
