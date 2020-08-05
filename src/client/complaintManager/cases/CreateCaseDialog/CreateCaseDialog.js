@@ -114,8 +114,7 @@ const Timeline = () => (
         marginRight: "5%",
         marginBottom: "3%",
         minWidth: "145px",
-        width: "35%",
-        clipPath: "inset(0 17px 0 0)"
+        width: "35%"
       }}
     />
   </>
