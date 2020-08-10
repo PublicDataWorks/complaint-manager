@@ -244,16 +244,14 @@ export const API_ROUTES = {
       handler: uploadAttachment,
       errorMessage:
         "Something went wrong and the attachment was not uploaded. Please try again."
-    }
-  },
-  "/cases/:caseId/attachments/:fileName": {
+    },
     delete: {
       handler: deleteAttachment,
       errorMessage:
         "Something went wrong and the attachment was not removed. Please try again."
     }
   },
-  "/cases/:caseId/attachmentUrls/:fileName": {
+  "/cases/:caseId/attachmentUrls": {
     get: {
       handler: getAttachmentDownloadUrl,
       errorMessage:

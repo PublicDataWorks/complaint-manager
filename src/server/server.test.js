@@ -899,7 +899,7 @@ describe("server", () => {
       });
     });
 
-    describe("DELETE /cases/:id/attachments/:fileName", () => {
+    describe("DELETE /cases/:id/attachments", () => {
       let caseWithSameFilename;
 
       test("should delete attachment from case", async () => {
@@ -929,7 +929,7 @@ describe("server", () => {
 
         const responsePromise = request(app)
           .delete(
-            `/api/cases/${defaultCase.id}/attachments/${attachmentToDelete.fileName}`
+            `/api/cases/${defaultCase.id}/attachments?fileName=${attachmentToDelete.fileName}`
           )
           .set("Authorization", `Bearer ${token}`)
           .set("Content-Type", "multipart/form-data");

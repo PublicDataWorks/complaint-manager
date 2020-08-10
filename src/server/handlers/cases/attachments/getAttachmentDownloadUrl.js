@@ -14,7 +14,7 @@ const models = require("../../../complaintManager/models/index");
 const getAttachmentDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const s3 = createConfiguredS3Instance();
-    const fileName = request.params.fileName;
+    const fileName = request.query.fileName;
     const caseId = request.params.caseId;
 
     const signedUrl = await getSignedUrlForAttachment(

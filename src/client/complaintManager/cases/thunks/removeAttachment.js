@@ -10,7 +10,7 @@ const removeAttachment = (
 ) => async dispatch => {
   try {
     const response = await axios.delete(
-      `api/cases/${caseId}/attachments/${fileName}`
+      `api/cases/${caseId}/attachments?fileName=${fileName}`
     );
     shouldCloseDialog();
     dispatch(removeAttachmentSuccess(response.data));

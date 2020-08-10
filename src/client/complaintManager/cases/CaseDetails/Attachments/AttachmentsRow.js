@@ -18,7 +18,7 @@ const AttachmentsRow = ({
   const onDownloadClick = () =>
     dispatch(
       inBrowserDownload(
-        `/api/cases/${attachment.caseId}/attachmentUrls/${attachment.fileName}`,
+        `/api/cases/${attachment.caseId}/attachmentUrls?fileName=${attachment.fileName}`,
         `attachment-${attachment.id}-DownloadLink`
       )
     );

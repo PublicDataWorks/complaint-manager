@@ -22,7 +22,7 @@ jest.mock("aws-sdk");
 
 jest.mock("../../audits/auditFileAction");
 
-describe("getAttachmentDownloadUrl", function() {
+describe("getAttachmentDownloadUrl", function () {
   const testUser = "April Ludgate";
 
   afterEach(async () => {
@@ -64,9 +64,9 @@ describe("getAttachmentDownloadUrl", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        caseId: attachment.caseId,
-        fileName: attachment.fileName
+        caseId: attachment.caseId
       },
+      query: { fileName: attachment.fileName },
       nickname: testUser
     });
     return { attachment, request };
@@ -97,7 +97,9 @@ describe("getAttachmentDownloadUrl", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        caseId: complainantLetter.caseId,
+        caseId: complainantLetter.caseId
+      },
+      query: {
         fileName: complainantLetter.finalPdfFilename
       },
       nickname: testUser
@@ -123,7 +125,9 @@ describe("getAttachmentDownloadUrl", function() {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       params: {
-        caseId: referralLetter.caseId,
+        caseId: referralLetter.caseId
+      },
+      query: {
         fileName: referralLetter.finalPdfFilename
       },
       nickname: testUser
@@ -143,7 +147,7 @@ describe("getAttachmentDownloadUrl", function() {
         testUser,
         existingCase.id,
         AUDIT_ACTION.DOWNLOADED,
-        request.params.fileName,
+        request.query.fileName,
         AUDIT_FILE_TYPE.ATTACHMENT,
         expect.anything()
       );
@@ -161,7 +165,7 @@ describe("getAttachmentDownloadUrl", function() {
         testUser,
         existingCase.id,
         AUDIT_ACTION.DOWNLOADED,
-        request.params.fileName,
+        request.query.fileName,
         AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
         expect.anything()
       );
@@ -180,7 +184,7 @@ describe("getAttachmentDownloadUrl", function() {
         testUser,
         existingCase.id,
         AUDIT_ACTION.DOWNLOADED,
-        request.params.fileName,
+        request.query.fileName,
         AUDIT_FILE_TYPE.LETTER_TO_COMPLAINANT_PDF,
         expect.anything()
       );
@@ -205,7 +209,7 @@ describe("getAttachmentDownloadUrl", function() {
     });
   });
 
-  describe("getSignedUrl", function() {
+  describe("getSignedUrl", function () {
     test("should respond with a signed download url for an attachment and send correct variables to getSignedUrl", async () => {
       const { attachment, request } = await requestWithExistingCaseAttachment();
 

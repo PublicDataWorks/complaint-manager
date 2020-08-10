@@ -24,12 +24,16 @@ describe("remove attachment", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
+      .delete(
+        `/api/cases/${mockCaseReference}/attachments?fileName=${mockFileName}`
+      )
       .reply(200, caseDetails);
 
-    await removeAttachment(mockCaseReference, mockFileName, jest.fn())(
-      dispatch
-    );
+    await removeAttachment(
+      mockCaseReference,
+      mockFileName,
+      jest.fn()
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(removeAttachmentSuccess(caseDetails));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("File was successfully removed")
@@ -41,7 +45,9 @@ describe("remove attachment", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .delete(`/api/cases/${mockCaseReference}/attachments/${mockFileName}`)
+      .delete(
+        `/api/cases/${mockCaseReference}/attachments?fileName=${mockFileName}`
+      )
       .reply(200, caseDetails);
 
     const callback = jest.fn();

@@ -4,6 +4,6 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 
 router.post("/", uploadAttachment);
-router.delete("/:fileName", deleteAttachment);
+router.delete("/", deleteAttachment);
 
 module.exports = router;
