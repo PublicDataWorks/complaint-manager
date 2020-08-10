@@ -15,14 +15,14 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     const s3 = createConfiguredS3Instance();
     const deleteRequest = s3.deleteObject({
       Bucket: config[process.env.NODE_ENV].s3Bucket,
-      Key: `${request.params.caseId}/${request.params.fileName}`
+      Key: `${request.params.caseId}/${request.query.fileName}`
     });
 
     await deleteRequest.promise();
 
     await models.attachment.destroy({
       where: {
-        fileName: request.params.fileName,
+        fileName: request.query.fileName,
         caseId: request.params.caseId
       },
       auditUser: request.nickname,

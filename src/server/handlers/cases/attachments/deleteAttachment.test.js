@@ -17,7 +17,7 @@ jest.mock("aws-sdk");
 
 jest.mock("../../audits/auditDataAccess");
 
-describe("deleteAttachment", function() {
+describe("deleteAttachment", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -51,7 +51,9 @@ describe("deleteAttachment", function() {
           authorization: "Bearer SOME_MOCK_TOKEN"
         },
         params: {
-          caseId: attachment.caseId,
+          caseId: attachment.caseId
+        },
+        query: {
           fileName: attachment.fileName
         },
         nickname: "TEST_USER_NICKNAME"
