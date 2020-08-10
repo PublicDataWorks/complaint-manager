@@ -374,7 +374,7 @@ workflows:
           filters:
             branches:
               only:
-                - delete-attachments
+                - encode-attachment-urls
       - build-and-publish-playground:
           requires:
             - security-check
