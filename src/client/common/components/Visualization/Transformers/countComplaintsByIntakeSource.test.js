@@ -9,9 +9,9 @@ import {
 describe("countComplaintsByIntakeSource Data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
     const rawData = [
-      { cases: "2", name: "Email" },
-      { cases: "5", name: "Facebook" },
-      { cases: "3", name: "Other" }
+      { count: "2", name: "Email" },
+      { count: "5", name: "Facebook" },
+      { count: "3", name: "Other" }
     ];
 
     const transformedData = countComplaintsByIntakeSource.transformData(

@@ -236,9 +236,9 @@ describe("Visualization", () => {
     // Arrange
     const responseBody = {
       data: [
-        { cases: "2", name: "Email" },
-        { cases: "5", name: "Facebook" },
-        { cases: "3", name: "Other" }
+        { count: "2", name: "Email" },
+        { count: "5", name: "Facebook" },
+        { count: "3", name: "Other" }
       ]
     };
 
