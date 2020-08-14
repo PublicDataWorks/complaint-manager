@@ -47,6 +47,25 @@ const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_DATA_VALUES = {
   ]
 };
 
+const MOCK_TOP_10_TAGS = [
+  {
+    name: "Chicago hot dogs",
+    count: "3"
+  },
+  {
+    name: "Tofu",
+    count: "2"
+  },
+  {
+    name: "karancitoooooo",
+    count: "1"
+  },
+  {
+    name: "sabs",
+    count: "1"
+  }
+];
+
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_INTAKE_SOURCE_DATA_VALUES;
@@ -67,6 +86,12 @@ jest.mock(
     })
   })
 );
+
+jest.mock("../../handlers/data/queries/countTop10Tags", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_TOP_10_TAGS;
+  })
+}));
 
 jest.mock(
   "../../handlers/data/queries/countComplaintsByComplainantTypePast12Months",
@@ -156,6 +181,18 @@ describe("getData", () => {
     expect(response._getData()).toEqual(
       MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_DATA_VALUES
     );
+  });
+
+  test("should call getData when countTop10Tags query called", () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      query: {
+        queryType: "countTop10Tags"
+      }
+    });
   });
 
   test("throws an error when query param is not supported", async () => {

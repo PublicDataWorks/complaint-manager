@@ -6,6 +6,7 @@ import Boom from "boom";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import * as countComplaintsByComplainantTypePast12Months from "./queries/countComplaintsByComplainantTypePast12Months";
+import * as countTop10Tags from "./queries/countTop10Tags";
 
 const getData = asyncMiddleware(async (request, response, next) => {
   let data;
@@ -27,6 +28,9 @@ const getData = asyncMiddleware(async (request, response, next) => {
       data = await countComplaintsByComplainantTypePast12Months.executeQuery(
         request.nickname
       );
+      break;
+    case QUERY_TYPES.COUNT_TOP_10_TAGS:
+      data = await countTop10Tags.executeQuery(request.nickname);
       break;
     default:
       return next(

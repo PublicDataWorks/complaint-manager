@@ -20,7 +20,7 @@ import {
 } from "./countComplaintsByComplainantTypePast12Months";
 import moment from "moment";
 
-describe("countComplaintsByComplainantTypePast12Months", () => {
+describe("executeQuery", () => {
   let complainantOfficerPO,
     civilianCC,
     civilianAC,
