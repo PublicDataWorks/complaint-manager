@@ -525,12 +525,11 @@ export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY";
 export const TTL_SEC = 24 * 60 * 60;
 
 // ----------------------------------------
-//               Image URLs
+//               Image Keys
 // ----------------------------------------
 
-export const SIGNATURE_URLS = {
-  STELLA:
-    "file:/app/src/server/handlers/cases/referralLetters/assets/signatures/signature.png"
+export const SIGNATURE_KEYS = {
+  STELLA: "signature.png"
 };
 
 // ----------------------------------------
