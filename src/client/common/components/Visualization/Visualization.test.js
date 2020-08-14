@@ -155,11 +155,7 @@ describe("Visualization", () => {
         layout: expect.objectContaining({
           barmode: "group",
           yaxis: { range: [0, 9] },
-          font: {
-            family: "Open Sans",
-            color: "#A9A9A9",
-            size: 14
-          },
+          font: LABEL_FONT,
           title: {
             text: "Complainant Type over Past 12 Months",
             font: TITLE_FONT
