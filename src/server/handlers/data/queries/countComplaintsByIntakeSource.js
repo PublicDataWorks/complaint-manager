@@ -21,7 +21,7 @@ export const executeQuery = async nickname => {
   const queryOptions = {
     attributes: [
       "intakeSource.name",
-      [sequelize.fn("COUNT", sequelize.col("cases.id")), "cases"]
+      [sequelize.fn("COUNT", sequelize.col("cases.id")), "count"]
     ],
     include: [
       {

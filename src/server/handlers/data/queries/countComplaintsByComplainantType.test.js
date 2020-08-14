@@ -14,7 +14,6 @@ import {
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import { executeQuery } from "./countComplaintsByComplainantType";
 
 describe("executeQuery", () => {
   let complainantOfficerPO;

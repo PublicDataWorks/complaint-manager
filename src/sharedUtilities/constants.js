@@ -319,6 +319,8 @@ export const AUDIT_SUBJECT = {
     "All Complaint Data for Complaints by Complainant Type YTD",
   VISUALIZATION_COMPLAINANT_TYPE_PAST_12_MONTHS:
     "All Complaint Data for Complaints by Complainant Type over Past 12 Months",
+  VISUALIZATION_TOP_10_TAGS:
+    "All Data for Top Ten Case Tags over Past 12 Months",
   COMPLAINT_TOTAL_YTD: "Complaint Count for Complaints Year to Date",
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
     "Complaint Count for Complaints in the Previous Year"
@@ -428,7 +430,8 @@ export const QUERY_TYPES = {
   COUNT_COMPLAINT_TOTALS: "countComplaintTotals",
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType",
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-    "countComplaintsByComplainantTypePast12Months"
+    "countComplaintsByComplainantTypePast12Months",
+  COUNT_TOP_10_TAGS: "countTop10Tags"
 };
 
 export const QUERY_TYPE_FILE_MAP = {

@@ -79,9 +79,9 @@ describe("executeQuery", () => {
 
   test("returns count of complaints broken down by Intake Source", async done => {
     const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
+      { count: "1", name: "Email" },
+      { count: "2", name: "Facebook" },
+      { count: "1", name: "Other" }
     ];
 
     const responsePromise = request(app)
@@ -116,9 +116,9 @@ describe("executeQuery", () => {
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
+      { count: "1", name: "Email" },
+      { count: "2", name: "Facebook" },
+      { count: "1", name: "Other" }
     ];
 
     const responsePromise = request(app)
@@ -193,9 +193,9 @@ describe("executeQuery", () => {
     await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
 
     const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
+      { count: "1", name: "Email" },
+      { count: "2", name: "Facebook" },
+      { count: "1", name: "Other" }
     ];
 
     const responsePromise = request(app)
@@ -231,9 +231,9 @@ describe("executeQuery", () => {
     await archivedCase.destroy({ auditUser: "someone" });
 
     const expectedData = [
-      { cases: "1", name: "Email" },
-      { cases: "2", name: "Facebook" },
-      { cases: "1", name: "Other" }
+      { count: "1", name: "Email" },
+      { count: "2", name: "Facebook" },
+      { count: "1", name: "Other" }
     ];
 
     const responsePromise = request(app)
