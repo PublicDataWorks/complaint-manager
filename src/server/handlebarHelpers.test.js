@@ -11,12 +11,35 @@ import {
   addNumbers,
   isGreaterThan,
   atLeastOneInputDefined,
-  isEqual
+  isEqual,
+  getResourceUrlFromS3
 } from "./handlebarHelpers";
-import { SIGNATURE_URLS } from "../sharedUtilities/constants";
+import {
+  S3_GET_OBJECT,
+  S3_URL_EXPIRATION,
+  SIGNATURE_KEYS
+} from "../sharedUtilities/constants";
 
-describe("handlebarHelpers", function() {
-  describe("formatAddress", function() {
+const AWS = require("aws-sdk");
+const config = require("./config/config");
+
+jest.mock("aws-sdk");
+
+let s3, getSignedUrl;
+
+getSignedUrl = jest.fn().mockImplementation(() => {
+  return "SIGNED_URL";
+});
+s3 = AWS.S3.mockImplementation(() => ({
+  getSignedUrl: getSignedUrl,
+  config: {
+    loadFromPath: jest.fn(),
+    update: jest.fn()
+  }
+}));
+
+describe("handlebarHelpers", function () {
+  describe("formatAddress", function () {
     test("there is no address", () => {
       const address = undefined;
       const formattedAddress = formatAddress(address);
@@ -79,7 +102,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("isPresent", function() {
+  describe("isPresent", function () {
     test("value is present", () => {
       const value = "a value";
       const evaluatedValue = isPresent(value);
@@ -108,7 +131,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("renderHtml", function() {
+  describe("renderHtml", function () {
     test("empty string is passed", () => {
       const html = "";
       const renderedHtml = renderHtml(html);
@@ -134,7 +157,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("sumAllegations", function() {
+  describe("sumAllegations", function () {
     test("letterOfficer has no allegations", () => {
       const letterOfficer = {
         numHistoricalHighAllegations: undefined,
@@ -166,7 +189,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("showOfficerHistoryHeader", function() {
+  describe("showOfficerHistoryHeader", function () {
     test("no officers have history option id", () => {
       const accusedOfficers = [
         {
@@ -237,7 +260,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("showRecommendedActions", function() {
+  describe("showRecommendedActions", function () {
     test("should not show recommended actions section if no actions and notes are empty", () => {
       const accusedOfficers = [
         {
@@ -319,7 +342,7 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("newLineToLineBreak", function() {
+  describe("newLineToLineBreak", function () {
     test("should return empty string when given null", () => {
       expect(newLineToLineBreak(null)).toEqual("");
     });
@@ -351,9 +374,8 @@ describe("handlebarHelpers", function() {
     });
   });
 
-  describe("generateSignature", function() {
+  describe("generateSignature", function () {
     const blankLine = "<p><br></p>";
-    const signaturePath = `<img style="max-height: 55px" src=${SIGNATURE_URLS.STELLA} />`;
     const stellaSender = "Stella Cziment\nDPM";
 
     test("returns an blank line without signature when includeSignature is false", () => {
@@ -365,12 +387,23 @@ describe("handlebarHelpers", function() {
     });
 
     test("returns stellas signature when stella is sender", () => {
-      expect(generateSignature(stellaSender, true)).toEqual(signaturePath);
+      const signature = generateSignature(stellaSender, true);
+
+      expect(signature).toEqual(
+        '<img style="max-height: 55px" src=SIGNED_URL />'
+      );
+      expect(getSignedUrl).toHaveBeenCalledWith(
+        S3_GET_OBJECT,
+        expect.objectContaining({
+          Bucket: "noipm-private-images",
+          Key: "signature.png"
+        })
+      );
     });
   });
 });
 
-describe("generate subject line", function() {
+describe("generate subject line", function () {
   const caseReference = "CC2019-0027";
   const pibCaseNumber = "2019-0027-R";
   const supplementalSubjectLine =
@@ -390,7 +423,7 @@ describe("generate subject line", function() {
   });
 });
 
-describe("index functions", function() {
+describe("index functions", function () {
   test("returns index + 1", () => {
     expect(addNumbers(1, 1)).toEqual(2);
   });
@@ -402,7 +435,7 @@ describe("index functions", function() {
   });
 });
 
-describe("check if arrays are empty", function() {
+describe("check if arrays are empty", function () {
   test("returns true when at least one input is not empty", () => {
     expect(atLeastOneInputDefined(null, [1])).toBeTruthy();
   });
@@ -416,12 +449,28 @@ describe("check if arrays are empty", function() {
   });
 });
 
-describe("officer history helpers", function() {
+describe("officer history helpers", function () {
   test("returns true when inputs are equal to 1", () => {
     expect(isEqual(1, 1)).toBeTruthy();
   });
 
   test("returns false when integer and string are same value", () => {
     expect(isEqual("1", 1)).toBeFalsy();
+  });
+});
+
+describe("getResourceUrlFromS3", () => {
+  test("should call getSignedUrl with correct variables and return signed url", async () => {
+    const signedUrl = getResourceUrlFromS3("test-bucket", "test.png");
+
+    expect(signedUrl).toEqual("SIGNED_URL");
+    expect(getSignedUrl).toHaveBeenCalledWith(
+      S3_GET_OBJECT,
+      expect.objectContaining({
+        Bucket: "test-bucket",
+        Key: "test.png",
+        Expires: S3_URL_EXPIRATION
+      })
+    );
   });
 });

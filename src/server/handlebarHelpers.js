@@ -6,7 +6,13 @@ import {
   formatShortDate
 } from "../client/complaintManager/utilities/formatDate";
 import formatPhoneNumber from "../client/complaintManager/utilities/formatPhoneNumber";
-import { DECLINES_OPTION, SIGNATURE_URLS } from "../sharedUtilities/constants";
+import {
+  DECLINES_OPTION,
+  S3_GET_OBJECT,
+  S3_URL_EXPIRATION,
+  SIGNATURE_KEYS
+} from "../sharedUtilities/constants";
+import createConfiguredS3Instance from "./createConfiguredS3Instance";
 
 const caseReferenceLength = 4;
 
@@ -120,7 +126,10 @@ Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
 
 export const generateSignature = (sender, includeSignature) => {
   if (includeSignature && sender.includes("Stella Cziment")) {
-    return `<img style="max-height: 55px" src=${SIGNATURE_URLS.STELLA} />`;
+    return `<img style="max-height: 55px" src=${getResourceUrlFromS3(
+      "noipm-private-images",
+      SIGNATURE_KEYS.STELLA
+    )} />`;
   }
   return "<p><br></p>";
 };
@@ -163,3 +172,14 @@ Handlebars.registerHelper(
   "caseClassificationIsDeclinesToClassify",
   caseClassificationIsDeclinesToClassify
 );
+
+export const getResourceUrlFromS3 = (bucketName, key) => {
+  const s3 = createConfiguredS3Instance();
+
+  return s3.getSignedUrl(S3_GET_OBJECT, {
+    Bucket: bucketName,
+    Key: key,
+    Expires: S3_URL_EXPIRATION
+  });
+};
+Handlebars.registerHelper("getResourceUrlFromS3", getResourceUrlFromS3);
