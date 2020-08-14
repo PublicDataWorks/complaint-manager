@@ -11,7 +11,7 @@ export function transformData(rawData) {
   let count = 0;
 
   const sortData = (intakeSourceA, intakeSourceB) => {
-    return intakeSourceB.cases - intakeSourceA.cases;
+    return intakeSourceB.count - intakeSourceA.count;
   };
 
   const sortedData = sortRawDataDict(rawData, sortData);
@@ -21,7 +21,7 @@ export function transformData(rawData) {
   });
 
   values = sortedData.map(element => {
-    return parseInt(element.cases);
+    return parseInt(element.count);
   });
 
   values.map(element => {

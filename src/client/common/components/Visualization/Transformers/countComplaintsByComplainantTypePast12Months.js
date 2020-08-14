@@ -1,4 +1,4 @@
-import { COLORS, TITLE_FONT } from "../dataVizStyling";
+import { COLORS, LABEL_FONT, TITLE_FONT } from "../dataVizStyling";
 import _ from "lodash";
 
 export const enableDateHighlight = complainantTypeData => {
@@ -137,11 +137,7 @@ export const transformData = rawData => {
   const layout = {
     barmode: "group",
     yaxis: { range: [0, maximum] },
-    font: {
-      family: "Open Sans",
-      color: "#A9A9A9",
-      size: 14
-    },
+    font: LABEL_FONT,
     title: {
       text: "Complainant Type over Past 12 Months",
       font: TITLE_FONT
