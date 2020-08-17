@@ -16,10 +16,10 @@ describe("executeQuery", () => {
   const token = buildTokenWithPermissions("", "tuser");
 
   const expectedData = [
-    { name: "Chicago hot dogs", count: "3" },
-    { name: "Tofu", count: "2" },
     { name: "karancitoooooo", count: "1" },
-    { name: "sabs", count: "1" }
+    { name: "sabs", count: "1" },
+    { name: "Tofu", count: "2" },
+    { name: "Chicago hot dogs", count: "3" }
   ];
 
   const responsePromise = request(app)

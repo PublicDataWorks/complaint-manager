@@ -4,6 +4,7 @@ import axios from "axios";
 import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./Transformers/countComplaintsByComplainantType";
 import * as countComplaintsByComplainantTypePast12Months from "./Transformers/countComplaintsByComplainantTypePast12Months";
+import * as countTop10Tags from "./Transformers/countTop10Tags";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
@@ -35,6 +36,9 @@ const Visualization = props => {
             transformedData = countComplaintsByComplainantTypePast12Months.transformData(
               response.data
             );
+            break;
+          case QUERY_TYPES.COUNT_TOP_10_TAGS:
+            transformedData = countTop10Tags.transformData(response.data);
             break;
           default:
             throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);

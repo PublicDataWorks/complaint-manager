@@ -31,6 +31,11 @@ class DataDashboard extends Component {
               QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
             }
           />
+          <br />
+          <Visualization
+            data-testid={"top10TagsGraph"}
+            queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+          />
         </div>
       </div>
     );

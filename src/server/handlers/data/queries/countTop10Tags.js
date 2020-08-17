@@ -1,6 +1,7 @@
 import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
 import {
+  ASCENDING,
   AUDIT_SUBJECT,
   CASE_STATUS,
   DESCENDING,
