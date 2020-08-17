@@ -19,6 +19,82 @@ jest.mock("./PlotlyWrapper", () => {
 jest.mock("axios");
 
 describe("Visualization", () => {
+  test("should pass correct data and layout options to PlotlyWrapper for countTop10Tags", async () => {
+    // Arrange
+    const responseBody = {
+      data: [
+        {
+          name: "karancitoooooo",
+          count: "1"
+        },
+        {
+          name: "sabs",
+          count: "1"
+        },
+        {
+          name: "Tofu",
+          count: "2"
+        },
+        {
+          name: "Chicago hot dogs",
+          count: "3"
+        }
+      ]
+    };
+
+    axios.get.mockResolvedValue({ ...responseBody });
+
+    // Act
+    await act(async () => {
+      render(<Visualization queryType={QUERY_TYPES.COUNT_TOP_10_TAGS} />);
+    });
+
+    // Assert
+    expect(PlotlyWrapper).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: expect.arrayContaining([
+          expect.objectContaining({
+            x: ["3", "2", "1", "1"],
+            y: ["Chicago hot dogs", "Tofu", "sabs", "karancitoooooo"],
+            type: "bar",
+            width: 0.75,
+            orientation: "h",
+            marker: {
+              color: COLORS[0]
+            },
+            text: ["3", "2", "1", "1"],
+            textposition: "auto",
+            textangle: 0,
+            hoverinfo: "none"
+          })
+        ]),
+        layout: expect.objectContaining({
+          barmode: "group",
+          xaxis: {
+            showgrid: false,
+            zeroline: false,
+            automargin: true,
+            showticklabels: false
+          },
+          title: {
+            text: "Top Tags<br><sub>Past 12 Months",
+            font: TITLE_FONT
+          },
+          width: 750,
+          margin: {
+            l: 235,
+            r: 0,
+            b: 70,
+            t: 130,
+            pad: 8
+          },
+          font: LABEL_FONT
+        })
+      }),
+      {}
+    );
+  });
+
   test("should pass correct data and layout options to PlotlyWrapper for countComplaintsByComplainantTypePast12Months", async () => {
     // Arrange
     const responseBody = {
