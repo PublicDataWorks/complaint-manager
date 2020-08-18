@@ -67,4 +67,66 @@ describe("countTop10Tags Data Transformer", () => {
 
     expect(transformedData).toEqual(expectedTransformedData);
   });
+
+  test("should handle layout when no data is returned from backend", () => {
+    const rawData = [];
+
+    const transformedData = countTop10Tags.transformData(rawData);
+
+    const expectedTransformedData = {
+      data: [
+        {
+          x: [],
+          y: [],
+          type: "bar",
+          width: 0.75,
+          orientation: "h",
+          marker: {
+            color: COLORS[0]
+          },
+          text: [],
+          textposition: "auto",
+          textangle: 0,
+          hoverinfo: "none"
+        }
+      ],
+      layout: {
+        barmode: "group",
+        annotations: [
+          {
+            text: "No Tags to display",
+            y: 1,
+            showarrow: false,
+            font: LABEL_FONT
+          }
+        ],
+        xaxis: {
+          showgrid: true,
+          zeroline: true,
+          automargin: true,
+          showticklabels: false
+        },
+        yaxis: {
+          zeroline: false,
+          showgrid: false,
+          showticklabels: false
+        },
+        title: {
+          text: "Top Tags<br><sub>Past 12 Months",
+          font: TITLE_FONT
+        },
+        width: 750,
+        margin: {
+          l: 0,
+          r: 0,
+          b: 70,
+          t: 130,
+          pad: 8
+        },
+        font: LABEL_FONT
+      }
+    };
+
+    expect(transformedData).toEqual(expectedTransformedData);
+  });
 });

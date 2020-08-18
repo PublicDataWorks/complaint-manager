@@ -13,6 +13,8 @@ export const transformData = rawData => {
     return name["name"];
   });
 
+  const noTags = xValues.length == 0 && yValues.length == 0;
+
   let caseTagTrace = {
     x: xValues,
     y: yValues,
@@ -50,6 +52,25 @@ export const transformData = rawData => {
     },
     font: LABEL_FONT
   };
+
+  if (noTags) {
+    layout["annotations"] = [
+      {
+        text: "No Tags to display",
+        y: 1,
+        showarrow: false,
+        font: LABEL_FONT
+      }
+    ];
+    layout["yaxis"] = {
+      zeroline: false,
+      showgrid: false,
+      showticklabels: false
+    };
+    layout.xaxis.zeroline = true;
+    layout.xaxis.showgrid = true;
+    layout.margin.l = 0;
+  }
 
   return {
     data: [caseTagTrace],
