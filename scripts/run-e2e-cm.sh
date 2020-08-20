@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 echo "Stopping app container..."
 docker-compose stop app
 
