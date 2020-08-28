@@ -139,6 +139,13 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-playground.herokuapp.com/health-check
 
+  letter-generation-testing:
+    docker:
+      - image: postman/newman:latest
+    steps:
+      - checkout
+      - run: run -e doc/postman/CI.postman_environment.json Police\ Data\ Management.postman_collection.json
+
   deploy-ci:
     docker:
       - image: noipm/docker-heroku:7.0.65
@@ -356,7 +363,7 @@ workflows:
           filters:
             branches:
               only:
-                - encode-attachment-urls
+                - newman-playground-testing
       - build-and-publish-playground:
           requires:
             - security-check
@@ -366,3 +373,6 @@ workflows:
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground
+      - letter-generation-testing:
+          requires:
+            - ensure-playground-deploy-succeeded
