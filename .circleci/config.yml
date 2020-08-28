@@ -144,7 +144,7 @@ jobs:
       - image: postman/newman:latest
     steps:
       - checkout
-      - run: run -e doc/postman/CI.postman_environment.json Police\ Data\ Management.postman_collection.json
+      - run: newman run -e doc/postman/CI.postman_environment.json doc/postman/Police\ Data\ Management.postman_collection.json
 
   deploy-ci:
     docker:
