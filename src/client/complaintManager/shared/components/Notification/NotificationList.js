@@ -48,7 +48,7 @@ const NotificationList = props => {
         }
       } else {
         props.highlightCaseNote(notification.caseNoteId);
-        await axios.get(`/api/notifications/mark-as-read/${notification.id}`);
+        await axios.put(`/api/notifications/mark-as-read/${notification.id}`);
         if (window.location.href.endsWith(notification.caseId)) {
           closeNotificationDrawer();
         } else {

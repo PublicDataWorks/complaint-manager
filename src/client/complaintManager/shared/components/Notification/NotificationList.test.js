@@ -171,11 +171,11 @@ describe("notification list", () => {
     });
   });
 
-  test("should make axios get request to mark notification as read when clicking on notif", async () => {
+  test("should make axios put request to mark notification as read when clicking on notif", async () => {
     findAndClickNotif(0);
 
     await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledWith(
+      expect(axios.put).toHaveBeenCalledWith(
         `/api/notifications/mark-as-read/0`
       );
     });

@@ -488,7 +488,7 @@ export const API_ROUTES = {
     }
   },
   "/notifications/mark-as-read/:notificationId": {
-    get: {
+    put: {
       handler: markNotificationAsRead,
       errorMessage:
         "Something went wrong, and there was a problem updating your notifications."
