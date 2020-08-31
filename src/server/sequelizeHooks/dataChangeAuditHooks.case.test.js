@@ -10,6 +10,7 @@ import {
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../../client/complaintManager/testUtilities/intakeSource";
 import HowDidYouHearAboutUsSource from "../../client/complaintManager/testUtilities/HowDidYouHearAboutUsSource";
+import winston from "winston";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -256,12 +257,12 @@ describe("dataChangeAuditHooks", () => {
     describe("errors on create", () => {
       let oldConsoleError = null;
       beforeAll(() => {
-        oldConsoleError = console.error;
-        console.error = jest.fn();
+        oldConsoleError = winston.error;
+        winston.error = jest.fn();
       });
 
       afterAll(() => {
-        console.error = oldConsoleError;
+        winston.error = oldConsoleError;
       });
 
       test("it does not allow blank username", () => {
@@ -593,12 +594,12 @@ describe("dataChangeAuditHooks", () => {
     describe("errors on update", () => {
       let oldConsoleError = null;
       beforeAll(async () => {
-        oldConsoleError = console.error;
-        console.error = jest.fn();
+        oldConsoleError = winston.error;
+        winston.error = jest.fn();
       });
 
       afterAll(() => {
-        console.error = oldConsoleError;
+        winston.error = oldConsoleError;
       });
 
       test("it does not allow blank username", () => {

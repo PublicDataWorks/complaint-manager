@@ -35,7 +35,7 @@ export const retrieveSecretFromAWS = async secretID => {
       }
     })
     .catch(error => {
-      console.error("I failed :(", error);
+      winston.error("I failed :( ", error);
       if (error.code === "DecryptionFailureException") {
         winston.error(`${AWS_ERRORS.DECRYPTION_FAILURE_EXCEPTION}`);
         throw Boom.badImplementation(
@@ -69,4 +69,3 @@ export const retrieveSecretFromAWS = async secretID => {
       }
     });
 };
-
