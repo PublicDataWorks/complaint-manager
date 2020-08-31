@@ -16,6 +16,7 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { auditFileAction } from "../../audits/auditFileAction";
+import winston from "winston";
 
 const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   let managedUpload;
@@ -105,7 +106,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
           response.send(updatedCase);
         },
         function (error) {
-          console.error(error);
+          winston.error(error);
           next(Boom.badImplementation(error));
         }
       );

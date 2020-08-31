@@ -9,6 +9,7 @@ import {
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import winston from "winston";
 
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");
@@ -98,9 +99,11 @@ describe("getNotifications", () => {
   });
 
   test("should not return read notifications that were updated or created before timestamp", async () => {
-    console.log("Current Timezone", moment().format("ZZ"));
+    const currentTimezone = moment().format("ZZ");
+    winston.log("info", `Current Timezone ${currentTimezone}`);
+
     const newTimestamp = utc().toDate();
-    console.log("New Timestamp", newTimestamp);
+    winston.log("info", `New Timestamp ${newTimestamp}`);
 
     const unreadNotificationAttributes = new Notification.Builder()
       .defaultNotification()
@@ -149,9 +152,11 @@ describe("getNotifications", () => {
       auditUser: "tuser"
     });
 
-    console.log("Current Timezone", moment().format("ZZ"));
+    const currentTimezone = moment().format("ZZ");
+    winston.log("info", `Current Timezone ${currentTimezone}`);
+
     const newTimestamp = utc().toDate();
-    console.log("New Timestamp", newTimestamp);
+    winston.log("info", `New Timestamp ${newTimestamp}`);
 
     const newNotifs = await getNotifications(newTimestamp, newNotif.user);
 
