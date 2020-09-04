@@ -71,7 +71,7 @@
     "csv-stringify": "~5.3.0",
     "eventsourcemock": "^2.0.0",
     "express": "~4.17.1",
-    "express-jwt": "~5.3.1",
+    "express-jwt": "^6.0.0",
     "express-jwt-authz": "~2.3.0",
     "express-winston": "~4.0.3",
     "fflip": "~4.0.0",
