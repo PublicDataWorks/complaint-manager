@@ -4,7 +4,7 @@ import {
   AUDIT_ACTION
 } from "../../sharedUtilities/constants";
 import Case from "../../client/complaintManager/testUtilities/case";
-import Address from "../../client/complaintManager/testUtilities/Address";
+import Address from "../../sharedTestHelpers/Address";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 

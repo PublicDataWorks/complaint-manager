@@ -3,7 +3,7 @@ import Case from "../../../client/complaintManager/testUtilities/case";
 import request from "supertest";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import models from "../../complaintManager/models";
-import Address from "../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../sharedTestHelpers/Address";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

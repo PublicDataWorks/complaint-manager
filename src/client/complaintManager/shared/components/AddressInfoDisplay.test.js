@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import AddressInfoDisplay from "./AddressInfoDisplay";
-import Address from "../../testUtilities/Address";
+import Address from "../../../../sharedTestHelpers/Address";
 import { containsText } from "../../../testHelpers";
 
 describe("AddressInfoDisplay", () => {

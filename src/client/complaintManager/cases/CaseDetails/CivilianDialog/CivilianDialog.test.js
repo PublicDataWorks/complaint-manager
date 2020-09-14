@@ -14,7 +14,7 @@ import {
   selectDropdownOption
 } from "../../../../testHelpers";
 import { change, initialize, reset } from "redux-form";
-import Address from "../../../testUtilities/Address";
+import Address from "../../../../../sharedTestHelpers/Address";
 import Civilian from "../../../testUtilities/civilian";
 import { CIVILIAN_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import { getRaceEthnicitiesSuccess } from "../../../actionCreators/raceEthnicityActionCreators";

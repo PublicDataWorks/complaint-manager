@@ -5,7 +5,7 @@ import Civilian from "../client/complaintManager/testUtilities/civilian";
 import Case from "../client/complaintManager/testUtilities/case";
 import Attachment from "../client/complaintManager/testUtilities/attachment";
 import { civilianWithAddress } from "../client/complaintManager/testUtilities/ObjectMothers";
-import Address from "../client/complaintManager/testUtilities/Address";
+import Address from "../sharedTestHelpers/Address";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,

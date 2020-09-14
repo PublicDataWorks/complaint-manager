@@ -1,4 +1,4 @@
-import { ADDRESSABLE_TYPE } from "../../../sharedUtilities/constants";
+import { ADDRESSABLE_TYPE } from "../sharedUtilities/constants";
 
 class Address {
   constructor(build) {
