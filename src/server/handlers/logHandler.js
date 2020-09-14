@@ -52,7 +52,8 @@ const transportFormat = ({ level, message, timestamp, label }) => {
 };
 
 const logHandler = asyncMiddleware(async (request, response, next) => {
-  console.log(transportFormat(request.body || {}));
+  const { messages = [] } = request.body || {};
+  messages.forEach(message => console.log(transportFormat(message)));
   response.status(200).end();
 })
 
