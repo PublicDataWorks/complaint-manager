@@ -12,7 +12,7 @@ import _ from "lodash";
 import {
   CLASSIFICATIONS_INFORMATIONAL_TEXT,
   RETALIATION_CONCERNS_TEXT
-} from "../../../../../server/handlers/cases/referralLetters/referralLetterDefaults";
+} from "../referralLetterConstants";
 
 class Classifications extends Component {
   constructor(props) {
