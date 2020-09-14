@@ -4,7 +4,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
-import { getCivilianFullName } from "./modelUtilities/getFullName";
+import { getCivilianFullName } from "../../../sharedUtilities/getFullName";
 
 module.exports = (sequelize, DataTypes) => {
   const Civilian = sequelize.define(
@@ -33,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
           "middleInitial",
           "suffix"
         ]),
-        get: function() {
+        get: function () {
           return getCivilianFullName(
             this.get("firstName"),
             this.get("middleInitial"),
@@ -92,15 +92,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Civilian.prototype.modelDescription = async function(transaction) {
+  Civilian.prototype.modelDescription = async function (transaction) {
     return [{ "Civilian Name": this.fullName }];
   };
 
-  Civilian.prototype.getCaseId = async function(transaction) {
+  Civilian.prototype.getCaseId = async function (transaction) {
     return this.caseId;
   };
 
-  Civilian.prototype.getManagerType = async function(transaction) {
+  Civilian.prototype.getManagerType = async function (transaction) {
     return "complaint";
   };
 

@@ -1,6 +1,6 @@
 "use strict";
 
-import { getOfficerFullName } from "./modelUtilities/getFullName";
+import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
 import { EMPLOYEE_TYPE } from "../../../sharedUtilities/constants";
 
 const {
@@ -51,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
           "lastName",
           "isUnknownOfficer"
         ]),
-        get: function() {
+        get: function () {
           return getOfficerFullName(
             this.get("firstName"),
             this.get("middleName"),
@@ -70,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       isUnknownOfficer: {
         type: new DataTypes.VIRTUAL(DataTypes.BOOLEAN, ["officerId"]),
-        get: function() {
+        get: function () {
           return !this.get("officerId");
         }
       },
@@ -101,7 +101,7 @@ module.exports = (sequelize, DataTypes) => {
           "supervisorMiddleName",
           "supervisorLastName"
         ]),
-        get: function() {
+        get: function () {
           if (this.get("officerId")) {
             const firstName = this.get("supervisorFirstName")
               ? this.get("supervisorFirstName")
@@ -162,7 +162,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       age: {
         type: new DataTypes.VIRTUAL(DataTypes.INTEGER, ["dob"]),
-        get: function() {
+        get: function () {
           return moment().diff(this.get("dob"), "years", false);
         }
       },
@@ -236,19 +236,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CaseOfficer.prototype.modelDescription = async function(transaction) {
+  CaseOfficer.prototype.modelDescription = async function (transaction) {
     return [{ "Officer Name": this.fullName }];
   };
 
-  CaseOfficer.prototype.getCaseId = async function(transaction) {
+  CaseOfficer.prototype.getCaseId = async function (transaction) {
     return this.caseId;
   };
 
-  CaseOfficer.prototype.getManagerType = async function(transaction) {
+  CaseOfficer.prototype.getManagerType = async function (transaction) {
     return "complaint";
   };
 
-  CaseOfficer.prototype.emptyCaseOfficerAttributes = function() {
+  CaseOfficer.prototype.emptyCaseOfficerAttributes = function () {
     return {
       officerId: null,
       firstName: null,

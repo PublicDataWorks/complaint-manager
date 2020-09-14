@@ -1,5 +1,5 @@
 "use strict";
-import { getOfficerFullName } from "./modelUtilities/getFullName";
+import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
 import models from "./index";
 
 const moment = require("moment/moment");
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         "middleName",
         "lastName"
       ]),
-      get: function() {
+      get: function () {
         return getOfficerFullName(
           this.get("firstName"),
           this.get("middleName"),
@@ -56,8 +56,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     age: {
       type: new DataTypes.VIRTUAL(DataTypes.INTEGER, ["dob"]),
-      get: function() {
-        return this.get("dob") ? moment().diff(this.get("dob"), "years", false) : null;
+      get: function () {
+        return this.get("dob")
+          ? moment().diff(this.get("dob"), "years", false)
+          : null;
       }
     },
     district: {
