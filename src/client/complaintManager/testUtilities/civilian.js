@@ -1,5 +1,5 @@
 //TODO Should we use a Civilian class in our app code?
-import Address from "./Address";
+import Address from "../../../sharedTestHelpers/Address";
 import {
   ADDRESSABLE_TYPE,
   COMPLAINANT

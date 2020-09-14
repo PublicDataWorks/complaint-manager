@@ -1,5 +1,5 @@
 import Case from "../../../client/complaintManager/testUtilities/case";
-import Address from "../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../sharedTestHelpers/Address";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
@@ -36,7 +36,7 @@ describe("Edit Case", () => {
     await cleanupDatabase();
   });
 
-  describe("case status update", function() {
+  describe("case status update", function () {
     test("should set the status to active when you edit a case", async () => {
       valuesToUpdate = {
         firstContactDate: "2018-06-24",
@@ -67,7 +67,7 @@ describe("Edit Case", () => {
     });
   });
 
-  describe("case update", function() {
+  describe("case update", function () {
     beforeEach(async () => {
       const sharedId = 55;
       civilianAttributes = new Civilian.Builder()

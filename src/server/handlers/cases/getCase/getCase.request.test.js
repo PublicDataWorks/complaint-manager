@@ -6,7 +6,7 @@ import Civilian from "../../../../client/complaintManager/testUtilities/civilian
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import Address from "../../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../../sharedTestHelpers/Address";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,

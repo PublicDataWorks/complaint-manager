@@ -21,7 +21,7 @@ import {
   WITNESS
 } from "../../../sharedUtilities/constants";
 import parse from "csv-parse/lib/sync";
-import Address from "../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../sharedTestHelpers/Address";
 import Attachment from "../../../client/complaintManager/testUtilities/attachment";
 import RaceEthnicity from "../../../client/complaintManager/testUtilities/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";

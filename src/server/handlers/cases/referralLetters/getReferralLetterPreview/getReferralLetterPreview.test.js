@@ -13,7 +13,7 @@ import {
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
-import Address from "../../../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../../../sharedTestHelpers/Address";
 import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
@@ -33,7 +33,7 @@ import ReferralLetterCaseClassification from "../../../../../client/complaintMan
 
 jest.mock("../../../audits/auditDataAccess");
 
-describe("getReferralLetterPreview", function() {
+describe("getReferralLetterPreview", function () {
   let existingCase, request, response, next, referralLetter;
 
   afterEach(async () => {
@@ -425,7 +425,7 @@ describe("getReferralLetterPreview", function() {
       expect(responseData.lastEdited).toBeTruthy();
     });
 
-    describe("snapshotTests", function() {
+    describe("snapshotTests", function () {
       let letterOfficer, genderIdentity;
 
       beforeEach(async () => {

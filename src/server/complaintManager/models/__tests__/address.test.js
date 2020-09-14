@@ -3,7 +3,7 @@ import {
   createTestCaseWithCivilian,
   createTestCaseWithoutCivilian
 } from "../../../testHelpers/modelMothers";
-import Address from "../../../../client/complaintManager/testUtilities/Address";
+import Address from "../../../../sharedTestHelpers/Address";
 import {
   ADDRESSABLE_TYPE,
   CASE_STATUS
