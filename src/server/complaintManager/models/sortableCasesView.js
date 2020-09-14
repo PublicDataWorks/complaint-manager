@@ -7,7 +7,7 @@ import {
 import {
   getOfficerFullName,
   getPersonFullName
-} from "./modelUtilities/getFullName";
+} from "../../../sharedUtilities/getFullName";
 import {
   getCaseReference,
   getCaseReferencePrefix
