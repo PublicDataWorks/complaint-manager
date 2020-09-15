@@ -17,7 +17,7 @@ import {
 } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 

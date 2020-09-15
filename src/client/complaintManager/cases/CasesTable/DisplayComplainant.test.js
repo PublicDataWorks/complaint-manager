@@ -2,7 +2,7 @@ import React from "react";
 import Civilian from "../../testUtilities/civilian";
 import { mount } from "enzyme";
 import DisplayComplainant from "./DisplayComplainant";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import {
   COMPLAINANT,
   PERSON_TYPE

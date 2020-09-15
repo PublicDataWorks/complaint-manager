@@ -4,7 +4,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import LetterOfficer from "../testHelpers/LetterOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 
 describe("dataChangeAuditHooks for letter officer", () => {
   let existingCase, letterOfficer;

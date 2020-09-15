@@ -18,7 +18,7 @@ import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Allegation from "../../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../../sharedTestHelpers/OfficerAllegation";

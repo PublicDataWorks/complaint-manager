@@ -1,5 +1,5 @@
 import Officer from "../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import httpMocks from "node-mocks-http";

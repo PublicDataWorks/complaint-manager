@@ -1,7 +1,7 @@
 import Civilian from "./civilian";
 import Attachment from "./attachment";
 import Address from "../../../sharedTestHelpers/Address";
-import CaseOfficer from "./caseOfficer";
+import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../sharedTestHelpers/Officer";
 import {
   ACCUSED,

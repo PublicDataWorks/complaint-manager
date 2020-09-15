@@ -2,7 +2,7 @@ import { mount } from "enzyme";
 import Accused from "./Accused";
 import React from "react";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 

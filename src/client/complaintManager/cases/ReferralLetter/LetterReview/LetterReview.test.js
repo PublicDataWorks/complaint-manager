@@ -14,7 +14,7 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import Case from "../../../testUtilities/case";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
@@ -204,8 +204,8 @@ describe("LetterReview", () => {
     );
   });
 
-  describe("Redirects when click Stepper Buttons", function() {
-    beforeEach(function() {
+  describe("Redirects when click Stepper Buttons", function () {
+    beforeEach(function () {
       store.dispatch(
         getCaseDetailsSuccess({
           id: caseId,

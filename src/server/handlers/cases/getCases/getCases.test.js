@@ -19,7 +19,7 @@ import {
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 describe("getCases", () => {
   afterEach(async () => {

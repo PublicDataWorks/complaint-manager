@@ -14,7 +14,7 @@ import generateReferralLetterPdfBuffer, {
 } from "./generateReferralLetterPdfBuffer";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({

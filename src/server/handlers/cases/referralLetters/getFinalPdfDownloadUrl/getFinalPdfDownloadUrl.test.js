@@ -15,7 +15,7 @@ import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
 import Boom from "boom";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
-import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";

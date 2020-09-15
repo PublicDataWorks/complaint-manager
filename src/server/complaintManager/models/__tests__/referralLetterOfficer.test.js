@@ -1,5 +1,5 @@
 import models from "../index";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";

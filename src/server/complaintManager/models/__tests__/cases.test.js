@@ -18,7 +18,7 @@ import {
 } from "../../../../sharedUtilities/errorMessageConstants";
 
 import { range, shuffle } from "lodash";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
 

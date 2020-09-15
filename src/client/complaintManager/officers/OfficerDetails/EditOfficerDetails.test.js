@@ -1,5 +1,5 @@
 import createConfiguredStore from "../../../createConfiguredStore";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -20,7 +20,7 @@ jest.mock("../../cases/thunks/getCaseDetails", () => caseId => ({
   caseId
 }));
 
-describe("EditOfficerDetails", function() {
+describe("EditOfficerDetails", function () {
   let caseId, dispatchSpy, store, wrapper, caseOfficer;
 
   beforeEach(() => {

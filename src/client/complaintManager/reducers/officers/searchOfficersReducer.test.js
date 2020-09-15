@@ -11,7 +11,7 @@ import {
   searchInitiated,
   searchSuccess
 } from "../../actionCreators/searchActionCreators";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 describe("searchOfficersReducer", () => {
   describe("SEARCH_SUCCESS", () => {
@@ -130,7 +130,7 @@ describe("searchOfficersReducer", () => {
     });
   });
 
-  describe("CASE_OFFICER_SELECTED", function() {
+  describe("CASE_OFFICER_SELECTED", function () {
     test("officer data populated by selected case officer", () => {
       const initialState = {
         selectedOfficerData: null,

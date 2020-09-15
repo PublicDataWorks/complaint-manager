@@ -1,4 +1,4 @@
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../index";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";

@@ -12,7 +12,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../complaintManager/models";
 import {
   dateRange,

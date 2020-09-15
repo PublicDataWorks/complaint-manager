@@ -7,7 +7,7 @@ import {
   PERSON_TYPE
 } from "../../../../sharedUtilities/constants";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import sortableCasesView from "../sortableCasesView";

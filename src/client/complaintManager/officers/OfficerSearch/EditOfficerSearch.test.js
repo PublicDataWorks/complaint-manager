@@ -8,7 +8,7 @@ import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators"
 import EditOfficerSearch from "./EditOfficerSearch";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 
 jest.mock("../../cases/thunks/invalidCaseStatusRedirect", () => caseId => ({
