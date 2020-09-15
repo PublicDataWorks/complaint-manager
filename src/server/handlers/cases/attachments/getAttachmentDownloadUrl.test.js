@@ -7,7 +7,7 @@ import {
   S3_URL_EXPIRATION
 } from "../../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
+import Attachment from "../../../../sharedTestHelpers/attachment";
 import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";

@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../../server";
-import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
+import Attachment from "../../../../sharedTestHelpers/attachment";
 import models from "../../../complaintManager/models";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../sharedTestHelpers/Officer";

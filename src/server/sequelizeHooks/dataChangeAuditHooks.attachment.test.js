@@ -1,5 +1,5 @@
 import models from "../complaintManager/models";
-import Attachment from "../../client/complaintManager/testUtilities/attachment";
+import Attachment from "../../sharedTestHelpers/attachment";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

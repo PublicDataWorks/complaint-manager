@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
+import Attachment from "../../../../sharedTestHelpers/attachment";
 import models from "../../../complaintManager/models/index";
 import deleteAttachment from "./deleteAttachment";
 import {

@@ -1,4 +1,4 @@
-import Attachment from "../../../testUtilities/attachment";
+import Attachment from "../../../../../sharedTestHelpers/attachment";
 import AttachmentsRow from "./AttachmentsRow";
 import { expectEventuallyNotToExist } from "../../../../testHelpers";
 import { Provider } from "react-redux";
