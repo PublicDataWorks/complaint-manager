@@ -2,7 +2,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT,
   AUDIT_TYPE
-} from "../../../sharedUtilities/constants";
+} from "../../sharedUtilities/constants";
 
 class ActionAudit {
   constructor(build) {

@@ -1,4 +1,4 @@
-import ActionAudit from "../../../../client/complaintManager/testUtilities/ActionAudit";
+import ActionAudit from "../../../testHelpers/ActionAudit";
 import {
   AUDIT_SUBJECT,
   AUDIT_TYPE,
