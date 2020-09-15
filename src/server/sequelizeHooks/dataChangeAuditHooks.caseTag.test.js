@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import CaseTag from "../../client/complaintManager/testUtilities/caseTag";
+import CaseTag from "../testHelpers/caseTag";
 import Tag from "../testHelpers/tag";
 
 describe("dataChangeAuditHooks for caseTag", () => {

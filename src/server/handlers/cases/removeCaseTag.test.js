@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { removeCaseTag } from "./removeCaseTag";
 import Case from "../../../sharedTestHelpers/case";
-import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
+import CaseTag from "../../testHelpers/caseTag";
 import tag from "../../testHelpers/tag";
 import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
