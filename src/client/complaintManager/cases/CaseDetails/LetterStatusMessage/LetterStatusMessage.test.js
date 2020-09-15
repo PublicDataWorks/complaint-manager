@@ -1,5 +1,5 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";

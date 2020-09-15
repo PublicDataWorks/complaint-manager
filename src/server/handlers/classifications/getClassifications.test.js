@@ -8,7 +8,7 @@ import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 
 jest.mock("../audits/auditDataAccess");
 

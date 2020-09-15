@@ -13,7 +13,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import Case from "../../testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
 import { ACCUSED, EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 

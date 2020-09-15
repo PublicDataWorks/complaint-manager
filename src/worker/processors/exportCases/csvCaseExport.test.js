@@ -5,7 +5,7 @@ import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../sharedTestHelpers/OfficerAllegation";
 import Civilian from "../../../sharedTestHelpers/civilian";
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import moment from "moment";
 import timezone from "moment-timezone";
 import csvCaseExport from "./csvCaseExport";

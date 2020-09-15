@@ -3,7 +3,7 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION
 } from "../../sharedUtilities/constants";
-import Case from "../../client/complaintManager/testUtilities/case";
+import Case from "../../sharedTestHelpers/case";
 import Address from "../../sharedTestHelpers/Address";
 import Civilian from "../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

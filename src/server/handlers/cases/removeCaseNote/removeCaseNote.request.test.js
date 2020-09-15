@@ -1,7 +1,7 @@
 import models from "../../../complaintManager/models/index";
 import app from "../../../server";
 import request from "supertest";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import CaseNote from "../../../testHelpers/caseNote";
 import {
   buildTokenWithPermissions,

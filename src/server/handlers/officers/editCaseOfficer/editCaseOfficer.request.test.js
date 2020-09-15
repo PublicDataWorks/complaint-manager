@@ -3,7 +3,7 @@ import app from "../../../server";
 import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,

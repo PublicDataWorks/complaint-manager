@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import models from "../../../../complaintManager/models";
 import {
   AUDIT_FILE_TYPE,

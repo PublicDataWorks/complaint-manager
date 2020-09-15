@@ -7,7 +7,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { initialize } from "redux-form";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import editCivilian from "../../thunks/editCivilian";
 import {
   CIVILIAN_FORM_NAME,

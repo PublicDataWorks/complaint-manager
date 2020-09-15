@@ -1,4 +1,4 @@
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../complaintManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";

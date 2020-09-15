@@ -1,6 +1,6 @@
 import models from "../complaintManager/models";
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
-import Case from "../../client/complaintManager/testUtilities/case";
+import Case from "../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   transformRecipientToTitleNameAndAddress,
@@ -33,7 +33,7 @@ describe("transforming recipient into title/name and address fields", () => {
       )
       .withTranscribedBy("transcriber")
       .withIncludeRetaliationConcerns(true);
-    
+
     const referralLetterAttributesForSomeoneElse = new ReferralLetter.Builder()
       .defaultReferralLetter()
       .withId(undefined)
@@ -50,7 +50,7 @@ describe("transforming recipient into title/name and address fields", () => {
 
     referralLetterWithRecipientAddress = await models.referral_letter.create(
       referralLetterAttributesForSomeoneElse,
-        { auditUser: "someone else" }
+      { auditUser: "someone else" }
     );
 
     referralLetters = await models.sequelize.query(selectReferralLettersQuery, {

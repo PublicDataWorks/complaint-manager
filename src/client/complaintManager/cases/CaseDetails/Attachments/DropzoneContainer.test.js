@@ -13,7 +13,7 @@ import {
   dropDuplicateFile,
   removeDropzoneFile
 } from "../../../actionCreators/attachmentsActionCreators";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 
 describe("connected Dropzone", () => {
   let dropzone;

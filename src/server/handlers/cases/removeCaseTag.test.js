@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { removeCaseTag } from "./removeCaseTag";
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
 import tag from "../../../client/complaintManager/testUtilities/tag";
 import models from "../../complaintManager/models";

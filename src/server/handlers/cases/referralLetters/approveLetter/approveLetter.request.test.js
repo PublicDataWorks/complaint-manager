@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../../../../server";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,

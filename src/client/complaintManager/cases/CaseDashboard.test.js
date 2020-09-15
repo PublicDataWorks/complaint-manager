@@ -8,7 +8,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { openSnackbar } from "../actionCreators/snackBarActionCreators";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
-import Case from "../testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import getWorkingCases from "./thunks/getWorkingCases";
 import { containsText } from "../../testHelpers";
 import { DESCENDING, SORT_CASES_BY } from "../../../sharedUtilities/constants";

@@ -15,7 +15,7 @@ import mount from "enzyme/mount";
 import { reset } from "redux-form";
 import createCaseTag from "../../thunks/createCaseTag";
 import { CASE_TAG_FORM_NAME } from "../../../../../sharedUtilities/constants";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
 import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 
@@ -83,10 +83,7 @@ describe("CaseTagDialog", () => {
 
   test("should dispatch createCaseTag when clicking submit button", () => {
     const testTagName = "testTagName";
-    const caseDetails = new Case.Builder()
-      .defaultCase()
-      .withId(73)
-      .build();
+    const caseDetails = new Case.Builder().defaultCase().withId(73).build();
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
     dialog.update();
@@ -121,10 +118,7 @@ describe("CaseTagDialog", () => {
   });
 
   test("add tag button should not be clickable when no tag is entered", () => {
-    const caseDetails = new Case.Builder()
-      .defaultCase()
-      .withId(73)
-      .build();
+    const caseDetails = new Case.Builder().defaultCase().withId(73).build();
 
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
@@ -136,10 +130,7 @@ describe("CaseTagDialog", () => {
     submitButton.simulate("click");
 
     expect(
-      dialog
-        .find('[data-testid="caseTagDropdown"]')
-        .last()
-        .text()
+      dialog.find('[data-testid="caseTagDropdown"]').last().text()
     ).not.toContain("Please enter a tag name");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(

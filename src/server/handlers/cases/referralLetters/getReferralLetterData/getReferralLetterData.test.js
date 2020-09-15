@@ -15,7 +15,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 

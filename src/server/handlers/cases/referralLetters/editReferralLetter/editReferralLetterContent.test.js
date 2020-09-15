@@ -1,7 +1,7 @@
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import models from "../../../../complaintManager/models/index";
 import httpMocks from "node-mocks-http";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import editReferralLetterContent from "./editReferralLetterContent";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";

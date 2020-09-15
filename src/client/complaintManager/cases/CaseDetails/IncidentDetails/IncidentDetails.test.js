@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import formatDate from "../../../utilities/formatDate";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {
@@ -92,64 +92,43 @@ describe("incident details", () => {
 
   test("should display first contact date", () => {
     expect(
-      wrapper
-        .find('[data-testid="firstContactDate"]')
-        .first()
-        .text()
+      wrapper.find('[data-testid="firstContactDate"]').first().text()
     ).toEqual(formatDate(firstContactDate));
   });
 
   test("should display incident Date", () => {
-    expect(
-      wrapper
-        .find('[data-testid="incidentDate"]')
-        .first()
-        .text()
-    ).toEqual(formatDate(incidentDate));
+    expect(wrapper.find('[data-testid="incidentDate"]').first().text()).toEqual(
+      formatDate(incidentDate)
+    );
   });
 
   test("should display incident time", () => {
-    expect(
-      wrapper
-        .find('[data-testid="incidentTime"]')
-        .first()
-        .text()
-    ).toEqual(formattedIncidentTime);
+    expect(wrapper.find('[data-testid="incidentTime"]').first().text()).toEqual(
+      formattedIncidentTime
+    );
   });
 
   test("should display incident location", () => {
     expect(
-      wrapper
-        .find('[data-testid="incidentLocation"]')
-        .first()
-        .text()
+      wrapper.find('[data-testid="incidentLocation"]').first().text()
     ).toEqual("No address specified");
   });
 
   test("should display a district", () => {
     expect(
-      wrapper
-        .find('[data-testid="incidentDistrict"]')
-        .first()
-        .text()
+      wrapper.find('[data-testid="incidentDistrict"]').first().text()
     ).toEqual("N/A");
   });
 
   test("should display intake source", () => {
-    expect(
-      wrapper
-        .find('[data-testid="intakeSource"]')
-        .first()
-        .text()
-    ).toEqual("N/A");
+    expect(wrapper.find('[data-testid="intakeSource"]').first().text()).toEqual(
+      "N/A"
+    );
   });
 
   test("should display how did you hear about us source", () => {
     expect(
-      wrapper
-        .find('[data-testid="howDidYouHearAboutUsSource"]')
-        .first()
-        .text()
+      wrapper.find('[data-testid="howDidYouHearAboutUsSource"]').first().text()
     ).toEqual("N/A");
   });
 

@@ -1,8 +1,8 @@
-import Civilian from "../../../sharedTestHelpers/civilian";
-import Attachment from "../../../sharedTestHelpers/attachment";
-import Address from "../../../sharedTestHelpers/Address";
-import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
-import Officer from "../../../sharedTestHelpers/Officer";
+import Civilian from "./civilian";
+import Attachment from "./attachment";
+import Address from "./Address";
+import CaseOfficer from "./caseOfficer";
+import Officer from "./Officer";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
@@ -10,8 +10,8 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   WITNESS
-} from "../../../sharedUtilities/constants";
-import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
+} from "../sharedUtilities/constants";
+import RaceEthnicity from "./raceEthnicity";
 
 class Case {
   constructor(build) {

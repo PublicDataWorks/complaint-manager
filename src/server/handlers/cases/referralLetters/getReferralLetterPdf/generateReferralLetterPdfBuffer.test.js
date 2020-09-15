@@ -2,7 +2,7 @@ import ReferralLetter from "../../../../../client/complaintManager/testUtilities
 import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,

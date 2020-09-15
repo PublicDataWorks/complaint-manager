@@ -1,5 +1,5 @@
 import models from "../../../complaintManager/models";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import CaseNote from "../../../testHelpers/caseNote";
 import { isCaseNoteAuthor } from "./isCaseNoteAuthor";

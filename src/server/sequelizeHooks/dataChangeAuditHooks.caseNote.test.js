@@ -1,4 +1,4 @@
-import Case from "../../client/complaintManager/testUtilities/case";
+import Case from "../../sharedTestHelpers/case";
 import CaseNote from "../testHelpers/caseNote";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
