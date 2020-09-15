@@ -17,7 +17,7 @@ import { openCivilianDialog } from "../../../actionCreators/casesActionCreators"
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import RaceEthnicity from "../../../testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },

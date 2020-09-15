@@ -3,7 +3,7 @@ import Case from "../../client/complaintManager/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
 
 describe("dataChangeAuditHooks for civilian", () => {
   let existingCase, civilian, raceEthnicity, civilianAttributes;

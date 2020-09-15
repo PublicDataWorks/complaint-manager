@@ -7,7 +7,7 @@ import {
   editCivilianSuccess
 } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
-import RaceEthnicity from "../../testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import { startSubmit, stopSubmit } from "redux-form";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";

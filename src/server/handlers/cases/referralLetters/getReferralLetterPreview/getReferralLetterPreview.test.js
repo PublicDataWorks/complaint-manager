@@ -27,7 +27,7 @@ import ReferralLetterOfficerRecommendedAction from "../../../../../client/compla
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import constructFilename from "../constructFilename";
-import RaceEthnicity from "../../../../../client/complaintManager/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 

@@ -23,7 +23,7 @@ import {
 import parse from "csv-parse/lib/sync";
 import Address from "../../../sharedTestHelpers/Address";
 import Attachment from "../../../sharedTestHelpers/attachment";
-import RaceEthnicity from "../../../client/complaintManager/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
 
 jest.mock("../fileUpload/uploadFileToS3");

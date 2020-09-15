@@ -1,5 +1,5 @@
 import Civilian from "../../../sharedTestHelpers/civilian";
-import RaceEthnicity from "./raceEthnicity";
+import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 class ComplainantLetter {

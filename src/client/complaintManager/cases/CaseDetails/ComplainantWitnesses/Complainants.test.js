@@ -17,7 +17,7 @@ import _ from "lodash";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import { Provider } from "react-redux";
-import RaceEthnicity from "../../../testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
