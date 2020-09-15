@@ -3,7 +3,7 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../sharedTestHelpers/case";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
-import ReferralLetterOfficerHistoryNote from "../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
+import ReferralLetterOfficerHistoryNote from "../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetterOfficerRecommendedAction from "../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
 
