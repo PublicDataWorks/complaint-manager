@@ -1,7 +1,7 @@
 import models from "../matrixManager/models/index";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import Matrix from "../../client/complaintManager/testUtilities/Matrix";
+import Matrix from "../testHelpers/Matrix";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
