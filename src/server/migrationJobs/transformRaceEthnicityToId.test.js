@@ -1,7 +1,7 @@
 import models from "../complaintManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
-import Civilian from "../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../sharedTestHelpers/civilian";
 import {
   revertTransformRaceEthnicityToId,
   transformRaceEthnicityToId
@@ -43,7 +43,7 @@ describe("transform race ethnicity to ID", () => {
   const selectCiviliansQuery = "SELECT * from civilians;";
 
   const raceEthnicityPropertiesArray = Object.keys(raceEthnicityProperties).map(
-    function(raceEthnicityKey) {
+    function (raceEthnicityKey) {
       return raceEthnicityProperties[raceEthnicityKey];
     }
   );

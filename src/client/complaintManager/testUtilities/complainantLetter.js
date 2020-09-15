@@ -1,4 +1,4 @@
-import Civilian from "./civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import RaceEthnicity from "./raceEthnicity";
 import { COMPLAINANT } from "../../../sharedUtilities/constants";
 

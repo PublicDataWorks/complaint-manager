@@ -1,6 +1,6 @@
 import models from "../index";
 import RaceEthnicity from "../../../../client/complaintManager/testUtilities/raceEthnicity";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   ACCUSED,
   COMPLAINANT,

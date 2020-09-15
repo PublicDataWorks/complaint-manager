@@ -14,7 +14,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import config from "../../../../config/config";
 import Boom from "boom";
-import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";

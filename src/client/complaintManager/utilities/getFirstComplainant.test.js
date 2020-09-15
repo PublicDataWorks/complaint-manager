@@ -1,4 +1,4 @@
-import Civilian from "../testUtilities/civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import getFirstComplainant from "./getFirstComplainant";
 import { COMPLAINANT, WITNESS } from "../../../sharedUtilities/constants";
 

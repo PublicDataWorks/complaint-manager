@@ -4,7 +4,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "../../../server";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   CASE_STATUS,
   COMPLAINANT,

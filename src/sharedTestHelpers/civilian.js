@@ -1,9 +1,9 @@
 //TODO Should we use a Civilian class in our app code?
-import Address from "../../../sharedTestHelpers/Address";
+import Address from "./Address";
 import {
   ADDRESSABLE_TYPE,
   COMPLAINANT
-} from "../../../sharedUtilities/constants";
+} from "../sharedUtilities/constants";
 
 class Civilian {
   constructor(build) {

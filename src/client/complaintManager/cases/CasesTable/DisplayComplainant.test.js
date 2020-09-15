@@ -1,5 +1,5 @@
 import React from "react";
-import Civilian from "../../testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import { mount } from "enzyme";
 import DisplayComplainant from "./DisplayComplainant";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";

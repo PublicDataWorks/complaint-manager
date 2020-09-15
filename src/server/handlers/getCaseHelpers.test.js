@@ -10,7 +10,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
-import Civilian from "../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../sharedTestHelpers/civilian";
 
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter, auditDetails;

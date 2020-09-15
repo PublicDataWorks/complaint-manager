@@ -8,7 +8,7 @@ import {
   updateSort
 } from "../../actionCreators/casesActionCreators";
 import { BrowserRouter as Router } from "react-router-dom";
-import Civilian from "../../testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   ASCENDING,
   CASE_STATUS,

@@ -4,7 +4,7 @@ import models from "../../../server/complaintManager/models";
 import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../sharedTestHelpers/OfficerAllegation";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import moment from "moment";
 import timezone from "moment-timezone";

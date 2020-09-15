@@ -15,7 +15,7 @@ import {
   suppressWinstonLogs,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 

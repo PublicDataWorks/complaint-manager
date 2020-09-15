@@ -1,6 +1,6 @@
 import models from "../index";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,

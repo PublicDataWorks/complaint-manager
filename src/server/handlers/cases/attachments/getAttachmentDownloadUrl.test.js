@@ -9,7 +9,7 @@ import {
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
 import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";
 import { auditFileAction } from "../../audits/auditFileAction";
 

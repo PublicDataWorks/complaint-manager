@@ -7,7 +7,7 @@ import getCases, { CASES_TYPE } from "./getCases";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import RaceEthnicity from "../../../../client/complaintManager/testUtilities/raceEthnicity";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   ACCUSED,
   ASCENDING,
