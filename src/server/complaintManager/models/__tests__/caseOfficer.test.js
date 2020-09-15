@@ -6,7 +6,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
-import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../testHelpers/LetterOfficer";
 
 describe("caseOfficer", () => {
   describe("isUnknownOfficer", () => {

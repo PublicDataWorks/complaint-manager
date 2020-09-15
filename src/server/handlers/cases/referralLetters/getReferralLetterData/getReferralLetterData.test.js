@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../complaintManager/models/index";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
-import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";

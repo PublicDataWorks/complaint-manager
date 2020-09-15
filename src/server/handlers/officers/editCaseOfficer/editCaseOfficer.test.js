@@ -15,7 +15,7 @@ import Boom from "boom";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../testHelpers/LetterOfficer";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
