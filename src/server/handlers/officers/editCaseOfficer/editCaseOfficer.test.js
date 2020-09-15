@@ -12,7 +12,7 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
-import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";

@@ -14,7 +14,7 @@ import {
   ACCUSED,
   ALLEGATION_SEVERITY
 } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 describe("PUT /officers-allegations/:officerAllegationId", function () {
