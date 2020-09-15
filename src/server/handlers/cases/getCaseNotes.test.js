@@ -5,7 +5,7 @@ import {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
-import CaseNote from "../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../testHelpers/caseNote";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 const models = require("../../complaintManager/models");
 const httpMocks = require("node-mocks-http");

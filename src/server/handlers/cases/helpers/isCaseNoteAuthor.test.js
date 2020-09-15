@@ -1,7 +1,7 @@
 import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../../testHelpers/caseNote";
 import { isCaseNoteAuthor } from "./isCaseNoteAuthor";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 

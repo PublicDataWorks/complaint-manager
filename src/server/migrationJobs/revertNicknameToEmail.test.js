@@ -1,7 +1,7 @@
 import models from "../complaintManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import Case from "../../client/complaintManager/testUtilities/case";
-import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../testHelpers/caseNote";
 import revertNicknameToEmail from "./revertNicknameToEmail";
 
 describe("transform nickname to email for production users", () => {

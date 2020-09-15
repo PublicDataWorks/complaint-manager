@@ -1,6 +1,6 @@
 import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../../testHelpers/caseNote";
 import request from "supertest";
 import app from "../../../server";
 import {

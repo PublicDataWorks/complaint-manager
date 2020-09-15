@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../../testHelpers/caseNote";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../index";
 

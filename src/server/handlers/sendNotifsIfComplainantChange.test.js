@@ -1,6 +1,6 @@
 import Case from "../../client/complaintManager/testUtilities/case";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";
-import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../testHelpers/caseNote";
 import Notification from "../../client/complaintManager/testUtilities/notification";
 import { sendNotifsIfComplainantChange } from "./sendNotifsIfComplainantChange";
 import { sendNotification } from "./cases/getMessageStream";
