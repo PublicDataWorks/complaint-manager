@@ -1,5 +1,5 @@
 import Case from "../../client/complaintManager/testUtilities/case";
-import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";

@@ -13,7 +13,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 describe("executeQuery", () => {
   let complainantOfficerPO;

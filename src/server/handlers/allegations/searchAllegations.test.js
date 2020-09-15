@@ -5,7 +5,7 @@ import searchAllegations from "./searchAllegations";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
-import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../sharedTestHelpers/Officer";
 
 describe("searchAllegations handler", function () {

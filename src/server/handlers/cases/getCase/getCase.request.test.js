@@ -4,7 +4,7 @@ import Attachment from "../../../../client/complaintManager/testUtilities/attach
 import models from "../../../complaintManager/models";
 import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import Address from "../../../../sharedTestHelpers/Address";
 import {

@@ -5,7 +5,7 @@ import Case from "../../../../../client/complaintManager/testUtilities/case";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";

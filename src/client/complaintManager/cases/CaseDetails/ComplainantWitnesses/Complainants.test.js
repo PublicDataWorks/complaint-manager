@@ -14,7 +14,7 @@ import {
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import { Provider } from "react-redux";
 import RaceEthnicity from "../../../testUtilities/raceEthnicity";

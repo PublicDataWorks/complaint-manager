@@ -1,6 +1,6 @@
 import models from "../../../complaintManager/models";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
-import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import * as httpMocks from "node-mocks-http";

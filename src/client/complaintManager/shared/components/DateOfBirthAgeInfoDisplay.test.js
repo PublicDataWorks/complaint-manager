@@ -6,7 +6,7 @@ import Civilian from "../../testUtilities/civilian";
 import formatDate from "../../utilities/formatDate";
 import calculateAgeBasedOnIncidentDate from "../../utilities/calculateAgeBasedOnIncidentDate";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 describe("DateOfBirthAgeInfoDisplay", () => {
   test("displays date of birth and age for civilian with birthdate", () => {

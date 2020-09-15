@@ -8,7 +8,7 @@ import {
   selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import ManageOfficerMenu from "./ManageOfficerMenu";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 

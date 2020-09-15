@@ -15,7 +15,7 @@ import { initialize } from "redux-form";
 import editCivilian from "../../thunks/editCivilian";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import RaceEthnicity from "../../../testUtilities/raceEthnicity";
 

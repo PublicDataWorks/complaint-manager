@@ -7,7 +7,7 @@ import {
 import models from "../complaintManager/models";
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
+import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";

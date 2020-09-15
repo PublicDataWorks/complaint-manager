@@ -5,7 +5,7 @@ import { MemoryRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import Case from "../testUtilities/case";
-import CaseOfficer from "../testUtilities/caseOfficer";
+import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../sharedTestHelpers/Officer";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 import { Table } from "@material-ui/core";

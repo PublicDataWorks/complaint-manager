@@ -1,5 +1,5 @@
 import React from "react";
-import CaseOfficer from "../../../testUtilities/caseOfficer";
+import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { push } from "connected-react-router";
 import { Provider } from "react-redux";

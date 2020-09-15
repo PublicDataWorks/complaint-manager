@@ -1,6 +1,6 @@
 import calculateAgeBasedOnIncidentDate from "./calculateAgeBasedOnIncidentDate";
 import Officer from "../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../testUtilities/caseOfficer";
+import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Civilian from "../testUtilities/civilian";
 
 describe("calculateAgeBasedOnIncidentDate", function () {
