@@ -8,7 +8,7 @@ import models from "../../../../complaintManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
-import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
 import request from "supertest";

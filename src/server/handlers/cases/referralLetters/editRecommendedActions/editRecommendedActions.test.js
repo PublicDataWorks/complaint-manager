@@ -6,7 +6,7 @@ import ReferralLetter from "../../../../../client/complaintManager/testUtilities
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
-import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
 import Boom from "boom";

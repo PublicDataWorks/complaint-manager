@@ -6,7 +6,7 @@ import CaseOfficer from "../../../../../client/complaintManager/testUtilities/ca
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import editOfficerHistory from "./editOfficerHistory";
 import httpMocks from "node-mocks-http";
-import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
+import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
