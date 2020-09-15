@@ -68,7 +68,6 @@ class CasesTable extends React.Component {
   componentDidMount() {
     this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
     this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
-    logger.info(`rendering in cases table`);
   }
 
   renderCases(classes) {
