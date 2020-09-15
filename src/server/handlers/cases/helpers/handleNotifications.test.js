@@ -1,7 +1,7 @@
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../../../complaintManager/models";
-import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../../testHelpers/caseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { handleNotifications } from "./handleNotifications";
 import * as httpMocks from "node-mocks-http";

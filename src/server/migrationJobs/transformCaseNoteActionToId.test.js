@@ -1,5 +1,5 @@
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
-import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../testHelpers/caseNote";
 import models from "../complaintManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
@@ -38,7 +38,7 @@ describe("transform case note action to ID", () => {
 
   const caseNoteActionPropertiesArray = Object.keys(
     caseNoteActionProperties
-  ).map(function(caseNoteActionKey) {
+  ).map(function (caseNoteActionKey) {
     return caseNoteActionProperties[caseNoteActionKey];
   });
 

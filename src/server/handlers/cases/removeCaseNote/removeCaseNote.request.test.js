@@ -2,7 +2,7 @@ import models from "../../../complaintManager/models/index";
 import app from "../../../server";
 import request from "supertest";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import CaseNote from "../../../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../../../testHelpers/caseNote";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

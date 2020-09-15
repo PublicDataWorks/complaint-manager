@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import CaseNote from "../../client/complaintManager/testUtilities/caseNote";
+import CaseNote from "../testHelpers/caseNote";
 import Notification from "../../client/complaintManager/testUtilities/notification";
 import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../complaintManager/models";
