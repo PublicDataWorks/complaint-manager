@@ -8,7 +8,7 @@ import models from "../../../../complaintManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";

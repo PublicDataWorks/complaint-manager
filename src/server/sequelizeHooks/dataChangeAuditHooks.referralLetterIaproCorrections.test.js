@@ -1,6 +1,6 @@
 import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
-import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../testHelpers/ReferralLetter";
 import {
   RECIPIENT,
   RECIPIENT_ADDRESS,

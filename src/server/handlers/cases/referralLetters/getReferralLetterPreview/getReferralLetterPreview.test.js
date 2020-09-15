@@ -22,7 +22,7 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Allegation from "../../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../../sharedTestHelpers/OfficerAllegation";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLetterOfficerHistoryNote";

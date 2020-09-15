@@ -6,7 +6,7 @@ import {
 import Case from "../../../../../sharedTestHelpers/case";
 import models from "../../../../complaintManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";

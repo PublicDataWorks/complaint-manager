@@ -1,5 +1,5 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import models from "../../../../complaintManager/models/index";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
 import Case from "../../../../../sharedTestHelpers/case";

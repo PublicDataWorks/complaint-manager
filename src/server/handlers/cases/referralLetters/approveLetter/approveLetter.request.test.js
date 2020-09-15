@@ -8,7 +8,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,

@@ -10,7 +10,7 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import Attachment from "../../../../sharedTestHelpers/attachment";
 import ComplainantLetter from "../../../testHelpers/complainantLetter";
 import Civilian from "../../../../sharedTestHelpers/civilian";
-import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import { auditFileAction } from "../../audits/auditFileAction";
 
 const httpMocks = require("node-mocks-http");

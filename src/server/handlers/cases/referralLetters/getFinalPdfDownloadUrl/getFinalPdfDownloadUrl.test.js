@@ -17,7 +17,7 @@ import Boom from "boom";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
