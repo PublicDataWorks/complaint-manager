@@ -20,7 +20,7 @@ import Civilian from "../../../../../client/complaintManager/testUtilities/civil
 import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
-import Allegation from "../../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";

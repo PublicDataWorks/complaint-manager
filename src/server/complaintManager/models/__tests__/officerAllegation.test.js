@@ -1,14 +1,14 @@
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import models from "../index";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
-describe("officerAllegation", function() {
+describe("officerAllegation", function () {
   let officerAllegation, allegation, createdCase, officer;
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanupDatabase();
   });
 

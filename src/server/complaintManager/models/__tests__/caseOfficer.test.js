@@ -4,7 +4,7 @@ import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
 
@@ -105,7 +105,7 @@ describe("caseOfficer", () => {
     });
   });
 
-  describe("deleting officer allegations", function() {
+  describe("deleting officer allegations", function () {
     afterEach(async () => {
       await cleanupDatabase();
     });

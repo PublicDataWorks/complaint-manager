@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../../../server/testHelpers/requestTestHelpers"
 import Officer from "../../../client/complaintManager/testUtilities/Officer";
 import models from "../../../server/complaintManager/models";
 import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import Case from "../../../client/complaintManager/testUtilities/case";

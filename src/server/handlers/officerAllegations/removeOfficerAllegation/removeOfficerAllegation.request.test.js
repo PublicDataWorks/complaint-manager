@@ -1,6 +1,6 @@
 import models from "../../../complaintManager/models";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -13,7 +13,7 @@ import { ACCUSED } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 
 describe("DELETE /officers-allegations/:officerAllegationId", () => {
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanupDatabase();
   });
 

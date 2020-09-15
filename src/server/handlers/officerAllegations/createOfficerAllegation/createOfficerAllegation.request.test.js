@@ -2,7 +2,7 @@ import models from "../../../complaintManager/models";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import Officer from "../../../../client/complaintManager/testUtilities/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -12,7 +12,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { ALLEGATION_SEVERITY } from "../../../../sharedUtilities/constants";
 
-describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function() {
+describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });

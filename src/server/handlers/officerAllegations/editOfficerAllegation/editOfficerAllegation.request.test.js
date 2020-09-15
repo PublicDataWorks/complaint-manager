@@ -1,6 +1,6 @@
 import models from "../../../complaintManager/models";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -17,7 +17,7 @@ import {
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-describe("PUT /officers-allegations/:officerAllegationId", function() {
+describe("PUT /officers-allegations/:officerAllegationId", function () {
   let createdCase;
 
   beforeEach(async () => {
