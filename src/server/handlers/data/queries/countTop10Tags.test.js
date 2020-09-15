@@ -9,7 +9,7 @@ import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import CaseTag from "../../../../client/complaintManager/testUtilities/caseTag";
-import Tag from "../../../../client/complaintManager/testUtilities/tag";
+import Tag from "../../../testHelpers/tag";
 import moment from "moment";
 
 describe("executeQuery", () => {
