@@ -1,6 +1,6 @@
 import Case from "../../../sharedTestHelpers/case";
 import CaseNote from "../../testHelpers/caseNote";
-import Notification from "../../../client/complaintManager/testUtilities/notification";
+import Notification from "../../testHelpers/notification";
 import markNotificationAsRead from "./markNotificationAsRead";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 const models = require("../../complaintManager/models/index");
