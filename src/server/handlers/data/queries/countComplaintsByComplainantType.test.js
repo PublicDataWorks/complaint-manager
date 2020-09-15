@@ -12,7 +12,7 @@ import {
   EMPLOYEE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 describe("executeQuery", () => {

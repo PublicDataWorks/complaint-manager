@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import DateOfBirthAgeInfoDisplay from "./DateOfBirthAgeInfoDisplay";
 import { containsText } from "../../../testHelpers";
-import Civilian from "../../testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import formatDate from "../../utilities/formatDate";
 import calculateAgeBasedOnIncidentDate from "../../utilities/calculateAgeBasedOnIncidentDate";
 import Officer from "../../../../sharedTestHelpers/Officer";

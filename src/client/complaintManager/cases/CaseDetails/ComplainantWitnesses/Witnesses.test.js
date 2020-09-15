@@ -1,7 +1,7 @@
 import { containsText } from "../../../../testHelpers";
 import { mount } from "enzyme/build/index";
 import Case from "../../../testUtilities/case";
-import Civilian from "../../../testUtilities/civilian";
+import Civilian from "../../../../../sharedTestHelpers/civilian";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import {
   CIVILIAN_FORM_NAME,

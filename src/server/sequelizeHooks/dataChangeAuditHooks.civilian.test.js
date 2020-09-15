@@ -1,7 +1,7 @@
 import models from "../complaintManager/models";
 import Case from "../../client/complaintManager/testUtilities/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
-import Civilian from "../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
 

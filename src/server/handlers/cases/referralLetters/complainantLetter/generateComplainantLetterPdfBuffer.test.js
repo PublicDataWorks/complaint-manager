@@ -4,7 +4,7 @@ import timekeeper from "timekeeper";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
-import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../../sharedTestHelpers/civilian";
 import generateComplainantLetterPdfBuffer, {
   generateComplainantLetterHtml
 } from "./generateComplainantLetterPdfBuffer";

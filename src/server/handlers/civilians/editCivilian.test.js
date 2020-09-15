@@ -1,6 +1,6 @@
 import Case from "../../../client/complaintManager/testUtilities/case";
 import Address from "../../../sharedTestHelpers/Address";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,

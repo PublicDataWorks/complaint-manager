@@ -1,4 +1,4 @@
-import Civilian from "./civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import Address from "../../../sharedTestHelpers/Address";
 import { ADDRESSABLE_TYPE } from "../../../sharedUtilities/constants";
 

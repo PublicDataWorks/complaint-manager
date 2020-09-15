@@ -6,7 +6,7 @@ import { openCivilianDialog } from "../../../actionCreators/casesActionCreators"
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { initialize } from "redux-form";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
-import Civilian from "../../../testUtilities/civilian";
+import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Case from "../../../testUtilities/case";
 import editCivilian from "../../thunks/editCivilian";
 import {

@@ -1,5 +1,5 @@
 import models from "../complaintManager/models";
-import Civilian from "../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../sharedTestHelpers/civilian";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
@@ -39,7 +39,7 @@ describe("transform civilian gender identity to ID", () => {
 
   const genderIdentityPropertiesArray = Object.keys(
     genderIdentityProperties
-  ).map(function(genderIdentityKey) {
+  ).map(function (genderIdentityKey) {
     return genderIdentityProperties[genderIdentityKey];
   });
 

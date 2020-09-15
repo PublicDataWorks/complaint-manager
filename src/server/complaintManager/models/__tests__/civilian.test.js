@@ -5,7 +5,7 @@ import {
   createTestCaseWithCivilian,
   createTestCaseWithoutCivilian
 } from "../../../testHelpers/modelMothers";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 
 describe("civilian", () => {
   afterEach(async () => {

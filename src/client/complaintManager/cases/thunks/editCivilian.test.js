@@ -1,7 +1,7 @@
 //TODO can we extract token management, failure dispatch, etc into something common?
 import nock from "nock";
 import editCivilian from "./editCivilian";
-import Civilian from "../../testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   closeEditCivilianDialog,
   editCivilianSuccess

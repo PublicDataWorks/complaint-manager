@@ -1,4 +1,4 @@
-import Civilian from "../../testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import { push } from "connected-react-router";
 import { startSubmit, stopSubmit } from "redux-form";
 import getAccessToken from "../../../common/auth/getAccessToken";
@@ -28,7 +28,7 @@ jest.mock("../../actionCreators/casesActionCreators", () => ({
   }))
 }));
 
-describe("civilian creation", function() {
+describe("civilian creation", function () {
   const dispatch = jest.fn();
   let civilian;
 

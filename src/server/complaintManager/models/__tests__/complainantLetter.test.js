@@ -1,7 +1,7 @@
 import models from "../index";
 import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 
 describe("complainantLetter", () => {
   test("able to create complainant letter with only minimum requirements", async () => {

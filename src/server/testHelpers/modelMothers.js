@@ -4,7 +4,7 @@ import Case from "../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
-import Civilian from "../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../sharedTestHelpers/civilian";
 
 export const createTestCaseWithoutCivilian = async (user = "someone") => {
   return await models.cases.create(

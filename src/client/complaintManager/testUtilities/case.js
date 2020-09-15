@@ -1,4 +1,4 @@
-import Civilian from "./civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import Attachment from "./attachment";
 import Address from "../../../sharedTestHelpers/Address";
 import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";

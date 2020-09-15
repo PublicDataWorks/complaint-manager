@@ -1,7 +1,7 @@
 import app from "../../server";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import request from "supertest";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import models from "../../complaintManager/models";
 import Address from "../../../sharedTestHelpers/Address";
 import {

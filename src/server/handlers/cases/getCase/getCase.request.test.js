@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../../../server";
 import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
 import models from "../../../complaintManager/models";
-import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";

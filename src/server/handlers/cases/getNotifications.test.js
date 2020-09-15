@@ -8,7 +8,7 @@ import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
 } from "../../../sharedUtilities/constants";
-import Civilian from "../../../client/complaintManager/testUtilities/civilian";
+import Civilian from "../../../sharedTestHelpers/civilian";
 import winston from "winston";
 
 const models = require("../../complaintManager/models");
