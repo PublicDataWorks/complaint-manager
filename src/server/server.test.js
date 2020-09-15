@@ -4,7 +4,7 @@ import models from "./complaintManager/models";
 import Civilian from "../sharedTestHelpers/civilian";
 import Case from "../sharedTestHelpers/case";
 import Attachment from "../sharedTestHelpers/attachment";
-import { civilianWithAddress } from "../client/complaintManager/testUtilities/ObjectMothers";
+import { civilianWithAddress } from "./testHelpers/ObjectMothers";
 import Address from "../sharedTestHelpers/Address";
 import {
   ADDRESSABLE_TYPE,

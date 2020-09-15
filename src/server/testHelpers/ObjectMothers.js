@@ -1,6 +1,6 @@
-import Civilian from "../../../sharedTestHelpers/civilian";
-import Address from "../../../sharedTestHelpers/Address";
-import { ADDRESSABLE_TYPE } from "../../../sharedUtilities/constants";
+import Civilian from "../../sharedTestHelpers/civilian";
+import Address from "../../sharedTestHelpers/Address";
+import { ADDRESSABLE_TYPE } from "../../sharedUtilities/constants";
 
 export const civilianWithoutAddress = new Civilian.Builder()
   .defaultCivilian()
