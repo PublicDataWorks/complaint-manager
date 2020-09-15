@@ -21,7 +21,7 @@ import {
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import SearchResults from "../../shared/components/SearchResults";
-import logger from "../../../../sharedUtilities/logger";
+import logger from "../../../logger";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
