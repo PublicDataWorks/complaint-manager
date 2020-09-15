@@ -9,7 +9,7 @@ import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
 import Tag from "../../testHelpers/tag";
-import CaseTag from "../../../client/complaintManager/testUtilities/caseTag";
+import CaseTag from "../../testHelpers/caseTag";
 import auditDataAccess from "../audits/auditDataAccess";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";

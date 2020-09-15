@@ -8,7 +8,7 @@ import Case from "../../../../sharedTestHelpers/case";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import CaseTag from "../../../../client/complaintManager/testUtilities/caseTag";
+import CaseTag from "../../../testHelpers/caseTag";
 import Tag from "../../../testHelpers/tag";
 import moment from "moment";
 
