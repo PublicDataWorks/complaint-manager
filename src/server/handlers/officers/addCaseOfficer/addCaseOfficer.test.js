@@ -13,7 +13,7 @@ import {
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import ReferralLetter from "../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 

@@ -4,7 +4,7 @@ import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLe
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {

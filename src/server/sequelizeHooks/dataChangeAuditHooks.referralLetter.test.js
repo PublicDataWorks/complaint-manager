@@ -1,4 +1,4 @@
-import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../testHelpers/ReferralLetter";
 import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";

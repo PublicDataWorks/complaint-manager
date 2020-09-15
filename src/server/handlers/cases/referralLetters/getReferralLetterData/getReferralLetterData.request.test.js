@@ -1,5 +1,5 @@
 import models from "../../../../complaintManager/models/index";
-import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
+import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
