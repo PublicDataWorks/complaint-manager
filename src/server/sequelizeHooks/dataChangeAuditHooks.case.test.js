@@ -8,7 +8,7 @@ import {
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import IntakeSource from "../../client/complaintManager/testUtilities/intakeSource";
+import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
 
