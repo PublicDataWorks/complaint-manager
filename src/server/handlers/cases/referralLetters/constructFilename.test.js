@@ -8,7 +8,7 @@ import {
   RANK_INITIATED,
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../sharedTestHelpers/Officer";
 

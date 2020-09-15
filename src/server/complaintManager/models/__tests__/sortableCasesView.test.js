@@ -6,7 +6,7 @@ import {
   COMPLAINANT,
   PERSON_TYPE
 } from "../../../../sharedUtilities/constants";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

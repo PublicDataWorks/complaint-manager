@@ -1,6 +1,6 @@
 import models from "../index";
 import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 
 describe("complainantLetter", () => {

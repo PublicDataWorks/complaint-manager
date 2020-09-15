@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import timekeeper from "timekeeper";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
 import Civilian from "../../../../../sharedTestHelpers/civilian";

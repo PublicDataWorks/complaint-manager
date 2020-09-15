@@ -1,6 +1,6 @@
 import { containsText } from "../../../../testHelpers";
 import { mount } from "enzyme/build/index";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import {

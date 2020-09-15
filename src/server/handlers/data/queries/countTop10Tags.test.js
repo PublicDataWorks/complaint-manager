@@ -4,7 +4,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import models from "../../../complaintManager/models";
 import request from "supertest";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";

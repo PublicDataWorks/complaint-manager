@@ -1,6 +1,6 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../complaintManager/models";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import approveLetter from "./approveLetter";
 import {
   AUDIT_ACTION,

@@ -3,7 +3,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import models from "../../../../complaintManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";

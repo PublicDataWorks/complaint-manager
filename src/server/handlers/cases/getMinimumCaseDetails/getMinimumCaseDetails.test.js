@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import {
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,

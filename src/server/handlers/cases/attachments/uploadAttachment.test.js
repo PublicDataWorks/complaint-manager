@@ -1,7 +1,7 @@
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
 import uploadAttachment from "./uploadAttachment";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import models from "../../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import Busboy from "busboy";

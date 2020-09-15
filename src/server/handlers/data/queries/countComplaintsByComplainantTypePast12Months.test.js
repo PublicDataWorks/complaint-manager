@@ -11,7 +11,7 @@ import {
   EMPLOYEE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../complaintManager/models";
 import {

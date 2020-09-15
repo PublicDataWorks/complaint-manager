@@ -5,7 +5,7 @@ import models from "../../../complaintManager/models";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import Address from "../../../../sharedTestHelpers/Address";
 import {
   ACCUSED,

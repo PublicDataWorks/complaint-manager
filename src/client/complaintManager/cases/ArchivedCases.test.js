@@ -7,7 +7,7 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { openSnackbar } from "../actionCreators/snackBarActionCreators";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import { getArchivedCasesSuccess } from "../actionCreators/casesActionCreators";
-import Case from "../testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import ArchivedCases from "./ArchivedCases";
 import getArchivedCases from "./thunks/getArchivedCases";
 import { containsText } from "../../testHelpers";
@@ -26,10 +26,7 @@ describe("ArchivedCases", () => {
     mockLocalStorage();
 
     const newCase = new Case.Builder().defaultCase().build();
-    const newCase2 = new Case.Builder()
-      .defaultCase()
-      .withId(1)
-      .build();
+    const newCase2 = new Case.Builder().defaultCase().withId(1).build();
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();

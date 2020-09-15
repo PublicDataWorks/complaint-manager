@@ -1,6 +1,6 @@
 import archiveCase from "./archiveCase";
 import models from "../../../complaintManager/models";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 

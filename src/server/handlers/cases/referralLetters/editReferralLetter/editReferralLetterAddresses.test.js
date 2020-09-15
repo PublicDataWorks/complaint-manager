@@ -2,7 +2,7 @@ import ReferralLetter from "../../../../../client/complaintManager/testUtilities
 import models from "../../../../complaintManager/models/index";
 import editReferralLetterAddresses from "./editReferralLetterAddresses";
 import httpMocks from "node-mocks-http";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";

@@ -1,5 +1,5 @@
 import ReferralLetter from "../../client/complaintManager/testUtilities/ReferralLetter";
-import Case from "../../client/complaintManager/testUtilities/case";
+import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

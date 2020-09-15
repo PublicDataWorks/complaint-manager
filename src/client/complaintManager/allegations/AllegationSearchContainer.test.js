@@ -4,7 +4,7 @@ import { mount } from "enzyme";
 import { MemoryRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
-import Case from "../testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../sharedTestHelpers/Officer";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";

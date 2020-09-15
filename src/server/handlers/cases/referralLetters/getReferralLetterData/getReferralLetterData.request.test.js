@@ -2,7 +2,7 @@ import models from "../../../../complaintManager/models/index";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -14,7 +14,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 
-describe("GET /cases/:id/referral-letter", function() {
+describe("GET /cases/:id/referral-letter", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });

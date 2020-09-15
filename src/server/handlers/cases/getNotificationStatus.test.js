@@ -1,4 +1,4 @@
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import CaseNote from "../../testHelpers/caseNote";
 import Notification from "../../../client/complaintManager/testUtilities/notification";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";

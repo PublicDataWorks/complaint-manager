@@ -8,7 +8,7 @@ import app from "../../../server";
 import request from "supertest";
 import models from "../../../complaintManager/models";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";

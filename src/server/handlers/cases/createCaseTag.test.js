@@ -4,7 +4,7 @@ import {
   CASE_STATUS,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import Case from "../../../client/complaintManager/testUtilities/case";
+import Case from "../../../sharedTestHelpers/case";
 import models from "../../complaintManager/models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";

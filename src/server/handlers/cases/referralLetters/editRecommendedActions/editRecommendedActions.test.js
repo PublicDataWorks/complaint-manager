@@ -1,7 +1,7 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../sharedTestHelpers/Officer";

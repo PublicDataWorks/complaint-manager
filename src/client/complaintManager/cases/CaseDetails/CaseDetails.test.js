@@ -7,7 +7,7 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { BrowserRouter as Router } from "react-router-dom";
 import { containsText } from "../../../testHelpers";
 import { mockLocalStorage } from "../../../../mockLocalStorage";
-import Case from "../../testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
 import {

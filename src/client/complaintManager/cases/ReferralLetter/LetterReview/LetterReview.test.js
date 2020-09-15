@@ -13,7 +13,7 @@ import React from "react";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({

@@ -12,7 +12,7 @@ import {
   REFERRAL_LETTER_VERSION,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
-import Case from "../../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import Address from "../../../../../sharedTestHelpers/Address";
 import models from "../../../../complaintManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";

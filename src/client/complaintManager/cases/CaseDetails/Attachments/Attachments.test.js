@@ -1,7 +1,7 @@
 import React from "react";
 import Attachments from "./Attachments";
 import { mount } from "enzyme";
-import Case from "../../../testUtilities/case";
+import Case from "../../../../../sharedTestHelpers/case";
 import { containsText } from "../../../../testHelpers";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";

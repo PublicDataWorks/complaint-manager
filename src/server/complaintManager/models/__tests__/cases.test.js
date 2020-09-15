@@ -11,7 +11,7 @@ import {
   suppressWinstonLogs
 } from "../../../testHelpers/requestTestHelpers";
 import Boom from "boom";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS

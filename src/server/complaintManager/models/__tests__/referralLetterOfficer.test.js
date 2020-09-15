@@ -1,7 +1,7 @@
 import models from "../index";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import Case from "../../../../client/complaintManager/testUtilities/case";
+import Case from "../../../../sharedTestHelpers/case";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

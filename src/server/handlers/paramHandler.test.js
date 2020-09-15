@@ -3,7 +3,7 @@ import { handleCaseIdParam } from "./paramHandler";
 import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import models from "../complaintManager/models";
-import Case from "../../client/complaintManager/testUtilities/case";
+import Case from "../../sharedTestHelpers/case";
 
 const Boom = require("boom");
 
@@ -78,7 +78,7 @@ describe("param handler", () => {
       expect(next).not.toHaveBeenCalledWith(expect.any(Error));
       expect(next).toHaveBeenCalled();
     });
-    
+
     test("can delete case notes", async () => {
       request.method = "DELETE";
       request.route = { path: "/cases/:caseId/case-notes/:caseNoteId" };
