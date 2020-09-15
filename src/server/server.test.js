@@ -3,7 +3,7 @@ import request from "supertest";
 import models from "./complaintManager/models";
 import Civilian from "../sharedTestHelpers/civilian";
 import Case from "../client/complaintManager/testUtilities/case";
-import Attachment from "../client/complaintManager/testUtilities/attachment";
+import Attachment from "../sharedTestHelpers/attachment";
 import { civilianWithAddress } from "../client/complaintManager/testUtilities/ObjectMothers";
 import Address from "../sharedTestHelpers/Address";
 import {

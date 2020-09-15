@@ -1,5 +1,5 @@
 import React from "react";
-import Attachment from "../../../testUtilities/attachment";
+import Attachment from "../../../../../sharedTestHelpers/attachment";
 import { mount } from "enzyme";
 import AttachmentsList from "./AttachmentsList";
 import createConfiguredStore from "../../../../createConfiguredStore";
@@ -70,10 +70,7 @@ describe("AttachmentsList", () => {
       openRemoveAttachmentConfirmationDialog("Z_file.pdf")
     );
     expect(
-      wrapper
-        .find('[data-testid="removeAttachmentText"]')
-        .first()
-        .text()
+      wrapper.find('[data-testid="removeAttachmentText"]').first().text()
     ).toEqual("Are you sure you wish to remove Z_file.pdf from this case?");
   });
 });
