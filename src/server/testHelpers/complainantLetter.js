@@ -1,6 +1,6 @@
-import Civilian from "../../../sharedTestHelpers/civilian";
-import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
-import { COMPLAINANT } from "../../../sharedUtilities/constants";
+import Civilian from "../../sharedTestHelpers/civilian";
+import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
+import { COMPLAINANT } from "../../sharedUtilities/constants";
 
 class ComplainantLetter {
   constructor(build) {
