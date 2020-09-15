@@ -1,5 +1,5 @@
 import models from "../index";
-import ComplainantLetter from "../../../../client/complaintManager/testUtilities/complainantLetter";
+import ComplainantLetter from "../../../testHelpers/complainantLetter";
 import Case from "../../../../sharedTestHelpers/case";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 
