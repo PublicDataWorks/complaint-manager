@@ -7,7 +7,7 @@ import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import httpMocks from "node-mocks-http";
 import models from "../../../complaintManager/models";
 import removeOfficerAllegation from "./removeOfficerAllegation";

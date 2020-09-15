@@ -10,7 +10,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
-import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 
 describe("DELETE /officers-allegations/:officerAllegationId", () => {
   afterEach(async function () {

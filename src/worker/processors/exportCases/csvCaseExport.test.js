@@ -3,7 +3,7 @@ import Officer from "../../../client/complaintManager/testUtilities/Officer";
 import models from "../../../server/complaintManager/models";
 import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
 import Allegation from "../../../sharedTestHelpers/Allegation";
-import OfficerAllegation from "../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../sharedTestHelpers/OfficerAllegation";
 import Civilian from "../../../client/complaintManager/testUtilities/civilian";
 import Case from "../../../client/complaintManager/testUtilities/case";
 import moment from "moment";

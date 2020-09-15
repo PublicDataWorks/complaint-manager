@@ -21,7 +21,7 @@ import Officer from "../../../../../client/complaintManager/testUtilities/Office
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
 import Allegation from "../../../../../sharedTestHelpers/Allegation";
-import OfficerAllegation from "../../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../../sharedTestHelpers/OfficerAllegation";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";

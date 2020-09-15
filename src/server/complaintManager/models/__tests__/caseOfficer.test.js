@@ -5,7 +5,7 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
-import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
+import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
 
 describe("caseOfficer", () => {

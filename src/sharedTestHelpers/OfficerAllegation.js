@@ -1,4 +1,4 @@
-import { ALLEGATION_SEVERITY } from "../../../sharedUtilities/constants";
+import { ALLEGATION_SEVERITY } from "../sharedUtilities/constants";
 
 class OfficerAllegation {
   constructor(build) {
