@@ -3,7 +3,7 @@ import models from "../complaintManager/models";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../testHelpers/LetterOfficer";
-import ReferralLetterOfficerRecommendedAction from "../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
+import ReferralLetterOfficerRecommendedAction from "../testHelpers/ReferralLetterOfficerRecommendedAction";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
