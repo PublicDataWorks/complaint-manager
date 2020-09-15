@@ -2,7 +2,7 @@ import Civilian from "./civilian";
 import Attachment from "./attachment";
 import Address from "../../../sharedTestHelpers/Address";
 import CaseOfficer from "./caseOfficer";
-import Officer from "./Officer";
+import Officer from "../../../sharedTestHelpers/Officer";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,

@@ -1,9 +1,9 @@
 import calculateAgeBasedOnIncidentDate from "./calculateAgeBasedOnIncidentDate";
-import Officer from "../testUtilities/Officer";
+import Officer from "../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../testUtilities/caseOfficer";
 import Civilian from "../testUtilities/civilian";
 
-describe("calculateAgeBasedOnIncidentDate", function() {
+describe("calculateAgeBasedOnIncidentDate", function () {
   test("should return null if no incident date for officer", () => {
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

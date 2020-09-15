@@ -1,7 +1,7 @@
 import models from "../index";
 import moment from "moment";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 
 describe("officers", () => {
   describe("fullName", () => {
@@ -25,9 +25,7 @@ describe("officers", () => {
   });
   describe("age", () => {
     test("age should be calculated as today minus dob, without fractions", () => {
-      const dob = moment()
-        .subtract(45, "years")
-        .subtract(9, "months");
+      const dob = moment().subtract(45, "years").subtract(9, "months");
       const officer = models.officer.build({ dob: dob });
       expect(officer.age).toEqual(45);
     });

@@ -18,7 +18,7 @@ import ReferralLetter from "../../../../../client/complaintManager/testUtilities
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import Civilian from "../../../../../client/complaintManager/testUtilities/civilian";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";

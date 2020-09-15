@@ -2,7 +2,7 @@ import Case from "../../../../client/complaintManager/testUtilities/case";
 import models from "../../../complaintManager/models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import {
   ACCUSED,
   AUDIT_SUBJECT,

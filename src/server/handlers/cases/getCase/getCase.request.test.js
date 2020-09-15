@@ -3,7 +3,7 @@ import app from "../../../server";
 import Attachment from "../../../../client/complaintManager/testUtilities/attachment";
 import models from "../../../complaintManager/models";
 import Civilian from "../../../../client/complaintManager/testUtilities/civilian";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import Address from "../../../../sharedTestHelpers/Address";

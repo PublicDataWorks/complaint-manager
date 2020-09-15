@@ -9,7 +9,7 @@ import request from "supertest";
 import models from "../../../complaintManager/models";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 

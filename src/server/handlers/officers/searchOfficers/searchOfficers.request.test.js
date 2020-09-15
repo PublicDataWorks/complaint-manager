@@ -6,7 +6,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 
 describe("GET /officers/search", () => {
   let token;

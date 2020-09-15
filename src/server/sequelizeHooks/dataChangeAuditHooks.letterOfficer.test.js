@@ -3,7 +3,7 @@ import models from "../complaintManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import LetterOfficer from "../../client/complaintManager/testUtilities/LetterOfficer";
-import Officer from "../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
 
 describe("dataChangeAuditHooks for letter officer", () => {

@@ -5,7 +5,7 @@ import { containsText } from "../../../testHelpers";
 import Civilian from "../../testUtilities/civilian";
 import formatDate from "../../utilities/formatDate";
 import calculateAgeBasedOnIncidentDate from "../../utilities/calculateAgeBasedOnIncidentDate";
-import Officer from "../../testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../testUtilities/caseOfficer";
 
 describe("DateOfBirthAgeInfoDisplay", () => {

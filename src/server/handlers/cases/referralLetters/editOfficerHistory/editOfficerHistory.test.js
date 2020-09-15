@@ -3,7 +3,7 @@ import models from "../../../../complaintManager/models";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import editOfficerHistory from "./editOfficerHistory";
 import httpMocks from "node-mocks-http";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
