@@ -7,7 +7,7 @@ import {
   SENDER
 } from "../handlers/cases/referralLetters/referralLetterDefaults";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import ReferralLetterIAProCorrection from "../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterIAProCorrection from "../testHelpers/ReferralLetterIAProCorrection";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks for referral letter iapro correction", () => {

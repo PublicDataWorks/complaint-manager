@@ -1,7 +1,7 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import models from "../../../../complaintManager/models/index";
-import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterIAProCorrection from "../../../../testHelpers/ReferralLetterIAProCorrection";
 import Case from "../../../../../sharedTestHelpers/case";
 import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";

@@ -13,7 +13,7 @@ import {
   COMPLAINANT,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
-import ReferralLetterIAProCorrection from "../../../../../client/complaintManager/testUtilities/ReferralLetterIAProCorrection";
+import ReferralLetterIAProCorrection from "../../../../testHelpers/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../sharedTestHelpers/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
