@@ -1,12 +1,12 @@
 import { mount } from "enzyme";
 import Accused from "./Accused";
 import React from "react";
-import Officer from "../../../testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 
-describe("Accused", function() {
+describe("Accused", function () {
   test("should display officers", () => {
     const anOfficer = new Officer.Builder()
       .defaultOfficer()

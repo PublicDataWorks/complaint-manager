@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../createConfiguredStore";
 import Case from "../testUtilities/case";
 import CaseOfficer from "../testUtilities/caseOfficer";
-import Officer from "../testUtilities/Officer";
+import Officer from "../../../sharedTestHelpers/Officer";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 import { Table } from "@material-ui/core";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
@@ -35,10 +35,7 @@ describe("AllegationSearchContainer", () => {
     const caseOfficerId = 100;
     const officerId = 101;
 
-    officer = new Officer.Builder()
-      .defaultOfficer()
-      .withId(officerId)
-      .build();
+    officer = new Officer.Builder().defaultOfficer().withId(officerId).build();
     caseOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withId(caseOfficerId)

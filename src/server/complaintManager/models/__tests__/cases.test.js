@@ -19,7 +19,7 @@ import {
 
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
 
 describe("cases", function () {

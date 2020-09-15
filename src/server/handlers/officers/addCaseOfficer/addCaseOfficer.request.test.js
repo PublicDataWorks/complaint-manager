@@ -1,5 +1,5 @@
 import request from "supertest";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../complaintManager/models/index";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import app from "../../../server";

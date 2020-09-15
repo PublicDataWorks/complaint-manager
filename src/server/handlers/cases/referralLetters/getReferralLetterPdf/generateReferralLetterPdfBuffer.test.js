@@ -13,7 +13,7 @@ import generateReferralLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateReferralLetterPdfBuffer";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 
 jest.mock("html-pdf", () => ({
@@ -37,7 +37,7 @@ jest.mock("../generateReferralLetterBodyAndAuditDetails", () => {
   };
 });
 
-describe("generateReferralLetterPdfBuffer", function() {
+describe("generateReferralLetterPdfBuffer", function () {
   let existingCase, referralLetter, timeOfDownload, officer;
 
   afterEach(async () => {

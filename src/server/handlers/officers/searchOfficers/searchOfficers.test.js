@@ -1,5 +1,5 @@
 import Case from "../../../../client/complaintManager/testUtilities/case";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../complaintManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
@@ -14,7 +14,7 @@ const {
 
 jest.mock("../../audits/auditDataAccess");
 
-describe("searchOfficers", function() {
+describe("searchOfficers", function () {
   let existingCase, response, next, request;
   beforeEach(async () => {
     const caseToCreate = new Case.Builder()

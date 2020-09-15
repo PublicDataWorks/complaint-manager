@@ -1,6 +1,6 @@
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import models from "../index";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";

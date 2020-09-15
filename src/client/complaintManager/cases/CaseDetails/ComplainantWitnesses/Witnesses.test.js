@@ -16,7 +16,7 @@ import editCivilian from "../../thunks/editCivilian";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import CaseOfficer from "../../../testUtilities/caseOfficer";
-import Officer from "../../../testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import RaceEthnicity from "../../../testUtilities/raceEthnicity";
 
 jest.mock("redux-form", () => ({

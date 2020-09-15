@@ -18,7 +18,7 @@ import {
   PERSON_TYPE,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 
 describe("getCases", () => {

@@ -7,7 +7,7 @@ import {
 import models from "../../../../complaintManager/models";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";

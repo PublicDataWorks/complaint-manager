@@ -2,7 +2,7 @@ import models from "../complaintManager/models/index";
 import { ACCUSED, COMPLAINANT } from "../../sharedUtilities/constants";
 import Case from "../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
-import Officer from "../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../sharedTestHelpers/Officer";
 import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
 import Civilian from "../../client/complaintManager/testUtilities/civilian";
 

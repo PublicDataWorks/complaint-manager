@@ -10,7 +10,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import Case from "../../../../client/complaintManager/testUtilities/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 
 describe("constructFilename", function () {
   afterEach(async () => {

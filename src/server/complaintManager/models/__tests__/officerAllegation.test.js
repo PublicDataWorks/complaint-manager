@@ -1,5 +1,5 @@
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";

@@ -11,7 +11,7 @@ import {
 import httpMocks from "node-mocks-http";
 import Boom from "boom";
 import models from "../../../complaintManager/models/index";
-import Officer from "../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -175,10 +175,10 @@ describe("changeStatus", () => {
     });
   });
 
-  describe("Accused Officers on the Case", function() {
+  describe("Accused Officers on the Case", function () {
     let accusedCaseOfficer1, accusedCaseOfficer2;
 
-    beforeEach(async function() {
+    beforeEach(async function () {
       const officerAttributes1 = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)

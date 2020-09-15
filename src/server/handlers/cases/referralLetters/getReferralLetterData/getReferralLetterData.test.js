@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../complaintManager/models/index";
 import ReferralLetterOfficerHistoryNote from "../../../../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import getReferralLetterData from "./getReferralLetterData";
@@ -107,7 +107,7 @@ describe("getReferralLetterData", () => {
     expect(response._getData()).toEqual(expectedResponseBody);
   });
 
-  describe("there is a letter officer", function() {
+  describe("there is a letter officer", function () {
     let letterOfficer, caseOfficer, officerHistoryOption;
 
     beforeEach(async () => {

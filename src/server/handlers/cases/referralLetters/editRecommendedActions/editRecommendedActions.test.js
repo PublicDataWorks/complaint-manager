@@ -4,7 +4,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../client/complaintManager/testUtilities/case";
 import ReferralLetter from "../../../../../client/complaintManager/testUtilities/ReferralLetter";
 import httpMocks from "node-mocks-http";
-import Officer from "../../../../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../client/complaintManager/testUtilities/caseOfficer";
 import LetterOfficer from "../../../../../client/complaintManager/testUtilities/LetterOfficer";
 import editRecommendedActions from "./editRecommendedActions";

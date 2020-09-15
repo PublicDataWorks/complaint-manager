@@ -1,6 +1,6 @@
 import Case from "../../client/complaintManager/testUtilities/case";
 import models from "../complaintManager/models";
-import Officer from "../../client/complaintManager/testUtilities/Officer";
+import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../client/complaintManager/testUtilities/caseOfficer";
 import LetterOfficer from "../../client/complaintManager/testUtilities/LetterOfficer";
 import ReferralLetterOfficerRecommendedAction from "../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";

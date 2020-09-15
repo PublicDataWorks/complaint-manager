@@ -2,7 +2,7 @@ import addOfficer from "./addOfficer";
 import nock from "nock";
 import { push } from "connected-react-router";
 import { startSubmit, stopSubmit } from "redux-form";
-import Officer from "../../testUtilities/Officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../testUtilities/case";
 import {
   addOfficerToCaseSuccess,

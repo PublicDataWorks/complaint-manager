@@ -1,4 +1,4 @@
-import { CASE_STATUS } from "../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../sharedUtilities/constants";
 
 class Officer {
   constructor(build) {
