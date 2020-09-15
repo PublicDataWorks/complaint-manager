@@ -29,7 +29,7 @@ import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLe
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
-import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
+import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 
 jest.mock("../../../audits/auditDataAccess");
 

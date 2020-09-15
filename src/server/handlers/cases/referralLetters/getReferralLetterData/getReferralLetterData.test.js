@@ -17,7 +17,7 @@ import ReferralLetterIAProCorrection from "../../../../testHelpers/ReferralLette
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../sharedTestHelpers/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
-import ReferralLetterCaseClassification from "../../../../../client/complaintManager/testUtilities/ReferralLetterCaseClassification";
+import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 
 jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");
