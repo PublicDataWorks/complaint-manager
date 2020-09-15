@@ -11,7 +11,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
-import RaceEthnicity from "./raceEthnicity";
+import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 
 class Case {
   constructor(build) {

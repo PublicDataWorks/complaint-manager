@@ -3,7 +3,7 @@ import { ACCUSED, COMPLAINANT } from "../../sharedUtilities/constants";
 import Case from "../../client/complaintManager/testUtilities/case";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
-import RaceEthnicity from "../../client/complaintManager/testUtilities/raceEthnicity";
+import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
 import Civilian from "../../sharedTestHelpers/civilian";
 
 export const createTestCaseWithoutCivilian = async (user = "someone") => {

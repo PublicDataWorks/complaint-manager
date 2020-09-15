@@ -10,7 +10,7 @@ import createCivilian from "./createCivilian";
 import nock from "nock";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import config from "../../../common/config/config";
-import RaceEthnicity from "../../testUtilities/raceEthnicity";
+import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
