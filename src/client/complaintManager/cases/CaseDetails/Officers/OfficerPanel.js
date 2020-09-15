@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
-import formatDate from "../../../utilities/formatDate";
+import formatDate from "../../../../../sharedUtilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../../common/globalStyling/styles";
@@ -25,7 +25,7 @@ import {
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const isCivilianWithinNopd =

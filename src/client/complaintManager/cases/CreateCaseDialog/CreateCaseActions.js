@@ -14,7 +14,7 @@ import {
   atLeastOneRequired
 } from "../../../formValidations";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
-import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
+import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDate";
 import { isEmpty } from "lodash";
 import {
   CIVILIAN_INITIATED,

@@ -1,5 +1,5 @@
 import React from "react";
-import formatDate from "../../utilities/formatDate";
+import formatDate from "../../../../sharedUtilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import { Drawer, Typography } from "@material-ui/core";

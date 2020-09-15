@@ -10,7 +10,7 @@ import {
   openExportAuditLogConfirmationDialog
 } from "../actionCreators/exportActionCreators";
 import { containsText } from "../../testHelpers";
-import formatDate from "../utilities/formatDate";
+import formatDate from "../../../sharedUtilities/formatDate";
 import { CASE_EXPORT_TYPE } from "../../../sharedUtilities/constants";
 
 jest.mock("./thunks/generateExportJob", () => (path, dateRange = null) => ({

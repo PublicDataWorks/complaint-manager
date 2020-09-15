@@ -16,7 +16,7 @@ import {
   closeExportConfirmationDialog,
   exportJobStarted
 } from "../actionCreators/exportActionCreators";
-import formatDate from "../utilities/formatDate";
+import formatDate from "../../../sharedUtilities/formatDate";
 import { CASE_EXPORT_TYPE } from "../../../sharedUtilities/constants";
 
 const dateRangeText = dateRange => {

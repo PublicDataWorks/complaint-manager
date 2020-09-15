@@ -5,7 +5,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import Case from "../../../../../sharedTestHelpers/case";
-import formatDate from "../../../utilities/formatDate";
+import formatDate from "../../../../../sharedUtilities/formatDate";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import {
   changeInput,

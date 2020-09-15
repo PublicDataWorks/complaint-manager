@@ -1,4 +1,4 @@
-import { dateTimeFromString } from "../../../utilities/formatDate";
+import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React from "react";

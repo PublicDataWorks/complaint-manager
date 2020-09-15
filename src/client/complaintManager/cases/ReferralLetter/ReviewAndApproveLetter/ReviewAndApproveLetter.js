@@ -15,7 +15,7 @@ import {
   startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
-import { dateTimeFromString } from "../../../utilities/formatDate";
+import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
