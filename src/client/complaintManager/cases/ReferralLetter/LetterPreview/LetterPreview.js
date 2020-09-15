@@ -27,7 +27,7 @@ import {
 import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
-import { dateTimeFromString } from "../../../utilities/formatDate";
+import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../../common/globalStyling/styles";

@@ -14,8 +14,8 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary
 } from "@material-ui/core";
-import formatDate from "../../../utilities/formatDate";
-import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+import formatDate from "../../../../../sharedUtilities/formatDate";
+import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";

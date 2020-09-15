@@ -1,7 +1,7 @@
 import React from "react";
 import { div, TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import formatDate from "../../utilities/formatDate";
+import formatDate from "../../../../sharedUtilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import tableStyleGenerator from "../../../tableStyles";

@@ -17,7 +17,7 @@ import {
 import { connect } from "react-redux";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 
 const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);

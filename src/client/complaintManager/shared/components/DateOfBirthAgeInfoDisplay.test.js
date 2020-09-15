@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import DateOfBirthAgeInfoDisplay from "./DateOfBirthAgeInfoDisplay";
 import { containsText } from "../../../testHelpers";
 import Civilian from "../../../../sharedTestHelpers/civilian";
-import formatDate from "../../utilities/formatDate";
+import formatDate from "../../../../sharedUtilities/formatDate";
 import calculateAgeBasedOnIncidentDate from "../../utilities/calculateAgeBasedOnIncidentDate";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";

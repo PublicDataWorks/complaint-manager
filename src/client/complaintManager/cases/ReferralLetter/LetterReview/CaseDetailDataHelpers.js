@@ -1,8 +1,8 @@
 import formatDate, {
   computeTimeZone,
   format12HourTime
-} from "../../../utilities/formatDate";
-import formatPhoneNumber from "../../../utilities/formatPhoneNumber";
+} from "../../../../../sharedUtilities/formatDate";
+import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
 

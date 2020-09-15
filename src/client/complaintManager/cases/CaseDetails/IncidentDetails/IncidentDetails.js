@@ -4,7 +4,7 @@ import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {
   computeTimeZone,
   format12HourTime
-} from "../../../utilities/formatDate";
+} from "../../../../../sharedUtilities/formatDate";
 import LinkButton from "../../../shared/components/LinkButton";
 import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";

@@ -1,4 +1,4 @@
-import formatDate from "../../../../client/complaintManager/utilities/formatDate";
+import formatDate from "../../../../sharedUtilities/formatDate";
 import _ from "lodash";
 
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");

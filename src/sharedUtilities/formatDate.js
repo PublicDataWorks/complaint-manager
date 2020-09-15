@@ -1,5 +1,5 @@
 import timezone from "moment-timezone";
-import { TIMEZONE } from "../../../sharedUtilities/constants";
+import { TIMEZONE } from "./constants";
 
 const formatDate = dateString => {
   if (dateString) {

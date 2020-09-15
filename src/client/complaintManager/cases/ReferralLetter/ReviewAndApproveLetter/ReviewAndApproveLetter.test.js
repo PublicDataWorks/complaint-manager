@@ -18,7 +18,7 @@ import {
   startLoadingPdfPreview
 } from "../../../actionCreators/letterActionCreators";
 import timekeeper from "timekeeper";
-import { dateTimeFromString } from "../../../utilities/formatDate";
+import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import approveReferralLetter from "../thunks/approveReferralLetter";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 

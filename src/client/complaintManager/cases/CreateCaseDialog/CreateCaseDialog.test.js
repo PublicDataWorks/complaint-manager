@@ -12,7 +12,7 @@ import CreateCaseButton from "../CreateCaseButton";
 import createCase from "../thunks/createCase";
 import { openSnackbar } from "../../actionCreators/snackBarActionCreators";
 import moment from "moment";
-import { applyCentralTimeZoneOffset } from "../../utilities/formatDate";
+import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDate";
 import {
   CIVILIAN_INITIATED,
   CIVILIAN_WITHIN_NOPD_INITIATED,

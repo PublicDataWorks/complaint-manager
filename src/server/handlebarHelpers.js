@@ -4,8 +4,8 @@ import {
   format12HourTime,
   formatLongDate,
   formatShortDate
-} from "../client/complaintManager/utilities/formatDate";
-import formatPhoneNumber from "../client/complaintManager/utilities/formatPhoneNumber";
+} from "../sharedUtilities/formatDate";
+import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import {
   DECLINES_OPTION,
   S3_GET_OBJECT,
