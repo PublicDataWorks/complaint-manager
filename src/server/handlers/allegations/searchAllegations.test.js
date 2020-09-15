@@ -1,4 +1,4 @@
-import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../sharedTestHelpers/Allegation";
 import models from "../../complaintManager/models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
@@ -8,7 +8,7 @@ import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseOfficer from "../../../client/complaintManager/testUtilities/caseOfficer";
 import Officer from "../../../client/complaintManager/testUtilities/Officer";
 
-describe("searchAllegations handler", function() {
+describe("searchAllegations handler", function () {
   let existingCase, caseOfficer;
 
   beforeEach(async () => {

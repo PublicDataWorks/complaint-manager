@@ -13,7 +13,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import OfficerAllegation from "../../../../client/complaintManager/testUtilities/OfficerAllegation";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import LetterOfficer from "../../../../client/complaintManager/testUtilities/LetterOfficer";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -42,7 +42,7 @@ describe("editCaseOfficer", () => {
     });
   });
 
-  describe("starting with known officer", function() {
+  describe("starting with known officer", function () {
     let existingCaseOfficerAttributes, existingCaseOfficer, existingOfficer;
 
     beforeEach(async () => {

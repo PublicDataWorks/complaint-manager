@@ -1,4 +1,4 @@
-import Allegation from "../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../sharedTestHelpers/Allegation";
 import models from "../../complaintManager/models";
 import request from "supertest";
 import app from "../../server";

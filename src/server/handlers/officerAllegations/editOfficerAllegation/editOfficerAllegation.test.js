@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../client/complaintManager/testUtilities/caseOfficer";
-import Allegation from "../../../../client/complaintManager/testUtilities/Allegation";
+import Allegation from "../../../../sharedTestHelpers/Allegation";
 import {
   ACCUSED,
   ALLEGATION_SEVERITY,
