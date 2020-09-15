@@ -4,7 +4,7 @@ import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../testHelpers/LetterOfficer";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import ReferralLetterOfficerHistoryNote from "../../client/complaintManager/testUtilities/ReferralLetterOfficerHistoryNote";
+import ReferralLetterOfficerHistoryNote from "../testHelpers/ReferralLetterOfficerHistoryNote";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("data change audit hooks for referral letter officer history note", () => {
