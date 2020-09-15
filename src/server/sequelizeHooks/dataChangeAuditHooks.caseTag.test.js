@@ -3,7 +3,7 @@ import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import CaseTag from "../../client/complaintManager/testUtilities/caseTag";
-import Tag from "../../client/complaintManager/testUtilities/tag";
+import Tag from "../testHelpers/tag";
 
 describe("dataChangeAuditHooks for caseTag", () => {
   afterEach(async () => {
