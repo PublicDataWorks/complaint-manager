@@ -5,7 +5,7 @@ import Case from "../../../../sharedTestHelpers/case";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import ReferralLetterOfficerRecommendedAction from "../../../../client/complaintManager/testUtilities/ReferralLetterOfficerRecommendedAction";
+import ReferralLetterOfficerRecommendedAction from "../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 
 describe("letterOfficer model", function () {
   let letterOfficer;
