@@ -1,7 +1,7 @@
 import Case from "../../sharedTestHelpers/case";
 import Civilian from "../../sharedTestHelpers/civilian";
 import CaseNote from "../testHelpers/caseNote";
-import Notification from "../../client/complaintManager/testUtilities/notification";
+import Notification from "../testHelpers/notification";
 import { sendNotifsIfComplainantChange } from "./sendNotifsIfComplainantChange";
 import { sendNotification } from "./cases/getMessageStream";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

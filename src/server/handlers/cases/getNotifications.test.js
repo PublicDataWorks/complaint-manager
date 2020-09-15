@@ -1,7 +1,7 @@
 import moment, { utc } from "moment";
 import Case from "../../../sharedTestHelpers/case";
 import CaseNote from "../../testHelpers/caseNote";
-import Notification from "../../../client/complaintManager/testUtilities/notification";
+import Notification from "../../testHelpers/notification";
 import { getNotifications, extractNotifications } from "./getNotifications";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {

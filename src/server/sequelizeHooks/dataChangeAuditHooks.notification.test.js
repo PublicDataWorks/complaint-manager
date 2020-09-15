@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseNote from "../testHelpers/caseNote";
-import Notification from "../../client/complaintManager/testUtilities/notification";
+import Notification from "../testHelpers/notification";
 import Case from "../../sharedTestHelpers/case";
 import models from "../complaintManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";

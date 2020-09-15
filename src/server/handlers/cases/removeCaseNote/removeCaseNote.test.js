@@ -11,7 +11,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
-import Notification from "../../../../client/complaintManager/testUtilities/notification";
+import Notification from "../../../testHelpers/notification";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
