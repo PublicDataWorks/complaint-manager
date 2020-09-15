@@ -9,7 +9,7 @@ import {
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../../client/complaintManager/testUtilities/intakeSource";
-import HowDidYouHearAboutUsSource from "../../client/complaintManager/testUtilities/HowDidYouHearAboutUsSource";
+import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
 
 describe("dataChangeAuditHooks", () => {
