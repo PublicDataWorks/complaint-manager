@@ -1,10 +1,15 @@
+import { isEqual, omit, pullAllWith } from "lodash";
 const csvParse = require("csv-parse");
 const config = require("../config/config");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
-const models = require("../complaintManager/models");
 const winston = require("winston");
 
 const parseNullValues = value => (!value || value === "NULL" ? null : value);
+
+const checkForOldItems = (oldItems, newItems) => {
+  pullAllWith(newItems, oldItems, isEqual);
+  return newItems;
+};
 
 const loadCsvFromS3 = async (fileName, model) => {
   try {
@@ -32,14 +37,33 @@ const loadCsvFromS3 = async (fileName, model) => {
         );
       });
 
+    const listener = resolve => async () => {
+      let oldItems = [];
+      let newItems = [];
+      try {
+        oldItems = await model
+          .findAll()
+          .map(oldItem =>
+            omit(oldItem.dataValues, [
+              "id",
+              "createdAt",
+              "updatedAt",
+              "deletedAt"
+            ])
+          );
+        newItems = checkForOldItems(oldItems, entries);
+      } catch (error) {
+        winston.error(`There was an error retrieving data. Error: ${error}`);
+      }
+      const insertedEntries = await model.bulkCreate(newItems);
+      winston.info(
+        `Inserted ${insertedEntries.length} out of ${entries.length}.`
+      );
+      resolve(insertedEntries);
+    };
+
     await new Promise(resolve => {
-      stream.on("end", async () => {
-        const insertedEntries = await model.bulkCreate(entries);
-        winston.info(
-          `Inserted ${insertedEntries.length} out of ${entries.length}.`
-        );
-        resolve(insertedEntries);
-      });
+      stream.on("end", listener(resolve));
     });
   } catch (error) {
     winston.error(

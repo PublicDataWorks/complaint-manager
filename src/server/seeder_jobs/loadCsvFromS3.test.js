@@ -6,14 +6,14 @@ import fs from "fs";
 
 const AWS = require("aws-sdk");
 
-const testAllegationsPath = path.join(__dirname, "testAllegations.csv");
+let testAllegationsPath = path.join(__dirname, "testAllegations.csv");
 
 jest.mock("aws-sdk", () => ({
   S3: jest.fn()
 }));
 
 describe("loadCsvFromS3", () => {
-  afterEach(async () => {
+  afterAll(async () => {
     await cleanupDatabase();
   });
 
@@ -46,5 +46,17 @@ describe("loadCsvFromS3", () => {
     expect(allegation2.directive).toEqual(
       "1.1 Law Enforcement Authority 1-10 Policy Statement"
     );
+  });
+
+  test("properly adds new allegation data to db from s3", async () => {
+    testAllegationsPath = path.join(
+      __dirname,
+      "testAllegationsUpdatedData.csv"
+    );
+
+    await loadCsvFromS3("testAllegationsUpdatedData.csv", models.allegation);
+
+    const newAllegationData = await models.allegation.findAll();
+    expect(newAllegationData.length).toEqual(3);
   });
 });
