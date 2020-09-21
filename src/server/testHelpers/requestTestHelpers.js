@@ -85,7 +85,6 @@ export const expectResponse = async (
 export const cleanupDatabase = async () => {
   const truncationQuery =
     "TRUNCATE referral_letter_officer_recommended_actions CASCADE;" +
-    "TRUNCATE referral_letter_iapro_corrections CASCADE;" +
     "TRUNCATE referral_letter_officer_history_notes CASCADE;" +
     "TRUNCATE letter_officers CASCADE;" +
     "TRUNCATE referral_letters CASCADE;" +
