@@ -18,10 +18,6 @@ describe("getReferralLetterDataForResponse", () => {
         ]),
         model: models.referral_letter.name
       },
-      referralLetterIaproCorrections: {
-        attributes: expect.toIncludeSameMembers(["id", "details"]),
-        model: models.referral_letter_iapro_correction.name
-      },
       caseOfficers: {
         attributes: expect.toIncludeSameMembers([
           "id",

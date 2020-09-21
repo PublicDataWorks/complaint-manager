@@ -24,7 +24,6 @@ import Allegation from "../../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../../sharedTestHelpers/OfficerAllegation";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
-import ReferralLetterIAProCorrection from "../../../../testHelpers/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
@@ -630,23 +629,6 @@ describe("getReferralLetterPreview", function () {
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
-      test("it renders correctly with iapro corrections", async () => {
-        const referralLetterIaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
-          .defaultReferralLetterIAProCorrection()
-          .withId(undefined)
-          .withReferralLetterId(referralLetter.id);
-
-        await models.referral_letter_iapro_correction.create(
-          referralLetterIaproCorrectionAttributes,
-          {
-            auditUser: "test"
-          }
-        );
-
-        await getReferralLetterPreview(request, response, next);
-        expect(response._getData().letterHtml).toMatchSnapshot();
-      });
-
       test("renders correctly with history notes", async () => {
         const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
           .defaultReferralLetterOfficerHistoryNote()
@@ -736,18 +718,6 @@ describe("getReferralLetterPreview", function () {
 
         await models.referral_letter_officer_recommended_action.create(
           referralLetterOfficerRecommendedActionAttributes,
-          {
-            auditUser: "test"
-          }
-        );
-
-        const referralLetterIaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
-          .defaultReferralLetterIAProCorrection()
-          .withId(undefined)
-          .withReferralLetterId(referralLetter.id);
-
-        await models.referral_letter_iapro_correction.create(
-          referralLetterIaproCorrectionAttributes,
           {
             auditUser: "test"
           }
@@ -912,12 +882,6 @@ describe("getReferralLetterPreview", function () {
               "lastEdited"
             ]),
             model: models.referral_letter.name
-          },
-          referralLetterIaproCorrections: {
-            attributes: expect.arrayContaining(
-              Object.keys(models.referral_letter_iapro_correction.rawAttributes)
-            ),
-            model: models.referral_letter_iapro_correction.name
           },
           referralLetterOfficerHistoryNotes: {
             attributes: expect.arrayContaining(

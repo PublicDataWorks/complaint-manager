@@ -7,7 +7,6 @@ import CaseDashboard from "./complaintManager/cases/CaseDashboard";
 import AddOfficerSearch from "./complaintManager/officers/OfficerSearch/AddOfficerSearch";
 import CaseDetails from "./complaintManager/cases/CaseDetails/CaseDetails";
 import CaseHistory from "./complaintManager/cases/CaseDetails/CaseHistory/CaseHistory";
-import IAProCorrections from "./complaintManager/cases/ReferralLetter/IAProCorrections/IAProCorrections";
 import EditLetter from "./complaintManager/cases/ReferralLetter/EditLetter/EditLetter";
 import AddOfficerDetails from "./complaintManager/officers/OfficerDetails/AddOfficerDetails";
 import RecommendedActions from "./complaintManager/cases/ReferralLetter/RecommendedActions/RecommendedActions";
@@ -63,10 +62,6 @@ const complaintManagerRoutes = [
   {
     path: "/cases/:id/letter/officer-history",
     component: OfficerHistories
-  },
-  {
-    path: "/cases/:id/letter/iapro-corrections",
-    component: IAProCorrections
   },
   {
     path: "/cases/:id/letter/recommended-actions",

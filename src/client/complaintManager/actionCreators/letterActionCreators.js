@@ -14,8 +14,6 @@ import {
   OPEN_EDIT_LETTER_CONFIRMATION_DIALOG,
   OPEN_INCOMPLETE_CLASSIFICATION_DIALOG,
   OPEN_INCOMPLETE_OFFICER_HISTORY_DIALOG,
-  REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED,
-  REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED,
   REMOVE_OFFICER_HISTORY_NOTE_DIALOG_OPENED,
   START_LETTER_DOWNLOAD,
@@ -36,19 +34,6 @@ export const openRemoveOfficerHistoryNoteDialog = (
 
 export const closeRemoveOfficerHistoryNoteDialog = () => ({
   type: REMOVE_OFFICER_HISTORY_NOTE_DIALOG_CLOSED
-});
-
-export const openRemoveIAProCorrectionDialog = (
-  fieldArrayName,
-  correctionIndex
-) => ({
-  type: REMOVE_IAPRO_CORRECTION_DIALOG_OPENED,
-  fieldArrayName,
-  correctionIndex
-});
-
-export const closeRemoveIAProCorrectionDialog = () => ({
-  type: REMOVE_IAPRO_CORRECTION_DIALOG_CLOSED
 });
 
 export const getReferralLetterSuccess = letterDetails => ({

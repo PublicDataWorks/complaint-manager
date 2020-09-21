@@ -243,16 +243,6 @@ describe("LetterReview", () => {
       );
     });
 
-    test("it redirects to iapro corrections when click iapro corrections stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-IAPro Corrections"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        push(`/cases/${caseId}/letter/iapro-corrections`)
-      );
-    });
-
     test("it redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
         .find('[data-testid="step-button-Recommended Actions"]')

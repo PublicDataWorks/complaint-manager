@@ -464,29 +464,11 @@ if (TEST_PASS && TEST_USER) {
         .close();
     },
 
-    "should remove and add iapro correction": browser => {
-      const iaproCorrections = browser.page.IAProCorrections();
-
-      iaproCorrections
-        .isOnPage()
-        .setNthDetails(0, "IAPro Correction Details")
-        .setNthDetails(1, "Details to delete")
-        .removeNthCorrection(1)
-        .expectNthCorrectionValue(0, "IAPro Correction Details")
-        .expectNthCorrectionValue(1, "")
-        .addCorrection()
-        .clickNext();
-    },
-
     "should check retaliation concerns and recommended action": browser => {
       const recommendedActions = browser.page.RecommendedActions();
       const snackbar = browser.page.SnackbarPOM();
 
       recommendedActions.isOnPage();
-
-      snackbar
-        .presentWithMessage("IAPro corrections were successfully updated")
-        .close();
 
       recommendedActions
         .toggleRetaliationConcerns()

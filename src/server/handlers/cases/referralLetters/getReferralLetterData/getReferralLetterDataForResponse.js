@@ -41,17 +41,10 @@ const getReferralLetterDataForResponse = async (caseId, transaction) => {
       caseId: letterData.caseId,
       includeRetaliationConcerns: letterData.includeRetaliationConcerns,
       letterOfficers: transformedLetterOfficerData,
-      referralLetterIaproCorrections: getIAProCorrections(letterData),
       classifications: classificationDataAndAuditDetails.classificationIds
     },
     auditDetails: auditDetails
   };
-};
-
-const getIAProCorrections = letterData => {
-  return letterData.referralLetterIaproCorrections.length === 0
-    ? buildEmptyIAProCorrections()
-    : letterData.referralLetterIaproCorrections;
 };
 
 const letterOfficerAttributes = caseOfficer => {
@@ -110,10 +103,6 @@ const buildEmptyNotes = () => {
   return [emptyObject()];
 };
 
-const buildEmptyIAProCorrections = () => {
-  return [emptyObject(), emptyObject(), emptyObject()];
-};
-
 const getLetterDataAndAuditDetails = async (caseId, transaction) => {
   const queryOptions = {
     where: { caseId: caseId },
@@ -123,22 +112,9 @@ const getLetterDataAndAuditDetails = async (caseId, transaction) => {
         { model: models.case_officer, as: "caseOfficers" },
         "created_at",
         ASCENDING
-      ],
-      [
-        {
-          model: models.referral_letter_iapro_correction,
-          as: "referralLetterIaproCorrections"
-        },
-        "created_at",
-        ASCENDING
       ]
     ],
     include: [
-      {
-        model: models.referral_letter_iapro_correction,
-        as: "referralLetterIaproCorrections",
-        attributes: ["id", "details"]
-      },
       {
         model: models.case_officer,
         as: "caseOfficers",

@@ -23,7 +23,6 @@ import removeOfficerAllegation from "./handlers/officerAllegations/removeOfficer
 import getReferralLetterData from "./handlers/cases/referralLetters/getReferralLetterData/getReferralLetterData";
 import getReferralLetterPreview from "./handlers/cases/referralLetters/getReferralLetterPreview/getReferralLetterPreview";
 import editOfficerHistory from "./handlers/cases/referralLetters/editOfficerHistory/editOfficerHistory";
-import editIAProCorrections from "./handlers/cases/referralLetters/editIAProCorrections/editIAProCorrections";
 import editRecommendedActions from "./handlers/cases/referralLetters/editRecommendedActions/editRecommendedActions";
 import editReferralLetterAddresses from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterAddresses";
 import editReferralLetterContent from "./handlers/cases/referralLetters/editReferralLetter/editReferralLetterContent";
@@ -285,13 +284,6 @@ export const API_ROUTES = {
       handler: editOfficerHistory,
       errorMessage:
       "Something went wrong and the officer history was not updated. Please try again."
-    }
-  },
-  "/cases/:caseId/referral-letter/iapro-corrections": {
-    put: {
-      handler: editIAProCorrections,
-      errorMessage:
-      "Something went wrong and the IAPro corrections were not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/recommended-actions": {

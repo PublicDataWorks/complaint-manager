@@ -31,7 +31,6 @@ import officerHistoryNoteDialogReducer from "./complaintManager/reducers/ui/offi
 import referralLetterReducer from "./complaintManager/reducers/cases/referralLetterReducer";
 import exportJobDownloadUrlReducer from "./complaintManager/reducers/export/exportJobDownloadUrlReducer";
 import generateJobReducer from "./complaintManager/reducers/export/generateJobReducer";
-import iaProCorrectionsReducer from "./complaintManager/reducers/ui/iaProCorrectionDialogReducer";
 import allExportsReducer from "./complaintManager/reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./complaintManager/reducers/cases/recommendedActionsReducer";
 import editReferralLetterReducer from "./complaintManager/reducers/ui/editReferralLetterReducer";
@@ -121,7 +120,6 @@ const rootReducer = combineReducers({
     accusedOfficerPanels: accusedOfficerPanelsReducer,
     addressInput: addressInputReducer,
     officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
-    iaProCorrectionsDialog: iaProCorrectionsReducer,
     letterDownload: letterDownloadReducer,
     pdfPreview: loadPdfPreviewReducer,
     archiveCaseDialog: archiveCaseDialogReducer,
