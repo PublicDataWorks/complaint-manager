@@ -21,8 +21,7 @@ describe("getOfficerHistoryOptionsRadioButtonValues", function() {
     const responseBody = [
       [1, ALLEGATION_OPTIONS.NO_NOTEWORTHY_HISTORY],
       [2, ALLEGATION_OPTIONS.RECRUIT],
-      [3, ALLEGATION_OPTIONS.NO_IAPRO_HISTORY],
-      [4, ALLEGATION_OPTIONS.NOTEWORTHY_HISTORY]
+      [3, ALLEGATION_OPTIONS.NOTEWORTHY_HISTORY]
     ];
 
     nock(hostname)

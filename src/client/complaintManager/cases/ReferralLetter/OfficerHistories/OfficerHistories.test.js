@@ -44,8 +44,7 @@ describe("OfficerHistories page", function() {
     const officerHistoryOptions = [
       { id: 1, name: "No noteworthy officer history to include in letter" },
       { id: 2, name: "Officer is a recruit so there is no history" },
-      { id: 3, name: "No officer history included in IAPro" },
-      { id: 4, name: "Officer has significant/noteworthy history" }
+      { id: 3, name: "Officer has significant/noteworthy history" }
     ];
     store.dispatch(
       getOfficerHistoryOptionsRadioButtonValuesSuccess(officerHistoryOptions)
@@ -388,7 +387,7 @@ describe("OfficerHistories page", function() {
       expect(editOfficerHistory).toHaveBeenCalledWith(
         caseId,
         expectedFormValues,
-        `/cases/${caseId}/letter/iapro-corrections`
+        `/cases/${caseId}/letter/recommended-actions`
       );
     });
 
@@ -447,18 +446,6 @@ describe("OfficerHistories page", function() {
           caseId,
           expectedFormValues,
           `/cases/${caseId}/letter/officer-history`
-        );
-      });
-
-      test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
-        const reviewCaseDetailsButton = wrapper
-          .find('[data-testid="step-button-IAPro Corrections"]')
-          .first();
-        reviewCaseDetailsButton.simulate("click");
-        expect(editOfficerHistory).toHaveBeenCalledWith(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/iapro-corrections`
         );
       });
 

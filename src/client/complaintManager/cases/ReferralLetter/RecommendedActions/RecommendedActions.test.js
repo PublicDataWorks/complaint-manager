@@ -148,7 +148,7 @@ describe("recommendedActions", function () {
       editRecommendedActions(
         caseId,
         expectedFormValues,
-        `/cases/${caseId}/letter/iapro-corrections`
+        `/cases/${caseId}/letter/officer-history`
       )
     );
   });
@@ -240,20 +240,6 @@ describe("recommendedActions", function () {
           caseId,
           expectedFormValues,
           `/cases/${caseId}/letter/officer-history`
-        )
-      );
-    });
-
-    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-IAPro Corrections"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editRecommendedActions(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/iapro-corrections`
         )
       );
     });

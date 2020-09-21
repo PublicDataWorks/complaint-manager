@@ -13,7 +13,6 @@ import {
   COMPLAINANT,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
-import ReferralLetterIAProCorrection from "../../../../testHelpers/ReferralLetterIAProCorrection";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../sharedTestHelpers/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
@@ -99,7 +98,6 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
       classifications: {}
     };
 
@@ -176,7 +174,6 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
         classifications: {}
       };
 
@@ -226,7 +223,6 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
         classifications: {}
       };
 
@@ -292,7 +288,6 @@ describe("getReferralLetterData", () => {
             ]
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
         classifications: {}
       };
       await getReferralLetterData(request, response, next);
@@ -332,57 +327,12 @@ describe("getReferralLetterData", () => {
             referralLetterOfficerRecommendedActions: []
           }
         ],
-        referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
         classifications: {}
       };
 
       await getReferralLetterData(request, response, next);
       expect(response._getData()).toEqual(expectedResponseBody);
     });
-  });
-
-  test("returns iapro corrections when they exist", async () => {
-    const iaproCorrectionAttributes = new ReferralLetterIAProCorrection.Builder()
-      .defaultReferralLetterIAProCorrection()
-      .withId(undefined)
-      .withReferralLetterId(referralLetter.id)
-      .withDetails("Stuff was wrong!!!");
-    const iaproCorrection = await models.referral_letter_iapro_correction.create(
-      iaproCorrectionAttributes,
-      { auditUser: "test" }
-    );
-
-    const expectedResponseBody = {
-      id: referralLetter.id,
-      caseId: existingCase.id,
-      includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      letterOfficers: [],
-      referralLetterIaproCorrections: [
-        { id: iaproCorrection.id, details: iaproCorrection.details }
-      ],
-      classifications: {}
-    };
-
-    await getReferralLetterData(request, response, next);
-    expect(response._getData()).toEqual(expectedResponseBody);
-  });
-
-  test("returns 3 empty iapro corrections when they do not exist", async () => {
-    const expectedResponseBody = {
-      id: referralLetter.id,
-      caseId: existingCase.id,
-      includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
-      letterOfficers: [],
-      referralLetterIaproCorrections: [
-        { tempId: "uniqueTempId" },
-        { tempId: "uniqueTempId" },
-        { tempId: "uniqueTempId" }
-      ],
-      classifications: {}
-    };
-
-    await getReferralLetterData(request, response, next);
-    expect(response._getData()).toEqual(expectedResponseBody);
   });
 
   test("it returns needed letter data when there are case officers but no letter officers yet", async () => {
@@ -421,7 +371,6 @@ describe("getReferralLetterData", () => {
           referralLetterOfficerRecommendedActions: []
         }
       ],
-      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
       classifications: {}
     };
 
@@ -450,7 +399,6 @@ describe("getReferralLetterData", () => {
       caseId: existingCase.id,
       includeRetaliationConcerns: referralLetter.includeRetaliationConcerns,
       letterOfficers: [],
-      referralLetterIaproCorrections: [emptyObject, emptyObject, emptyObject],
       classifications: {
         "csfn-1": true
       }
@@ -494,10 +442,6 @@ describe("getReferralLetterData", () => {
             "includeRetaliationConcerns"
           ]),
           model: models.referral_letter.name
-        },
-        referralLetterIaproCorrections: {
-          attributes: expect.arrayContaining(["details", "id"]),
-          model: models.referral_letter_iapro_correction.name
         },
         referralLetterOfficerHistoryNotes: {
           attributes: expect.arrayContaining([

@@ -22,7 +22,6 @@ export const BAD_REQUEST_ERRORS = {
   REFERRAL_LETTER_DOES_NOT_EXIST:
     "The referral letter for this case does not exist",
   INVALID_LETTER_OFFICER: "The letter officer does not exist",
-  INVALID_IAPRO_CORRECTION: "The IAPro correction does not exist",
   INVALID_CASE_OFFICER: "The case officer does not exist",
   INVALID_LETTER_OFFICER_CASE_OFFICER_COMBINATION:
     "The letter officer does not match with the expected case officer",

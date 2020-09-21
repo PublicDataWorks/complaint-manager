@@ -40,42 +40,6 @@ describe("transformAuditsForExport", () => {
     const testAuditSubject = "Test Audit Subject";
     const caseId = 1;
 
-    test("transform data access where association is referralLetterIaproCorrections correctly", () => {
-      const audit = {
-        auditAction: AUDIT_ACTION.DATA_ACCESSED,
-        user: user,
-        createdAt: "Timestamp",
-        referenceId: caseId,
-        managerType: "complaint",
-        updatedAt: new Date(),
-        id: 2,
-        dataAccessAudit: {
-          id: 3,
-          auditSubject: testAuditSubject,
-          dataAccessValues: [
-            {
-              id: 4,
-              association: "referralLetterIaproCorrections",
-              fields: ["field1"]
-            }
-          ]
-        }
-      };
-
-      expect(transformAuditsForExport([audit])).toEqual([
-        {
-          audit_type: AUDIT_TYPE.DATA_ACCESS,
-          user: user,
-          reference_id: caseId,
-          manager_type: "complaint",
-          snapshot: "Referral Letter IAPro Corrections: Field 1",
-          action: AUDIT_ACTION.DATA_ACCESSED,
-          subject: testAuditSubject,
-          created_at: "Timestamp"
-        }
-      ]);
-    });
-
     test("transform data access correctly", () => {
       const audit = {
         auditAction: AUDIT_ACTION.DATA_ACCESSED,

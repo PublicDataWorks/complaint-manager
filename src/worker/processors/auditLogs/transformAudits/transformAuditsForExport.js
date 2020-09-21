@@ -146,11 +146,7 @@ const generateSnapshotForDataAccessAudit = audit => {
         .map(field => _.startCase(field))
         .join(", ");
 
-      return `${
-        dataAccessValue.association === "referralLetterIaproCorrections"
-          ? "Referral Letter IAPro Corrections"
-          : _.startCase(dataAccessValue.association)
-      }: ${fieldString}`;
+      return `${_.startCase(dataAccessValue.association)}: ${fieldString}`;
     })
     .join("\n\n");
 };

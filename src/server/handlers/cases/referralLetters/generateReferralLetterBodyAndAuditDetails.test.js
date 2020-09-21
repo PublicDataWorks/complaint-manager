@@ -86,12 +86,6 @@ const expectedReferralLetterCaseAuditDetails = {
     ),
     model: models.referral_letter.name
   },
-  referralLetterIaproCorrections: {
-    attributes: expect.toIncludeSameMembers(
-      Object.keys(models.referral_letter_iapro_correction.rawAttributes)
-    ),
-    model: models.referral_letter_iapro_correction.name
-  },
   caseClassifications: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.case_classification.rawAttributes)

@@ -54,13 +54,7 @@ describe("audit details", () => {
         include: [
           {
             model: models.referral_letter,
-            as: "referralLetter",
-            include: [
-              {
-                model: models.referral_letter_iapro_correction,
-                as: "referralLetterIaproCorrections"
-              }
-            ]
+            as: "referralLetter"
           },
           { model: models.case_classification, as: "caseClassifications" },
           {

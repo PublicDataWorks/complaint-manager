@@ -13,7 +13,6 @@ const LetterProgressStepper = ({
   const LETTER_REDIRECT_URL_MAP = {
     [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: `/cases/${caseId}/letter/review`,
     [LETTER_PROGRESS.OFFICER_COMPLAINT_HISTORIES]: `/cases/${caseId}/letter/officer-history`,
-    [LETTER_PROGRESS.IAPRO_CORRECTIONS]: `/cases/${caseId}/letter/iapro-corrections`,
     [LETTER_PROGRESS.RECOMMENDED_ACTIONS]: `/cases/${caseId}/letter/recommended-actions`,
     [LETTER_PROGRESS.PREVIEW]: `/cases/${caseId}/letter/letter-preview`
   };

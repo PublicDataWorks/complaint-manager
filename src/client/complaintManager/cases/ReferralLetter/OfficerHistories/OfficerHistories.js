@@ -64,7 +64,7 @@ class OfficerHistories extends Component {
 
   saveAndGoToNextPage = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/iapro-corrections`)
+      this.submitForm(`/cases/${this.state.caseId}/letter/recommended-actions`)
     );
   };
 

@@ -21,9 +21,6 @@ describe("getOfficerHistoryOptions", function() {
     const noHistoryOption = await models.officer_history_option.create({
       name: "no history"
     });
-    const noIaProHistoryOption = await models.officer_history_option.create({
-      name: "no iapro history"
-    });
     const historyOption = await models.officer_history_option.create({
       name: "very noteworthy"
     });
@@ -31,7 +28,6 @@ describe("getOfficerHistoryOptions", function() {
     const expectedResponseBody = [
       { id: recruitOption.id, name: recruitOption.name },
       { id: noHistoryOption.id, name: noHistoryOption.name },
-      { id: noIaProHistoryOption.id, name: noIaProHistoryOption.name },
       { id: historyOption.id, name: historyOption.name }
     ];
 

@@ -542,20 +542,6 @@ describe("LetterPreview", function () {
       );
     });
 
-    test("it dispatches edit and redirects to iapro corrections when click iapro corrections stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-IAPro Corrections"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterAddresses(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/iapro-corrections`
-        )
-      );
-    });
-
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
         .find('[data-testid="step-button-Recommended Actions"]')

@@ -59,9 +59,9 @@ class RecommendedActions extends Component {
     );
   };
 
-  saveAndGoBackToIAProCorrections = () => {
+  saveAndGoBack = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/iapro-corrections`)
+      this.submitForm(`/cases/${this.state.caseId}/letter/officer-history`)
     );
   };
 
@@ -247,7 +247,7 @@ class RecommendedActions extends Component {
               <div style={{ display: "flex" }}>
                 <span style={{ flex: 1 }}>
                   <SecondaryButton
-                    onClick={this.saveAndGoBackToIAProCorrections()}
+                    onClick={this.saveAndGoBack()}
                     data-testid="back-button"
                   >
                     Back
