@@ -187,6 +187,7 @@ resource "aws_iam_policy_attachment" "attach_instance_policy" {
 resource "aws_iam_policy_attachment" "attach_policy" {
   name = "shared-policy-group-attachment"
   groups = [
+    "contributor",
     "developer",
     "production"]
   policy_arn = aws_iam_policy.env_policy.arn
