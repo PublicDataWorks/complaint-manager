@@ -1,3 +1,15 @@
+terraform {
+  backend "s3" {
+    bucket = "noipm-terraform"
+    region = "us-east-1"
+    key = "tfstate-common"
+
+    encrypt = true
+    shared_credentials_file = "~/.aws/credentials"
+    profile = "noipm-terraform"
+  }
+}
+
 provider "aws" {
   version = "~> 2.0"
   region = "us-east-1"
@@ -175,6 +187,7 @@ resource "aws_iam_policy_attachment" "attach_instance_policy" {
 resource "aws_iam_policy_attachment" "attach_policy" {
   name = "shared-policy-group-attachment"
   groups = [
-    "developer"]
+    "developer",
+    "production"]
   policy_arn = aws_iam_policy.env_policy.arn
 }
