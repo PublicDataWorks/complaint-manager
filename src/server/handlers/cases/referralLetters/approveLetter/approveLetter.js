@@ -14,7 +14,7 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
+import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLetterAndUploadToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
