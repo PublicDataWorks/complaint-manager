@@ -9,7 +9,7 @@ import {
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
-import Officer from "../../../../sharedTestHelpers/officer";
+import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
