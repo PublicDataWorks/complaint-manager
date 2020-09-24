@@ -38,14 +38,14 @@ jest.mock(
   }
 );
 jest.mock("../sharedLetterUtilities/auditUpload", () => jest.fn());
-jest.mock(
-  "./generateComplainantLetterAndUploadToS3",
-  () => (existingCase, nickname) => {
+jest.mock("./generateComplainantLetterAndUploadToS3", () => ({
+  generateComplainantLetterAndUploadToS3: jest.fn((existingCase, nickname) => {
     return {
       finalPdfFilename: "some_filename.pdf"
     };
-  }
-);
+  })
+}));
+
 jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
   return "referral_letter_filename.pdf";
 });

@@ -12,16 +12,17 @@ import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import { getPersonType } from "../../../../complaintManager/models/modelUtilities/getPersonType";
 
-const generateComplainantLetterAndUploadToS3 = async (
+export const generateComplainantLetterAndUploadToS3 = async (
   existingCase,
   nickname,
   transaction
 ) => {
   const caseId = existingCase.id;
 
-  const { primaryComplainant, primaryComplainantType } = getFirstComplainant(
-    existingCase
-  );
+  const {
+    primaryComplainant,
+    primaryComplainantType
+  } = getPrimaryComplainantTuple(existingCase);
 
   const finalPdfFilename = constructFilename(existingCase, COMPLAINANT_LETTER);
   let createdComplainantLetter = await models.complainant_letter.create(
@@ -63,7 +64,7 @@ const generateComplainantLetterAndUploadToS3 = async (
   return createdComplainantLetter;
 };
 
-const getFirstComplainant = existingCase => {
+export const getPrimaryComplainantTuple = existingCase => {
   const primaryComplainant = existingCase.primaryComplainant;
   const complainantType = getPersonType(primaryComplainant);
   return {
@@ -71,4 +72,3 @@ const getFirstComplainant = existingCase => {
     primaryComplainantType: complainantType
   };
 };
-export default generateComplainantLetterAndUploadToS3;

@@ -1,51 +1,48 @@
-import moment from "moment";
 import _ from "lodash";
+import moment from "moment";
 import {
-  CIVILIAN_INITIATED,
   COMPLAINANT_LETTER,
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
+import { getPrimaryComplainantTuple } from "./approveLetter/generateComplainantLetterAndUploadToS3";
 
 const constructFilename = (existingCase, pdfLetterType, editStatus) => {
   const formattedFirstContactDate = moment(
     existingCase.firstContactDate
   ).format("M-D-YYYY");
-  const firstComplainant = getFirstComplainant(existingCase);
-  let firstComplainantLastName = getFirstComplainantLastName(firstComplainant);
+  const complainantTuple = getPrimaryComplainantTuple(existingCase);
+
+  const primaryComplainant = complainantTuple.primaryComplainant;
+
+  let complainantLastName = getComplainantLastName(primaryComplainant);
 
   if (pdfLetterType === REFERRAL_LETTER_VERSION.FINAL) {
-    if (firstComplainant && firstComplainant.isAnonymous) {
-      firstComplainantLastName = "_Anonymous";
+    if (primaryComplainant && primaryComplainant.isAnonymous) {
+      complainantLastName = "_Anonymous";
     }
-    return `${formattedFirstContactDate}_${existingCase.caseReference}_PIB_Referral${firstComplainantLastName}.pdf`;
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_PIB_Referral${complainantLastName}.pdf`;
   } else if (pdfLetterType === REFERRAL_LETTER_VERSION.DRAFT) {
-    if (firstComplainant && firstComplainant.isAnonymous) {
-      firstComplainantLastName = "_Anonymous";
+    if (primaryComplainant && primaryComplainant.isAnonymous) {
+      complainantLastName = "_Anonymous";
     }
-    return `${formattedFirstContactDate}_${existingCase.caseReference}_${editStatus}_Referral_Draft${firstComplainantLastName}.pdf`;
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_${editStatus}_Referral_Draft${complainantLastName}.pdf`;
   } else if (pdfLetterType === COMPLAINANT_LETTER) {
-    return `${formattedFirstContactDate}_${existingCase.caseReference}_Letter_to_Complainant${firstComplainantLastName}.pdf`;
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_Letter_to_Complainant${complainantLastName}.pdf`;
   }
 };
 
-const getFirstComplainantLastName = firstComplainant => {
-  if (!firstComplainant) {
+const getComplainantLastName = complainant => {
+  if (!complainant) {
     return "";
   }
-  if (firstComplainant.isUnknownOfficer) {
+  if (complainant.isUnknownOfficer) {
     return "_Unknown_Officer";
   }
-  return sanitizeName(firstComplainant.lastName);
+  return sanitizeName(complainant.lastName);
 };
 
 const sanitizeName = name => {
   return `_${name.replace(/[^a-zA-Z]/g, "")}`;
-};
-
-const getFirstComplainant = existingCase => {
-  return existingCase.complaintType === CIVILIAN_INITIATED
-    ? firstCreated(existingCase.complainantCivilians)
-    : firstCreated(existingCase.complainantOfficers);
 };
 
 export const firstCreated = list => {

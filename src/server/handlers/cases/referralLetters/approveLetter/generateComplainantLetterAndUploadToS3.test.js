@@ -1,4 +1,4 @@
-import generateComplainantLetterAndUploadToS3 from "./generateComplainantLetterAndUploadToS3";
+import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLetterAndUploadToS3";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
