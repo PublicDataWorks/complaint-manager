@@ -11,6 +11,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-local",
     complainantLettersBucket: "noipm-complainant-letters-local",
     authentication: {
+      disabled: true,
       clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
       domain: "noipm-ci.auth0.com",
       publicKeyURL: "https://noipm-ci.auth0.com/.well-known/jwks.json",
@@ -48,6 +49,7 @@ module.exports = {
     referralLettersBucket: "noipm-referral-letters-test",
     complainantLettersBucket: "noipm-complainant-letters-test",
     authentication: {
+      disabled: true,
       clientID: "iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB",
       domain: "noipm-ci.auth0.com",
       publicKeyPath: path.join(__dirname, "..", "config", "test", "public.pem"),

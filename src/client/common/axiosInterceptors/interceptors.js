@@ -1,20 +1,27 @@
-import axios from "axios";
-import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
-import ensureOnlineOnRequestInterceptor from "./ensureOnlineOnRequestInterceptor";
-import responseErrorInterceptor from "./responseErrorInterceptor";
-import config from "../config/config";
+import { get } from 'lodash';
+import axios from 'axios';
+import ensureTokenOnRequestInterceptor from './ensureTokenOnRequestInterceptor';
+import ensureOnlineOnRequestInterceptor from './ensureOnlineOnRequestInterceptor';
+import responseErrorInterceptor from './responseErrorInterceptor';
+import allConfigs from '../config/config';
 
-axios.defaults.baseURL = `${config[process.env.REACT_APP_ENV].hostname}`;
+const currentConfig = allConfigs[process.env.REACT_APP_ENV] || {};
 
-export default function(store) {
+const baseURL = `${currentConfig.hostname}`;
+axios.defaults.baseURL = baseURL;
+
+const isLowerEnv = baseURL.includes('localhost') || baseURL.includes('app-e2e');
+const isAuthDisabled = get(currentConfig, ['auth', 'disabled'], false);
+
+export default async function (store) {
+  axios.interceptors.request.use(ensureOnlineOnRequestInterceptor(store.dispatch));
+
   axios.interceptors.request.use(
-    ensureOnlineOnRequestInterceptor(store.dispatch)
+    ensureTokenOnRequestInterceptor(store.dispatch, (isLowerEnv && isAuthDisabled))
   );
-  axios.interceptors.request.use(
-    ensureTokenOnRequestInterceptor(store.dispatch)
-  );
+  
   axios.interceptors.response.use(
     response => response,
     responseErrorInterceptor(store.dispatch)
   );
-}
+};;

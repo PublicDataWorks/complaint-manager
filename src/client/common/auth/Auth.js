@@ -5,6 +5,7 @@ import auditLogin from "../../complaintManager/users/thunks/auditLogin";
 import parsePermissions from "../../complaintManager/utilities/parsePermissions";
 import jwt from "jsonwebtoken";
 import generateRandomString from "../../complaintManager/utilities/generateRandomString";
+import { NICKNAME, PERMISSIONS } from '../../../sharedUtilities/constants';
 
 export default class Auth {
   authConfig = config[process.env.REACT_APP_ENV].auth;
@@ -67,5 +68,12 @@ export default class Auth {
     const permissions = parsePermissions(decodedToken.scope);
     const nickname = decodedToken[this.authConfig.nicknameKey];
     populateStoreWithUserInfoCallback({ nickname, permissions });
+  };
+
+  setDummyUserInfoInStore = populateStoreWithUserInfoCallback => {
+    populateStoreWithUserInfoCallback({
+      nickname: NICKNAME,
+      permissions: PERMISSIONS
+    });
   };
 }
