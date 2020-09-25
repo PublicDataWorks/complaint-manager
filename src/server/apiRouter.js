@@ -1,19 +1,33 @@
-import { handleCaseIdParam } from "./handlers/paramHandler";
-import { addRoutesToRouter } from "./apiRoutes";
-import API_ROUTES from "./apiRoutes";
+import { get } from 'lodash';
 
-const jwtCheck = require("./handlers/jwtCheck");
-const verifyUserInfo = require("./handlers/verifyUserNickname");
-const authErrorHandler = require("./handlers/authErrorHandler");
+import { handleCaseIdParam } from './handlers/paramHandler';
+import { addRoutesToRouter } from './apiRoutes';
+import API_ROUTES from './apiRoutes';
+import allConfigs from './config/config';
 
-const express = require("express");
+import jwtCheck from './handlers/jwtCheck';
+import verifyUserInfo from './handlers/verifyUserNickname';
+import authErrorHandler from './handlers/authErrorHandler';
+import localhostUserNickname from './handlers/localhostUserNickname';
+
+const { NODE_ENV } = process.env || {};
+const currentConfig = allConfigs[NODE_ENV];
+
+const express = require('express');
 const router = express.Router();
 
-router.use(jwtCheck);
-router.use(verifyUserInfo);
-router.use(authErrorHandler);
+const isLowerEnv = ['development', 'test'].includes(NODE_ENV);
+const isAuthDisabled = get(currentConfig, ['authentication', 'disabled'], false);
 
-router.param("caseId", handleCaseIdParam);
+if (isLowerEnv && isAuthDisabled) {
+  router.use(localhostUserNickname);
+} else {
+  router.use(jwtCheck);
+  router.use(verifyUserInfo);
+  router.use(authErrorHandler);
+}
+
+router.param('caseId', handleCaseIdParam);
 
 //Routes defined in API_ROUTES and below will require authentication
 addRoutesToRouter(router, API_ROUTES);

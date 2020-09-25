@@ -13,6 +13,7 @@ import {
   CIVILIAN_WITHIN_NOPD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
+import { get } from 'lodash';
 
 const {
   AUDIT_SUBJECT,
@@ -27,7 +28,7 @@ const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
   let newCase = {};
-  const complaintType = request.body.case.complaintType;
+  const { complaintType } = get(request, ['body', 'case'], {});
   if (
     complaintType === RANK_INITIATED ||
     complaintType === CIVILIAN_WITHIN_NOPD_INITIATED

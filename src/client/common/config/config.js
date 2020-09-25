@@ -3,6 +3,7 @@ import { LOCAL_DEV_PORT, PORT } from "../../../sharedUtilities/constants";
 export default {
   development: {
     auth: {
+      disabled: true,
       domain: "noipm-ci.auth0.com",
       clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `https://localhost:${LOCAL_DEV_PORT}/callback`,
@@ -16,6 +17,7 @@ export default {
   },
   development_e2e: {
     auth: {
+      disabled: true,
       domain: "noipm-ci.auth0.com",
       clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `https://app-e2e:${LOCAL_DEV_PORT}/callback`,
@@ -29,6 +31,7 @@ export default {
   },
   static_development: {
     auth: {
+      disabled: true,
       domain: "noipm-ci.auth0.com",
       clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `http://localhost:${PORT}/callback`,
@@ -42,6 +45,7 @@ export default {
   },
   test: {
     auth: {
+      disabled: true,
       domain: "noipm-ci.auth0.com",
       clientID: "po0KCHqu1sHYuVxNHE2DAioLfQghB9aP",
       redirectUri: `http://localhost:${LOCAL_DEV_PORT}/callback`,

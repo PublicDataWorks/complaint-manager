@@ -600,3 +600,32 @@ export const ALLEGATION_DETAILS_LABEL =
 export const CIVILIAN_WITHIN_NOPD_TITLE = "Civilian (NOPD)";
 export const OFFICER_TITLE = "Officer";
 export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
+
+// ------------------------------------------
+//            Fake User Data 
+// ------------------------------------------ 
+
+export const NICKNAME = "noipm.infrastructure@gmail.com";
+export const USERNAME = "NOIPM Infra";
+export const PERMISSIONS = [
+  'openid',
+  'profile',
+  'export:audit-log',
+  'update:case-status'
+];
+
+export const FAKE_USERS = [
+  { "email": "anna.banana@gmail.com", "name": "Anna Banana" },
+  { "email": "bear@gmail.com", "name": "Bear" },
+  { "email": "d.lizard@gmail.com", "name": "D. Lizard" },
+  { "email": "dog.person@gmail.com", "name": "Dog Person" },
+  { "email": "harold.finch@gmail.com", "name": "Harold Finch" },
+  { "email": "john.reese@gmail.com", "name": "John Reese" },
+  { "email": "kelly.clarkson@gmail.com", "name": "Kelly Clarkson" },
+  { "email": NICKNAME, "name": USERNAME },
+  { "email": "ree.c.pieces@gmail.com", "name": "Ree C. Pieces" },
+  { "email": "sameen.shaw@gmail.com", "name": "Sameen Shaw" },
+  { "email": "seanathon@gmail.com", "name": "Seanathon" }
+];
+
+

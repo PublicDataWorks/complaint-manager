@@ -5,6 +5,7 @@ if (!TEST_PASS) {
   console.log("Set the password in the ENV VAR 'TEST_PASS' for login");
   process.exit(1);
 }
+
 if (!TEST_USER) {
   console.log("Set the username in the ENV VAR 'TEST_USER' for login");
   process.exit(1);
@@ -19,9 +20,13 @@ if (TEST_PASS && TEST_USER) {
         console.log("Current URL", result);
       });
 
-      const loginPage = browser.page.Login();
-
-      loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
+      if (!browser.globals.disableAuthentication) {
+        const loginPage = browser.page.Login();
+        loginPage.isOnPage().loginAs(TEST_USER, TEST_PASS);
+      } else {
+        console.log("Authentication is disabled. Skipping login page check.");
+      }
+      
       const caseDashboardPage = browser.page.CaseDashboard();
       caseDashboardPage.isOnPage();
     },
@@ -636,6 +641,10 @@ if (TEST_PASS && TEST_USER) {
         .waitForJobCompletion();
     },
     "should log out of the system": browser => {
+      if (browser.globals.disableAuthentication) {
+        console.log("Authentication is disabled. Skipping test.");
+        return;
+      }
       const navBar = browser.page.NavBar();
       const loginPage = browser.page.Login();
 

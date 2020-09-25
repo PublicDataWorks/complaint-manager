@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ConnectedRouter } from "connected-react-router";
+import { get } from 'lodash';
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./common/globalStyling/muiTheme";
@@ -23,8 +24,12 @@ class App extends Component {
 
   componentDidMount() {
     const accessToken = getAccessToken();
+    const auth = new Auth();
+    if (get(config, [process.env.REACT_APP_ENV, 'auth', 'disabled'], false)) {
+      auth.setDummyUserInfoInStore(this.props.userAuthSuccess);
+    }
+
     if (accessToken) {
-      const auth = new Auth();
       auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
       this.props.getFeatureToggles();
     }

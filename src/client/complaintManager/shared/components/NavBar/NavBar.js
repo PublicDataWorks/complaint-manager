@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import React, { Component } from "react";
 import HomeIcon from "@material-ui/icons/Home";
 import Settings from "@material-ui/icons/MenuSharp";
@@ -18,6 +19,9 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 import Badge from "@material-ui/core/Badge";
+import allConfigs from '../../../../common/config/config';
+
+const isAuthDisabled = get(allConfigs, [process.env.REACT_APP_ENV, 'auth', 'disabled'], false);
 
 class NavBar extends Component {
   state = {
@@ -65,7 +69,12 @@ class NavBar extends Component {
   };
 
   render() {
-    const { showHome, nickname, children, menuType, dataTest } = this.props;
+    let { showHome, nickname, children, menuType, dataTest } = this.props;
+
+    if (isAuthDisabled) {
+      menuType = menuType.filter(item => item.dataTestName !== 'logOutButton');
+    }
+    
     const appBarStyle = showHome ? styles.appBarStyle : this.props.customStyle;
     const dataTestTitle = dataTest ? dataTest : "pageTitle";
     const theme = createMuiTheme();
