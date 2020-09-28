@@ -90,7 +90,6 @@
     "node-cache": "^5.1.0",
     "pg": "7.12.1",
     "pg-hstore": "~2.3.2",
-    "pg-native": "^3.0.0",
     "plotly.js": "^1.52.2",
     "rc-pagination": "^2.2.2",
     "react": "~16.12.0",
