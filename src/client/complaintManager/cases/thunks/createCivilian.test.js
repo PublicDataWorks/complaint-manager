@@ -13,6 +13,7 @@ import config from "../../../common/config/config";
 import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import { authEnabledTest } from "../../../testHelpers";
 
 const hostname = config["test"].hostname;
 
@@ -48,10 +49,12 @@ describe("civilian creation", function () {
   });
 
   test("should redirect to login if not authenticated", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
-    await createCivilian(civilian)(dispatch);
+    await authEnabledTest(async () => {
+      getAccessToken.mockImplementationOnce(() => false);
+      await createCivilian(civilian)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+      expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+    });
   });
 
   test("should dispatch success, close dialog and stop submit when civilian created successfully", async () => {

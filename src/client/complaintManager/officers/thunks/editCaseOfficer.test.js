@@ -9,6 +9,7 @@ import {
   CIVILIAN_WITHIN_NOPD_TITLE,
   EMPLOYEE_TYPE
 } from "../../../../sharedUtilities/constants";
+import { authEnabledTest } from "../../../testHelpers";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
@@ -22,11 +23,13 @@ describe("editCaseOfficer thunk", () => {
   });
 
   test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementationOnce(() => false);
+    await authEnabledTest(async () => {
+      getAccessToken.mockImplementationOnce(() => false);
 
-    await editCaseOfficer()(dispatch);
+      await editCaseOfficer()(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+      expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+    });
   });
 
   test("should dispatch success, clear selected officer, & redirect to case details when response is 200", async () => {

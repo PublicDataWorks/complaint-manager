@@ -6,6 +6,7 @@ import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
+import { authEnabledTest } from "../../testHelpers";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -26,7 +27,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
   test("adds access token to request headers", async () => {
     nock("http://localhost")
       .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-      .reply(function() {
+      .reply(function () {
         if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
           return [200, responseBody];
         return [401];
@@ -41,18 +42,20 @@ describe("ensureTokenOnRequestInterceptor", () => {
   });
 
   test("should redirect to login when missing access token", async () => {
-    getAccessToken.mockImplementation(() => false);
+    await authEnabledTest(async () => {
+      getAccessToken.mockImplementation(() => false);
 
-    nock("http://localhost")
-      .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-      .reply(200);
+      nock("http://localhost")
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
+        .reply(200);
 
-    await getWorkingCases(sortBy, sortDirection)(dispatch);
+      await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-    expect(dispatch).not.toHaveBeenCalledWith(
-      getWorkingCasesSuccess(responseBody.cases)
-    );
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+      expect(dispatch).not.toHaveBeenCalledWith(
+        getWorkingCasesSuccess(responseBody.cases)
+      );
+      expect(dispatch).toHaveBeenCalledWith(push("/login"));
+    });
   });
 
   test("should store pathname in local storage if no previous access token", async () => {
