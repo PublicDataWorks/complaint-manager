@@ -24,7 +24,8 @@ jest.mock("./common/components/Visualization/PlotlyWrapper", () => {
 
 jest.mock("./common/auth/Auth", () =>
   jest.fn(() => ({
-    setUserInfoInStore: jest.fn(() => true)
+    setUserInfoInStore: jest.fn(() => true),
+    setDummyUserInfoInStore: jest.fn(() => true)
   }))
 );
 

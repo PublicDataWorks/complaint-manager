@@ -42,7 +42,9 @@ describe("NavBar", () => {
   });
 
   test("should not contain a home icon button when showHome is false", () => {
-    wrapper.setProps({ children: <NavBar showHome={false} /> });
+    wrapper.setProps({
+      children: <NavBar menuType={matrixManagerMenuOptions} showHome={false} />
+    });
     wrapper.update();
     expect(wrapper.find('[data-testid="homeButton"]').exists()).toBeFalse();
   });
