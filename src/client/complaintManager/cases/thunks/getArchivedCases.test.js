@@ -4,6 +4,7 @@ import configureInterceptors from "../../../common/axiosInterceptors/interceptor
 import { push } from "connected-react-router";
 import getArchivedCases from "./getArchivedCases";
 import { getArchivedCasesSuccess } from "../../actionCreators/casesActionCreators";
+import { authEnabledTest } from "../../../testHelpers";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
@@ -60,24 +61,29 @@ TODO: Look into ways to fix this
   });
 
   test("should redirect immediately if token missing", async () => {
-    getAccessToken.mockImplementation(() => false);
+    await authEnabledTest(async () => {
+      getAccessToken.mockImplementation(() => false);
 
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer false`
-      }
-    })
-      .get(
-        `/api/cases/archived-cases?sortBy=${sortBy}&sortDirection=${sortDirection}`
-      )
-      .reply(200, responseBody);
+      nock("http://localhost", {
+        reqheaders: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer false`
+        }
+      })
+        .get(
+          `/api/cases/archived-cases?sortBy=${sortBy}&sortDirection=${sortDirection}`
+        )
+        .reply(200, responseBody);
 
-    await getArchivedCases(sortBy, sortDirection)(dispatch);
+      await getArchivedCases(sortBy, sortDirection)(dispatch);
 
-    expect(dispatch).not.toHaveBeenCalledWith(
-      getArchivedCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
-    );
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+      expect(dispatch).not.toHaveBeenCalledWith(
+        getArchivedCasesSuccess(
+          responseBody.cases.rows,
+          responseBody.cases.count
+        )
+      );
+      expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+    });
   });
 });

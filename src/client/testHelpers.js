@@ -1,8 +1,19 @@
 import promiseRetry from "promise-retry";
+import allConfigs from "./common/config/config";
+import { get } from "lodash";
 
 export const changeInput = (mountedComponent, inputSelector, value) => {
   const input = mountedComponent.find(inputSelector).last();
   input.simulate("change", { target: { value } });
+};
+
+export const authEnabledTest = () => {
+  const currentConfig = allConfigs[process.env.REACT_APP_ENV] || {};
+  const isAuthDisabled = get(currentConfig, ["auth", "disabled"], false);
+  if (isAuthDisabled) {
+    console.warn("Skipping test, Auth is disabled.");
+  }
+  return isAuthDisabled ? it.skip : it;
 };
 
 const getOptionIndex = (autocomplete, optionName) => {

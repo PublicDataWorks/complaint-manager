@@ -10,6 +10,7 @@ import {
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { REMOVE_CASE_NOTE_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
+import { authEnabledTest } from "../../../testHelpers";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
@@ -74,25 +75,27 @@ describe("removeCaseNote", () => {
   });
 
   test("should redirect immediately if token missing", async () => {
-    const dispatch = jest.fn();
-    configureInterceptors({ dispatch });
+    await authEnabledTest(async () => {
+      const dispatch = jest.fn();
+      configureInterceptors({ dispatch });
 
-    const caseId = 1;
-    const caseNoteId = 2;
+      const caseId = 1;
+      const caseNoteId = 2;
 
-    getAccessToken.mockImplementationOnce(() => false);
+      getAccessToken.mockImplementationOnce(() => false);
 
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer false"
-      }
-    })
-      .delete(`/api/cases/${caseId}/case-notes/${caseNoteId}`)
-      .reply(200);
+      nock("http://localhost", {
+        reqheaders: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer false"
+        }
+      })
+        .delete(`/api/cases/${caseId}/case-notes/${caseNoteId}`)
+        .reply(200);
 
-    await removeCaseNote(caseId, caseNoteId)(dispatch);
+      await removeCaseNote(caseId, caseNoteId)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+      expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+    });
   });
 });

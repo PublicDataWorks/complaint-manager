@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../../mockLocalStorage";
-import { containsText } from "../../../../testHelpers";
+import { authEnabledTest, containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
@@ -56,15 +56,17 @@ describe("NavBar", () => {
 
   describe("hamburger menu", () => {
     test("should see log out button", () => {
-      const hamburgerButton = wrapper.find(
-        'button[data-testid="hamburgerButton"]'
-      );
-      hamburgerButton.simulate("click");
+      authEnabledTest(() => {
+        const hamburgerButton = wrapper.find(
+          'button[data-testid="hamburgerButton"]'
+        );
+        hamburgerButton.simulate("click");
 
-      const logOutButton = wrapper.find('[data-testid="logOutButton"]');
+        const logOutButton = wrapper.find('[data-testid="logOutButton"]');
 
-      expect(logOutButton.exists()).toBeTruthy();
-      containsText(logOutButton, '[data-testid="logOutButton"]', "Log Out");
+        expect(logOutButton.exists()).toBeTruthy();
+        containsText(logOutButton, '[data-testid="logOutButton"]', "Log Out");
+      });
     });
 
     test("should dismiss menu when clicking away", () => {

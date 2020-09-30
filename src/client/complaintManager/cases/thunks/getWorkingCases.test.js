@@ -4,6 +4,7 @@ import getWorkingCases from "./getWorkingCases";
 import getAccessToken from "../../../common/auth/getAccessToken";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { push } from "connected-react-router";
+import { authEnabledTest } from "../../../testHelpers";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
@@ -67,27 +68,29 @@ describe("getWorkingCases", () => {
     });
 
     test("should redirect immediately if token missing", async () => {
-      getAccessToken.mockImplementation(() => false);
+      await authEnabledTest(async () => {
+        getAccessToken.mockImplementation(() => false);
 
-      nock("http://localhost", {
-        reqheaders: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer false`
-        }
-      })
-        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-        .reply(200, responseBody);
+        nock("http://localhost", {
+          reqheaders: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer false`
+          }
+        })
+          .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
+          .reply(200, responseBody);
 
-      await getWorkingCases(sortBy, sortDirection)(dispatch);
+        await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-      expect(dispatch).not.toHaveBeenCalledWith(
-        getWorkingCasesSuccess(
-          responseBody.cases.rows,
-          responseBody.cases.count
-        )
-      );
-      expect(dispatch).toHaveBeenCalledWith(push(`/login`));
-      nock.cleanAll();
+        expect(dispatch).not.toHaveBeenCalledWith(
+          getWorkingCasesSuccess(
+            responseBody.cases.rows,
+            responseBody.cases.count
+          )
+        );
+        expect(dispatch).toHaveBeenCalledWith(push(`/login`));
+        nock.cleanAll();
+      });
     });
   });
 });
