@@ -10,7 +10,8 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
   CASE_STATUS,
-  CIVILIAN_INITIATED
+  CIVILIAN_INITIATED,
+  NICKNAME
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -23,6 +24,7 @@ import audit from "./handlers/audits/auditAuthentication";
 import createCaseTag from "./handlers/cases/createCaseTag";
 import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
+import { authDisabled, authEnabledTest } from "./testHelpers/authEnabledTest";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -52,8 +54,8 @@ describe("server", () => {
   let token, user, raceEthnicity;
 
   beforeEach(async () => {
-    user = "some_nickname";
-    token = buildTokenWithPermissions("", user);
+    user = NICKNAME;
+    token = buildTokenWithPermissions("", NICKNAME);
 
     const raceEthnicityAttributes = {
       name: "Samoan",
@@ -80,55 +82,57 @@ describe("server", () => {
   });
 
   describe("token check", () => {
-    test(
-      "should return 401 with invalid token",
-      suppressWinstonLogs(async () => {
-        const responsePromise = request(app)
-          .get("/api/cases")
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer INVALID_KEY`);
+    authEnabledTest(() => {
+      test(
+        "should return 401 with invalid token",
+        suppressWinstonLogs(async () => {
+          const responsePromise = request(app)
+            .get("/api/cases")
+            .set("Content-Header", "application/json")
+            .set("Authorization", `Bearer INVALID_KEY`);
 
-        await expectResponse(responsePromise, 401, {
-          error: "Unauthorized",
-          message: "Invalid token",
-          statusCode: 401
-        });
-      })
-    );
+          await expectResponse(responsePromise, 401, {
+            error: "Unauthorized",
+            message: "Invalid token",
+            statusCode: 401
+          });
+        })
+      );
 
-    test(
-      "should return 401 without authorization header",
-      suppressWinstonLogs(async () => {
-        const responsePromise = request(app)
-          .get("/api/cases")
-          .set("Content-Header", "application/json");
+      test(
+        "should return 401 without authorization header",
+        suppressWinstonLogs(async () => {
+          const responsePromise = request(app)
+            .get("/api/cases")
+            .set("Content-Header", "application/json");
 
-        await expectResponse(responsePromise, 401, {
-          error: "Unauthorized",
-          message: "Invalid token",
-          statusCode: 401
-        });
-      })
-    );
+          await expectResponse(responsePromise, 401, {
+            error: "Unauthorized",
+            message: "Invalid token",
+            statusCode: 401
+          });
+        })
+      );
 
-    test(
-      "should return 401 when nickname missing",
-      suppressWinstonLogs(async () => {
-        token = buildTokenWithPermissions();
+      test(
+        "should return 401 when nickname missing",
+        suppressWinstonLogs(async () => {
+          token = buildTokenWithPermissions();
 
-        const responsePromise = request(app)
-          .post("/api/cases")
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`)
-          .send({});
+          const responsePromise = request(app)
+            .post("/api/cases")
+            .set("Content-Header", "application/json")
+            .set("Authorization", `Bearer ${token}`)
+            .send({});
 
-        await expectResponse(responsePromise, 401, {
-          error: "Unauthorized",
-          message: "User nickname missing",
-          statusCode: 401
-        });
-      })
-    );
+          await expectResponse(responsePromise, 401, {
+            error: "Unauthorized",
+            message: "User nickname missing",
+            statusCode: 401
+          });
+        })
+      );
+    });
   });
 
   describe("POST /audit", () => {
@@ -195,8 +199,11 @@ describe("server", () => {
       const caseResponsePromise = caseRequest
         .post("/api/cases")
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
         .send(requestBody);
+
+      if (!authDisabled()) {
+        caseResponsePromise.set("Authorization", `Bearer ${token}`);
+      }
 
       const caseResponse = await expectResponse(
         caseResponsePromise,
@@ -229,8 +236,11 @@ describe("server", () => {
       const responsePromise = caseRequest
         .put(`/api/cases/${createdCaseId}`)
         .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`)
         .send(editBody);
+
+      if (!authDisabled()) {
+        responsePromise.set("Authorization", `Bearer ${token}`);
+      }
 
       await expectResponse(
         responsePromise,

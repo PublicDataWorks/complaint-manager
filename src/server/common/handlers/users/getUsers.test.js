@@ -7,6 +7,7 @@ import auditDataAccess from "../../../handlers/audits/auditDataAccess";
 import getUsers from "./getUsers";
 import { getUsers as auth0GetUsers } from "../../../services/auth0UserService";
 import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
+import { authEnabledTest } from "../../../testHelpers/authEnabledTest";
 
 jest.mock("../../../handlers/audits/auditDataAccess");
 
@@ -40,15 +41,17 @@ describe("getUsers tests", () => {
 
   describe("Successful path", () => {
     test("Should call getUsers", async () => {
-      auth0GetUsers.mockImplementationOnce(() => {
-        return auth0Users;
+      await authEnabledTest(async () => {
+        auth0GetUsers.mockImplementationOnce(() => {
+          return auth0Users;
+        });
+
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+
+        expect(auth0GetUsers).toBeCalledTimes(1);
+        expect(mockGetUserResponse.statusCode).toEqual(200);
+        expect(mockGetUserResponse._getData()).toEqual(auth0Users);
       });
-
-      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
-      expect(auth0GetUsers).toBeCalledTimes(1);
-      expect(mockGetUserResponse.statusCode).toEqual(200);
-      expect(mockGetUserResponse._getData()).toEqual(auth0Users);
     });
   });
 
@@ -56,12 +59,14 @@ describe("getUsers tests", () => {
     test(
       "Should throw error if getUsers fails",
       suppressWinstonLogs(async () => {
-        auth0GetUsers.mockImplementationOnce(() => {
-          throw new Error("I am failing!");
-        });
+        await authEnabledTest(async () => {
+          auth0GetUsers.mockImplementationOnce(() => {
+            throw new Error("I am failing!");
+          });
 
-        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-        expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
+          await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+          expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
+        });
       })
     );
   });
