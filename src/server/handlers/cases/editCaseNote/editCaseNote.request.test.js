@@ -8,7 +8,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
-import { NICKNAME, USERNAME } from "../../../../sharedUtilities/constants";
+import { NICKNAME } from "../../../../sharedUtilities/constants";
 import { authDisabled } from "../../../testHelpers/authEnabledTest";
 
 describe("editCaseNote request", function () {
@@ -77,7 +77,7 @@ describe("editCaseNote request", function () {
         expect.objectContaining({
           ...updatedCaseNote,
           id: createdCaseNote.id,
-          author: { email: NICKNAME, name: USERNAME }
+          author: { email: NICKNAME, name: "" }
         })
       ])
     );
