@@ -1,7 +1,6 @@
 import nock from "nock";
 import addCaseNote from "./addCaseNote";
 import {
-  addCaseNoteFailure,
   addCaseNoteSuccess,
   closeCaseNoteDialog
 } from "../../actionCreators/casesActionCreators";
@@ -30,8 +29,7 @@ describe("addCaseNote", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(`/api/cases/${caseNote.caseId}/case-notes`, caseNote)
@@ -56,8 +54,7 @@ describe("addCaseNote", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(`/api/cases/${caseNote.caseId}/case-notes`, caseNote)

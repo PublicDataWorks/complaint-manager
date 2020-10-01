@@ -19,11 +19,7 @@ describe("restoreArchivedCase", () => {
   });
 
   test("should close restore case dialog when case restored successfully", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .put(`/api/cases/${existingCase.id}/restore`)
       .reply(200, {});
 
@@ -38,11 +34,7 @@ describe("restoreArchivedCase", () => {
   });
 
   test("should dispatch snackbar success when case restored successfully", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .put(`/api/cases/${existingCase.id}/restore`)
       .reply(200, {});
 

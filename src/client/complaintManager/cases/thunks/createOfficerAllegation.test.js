@@ -11,7 +11,7 @@ jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
 
-describe("create officer allegation", function() {
+describe("create officer allegation", function () {
   const dispatch = jest.fn();
   const formValues = { allegationId: 54, details: "allegation details" };
   const caseId = 15;
@@ -44,8 +44,7 @@ describe("create officer allegation", function() {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(

@@ -1,7 +1,5 @@
 import nock from "nock";
-import {
-  createCaseSuccess
-} from "../../actionCreators/casesActionCreators";
+import { createCaseSuccess } from "../../actionCreators/casesActionCreators";
 import createCase from "./createCase";
 import { push } from "connected-react-router";
 import {
@@ -67,8 +65,7 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
@@ -76,12 +73,8 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      startSubmit(CREATE_CASE_FORM_NAME)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      stopSubmit(CREATE_CASE_FORM_NAME)
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
@@ -92,9 +85,9 @@ describe("createCase", () => {
     );
   });
 
-  test("should dispatch stop submit when case creation fails", async() => {
+  test("should dispatch stop submit when case creation fails", async () => {
     const dispatch = jest.fn();
-    configureInterceptors({dispatch});
+    configureInterceptors({ dispatch });
 
     const creationDetails = {
       caseDetails: {
@@ -115,22 +108,17 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
       .reply(503);
-      
+
     await createCase(creationDetails)(dispatch);
-    
-    expect(dispatch).toHaveBeenCalledWith(
-      startSubmit(CREATE_CASE_FORM_NAME)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      stopSubmit(CREATE_CASE_FORM_NAME)
-    );
-  })
+
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
+  });
 
   test("should redirect to add officer if complainant is officer", async () => {
     const caseId = 12;
@@ -155,8 +143,7 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
@@ -164,12 +151,8 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      startSubmit(CREATE_CASE_FORM_NAME)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      stopSubmit(CREATE_CASE_FORM_NAME)
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
@@ -207,8 +190,7 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
@@ -216,12 +198,8 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      startSubmit(CREATE_CASE_FORM_NAME)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      stopSubmit(CREATE_CASE_FORM_NAME)
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );
@@ -259,8 +237,7 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/cases", creationDetails.caseDetails)
@@ -268,12 +245,8 @@ describe("createCase", () => {
 
     await createCase(creationDetails)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      startSubmit(CREATE_CASE_FORM_NAME)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      stopSubmit(CREATE_CASE_FORM_NAME)
-    );
+    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
+    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case was successfully created")
     );

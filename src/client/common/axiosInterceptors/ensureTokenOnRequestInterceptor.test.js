@@ -25,20 +25,25 @@ describe("ensureTokenOnRequestInterceptor", () => {
   });
 
   test("adds access token to request headers", async () => {
-    nock("http://localhost")
-      .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-      .reply(function () {
-        if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
-          return [200, responseBody];
-        return [401];
-      });
+    await authEnabledTest(async () => {
+      nock("http://localhost")
+        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
+        .reply(function () {
+          if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
+            return [200, responseBody];
+          return [401];
+        });
 
-    await getWorkingCases(sortBy, sortDirection)(dispatch);
+      await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-    expect(dispatch).toHaveBeenCalledWith(
-      getWorkingCasesSuccess(responseBody.cases.rows, responseBody.cases.count)
-    );
-    expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
+      expect(dispatch).toHaveBeenCalledWith(
+        getWorkingCasesSuccess(
+          responseBody.cases.rows,
+          responseBody.cases.count
+        )
+      );
+      expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
+    });
   });
 
   test("should redirect to login when missing access token", async () => {
@@ -59,26 +64,28 @@ describe("ensureTokenOnRequestInterceptor", () => {
   });
 
   test("should store pathname in local storage if no previous access token", async () => {
-    const redirectUri = `/api/cases`;
-    getAccessToken.mockImplementation(() => false);
+    await authEnabledTest(async () => {
+      const redirectUri = `/api/cases`;
+      getAccessToken.mockImplementation(() => false);
 
-    delete global.window.location;
+      delete global.window.location;
 
-    global.window.location = {
-      port: "3000",
-      protocol: "http:",
-      hostname: "localhost",
-      pathname: redirectUri
-    };
+      global.window.location = {
+        port: "3000",
+        protocol: "http:",
+        hostname: "localhost",
+        pathname: redirectUri
+      };
 
-    await getWorkingCases(sortBy, sortDirection)(dispatch);
+      await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-    expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
-      "redirectUri",
-      redirectUri
-    );
+      expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
+        "redirectUri",
+        redirectUri
+      );
 
-    expect(dispatch).toHaveBeenCalledWith(push("/login"));
+      expect(dispatch).toHaveBeenCalledWith(push("/login"));
+    });
   });
 
   test("should remove access token from local storage if it has expired", async () => {

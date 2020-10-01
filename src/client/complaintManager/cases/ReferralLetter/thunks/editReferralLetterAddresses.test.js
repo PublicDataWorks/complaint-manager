@@ -23,15 +23,16 @@ describe("editReferralLetterAddresses", () => {
     getAccessToken.mockImplementation(() => "token");
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer token`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/addresses`, addressData)
       .reply(200);
-    await editReferralLetterAddresses(caseId, addressData, redirectUrl)(
-      dispatch
-    );
+    await editReferralLetterAddresses(
+      caseId,
+      addressData,
+      redirectUrl
+    )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(push(redirectUrl));
     expect(dispatch).toHaveBeenCalledWith(
@@ -44,8 +45,7 @@ describe("editReferralLetterAddresses", () => {
     const alternativeSuccessCallback = jest.fn();
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer token`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/addresses`, addressData)
@@ -69,8 +69,7 @@ describe("editReferralLetterAddresses", () => {
     const alternativeFailureCallback = jest.fn();
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer token`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/addresses`, addressData)

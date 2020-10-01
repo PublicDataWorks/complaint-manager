@@ -20,7 +20,7 @@ jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
   caseId
 }));
 
-describe("getReferralLetterPdf thunk", function() {
+describe("getReferralLetterPdf thunk", function () {
   const dispatch = jest.fn();
   configureInterceptors({ dispatch });
   const caseId = 2;
@@ -51,11 +51,7 @@ describe("getReferralLetterPdf thunk", function() {
     test("should call saveAs when downloading letter pdf", async () => {
       getAccessToken.mockImplementation(() => token);
       const response = "some response";
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
@@ -70,11 +66,7 @@ describe("getReferralLetterPdf thunk", function() {
       getAccessToken.mockImplementation(() => token);
       const response = "some response";
       editStatus = EDIT_STATUS.EDITED;
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
@@ -87,11 +79,7 @@ describe("getReferralLetterPdf thunk", function() {
 
     test("dispatches stopLetterDownload when 500 response code", async () => {
       getAccessToken.mockImplementation(() => token);
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500, errorResponseFor500);
 
@@ -101,11 +89,7 @@ describe("getReferralLetterPdf thunk", function() {
 
     test("dispatches stopLetterDownload when 400 response code with invalid status message", async () => {
       getAccessToken.mockImplementation(() => token);
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(400, errorResponseFor400);
 
@@ -118,11 +102,7 @@ describe("getReferralLetterPdf thunk", function() {
     test("letterPdf is successfully dispatched and saveAs is not called", async () => {
       saveAs.mockClear();
       getAccessToken.mockImplementation(() => token);
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, "hello world");
 

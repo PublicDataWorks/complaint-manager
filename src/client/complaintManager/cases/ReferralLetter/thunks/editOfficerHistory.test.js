@@ -33,8 +33,7 @@ describe("editReferralLetter", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
@@ -52,8 +51,7 @@ describe("editReferralLetter", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseId}/referral-letter/officer-history`, requestBody)
