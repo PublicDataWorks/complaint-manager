@@ -25,11 +25,7 @@ describe("archiveCase", () => {
   });
 
   test("should dispatch close archive dialog when case archived successfully", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .delete(`/api/cases/${existingCase.id}`)
       .reply(200, {});
 
@@ -41,11 +37,7 @@ describe("archiveCase", () => {
   test("should dispatch get case details success when case archived successfully", async () => {
     const updatedCaseResponse = { caseId: existingCase.id, isArchived: false };
 
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .delete(`/api/cases/${existingCase.id}`)
       .reply(200, updatedCaseResponse);
 
@@ -55,11 +47,7 @@ describe("archiveCase", () => {
   });
 
   test("should dispatch success when case archived successfully", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .delete(`/api/cases/${existingCase.id}`)
       .reply(200, {});
 
@@ -73,11 +61,7 @@ describe("archiveCase", () => {
   });
 
   test("should dispatch stopSubmit when archiving case fails", async () => {
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .delete(`/api/cases/${existingCase.id}`)
       .reply(500, {});
 

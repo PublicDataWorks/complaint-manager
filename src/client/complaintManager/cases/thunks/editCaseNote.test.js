@@ -33,8 +33,7 @@ describe("editCaseNote", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${caseNote.caseId}/case-notes/${caseNote.id}`, caseNote)

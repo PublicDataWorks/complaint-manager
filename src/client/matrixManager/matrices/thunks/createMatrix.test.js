@@ -36,8 +36,7 @@ describe("createCase", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post("/api/matrix-manager/matrices", creationDetails)
@@ -59,12 +58,10 @@ describe("createCase", () => {
   });
 
   test("should dispatch error and close dialog when matrix fails to be created", async () => {
-    nock("http://localhost")
-      .get("/api/users")
-      .replyWithError({
-        message: "Oh no",
-        code: "THE WORST ERROR"
-      });
+    nock("http://localhost").get("/api/users").replyWithError({
+      message: "Oh no",
+      code: "THE WORST ERROR"
+    });
 
     await createMatrix()(dispatch);
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_MATRIX_FORM_NAME));

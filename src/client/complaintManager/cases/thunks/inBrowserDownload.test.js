@@ -1,4 +1,3 @@
-import downloadFailed from "../../actionCreators/downloadActionCreators";
 import inBrowserDownload from "./inBrowserDownload";
 import nock from "nock";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
@@ -7,7 +6,7 @@ jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
 
-describe("in browser download thunk", function() {
+describe("in browser download thunk", function () {
   let testPath,
     dispatch,
     htmlAnchorId,
@@ -35,13 +34,7 @@ describe("in browser download thunk", function() {
   test("should add an anchor html tag with the file to download", async () => {
     getElementSpy.mockImplementationOnce(id => htmlAnchor);
 
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
-      .get(testPath)
-      .reply(200, responseData);
+    nock("http://localhost").get(testPath).reply(200, responseData);
 
     await inBrowserDownload(testPath, htmlAnchorId)(dispatch);
 

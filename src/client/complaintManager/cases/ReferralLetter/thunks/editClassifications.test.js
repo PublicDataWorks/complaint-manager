@@ -21,12 +21,7 @@ describe("editClassifications", () => {
   test("dispatches snackbar success on success", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .put(`/api/cases/${caseId}/referral-letter/classifications`, requestBody)
       .reply(200, {});
 

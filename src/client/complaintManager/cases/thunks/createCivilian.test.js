@@ -60,8 +60,7 @@ describe("civilian creation", function () {
   test("should dispatch success, close dialog and stop submit when civilian created successfully", async () => {
     nock(hostname, {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(`/api/cases/${civilian.caseId}/civilians`, civilian)
@@ -81,8 +80,7 @@ describe("civilian creation", function () {
   test("should dispatch failure and stop submit when civilian creation fails", async () => {
     nock(hostname, {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(`/api/cases/${civilian.caseId}/civilians`, civilian)

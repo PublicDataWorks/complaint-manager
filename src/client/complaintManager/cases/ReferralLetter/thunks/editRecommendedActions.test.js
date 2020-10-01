@@ -7,7 +7,7 @@ import configureInterceptors from "../../../../common/axiosInterceptors/intercep
 
 jest.mock("../../../../common/auth/getAccessToken");
 
-describe("editRecommendedActions", function() {
+describe("editRecommendedActions", function () {
   let caseId, dispatch, requestBody;
   beforeEach(() => {
     caseId = 5;
@@ -31,8 +31,7 @@ describe("editRecommendedActions", function() {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .put(
@@ -41,9 +40,11 @@ describe("editRecommendedActions", function() {
       )
       .reply(200, {});
 
-    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
-      dispatch
-    );
+    await editRecommendedActions(
+      caseId,
+      requestBody,
+      "redirectRoute"
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Recommended actions were successfully updated")
     );
@@ -60,8 +61,7 @@ describe("editRecommendedActions", function() {
     };
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .put(
@@ -70,9 +70,11 @@ describe("editRecommendedActions", function() {
       )
       .reply(200, responseBody);
 
-    await editRecommendedActions(caseId, requestBody, "redirectRoute")(
-      dispatch
-    );
+    await editRecommendedActions(
+      caseId,
+      requestBody,
+      "redirectRoute"
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push("redirectRoute"));
   });
 });

@@ -1,7 +1,10 @@
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 
-const ensureTokenOnRequestInterceptor = (dispatch, isAuthDisabled) => config => {
+const ensureTokenOnRequestInterceptor = (
+  dispatch,
+  isAuthDisabled
+) => config => {
   if (accessTokenHasExpired()) {
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
@@ -9,8 +12,7 @@ const ensureTokenOnRequestInterceptor = (dispatch, isAuthDisabled) => config => 
   }
 
   const token = getAccessToken();
-  const Authorization = isAuthDisabled ? undefined : `Bearer ${token}`;
-  
+
   if (!token && !isAuthDisabled) {
     if (
       window.location.pathname !== "/login" &&
@@ -21,12 +23,11 @@ const ensureTokenOnRequestInterceptor = (dispatch, isAuthDisabled) => config => 
     dispatch(push("/login"));
     throw new Error("No access token found");
   }
-  
   return {
     ...config,
     headers: {
       "Content-Type": "application/json",
-      Authorization
+      ...(!isAuthDisabled && { Authorization: `Bearer ${token}` })
     }
   };
 };

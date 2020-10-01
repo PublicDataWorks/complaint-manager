@@ -46,9 +46,7 @@ describe("response error interceptor", () => {
     });
 
     test("does not redirect to login on 200 response", async () => {
-      nock("http://localhost")
-        .get("/api/something")
-        .reply(200);
+      nock("http://localhost").get("/api/something").reply(200);
 
       await axios.get("http://localhost/api/something");
 
@@ -59,7 +57,7 @@ describe("response error interceptor", () => {
   describe("bad request interceptor", () => {
     const caseId = 3;
 
-    describe("cases with redirect", function() {
+    describe("cases with redirect", function () {
       test("invalid case status should redirect and show page not available snackbar error", async () => {
         nock("http://localhost")
           .get(`/api/cases/${caseId}/referral-letter`)
@@ -78,12 +76,10 @@ describe("response error interceptor", () => {
       });
 
       test("cannot update archived case should redirect, get case details, and show page not available snackbar error", async () => {
-        nock("http://localhost")
-          .get(`/api/cases/${caseId}`)
-          .reply(400, {
-            caseId: caseId,
-            message: BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
-          });
+        nock("http://localhost").get(`/api/cases/${caseId}`).reply(400, {
+          caseId: caseId,
+          message: BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE
+        });
 
         await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
         expect(dispatch).toHaveBeenCalledWith(
@@ -94,12 +90,10 @@ describe("response error interceptor", () => {
       });
 
       test("case does not exist should redirect and show page not available snackbar error", async () => {
-        nock("http://localhost")
-          .get(`/api/cases/${caseId}/`)
-          .reply(400, {
-            caseId: caseId,
-            message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
-          });
+        nock("http://localhost").get(`/api/cases/${caseId}/`).reply(400, {
+          caseId: caseId,
+          message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
+        });
 
         await expect(axios.get(`/api/cases/${caseId}/`)).rejects.toBeTruthy();
         expect(dispatch).toHaveBeenCalledWith(
@@ -109,12 +103,10 @@ describe("response error interceptor", () => {
       });
 
       test("invalid case status for update should redirect and show page not available snackbar error", async () => {
-        nock("http://localhost")
-          .get(`/api/cases/${caseId}`)
-          .reply(400, {
-            caseId: caseId,
-            message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
-          });
+        nock("http://localhost").get(`/api/cases/${caseId}`).reply(400, {
+          caseId: caseId,
+          message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+        });
 
         await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
         expect(dispatch).toHaveBeenCalledWith(
@@ -125,11 +117,9 @@ describe("response error interceptor", () => {
     });
 
     test("throws given error and does no additional action for case does not exist", async () => {
-      nock("http://localhost")
-        .get(`/api/cases/${caseId}`)
-        .reply(400, {
-          message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
-        });
+      nock("http://localhost").get(`/api/cases/${caseId}`).reply(400, {
+        message: BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST
+      });
 
       await expect(axios.get(`/api/cases/${caseId}`)).rejects.toBeTruthy();
       expect(dispatch).toHaveBeenCalledWith(snackbarError(PAGE_NOT_AVAILABLE));
@@ -144,11 +134,7 @@ describe("response error interceptor", () => {
         redirectUrl: `/cases/${caseId}`
       };
 
-      nock("http://localhost", {
-        reqheaders: {
-          Authorization: `Bearer ${"token"}`
-        }
-      })
+      nock("http://localhost")
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(400, errorResponseFor400);
 
@@ -168,11 +154,7 @@ describe("response error interceptor", () => {
           message: "500 error message"
         };
 
-        nock("http://localhost", {
-          reqheaders: {
-            Authorization: `Bearer ${"token"}`
-          }
-        })
+        nock("http://localhost")
           .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
           .reply(500, errorResponseFor500);
 
@@ -189,11 +171,7 @@ describe("response error interceptor", () => {
           error: "Internal Server Error"
         };
 
-        nock("http://localhost", {
-          reqheaders: {
-            Authorization: `Bearer ${"token"}`
-          }
-        })
+        nock("http://localhost")
           .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
           .reply(500, errorResponseFor500);
 

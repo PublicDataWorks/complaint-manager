@@ -20,11 +20,7 @@ describe("get notifications for user", () => {
 
   test("dispatches getNotificationSuccess", async () => {
     const responseBody = [{ notifications: "some notifs" }];
-    nock("http://localhost/", {
-      reqheaders: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    nock("http://localhost/")
       .get(`/api/notifications/${user}/`)
       .query(true)
       .reply(200, responseBody);

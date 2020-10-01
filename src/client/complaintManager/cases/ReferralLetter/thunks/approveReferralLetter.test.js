@@ -24,11 +24,7 @@ describe("approve referral letter", () => {
   test("expect display success snackbar, redirect to cases page, and callback ran", async () => {
     getAccessToken.mockImplementation(() => "TEST_TOKEN");
 
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .put(`/api/cases/${caseId}/referral-letter/approve-letter`)
       .reply(200, {});
     await approveReferralLetter(caseId, mockCallback)(dispatch);

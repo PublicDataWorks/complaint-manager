@@ -40,8 +40,7 @@ describe("createCaseTag", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer TEST_TOKEN`
+        "Content-Type": "application/json"
       }
     })
       .post(`/api/cases/${caseId}/case-tags`, requestBody)

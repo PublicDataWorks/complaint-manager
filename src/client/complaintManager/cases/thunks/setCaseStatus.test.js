@@ -29,8 +29,7 @@ describe("setCaseStatus", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${updateDetails.id}/status`, {
@@ -59,8 +58,7 @@ describe("setCaseStatus", () => {
 
     nock("http://localhost", {
       reqheaders: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer TEST_TOKEN"
+        "Content-Type": "application/json"
       }
     })
       .put(`/api/cases/${updateDetails.id}/status`, {
@@ -68,9 +66,11 @@ describe("setCaseStatus", () => {
       })
       .reply(200, responseBody);
 
-    await setCaseStatus(updateDetails.id, updateDetails.status, redirectUrl)(
-      dispatch
-    );
+    await setCaseStatus(
+      updateDetails.id,
+      updateDetails.status,
+      redirectUrl
+    )(dispatch);
     expect(dispatch).toHaveBeenCalledWith(push(redirectUrl));
   });
 });

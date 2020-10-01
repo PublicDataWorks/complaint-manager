@@ -45,11 +45,7 @@ describe("addOfficer", () => {
 
     const responseBody = { updatedCaseProp: "updatedCaseValues" };
 
-    nock("http://localhost", {
-      reqheaders: {
-        Authorization: `Bearer TEST_TOKEN`
-      }
-    })
+    nock("http://localhost")
       .post(
         `/api/cases/${defaultCase.id}/cases-officers`,
         JSON.stringify(payload)
