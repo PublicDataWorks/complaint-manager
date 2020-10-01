@@ -18,6 +18,7 @@ import {
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
@@ -115,12 +116,14 @@ describe("Approve referral letter", () => {
     test(
       "returns 400 when api endpoint hit without permissions",
       suppressWinstonLogs(async () => {
-        const responsePromise = request(app)
-          .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`);
+        await authEnabledTest(async () => {
+          const responsePromise = request(app)
+            .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
+            .set("Content-Header", "application/json")
+            .set("Authorization", `Bearer ${token}`);
 
-        await expectResponse(responsePromise, 400);
+          await expectResponse(responsePromise, 400);
+        });
       })
     );
   });

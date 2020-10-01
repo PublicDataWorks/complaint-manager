@@ -8,7 +8,8 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, NICKNAME } from "../../../../sharedUtilities/constants";
+import { authDisabled } from "../../../testHelpers/authEnabledTest";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {
@@ -16,7 +17,7 @@ describe("removeCaseNote request", () => {
   });
 
   test("should remove a case note", async () => {
-    const token = buildTokenWithPermissions("", "tuser");
+    const token = buildTokenWithPermissions("", NICKNAME);
 
     const caseToCreate = new Case.Builder()
       .defaultCase()
@@ -34,6 +35,7 @@ describe("removeCaseNote request", () => {
     const caseNoteToCreate = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(createdCase.id)
+      .withUser(NICKNAME)
       .build();
 
     const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
@@ -42,8 +44,12 @@ describe("removeCaseNote request", () => {
 
     const responsePromise = request(app)
       .delete(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
-      .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`);
+      .set("Content-Header", "application/json");
+
+    const isAuthDisabled = authDisabled();
+    if (!isAuthDisabled) {
+      responsePromise.set("Authorization", `Bearer ${token}`);
+    }
 
     await expectResponse(
       responsePromise,

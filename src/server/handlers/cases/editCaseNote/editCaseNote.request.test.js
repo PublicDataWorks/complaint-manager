@@ -8,6 +8,8 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
+import { NICKNAME, USERNAME } from "../../../../sharedUtilities/constants";
+import { authDisabled } from "../../../testHelpers/authEnabledTest";
 
 describe("editCaseNote request", function () {
   afterEach(async () => {
@@ -15,7 +17,7 @@ describe("editCaseNote request", function () {
   });
 
   test("should edit a case note", async () => {
-    const token = buildTokenWithPermissions("", "tuser");
+    const token = buildTokenWithPermissions("", NICKNAME);
 
     const caseToCreate = new Case.Builder()
       .defaultCase()
@@ -43,10 +45,10 @@ describe("editCaseNote request", function () {
     );
     const caseNoteToCreate = new CaseNote.Builder()
       .defaultCaseNote()
-      .withUser("tuser")
       .withCaseNoteActionId(caseNoteAction.id)
       .withNotes("default notes")
       .withCaseId(createdCase.id)
+      .withUser(NICKNAME)
       .build();
 
     const createdCaseNote = await models.case_note.create(caseNoteToCreate, {
@@ -61,8 +63,12 @@ describe("editCaseNote request", function () {
     const responsePromise = request(app)
       .put(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
       .send({ ...updatedCaseNote, mentionedUsers: [] });
+
+    const isAuthDisabled = authDisabled();
+    if (!isAuthDisabled) {
+      responsePromise.set("Authorization", `Bearer ${token}`);
+    }
 
     await expectResponse(
       responsePromise,
@@ -71,7 +77,7 @@ describe("editCaseNote request", function () {
         expect.objectContaining({
           ...updatedCaseNote,
           id: createdCaseNote.id,
-          author: { email: "tuser", name: "" }
+          author: { email: NICKNAME, name: USERNAME }
         })
       ])
     );
