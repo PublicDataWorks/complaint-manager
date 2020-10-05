@@ -105,7 +105,7 @@ class Dropzone extends Component {
     maxFiles: 1,
     headers: {
       Authorization: `Bearer ${getAccessToken()}`,
-      'Access-Control-Allow-Origin': `${protocol}\\${hostname}`
+      'Access-Control-Allow-Origin': `${protocol}//${hostname}`
     },
     dictUploadCanceled: UPLOAD_CANCELED,
     dictDefaultMessage: "Drag and drop or click",
