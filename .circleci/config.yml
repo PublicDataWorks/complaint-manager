@@ -332,7 +332,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.18.0
+                - release_v3.19.0
       - test-client:
           requires:
             - security-check
