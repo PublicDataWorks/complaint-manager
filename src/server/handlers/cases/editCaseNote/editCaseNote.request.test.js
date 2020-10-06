@@ -76,7 +76,7 @@ describe("editCaseNote request", function () {
         expect.objectContaining({
           ...updatedCaseNote,
           id: createdCaseNote.id,
-          author: { email: NICKNAME, name: USERNAME }
+          author: expect.objectContaining({ email: NICKNAME })
         })
       ])
     );
