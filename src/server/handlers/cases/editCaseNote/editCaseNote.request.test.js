@@ -8,8 +8,8 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
-import { NICKNAME } from "../../../../sharedUtilities/constants";
-import { authDisabled } from "../../../testHelpers/authEnabledTest";
+import { NICKNAME, USERNAME } from "../../../../sharedUtilities/constants";
+import { isAuthDisabled } from "../../../isAuthDisabled";
 
 describe("editCaseNote request", function () {
   afterEach(async () => {
@@ -65,8 +65,7 @@ describe("editCaseNote request", function () {
       .set("Content-Header", "application/json")
       .send({ ...updatedCaseNote, mentionedUsers: [] });
 
-    const isAuthDisabled = authDisabled();
-    if (!isAuthDisabled) {
+    if (!isAuthDisabled()) {
       responsePromise.set("Authorization", `Bearer ${token}`);
     }
 
@@ -77,7 +76,7 @@ describe("editCaseNote request", function () {
         expect.objectContaining({
           ...updatedCaseNote,
           id: createdCaseNote.id,
-          author: { email: NICKNAME, name: "" }
+          author: { email: NICKNAME, name: USERNAME }
         })
       ])
     );

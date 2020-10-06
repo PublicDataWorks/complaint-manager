@@ -33,7 +33,7 @@ module.exports = {
     },
     local: {
       globals: {
-        disableAuthentication: false
+        disableAuthentication: true
       },
       launch_url: "https://app-e2e/",
       desiredCapabilities: {
