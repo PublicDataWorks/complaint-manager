@@ -24,7 +24,8 @@ import audit from "./handlers/audits/auditAuthentication";
 import createCaseTag from "./handlers/cases/createCaseTag";
 import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
-import { authDisabled, authEnabledTest } from "./testHelpers/authEnabledTest";
+import { authEnabledTest } from "./testHelpers/authEnabledTest";
+import { isAuthDisabled } from "./isAuthDisabled";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -201,7 +202,7 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .send(requestBody);
 
-      if (!authDisabled()) {
+      if (!isAuthDisabled()) {
         caseResponsePromise.set("Authorization", `Bearer ${token}`);
       }
 
@@ -238,7 +239,7 @@ describe("server", () => {
         .set("Content-Header", "application/json")
         .send(editBody);
 
-      if (!authDisabled()) {
+      if (!isAuthDisabled()) {
         responsePromise.set("Authorization", `Bearer ${token}`);
       }
 

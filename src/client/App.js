@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ConnectedRouter } from "connected-react-router";
-import { get } from 'lodash';
+import { get } from "lodash";
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./common/globalStyling/muiTheme";
@@ -18,6 +18,7 @@ import { onMessage } from "./onMessage";
 import getNotifications from "./complaintManager/shared/thunks/getNotifications";
 import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
+import { isAuthDisabled } from "./isAuthDisabled";
 
 class App extends Component {
   eventSource = undefined;
@@ -25,7 +26,7 @@ class App extends Component {
   componentDidMount() {
     const accessToken = getAccessToken();
     const auth = new Auth();
-    if (get(config, [process.env.REACT_APP_ENV, 'auth', 'disabled'], false)) {
+    if (isAuthDisabled()) {
       auth.setDummyUserInfoInStore(this.props.userAuthSuccess);
     }
 

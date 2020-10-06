@@ -9,7 +9,7 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS, NICKNAME } from "../../../../sharedUtilities/constants";
-import { authDisabled } from "../../../testHelpers/authEnabledTest";
+import { isAuthDisabled } from "../../../isAuthDisabled";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {
@@ -46,8 +46,7 @@ describe("removeCaseNote request", () => {
       .delete(`/api/cases/${createdCase.id}/case-notes/${createdCaseNote.id}`)
       .set("Content-Header", "application/json");
 
-    const isAuthDisabled = authDisabled();
-    if (!isAuthDisabled) {
+    if (!isAuthDisabled()) {
       responsePromise.set("Authorization", `Bearer ${token}`);
     }
 
