@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import React, { Component } from "react";
 import DropzoneComponent from "react-dropzone-component";
 import "../../../../../../node_modules/react-dropzone-component/styles/filepicker.css";
@@ -16,8 +15,6 @@ import {
   InputLabel
 } from "@material-ui/core";
 import { PrimaryButton } from "../../../../complaintManager/shared/components/StyledButtons";
-
-const { protocol, hostname } = get(window, ['location'], {});
 
 class Dropzone extends Component {
   componentDidMount() {
@@ -104,8 +101,7 @@ class Dropzone extends Component {
     autoProcessQueue: false,
     maxFiles: 1,
     headers: {
-      Authorization: `Bearer ${getAccessToken()}`,
-      'Access-Control-Allow-Origin': `${protocol}//${hostname}`
+      Authorization: `Bearer ${getAccessToken()}`
     },
     dictUploadCanceled: UPLOAD_CANCELED,
     dictDefaultMessage: "Drag and drop or click",
