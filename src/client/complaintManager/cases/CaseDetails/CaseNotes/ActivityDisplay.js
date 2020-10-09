@@ -57,7 +57,7 @@ const ActivityDisplay = ({
     return (
       <Typography
         variant="body2"
-        style={{ whiteSpace: "pre-wrap" }}
+        style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
         data-testid={"notesText"}
       >
         {Object.keys(notesDict).map(key => {
@@ -107,7 +107,7 @@ const ActivityDisplay = ({
           <div>
             <Typography
               data-testid="userAndActionText"
-              style={{ marginBottom: "2px" }}
+              style={{ marginBottom: "2px", wordBreak: "break-word" }}
             >
               <strong>{author}</strong>{" "}
               {activity.caseNoteAction && activity.caseNoteAction.name}
