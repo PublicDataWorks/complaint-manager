@@ -33,7 +33,7 @@ jest.mock("../thunks/editOfficerHistory", () =>
   }))
 );
 
-describe("OfficerHistories page", function() {
+describe("OfficerHistories page", function () {
   let store, wrapper, caseId, dispatchSpy;
 
   beforeEach(() => {
@@ -49,43 +49,46 @@ describe("OfficerHistories page", function() {
     store.dispatch(
       getOfficerHistoryOptionsRadioButtonValuesSuccess(officerHistoryOptions)
     );
-    const referralLetterDetails = {
-      id: caseId,
-      caseId: caseId,
-      letterOfficers: [
-        {
-          fullName: "Officer 1",
-          id: 0,
-          caseOfficerId: 10,
-          officerHistoryOptionId: "4"
-        },
-        {
-          fullName: "Officer 2",
-          id: 1,
-          caseOfficerId: 11,
-          officerHistoryOptionId: "4"
-        },
-        {
-          fullName: "Officer 3",
-          id: 2,
-          caseOfficerId: 12,
-          officerHistoryOptionId: "4"
-        }
-      ]
-    };
-
-    store.dispatch(getReferralLetterSuccess(referralLetterDetails));
-
-    wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <OfficerHistories match={{ params: { id: caseId } }} />
-        </Router>
-      </Provider>
-    );
   });
 
-  describe("officers on the case", function() {
+  describe("officers on the case", function () {
+    beforeEach(() => {
+      const referralLetterDetails = {
+        id: caseId,
+        caseId: caseId,
+        letterOfficers: [
+          {
+            fullName: "Officer 1",
+            id: 0,
+            caseOfficerId: 10,
+            officerHistoryOptionId: "4"
+          },
+          {
+            fullName: "Officer 2",
+            id: 1,
+            caseOfficerId: 11,
+            officerHistoryOptionId: "4"
+          },
+          {
+            fullName: "Officer 3",
+            id: 2,
+            caseOfficerId: 12,
+            officerHistoryOptionId: "4"
+          }
+        ]
+      };
+
+      store.dispatch(getReferralLetterSuccess(referralLetterDetails));
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <OfficerHistories match={{ params: { id: caseId } }} />
+          </Router>
+        </Provider>
+      );
+    });
+
     test("loads referral letter data on mount", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(getReferralLetterData(caseId));
     });
@@ -120,10 +123,7 @@ describe("OfficerHistories page", function() {
     });
 
     test("it renders a tab content for the selected officer", () => {
-      wrapper
-        .find("[data-testid='tab-11']")
-        .first()
-        .simulate("click");
+      wrapper.find("[data-testid='tab-11']").first().simulate("click");
       containsText(wrapper, "[data-testid='tab-content-11']", "Officer 2");
       expect(
         wrapper.find("[data-testid='tab-content-11']").get(0).props.style
@@ -391,9 +391,9 @@ describe("OfficerHistories page", function() {
       );
     });
 
-    describe("Saves and Redirects when click Stepper Buttons", function() {
+    describe("Saves and Redirects when click Stepper Buttons", function () {
       let expectedFormValues;
-      beforeEach(function() {
+      beforeEach(function () {
         editOfficerHistory.mockClear();
         changeInput(
           wrapper,
@@ -475,7 +475,7 @@ describe("OfficerHistories page", function() {
     });
   });
 
-  describe("no officers on the case", function() {
+  describe("no officers on the case", function () {
     let dispatchSpy;
     beforeEach(() => {
       editOfficerHistory.mockClear();
