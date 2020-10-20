@@ -20,6 +20,11 @@ resource "heroku_app" "app" {
   }
 }
 
+resource "heroku_addon" "scheduler_addon" {
+  app = heroku_app.app.name
+  plan = "scheduler:standard"
+}
+
 resource "heroku_addon" "redis_addon" {
   app = heroku_app.app.name
   plan = "rediscloud:30"
