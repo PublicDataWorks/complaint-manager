@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import complaintManagerRoutes from "./complaintManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import matrixManagerRoutes from "./matrixManagerRoutes";
+import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
 import { Route, Switch } from "react-router";
 import { connect } from "react-redux";
 
@@ -20,6 +21,11 @@ class AppRouter extends Component {
             this.createRoute(route.path, route.component)
         )}
         {matrixManagerRoutes.map(
+          route =>
+            this.shouldCreateRoute(route.toggleName) &&
+            this.createRoute(route.path, route.component)
+        )}
+        {publicDataDashboardRoutes.map(
           route =>
             this.shouldCreateRoute(route.toggleName) &&
             this.createRoute(route.path, route.component)
