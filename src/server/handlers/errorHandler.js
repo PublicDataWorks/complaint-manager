@@ -1,4 +1,4 @@
-import API_ROUTES from "../apiRoutes";
+import {API_ROUTES, PUBLIC_ROUTES} from "../apiRoutes";
 
 const newRelic = require("newrelic");
 const Boom = require("boom");
@@ -30,7 +30,16 @@ const requestSpecifiesRouteMethod = request => {
 };
 
 const getErrorMessageForRouteAndMethod = request => {
-  return API_ROUTES[request.route.path][request.method.toLowerCase()]
+    let ROUTES;
+    const routePath = request.route.path;
+
+    if(API_ROUTES[routePath]) {
+        ROUTES=API_ROUTES;
+    } else if(PUBLIC_ROUTES[routePath]) {
+        ROUTES=PUBLIC_ROUTES;
+    }
+
+  return ROUTES[routePath][request.method.toLowerCase()]
     .errorMessage;
 };
 
