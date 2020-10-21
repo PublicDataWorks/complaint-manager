@@ -6,7 +6,8 @@ const styles = {
   title: {
     color: colors.softBlack,
     fontSize: standards.fontLarge,
-    fontWeight: 600
+    letterSpacing: "1px",
+    fontWeight: 500
   },
   subheading: {
     color: colors.textGray,
@@ -44,7 +45,7 @@ const styles = {
   navBarLink: {
     color: colors.textGray,
     fontSize: standards.fontSmall,
-    fontWeight: 400
+    fontWeight: 300
   }
 };
 
