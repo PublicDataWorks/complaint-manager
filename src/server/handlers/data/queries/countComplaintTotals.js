@@ -1,15 +1,11 @@
 import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
 import {
-  CASE_STATUS,
-  MANAGER_TYPE,
-  AUDIT_SUBJECT
+  CASE_STATUS
 } from "../../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../../audits/auditDataAccess";
 
 export const executeQuery = async nickname => {
-  const getCountByDateRange = async (startDate, endDate, auditSubject) => {
+  const getCountByDateRange = async (startDate, endDate) => {
     const where = {
       deletedAt: null,
       firstContactDate: {
@@ -25,21 +21,7 @@ export const executeQuery = async nickname => {
     };
 
     const complaints = await models.sequelize.transaction(async transaction => {
-      const complaints = await models.cases.findAll(queryOptions);
-      const auditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.cases.name
-      );
-
-      await auditDataAccess(
-        nickname,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        auditSubject,
-        auditDetails,
-        transaction
-      );
-      return complaints;
+      return await models.cases.findAll(queryOptions);
     });
     return complaints.length;
   };
@@ -52,8 +34,7 @@ export const executeQuery = async nickname => {
 
   const countCurrentYear = await getCountByDateRange(
     firstDayCurrentYear,
-    new Date(),
-    AUDIT_SUBJECT.COMPLAINT_TOTAL_YTD
+    new Date()
   );
 
   const firstDayPreviousYear = new Date(
@@ -65,8 +46,7 @@ export const executeQuery = async nickname => {
 
   const countPreviousYear = await getCountByDateRange(
     firstDayPreviousYear,
-    lastDayPreviousYear,
-    AUDIT_SUBJECT.COMPLAINT_TOTAL_PREVIOUS_YEAR
+    lastDayPreviousYear
   );
 
   return { ytd: countCurrentYear, previousYear: countPreviousYear };

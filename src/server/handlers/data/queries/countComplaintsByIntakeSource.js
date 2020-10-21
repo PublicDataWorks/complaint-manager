@@ -1,12 +1,8 @@
 import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
 import {
-  CASE_STATUS,
-  MANAGER_TYPE,
-  AUDIT_SUBJECT
+  CASE_STATUS
 } from "../../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../../audits/auditDataAccess";
 
 export const executeQuery = async nickname => {
   const date = new Date();
@@ -37,21 +33,7 @@ export const executeQuery = async nickname => {
 
   const complaintsByIntakeSource = await models.sequelize.transaction(
     async transaction => {
-      const complaintsByIntakeSource = await models.cases.findAll(queryOptions);
-      const auditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.cases.name
-      );
-
-      await auditDataAccess(
-        nickname,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.VISUALIZATION_INTAKE_SOURCE,
-        auditDetails,
-        transaction
-      );
-      return complaintsByIntakeSource;
+      return await models.cases.findAll(queryOptions);
     }
   );
 

@@ -2,13 +2,9 @@ import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
 import {
   ASCENDING,
-  AUDIT_SUBJECT,
   CASE_STATUS,
-  DESCENDING,
-  MANAGER_TYPE
+  DESCENDING
 } from "../../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../../audits/auditDataAccess";
 
 export const executeQuery = async nickname => {
   const date = new Date();
@@ -55,21 +51,7 @@ export const executeQuery = async nickname => {
 
   const countByTop10Tags = await models.sequelize.transaction(
     async transaction => {
-      const countByTop10Tags = await models.case_tag.findAll(queryOptions);
-      const auditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.case_tag.name
-      );
-
-      await auditDataAccess(
-        nickname,
-        null,
-        MANAGER_TYPE.COMPLAINT,
-        AUDIT_SUBJECT.VISUALIZATION_TOP_10_TAGS,
-        auditDetails,
-        transaction
-      );
-      return countByTop10Tags;
+      return await models.case_tag.findAll(queryOptions);
     }
   );
 

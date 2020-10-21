@@ -1,12 +1,6 @@
 import models from "../../../complaintManager/models";
 import sequelize from "sequelize";
-import {
-  CASE_STATUS,
-  MANAGER_TYPE,
-  AUDIT_SUBJECT
-} from "../../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../../audits/auditDataAccess";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 export const executeQuery = async nickname => {
   const date = new Date();
@@ -42,21 +36,7 @@ export const executeQuery = async nickname => {
   };
 
   const complaints = await models.sequelize.transaction(async transaction => {
-    const allComplaintsWithCaseRef = await models.cases.findAll(queryOptions);
-    const auditDetails = getQueryAuditAccessDetails(
-      queryOptions,
-      models.cases.name
-    );
-
-    await auditDataAccess(
-      nickname,
-      null,
-      MANAGER_TYPE.COMPLAINT,
-      AUDIT_SUBJECT.VISUALIZATION_COMPLAINANT_TYPE,
-      auditDetails,
-      transaction
-    );
-    return allComplaintsWithCaseRef;
+    return await models.cases.findAll(queryOptions);
   });
 
   let totalComplaints = {
