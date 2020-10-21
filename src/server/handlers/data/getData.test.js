@@ -116,9 +116,6 @@ describe("getData", () => {
   test("should call getData when countComplaintsByIntakeSource query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "countComplaintsByIntakeSource"
       },
@@ -133,9 +130,6 @@ describe("getData", () => {
   test("should call getData when countComplaintTotals query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "countComplaintTotals"
       },
@@ -150,9 +144,6 @@ describe("getData", () => {
   test("should call getData when countComplaintsByComplainantType query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "countComplaintsByComplainantType"
       },
@@ -167,9 +158,6 @@ describe("getData", () => {
   test("should call getData when countComplaintsByComplainantTypePast12Months query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "countComplaintsByComplainantTypePast12Months"
       },
@@ -186,9 +174,6 @@ describe("getData", () => {
   test("should call getData when countTop10Tags query called", () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "countTop10Tags"
       }
@@ -198,9 +183,6 @@ describe("getData", () => {
   test("throws an error when query param is not supported", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
       query: {
         queryType: "unknown"
       },

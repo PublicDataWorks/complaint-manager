@@ -2,7 +2,7 @@ import {
   BAD_REQUEST_ERRORS,
   NOT_FOUND_ERRORS
 } from "../../sharedUtilities/errorMessageConstants";
-import { API_ROUTES } from "../apiRoutes";
+import { API_ROUTES, PUBLIC_ROUTES } from "../apiRoutes";
 
 const errorHandler = require("./errorHandler");
 const httpMocks = require("node-mocks-http");
@@ -28,11 +28,36 @@ describe("errorHandler", () => {
       })
     );
   });
+  test("should mask 500 error response on public routes", () => {
+        const path = "/data";
+        const request = httpMocks.createRequest({
+            route: {
+                path: path
+            }
+        });
+        const response = httpMocks.createResponse();
+
+        errorHandler(
+            Boom.badImplementation("very sensitive error information"),
+            request,
+            response
+        );
+
+        expect(response.statusCode).toEqual(500);
+        expect(response._getData()).toEqual(
+            JSON.stringify({
+                statusCode: 500,
+                error: "Internal Server Error",
+                message: PUBLIC_ROUTES[path]["get"].errorMessage
+            })
+        );
+    });
+
   test("should mask 500 error response", () => {
     const path = "/cases/:caseId";
     const request = httpMocks.createRequest({
       route: {
-        path: "/cases/:caseId"
+        path: path
       }
     });
     const response = httpMocks.createResponse();

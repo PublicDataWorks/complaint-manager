@@ -72,6 +72,16 @@ export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/attachments"
 ];
 
+export const PUBLIC_ROUTES = {
+    "/data": {
+        get: {
+            handler: getData,
+            errorMessage:
+            "Something went wrong and the data could not be retrieved. Please try again."
+        }
+    },
+};
+
 export const API_ROUTES = {
   "/export/job/:jobId": {
     get: {
@@ -492,13 +502,6 @@ export const API_ROUTES = {
       handler: getNotificationStatus,
       errorMessage:
       "Something went wrong and notifications could not be verified. Please try again."
-    }
-  },
-  "/data": {
-    get: {
-      handler: getData,
-      errorMessage:
-      "Something went wrong and the data could not be retrieved. Please try again."
     }
   },
   "/matrix-manager/matrices": {

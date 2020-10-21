@@ -1,6 +1,6 @@
 import { handleCaseIdParam } from "./handlers/paramHandler";
 import { addRoutesToRouter } from "./apiRoutes";
-import API_ROUTES from "./apiRoutes";
+import {PUBLIC_ROUTES, API_ROUTES} from "./apiRoutes";
 import jwtCheck from "./handlers/jwtCheck";
 import verifyUserInfo from "./handlers/verifyUserNickname";
 import authErrorHandler from "./handlers/authErrorHandler";
@@ -9,6 +9,8 @@ import { isAuthDisabled } from "./isAuthDisabled";
 
 const express = require("express");
 const router = express.Router();
+
+addRoutesToRouter(router, PUBLIC_ROUTES);
 
 if (isAuthDisabled()) {
   router.use(localhostUserNickname);
