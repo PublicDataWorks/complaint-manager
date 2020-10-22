@@ -59,8 +59,10 @@ export const transformData = (rawData, isPublic = false) => {
   if (isPublic) {
     extendedProps.title = null;
     extendedProps.width = 806;
-    extendedProps.margin.b = 24;
-    extendedProps.margin.t = 24;
+    extendedProps.margin = {
+      b: 24,
+      t: 24
+    };
     extendedProps.paper_bgcolor = "#F5F4F4";
     extendedProps.plot_bgcolor = "#F5F4F4";
   }
