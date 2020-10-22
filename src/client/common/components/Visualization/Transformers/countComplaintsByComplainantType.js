@@ -6,7 +6,7 @@ import {
 } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 
-export function transformData(rawData) {
+export function transformData(rawData, isPublic = false) {
   let labels, values;
   let count = 0;
 
@@ -47,19 +47,34 @@ export function transformData(rawData) {
   });
 
   const layout = {
-    title: {
-      text: "Complaints by Complainant Type",
-      font: TITLE_FONT
-    },
-    height: 600,
-    width: 800,
-    margin: {
-      b: 170
-    },
     annotations: generateDonutCenterAnnotations(count),
     showlegend: false,
     font: LABEL_FONT
   };
+
+  let extendedProps = {
+    height: 600,
+    width: 800,
+    title: {
+      text: "Complaints by Complainant Type",
+      font: TITLE_FONT
+    },
+    margin: {
+      b: 170
+    }
+  };
+
+  if (isPublic) {
+    extendedProps.height = 536;
+    extendedProps.width = 806;
+    extendedProps.title = null;
+    extendedProps.margin.b = 30;
+    extendedProps.margin.t = 30;
+    extendedProps.margin.l = 8;
+    extendedProps.margin.r = 8;
+    extendedProps.paper_bgcolor = "#F5F4F4";
+    extendedProps.plot_bgcolor = "#F5F4F4";
+  }
 
   return {
     data: [
@@ -76,6 +91,6 @@ export function transformData(rawData) {
         hole: 0.5
       }
     ],
-    layout
+    layout: { ...layout, ...extendedProps }
   };
 }

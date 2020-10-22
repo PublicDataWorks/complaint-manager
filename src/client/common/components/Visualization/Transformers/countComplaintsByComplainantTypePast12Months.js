@@ -29,7 +29,7 @@ export const enableCountHighlight = (complainantTypeData, maximum) => {
     );
 };
 
-export const transformData = rawData => {
+export const transformData = (rawData, isPublic = false) => {
   let maximum = 0;
   const determineMax = count => {
     const newCount = _.round((count + 0.5) * 1.1);
@@ -137,12 +137,31 @@ export const transformData = rawData => {
   const layout = {
     barmode: "group",
     yaxis: { range: [0, maximum] },
-    font: LABEL_FONT,
+    font: LABEL_FONT
+  };
+
+  let extendedProps = {
     title: {
       text: "Complainant Type over Past 12 Months",
       font: TITLE_FONT
     }
   };
+
+  if (isPublic) {
+    extendedProps.title = null;
+    extendedProps.width = 806;
+    extendedProps.plot_bgcolor = "#F5F4F4";
+    extendedProps.legend = {
+      x: 0,
+      y: -0.5
+    };
+    extendedProps.margin = {
+      l: 24,
+      r: 0,
+      t: 8,
+      b: 0
+    };
+  }
 
   const data = [
     ccTrace,
@@ -158,6 +177,6 @@ export const transformData = rawData => {
 
   return {
     data: data,
-    layout
+    layout: { ...layout, ...extendedProps }
   };
 };
