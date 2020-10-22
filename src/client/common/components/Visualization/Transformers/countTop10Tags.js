@@ -1,6 +1,6 @@
 import { COLORS, LABEL_FONT, TITLE_FONT } from "../dataVizStyling";
 
-export const transformData = rawData => {
+export const transformData = (rawData, isPublic = false) => {
   let xValues;
   let yValues;
   rawData.reverse();
@@ -38,11 +38,6 @@ export const transformData = rawData => {
       automargin: true,
       showticklabels: false
     },
-    title: {
-      text: "Top Tags<br><sub>Past 12 Months",
-      font: TITLE_FONT
-    },
-    width: 750,
     margin: {
       l: 235,
       r: 0,
@@ -52,6 +47,23 @@ export const transformData = rawData => {
     },
     font: LABEL_FONT
   };
+
+  let extendedProps = {
+    title: {
+      text: "Top Tags<br><sub>Past 12 Months",
+      font: TITLE_FONT
+    },
+    width: 750
+  };
+
+  if (isPublic) {
+    extendedProps.title = null;
+    extendedProps.width = 806;
+    extendedProps.margin.b = 24;
+    extendedProps.margin.t = 24;
+    extendedProps.paper_bgcolor = "#F5F4F4";
+    extendedProps.plot_bgcolor = "#F5F4F4";
+  }
 
   if (noTags) {
     layout["annotations"] = [
@@ -74,6 +86,6 @@ export const transformData = rawData => {
 
   return {
     data: [caseTagTrace],
-    layout
+    layout: { ...layout, ...extendedProps }
   };
 };

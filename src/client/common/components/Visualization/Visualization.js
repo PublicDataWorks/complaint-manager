@@ -24,21 +24,27 @@ const Visualization = props => {
         switch (props.queryType) {
           case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
             transformedData = countComplaintsByIntakeSource.transformData(
-              response.data
+              response.data,
+              props.isPublic
             );
             break;
           case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
             transformedData = countComplaintsByComplainantType.transformData(
-              response.data
+              response.data,
+              props.isPublic
             );
             break;
           case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
             transformedData = countComplaintsByComplainantTypePast12Months.transformData(
-              response.data
+              response.data,
+              props.isPublic
             );
             break;
           case QUERY_TYPES.COUNT_TOP_10_TAGS:
-            transformedData = countTop10Tags.transformData(response.data);
+            transformedData = countTop10Tags.transformData(
+              response.data,
+              props.isPublic
+            );
             break;
           default:
             throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);

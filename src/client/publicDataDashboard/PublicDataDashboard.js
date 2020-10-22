@@ -1,9 +1,18 @@
 import React, { Component } from "react";
-import { Typography, Grid, Button, Icon, Container, Link } from "@material-ui/core";
+import {
+  Typography,
+  Grid,
+  Button,
+  Icon,
+  Container,
+  Link
+} from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
 import styles from "./dashboardStyling/styles";
 import TextTruncate from "../complaintManager/shared/components/TextTruncate";
+import { QUERY_TYPES } from "../../sharedUtilities/constants";
+import Visualization from "../common/components/Visualization/Visualization";
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
@@ -11,8 +20,8 @@ const scrollIntoViewById = selector => event => {
   if (!anchorElement) return;
 
   anchorElement.scrollIntoView({
-    behavior: 'smooth',
-    block: 'center'
+    behavior: "smooth",
+    block: "center"
   });
 };
 
@@ -55,12 +64,10 @@ class PublicDataDashboard extends Component {
           </Grid>
           <Grid item xs={8}>
             <Typography variant="h3">
-        The
-      {" "}
-        <Link href="https://nolaipm.gov/" style={styles.link}>
-        Office of the Independent Police Monitor
-      </Link>
-        {" "}
+              The{" "}
+              <Link href="https://nolaipm.gov/" style={styles.link}>
+                Office of the Independent Police Monitor
+              </Link>{" "}
               (OIPM) is sharing data with the public to increase transparency to
               inform and empower the community the office was designed to serve.
             </Typography>
@@ -272,8 +279,14 @@ class PublicDataDashboard extends Component {
               Complainant Type over Past 12 Months
             </Typography>
           </Grid>
-        <Grid item xs={12} style={{padding: 0}}>
-            <img src="https://placekitten.com/g/886/313" />
+          <Grid item xs={12} style={{ padding: 0 }}>
+            <Visualization
+              data-testid={"complainantTypePast12MonthsGraph"}
+              isPublic
+              queryType={
+                QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
+              }
+            />
           </Grid>
           <Grid item xs={8} style={{ paddingBottom: "117px" }}>
             <TextTruncate
@@ -295,8 +308,12 @@ class PublicDataDashboard extends Component {
               Complaints by Intake Source
             </Typography>
           </Grid>
-        <Grid item xs={12} style={{padding: 0}}>
-            <img src="https://placekitten.com/g/886/536" />
+          <Grid item xs={12} style={{ padding: 0 }}>
+            <Visualization
+              data-testid={"intakeSourceGraph"}
+              isPublic
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+            />
           </Grid>
           <Grid item xs={8} style={{ paddingBottom: "117px" }}>
             <TextTruncate
@@ -309,15 +326,21 @@ class PublicDataDashboard extends Component {
             />
           </Grid>
           <Grid item xs={8}>
-            <Typography id="who-submits-complaints" variant="h2">Who submits complaints?</Typography>
+            <Typography id="who-submits-complaints" variant="h2">
+              Who submits complaints?
+            </Typography>
           </Grid>
           <Grid item xs={8}>
             <Typography variant="subtitle1">
               Complaints by Complainant Type
             </Typography>
           </Grid>
-        <Grid item xs={12} style={{padding: 0}}>
-            <img src="https://placekitten.com/g/886/536" />
+          <Grid item xs={12} style={{ padding: 0 }}>
+            <Visualization
+              data-testid={"complainantTypeGraph"}
+              isPublic
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+            />
           </Grid>
           <Grid item xs={8} style={{ paddingBottom: "117px" }}>
             <TextTruncate
@@ -332,15 +355,19 @@ class PublicDataDashboard extends Component {
           <Grid item xs={8}>
             <Typography id="emerging-themes" variant="h2">
               What themes are emerging from the data?
-      </Typography>
+            </Typography>
           </Grid>
           <Grid item xs={8}>
             <Typography variant="subtitle1">
               Tags and Complaint Subject Matter Themes
-      </Typography>
+            </Typography>
           </Grid>
-        <Grid item xs={12} style={{padding: 0}}>
-            <img src="https://placekitten.com/g/886/536" />
+          <Grid item xs={12} style={{ padding: 0 }}>
+            <Visualization
+              data-testid={"top10TagsGraph"}
+              isPublic
+              queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+            />
           </Grid>
           <Grid item xs={8} style={{ paddingBottom: "117px" }}>
             <TextTruncate
@@ -351,9 +378,9 @@ class PublicDataDashboard extends Component {
                 "The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information.\n\nTags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concerned, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from homelessness and housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  Visit the tag glossary for an explanation of each label. This chart captures tag use on a rolling twelve month basis. "
               }
             />
-      </Grid>
-        <Grid
-      item
+          </Grid>
+          <Grid
+            item
             xs={12}
             style={{
               backgroundColor: styles.colors.softBlack,
@@ -370,12 +397,12 @@ class PublicDataDashboard extends Component {
                   paddingBottom: "36px",
                   maxWidth: "65%"
                 }}
-        >
-        Have you had an encounter with police?
-      </Typography>
+              >
+                Have you had an encounter with police?
+              </Typography>
               <Button
-      variant="contained"
-      href="https://nolaipm.gov/file-a-complaint/"
+                variant="contained"
+                href="https://nolaipm.gov/file-a-complaint/"
                 style={{
                   textTransform: "none",
                   padding: "16px 24px",
@@ -385,20 +412,21 @@ class PublicDataDashboard extends Component {
                   marginBottom: "4px"
                 }}
               >
-        <Typography variant="body2">
-        File a complaint or commendation
-      </Typography>
-        </Button>
-        </Container>
+                <Typography variant="body2">
+                  File a complaint or commendation
+                </Typography>
+              </Button>
+            </Container>
+          </Grid>
         </Grid>
-      </Grid>
-      <Typography
-      style={{
-        padding: "24px 56px 56px 56px"
-      }}
-      >
-      Last updated 10/22/2020
-      </Typography>
+        <Typography
+          style={{
+            color: styles.colors.textGray,
+            padding: "24px 56px 56px 56px"
+          }}
+        >
+          Last updated 10/22/2020
+        </Typography>
       </MuiThemeProvider>
     );
   }
