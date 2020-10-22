@@ -1,13 +1,7 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import axios from "axios";
-import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
-import * as countComplaintsByComplainantType from "./Transformers/countComplaintsByComplainantType";
-import * as countComplaintsByComplainantTypePast12Months from "./Transformers/countComplaintsByComplainantTypePast12Months";
-import * as countTop10Tags from "./Transformers/countTop10Tags";
-import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
+import { getVisualizationData } from "./getVisualizationData";
 import _ from "lodash";
 
 const Visualization = props => {
@@ -17,38 +11,10 @@ const Visualization = props => {
     const fetchData = async () => {
       try {
         setData({ data: data.data, isFetching: true });
-        const response = await axios.get(
-          `/api/data?queryType=${props.queryType}`
+        const transformedData = await getVisualizationData(
+          props.queryType,
+          props.isPublic
         );
-        let transformedData;
-        switch (props.queryType) {
-          case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
-            transformedData = countComplaintsByIntakeSource.transformData(
-              response.data,
-              props.isPublic
-            );
-            break;
-          case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
-            transformedData = countComplaintsByComplainantType.transformData(
-              response.data,
-              props.isPublic
-            );
-            break;
-          case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-            transformedData = countComplaintsByComplainantTypePast12Months.transformData(
-              response.data,
-              props.isPublic
-            );
-            break;
-          case QUERY_TYPES.COUNT_TOP_10_TAGS:
-            transformedData = countTop10Tags.transformData(
-              response.data,
-              props.isPublic
-            );
-            break;
-          default:
-            throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
-        }
         setData({ data: transformedData.data, isFetching: false });
         setLayout(transformedData.layout);
       } catch (e) {

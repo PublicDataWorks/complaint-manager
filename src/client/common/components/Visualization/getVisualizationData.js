@@ -6,30 +6,33 @@ import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsBy
 import * as countComplaintsByComplainantType from "./Transformers/countComplaintsByComplainantType";
 import * as countComplaintsByComplainantTypePast12Months from "./Transformers/countComplaintsByComplainantTypePast12Months";
 
-export const getVisualizationData = async queryType => {
+export const getVisualizationData = async (queryType, isPublic) => {
   let response, transformedData;
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
       response = fetchData(queryType);
       transformedData = countComplaintsByIntakeSource.transformData(
-        response.data
+        response.data,
+        isPublic
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
       response = fetchData(queryType);
       transformedData = countComplaintsByComplainantType.transformData(
-        response.data
+        response.data,
+        isPublic
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
       response = fetchData(queryType);
       transformedData = countComplaintsByComplainantTypePast12Months.transformData(
-        response.data
+        response.data,
+        isPublic
       );
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
       response = fetchData(queryType);
-      transformedData = countTop10Tags.transformData(response.data);
+      transformedData = countTop10Tags.transformData(response.data, isPublic);
       break;
     default:
       throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
