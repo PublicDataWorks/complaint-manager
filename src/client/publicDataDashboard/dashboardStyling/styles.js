@@ -12,7 +12,7 @@ const styles = {
   subheading: {
     color: colors.textGray,
     fontSize: standards.fontMedium,
-    fontWeight: 400
+    fontWeight: 300
   },
   body1: {
     color: colors.softBlack,
@@ -23,7 +23,7 @@ const styles = {
   body2: {
     color: colors.softBlack,
     fontSize: standards.fontSmall,
-    fontWeight: 500,
+    fontWeight: 400,
     lineHeight: "22px"
   },
   button: {
@@ -40,7 +40,8 @@ const styles = {
   link: {
     color: colors.oipmBlue,
     fontSize: standards.fontMedium,
-    fontWeight: 400
+    fontWeight: 400,
+    textDecoration: "underline"
   },
   navBarLink: {
     color: colors.textGray,
