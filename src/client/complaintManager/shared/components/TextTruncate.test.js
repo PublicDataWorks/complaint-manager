@@ -12,7 +12,7 @@ describe("TextTruncate", () => {
     return new Array(length + 1).join("x");
   }
 
-  test("should not display show more/less button if message is less than or equal to 400 characters", () => {
+  test("should not display more/less button if message is less than or equal to 400 characters", () => {
     let message = getStringOfLength(400);
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
@@ -41,7 +41,7 @@ describe("TextTruncate", () => {
     expect(displayedMessage.text()).toEqual("422");
   });
 
-  test("should show 'show more' option and append '...' if > 400 characters", () => {
+  test("should show 'more' option and append '...' if > 400 characters", () => {
     const textTruncate = mount(
       <TextTruncate
         message={getStringOfLength(401)}
@@ -57,10 +57,10 @@ describe("TextTruncate", () => {
     const displayedButton = textTruncate.find("button").last();
 
     expect(displayedMessage.text()).toEqual(expectedDisplay);
-    expect(displayedButton.text()).toEqual("(show more)");
+    expect(displayedButton.text()).toEqual("more");
   });
 
-  test("should expand on 'show more' selection", () => {
+  test("should expand on 'more' selection", () => {
     const fullMessage = getStringOfLength(401);
     const textTruncate = mount(
       <TextTruncate message={fullMessage} testLabel={"truncatedMessage"} />
@@ -76,10 +76,10 @@ describe("TextTruncate", () => {
     const showLessButton = textTruncate.find("button").last();
 
     expect(displayedMessage.text()).toEqual(fullMessage);
-    expect(showLessButton.text()).toEqual("(show less)");
+    expect(showLessButton.text()).toEqual("less");
   });
 
-  test("should collapse on 'show less' selection", () => {
+  test("should collapse on 'less' selection", () => {
     const textTruncate = mount(
       <TextTruncate
         message={getStringOfLength(401)}
@@ -99,10 +99,10 @@ describe("TextTruncate", () => {
     const showMoreButton = textTruncate.find("button").last();
 
     expect(displayedMessage.text()).toEqual(expectedDisplay);
-    expect(showMoreButton.text()).toEqual("(show more)");
+    expect(showMoreButton.text()).toEqual("more");
   });
 
-  test("should display show more/less button when there are 2+ newlines", () => {
+  test("should display more/less button when there are 2+ newlines", () => {
     let message = "asdf\n\n\nasdf";
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
@@ -116,10 +116,10 @@ describe("TextTruncate", () => {
       .last();
 
     expect(displayedMessage.text()).toEqual("asdf...");
-    expect(showMoreButton.text()).toEqual("(show more)");
+    expect(showMoreButton.text()).toEqual("more");
   });
 
-  test("should display show more button after 400 characters but before newlines", () => {
+  test("should display more button after 400 characters but before newlines", () => {
     let message = getStringOfLength(402) + "\n\nasdf";
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
@@ -133,10 +133,10 @@ describe("TextTruncate", () => {
       .last();
 
     expect(displayedMessage.text()).toEqual(getStringOfLength(400) + "...");
-    expect(showMoreButton.text()).toEqual("(show more)");
+    expect(showMoreButton.text()).toEqual("more");
   });
 
-  test("should display show more button after line breaks with over 400 characters and line breaks at beginning", () => {
+  test("should display more button after line breaks with over 400 characters and line breaks at beginning", () => {
     let message = "\n\n" + getStringOfLength(400);
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
@@ -150,10 +150,10 @@ describe("TextTruncate", () => {
       .last();
 
     expect(displayedMessage.text()).toEqual("...");
-    expect(showMoreButton.text()).toEqual("(show more)");
+    expect(showMoreButton.text()).toEqual("more");
   });
 
-  test("should display show more button after line breaks with less than 400 chars", () => {
+  test("should display more button after line breaks with less than 400 chars", () => {
     let message = "\n\nhello";
     const textTruncate = mount(
       <TextTruncate message={message} testLabel={"untruncatedMessage"} />
@@ -167,7 +167,7 @@ describe("TextTruncate", () => {
       .last();
 
     expect(displayedMessage.text()).toEqual("...");
-    expect(showMoreButton.text()).toEqual("(show more)");
+    expect(showMoreButton.text()).toEqual("more");
   });
 
   test("should call getActivityNotes when truncating case note", () => {
