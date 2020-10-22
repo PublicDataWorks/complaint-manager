@@ -40,14 +40,14 @@ class TextTruncate extends React.Component {
             style={{ whiteSpace: "pre-wrap" }}
           >
             {message}
-          </Typography>
+
+            </Typography>
         )}
-        <LinkButton
+            <LinkButton
           style={this.expandCollapseLinkStyles}
-          onClick={onButtonClick}
-        >
-          {buttonText}
-        </LinkButton>
+          onClick={onButtonClick}>
+            {buttonText}
+          </LinkButton>
       </div>
     );
   };
@@ -55,11 +55,13 @@ class TextTruncate extends React.Component {
   renderCollapsedState = message => {
     const truncatedMessage =
       message.substring(0, this.calcMsgIndex(message)) + "...";
-    return this.getDisplay(truncatedMessage, "(show more)", this.showMore);
+    return this.getDisplay(truncatedMessage, "more", this.showMore);
   };
 
+  renderCaption = message => this.getDisplay(`${message}...`, "more", this.showMore);
+
   renderExpandedState = message => {
-    return this.getDisplay(message, "(show less)", this.showLess);
+    return this.getDisplay(message, "less", this.showLess);
   };
 
   calcMsgIndex = msg => {
@@ -81,7 +83,7 @@ class TextTruncate extends React.Component {
   };
 
   render() {
-    const { message, testLabel } = this.props;
+    const { message, collapsedText, testLabel } = this.props;
     const stringifiedMsg = String(message);
 
     if (
@@ -102,6 +104,7 @@ class TextTruncate extends React.Component {
     }
 
     if (this.state.isCollapsed) {
+      if (collapsedText) return this.renderCaption(collapsedText);
       return this.renderCollapsedState(stringifiedMsg);
     }
     return this.renderExpandedState(stringifiedMsg);
