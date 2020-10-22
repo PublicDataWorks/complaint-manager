@@ -10,28 +10,28 @@ export const getVisualizationData = async (queryType, isPublic) => {
   let response, transformedData;
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
-      response = fetchData(queryType);
+      response = await fetchData(queryType);
       transformedData = countComplaintsByIntakeSource.transformData(
         response.data,
         isPublic
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
-      response = fetchData(queryType);
+      response = await fetchData(queryType);
       transformedData = countComplaintsByComplainantType.transformData(
         response.data,
         isPublic
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-      response = fetchData(queryType);
+      response = await fetchData(queryType);
       transformedData = countComplaintsByComplainantTypePast12Months.transformData(
         response.data,
         isPublic
       );
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
-      response = fetchData(queryType);
+      response = await fetchData(queryType);
       transformedData = countTop10Tags.transformData(response.data, isPublic);
       break;
     default:
