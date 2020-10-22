@@ -436,6 +436,55 @@ export const QUERY_TYPE_FILE_MAP = {
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType.js"
 };
 
+export const DDS_COMPLAINTS_OVER_TIME = "DDS_COMPLAINTS_OVER_TIME";
+export const DDS_COMPLAINANTS_SUBMIT_COMPLAINTS =
+  "DDS_COMPLAINANTS_SUBMIT_COMPLAINTS";
+export const DDS_WHO_SUBMITS_COMPLAINTS = "DDS_WHO_SUBMITS_COMPLAINTS";
+export const DDS_EMERGING_THEMES = "DDS_EMERGING_THEMES";
+
+export const DATA_SECTIONS = {
+  [DDS_COMPLAINTS_OVER_TIME]: {
+    title: "Who is submitting complaints over time?",
+    subtitle: "Complainant Type over Past 12 Months",
+    dataTestId: "complainantTypePast12MonthsGraph",
+    queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
+    collapsedText:
+      "With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the OIPM over the course of the last twelve months",
+    fullMessage:
+      "With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the OIPM over the course of the last twelve months.\n\nAs the year progresses, the table will show the last twelve (12) months from the current month (this is a rolling twelve months table).  With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year.  For example, there was a peak of complaints from the community – Civilian Complaints – in June during the interactions that occurred around the protests of police misconduct and the protest on the Crescent City Connection bridge.  OIPM tracks to see if there are other concentrations of complainants or complaint types during other points of the year including festival season, Mardi Gras, Essence, Voodoo Festival, hurricane season, sporting events, and the holidays."
+  },
+  [DDS_COMPLAINANTS_SUBMIT_COMPLAINTS]: {
+    title: "How do complainants submit complaints?",
+    subtitle: "Complaints by Intake Source",
+    dataTestId: "intakeSourceGraph",
+    queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE,
+    collapsedText:
+      "OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020",
+    fullMessage:
+      "OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020.\n\nThe Office of the Independent Police Monitor tracks complaints and our internal operations to ensure that the OIPM is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Tracking complaints by intake source is one example of how the OIPM tracks the complaints received.  Intake source refers to the method of communication through which the complaint was communicated to the OIPM.  Currently, complaints can be filed with the OIPM through:\n- Website\n- Email\n- Phone\n- In-person\n- Outreach events\n- Mail\n- Social media\n\nThe following table shows what method the OIPM received the complaints submitted year-to-date in 2020."
+  },
+  [DDS_WHO_SUBMITS_COMPLAINTS]: {
+    title: "Who submits complaints?",
+    subtitle: "Complaints by Complainant Type",
+    dataTestId: "complainantTypeGraph",
+    queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+    collapsedText:
+      "The OIPM tracked the complainant type to determine if we are reaching the full population with our services",
+    fullMessage:
+      "The OIPM tracked the complainant type to determine if we are reaching the full population with our services. The different complainant types include:\n\n* Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to OIPM but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, OIPM counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the NOPD.\n\n* Civilian Complainant (CC) – this category applies to any member of the public who files a complaint.  This individual may reside in New Orleans or may not.  In these referrals, the individual’s name does appear on the complaint referral to PIB.\n\n* Police Officer Complainant (PO) – Police Officer complainants applies to any sworn officer who files a complaint of misconduct to our office.  In these referrals, OIPM is concerned about the possibility of retaliation that may occur within the police department.  In these referrals, the officer’s name does appear on the complaint referral to PIB.\n\n* Civilian within NOPD Complainant (CN) – this category applies to any civilian who is employed by the NOPD.  In these complaint referrals, OIPM is concerned about the possibility of retaliation that may occur to a civilian by officers within the police department. In these referrals, the employee’s name does appear on the complaint referral to PIB."
+  },
+  [DDS_EMERGING_THEMES]: {
+    title: "What themes are emerging from the data?",
+    subtitle: "Tags and Complaint Subject Matter Themes",
+    dataTestId: "top10TagsGraph",
+    queryType: QUERY_TYPES.COUNT_TOP_10_TAGS,
+    collapsedText:
+      "The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information",
+    fullMessage:
+      "The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information.\n\nTags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concerned, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from homelessness and housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  Visit the tag glossary for an explanation of each label. This chart captures tag use on a rolling twelve month basis."
+  }
+};
+
 // ----------------------------------------
 //          Case Status Map
 // ----------------------------------------
@@ -602,30 +651,28 @@ export const OFFICER_TITLE = "Officer";
 export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
 
 // ------------------------------------------
-//            Fake User Data 
-// ------------------------------------------ 
+//            Fake User Data
+// ------------------------------------------
 
 export const NICKNAME = "noipm.infrastructure@gmail.com";
 export const USERNAME = "NOIPM Infra";
 export const PERMISSIONS = [
-  'openid',
-  'profile',
-  'export:audit-log',
-  'update:case-status'
+  "openid",
+  "profile",
+  "export:audit-log",
+  "update:case-status"
 ];
 
 export const FAKE_USERS = [
-  { "email": "anna.banana@gmail.com", "name": "Anna Banana" },
-  { "email": "bear@gmail.com", "name": "Bear" },
-  { "email": "d.lizard@gmail.com", "name": "D. Lizard" },
-  { "email": "dog.person@gmail.com", "name": "Dog Person" },
-  { "email": "harold.finch@gmail.com", "name": "Harold Finch" },
-  { "email": "john.reese@gmail.com", "name": "John Reese" },
-  { "email": "kelly.clarkson@gmail.com", "name": "Kelly Clarkson" },
-  { "email": NICKNAME, "name": USERNAME },
-  { "email": "ree.c.pieces@gmail.com", "name": "Ree C. Pieces" },
-  { "email": "sameen.shaw@gmail.com", "name": "Sameen Shaw" },
-  { "email": "seanathon@gmail.com", "name": "Seanathon" }
+  { email: "anna.banana@gmail.com", name: "Anna Banana" },
+  { email: "bear@gmail.com", name: "Bear" },
+  { email: "d.lizard@gmail.com", name: "D. Lizard" },
+  { email: "dog.person@gmail.com", name: "Dog Person" },
+  { email: "harold.finch@gmail.com", name: "Harold Finch" },
+  { email: "john.reese@gmail.com", name: "John Reese" },
+  { email: "kelly.clarkson@gmail.com", name: "Kelly Clarkson" },
+  { email: NICKNAME, name: USERNAME },
+  { email: "ree.c.pieces@gmail.com", name: "Ree C. Pieces" },
+  { email: "sameen.shaw@gmail.com", name: "Sameen Shaw" },
+  { email: "seanathon@gmail.com", name: "Seanathon" }
 ];
-
-
