@@ -1,13 +1,12 @@
 export const sortRawDataDict = (rawData, sortData) => {
-  let key, i;
   const keys = [];
-  for (key in rawData) {
-    keys[keys.length] = key;
+  for (let key in rawData) {
+    keys.push(key);
   }
 
   const valueObjects = [];
-  for (i = 0; i < keys.length; i++) {
-    valueObjects[valueObjects.length] = rawData[keys[i]];
+  for (let index = 0; index < keys.length; index++) {
+    valueObjects.push(rawData[keys[index]]);
   }
 
   return valueObjects.sort((valueObjA, valueObjB) =>

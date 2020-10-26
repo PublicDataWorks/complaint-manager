@@ -1,33 +1,37 @@
-import { useEffect, useState } from "react";
 import React from "react";
+import { isEmpty } from "lodash";
+import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import { getVisualizationData } from "./getVisualizationData";
-import _ from "lodash";
+import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 
 const Visualization = props => {
-  const [data, setData] = useState({ data: {}, isFetching: false });
+  const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setData({ data: data.data, isFetching: true });
-        const transformedData = await getVisualizationData(
-          props.queryType,
-          props.isPublic
-        );
-        setData({ data: transformedData.data, isFetching: false });
-        setLayout(transformedData.layout);
-      } catch (e) {
-        console.log(e);
-        setData({ data: data.data, isFetching: false });
+        const newData = await getVisualizationData(props.queryType) || {};
+        const newLayout = getAggregateVisualizationLayout({
+          queryType: props.queryType,
+          isPublic: props.isPublic,
+          newData
+        }) || {};
+
+        setData({ data: newData.data, isFetching: false });
+        setLayout(newLayout);
+      } catch (error) {
+        console.error(error);
+        setData({ data: {}, isFetching: false });
       }
     };
+
     fetchData();
   }, []);
 
   return (
     <PlotlyWrapper
-      data={_.isEmpty(data.data) ? [] : data.data}
+      data={isEmpty(data.data) ? [] : data.data}
       layout={layout}
     />
   );

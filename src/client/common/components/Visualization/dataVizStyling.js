@@ -25,7 +25,7 @@ export const LABEL_FONT = {
   color: "#777777"
 };
 
-export const generateDonutCenterAnnotations = count => {
+export const generateDonutCenterAnnotations = (count = 0) => {
   return [
     {
       font: {
@@ -46,4 +46,37 @@ export const generateDonutCenterAnnotations = count => {
       y: 0.45
     }
   ];
+};
+
+export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
+  const layout = {};
+
+  if (numberOfXValues + numberOfYValues === 0) {
+    layout.annotations = [
+      {
+        text: "No Tags to display",
+        y: 1,
+        showarrow: false,
+        font: LABEL_FONT
+      }
+    ];
+    
+    layout.yaxis = {
+      zeroline: false,
+      showgrid: false,
+      showticklabels: false
+    };
+    
+    layout.xaxis = {
+      zeroline: true,
+      showgrid: false,
+      showticklabels: false
+    };
+  }
+
+  return layout;
+};
+
+export const generateYAxisRange = maximum => {
+  return { range: [0, maximum] };
 };

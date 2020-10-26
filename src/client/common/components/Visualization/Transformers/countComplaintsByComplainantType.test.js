@@ -15,9 +15,7 @@ describe("countComplaintsByComplainantType data transformer", () => {
       AC: 1
     };
 
-    const transformedData = countComplaintsByComplainantType.transformData(
-      rawData
-    );
+    const transformedData = countComplaintsByComplainantType.transformData(rawData);
 
     const expectedTransformedData = {
       data: [
@@ -30,6 +28,7 @@ describe("countComplaintsByComplainantType data transformer", () => {
             "Anonymous (AC)"
           ],
           values: [3, 2, 2, 1],
+          count: 8,
           marker: {
             colors: COLORS
           },
@@ -38,21 +37,7 @@ describe("countComplaintsByComplainantType data transformer", () => {
           textposition: "outside",
           hole: 0.5
         }
-      ],
-      layout: {
-        title: {
-          text: "Complaints by Complainant Type",
-          font: TITLE_FONT
-        },
-        height: 600,
-        width: 800,
-        margin: {
-          b: 170
-        },
-        annotations: generateDonutCenterAnnotations(8),
-        showlegend: false,
-        font: LABEL_FONT
-      }
+      ]
     };
 
     expect(transformedData).toEqual(expectedTransformedData);

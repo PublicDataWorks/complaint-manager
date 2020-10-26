@@ -14,9 +14,7 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
       { count: "3", name: "Other" }
     ];
 
-    const transformedData = countComplaintsByIntakeSource.transformData(
-      rawData
-    );
+    const transformedData = countComplaintsByIntakeSource.transformData(rawData);
 
     const expectedTransformedData = {
       data: [
@@ -24,6 +22,7 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
           type: "pie",
           labels: ["Facebook", "Other", "Email"],
           values: [5, 3, 2],
+          count: 10,
           marker: {
             colors: COLORS
           },
@@ -32,21 +31,7 @@ describe("countComplaintsByIntakeSource Data transformer", () => {
           textposition: "outside",
           hole: 0.5
         }
-      ],
-      layout: {
-        title: {
-          text: "Complaints by Intake Source",
-          font: TITLE_FONT
-        },
-        height: 600,
-        width: 800,
-        margin: {
-          b: 170
-        },
-        annotations: generateDonutCenterAnnotations(10),
-        showlegend: false,
-        font: LABEL_FONT
-      }
+      ]
     };
 
     expect(transformedData).toEqual(expectedTransformedData);

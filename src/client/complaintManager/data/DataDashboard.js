@@ -15,24 +15,28 @@ class DataDashboard extends Component {
             flexDirection: "column"
           }}
         >
-          <Visualization
+        <Visualization
+      isPublic
             data-testid={"intakeSourceGraph"}
             queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
           />
           <br />
-          <Visualization
+        <Visualization
+      isPublic
             data-testid={"complainantTypeGraph"}
             queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
           />
           <br />
-          <Visualization
+        <Visualization
+      isPublic
             data-testid={"complainantTypePast12MonthsGraph"}
             queryType={
               QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
             }
           />
           <br />
-          <Visualization
+        <Visualization
+      isPublic
             data-testid={"top10TagsGraph"}
             queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
           />

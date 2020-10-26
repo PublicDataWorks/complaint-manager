@@ -5,9 +5,11 @@ import {
   TITLE_FONT
 } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
+import { sum } from "lodash";
 
-export function transformData(rawData, isPublic = false) {
-  let labels, values;
+export function transformData(rawData) {
+  let labels = [];
+  let values = [];
   let count = 0;
 
   const caseReferenceToName = {
@@ -18,12 +20,14 @@ export function transformData(rawData, isPublic = false) {
   };
 
   let complaintsByComplainantTypeArray = Object.keys(rawData)
-    .filter(key => {
-      return rawData[key] > 0;
-    })
-    .map(key => {
-      return [caseReferenceToName[key], rawData[key]];
-    });
+      .reduce((newArray, key) => {
+        const currentValue = rawData[key];
+        if (currentValue > 0) {
+          const newTuple = [caseReferenceToName[key], currentValue];
+          newArray.push(newTuple);
+        }
+        return newArray;
+      }, []);
 
   const sortData = (complainantTypeA, complainantTypeB) => {
     return complainantTypeB[1] - complainantTypeA[1];
@@ -34,47 +38,10 @@ export function transformData(rawData, isPublic = false) {
     sortData
   );
 
-  labels = sortedData.map(element => {
-    return element[0];
+  sortedData.forEach(([label, value]) => {
+    labels.push(label);
+    values.push(value);
   });
-
-  values = sortedData.map(element => {
-    return element[1];
-  });
-
-  values.map(element => {
-    return (count += element);
-  });
-
-  const layout = {
-    annotations: generateDonutCenterAnnotations(count),
-    showlegend: false,
-    font: LABEL_FONT
-  };
-
-  let extendedProps = {
-    height: 600,
-    width: 800,
-    title: {
-      text: "Complaints by Complainant Type",
-      font: TITLE_FONT
-    },
-    margin: {
-      b: 170
-    }
-  };
-
-  if (isPublic) {
-    extendedProps.height = 536;
-    extendedProps.width = 806;
-    extendedProps.title = null;
-    extendedProps.margin.b = 30;
-    extendedProps.margin.t = 30;
-    extendedProps.margin.l = 8;
-    extendedProps.margin.r = 8;
-    extendedProps.paper_bgcolor = "#F5F4F4";
-    extendedProps.plot_bgcolor = "#F5F4F4";
-  }
 
   return {
     data: [
@@ -82,6 +49,7 @@ export function transformData(rawData, isPublic = false) {
         type: "pie",
         labels: labels,
         values: values,
+        count: sum(values),
         marker: {
           colors: COLORS
         },
@@ -90,7 +58,6 @@ export function transformData(rawData, isPublic = false) {
         textposition: "outside",
         hole: 0.5
       }
-    ],
-    layout: { ...layout, ...extendedProps }
+    ]
   };
 }

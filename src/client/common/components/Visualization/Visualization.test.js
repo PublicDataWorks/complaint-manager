@@ -14,7 +14,7 @@ const MOCK_DATA = {
 };
 const MOCK_LAYOUT = {};
 jest.mock("./getVisualizationData", () => ({
-  getVisualizationData: jest.fn((queryType, isPublic) => ({
+  getVisualizationData: jest.fn((queryType) => ({
     data: MOCK_DATA,
     layout: MOCK_LAYOUT
   }))
