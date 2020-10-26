@@ -3,12 +3,6 @@ import { PlotlyWrapper } from "./PlotlyWrapper";
 import React from "react";
 import { act, render } from "@testing-library/react";
 import Visualization from "./Visualization";
-import {
-  COLORS,
-  generateDonutCenterAnnotations,
-  LABEL_FONT,
-  TITLE_FONT
-} from "./dataVizStyling";
 
 jest.mock("./PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
@@ -30,11 +24,7 @@ describe("Visualization", () => {
   test("should pass correct data and layout options to PlotlyWrapper", async () => {
     // Act
     await act(async () => {
-      render(
-        <Visualization
-          queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
-        />
-      );
+      render(<Visualization queryType={QUERY_TYPES.COUNT_TOP_10_TAGS} />);
     });
 
     // Assert
