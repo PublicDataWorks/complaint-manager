@@ -48,8 +48,9 @@ describe("civilian creation", function () {
     dispatch.mockClear();
   });
 
-  test("should redirect to login if not authenticated", async () => {
-    await authEnabledTest(async () => {
+  describe("auth test(s)", () => {
+    const test = authEnabledTest();
+    test("should redirect to login if not authenticated", async () => {
       getAccessToken.mockImplementationOnce(() => false);
       await createCivilian(civilian)(dispatch);
 

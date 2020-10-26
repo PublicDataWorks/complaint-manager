@@ -40,33 +40,31 @@ describe("getUsers tests", () => {
   });
 
   describe("Successful path", () => {
+    const test = authEnabledTest();
     test("Should call getUsers", async () => {
-      await authEnabledTest(async () => {
-        auth0GetUsers.mockImplementationOnce(() => {
-          return auth0Users;
-        });
-
-        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-
-        expect(auth0GetUsers).toBeCalledTimes(1);
-        expect(mockGetUserResponse.statusCode).toEqual(200);
-        expect(mockGetUserResponse._getData()).toEqual(auth0Users);
+      auth0GetUsers.mockImplementationOnce(() => {
+        return auth0Users;
       });
+
+      await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+
+      expect(auth0GetUsers).toBeCalledTimes(1);
+      expect(mockGetUserResponse.statusCode).toEqual(200);
+      expect(mockGetUserResponse._getData()).toEqual(auth0Users);
     });
   });
 
   describe("Error Handling", () => {
+    const test = authEnabledTest();
     test(
       "Should throw error if getUsers fails",
       suppressWinstonLogs(async () => {
-        await authEnabledTest(async () => {
-          auth0GetUsers.mockImplementationOnce(() => {
-            throw new Error("I am failing!");
-          });
-
-          await getUsers(mockGetUserRequest, mockGetUserResponse, next);
-          expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
+        auth0GetUsers.mockImplementationOnce(() => {
+          throw new Error("I am failing!");
         });
+
+        await getUsers(mockGetUserRequest, mockGetUserResponse, next);
+        expect(next).toHaveBeenCalledWith(new Error("I am failing!"));
       })
     );
   });

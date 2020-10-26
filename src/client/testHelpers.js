@@ -8,7 +8,7 @@ export const changeInput = (mountedComponent, inputSelector, value) => {
 
 export const authEnabledTest = () => {
   if (isAuthDisabled()) {
-    console.warn("Skipping test, Auth is disabled.");
+    console.warn("Skipping test(s), Auth is disabled.");
   }
   return isAuthDisabled() ? it.skip : it;
 };
