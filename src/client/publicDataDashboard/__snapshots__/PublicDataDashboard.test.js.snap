@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Public Data Dashboard it can render public data dashboard with correct styles 1`] = `
+exports[`Public Data Dashboard should render public data dashboard with correct styling 1`] = `
 <PublicDataDashboard>
   <ThemeProvider
     theme={
