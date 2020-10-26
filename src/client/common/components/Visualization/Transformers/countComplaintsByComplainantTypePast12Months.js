@@ -1,18 +1,9 @@
 import { COLORS, LABEL_FONT, TITLE_FONT } from "../dataVizStyling";
-import _ from "lodash";
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
 
-  return complainantTypeData
-    .map(element => {
-      return element["date"];
-    })
-    .concat(
-      reversedComplainantType.map(element => {
-        return element["date"];
-      })
-    );
+  return [...complainantTypeData, ...reversedComplainantType].map(element => element.date);
 };
 
 export const enableCountHighlight = (complainantTypeData, maximum) => {
@@ -29,27 +20,21 @@ export const enableCountHighlight = (complainantTypeData, maximum) => {
     );
 };
 
-export const transformData = (rawData, isPublic = false) => {
+export const transformData = (rawData) => {
   let maximum = 0;
-  const determineMax = count => {
-    const newCount = _.round((count + 0.5) * 1.1);
+  const determineMax = (count = 0) => {
+    const newCount = Math.round((count + 0.5) * 1.1);
     if (newCount > maximum) {
       maximum = newCount;
     }
   };
-
-  const insertDateValues = complainantTypeData => {
-    return complainantTypeData.map(date => {
-      return date["date"];
-    });
-  };
-
-  const insertCountValues = complainantTypeData => {
-    return complainantTypeData.map(count => {
-      determineMax(count["count"]);
-      return count["count"];
-    });
-  };
+  
+  const insertDateValues = complainantTypeData => complainantTypeData.map(date => date.date);
+  
+  const insertCountValues = complainantTypeData => complainantTypeData.map(({ count }) => {
+    determineMax(count);
+    return count;
+  });
 
   const highlightOptions = complainantType => {
     return {
@@ -58,7 +43,7 @@ export const transformData = (rawData, isPublic = false) => {
       line: { color: "transparent" },
       name: complainantType,
       showlegend: false,
-      legendgroup: "group".concat(complainantType)
+      legendgroup: `group${complainantType}`
     };
   };
 
@@ -134,35 +119,6 @@ export const transformData = (rawData, isPublic = false) => {
     ...highlightOptions("AC")
   };
 
-  const layout = {
-    barmode: "group",
-    yaxis: { range: [0, maximum] },
-    font: LABEL_FONT
-  };
-
-  let extendedProps = {
-    title: {
-      text: "Complainant Type over Past 12 Months",
-      font: TITLE_FONT
-    }
-  };
-
-  if (isPublic) {
-    extendedProps.title = null;
-    extendedProps.width = 806;
-    extendedProps.plot_bgcolor = "#F5F4F4";
-    extendedProps.legend = {
-      x: 0,
-      y: -0.5
-    };
-    extendedProps.margin = {
-      l: 24,
-      r: 0,
-      t: 8,
-      b: 0
-    };
-  }
-
   const data = [
     ccTrace,
     ccHighlight,
@@ -172,11 +128,11 @@ export const transformData = (rawData, isPublic = false) => {
     cnHighlight,
     acTrace,
     acHighlight,
-    { type: "scatter" }
+    {
+      type: "scatter",
+      maximum
+    }
   ];
 
-  return {
-    data: data,
-    layout: { ...layout, ...extendedProps }
-  };
+  return { data };
 };

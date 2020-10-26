@@ -1,3 +1,4 @@
+import { sum } from "lodash";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import {
   COLORS,
@@ -6,9 +7,9 @@ import {
   TITLE_FONT
 } from "../dataVizStyling";
 
-export function transformData(rawData, isPublic = false) {
-  let labels, values;
-  let count = 0;
+export function transformData(rawData = {}) {
+  const labels = [];
+  const values = [];
 
   const sortData = (intakeSourceA, intakeSourceB) => {
     return intakeSourceB.count - intakeSourceA.count;
@@ -16,47 +17,10 @@ export function transformData(rawData, isPublic = false) {
 
   const sortedData = sortRawDataDict(rawData, sortData);
 
-  labels = sortedData.map(element => {
-    return element.name;
+  sortedData.forEach(element => {
+    labels.push(element.name);
+    values.push(Number(element.count))
   });
-
-  values = sortedData.map(element => {
-    return parseInt(element.count);
-  });
-
-  values.map(element => {
-    return (count += element);
-  });
-
-  const layout = {
-    annotations: generateDonutCenterAnnotations(count),
-    showlegend: false,
-    font: LABEL_FONT
-  };
-
-  let extendedProps = {
-    height: 600,
-    width: 800,
-    title: {
-      text: "Complaints by Intake Source",
-      font: TITLE_FONT
-    },
-    margin: {
-      b: 170
-    }
-  };
-
-  if (isPublic) {
-    extendedProps.height = 536;
-    extendedProps.width = 806;
-    extendedProps.title = null;
-    extendedProps.margin.b = 30;
-    extendedProps.margin.t = 30;
-    extendedProps.margin.l = 8;
-    extendedProps.margin.r = 8;
-    extendedProps.paper_bgcolor = "#F5F4F4";
-    extendedProps.plot_bgcolor = "#F5F4F4";
-  }
 
   return {
     data: [
@@ -64,6 +28,7 @@ export function transformData(rawData, isPublic = false) {
         type: "pie",
         labels: labels,
         values: values,
+        count: sum(values),
         marker: {
           colors: COLORS
         },
@@ -72,7 +37,6 @@ export function transformData(rawData, isPublic = false) {
         textposition: "outside",
         hole: 0.5
       }
-    ],
-    layout: { ...layout, ...extendedProps }
+    ]
   };
 }

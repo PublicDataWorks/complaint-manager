@@ -49,7 +49,7 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
   };
 
   test("should determine y-maximum as rounded 10% units higher than highest count", () => {
-    const maximum = transformData(rawData).layout.yaxis.range[1];
+    const { maximum } = transformData(rawData).data.pop() || {};
 
     expect(maximum).toEqual(12);
   });
