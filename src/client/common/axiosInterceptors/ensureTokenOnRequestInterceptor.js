@@ -1,10 +1,22 @@
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 
+const publicAPIs = ["/api/data"];
+
 const ensureTokenOnRequestInterceptor = (
   dispatch,
   isAuthDisabled
 ) => config => {
+  let isPublicAPI;
+  const url = config.url.toLowerCase();
+
+  publicAPIs.forEach(api => {
+    if (url.startsWith(api)) {
+      isPublicAPI = true;
+      return;
+    }
+  });
+
   if (accessTokenHasExpired()) {
     localStorage.removeItem("access_token");
     localStorage.removeItem("id_token");
@@ -13,7 +25,7 @@ const ensureTokenOnRequestInterceptor = (
 
   const token = getAccessToken();
 
-  if (!token && !isAuthDisabled) {
+  if (!token && !isAuthDisabled && !isPublicAPI) {
     if (
       window.location.pathname !== "/login" &&
       window.location.pathname !== "/callback"
@@ -27,7 +39,8 @@ const ensureTokenOnRequestInterceptor = (
     ...config,
     headers: {
       "Content-Type": "application/json",
-      ...(!isAuthDisabled && { Authorization: `Bearer ${token}` })
+      ...(!isAuthDisabled &&
+        !isPublicAPI && { Authorization: `Bearer ${token}` })
     }
   };
 };

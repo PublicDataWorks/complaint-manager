@@ -6,7 +6,8 @@ import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
-import { authEnabledTest } from "../../testHelpers";
+import { getVisualizationData } from "../components/Visualization/getVisualizationData";
+import { isAuthDisabled } from "../../isAuthDisabled";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -16,6 +17,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
   const sortBy = "sortBy";
   const sortDirection = "sortDirection";
   const expirationTime = "0";
+  const queryType = "countComplaintsByIntakeSource";
 
   beforeEach(() => {
     configureInterceptors({ dispatch });
@@ -24,68 +26,86 @@ describe("ensureTokenOnRequestInterceptor", () => {
     mockLocalStorage();
   });
 
-  test("adds access token to request headers", async () => {
-    await authEnabledTest(async () => {
-      nock("http://localhost")
-        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-        .reply(function () {
-          if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
-            return [200, responseBody];
-          return [401];
-        });
+  describe("auth tests", () => {
+    if (!isAuthDisabled()) {
+      test("should skip adding access token to request headers on public routes", async () => {
+        nock("http://localhost", {
+          badheaders: ["authorization"]
+        })
+          .get(`/api/data?queryType=${queryType}`)
+          .reply(function () {
+            return [200, {}];
+          });
 
-      await getWorkingCases(sortBy, sortDirection)(dispatch);
+        nock("http://localhost")
+          .get(`/api/data?queryType=${queryType}`)
+          .reply(function () {
+            throw new Error("Error: Authorization header present on request");
+          });
 
-      expect(dispatch).toHaveBeenCalledWith(
-        getWorkingCasesSuccess(
-          responseBody.cases.rows,
-          responseBody.cases.count
-        )
-      );
-      expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
-    });
-  });
+        await getVisualizationData(queryType, false);
+      });
 
-  test("should redirect to login when missing access token", async () => {
-    await authEnabledTest(async () => {
-      getAccessToken.mockImplementation(() => false);
+      test("should add access token to request headers on non-public routes", async () => {
+        nock("http://localhost")
+          .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
+          .reply(function () {
+            if (this.req.headers.authorization === `Bearer ${getAccessToken()}`)
+              return [200, responseBody];
+            return [401];
+          });
 
-      nock("http://localhost")
-        .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
-        .reply(200);
+        await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-      await getWorkingCases(sortBy, sortDirection)(dispatch);
+        expect(dispatch).toHaveBeenCalledWith(
+          getWorkingCasesSuccess(
+            responseBody.cases.rows,
+            responseBody.cases.count
+          )
+        );
+        expect(dispatch).not.toHaveBeenCalledWith(push("/login"));
+      });
 
-      expect(dispatch).not.toHaveBeenCalledWith(
-        getWorkingCasesSuccess(responseBody.cases)
-      );
-      expect(dispatch).toHaveBeenCalledWith(push("/login"));
-    });
-  });
+      test("should redirect to login when missing access token", async () => {
+        getAccessToken.mockImplementation(() => false);
 
-  test("should store pathname in local storage if no previous access token", async () => {
-    await authEnabledTest(async () => {
-      const redirectUri = `/api/cases`;
-      getAccessToken.mockImplementation(() => false);
+        nock("http://localhost")
+          .get(`/api/cases?sortBy=${sortBy}&sortDirection=${sortDirection}`)
+          .reply(200);
 
-      delete global.window.location;
+        await getWorkingCases(sortBy, sortDirection)(dispatch);
 
-      global.window.location = {
-        port: "3000",
-        protocol: "http:",
-        hostname: "localhost",
-        pathname: redirectUri
-      };
+        expect(dispatch).not.toHaveBeenCalledWith(
+          getWorkingCasesSuccess(responseBody.cases)
+        );
+        expect(dispatch).toHaveBeenCalledWith(push("/login"));
+      });
 
-      await getWorkingCases(sortBy, sortDirection)(dispatch);
+      test("should store pathname in local storage if no previous access token", async () => {
+        const redirectUri = `/api/cases`;
+        getAccessToken.mockImplementation(() => false);
 
-      expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
-        "redirectUri",
-        redirectUri
-      );
+        delete global.window.location;
 
-      expect(dispatch).toHaveBeenCalledWith(push("/login"));
-    });
+        global.window.location = {
+          port: "3000",
+          protocol: "http:",
+          hostname: "localhost",
+          pathname: redirectUri
+        };
+
+        await getWorkingCases(sortBy, sortDirection)(dispatch);
+
+        expect(window.localStorage.__proto__.setItem).toHaveBeenCalledWith(
+          "redirectUri",
+          redirectUri
+        );
+
+        expect(dispatch).toHaveBeenCalledWith(push("/login"));
+      });
+    } else {
+      console.warn("Skipping test(s), Auth is disabled.");
+    }
   });
 
   test("should remove access token from local storage if it has expired", async () => {
