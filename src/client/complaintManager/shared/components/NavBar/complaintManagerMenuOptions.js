@@ -1,6 +1,6 @@
 export const complaintManagerMenuOptions = [
   {
-    path: "/data",
+    path: "/dashboard",
     dataTestName: "dataDashboard",
     title: "Data Dashboard"
   },
