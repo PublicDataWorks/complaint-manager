@@ -22,8 +22,9 @@ describe("editCaseOfficer thunk", () => {
     configureInterceptors({ dispatch });
   });
 
-  test("should redirect immediately if token missing", async () => {
-    await authEnabledTest(async () => {
+  describe("auth test(s)", () => {
+    const test = authEnabledTest();
+    test("should redirect immediately if token missing", async () => {
       getAccessToken.mockImplementationOnce(() => false);
 
       await editCaseOfficer()(dispatch);

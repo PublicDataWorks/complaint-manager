@@ -110,20 +110,19 @@ describe("Approve referral letter", () => {
   });
 
   describe("user does not have permissions", () => {
+    const test = authEnabledTest();
     beforeEach(() => {
       token = buildTokenWithPermissions("", "some_nickname");
     });
     test(
       "returns 400 when api endpoint hit without permissions",
       suppressWinstonLogs(async () => {
-        await authEnabledTest(async () => {
-          const responsePromise = request(app)
-            .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
-            .set("Content-Header", "application/json")
-            .set("Authorization", `Bearer ${token}`);
+        const responsePromise = request(app)
+          .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`);
 
-          await expectResponse(responsePromise, 400);
-        });
+        await expectResponse(responsePromise, 400);
       })
     );
   });

@@ -67,8 +67,9 @@ describe("getWorkingCases", () => {
       expect(scope.isDone()).toEqual(true);
     });
 
-    test("should redirect immediately if token missing", async () => {
-      await authEnabledTest(async () => {
+    describe("auth test(s)", () => {
+      const test = authEnabledTest();
+      test("should redirect immediately if token missing", async () => {
         getAccessToken.mockImplementation(() => false);
 
         nock("http://localhost", {
