@@ -61,16 +61,16 @@ describe("AppRouter", () => {
       store = createConfiguredStore();
       appWrapper = mount(
         <Provider store={store}>
-          <MemoryRouter initialEntries={["/data"]}>
+          <MemoryRouter initialEntries={["/dashboard"]}>
             <AppRouter />
           </MemoryRouter>
         </Provider>
       );
     });
 
-    test("displays /data complainant manager route", () => {
+    test("displays /dashboard complainant manager route", () => {
       appWrapper.update();
-      const disProRoute = appWrapper.find("Route[path='/data']");
+      const disProRoute = appWrapper.find("Route[path='/dashboard']");
       expect(disProRoute.exists()).toBeTrue();
     });
   });

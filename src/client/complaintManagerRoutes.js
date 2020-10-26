@@ -28,7 +28,7 @@ const complaintManagerRoutes = [
     component: CaseDashboard
   },
   {
-    path: "/data",
+    path: "/dashboard",
     component: DataDashboard
   },
   {

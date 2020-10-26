@@ -3,7 +3,7 @@ import PublicDataDashboard from "./publicDataDashboard/PublicDataDashboard";
 
 const publicDataDashboardRoutes = [
   {
-    path: "/dashboard",
+    path: "/data",
     component: PublicDataDashboard
   }
 ];
