@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from "@material-ui/core";
+import { Container, Grid, Typography, Link } from "@material-ui/core";
 import styles from "./dashboardStyling/styles";
 import React, { Component } from "react";
 
@@ -18,7 +18,16 @@ class DashboardNavBar extends Component {
               justifyContent: "flex-end"
             }}
           >
-            <Typography style={styles.navBarLink}>About</Typography>
+            <Typography style={styles.navBarLink}>
+              <Link
+                href="/data/about"
+                underline="none"
+                style={{ color: styles.navBarLink.color }}
+                data-testid="aboutLink"
+              >
+                About
+              </Link>
+            </Typography>
             <Typography
               style={{
                 paddingLeft: "32px",

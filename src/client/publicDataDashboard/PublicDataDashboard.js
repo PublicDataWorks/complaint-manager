@@ -76,7 +76,7 @@ class PublicDataDashboard extends Component {
                 style={{
                   textTransform: "none",
                   padding: "16px 48px",
-                  borderRadius: 0,
+                  borderRadius: 3,
                   boxShadow: "none",
                   backgroundColor: styles.colors.buttonGray,
                   marginBottom: "4px"
