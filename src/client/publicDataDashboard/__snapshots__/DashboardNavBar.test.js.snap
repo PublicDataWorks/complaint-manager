@@ -501,7 +501,118 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                             }
                           }
                         >
-                          About
+                          <WithStyles(ForwardRef(Link))
+                            data-testid="aboutLink"
+                            href="/data/about"
+                            style={
+                              Object {
+                                "color": "#767676",
+                              }
+                            }
+                            underline="none"
+                          >
+                            <ForwardRef(Link)
+                              classes={
+                                Object {
+                                  "button": "MuiLink-button",
+                                  "focusVisible": "Mui-focusVisible",
+                                  "root": "MuiLink-root",
+                                  "underlineAlways": "MuiLink-underlineAlways",
+                                  "underlineHover": "MuiLink-underlineHover",
+                                  "underlineNone": "MuiLink-underlineNone",
+                                }
+                              }
+                              data-testid="aboutLink"
+                              href="/data/about"
+                              style={
+                                Object {
+                                  "color": "#767676",
+                                }
+                              }
+                              underline="none"
+                            >
+                              <WithStyles(ForwardRef(Typography))
+                                className="MuiLink-root MuiLink-underlineNone"
+                                color="primary"
+                                component="a"
+                                data-testid="aboutLink"
+                                href="/data/about"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                                style={
+                                  Object {
+                                    "color": "#767676",
+                                  }
+                                }
+                                variant="inherit"
+                              >
+                                <ForwardRef(Typography)
+                                  className="MuiLink-root MuiLink-underlineNone"
+                                  classes={
+                                    Object {
+                                      "alignCenter": "MuiTypography-alignCenter",
+                                      "alignJustify": "MuiTypography-alignJustify",
+                                      "alignLeft": "MuiTypography-alignLeft",
+                                      "alignRight": "MuiTypography-alignRight",
+                                      "body1": "MuiTypography-body1",
+                                      "body2": "MuiTypography-body2",
+                                      "button": "MuiTypography-button",
+                                      "caption": "MuiTypography-caption",
+                                      "colorError": "MuiTypography-colorError",
+                                      "colorInherit": "MuiTypography-colorInherit",
+                                      "colorPrimary": "MuiTypography-colorPrimary",
+                                      "colorSecondary": "MuiTypography-colorSecondary",
+                                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                      "displayBlock": "MuiTypography-displayBlock",
+                                      "displayInline": "MuiTypography-displayInline",
+                                      "gutterBottom": "MuiTypography-gutterBottom",
+                                      "h1": "MuiTypography-h1",
+                                      "h2": "MuiTypography-h2",
+                                      "h3": "MuiTypography-h3",
+                                      "h4": "MuiTypography-h4",
+                                      "h5": "MuiTypography-h5",
+                                      "h6": "MuiTypography-h6",
+                                      "noWrap": "MuiTypography-noWrap",
+                                      "overline": "MuiTypography-overline",
+                                      "paragraph": "MuiTypography-paragraph",
+                                      "root": "MuiTypography-root",
+                                      "srOnly": "MuiTypography-srOnly",
+                                      "subtitle1": "MuiTypography-subtitle1",
+                                      "subtitle2": "MuiTypography-subtitle2",
+                                    }
+                                  }
+                                  color="primary"
+                                  component="a"
+                                  data-testid="aboutLink"
+                                  href="/data/about"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                  style={
+                                    Object {
+                                      "color": "#767676",
+                                    }
+                                  }
+                                  variant="inherit"
+                                >
+                                  <a
+                                    className="MuiTypography-root MuiLink-root MuiLink-underlineNone MuiTypography-colorPrimary"
+                                    data-testid="aboutLink"
+                                    href="/data/about"
+                                    onBlur={[Function]}
+                                    onFocus={[Function]}
+                                    style={
+                                      Object {
+                                        "color": "#767676",
+                                      }
+                                    }
+                                  >
+                                    About
+                                  </a>
+                                </ForwardRef(Typography)>
+                              </WithStyles(ForwardRef(Typography))>
+                            </ForwardRef(Link)>
+                          </WithStyles(ForwardRef(Link))>
                         </p>
                       </ForwardRef(Typography)>
                     </WithStyles(ForwardRef(Typography))>
