@@ -13,6 +13,8 @@ import styles from "./dashboardStyling/styles";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
+import moment from "moment";
+import { formatShortDate } from "../../sharedUtilities/formatDate";
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
@@ -26,6 +28,8 @@ const scrollIntoViewById = selector => event => {
 
 class PublicDataDashboard extends Component {
   render() {
+    const currentDate = formatShortDate(moment(Date.now()));
+
     return (
       <MuiThemeProvider theme={dashboardStyling}>
         <Grid
@@ -297,7 +301,7 @@ class PublicDataDashboard extends Component {
             padding: "24px 56px 56px 56px"
           }}
         >
-          Last updated 10/22/2020
+          {`Last updated ${currentDate}`}
         </Typography>
       </MuiThemeProvider>
     );
