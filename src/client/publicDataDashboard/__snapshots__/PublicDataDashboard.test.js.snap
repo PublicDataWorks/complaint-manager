@@ -3563,7 +3563,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
             }
           }
         >
-          Last updated 10/22/2020
+          Last updated 06/27/2014
         </p>
       </ForwardRef(Typography)>
     </WithStyles(ForwardRef(Typography))>
