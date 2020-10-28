@@ -3,7 +3,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
 const Boom = require("boom");
 const {

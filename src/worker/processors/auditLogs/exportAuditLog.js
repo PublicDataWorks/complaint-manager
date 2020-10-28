@@ -7,7 +7,7 @@ const {
   JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
-const models = require("../../../server/complaintManager/models/index");
+const models = require("../../../server/policeDataManager/models/index");
 const stringify = require("csv-stringify");
 const util = require("util");
 const promisifiedStringify = util.promisify(stringify);
@@ -111,9 +111,7 @@ const formatDateForCSV = date => {
   if (!date) {
     return "";
   }
-  return moment(date)
-    .tz(TIMEZONE)
-    .format("MM/DD/YYYY HH:mm:ss z");
+  return moment(date).tz(TIMEZONE).format("MM/DD/YYYY HH:mm:ss z");
 };
 
 module.exports = exportAuditLog;

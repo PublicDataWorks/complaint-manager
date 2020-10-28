@@ -3,7 +3,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const config = require("../../../config/config");
-const models = require("../../../complaintManager/models/index");
+const models = require("../../../policeDataManager/models/index");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const {
   AUDIT_SUBJECT,

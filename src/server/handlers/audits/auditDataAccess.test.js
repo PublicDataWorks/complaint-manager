@@ -1,7 +1,7 @@
 import auditDataAccess from "./auditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import { AUDIT_ACTION, MANAGER_TYPE } from "../../../sharedUtilities/constants";
 
 describe("auditDataAccess", () => {

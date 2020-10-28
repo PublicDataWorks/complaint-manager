@@ -4,7 +4,7 @@ import legacyAuditDataAccess from "../../audits/legacyAuditDataAccess";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import auditDataAccess from "../../audits/auditDataAccess";
 
-const models = require("../../../complaintManager/models/index");
+const models = require("../../../policeDataManager/models/index");
 const {
   AUDIT_SUBJECT,
   DEFAULT_PAGINATION_LIMIT,
@@ -33,7 +33,10 @@ const searchOfficers = asyncMiddleware(async (request, response, next) => {
   const officers = await models.sequelize.transaction(async transaction => {
     const queryOptions = {
       where: whereClause,
-      order: [["last_name", ASCENDING], ["first_name", ASCENDING]],
+      order: [
+        ["last_name", ASCENDING],
+        ["first_name", ASCENDING]
+      ],
       limit: DEFAULT_PAGINATION_LIMIT,
       offset: offset,
       include: [

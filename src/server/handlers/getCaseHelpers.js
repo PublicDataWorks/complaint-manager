@@ -1,6 +1,6 @@
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
 } from "./audits/getQueryAuditAccessDetails";

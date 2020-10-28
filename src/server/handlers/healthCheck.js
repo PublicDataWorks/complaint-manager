@@ -1,4 +1,4 @@
-const models = require("../complaintManager/models");
+const models = require("../policeDataManager/models");
 const Boom = require("boom");
 
 const healthCheck = async (req, res, next) => {

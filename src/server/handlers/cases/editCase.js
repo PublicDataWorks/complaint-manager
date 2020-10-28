@@ -9,7 +9,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 
 const moment = require("moment");
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const asyncMiddleware = require("../asyncMiddleware");
 const _ = require("lodash");
 const Boom = require("boom");

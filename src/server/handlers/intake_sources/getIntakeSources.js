@@ -1,5 +1,5 @@
 import asyncMiddleware from "../asyncMiddleware";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import { ASCENDING } from "../../../sharedUtilities/constants";
 
 const getIntakeSources = asyncMiddleware(async (request, response, next) => {

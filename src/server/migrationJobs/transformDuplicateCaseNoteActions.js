@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { updateDatabaseWithCorrectAttributeId } from "./transformDuplicateGenderIdentities";
 
 export const transformDuplicateCaseNoteActionsId = async (
@@ -7,7 +7,6 @@ export const transformDuplicateCaseNoteActionsId = async (
   Op,
   transaction
 ) => {
-
   for (let i = 0; i < caseNotesWithIncorrectCaseNoteActionIds.length; i++) {
     const caseNoteRow = caseNotesWithIncorrectCaseNoteActionIds[i];
     const actionName = await models.case_note_action.findOne({

@@ -1,4 +1,4 @@
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 const buildOfficerAttributesForUnknownOfficer = () => {
   return models.case_officer.build().emptyCaseOfficerAttributes();

@@ -1,5 +1,5 @@
 import Boom from "boom";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import auditDataAccess from "../audits/auditDataAccess";
 import {
   AUDIT_SUBJECT,

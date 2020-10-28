@@ -1,9 +1,9 @@
 import { push } from "connected-react-router";
-import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-import getCaseDetails from "../../complaintManager/cases/thunks/getCaseDetails";
-import { resetCaseDetailsPage } from "../../complaintManager/cases/CaseDetails/CaseDetails";
+import getCaseDetails from "../../policeDataManager/cases/thunks/getCaseDetails";
+import { resetCaseDetailsPage } from "../../policeDataManager/cases/CaseDetails/CaseDetails";
 
 const responseErrorInterceptor = dispatch => {
   return error => {

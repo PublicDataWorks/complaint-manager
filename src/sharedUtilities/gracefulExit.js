@@ -1,4 +1,4 @@
-import db from "../server/complaintManager/models";
+import db from "../server/policeDataManager/models";
 import getInstance from "../server/handlers/cases/export/queueFactory";
 
 const queue = getInstance();

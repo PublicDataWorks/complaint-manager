@@ -1,4 +1,4 @@
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import getClassifications from "./getClassifications";
 import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";

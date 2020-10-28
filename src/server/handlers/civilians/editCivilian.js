@@ -8,7 +8,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 
 async function upsertAddress(civilianId, address, transaction, nickname) {
   if (!address.id) {

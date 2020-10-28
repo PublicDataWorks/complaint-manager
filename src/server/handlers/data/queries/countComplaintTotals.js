@@ -1,8 +1,6 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
-import {
-  CASE_STATUS
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 export const executeQuery = async nickname => {
   const getCountByDateRange = async (startDate, endDate) => {

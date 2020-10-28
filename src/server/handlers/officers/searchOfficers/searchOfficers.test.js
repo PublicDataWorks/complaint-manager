@@ -1,6 +1,6 @@
 import Case from "../../../../sharedTestHelpers/case";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import models from "../../../complaintManager/models/index";
+import models from "../../../policeDataManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 

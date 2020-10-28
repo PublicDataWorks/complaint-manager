@@ -1,6 +1,6 @@
 import { ASCENDING } from "../../../sharedUtilities/constants";
 
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 
 const getAllegations = async (request, response, next) => {
   const uniqueRules = await models.allegation.findAll({
@@ -12,7 +12,10 @@ const getAllegations = async (request, response, next) => {
   const uniqueRuleParagraphs = await models.allegation.findAll({
     raw: true,
     attributes: ["rule", "paragraph"],
-    order: [["rule", ASCENDING], ["paragraph", ASCENDING]],
+    order: [
+      ["rule", ASCENDING],
+      ["paragraph", ASCENDING]
+    ],
     group: ["rule", "paragraph"]
   });
   const formattedRuleParagraphs = uniqueRules.map(allegationRule => ({

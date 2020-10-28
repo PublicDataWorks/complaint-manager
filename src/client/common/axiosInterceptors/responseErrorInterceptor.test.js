@@ -6,14 +6,14 @@ import {
   BAD_REQUEST_ERRORS,
   PAGE_NOT_AVAILABLE
 } from "../../../sharedUtilities/errorMessageConstants";
-import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 import { SNACKBAR_ERROR } from "../../../sharedUtilities/constants";
-import getCaseDetails from "../../complaintManager/cases/thunks/getCaseDetails";
+import getCaseDetails from "../../policeDataManager/cases/thunks/getCaseDetails";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "token"));
 
 jest.mock(
-  "../../complaintManager/cases/thunks/getCaseDetails",
+  "../../policeDataManager/cases/thunks/getCaseDetails",
   () => caseId => ({
     type: "MOCK_GET_CASE_DETAILS",
     caseId

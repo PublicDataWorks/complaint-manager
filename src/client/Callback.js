@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Auth from "./common/auth/Auth";
 import { userAuthSuccess } from "./common/auth/actionCreators";
-import getFeatureToggles from "./complaintManager/featureToggles/thunks/getFeatureToggles";
+import getFeatureToggles from "./policeDataManager/featureToggles/thunks/getFeatureToggles";
 
 class Callback extends React.Component {
   componentDidMount() {
@@ -21,7 +21,4 @@ const mapDispatchToProps = {
   getFeatureToggles
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Callback);
+export default connect(null, mapDispatchToProps)(Callback);

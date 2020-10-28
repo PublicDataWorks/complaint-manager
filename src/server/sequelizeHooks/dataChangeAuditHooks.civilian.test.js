@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../sharedTestHelpers/civilian";

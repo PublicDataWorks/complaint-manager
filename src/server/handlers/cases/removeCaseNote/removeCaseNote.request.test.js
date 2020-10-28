@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models/index";
+import models from "../../../policeDataManager/models/index";
 import app from "../../../server";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";

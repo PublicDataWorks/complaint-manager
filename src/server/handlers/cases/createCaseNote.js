@@ -13,7 +13,7 @@ const {
   MANAGER_TYPE
 } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 
 const createCaseNote = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {

@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import _ from "lodash";
 
 export const transformCivilianGenderIdentityToId = async (

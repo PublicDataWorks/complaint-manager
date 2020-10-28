@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";

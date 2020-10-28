@@ -1,5 +1,5 @@
 import Allegation from "../../../sharedTestHelpers/Allegation";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import request from "supertest";
 import app from "../../server";
 import {

@@ -1,10 +1,10 @@
 import Auth from "./Auth";
-import auditLogin from "../../complaintManager/users/thunks/auditLogin";
+import auditLogin from "../../policeDataManager/users/thunks/auditLogin";
 import { mockLocalStorage } from "../../../mockLocalStorage";
-import { generateRandomString } from "../../complaintManager/utilities/generateRandomString";
+import { generateRandomString } from "../../policeDataManager/utilities/generateRandomString";
 
-jest.mock("../../complaintManager/users/thunks/auditLogin");
-jest.mock("../../complaintManager/utilities/generateRandomString", () => {
+jest.mock("../../policeDataManager/users/thunks/auditLogin");
+jest.mock("../../policeDataManager/utilities/generateRandomString", () => {
   return jest.fn().mockImplementation(length => {
     return "iWalkedAThousandMiles";
   });

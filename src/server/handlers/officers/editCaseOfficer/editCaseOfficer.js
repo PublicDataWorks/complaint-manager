@@ -12,7 +12,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
 
 const editCaseOfficer = asyncMiddleware(async (request, response, next) => {

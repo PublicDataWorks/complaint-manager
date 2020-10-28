@@ -3,7 +3,7 @@ import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 
 const httpMocks = require("node-mocks-http");
 const audit = require("./auditAuthentication");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 
 describe("Audit", () => {
   const currentUser = "test username";

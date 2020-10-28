@@ -1,5 +1,5 @@
 import archiveCase from "./archiveCase";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithoutAssociations } from "../../getCaseHelpers";

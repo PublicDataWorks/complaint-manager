@@ -3,7 +3,7 @@ import { removeCaseTag } from "./removeCaseTag";
 import Case from "../../../sharedTestHelpers/case";
 import CaseTag from "../../testHelpers/caseTag";
 import tag from "../../testHelpers/tag";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,

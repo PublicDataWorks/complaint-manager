@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 const getReferralLetterData = asyncMiddleware(async (request, response) => {

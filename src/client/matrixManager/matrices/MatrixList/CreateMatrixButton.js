@@ -1,5 +1,5 @@
 import { openCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
-import { PrimaryButton } from "../../../complaintManager/shared/components/StyledButtons";
+import { PrimaryButton } from "../../../policeDataManager/shared/components/StyledButtons";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { connect } from "react-redux";
 import React from "react";

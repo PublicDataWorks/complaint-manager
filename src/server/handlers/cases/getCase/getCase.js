@@ -3,7 +3,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const getCase = asyncMiddleware(async (request, response) => {

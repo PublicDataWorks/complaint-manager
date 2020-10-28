@@ -5,9 +5,9 @@ import {
 } from "../../../../testHelpers/requestTestHelpers";
 import request from "supertest";
 import app from "../../../../server";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 
-describe("getRecommendedActions", function() {
+describe("getRecommendedActions", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });

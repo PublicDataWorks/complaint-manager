@@ -1,4 +1,4 @@
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import createCivilian from "./createCivilian";
 import Case from "../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";

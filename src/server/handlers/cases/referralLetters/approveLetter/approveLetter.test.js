@@ -1,5 +1,5 @@
 import httpMocks from "node-mocks-http";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
 import approveLetter from "./approveLetter";
 import {

@@ -7,7 +7,7 @@ import {
   COMPLAINANT,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import {
   buildTokenWithPermissions,

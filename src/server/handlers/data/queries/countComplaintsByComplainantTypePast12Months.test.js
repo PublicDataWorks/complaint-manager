@@ -13,7 +13,7 @@ import {
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import {
   dateRange,
   getAllComplaints

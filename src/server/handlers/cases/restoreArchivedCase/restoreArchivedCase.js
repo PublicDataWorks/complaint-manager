@@ -1,5 +1,5 @@
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 const restoreArchivedCase = asyncMiddleware(async (request, response, next) => {
   await models.sequelize.transaction(async transaction => {

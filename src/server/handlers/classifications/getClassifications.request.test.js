@@ -3,7 +3,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import request from "supertest";
 import app from "../../server";
 

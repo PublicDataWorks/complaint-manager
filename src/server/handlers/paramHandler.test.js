@@ -2,7 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants"
 import { handleCaseIdParam } from "./paramHandler";
 import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 
 const Boom = require("boom");

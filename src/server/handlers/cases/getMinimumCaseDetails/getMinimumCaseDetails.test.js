@@ -5,7 +5,7 @@ import {
   CIVILIAN_INITIATED,
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
 import auditDataAccess from "../../audits/auditDataAccess";

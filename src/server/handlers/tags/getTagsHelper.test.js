@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import Tag from "../../testHelpers/tag";
 import getTagsAndAuditDetails from "./getTagsHelper";
 import { ASCENDING } from "../../../sharedUtilities/constants";

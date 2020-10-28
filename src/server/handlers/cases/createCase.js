@@ -13,7 +13,7 @@ import {
   CIVILIAN_WITHIN_NOPD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import { get } from 'lodash';
+import { get } from "lodash";
 
 const {
   AUDIT_SUBJECT,
@@ -21,14 +21,14 @@ const {
 } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 const Boom = require("boom");
 const MAX_RETRIES = 3;
 const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
   let newCase = {};
-  const { complaintType } = get(request, ['body', 'case'], {});
+  const { complaintType } = get(request, ["body", "case"], {});
   if (
     complaintType === RANK_INITIATED ||
     complaintType === CIVILIAN_WITHIN_NOPD_INITIATED

@@ -1,5 +1,5 @@
 "use strict";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import {
   revertTransformNarrativeDetailsToHTML,
   transformNarrativeDetailsToHTML

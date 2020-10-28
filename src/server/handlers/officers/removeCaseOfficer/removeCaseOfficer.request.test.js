@@ -6,7 +6,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import app from "../../../server";
 import request from "supertest";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Officer from "../../../../sharedTestHelpers/Officer";

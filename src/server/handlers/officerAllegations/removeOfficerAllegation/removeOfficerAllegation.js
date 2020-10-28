@@ -5,7 +5,7 @@ import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const Boom = require("boom");
 
 const removeOfficerAllegation = asyncMiddleware(

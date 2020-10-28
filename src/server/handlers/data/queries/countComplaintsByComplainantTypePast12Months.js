@@ -1,8 +1,6 @@
 import sequelize from "sequelize";
-import {
-  CASE_STATUS
-} from "../../../../sharedUtilities/constants";
-import models from "../../../complaintManager/models";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import models from "../../../policeDataManager/models";
 import moment from "moment";
 import _ from "lodash";
 

@@ -14,7 +14,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const editCase = require("./editCase");
 const Boom = require("boom");
 

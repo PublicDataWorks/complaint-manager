@@ -3,7 +3,7 @@ import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../testHelpers/caseNote";
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 jest.mock("../../../services/auth0UserService", () => ({
   getUsers: jest.fn(() => {

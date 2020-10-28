@@ -1,7 +1,7 @@
 import { sendNotification } from "./getMessageStream";
 
 const asyncMiddleWare = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 
 const markNotificationAsRead = asyncMiddleWare(
   async (request, response, next) => {

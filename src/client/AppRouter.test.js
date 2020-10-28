@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import React, { cloneElement } from "react";
 import createConfiguredStore from "./createConfiguredStore";
 import { MemoryRouter } from "react-router";
-import { getFeaturesSuccess } from "./complaintManager/actionCreators/featureTogglesActionCreators";
+import { getFeaturesSuccess } from "./policeDataManager/actionCreators/featureTogglesActionCreators";
 import AppRouter from "./AppRouter";
 import { MatrixList } from "./matrixManager/matrices/MatrixList/MatrixList";
 

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import complaintModels from "../../complaintManager/models";
+import complaintModels from "../../policeDataManager/models";
 import matrixModels from "../../matrixManager/models";
 
 const models = _.assign(complaintModels, matrixModels);
@@ -10,9 +10,10 @@ export const removeFromExistingAuditDetails = (
 ) => {
   const updatedAuditDetails = {};
   Object.keys(existingDetails).forEach(association => {
-    const attributesToKeep = existingDetails[association].attributes.filter(
-      attribute =>
-        attributeShouldNotBeRemoved(association, attribute, detailsToRemove)
+    const attributesToKeep = existingDetails[
+      association
+    ].attributes.filter(attribute =>
+      attributeShouldNotBeRemoved(association, attribute, detailsToRemove)
     );
 
     if (attributesToKeep.length > 0) {

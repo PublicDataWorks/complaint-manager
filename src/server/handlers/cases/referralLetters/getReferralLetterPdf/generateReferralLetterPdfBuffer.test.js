@@ -1,5 +1,5 @@
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
 import Case from "../../../../../sharedTestHelpers/case";

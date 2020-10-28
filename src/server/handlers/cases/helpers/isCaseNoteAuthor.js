@@ -1,4 +1,4 @@
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 export const isCaseNoteAuthor = async (user, caseNoteId) => {
   const caseNote = await models.case_note.findByPk(caseNoteId);

@@ -11,7 +11,7 @@ import {
 import Civilian from "../../../sharedTestHelpers/civilian";
 import winston from "winston";
 
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
 const auth0UserService = require("../../services/auth0UserService");
 

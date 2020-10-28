@@ -1,6 +1,6 @@
 import Case from "../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { handleNotifications } from "./handleNotifications";

@@ -1,7 +1,7 @@
 import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
 
 const csvParse = require("csv-parse");
-const models = require("../complaintManager/models");
+const models = require("../policeDataManager/models");
 const _ = require("lodash");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 const config = require("../config/config");

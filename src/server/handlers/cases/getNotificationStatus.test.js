@@ -3,7 +3,7 @@ import CaseNote from "../../testHelpers/caseNote";
 import Notification from "../../testHelpers/notification";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getNotificationStatus from "./getNotificationStatus";
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
 
 describe("getNotificationStatus", () => {

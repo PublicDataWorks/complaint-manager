@@ -10,7 +10,7 @@ jest.mock("./cases/getMessageStream", () => ({
   sendNotification: jest.fn()
 }));
 
-const models = require("../complaintManager/models/index");
+const models = require("../policeDataManager/models/index");
 
 describe("send notifications to users mentioned in case", () => {
   let currentCase, currentCaseNote, currentNotif;

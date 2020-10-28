@@ -1,5 +1,5 @@
 import constructFilename from "./constructFilename";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import {
   CIVILIAN_INITIATED,
   COMPLAINANT,

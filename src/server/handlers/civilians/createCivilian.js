@@ -8,7 +8,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 
 const createCivilian = asyncMiddleware(async (request, response, next) => {
   const caseDetails = await models.sequelize.transaction(async transaction => {

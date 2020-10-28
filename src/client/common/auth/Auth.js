@@ -1,11 +1,11 @@
 import auth0 from "auth0-js";
 import config from "../config/config";
 import history from "../../history";
-import auditLogin from "../../complaintManager/users/thunks/auditLogin";
-import parsePermissions from "../../complaintManager/utilities/parsePermissions";
+import auditLogin from "../../policeDataManager/users/thunks/auditLogin";
+import parsePermissions from "../../policeDataManager/utilities/parsePermissions";
 import jwt from "jsonwebtoken";
-import generateRandomString from "../../complaintManager/utilities/generateRandomString";
-import { NICKNAME, PERMISSIONS } from '../../../sharedUtilities/constants';
+import generateRandomString from "../../policeDataManager/utilities/generateRandomString";
+import { NICKNAME, PERMISSIONS } from "../../../sharedUtilities/constants";
 
 export default class Auth {
   authConfig = config[process.env.REACT_APP_ENV].auth;

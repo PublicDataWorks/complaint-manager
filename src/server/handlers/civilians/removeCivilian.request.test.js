@@ -2,7 +2,7 @@ import app from "../../server";
 import Case from "../../../sharedTestHelpers/case";
 import request from "supertest";
 import Civilian from "../../../sharedTestHelpers/civilian";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import Address from "../../../sharedTestHelpers/Address";
 import {
   buildTokenWithPermissions,

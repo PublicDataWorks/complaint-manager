@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import Tag from "../testHelpers/tag";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks for tag", () => {

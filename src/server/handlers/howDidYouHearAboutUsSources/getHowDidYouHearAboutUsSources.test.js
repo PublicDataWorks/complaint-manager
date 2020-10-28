@@ -2,7 +2,7 @@ import {
   buildTokenWithPermissions,
   cleanupDatabase
 } from "../../testHelpers/requestTestHelpers";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import getHowDidYouHearAboutUsSources from "./getHowDidYouHearAboutUsSources";
 
 const httpMocks = require("node-mocks-http");

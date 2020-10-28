@@ -7,7 +7,7 @@ import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../testHelpers/caseNote";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({

@@ -1,5 +1,5 @@
 import asyncMiddleware from "../asyncMiddleware";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 
 const getDistricts = asyncMiddleware(async (request, response, next) => {
   const districtValues = await getSortedDistricts();

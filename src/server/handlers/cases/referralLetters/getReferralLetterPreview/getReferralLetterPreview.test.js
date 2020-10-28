@@ -14,7 +14,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../sharedTestHelpers/case";
 import Address from "../../../../../sharedTestHelpers/Address";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";

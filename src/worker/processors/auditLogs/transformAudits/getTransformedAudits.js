@@ -1,5 +1,5 @@
 import transformAuditsForExport from "./transformAuditsForExport";
-import models from "../../../../server/complaintManager/models";
+import models from "../../../../server/policeDataManager/models";
 import _ from "lodash";
 
 const winston = require("winston");

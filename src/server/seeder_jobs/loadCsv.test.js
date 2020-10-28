@@ -1,5 +1,5 @@
 import loadCsv from "./loadCsv";
-import models from "../complaintManager/models/index";
+import models from "../policeDataManager/models/index";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("loadCsv", () => {

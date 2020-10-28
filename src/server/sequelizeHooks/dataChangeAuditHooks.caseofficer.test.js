@@ -1,7 +1,7 @@
 import Case from "../../sharedTestHelpers/case";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 

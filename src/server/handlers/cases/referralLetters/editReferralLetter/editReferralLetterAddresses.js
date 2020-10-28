@@ -1,4 +1,4 @@
-import models from "../../../../complaintManager/models/index";
+import models from "../../../../policeDataManager/models/index";
 import asyncMiddleware from "../../../asyncMiddleware";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 

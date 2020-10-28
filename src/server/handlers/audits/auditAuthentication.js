@@ -3,7 +3,7 @@ const {
   MANAGER_TYPE
 } = require("../../../sharedUtilities/constants");
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 const allowedAuditActions = [AUDIT_ACTION.LOGGED_IN, AUDIT_ACTION.LOGGED_OUT];
 
 const auditAuthentication = asyncMiddleware(async (request, response) => {

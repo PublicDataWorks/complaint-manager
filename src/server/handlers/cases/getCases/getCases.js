@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
 import {
   ASCENDING,
@@ -151,9 +151,15 @@ const getSortingOrderForQuery = (sortBy, sortDirection) => {
     case SORT_CASES_BY.ASSIGNED_TO:
       return [[sortBy, sortDirection]];
     case SORT_CASES_BY.CASE_REFERENCE:
-      return [["year", sortDirection], ["caseNumber", sortDirection]];
+      return [
+        ["year", sortDirection],
+        ["caseNumber", sortDirection]
+      ];
     default:
-      return [["year", DESCENDING], ["caseNumber", DESCENDING]];
+      return [
+        ["year", DESCENDING],
+        ["caseNumber", DESCENDING]
+      ];
   }
 };
 

@@ -6,11 +6,11 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
-import { getPersonType } from "../../../../complaintManager/models/modelUtilities/getPersonType";
+import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 
 export const generateComplainantLetterAndUploadToS3 = async (
   existingCase,
