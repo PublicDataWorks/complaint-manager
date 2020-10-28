@@ -1,7 +1,7 @@
 import React from "react";
 import { push } from "connected-react-router";
 import { connect } from "react-redux";
-import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 
 class RedirectToCaseDashboard extends React.Component {
   componentDidMount() {
@@ -33,7 +33,4 @@ const mapDispatchToProps = {
   redirectToCaseDetailsPage
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(RedirectToCaseDashboard);
+export default connect(null, mapDispatchToProps)(RedirectToCaseDashboard);

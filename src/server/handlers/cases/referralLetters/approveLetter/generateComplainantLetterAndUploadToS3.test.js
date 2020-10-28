@@ -7,7 +7,7 @@ import {
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../sharedTestHelpers/case";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";

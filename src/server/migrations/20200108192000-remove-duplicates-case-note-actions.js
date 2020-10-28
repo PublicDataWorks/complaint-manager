@@ -1,6 +1,6 @@
 "use strict";
 
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { deleteDuplicateRowsByName } from "../migrationJobs/deleteDuplicateRowsByName";
 import { transformDuplicateCaseNoteActionsId } from "../migrationJobs/transformDuplicateCaseNoteActions";
 
@@ -23,8 +23,8 @@ module.exports = {
           LAST_GOOD_CASE_NOTE_ACTION_ID,
           Op,
           transaction
-        )
-      } catch(error) {
+        );
+      } catch (error) {
         console.log(error);
       }
 

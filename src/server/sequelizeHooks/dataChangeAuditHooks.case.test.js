@@ -1,4 +1,4 @@
-import models from "../complaintManager/models/index";
+import models from "../policeDataManager/models/index";
 import Case from "../../sharedTestHelpers/case";
 import {
   AUDIT_ACTION,

@@ -7,7 +7,7 @@ import {
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const _ = require("lodash");
 
 const asyncMiddleware = require("../asyncMiddleware");

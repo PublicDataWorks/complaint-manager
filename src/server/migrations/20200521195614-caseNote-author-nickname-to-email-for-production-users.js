@@ -1,6 +1,6 @@
 "use strict";
 
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import transformNicknameToEmail from "../migrationJobs/transformNicknameToEmail";
 import revertNicknameToEmail from "../migrationJobs/revertNicknameToEmail";
 

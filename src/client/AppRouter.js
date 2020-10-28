@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import complaintManagerRoutes from "./complaintManagerRoutes";
+import policeDataManagerRoutes from "./policeDataManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import matrixManagerRoutes from "./matrixManagerRoutes";
 import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
@@ -15,7 +15,7 @@ class AppRouter extends Component {
             this.shouldCreateRoute(route.toggleName) &&
             this.createRoute(route.path, route.component)
         )}
-        {complaintManagerRoutes.map(
+        {policeDataManagerRoutes.map(
           route =>
             this.shouldCreateRoute(route.toggleName) &&
             this.createRoute(route.path, route.component)

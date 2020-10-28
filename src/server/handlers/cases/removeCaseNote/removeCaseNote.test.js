@@ -1,6 +1,6 @@
 import * as httpMocks from "node-mocks-http";
 import Case from "../../../../sharedTestHelpers/case";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
 import removeCaseNote from "./removeCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

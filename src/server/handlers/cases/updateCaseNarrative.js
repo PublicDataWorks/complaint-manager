@@ -1,7 +1,7 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 const asyncMiddleware = require("../asyncMiddleware");
 const {
   AUDIT_SUBJECT,

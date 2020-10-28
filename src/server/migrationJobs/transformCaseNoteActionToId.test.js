@@ -1,6 +1,6 @@
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import CaseNote from "../testHelpers/caseNote";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   revertTransformCaseNoteActionToId,

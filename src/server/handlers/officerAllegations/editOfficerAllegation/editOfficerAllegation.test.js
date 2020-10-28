@@ -10,7 +10,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import httpMocks from "node-mocks-http";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import editOfficerAllegation from "./editOfficerAllegation";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";

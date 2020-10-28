@@ -1,4 +1,4 @@
-const models = require("../../../../complaintManager/models");
+const models = require("../../../../policeDataManager/models");
 const asyncMiddleware = require("../../../asyncMiddleware");
 
 const getOfficerHistoryOptions = asyncMiddleware(

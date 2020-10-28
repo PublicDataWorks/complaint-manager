@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import CaseNote from "../../../testHelpers/caseNote";

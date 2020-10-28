@@ -1,11 +1,11 @@
-import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 
 const ensureOnlineOnRequestInterceptor = dispatch => config => {
-    window.addEventListener("offline", () => {
-        dispatch(snackbarError("No Internet Connection"));
-    });
+  window.addEventListener("offline", () => {
+    dispatch(snackbarError("No Internet Connection"));
+  });
 
-    return {...config};
-  };
+  return { ...config };
+};
 
-export default ensureOnlineOnRequestInterceptor; 
+export default ensureOnlineOnRequestInterceptor;

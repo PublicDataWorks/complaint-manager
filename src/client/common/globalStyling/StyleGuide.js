@@ -8,14 +8,14 @@ import {
   Typography,
   withTheme
 } from "@material-ui/core";
-import NavBar from "../../complaintManager/shared/components/NavBar/NavBar";
-import StyledLink from "../../complaintManager/shared/components/StyledLink";
+import NavBar from "../../policeDataManager/shared/components/NavBar/NavBar";
+import StyledLink from "../../policeDataManager/shared/components/StyledLink";
 import {
   PrimaryButton,
   SecondaryButton
-} from "../../complaintManager/shared/components/StyledButtons";
-import LinkButton from "../../complaintManager/shared/components/LinkButton";
-import { complaintManagerMenuOptions } from "../../complaintManager/shared/components/NavBar/complaintManagerMenuOptions";
+} from "../../policeDataManager/shared/components/StyledButtons";
+import LinkButton from "../../policeDataManager/shared/components/LinkButton";
+import { policeDataManagerMenuOptions } from "../../policeDataManager/shared/components/NavBar/policeDataManagerMenuOptions";
 
 const getBoxStyle = color => ({
   width: 150,
@@ -28,7 +28,7 @@ const getBoxStyle = color => ({
 
 const StyleGuide = props => (
   <div data-testid="styleGuide">
-    <NavBar menuType={complaintManagerMenuOptions}>Style Guide</NavBar>
+    <NavBar menuType={policeDataManagerMenuOptions}>Style Guide</NavBar>
     <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
       <Typography variant="h6" style={{ marginLeft: 20 }}>
         TYPOGRAPHY

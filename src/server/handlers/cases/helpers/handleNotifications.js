@@ -1,4 +1,4 @@
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 export const handleNotifications = async (
   transaction,

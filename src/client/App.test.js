@@ -3,14 +3,14 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import React from "react";
 import App from "./App";
-import { getFeaturesSuccess } from "./complaintManager/actionCreators/featureTogglesActionCreators";
+import { getFeaturesSuccess } from "./policeDataManager/actionCreators/featureTogglesActionCreators";
 import { mockLocalStorage } from "../mockLocalStorage";
 import { userAuthSuccess } from "./common/auth/actionCreators";
-import getNotifications from "./complaintManager/shared/thunks/getNotifications";
+import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
 import EventSource from "eventsourcemock";
 import { sources } from "eventsourcemock";
 import config from "./common/config/config";
-import { snackbarError } from "./complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 
 Object.defineProperty(window, "EventSource", {
@@ -30,7 +30,7 @@ jest.mock("./common/auth/Auth", () =>
 );
 
 jest.mock(
-  "./complaintManager/shared/thunks/getNotifications",
+  "./policeDataManager/shared/thunks/getNotifications",
   () => values => ({
     type: "MOCK_THUNK",
     values: values

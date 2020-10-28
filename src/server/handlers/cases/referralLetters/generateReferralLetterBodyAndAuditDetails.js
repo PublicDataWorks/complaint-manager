@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import fs from "fs";
 import Handlebars from "handlebars";
 import { ASCENDING } from "../../../../sharedUtilities/constants";

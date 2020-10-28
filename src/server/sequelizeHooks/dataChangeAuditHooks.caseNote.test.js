@@ -1,6 +1,6 @@
 import Case from "../../sharedTestHelpers/case";
 import CaseNote from "../testHelpers/caseNote";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";

@@ -1,5 +1,5 @@
 import Case from "../../sharedTestHelpers/case";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../testHelpers/LetterOfficer";

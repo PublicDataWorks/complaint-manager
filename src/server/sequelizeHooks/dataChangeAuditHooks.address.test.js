@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION

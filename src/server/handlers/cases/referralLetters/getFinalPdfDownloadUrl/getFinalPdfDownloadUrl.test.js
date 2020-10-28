@@ -1,5 +1,5 @@
 import Case from "../../../../../sharedTestHelpers/case";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,

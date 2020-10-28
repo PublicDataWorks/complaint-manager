@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 
 export const expectedCaseAuditDetails = {
   cases: expect.objectContaining({

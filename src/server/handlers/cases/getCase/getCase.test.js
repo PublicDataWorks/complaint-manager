@@ -7,7 +7,7 @@ const {
   AUDIT_SUBJECT
 } = require("../../../../sharedUtilities/constants");
 const getCase = require("./getCase");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../getCaseHelpers", () => ({

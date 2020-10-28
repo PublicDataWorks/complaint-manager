@@ -6,7 +6,7 @@ import {
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";

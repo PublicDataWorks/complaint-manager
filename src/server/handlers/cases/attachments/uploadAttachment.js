@@ -1,6 +1,6 @@
 import Busboy from "busboy";
 import asyncMiddleware from "../../asyncMiddleware";
-import models from "../../../complaintManager/models/index";
+import models from "../../../policeDataManager/models/index";
 import isDuplicateFileName from "./isDuplicateFileName";
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 import config from "../../../config/config";

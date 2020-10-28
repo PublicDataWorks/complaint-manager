@@ -6,7 +6,7 @@ import {
   pibControlNumberRequired
 } from "../../formFieldLevelValidations";
 import MaskedInput from "react-text-mask";
-import { renderTextField } from "../../complaintManager/cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../policeDataManager/cases/sharedFormComponents/renderFunctions";
 
 const TextMaskCustom = props => {
   const passedProps = (({ inputRef, ...passedProps }) => ({

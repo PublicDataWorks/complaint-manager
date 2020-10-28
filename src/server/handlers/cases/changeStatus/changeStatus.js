@@ -15,7 +15,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models/index");
+const models = require("../../../policeDataManager/models/index");
 const Boom = require("boom");
 const {
   AUDIT_SUBJECT,

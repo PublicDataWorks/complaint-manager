@@ -4,7 +4,7 @@ import {
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";

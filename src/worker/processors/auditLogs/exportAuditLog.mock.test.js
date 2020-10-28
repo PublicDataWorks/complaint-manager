@@ -5,7 +5,7 @@ import {
   AUDIT_SUBJECT,
   AUDIT_TYPE
 } from "../../../sharedUtilities/constants";
-import models from "../../../server/complaintManager/models";
+import models from "../../../server/policeDataManager/models";
 import {
   cleanupDatabase,
   suppressWinstonLogs

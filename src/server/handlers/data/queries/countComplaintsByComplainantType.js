@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 

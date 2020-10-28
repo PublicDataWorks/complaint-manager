@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../sharedTestHelpers/attachment";
-import models from "../../../complaintManager/models/index";
+import models from "../../../policeDataManager/models/index";
 import deleteAttachment from "./deleteAttachment";
 import {
   AUDIT_SUBJECT,

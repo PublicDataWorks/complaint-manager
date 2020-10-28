@@ -1,5 +1,5 @@
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
-import models from "../../../../complaintManager/models/index";
+import models from "../../../../policeDataManager/models/index";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
 import editReferralLetterContent from "./editReferralLetterContent";

@@ -5,7 +5,7 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import Case from "../../../sharedTestHelpers/case";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
 import Tag from "../../testHelpers/tag";

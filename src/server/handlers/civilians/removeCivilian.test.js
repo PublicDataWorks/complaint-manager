@@ -8,12 +8,12 @@ import {
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../audits/auditDataAccess");
 
-describe("removeCivilian", function() {
+describe("removeCivilian", function () {
   let existingCase, response, next, request, existingCivilian;
 
   afterEach(async () => {

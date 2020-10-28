@@ -9,7 +9,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import httpMocks from "node-mocks-http";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import removeOfficerAllegation from "./removeOfficerAllegation";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";

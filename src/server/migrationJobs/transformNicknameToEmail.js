@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 
 const nicknamesToTransform = ["alowe", "scziment", "shutson", "lvillasanta"];
 

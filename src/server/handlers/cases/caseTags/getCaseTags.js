@@ -1,4 +1,4 @@
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
 import {

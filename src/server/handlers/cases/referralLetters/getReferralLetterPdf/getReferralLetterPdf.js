@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {

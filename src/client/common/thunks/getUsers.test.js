@@ -2,7 +2,7 @@ import nock from "nock";
 import configureInterceptors from "../axiosInterceptors/interceptors";
 import { getUsersSuccess } from "../actionCreators/usersActionCreators";
 import getUsers from "./getUsers";
-import { snackbarError } from "../../complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
@@ -26,9 +26,7 @@ describe("getUsers", () => {
   });
 
   test("should dispatch success when users are fetched", async () => {
-    nock("http://localhost")
-      .get("/api/users")
-      .reply(200, responseBody);
+    nock("http://localhost").get("/api/users").reply(200, responseBody);
 
     await getUsers()(dispatch);
 
@@ -36,12 +34,10 @@ describe("getUsers", () => {
   });
 
   test("should dispatch snackbar error when there is an error fetching users", async () => {
-    nock("http://localhost")
-      .get("/api/users")
-      .replyWithError({
-        message: "Oh no",
-        code: "THE WORST ERROR"
-      });
+    nock("http://localhost").get("/api/users").replyWithError({
+      message: "Oh no",
+      code: "THE WORST ERROR"
+    });
 
     await getUsers()(dispatch);
 

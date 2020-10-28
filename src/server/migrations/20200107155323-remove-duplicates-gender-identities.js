@@ -1,10 +1,8 @@
 "use strict";
 
-import models from "../complaintManager/models";
-import {
-  transformDuplicateGenderIdentityId
-} from "../migrationJobs/transformDuplicateGenderIdentities";
-import {deleteDuplicateRowsByName} from "../migrationJobs/deleteDuplicateRowsByName";
+import models from "../policeDataManager/models";
+import { transformDuplicateGenderIdentityId } from "../migrationJobs/transformDuplicateGenderIdentities";
+import { deleteDuplicateRowsByName } from "../migrationJobs/deleteDuplicateRowsByName";
 
 const LAST_GOOD_GENDER_IDENTITY_ID = 6;
 
@@ -44,9 +42,13 @@ module.exports = {
       });
 
       try {
-        await deleteDuplicateRowsByName(duplicateRows, originalRows, transaction);
-      }catch(error) {
-        console.log(error)
+        await deleteDuplicateRowsByName(
+          duplicateRows,
+          originalRows,
+          transaction
+        );
+      } catch (error) {
+        console.log(error);
       }
     });
   },

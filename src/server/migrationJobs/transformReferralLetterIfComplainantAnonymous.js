@@ -1,5 +1,5 @@
 const config = require("../config/config");
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 
 export const transformReferralLetterIfComplainantAnonymous = async (

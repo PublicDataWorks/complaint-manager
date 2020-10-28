@@ -9,7 +9,7 @@ const {
   buildOfficerAttributesForUnknownOfficer
 } = require("../helpers/buildOfficerAttributesHelpers");
 
-const models = require("../../../complaintManager/models/index");
+const models = require("../../../policeDataManager/models/index");
 const asyncMiddleware = require("../../asyncMiddleware");
 const {
   AUDIT_SUBJECT,

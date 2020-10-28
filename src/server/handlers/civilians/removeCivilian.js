@@ -4,7 +4,7 @@ import { MANAGER_TYPE } from "../../../sharedUtilities/constants";
 import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
 
 const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../complaintManager/models");
+const models = require("../../policeDataManager/models");
 const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 
 const removeCivilian = asyncMiddleware(async (request, response, next) => {

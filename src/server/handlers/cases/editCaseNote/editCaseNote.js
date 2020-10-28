@@ -10,7 +10,7 @@ import { sendNotification } from "../getMessageStream";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const _ = require("lodash");
 
 const editCaseNote = asyncMiddleware(async (request, response, next) => {

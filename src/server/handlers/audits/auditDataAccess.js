@@ -1,6 +1,6 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import _ from "lodash";
-import complaintModels from "../../complaintManager/models";
+import complaintModels from "../../policeDataManager/models";
 import matrixModels from "../../matrixManager/models";
 
 const models = _.assign(complaintModels, matrixModels);

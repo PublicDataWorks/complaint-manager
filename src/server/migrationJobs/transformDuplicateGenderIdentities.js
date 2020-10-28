@@ -1,4 +1,4 @@
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 
 export const transformDuplicateGenderIdentityId = async (
   civiliansWithIncorrectGenderIdentityIds,
@@ -6,7 +6,6 @@ export const transformDuplicateGenderIdentityId = async (
   Op,
   transaction
 ) => {
-
   for (let i = 0; i < civiliansWithIncorrectGenderIdentityIds.length; i++) {
     const civilianRow = civiliansWithIncorrectGenderIdentityIds[i];
     const genderIdentity = await models.gender_identity.findOne({
@@ -45,5 +44,5 @@ export const updateDatabaseWithCorrectAttributeId = async (
   transaction
 ) => {
   rowToUpdate[`${attributeToUpdate}`] = correctId.id;
-  await rowToUpdate.save({auditUser: "ThoughtWorks dev team"});
+  await rowToUpdate.save({ auditUser: "ThoughtWorks dev team" });
 };

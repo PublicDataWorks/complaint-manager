@@ -12,7 +12,7 @@ const {
   MANAGER_TYPE
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 
 const removeCaseNote = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;

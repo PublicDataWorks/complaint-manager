@@ -1,7 +1,7 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import editClassifications from "./editClassifications";
 

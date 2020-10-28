@@ -1,6 +1,6 @@
-import getWorkingCases from "../../complaintManager/cases/thunks/getWorkingCases";
+import getWorkingCases from "../../policeDataManager/cases/thunks/getWorkingCases";
 import nock from "nock";
-import { getWorkingCasesSuccess } from "../../complaintManager/actionCreators/casesActionCreators";
+import { getWorkingCasesSuccess } from "../../policeDataManager/actionCreators/casesActionCreators";
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";

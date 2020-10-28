@@ -9,7 +9,7 @@ const {
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
 } = require("../../../../sharedUtilities/constants");
-const models = require("../../../complaintManager/models/index");
+const models = require("../../../policeDataManager/models/index");
 
 const getAttachmentDownloadUrl = asyncMiddleware(
   async (request, response, next) => {

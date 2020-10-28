@@ -4,10 +4,10 @@ import {
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import app from "../../../../server";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import request from "supertest";
 
-describe("getOfficerHistoryOptions", function() {
+describe("getOfficerHistoryOptions", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });

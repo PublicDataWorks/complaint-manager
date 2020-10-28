@@ -2,7 +2,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseNote from "../testHelpers/caseNote";
 import Notification from "../testHelpers/notification";
 import Case from "../../sharedTestHelpers/case";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("dataChangeAuditHooks for notification", () => {

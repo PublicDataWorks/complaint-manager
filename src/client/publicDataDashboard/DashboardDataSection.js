@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
-import TextTruncate from "../complaintManager/shared/components/TextTruncate";
+import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 
 class DashboardDataSection extends Component {

@@ -1,5 +1,5 @@
 const asyncMiddleWare = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 
 const getNotificationStatus = asyncMiddleWare(
   async (request, response, next) => {

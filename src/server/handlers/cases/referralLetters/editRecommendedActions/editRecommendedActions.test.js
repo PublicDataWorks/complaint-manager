@@ -1,5 +1,5 @@
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";

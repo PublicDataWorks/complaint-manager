@@ -1,5 +1,5 @@
 import _ from "lodash";
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 
 export const transformCaseNoteActionToId = async (
   caseNoteActions,

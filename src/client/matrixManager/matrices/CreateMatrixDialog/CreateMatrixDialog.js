@@ -1,20 +1,29 @@
-import {connect} from "react-redux";
-import {Dialog, DialogActions, DialogContent, DialogTitle, withStyles} from "@material-ui/core";
-import {Field, formValueSelector, reduxForm} from "redux-form";
+import { connect } from "react-redux";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  withStyles
+} from "@material-ui/core";
+import { Field, formValueSelector, reduxForm } from "redux-form";
 import React from "react";
-import {CREATE_MATRIX_FORM_NAME} from "../../../../sharedUtilities/constants";
-import {PrimaryButton, SecondaryButton} from "../../../complaintManager/shared/components/StyledButtons";
-import {closeCreateDialog} from "../../../common/actionCreators/createDialogActionCreators";
-import {DialogTypes} from "../../../common/actionCreators/dialogTypes";
+import { CREATE_MATRIX_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../../policeDataManager/shared/components/StyledButtons";
+import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
+import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import PIBControlField from "../../sharedFormComponents/PIBControlField";
 import Dropdown from "../../../common/components/Dropdown";
-import {generateMenuOptions} from "../../../complaintManager/utilities/generateMenuOptions";
+import { generateMenuOptions } from "../../../policeDataManager/utilities/generateMenuOptions";
 import getUsers from "../../../common/thunks/getUsers";
 import createMatrix from "../thunks/createMatrix";
 import {
-    firstReviewerRequired,
-    reviewersShouldBeDifferent,
-    secondReviewerRequired
+  firstReviewerRequired,
+  reviewersShouldBeDifferent,
+  secondReviewerRequired
 } from "../../../formFieldLevelValidations";
 import scrollToFirstError from "../../../common/helpers/scrollToFirstError";
 

@@ -1,4 +1,4 @@
-import { snackbarSuccess } from "../../../complaintManager/actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../../policeDataManager/actionCreators/snackBarActionCreators";
 import { createMatrixSuccess } from "../../actionCreators/matrixActionCreators";
 import axios from "axios";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";

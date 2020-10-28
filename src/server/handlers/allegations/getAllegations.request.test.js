@@ -1,4 +1,4 @@
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import request from "supertest";
 import app from "../../server";
 import {
@@ -7,7 +7,7 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 
-describe("GET /allegations", function() {
+describe("GET /allegations", function () {
   let token;
   beforeEach(() => {
     token = buildTokenWithPermissions("", "tuser");

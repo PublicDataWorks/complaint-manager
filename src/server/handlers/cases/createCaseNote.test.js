@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Case from "../../../sharedTestHelpers/case";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,

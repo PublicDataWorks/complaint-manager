@@ -4,7 +4,7 @@ import {
   suppressWinstonLogs,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";

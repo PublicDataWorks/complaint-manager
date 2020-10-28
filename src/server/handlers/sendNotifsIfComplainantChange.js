@@ -1,6 +1,6 @@
 import { sendNotification } from "./cases/getMessageStream";
 
-const models = require("../complaintManager/models/index");
+const models = require("../policeDataManager/models/index");
 
 export const sendNotifsIfComplainantChange = async caseId => {
   const usersWithNotifs = await models.notification.findAll({

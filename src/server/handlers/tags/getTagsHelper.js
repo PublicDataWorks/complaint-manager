@@ -1,5 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import { ASCENDING } from "../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../sequelizeHelpers";
 

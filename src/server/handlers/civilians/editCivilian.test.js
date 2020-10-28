@@ -14,7 +14,7 @@ import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
 
 const editCivilian = require("./editCivilian");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../audits/auditDataAccess");

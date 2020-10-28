@@ -7,7 +7,7 @@ import {
   EDIT_STATUS,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import auditDataAccess from "../../../audits/auditDataAccess";
 

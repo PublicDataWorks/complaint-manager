@@ -1,5 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
-import models from "../../../../complaintManager/models";
+import models from "../../../../policeDataManager/models";
 import Boom from "boom";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";

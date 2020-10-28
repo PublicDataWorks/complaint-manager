@@ -1,6 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 
-import models from "../../complaintManager/models";
+import models from "../../policeDataManager/models";
 import getQueryAuditAccessDetails, {
   combineAuditDetails,
   removeFromExistingAuditDetails

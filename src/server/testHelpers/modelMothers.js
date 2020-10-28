@@ -1,4 +1,4 @@
-import models from "../complaintManager/models/index";
+import models from "../policeDataManager/models/index";
 import { ACCUSED, COMPLAINANT } from "../../sharedUtilities/constants";
 import Case from "../../sharedTestHelpers/case";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";

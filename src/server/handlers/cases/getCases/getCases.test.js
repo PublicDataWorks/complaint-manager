@@ -2,7 +2,7 @@ import {
   createTestCaseWithCivilian,
   createTestCaseWithoutCivilian
 } from "../../../testHelpers/modelMothers";
-import models from "../../../complaintManager/models";
+import models from "../../../policeDataManager/models";
 import getCases, { CASES_TYPE } from "./getCases";
 import Case from "../../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";

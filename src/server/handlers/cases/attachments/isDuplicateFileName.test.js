@@ -1,5 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
-const models = require("../../../complaintManager/models");
+const models = require("../../../policeDataManager/models");
 const isDuplicateFileName = require("./isDuplicateFileName");
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 

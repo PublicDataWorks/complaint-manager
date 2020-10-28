@@ -6,7 +6,7 @@ import timezone from "moment-timezone";
 import _ from "lodash";
 
 const { JOB_OPERATION } = require("../../../sharedUtilities/constants");
-const models = require("../../../server/complaintManager/models/index");
+const models = require("../../../server/policeDataManager/models/index");
 const stringify = require("csv-stringify");
 const util = require("util");
 const promisifiedStringify = util.promisify(stringify);
@@ -47,9 +47,7 @@ const csvCaseExport = async (job, done) => {
 
 const generateFilename = dateRange => {
   if (dateRange) {
-    const dateType = _.startCase(dateRange.type)
-      .split(" ")
-      .join("_");
+    const dateType = _.startCase(dateRange.type).split(" ").join("_");
 
     return `${JOB_OPERATION.CASE_EXPORT.filename}_by_${dateType}_${dateRange.exportStartDate}_to_${dateRange.exportEndDate}`;
   } else {

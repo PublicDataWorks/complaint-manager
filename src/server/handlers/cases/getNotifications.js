@@ -1,6 +1,6 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 const asyncMiddleWare = require("../asyncMiddleware");
-const models = require("../../complaintManager/models/index");
+const models = require("../../policeDataManager/models/index");
 import sequelize from "sequelize";
 import {
   ASCENDING,

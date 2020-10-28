@@ -1,6 +1,6 @@
 "use strict";
 
-import models from "../complaintManager/models";
+import models from "../policeDataManager/models";
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
