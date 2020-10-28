@@ -53,7 +53,7 @@ describe("ComplaintTotals", () => {
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
-        `/api/public-data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
+        `/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
       );
     });
   });
