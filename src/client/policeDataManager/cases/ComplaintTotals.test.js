@@ -32,7 +32,7 @@ describe("ComplaintTotals", () => {
     return wrapper;
   };
 
-  test("should not render complaint total counts for year to date and previous year when error on retrieving data", async () => {
+  test("should not render complaint total counts for year to date and previous year when error on retrieving public data", async () => {
     axios.get.mockImplementationOnce(() =>
       Promise.reject(new Error("errorMessage"))
     );
@@ -48,12 +48,12 @@ describe("ComplaintTotals", () => {
     });
   });
 
-  test("should make axios get request to get data endpoint", async () => {
+  test("should make axios get request to get public data endpoint", async () => {
     renderComplaintTotals();
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith(
-        `/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
+        `/api/public-data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
       );
     });
   });
