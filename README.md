@@ -1,6 +1,6 @@
-# Complaint Manager
+# Police Data Manager
 
-This README is aimed at getting new users (Core Team and Contributors) set up to run Complaint Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully.  
+This README is aimed at getting new users (Core Team and Contributors) set up to run Police Data Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully.  
 
 ## Local Development Setup
 

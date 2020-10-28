@@ -117,7 +117,7 @@ class CaseNoteDialog extends Component {
             }}
           >
             Use this form to log any external correspondences or actions that
-            take place outside of the Complaint Manager System. Your name will
+            take place outside of the Police Data Manager System. Your name will
             automatically be recorded.
           </Typography>
           <form onSubmit={event => event.preventDefault()}>
