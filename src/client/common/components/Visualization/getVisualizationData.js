@@ -25,7 +25,7 @@ const transformers = {
 };
 
 export const getVisualizationData = async queryType => {
-  const { data } = await axios.get(`/api/data?queryType=${queryType}`) || {};
+  const { data } = await axios.get(`/api/public-data?queryType=${queryType}`);
   const currentTransformer = transformers[queryType] || null;
   if (!currentTransformer) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);

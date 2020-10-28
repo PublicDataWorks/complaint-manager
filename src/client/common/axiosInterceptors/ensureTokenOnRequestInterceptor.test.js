@@ -33,13 +33,13 @@ describe("ensureTokenOnRequestInterceptor", () => {
       nock("http://localhost", {
         badheaders: ["authorization"]
       })
-        .get(`/api/data?queryType=${queryType}`)
+        .get(`/api/public-data?queryType=${queryType}`)
         .reply(function () {
           return [200, {}];
         });
 
       nock("http://localhost")
-        .get(`/api/data?queryType=${queryType}`)
+        .get(`/api/public-data?queryType=${queryType}`)
         .reply(function () {
           throw new Error("Error: Authorization header present on request");
         });

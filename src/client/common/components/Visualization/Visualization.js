@@ -11,12 +11,13 @@ const Visualization = props => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getVisualizationData(props.queryType) || {};
-        const newLayout = getAggregateVisualizationLayout({
-          queryType: props.queryType,
-          isPublic: props.isPublic,
-          newData
-        }) || {};
+        const newData = await getVisualizationData(props.queryType);
+        const newLayout =
+          getAggregateVisualizationLayout({
+            queryType: props.queryType,
+            isPublic: props.isPublic,
+            newData
+          }) || {};
 
         setData({ data: newData.data, isFetching: false });
         setLayout(newLayout);
@@ -30,10 +31,7 @@ const Visualization = props => {
   }, []);
 
   return (
-    <PlotlyWrapper
-      data={isEmpty(data.data) ? [] : data.data}
-      layout={layout}
-    />
+    <PlotlyWrapper data={isEmpty(data.data) ? [] : data.data} layout={layout} />
   );
 };
 

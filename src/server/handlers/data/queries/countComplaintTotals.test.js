@@ -64,7 +64,7 @@ describe("getCountByDateRange", () => {
 
   test("returns count of complaints broken down by year to date and previous year", async done => {
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
@@ -89,7 +89,7 @@ describe("getCountByDateRange", () => {
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
@@ -151,7 +151,7 @@ describe("getCountByDateRange", () => {
     await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
@@ -177,7 +177,7 @@ describe("getCountByDateRange", () => {
     await archivedCase.destroy({ auditUser: "someone" });
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });

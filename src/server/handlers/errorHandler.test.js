@@ -29,7 +29,7 @@ describe("errorHandler", () => {
     );
   });
   test("should mask 500 error response on public routes", () => {
-        const path = "/data";
+        const path = "/public-data";
         const request = httpMocks.createRequest({
             route: {
                 path: path

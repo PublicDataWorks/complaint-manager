@@ -85,7 +85,7 @@ describe("executeQuery", () => {
     ];
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
@@ -122,7 +122,7 @@ describe("executeQuery", () => {
     ];
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
@@ -199,7 +199,7 @@ describe("executeQuery", () => {
     ];
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
@@ -237,7 +237,7 @@ describe("executeQuery", () => {
     ];
 
     const responsePromise = request(app)
-      .get("/api/data")
+      .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });

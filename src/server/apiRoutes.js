@@ -58,7 +58,7 @@ import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
-import getData from "./handlers/data/getData";
+import getPublicData from "./handlers/data/getPublicData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 import { getMessageStream } from "./handlers/cases/getMessageStream";
@@ -73,9 +73,9 @@ export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
 ];
 
 export const PUBLIC_ROUTES = {
-    "/data": {
+    "/public-data": {
         get: {
-            handler: getData,
+            handler: getPublicData,
             errorMessage:
             "Something went wrong and the data could not be retrieved. Please try again."
         }

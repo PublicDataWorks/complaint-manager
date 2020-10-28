@@ -11,7 +11,7 @@ const ComplaintTotals = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
+          `/api/public-data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
         );
         setData(response.data);
       } catch (e) {
