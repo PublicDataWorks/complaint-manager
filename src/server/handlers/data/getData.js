@@ -24,14 +24,6 @@ const getData = asyncMiddleware(async (request, response, next) => {
         request.nickname
       );
       break;
-    case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-      data = await countComplaintsByComplainantTypePast12Months.executeQuery(
-        request.nickname
-      );
-      break;
-    case QUERY_TYPES.COUNT_TOP_10_TAGS:
-      data = await countTop10Tags.executeQuery(request.nickname);
-      break;
     default:
       return next(
         Boom.badRequest(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED)

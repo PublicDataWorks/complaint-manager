@@ -59,6 +59,7 @@ import getUsers from "./common/handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getPublicData from "./handlers/data/getPublicData";
+import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 import { getMessageStream } from "./handlers/cases/getMessageStream";
@@ -73,13 +74,13 @@ export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
 ];
 
 export const PUBLIC_ROUTES = {
-    "/public-data": {
-        get: {
-            handler: getPublicData,
-            errorMessage:
-            "Something went wrong and the data could not be retrieved. Please try again."
-        }
-    },
+  "/public-data": {
+    get: {
+      handler: getPublicData,
+      errorMessage:
+        "Something went wrong and the data could not be retrieved. Please try again."
+    }
+  }
 };
 
 export const API_ROUTES = {
@@ -87,428 +88,435 @@ export const API_ROUTES = {
     get: {
       handler: exportJob,
       errorMessage:
-      "Something went wrong and your export failed. Please try again."
+        "Something went wrong and your export failed. Please try again."
     }
   },
   "/export/schedule/:operation": {
     get: {
       handler: scheduleExport,
       errorMessage:
-      "Something went wrong and your export failed. Please try again."
+        "Something went wrong and your export failed. Please try again."
     }
   },
   "/cases": {
     post: {
       handler: createCase,
       errorMessage:
-      "Something went wrong and the case was not created. Please try again."
+        "Something went wrong and the case was not created. Please try again."
     },
     get: {
       handler: getWorkingCases,
       errorMessage:
-      "Something went wrong and the cases were not loaded. Please try again."
+        "Something went wrong and the cases were not loaded. Please try again."
     }
   },
   "/cases/archived-cases": {
     get: {
       handler: getArchivedCases,
       errorMessage:
-      "Something went wrong and the archived cases were not loaded. Please try again."
+        "Something went wrong and the archived cases were not loaded. Please try again."
     }
   },
   "/cases/:caseId": {
     get: {
       handler: getCase,
       errorMessage:
-      "Something went wrong and the case details were not loaded. Please try again."
+        "Something went wrong and the case details were not loaded. Please try again."
     },
     put: {
       handler: editCase,
       errorMessage:
-      "Something went wrong and the case details were not updated. Please try again."
+        "Something went wrong and the case details were not updated. Please try again."
     },
     delete: {
       handler: archiveCase,
       errorMessage:
-      "Something went wrong and the case was not archived. Please try again."
+        "Something went wrong and the case was not archived. Please try again."
     }
   },
   "/cases/:caseId/restore": {
     put: {
       handler: restoreArchivedCase,
       errorMessage:
-      "Something went wrong and the case was not restored. Please try again."
+        "Something went wrong and the case was not restored. Please try again."
     }
   },
   "/cases/:caseId/minimum-case-details": {
     get: {
       handler: getMinimumCaseDetails,
       errorMessage:
-      "Something went wrong and the case details were not loaded. Please try again."
+        "Something went wrong and the case details were not loaded. Please try again."
     }
   },
   "/cases/:caseId/status": {
     put: {
       handler: changeStatus,
       errorMessage:
-      "Something went wrong and the case status was not updated. Please try again."
+        "Something went wrong and the case status was not updated. Please try again."
     }
   },
   "/cases/:caseId/case-history": {
     get: {
       handler: getCaseHistory,
       errorMessage:
-      "Something went wrong and the case history was not loaded. Please try again."
+        "Something went wrong and the case history was not loaded. Please try again."
     }
   },
   "/cases/:caseId/narrative": {
     put: {
       handler: updateCaseNarrative,
       errorMessage:
-      "Something went wrong and the case narrative was not updated. Please try again."
+        "Something went wrong and the case narrative was not updated. Please try again."
     }
   },
   "/cases/:caseId/case-notes": {
     get: {
       handler: getCaseNotes,
       errorMessage:
-      "Something went wrong and the case notes were not loaded. Please try again."
+        "Something went wrong and the case notes were not loaded. Please try again."
     },
     post: {
       handler: createCaseNote,
       errorMessage:
-      "Something went wrong and the case note was not created. Please try again."
+        "Something went wrong and the case note was not created. Please try again."
     }
   },
   "/cases/:caseId/case-notes/:caseNoteId": {
     put: {
       handler: editCaseNote,
       errorMessage:
-      "Something went wrong and the case note was not updated. Please try again."
+        "Something went wrong and the case note was not updated. Please try again."
     },
     delete: {
       handler: removeCaseNote,
       errorMessage:
-      "Something went wrong and the case note was not removed. Please try again."
+        "Something went wrong and the case note was not removed. Please try again."
     }
   },
   "/cases/:caseId/case-tags": {
     post: {
       handler: createCaseTag,
       errorMessage:
-      "Something went wrong and the case tag was not created. Please try again."
+        "Something went wrong and the case tag was not created. Please try again."
     },
     get: {
       handler: getCaseTags,
       errorMessage:
-      "Something went wrong and the case tags were not loaded. Please try again."
+        "Something went wrong and the case tags were not loaded. Please try again."
     }
   },
   "/cases/:caseId/case-tags/:caseTagId": {
     delete: {
       handler: removeCaseTag,
       errorMessage:
-      "Something went wrong and the case tag was not removed. Please try again."
+        "Something went wrong and the case tag was not removed. Please try again."
     }
   },
   "/cases/:caseId/cases-officers": {
     post: {
       handler: addCaseOfficer,
       errorMessage:
-      "Something went wrong and the officer was not added. Please try again."
+        "Something went wrong and the officer was not added. Please try again."
     }
   },
   "/cases/:caseId/cases-officers/:caseOfficerId": {
     put: {
       handler: editCaseOfficer,
       errorMessage:
-      "Something went wrong and the officer was not updated. Please try again."
+        "Something went wrong and the officer was not updated. Please try again."
     },
     delete: {
       handler: removeCaseOfficer,
       errorMessage:
-      "Something went wrong and the officer was not removed. Please try again."
+        "Something went wrong and the officer was not removed. Please try again."
     }
   },
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations": {
     post: {
       handler: createOfficerAllegation,
       errorMessage:
-      "Something went wrong and the allegation was not added. Please try again."
+        "Something went wrong and the allegation was not added. Please try again."
     }
   },
   "/cases/:caseId/officers-allegations/:officerAllegationId": {
     put: {
       handler: editOfficerAllegation,
       errorMessage:
-      "Something went wrong and the allegation was not updated. Please try again."
+        "Something went wrong and the allegation was not updated. Please try again."
     },
     delete: {
       handler: removeOfficerAllegation,
       errorMessage:
-      "Something went wrong and the allegation was not removed. Please try again."
+        "Something went wrong and the allegation was not removed. Please try again."
     }
   },
   "/cases/:caseId/attachments": {
     post: {
       handler: uploadAttachment,
       errorMessage:
-      "Something went wrong and the attachment was not uploaded. Please try again."
+        "Something went wrong and the attachment was not uploaded. Please try again."
     },
     delete: {
       handler: deleteAttachment,
       errorMessage:
-      "Something went wrong and the attachment was not removed. Please try again."
+        "Something went wrong and the attachment was not removed. Please try again."
     }
   },
   "/cases/:caseId/attachmentUrls": {
     get: {
       handler: getAttachmentDownloadUrl,
       errorMessage:
-      "Something went wrong and the attachment URL was not found. Please try again."
+        "Something went wrong and the attachment URL was not found. Please try again."
     }
   },
   "/cases/:caseId/referral-letter": {
     get: {
       handler: getReferralLetterData,
       errorMessage:
-      "Something went wrong and the referral letter details were not loaded. Please try again."
+        "Something went wrong and the referral letter details were not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/preview": {
     get: {
       handler: getReferralLetterPreview,
       errorMessage:
-      "Something went wrong and the letter preview was not loaded. Please try again."
+        "Something went wrong and the letter preview was not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/edit-status": {
     get: {
       handler: getReferralLetterEditStatus,
       errorMessage:
-      "Something went wrong and the referral letter details were not loaded. Please try again."
+        "Something went wrong and the referral letter details were not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/officer-history": {
     put: {
       handler: editOfficerHistory,
       errorMessage:
-      "Something went wrong and the officer history was not updated. Please try again."
+        "Something went wrong and the officer history was not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/recommended-actions": {
     put: {
       handler: editRecommendedActions,
       errorMessage:
-      "Something went wrong and the recommended actions were not updated. Please try again."
+        "Something went wrong and the recommended actions were not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/classifications": {
     put: {
       handler: editClassifications,
       errorMessage:
-      "Something went wrong and the classifications were not updated. Please try again."
+        "Something went wrong and the classifications were not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/addresses": {
     put: {
       handler: editReferralLetterAddresses,
       errorMessage:
-      "Something went wrong and the letter was not updated. Please try again."
+        "Something went wrong and the letter was not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/content": {
     put: {
       handler: editReferralLetterContent,
       errorMessage:
-      "Something went wrong and the letter was not updated. Please try again."
+        "Something went wrong and the letter was not updated. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/final-pdf-download-url": {
     get: {
       handler: getFinalPdfDownloadUrl,
       errorMessage:
-      "Something went wrong and the PDF URL was not found. Please try again."
+        "Something went wrong and the PDF URL was not found. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/get-pdf": {
     get: {
       handler: getReferralLetterPdf,
       errorMessage:
-      "Something went wrong and the PDF was not loaded. Please try again."
+        "Something went wrong and the PDF was not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter/approve-letter": {
     put: {
       handler: approveLetter,
       errorMessage:
-      "Something went wrong and the case status was not updated. Please try again."
+        "Something went wrong and the case status was not updated. Please try again."
     }
   },
   "/cases/:caseId/civilians": {
     post: {
       handler: createCivilian,
       errorMessage:
-      "Something went wrong and the civilian was not created. Please try again."
+        "Something went wrong and the civilian was not created. Please try again."
     }
   },
   "/cases/:caseId/civilians/:civilianId": {
     put: {
       handler: editCivilian,
       errorMessage:
-      "Something went wrong and the civilian was not updated. Please try again."
+        "Something went wrong and the civilian was not updated. Please try again."
     },
     delete: {
       handler: removeCivilian,
       errorMessage:
-      "Something went wrong and the civilian was not removed from the case. Please try again."
+        "Something went wrong and the civilian was not removed from the case. Please try again."
     }
   },
   "/audit": {
     post: {
       handler: audit,
       errorMessage:
-      "Something went wrong and the login was not audited. Please try again."
+        "Something went wrong and the login was not audited. Please try again."
     }
   },
   "/officers/search": {
     get: {
       handler: searchOfficers,
       errorMessage:
-      "Something went wrong and the search was not completed. Please try again."
+        "Something went wrong and the search was not completed. Please try again."
     }
   },
   "/allegations/search": {
     get: {
       handler: searchAllegations,
       errorMessage:
-      "Something went wrong and the search was not completed. Please try again."
+        "Something went wrong and the search was not completed. Please try again."
     }
   },
   "/allegations": {
     get: {
       handler: getAllegations,
       errorMessage:
-      "Something went wrong and the allegation values were not found. Please try again."
+        "Something went wrong and the allegation values were not found. Please try again."
     }
   },
   "/case-note-actions": {
     get: {
       handler: getCaseNoteActions,
       errorMessage:
-      "Something went wrong and the case note action values were not found. Please try again."
+        "Something went wrong and the case note action values were not found. Please try again."
     }
   },
   "/classifications": {
     get: {
       handler: getClassifications,
       errorMessage:
-      "Something went wrong and the classification values were not found. Please try again."
+        "Something went wrong and the classification values were not found. Please try again."
     }
   },
   "/tags": {
     get: {
       handler: getTags,
       errorMessage:
-      "Something went wrong and the tag values were not found. Please try again."
+        "Something went wrong and the tag values were not found. Please try again."
     }
   },
   "/intake-sources": {
     get: {
       handler: getIntakeSources,
       errorMessage:
-      "Something went wrong and the intake source values were not found. Please try again."
+        "Something went wrong and the intake source values were not found. Please try again."
     }
   },
   "/gender-identities": {
     get: {
       handler: getGenderIdentities,
       errorMessage:
-      "Something went wrong and the gender identity values were not found. Please try again."
+        "Something went wrong and the gender identity values were not found. Please try again."
     }
   },
   "/how-did-you-hear-about-us-sources": {
     get: {
       handler: getHowDidYouHearAboutUsSources,
       errorMessage:
-      "Something went wrong and the values for 'How did you hear about us?' were not found. Please try again."
+        "Something went wrong and the values for 'How did you hear about us?' were not found. Please try again."
     }
   },
   "/race-ethnicities": {
     get: {
       handler: getRaceEthnicities,
       errorMessage:
-      "Something went wrong and the race/ethnicity values were not found. Please try again."
+        "Something went wrong and the race/ethnicity values were not found. Please try again."
     }
   },
   "/civilian-titles": {
     get: {
       handler: getCivilianTitles,
       errorMessage:
-      "Something went wrong and the civilian title values were not found. Please try again."
+        "Something went wrong and the civilian title values were not found. Please try again."
+    }
+  },
+  "/data": {
+    get: {
+      handler: getData,
+      errorMessage:
+        "Something went wrong and the data could not be retrieved. Please try again."
     }
   },
   "/districts": {
     get: {
       handler: getDistricts,
       errorMessage:
-      "Something went wrong and the district values were not found. Please try again."
+        "Something went wrong and the district values were not found. Please try again."
     }
   },
   "/recommended-actions": {
     get: {
       handler: getRecommendedActions,
       errorMessage:
-      "Something went wrong and the recommended action values were not found. Please try again."
+        "Something went wrong and the recommended action values were not found. Please try again."
     }
   },
   "/officer-history-options": {
     get: {
       handler: getOfficerHistoryOptions,
       errorMessage:
-      "Something went wrong and the officer history options could not be found. Please try again."
+        "Something went wrong and the officer history options could not be found. Please try again."
     }
   },
   "/users": {
     get: {
       handler: getUsers,
       errorMessage:
-      "Something went wrong and the users could not be found. Please try again."
+        "Something went wrong and the users could not be found. Please try again."
     }
   },
   "/messageStream": {
     get: {
       handler: getMessageStream,
       errorMessage:
-      "Something went wrong and message stream could not be created. Please try again."
+        "Something went wrong and message stream could not be created. Please try again."
     }
   },
   "/notifications/:user": {
     get: {
       handler: extractNotifications,
       errorMessage:
-      "Something went wrong and notifications could not be retrieved. Please try again."
+        "Something went wrong and notifications could not be retrieved. Please try again."
     }
   },
   "/notifications/mark-as-read/:notificationId": {
     put: {
       handler: markNotificationAsRead,
       errorMessage:
-      "Something went wrong, and there was a problem updating your notifications."
+        "Something went wrong, and there was a problem updating your notifications."
     }
   },
   "/notifications/:caseNoteId/:notificationId": {
     get: {
       handler: getNotificationStatus,
       errorMessage:
-      "Something went wrong and notifications could not be verified. Please try again."
+        "Something went wrong and notifications could not be verified. Please try again."
     }
   },
   "/matrix-manager/matrices": {
     post: {
       handler: createMatrix,
       errorMessage:
-      "Something went wrong and the matrix could not be created. Please try again."
+        "Something went wrong and the matrix could not be created. Please try again."
     }
   },
   "/logs": {
