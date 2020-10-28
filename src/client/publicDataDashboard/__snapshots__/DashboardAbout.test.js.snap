@@ -1744,10 +1744,10 @@ exports[`Dashboard About page should render the About page for the public data d
                        Complaints of officer misconduct and accounts of exemplary policing from both the community and those within the police district are valuable and can be the catalyst for important progress within the police department. Each complaint and commendation is an opportunity for the New Orleans Police Department (NOPD) to learn more about themselves and to adapt to the changing needs of the community, and when properly handled brings the NOPD one step closer to being in full compliance with the Federal Consent Decree. 
                       <br />
                       <br />
-                       This dashboard contains data visualizations regarding our complaint process and the complaints the Office of the Independent Police Monitor received. The charts and graphs capture different aspects of our internal process regarding complaint intake or information about the complaints or the complainant themselves. The data only captures the accounts of officer misconduct submitted directly to the Office of the Independent Police Monitor. This data is taken directly from our internally designed database: Complaint Manager. 
+                       This dashboard contains data visualizations regarding our complaint process and the complaints the Office of the Independent Police Monitor received. The charts and graphs capture different aspects of our internal process regarding complaint intake or information about the complaints or the complainant themselves. The data only captures the accounts of officer misconduct submitted directly to the Office of the Independent Police Monitor. This data is taken directly from our internally designed database: Police Data Manager. 
                       <br />
                       <br />
-                       As information is entered into Complaint Manager by our staff and complaint referrals are submitted to the Public Integrity Bureau, the data will automatically update once daily.
+                       As information is entered into Police Data Manager by our staff and complaint referrals are submitted to the Public Integrity Bureau, the data will automatically update once daily.
                     </p>
                   </ForwardRef(Typography)>
                 </WithStyles(ForwardRef(Typography))>
