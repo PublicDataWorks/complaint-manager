@@ -1,4 +1,7 @@
-import { getComplainantType } from "./queryHelperFunctions";
+import { getComplainantType, getDateRangeStart } from "./queryHelperFunctions";
+import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import moment from "moment";
 
 describe("queryHelperFunctions", () => {
   describe("getComplainantType", () => {
@@ -29,5 +32,32 @@ describe("queryHelperFunctions", () => {
 
       expect(result).toEqual("Anonymous (AC)");
     });
+  });
+
+  test("should return a start date for filtering queries based on past 12 months range option", () => {
+    const currentDate = new Date(2020, 9, 28);
+    const expectedRangeStart = new Date(2019, 9, 28);
+
+    const dateRangeStart = getDateRangeStart(
+      DATE_RANGE_TYPE.PAST_12_MONTHS,
+      currentDate
+    );
+
+    expect(dateRangeStart.toDate()).toEqual(expectedRangeStart);
+  });
+
+  test("should return a start date for filtering queries based on YTD range option", () => {
+    const currentDate = new Date(2020, 9, 28);
+    const expectedRangeStart = new Date(2020, 0, 1);
+
+    const dateRangeStart = getDateRangeStart(DATE_RANGE_TYPE.YTD, currentDate);
+
+    expect(dateRangeStart.toDate()).toEqual(expectedRangeStart);
+  });
+
+  test("should return a an error for invalid date range types", () => {
+    expect(() => {
+      getDateRangeStart("INVALID_OPTION");
+    }).toThrow(BAD_REQUEST_ERRORS.INVALID_DATE_RANGE_TYPE);
   });
 });

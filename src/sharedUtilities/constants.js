@@ -421,6 +421,11 @@ export const DECLINES_OPTION = "Declines to classify";
 //          Data Dashboard Map
 // ----------------------------------------
 
+export const DATE_RANGE_TYPE = {
+  YTD: "YTD",
+  PAST_12_MONTHS: "PAST_12_MONTHS"
+};
+
 export const QUERY_TYPES = {
   COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource",
   COUNT_COMPLAINT_TOTALS: "countComplaintTotals",
