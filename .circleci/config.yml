@@ -22,9 +22,6 @@ jobs:
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
-        environment:
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: complaint-manager-test
     steps:
       - checkout
       - run:
@@ -42,9 +39,6 @@ jobs:
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
-        environment:
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: complaint-manager-test
     steps:
       - checkout
       - run:
