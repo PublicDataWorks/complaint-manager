@@ -67,10 +67,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-ci:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 .
-      - run: docker push noipm/complaint-manager-ci:$CIRCLE_SHA1
-      - run: docker push noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/police-data-manager-ci:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t noipm/police-data-manager-ci-worker:$CIRCLE_SHA1 .
+      - run: docker push noipm/police-data-manager-ci:$CIRCLE_SHA1
+      - run: docker push noipm/police-data-manager-ci-worker:$CIRCLE_SHA1
 
   build-and-publish-release:
     docker:
@@ -93,10 +93,10 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/complaint-manager-playground:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker -t noipm/complaint-manager-playground-worker:$CIRCLE_SHA1 .
-      - run: docker push noipm/complaint-manager-playground:$CIRCLE_SHA1
-      - run: docker push noipm/complaint-manager-playground-worker:$CIRCLE_SHA1
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/police-data-manager-playground:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t noipm/police-data-manager-playground-worker:$CIRCLE_SHA1 .
+      - run: docker push noipm/police-data-manager-playground:$CIRCLE_SHA1
+      - run: docker push noipm/police-data-manager-playground-worker:$CIRCLE_SHA1
 
   deploy-playground:
     docker:
@@ -104,8 +104,8 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/complaint-manager-playground:$CIRCLE_SHA1
-      - run: docker pull noipm/complaint-manager-playground-worker:$CIRCLE_SHA1
+      - run: docker pull noipm/police-data-manager-playground:$CIRCLE_SHA1
+      - run: docker pull noipm/police-data-manager-playground-worker:$CIRCLE_SHA1
       - run:
           name: Migrate and Seed DB
           command: |
@@ -117,12 +117,12 @@ jobs:
             -e DATABASE_HOST=$PLAYGROUND_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-            noipm/complaint-manager-playground:$CIRCLE_SHA1 yarn setup:db
+            noipm/police-data-manager-playground:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag noipm/complaint-manager-playground:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/web
+      - run: docker tag noipm/police-data-manager-playground:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/web
       - run: docker push registry.heroku.com/noipm-playground/web
-      - run: docker tag noipm/complaint-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
+      - run: docker tag noipm/police-data-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
       - run: docker push registry.heroku.com/noipm-playground/worker
       - run: heroku container:release web worker --app noipm-playground
 
@@ -153,8 +153,8 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/complaint-manager-ci:$CIRCLE_SHA1
-      - run: docker pull noipm/complaint-manager-ci-worker:$CIRCLE_SHA1
+      - run: docker pull noipm/police-data-manager-ci:$CIRCLE_SHA1
+      - run: docker pull noipm/police-data-manager-ci-worker:$CIRCLE_SHA1
       - run:
           name: Migrate and Seed DB
           command: |
@@ -166,12 +166,12 @@ jobs:
             -e DATABASE_HOST=$CI_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-            noipm/complaint-manager-ci:$CIRCLE_SHA1 yarn setup:db
+            noipm/police-data-manager-ci:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag noipm/complaint-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
+      - run: docker tag noipm/police-data-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
       - run: docker push registry.heroku.com/noipm-ci/web
-      - run: docker tag noipm/complaint-manager-ci-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/worker
+      - run: docker tag noipm/police-data-manager-ci-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/worker
       - run: docker push registry.heroku.com/noipm-ci/worker
       - run: heroku container:release web worker --app noipm-ci
 
