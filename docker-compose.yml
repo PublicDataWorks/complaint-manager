@@ -109,8 +109,8 @@ services:
     depends_on:
       - db
     volumes:
-      - "./schemaspy/complaint-manager/output:/output"
-      - "./schemaspy/complaint-manager/schemaspy.properties:/schemaspy.properties"
+      - "./schemaspy/noipm-db/output:/output"
+      - "./schemaspy/noipm-db/schemaspy.properties:/schemaspy.properties"
   security-checks:
     image: hawkeyesec/scanner-cli:latest
     volumes:
