@@ -32,7 +32,8 @@ export const BAD_REQUEST_ERRORS = {
   PIB_CONTROL_NUMBER_ALREADY_EXISTS: "PIB Control # is already in use",
   NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",
   NOTIFICATION_EDIT_ERROR: "There was an error notifying mentioned users.",
-  NOTIFICATION_DELETION_ERROR: "There was an error removing the notification."
+  NOTIFICATION_DELETION_ERROR: "There was an error removing the notification.",
+  INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid"
 };
 
 export const BAD_DATA_ERRORS = {

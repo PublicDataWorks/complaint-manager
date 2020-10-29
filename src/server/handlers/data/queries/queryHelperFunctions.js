@@ -1,4 +1,9 @@
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  DATE_RANGE_TYPE,
+  CASE_STATUS
+} from "../../../../sharedUtilities/constants";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import moment from "moment";
 
 export const updateCaseStatus = async (caseToUpdate, status) => {
   const caseStatusList = [
@@ -43,4 +48,18 @@ export const getComplainantType = caseReference => {
     }
   }
   return complainantType;
+};
+
+export const getDateRangeStart = (dateRangeType, currentDate = new Date()) => {
+  let dateRangeStart;
+  if (dateRangeType === DATE_RANGE_TYPE.YTD) {
+    dateRangeStart = moment(currentDate).startOf("year");
+  } else if (dateRangeType === DATE_RANGE_TYPE.PAST_12_MONTHS) {
+    dateRangeStart = moment(currentDate).subtract(12, "months");
+  } else {
+    throw new Error(
+      `${BAD_REQUEST_ERRORS.INVALID_DATE_RANGE_TYPE}: ${dateRangeType}`
+    );
+  }
+  return dateRangeStart;
 };
