@@ -98,6 +98,43 @@ describe("executeQuery", () => {
     done();
   });
 
+  test("should return cases within the past 12 months", async () => {
+    const instagramIntakeSource = await models.intake_source.create({
+      name: "Instagram"
+    });
+
+    const oldCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2019-12-31")
+        .withId(undefined)
+        .withIntakeSourceId(instagramIntakeSource.id),
+      {
+        auditUser: "someone"
+      }
+    );
+    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+
+    const expectedData = [
+      { count: "1", name: "Email" },
+      { count: "2", name: "Facebook" },
+        { count: "1", name: "Other" },
+        { count: "1", name: "Instagram" }
+    ];
+
+    const responsePromise = request(app)
+      .get("/api/public-data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+          .query({ queryType: "countComplaintsByIntakeSource", dateRangeType: "PAST_12_MONTHS" });
+
+    await responsePromise.then(response => {
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toHaveLength(4);
+      expect(response.body).toEqual(expect.arrayContaining(expectedData));
+    });
+  });
+
   test("should return only cases within the current year to date", async () => {
     const instagramIntakeSource = await models.intake_source.create({
       name: "Instagram"
@@ -125,7 +162,7 @@ describe("executeQuery", () => {
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-      .query({ queryType: "countComplaintsByIntakeSource" });
+          .query({ queryType: "countComplaintsByIntakeSource", dateRangeType: "YTD" });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);

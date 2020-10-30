@@ -9,7 +9,8 @@ import app from "../../../server";
 import {
   CASE_STATUS,
   COMPLAINANT,
-  EMPLOYEE_TYPE
+  EMPLOYEE_TYPE,
+  DATE_RANGE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
@@ -130,7 +131,16 @@ describe("executeQuery", () => {
     });
   });
 
-  test("should return only complaints within the current year to date", async () => {
+  test("should return only complaints within the past 12 months", async () => {
+    const getComplaintsPast12Months = request(app)
+      .get("/api/public-data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .query({
+        queryType: "countComplaintsByComplainantType",
+        dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS
+      });
+
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
@@ -142,7 +152,35 @@ describe("executeQuery", () => {
     );
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
-    await getResponsePromise.then(response => {
+    const expectedDataPast12Months = { ...expectedData, ...{ CC: 2 } };
+
+    await getComplaintsPast12Months.then(response => {
+      expect(response.statusCode).toEqual(200);
+      expect(response.body).toEqual(expectedDataPast12Months);
+    });
+  });
+  test("should return only complaints within the current year to date", async () => {
+    const getComplaintsYTD = request(app)
+      .get("/api/public-data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .query({
+        queryType: "countComplaintsByComplainantType",
+        dateRangeType: DATE_RANGE_TYPE.YTD
+      });
+
+    const oldCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate("2019-12-31")
+        .withId(undefined),
+      {
+        auditUser: "someone"
+      }
+    );
+    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+
+    await getComplaintsYTD.then(response => {
       expect(response.statusCode).toEqual(200);
       expect(response.body).toEqual(expectedData);
     });

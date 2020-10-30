@@ -16,7 +16,7 @@ export const dateRange = start => {
 
     startDate = moment(startDate).add(1, "month");
   }
-  return { counts: counts, dateToIndex: dateToIndex };
+  return { counts, dateToIndex };
 };
 
 export const getAllComplaints = async (startDate, endDate, nickname) => {

@@ -1,14 +1,17 @@
 import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DATE_RANGE_TYPE
+} from "../../../../sharedUtilities/constants";
+import { getDateRangeStart } from "./queryHelperFunctions";
 
-export const executeQuery = async nickname => {
-  const date = new Date();
-  const yearToDate = date.setFullYear(date.getFullYear(), 0, 1);
+export const executeQuery = async (nickname, dateRangeType) => {
+  const dateRangeStart = getDateRangeStart(dateRangeType);
 
   const where = {
     deletedAt: null,
-    firstContactDate: { [sequelize.Op.gte]: yearToDate },
+    firstContactDate: { [sequelize.Op.gte]: dateRangeStart },
     status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
   };
 

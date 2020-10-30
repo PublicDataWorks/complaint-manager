@@ -54,6 +54,14 @@ describe("queryHelperFunctions", () => {
 
     expect(dateRangeStart.toDate()).toEqual(expectedRangeStart);
   });
+    test("should return a YTD start for filtering queries when no range type is passed", () => {
+        const currentDate = new Date(2020, 9, 28);
+        const expectedRangeStart = new Date(2020, 0, 1);
+
+        const dateRangeStart = getDateRangeStart(undefined, currentDate);
+
+        expect(dateRangeStart.toDate()).toEqual(expectedRangeStart);
+    });
 
   test("should return a an error for invalid date range types", () => {
     expect(() => {
