@@ -463,6 +463,7 @@ export const DATA_SECTIONS = {
     subtitle: "Complaints by Intake Source",
     dataTestId: "intakeSourceGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE,
+    queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText:
       "OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020",
     fullMessage:
@@ -473,6 +474,7 @@ export const DATA_SECTIONS = {
     subtitle: "Complaints by Complainant Type",
     dataTestId: "complainantTypeGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+    queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText:
       "The OIPM tracked the complainant type to determine if we are reaching the full population with our services",
     fullMessage:
