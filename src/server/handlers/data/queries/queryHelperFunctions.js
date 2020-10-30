@@ -50,7 +50,7 @@ export const getComplainantType = caseReference => {
   return complainantType;
 };
 
-export const getDateRangeStart = (dateRangeType, currentDate = new Date()) => {
+export const getDateRangeStart = (dateRangeType = DATE_RANGE_TYPE.YTD, currentDate = new Date()) => {
   let dateRangeStart;
   if (dateRangeType === DATE_RANGE_TYPE.YTD) {
     dateRangeStart = moment(currentDate).startOf("year");

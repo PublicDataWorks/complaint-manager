@@ -4,6 +4,8 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import Boom from "boom";
 import * as httpMocks from "node-mocks-http";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
+import * as countComplaintsByIntakeSource from './queries/countComplaintsByIntakeSource';
+import * as countComplaintsByComplainantType from './queries/countComplaintsByComplainantType';
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -56,13 +58,15 @@ describe("getData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType: "countComplaintsByIntakeSource"
+          queryType: "countComplaintsByIntakeSource",
+          dateRangeType: "YTD"
       },
       nickname: "tuser"
     });
 
     await getData(request, response, next);
 
+      expect(countComplaintsByIntakeSource.executeQuery).toHaveBeenCalledWith("tuser", "YTD");
     expect(response._getData()).toEqual(MOCK_INTAKE_SOURCE_DATA_VALUES);
   });
 
@@ -84,13 +88,15 @@ describe("getData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType: "countComplaintsByComplainantType"
+          queryType: "countComplaintsByComplainantType",
+          dateRangeType: "YTD"
       },
       nickname: "tuser"
     });
 
     await getData(request, response, next);
 
+      expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith("tuser", "YTD");
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
 
