@@ -19,6 +19,7 @@ class DashboardDataSection extends Component {
       subtitle,
       dataTestId,
       queryType,
+        queryOptions,
       collapsedText,
       fullMessage
     } = DATA_SECTIONS[dataSectionType] || {};
@@ -41,6 +42,7 @@ class DashboardDataSection extends Component {
             data-testid={dataTestId}
             isPublic
             queryType={queryType}
+        queryOptions={queryOptions}
           />
         </Grid>
         <Grid item xs={8} style={{ paddingBottom: "117px" }}>

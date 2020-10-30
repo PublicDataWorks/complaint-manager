@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import * as countTop10Tags from "./Transformers/countTop10Tags";
 import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
@@ -26,23 +27,35 @@ jest.mock("./Transformers/countTop10Tags", () => ({
 describe("getVisualizationData", () => {
   test("should call countComplaintsByIntakeSource transformer", async () => {
     // Arrange
+    const queryType = "countComplaintsByIntakeSource";
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData("countComplaintsByIntakeSource");
+    await getVisualizationData(queryType, {
+      dateRangeType: DATE_RANGE_TYPE.YTD
+    });
 
     // Assert
+    expect(axios.get).toHaveBeenCalledWith(
+      `/api/public-data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
+    );
     expect(countComplaintsByIntakeSource.transformData).toHaveBeenCalled();
   });
 
   test("should call countComplaintsByComplainantType transformer", async () => {
     // Arrange
+    const queryType = "countComplaintsByIntakeSource";
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData("countComplaintsByComplainantType");
+    await getVisualizationData("countComplaintsByComplainantType", {
+      dateRangeType: DATE_RANGE_TYPE.YTD
+    });
 
     // Assert
+    expect(axios.get).toHaveBeenCalledWith(
+      `/api/public-data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
+    );
     expect(countComplaintsByComplainantType.transformData).toHaveBeenCalled();
   });
 
