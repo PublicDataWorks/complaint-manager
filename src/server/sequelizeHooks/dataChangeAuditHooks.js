@@ -70,7 +70,7 @@ exports.init = (sequelize, model) => {
     "deleted_at"
   ];
 
-  model.prototype.update = async function(values, options = {}) {
+  model.prototype.update = async function (values, options = {}) {
     return await addTransactionToFunction(
       originalInstanceUpdate,
       values,
@@ -79,7 +79,7 @@ exports.init = (sequelize, model) => {
     );
   };
 
-  model.prototype.destroy = async function(options = {}) {
+  model.prototype.destroy = async function (options = {}) {
     return await addTransactionToFunctionWithoutValues(
       originalInstanceDestroy,
       options,
@@ -87,7 +87,7 @@ exports.init = (sequelize, model) => {
     );
   };
 
-  model.prototype.restore = async function(options = {}) {
+  model.prototype.restore = async function (options = {}) {
     return await addTransactionToFunctionWithoutValues(
       originalInstanceRestore,
       options,
@@ -96,14 +96,14 @@ exports.init = (sequelize, model) => {
   };
 
   _.extend(model, {
-    auditDataChange: function() {
+    auditDataChange: function () {
       this.addHook("afterCreate", afterCreateHook);
       this.addHook("afterUpdate", afterUpdateHook);
       this.addHook("afterDestroy", afterDestroyHook);
       this.addHook("afterRestore", afterRestoreHook);
       this.addHook("beforeUpsert", raiseAuditException);
     },
-    create: async function(values, options = {}) {
+    create: async function (values, options = {}) {
       options.individualHooks = true;
       return await addTransactionToFunction(
         originalCreate,
@@ -112,7 +112,7 @@ exports.init = (sequelize, model) => {
         this
       );
     },
-    update: async function(values, options = {}) {
+    update: async function (values, options = {}) {
       options.individualHooks = true;
       return await addTransactionToFunction(
         originalUpdate,
@@ -121,7 +121,7 @@ exports.init = (sequelize, model) => {
         this
       );
     },
-    destroy: async function(options = {}) {
+    destroy: async function (options = {}) {
       options.individualHooks = true;
       return await addTransactionToFunctionWithoutValues(
         originalDestroy,
@@ -129,7 +129,7 @@ exports.init = (sequelize, model) => {
         this
       );
     },
-    restore: async function(options = {}) {
+    restore: async function (options = {}) {
       options.individualHooks = true;
       return await addTransactionToFunctionWithoutValues(
         originalRestore,
@@ -139,7 +139,7 @@ exports.init = (sequelize, model) => {
     }
   });
 
-  const addTransactionToFunction = async function(
+  const addTransactionToFunction = async function (
     originalFunction,
     values,
     options,
@@ -155,7 +155,7 @@ exports.init = (sequelize, model) => {
     });
   };
 
-  const addTransactionToFunctionWithoutValues = async function(
+  const addTransactionToFunctionWithoutValues = async function (
     originalFunction,
     options,
     thisReference
@@ -221,8 +221,7 @@ exports.init = (sequelize, model) => {
   };
 
   const referenceDictionary = {
-    complaint: "getCaseId",
-    matrix: "getMatrixId"
+    complaint: "getCaseId"
   };
 
   const getReferenceId = async (

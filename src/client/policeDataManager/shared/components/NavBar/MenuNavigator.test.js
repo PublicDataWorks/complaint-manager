@@ -1,24 +1,10 @@
 import React from "react";
 import { mount } from "enzyme";
-import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
 import MenuNavigator from "./MenuNavigator";
 import { BrowserRouter as Router } from "react-router-dom";
 import { policeDataManagerMenuOptions } from "./policeDataManagerMenuOptions";
 
 describe("MenuNavigator", () => {
-  test("if menuType is matrixManagerOptions, menu items should be Complaints,Export, and Logout", () => {
-    const wrapper = mount(
-      <Router>
-        <MenuNavigator menuType={matrixManagerMenuOptions} />
-      </Router>
-    );
-
-    expect(wrapper.find('[data-testid="complaints"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-testid="logOutButton"]').exists()).toBeTrue();
-    expect(wrapper.find('[data-testid="archivedCases"]').exists()).toBeFalse();
-  });
-
   describe("police data manager menu options", () => {
     let wrapper;
 

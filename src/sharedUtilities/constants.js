@@ -157,8 +157,6 @@ export const EXPORT_JOB_MAX_REFRESH_TIMES = 180;
 
 export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
 
-export const MATRIX_CREATED_SUCCESS = "MATRIX_CREATED_SUCCESS";
-
 export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
 
 export const HIGHLIGHT_CASE_NOTE = "HIGHLIGHT_CASE_NOTE";
@@ -205,7 +203,6 @@ export const OFFICER_DETAILS_FORM_NAME = "OfficerDetails";
 export const RESTORE_ARCHIVED_CASE_FORM = "RestoreArchivedCaseForm";
 export const EXPORT_AUDIT_LOG_FORM_NAME = "ExportAuditLogForm";
 export const EXPORT_CASES_FORM_NAME = "ExportCasesForm";
-export const CREATE_MATRIX_FORM_NAME = "CreateMatrix";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -281,8 +278,7 @@ export const AUDIT_TYPE = {
 };
 
 export const MANAGER_TYPE = {
-  COMPLAINT: "complaint",
-  MATRIX: "matrix"
+  COMPLAINT: "complaint"
 };
 
 //TODO: when newAuditFeature toggle is removed, delete audit file type from audit_subject
@@ -307,7 +303,6 @@ export const AUDIT_SUBJECT = {
   ALL_AUTHOR_DATA_FOR_NOTIFICATIONS: "All Author Data for Notifications",
   ALL_AUTHOR_DATA_FOR_CASE_NOTES: "All Author Data for Case Notes",
   CASE_CLASSIFICATIONS: "Case Classifications",
-  MATRIX_DETAILS: "All Matrix Details",
   NOTIFICATIONS: "Notifications",
   VISUALIZATION_INTAKE_SOURCE:
     "All Complaint Data for Complaints by Intake Source",

@@ -61,7 +61,6 @@ import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getPublicData from "./handlers/data/getPublicData";
 import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
-import createMatrix from "./matrixManager/handlers/matrices/createMatrix";
 import { getMessageStream } from "./handlers/cases/getMessageStream";
 import markNotificationAsRead from "./handlers/cases/markNotificationAsRead";
 import logHandler from "./handlers/logHandler";
@@ -510,13 +509,6 @@ export const API_ROUTES = {
       handler: getNotificationStatus,
       errorMessage:
         "Something went wrong and notifications could not be verified. Please try again."
-    }
-  },
-  "/matrix-manager/matrices": {
-    post: {
-      handler: createMatrix,
-      errorMessage:
-        "Something went wrong and the matrix could not be created. Please try again."
     }
   },
   "/logs": {

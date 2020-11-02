@@ -7,10 +7,9 @@ import { Provider } from "react-redux";
 import { mockLocalStorage } from "../../../../../mockLocalStorage";
 import { authEnabledTest, containsText } from "../../../../testHelpers";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
-import { matrixManagerMenuOptions } from "./matrixManagerMenuOptions";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
+import { policeDataManagerMenuOptions } from "./policeDataManagerMenuOptions";
 
 jest.mock("../../thunks/getNotificationsForUser", () => values => ({
   type: "MOCK_THUNK",
@@ -28,7 +27,7 @@ describe("NavBar", () => {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <NavBar menuType={matrixManagerMenuOptions} />
+          <NavBar menuType={policeDataManagerMenuOptions} />
         </Router>
       </Provider>
     );
@@ -43,7 +42,9 @@ describe("NavBar", () => {
 
   test("should not contain a home icon button when showHome is false", () => {
     wrapper.setProps({
-      children: <NavBar menuType={matrixManagerMenuOptions} showHome={false} />
+      children: (
+        <NavBar menuType={policeDataManagerMenuOptions} showHome={false} />
+      )
     });
     wrapper.update();
     expect(wrapper.find('[data-testid="homeButton"]').exists()).toBeFalse();
