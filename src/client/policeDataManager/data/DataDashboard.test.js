@@ -32,17 +32,37 @@ describe("DataDashboard", () => {
     expect(navBar.contains("Data Dashboard")).toEqual(true);
   });
 
-  test("should display Complaints by Intake Source Visualization", async () => {
+  test("should display Complaints by Intake Source YTD Visualization", async () => {
     dataDashboardWrapper.update();
     expect(
-      dataDashboardWrapper.find('[data-testid="intakeSourceGraph"]').exists()
+      dataDashboardWrapper.find('[data-testid="intakeSourceGraphYTD"]').exists()
     ).toBeTrue();
   });
 
-  test("should display Complaints by Complainant Type Visualization", async () => {
+  test("should display Complaints by Intake Source Past 12 Months Visualization", async () => {
     dataDashboardWrapper.update();
     expect(
-      dataDashboardWrapper.find('[data-testid="complainantTypeGraph"]').exists()
+      dataDashboardWrapper
+        .find('[data-testid="intakeSourceGraphPast12"]')
+        .exists()
+    ).toBeTrue();
+  });
+
+  test("should display Complaints by Complainant Type YTD Visualization", async () => {
+    dataDashboardWrapper.update();
+    expect(
+      dataDashboardWrapper
+        .find('[data-testid="complainantTypeGraphYTD"]')
+        .exists()
+    ).toBeTrue();
+  });
+
+  test("should display Complaints by Complainant Type Past 12 Months Visualization", async () => {
+    dataDashboardWrapper.update();
+    expect(
+      dataDashboardWrapper
+        .find('[data-testid="complainantTypeGraphPast12"]')
+        .exists()
     ).toBeTrue();
   });
 
