@@ -8,9 +8,6 @@ describe("createDialogReducer", () => {
     const expectedState = {
       case: {
         open: false
-      },
-      matrix: {
-        open: false
       }
     };
 
@@ -24,17 +21,11 @@ describe("createDialogReducer", () => {
     const initialState = {
       case: {
         open: false
-      },
-      matrix: {
-        open: false
       }
     };
     const expectedState = {
       case: {
         open: true
-      },
-      matrix: {
-        open: false
       }
     };
 
@@ -49,16 +40,10 @@ describe("createDialogReducer", () => {
     const initialState = {
       case: {
         open: true
-      },
-      matrix: {
-        open: false
       }
     };
     const expectedState = {
       case: {
-        open: false
-      },
-      matrix: {
         open: false
       }
     };
