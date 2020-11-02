@@ -597,6 +597,11 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               <Component
                 data-testid="intakeSourceGraph"
                 isPublic={true}
+                queryOptions={
+                  Object {
+                    "dateRangeType": "PAST_12_MONTHS",
+                  }
+                }
                 queryType="countComplaintsByIntakeSource"
               >
                 Visualization
@@ -3693,6 +3698,11 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               <Component
                 data-testid="complainantTypeGraph"
                 isPublic={true}
+                queryOptions={
+                  Object {
+                    "dateRangeType": "PAST_12_MONTHS",
+                  }
+                }
                 queryType="countComplaintsByComplainantType"
               >
                 Visualization

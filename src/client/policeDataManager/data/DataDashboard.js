@@ -2,7 +2,10 @@ import React, { Component } from "react";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import Visualization from "../../common/components/Visualization/Visualization";
-import { QUERY_TYPES } from "../../../sharedUtilities/constants";
+import {
+  QUERY_TYPES,
+  DATE_RANGE_TYPE
+} from "../../../sharedUtilities/constants";
 
 class DataDashboard extends Component {
   render() {
@@ -15,15 +18,31 @@ class DataDashboard extends Component {
             flexDirection: "column"
           }}
         >
-          <Visualization
-            data-testid={"intakeSourceGraph"}
-            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-          />
+          <div>
+            <Visualization
+              data-testid={"intakeSourceGraphYTD"}
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
+            />
+            <Visualization
+              data-testid={"intakeSourceGraphPast12"}
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+            />
+          </div>
           <br />
-          <Visualization
-            data-testid={"complainantTypeGraph"}
-            queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-          />
+          <div>
+            <Visualization
+              data-testid={"complainantTypeGraphYTD"}
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
+            />
+            <Visualization
+              data-testid={"complainantTypeGraphPast12"}
+              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+            />
+          </div>
           <br />
           <Visualization
             data-testid={"complainantTypePast12MonthsGraph"}
