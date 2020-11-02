@@ -1,13 +1,5 @@
 [
   {
-    "id": "matrixManagerFeature",
-    "name": "matrixManagerFeature",
-    "description": "Matrix Manager feature",
-    "criteria": {
-      "isPreProd": true
-    }
-  },
-  {
     "id": "styleGuideFeature",
     "name": "styleGuideFeature",
     "description": "Style Guide feature",

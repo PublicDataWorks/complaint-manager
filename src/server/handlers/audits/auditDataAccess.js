@@ -1,9 +1,8 @@
 import { AUDIT_ACTION } from "../../../sharedUtilities/constants";
 import _ from "lodash";
 import complaintModels from "../../policeDataManager/models";
-import matrixModels from "../../matrixManager/models";
 
-const models = _.assign(complaintModels, matrixModels);
+const models = _.assign(complaintModels);
 
 const auditDataAccess = async (
   auditUser,

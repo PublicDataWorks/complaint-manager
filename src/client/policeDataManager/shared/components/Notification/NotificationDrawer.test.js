@@ -5,11 +5,11 @@ import NavBar from "../NavBar/NavBar";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { matrixManagerMenuOptions } from "../NavBar/matrixManagerMenuOptions";
 import { waitFor } from "@testing-library/dom";
 import { DEFAULT_NOTIFICATION_TEXT } from "../../../../../sharedUtilities/constants";
 import { getNotificationsSuccess } from "../../../actionCreators/notificationActionCreators";
 import MutationObserver from "@sheerun/mutationobserver-shim";
+import { policeDataManagerMenuOptions } from "../NavBar/policeDataManagerMenuOptions";
 window.MutationObserver = MutationObserver;
 
 describe("notifications drawer", () => {
@@ -18,7 +18,7 @@ describe("notifications drawer", () => {
     const wrapper = render(
       <Provider store={store}>
         <Router>
-          <NavBar menuType={matrixManagerMenuOptions} />
+          <NavBar menuType={policeDataManagerMenuOptions} />
         </Router>
       </Provider>
     );

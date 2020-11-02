@@ -20,7 +20,6 @@ e2e/tests/userJourney/**/*.png
 e2e/tests/policeDataManagerUserJourney/**/*.png
 e2e/tests/matrixManagerUserJourney/**/*.png
 e2e/tests/policeDataManager/policeDataManagerUserJourney/**/*.png
-e2e/tests/matrixManager/matrixManagerUserJourney/**/*.png
 selenium-server.log
 
 # production
