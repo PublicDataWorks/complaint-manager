@@ -18,7 +18,6 @@ hawkeye_report.json
 
 e2e/tests/userJourney/**/*.png
 e2e/tests/policeDataManagerUserJourney/**/*.png
-e2e/tests/matrixManagerUserJourney/**/*.png
 e2e/tests/policeDataManager/policeDataManagerUserJourney/**/*.png
 selenium-server.log
 
