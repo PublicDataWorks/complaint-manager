@@ -1,8 +1,8 @@
 {
 	"info": {
-		"_postman_id": "d680f8b8-b882-45fe-999e-bf371af868b3",
+		"_postman_id": "1a321e93-0b9c-4a7d-b277-2aae535e69ac",
 		"name": "Police Data Management",
-		"description": "# Collection of APIs for the Complaint Manager\n\n## Setup \n\n#### Import all files\n* Once you have the appropriate files, you will need to import the collection as well as the environments. The files, at the time of writing, are:\n\n    - Police Data Management.*.json\n    - Local.*.json\n    - CI.*.json\n    - Staging.*.json\n\n#### Set environment level variables\n* The Postman environment will dictate which domain you'll be hitting. The Local and CI `client_id` and `client_secret` are the same. They can be accessed from [here](https://manage.auth0.com/dashboard/us/noipm-ci/applications/iT3f0mGqJGDZu8UzQaOHeNGT7O0x43ZB/quickstart).\n* To access Staging, you will need to use the `client_id` and `client_secret` located [here](https://manage.auth0.com/dashboard/us/noipm-staging/applications/ALqHj5NyIIfLzHJks7LI4LqarbDN8jhe/quickstart).\n\n#### Get access token\n* Before running the rest of the requests, you must get an access token. You can do this by selecting an appropriate environment and running the \"Authorize API Backend\" request.\n* Once you have an access token, you should be clear to run any other requests until it expires in 24 hours or you change environments.",
+		"description": "https://sites.google.com/thoughtworks.com/tw-invisible-institute-wiki/api-documentation#h.v6ked5y3tu7i",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -12,9 +12,12 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "c5228842-f9b9-41a2-b771-87517298e244",
+						"id": "f8e7a8a8-3c2b-4f14-9ac1-f47fc207657e",
 						"exec": [
-							""
+							"pm.environment.unset(\"retrieveCaseNotes\");",
+							"pm.environment.unset(\"retrieveCaseTags\");",
+							"pm.environment.unset(\"updateReferralLetterContent\");",
+							"pm.environment.unset(\"updateCaseStatus\");"
 						],
 						"type": "text/javascript"
 					}
@@ -22,10 +25,26 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6b6be03d-2cc2-48b3-a61f-2296fff5a0fa",
+						"id": "121ce4ca-9c82-4a03-84a4-9a2c33f48395",
 						"exec": [
-							"const authResponse = JSON.parse(responseBody); ",
-							"pm.environment.set(\"access_token\", authResponse.access_token);"
+							"let authResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) authResponse = pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"Response should have an access token\", () => {",
+							"    pm.expect(authResponse).to.have.property('access_token').and.to.be.a('string');",
+							"    if (authResponse.access_token) nextRequest = 'Create Case';",
+							"});",
+							"",
+							"pm.environment.set(\"access_token\", authResponse.access_token);",
+							"",
+							"postman.setNextRequest(nextRequest);",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -75,7 +94,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"firstName\": \"Reed\",\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"phoneNumber\": \"3642763762\",\n    \"lastName\": \"Waters\"\n}",
+					"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": {{case_id}},\n    \"civilianTitleId\": 2,\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"firstName\": \"Eric\",\n    \"lastName\": \"Waters\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -96,7 +115,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1757"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -130,7 +149,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1757"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -198,6 +217,200 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"primaryComplainant\": {\n        \"fullName\": \"Night Watch\",\n        \"id\": 1752,\n        \"firstName\": \"Night\",\n        \"middleInitial\": null,\n        \"lastName\": \"Watch\",\n        \"suffix\": null,\n        \"birthDate\": null,\n        \"roleOnCase\": \"Complainant\",\n        \"phoneNumber\": \"1234567890\",\n        \"email\": null,\n        \"additionalInfo\": null,\n        \"isAnonymous\": false,\n        \"createdAt\": \"2020-07-22T16:15:22.774Z\",\n        \"updatedAt\": \"2020-07-22T16:15:41.673Z\",\n        \"deletedAt\": null,\n        \"caseId\": 1757,\n        \"raceEthnicityId\": 4,\n        \"genderIdentityId\": 5,\n        \"civilianTitleId\": 3,\n        \"address\": {\n            \"id\": 2330,\n            \"addressableId\": 1752,\n            \"addressableType\": \"civilian\",\n            \"streetAddress\": \"\",\n            \"intersection\": \"\",\n            \"streetAddress2\": null,\n            \"city\": \"\",\n            \"state\": \"\",\n            \"zipCode\": \"\",\n            \"country\": \"\",\n            \"lat\": null,\n            \"lng\": null,\n            \"placeId\": null,\n            \"additionalLocationInfo\": null,\n            \"createdAt\": \"2020-07-22T16:15:34.822Z\",\n            \"updatedAt\": \"2020-07-22T16:15:41.648Z\",\n            \"deletedAt\": null\n        },\n        \"raceEthnicity\": {\n            \"id\": 4,\n            \"name\": \"Black, African American\",\n            \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n            \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n        },\n        \"genderIdentity\": {\n            \"id\": 5,\n            \"name\": \"Other\",\n            \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n            \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n        }\n    },\n    \"nextStatus\": null,\n    \"caseReference\": \"CC2020-0407\",\n    \"id\": 1757,\n    \"complaintType\": \"Civilian Initiated\",\n    \"status\": \"Closed\",\n    \"year\": 2020,\n    \"caseNumber\": 407,\n    \"firstContactDate\": \"2020-07-22\",\n    \"incidentDate\": \"2017-12-20\",\n    \"intakeSourceId\": 3,\n    \"district\": null,\n    \"districtId\": 2,\n    \"incidentTime\": \"02:31:00\",\n    \"narrativeSummary\": \"test summary data\",\n    \"narrativeDetails\": \"<p>test details data</p>\",\n    \"pibCaseNumber\": null,\n    \"createdBy\": \"noipm.infrastructure@gmail.com\",\n    \"assignedTo\": \"noipm.infrastructure@gmail.com\",\n    \"createdAt\": \"2020-07-22T16:15:22.754Z\",\n    \"updatedAt\": \"2020-07-22T16:16:30.688Z\",\n    \"howDidYouHearAboutUsSourceId\": null,\n    \"caseClassifications\": [\n        {\n            \"id\": 609,\n            \"caseId\": 1757,\n            \"classificationId\": 4,\n            \"createdAt\": \"2020-07-22T16:16:19.053Z\",\n            \"updatedAt\": \"2020-07-22T16:16:19.053Z\",\n            \"deletedAt\": null\n        }\n    ],\n    \"intakeSource\": {\n        \"id\": 3,\n        \"name\": \"In Person\",\n        \"createdAt\": \"2018-12-21T02:07:39.872Z\",\n        \"updatedAt\": \"2018-12-21T02:07:39.872Z\"\n    },\n    \"howDidYouHearAboutUsSource\": null,\n    \"caseDistrict\": {\n        \"id\": 2,\n        \"name\": \"2nd District\",\n        \"createdAt\": \"2019-08-12T19:27:32.808Z\",\n        \"updatedAt\": \"2019-08-12T19:27:32.808Z\"\n    },\n    \"complainantCivilians\": [\n        {\n            \"fullName\": \"Night Watch\",\n            \"id\": 1752,\n            \"firstName\": \"Night\",\n            \"middleInitial\": null,\n            \"lastName\": \"Watch\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"1234567890\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:22.774Z\",\n            \"updatedAt\": \"2020-07-22T16:15:41.673Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 4,\n            \"genderIdentityId\": 5,\n            \"civilianTitleId\": 3,\n            \"address\": {\n                \"id\": 2330,\n                \"addressableId\": 1752,\n                \"addressableType\": \"civilian\",\n                \"streetAddress\": \"\",\n                \"intersection\": \"\",\n                \"streetAddress2\": null,\n                \"city\": \"\",\n                \"state\": \"\",\n                \"zipCode\": \"\",\n                \"country\": \"\",\n                \"lat\": null,\n                \"lng\": null,\n                \"placeId\": null,\n                \"additionalLocationInfo\": null,\n                \"createdAt\": \"2020-07-22T16:15:34.822Z\",\n                \"updatedAt\": \"2020-07-22T16:15:41.648Z\",\n                \"deletedAt\": null\n            },\n            \"raceEthnicity\": {\n                \"id\": 4,\n                \"name\": \"Black, African American\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 5,\n                \"name\": \"Other\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        },\n        {\n            \"fullName\": \"Reed Waters\",\n            \"id\": 1753,\n            \"firstName\": \"Reed\",\n            \"middleInitial\": null,\n            \"lastName\": \"Waters\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"3642763762\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T19:26:25.128Z\",\n            \"updatedAt\": \"2020-07-22T19:26:25.128Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 3,\n            \"genderIdentityId\": 1,\n            \"civilianTitleId\": 2,\n            \"address\": null,\n            \"raceEthnicity\": {\n                \"id\": 3,\n                \"name\": \"Asian Indian\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 1,\n                \"name\": \"Male\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        },\n        {\n            \"fullName\": \"Reed Waters\",\n            \"id\": 1754,\n            \"firstName\": \"Reed\",\n            \"middleInitial\": null,\n            \"lastName\": \"Waters\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"3642763762\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T19:29:38.900Z\",\n            \"updatedAt\": \"2020-07-22T19:29:38.900Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"raceEthnicityId\": 3,\n            \"genderIdentityId\": 1,\n            \"civilianTitleId\": 2,\n            \"address\": null,\n            \"raceEthnicity\": {\n                \"id\": 3,\n                \"name\": \"Asian Indian\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 1,\n                \"name\": \"Male\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        }\n    ],\n    \"witnessCivilians\": [],\n    \"attachments\": [\n        {\n            \"id\": 2534,\n            \"fileName\": \"7-22-2020_CC2020-0407_Letter_to_Complainant_Watch.pdf\",\n            \"description\": \"Letter to Complainant\",\n            \"createdAt\": \"2020-07-22T16:16:28.803Z\",\n            \"updatedAt\": \"2020-07-22T16:16:28.803Z\",\n            \"caseId\": 1757\n        },\n        {\n            \"id\": 2535,\n            \"fileName\": \"7-22-2020_CC2020-0407_PIB_Referral_Watch.pdf\",\n            \"description\": \"Referral Letter\",\n            \"createdAt\": \"2020-07-22T16:16:29.564Z\",\n            \"updatedAt\": \"2020-07-22T16:16:29.564Z\",\n            \"caseId\": 1757\n        }\n    ],\n    \"incidentLocation\": {\n        \"id\": 2331,\n        \"addressableId\": 1757,\n        \"addressableType\": \"cases\",\n        \"streetAddress\": \"\",\n        \"intersection\": \"Bourbon St & Canal St\",\n        \"streetAddress2\": null,\n        \"city\": \"New Orleans\",\n        \"state\": \"LA\",\n        \"zipCode\": \"70112\",\n        \"country\": \"US\",\n        \"lat\": 29.9538711,\n        \"lng\": -90.0698991,\n        \"placeId\": \"EjFCb3VyYm9uIFN0ICYgQ2FuYWwgU3QsIE5ldyBPcmxlYW5zLCBMQSA3MDExMiwgVVNBImYiZAoUChIJeWgJgAymIIYRqGxrVGiTeUkSFAoSCXloCYAMpiCGEahsa1Rok3lJGhQKEgldhaLWEaYghhG9WOFr0BfYthoUChIJtzyGBfGlIIYRM5zAA_qGHT0iCg0XmdoRFZFsUMo\",\n        \"additionalLocationInfo\": null,\n        \"createdAt\": \"2020-07-22T16:15:45.936Z\",\n        \"updatedAt\": \"2020-07-22T16:15:45.936Z\",\n        \"deletedAt\": null\n    },\n    \"accusedOfficers\": [\n        {\n            \"fullName\": \"Ansel W Rice\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 54,\n            \"id\": 2989,\n            \"officerId\": 4263,\n            \"firstName\": \"Ansel\",\n            \"middleName\": \"W\",\n            \"lastName\": \"Rice\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9550,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE OFFICER 1\",\n            \"dob\": \"1966-02-06\",\n            \"endDate\": \"2003-12-28\",\n            \"hireDate\": \"1997-12-14\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Terminated\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:50.207Z\",\n            \"updatedAt\": \"2020-07-22T16:15:52.684Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757,\n            \"allegations\": [\n                {\n                    \"id\": 1400,\n                    \"details\": \"Used department property.\",\n                    \"caseOfficerId\": 2989,\n                    \"severity\": \"Medium\",\n                    \"createdAt\": \"2020-07-22T16:15:59.987Z\",\n                    \"updatedAt\": \"2020-07-22T16:15:59.987Z\",\n                    \"deletedAt\": null,\n                    \"allegationId\": 6564,\n                    \"allegation\": {\n                        \"id\": 6564,\n                        \"rule\": \"Rule 7: Departmental Property\",\n                        \"paragraph\": \"PARAGRAPH 01 - Use of Department Property\",\n                        \"directive\": null,\n                        \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n                        \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n                    }\n                }\n            ]\n        }\n    ],\n    \"complainantOfficers\": [],\n    \"witnessOfficers\": [\n        {\n            \"fullName\": \"Amira E Jaskolski\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"Everardo R Wiegand\",\n            \"age\": 50,\n            \"id\": 2988,\n            \"officerId\": 2176,\n            \"firstName\": \"Amira\",\n            \"middleName\": \"E\",\n            \"lastName\": \"Jaskolski\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7994,\n            \"supervisorFirstName\": \"Everardo\",\n            \"supervisorMiddleName\": \"R\",\n            \"supervisorLastName\": \"Wiegand\",\n            \"supervisorWindowsUsername\": 11819,\n            \"supervisorOfficerNumber\": 3545,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": \"7th District\",\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE LIEUTENANT\",\n            \"dob\": \"1970-02-10\",\n            \"endDate\": null,\n            \"hireDate\": \"1994-08-21\",\n            \"sex\": \"M\",\n            \"race\": \"Black / African American\",\n            \"workStatus\": \"Active\",\n            \"notes\": null,\n            \"roleOnCase\": \"Witness\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T16:15:48.536Z\",\n            \"updatedAt\": \"2020-07-22T16:15:48.536Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1757\n        }\n    ],\n    \"pdfAvailable\": true,\n    \"isArchived\": false\n}"
+				},
+				{
+					"name": "Create Civilian (Internal Server Error)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"lastName\": \"Waters\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/civilians",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"civilians"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "151"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"97-iiU6aphQD8WAAlcJmG7gjX0b7PY\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:26:26 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Something went wrong and the civilian was not created. Please try again.\",\n    \"caseId\": \"1757\"\n}"
+				},
+				{
+					"name": "Create Civilian (Bad Request)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleOnCase\": \"Complainant\",\n    \"caseId\": 1757,\n    \"civilianTitleId\": 2,\n    \"firstName\": \"Reed\",\n    \"genderIdentityId\": 1,\n    \"raceEthnicityId\": 3,\n    \"phoneNumber\": \"3642763762\",\n    \"lastName\": \"Waters\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/civilians",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"civilians"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"4d-LDihS/DDH/GS0ZIJ5438NGxB3ns\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:23:02 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"This case does not exist\"\n}"
 				}
 			]
 		},
@@ -421,6 +634,25 @@
 		},
 		{
 			"name": "Update Referral Letter to Approved",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "97aa6ebc-7fc6-4e7b-9c0b-bb9ecbcd1c12",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    nextRequest = 'Retrieve Final Referral Letter URL'",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -449,7 +681,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1750"
+							"value": "{{case_id}}"
 						}
 					]
 				},
@@ -476,7 +708,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1750"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -536,11 +768,133 @@
 					],
 					"cookie": [],
 					"body": ""
+				},
+				{
+					"name": "Update Referral Letter to Approved (Bad Request)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/approve-letter",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"approve-letter"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "123"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"7b-fdU49c2WVU2kf6j330jg+lWhcd8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:33:45 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Case status could not be updated due to invalid status\",\n    \"caseId\": \"1754\"\n}"
 				}
 			]
 		},
 		{
 			"name": "Retrieve Case Tags",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d2f2da3e-4c4a-4d10-91e0-3e4ab557a488",
+						"exec": [
+							"let retrieveCaseTagsResponse = {};",
+							"let nextRequest = null;",
+							"let caseTagId = pm.environment.get(\"case_tag_id\");",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        retrieveCaseTagsResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"if(!pm.environment.get(\"retrieveCaseTags\")){",
+							"    pm.test(\"Response should include case tag id\", () => {",
+							"        pm.expect(retrieveCaseTagsResponse[0]).to.have.property('id').and.to.eql(caseTagId);",
+							"    });",
+							"    pm.environment.set('retrieveCaseTags', true)",
+							"    postman.setNextRequest('Delete Case Tag');",
+							"}else {",
+							"    pm.environment.unset(\"retrieveCaseTags\");",
+							"    postman.setNextRequest('Create Case Note');",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -568,7 +922,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -593,7 +947,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -666,6 +1020,26 @@
 		},
 		{
 			"name": "Update Referral Letter Address",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8ec7539-db8a-40bd-839c-e35f2386767c",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    nextRequest = 'Update Referral Letter Content';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -681,7 +1055,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+					"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook Updated\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Czimen Updatedt\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -703,12 +1077,208 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1744"
+							"value": "{{case_id}}"
 						}
 					]
 				}
 			},
 			"response": [
+				{
+					"name": "Update Referral Letter Address (Bad Request)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/addresses",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"addresses"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "77"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"4d-LDihS/DDH/GS0ZIJ5438NGxB3ns\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:38:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"This case does not exist\"\n}"
+				},
+				{
+					"name": "Update Referral Letter Address (Bad Request with case ID)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"recipient\": \"Deputy Superintendent Arlinda Westbrook\",\n    \"recipientAddress\": \"Public Integrity Bureau\\nNew Orleans Police Department\\n1340 Poydras St Suite 1900\\nNew Orleans, LA 70113\",\n    \"sender\": \"Stella Cziment\\nDeputy Police Monitor\\n504-309-9799\",\n    \"transcribedBy\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/addresses",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"referral-letter",
+								"addresses"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "107"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"6b-SQ8mms1LMevnf23PYTt6P4a35kk\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:36:19 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Case status is invalid for this action\",\n    \"caseId\": \"1765\"\n}"
+				},
 				{
 					"name": "Update Referral Letter Address",
 					"originalRequest": {
@@ -738,7 +1308,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1744"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -839,16 +1409,109 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1754"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseOfficerId",
-							"value": "2992"
+							"value": "{{case_officer_id}}"
 						}
 					]
 				}
 			},
 			"response": [
+				{
+					"name": "Delete Case Officer (Internal Server Error)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/cases-officers/:caseOfficerId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"cases-officers",
+								":caseOfficerId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								},
+								{
+									"key": "caseOfficerId",
+									"value": "{{case_officer_id}}"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "150"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"96-ZP3F/kqvpxZxhwy3hqOxYA/T/0U\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 15:44:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Something went wrong and the officer was not removed. Please try again.\",\n    \"caseId\": \"1754\"\n}"
+				},
 				{
 					"name": "Delete Case Officer",
 					"originalRequest": {
@@ -869,11 +1532,11 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1754"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseOfficerId",
-									"value": "2992"
+									"value": "{{case_officer_id}}"
 								}
 							]
 						}
@@ -1057,6 +1720,18 @@
 		},
 		{
 			"name": "Retrieve Districts",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c82f804c-3a95-4d00-a437-08cee0fe56c8",
+						"exec": [
+							"// postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -1203,7 +1878,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1754"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "civilianId",
@@ -1242,7 +1917,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1754"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "civilianId",
@@ -1347,7 +2022,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1754"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "civilianId",
@@ -1377,7 +2052,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1754"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "civilianId",
@@ -1808,7 +2483,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -1833,7 +2508,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -2045,12 +2720,12 @@
 					"body": "{\n    \"count\": 2,\n    \"rows\": [\n        {\n            \"id\": 3325,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:415  Operating a motor vehicle with a suspended drivers license\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3326,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:50 Careless Operation of a Motor Vehicle\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
 				},
 				{
-					"name": "Retrieve Allegations by Query (by Directive)",
+					"name": "Retrieve Allegations by Query (by Directive and Rule)",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api_hostname}}/api/allegations/search?directive=mo",
+							"raw": "{{api_hostname}}/api/allegations/search?directive=mo&rule=RULE 2: MORAL CONDUCT",
 							"host": [
 								"{{api_hostname}}"
 							],
@@ -2066,8 +2741,7 @@
 								},
 								{
 									"key": "rule",
-									"value": null,
-									"disabled": true
+									"value": "RULE 2: MORAL CONDUCT"
 								},
 								{
 									"key": "paragraph",
@@ -2123,15 +2797,15 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "5556"
+							"value": "503"
 						},
 						{
 							"key": "Etag",
-							"value": "W/\"15b4-bYsSDgIFCdF8fpd8tGohCOvOcR8\""
+							"value": "W/\"1f7-lVSPtt5y3G3iKuCrtlOLId/yepI\""
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 21 Jul 2020 21:41:23 GMT"
+							"value": "Tue, 21 Jul 2020 21:42:17 GMT"
 						},
 						{
 							"key": "Via",
@@ -2139,7 +2813,7 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"count\": 164,\n    \"rows\": [\n        {\n            \"id\": 3325,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:415  Operating a motor vehicle with a suspended drivers license\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3326,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:50 Careless Operation of a Motor Vehicle\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3431,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.2.4.1 Stops/Terry Stops 21 Anonymous Tips\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3497,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.3.2 Force Investigation Team (FIT) 32-34 PURSUIT RELATED MOTOR VEHICLE CRASHES AND OFFICER INVOLVED SHOOTINGS\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3544,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.4 Authorized Firearms 63-65 Modifications of Duty Firearms\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3847,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"17.3 Department-Owned and Personal Property 36 Monitoring Conversations\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3613,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.9 Arrests 41-42 Wanted Persons-Release, Summons, and Arrest of\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3940,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"26.2.1 Disciplinary Matric/Penalty Schedule 6-14 Rule Two\\\" Moral Conduct\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3985,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"33.1 Training and Career Development 116 Skill Development For New Promotees\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4003,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 10-16 Promotional Examinations (Police Sergeant Through and Including Police Caption)\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4001,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 1-4 Policy Statement\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4004,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 17-24 Promotion Committee\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4005,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 25-26 Factors to Consider for Promotion\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4006,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 27-30 Deferral Considerations/Ineligibility\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4002,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 5-9 Police Officer 2 Thru Police Officer 4 Promotions\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4198,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 10-12 Inspections of Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4194,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 1-2 Policy Statement\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4199,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 13-17 Care and Maintenance of Sort Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4200,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 18-20 Replacement of Soft Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4201,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 21 Education and Training Division Responsibilities\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
+					"body": "{\n    \"count\": 2,\n    \"rows\": [\n        {\n            \"id\": 3325,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:415  Operating a motor vehicle with a suspended drivers license\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3326,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:50 Careless Operation of a Motor Vehicle\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
 				},
 				{
 					"name": "Retrieve Allegations by Query",
@@ -2240,12 +2914,12 @@
 					"body": "{\n    \"count\": 3285,\n    \"rows\": [\n        {\n            \"id\": 3286,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"Municipal Code Section 154-236 (3) Steady Red Indication (b)\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3287,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"Municipal Code Section 154-436 (1) Right Turns\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3288,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"Municipal Code Section 154-874(A)\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3289,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"N/A\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3291,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:100  Hit and Run Driving\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3292,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:102.1  Cruelty to Animals\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3293,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:103  Disturbing the Peace ( Domestic)\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3294,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:118 Public Bribery\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3295,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:124   Perjury\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3296,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:132 Injuring Public Records\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3297,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:133 Filing or maintaining false public records\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3298,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:134  Malfeasance in Office\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3335,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"RS 14:138 Payroll Fraud\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3299,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:138 Public Payroll Fraud\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3300,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:34 Malfesance of Office\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3301,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:35 Domestic Abuse Battery\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3302,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:37  Aggravated Assault\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3303,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:38  Assault\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3304,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:40.2 Stalking\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3306,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 14:403 Abuse of Children\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
 				},
 				{
-					"name": "Retrieve Allegations by Query (by Directive and Rule)",
+					"name": "Retrieve Allegations by Query (by Directive)",
 					"originalRequest": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{api_hostname}}/api/allegations/search?directive=mo&rule=RULE 2: MORAL CONDUCT",
+							"raw": "{{api_hostname}}/api/allegations/search?directive=mo",
 							"host": [
 								"{{api_hostname}}"
 							],
@@ -2261,7 +2935,8 @@
 								},
 								{
 									"key": "rule",
-									"value": "RULE 2: MORAL CONDUCT"
+									"value": null,
+									"disabled": true
 								},
 								{
 									"key": "paragraph",
@@ -2317,15 +2992,15 @@
 						},
 						{
 							"key": "Content-Length",
-							"value": "503"
+							"value": "5556"
 						},
 						{
 							"key": "Etag",
-							"value": "W/\"1f7-lVSPtt5y3G3iKuCrtlOLId/yepI\""
+							"value": "W/\"15b4-bYsSDgIFCdF8fpd8tGohCOvOcR8\""
 						},
 						{
 							"key": "Date",
-							"value": "Tue, 21 Jul 2020 21:42:17 GMT"
+							"value": "Tue, 21 Jul 2020 21:41:23 GMT"
 						},
 						{
 							"key": "Via",
@@ -2333,12 +3008,25 @@
 						}
 					],
 					"cookie": [],
-					"body": "{\n    \"count\": 2,\n    \"rows\": [\n        {\n            \"id\": 3325,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:415  Operating a motor vehicle with a suspended drivers license\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3326,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:50 Careless Operation of a Motor Vehicle\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
+					"body": "{\n    \"count\": 164,\n    \"rows\": [\n        {\n            \"id\": 3325,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:415  Operating a motor vehicle with a suspended drivers license\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3326,\n            \"rule\": \"RULE 2: MORAL CONDUCT\",\n            \"paragraph\": \"PARAGRAPH 01 - ADHERENCE TO LAW\",\n            \"directive\": \"R.S. 32:50 Careless Operation of a Motor Vehicle\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3431,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.2.4.1 Stops/Terry Stops 21 Anonymous Tips\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3497,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.3.2 Force Investigation Team (FIT) 32-34 PURSUIT RELATED MOTOR VEHICLE CRASHES AND OFFICER INVOLVED SHOOTINGS\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3544,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.4 Authorized Firearms 63-65 Modifications of Duty Firearms\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3847,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"17.3 Department-Owned and Personal Property 36 Monitoring Conversations\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3613,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"1.9 Arrests 41-42 Wanted Persons-Release, Summons, and Arrest of\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3940,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"26.2.1 Disciplinary Matric/Penalty Schedule 6-14 Rule Two\\\" Moral Conduct\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 3985,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"33.1 Training and Career Development 116 Skill Development For New Promotees\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4003,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 10-16 Promotional Examinations (Police Sergeant Through and Including Police Caption)\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4001,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 1-4 Policy Statement\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4004,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 17-24 Promotion Committee\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4005,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 25-26 Factors to Consider for Promotion\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4006,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 27-30 Deferral Considerations/Ineligibility\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4002,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"34.2 Promotions and Promotion Committee 5-9 Police Officer 2 Thru Police Officer 4 Promotions\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4198,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 10-12 Inspections of Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4194,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 1-2 Policy Statement\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4199,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 13-17 Care and Maintenance of Sort Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4200,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 18-20 Replacement of Soft Body Armor\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        },\n        {\n            \"id\": 4201,\n            \"rule\": \"Rule 4: Performance of Duty\",\n            \"paragraph\": \"PARAGRAPH 02 - Instructions from Authoritative Source\",\n            \"directive\": \"41.11 Body Armor 21 Education and Training Division Responsibilities\",\n            \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n            \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n        }\n    ]\n}"
 				}
 			]
 		},
 		{
 			"name": "Update Case to Restored",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5d57ce7e-cef8-45f9-8f2b-cf24b2f07ef7",
+						"exec": [
+							"pm.test(\"Response should be 200 OK\", pm.response.to.be.ok);",
+							"postman.setNextRequest(null);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -2366,7 +3054,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -2391,7 +3079,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -2599,6 +3287,95 @@
 				}
 			},
 			"response": [
+				{
+					"name": "Create Audit Log Entry (Bad Request as Plain Text)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/audit",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"audit"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "11"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"b-EFiDB1U+dmqzx9Mo2UjcZ1SJPO8\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 16:13:04 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "Bad Request"
+				},
 				{
 					"name": "Create Audit Log Entry",
 					"originalRequest": {
@@ -2902,6 +3679,33 @@
 		},
 		{
 			"name": "Update Referral Letter Content",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ed3f017a-c526-4bb7-a827-5040db2927e4",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"});",
+							"",
+							"if(!pm.environment.get(\"updateReferralLetterContent\")){",
+							"    pm.environment.set('updateReferralLetterContent', true);",
+							"    nextRequest = 'Retrieve Referral Letter Edit Status';",
+							"}else {",
+							"    pm.environment.unset(\"updateReferralLetterContent\");",
+							"    nextRequest = 'Update Case Status';",
+							"}",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -2915,6 +3719,15 @@
 				},
 				"method": "PUT",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"editedLetterHtml\": \"<html><body>I am a minimal letter!</body></html>\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/content",
 					"host": [
@@ -2930,10 +3743,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
-				}
+				},
+				"description": "This request takes in an object of structure \n```\n{\"editedLetterHtml\" : \"<p></p>\"}\n```"
 			},
 			"response": [
 				{
@@ -2956,7 +3770,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -3029,6 +3843,47 @@
 		},
 		{
 			"name": "Create Case Officer Allegation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "140f3da4-edb7-46fc-9af5-7b071b5a261c",
+						"exec": [
+							"let createCaseOfficerAllegationResponse = {};",
+							"let nextRequest = null;",
+							"let currentCaseOfficerAllegation = null;",
+							"",
+							"pm.test(\"Response should be 201 CREATED\", () => {",
+							"    pm.response.to.have.status(201).and.status('Created');",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        createCaseOfficerAllegationResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should have a case officer allegation id\", () => {",
+							"    pm.expect(createCaseOfficerAllegationResponse).to.have.property('accusedOfficers').and.to.be.an('array');",
+							"    const accusedOfficer = createCaseOfficerAllegationResponse",
+							"        .accusedOfficers",
+							"        .find(_accusedOfficer => _accusedOfficer.id === pm.environment.get(\"case_officer_id\")) || {};",
+							"",
+							"    pm.expect(accusedOfficer).to.have.property('allegations').and.to.be.an('array').and.to.not.be.empty;",
+							"    const officerAllegations = accusedOfficer.allegations;",
+							"",
+							"    currentCaseOfficerAllegation = officerAllegations[officerAllegations.length - 1];",
+							"",
+							"    pm.expect(currentCaseOfficerAllegation).to.have.property('id').and.to.be.a('number').and.to.be.above(0);",
+							"    nextRequest = 'Update Case Status';",
+							"});",
+							"",
+							"pm.environment.set(\"case_officer_allegation_id\", currentCaseOfficerAllegation.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -3067,11 +3922,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseOfficerId",
-							"value": "2993"
+							"value": "{{case_officer_id}}"
 						}
 					]
 				}
@@ -3107,11 +3962,11 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseOfficerId",
-									"value": "2993"
+									"value": "{{case_officer_id}}"
 								}
 							]
 						}
@@ -3184,6 +4039,25 @@
 		},
 		{
 			"name": "Update Referral Letter Classifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c7d89da-1fd1-4766-bed2-2a6e192863a2",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    nextRequest = 'Update Recommended Actions';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -3199,7 +4073,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1499,\n    \"classifications\": [\n        1,\n        2,\n        null,\n        null\n    ]\n}",
+					"raw": "{\n    \"id\": {{referral_letter_id}},\n    \"classifications\": [\n        1,\n        2,\n        null,\n        null\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3221,7 +4095,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -3256,7 +4130,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -3336,7 +4210,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"notes\": \"test\",\n    \"roleOnCase\": \"Accused\",\n    \"officerId\": 4263,\n    \"phoneNumber\": null,\n    \"email\": null\n}",
+					"raw": "{\n    \"notes\": \"test\",\n    \"roleOnCase\": \"Complainant\",\n    \"officerId\": 4263,\n    \"phoneNumber\": \"1234443333\",\n    \"email\": \"my@mail.com\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3358,11 +4232,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseOfficerId",
-							"value": "2980"
+							"value": "{{case_officer_id}}"
 						}
 					]
 				}
@@ -3397,11 +4271,11 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseOfficerId",
-									"value": "2980"
+									"value": "{{case_officer_id}}"
 								}
 							]
 						}
@@ -3474,6 +4348,41 @@
 		},
 		{
 			"name": "Create Case Officer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16aeb660-b4cf-4619-bb5a-41e2aa4597e3",
+						"exec": [
+							"let createCaseOfficerResponse = {};",
+							"let nextRequest = null;",
+							"let currentCaseOfficer = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        createCaseOfficerResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should have a case officer id\", () => {",
+							"    pm.expect(createCaseOfficerResponse).to.have.property('accusedOfficers').and.to.be.an('array');",
+							"",
+							"    currentCaseOfficer = createCaseOfficerResponse.accusedOfficers[createCaseOfficerResponse.accusedOfficers.length - 1];",
+							"",
+							"    pm.expect(currentCaseOfficer).to.have.property('id').and.to.be.a('number').and.to.be.above(0);",
+							"    nextRequest = 'Create Case Officer Allegation';",
+							"});",
+							"",
+							"pm.environment.set(\"case_officer_id\", currentCaseOfficer.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -3510,7 +4419,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -3544,7 +4453,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -3617,6 +4526,25 @@
 		},
 		{
 			"name": "Update Recommended Actions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5e0d2176-3d8f-4312-a342-a796e613303c",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    nextRequest = 'Retrieve Referral Letter Preview';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -3632,7 +4560,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1499,\n    \"includeRetaliationConcerns\": false,\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": 2980,\n            \"fullName\": \"Ansel W Rice\",\n            \"id\": 1554,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"2\",\n            \"referralLetterOfficerRecommendedActions\": [\n                1\n            ],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"ploN-6DFF\"\n                }\n            ],\n            \"action-1\": true\n        },\n        {\n            \"caseOfficerId\": 2995,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1561,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"q13jjAKlaK\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2996,\n            \"fullName\": \"Amy Z Tillman\",\n            \"id\": 1562,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"SIFqGnwSkF\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2997,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1563,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"a_gTjY72vV\"\n                }\n            ]\n        }\n    ],\n    \"csfn-2\": true,\n    \"csfn-1\": true,\n    \"csfn-3\": true\n}",
+					"raw": "{\n    \"id\": {{referral_letter_id}},\n    \"includeRetaliationConcerns\": false,\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": {{case_officer_id}},\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": {{letter_officer_id}},\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"1\",\n            \"referralLetterOfficerRecommendedActions\": [\n                1\n            ],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"ploN-6DFF\"\n                }\n            ],\n            \"action-1\": true\n        }\n    ],\n    \"csfn-2\": true,\n    \"csfn-1\": true\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3654,7 +4582,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -3689,7 +4617,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -3754,6 +4682,33 @@
 		},
 		{
 			"name": "Retrieve Referral Letter Preview",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "707f35cb-709c-4894-a973-551bbbc55613",
+						"exec": [
+							"let retrieveReferralLetterPreviewResponse = {};",
+							"let referralLetterOfficer = null;",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        retrieveReferralLetterPreviewResponse = pm.response.json();",
+							"        nextRequest = 'Retrieve Referral Letter PDF';",
+							"    }",
+							"});",
+							"",
+							"// Add another test case ",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -3782,7 +4737,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -3808,7 +4763,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -3896,7 +4851,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1403,\n    \"details\": \"testing\",\n    \"severity\": \"High\"\n}",
+					"raw": "{\n    \"id\": {{case_officer_allegation_id}},\n    \"details\": \"testing\",\n    \"severity\": \"High\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3918,16 +4873,118 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "officerAllegationId",
-							"value": "1403"
+							"value": "{{case_officer_allegation_id}}"
 						}
 					]
 				}
 			},
 			"response": [
+				{
+					"name": "Update Case Officer Allegation (Bad Request with explicit message)",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1403,\n    \"details\": \"testing\",\n    \"severity\": \"High\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"officers-allegations",
+								":officerAllegationId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								},
+								{
+									"key": "officerAllegationId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "102"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"66-nDQ+E+D1NeY7xTy6wwXOYlANplI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 18:39:01 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Officer allegation does not exist\",\n    \"caseId\": \"1753\"\n}"
+				},
 				{
 					"name": "Update Case Officer Allegation",
 					"originalRequest": {
@@ -3957,7 +5014,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "officerAllegationId",
@@ -4062,11 +5119,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "officerAllegationId",
-							"value": "1403"
+							"value": "{{case_officer_allegation_id}}"
 						}
 					]
 				}
@@ -4092,7 +5149,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "officerAllegationId",
@@ -4164,11 +5221,132 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"primaryComplainant\": {\n        \"fullName\": \"Night Watch\",\n        \"id\": 1748,\n        \"firstName\": \"Night\",\n        \"middleInitial\": null,\n        \"lastName\": \"Watch\",\n        \"suffix\": null,\n        \"birthDate\": null,\n        \"roleOnCase\": \"Complainant\",\n        \"phoneNumber\": \"1234567890\",\n        \"email\": null,\n        \"additionalInfo\": null,\n        \"isAnonymous\": false,\n        \"createdAt\": \"2020-07-20T17:30:47.604Z\",\n        \"updatedAt\": \"2020-07-20T17:31:08.045Z\",\n        \"deletedAt\": null,\n        \"caseId\": 1753,\n        \"raceEthnicityId\": 4,\n        \"genderIdentityId\": 5,\n        \"civilianTitleId\": 3,\n        \"address\": {\n            \"id\": 2324,\n            \"addressableId\": 1748,\n            \"addressableType\": \"civilian\",\n            \"streetAddress\": \"\",\n            \"intersection\": \"\",\n            \"streetAddress2\": null,\n            \"city\": \"\",\n            \"state\": \"\",\n            \"zipCode\": \"\",\n            \"country\": \"\",\n            \"lat\": null,\n            \"lng\": null,\n            \"placeId\": null,\n            \"additionalLocationInfo\": null,\n            \"createdAt\": \"2020-07-20T17:31:00.640Z\",\n            \"updatedAt\": \"2020-07-20T17:31:08.000Z\",\n            \"deletedAt\": null\n        },\n        \"raceEthnicity\": {\n            \"id\": 4,\n            \"name\": \"Black, African American\",\n            \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n            \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n        },\n        \"genderIdentity\": {\n            \"id\": 5,\n            \"name\": \"Other\",\n            \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n            \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n        }\n    },\n    \"nextStatus\": \"Forwarded to Agency\",\n    \"caseReference\": \"CC2020-0403\",\n    \"id\": 1753,\n    \"complaintType\": \"Civilian Initiated\",\n    \"status\": \"Ready for Review\",\n    \"year\": 2020,\n    \"caseNumber\": 403,\n    \"firstContactDate\": \"2020-07-20\",\n    \"incidentDate\": \"2017-12-20\",\n    \"intakeSourceId\": 3,\n    \"district\": null,\n    \"districtId\": 2,\n    \"incidentTime\": \"02:31:00\",\n    \"narrativeSummary\": \"test summary data\",\n    \"narrativeDetails\": \"<p>test details data</p>\",\n    \"pibCaseNumber\": null,\n    \"createdBy\": \"noipm.infrastructure@gmail.com\",\n    \"assignedTo\": \"noipm.infrastructure@gmail.com\",\n    \"createdAt\": \"2020-07-20T17:30:47.585Z\",\n    \"updatedAt\": \"2020-07-20T19:20:39.233Z\",\n    \"howDidYouHearAboutUsSourceId\": null,\n    \"caseClassifications\": [],\n    \"intakeSource\": {\n        \"id\": 3,\n        \"name\": \"In Person\",\n        \"createdAt\": \"2018-12-21T02:07:39.872Z\",\n        \"updatedAt\": \"2018-12-21T02:07:39.872Z\"\n    },\n    \"howDidYouHearAboutUsSource\": null,\n    \"caseDistrict\": {\n        \"id\": 2,\n        \"name\": \"2nd District\",\n        \"createdAt\": \"2019-08-12T19:27:32.808Z\",\n        \"updatedAt\": \"2019-08-12T19:27:32.808Z\"\n    },\n    \"complainantCivilians\": [\n        {\n            \"fullName\": \"Night Watch\",\n            \"id\": 1748,\n            \"firstName\": \"Night\",\n            \"middleInitial\": null,\n            \"lastName\": \"Watch\",\n            \"suffix\": null,\n            \"birthDate\": null,\n            \"roleOnCase\": \"Complainant\",\n            \"phoneNumber\": \"1234567890\",\n            \"email\": null,\n            \"additionalInfo\": null,\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:30:47.604Z\",\n            \"updatedAt\": \"2020-07-20T17:31:08.045Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"raceEthnicityId\": 4,\n            \"genderIdentityId\": 5,\n            \"civilianTitleId\": 3,\n            \"address\": {\n                \"id\": 2324,\n                \"addressableId\": 1748,\n                \"addressableType\": \"civilian\",\n                \"streetAddress\": \"\",\n                \"intersection\": \"\",\n                \"streetAddress2\": null,\n                \"city\": \"\",\n                \"state\": \"\",\n                \"zipCode\": \"\",\n                \"country\": \"\",\n                \"lat\": null,\n                \"lng\": null,\n                \"placeId\": null,\n                \"additionalLocationInfo\": null,\n                \"createdAt\": \"2020-07-20T17:31:00.640Z\",\n                \"updatedAt\": \"2020-07-20T17:31:08.000Z\",\n                \"deletedAt\": null\n            },\n            \"raceEthnicity\": {\n                \"id\": 4,\n                \"name\": \"Black, African American\",\n                \"createdAt\": \"2019-01-07T20:08:30.512Z\",\n                \"updatedAt\": \"2019-01-07T20:08:30.512Z\"\n            },\n            \"genderIdentity\": {\n                \"id\": 5,\n                \"name\": \"Other\",\n                \"createdAt\": \"2019-04-19T21:31:23.009Z\",\n                \"updatedAt\": \"2019-04-19T21:31:23.009Z\"\n            }\n        }\n    ],\n    \"witnessCivilians\": [],\n    \"attachments\": [],\n    \"incidentLocation\": {\n        \"id\": 2325,\n        \"addressableId\": 1753,\n        \"addressableType\": \"cases\",\n        \"streetAddress\": \"\",\n        \"intersection\": \"Bourbon St & Canal St\",\n        \"streetAddress2\": null,\n        \"city\": \"New Orleans\",\n        \"state\": \"LA\",\n        \"zipCode\": \"70112\",\n        \"country\": \"US\",\n        \"lat\": 29.9538711,\n        \"lng\": -90.0698991,\n        \"placeId\": \"EjFCb3VyYm9uIFN0ICYgQ2FuYWwgU3QsIE5ldyBPcmxlYW5zLCBMQSA3MDExMiwgVVNBImYiZAoUChIJeWgJgAymIIYRqGxrVGiTeUkSFAoSCXloCYAMpiCGEahsa1Rok3lJGhQKEgldhaLWEaYghhG9WOFr0BfYthoUChIJtzyGBfGlIIYRM5zAA_qGHT0iCg0XmdoRFZFsUMo\",\n        \"additionalLocationInfo\": null,\n        \"createdAt\": \"2020-07-20T17:31:12.155Z\",\n        \"updatedAt\": \"2020-07-20T17:31:12.155Z\",\n        \"deletedAt\": null\n    },\n    \"accusedOfficers\": [\n        {\n            \"fullName\": \"Ansel W Rice\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 54,\n            \"id\": 2980,\n            \"officerId\": 4263,\n            \"firstName\": \"Ansel\",\n            \"middleName\": \"W\",\n            \"lastName\": \"Rice\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9550,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE OFFICER 1\",\n            \"dob\": \"1966-02-06\",\n            \"endDate\": \"2003-12-28\",\n            \"hireDate\": \"1997-12-14\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Terminated\",\n            \"notes\": \"test\",\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:31:16.893Z\",\n            \"updatedAt\": \"2020-07-22T20:47:43.408Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": [\n                {\n                    \"id\": 1397,\n                    \"details\": \"Used department property.\",\n                    \"caseOfficerId\": 2980,\n                    \"severity\": \"Medium\",\n                    \"createdAt\": \"2020-07-20T17:31:27.289Z\",\n                    \"updatedAt\": \"2020-07-20T17:31:27.289Z\",\n                    \"deletedAt\": null,\n                    \"allegationId\": 6564,\n                    \"allegation\": {\n                        \"id\": 6564,\n                        \"rule\": \"Rule 7: Departmental Property\",\n                        \"paragraph\": \"PARAGRAPH 01 - Use of Department Property\",\n                        \"directive\": null,\n                        \"createdAt\": \"2018-10-04T19:35:36.164Z\",\n                        \"updatedAt\": \"2018-10-04T19:35:36.164Z\"\n                    }\n                }\n            ]\n        },\n        {\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 57,\n            \"id\": 2995,\n            \"officerId\": 3400,\n            \"firstName\": \"Alfonso\",\n            \"middleName\": \"R\",\n            \"lastName\": \"Kiehn\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7228,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"MSB - Management Service Bureau\",\n            \"rank\": \"POLICE OFFICER 4\",\n            \"dob\": \"1963-05-27\",\n            \"endDate\": \"2005-04-03\",\n            \"hireDate\": \"1981-02-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:51:20.085Z\",\n            \"updatedAt\": \"2020-07-22T20:51:20.085Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": []\n        },\n        {\n            \"fullName\": \"Amy Z Tillman\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 53,\n            \"id\": 2996,\n            \"officerId\": 2210,\n            \"firstName\": \"Amy\",\n            \"middleName\": \"Z\",\n            \"lastName\": \"Tillman\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 9071,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": null,\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE SERGEANT\",\n            \"dob\": \"1966-12-06\",\n            \"endDate\": \"2003-05-04\",\n            \"hireDate\": \"1974-12-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:53:07.330Z\",\n            \"updatedAt\": \"2020-07-22T20:53:07.330Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": []\n        },\n        {\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"\",\n            \"age\": 57,\n            \"id\": 2997,\n            \"officerId\": 3400,\n            \"firstName\": \"Alfonso\",\n            \"middleName\": \"R\",\n            \"lastName\": \"Kiehn\",\n            \"phoneNumber\": null,\n            \"email\": null,\n            \"windowsUsername\": 7228,\n            \"supervisorFirstName\": null,\n            \"supervisorMiddleName\": null,\n            \"supervisorLastName\": null,\n            \"supervisorWindowsUsername\": null,\n            \"supervisorOfficerNumber\": null,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Officer\",\n            \"district\": null,\n            \"bureau\": \"MSB - Management Service Bureau\",\n            \"rank\": \"POLICE OFFICER 4\",\n            \"dob\": \"1963-05-27\",\n            \"endDate\": \"2005-04-03\",\n            \"hireDate\": \"1981-02-16\",\n            \"sex\": \"M\",\n            \"race\": \"White\",\n            \"workStatus\": \"Retired\",\n            \"notes\": null,\n            \"roleOnCase\": \"Accused\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-22T20:53:50.362Z\",\n            \"updatedAt\": \"2020-07-22T20:53:50.362Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753,\n            \"allegations\": []\n        }\n    ],\n    \"complainantOfficers\": [],\n    \"witnessOfficers\": [\n        {\n            \"fullName\": \"Amira E Jaskolski\",\n            \"isUnknownOfficer\": false,\n            \"supervisorFullName\": \"Everardo R Wiegand\",\n            \"age\": 50,\n            \"id\": 2979,\n            \"officerId\": 2176,\n            \"firstName\": \"Amira\",\n            \"middleName\": \"E\",\n            \"lastName\": \"Jaskolski\",\n            \"phoneNumber\": \"2355555556\",\n            \"email\": null,\n            \"windowsUsername\": 7994,\n            \"supervisorFirstName\": \"Everardo\",\n            \"supervisorMiddleName\": \"R\",\n            \"supervisorLastName\": \"Wiegand\",\n            \"supervisorWindowsUsername\": 11819,\n            \"supervisorOfficerNumber\": 3545,\n            \"employeeType\": \"Commissioned\",\n            \"caseEmployeeType\": \"Civilian Within NOPD\",\n            \"district\": \"7th District\",\n            \"bureau\": \"FOB - Field Operations Bureau\",\n            \"rank\": \"POLICE LIEUTENANT\",\n            \"dob\": \"1970-02-10\",\n            \"endDate\": null,\n            \"hireDate\": \"1994-08-21\",\n            \"sex\": \"M\",\n            \"race\": \"Black / African American\",\n            \"workStatus\": \"Active\",\n            \"notes\": null,\n            \"roleOnCase\": \"Witness\",\n            \"isAnonymous\": false,\n            \"createdAt\": \"2020-07-20T17:31:14.710Z\",\n            \"updatedAt\": \"2020-07-22T20:37:00.399Z\",\n            \"deletedAt\": null,\n            \"caseId\": 1753\n        }\n    ],\n    \"pdfAvailable\": false,\n    \"isArchived\": false\n}"
+				},
+				{
+					"name": "Delete Case Officer Allegation (Bad Request with explicit message)",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/officers-allegations/:officerAllegationId",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"officers-allegations",
+								":officerAllegationId"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								},
+								{
+									"key": "officerAllegationId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "102"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"66-nDQ+E+D1NeY7xTy6wwXOYlANplI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 18:44:25 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"Officer allegation does not exist\",\n    \"caseId\": \"1753\"\n}"
 				}
 			]
 		},
 		{
 			"name": "Retrieve Referral Letter Edit Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "998fa4ea-bb1f-4381-84d9-f6cdd193b522",
+						"exec": [
+							"let retrieveReferralLetterEditStatusResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if(pm.response.to.be.json){",
+							"        retrieveReferralLetterEditStatusResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should contain edited status\", () => {",
+							"    pm.expect(retrieveReferralLetterEditStatusResponse).to.have.property('editStatus').and.to.eql('Edited')",
+							"    nextRequest = 'Update Referral Letter Address';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -4197,7 +5375,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -4223,7 +5401,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -4296,6 +5474,32 @@
 		},
 		{
 			"name": "Delete Case Tag",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dc5090aa-9795-4f53-b044-20da7cd68065",
+						"exec": [
+							"let deleteCaseTagResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) deleteCaseTagResponse = pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"Response should not have case tags\", () => {",
+							"    pm.expect(deleteCaseTagResponse).to.be.empty;",
+							"    nextRequest = 'Retrieve Case Tags';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -4324,11 +5528,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseTagId",
-							"value": "937"
+							"value": "{{case_tag_id}}"
 						}
 					]
 				}
@@ -4354,7 +5558,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseTagId",
@@ -4459,11 +5663,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "fileName",
-							"value": "Screen Shot 2020-07-22 at 4.39.37 PM.png"
+							"value": "{{attachment_filename}}"
 						}
 					]
 				}
@@ -4489,7 +5693,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "fileName",
@@ -4565,144 +5769,36 @@
 			]
 		},
 		{
-			"name": "Update IAPRO Corrections",
-			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{access_token}}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"referralLetterIaproCorrections\": [\n        {\n            \"id\": 1237,\n            \"details\": \"IAPro Correction Details\"\n        },\n        {\n            \"tempId\": \"MSmaOB2Aw\",\n            \"details\": \"test it\"\n        }\n    ]\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+			"name": "Update Officer History",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6cbb1de1-dded-476d-8673-447deb0cdaff",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
 					}
 				},
-				"url": {
-					"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/iapro-corrections",
-					"host": [
-						"{{api_hostname}}"
-					],
-					"path": [
-						"api",
-						"cases",
-						":caseId",
-						"referral-letter",
-						"iapro-corrections"
-					],
-					"variable": [
-						{
-							"key": "caseId",
-							"value": "1753"
-						}
-					]
-				}
-			},
-			"response": [
 				{
-					"name": "Update IAPRO Corrections",
-					"originalRequest": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"referralLetterIaproCorrections\": [\n        {\n            \"id\": 1237,\n            \"details\": \"IAPro Correction Details\"\n        },\n        {\n            \"tempId\": \"MSmaOB2Aw\",\n            \"details\": \"test it\"\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_hostname}}/api/cases/:caseId/referral-letter/iapro-corrections",
-							"host": [
-								"{{api_hostname}}"
-							],
-							"path": [
-								"api",
-								"cases",
-								":caseId",
-								"referral-letter",
-								"iapro-corrections"
-							],
-							"variable": [
-								{
-									"key": "caseId",
-									"value": "1753"
-								}
-							]
-						}
-					},
-					"status": "OK",
-					"code": 200,
-					"_postman_previewlanguage": "plain",
-					"header": [
-						{
-							"key": "Server",
-							"value": "Cowboy"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "X-Powered-By",
-							"value": "<3"
-						},
-						{
-							"key": "Strict-Transport-Security",
-							"value": "max-age=63113852; includeSubDomains"
-						},
-						{
-							"key": "X-Frame-Options",
-							"value": "DENY"
-						},
-						{
-							"key": "X-Content-Type-Options",
-							"value": "nosniff"
-						},
-						{
-							"key": "Content-Security-Policy",
-							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
-						},
-						{
-							"key": "X-Content-Security-Policy",
-							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
-						},
-						{
-							"key": "X-Webkit-Csp",
-							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
-						},
-						{
-							"key": "Date",
-							"value": "Wed, 22 Jul 2020 21:45:56 GMT"
-						},
-						{
-							"key": "Content-Length",
-							"value": "0"
-						},
-						{
-							"key": "Via",
-							"value": "1.1 vegur"
-						}
-					],
-					"cookie": [],
-					"body": ""
+					"listen": "test",
+					"script": {
+						"id": "33565d81-c404-4895-bc6a-1256aff9bd84",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    nextRequest = 'Update Referral Letter Classifications';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
 				}
-			]
-		},
-		{
-			"name": "Update Officer History",
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -4718,7 +5814,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": 2980,\n            \"fullName\": \"Ansel W Rice\",\n            \"id\": 1554,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": \"3\",\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"cpNA8NEPS\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2995,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1561,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"Cj2jMHFrNz\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2996,\n            \"fullName\": \"Amy Z Tillman\",\n            \"id\": 1562,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"wBYvR3XG-3\"\n                }\n            ]\n        },\n        {\n            \"caseOfficerId\": 2997,\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": 1563,\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": null,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"cJC9RYU-gD\"\n                }\n            ]\n        }\n    ]\n}",
+					"raw": "{\n    \"letterOfficers\": [\n        {\n            \"caseOfficerId\": {{case_officer_id}},\n            \"fullName\": \"Alfonso R Kiehn\",\n            \"id\": {{letter_officer_id}},\n            \"historicalBehaviorNotes\": null,\n            \"numHistoricalHighAllegations\": null,\n            \"numHistoricalMedAllegations\": null,\n            \"numHistoricalLowAllegations\": null,\n            \"recommendedActionNotes\": null,\n            \"officerHistoryOptionId\": 1,\n            \"referralLetterOfficerRecommendedActions\": [],\n            \"referralLetterOfficerHistoryNotes\": [\n                {\n                    \"tempId\": \"Cj2jMHFrNz\"\n                }\n            ]\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -4740,7 +5836,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -4775,7 +5871,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -4840,6 +5936,19 @@
 		},
 		{
 			"name": "Create Attachment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7e95d7c4-056c-4198-8994-9b584d45287e",
+						"exec": [
+							"const createAttachmentResponse=pm.response.json();",
+							"pm.environment.set(\"attachment_filename\", createAttachmentResponse.attachments[0].fileName);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -4864,7 +5973,7 @@
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/Users/sabrinasanchez/Desktop/Screen Shot 2020-07-22 at 4.39.37 PM.png"
+							"src": []
 						}
 					]
 				},
@@ -4882,7 +5991,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -4922,7 +6031,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -4995,6 +6104,51 @@
 		},
 		{
 			"name": "Create Case Tag",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6b71e99f-4a96-475a-8d82-d8f6217f2e81",
+						"exec": [
+							"let createCaseTagResponse = {};",
+							"let nextRequest = null;",
+							"let currentCaseTag = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        createCaseTagResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should have a case tag id\", () => {",
+							"    pm.expect(createCaseTagResponse).to.have.property('caseTags').and.to.be.an('array');",
+							"",
+							"    currentCaseTag = createCaseTagResponse.caseTags[createCaseTagResponse.caseTags.length - 1];",
+							"",
+							"    pm.expect(currentCaseTag).to.have.property('id').and.to.be.a('number').and.to.be.above(0);",
+							"    nextRequest = 'Retrieve Case Tags';",
+							"});",
+							"",
+							"pm.environment.set(\"case_tag_id\", currentCaseTag.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "97a438c8-0e57-44ac-86e7-34009c56aede",
+						"exec": [
+							"pm.variables.set(\"tagId\", 173);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5010,7 +6164,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"tagName\": \"apricots\"\n}",
+					"raw": "{\n    \"tagId\": \"{{tagId}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5031,10 +6185,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
-				}
+				},
+				"description": "To create a new tag and attach it to the current case, replace `tagId` with `tagName` followed by the name you want for the tag."
 			},
 			"response": [
 				{
@@ -5065,7 +6220,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -5133,11 +6288,134 @@
 					],
 					"cookie": [],
 					"body": "{\n    \"caseTags\": [\n        {\n            \"id\": 932,\n            \"createdAt\": \"2020-07-21T19:23:00.853Z\",\n            \"updatedAt\": \"2020-07-21T19:23:00.853Z\",\n            \"caseId\": 1753,\n            \"tagId\": 19,\n            \"tag\": {\n                \"id\": 19,\n                \"name\": \"a cold cut combo sub sandwich\",\n                \"createdAt\": \"2019-07-16T20:31:09.937Z\",\n                \"updatedAt\": \"2019-07-16T20:31:09.937Z\"\n            }\n        },\n        {\n            \"id\": 935,\n            \"createdAt\": \"2020-07-22T21:10:44.709Z\",\n            \"updatedAt\": \"2020-07-22T21:10:44.709Z\",\n            \"caseId\": 1753,\n            \"tagId\": 36,\n            \"tag\": {\n                \"id\": 36,\n                \"name\": \"another tag\",\n                \"createdAt\": \"2019-12-23T15:42:08.741Z\",\n                \"updatedAt\": \"2019-12-23T15:42:08.741Z\"\n            }\n        },\n        {\n            \"id\": 936,\n            \"createdAt\": \"2020-07-22T21:11:49.960Z\",\n            \"updatedAt\": \"2020-07-22T21:11:49.960Z\",\n            \"caseId\": 1753,\n            \"tagId\": 68,\n            \"tag\": {\n                \"id\": 68,\n                \"name\": \"apricot\",\n                \"createdAt\": \"2020-07-22T21:11:49.921Z\",\n                \"updatedAt\": \"2020-07-22T21:11:49.921Z\"\n            }\n        },\n        {\n            \"id\": 937,\n            \"createdAt\": \"2020-07-22T21:12:43.422Z\",\n            \"updatedAt\": \"2020-07-22T21:12:43.422Z\",\n            \"caseId\": 1753,\n            \"tagId\": 69,\n            \"tag\": {\n                \"id\": 69,\n                \"name\": \"apricots\",\n                \"createdAt\": \"2020-07-22T21:12:43.369Z\",\n                \"updatedAt\": \"2020-07-22T21:12:43.369Z\"\n            }\n        }\n    ],\n    \"tags\": [\n        [\n            \" \",\n            64\n        ],\n        [\n            \"a\",\n            17\n        ],\n        [\n            \"a cold cut combo sub sandwich\",\n            19\n        ],\n        [\n            \"ad\",\n            12\n        ],\n        [\n            \"ads\",\n            43\n        ],\n        [\n            \"a new tag\",\n            52\n        ],\n        [\n            \"another\",\n            50\n        ],\n        [\n            \"another tag\",\n            36\n        ],\n        [\n            \"a pastrami sandwich toasted\",\n            20\n        ],\n        [\n            \"apricot\",\n            68\n        ],\n        [\n            \"apricots\",\n            69\n        ],\n        [\n            \"a really really really really really really really really long tag\",\n            55\n        ],\n        [\n            \"audre\",\n            49\n        ],\n        [\n            \"audrey\",\n            14\n        ],\n        [\n            \"blah\",\n            53\n        ],\n        [\n            \"bloop\",\n            42\n        ],\n        [\n            \"but when martha myers fought, she fought with good thoughts and thurston wept\",\n            22\n        ],\n        [\n            \"bwc\",\n            10\n        ],\n        [\n            \"BWC Incident\",\n            3\n        ],\n        [\n            \"cold\",\n            65\n        ],\n        [\n            \"Create\",\n            47\n        ],\n        [\n            \"dan\",\n            41\n        ],\n        [\n            \"Dev Environ\",\n            15\n        ],\n        [\n            \"dfdsfds\",\n            62\n        ],\n        [\n            \"DWI\",\n            34\n        ],\n        [\n            \"Festivals\",\n            6\n        ],\n        [\n            \"fork meets bagel\",\n            29\n        ],\n        [\n            \"gfdhgfhfg\",\n            63\n        ],\n        [\n            \"hamburger sandwich\",\n            18\n        ],\n        [\n            \"hurt you\",\n            31\n        ],\n        [\n            \"i\",\n            60\n        ],\n        [\n            \"Juvenile\",\n            4\n        ],\n        [\n            \"Juvinile\",\n            16\n        ],\n        [\n            \"l\",\n            59\n        ],\n        [\n            \"long tag names should wrap when needed\",\n            61\n        ],\n        [\n            \"looky\",\n            13\n        ],\n        [\n            \"make a new tag\",\n            40\n        ],\n        [\n            \"many many many tags\",\n            58\n        ],\n        [\n            \"many many tags\",\n            57\n        ],\n        [\n            \"many tags\",\n            56\n        ],\n        [\n            \"michael\",\n            27\n        ],\n        [\n            \"mouse\",\n            54\n        ],\n        [\n            \"MVI Incident\",\n            9\n        ],\n        [\n            \"My big\",\n            48\n        ],\n        [\n            \"my big\",\n            39\n        ],\n        [\n            \"my new tag\",\n            35\n        ],\n        [\n            \"New Tag\",\n            33\n        ],\n        [\n            \"NIght Festivals\",\n            7\n        ],\n        [\n            \"officer instructed civilians in harmful way\",\n            23\n        ],\n        [\n            \"pants sale disposition\",\n            28\n        ],\n        [\n            \"pastrami\",\n            51\n        ],\n        [\n            \"please, no one steal my idea about a talk show hosted from a hotel balcony\",\n            30\n        ],\n        [\n            \"Protests\",\n            67\n        ],\n        [\n            \"Repapaaliation\",\n            32\n        ],\n        [\n            \"Retaliation\",\n            2\n        ],\n        [\n            \"salad sandwich jazz\",\n            26\n        ],\n        [\n            \"sand\",\n            45\n        ],\n        [\n            \"sandwich\",\n            44\n        ],\n        [\n            \"sdfjasd\",\n            46\n        ],\n        [\n            \"search for new tag\",\n            38\n        ],\n        [\n            \"Tofu\",\n            11\n        ],\n        [\n            \"Traffic-stop\",\n            8\n        ],\n        [\n            \"Traffic Stops\",\n            5\n        ],\n        [\n            \"truth and honesty and truth\",\n            24\n        ],\n        [\n            \"Use of force\",\n            66\n        ],\n        [\n            \"What if a tag is long, like really long. Like really really really long. What would happen and who would do something about it. What should be done. Et......cetera\",\n            1\n        ],\n        [\n            \"when thurston myers thought, he thought loud\",\n            21\n        ],\n        [\n            \"workplace discrimination\",\n            25\n        ],\n        [\n            \"zzzzzzzzzz\",\n            37\n        ]\n    ]\n}"
+				},
+				{
+					"name": "Create Case Tag (Unprocessable Entity)",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_hostname}}/api/cases/:caseId/case-tags",
+							"host": [
+								"{{api_hostname}}"
+							],
+							"path": [
+								"api",
+								"cases",
+								":caseId",
+								"case-tags"
+							],
+							"variable": [
+								{
+									"key": "caseId",
+									"value": "{{case_id}}"
+								}
+							]
+						}
+					},
+					"status": "Unprocessable Entity",
+					"code": 422,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Cowboy"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "<3"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=63113852; includeSubDomains"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Content-Security-Policy",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "X-Webkit-Csp",
+							"value": "form-action 'none'; default-src 'none'; base-uri 'none'; connect-src 'self' https://noipm-ci.auth0.com https://hggkf95dtf.execute-api.us-east-1.amazonaws.com; font-src https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; img-src 'self' data: blob:; script-src 'self' https://maps.googleapis.com 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk=' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU=' 'unsafe-eval'; style-src 'self' https://fonts.googleapis.com https://cdn.quilljs.com 'unsafe-inline'"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "100"
+						},
+						{
+							"key": "Etag",
+							"value": "W/\"64-JhnYypsPA8/ksDdWHh/+aZ7GazI\""
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 23 Jul 2020 19:38:08 GMT"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 vegur"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"statusCode\": 422,\n    \"error\": \"Unprocessable Entity\",\n    \"message\": \"Missing tag parameters\",\n    \"caseId\": \"1753\"\n}"
 				}
 			]
 		},
 		{
 			"name": "Delete Case Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "07b08b0d-f1b9-494d-901d-341118de794c",
+						"exec": [
+							"let deleteCaseNoteResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) deleteCaseNoteResponse = pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"Response should not have case notes\", () => {",
+							"    pm.expect(deleteCaseNoteResponse.caseNotes).to.be.empty;",
+							"    nextRequest = 'Retrieve Case Notes';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5166,11 +6444,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseNoteId",
-							"value": "704"
+							"value": "{{case_note_id}}"
 						}
 					]
 				}
@@ -5196,7 +6474,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseNoteId",
@@ -5273,6 +6551,41 @@
 		},
 		{
 			"name": "Create Case Note",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6efeb170-9776-43cf-be0e-44af63a1336d",
+						"exec": [
+							"let createCaseNoteResponse = {};",
+							"let nextRequest = null;",
+							"let currentCaseNote = null;",
+							"",
+							"pm.test(\"Response should be 201 CREATED\", () => {",
+							"    pm.response.to.have.status(201).and.status('Created');",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        createCaseNoteResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should have a case note id\", () => {",
+							"    pm.expect(createCaseNoteResponse).to.have.property('caseNotes').and.to.be.an('array');",
+							"",
+							"    currentCaseNote = createCaseNoteResponse.caseNotes[createCaseNoteResponse.caseNotes.length - 1];",
+							"",
+							"    pm.expect(currentCaseNote).to.have.property('id').and.to.be.a('number').and.to.be.above(0);",
+							"    nextRequest = 'Retrieve Case Notes';",
+							"});",
+							"",
+							"pm.environment.set(\"case_note_id\", currentCaseNote.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5288,7 +6601,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!!\",\n    \"caseId\": 1753,\n    \"mentionedUsers\": []\n}",
+					"raw": "{\n    \"actionTakenAt\": \"2020-07-22T16:15:00-05:00\",\n    \"caseNoteActionId\": 4,\n    \"notes\": \"Hello, there!!! @NOIPM Infra\",\n    \"caseId\": {{case_id}},\n    \"mentionedUsers\": [\n        {\n            \"name\": \"NOIPM Infra\",\n            \"value\": \"{{user_email}}\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5309,7 +6622,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -5343,7 +6656,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -5444,14 +6757,15 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "fileName",
-							"value": ""
+							"value": "{{attachment_filename}}"
 						}
 					]
-				}
+				},
+				"description": "This request relies on s3 to provide a link to the file that is being retrieved, and so, we do not error out on fileNames that do not exist."
 			},
 			"response": [
 				{
@@ -5474,7 +6788,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "fileName",
@@ -5547,6 +6861,39 @@
 		},
 		{
 			"name": "Retrieve Referral Letter",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4b8aa6e2-6a40-4aed-8b19-62a839d956a5",
+						"exec": [
+							"let retrieveReferralLetterResponse = {};",
+							"let referralLetterOfficer = null;",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        retrieveReferralLetterResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should include letter officers\", () => {",
+							"    pm.expect(retrieveReferralLetterResponse).to.have.property('letterOfficers').and.to.be.an('array').and.to.not.be.empty;",
+							"    referralLetterOfficer = retrieveReferralLetterResponse.letterOfficers.find(n => n.caseOfficerId === pm.environment.get(\"case_officer_id\")) || {};",
+							"    nextRequest = 'Update Officer History';",
+							"});",
+							"",
+							"pm.environment.set(\"letter_officer_id\", referralLetterOfficer.id);",
+							"pm.environment.set(\"referral_letter_id\", retrieveReferralLetterResponse.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5574,7 +6921,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -5599,7 +6946,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -5687,7 +7034,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 713,\n    \"notes\": \"Hello, there! this is an update\",\n    \"createdAt\": \"2020-07-22T21:15:12.192Z\",\n    \"updatedAt\": \"2020-07-22T21:15:12.192Z\",\n    \"deletedAt\": null,\n    \"caseId\": 1753,\n    \"caseNoteActionId\": 4,\n    \"caseNoteAction\": {\n        \"id\": 4,\n        \"name\": \"Contacted complainant\",\n        \"createdAt\": \"2019-05-06T14:55:57.210Z\",\n        \"updatedAt\": \"2019-05-06T14:55:57.210Z\"\n    },\n    \"author\": {\n        \"name\": \"Sabrina Sanchez\",\n        \"email\": \"sabrina.sanchez@thoughtworks.com\"\n    },\n    \"mentionedUsers\": []\n}",
+					"raw": "{\n    \"id\": {{case_note_id}},\n    \"notes\": \"Hello, there! this is an update\",\n    \"createdAt\": \"2020-07-22T21:15:12.192Z\",\n    \"updatedAt\": \"2020-07-22T21:15:12.192Z\",\n    \"deletedAt\": null,\n    \"caseId\": {{case_id}},\n    \"caseNoteActionId\": 4,\n    \"caseNoteAction\": {\n        \"id\": 4,\n        \"name\": \"Contacted complainant\",\n        \"createdAt\": \"2019-05-06T14:55:57.210Z\",\n        \"updatedAt\": \"2019-05-06T14:55:57.210Z\"\n    },\n    \"author\": {\n        \"name\": \"Sabrina Sanchez\",\n        \"email\": \"sabrina.sanchez@thoughtworks.com\"\n    },\n    \"mentionedUsers\": []\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -5709,11 +7056,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1753"
+							"value": "{{case_id}}"
 						},
 						{
 							"key": "caseNoteId",
-							"value": "713"
+							"value": "{{case_note_id}}"
 						}
 					]
 				}
@@ -5748,7 +7095,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1753"
+									"value": "{{case_id}}"
 								},
 								{
 									"key": "caseNoteId",
@@ -5825,6 +7172,27 @@
 		},
 		{
 			"name": "Retrieve Referral Letter PDF",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f03737d2-e24e-4a16-9257-69ea414af18f",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/octet-stream');",
+							"    nextRequest = 'Update Referral Letter Content';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -5853,7 +7221,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -5879,7 +7247,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -5979,7 +7347,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6004,7 +7372,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6077,6 +7445,56 @@
 		},
 		{
 			"name": "Update Case Status",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "86e28a08-9921-4de2-9b90-441c659718bc",
+						"exec": [
+							"// Available Statuses: Initial, Active, Letter In Progress, Ready for Review, Forwarded to Agency, Closed",
+							"pm.variables.set(\"case_status\", !pm.environment.get(\"updateCaseStatus\") ? \"Letter in Progress\" : \"Ready for Review\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "51417cf3-f02a-4b5d-8bb4-1b99c0a3fcd6",
+						"exec": [
+							"let updateCaseStatusResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        updateCaseStatusResponse = pm.response.json();",
+							"    };",
+							"});",
+							"",
+							"let status = 'Ready for Review';",
+							"",
+							"if(!pm.environment.get('updateCaseStatus')){",
+							"    pm.environment.set('updateCaseStatus', true);",
+							"    status = 'Letter in Progress';",
+							"    nextRequest = 'Retrieve Referral Letter';",
+							"}",
+							"else{",
+							"    pm.environment.unset('updateCaseStatus');",
+							"    nextRequest = 'Update Referral Letter to Approved';",
+							"}",
+							"",
+							"pm.test(`Response should have case status of ${status}`, () => {",
+							"    pm.expect(updateCaseStatusResponse).to.have.property('status').and.to.eql(status);",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6092,7 +7510,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"status\": \"Letter in Progress\"\n}",
+					"raw": "{\n    \"status\": \"{{case_status}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6113,7 +7531,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1747"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6147,7 +7565,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1747"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6220,6 +7638,26 @@
 		},
 		{
 			"name": "Retrieve Final Referral Letter URL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4f973d7-7dc3-424f-9ad1-649aee430d11",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('text/html; charset=utf-8');",
+							"    nextRequest = 'Delete Case'",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6248,7 +7686,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6274,7 +7712,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6347,6 +7785,46 @@
 		},
 		{
 			"name": "Update Case Narrative",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "3022f5de-1416-49d7-a460-b66e21ef9bbc",
+						"exec": [
+							"pm.variables.set(\"narrativeDetails\", \"details go here\");",
+							"pm.variables.set(\"narrativeSummary\", \"helloooo there\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "cc751f5a-ddea-42fe-ba93-254408dfdc2d",
+						"exec": [
+							"let updateCaseNarrativeResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        nextRequest = 'Create Case Tag';",
+							"        updateCaseNarrativeResponse = pm.response.json();",
+							"    };",
+							"});",
+							"",
+							"pm.test(\"Response should have narrative details and summary\", () => {",
+							"    pm.expect(updateCaseNarrativeResponse).to.have.property('narrativeSummary').and.to.eql(pm.variables.get('narrativeSummary'));",
+							"    pm.expect(updateCaseNarrativeResponse).to.have.property('narrativeDetails').and.to.eql(pm.variables.get('narrativeDetails'));",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6362,7 +7840,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"narrativeSummary\": \"helloooo there\",\n    \"narrativeDetails\": \"\"\n}",
+					"raw": "{\n    \"narrativeSummary\": \"helloooo there\",\n    \"narrativeDetails\": \"details go here\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -6383,7 +7861,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1747"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6417,7 +7895,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1747"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6490,6 +7968,39 @@
 		},
 		{
 			"name": "Retrieve Case Notes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d8924ae-e4ed-4b61-adaf-7990b090b0f2",
+						"exec": [
+							"let retrieveCaseNotesResponse = {};",
+							"let nextRequest = null;",
+							"let caseNoteId = pm.environment.get(\"case_note_id\");",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        retrieveCaseNotesResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"if(!pm.environment.get(\"retrieveCaseNotes\")){",
+							"    pm.test(\"Response should include case note id\", () => {",
+							"        pm.expect(retrieveCaseNotesResponse[0]).to.have.property('id').and.to.eql(caseNoteId);",
+							"    });",
+							"    pm.environment.set('retrieveCaseNotes', true)",
+							"    postman.setNextRequest('Retrieve Notifications');",
+							"}else {",
+							"    pm.environment.unset(\"retrieveCaseNotes\");",
+							"    postman.setNextRequest('Create Case Officer');",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6517,7 +8028,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": ""
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6542,7 +8053,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6679,7 +8190,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1747"
+							"value": "{{case_id}}"
 						}
 					]
 				}
@@ -6712,7 +8223,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1747"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -6894,6 +8405,25 @@
 		},
 		{
 			"name": "Delete Case",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "765a00f5-87e5-4708-9750-d7b2da52d42c",
+						"exec": [
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    nextRequest = 'Update Case to Restored'",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -6920,7 +8450,7 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1759"
+							"value": "{{case_id}}"
 						}
 					]
 				},
@@ -6945,7 +8475,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1759"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -7119,6 +8649,38 @@
 		},
 		{
 			"name": "Retrieve Notifications",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fdcb7c86-5d14-4088-8b36-4719b53cfd35",
+						"exec": [
+							"let notificationsResponse = {};",
+							"let notificationForCreatedCaseNote = null;",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        notificationsResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should include notification id\", () => {",
+							"    pm.expect(notificationsResponse).to.be.an('array');",
+							"    notificationForCreatedCaseNote = notificationsResponse.find(n => n.caseNoteId === pm.environment.get(\"case_note_id\")) || {};",
+							"    nextRequest = 'Retrieve Notification Status';",
+							"});",
+							"",
+							"pm.environment.set(\"notification_id\", notificationForCreatedCaseNote.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -7145,7 +8707,7 @@
 					"variable": [
 						{
 							"key": "userEmail",
-							"value": "sydney.botz@thoughtworks.com"
+							"value": "{{user_email}}"
 						}
 					]
 				}
@@ -7242,6 +8804,35 @@
 		},
 		{
 			"name": "Retrieve Notification Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "feb34fda-eb62-45f6-86ad-99664b97b231",
+						"exec": [
+							"let notificationStatusResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 200 OK\", () => {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) {",
+							"        notificationStatusResponse = pm.response.json();",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Response should include notification status properties\", () => {",
+							"    pm.expect(notificationStatusResponse).to.have.property('caseNoteExists').and.to.be.true;",
+							"    pm.expect(notificationStatusResponse).to.have.property('notificationExists').and.to.be.true;",
+							"    nextRequest = 'Update Notification as Read';",
+							"});",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -7269,11 +8860,11 @@
 					"variable": [
 						{
 							"key": "caseNoteId",
-							"value": "710"
+							"value": "{{case_note_id}}"
 						},
 						{
 							"key": "notificationId",
-							"value": "571"
+							"value": "{{notification_id}}"
 						}
 					]
 				}
@@ -7401,10 +8992,11 @@
 					"variable": [
 						{
 							"key": "caseId",
-							"value": "1756"
+							"value": "{{case_id}}"
 						}
 					]
-				}
+				},
+				"description": "If no caseId is specified, then this request acts like the \"Retrieve Cases\" request and returns all cases."
 			},
 			"response": [
 				{
@@ -7425,7 +9017,7 @@
 							"variable": [
 								{
 									"key": "caseId",
-									"value": "1756"
+									"value": "{{case_id}}"
 								}
 							]
 						}
@@ -7608,7 +9200,19 @@
 			]
 		},
 		{
-			"name": "Retrieve Notification as Read",
+			"name": "Update Notification as Read",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53d6070c-2f01-4784-a5ae-762f644561ec",
+						"exec": [
+							"postman.setNextRequest('Delete Case Note');"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -7620,7 +9224,7 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "PUT",
 				"header": [],
 				"url": {
 					"raw": "{{api_hostname}}/api/notifications/mark-as-read/:notificationId",
@@ -7636,7 +9240,7 @@
 					"variable": [
 						{
 							"key": "notificationId",
-							"value": "571"
+							"value": "{{notification_id}}"
 						}
 					]
 				}
@@ -7753,7 +9357,7 @@
 					"variable": [
 						{
 							"key": "jobId",
-							"value": "211"
+							"value": "{{job_id}}"
 						}
 					]
 				}
@@ -7851,6 +9455,19 @@
 		},
 		{
 			"name": "Retrieve Operation Schedule",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3e3ac91b-f1dc-4a1e-83ae-570756df3f57",
+						"exec": [
+							"const scheduleJobResponse=pm.response.json();",
+							"pm.environment.set(\"job_id\", scheduleJobResponse.jobId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -8222,7 +9839,8 @@
 							"value": "countComplaintsByIntakeSource"
 						}
 					]
-				}
+				},
+				"description": "This request returns data (based on query type) for visualizations."
 			},
 			"response": [
 				{
@@ -8315,6 +9933,34 @@
 		},
 		{
 			"name": "Create Case",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31dfa1db-9410-4991-81f8-0c1bacf006b1",
+						"exec": [
+							"let createCaseResponse = {};",
+							"let nextRequest = null;",
+							"",
+							"pm.test(\"Response should be 201 CREATED\", () => {",
+							"    pm.response.to.have.status(201).and.status('Created');",
+							"    pm.response.to.be.withBody;",
+							"    if (pm.response.to.be.json) createCaseResponse = pm.response.json();",
+							"});",
+							"",
+							"pm.test(\"Response should have a case id\", () => {",
+							"    pm.expect(createCaseResponse).to.have.property('id').and.to.be.a('number').and.to.be.above(0);",
+							"    nextRequest = 'Update Case Narrative';",
+							"});",
+							"",
+							"pm.environment.set(\"case_id\", createCaseResponse.id);",
+							"",
+							"postman.setNextRequest(nextRequest);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -8554,7 +10200,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "e1cabd3b-9266-402e-8336-4c3ec30dcef6",
+				"id": "d8113366-1c48-4ffb-86d8-71d37124c088",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -8564,7 +10210,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "3559dd20-33ed-4d8f-aed5-c9f5fa80b5bf",
+				"id": "b50cf3ce-f998-4645-926d-7dea6b98d4a3",
 				"type": "text/javascript",
 				"exec": [
 					""
