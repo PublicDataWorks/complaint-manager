@@ -11,13 +11,15 @@ const Visualization = props => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getVisualizationData(
-          props.queryType,
-          props.queryOptions
-        );
+        const newData = await getVisualizationData({ 
+          queryType: props.queryType,
+          isPublic: props.isPublic,
+          queryOptions: props.queryOptions
+        });
         const newLayout =
           getAggregateVisualizationLayout({
             queryType: props.queryType,
+            queryOptions: props.queryOptions,
             isPublic: props.isPublic,
             newData
           }) || {};
