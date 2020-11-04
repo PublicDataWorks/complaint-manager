@@ -13,7 +13,7 @@ module.exports = {
     operatorsAliases: false,
     logging: false,
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -31,7 +31,7 @@ module.exports = {
     logging: false,
     operatorsAliases: false,
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -49,7 +49,7 @@ module.exports = {
     logging: false,
     operatorsAliases: false,
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -69,7 +69,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -89,7 +89,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -109,7 +109,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
@@ -130,7 +130,7 @@ module.exports = {
     logging: false,
     operatorsAliases: false,
     pool: {
-      max: 5,
+      max: 10,
       min: 0,
       idle: 10000,
       acquire: 20000
