@@ -212,7 +212,7 @@ resource "aws_apigatewayv2_api" "api_gateway" {
   target = var.api_target
 
   cors_configuration {
-    allow_origins = [var.api_target]
+    allow_origins = [var.api_target, var.public_domain]
     allow_methods = ["*"]
     allow_headers = ["*"]
     allow_credentials = true
