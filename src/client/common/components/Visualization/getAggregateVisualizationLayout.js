@@ -1,6 +1,9 @@
-import { get, isEmpty, merge } from 'lodash';
+import { get, set, isEmpty } from 'lodash';
 import { BAD_REQUEST_ERRORS } from '../../../../sharedUtilities/errorMessageConstants';
-import { QUERY_TYPES } from '../../../../sharedUtilities/constants';
+import {
+  DATE_RANGE_TYPE,
+  QUERY_TYPES
+} from '../../../../sharedUtilities/constants';
 import {
   COLORS,
   LABEL_FONT,
@@ -10,7 +13,7 @@ import {
   generateYAxisRange
 } from "./dataVizStyling";
 
-const FULL_LAYOUT = 'FULL_LAYOUT';
+export const FULL_LAYOUT = 'FULL_LAYOUT';
 
 export const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -23,7 +26,7 @@ export const baseLayouts = {
       font: TITLE_FONT
     },
     margin: {
-      b: 170
+      t: 160
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
@@ -36,14 +39,14 @@ export const baseLayouts = {
       font: TITLE_FONT
     },
     margin: {
-      b: 170
+      t: 160
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     barmode: "group",
     font: LABEL_FONT,
     title: {
-      text: "Complainant Type over Past 12 Months",
+      text: "Complainant Type",
       font: TITLE_FONT
     }
   },
@@ -64,7 +67,7 @@ export const baseLayouts = {
     },
     font: LABEL_FONT,
     title: {
-      text: "Top Tags<br><sub>Past 12 Months",
+      text: "Top Tags",
       font: TITLE_FONT
     },
     width: 750
@@ -140,36 +143,68 @@ export const dynamicLayoutProps = {
   }
 };
 
-export const getAggregateVisualizationLayout = ({ queryType = null, isPublic = false, newData = {} }) => {
-  if (!queryType) {
+export const subtitles = {
+  [DATE_RANGE_TYPE.PAST_12_MONTHS]: 'Past 12 Months',
+  [DATE_RANGE_TYPE.YTD]: 'Year-to-Date'
+};
+
+export const evaluateDynamicProps = (currentDynamicProps, newData) => {
+  let currentDynamicLayout = {};
+  
+  Object.keys(currentDynamicProps).forEach(propName => {
+    const [callback, ...params] = currentDynamicProps[propName];
+    
+    const allValues = params.map(paramName => get(newData, paramName, null));
+    const extraProps = callback.apply(null, allValues);
+    
+    if (propName === FULL_LAYOUT) {
+      currentDynamicLayout = { ...currentDynamicLayout, ...extraProps };
+    } else {
+      currentDynamicLayout[propName] = extraProps;
+    }
+  });
+
+  return currentDynamicLayout;
+}
+
+export const getAggregateVisualizationLayout = ({
+  queryType = null,
+  queryOptions = {},
+  isPublic = false,
+  newData = {}
+}) => {
+  let aggregateLayout = get(baseLayouts, queryType, {});
+  
+  if (isEmpty(aggregateLayout)) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
   }
   
-  const currentBaseLayout = get(baseLayouts, queryType, {});
   const currentExtendedLayout = get(extendedLayouts, queryType, {});
-  const currentDynamicLayout = get(dynamicLayoutProps, queryType, {});
-
-  let aggregateLayout = currentBaseLayout;
 
   if (isPublic) {
     aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
   }
+  
+  if (queryOptions.dateRangeType) {
+    const currentTitle = get(aggregateLayout, ['title', 'text'], '');
+    const currentSubtitle = subtitles[queryOptions.dateRangeType] || '';
+    const newSubtitle = [currentTitle, currentSubtitle].join('<br><sub>');
 
-  Object.keys(currentDynamicLayout).forEach(propName => {
-    const [callback, ...params] = currentDynamicLayout[propName];
-    
-    const allValues = params.map(paramName => get(newData, paramName, null));
-
-    if (propName === FULL_LAYOUT) {
-      const extraProps = callback.apply(null, allValues);
-      aggregateLayout = { ...aggregateLayout, ...extraProps };
-    } else {
-      const newValue = callback.apply(null, allValues);
-      aggregateLayout[propName] = newValue;
+    if (currentTitle) {
+      const title = {
+        text: newSubtitle,
+        font: TITLE_FONT
+      };
+      
+      aggregateLayout = {
+        ...aggregateLayout,
+        ...{ title }
+      };
     }
-  });
+  }
 
-  return aggregateLayout;
+  const currentDynamicProps = get(dynamicLayoutProps, queryType, {});
+  return { ...aggregateLayout, ...evaluateDynamicProps(currentDynamicProps, newData) };
 };
 
 
