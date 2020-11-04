@@ -34,6 +34,10 @@ variable "api_target" {
   description = "Proxy URL for the HTTP API Gateway"
 }
 
+variable "public_domain" {
+  description = "Custom Public Domain for Web App"
+}
+
 variable "postgres_plan" {
   description = "Heroku Postgres Plan Name"
 }

@@ -39,6 +39,7 @@ module "webapp" {
   ]
 
   api_target = "https://noipm-production.herokuapp.com"
+  public_domain = "https://complaints.nolaipm.gov"
 
   postgres_plan = "standard-0"
   papertrail_plan = "fixa"
