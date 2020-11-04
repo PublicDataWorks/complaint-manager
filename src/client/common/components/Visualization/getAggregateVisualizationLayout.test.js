@@ -1,5 +1,4 @@
-// Possible two options: either import the layouts directly from the
-// file or duplicate the layout work here.
+import { get, set } from "lodash";
 
 import {
   COLORS,
@@ -8,9 +7,13 @@ import {
 } from "./dataVizStyling";
 import {
   dynamicLayoutProps,
+  evaluateDynamicProps,
   getAggregateVisualizationLayout
 } from './getAggregateVisualizationLayout';
-import { QUERY_TYPES } from '../../../../sharedUtilities/constants';
+import {
+  DATE_RANGE_TYPE,
+  QUERY_TYPES
+} from '../../../../sharedUtilities/constants';
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -19,11 +22,11 @@ const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Intake Source",
+      text: "Complaints by Intake Source<br><sub>Past 12 Months",
       font: TITLE_FONT
     },
     margin: {
-      b: 170
+      t: 160
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
@@ -32,18 +35,18 @@ const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Complainant Type",
+      text: "Complaints by Complainant Type<br><sub>Past 12 Months",
       font: TITLE_FONT
     },
     margin: {
-      b: 170
+      t: 160
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     barmode: "group",
     font: LABEL_FONT,
     title: {
-      text: "Complainant Type over Past 12 Months",
+      text: "Complainant Type<br><sub>Past 12 Months",
       font: TITLE_FONT
     }
   },
@@ -125,11 +128,21 @@ const extendedLayouts = {
   }
 };
 
-const allTestObjects = Object.keys(QUERY_TYPES).reduce((testObjects, queryType) => {
-  const testObject = {
-    isPublic: true,
-    queryType,
-  };
+const allTestObjects = Object.values(QUERY_TYPES).reduce((testObjects, queryType) => {
+  if (queryType === QUERY_TYPES.COUNT_COMPLAINT_TOTALS) return testObjects;
+  
+  const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
+  const allProps = get(dynamicLayoutProps, queryType, []);
+
+  const newData = Object.keys(allProps).reduce((newerData, propName) => {
+    const randomNumber = Math.floor(Math.random() * 5);
+    const allParams = get(allProps, propName, []).slice(1);
+    allParams.forEach(paramName => set(newerData, paramName, randomNumber));
+    return newerData;
+  }, {});
+  
+  const testObject = { isPublic: true, queryType, queryOptions, newData };
+  
   testObjects.push({ ...testObject });
   
   testObject.isPublic = false;
@@ -138,17 +151,28 @@ const allTestObjects = Object.keys(QUERY_TYPES).reduce((testObjects, queryType) 
   return testObjects;
 }, []);
 
-const runTestWithObject = ({ queryType, isPublic, newData }) => {
+const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
   const testDescription = `should provide the correct layout, given ${queryType} and the visualization ${isPublic ? 'is' : 'is not'} public`;
   test(testDescription, () => {
-    const proposedLayout = getAggregateVisualizationLayout({ queryType, isPublic, newData: {} });
-
-    
+    const proposedLayout = getAggregateVisualizationLayout({
+      queryType,
+      isPublic,
+      queryOptions,
+      newData
+    });
+   
     let expectedLayout = { ...baseLayouts[queryType] };
+
     if (isPublic) {
       expectedLayout = { ...expectedLayout, ...extendedLayouts[queryType] };
     }
 
+    const currentDynamicProps = get(dynamicLayoutProps, queryType, []);
+    expectedLayout = {
+      ...expectedLayout,
+      ...evaluateDynamicProps(currentDynamicProps, newData)
+    };
+    
     expect(proposedLayout).toEqual(expectedLayout);
   });
 };
