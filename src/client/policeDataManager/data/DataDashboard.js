@@ -50,6 +50,7 @@ class DataDashboard extends Component {
               queryType={
                 QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
               }
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
             />
           </div>
           <br />

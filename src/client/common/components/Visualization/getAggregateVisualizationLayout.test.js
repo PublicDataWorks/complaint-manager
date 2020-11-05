@@ -1,19 +1,15 @@
 import { get, set } from "lodash";
 
-import {
-  COLORS,
-  LABEL_FONT,
-  TITLE_FONT
-} from "./dataVizStyling";
+import { COLORS, LABEL_FONT, TITLE_FONT } from "./dataVizStyling";
 import {
   dynamicLayoutProps,
   evaluateDynamicProps,
   getAggregateVisualizationLayout
-} from './getAggregateVisualizationLayout';
+} from "./getAggregateVisualizationLayout";
 import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
-} from '../../../../sharedUtilities/constants';
+} from "../../../../sharedUtilities/constants";
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -22,7 +18,7 @@ const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Intake Source<br><sub>Past 12 Months",
+      text: "Intake Source<br><sub>Past 12 Months",
       font: TITLE_FONT
     },
     margin: {
@@ -35,7 +31,7 @@ const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Complainant Type<br><sub>Past 12 Months",
+      text: "Complainant Type<br><sub>Past 12 Months",
       font: TITLE_FONT
     },
     margin: {
@@ -128,31 +124,36 @@ const extendedLayouts = {
   }
 };
 
-const allTestObjects = Object.values(QUERY_TYPES).reduce((testObjects, queryType) => {
-  if (queryType === QUERY_TYPES.COUNT_COMPLAINT_TOTALS) return testObjects;
-  
-  const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
-  const allProps = get(dynamicLayoutProps, queryType, []);
+const allTestObjects = Object.values(QUERY_TYPES).reduce(
+  (testObjects, queryType) => {
+    if (queryType === QUERY_TYPES.COUNT_COMPLAINT_TOTALS) return testObjects;
 
-  const newData = Object.keys(allProps).reduce((newerData, propName) => {
-    const randomNumber = Math.floor(Math.random() * 5);
-    const allParams = get(allProps, propName, []).slice(1);
-    allParams.forEach(paramName => set(newerData, paramName, randomNumber));
-    return newerData;
-  }, {});
-  
-  const testObject = { isPublic: true, queryType, queryOptions, newData };
-  
-  testObjects.push({ ...testObject });
-  
-  testObject.isPublic = false;
-  testObjects.push(testObject);
-  
-  return testObjects;
-}, []);
+    const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
+    const allProps = get(dynamicLayoutProps, queryType, []);
+
+    const newData = Object.keys(allProps).reduce((newerData, propName) => {
+      const randomNumber = Math.floor(Math.random() * 5);
+      const allParams = get(allProps, propName, []).slice(1);
+      allParams.forEach(paramName => set(newerData, paramName, randomNumber));
+      return newerData;
+    }, {});
+
+    const testObject = { isPublic: true, queryType, queryOptions, newData };
+
+    testObjects.push({ ...testObject });
+
+    testObject.isPublic = false;
+    testObjects.push(testObject);
+
+    return testObjects;
+  },
+  []
+);
 
 const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
-  const testDescription = `should provide the correct layout, given ${queryType} and the visualization ${isPublic ? 'is' : 'is not'} public`;
+  const testDescription = `should provide the correct layout, given ${queryType} and the visualization ${
+    isPublic ? "is" : "is not"
+  } public`;
   test(testDescription, () => {
     const proposedLayout = getAggregateVisualizationLayout({
       queryType,
@@ -160,7 +161,7 @@ const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
       queryOptions,
       newData
     });
-   
+
     let expectedLayout = { ...baseLayouts[queryType] };
 
     if (isPublic) {
@@ -172,13 +173,11 @@ const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
       ...expectedLayout,
       ...evaluateDynamicProps(currentDynamicProps, newData)
     };
-    
+
     expect(proposedLayout).toEqual(expectedLayout);
   });
 };
 
-
 describe("getAggregateVisualizationLayout", () => {
   allTestObjects.forEach(runTestWithObject);
 });
-      
