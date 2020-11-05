@@ -1,7 +1,7 @@
 import { Container, Grid, Typography, Link } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import styles from "./dashboardStyling/styles";
-import React, { Component } from "react";
+import React from "react";
 import logoSmall from "./assets/logo_sm.svg";
 
 const DashboardNavBar = () => {
@@ -21,7 +21,7 @@ const DashboardNavBar = () => {
         <Container
           style={{
             display: "flex",
-            padding: "48px 0px",
+            padding: isMobile ? "24px 0px" : "48px 0px",
             alignItems: "center",
             justifyContent: "flex-end"
           }}
