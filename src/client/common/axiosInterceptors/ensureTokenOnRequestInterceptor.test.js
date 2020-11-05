@@ -44,7 +44,7 @@ describe("ensureTokenOnRequestInterceptor", () => {
           throw new Error("Error: Authorization header present on request");
         });
 
-      await getVisualizationData(queryType, false);
+      await getVisualizationData({ queryType, isPublic: true });
     });
 
     test("should add access token to request headers on non-public routes", async () => {
