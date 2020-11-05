@@ -3,18 +3,35 @@ import { Button, Grid, Icon, Link, Typography } from "@material-ui/core";
 import styles from "./dashboardStyling/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
+import useTheme from "@material-ui/core/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
+import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 
-const DashboardAbout = () => {
+const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
-    <MuiThemeProvider theme={dashboardStyling}>
+    <MuiThemeProvider
+      theme={isMobile ? dashboardStylingMobile : dashboardStylingDesktop}
+    >
+      <MuiThemeProvider theme={dashboardStyling}>
+        <DashboardAbout />
+      </MuiThemeProvider>
+    </MuiThemeProvider>
+  );
+};
+
+const DashboardAbout = () => {
+  const theme = useTheme();
+
+  return (
+    <div>
       <Grid
         container
         spacing={3}
         style={{
-          padding: isMobile ? "20px" : "64px 108px",
+          padding: theme.dashboard.about.padding,
           backgroundColor: "white"
         }}
       >
@@ -51,13 +68,13 @@ const DashboardAbout = () => {
             </Typography>
           </Button>
         </Grid>
-        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "108px" }}>
+        <Grid item xs={7} style={{ paddingBottom: "108px" }}>
           <Typography variant="h2">About the Dashboard</Typography>
         </Grid>
         <Grid item xs={7}>
           <Typography variant="h2">Complaints</Typography>
         </Grid>
-        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "96px" }}>
+        <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
           <Typography variant="body1">
             In 2019, the Office of the Independent Police Monitor received one
             hundred (100) complaints. <br />
@@ -80,7 +97,7 @@ const DashboardAbout = () => {
         <Grid item xs={7}>
           <Typography variant="h2">Data</Typography>
         </Grid>
-        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "96px" }}>
+        <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
           <Typography variant="body1">
             The Office of the Independent Police Monitor is sharing this data
             with the community and public with the hope of increasing
@@ -113,7 +130,7 @@ const DashboardAbout = () => {
         <Grid item xs={7}>
           <Typography variant="h2">What's next?</Typography>
         </Grid>
-        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "64px" }}>
+        <Grid item xs={12} sm={7} style={{ paddingBottom: "64px" }}>
           <Typography variant="body1">
             At this time, these tables do not include any data visualizations
             regarding the complaints submitted directly to the NOPD’s Public
@@ -133,8 +150,8 @@ const DashboardAbout = () => {
         </Grid>
       </Grid>
       <Typography style={{ padding: "24px 56px 56px 56px" }}>&nbsp;</Typography>
-    </MuiThemeProvider>
+    </div>
   );
 };
 
-export default DashboardAbout;
+export default DashboardAboutWrapper;

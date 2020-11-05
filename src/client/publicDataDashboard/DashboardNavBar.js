@@ -3,17 +3,20 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import styles from "./dashboardStyling/styles";
 import React from "react";
 import logoSmall from "./assets/logo_sm.svg";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const DashboardNavBar = () => {
+  const theme = useTheme();
   const isMobile = useMediaQuery("(max-width:768px)");
+
   return (
     <Grid container>
       <Grid item xs={8} style={{ marginBottom: "22px" }}>
         <img
           src={isMobile ? logoSmall : "/favicon.ico"}
           style={{
-            width: isMobile ? "54px" : "132px",
-            height: isMobile ? "66px" : "120px"
+            width: theme.dashboard.navBar.logoWidth,
+            height: theme.dashboard.navBar.logoHeight
           }}
         />
       </Grid>
@@ -21,7 +24,7 @@ const DashboardNavBar = () => {
         <Container
           style={{
             display: "flex",
-            padding: isMobile ? "24px 0px" : "48px 0px",
+            padding: theme.dashboard.navBar.padding,
             alignItems: "center",
             justifyContent: "flex-end"
           }}

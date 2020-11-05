@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
+import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
+import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import styles from "./dashboardStyling/styles";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
@@ -16,6 +18,7 @@ import DashboardDataSection from "./DashboardDataSection";
 import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
@@ -27,22 +30,36 @@ const scrollIntoViewById = selector => event => {
   });
 };
 
-const PublicDataDashboard = () => {
+const PublicDataDashboardWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
+
+  return (
+    <MuiThemeProvider
+      theme={isMobile ? dashboardStylingMobile : dashboardStylingDesktop}
+    >
+      <MuiThemeProvider theme={dashboardStyling}>
+        <PublicDataDashboard />
+      </MuiThemeProvider>
+    </MuiThemeProvider>
+  );
+};
+
+const PublicDataDashboard = () => {
+  const theme = useTheme();
   const currentDate = formatShortDate(moment(Date.now()));
 
   return (
-    <MuiThemeProvider theme={dashboardStyling}>
+    <div>
       <Grid
         container
         spacing={3}
         style={{
-          padding: isMobile ? "20px" : "64px",
+          padding: theme.dashboard.padding,
           backgroundColor: "white"
         }}
       >
         <DashboardNavBar />
-        <Grid item xs={isMobile ? 12 : 8}>
+        <Grid item xs={12} md={8}>
           <Typography variant="h3">
             The{" "}
             <Link href="https://nolaipm.gov/" style={styles.link}>
@@ -52,7 +69,7 @@ const PublicDataDashboard = () => {
             inform and empower the community the office was designed to serve.
           </Typography>
         </Grid>
-        <Grid item xs={isMobile ? 12 : 8}>
+        <Grid item xs={12} md={8}>
           <Typography variant="body1">
             The Office of the Independent Police Monitor receives commendations
             and complaints, monitors and reviews misconduct complaint
@@ -275,7 +292,7 @@ const PublicDataDashboard = () => {
                 color: styles.colors.white,
                 paddingLeft: "6px",
                 paddingBottom: "36px",
-                maxWidth: isMobile ? "100%" : "65%"
+                maxWidth: "65%"
               }}
             >
               Have you had an encounter with police?
@@ -307,8 +324,8 @@ const PublicDataDashboard = () => {
       >
         {`Last updated ${currentDate}`}
       </Typography>
-    </MuiThemeProvider>
+    </div>
   );
 };
 
-export default PublicDataDashboard;
+export default PublicDataDashboardWrapper;

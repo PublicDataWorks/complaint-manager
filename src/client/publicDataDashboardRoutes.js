@@ -1,15 +1,15 @@
 import React from "react";
-import PublicDataDashboard from "./publicDataDashboard/PublicDataDashboard";
-import DashboardAbout from "./publicDataDashboard/DashboardAbout";
+import PublicDataDashboardWrapper from "./publicDataDashboard/PublicDataDashboard";
+import DashboardAboutWrapper from "./publicDataDashboard/DashboardAbout";
 
 const publicDataDashboardRoutes = [
   {
     path: "/data",
-    component: PublicDataDashboard
+    component: PublicDataDashboardWrapper
   },
   {
     path: "/data/about",
-    component: DashboardAbout
+    component: DashboardAboutWrapper
   }
 ];
 
