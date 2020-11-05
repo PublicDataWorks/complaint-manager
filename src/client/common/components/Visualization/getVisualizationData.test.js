@@ -31,45 +31,38 @@ describe("getVisualizationData", () => {
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData(queryType, {
-      dateRangeType: DATE_RANGE_TYPE.YTD
+    await getVisualizationData({
+      queryType,
+      queryOptions: {
+        dateRangeType: DATE_RANGE_TYPE.YTD
+      }
     });
 
     // Assert
     expect(axios.get).toHaveBeenCalledWith(
-      `/api/public-data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
+      `/api/data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
     );
     expect(countComplaintsByIntakeSource.transformData).toHaveBeenCalled();
   });
 
   test("should call countComplaintsByComplainantType transformer", async () => {
     // Arrange
-    const queryType = "countComplaintsByIntakeSource";
+    const queryType = "countComplaintsByComplainantType";
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData("countComplaintsByComplainantType", {
-      dateRangeType: DATE_RANGE_TYPE.YTD
+    await getVisualizationData({
+      queryType: "countComplaintsByComplainantType",
+      queryOptions: {
+        dateRangeType: DATE_RANGE_TYPE.YTD
+      }
     });
 
     // Assert
     expect(axios.get).toHaveBeenCalledWith(
-      `/api/public-data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
+      `/api/data?queryType=${queryType}&dateRangeType=${DATE_RANGE_TYPE.YTD}`
     );
     expect(countComplaintsByComplainantType.transformData).toHaveBeenCalled();
-  });
-
-  test("should call countComplaintsByComplainantTypePast12Months transformer", async () => {
-    // Arrange
-    axios.get.mockResolvedValue({});
-
-    // Act
-    await getVisualizationData("countComplaintsByComplainantTypePast12Months");
-
-    // Assert
-    expect(
-      countComplaintsByComplainantTypePast12Months.transformData
-    ).toHaveBeenCalled();
   });
 
   test("should call countTop10Tags transformer", async () => {
@@ -77,7 +70,7 @@ describe("getVisualizationData", () => {
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData("countTop10Tags");
+    await getVisualizationData({ queryType: "countTop10Tags" });
 
     // Assert
     expect(countTop10Tags.transformData).toHaveBeenCalled();
@@ -85,7 +78,7 @@ describe("getVisualizationData", () => {
 
   test("should throw error if query type is unsupported", async () => {
     // Act
-    await expect(getVisualizationData("unsupportedQueryType")).rejects.toThrow(
+    await expect(getVisualizationData({ queryType: "unsupportedQueryType" })).rejects.toThrow(
       BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED
     );
   });

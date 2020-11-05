@@ -23,8 +23,9 @@ export const getVisualizationData = async ({ queryType, isPublic = false, queryO
   const { data } = await axios.get(
     `/api/${isPublic ? 'public-' : ''}data?queryType=${queryType}${queryOptionParams}`
   );
-  
+
   const currentTransformer = transformers[queryType] || null;
+  
   if (!currentTransformer) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
   }

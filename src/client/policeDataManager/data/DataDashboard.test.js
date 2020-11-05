@@ -66,15 +66,6 @@ describe("DataDashboard", () => {
     ).toBeTrue();
   });
 
-  test("should display Complaints by Complainant Type Past 12 Months Visualization", async () => {
-    dataDashboardWrapper.update();
-    expect(
-      dataDashboardWrapper
-        .find('[data-testid="complainantTypePast12MonthsGraph"]')
-        .exists()
-    ).toBeTrue();
-  });
-
   test("should display Top 10 Tags Visualization", async () => {
     dataDashboardWrapper.update();
     expect(
