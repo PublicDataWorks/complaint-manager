@@ -1,139 +1,140 @@
-import React, { Component } from "react";
+import React from "react";
 import { Button, Grid, Icon, Link, Typography } from "@material-ui/core";
 import styles from "./dashboardStyling/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-class DashboardAbout extends Component {
-  render() {
-    return (
-      <MuiThemeProvider theme={dashboardStyling}>
+const DashboardAbout = () => {
+  const isMobile = useMediaQuery("(max-width:768px)");
+
+  return (
+    <MuiThemeProvider theme={dashboardStyling}>
+      <Grid
+        container
+        spacing={3}
+        style={{
+          padding: isMobile ? "20px" : "64px 108px",
+          backgroundColor: "white"
+        }}
+      >
         <Grid
-          container
-          spacing={3}
-          style={{ padding: "64px 108px", backgroundColor: "white" }}
+          item
+          xs={7}
+          style={{ paddingTop: "32px", paddingBottom: "120px" }}
         >
-          <Grid
-            item
-            xs={7}
-            style={{ paddingTop: "32px", paddingBottom: "120px" }}
+          <Button
+            variant="contained"
+            href="/data"
+            style={{
+              textTransform: "none",
+              padding: "16px 24px",
+              borderRadius: 3,
+              boxShadow: "none",
+              backgroundColor: styles.colors.buttonGray,
+              marginBottom: "4px"
+            }}
           >
-            <Button
-              variant="contained"
-              href="/data"
+            <Icon
               style={{
-                textTransform: "none",
-                padding: "16px 24px",
-                borderRadius: 3,
-                boxShadow: "none",
-                backgroundColor: styles.colors.buttonGray,
-                marginBottom: "4px"
+                color: styles.colors.iconGray,
+                marginRight: "16px"
               }}
             >
-              <Icon
-                style={{
-                  color: styles.colors.iconGray,
-                  marginRight: "16px"
-                }}
-              >
-                arrow_back
-              </Icon>
-              <Typography
-                variant="body2"
-                style={{ color: styles.colors.textGray }}
-              >
-                Return to front page
-              </Typography>
-            </Button>
-          </Grid>
-          <Grid item xs={7} style={{ paddingBottom: "108px" }}>
-            <Typography variant="h2">About the Dashboard</Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="h2">Complaints</Typography>
-          </Grid>
-          <Grid item xs={7} style={{ paddingBottom: "96px" }}>
-            <Typography variant="body1">
-              In 2019, the Office of the Independent Police Monitor received one
-              hundred (100) complaints. <br />
-              <br /> These complaints ranged from how the police interacted with
-              them and their loved ones during calls for assistance to how the
-              police treated one another internally. <br />
-              <br /> The Office of the Independent Police Monitor received named
-              and anonymous complaints from officers and civilians working
-              within the New Orleans Police Department. <br />
-              <br /> Some of the complaints were from officers who were speaking
-              up regarding disparities in disciplinary concerns and some
-              anonymous complaints brought the OIPM’s attention to possible
-              relationships between supervisors and subordinates and misuse of
-              Department equipment. <br />
-              <br /> Each complaint was an opportunity for the Office of the
-              Independent Police Monitor to make these individuals feel heard
-              and to work alongside the NOPD to ensure there was accountability.
+              arrow_back
+            </Icon>
+            <Typography
+              variant="body2"
+              style={{ color: styles.colors.textGray }}
+            >
+              Return to front page
             </Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="h2">Data</Typography>
-          </Grid>
-          <Grid item xs={7} style={{ paddingBottom: "96px" }}>
-            <Typography variant="body1">
-              The Office of the Independent Police Monitor is sharing this data
-              with the community and public with the hope of increasing
-              transparency to inform and empower the community the Office of the
-              Independent Police Monitor was designed to serve. The public, our
-              partners, and stakeholders can reference these charts and data in
-              their work and further share this information. <br />
-              <br /> Complaints of officer misconduct and accounts of exemplary
-              policing from both the community and those within the police
-              district are valuable and can be the catalyst for important
-              progress within the police department. Each complaint and
-              commendation is an opportunity for the New Orleans Police
-              Department (NOPD) to learn more about themselves and to adapt to
-              the changing needs of the community, and when properly handled
-              brings the NOPD one step closer to being in full compliance with
-              the Federal Consent Decree. <br />
-              <br /> This dashboard contains data visualizations regarding our
-              complaint process and the complaints the Office of the Independent
-              Police Monitor received. The charts and graphs capture different
-              aspects of our internal process regarding complaint intake or
-              information about the complaints or the complainant themselves.
-              The data only captures the accounts of officer misconduct
-              submitted directly to the Office of the Independent Police
-              Monitor. This data is taken directly from our internally designed
-              database: Police Data Manager. <br />
-              <br /> As information is entered into Police Data Manager by our
-              staff and complaint referrals are submitted to the Public
-              Integrity Bureau, the data will automatically update once daily.
-            </Typography>
-          </Grid>
-          <Grid item xs={7}>
-            <Typography variant="h2">What's next?</Typography>
-          </Grid>
-          <Grid item xs={7} style={{ paddingBottom: "64px" }}>
-            <Typography variant="body1">
-              At this time, these tables do not include any data visualizations
-              regarding the complaints submitted directly to the NOPD’s Public
-              Integrity Bureau. <br />
-              <br /> In the future, the OIPM seeks to expand our data
-              visualizations to include: data regarding requests for
-              commendations to recognize positive policing, data from complaints
-              received by our remote intake sites, data regarding the outcome of
-              the investigations or disciplinary actions taken in response to
-              these complaints, and data regarding complaints submitted to
-              directly to the Public Integrity Bureau. <br />
-              <br /> For more data visualizations regarding some of these topics
-              and Use of Force and Critical Incidents, please see the annual
-              report section of the OIPM website (link out to annual report{" "}
-              <Link href="https://nolaipm.gov/annual-reports/">here</Link>).
-            </Typography>
-          </Grid>
+          </Button>
         </Grid>
-        <Typography style={{ padding: "24px 56px 56px 56px" }}>
-          &nbsp;
-        </Typography>
-      </MuiThemeProvider>
-    );
-  }
-}
+        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "108px" }}>
+          <Typography variant="h2">About the Dashboard</Typography>
+        </Grid>
+        <Grid item xs={7}>
+          <Typography variant="h2">Complaints</Typography>
+        </Grid>
+        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "96px" }}>
+          <Typography variant="body1">
+            In 2019, the Office of the Independent Police Monitor received one
+            hundred (100) complaints. <br />
+            <br /> These complaints ranged from how the police interacted with
+            them and their loved ones during calls for assistance to how the
+            police treated one another internally. <br />
+            <br /> The Office of the Independent Police Monitor received named
+            and anonymous complaints from officers and civilians working within
+            the New Orleans Police Department. <br />
+            <br /> Some of the complaints were from officers who were speaking
+            up regarding disparities in disciplinary concerns and some anonymous
+            complaints brought the OIPM’s attention to possible relationships
+            between supervisors and subordinates and misuse of Department
+            equipment. <br />
+            <br /> Each complaint was an opportunity for the Office of the
+            Independent Police Monitor to make these individuals feel heard and
+            to work alongside the NOPD to ensure there was accountability.
+          </Typography>
+        </Grid>
+        <Grid item xs={7}>
+          <Typography variant="h2">Data</Typography>
+        </Grid>
+        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "96px" }}>
+          <Typography variant="body1">
+            The Office of the Independent Police Monitor is sharing this data
+            with the community and public with the hope of increasing
+            transparency to inform and empower the community the Office of the
+            Independent Police Monitor was designed to serve. The public, our
+            partners, and stakeholders can reference these charts and data in
+            their work and further share this information. <br />
+            <br /> Complaints of officer misconduct and accounts of exemplary
+            policing from both the community and those within the police
+            district are valuable and can be the catalyst for important progress
+            within the police department. Each complaint and commendation is an
+            opportunity for the New Orleans Police Department (NOPD) to learn
+            more about themselves and to adapt to the changing needs of the
+            community, and when properly handled brings the NOPD one step closer
+            to being in full compliance with the Federal Consent Decree. <br />
+            <br /> This dashboard contains data visualizations regarding our
+            complaint process and the complaints the Office of the Independent
+            Police Monitor received. The charts and graphs capture different
+            aspects of our internal process regarding complaint intake or
+            information about the complaints or the complainant themselves. The
+            data only captures the accounts of officer misconduct submitted
+            directly to the Office of the Independent Police Monitor. This data
+            is taken directly from our internally designed database: Police Data
+            Manager. <br />
+            <br /> As information is entered into Police Data Manager by our
+            staff and complaint referrals are submitted to the Public Integrity
+            Bureau, the data will automatically update once daily.
+          </Typography>
+        </Grid>
+        <Grid item xs={7}>
+          <Typography variant="h2">What's next?</Typography>
+        </Grid>
+        <Grid item xs={isMobile ? 12 : 7} style={{ paddingBottom: "64px" }}>
+          <Typography variant="body1">
+            At this time, these tables do not include any data visualizations
+            regarding the complaints submitted directly to the NOPD’s Public
+            Integrity Bureau. <br />
+            <br /> In the future, the OIPM seeks to expand our data
+            visualizations to include: data regarding requests for commendations
+            to recognize positive policing, data from complaints received by our
+            remote intake sites, data regarding the outcome of the
+            investigations or disciplinary actions taken in response to these
+            complaints, and data regarding complaints submitted to directly to
+            the Public Integrity Bureau. <br />
+            <br /> For more data visualizations regarding some of these topics
+            and Use of Force and Critical Incidents, please see the annual
+            report section of the OIPM website (link out to annual report{" "}
+            <Link href="https://nolaipm.gov/annual-reports/">here</Link>).
+          </Typography>
+        </Grid>
+      </Grid>
+      <Typography style={{ padding: "24px 56px 56px 56px" }}>&nbsp;</Typography>
+    </MuiThemeProvider>
+  );
+};
 
 export default DashboardAbout;
