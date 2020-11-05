@@ -1,9 +1,9 @@
-import { get, set, isEmpty } from 'lodash';
-import { BAD_REQUEST_ERRORS } from '../../../../sharedUtilities/errorMessageConstants';
+import { get, set, isEmpty } from "lodash";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
-} from '../../../../sharedUtilities/constants';
+} from "../../../../sharedUtilities/constants";
 import {
   COLORS,
   LABEL_FONT,
@@ -13,7 +13,7 @@ import {
   generateYAxisRange
 } from "./dataVizStyling";
 
-export const FULL_LAYOUT = 'FULL_LAYOUT';
+export const FULL_LAYOUT = "FULL_LAYOUT";
 
 export const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -22,7 +22,7 @@ export const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Intake Source",
+      text: "Intake Source",
       font: TITLE_FONT
     },
     margin: {
@@ -35,7 +35,7 @@ export const baseLayouts = {
     height: 600,
     width: 800,
     title: {
-      text: "Complaints by Complainant Type",
+      text: "Complainant Type",
       font: TITLE_FONT
     },
     margin: {
@@ -130,33 +130,33 @@ export const extendedLayouts = {
 
 export const dynamicLayoutProps = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    annotations: [generateDonutCenterAnnotations, 'data.0.count']
+    annotations: [generateDonutCenterAnnotations, "data.0.count"]
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    annotations: [generateDonutCenterAnnotations, 'data.0.count']
+    annotations: [generateDonutCenterAnnotations, "data.0.count"]
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    [FULL_LAYOUT]: [generateNoTagsLayout, 'data.0.x.length', 'data.0.y.length']
+    [FULL_LAYOUT]: [generateNoTagsLayout, "data.0.x.length", "data.0.y.length"]
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
-    yaxis: [generateYAxisRange, 'data.8.maximum']
+    yaxis: [generateYAxisRange, "data.8.maximum"]
   }
 };
 
 export const subtitles = {
-  [DATE_RANGE_TYPE.PAST_12_MONTHS]: 'Past 12 Months',
-  [DATE_RANGE_TYPE.YTD]: 'Year-to-Date'
+  [DATE_RANGE_TYPE.PAST_12_MONTHS]: "Past 12 Months",
+  [DATE_RANGE_TYPE.YTD]: "Year-to-Date"
 };
 
 export const evaluateDynamicProps = (currentDynamicProps, newData) => {
   let currentDynamicLayout = {};
-  
+
   Object.keys(currentDynamicProps).forEach(propName => {
     const [callback, ...params] = currentDynamicProps[propName];
-    
+
     const allValues = params.map(paramName => get(newData, paramName, null));
     const extraProps = callback.apply(null, allValues);
-    
+
     if (propName === FULL_LAYOUT) {
       currentDynamicLayout = { ...currentDynamicLayout, ...extraProps };
     } else {
@@ -165,7 +165,7 @@ export const evaluateDynamicProps = (currentDynamicProps, newData) => {
   });
 
   return currentDynamicLayout;
-}
+};
 
 export const getAggregateVisualizationLayout = ({
   queryType = null,
@@ -174,28 +174,28 @@ export const getAggregateVisualizationLayout = ({
   newData = {}
 }) => {
   let aggregateLayout = get(baseLayouts, queryType, {});
-  
+
   if (isEmpty(aggregateLayout)) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
   }
-  
+
   const currentExtendedLayout = get(extendedLayouts, queryType, {});
 
   if (isPublic) {
     aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
   }
-  
+
   if (queryOptions.dateRangeType) {
-    const currentTitle = get(aggregateLayout, ['title', 'text'], '');
-    const currentSubtitle = subtitles[queryOptions.dateRangeType] || '';
-    const newSubtitle = [currentTitle, currentSubtitle].join('<br><sub>');
+    const currentTitle = get(aggregateLayout, ["title", "text"], "");
+    const currentSubtitle = subtitles[queryOptions.dateRangeType] || "";
+    const newSubtitle = [currentTitle, currentSubtitle].join("<br><sub>");
 
     if (currentTitle) {
       const title = {
         text: newSubtitle,
         font: TITLE_FONT
       };
-      
+
       aggregateLayout = {
         ...aggregateLayout,
         ...{ title }
@@ -204,7 +204,8 @@ export const getAggregateVisualizationLayout = ({
   }
 
   const currentDynamicProps = get(dynamicLayoutProps, queryType, {});
-  return { ...aggregateLayout, ...evaluateDynamicProps(currentDynamicProps, newData) };
+  return {
+    ...aggregateLayout,
+    ...evaluateDynamicProps(currentDynamicProps, newData)
+  };
 };
-
-
