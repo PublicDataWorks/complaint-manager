@@ -77,7 +77,7 @@ export const PUBLIC_ROUTES = {
     get: {
       handler: getPublicData,
       errorMessage:
-        "Something went wrong and the data could not be retrieved. Please try again."
+        "Dashboard is not updating at this time, please check back later."
     }
   }
 };
@@ -452,7 +452,7 @@ export const API_ROUTES = {
     get: {
       handler: getData,
       errorMessage:
-        "Something went wrong and the data could not be retrieved. Please try again."
+        "Dashboard is not updating at this time, please check back later."
     }
   },
   "/districts": {
