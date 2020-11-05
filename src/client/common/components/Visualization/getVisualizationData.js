@@ -12,6 +12,7 @@ import { transformData as countComplaintsByComplainantTypePast12MonthsTransforme
 const transformers = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: countComplaintsByIntakeSourceTransformer,
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: countComplaintsByComplainantTypeTransformer,
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: countComplaintsByComplainantTypePast12MonthsTransformer,
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: countTop10TagsTransformer
 };
 

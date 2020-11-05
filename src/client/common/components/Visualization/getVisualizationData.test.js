@@ -65,6 +65,18 @@ describe("getVisualizationData", () => {
     expect(countComplaintsByComplainantType.transformData).toHaveBeenCalled();
   });
 
+  test("should call countComplaintsByComplainantTypePast12Months transformer", async () => {
+    // Arrange
+    axios.get.mockResolvedValue({});
+
+    // Act
+    await getVisualizationData({ queryType: "countComplaintsByComplainantTypePast12Months" });
+
+    // Assert
+    expect(
+      countComplaintsByComplainantTypePast12Months.transformData
+    ).toHaveBeenCalled();
+  });
   test("should call countTop10Tags transformer", async () => {
     // Arrange
     axios.get.mockResolvedValue({});

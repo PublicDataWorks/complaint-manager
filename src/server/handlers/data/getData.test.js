@@ -6,6 +6,8 @@ import * as httpMocks from "node-mocks-http";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
+import * as countComplaintsByComplainantTypePast12Months from "./queries/countComplaintsByComplainantTypePast12Months";
+import * as countTop10Tags from "./queries/countTop10Tags";
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -21,6 +23,15 @@ const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
   { complainantType: "Anonymous (AC)" },
   { complainantType: "Civilian Within NOPD (CN)" }
 ];
+
+const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = {
+  "CC": [],
+  "PO": [],
+  "CN": [],
+  "AC": []
+}
+
+const MOCK_TOP_TAGS_VALUES = [];
 
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
@@ -39,6 +50,24 @@ jest.mock(
   () => ({
     executeQuery: jest.fn(() => {
       return MOCK_COMPLAINANT_TYPE_DATA_VALUES;
+    })
+  })
+);
+
+jest.mock(
+  "../../handlers/data/queries/countComplaintsByComplainantTypePast12Months",
+  () => ({
+    executeQuery: jest.fn(() => {
+      return MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES;
+    })
+  })
+);
+
+jest.mock(
+  "../../handlers/data/queries/countTop10Tags",
+  () => ({
+    executeQuery: jest.fn(() => {
+      return MOCK_TOP_TAGS_VALUES;
     })
   })
 );
@@ -104,6 +133,36 @@ describe("getData", () => {
       "YTD"
     );
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
+  });
+
+  test("should call getData when countComplaintsByComplainantTypePast12Months query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "countComplaintsByComplainantTypePast12Months"
+      },
+      nickname: "tuser"
+    });
+
+    await getData(request, response, next);
+
+    expect(countComplaintsByComplainantTypePast12Months.executeQuery).toHaveBeenCalledWith("tuser");
+    expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES);
+  });
+
+  test("should call getData when countTop10Tags query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "countTop10Tags"
+      },
+      nickname: "tuser"
+    });
+
+    await getData(request, response, next);
+
+    expect(countTop10Tags.executeQuery).toHaveBeenCalledWith("tuser");
+    expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
   });
 
   test("throws an error when query param is not supported", async () => {
