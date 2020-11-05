@@ -59,7 +59,7 @@ const PublicDataDashboard = () => {
         }}
       >
         <DashboardNavBar />
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} sm={8}>
           <Typography variant="h3">
             The{" "}
             <Link href="https://nolaipm.gov/" style={styles.link}>
@@ -69,7 +69,7 @@ const PublicDataDashboard = () => {
             inform and empower the community the office was designed to serve.
           </Typography>
         </Grid>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} sm={8}>
           <Typography variant="body1">
             The Office of the Independent Police Monitor receives commendations
             and complaints, monitors and reviews misconduct complaint

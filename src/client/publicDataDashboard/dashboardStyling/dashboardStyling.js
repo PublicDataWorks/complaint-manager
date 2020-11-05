@@ -17,6 +17,15 @@ const muiTheme = createMuiTheme({
     body2: styles.body2,
     button: styles.button,
     h3: styles.display
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 767,
+      md: 960,
+      lg: 1280,
+      xl: 1920
+    }
   }
 });
 

@@ -3,7 +3,6 @@ import { Grid, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const getIdFromDataSectionType = dataSectionType => {
   if (!dataSectionType || typeof dataSectionType !== "string")
@@ -13,7 +12,6 @@ const getIdFromDataSectionType = dataSectionType => {
 };
 
 const DashboardDataSection = props => {
-  const isMobile = useMediaQuery("(max-width:768px)");
   const { dataSectionType } = props;
   const {
     title,
@@ -27,12 +25,12 @@ const DashboardDataSection = props => {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={isMobile ? 12 : 8}>
+      <Grid item xs={12} sm={8}>
         <Typography id={getIdFromDataSectionType(dataSectionType)} variant="h2">
           {title}
         </Typography>
       </Grid>
-      <Grid item xs={isMobile ? 12 : 8}>
+      <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
       <Grid item xs={12} style={{ padding: 0 }}>
@@ -43,7 +41,7 @@ const DashboardDataSection = props => {
           queryOptions={queryOptions}
         />
       </Grid>
-      <Grid item xs={isMobile ? 12 : 8} style={{ paddingBottom: "117px" }}>
+      <Grid item xs={12} sm={8} style={{ paddingBottom: "117px" }}>
         <TextTruncate collapsedText={collapsedText} message={fullMessage} />
       </Grid>
     </Grid>

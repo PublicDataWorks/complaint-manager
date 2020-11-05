@@ -124,7 +124,8 @@ exports[`Public Data Dashboard should render correct styling for complainants su
       >
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -235,10 +236,11 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 id="complainants-submit-complaints"
@@ -295,7 +297,8 @@ exports[`Public Data Dashboard should render correct styling for complainants su
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -406,10 +409,11 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 variant="subtitle1"
@@ -611,12 +615,13 @@ exports[`Public Data Dashboard should render correct styling for complainants su
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
+          sm={8}
           style={
             Object {
               "paddingBottom": "117px",
             }
           }
-          xs={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -727,15 +732,16 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               }
             }
             item={true}
+            sm={8}
             style={
               Object {
                 "paddingBottom": "117px",
               }
             }
-            xs={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               style={
                 Object {
                   "paddingBottom": "117px",
@@ -1167,7 +1173,8 @@ exports[`Public Data Dashboard should render correct styling for complaints over
       >
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -1278,10 +1285,11 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 id="complaints-over-time"
@@ -1338,7 +1346,8 @@ exports[`Public Data Dashboard should render correct styling for complaints over
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -1449,10 +1458,11 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 variant="subtitle1"
@@ -1649,12 +1659,13 @@ exports[`Public Data Dashboard should render correct styling for complaints over
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
+          sm={8}
           style={
             Object {
               "paddingBottom": "117px",
             }
           }
-          xs={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -1765,15 +1776,16 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               }
             }
             item={true}
+            sm={8}
             style={
               Object {
                 "paddingBottom": "117px",
               }
             }
-            xs={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               style={
                 Object {
                   "paddingBottom": "117px",
@@ -2196,7 +2208,8 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
       >
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -2307,10 +2320,11 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 id="emerging-themes"
@@ -2367,7 +2381,8 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -2478,10 +2493,11 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 variant="subtitle1"
@@ -2678,12 +2694,13 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
+          sm={8}
           style={
             Object {
               "paddingBottom": "117px",
             }
           }
-          xs={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -2794,15 +2811,16 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               }
             }
             item={true}
+            sm={8}
             style={
               Object {
                 "paddingBottom": "117px",
               }
             }
-            xs={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               style={
                 Object {
                   "paddingBottom": "117px",
@@ -3225,7 +3243,8 @@ exports[`Public Data Dashboard should render correct styling for who submits com
       >
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -3336,10 +3355,11 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 id="who-submits-complaints"
@@ -3396,7 +3416,8 @@ exports[`Public Data Dashboard should render correct styling for who submits com
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
-          xs={8}
+          sm={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -3507,10 +3528,11 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               }
             }
             item={true}
-            xs={8}
+            sm={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
             >
               <WithStyles(ForwardRef(Typography))
                 variant="subtitle1"
@@ -3712,12 +3734,13 @@ exports[`Public Data Dashboard should render correct styling for who submits com
         </WithStyles(ForwardRef(Grid))>
         <WithStyles(ForwardRef(Grid))
           item={true}
+          sm={8}
           style={
             Object {
               "paddingBottom": "117px",
             }
           }
-          xs={8}
+          xs={12}
         >
           <ForwardRef(Grid)
             classes={
@@ -3828,15 +3851,16 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               }
             }
             item={true}
+            sm={8}
             style={
               Object {
                 "paddingBottom": "117px",
               }
             }
-            xs={8}
+            xs={12}
           >
             <div
-              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+              className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               style={
                 Object {
                   "paddingBottom": "117px",
