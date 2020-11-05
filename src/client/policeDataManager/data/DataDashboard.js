@@ -44,12 +44,23 @@ class DataDashboard extends Component {
             />
           </div>
           <br />
-          <Visualization
-            data-testid={"top10TagsGraph"}
-            queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
-            queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+          <div>
+            <Visualization
+              data-testid={"complainantTypePast12MonthsGraph"}
+              queryType={
+                QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
+              }
             />
           </div>
+          <br />
+          <div>
+            <Visualization
+              data-testid={"top10TagsGraph"}
+              queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+            />
+          </div>
+        </div>
       </div>
     );
   }
