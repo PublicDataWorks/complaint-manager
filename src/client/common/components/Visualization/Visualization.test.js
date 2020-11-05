@@ -26,21 +26,23 @@ jest.mock("./getVisualizationData", () => ({
 
 describe("Visualization", () => {
   test("should pass correct data and layout options to PlotlyWrapper", async () => {
-    const options = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
+    const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
     // Act
     await act(async () => {
       render(
         <Visualization
           queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-          queryOptions={options}
+          queryOptions={queryOptions}
         />
       );
     });
 
     // Assert
     expect(getVisualizationData).toHaveBeenCalledWith(
-      QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
-      expect.objectContaining(options)
+      expect.objectContaining({
+        queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+        queryOptions
+      })
     );
     expect(PlotlyWrapper).toHaveBeenCalledWith(
       {
