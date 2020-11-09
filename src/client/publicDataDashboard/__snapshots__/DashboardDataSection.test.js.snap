@@ -317,10 +317,12 @@ exports[`Public Data Dashboard should render correct styling for complainants su
   >
     <WithStyles(ForwardRef(Grid))
       container={true}
+      id="complainants-submit-complaints"
       spacing={3}
       style={
         Object {
           "padding": "0px",
+          "paddingTop": "18px",
         }
       }
     >
@@ -433,18 +435,22 @@ exports[`Public Data Dashboard should render correct styling for complainants su
           }
         }
         container={true}
+        id="complainants-submit-complaints"
         spacing={3}
         style={
           Object {
             "padding": "0px",
+            "paddingTop": "18px",
           }
         }
       >
         <div
           className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          id="complainants-submit-complaints"
           style={
             Object {
               "padding": "0px",
+              "paddingTop": "18px",
             }
           }
         >
@@ -569,7 +575,6 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               >
                 <WithStyles(ForwardRef(Typography))
-                  id="complainants-submit-complaints"
                   variant="h2"
                 >
                   <ForwardRef(Typography)
@@ -607,12 +612,10 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                         "subtitle2": "MuiTypography-subtitle2",
                       }
                     }
-                    id="complainants-submit-complaints"
                     variant="h2"
                   >
                     <h2
                       className="MuiTypography-root MuiTypography-h2"
-                      id="complainants-submit-complaints"
                     >
                       How do complainants submit complaints?
                     </h2>
@@ -1693,10 +1696,12 @@ exports[`Public Data Dashboard should render correct styling for complaints over
   >
     <WithStyles(ForwardRef(Grid))
       container={true}
+      id="complaints-over-time"
       spacing={3}
       style={
         Object {
           "padding": "0px",
+          "paddingTop": "18px",
         }
       }
     >
@@ -1809,18 +1814,22 @@ exports[`Public Data Dashboard should render correct styling for complaints over
           }
         }
         container={true}
+        id="complaints-over-time"
         spacing={3}
         style={
           Object {
             "padding": "0px",
+            "paddingTop": "18px",
           }
         }
       >
         <div
           className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          id="complaints-over-time"
           style={
             Object {
               "padding": "0px",
+              "paddingTop": "18px",
             }
           }
         >
@@ -1945,7 +1954,6 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               >
                 <WithStyles(ForwardRef(Typography))
-                  id="complaints-over-time"
                   variant="h2"
                 >
                   <ForwardRef(Typography)
@@ -1983,12 +1991,10 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                         "subtitle2": "MuiTypography-subtitle2",
                       }
                     }
-                    id="complaints-over-time"
                     variant="h2"
                   >
                     <h2
                       className="MuiTypography-root MuiTypography-h2"
-                      id="complaints-over-time"
                     >
                       Who is submitting complaints over time?
                     </h2>
@@ -3055,10 +3061,12 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
   >
     <WithStyles(ForwardRef(Grid))
       container={true}
+      id="emerging-themes"
       spacing={3}
       style={
         Object {
           "padding": "0px",
+          "paddingTop": "18px",
         }
       }
     >
@@ -3171,18 +3179,22 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
           }
         }
         container={true}
+        id="emerging-themes"
         spacing={3}
         style={
           Object {
             "padding": "0px",
+            "paddingTop": "18px",
           }
         }
       >
         <div
           className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          id="emerging-themes"
           style={
             Object {
               "padding": "0px",
+              "paddingTop": "18px",
             }
           }
         >
@@ -3307,7 +3319,6 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               >
                 <WithStyles(ForwardRef(Typography))
-                  id="emerging-themes"
                   variant="h2"
                 >
                   <ForwardRef(Typography)
@@ -3345,12 +3356,10 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                         "subtitle2": "MuiTypography-subtitle2",
                       }
                     }
-                    id="emerging-themes"
                     variant="h2"
                   >
                     <h2
                       className="MuiTypography-root MuiTypography-h2"
-                      id="emerging-themes"
                     >
                       What themes are emerging from the data?
                     </h2>
@@ -4417,10 +4426,12 @@ exports[`Public Data Dashboard should render correct styling for who submits com
   >
     <WithStyles(ForwardRef(Grid))
       container={true}
+      id="who-submits-complaints"
       spacing={3}
       style={
         Object {
           "padding": "0px",
+          "paddingTop": "18px",
         }
       }
     >
@@ -4533,18 +4544,22 @@ exports[`Public Data Dashboard should render correct styling for who submits com
           }
         }
         container={true}
+        id="who-submits-complaints"
         spacing={3}
         style={
           Object {
             "padding": "0px",
+            "paddingTop": "18px",
           }
         }
       >
         <div
           className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-3"
+          id="who-submits-complaints"
           style={
             Object {
               "padding": "0px",
+              "paddingTop": "18px",
             }
           }
         >
@@ -4669,7 +4684,6 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-sm-8"
               >
                 <WithStyles(ForwardRef(Typography))
-                  id="who-submits-complaints"
                   variant="h2"
                 >
                   <ForwardRef(Typography)
@@ -4707,12 +4721,10 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                         "subtitle2": "MuiTypography-subtitle2",
                       }
                     }
-                    id="who-submits-complaints"
                     variant="h2"
                   >
                     <h2
                       className="MuiTypography-root MuiTypography-h2"
-                      id="who-submits-complaints"
                     >
                       Who submits complaints?
                     </h2>
