@@ -10,7 +10,7 @@ const DashboardNavBar = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
-    <Grid container>
+    <Grid container style={{ padding: theme.dashboard.navBar.padding }}>
       <Grid item xs={8} style={{ marginBottom: "22px" }}>
         <img
           src={isMobile ? logoSmall : "/favicon.ico"}
@@ -24,7 +24,7 @@ const DashboardNavBar = () => {
         <Container
           style={{
             display: "flex",
-            padding: theme.dashboard.navBar.padding,
+            padding: theme.dashboard.navBar.menuPadding,
             alignItems: "center",
             justifyContent: "flex-end"
           }}

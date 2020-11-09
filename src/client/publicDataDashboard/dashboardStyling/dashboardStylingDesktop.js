@@ -7,9 +7,16 @@ const muiTheme = createMuiTheme({
       padding: "64px 108px"
     },
     navBar: {
-      padding: "48px 0px",
+      menuPadding: "48px 0px",
       logoWidth: "132px",
       logoHeight: "120px"
+    },
+    box: {
+      padding: "110px 64px 128px",
+      titleMaxWidth: "65%"
+    },
+    dataSection: {
+      padding: "0px"
     }
   }
 });

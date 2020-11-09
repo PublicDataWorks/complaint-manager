@@ -3,6 +3,7 @@ import { Grid, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const getIdFromDataSectionType = dataSectionType => {
   if (!dataSectionType || typeof dataSectionType !== "string")
@@ -12,6 +13,8 @@ const getIdFromDataSectionType = dataSectionType => {
 };
 
 const DashboardDataSection = props => {
+  const theme = useTheme();
+
   const { dataSectionType } = props;
   const {
     title,
@@ -24,7 +27,11 @@ const DashboardDataSection = props => {
   } = DATA_SECTIONS[dataSectionType] || {};
 
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      spacing={3}
+      style={{ padding: theme.dashboard.dataSection.padding }}
+    >
       <Grid item xs={12} sm={8}>
         <Typography id={getIdFromDataSectionType(dataSectionType)} variant="h2">
           {title}
