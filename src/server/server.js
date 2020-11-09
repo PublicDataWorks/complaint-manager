@@ -10,6 +10,7 @@ import {
 const newRelic = require("newrelic");
 
 const express = require("express");
+const enforce = require("express-sslify");
 const path = require("path");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
@@ -37,6 +38,8 @@ winston.configure({
 });
 
 const app = express();
+
+app.use(enforce.HTTPS());
 
 const corsConfig = {
   origin: config.corsOrigin,
