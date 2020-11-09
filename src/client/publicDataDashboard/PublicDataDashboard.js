@@ -100,7 +100,7 @@ const PublicDataDashboard = () => {
               onClick={scrollIntoViewById("#blue-box")}
               style={{
                 textTransform: "none",
-                padding: "16px 48px",
+                padding: "16px 44px",
                 borderRadius: 3,
                 boxShadow: "none",
                 backgroundColor: styles.colors.buttonGray,
