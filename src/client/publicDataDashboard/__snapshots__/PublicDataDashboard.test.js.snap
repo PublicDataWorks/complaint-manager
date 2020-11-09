@@ -2156,7 +2156,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                   "borderRadius": 3,
                                   "boxShadow": "none",
                                   "marginBottom": "4px",
-                                  "padding": "16px 48px",
+                                  "padding": "16px 44px",
                                   "textTransform": "none",
                                 }
                               }
@@ -2203,7 +2203,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                     "borderRadius": 3,
                                     "boxShadow": "none",
                                     "marginBottom": "4px",
-                                    "padding": "16px 48px",
+                                    "padding": "16px 44px",
                                     "textTransform": "none",
                                   }
                                 }
@@ -2222,7 +2222,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                       "borderRadius": 3,
                                       "boxShadow": "none",
                                       "marginBottom": "4px",
-                                      "padding": "16px 48px",
+                                      "padding": "16px 44px",
                                       "textTransform": "none",
                                     }
                                   }
@@ -2248,7 +2248,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                         "borderRadius": 3,
                                         "boxShadow": "none",
                                         "marginBottom": "4px",
-                                        "padding": "16px 48px",
+                                        "padding": "16px 44px",
                                         "textTransform": "none",
                                       }
                                     }
@@ -2275,7 +2275,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                           "borderRadius": 3,
                                           "boxShadow": "none",
                                           "marginBottom": "4px",
-                                          "padding": "16px 48px",
+                                          "padding": "16px 44px",
                                           "textTransform": "none",
                                         }
                                       }
