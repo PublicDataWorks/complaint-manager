@@ -30,10 +30,17 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
           "about": Object {
             "padding": "64px 108px",
           },
+          "box": Object {
+            "padding": "110px 64px 128px",
+            "titleMaxWidth": "65%",
+          },
+          "dataSection": Object {
+            "padding": "0px",
+          },
           "navBar": Object {
             "logoHeight": "120px",
             "logoWidth": "132px",
-            "padding": "48px 0px",
+            "menuPadding": "48px 0px",
           },
           "padding": "64px",
         },
@@ -742,6 +749,11 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                 <DashboardNavBar>
                   <WithStyles(ForwardRef(Grid))
                     container={true}
+                    style={
+                      Object {
+                        "padding": undefined,
+                      }
+                    }
                   >
                     <ForwardRef(Grid)
                       classes={
@@ -852,9 +864,19 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                         }
                       }
                       container={true}
+                      style={
+                        Object {
+                          "padding": undefined,
+                        }
+                      }
                     >
                       <div
                         className="MuiGrid-root-1 MuiGrid-container-2"
+                        style={
+                          Object {
+                            "padding": undefined,
+                          }
+                        }
                       >
                         <WithStyles(ForwardRef(Grid))
                           item={true}

@@ -8,6 +8,8 @@ import {
   DDS_EMERGING_THEMES,
   DDS_WHO_SUBMITS_COMPLAINTS
 } from "../../sharedUtilities/constants";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 
 jest.mock("../common/components/Visualization/Visualization", () => () =>
   "Visualization"
@@ -28,7 +30,9 @@ const testDescriptions = {
 
 const renderDataSection = dataSectionType => () => {
   const wrapper = mount(
-    <DashboardDataSection dataSectionType={dataSectionType} />
+    <MuiThemeProvider theme={dashboardStylingDesktop}>
+      <DashboardDataSection dataSectionType={dataSectionType} />
+    </MuiThemeProvider>
   );
 
   expect(wrapper).toMatchSnapshot();

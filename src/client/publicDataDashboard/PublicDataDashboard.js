@@ -130,7 +130,7 @@ const PublicDataDashboard = () => {
             marginBottom: "98px"
           }}
         >
-          <Container style={{ padding: "110px 64px 128px" }}>
+          <Container style={{ padding: theme.dashboard.box.padding }}>
             <Typography
               variant="h2"
               style={{
@@ -285,14 +285,14 @@ const PublicDataDashboard = () => {
             marginBottom: "98px"
           }}
         >
-          <Container style={{ padding: "110px 64px 128px" }}>
+          <Container style={{ padding: theme.dashboard.box.padding }}>
             <Typography
               variant="h2"
               style={{
                 color: styles.colors.white,
                 paddingLeft: "6px",
                 paddingBottom: "36px",
-                maxWidth: "65%"
+                maxWidth: theme.dashboard.box.titleMaxWidth
               }}
             >
               Have you had an encounter with police?
