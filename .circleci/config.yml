@@ -367,7 +367,7 @@ workflows:
           filters:
             branches:
               only:
-                - newman-playground-testing
+                - https-redirect
       - build-and-publish-playground:
           requires:
             - security-check
