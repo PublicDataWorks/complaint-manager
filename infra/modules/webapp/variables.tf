@@ -36,6 +36,7 @@ variable "api_target" {
 
 variable "public_domain" {
   description = "Custom Public Domain for Web App"
+  default = ""
 }
 
 variable "postgres_plan" {
