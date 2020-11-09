@@ -30,12 +30,14 @@ const DashboardDataSection = props => {
     <Grid
       container
       spacing={3}
-      style={{ padding: theme.dashboard.dataSection.padding }}
+      id={getIdFromDataSectionType(dataSectionType)}
+      style={{
+        padding: theme.dashboard.dataSection.padding,
+        paddingTop: "18px"
+      }}
     >
       <Grid item xs={12} sm={8}>
-        <Typography id={getIdFromDataSectionType(dataSectionType)} variant="h2">
-          {title}
-        </Typography>
+        <Typography variant="h2">{title}</Typography>
       </Grid>
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
