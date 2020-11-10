@@ -1,6 +1,11 @@
 import { get, set } from "lodash";
 
-import { COLORS, LABEL_FONT, TITLE_FONT } from "./dataVizStyling";
+import {
+  COLORS,
+  LABEL_FONT,
+  PUBLIC_LABEL_FONT,
+  TITLE_FONT
+} from "./dataVizStyling";
 import {
   dynamicLayoutProps,
   evaluateDynamicProps,
@@ -75,6 +80,7 @@ const extendedLayouts = {
     height: 536,
     width: 806,
     title: null,
+    font: PUBLIC_LABEL_FONT,
     margin: {
       b: 100,
       t: 100,
@@ -88,9 +94,10 @@ const extendedLayouts = {
     height: 536,
     width: 806,
     title: null,
+    font: PUBLIC_LABEL_FONT,
     margin: {
-      b: 50,
-      t: 50,
+      b: 100,
+      t: 100,
       l: 8,
       r: 8
     },
@@ -99,6 +106,7 @@ const extendedLayouts = {
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     title: null,
+    font: PUBLIC_LABEL_FONT,
     width: 806,
     plot_bgcolor: "#F5F4F4",
     legend: {
@@ -114,11 +122,13 @@ const extendedLayouts = {
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     title: null,
+    font: PUBLIC_LABEL_FONT,
     width: 806,
     margin: {
       b: 24,
       t: 24,
-      l: 145
+      l: 145,
+      pad: 10
     },
     paper_bgcolor: "#F5F4F4",
     plot_bgcolor: "#F5F4F4"
