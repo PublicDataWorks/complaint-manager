@@ -2418,8 +2418,17 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                     </div>
                   </ForwardRef(Grid)>
                 </WithStyles(ForwardRef(Grid))>
-                <WithStyles(ForwardRef(Grid))
+                <a
                   id="blue-box"
+                  style={
+                    Object {
+                      "margin": "9px 0",
+                    }
+                  }
+                >
+                   
+                </a>
+                <WithStyles(ForwardRef(Grid))
                   item={true}
                   style={
                     Object {
@@ -2538,7 +2547,6 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                         "zeroMinWidth": "MuiGrid-zeroMinWidth-4",
                       }
                     }
-                    id="blue-box"
                     item={true}
                     style={
                       Object {
@@ -2551,7 +2559,6 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                   >
                     <div
                       className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
-                      id="blue-box"
                       style={
                         Object {
                           "backgroundColor": "#216DA1",
