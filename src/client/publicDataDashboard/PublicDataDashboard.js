@@ -120,10 +120,12 @@ const PublicDataDashboard = () => {
             </Icon>
           </Container>
         </Grid>
-        <Grid
+
+      <a id="blue-box" style={{ margin: "9px 0" }}>&nbsp;</a>
+
+      <Grid
           item
           xs={12}
-          id="blue-box"
           style={{
             backgroundColor: styles.colors.oipmBlue,
             padding: 0,
