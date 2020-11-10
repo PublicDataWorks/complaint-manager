@@ -25,6 +25,8 @@ const winston = require("winston");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
+const isLowerEnv =
+  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
 
 winston.configure({
   transports: [
@@ -39,7 +41,9 @@ winston.configure({
 
 const app = express();
 
-app.use(enforce.HTTPS({trustProtoHeader: true}));
+if (!isLowerEnv) {
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 const corsConfig = {
   origin: config.corsOrigin,
@@ -143,7 +147,7 @@ app.use(errorHandler);
 
 export let server;
 
-if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+if (isLowerEnv) {
   const options = {
     key: fs.readFileSync("src/server.key"),
     cert: fs.readFileSync("src/server.crt")

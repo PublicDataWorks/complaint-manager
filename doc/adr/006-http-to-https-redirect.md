@@ -16,4 +16,4 @@ Upon researching the various https redirection libraries for express, we have ca
  
 
 ## Consequences
-TBD
+We have disabled the express-sslify on development and test enviroments due to failing server tests otherwise.
