@@ -25,6 +25,12 @@ export const LABEL_FONT = {
   color: "#777777"
 };
 
+export const PUBLIC_LABEL_FONT = {
+  family: '"SF Compact Display", "Roboto", "Helvetica", "Arial", sans-serif',
+  size: 12,
+  color: "#777777"
+};
+
 export const generateDonutCenterAnnotations = (count = 0) => {
   return [
     {
@@ -60,13 +66,13 @@ export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
         font: LABEL_FONT
       }
     ];
-    
+
     layout.yaxis = {
       zeroline: false,
       showgrid: false,
       showticklabels: false
     };
-    
+
     layout.xaxis = {
       zeroline: true,
       showgrid: false,
