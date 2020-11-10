@@ -4,7 +4,7 @@ Date: 2020-11-09
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 Given that we want to start supporting publicly accessible pages, we would need a way to redirect to https for unauthenticated sessions.
