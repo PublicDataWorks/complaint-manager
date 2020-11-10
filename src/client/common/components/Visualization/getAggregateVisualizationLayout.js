@@ -80,8 +80,8 @@ export const extendedLayouts = {
     width: 806,
     title: null,
     margin: {
-      b: 30,
-      t: 30,
+      b: 100,
+      t: 100,
       l: 8,
       r: 8
     },
@@ -93,8 +93,8 @@ export const extendedLayouts = {
     width: 806,
     title: null,
     margin: {
-      b: 30,
-      t: 30,
+      b: 50,
+      t: 50,
       l: 8,
       r: 8
     },
@@ -121,7 +121,8 @@ export const extendedLayouts = {
     width: 806,
     margin: {
       b: 24,
-      t: 24
+      t: 24,
+      l: 145
     },
     paper_bgcolor: "#F5F4F4",
     plot_bgcolor: "#F5F4F4"
