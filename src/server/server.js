@@ -39,7 +39,7 @@ winston.configure({
 
 const app = express();
 
-app.use(enforce.HTTPS());
+app.use(enforce.HTTPS({trustProtoHeader: true}));
 
 const corsConfig = {
   origin: config.corsOrigin,
