@@ -71,7 +71,11 @@ const DashboardGlossary = () => {
         <Grid
           item
           xs={7}
-    style={{ paddingLeft: "0", paddingTop: "32px", paddingBottom: "120px" }}
+          style={{
+            paddingLeft: "0",
+            paddingTop: "32px",
+            paddingBottom: "120px"
+          }}
         >
           <Button
             variant="contained"
@@ -102,24 +106,11 @@ const DashboardGlossary = () => {
           </Button>
         </Grid>
         <Grid item xs={7} style={{ padding: "0" }}>
-          <Typography variant="h2" style={{ color: styles.colors.white }}>
+          <Typography
+            variant="h2"
+            style={{ padding: "116px 0", color: styles.colors.white }}
+          >
             Tag Glossary
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={8} style={{ padding: "120px 0" }}>
-          <Typography variant="body1" style={{ color: styles.colors.white }}>
-            Pellentesque dapibus suscipit ligula. Donec posuere augue in quam.
-            Etiam vel tortor sodales tellus ultricies commodo. Suspendisse
-            potenti. Aenean in sem ac leo mollis blandit. Donec neque quam,
-            dignissim in, mollis nec, sagittis eu, wisi. Phasellus lacus. Etiam
-            laoreet quam sed arcu. Phasellus at dui in ligula mollis ultricies.
-            Integer placerat tristique nisl. Praesent augue. Fusce commodo.
-            Vestibulum convallis, lorem a tempus semper, dui dui euismod elit,
-            vitae placerat urna tortor vitae lacus. Nullam libero mauris,
-            consequat quis, varius et, dictum id, arcu. Mauris mollis tincidunt
-            felis. Aliquam feugiat tellus ut neque. Nulla facilisis, risus a
-            rhoncus fermentum, tellus tellus lacinia purus, et dictum nunc justo
-            sit amet elit.
           </Typography>
         </Grid>
         {generateTagBlocks()}
