@@ -1,6 +1,7 @@
 import React from "react";
 import PublicDataDashboardWrapper from "./publicDataDashboard/PublicDataDashboard";
 import DashboardAboutWrapper from "./publicDataDashboard/DashboardAbout";
+import DashboardGlossaryWrapper from "./publicDataDashboard/DashboardGlossary";
 
 const publicDataDashboardRoutes = [
   {
@@ -10,6 +11,10 @@ const publicDataDashboardRoutes = [
   {
     path: "/data/about",
     component: DashboardAboutWrapper
+  },
+  {
+    path: "/data/glossary",
+    component: DashboardGlossaryWrapper
   }
 ];
 

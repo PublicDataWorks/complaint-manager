@@ -37,6 +37,9 @@ exports[`Dashboard About page should render the About page for the public data d
           "dataSection": Object {
             "padding": "0px",
           },
+          "glossary": Object {
+            "padding": "64px 108px",
+          },
           "navBar": Object {
             "logoHeight": "120px",
             "logoWidth": "132px",

@@ -37,6 +37,9 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
           "dataSection": Object {
             "padding": "0px",
           },
+          "glossary": Object {
+            "padding": "64px 108px",
+          },
           "navBar": Object {
             "logoHeight": "120px",
             "logoWidth": "132px",
@@ -1379,9 +1382,6 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                     <WithStyles(ForwardRef(Typography))
                                       style={
                                         Object {
-                                          "color": "#767676",
-                                          "fontSize": "18px",
-                                          "fontWeight": 300,
                                           "paddingLeft": "32px",
                                         }
                                       }
@@ -1423,9 +1423,6 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                         }
                                         style={
                                           Object {
-                                            "color": "#767676",
-                                            "fontSize": "18px",
-                                            "fontWeight": 300,
                                             "paddingLeft": "32px",
                                           }
                                         }
@@ -1434,14 +1431,122 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                           className="MuiTypography-root-112 MuiTypography-body1-114"
                                           style={
                                             Object {
-                                              "color": "#767676",
-                                              "fontSize": "18px",
-                                              "fontWeight": 300,
                                               "paddingLeft": "32px",
                                             }
                                           }
                                         >
-                                          Glossary
+                                          <WithStyles(ForwardRef(Link))
+                                            data-testid="glossaryLink"
+                                            href="/data/glossary"
+                                            style={
+                                              Object {
+                                                "color": "#767676",
+                                              }
+                                            }
+                                            underline="none"
+                                          >
+                                            <ForwardRef(Link)
+                                              classes={
+                                                Object {
+                                                  "button": "MuiLink-button-146",
+                                                  "focusVisible": "Mui-focusVisible",
+                                                  "root": "MuiLink-root-142",
+                                                  "underlineAlways": "MuiLink-underlineAlways-145",
+                                                  "underlineHover": "MuiLink-underlineHover-144",
+                                                  "underlineNone": "MuiLink-underlineNone-143",
+                                                }
+                                              }
+                                              data-testid="glossaryLink"
+                                              href="/data/glossary"
+                                              style={
+                                                Object {
+                                                  "color": "#767676",
+                                                }
+                                              }
+                                              underline="none"
+                                            >
+                                              <WithStyles(ForwardRef(Typography))
+                                                className="MuiLink-root-142 MuiLink-underlineNone-143"
+                                                color="primary"
+                                                component="a"
+                                                data-testid="glossaryLink"
+                                                href="/data/glossary"
+                                                onBlur={[Function]}
+                                                onFocus={[Function]}
+                                                style={
+                                                  Object {
+                                                    "color": "#767676",
+                                                  }
+                                                }
+                                                variant="inherit"
+                                              >
+                                                <ForwardRef(Typography)
+                                                  className="MuiLink-root-142 MuiLink-underlineNone-143"
+                                                  classes={
+                                                    Object {
+                                                      "alignCenter": "MuiTypography-alignCenter-128",
+                                                      "alignJustify": "MuiTypography-alignJustify-130",
+                                                      "alignLeft": "MuiTypography-alignLeft-127",
+                                                      "alignRight": "MuiTypography-alignRight-129",
+                                                      "body1": "MuiTypography-body1-114",
+                                                      "body2": "MuiTypography-body2-113",
+                                                      "button": "MuiTypography-button-116",
+                                                      "caption": "MuiTypography-caption-115",
+                                                      "colorError": "MuiTypography-colorError-139",
+                                                      "colorInherit": "MuiTypography-colorInherit-134",
+                                                      "colorPrimary": "MuiTypography-colorPrimary-135",
+                                                      "colorSecondary": "MuiTypography-colorSecondary-136",
+                                                      "colorTextPrimary": "MuiTypography-colorTextPrimary-137",
+                                                      "colorTextSecondary": "MuiTypography-colorTextSecondary-138",
+                                                      "displayBlock": "MuiTypography-displayBlock-141",
+                                                      "displayInline": "MuiTypography-displayInline-140",
+                                                      "gutterBottom": "MuiTypography-gutterBottom-132",
+                                                      "h1": "MuiTypography-h1-117",
+                                                      "h2": "MuiTypography-h2-118",
+                                                      "h3": "MuiTypography-h3-119",
+                                                      "h4": "MuiTypography-h4-120",
+                                                      "h5": "MuiTypography-h5-121",
+                                                      "h6": "MuiTypography-h6-122",
+                                                      "noWrap": "MuiTypography-noWrap-131",
+                                                      "overline": "MuiTypography-overline-125",
+                                                      "paragraph": "MuiTypography-paragraph-133",
+                                                      "root": "MuiTypography-root-112",
+                                                      "srOnly": "MuiTypography-srOnly-126",
+                                                      "subtitle1": "MuiTypography-subtitle1-123",
+                                                      "subtitle2": "MuiTypography-subtitle2-124",
+                                                    }
+                                                  }
+                                                  color="primary"
+                                                  component="a"
+                                                  data-testid="glossaryLink"
+                                                  href="/data/glossary"
+                                                  onBlur={[Function]}
+                                                  onFocus={[Function]}
+                                                  style={
+                                                    Object {
+                                                      "color": "#767676",
+                                                    }
+                                                  }
+                                                  variant="inherit"
+                                                >
+                                                  <a
+                                                    className="MuiTypography-root-112 MuiLink-root-142 MuiLink-underlineNone-143 MuiTypography-colorPrimary-135"
+                                                    data-testid="glossaryLink"
+                                                    href="/data/glossary"
+                                                    onBlur={[Function]}
+                                                    onFocus={[Function]}
+                                                    style={
+                                                      Object {
+                                                        "color": "#767676",
+                                                      }
+                                                    }
+                                                  >
+                                                    Glossary
+                                                  </a>
+                                                </ForwardRef(Typography)>
+                                              </WithStyles(ForwardRef(Typography))>
+                                            </ForwardRef(Link)>
+                                          </WithStyles(ForwardRef(Link))>
                                         </p>
                                       </ForwardRef(Typography)>
                                     </WithStyles(ForwardRef(Typography))>

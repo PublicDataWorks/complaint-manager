@@ -39,15 +39,15 @@ const DashboardNavBar = () => {
               About
             </Link>
           </Typography>
-          <Typography
-            style={{
-              paddingLeft: "32px",
-              color: styles.navBarLink.color,
-              fontSize: styles.navBarLink.fontSize,
-              fontWeight: styles.navBarLink.fontWeight
-            }}
-          >
-            Glossary
+      <Typography style={styles.navBarLink} style={{ paddingLeft: "32px" }}>
+            <Link
+              href="/data/glossary"
+              underline="none"
+              style={{ color: styles.navBarLink.color }}
+              data-testid="glossaryLink"
+            >
+              Glossary
+            </Link>
           </Typography>
         </Container>
       </Grid>
