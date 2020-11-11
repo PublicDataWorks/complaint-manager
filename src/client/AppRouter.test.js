@@ -13,8 +13,8 @@ jest.mock(
 describe("AppRouter", () => {
   let appWrapper, store;
 
-  describe("Data Dashboard Route", () => {
-    beforeEach(() => {
+  describe("Internal Data Dashboard Route", () => {
+    beforeAll(() => {
       store = createConfiguredStore();
       appWrapper = mount(
         <Provider store={store}>
@@ -25,10 +25,39 @@ describe("AppRouter", () => {
       );
     });
 
-    test("displays /dashboard complainant manager route", () => {
+    test("displays /dashboard complaint manager route", () => {
       appWrapper.update();
       const disProRoute = appWrapper.find("Route[path='/dashboard']");
       expect(disProRoute.exists()).toBeTrue();
+    });
+
+    test("should set page title to default 'Police Data Manager' for /dashboard route", () => {
+      appWrapper.update();
+      expect(document.title).toEqual("Police Data Manager");
+    });
+  });
+
+  describe("Public Data Dashboard Route", () => {
+    beforeAll(() => {
+      store = createConfiguredStore();
+      appWrapper = mount(
+        <Provider store={store}>
+          <MemoryRouter initialEntries={["/data"]}>
+            <AppRouter />
+          </MemoryRouter>
+        </Provider>
+      );
+    });
+
+    test("displays /data complaint manager route", () => {
+      appWrapper.update();
+      const disProRoute = appWrapper.find("Route[path='/data']");
+      expect(disProRoute.exists()).toBeTrue();
+    });
+
+    test("should set page title to 'IPM Complaints Data' for /data route", async () => {
+      appWrapper.update();
+      expect(document.title).toEqual("IPM Complaints Data");
     });
   });
 });

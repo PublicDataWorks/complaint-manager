@@ -22,7 +22,7 @@ class AppRouter extends Component {
         {publicDataDashboardRoutes.map(
           route =>
             this.shouldCreateRoute(route.toggleName) &&
-            this.createRoute(route.path, route.component)
+            this.createRoute(route.path, route.component, route.title)
         )}
       </Switch>
     );
@@ -38,8 +38,24 @@ class AppRouter extends Component {
     return true;
   };
 
-  createRoute = (path, component) => {
-    return <Route exact key={path} path={path} component={component} />;
+  setPageTitle = title => {
+    document.title = title ? title : "Police Data Manager";
+  };
+
+  createRoute = (path, component, title) => {
+    let RouteComponent = component;
+
+    return (
+      <Route
+        exact
+        key={path}
+        path={path}
+        render={props => {
+          this.setPageTitle(title);
+          return <RouteComponent {...props} />;
+        }}
+      />
+    );
   };
 }
 
