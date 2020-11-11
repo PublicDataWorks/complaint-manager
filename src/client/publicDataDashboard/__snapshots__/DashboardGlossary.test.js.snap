@@ -1303,7 +1303,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                         style={
                           Object {
                             "color": "#FFFFFF",
-                            "padding": "116px 0",
+                            "paddingBottom": "116px",
                           }
                         }
                         variant="h2"
@@ -1346,7 +1346,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                           style={
                             Object {
                               "color": "#FFFFFF",
-                              "padding": "116px 0",
+                              "paddingBottom": "116px",
                             }
                           }
                           variant="h2"
@@ -1356,7 +1356,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                             style={
                               Object {
                                 "color": "#FFFFFF",
-                                "padding": "116px 0",
+                                "paddingBottom": "116px",
                               }
                             }
                           >
