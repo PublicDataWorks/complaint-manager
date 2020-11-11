@@ -108,7 +108,7 @@ const DashboardGlossary = () => {
         <Grid item xs={7} style={{ padding: "0" }}>
           <Typography
             variant="h2"
-            style={{ padding: "116px 0", color: styles.colors.white }}
+            style={{ paddingBottom: "116px", color: styles.colors.white }}
           >
             Tag Glossary
           </Typography>
