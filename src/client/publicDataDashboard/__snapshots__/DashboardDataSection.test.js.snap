@@ -36,6 +36,9 @@ exports[`Public Data Dashboard should render correct styling for complainants su
         "dataSection": Object {
           "padding": "0px",
         },
+        "glossary": Object {
+          "padding": "64px 108px",
+        },
         "navBar": Object {
           "logoHeight": "120px",
           "logoWidth": "132px",
@@ -1415,6 +1418,9 @@ exports[`Public Data Dashboard should render correct styling for complaints over
         "dataSection": Object {
           "padding": "0px",
         },
+        "glossary": Object {
+          "padding": "64px 108px",
+        },
         "navBar": Object {
           "logoHeight": "120px",
           "logoWidth": "132px",
@@ -2780,6 +2786,9 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
         "dataSection": Object {
           "padding": "0px",
         },
+        "glossary": Object {
+          "padding": "64px 108px",
+        },
         "navBar": Object {
           "logoHeight": "120px",
           "logoWidth": "132px",
@@ -4144,6 +4153,9 @@ exports[`Public Data Dashboard should render correct styling for who submits com
         },
         "dataSection": Object {
           "padding": "0px",
+        },
+        "glossary": Object {
+          "padding": "64px 108px",
         },
         "navBar": Object {
           "logoHeight": "120px",

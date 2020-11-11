@@ -6,6 +6,9 @@ const muiTheme = createMuiTheme({
     about: {
       padding: "64px 108px"
     },
+    glossary: {
+      padding: "64px 108px"
+    },
     navBar: {
       menuPadding: "48px 0px",
       logoWidth: "132px",
