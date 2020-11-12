@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Icon, Link, Typography } from "@material-ui/core";
+import { Grid, Icon, Link as MUILink, Typography } from "@material-ui/core";
 import styles from "./dashboardStyling/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
@@ -7,6 +7,8 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
+import LinkButton from "../policeDataManager/shared/components/LinkButton";
+import { Link } from "react-router-dom";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -40,9 +42,10 @@ const DashboardAbout = () => {
           xs={7}
           style={{ paddingTop: "32px", paddingBottom: "120px" }}
         >
-          <Button
+          <LinkButton
             variant="contained"
-            href="/data"
+            to="/data"
+            component={Link}
             style={{
               textTransform: "none",
               padding: "16px 24px",
@@ -66,7 +69,7 @@ const DashboardAbout = () => {
             >
               Return to front page
             </Typography>
-          </Button>
+          </LinkButton>
         </Grid>
         <Grid item xs={7} style={{ paddingBottom: "108px" }}>
           <Typography variant="h2">About the Dashboard</Typography>
@@ -145,7 +148,7 @@ const DashboardAbout = () => {
             <br /> For more data visualizations regarding some of these topics
             and Use of Force and Critical Incidents, please see the annual
             report section of the OIPM website (link out to annual report{" "}
-            <Link href="https://nolaipm.gov/annual-reports/">here</Link>).
+            <MUILink href="https://nolaipm.gov/annual-reports/">here</MUILink>).
           </Typography>
         </Grid>
       </Grid>

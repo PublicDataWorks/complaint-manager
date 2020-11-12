@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, Icon, Link, Typography } from "@material-ui/core";
+import { Grid, Icon, Typography } from "@material-ui/core";
 import styles from "./dashboardStyling/styles";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStyling from "./dashboardStyling/dashboardStyling";
@@ -7,6 +7,8 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
+import LinkButton from "../policeDataManager/shared/components/LinkButton";
+import { Link } from "react-router-dom";
 
 const tagGlossary = require("./assets/tag-glossary.json");
 
@@ -77,9 +79,10 @@ const DashboardGlossary = () => {
             paddingBottom: "120px"
           }}
         >
-          <Button
+          <LinkButton
             variant="contained"
-            href="/data"
+            to="/data"
+            component={Link}
             style={{
               textTransform: "none",
               padding: "16px 24px",
@@ -103,7 +106,7 @@ const DashboardGlossary = () => {
             >
               Return to front page
             </Typography>
-          </Button>
+          </LinkButton>
         </Grid>
         <Grid item xs={7} style={{ padding: "0" }}>
           <Typography

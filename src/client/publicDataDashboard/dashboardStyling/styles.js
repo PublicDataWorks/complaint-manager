@@ -46,7 +46,8 @@ const styles = {
   navBarLink: {
     color: colors.textGray,
     fontSize: standards.fontSmall,
-    fontWeight: 300
+    fontWeight: 300,
+    textDecoration: "none"
   }
 };
 
