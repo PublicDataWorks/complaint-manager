@@ -29,18 +29,23 @@ const generateTagBlocks = () => {
 
   return sortedTags.map(([tagName, tagDescription], index) => {
     return (
-      <div key={index}>
+      <Grid
+        item
+        xs={12}
+        key={index}
+        style={{ padding: "0px", paddingBottom: "64px" }}
+      >
         <Grid item xs={7} style={{ paddingBottom: "18px" }}>
           <Typography variant="body2" style={{ color: styles.colors.white }}>
             {tagName}
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={8} style={{ paddingBottom: "64px" }}>
+        <Grid item xs={12} sm={8} style={{ paddingBottom: "0px" }}>
           <Typography variant="body1" style={{ color: styles.colors.white }}>
             {transformTagDescription(tagName, tagDescription)}
           </Typography>
         </Grid>
-      </div>
+      </Grid>
     );
   });
 };
