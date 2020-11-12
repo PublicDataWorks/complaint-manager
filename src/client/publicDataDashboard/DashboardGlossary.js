@@ -25,7 +25,9 @@ const transformTagDescription = (tagName, tagDescription) => {
 };
 
 const generateTagBlocks = () => {
-  return Object.entries(tagGlossary).map(([tagName, tagDescription], index) => {
+  const sortedTags = Object.entries(tagGlossary).sort();
+
+  return sortedTags.map(([tagName, tagDescription], index) => {
     return (
       <div key={index}>
         <Grid item xs={7} style={{ paddingBottom: "18px" }}>
