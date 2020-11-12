@@ -16,7 +16,7 @@ const publicDataDashboardRoutes = [
   },
   {
     path: "/data/glossary",
-    title: "IPM Complaints Data - Glossary",
+    title: "IPM Complaints Data - Tag Glossary",
     component: DashboardGlossaryWrapper
   }
 ];
