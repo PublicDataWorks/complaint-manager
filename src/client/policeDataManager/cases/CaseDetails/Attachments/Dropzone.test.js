@@ -31,7 +31,7 @@ describe("Dropzone", () => {
   test("should have correct post-url config when mounted", () => {
     // TODO: pull the hostname from config? or delete this test?
     expect(dropzoneInstance.props.config.postUrl).toEqual(
-      `http://localhost/api/cases/${testCaseId}/attachments`
+      `https://localhost:1234/api/cases/${testCaseId}/attachments`
     );
   });
 
