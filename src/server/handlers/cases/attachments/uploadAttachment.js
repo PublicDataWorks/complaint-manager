@@ -103,6 +103,13 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
               return caseDetails;
             }
           );
+
+          if (process.env.NODE_ENV === "development") {
+            response.setHeader(
+              "Access-Control-Allow-Origin",
+              "https://localhost"
+            );
+          }
           response.send(updatedCase);
         },
         function (error) {

@@ -88,6 +88,18 @@ describe("uploadAttachment", () => {
     await cleanupDatabase();
   });
 
+  test("should set access-control-allow-origin response header if only in the development env", async () => {
+    process.env.NODE_ENV = "development";
+
+    await uploadAttachment(request, response, next);
+
+    expect(response._headers).toEqual(
+      expect.objectContaining({
+        "access-control-allow-origin": "https://localhost"
+      })
+    );
+  });
+
   describe("auditing", () => {
     test("should call auditFileAction when uploading an attachment", async () => {
       uploadLetterToS3.mockClear();
