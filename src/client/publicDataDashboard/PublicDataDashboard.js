@@ -60,7 +60,7 @@ const PublicDataDashboard = () => {
       >
         <DashboardNavBar />
         <Grid item xs={12} sm={8}>
-          <Typography variant="h3">
+          <Typography variant="h3" data-testid="introText">
             The{" "}
             <Link href="https://nolaipm.gov/" style={styles.link}>
               Office of the Independent Police Monitor
@@ -121,9 +121,11 @@ const PublicDataDashboard = () => {
           </Container>
         </Grid>
 
-      <a id="blue-box" style={{ margin: "9px 0" }}>&nbsp;</a>
+        <a id="blue-box" style={{ margin: "9px 0" }}>
+          &nbsp;
+        </a>
 
-      <Grid
+        <Grid
           item
           xs={12}
           style={{
