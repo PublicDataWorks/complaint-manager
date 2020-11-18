@@ -1533,6 +1533,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                           className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-8-57"
                         >
                           <WithStyles(ForwardRef(Typography))
+                            data-testid="introText"
                             variant="h3"
                           >
                             <ForwardRef(Typography)
@@ -1570,10 +1571,12 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                   "subtitle2": "MuiTypography-subtitle2-124",
                                 }
                               }
+                              data-testid="introText"
                               variant="h3"
                             >
                               <h3
                                 className="MuiTypography-root-112 MuiTypography-h3-119"
+                                data-testid="introText"
                               >
                                 The
                                  
