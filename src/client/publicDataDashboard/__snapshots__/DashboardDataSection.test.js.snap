@@ -1081,19 +1081,18 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                 }
               >
                 <TextTruncate
-                  collapsedText="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020"
-                  message="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020.
+                  collapsedText="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months."
+                  message="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.
 
-The Office of the Independent Police Monitor tracks complaints and our internal operations to ensure that the OIPM is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Tracking complaints by intake source is one example of how the OIPM tracks the complaints received.  Intake source refers to the method of communication through which the complaint was communicated to the OIPM.  Currently, complaints can be filed with the OIPM through:
-- Website
-- Email
-- Phone
-- In-person
-- Outreach events
-- Mail
-- Social media
-
-The following table shows what method the OIPM received the complaints submitted year-to-date in 2020."
+The Office of the Independent Police Monitor tracks complaints and our internal operations to ensure that the OIPM is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Intake source refers to the method of communication through which the complaint was communicated to the OIPM.  Currently, complaints can be filed with the OIPM through:
+• Website
+• Email
+• Phone
+• In-person
+• Outreach Events
+• Social Media
+• U.S. Mail
+• Video Call"
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
@@ -1154,7 +1153,7 @@ The following table shows what method the OIPM received the complaints submitted
                             }
                           }
                         >
-                          OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted year-to-date in 2020...
+                          OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months....
                         </p>
                       </ForwardRef(Typography)>
                     </WithStyles(ForwardRef(Typography))>
@@ -3829,7 +3828,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                   collapsedText="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information"
                   message="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information.
 
-Tags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concerned, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from homelessness and housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  Visit the tag glossary for an explanation of each label. This chart captures tag use on a rolling twelve month basis."
+Tags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  Visit the tag glossary for an explanation of each label. This chart captures tag use on a rolling twelve month basis."
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
@@ -5199,16 +5198,16 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 }
               >
                 <TextTruncate
-                  collapsedText="The OIPM tracked the complainant type to determine if we are reaching the full population with our services"
-                  message="The OIPM tracked the complainant type to determine if we are reaching the full population with our services. The different complainant types include:
+                  collapsedText="The OIPM tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months."
+                  message="The OIPM tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months. The different complainant types include:
 
-* Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to OIPM but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, OIPM counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the NOPD.
+• Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to OIPM but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, OIPM counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the NOPD.
 
-* Civilian Complainant (CC) – this category applies to any member of the public who files a complaint.  This individual may reside in New Orleans or may not.  In these referrals, the individual’s name does appear on the complaint referral to PIB.
+• Civilian Complainant (CC) – this category applies to any member of the public who files a complaint.  This individual may or may not reside in New Orleans.  In these referrals, the individual’s name does appear on the complaint referral to PIB.
 
-* Police Officer Complainant (PO) – Police Officer complainants applies to any sworn officer who files a complaint of misconduct to our office.  In these referrals, OIPM is concerned about the possibility of retaliation that may occur within the police department.  In these referrals, the officer’s name does appear on the complaint referral to PIB.
+• Police Officer Complainant (PO) – Police Officer complainants applies to any sworn officer who files a complaint of misconduct to our office.  OIPM reviews these referrals to identify and highlight any possibility of retaliation within the police department.  In these referrals, the officer’s name does appear on the complaint referral to PIB.
 
-* Civilian within NOPD Complainant (CN) – this category applies to any civilian who is employed by the NOPD.  In these complaint referrals, OIPM is concerned about the possibility of retaliation that may occur to a civilian by officers within the police department. In these referrals, the employee’s name does appear on the complaint referral to PIB."
+• Civilian within NOPD Complainant (CN) – this category applies to any civilian who is employed by the NOPD.  In these complaint referrals, OIPM is concerned about the possibility of retaliation that may occur to a civilian by officers within the police department. In these referrals, the employee’s name does appear on the complaint referral to PIB."
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
@@ -5269,7 +5268,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                             }
                           }
                         >
-                          The OIPM tracked the complainant type to determine if we are reaching the full population with our services...
+                          The OIPM tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months....
                         </p>
                       </ForwardRef(Typography)>
                     </WithStyles(ForwardRef(Typography))>
