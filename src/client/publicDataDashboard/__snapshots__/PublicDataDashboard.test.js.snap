@@ -1396,7 +1396,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                   }
                                                   underline="none"
                                                 >
-                                                  Glossary
+                                                  Tag Glossary
                                                 </a>
                                               </Link>
                                             </p>
@@ -1701,7 +1701,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                   </ForwardRef(Link)>
                                 </WithStyles(ForwardRef(Link))>
                                  
-                                (OIPM) is sharing data with the public to increase transparency to inform and empower the community the office was designed to serve.
+                                (OIPM) is sharing data with the public to increase transparency to inform and empower the New Orleans community.
                               </h3>
                             </ForwardRef(Typography)>
                           </WithStyles(ForwardRef(Typography))>

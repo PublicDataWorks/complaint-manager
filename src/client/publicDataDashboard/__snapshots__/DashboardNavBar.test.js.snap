@@ -962,7 +962,7 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                                     }
                                     underline="none"
                                   >
-                                    Glossary
+                                    Tag Glossary
                                   </a>
                                 </Link>
                               </p>

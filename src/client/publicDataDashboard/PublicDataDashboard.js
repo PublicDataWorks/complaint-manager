@@ -66,7 +66,7 @@ const PublicDataDashboard = () => {
               Office of the Independent Police Monitor
             </Link>{" "}
             (OIPM) is sharing data with the public to increase transparency to
-            inform and empower the community the office was designed to serve.
+            inform and empower the New Orleans community.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8}>

@@ -52,7 +52,7 @@ const DashboardNavBar = () => {
               }}
               data-testid="glossaryLink"
             >
-              Glossary
+              Tag Glossary
             </Link>
           </Typography>
         </Container>
