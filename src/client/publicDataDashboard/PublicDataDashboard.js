@@ -299,7 +299,7 @@ const PublicDataDashboard = () => {
                 maxWidth: theme.dashboard.box.titleMaxWidth
               }}
             >
-              Have you had an encounter with police?
+              Have you had an encounter with police in New Orleans?
             </Typography>
             <Button
               variant="contained"
@@ -314,7 +314,7 @@ const PublicDataDashboard = () => {
               }}
             >
               <Typography variant="body2">
-                File a complaint or commendation
+                File a complaint or compliment
               </Typography>
             </Button>
           </Container>
