@@ -3572,7 +3572,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                         }
                                       }
                                     >
-                                      Have you had an encounter with police?
+                                      Have you had an encounter with police in New Orleans?
                                     </h2>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -3755,7 +3755,7 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                 <p
                                                   className="MuiTypography-root-112 MuiTypography-body2-113"
                                                 >
-                                                  File a complaint or commendation
+                                                  File a complaint or compliment
                                                 </p>
                                               </ForwardRef(Typography)>
                                             </WithStyles(ForwardRef(Typography))>
