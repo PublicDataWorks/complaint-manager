@@ -5556,7 +5556,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      DV Investigation*
+                                      DV Investigation
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -5756,7 +5756,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      DV Investigation tag applies to allegations of misconduct regarding the actions taken or not taken by the officer to investigate or a failure to investigate an accusation of domestic violence.  This may include a failure to ask the Four Risk Questions, failure to document information provided by witnesses or to properly interview witnesses, failure to collect and preserve evidence (such as photographing injuries).
+                                      Tag applies to allegations of misconduct regarding the actions taken or not taken by the officer to investigate or a failure to investigate an accusation of domestic violence.  This may include a failure to ask the Four Risk Questions, failure to document information provided by witnesses or to properly interview witnesses, failure to collect and preserve evidence (such as photographing injuries).
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -6832,7 +6832,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag applies to complaints of misconduct regarding discriminatory actions.  These discriminatory actions may include but are not limited to: perceived targeting of one group over another during a police interaction, perceived difference of treatment during a police interaction related to identifying as one group, the preferential treatment of one group within the NOPD.
+                                      Tag applies to complaints of misconduct regarding discriminatory actions.  These discriminatory actions may include but are not limited to: perceived targeting of one group over another during a police interaction, perceived difference of treatment during a police interaction related to identifying as one group, and the preferential treatment of one group within the NOPD.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -7708,7 +7708,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Failure to Collect Evidence*
+                                      Failure to Collect Evidence
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -7908,7 +7908,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Failure to Collect Evidence tag captures allegations of misconduct that result from when it is believed an officer failed to collect all available evidence during the course of the investigation.  This could include: failure to photograph injuries, failure to confiscate evidence, and failure to search for and get custody of available video footage.
+                                      Tag captures allegations of misconduct that result from when it is believed an officer failed to collect all available evidence during the course of the investigation.  This could include: failure to photograph injuries, failure to confiscate evidence, and failure to search for and get custody of available video footage.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -10060,7 +10060,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag would apply when there is an allegation that the officer included information in the police report that is not accurate or believed to be fabricated.  This tag could also apply when the officer failed to include necessary information in the police report that was provided to the officer.  This tag is meant to capture inaccuracy in police reports which may appear be to be an intentional in order to skew an investigation or justify police action or inaction.
+                                      Tag would apply when there is an allegation that the officer included information in the police report that is not accurate or believed to be fabricated.  This tag could also apply when the officer failed to include necessary information in the police report that was provided to the officer.  This tag is meant to capture inaccuracy in police reports, which may intentional, in order to skew an investigation or justify police action or inaction.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -10598,7 +10598,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag applies to complaints involving potentially protected actions under the First Amendment.  This includes but is not limited to political gatherings, protests, recording of the police, freedom of speech activities.
+                                      Tag applies to complaints involving potentially protected actions under the First Amendment.  This includes but is not limited to political gatherings, protests, recording of the police, and freedom of speech activities.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -12550,7 +12550,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Housing Insecurity / Homelessness
+                                      Housing Insecurity
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -12750,7 +12750,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag applies to allegations of misconduct that occur while the officer is interacting with an individual(s) who is experiencing housing insecurity or when the officer responds to a call of service that involves housing issues.  Individuals experiencing housing insecurity or homelessness may be particularly vulnerable in interactions with the police so the OIPM seeks to track these interactions in order to provide effective recommendations on future police practice.
+                                      Tag applies to allegations of misconduct that occur while the officer is interacting with an individual(s) who are experiencing housing insecurity or when the officer responds to a call of service that involves housing issues. Individuals experiencing housing insecurity may be particularly vulnerable in interactions with the police so the OIPM seeks to track these interactions in order to provide effective recommendations on future police practice.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -13826,7 +13826,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag is captures potentially discriminatory policing during responses and interactions to individuals who identify as LGBTQ.  This tag also applies to discriminatory or preferential treatment within the NOPD around LGBTQ identities.
+                                      Tag captures potentially discriminatory policing during responses and interactions to individuals who identify as LGBTQ.  This tag also applies to discriminatory or preferential treatment within the NOPD around LGBTQ identities.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -14364,7 +14364,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tags apply to police encounters that occur in response to or around landlord / tenant disputes or calls for service.  The purpose of this tag is to communicate with community partners who do work around tenant and renters’ rights so they can better engage the public.
+                                      Tag applies to police encounters that occur in response to or around landlord / tenant disputes or calls for service.  The purpose of this tag is to communicate with community partners who do work around tenant and renters’ rights so they can better engage the public.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -15978,7 +15978,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tags apply when a pet is injured during a police encounter or when the police interact with the public around pet violence.
+                                      Tag applies when a pet is injured during a police encounter or when the police interact with the public around pet violence.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -17930,7 +17930,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Racial Profiling*
+                                      Racial Profiling
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -18130,7 +18130,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Racial Profiling tag applies to allegations of misconduct that occur when there is the perceived targeting or “profiling” of an individual by the police resulting in someone feeling they have received differential treatment as the result of their race.
+                                      Tag applies to allegations of misconduct that occur when there is the perceived targeting or “profiling” of an individual by the police resulting in someone feeling they have received differential treatment as the result of their race.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -19206,7 +19206,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Tag tracks complaints of misconduct that involve sex crime investigation, police behavior or response to sex crimes, or the communication around sex crime investigations.  This tag may also include failure to conduct thorough investigations or preserve evidence while responding to a sex crime call of service.
+                                      Tag tracks complaints of misconduct that involve sex crime investigation, police behavior or response to sex crimes, or the communication around sex crime investigations.  This tag may also include failure to conduct thorough investigations or preserve evidence while responding to a call of service regarding sexual assault.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
@@ -20820,7 +20820,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                         }
                                       }
                                     >
-                                      Applies to complaints of misconduct that originated from a perceived Terry Stop.  A Terry stop allows the police to briefly detain a person based on reasonable suspicion of involvement in criminal activity.
+                                      Applies to complaints of misconduct that originated from a perceived Terry Stop.  A Terry Stop allows the police to briefly detain a person based on reasonable suspicion of involvement in criminal activity.
                                     </p>
                                   </ForwardRef(Typography)>
                                 </WithStyles(ForwardRef(Typography))>
