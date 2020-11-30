@@ -1082,6 +1082,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               >
                 <TextTruncate
                   collapsedText="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months."
+                  getDataSectionText={[Function]}
                   message="OIPM works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.
 
 The Office of the Independent Police Monitor tracks complaints and our internal operations to ensure that the OIPM is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Intake source refers to the method of communication through which the complaint was communicated to the OIPM.  Currently, complaints can be filed with the OIPM through:
@@ -1096,9 +1097,11 @@ The Office of the Independent Police Monitor tracks complaints and our internal 
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
+                      data-testid="dataSectionText"
                       style={
                         Object {
                           "whiteSpace": "pre-wrap",
+                          "wordBreak": "break-word",
                         }
                       }
                       variant="body2"
@@ -1138,18 +1141,22 @@ The Office of the Independent Police Monitor tracks complaints and our internal 
                             "subtitle2": "MuiTypography-subtitle2",
                           }
                         }
+                        data-testid="dataSectionText"
                         style={
                           Object {
                             "whiteSpace": "pre-wrap",
+                            "wordBreak": "break-word",
                           }
                         }
                         variant="body2"
                       >
                         <p
                           className="MuiTypography-root MuiTypography-body2"
+                          data-testid="dataSectionText"
                           style={
                             Object {
                               "whiteSpace": "pre-wrap",
+                              "wordBreak": "break-word",
                             }
                           }
                         >
@@ -2458,15 +2465,18 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               >
                 <TextTruncate
                   collapsedText="With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the OIPM over the course of the last twelve months"
+                  getDataSectionText={[Function]}
                   message="With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the OIPM over the course of the last twelve months.
 
 As the year progresses, the table will show the last twelve (12) months from the current month (this is a rolling twelve months table).  With this chart, the OIPM seeks to capture if there are any patterns around complainants and complaint types during the year.  For example, there was a peak of complaints from the community – Civilian Complaints – in June during the interactions that occurred around the protests of police misconduct and the protest on the Crescent City Connection bridge.  OIPM tracks to see if there are other concentrations of complainants or complaint types during other points of the year including festival season, Mardi Gras, Essence, Voodoo Festival, hurricane season, sporting events, and the holidays."
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
+                      data-testid="dataSectionText"
                       style={
                         Object {
                           "whiteSpace": "pre-wrap",
+                          "wordBreak": "break-word",
                         }
                       }
                       variant="body2"
@@ -2506,18 +2516,22 @@ As the year progresses, the table will show the last twelve (12) months from the
                             "subtitle2": "MuiTypography-subtitle2",
                           }
                         }
+                        data-testid="dataSectionText"
                         style={
                           Object {
                             "whiteSpace": "pre-wrap",
+                            "wordBreak": "break-word",
                           }
                         }
                         variant="body2"
                       >
                         <p
                           className="MuiTypography-root MuiTypography-body2"
+                          data-testid="dataSectionText"
                           style={
                             Object {
                               "whiteSpace": "pre-wrap",
+                              "wordBreak": "break-word",
                             }
                           }
                         >
@@ -3825,16 +3839,19 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                 }
               >
                 <TextTruncate
-                  collapsedText="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information"
-                  message="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information.
+                  collapsedText="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information"
+                  getDataSectionText={[Function]}
+                  message="The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.
 
 Tags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  Visit the tag glossary for an explanation of each label. This chart captures tag use on a rolling twelve month basis."
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
+                      data-testid="dataSectionText"
                       style={
                         Object {
                           "whiteSpace": "pre-wrap",
+                          "wordBreak": "break-word",
                         }
                       }
                       variant="body2"
@@ -3874,22 +3891,116 @@ Tags is a term created within the Office of the Independent Police Monitor and i
                             "subtitle2": "MuiTypography-subtitle2",
                           }
                         }
+                        data-testid="dataSectionText"
                         style={
                           Object {
                             "whiteSpace": "pre-wrap",
+                            "wordBreak": "break-word",
                           }
                         }
                         variant="body2"
                       >
                         <p
                           className="MuiTypography-root MuiTypography-body2"
+                          data-testid="dataSectionText"
                           style={
                             Object {
                               "whiteSpace": "pre-wrap",
+                              "wordBreak": "break-word",
                             }
                           }
                         >
-                          The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the Tag Glossary for more information...
+                          <span
+                            key="0"
+                          >
+                            The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the 
+                          </span>
+                          <WithStyles(ForwardRef(Link))
+                            href=" /data/glossary"
+                            key="1"
+                          >
+                            <ForwardRef(Link)
+                              classes={
+                                Object {
+                                  "button": "MuiLink-button",
+                                  "focusVisible": "Mui-focusVisible",
+                                  "root": "MuiLink-root",
+                                  "underlineAlways": "MuiLink-underlineAlways",
+                                  "underlineHover": "MuiLink-underlineHover",
+                                  "underlineNone": "MuiLink-underlineNone",
+                                }
+                              }
+                              href=" /data/glossary"
+                            >
+                              <WithStyles(ForwardRef(Typography))
+                                className="MuiLink-root MuiLink-underlineHover"
+                                color="primary"
+                                component="a"
+                                href=" /data/glossary"
+                                onBlur={[Function]}
+                                onFocus={[Function]}
+                                variant="inherit"
+                              >
+                                <ForwardRef(Typography)
+                                  className="MuiLink-root MuiLink-underlineHover"
+                                  classes={
+                                    Object {
+                                      "alignCenter": "MuiTypography-alignCenter",
+                                      "alignJustify": "MuiTypography-alignJustify",
+                                      "alignLeft": "MuiTypography-alignLeft",
+                                      "alignRight": "MuiTypography-alignRight",
+                                      "body1": "MuiTypography-body1",
+                                      "body2": "MuiTypography-body2",
+                                      "button": "MuiTypography-button",
+                                      "caption": "MuiTypography-caption",
+                                      "colorError": "MuiTypography-colorError",
+                                      "colorInherit": "MuiTypography-colorInherit",
+                                      "colorPrimary": "MuiTypography-colorPrimary",
+                                      "colorSecondary": "MuiTypography-colorSecondary",
+                                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                      "displayBlock": "MuiTypography-displayBlock",
+                                      "displayInline": "MuiTypography-displayInline",
+                                      "gutterBottom": "MuiTypography-gutterBottom",
+                                      "h1": "MuiTypography-h1",
+                                      "h2": "MuiTypography-h2",
+                                      "h3": "MuiTypography-h3",
+                                      "h4": "MuiTypography-h4",
+                                      "h5": "MuiTypography-h5",
+                                      "h6": "MuiTypography-h6",
+                                      "noWrap": "MuiTypography-noWrap",
+                                      "overline": "MuiTypography-overline",
+                                      "paragraph": "MuiTypography-paragraph",
+                                      "root": "MuiTypography-root",
+                                      "srOnly": "MuiTypography-srOnly",
+                                      "subtitle1": "MuiTypography-subtitle1",
+                                      "subtitle2": "MuiTypography-subtitle2",
+                                    }
+                                  }
+                                  color="primary"
+                                  component="a"
+                                  href=" /data/glossary"
+                                  onBlur={[Function]}
+                                  onFocus={[Function]}
+                                  variant="inherit"
+                                >
+                                  <a
+                                    className="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+                                    href=" /data/glossary"
+                                    onBlur={[Function]}
+                                    onFocus={[Function]}
+                                  >
+                                    Tag Glossary 
+                                  </a>
+                                </ForwardRef(Typography)>
+                              </WithStyles(ForwardRef(Typography))>
+                            </ForwardRef(Link)>
+                          </WithStyles(ForwardRef(Link))>
+                          <span
+                            key="2"
+                          >
+                             for more information...
+                          </span>
                         </p>
                       </ForwardRef(Typography)>
                     </WithStyles(ForwardRef(Typography))>
@@ -5199,6 +5310,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               >
                 <TextTruncate
                   collapsedText="The OIPM tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months."
+                  getDataSectionText={[Function]}
                   message="The OIPM tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months. The different complainant types include:
 
 • Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to OIPM but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, OIPM counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the NOPD.
@@ -5211,9 +5323,11 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 >
                   <div>
                     <WithStyles(ForwardRef(Typography))
+                      data-testid="dataSectionText"
                       style={
                         Object {
                           "whiteSpace": "pre-wrap",
+                          "wordBreak": "break-word",
                         }
                       }
                       variant="body2"
@@ -5253,18 +5367,22 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                             "subtitle2": "MuiTypography-subtitle2",
                           }
                         }
+                        data-testid="dataSectionText"
                         style={
                           Object {
                             "whiteSpace": "pre-wrap",
+                            "wordBreak": "break-word",
                           }
                         }
                         variant="body2"
                       >
                         <p
                           className="MuiTypography-root MuiTypography-body2"
+                          data-testid="dataSectionText"
                           style={
                             Object {
                               "whiteSpace": "pre-wrap",
+                              "wordBreak": "break-word",
                             }
                           }
                         >
