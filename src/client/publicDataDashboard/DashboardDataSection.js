@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Link as MUILink, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
@@ -26,6 +26,48 @@ const DashboardDataSection = props => {
     fullMessage
   } = DATA_SECTIONS[dataSectionType] || {};
 
+  const getTextWithLink = text => {
+    let linkSection = text.match(/#(.*.linkTo.*)#/).pop();
+    let index = linkSection.indexOf("linkTo");
+    let length = "linkTo".length;
+
+    let linkText = linkSection.substring(0, index);
+    let linkPath = linkSection.substring(index + length);
+
+    const textArray = text.split("#");
+    return (
+      <Typography
+        variant="body2"
+        style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
+        data-testid={"dataSectionText"}
+      >
+        {textArray.map((text, index) => {
+          return text.includes("linkTo") ? (
+            <MUILink key={index} href={linkPath}>
+              {linkText}
+            </MUILink>
+          ) : (
+            <span key={index}>{text}</span>
+          );
+        })}
+      </Typography>
+    );
+  };
+
+  const getDataSectionText = text => {
+    return text.includes("linkTo") ? (
+      getTextWithLink(text)
+    ) : (
+      <Typography
+        variant="body2"
+        style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
+        data-testid={"dataSectionText"}
+      >
+        {text}
+      </Typography>
+    );
+  };
+
   return (
     <Grid
       container
@@ -51,7 +93,11 @@ const DashboardDataSection = props => {
         />
       </Grid>
       <Grid item xs={12} sm={8} style={{ paddingBottom: "117px" }}>
-        <TextTruncate collapsedText={collapsedText} message={fullMessage} />
+        <TextTruncate
+          collapsedText={collapsedText}
+          message={fullMessage}
+          getDataSectionText={getDataSectionText}
+        />
       </Grid>
     </Grid>
   );

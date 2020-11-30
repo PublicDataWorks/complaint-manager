@@ -28,26 +28,34 @@ class TextTruncate extends React.Component {
     this.setState({ isCollapsed: true });
   };
 
+  getMessageDisplay = message => {
+    if (this.props.getActivityNotes) {
+      return this.renderActivityNotes(message);
+    } else if (this.props.getDataSectionText) {
+      return this.renderDashboardDataSection(message);
+    } else {
+      return (
+        <Typography
+          variant="body2"
+          data-testid={this.props.testLabel}
+          style={{ whiteSpace: "pre-wrap" }}
+        >
+          {message}
+        </Typography>
+      );
+    }
+  };
+
   getDisplay = (message, buttonText, onButtonClick) => {
     return (
       <div>
-        {this.props.getActivityNotes ? (
-          this.renderActivityNotes(message)
-        ) : (
-          <Typography
-            variant="body2"
-            data-testid={this.props.testLabel}
-            style={{ whiteSpace: "pre-wrap" }}
-          >
-            {message}
-
-            </Typography>
-        )}
-            <LinkButton
+        {this.getMessageDisplay(message)}
+        <LinkButton
           style={this.expandCollapseLinkStyles}
-          onClick={onButtonClick}>
-            {buttonText}
-          </LinkButton>
+          onClick={onButtonClick}
+        >
+          {buttonText}
+        </LinkButton>
       </div>
     );
   };
@@ -58,7 +66,8 @@ class TextTruncate extends React.Component {
     return this.getDisplay(truncatedMessage, "more", this.showMore);
   };
 
-  renderCaption = message => this.getDisplay(`${message}...`, "more", this.showMore);
+  renderCaption = message =>
+    this.getDisplay(`${message}...`, "more", this.showMore);
 
   renderExpandedState = message => {
     return this.getDisplay(message, "less", this.showLess);
@@ -80,6 +89,10 @@ class TextTruncate extends React.Component {
 
   renderActivityNotes = msg => {
     return this.props.getActivityNotes(msg);
+  };
+
+  renderDashboardDataSection = msg => {
+    return this.props.getDataSectionText(msg);
   };
 
   render() {

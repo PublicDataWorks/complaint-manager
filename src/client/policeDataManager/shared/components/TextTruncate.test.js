@@ -2,9 +2,13 @@ import React from "react";
 import { mount } from "enzyme/build/index";
 import TextTruncate from "./TextTruncate";
 import ActivityDisplay from "../../cases/CaseDetails/CaseNotes/ActivityDisplay";
+import DashboardDataSection from "../../../publicDataDashboard/DashboardDataSection";
 
 jest.mock("../../cases/CaseDetails/CaseNotes/ActivityDisplay", () => ({
   getActivityNotes: jest.fn()
+}));
+jest.mock("../../../publicDataDashboard/DashboardDataSection", () => ({
+  getDataSectionText: jest.fn()
 }));
 
 describe("TextTruncate", () => {
@@ -180,5 +184,20 @@ describe("TextTruncate", () => {
     );
 
     expect(textTruncate.props().getActivityNotes).toHaveBeenCalled();
+  });
+
+  test("should call getDataSectionText when truncating dashboard data section", () => {
+    const textTruncate = mount(
+      <TextTruncate
+        message={
+          getStringOfLength(401) +
+          "Visit us at #this about page linkTo /data/about#"
+        }
+        testLabel={"truncatedDataSectionText"}
+        getDataSectionText={DashboardDataSection.getDataSectionText}
+      />
+    );
+
+    expect(textTruncate.props().getDataSectionText).toHaveBeenCalled();
   });
 });
