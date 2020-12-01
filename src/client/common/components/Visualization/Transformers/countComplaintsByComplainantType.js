@@ -1,9 +1,4 @@
-import {
-  COLORS,
-  generateDonutCenterAnnotations,
-  LABEL_FONT,
-  TITLE_FONT
-} from "../dataVizStyling";
+import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
 
@@ -19,15 +14,17 @@ export function transformData(rawData) {
     AC: "Anonymous (AC)"
   };
 
-  let complaintsByComplainantTypeArray = Object.keys(rawData)
-      .reduce((newArray, key) => {
-        const currentValue = rawData[key];
-        if (currentValue > 0) {
-          const newTuple = [caseReferenceToName[key], currentValue];
-          newArray.push(newTuple);
-        }
-        return newArray;
-      }, []);
+  let complaintsByComplainantTypeArray = Object.keys(rawData).reduce(
+    (newArray, key) => {
+      const currentValue = rawData[key];
+      if (currentValue > 0) {
+        const newTuple = [caseReferenceToName[key], currentValue];
+        newArray.push(newTuple);
+      }
+      return newArray;
+    },
+    []
+  );
 
   const sortData = (complainantTypeA, complainantTypeB) => {
     return complainantTypeB[1] - complainantTypeA[1];

@@ -1,11 +1,6 @@
 import { sum } from "lodash";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
-import {
-  COLORS,
-  generateDonutCenterAnnotations,
-  LABEL_FONT,
-  TITLE_FONT
-} from "../dataVizStyling";
+import { COLORS } from "../dataVizStyling";
 
 export function transformData(rawData = {}) {
   const labels = [];
@@ -19,7 +14,7 @@ export function transformData(rawData = {}) {
 
   sortedData.forEach(element => {
     labels.push(element.name);
-    values.push(Number(element.count))
+    values.push(Number(element.count));
   });
 
   return {

@@ -1,6 +1,6 @@
-import { COLORS, LABEL_FONT, TITLE_FONT } from "../dataVizStyling";
+import { COLORS } from "../dataVizStyling";
 
-export const transformData = (rawData) => {
+export const transformData = rawData => {
   let xValues = [];
   let yValues = [];
 
@@ -27,6 +27,6 @@ export const transformData = (rawData) => {
   };
 
   return {
-    data: [caseTagTrace],
+    data: [caseTagTrace]
   };
 };
