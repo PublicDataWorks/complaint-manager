@@ -1,11 +1,10 @@
-import { get, set, isEmpty } from "lodash";
+import { get, isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
 import {
-  COLORS,
   LABEL_FONT,
   TITLE_FONT,
   generateDonutCenterAnnotations,
@@ -45,6 +44,9 @@ export const baseLayouts = {
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     barmode: "group",
+    xaxis: {
+      fixedrange: true
+    },
     font: LABEL_FONT,
     title: {
       text: "Complainant Type",
@@ -54,10 +56,14 @@ export const baseLayouts = {
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     barmode: "group",
     xaxis: {
+      fixedrange: true,
       showgrid: false,
       zeroline: false,
       automargin: true,
       showticklabels: false
+    },
+    yaxis: {
+      fixedrange: true
     },
     margin: {
       l: 235,

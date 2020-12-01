@@ -1,9 +1,11 @@
-import { COLORS, LABEL_FONT, TITLE_FONT } from "../dataVizStyling";
+import { COLORS } from "../dataVizStyling";
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
 
-  return [...complainantTypeData, ...reversedComplainantType].map(element => element.date);
+  return [...complainantTypeData, ...reversedComplainantType].map(
+    element => element.date
+  );
 };
 
 export const enableCountHighlight = (complainantTypeData, maximum) => {
@@ -20,7 +22,7 @@ export const enableCountHighlight = (complainantTypeData, maximum) => {
     );
 };
 
-export const transformData = (rawData) => {
+export const transformData = rawData => {
   let maximum = 0;
   const determineMax = (count = 0) => {
     const newCount = Math.round((count + 0.5) * 1.1);
@@ -28,13 +30,15 @@ export const transformData = (rawData) => {
       maximum = newCount;
     }
   };
-  
-  const insertDateValues = complainantTypeData => complainantTypeData.map(date => date.date);
-  
-  const insertCountValues = complainantTypeData => complainantTypeData.map(({ count }) => {
-    determineMax(count);
-    return count;
-  });
+
+  const insertDateValues = complainantTypeData =>
+    complainantTypeData.map(date => date.date);
+
+  const insertCountValues = complainantTypeData =>
+    complainantTypeData.map(({ count }) => {
+      determineMax(count);
+      return count;
+    });
 
   const highlightOptions = complainantType => {
     return {

@@ -84,5 +84,5 @@ export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
 };
 
 export const generateYAxisRange = maximum => {
-  return { range: [0, maximum] };
+  return { range: [0, maximum], fixedrange: true };
 };
