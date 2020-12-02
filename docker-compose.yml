@@ -16,6 +16,11 @@ services:
       - REACT_APP_GOOGLE_API_KEY
       - NODE_AUTH_DISABLED=true
       - REACT_APP_AUTH_DISABLED=true
+      - LOCALSTACK_ENABLED=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
     depends_on:
       - db
       - worker
@@ -31,6 +36,23 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
+      - ./localstack-seed-files:/app/localstack-seed-files
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack}"
+    image: localstack/localstack
+    hostname: localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=1
+      - DATA_DIR=/tmp/localstack/data
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - HOST_TMP_FOLDER=${TMPDIR}
+    volumes:
+      - ./data:/tmp/localstack
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - ./bin:/docker-entrypoint-initaws.d
   app-e2e:
     build:
       context: .
@@ -80,6 +102,8 @@ services:
       - ./node_modules:/app/node_modules
   db:
     image: postgres:10.9-alpine
+    depends_on:
+      - localstack
     environment:
       POSTGRES_PASSWORD: password
     ports:

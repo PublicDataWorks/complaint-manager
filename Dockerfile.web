@@ -3,6 +3,7 @@ FROM noipm/docker-node-ubuntu:2.0.1
 RUN apt-get update
 
 RUN apt-get install bash
+RUN apt-get install unzip
 
 WORKDIR /app
 
