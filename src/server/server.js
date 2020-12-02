@@ -1,6 +1,7 @@
 import fs from "fs";
 import http from "http";
 import https from "https";
+const AWS = require("aws-sdk");
 
 import {
   handleSigterm,
@@ -27,6 +28,11 @@ const cors = require("cors");
 const compression = require("compression");
 const isLowerEnv =
   process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
+const isLocalstackEnabled = process.env.LOCALSTACK_ENABLED == "true";
+
+if (isLowerEnv && isLocalstackEnabled) {
+  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+}
 
 winston.configure({
   transports: [

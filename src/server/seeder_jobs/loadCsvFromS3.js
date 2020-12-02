@@ -4,6 +4,17 @@ const config = require("../config/config");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 const winston = require("winston");
 
+winston.configure({
+  transports: [
+    new winston.transports.Console({
+      json: false,
+      colorize: true
+    })
+  ],
+  level: 'info',
+  colorize: true
+});
+
 const parseNullValues = value => (!value || value === "NULL" ? null : value);
 
 const checkForOldItems = (oldItems, newItems) => {
