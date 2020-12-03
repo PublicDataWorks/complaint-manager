@@ -67,6 +67,9 @@ services:
       - NEW_RELIC_NO_CONFIG_FILE=true
       - REACT_APP_GOOGLE_API_KEY
       - NODE_AUTH_DISABLED=true
+      - LOCALSTACK_ENABLED=true
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
       - REACT_APP_AUTH_DISABLED=true
     depends_on:
       - db

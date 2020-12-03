@@ -1,13 +1,13 @@
 #!/bin/bash
 
-BUCKETS=(noipm-local noipm-referral-letters-local noipm-complainant-letters-local noipm-exports-local nopd-officers-local noipm-seed-files)
+BUCKETS=(noipm-local noipm-referral-letters-local noipm-complainant-letters-local noipm-exports-local nopd-officers-local noipm-seed-files noipm-exports-local)
 SEED_BUCKET_NAME=noipm-seed-files
 SEED_FILE_DIRECTORY="./localstack-seed-files"
 FILES=($(ls $SEED_FILE_DIRECTORY))
 
 if ! command -v aws &> /dev/null; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
+    unzip awscliv2.zip &> /dev/null
     ./aws/install
 fi
 
