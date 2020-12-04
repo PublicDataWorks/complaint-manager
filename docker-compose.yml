@@ -91,6 +91,11 @@ services:
       - NODE_ENV=development
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - LOCALSTACK_ENABLED=true
+      - AWS_ACCESS_KEY_ID=test
+      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_DEFAULT_REGION=us-east-1
     depends_on:
       - db
       - redis

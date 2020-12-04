@@ -20,7 +20,7 @@ export class JobDetails extends Component {
 
   triggerDownload() {
     const anchorNode = ReactDOM.findDOMNode(this);
-    anchorNode.click();
+    if (anchorNode) anchorNode.click();
   }
 
   render() {

@@ -50,3 +50,5 @@ chromedriver.log
 .terraform
 *.tfstate
 *.tfstate.backup
+
+data/
