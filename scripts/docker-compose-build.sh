@@ -8,6 +8,6 @@ echo "Building..."
 docker-compose build
 
 echo "Copying updated yarn.lock from container"
-docker run --rm --entrypoint cat complaint_manager_app:latest /app/yarn.lock > yarn.lock
+docker run --rm --entrypoint cat police_data_manager_app:latest /app/yarn.lock > yarn.lock
 
 echo "Build complete"
