@@ -258,7 +258,6 @@ export default connect(
   reduxForm({
     form: "OfficerHistories",
     enableReinitialize: true,
-    keepDirtyOnReinitialize: true,
     destroyOnUnmount: false
   })(OfficerHistories)
 );
