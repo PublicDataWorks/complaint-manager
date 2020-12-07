@@ -84,6 +84,7 @@ app.use(
       scriptSrc: [
         "'self'",
         "https://maps.googleapis.com",
+        "https://www.google-analytics.com",
         "'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='",
         "'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='",
         "'unsafe-eval'"
