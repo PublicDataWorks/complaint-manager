@@ -9,6 +9,9 @@ import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -25,6 +28,16 @@ const DashboardAboutWrapper = () => {
 };
 
 const DashboardAbout = () => {
+  const analyticsEnabled = useSelector(
+    state => state.featureToggles.analyticsCollectionFeature
+  );
+  console.log("Analytics Enabled", analyticsEnabled);
+  useEffect(() => {
+    if (analyticsEnabled) {
+      console.log("Page View", window.location.pathname);
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, [analyticsEnabled]);
   const theme = useTheme();
 
   return (
