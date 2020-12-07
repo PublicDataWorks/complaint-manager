@@ -19,6 +19,9 @@ import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
+import ReactGA from "react-ga";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
@@ -45,6 +48,16 @@ const PublicDataDashboardWrapper = () => {
 };
 
 const PublicDataDashboard = () => {
+  const analyticsEnabled = useSelector(state => {
+    return state.featureToggles.analyticsCollectionFeature;
+  });
+  console.log("Analytics Enabled", analyticsEnabled);
+  useEffect(() => {
+    if (analyticsEnabled) {
+      console.log("Page View", window.location.pathname);
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, [analyticsEnabled]);
   const theme = useTheme();
   const currentDate = formatShortDate(moment(Date.now()));
 

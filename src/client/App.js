@@ -19,11 +19,16 @@ import getNotifications from "./policeDataManager/shared/thunks/getNotifications
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
+import ReactGA from "react-ga";
+
+const analyticsTrackingID = "UA-184896339-1";
 
 class App extends Component {
   eventSource = undefined;
 
   componentDidMount() {
+    this.props.getFeatureToggles();
+
     const accessToken = getAccessToken();
     const auth = new Auth();
     if (isAuthDisabled()) {
@@ -32,7 +37,6 @@ class App extends Component {
 
     if (accessToken) {
       auth.setUserInfoInStore(accessToken, this.props.userAuthSuccess);
-      this.props.getFeatureToggles();
     }
   }
 
@@ -41,6 +45,10 @@ class App extends Component {
   }
 
   render() {
+      if (this.props.analyticsCollectionFeature) {
+          console.log("Initializing Analytics");
+          ReactGA.initialize(analyticsTrackingID);
+      }
     const token = getAccessToken();
     if (
       this.props.realtimeNotificationsFeature &&
@@ -90,7 +98,8 @@ const mapStateToProps = state => ({
   currentUser: state.users.current.userInfo,
   featureToggles: state.featureToggles,
   realtimeNotificationsFeature:
-    state.featureToggles.realtimeNotificationsFeature
+    state.featureToggles.realtimeNotificationsFeature,
+  analyticsCollectionFeature: state.featureToggles.analyticsCollectionFeature
 });
 
 const mapDispatchToProps = {
