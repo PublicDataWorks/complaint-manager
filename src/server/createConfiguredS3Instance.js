@@ -10,8 +10,7 @@ const createConfiguredS3Instance = () => {
   let credentials = { accessKeyId, secretAccessKey };
 
   if (process.env.NODE_ENV === "development" && isLocalstackEnabled) {
-    const localConfig = { accessKeyId: "test", secretAccessKey: "test", region: "us-east-1" };
-    credentials = { credentials: localConfig };
+    credentials = { accessKeyId: "test", secretAccessKey: "test" };
     AWS.config.s3 = { endpoint: 'host.docker.internal:4566', s3ForcePathStyle: true };
   }
 
