@@ -5,11 +5,16 @@ SEED_BUCKET_NAME=noipm-seed-files
 SEED_FILE_DIRECTORY="./localstack-seed-files"
 FILES=($(ls $SEED_FILE_DIRECTORY))
 
+if [[ -z "${LOCALSTACK_ENABLED}" ]]; then
+    echo "LOCALSTACK_ENABLED is not set. Skipping Localstack setup."
+    exit 0
+fi
+
 if ! command -v aws &> /dev/null; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     unzip awscliv2.zip &> /dev/null
     ./aws/install
-fi
+fi    
 
 # Make the buckets
 for BUCKET in "${BUCKETS[@]}"; do
@@ -23,3 +28,4 @@ done
 
 # Officer Seed Data exception because REASONS
 aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_DIRECTORY/officerSeedData.csv" "s3://nopd-officers-local"
+

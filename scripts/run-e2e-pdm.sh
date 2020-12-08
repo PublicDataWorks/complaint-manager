@@ -1,13 +1,13 @@
 #!/bin/bash
 
 CONTAINER_ID=$(docker-compose ps -q app)
+
 if [[ -n $CONTAINER_ID ]];
 then
   RESTART_APP_CHECK=$(docker inspect --format "{{.State.Running}}" $CONTAINER_ID)
+  echo "Stopping app container..."
+  docker-compose stop app
 fi
-
-echo "Stopping app container..."
-docker-compose stop app
 
 # In case you want to test a single test case
 # nightwatch --env local --test tests/policeDataManager/policeDataManagerUserJourney.js --testcase "should navigate to all exports page and export all cases"
