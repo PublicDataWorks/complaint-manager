@@ -3,7 +3,7 @@ import DashboardGlossary from "./DashboardGlossary";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import createConfiguredStore from "../createConfiguredStore";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 
 describe("Dashboard Glossary page", () => {
   test("should render the Glossary page for the public data dashboard with correct styling", () => {

@@ -45,10 +45,10 @@ class App extends Component {
   }
 
   render() {
-      if (this.props.analyticsCollectionFeature) {
-          console.log("Initializing Analytics");
-          ReactGA.initialize(analyticsTrackingID);
-      }
+    if (this.props.analyticsCollectionFeature) {
+      console.log("Initializing Analytics");
+      ReactGA.initialize(analyticsTrackingID);
+    }
     const token = getAccessToken();
     if (
       this.props.realtimeNotificationsFeature &&

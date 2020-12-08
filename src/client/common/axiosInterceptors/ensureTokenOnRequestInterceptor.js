@@ -1,7 +1,7 @@
 import getAccessToken from "../auth/getAccessToken";
 import { push } from "connected-react-router";
 
-const publicAPIs = ["/api/public-data"];
+const publicAPIs = ["/api/public-data", "features"];
 
 const ensureTokenOnRequestInterceptor = (
   dispatch,
