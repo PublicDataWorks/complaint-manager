@@ -14,13 +14,13 @@ services:
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
       - REACT_APP_GOOGLE_API_KEY
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
       - NODE_AUTH_DISABLED=true
       - REACT_APP_AUTH_DISABLED=true
+      - AWS_DEFAULT_REGION=us-east-1
       - LOCALSTACK_ENABLED=true
       - NODE_TLS_REJECT_UNAUTHORIZED=0
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
-      - AWS_DEFAULT_REGION=us-east-1
     depends_on:
       - db
       - worker
@@ -30,7 +30,7 @@ services:
       - "4000:4000"
 #      Expose this port if using Node inspect flag for debugging purposes
 #     - "9229:9229"
-    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
+    entrypoint: ["./wait-for-it.sh", "localstack:4566", "db:5432", "--"]
     command: ["yarn", "start:dev"]
     volumes:
 #      Mount this volume if you want to run a static front end on localhost:1234
@@ -44,7 +44,7 @@ services:
     ports:
       - "4566:4566"
     environment:
-      - SERVICES=s3
+      - SERVICES=s3,secretsmanager
       - DEBUG=1
       - DATA_DIR=/tmp/localstack/data
       - DOCKER_HOST=unix:///var/run/docker.sock
@@ -66,11 +66,13 @@ services:
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
       - REACT_APP_GOOGLE_API_KEY
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
       - NODE_AUTH_DISABLED=true
-      - LOCALSTACK_ENABLED=true
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
       - REACT_APP_AUTH_DISABLED=true
+      - AWS_DEFAULT_REGION=us-east-1
+      - LOCALSTACK_ENABLED=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     depends_on:
       - db
       - worker
@@ -91,11 +93,11 @@ services:
       - NODE_ENV=development
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
-      - LOCALSTACK_ENABLED=true
-      - AWS_ACCESS_KEY_ID=test
-      - AWS_SECRET_ACCESS_KEY=test
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
       - AWS_DEFAULT_REGION=us-east-1
+      - LOCALSTACK_ENABLED=true
+      - NODE_TLS_REJECT_UNAUTHORIZED=0
     depends_on:
       - db
       - redis
@@ -116,8 +118,6 @@ services:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
-  #    volumes:
-  #      - ./postgres-data:/var/lib/postgresql/data
   e2e:
     image: noipm/e2e:latest
     depends_on:
@@ -127,7 +127,7 @@ services:
       - "./e2e/pageObjectModels:/pageObjectModels"
       - "./e2e/nightwatch.conf.js:/nightwatch.conf.js"
       - "./wait-for-it.sh:/wait-for-it.sh"
-    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "--"]
+    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "100", "--"]
     command: ["nightwatch", "--env", "local"]
     environment:
       - TEST_USER=${TEST_USER}

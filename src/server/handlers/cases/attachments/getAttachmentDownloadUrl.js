@@ -74,7 +74,7 @@ const getSignedUrlForAttachment = async (fileName, caseId, s3, user) => {
         s3,
         config[process.env.NODE_ENV].s3Bucket,
         filenameWithCaseId
-      );
+      ).replace('host.docker.internal', 'localhost');
     }
   });
 };
