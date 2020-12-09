@@ -80,7 +80,7 @@ describe("App", () => {
     }
   });
 
-  test("should creates an eventSource only on first render and stay open", () => {
+  test("should create an eventSource only on first render and stay open", () => {
     expect(sources[eventSourceUrl].readyState).toBe(0);
     sources[eventSourceUrl].emitOpen();
 
@@ -131,6 +131,8 @@ describe("App", () => {
   });
 
   test("should close the EventSource on unmount", () => {
+    sources[eventSourceUrl].emitOpen();
+
     wrapper.unmount();
     expect(sources[eventSourceUrl].readyState).toBe(2);
   });

@@ -4,6 +4,7 @@ import sharedRoutes from "./sharedRoutes";
 import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
 import { Route, Switch } from "react-router";
 import { connect } from "react-redux";
+import UsePageTracking from "./usePageTracking";
 
 class AppRouter extends Component {
   render() {
@@ -45,6 +46,9 @@ class AppRouter extends Component {
   createRoute = (path, component, title) => {
     let RouteComponent = component;
 
+    const shouldTrackPage =
+      this.props.featureToggles.analyticsCollectionFeature || false;
+
     return (
       <Route
         exact
@@ -52,7 +56,12 @@ class AppRouter extends Component {
         path={path}
         render={props => {
           this.setPageTitle(title);
-          return <RouteComponent {...props} />;
+          return (
+            <div>
+              {shouldTrackPage ? <UsePageTracking /> : null}
+              <RouteComponent {...props} />{" "}
+            </div>
+          );
         }}
       />
     );

@@ -1311,10 +1311,10 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                   }
                                                   to="/data/about"
                                                 >
-                                                  <a
+                                                  <LinkAnchor
                                                     data-testid="aboutLink"
                                                     href="/data/about"
-                                                    onClick={[Function]}
+                                                    navigate={[Function]}
                                                     style={
                                                       Object {
                                                         "color": "#767676",
@@ -1322,8 +1322,20 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                       }
                                                     }
                                                   >
-                                                    About
-                                                  </a>
+                                                    <a
+                                                      data-testid="aboutLink"
+                                                      href="/data/about"
+                                                      onClick={[Function]}
+                                                      style={
+                                                        Object {
+                                                          "color": "#767676",
+                                                          "textDecoration": "none",
+                                                        }
+                                                      }
+                                                    >
+                                                      About
+                                                    </a>
+                                                  </LinkAnchor>
                                                 </Link>
                                               </p>
                                             </ForwardRef(Typography)>
@@ -1395,10 +1407,10 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                   to="/data/glossary"
                                                   underline="none"
                                                 >
-                                                  <a
+                                                  <LinkAnchor
                                                     data-testid="glossaryLink"
                                                     href="/data/glossary"
-                                                    onClick={[Function]}
+                                                    navigate={[Function]}
                                                     style={
                                                       Object {
                                                         "color": "#767676",
@@ -1407,8 +1419,21 @@ exports[`Public Data Dashboard should render public data dashboard with correct 
                                                     }
                                                     underline="none"
                                                   >
-                                                    Tag Glossary
-                                                  </a>
+                                                    <a
+                                                      data-testid="glossaryLink"
+                                                      href="/data/glossary"
+                                                      onClick={[Function]}
+                                                      style={
+                                                        Object {
+                                                          "color": "#767676",
+                                                          "textDecoration": "none",
+                                                        }
+                                                      }
+                                                      underline="none"
+                                                    >
+                                                      Tag Glossary
+                                                    </a>
+                                                  </LinkAnchor>
                                                 </Link>
                                               </p>
                                             </ForwardRef(Typography)>

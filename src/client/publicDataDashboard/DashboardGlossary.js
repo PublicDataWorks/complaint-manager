@@ -63,16 +63,6 @@ const DashboardGlossaryWrapper = () => {
 };
 
 const DashboardGlossary = () => {
-  const analyticsEnabled = useSelector(
-    state => state.featureToggles.analyticsCollectionFeature
-  );
-  console.log("Analytics Enabled", analyticsEnabled);
-  useEffect(() => {
-    if (analyticsEnabled) {
-      console.log("Page View", window.location.pathname);
-      ReactGA.pageview(window.location.pathname + window.location.search);
-    }
-  }, [analyticsEnabled]);
   const theme = useTheme();
 
   return (
