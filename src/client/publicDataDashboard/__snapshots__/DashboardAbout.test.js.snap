@@ -920,7 +920,20 @@ exports[`Dashboard About page should render the About page for the public data d
                             }
                           >
                             <WithStyles(LinkButton)
-                              component={[Function]}
+                              component={
+                                Object {
+                                  "$$typeof": Symbol(react.forward_ref),
+                                  "displayName": "Link",
+                                  "propTypes": Object {
+                                    "innerRef": [Function],
+                                    "onClick": [Function],
+                                    "replace": [Function],
+                                    "target": [Function],
+                                    "to": [Function],
+                                  },
+                                  "render": [Function],
+                                }
+                              }
                               style={
                                 Object {
                                   "backgroundColor": "#F5F4F4",
@@ -940,7 +953,20 @@ exports[`Dashboard About page should render the About page for the public data d
                                     "button": "LinkButton-button-104",
                                   }
                                 }
-                                component={[Function]}
+                                component={
+                                  Object {
+                                    "$$typeof": Symbol(react.forward_ref),
+                                    "displayName": "Link",
+                                    "propTypes": Object {
+                                      "innerRef": [Function],
+                                      "onClick": [Function],
+                                      "replace": [Function],
+                                      "target": [Function],
+                                      "to": [Function],
+                                    },
+                                    "render": [Function],
+                                  }
+                                }
                                 style={
                                   Object {
                                     "backgroundColor": "#F5F4F4",
@@ -956,7 +982,20 @@ exports[`Dashboard About page should render the About page for the public data d
                               >
                                 <WithStyles(ForwardRef(Button))
                                   className="LinkButton-button-104"
-                                  component={[Function]}
+                                  component={
+                                    Object {
+                                      "$$typeof": Symbol(react.forward_ref),
+                                      "displayName": "Link",
+                                      "propTypes": Object {
+                                        "innerRef": [Function],
+                                        "onClick": [Function],
+                                        "replace": [Function],
+                                        "target": [Function],
+                                        "to": [Function],
+                                      },
+                                      "render": [Function],
+                                    }
+                                  }
                                   style={
                                     Object {
                                       "backgroundColor": "#F5F4F4",
@@ -1005,7 +1044,20 @@ exports[`Dashboard About page should render the About page for the public data d
                                         "textSizeSmall": "MuiButton-textSizeSmall-118",
                                       }
                                     }
-                                    component={[Function]}
+                                    component={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "displayName": "Link",
+                                        "propTypes": Object {
+                                          "innerRef": [Function],
+                                          "onClick": [Function],
+                                          "replace": [Function],
+                                          "target": [Function],
+                                          "to": [Function],
+                                        },
+                                        "render": [Function],
+                                      }
+                                    }
                                     style={
                                       Object {
                                         "backgroundColor": "#F5F4F4",
@@ -1021,7 +1073,20 @@ exports[`Dashboard About page should render the About page for the public data d
                                   >
                                     <WithStyles(ForwardRef(ButtonBase))
                                       className="MuiButton-root-105 MuiButton-contained-113 LinkButton-button-104"
-                                      component={[Function]}
+                                      component={
+                                        Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "displayName": "Link",
+                                          "propTypes": Object {
+                                            "innerRef": [Function],
+                                            "onClick": [Function],
+                                            "replace": [Function],
+                                            "target": [Function],
+                                            "to": [Function],
+                                          },
+                                          "render": [Function],
+                                        }
+                                      }
                                       disabled={false}
                                       focusRipple={true}
                                       focusVisibleClassName="Mui-focusVisible"
@@ -1047,7 +1112,20 @@ exports[`Dashboard About page should render the About page for the public data d
                                             "root": "MuiButtonBase-root-132",
                                           }
                                         }
-                                        component={[Function]}
+                                        component={
+                                          Object {
+                                            "$$typeof": Symbol(react.forward_ref),
+                                            "displayName": "Link",
+                                            "propTypes": Object {
+                                              "innerRef": [Function],
+                                              "onClick": [Function],
+                                              "replace": [Function],
+                                              "target": [Function],
+                                              "to": [Function],
+                                            },
+                                            "render": [Function],
+                                          }
+                                        }
                                         disabled={false}
                                         focusRipple={true}
                                         focusVisibleClassName="Mui-focusVisible"
@@ -1092,12 +1170,12 @@ exports[`Dashboard About page should render the About page for the public data d
                                           tabIndex={0}
                                           to="/data"
                                         >
-                                          <a
+                                          <LinkAnchor
                                             aria-disabled={false}
                                             className="MuiButtonBase-root-132 MuiButton-root-105 MuiButton-contained-113 LinkButton-button-104"
                                             href="/data"
+                                            navigate={[Function]}
                                             onBlur={[Function]}
-                                            onClick={[Function]}
                                             onDragLeave={[Function]}
                                             onFocus={[Function]}
                                             onKeyDown={[Function]}
@@ -1121,31 +1199,39 @@ exports[`Dashboard About page should render the About page for the public data d
                                             }
                                             tabIndex={0}
                                           >
-                                            <span
-                                              className="MuiButton-label-106"
-                                            >
-                                              <WithStyles(ForwardRef(Icon))
-                                                style={
-                                                  Object {
-                                                    "color": "#C7C7CC",
-                                                    "marginRight": "16px",
-                                                  }
+                                            <a
+                                              aria-disabled={false}
+                                              className="MuiButtonBase-root-132 MuiButton-root-105 MuiButton-contained-113 LinkButton-button-104"
+                                              href="/data"
+                                              onBlur={[Function]}
+                                              onClick={[Function]}
+                                              onDragLeave={[Function]}
+                                              onFocus={[Function]}
+                                              onKeyDown={[Function]}
+                                              onKeyUp={[Function]}
+                                              onMouseDown={[Function]}
+                                              onMouseLeave={[Function]}
+                                              onMouseUp={[Function]}
+                                              onTouchEnd={[Function]}
+                                              onTouchMove={[Function]}
+                                              onTouchStart={[Function]}
+                                              role="button"
+                                              style={
+                                                Object {
+                                                  "backgroundColor": "#F5F4F4",
+                                                  "borderRadius": 3,
+                                                  "boxShadow": "none",
+                                                  "marginBottom": "4px",
+                                                  "padding": "16px 24px",
+                                                  "textTransform": "none",
                                                 }
+                                              }
+                                              tabIndex={0}
+                                            >
+                                              <span
+                                                className="MuiButton-label-106"
                                               >
-                                                <ForwardRef(Icon)
-                                                  classes={
-                                                    Object {
-                                                      "colorAction": "MuiIcon-colorAction-136",
-                                                      "colorDisabled": "MuiIcon-colorDisabled-138",
-                                                      "colorError": "MuiIcon-colorError-137",
-                                                      "colorPrimary": "MuiIcon-colorPrimary-134",
-                                                      "colorSecondary": "MuiIcon-colorSecondary-135",
-                                                      "fontSizeInherit": "MuiIcon-fontSizeInherit-139",
-                                                      "fontSizeLarge": "MuiIcon-fontSizeLarge-141",
-                                                      "fontSizeSmall": "MuiIcon-fontSizeSmall-140",
-                                                      "root": "MuiIcon-root-133",
-                                                    }
-                                                  }
+                                                <WithStyles(ForwardRef(Icon))
                                                   style={
                                                     Object {
                                                       "color": "#C7C7CC",
@@ -1153,9 +1239,20 @@ exports[`Dashboard About page should render the About page for the public data d
                                                     }
                                                   }
                                                 >
-                                                  <span
-                                                    aria-hidden={true}
-                                                    className="material-icons MuiIcon-root-133"
+                                                  <ForwardRef(Icon)
+                                                    classes={
+                                                      Object {
+                                                        "colorAction": "MuiIcon-colorAction-136",
+                                                        "colorDisabled": "MuiIcon-colorDisabled-138",
+                                                        "colorError": "MuiIcon-colorError-137",
+                                                        "colorPrimary": "MuiIcon-colorPrimary-134",
+                                                        "colorSecondary": "MuiIcon-colorSecondary-135",
+                                                        "fontSizeInherit": "MuiIcon-fontSizeInherit-139",
+                                                        "fontSizeLarge": "MuiIcon-fontSizeLarge-141",
+                                                        "fontSizeSmall": "MuiIcon-fontSizeSmall-140",
+                                                        "root": "MuiIcon-root-133",
+                                                      }
+                                                    }
                                                     style={
                                                       Object {
                                                         "color": "#C7C7CC",
@@ -1163,53 +1260,21 @@ exports[`Dashboard About page should render the About page for the public data d
                                                       }
                                                     }
                                                   >
-                                                    arrow_back
-                                                  </span>
-                                                </ForwardRef(Icon)>
-                                              </WithStyles(ForwardRef(Icon))>
-                                              <WithStyles(ForwardRef(Typography))
-                                                style={
-                                                  Object {
-                                                    "color": "#767676",
-                                                  }
-                                                }
-                                                variant="body2"
-                                              >
-                                                <ForwardRef(Typography)
-                                                  classes={
-                                                    Object {
-                                                      "alignCenter": "MuiTypography-alignCenter-158",
-                                                      "alignJustify": "MuiTypography-alignJustify-160",
-                                                      "alignLeft": "MuiTypography-alignLeft-157",
-                                                      "alignRight": "MuiTypography-alignRight-159",
-                                                      "body1": "MuiTypography-body1-144",
-                                                      "body2": "MuiTypography-body2-143",
-                                                      "button": "MuiTypography-button-146",
-                                                      "caption": "MuiTypography-caption-145",
-                                                      "colorError": "MuiTypography-colorError-169",
-                                                      "colorInherit": "MuiTypography-colorInherit-164",
-                                                      "colorPrimary": "MuiTypography-colorPrimary-165",
-                                                      "colorSecondary": "MuiTypography-colorSecondary-166",
-                                                      "colorTextPrimary": "MuiTypography-colorTextPrimary-167",
-                                                      "colorTextSecondary": "MuiTypography-colorTextSecondary-168",
-                                                      "displayBlock": "MuiTypography-displayBlock-171",
-                                                      "displayInline": "MuiTypography-displayInline-170",
-                                                      "gutterBottom": "MuiTypography-gutterBottom-162",
-                                                      "h1": "MuiTypography-h1-147",
-                                                      "h2": "MuiTypography-h2-148",
-                                                      "h3": "MuiTypography-h3-149",
-                                                      "h4": "MuiTypography-h4-150",
-                                                      "h5": "MuiTypography-h5-151",
-                                                      "h6": "MuiTypography-h6-152",
-                                                      "noWrap": "MuiTypography-noWrap-161",
-                                                      "overline": "MuiTypography-overline-155",
-                                                      "paragraph": "MuiTypography-paragraph-163",
-                                                      "root": "MuiTypography-root-142",
-                                                      "srOnly": "MuiTypography-srOnly-156",
-                                                      "subtitle1": "MuiTypography-subtitle1-153",
-                                                      "subtitle2": "MuiTypography-subtitle2-154",
-                                                    }
-                                                  }
+                                                    <span
+                                                      aria-hidden={true}
+                                                      className="material-icons MuiIcon-root-133"
+                                                      style={
+                                                        Object {
+                                                          "color": "#C7C7CC",
+                                                          "marginRight": "16px",
+                                                        }
+                                                      }
+                                                    >
+                                                      arrow_back
+                                                    </span>
+                                                  </ForwardRef(Icon)>
+                                                </WithStyles(ForwardRef(Icon))>
+                                                <WithStyles(ForwardRef(Typography))
                                                   style={
                                                     Object {
                                                       "color": "#767676",
@@ -1217,48 +1282,91 @@ exports[`Dashboard About page should render the About page for the public data d
                                                   }
                                                   variant="body2"
                                                 >
-                                                  <p
-                                                    className="MuiTypography-root-142 MuiTypography-body2-143"
+                                                  <ForwardRef(Typography)
+                                                    classes={
+                                                      Object {
+                                                        "alignCenter": "MuiTypography-alignCenter-158",
+                                                        "alignJustify": "MuiTypography-alignJustify-160",
+                                                        "alignLeft": "MuiTypography-alignLeft-157",
+                                                        "alignRight": "MuiTypography-alignRight-159",
+                                                        "body1": "MuiTypography-body1-144",
+                                                        "body2": "MuiTypography-body2-143",
+                                                        "button": "MuiTypography-button-146",
+                                                        "caption": "MuiTypography-caption-145",
+                                                        "colorError": "MuiTypography-colorError-169",
+                                                        "colorInherit": "MuiTypography-colorInherit-164",
+                                                        "colorPrimary": "MuiTypography-colorPrimary-165",
+                                                        "colorSecondary": "MuiTypography-colorSecondary-166",
+                                                        "colorTextPrimary": "MuiTypography-colorTextPrimary-167",
+                                                        "colorTextSecondary": "MuiTypography-colorTextSecondary-168",
+                                                        "displayBlock": "MuiTypography-displayBlock-171",
+                                                        "displayInline": "MuiTypography-displayInline-170",
+                                                        "gutterBottom": "MuiTypography-gutterBottom-162",
+                                                        "h1": "MuiTypography-h1-147",
+                                                        "h2": "MuiTypography-h2-148",
+                                                        "h3": "MuiTypography-h3-149",
+                                                        "h4": "MuiTypography-h4-150",
+                                                        "h5": "MuiTypography-h5-151",
+                                                        "h6": "MuiTypography-h6-152",
+                                                        "noWrap": "MuiTypography-noWrap-161",
+                                                        "overline": "MuiTypography-overline-155",
+                                                        "paragraph": "MuiTypography-paragraph-163",
+                                                        "root": "MuiTypography-root-142",
+                                                        "srOnly": "MuiTypography-srOnly-156",
+                                                        "subtitle1": "MuiTypography-subtitle1-153",
+                                                        "subtitle2": "MuiTypography-subtitle2-154",
+                                                      }
+                                                    }
                                                     style={
                                                       Object {
                                                         "color": "#767676",
                                                       }
                                                     }
+                                                    variant="body2"
                                                   >
-                                                    Return to front page
-                                                  </p>
-                                                </ForwardRef(Typography)>
-                                              </WithStyles(ForwardRef(Typography))>
-                                            </span>
-                                            <WithStyles(memo)
-                                              center={false}
-                                            >
-                                              <ForwardRef(TouchRipple)
+                                                    <p
+                                                      className="MuiTypography-root-142 MuiTypography-body2-143"
+                                                      style={
+                                                        Object {
+                                                          "color": "#767676",
+                                                        }
+                                                      }
+                                                    >
+                                                      Return to front page
+                                                    </p>
+                                                  </ForwardRef(Typography)>
+                                                </WithStyles(ForwardRef(Typography))>
+                                              </span>
+                                              <WithStyles(memo)
                                                 center={false}
-                                                classes={
-                                                  Object {
-                                                    "child": "MuiTouchRipple-child-181",
-                                                    "childLeaving": "MuiTouchRipple-childLeaving-182",
-                                                    "childPulsate": "MuiTouchRipple-childPulsate-183",
-                                                    "ripple": "MuiTouchRipple-ripple-178",
-                                                    "ripplePulsate": "MuiTouchRipple-ripplePulsate-180",
-                                                    "rippleVisible": "MuiTouchRipple-rippleVisible-179",
-                                                    "root": "MuiTouchRipple-root-177",
-                                                  }
-                                                }
                                               >
-                                                <span
-                                                  className="MuiTouchRipple-root-177"
+                                                <ForwardRef(TouchRipple)
+                                                  center={false}
+                                                  classes={
+                                                    Object {
+                                                      "child": "MuiTouchRipple-child-181",
+                                                      "childLeaving": "MuiTouchRipple-childLeaving-182",
+                                                      "childPulsate": "MuiTouchRipple-childPulsate-183",
+                                                      "ripple": "MuiTouchRipple-ripple-178",
+                                                      "ripplePulsate": "MuiTouchRipple-ripplePulsate-180",
+                                                      "rippleVisible": "MuiTouchRipple-rippleVisible-179",
+                                                      "root": "MuiTouchRipple-root-177",
+                                                    }
+                                                  }
                                                 >
-                                                  <TransitionGroup
-                                                    childFactory={[Function]}
-                                                    component={null}
-                                                    exit={true}
-                                                  />
-                                                </span>
-                                              </ForwardRef(TouchRipple)>
-                                            </WithStyles(memo)>
-                                          </a>
+                                                  <span
+                                                    className="MuiTouchRipple-root-177"
+                                                  >
+                                                    <TransitionGroup
+                                                      childFactory={[Function]}
+                                                      component={null}
+                                                      exit={true}
+                                                    />
+                                                  </span>
+                                                </ForwardRef(TouchRipple)>
+                                              </WithStyles(memo)>
+                                            </a>
+                                          </LinkAnchor>
                                         </Link>
                                       </ForwardRef(ButtonBase)>
                                     </WithStyles(ForwardRef(ButtonBase))>
