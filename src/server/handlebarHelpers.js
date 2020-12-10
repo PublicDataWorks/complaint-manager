@@ -9,10 +9,10 @@ import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import {
   DECLINES_OPTION,
   S3_GET_OBJECT,
-  S3_URL_EXPIRATION,
-  SIGNATURE_KEYS
+  S3_URL_EXPIRATION
 } from "../sharedUtilities/constants";
 import createConfiguredS3Instance from "./createConfiguredS3Instance";
+import { findFirstSender } from "../sharedUtilities/findFirstSender";
 
 const caseReferenceLength = 4;
 
@@ -125,12 +125,17 @@ export const newLineToLineBreak = text => {
 Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
 
 export const generateSignature = (sender, includeSignature) => {
-  if (includeSignature && sender.includes("Stella Cziment")) {
-    return `<img style="max-height: 55px" src=${getResourceUrlFromS3(
-      "noipm-private-images",
-      SIGNATURE_KEYS.STELLA
-    )} />`;
+  if (includeSignature) {
+    let firstSender = findFirstSender(sender);
+
+    return firstSender
+      ? `<img style="max-height: 55px" src=${getResourceUrlFromS3(
+          "noipm-private-images",
+          firstSender
+        )} />`
+      : "<p><br></p>";
   }
+
   return "<p><br></p>";
 };
 Handlebars.registerHelper("generateSignature", generateSignature);

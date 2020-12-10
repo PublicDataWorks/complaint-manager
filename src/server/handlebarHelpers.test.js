@@ -377,6 +377,12 @@ describe("handlebarHelpers", function () {
   describe("generateSignature", function () {
     const blankLine = "<p><br></p>";
     const stellaSender = "Stella Cziment\nDPM";
+    const bonycleSender = "Bonycle Sokunbi\nDPM";
+    const multipleSenders = "Bonycle Sokunbi and Stella Cziment\nDPM";
+
+    afterEach(() => {
+      getSignedUrl.mockClear();
+    });
 
     test("returns an blank line without signature when includeSignature is false", () => {
       expect(generateSignature(stellaSender, false)).toEqual(blankLine);
@@ -384,6 +390,21 @@ describe("handlebarHelpers", function () {
 
     test("returns an blank line without signature when no signature for given name", () => {
       expect(generateSignature("someone not stella", true)).toEqual(blankLine);
+    });
+
+    test("returns bonycles signature when bonycle is sender", () => {
+      const signature = generateSignature(bonycleSender, true);
+
+      expect(signature).toEqual(
+        '<img style="max-height: 55px" src=SIGNED_URL />'
+      );
+      expect(getSignedUrl).toHaveBeenCalledWith(
+        S3_GET_OBJECT,
+        expect.objectContaining({
+          Bucket: "noipm-private-images",
+          Key: "bonycle_sokunbi.png"
+        })
+      );
     });
 
     test("returns stellas signature when stella is sender", () => {
@@ -396,7 +417,22 @@ describe("handlebarHelpers", function () {
         S3_GET_OBJECT,
         expect.objectContaining({
           Bucket: "noipm-private-images",
-          Key: "signature.png"
+          Key: "stella_cziment.png"
+        })
+      );
+    });
+
+    test("returns signature of the first found sender when there are multiple senders", () => {
+      const signature = generateSignature(multipleSenders, true);
+
+      expect(signature).toEqual(
+        '<img style="max-height: 55px" src=SIGNED_URL />'
+      );
+      expect(getSignedUrl).toHaveBeenCalledWith(
+        S3_GET_OBJECT,
+        expect.objectContaining({
+          Bucket: "noipm-private-images",
+          Key: "bonycle_sokunbi.png"
         })
       );
     });

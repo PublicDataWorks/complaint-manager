@@ -576,7 +576,14 @@ export const TTL_SEC = 24 * 60 * 60;
 // ----------------------------------------
 
 export const SIGNATURE_KEYS = {
-  STELLA: "signature.png"
+  STELLA: {
+    name: "Stella Cziment",
+    signature: "stella_cziment.png"
+  },
+  BONYCLE: {
+    name: "Bonycle Sokunbi",
+    signature: "bonycle_sokunbi.png"
+  }
 };
 
 // ----------------------------------------
