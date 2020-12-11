@@ -59,7 +59,7 @@ class AppRouter extends Component {
           return (
             <div>
               {shouldTrackPage ? <UsePageTracking /> : null}
-              <RouteComponent {...props} />{" "}
+              <RouteComponent {...props} />
             </div>
           );
         }}

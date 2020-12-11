@@ -31,8 +31,6 @@
     "id": "analyticsCollectionFeature",
     "name": "analyticsCollectionFeature",
     "description": "Collects Page View Analytics and Reports to Google Analytics",
-    "criteria": {
-      "isPreProd": true
-    }
+    "enabled": true
   }
 ]
