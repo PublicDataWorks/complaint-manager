@@ -801,7 +801,9 @@ exports[`Public Data Dashboard should render correct styling for complainants su
             item={true}
             style={
               Object {
+                "overflow": "auto",
                 "padding": 0,
+                "width": "auto",
               }
             }
             xs={12}
@@ -917,7 +919,9 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               item={true}
               style={
                 Object {
+                  "overflow": "auto",
                   "padding": 0,
+                  "width": "auto",
                 }
               }
               xs={12}
@@ -926,7 +930,9 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
+                    "overflow": "auto",
                     "padding": 0,
+                    "width": "auto",
                   }
                 }
               >
@@ -2189,7 +2195,9 @@ exports[`Public Data Dashboard should render correct styling for complaints over
             item={true}
             style={
               Object {
+                "overflow": "auto",
                 "padding": 0,
+                "width": "auto",
               }
             }
             xs={12}
@@ -2305,7 +2313,9 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               item={true}
               style={
                 Object {
+                  "overflow": "auto",
                   "padding": 0,
+                  "width": "auto",
                 }
               }
               xs={12}
@@ -2314,7 +2324,9 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
+                    "overflow": "auto",
                     "padding": 0,
+                    "width": "auto",
                   }
                 }
               >
@@ -3564,7 +3576,9 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
             item={true}
             style={
               Object {
+                "overflow": "auto",
                 "padding": 0,
+                "width": "auto",
               }
             }
             xs={12}
@@ -3680,7 +3694,9 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               item={true}
               style={
                 Object {
+                  "overflow": "auto",
                   "padding": 0,
+                  "width": "auto",
                 }
               }
               xs={12}
@@ -3689,7 +3705,9 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
+                    "overflow": "auto",
                     "padding": 0,
+                    "width": "auto",
                   }
                 }
               >
@@ -5029,7 +5047,9 @@ exports[`Public Data Dashboard should render correct styling for who submits com
             item={true}
             style={
               Object {
+                "overflow": "auto",
                 "padding": 0,
+                "width": "auto",
               }
             }
             xs={12}
@@ -5145,7 +5165,9 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               item={true}
               style={
                 Object {
+                  "overflow": "auto",
                   "padding": 0,
+                  "width": "auto",
                 }
               }
               xs={12}
@@ -5154,7 +5176,9 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
+                    "overflow": "auto",
                     "padding": 0,
+                    "width": "auto",
                   }
                 }
               >

@@ -84,7 +84,11 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      <Grid item xs={12} style={{ padding: 0 }}>
+      <Grid
+        item
+        xs={12}
+        style={{ padding: 0, width: "auto", overflow: "auto" }}
+      >
         <Visualization
           data-testid={dataTestId}
           isPublic
