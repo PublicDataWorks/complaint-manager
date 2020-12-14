@@ -5,10 +5,14 @@ SEED_BUCKET_NAME=noipm-seed-files
 SEED_FILE_DIRECTORY="./localstack-seed-files"
 FILES=($(ls $SEED_FILE_DIRECTORY))
 
-if [[ -z "${LOCALSTACK_ENABLED}" ]]; then
-    echo "LOCALSTACK_ENABLED is not set. Skipping Localstack setup."
+export NODE_TLS_REJECT_UNAUTHORIZED=1
+
+if [[ -z "${CLOUD_SERVICES_DISABLED}" ]]; then
+    echo "Cloud services are enabled. Skipping Localstack setup."
     exit 0
 fi
+
+export NODE_TLS_REJECT_UNAUTHORIZED=0
 
 if ! command -v aws &> /dev/null; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"

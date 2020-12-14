@@ -23,6 +23,14 @@ const { JOB_OPERATION } = require("../sharedUtilities/constants");
 const csvCaseExport = require("./processors/exportCases/csvCaseExport");
 const exportAuditLog = require("./processors/auditLogs/exportAuditLog");
 
+const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
+const areCloudServicesDisabled = process.env.CLOUD_SERVICES_DISABLED == "true";
+
+if (isLowerEnv && areCloudServicesDisabled) {
+  process.env["NODE_AUTH_DISABLED"] = true;
+  process.env["REACT_APP_AUTH_DISABLED"] = true;
+}
+
 winston.configure({
   transports: [
     new winston.transports.Console({

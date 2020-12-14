@@ -13,14 +13,10 @@ services:
       - REACT_APP_ENV=development
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
-      - REACT_APP_GOOGLE_API_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-      - NODE_AUTH_DISABLED=true
-      - REACT_APP_AUTH_DISABLED=true
-      - AWS_DEFAULT_REGION=us-east-1
-      - LOCALSTACK_ENABLED=true
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - REACT_APP_GOOGLE_API_KEY
+      - CLOUD_SERVICES_DISABLED=true
     depends_on:
       - db
       - worker
@@ -30,7 +26,7 @@ services:
       - "4000:4000"
 #      Expose this port if using Node inspect flag for debugging purposes
 #     - "9229:9229"
-    entrypoint: ["./wait-for-it.sh", "localstack:4566", "db:5432", "--"]
+    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start:dev"]
     volumes:
 #      Mount this volume if you want to run a static front end on localhost:1234
@@ -51,8 +47,6 @@ services:
       - HOST_TMP_FOLDER=${TMPDIR}
     volumes:
       - ./data:/tmp/localstack
-      - "/var/run/docker.sock:/var/run/docker.sock"
-      - ./bin:/docker-entrypoint-initaws.d
   app-e2e:
     build:
       context: .
@@ -65,14 +59,10 @@ services:
       - REACT_APP_ENV=development_e2e
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
-      - REACT_APP_GOOGLE_API_KEY
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-      - NODE_AUTH_DISABLED=true
-      - REACT_APP_AUTH_DISABLED=true
-      - AWS_DEFAULT_REGION=us-east-1
-      - LOCALSTACK_ENABLED=true
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
+      - REACT_APP_GOOGLE_API_KEY
+      - CLOUD_SERVICES_DISABLED=true
     depends_on:
       - db
       - worker
@@ -93,11 +83,6 @@ services:
       - NODE_ENV=development
       - NEW_RELIC_ENABLED=false
       - NEW_RELIC_NO_CONFIG_FILE=true
-      - AWS_ACCESS_KEY_ID
-      - AWS_SECRET_ACCESS_KEY
-      - AWS_DEFAULT_REGION=us-east-1
-      - LOCALSTACK_ENABLED=true
-      - NODE_TLS_REJECT_UNAUTHORIZED=0
     depends_on:
       - db
       - redis
