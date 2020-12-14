@@ -28,7 +28,6 @@ const cors = require("cors");
 const compression = require("compression");
 
 const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
-const areCloudServicesDisabled = process.env.CLOUD_SERVICES_DISABLED == "true";
 
 winston.configure({
   transports: [
