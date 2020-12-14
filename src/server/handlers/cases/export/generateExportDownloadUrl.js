@@ -76,7 +76,12 @@ const generateExportDownloadUrl = async (
       Expires: S3_URL_EXPIRATION
     });
   });
-  return signedUrl.replace('host.docker.internal', 'localhost');
+  
+  if (process.env.CLOUD_SERVICES_DISABLED == 'true') {
+    return signedUrl.replace('host.docker.internal', 'localhost');
+  }
+  
+  return signedUrl;
 };
 
 export default generateExportDownloadUrl;

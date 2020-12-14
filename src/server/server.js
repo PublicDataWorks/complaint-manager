@@ -26,13 +26,9 @@ const winston = require("winston");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
-const isLowerEnv =
-  process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
-const isLocalstackEnabled = process.env.LOCALSTACK_ENABLED == "true";
 
-if (isLowerEnv && isLocalstackEnabled) {
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-}
+const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
+const areCloudServicesDisabled = process.env.CLOUD_SERVICES_DISABLED == "true";
 
 winston.configure({
   transports: [

@@ -9,7 +9,7 @@
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
     "setup:localstack": "./scripts/init-localstack.sh",
     "start:dev": "yarn setup:localstack && yarn setup:db && concurrently 'yarn start:client' 'yarn start:server:dev'",
-    "setup:db": "sequelize db:create; node scripts/checkEmptySchema.js && node scripts/loadSchema.js; sequelize db:migrate && sequelize db:seed:all;",
+    "setup:db": "sequelize db:create; node scripts/checkEmptySchema.js && node scripts/loadSchema.js; sequelize db:migrate && ./scripts/toggle-flag-and-seed-db.sh",
     "setup:test:db": "./scripts/setup-test-db.sh",
     "drop:db": "sequelize db:drop",
     "start:client": "HTTPS=true PORT=443 react-scripts start",
