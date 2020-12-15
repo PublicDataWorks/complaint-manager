@@ -1,3 +1,4 @@
+const set = require("lodash/set");
 const AWS = require("aws-sdk");
 const config = require("./config/config");
 const path = require("path");
@@ -5,13 +6,15 @@ const path = require("path");
 const createConfiguredS3Instance = () => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
   const areCloudServicesDisabled = process.env.CLOUD_SERVICES_DISABLED == "true";
 
   let credentials = { accessKeyId, secretAccessKey };
 
-  if (process.env.NODE_ENV === "development" && areCloudServicesDisabled) {
+  if (isLowerEnv && areCloudServicesDisabled) {
     credentials = { accessKeyId: "test", secretAccessKey: "test" };
-    AWS.config.s3 = { endpoint: 'host.docker.internal:4566', s3ForcePathStyle: true };
+    const localConfig = { endpoint: 'host.docker.internal:4566', s3ForcePathStyle: true };
+    set(AWS, ['config', 's3'], localConfig);
   }
 
   const s3 = new AWS.S3(credentials);

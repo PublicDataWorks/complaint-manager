@@ -11,6 +11,9 @@ import generateComplainantLetterPdfBuffer, {
 
 let existingCase, timeOfDownload, complainant;
 
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
     toBuffer: callback => {
@@ -30,7 +33,15 @@ afterEach(async () => {
 beforeEach(async () => {
   timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
   timekeeper.freeze(timeOfDownload);
-
+  
+  let s3 = AWS.S3.mockImplementation(() => ({
+    getSignedUrl: jest.fn().mockImplementation(() => "SIGNED_URL"),
+    config: {
+      loadFromPath: jest.fn(),
+      update: jest.fn()
+    }
+  }));
+  
   complainant = new Civilian.Builder()
     .defaultCivilian()
     .withId(undefined)
@@ -38,11 +49,11 @@ beforeEach(async () => {
     .build();
 
   const caseAttributes = new Case.Builder()
-    .defaultCase()
-    .withId(12070)
-    .withFirstContactDate("2017-12-25")
-    .withIncidentDate("2016-01-01")
-    .withComplainantCivilians([complainant]);
+        .defaultCase()
+        .withId(12070)
+        .withFirstContactDate("2017-12-25")
+        .withIncidentDate("2016-01-01")
+        .withComplainantCivilians([complainant]);
 
   existingCase = await models.cases.create(caseAttributes, {
     include: [

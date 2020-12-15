@@ -8,10 +8,10 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -22,7 +22,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' generates le
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -67,10 +67,10 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -81,7 +81,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -126,10 +126,10 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -140,7 +140,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' pdf create g
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -185,10 +185,10 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' should updat
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -199,7 +199,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' should updat
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -244,10 +244,10 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -258,7 +258,7 @@ exports[`generateReferralLetterPdfBuffer sender is 'sender address' signature is
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -303,10 +303,10 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -317,7 +317,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />
@@ -345,7 +345,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
     <p><br></p>
     Sincerely,
     <p><br></p>
-    <img style=\\"max-height: 55px\\" src=https://noipm-private-images.s3.amazonaws.com/signature.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=79f47086619c1e04f7df7ce165d0fd46d2fa3e1b43b925f70545af43c8bed357&X-Amz-SignedHeaders=host />
+    <img style=\\"max-height: 55px\\" src=SIGNED_URL />
     <p><br></p>
     Stella Cziment
     <p><br></p>
@@ -362,10 +362,10 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is not inclu
   <body>
     <div id=\\"pageHeader-first\\">
       <div style=\\"text-align: center;\\">
-        <img style=\\"max-width: 223px\\" src=https://noipm-private-images.s3.amazonaws.com/header_text.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=a3b5589f1b637005ca37439b628dbd4e063280f4835bcfd1ce9b690fec9a09ab&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 223px\\" src=SIGNED_URL />
       </div>
       <div style=\\"text-align: center; margin-top: 8px\\">
-        <img style=\\"max-width: 42px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+        <img style=\\"max-width: 42px\\" src=SIGNED_URL />
       </div>
     </div>
     <div id=\\"pageHeader\\" style=\\"font-size:8.5pt; color: #7F7F7F;\\">
@@ -376,7 +376,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is not inclu
 
     <div id=\\"pageFooter\\" style=\\"text-align: center; margin-top: 16px\\">
             <span  style=\\"display:inline-block; margin: 6px 16px 0 0\\">
-                <img style=\\"max-width: 30px\\" src=https://noipm-private-images.s3.amazonaws.com/icon.ico?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=test%2F20180702%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20180702T000022Z&X-Amz-Expires=60&X-Amz-Signature=0fbad4e872a737ac62eb928bfeabf7413b6d6e4229bb7564544efe1404c5cf94&X-Amz-SignedHeaders=host />
+                <img style=\\"max-width: 30px\\" src=SIGNED_URL />
             </span>
       <span style=\\"display:inline-block; font-size:7pt; color: #7F7F7F;\\">
                 INDEPENDENT POLICE MONITOR <br />

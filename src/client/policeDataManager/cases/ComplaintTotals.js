@@ -10,13 +10,11 @@ const ComplaintTotals = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`
-        );
+        const response = await axios.get(`/api/data?queryType=${QUERY_TYPES.COUNT_COMPLAINT_TOTALS}`);
         setData(response.data);
-      } catch (e) {
+      } catch (error) {
         setData({ ytd: null, previousYear: null });
-        console.log(e);
+        console.error(error);
       }
     };
     fetchData();
