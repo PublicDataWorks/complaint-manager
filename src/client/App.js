@@ -27,6 +27,7 @@ const App = props => {
 
     const accessToken = getAccessToken();
     const auth = new Auth();
+
     if (isAuthDisabled()) {
       auth.setDummyUserInfoInStore(props.userAuthSuccess);
     }
@@ -35,7 +36,6 @@ const App = props => {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
     }
   }, []);
-
   useEffect(() => {
     return function cleanup() {
       if (eventSource) {
@@ -43,7 +43,7 @@ const App = props => {
       }
     };
   }, [eventSource]);
-
+  
   const token = getAccessToken();
   if (
     props.realtimeNotificationsFeature &&

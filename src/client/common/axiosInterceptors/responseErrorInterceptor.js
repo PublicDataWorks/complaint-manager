@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { push } from "connected-react-router";
 import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
@@ -16,7 +17,7 @@ const interceptError = (error, dispatch) => {
     error
   );
 
-  let statusCode = error.response.status;
+  let statusCode = get(error, ['response', 'status']);
 
   errorMessage = transformAndHandleError(
     errorMessage,
@@ -95,15 +96,15 @@ const mapCustomErrorToDisplayAndRedirectUrl = (errorMessage, caseId) => {
 };
 
 const getErrorMessageAndCaseIdFromErrorResponse = error => {
-  let errorMessage = error.response.data.message;
-  let caseId = error.response.data.caseId;
+  let errorMessage = get(error, ['response', 'data', 'message'], null);
+  let caseId = get(error, ['response', 'data', 'caseId'], null);
 
-  if (error.response.status === 401) {
+  if (get(error, ['response', 'status'], null) === 401) {
     errorMessage = error.message;
   }
 
-  if (error.response.config.responseType === "arraybuffer") {
-    const jsonData = getJsonDataFromArrayBufferResponse(error.response.data);
+  if (get(error, ['response', 'config', 'responseType'], null) === "arraybuffer") {
+    const jsonData = getJsonDataFromArrayBufferResponse(get(error, ['response', 'data'], {}));
     errorMessage = jsonData.message;
     caseId = jsonData.caseId;
   }
@@ -113,10 +114,7 @@ const getErrorMessageAndCaseIdFromErrorResponse = error => {
       "Something went wrong and the request could not be completed";
   }
 
-  return {
-    errorMessage: errorMessage,
-    caseId: caseId
-  };
+  return { caseId, errorMessage };
 };
 
 const getJsonDataFromArrayBufferResponse = arrayBuffer => {

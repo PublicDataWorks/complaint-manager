@@ -16,6 +16,9 @@ import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLe
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
     toBuffer: callback => {
@@ -50,6 +53,14 @@ describe("generateReferralLetterPdfBuffer", function () {
     timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
 
+    let s3 = AWS.S3.mockImplementation(() => ({
+      getSignedUrl: jest.fn().mockImplementation(() => "SIGNED_URL"),
+      config: {
+        loadFromPath: jest.fn(),
+        update: jest.fn()
+      }
+    }));
+    
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
