@@ -1,6 +1,6 @@
 export const isAuthDisabled = () => {
   return (
-    process.env.NODE_AUTH_DISABLED === true ||
-    process.env.NODE_AUTH_DISABLED === "true"
+    process.env.CLOUD_SERVICES_DISABLED === true ||
+    process.env.CLOUD_SERVICES_DISABLED === "true"
   );
 };
