@@ -33,6 +33,7 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
+      - ./scripts:/app/scripts
       - ./localstack-seed-files:/app/localstack-seed-files
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack}"

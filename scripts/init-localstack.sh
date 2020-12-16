@@ -10,6 +10,10 @@ if [[ -z "${CLOUD_SERVICES_DISABLED}" ]]; then
     exit 0
 fi
 
+# Setup Localstack Credentials
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+
 if ! command -v aws &> /dev/null; then
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
     unzip awscliv2.zip &> /dev/null
