@@ -47,10 +47,14 @@ const getFinalPdfDownloadUrl = asyncMiddleware(
         AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
         transaction
       );
-      const signedUrl = await getSignedS3Url(
+      let signedUrl = await getSignedS3Url(
         existingCase.id,
         referralLetter.finalPdfFilename
       );
+
+      if (process.env.CLOUD_SERVICES_DISABLED == "true") {
+        signedUrl = signedUrl.replace("host.docker.internal", "localhost");
+      }
       response.send(signedUrl);
     });
   }
