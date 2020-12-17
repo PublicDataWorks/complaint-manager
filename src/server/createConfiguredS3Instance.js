@@ -6,15 +6,21 @@ const path = require("path");
 const createConfiguredS3Instance = () => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-  const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
-  const areCloudServicesDisabled = process.env.CLOUD_SERVICES_DISABLED == "true";
+  const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
+  const areCloudServicesDisabled =
+    process.env.CLOUD_SERVICES_DISABLED == "true";
 
   let credentials = { accessKeyId, secretAccessKey };
 
   if (isLowerEnv && areCloudServicesDisabled) {
+    console.log("Overriding S3 config for Localstack");
     credentials = { accessKeyId: "test", secretAccessKey: "test" };
-    const localConfig = { endpoint: 'host.docker.internal:4566', s3ForcePathStyle: true };
-    set(AWS, ['config', 's3'], localConfig);
+    const localConfig = {
+      endpoint: "host.docker.internal:4566",
+      s3ForcePathStyle: true,
+      sslEnabled: false
+    };
+    set(AWS, ["config", "s3"], localConfig);
   }
 
   const s3 = new AWS.S3(credentials);

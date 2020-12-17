@@ -34,6 +34,7 @@ services:
 #      - ./build:/app/build
       - ./src:/app/src
       - ./scripts:/app/scripts
+      - ./package.json:/app/package.json
       - ./localstack-seed-files:/app/localstack-seed-files
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack}"
@@ -47,6 +48,7 @@ services:
       - DATA_DIR=/tmp/localstack/data
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
+      - USE_SSL=false
     volumes:
       - ./data:/tmp/localstack
   app-e2e:
@@ -77,6 +79,8 @@ services:
     command: ["yarn", "start:dev"]
     volumes:
       - ./src:/app/src
+      - ./scripts:/app/scripts
+      - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
   worker:
     build:
