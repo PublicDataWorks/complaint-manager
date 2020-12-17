@@ -13,7 +13,7 @@ const createConfiguredS3Instance = () => {
   let credentials = { accessKeyId, secretAccessKey };
 
   if (isLowerEnv && areCloudServicesDisabled) {
-    console.log("Overriding S3 config for Localstack");
+    console.log("Overriding AWS config for Localstack");
     credentials = { accessKeyId: "test", secretAccessKey: "test" };
     const localConfig = {
       endpoint: "host.docker.internal:4566",
