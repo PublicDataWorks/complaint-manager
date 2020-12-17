@@ -76,21 +76,21 @@ const getSignedUrlForAttachment = async (fileName, caseId, s3, user) => {
         filenameWithCaseId
       );
 
-      if (process.env.CLOUD_SERVICES_DISABLED == 'true') {
-        return rawSignedUrl.replace('host.docker.internal', 'localhost');
-      }
-
       return rawSignedUrl;
     }
   });
 };
 
 const getS3SignedUrl = (s3, bucket, key) => {
-  return s3.getSignedUrl(S3_GET_OBJECT, {
+  const rawSignedUrl = s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: bucket,
     Key: key,
     Expires: S3_URL_EXPIRATION
   });
+  if (process.env.CLOUD_SERVICES_DISABLED == "true") {
+    return rawSignedUrl.replace("host.docker.internal", "localhost");
+  }
+  return rawSignedUrl;
 };
 
 const getComplainantLetterS3Url = (s3, complainantLetter) => {
