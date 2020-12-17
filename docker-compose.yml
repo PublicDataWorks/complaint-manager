@@ -92,6 +92,8 @@ services:
       - NEW_RELIC_NO_CONFIG_FILE=true
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
+      - CLOUD_SERVICES_DISABLED=true
+      - REACT_APP_CLOUD_SERVICES_DISABLED=true
     depends_on:
       - db
       - redis
