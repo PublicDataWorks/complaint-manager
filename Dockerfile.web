@@ -7,6 +7,11 @@ RUN apt-get install unzip
 
 WORKDIR /app
 
+# Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip -q awscliv2.zip
+RUN /app/aws/install
+
 COPY . /app/
 RUN yarn install
 ARG REACT_APP_ENV
