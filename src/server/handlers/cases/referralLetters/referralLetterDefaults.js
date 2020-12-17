@@ -6,5 +6,5 @@ New Orleans Police Department
 New Orleans, LA 70112`;
 
 export const SENDER = `Bonycle Sokunbi
-Deputy Police Monitor
+Acting Chief Monitor
 504-309-9799`;
