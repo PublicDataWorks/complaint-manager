@@ -17,13 +17,6 @@ if [ "$CLOUD_SERVICES_DISABLED" = "true" ]; then
     export AWS_SECRET_ACCESS_KEY=test
 fi
 
-
-if ! command -v aws &> /dev/null; then
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip &> /dev/null
-    ./aws/install
-fi    
-
 # Make the buckets
 for BUCKET in "${BUCKETS[@]}"; do
     aws --endpoint-url=http://host.docker.internal:4566 s3 mb "s3://$BUCKET" --region=us-east-1
