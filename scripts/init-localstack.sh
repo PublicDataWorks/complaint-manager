@@ -10,12 +10,13 @@ if [ "$CLOUD_SERVICES_DISABLED" = "false" ]; then
     exit 0
 fi
 
-if [ "$CLOUD_SERVICES_DISABLED" = "true" ]; then
-    echo "Cloud services are disabled. Overriding AWS Credentials..."
-    # Setup Localstack Credentials
-    export AWS_ACCESS_KEY_ID=test
-    export AWS_SECRET_ACCESS_KEY=test
-fi
+echo "Cloud services are disabled. Overriding AWS Credentials..."
+# Setup Localstack Credentials
+export AWS_ACCESS_KEY_ID=test
+export AWS_SECRET_ACCESS_KEY=test
+
+echo "Waiting for Localstack to become available..."
+./wait-for-it.sh localstack:4566
 
 # Make the buckets
 for BUCKET in "${BUCKETS[@]}"; do
