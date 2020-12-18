@@ -88,7 +88,7 @@
     "lodash": "~4.17.11",
     "moment": "~2.24.0",
     "moment-timezone": "~0.5.23",
-    "newrelic": "~6.6.0",
+    "newrelic": "^7.0.2",
     "node-cache": "^5.1.0",
     "pg": "7.12.1",
     "pg-hstore": "~2.3.2",
