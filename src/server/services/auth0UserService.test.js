@@ -4,6 +4,7 @@ import Boom from "boom";
 const Auth0UserService = require("./auth0UserService");
 import {suppressWinstonLogs} from "../testHelpers/requestTestHelpers";
 import {INTERNAL_ERRORS} from "../../sharedUtilities/errorMessageConstants";
+import {authEnabledTest} from "../testHelpers/authEnabledTest";
 
 jest.mock("../../server/retrieveSecretFromAWS", () => {
     return {
@@ -86,6 +87,7 @@ describe("Error Handling", () => {
 });
 
 describe("Auth0UserService", () => {
+    const test = authEnabledTest();
     let tokenCall, getUsersCall;
     const dummyToken = "fakeToken";
     const clientSecret = "success";
