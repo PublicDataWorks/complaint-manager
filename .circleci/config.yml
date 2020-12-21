@@ -16,7 +16,24 @@ jobs:
           environment:
             NEW_RELIC_ENABLED: false
             NEW_RELIC_NO_CONFIG_FILE: true
-  test-server-handlers:
+  test-server-handlers-ci:
+    docker:
+      - image: noipm/docker-node-ubuntu:2.0.1
+        environment:
+          NODE_ENV: test
+      - image: postgres:10.9-alpine
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run server handler unit tests
+          command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
+          environment:
+            NEW_RELIC_ENABLED: false
+            NEW_RELIC_NO_CONFIG_FILE: true
+  test-server-handlers-staging:
     docker:
       - image: noipm/docker-node-ubuntu:2.0.1
         environment:
@@ -30,6 +47,7 @@ jobs:
       - run:
           name: Run server handler unit tests
           command: yarn test:server-handlers:ci
+          command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
           environment:
             NEW_RELIC_ENABLED: false
             NEW_RELIC_NO_CONFIG_FILE: true
@@ -297,7 +315,7 @@ workflows:
       - test-client:
           requires:
             - security-check
-      - test-server-handlers:
+      - test-server-handlers-ci:
           requires:
             - security-check
       - test-server-worker-non-handlers:
@@ -306,7 +324,7 @@ workflows:
       - build-and-publish-master:
           requires:
             - test-client
-            - test-server-handlers
+            - test-server-handlers-ci
             - test-server-worker-non-handlers
       - deploy-ci:
           requires:
@@ -330,7 +348,7 @@ workflows:
       - test-client:
           requires:
             - security-check
-      - test-server-handlers:
+      - test-server-handlers-staging:
           requires:
             - security-check
       - test-server-worker-non-handlers:
@@ -339,7 +357,7 @@ workflows:
       - build-and-publish-release:
           requires:
             - test-client
-            - test-server-handlers
+            - test-server-handlers-staging
             - test-server-worker-non-handlers
       - deploy-staging:
           requires:

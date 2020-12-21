@@ -25,7 +25,7 @@ export const delCacheUsers = () => {
 };
 
 export const getUsers = async () => {
-  if (isAuthDisabled() || process.env.NODE_ENV === "test") {
+  if (isAuthDisabled()) {
     return FAKE_USERS;
   }
 
