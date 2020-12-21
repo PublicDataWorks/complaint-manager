@@ -11,9 +11,7 @@ const auth0UserService = require("../../../services/auth0UserService");
 const asyncMiddleware = require("../../../handlers/asyncMiddleware");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
-  const transformedUserData = isAuthDisabled()
-    ? FAKE_USERS
-    : await auth0UserService.getUsers();
+  const transformedUserData = await auth0UserService.getUsers();
 
   await models.sequelize
     .transaction(async transaction => {

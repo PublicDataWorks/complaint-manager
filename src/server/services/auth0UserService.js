@@ -6,8 +6,10 @@ import { INTERNAL_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import NodeCache from "node-cache";
 import {
   TTL_SEC,
-  AUTH0_USERS_CACHE_KEY
+  AUTH0_USERS_CACHE_KEY,
+  FAKE_USERS
 } from "../../sharedUtilities/constants";
+import { isAuthDisabled } from "../isAuthDisabled";
 
 const winston = require("winston");
 const config = require("../config/config")[process.env.NODE_ENV];
@@ -18,11 +20,15 @@ let cache = new NodeCache({ stdTTL: TTL_SEC });
 
 export const delCacheUsers = () => {
   if (cache.has(key)) {
-    return cache.del(key)
+    return cache.del(key);
   }
-}
+};
 
 export const getUsers = async () => {
+  if (isAuthDisabled() || process.env.NODE_ENV === "test") {
+    return FAKE_USERS;
+  }
+
   if (cache.has(key)) {
     users = cache.get(key);
     if (users) return users;
