@@ -46,7 +46,6 @@ jobs:
           command: yarn install
       - run:
           name: Run server handler unit tests
-          command: yarn test:server-handlers:ci
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
           environment:
             NEW_RELIC_ENABLED: false
