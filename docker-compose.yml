@@ -16,8 +16,8 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - REACT_APP_GOOGLE_API_KEY
-      - CLOUD_SERVICES_DISABLED=true
-      - REACT_APP_CLOUD_SERVICES_DISABLED=true
+      - USE_CLOUD_SERVICES=false
+      - REACT_APP_USE_CLOUD_SERVICES=false
     depends_on:
       - db
       - worker
@@ -66,8 +66,8 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - REACT_APP_GOOGLE_API_KEY
-      - CLOUD_SERVICES_DISABLED=true
-      - REACT_APP_CLOUD_SERVICES_DISABLED=true
+      - USE_CLOUD_SERVICES=false
+      - REACT_APP_USE_CLOUD_SERVICES=false
     depends_on:
       - db
       - worker
@@ -92,8 +92,8 @@ services:
       - NEW_RELIC_NO_CONFIG_FILE=true
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-      - CLOUD_SERVICES_DISABLED=true
-      - REACT_APP_CLOUD_SERVICES_DISABLED=true
+      - USE_CLOUD_SERVICES=false
+      - REACT_APP_USE_CLOUD_SERVICES=false
     depends_on:
       - db
       - redis

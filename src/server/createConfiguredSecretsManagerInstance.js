@@ -5,7 +5,7 @@ const path = require("path");
 const createConfiguredSecretsManagerInstance = () => {
   const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
   const areCloudServicesDisabled =
-    process.env.CLOUD_SERVICES_DISABLED == "true";
+    process.env.USE_CLOUD_SERVICES == "false";
 
   if (isLowerEnv && areCloudServicesDisabled) {
     const localConfig = {

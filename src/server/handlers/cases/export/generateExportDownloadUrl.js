@@ -77,7 +77,7 @@ const generateExportDownloadUrl = async (
     });
   });
 
-  if (process.env.CLOUD_SERVICES_DISABLED == "true") {
+  if (process.env.USE_CLOUD_SERVICES == "false") {
     return signedUrl.replace("host.docker.internal", "localhost");
   }
 

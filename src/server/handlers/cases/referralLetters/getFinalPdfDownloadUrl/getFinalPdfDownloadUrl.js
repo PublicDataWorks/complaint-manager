@@ -52,7 +52,7 @@ const getFinalPdfDownloadUrl = asyncMiddleware(
         referralLetter.finalPdfFilename
       );
 
-      if (process.env.CLOUD_SERVICES_DISABLED == "true") {
+      if (process.env.USE_CLOUD_SERVICES == "false") {
         signedUrl = signedUrl.replace("host.docker.internal", "localhost");
       }
       response.send(signedUrl);

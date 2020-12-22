@@ -5,7 +5,7 @@ SEED_BUCKET_NAME=noipm-seed-files
 SEED_FILE_DIRECTORY="./localstack-seed-files"
 FILES=($(ls $SEED_FILE_DIRECTORY))
 
-if [ "$CLOUD_SERVICES_DISABLED" = "false" ]; then
+if [ "$USE_CLOUD_SERVICES" = "true" ]; then
     echo "Cloud services are enabled. Skipping Localstack setup."
     exit 0
 fi
