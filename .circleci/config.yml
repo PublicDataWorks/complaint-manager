@@ -203,6 +203,9 @@ jobs:
     docker:
       - image: noipm/e2e:latest
     steps:
+      # - run:
+      #     name: Install Git
+      #     command: apt-get update && apt-get install --assume-yes git
       - checkout
       - run:
           name: Run E2E tests
