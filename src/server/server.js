@@ -27,7 +27,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
 
-const isLowerEnv = ['development', 'test'].includes(process.env.NODE_ENV);
+const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
 
 winston.configure({
   transports: [
@@ -81,7 +81,7 @@ app.use(
       connectSrc: config.contentSecurityPolicy.connectSrc,
       fontSrc: ["https://fonts.googleapis.com", "https://fonts.gstatic.com"],
       objectSrc: ["'none'"],
-      imgSrc: ["'self'", "data:", "blob:"],
+      imgSrc: ["'self'", "data:", "blob:", "https://www.google-analytics.com"],
       scriptSrc: [
         "'self'",
         "https://maps.googleapis.com",
