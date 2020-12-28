@@ -1,3 +1,4 @@
+import UsePageTracking from "./UsePageTracking";
 import React, { useEffect, useState } from "react";
 import { ConnectedRouter } from "connected-react-router";
 import history from "./history";
@@ -73,6 +74,7 @@ const App = props => {
 
   return (
     <ConnectedRouter history={history}>
+      <UsePageTracking />
       <MuiThemeProvider theme={customTheme}>
         <Paper
           elevation={0}

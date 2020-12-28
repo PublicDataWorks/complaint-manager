@@ -4,7 +4,6 @@ import sharedRoutes from "./sharedRoutes";
 import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
 import { Route, Switch } from "react-router";
 import { connect } from "react-redux";
-import UsePageTracking from "./UsePageTracking";
 
 class AppRouter extends Component {
   render() {
@@ -55,7 +54,6 @@ class AppRouter extends Component {
           this.setPageTitle(title);
           return (
             <div>
-              <UsePageTracking />
               <RouteComponent {...props} />
             </div>
           );
