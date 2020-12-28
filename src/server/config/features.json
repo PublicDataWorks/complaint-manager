@@ -26,11 +26,5 @@
     "criteria": {
       "isPreProd": true
     }
-  },
-  {
-    "id": "analyticsCollectionFeature",
-    "name": "analyticsCollectionFeature",
-    "description": "Collects Page View Analytics and Reports to Google Analytics",
-    "enabled": true
   }
 ]
