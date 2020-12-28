@@ -46,9 +46,6 @@ class AppRouter extends Component {
   createRoute = (path, component, title) => {
     let RouteComponent = component;
 
-    const shouldTrackPage =
-      this.props.featureToggles.analyticsCollectionFeature || false;
-
     return (
       <Route
         exact
@@ -58,7 +55,7 @@ class AppRouter extends Component {
           this.setPageTitle(title);
           return (
             <div>
-              {shouldTrackPage ? <UsePageTracking /> : null}
+              <UsePageTracking />
               <RouteComponent {...props} />
             </div>
           );

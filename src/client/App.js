@@ -43,7 +43,7 @@ const App = props => {
       }
     };
   }, [eventSource]);
-  
+
   const token = getAccessToken();
   if (
     props.realtimeNotificationsFeature &&
@@ -92,8 +92,7 @@ const mapStateToProps = state => ({
   currentUser: state.users.current.userInfo,
   featureToggles: state.featureToggles,
   realtimeNotificationsFeature:
-    state.featureToggles.realtimeNotificationsFeature,
-  analyticsCollectionFeature: state.featureToggles.analyticsCollectionFeature
+    state.featureToggles.realtimeNotificationsFeature
 });
 
 const mapDispatchToProps = {
