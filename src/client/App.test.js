@@ -17,6 +17,8 @@ Object.defineProperty(window, "EventSource", {
   value: EventSource
 });
 
+jest.mock("react-ga");
+
 jest.mock("./common/components/Visualization/PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
   return { PlotlyWrapper: FakeWrapper };
