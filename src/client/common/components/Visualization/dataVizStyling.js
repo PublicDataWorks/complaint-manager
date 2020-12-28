@@ -67,6 +67,8 @@ export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
       }
     ];
 
+    layout.dragmode = false;
+
     layout.yaxis = {
       zeroline: false,
       showgrid: false,
@@ -84,5 +86,5 @@ export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
 };
 
 export const generateYAxisRange = maximum => {
-  return { range: [0, maximum], fixedrange: true };
+  return { range: [0, maximum] };
 };
