@@ -40,9 +40,7 @@ const baseLayouts = {
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     barmode: "group",
-    xaxis: {
-      fixedrange: true
-    },
+    dragmode: false,
     font: LABEL_FONT,
     title: {
       text: "Complainant Type<br><sub>Past 12 Months",
@@ -51,15 +49,12 @@ const baseLayouts = {
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     barmode: "group",
+    dragmode: false,
     xaxis: {
-      fixedrange: true,
       showgrid: false,
       zeroline: false,
       automargin: true,
       showticklabels: false
-    },
-    yaxis: {
-      fixedrange: true
     },
     margin: {
       l: 235,
