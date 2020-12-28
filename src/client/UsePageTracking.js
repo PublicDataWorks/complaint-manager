@@ -16,7 +16,7 @@ const UsePageTracking = ({ isTestModeEnabled = false }) => {
   useEffect(() => {
     if (initialized) {
       console.log(
-        "GA initialized and logging pageview",
+        "Reporting pageview",
         location.pathname,
         location.search
       );
