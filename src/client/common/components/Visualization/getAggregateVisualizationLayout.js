@@ -136,6 +136,27 @@ export const extendedLayouts = {
   }
 };
 
+export const mobileLayouts = {
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
+    margin: {
+      b: 150,
+      t: 150,
+      l: 8,
+      r: 8
+    }
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
+    margin: {
+      b: 150,
+      t: 150,
+      l: 8,
+      r: 8
+    }
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {},
+  [QUERY_TYPES.COUNT_TOP_10_TAGS]: {}
+};
+
 export const dynamicLayoutProps = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
     annotations: [generateDonutCenterAnnotations, "data.0.count"]
@@ -189,9 +210,14 @@ export const getAggregateVisualizationLayout = ({
   }
 
   const currentExtendedLayout = get(extendedLayouts, queryType, {});
+  const currentMobileLayout = get(mobileLayouts, queryType, {});
 
   if (isPublic) {
     aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
+
+    if (isMobile) {
+      aggregateLayout = { ...aggregateLayout, ...currentMobileLayout };
+    }
   }
 
   if (queryOptions.dateRangeType) {

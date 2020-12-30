@@ -189,3 +189,15 @@ const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
 describe("getAggregateVisualizationLayout", () => {
   allTestObjects.forEach(runTestWithObject);
 });
+
+describe("getAggregateVisualizationLayout functionality", () => {
+  test("should adjust pie chart layouts when viewing on a mobile screen", () => {
+    const mobileLayout = getAggregateVisualizationLayout({
+      queryType: "countComplaintsByIntakeSource",
+      isMobile: true,
+      isPublic: true
+    });
+
+    expect(mobileLayout.margin).toEqual({ b: 150, t: 150, l: 8, r: 8 });
+  });
+});
