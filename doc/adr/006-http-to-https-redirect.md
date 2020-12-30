@@ -1,4 +1,4 @@
-# 5. Http to Https Redirect
+# 6. Http to Https Redirect
 
 Date: 2020-11-09
 
