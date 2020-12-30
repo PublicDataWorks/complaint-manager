@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const Visualization = props => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
+  const isMobile = useMediaQuery("(max-width:768px)");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getVisualizationData({ 
+        const newData = await getVisualizationData({
           queryType: props.queryType,
           isPublic: props.isPublic,
           queryOptions: props.queryOptions
@@ -21,6 +24,7 @@ const Visualization = props => {
             queryType: props.queryType,
             queryOptions: props.queryOptions,
             isPublic: props.isPublic,
+            isMobile: isMobile,
             newData
           }) || {};
 
@@ -33,7 +37,7 @@ const Visualization = props => {
     };
 
     fetchData();
-  }, []);
+  }, [isMobile]);
 
   return (
     <PlotlyWrapper data={isEmpty(data.data) ? [] : data.data} layout={layout} />

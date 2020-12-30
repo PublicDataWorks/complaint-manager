@@ -179,6 +179,7 @@ export const getAggregateVisualizationLayout = ({
   queryType = null,
   queryOptions = {},
   isPublic = false,
+  isMobile = false,
   newData = {}
 }) => {
   let aggregateLayout = get(baseLayouts, queryType, {});
