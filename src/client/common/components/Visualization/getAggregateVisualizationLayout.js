@@ -138,19 +138,23 @@ export const extendedLayouts = {
 
 export const mobileLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
+    height: 500,
+    width: 600,
     margin: {
-      b: 150,
-      t: 150,
-      l: 8,
-      r: 8
+      b: 125,
+      t: 125,
+      l: 20,
+      r: 20
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
+    height: 500,
+    width: 600,
     margin: {
-      b: 150,
-      t: 150,
-      l: 8,
-      r: 8
+      b: 125,
+      t: 125,
+      l: 20,
+      r: 20
     }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {},
