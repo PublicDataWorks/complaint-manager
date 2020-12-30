@@ -191,13 +191,15 @@ describe("getAggregateVisualizationLayout", () => {
 });
 
 describe("getAggregateVisualizationLayout functionality", () => {
-  test("should adjust pie chart layouts when viewing on a mobile screen", () => {
+  test("should adjust intake source pie chart layout when viewing on a mobile screen", () => {
     const mobileLayout = getAggregateVisualizationLayout({
       queryType: "countComplaintsByIntakeSource",
       isMobile: true,
       isPublic: true
     });
 
-    expect(mobileLayout.margin).toEqual({ b: 150, t: 150, l: 8, r: 8 });
+    expect(mobileLayout.margin).toEqual({ b: 125, t: 125, l: 20, r: 20 });
+    expect(mobileLayout.height).toEqual(500);
+    expect(mobileLayout.width).toEqual(600);
   });
 });
