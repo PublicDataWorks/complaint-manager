@@ -19,9 +19,6 @@ import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
-import ReactGA from "react-ga";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
