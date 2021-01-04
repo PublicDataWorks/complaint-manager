@@ -7,6 +7,7 @@ import React from "react";
 import { act, render } from "@testing-library/react";
 import Visualization from "./Visualization";
 import { getVisualizationData } from "./getVisualizationData";
+import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 
 jest.mock("./PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
@@ -16,12 +17,15 @@ jest.mock("./PlotlyWrapper", () => {
 const MOCK_DATA = {
   CC: 1
 };
-const MOCK_LAYOUT = {};
 jest.mock("./getVisualizationData", () => ({
   getVisualizationData: jest.fn(queryType => ({
-    data: MOCK_DATA,
-    layout: MOCK_LAYOUT
+    data: MOCK_DATA
   }))
+}));
+
+const MOCK_LAYOUT = {};
+jest.mock("./getAggregateVisualizationLayout", () => ({
+    getAggregateVisualizationLayout: jest.fn(() => (MOCK_LAYOUT))
 }));
 
 describe("Visualization", () => {
@@ -44,12 +48,12 @@ describe("Visualization", () => {
         queryOptions
       })
     );
-    expect(PlotlyWrapper).toHaveBeenCalledWith(
+    const lastCall = PlotlyWrapper.mock.calls.length - 1;
+    expect(PlotlyWrapper.mock.calls[lastCall][0]).toMatchObject(
       {
-        data: MOCK_DATA,
-        layout: MOCK_LAYOUT
-      },
-      {}
+          data: MOCK_DATA,
+          layout: MOCK_LAYOUT
+      }
     );
   });
 });
