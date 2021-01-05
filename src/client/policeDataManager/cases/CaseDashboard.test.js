@@ -81,7 +81,7 @@ describe("CaseDashboard", () => {
       containsText(
         caseDashboardWrapper,
         '[data-testid="complaintTotals"]',
-        "Complaints YTD: Complaints 2019: "
+        "Complaints YTD: Complaints 2020: "
       )
     );
   });

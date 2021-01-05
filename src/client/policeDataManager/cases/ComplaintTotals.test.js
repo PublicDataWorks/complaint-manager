@@ -44,7 +44,7 @@ describe("ComplaintTotals", () => {
     });
 
     await waitFor(() => {
-      expect(queryByText("Complaints 2019:")).toBeInTheDocument();
+      expect(queryByText("Complaints 2020:")).toBeInTheDocument();
     });
   });
 
@@ -67,7 +67,7 @@ describe("ComplaintTotals", () => {
     });
 
     await waitFor(() => {
-      expect(queryByText("Complaints 2019: 3")).toBeInTheDocument();
+      expect(queryByText("Complaints 2020: 3")).toBeInTheDocument();
     });
   });
 });
