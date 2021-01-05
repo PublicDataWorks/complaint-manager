@@ -9,7 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const Visualization = props => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
-  const isMobile = useMediaQuery("(max-width:768px)");
+    const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,17 +19,8 @@ const Visualization = props => {
           isPublic: props.isPublic,
           queryOptions: props.queryOptions
         });
-        const newLayout =
-          getAggregateVisualizationLayout({
-            queryType: props.queryType,
-            queryOptions: props.queryOptions,
-            isPublic: props.isPublic,
-            isMobile: isMobile,
-            newData
-          }) || {};
 
         setData({ data: newData.data, isFetching: false });
-        setLayout(newLayout);
       } catch (error) {
         console.error(error);
         setData({ data: {}, isFetching: false });
@@ -37,7 +28,23 @@ const Visualization = props => {
     };
 
     fetchData();
-  }, [isMobile]);
+  }, []);
+
+  useEffect(() => {
+    const createLayout = () => {
+      const newLayout =
+        getAggregateVisualizationLayout({
+          queryType: props.queryType,
+          queryOptions: props.queryOptions,
+          isPublic: props.isPublic,
+          isMobile: isMobile,
+          data
+        }) || {};
+      setLayout(newLayout);
+    };
+
+    createLayout();
+  }, [data, isMobile]);
 
   return (
     <PlotlyWrapper data={isEmpty(data.data) ? [] : data.data} layout={layout} />

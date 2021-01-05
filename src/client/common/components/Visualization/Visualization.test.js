@@ -8,6 +8,15 @@ import { act, render } from "@testing-library/react";
 import Visualization from "./Visualization";
 import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
+import mediaQuery from "css-mediaquery";
+
+function createMatchMedia(width) {
+  return query => ({
+    matches: mediaQuery.match(query, { width }),
+    addListener: () => {},
+    removeListener: () => {}
+  });
+}
 
 jest.mock("./PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
@@ -24,11 +33,47 @@ jest.mock("./getVisualizationData", () => ({
 }));
 
 const MOCK_LAYOUT = {};
+const MOCK_MOBILE_LAYOUT = { mobileLayout: true };
 jest.mock("./getAggregateVisualizationLayout", () => ({
-    getAggregateVisualizationLayout: jest.fn(() => (MOCK_LAYOUT))
+  getAggregateVisualizationLayout: jest.fn(options => {
+    return options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT;
+  })
 }));
 
 describe("Visualization", () => {
+  beforeEach(() => {
+    window.matchMedia = createMatchMedia(1000);
+  });
+  test("should not fetch data on viewport updates", async () => {
+    // Arrange
+    const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
+    // Act
+    let visualization;
+    await act(async () => {
+      visualization = render(
+        <Visualization
+          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+        />
+      );
+    });
+    window.matchMedia = createMatchMedia(500);
+    await act(async () => {
+      visualization.rerender(
+        <Visualization
+          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+          queryOptions={queryOptions}
+        />
+      );
+    });
+
+    expect(getVisualizationData).toHaveBeenCalledTimes(1);
+
+    const lastCall = PlotlyWrapper.mock.calls.length - 1;
+    expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
+      data: MOCK_DATA,
+      layout: MOCK_MOBILE_LAYOUT
+    });
+  });
   test("should pass correct data and layout options to PlotlyWrapper", async () => {
     const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
     // Act
@@ -49,11 +94,9 @@ describe("Visualization", () => {
       })
     );
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
-    expect(PlotlyWrapper.mock.calls[lastCall][0]).toMatchObject(
-      {
-          data: MOCK_DATA,
-          layout: MOCK_LAYOUT
-      }
-    );
+    expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
+      data: MOCK_DATA,
+      layout: MOCK_LAYOUT
+    });
   });
 });
