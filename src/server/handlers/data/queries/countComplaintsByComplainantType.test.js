@@ -58,7 +58,7 @@ describe("executeQuery", () => {
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianCC],
       [],
-      "2020-02-02",
+      "2021-01-05",
       22
     );
     complainantCaseCC = await createCase(caseAttributes);
@@ -67,7 +67,7 @@ describe("executeQuery", () => {
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianAC],
       [],
-      "2020-02-02",
+      "2021-01-05",
       33
     );
     complainantCaseAC = await createCase(caseAttributes);
@@ -76,7 +76,7 @@ describe("executeQuery", () => {
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [],
       [complainantOfficerPO],
-      "2020-02-02",
+      "2021-01-05",
       44
     );
     complainantCasePO = await createCase(caseAttributes);
@@ -144,7 +144,7 @@ describe("executeQuery", () => {
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2019-12-31")
+        .withFirstContactDate("2020-12-31")
         .withId(undefined),
       {
         auditUser: "someone"
