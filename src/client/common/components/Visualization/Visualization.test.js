@@ -93,6 +93,13 @@ describe("Visualization", () => {
         queryOptions
       })
     );
+      expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
+          expect.objectContaining({
+              queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+              queryOptions,
+              newData: expect.objectContaining({data: MOCK_DATA})
+          })
+      );
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
     expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
       data: MOCK_DATA,

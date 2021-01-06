@@ -9,7 +9,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 const Visualization = props => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
-    const isMobile = useMediaQuery("(max-width:768px)");
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +38,7 @@ const Visualization = props => {
           queryOptions: props.queryOptions,
           isPublic: props.isPublic,
           isMobile: isMobile,
-          data
+            newData: data
         }) || {};
       setLayout(newLayout);
     };
