@@ -29,7 +29,7 @@ describe("executeQuery", () => {
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
+        .withFirstContactDate("2021-01-05")
         .withId(undefined)
         .withIntakeSourceId(emailIntakeSource.id),
       {
@@ -42,7 +42,7 @@ describe("executeQuery", () => {
     const secondCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
+        .withFirstContactDate("2021-01-05")
         .withIntakeSourceId(facebookIntakeSource.id),
       {
         auditUser: "someone"
@@ -54,7 +54,7 @@ describe("executeQuery", () => {
     const thirdCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
+        .withFirstContactDate("2021-01-05")
         .withId(undefined)
         .withIntakeSourceId(facebookIntakeSource.id),
       {
@@ -67,7 +67,7 @@ describe("executeQuery", () => {
     const fourthCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
+        .withFirstContactDate("2021-01-05")
         .withId(undefined)
         .withIntakeSourceId(otherIntakeSource.id),
       {
@@ -106,7 +106,7 @@ describe("executeQuery", () => {
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2019-12-31")
+        .withFirstContactDate("2020-12-31")
         .withId(undefined)
         .withIntakeSourceId(instagramIntakeSource.id),
       {
@@ -118,15 +118,18 @@ describe("executeQuery", () => {
     const expectedData = [
       { count: "1", name: "Email" },
       { count: "2", name: "Facebook" },
-        { count: "1", name: "Other" },
-        { count: "1", name: "Instagram" }
+      { count: "1", name: "Other" },
+      { count: "1", name: "Instagram" }
     ];
 
     const responsePromise = request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-          .query({ queryType: "countComplaintsByIntakeSource", dateRangeType: "PAST_12_MONTHS" });
+      .query({
+        queryType: "countComplaintsByIntakeSource",
+        dateRangeType: "PAST_12_MONTHS"
+      });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
@@ -162,7 +165,10 @@ describe("executeQuery", () => {
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
-          .query({ queryType: "countComplaintsByIntakeSource", dateRangeType: "YTD" });
+      .query({
+        queryType: "countComplaintsByIntakeSource",
+        dateRangeType: "YTD"
+      });
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);

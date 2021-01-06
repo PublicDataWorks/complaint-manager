@@ -20,7 +20,7 @@ describe("getCountByDateRange", () => {
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-02-21")
+        .withFirstContactDate("2021-01-05")
         .withId(undefined),
       {
         auditUser: "someone"
@@ -30,7 +30,7 @@ describe("getCountByDateRange", () => {
     await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     const secondCase = await models.cases.create(
-      new Case.Builder().defaultCase().withFirstContactDate("2020-02-21"),
+      new Case.Builder().defaultCase().withFirstContactDate("2021-01-05"),
       {
         auditUser: "someone"
       }
@@ -41,7 +41,7 @@ describe("getCountByDateRange", () => {
     const thirdCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2019-02-21")
+        .withFirstContactDate("2020-02-21")
         .withId(undefined),
       {
         auditUser: "someone"
@@ -53,7 +53,7 @@ describe("getCountByDateRange", () => {
     const fourthCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2019-02-21")
+        .withFirstContactDate("2020-02-21")
         .withId(undefined),
       {
         auditUser: "someone"
