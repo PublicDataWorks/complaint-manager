@@ -78,7 +78,12 @@ const App = props => {
       <MuiThemeProvider theme={customTheme}>
         <Paper
           elevation={0}
-          style={{ height: "100%", overflowY: "scroll", borderRadius: "0px" }}
+          style={{
+            height: "100%",
+            overflowY: "scroll",
+            borderRadius: "0px",
+            overflowX: "hidden"
+          }}
         >
           <ScrollToTop>
             <AppRouter featureToggles={props.featureToggles} />
