@@ -1,34 +1,32 @@
 const e2e = require("./e2eUtilities.js");
 
 const letterPreviewCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     return this.waitForElementPresent("@pageHeader", e2e.rerenderWait);
   },
-  letterContains: function(text) {
+  letterContains: function (text) {
     this.assert.containsText("@letterBody", text);
     return this;
   },
-  clickEditLetter: function() {
+  clickEditLetter: function () {
     return this.click("@editButton");
   },
-  confirmEditLetterOnDialog: function() {
+  confirmEditLetterOnDialog: function () {
     return this.waitForElementPresent(
       "@dialogEditButton",
       e2e.rerenderWait
     ).click("@dialogEditButton");
   },
-  clickSubmit: function() {
-    this.waitForElementPresent("@submitButton", e2e.rerenderWait).click(
-      "@submitButton"
-    );
+  clickSubmit: function () {
+    e2e.waitMoveAndClick(this, "@submitButton");
   },
-  confirmSubmit: function() {
+  confirmSubmit: function () {
     return this.waitForElementPresent(
       "@confirmSubmitButton",
       e2e.rerenderWait
     ).click("@confirmSubmitButton");
   },
-  waitForData: function() {
+  waitForData: function () {
     this.api.pause(e2e.dataLoadWait);
     return this;
   }

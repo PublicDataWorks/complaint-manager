@@ -9,7 +9,7 @@ const snackbarCommands = {
   },
   presentWithMessage: function (message) {
     return this.waitForElementVisible("@snackbarText", e2e.rerenderWait)
-      .moveToElement("@snackbarText", "", 5, 5)
+      .moveToElement("@snackbarText", 5, 5)
       .assert.containsText("@snackbarText", message);
   },
   close: function () {

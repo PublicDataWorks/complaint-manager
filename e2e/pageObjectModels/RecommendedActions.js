@@ -1,28 +1,31 @@
 const e2e = require("./e2eUtilities.js");
 
 const recommendedActionsCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     this.waitForElementPresent(
       "@pageHeader",
       e2e.rerenderWait
     ).assert.containsText("@pageHeader", "Recommended Actions");
     return this;
   },
-  toggleRetaliationConcerns: function() {
-    return this.click("@retaliationConcerns");
+  toggleRetaliationConcerns: function () {
+    return e2e.waitMoveAndClick(this, "@retaliationConcerns");
   },
-  toggleNthOfficersNthRecommendedAction: function(officer, n) {
-    return this.click(`[data-testid="letterOfficers[${officer}]-${n}"] input`);
+  toggleNthOfficersNthRecommendedAction: function (officer, n) {
+    return e2e.waitMoveAndClick(
+      this,
+      `[data-testid="letterOfficers[${officer}]-${n}"] input`
+    );
   },
-  clickNext: function() {
+  clickNext: function () {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
       "@nextButton"
     );
   },
-  selectClassification: function(classificationName) {
+  selectClassification: function (classificationName) {
     return this.click(`[data-testid=${classificationName}] input`);
   },
-  classificationsAreDisabled: function() {
+  classificationsAreDisabled: function () {
     return this.waitForElementPresent(
       "@useOfForce",
       e2e.rerenderWait
