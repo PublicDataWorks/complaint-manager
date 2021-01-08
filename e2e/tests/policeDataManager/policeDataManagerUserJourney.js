@@ -16,7 +16,7 @@ if (TEST_PASS && TEST_USER) {
     before: browser => {
       console.log("Browser Launch URL", browser.launch_url);
       browser.url(browser.launch_url).resizeWindow(1366, 768);
-      browser.url(function(result) {
+      browser.url(function (result) {
         console.log("Current URL", result);
       });
 
@@ -26,7 +26,7 @@ if (TEST_PASS && TEST_USER) {
       } else {
         console.log("Authentication is disabled. Skipping login page check.");
       }
-      
+
       const caseDashboardPage = browser.page.CaseDashboard();
       caseDashboardPage.isOnPage();
     },
@@ -55,10 +55,7 @@ if (TEST_PASS && TEST_USER) {
 
       caseDetailsPage.isOnPage().clickAddTagButton();
 
-      caseTagDialog
-        .dialogIsOpen()
-        .setTagValue(tagName)
-        .clickSubmitNewTag();
+      caseTagDialog.dialogIsOpen().setTagValue(tagName).clickSubmitNewTag();
 
       snackbar.presentWithMessage("Case tag was successfully added").close();
       caseDetailsPage.caseTagIsPresent(tagName);
@@ -192,15 +189,9 @@ if (TEST_PASS && TEST_USER) {
 
       caseDashboard.isOnPage().goToACCase();
 
-      caseDetailsPage
-        .isOnPage()
-        .caseReferenceIsAC()
-        .editComplainant();
+      caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
 
-      civilianDialog
-        .dialogIsOpen()
-        .toggleIsAnonymous()
-        .submitCivilianDialog();
+      civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
 
       snackbar.presentWithMessage("Civilian was successfully updated").close();
     },
@@ -429,10 +420,7 @@ if (TEST_PASS && TEST_USER) {
       const caseReview = browser.page.CaseReview();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetails
-        .isOnPage()
-        .beginLetter()
-        .confirmUpdateStatusInDialog();
+      caseDetails.isOnPage().beginLetter().confirmUpdateStatusInDialog();
 
       caseReview.isOnPage();
 
@@ -619,10 +607,7 @@ if (TEST_PASS && TEST_USER) {
       const caseDashboardPage = browser.page.CaseDashboard();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage
-        .isOnPage()
-        .restoreCase()
-        .confirmRestoreInDialog();
+      caseDetailsPage.isOnPage().restoreCase().confirmRestoreInDialog();
       snackbar.presentWithMessage("Case was successfully restored").close();
       caseDetailsPage.goBackToAllCases();
 

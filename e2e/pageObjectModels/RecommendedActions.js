@@ -18,9 +18,9 @@ const recommendedActionsCommands = {
     );
   },
   clickNext: function () {
-    return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
-      "@nextButton"
-    );
+    return this.pause(e2e.pause)
+      .waitForElementPresent("@nextButton", e2e.rerenderWait)
+      .click("@nextButton");
   },
   selectClassification: function (classificationName) {
     return e2e.waitMoveAndClick(
