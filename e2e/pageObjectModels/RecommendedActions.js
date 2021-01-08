@@ -23,7 +23,10 @@ const recommendedActionsCommands = {
     );
   },
   selectClassification: function (classificationName) {
-    return this.click(`[data-testid=${classificationName}] input`);
+    return e2e.waitMoveAndClick(
+      this,
+      `[data-testid=${classificationName}] input`
+    );
   },
   classificationsAreDisabled: function () {
     return this.waitForElementPresent(
