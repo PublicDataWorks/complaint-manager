@@ -1,27 +1,27 @@
 const e2e = require("./e2eUtilities.js");
 
 const complaintHistoryCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     return this.waitForElementPresent(
       "@pageHeader",
       e2e.rerenderWait
     ).assert.containsText("@pageHeader", "Officer Complaint History");
   },
-  clickNext: function() {
-    return this.waitForElementPresent("@nextButton", e2e.rerenderWait).click(
-      "@nextButton"
-    );
+  clickNext: function () {
+    return this.pause(e2e.pause)
+      .waitForElementPresent("@nextButton", e2e.rerenderWait)
+      .click("@nextButton");
   },
-  setHighAllegations: function(numAllegations) {
+  setHighAllegations: function (numAllegations) {
     return this.setValue("@officerHighAllegations", [`${numAllegations}`]);
   },
-  setMedAllegations: function(numAllegations) {
+  setMedAllegations: function (numAllegations) {
     return this.setValue("@officerMedAllegations", [`${numAllegations}`]);
   },
-  setLowAllegations: function(numAllegations) {
+  setLowAllegations: function (numAllegations) {
     return this.setValue("@officerLowAllegations", [`${numAllegations}`]);
   },
-  clickFourthOption: function() {
+  clickFourthOption: function () {
     return this.click("@officerHistoryOptionFour");
   }
 };
