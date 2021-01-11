@@ -9,9 +9,9 @@ const caseReviewCommands = {
     return this;
   },
   clickNext: function () {
-    return this.pause(e2e.pause)
-      .waitForElementPresent("@nextButton", e2e.rerenderWait)
-      .click("@nextButton");
+    return this.waitForElementPresent("@nextButton", e2e.rerenderWait)
+      .click("@nextButton")
+      .pause(e2e.pause);
   },
   clickPreview: function () {
     return this.waitForElementPresent("@previewButton", e2e.rerenderWait).click(

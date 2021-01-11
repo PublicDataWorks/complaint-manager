@@ -8,9 +8,9 @@ const complaintHistoryCommands = {
     ).assert.containsText("@pageHeader", "Officer Complaint History");
   },
   clickNext: function () {
-    return this.pause(e2e.pause)
-      .waitForElementPresent("@nextButton", e2e.rerenderWait)
-      .click("@nextButton");
+    return this.waitForElementPresent("@nextButton", e2e.rerenderWait)
+      .click("@nextButton")
+      .pause(e2e.pause);
   },
   setHighAllegations: function (numAllegations) {
     return this.setValue("@officerHighAllegations", [`${numAllegations}`]);
@@ -25,10 +25,7 @@ const complaintHistoryCommands = {
     return this.waitForElementPresent(
       "@totalAllegations",
       e2e.rerenderWait
-    ).assert.containsText(
-      "@totalAllegations",
-      `${totalAllegations}`
-    );
+    ).assert.containsText("@totalAllegations", `${totalAllegations}`);
   },
   clickFourthOption: function () {
     return this.click("@officerHistoryOptionFour");
