@@ -1,14 +1,14 @@
 const e2e = require("./e2eUtilities.js");
 
 const reviewAndApproveCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
+    this.api.pause(e2e.dataLoadWait);
     return this.waitForElementPresent("@pageHeader", e2e.rerenderWait);
   },
-  clickApproveLetter: function() {
-    this.api.pause(e2e.dataLoadWait);
+  clickApproveLetter: function () {
     return this.click("@reviewAndApproveButton");
   },
-  clickApproveLetterOnDialog: function() {
+  clickApproveLetterOnDialog: function () {
     return this.waitForElementPresent(
       "@dialogApproveButton",
       e2e.rerenderWait

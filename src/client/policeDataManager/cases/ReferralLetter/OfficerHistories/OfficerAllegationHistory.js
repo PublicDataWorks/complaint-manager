@@ -72,7 +72,7 @@ class OfficerAllegationHistory extends React.Component {
             style={{ flex: 1, marginTop: "32px" }}
             data-testid={`officers-${caseOfficerId}-total-historical-allegations`}
           >
-            <b>{calculateOfficerHistoryTotalAllegations(this.props)}</b> total
+            <b data-testid={"total-allegations-count"}>{calculateOfficerHistoryTotalAllegations(this.props)}</b> total
             allegations
           </Typography>
         </div>
