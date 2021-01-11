@@ -448,6 +448,7 @@ if (TEST_PASS && TEST_USER) {
         .setHighAllegations(2)
         .setMedAllegations(3)
         .setLowAllegations(5)
+        .countAllegations(10)
         .clickNext();
 
       snackbar

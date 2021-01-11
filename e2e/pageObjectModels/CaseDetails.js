@@ -17,104 +17,104 @@ const {
 } = require("./caseDetailsCommands/incidentCommands.js");
 
 const caseDetailsCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     return this.waitForElementVisible("@caseDetailsPage", e2e.roundtripWait);
   },
 
-  beginLetter: function() {
+  beginLetter: function () {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "BEGIN LETTER")
       .click("@updateStatusButton");
   },
-  confirmUpdateStatusInDialog: function() {
+  confirmUpdateStatusInDialog: function () {
     return this.waitForElementVisible(
       "@updateStatusDialogButton",
       e2e.rerenderWait
     ).click("@updateStatusDialogButton");
   },
-  clickReviewAndApproveButton: function() {
+  clickReviewAndApproveButton: function () {
     return this.click("@reviewAndApproveButton");
   },
-  closeCase: function() {
+  closeCase: function () {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "MARK AS CLOSED")
       .click("@updateStatusButton");
   },
-  archiveCase: function() {
+  archiveCase: function () {
     return this.waitForElementVisible(
       "@archiveCaseButton",
       e2e.rerenderWait
     ).click("@archiveCaseButton");
   },
-  confirmArchiveInDialog: function() {
+  confirmArchiveInDialog: function () {
     return this.waitForElementVisible(
       "@archiveCaseButtonInDialog",
       e2e.rerenderWait
     ).click("@archiveCaseButtonInDialog");
   },
-  restoreCase: function() {
+  restoreCase: function () {
     return this.waitForElementVisible(
       "@restoreCaseButton",
       e2e.rerenderWait
     ).click("@restoreCaseButton");
   },
-  confirmRestoreInDialog: function() {
+  confirmRestoreInDialog: function () {
     return this.waitForElementVisible(
       "@restoreCaseButtonInDialog",
       e2e.rerenderWait
     ).click("@restoreCaseButtonInDialog");
   },
-  goBackToAllCases: function() {
+  goBackToAllCases: function () {
     return this.waitForElementNotPresent(
       "@restoreCaseButtonInDialog",
       e2e.rerenderWait
     ).click("@backToAllCasesButton");
   },
-  returnToCaseDashboard: function() {
+  returnToCaseDashboard: function () {
     this.click("@backToAllCasesButton");
   },
-  clickAddTagButton: function() {
+  clickAddTagButton: function () {
     return this.waitForElementVisible("@addTagButton", e2e.rerenderWait).click(
       "@addTagButton"
     );
   },
-  caseTagIsPresent: function(tagName) {
+  caseTagIsPresent: function (tagName) {
     return this.waitForElementVisible(
       "@caseTagChip",
       e2e.rerenderWait
     ).assert.containsText("@caseTagChip", tagName);
   },
-  clickRemoveTagButton: function(tagName) {
+  clickRemoveTagButton: function (tagName) {
     return this.waitForElementVisible(
       "@removeTagButton",
       e2e.rerenderWait
     ).click("@removeTagButton");
   },
-  noCaseTagsArePresent: function() {
+  noCaseTagsArePresent: function () {
     return this.waitForElementVisible(
       "@caseTagsContainer",
       e2e.rerenderWait
     ).assert.containsText("@caseTagsContainer", "No tags have been added");
   },
-  clickAddCaseNoteButton: function() {
+  clickAddCaseNoteButton: function () {
     return this.waitForElementVisible(
       "@addCaseNoteButton",
       e2e.rerenderWait
     ).click("@addCaseNoteButton");
   },
-  caseNoteIsPresent: function(caseNote) {
+  caseNoteIsPresent: function (caseNote) {
     return this.waitForElementVisible(
       "@caseNoteText",
       e2e.rerenderWait
     ).assert.containsText("@caseNoteText", caseNote);
   },
-  caseReferenceIsAC: function() {
+  caseReferenceIsAC: function () {
     return this.waitForElementVisible(
       "@caseReference",
       e2e.rerenderWait
     ).assert.containsText("@caseReference", "AC");
   },
-  addCivilianComplainant: function() {
+  addCivilianComplainant: function () {
     this.click("@addCivilianComplainant");
   }
 };

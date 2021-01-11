@@ -21,6 +21,15 @@ const complaintHistoryCommands = {
   setLowAllegations: function (numAllegations) {
     return this.setValue("@officerLowAllegations", [`${numAllegations}`]);
   },
+  countAllegations: function (totalAllegations) {
+    return this.waitForElementPresent(
+      "@totalAllegations",
+      e2e.rerenderWait
+    ).assert.containsText(
+      "@totalAllegations",
+      `${totalAllegations}`
+    );
+  },
   clickFourthOption: function () {
     return this.click("@officerHistoryOptionFour");
   }
@@ -46,6 +55,9 @@ module.exports = {
     officerLowAllegations: {
       selector:
         '[data-testid="letterOfficers[0]-numHistoricalLowAllegations"] input'
+    },
+    totalAllegations: {
+      selector: '[data-testid="total-allegations-count"]'
     },
     officerHistoryOptionFour: {
       selector: '[data-testid="letterOfficers[0]-option-4"]'
