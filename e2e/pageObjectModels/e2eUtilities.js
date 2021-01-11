@@ -1,4 +1,4 @@
-module.exports.rerenderWait = 3000;
+module.exports.rerenderWait = 5000;
 module.exports.roundtripWait = 25000;
 module.exports.pause = 3000;
 module.exports.dataLoadWait = 3000;

@@ -6,7 +6,7 @@ const caseTagDialogCommands = {
   },
   setTagValue: function (tagName) {
     this.waitForElementVisible("@tagInputField")
-      .setValue("@tagInputField", [tagName, this.api.Keys.ENTER])
+      .setValue("@tagInputField", [tagName])
       .api.pause(e2e.pause);
 
     return this;
