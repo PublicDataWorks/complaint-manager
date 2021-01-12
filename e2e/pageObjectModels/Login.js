@@ -5,7 +5,7 @@ const loginCommands = {
     return this.waitForElementVisible("@email", e2e.rerenderWait)
       .setValue("@email", user)
       .setValue("@password", password)
-      .click("@submitButton");
+      .click("@submitButton", e2e.logOnClick);
   },
   isOnPage: function() {
     return this.waitForElementVisible(

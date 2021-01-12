@@ -8,5 +8,9 @@ module.exports.waitMoveAndClick = (context, cssSelector) => {
   return context
     .waitForElementPresent(cssSelector, this.rerenderWait)
     .moveToElement(cssSelector, undefined, undefined)
-    .click(cssSelector);
+    .click(cssSelector, this.logOnClick);
+};
+
+module.exports.logOnClick = result => {
+  console.log(result.status == 0 ? `✔ Click successful` : `✖ Click failed`);
 };

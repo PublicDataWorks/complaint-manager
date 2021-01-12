@@ -14,11 +14,11 @@ const caseDashboardCommands = {
     ).assert.containsText("@caseReference", "AC");
   },
   goToACCase: function() {
-    this.click("@openCaseButton");
+    this.click("@openCaseButton", e2e.logOnClick);
   },
   createNewCase: function() {
     return this.waitForElementVisible("@newCaseButton", e2e.rerenderWait)
-      .click("@newCaseButton")
+      .click("@newCaseButton", e2e.logOnClick)
       .waitForElementVisible("@caseDialog", e2e.rerenderWait);
   },
   setFirstName: function(firstName) {
@@ -28,20 +28,20 @@ const caseDashboardCommands = {
     return this.setValue("@lastName", lastName);
   },
   setPhoneNumber: function(phoneNumber, browser) {
-    this.click("@phoneNumber");
+    this.click("@phoneNumber", e2e.logOnClick);
     browser.keys(phoneNumber);
     return this;
   },
   setIntakeSourceId: function() {
     return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
-      .click("@intakeSourceDropdown")
+      .click("@intakeSourceDropdown", e2e.logOnClick)
       .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
       .moveToElement("@intakeSourceToSelect", 20, 20)
-      .click("@intakeSourceToSelect")
+      .click("@intakeSourceToSelect", e2e.logOnClick)
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
   submitCase: function() {
-    this.click("@createAndViewButton");
+    this.click("@createAndViewButton", e2e.logOnClick);
   }
 };
 

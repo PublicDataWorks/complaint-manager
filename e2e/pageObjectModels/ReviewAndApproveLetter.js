@@ -6,13 +6,13 @@ const reviewAndApproveCommands = {
     return this.waitForElementPresent("@pageHeader", e2e.rerenderWait);
   },
   clickApproveLetter: function () {
-    return this.click("@reviewAndApproveButton");
+    return this.click("@reviewAndApproveButton", e2e.logOnClick);
   },
   clickApproveLetterOnDialog: function () {
     return this.waitForElementPresent(
       "@dialogApproveButton",
       e2e.rerenderWait
-    ).click("@dialogApproveButton");
+    ).click("@dialogApproveButton", e2e.logOnClick);
   }
 };
 

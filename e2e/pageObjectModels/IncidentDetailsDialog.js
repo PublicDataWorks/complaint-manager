@@ -11,13 +11,13 @@ const incidentDetailsDialogCommands = {
     return this.waitForElementVisible(
       "@saveIncidentDetailsButton",
       e2e.rerenderWait
-    ).click("@saveIncidentDetailsButton");
+    ).click("@saveIncidentDetailsButton", e2e.logOnClick);
   },
   fillAddress: function () {
     return this.waitForElementVisible(
       "@fillAddressLink",
       e2e.rerenderWait
-    ).click("@fillAddressLink");
+    ).click("@fillAddressLink", e2e.logOnClick);
   },
   setIncidentDate: function () {
     return this.waitForElementVisible(
@@ -33,9 +33,9 @@ const incidentDetailsDialogCommands = {
   },
   setDistrict: function (districtId) {
     return this.waitForElementVisible("@districtDropdown", e2e.rerenderWait)
-      .click("@districtDropdown")
+      .click("@districtDropdown", e2e.logOnClick)
       .waitForElementVisible("@districtMenu", e2e.rerenderWait)
-      .click({ selector: "@districtToSelect", index: districtId })
+      .click({ selector: "@districtToSelect", index: districtId }, e2e.logOnClick)
       .waitForElementNotPresent("@districtMenu", e2e.rerenderWait);
   }
 };

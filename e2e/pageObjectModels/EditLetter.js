@@ -9,7 +9,7 @@ const editLetterCommands = {
     return this;
   },
   makeEditsWithText: function(text) {
-    this.click("@editor").api.keys(text);
+    this.click("@editor").api.keys(text, e2e.logOnClick);
     return this;
   },
   saveEdits: function() {

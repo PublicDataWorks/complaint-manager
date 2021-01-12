@@ -24,54 +24,54 @@ const caseDetailsCommands = {
   beginLetter: function () {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "BEGIN LETTER")
-      .click("@updateStatusButton");
+      .click("@updateStatusButton", e2e.logOnClick);
   },
   confirmUpdateStatusInDialog: function () {
     return this.waitForElementVisible(
       "@updateStatusDialogButton",
       e2e.rerenderWait
-    ).click("@updateStatusDialogButton");
+    ).click("@updateStatusDialogButton", e2e.logOnClick);
   },
   clickReviewAndApproveButton: function () {
-    return this.click("@reviewAndApproveButton");
+    return this.click("@reviewAndApproveButton", e2e.logOnClick);
   },
   closeCase: function () {
     return this.waitForElementVisible("@updateStatusButton", e2e.rerenderWait)
       .assert.containsText("@updateStatusButton", "MARK AS CLOSED")
-      .click("@updateStatusButton");
+      .click("@updateStatusButton", e2e.logOnClick);
   },
   archiveCase: function () {
     return this.waitForElementVisible(
       "@archiveCaseButton",
       e2e.rerenderWait
-    ).click("@archiveCaseButton");
+    ).click("@archiveCaseButton", e2e.logOnClick);
   },
   confirmArchiveInDialog: function () {
     return this.waitForElementVisible(
       "@archiveCaseButtonInDialog",
       e2e.rerenderWait
-    ).click("@archiveCaseButtonInDialog");
+    ).click("@archiveCaseButtonInDialog", e2e.logOnClick);
   },
   restoreCase: function () {
     return this.waitForElementVisible(
       "@restoreCaseButton",
       e2e.rerenderWait
-    ).click("@restoreCaseButton");
+    ).click("@restoreCaseButton", e2e.logOnClick);
   },
   confirmRestoreInDialog: function () {
     return this.waitForElementVisible(
       "@restoreCaseButtonInDialog",
       e2e.rerenderWait
-    ).click("@restoreCaseButtonInDialog");
+    ).click("@restoreCaseButtonInDialog", e2e.logOnClick);
   },
   goBackToAllCases: function () {
     return this.waitForElementNotPresent(
       "@restoreCaseButtonInDialog",
       e2e.rerenderWait
-    ).click("@backToAllCasesButton");
+    ).click("@backToAllCasesButton", e2e.logOnClick);
   },
   returnToCaseDashboard: function () {
-    this.click("@backToAllCasesButton");
+    this.click("@backToAllCasesButton", e2e.logOnClick);
   },
   clickAddTagButton: function () {
     return this.waitForElementVisible("@addTagButton", e2e.rerenderWait).click(
@@ -88,7 +88,7 @@ const caseDetailsCommands = {
     return this.waitForElementVisible(
       "@removeTagButton",
       e2e.rerenderWait
-    ).click("@removeTagButton");
+    ).click("@removeTagButton", e2e.logOnClick);
   },
   noCaseTagsArePresent: function () {
     return this.waitForElementVisible(
@@ -100,7 +100,7 @@ const caseDetailsCommands = {
     return this.waitForElementVisible(
       "@addCaseNoteButton",
       e2e.rerenderWait
-    ).click("@addCaseNoteButton");
+    ).click("@addCaseNoteButton", e2e.logOnClick);
   },
   caseNoteIsPresent: function (caseNote) {
     return this.waitForElementVisible(
@@ -115,7 +115,7 @@ const caseDetailsCommands = {
     ).assert.containsText("@caseReference", "AC");
   },
   addCivilianComplainant: function () {
-    this.click("@addCivilianComplainant");
+    this.click("@addCivilianComplainant", e2e.logOnClick);
   }
 };
 

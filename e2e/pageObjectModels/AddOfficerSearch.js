@@ -12,7 +12,7 @@ const addOfficerCommands = {
     return this.waitForElementVisible(
       "@unknownOfficerLink",
       e2e.rerenderWait
-    ).click("@unknownOfficerLink");
+    ).click("@unknownOfficerLink", e2e.logOnClick);
   }
 };
 

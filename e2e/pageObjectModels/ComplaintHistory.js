@@ -9,7 +9,7 @@ const complaintHistoryCommands = {
   },
   clickNext: function () {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait)
-      .click("@nextButton")
+      .click("@nextButton", e2e.logOnClick)
       .pause(e2e.pause);
   },
   setHighAllegations: function (numAllegations) {
@@ -28,7 +28,7 @@ const complaintHistoryCommands = {
     ).assert.containsText("@totalAllegations", `${totalAllegations}`);
   },
   clickFourthOption: function () {
-    return this.click("@officerHistoryOptionFour");
+    return this.click("@officerHistoryOptionFour", e2e.logOnClick);
   }
 };
 

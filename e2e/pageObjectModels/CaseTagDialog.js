@@ -12,7 +12,7 @@ const caseTagDialogCommands = {
     return this;
   },
   clickSubmitNewTag: function () {
-    return this.click("@submitTagButton").pause(e2e.pause);
+      return this.click("@submitTagButton", e2e.logOnClick).pause(e2e.pause);
   }
 };
 

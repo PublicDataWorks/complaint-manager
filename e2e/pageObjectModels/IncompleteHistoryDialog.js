@@ -14,7 +14,7 @@ const incompleteHistoryDialogCommands = {
     );
   },
   clickReturn: function() {
-    return this.click("@returnButton");
+    return this.click("@returnButton", e2e.logOnClick);
   }
 };
 

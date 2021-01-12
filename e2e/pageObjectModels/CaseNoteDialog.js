@@ -6,10 +6,10 @@ const caseTagDialogCommands = {
   },
   setActionTaken: function() {
     return this.waitForElementPresent("@actionTakenField", e2e.rerenderWait)
-      .click("@actionTakenField")
+      .click("@actionTakenField", e2e.logOnClick)
       .waitForElementPresent("@actionTakenMenu", e2e.rerenderWait)
       .moveToElement("@actionTakenToSelect", 20, 20)
-      .click("@actionTakenToSelect")
+      .click("@actionTakenToSelect", e2e.logOnClick)
       .waitForElementNotPresent("@actionTakenMenu", e2e.rerenderWait);
   },
   writeCaseNote: function(caseNote) {
@@ -25,7 +25,7 @@ const caseTagDialogCommands = {
     return this;
   },
   clickSubmitButton: function() {
-    return this.click("@submitCaseNoteButton");
+    return this.click("@submitCaseNoteButton", e2e.logOnClick);
   }
 };
 

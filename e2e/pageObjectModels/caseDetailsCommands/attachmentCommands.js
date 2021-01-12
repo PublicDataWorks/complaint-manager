@@ -22,21 +22,21 @@ const attachmentCommands = {
     return this.waitForElementVisible(
       "@removeAttachmentDialogButton",
       e2e.rerenderWait
-    ).click("@removeAttachmentDialogButton");
+    ).click("@removeAttachmentDialogButton", e2e.logOnClick);
   },
   uploadFile: function() {
     return this.waitForElementVisible(
       "@uploadAttachmentButton",
       e2e.rerenderWait
     )
-      .click("@uploadAttachmentButton")
+      .click("@uploadAttachmentButton", e2e.logOnClick)
       .waitForElementVisible("@attachment", e2e.roundtripWait);
   },
   removeFile: function() {
     return this.waitForElementVisible(
       "@removeAttachmentButton",
       e2e.rerenderWait
-    ).click("@removeAttachmentButton");
+    ).click("@removeAttachmentButton", e2e.logOnClick);
   }
 };
 

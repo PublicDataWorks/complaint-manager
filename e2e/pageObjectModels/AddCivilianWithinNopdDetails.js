@@ -1,24 +1,24 @@
 const e2e = require("./e2eUtilities.js");
 
 const AddCivilainWithinNopdCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     return this.waitForElementVisible(
       "@submitCivilianWithinNopdButton",
       e2e.rerenderWait
     );
   },
-  selectRole: function(roleId) {
+  selectRole: function (roleId) {
     return this.waitForElementPresent("@roleDropdown", e2e.rerenderWait)
-      .click("@roleDropdown")
+      .click("@roleDropdown", e2e.logOnClick)
       .waitForElementPresent("@roleMenu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: roleId })
+      .click({ selector: "@toSelect", index: roleId }, e2e.logOnClick)
       .waitForElementNotPresent("@roleMenu", e2e.rerenderWait);
   },
-  submitCivilianWithinNopd: function() {
+  submitCivilianWithinNopd: function () {
     this.waitForElementVisible(
       "@submitCivilianWithinNopdButton",
       e2e.rerenderWait
-    ).click("@submitCivilianWithinNopdButton");
+    ).click("@submitCivilianWithinNopdButton", e2e.logOnClick);
   }
 };
 

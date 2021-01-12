@@ -12,19 +12,19 @@ const officerCommands = {
     return this.waitForElementVisible(
       "@manageUnknownOfficerButton",
       e2e.rerenderWait
-    ).click("@manageUnknownOfficerButton");
+    ).click("@manageUnknownOfficerButton", e2e.logOnClick);
   },
   clickManageKnownOfficer: function() {
     return this.waitForElementVisible(
       "@manageKnownOfficerButton",
       e2e.rerenderWait
-    ).click("@manageKnownOfficerButton");
+    ).click("@manageKnownOfficerButton", e2e.logOnClick);
   },
   clickEditOfficer: function() {
     return this.waitForElementVisible(
       "@editOfficerButton",
       e2e.rerenderWait
-    ).click("@editOfficerButton");
+    ).click("@editOfficerButton", e2e.logOnClick);
   },
   thereIsAKnownOfficer: function(officerName) {
     this.waitForElementVisible(
@@ -45,7 +45,7 @@ const officerCommands = {
       e2e.rerenderWait
     )
       .moveToElement("@manageAllegationsButton", undefined, undefined)
-      .click("@manageAllegationsButton");
+      .click("@manageAllegationsButton", e2e.logOnClick);
   },
   addWitnessCivilianWithinNopd: function() {
     this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
@@ -54,7 +54,7 @@ const officerCommands = {
     return this.waitForElementVisible(
       "@addWitnessCivilianWithinNopd",
       e2e.rerenderWait
-    ).click("@addWitnessCivilianWithinNopd");
+    ).click("@addWitnessCivilianWithinNopd", e2e.logOnClick);
   },
   thereIsAKnownCivilianWithinNopd: function(civilianWithinNopdName) {
     this.waitForElementVisible(
@@ -73,19 +73,19 @@ const officerCommands = {
     return this.waitForElementVisible(
       "@addAccusedOfficer",
       e2e.rerenderWait
-    ).click("@addAccusedOfficer");
+    ).click("@addAccusedOfficer", e2e.logOnClick);
   },
   clickRemoveOfficer: function() {
     return this.waitForElementVisible(
       "@removeOfficerButton",
       e2e.rerenderWait
-    ).click("@removeOfficerButton");
+    ).click("@removeOfficerButton", e2e.logOnClick);
   },
   confirmRemoveOfficerInDialog: function() {
     return this.waitForElementVisible(
       "@removeOfficerDialogButton",
       e2e.rerenderWait
-    ).click("@removeOfficerDialogButton");
+    ).click("@removeOfficerDialogButton", e2e.logOnClick);
   }
 };
 

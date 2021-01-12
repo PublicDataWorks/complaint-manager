@@ -5,7 +5,7 @@ const removeCaseTagDialogCommands = {
     return this.waitForElementVisible("@dialogTitle", e2e.rerenderWait);
   },
   clickRemoveTagButton: function() {
-    this.click("@removeCaseTagButton");
+    this.click("@removeCaseTagButton", e2e.logOnClick);
   }
 };
 
