@@ -17,13 +17,13 @@ const EditOfficerDetailsCommands = {
     return this.waitForElementVisible(
       "@changeOfficerButton",
       e2e.rerenderWait
-    ).click("@changeOfficerButton");
+    ).click("@changeOfficerButton", e2e.logOnClick);
   },
   saveOfficer: function() {
     return this.waitForElementVisible(
       "@saveOfficerButton",
       e2e.rerenderWait
-    ).click("@saveOfficerButton");
+    ).click("@saveOfficerButton", e2e.logOnClick);
   }
 };
 

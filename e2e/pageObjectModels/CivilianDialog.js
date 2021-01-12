@@ -6,9 +6,9 @@ const civilianDialogCommands = {
   },
   setGenderIdentity: function (genderId) {
     return this.waitForElementPresent("@genderDropdown", e2e.rerenderWait)
-      .click("@genderDropdown")
+      .click("@genderDropdown", e2e.logOnClick)
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: genderId })
+      .click({ selector: "@toSelect", index: genderId }, e2e.logOnClick)
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   setRaceEthnicity: function (raceEthnicityId) {
@@ -16,26 +16,26 @@ const civilianDialogCommands = {
       "@raceEthnicityDropdown",
       e2e.rerenderWait
     )
-      .click("@raceEthnicityDropdown")
+      .click("@raceEthnicityDropdown", e2e.logOnClick)
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: raceEthnicityId })
+      .click({ selector: "@toSelect", index: raceEthnicityId }, e2e.logOnClick)
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   setTitle: function (titleId) {
     return this.waitForElementPresent("@titleDropdown", e2e.rerenderWait)
-      .click("@titleDropdown")
+      .click("@titleDropdown", e2e.logOnClick)
       .waitForElementPresent("@menu", e2e.rerenderWait)
-      .click({ selector: "@toSelect", index: titleId })
+      .click({ selector: "@toSelect", index: titleId }, e2e.logOnClick)
       .waitForElementNotPresent("@menu", e2e.rerenderWait);
   },
   toggleIsAnonymous: function () {
-    return this.click("@isAnonymous");
+    return this.click("@isAnonymous", e2e.logOnClick);
   },
   typeInAddress: function (addressInput) {
     return this.setValue("@addressSuggestionField", [addressInput]);
   },
   setAddressSuggestionFieldToEmpty: function () {
-    this.click("@addressSuggestionField").api.keys(
+    this.click("@addressSuggestionField", e2e.logOnClick).api.keys(
       Array(50)
         .fill(this.api.Keys.BACK_SPACE)
         .concat(Array(50).fill(this.api.Keys.DELETE))
@@ -80,7 +80,7 @@ const civilianDialogCommands = {
     return this;
   },
   submitCivilianDialog: function () {
-    return this.click("@submitEditCivilianButton");
+    return this.click("@submitEditCivilianButton", e2e.logOnClick);
   }
 };
 

@@ -13,7 +13,7 @@ const snackbarCommands = {
       .assert.containsText("@snackbarText", message);
   },
   close: function () {
-    return this.click("@closeButton").waitForElementNotPresent(
+    return this.click("@closeButton", e2e.logOnClick).waitForElementNotPresent(
       "@snackbarText",
       e2e.rerenderWait
     );

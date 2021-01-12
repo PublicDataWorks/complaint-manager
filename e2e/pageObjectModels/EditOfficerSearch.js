@@ -16,13 +16,13 @@ const EditOfficerSearchCommands = {
     return this.waitForElementVisible(
       "@submitSearchButton",
       e2e.rerenderWait
-    ).click("@submitSearchButton");
+    ).click("@submitSearchButton", e2e.logOnClick);
   },
   selectNewOfficer: function() {
     return this.waitForElementVisible(
       "@selectNewOfficerButton",
       e2e.roundtripWait
-    ).click("@selectNewOfficerButton");
+    ).click("@selectNewOfficerButton", e2e.logOnClick);
   }
 };
 

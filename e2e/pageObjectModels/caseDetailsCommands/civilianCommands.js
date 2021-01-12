@@ -19,7 +19,7 @@ const civilianCommands = {
     return this.waitForElementVisible(
       "@editComplainantButton",
       e2e.rerenderWait
-    ).click("@editComplainantButton");
+    ).click("@editComplainantButton", e2e.logOnClick);
   },
   expandCivilianDetails: function() {
     const api = this.api;
@@ -27,7 +27,7 @@ const civilianCommands = {
     this.getAttribute("@expansionPanel", "aria-expanded", expanded => {
       if (expanded.value === "false") {
         api
-          .click('[data-testid="complainantWitnessesPanel"] > div')
+          .click('[data-testid="complainantWitnessesPanel"] > div', e2e.logOnClick)
           .pause(e2e.pause);
       }
     });

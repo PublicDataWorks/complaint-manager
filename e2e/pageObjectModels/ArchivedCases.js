@@ -11,7 +11,7 @@ const archivedCasesCommands = {
     return this.waitForElementVisible(
       "@openCaseButton",
       e2e.roundtripWait
-    ).click("@openCaseButton");
+    ).click("@openCaseButton", e2e.logOnClick);
   }
 };
 

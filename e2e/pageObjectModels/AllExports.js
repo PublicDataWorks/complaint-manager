@@ -11,13 +11,13 @@ const allExportCommands = {
     return this.waitForElementVisible(
       "@clickExportAllCasesButton",
       e2e.roundtripWait
-    ).click("@clickExportAllCasesButton");
+    ).click("@clickExportAllCasesButton", e2e.logOnClick);
   },
   confirmExportInDialog: function() {
     return this.waitForElementVisible(
       "@clickExportButtonInDialog",
       e2e.roundtripWait
-    ).click("@clickExportButtonInDialog");
+    ).click("@clickExportButtonInDialog", e2e.logOnClick);
   },
   waitForJobCompletion: function() {
     return this.waitForElementNotPresent(

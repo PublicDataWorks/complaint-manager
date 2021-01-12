@@ -16,13 +16,13 @@ const addCivilianWithinNopdCommands = {
     return this.waitForElementVisible(
       "@submitSearchButton",
       e2e.rerenderWait
-    ).click("@submitSearchButton");
+    ).click("@submitSearchButton", e2e.logOnClick);
   },
   selectNewCivilianWithinNopd: function() {
     return this.waitForElementVisible(
       "@selectNewCivilianWithinNopdButton",
       e2e.roundtripWait
-    ).click("@selectNewCivilianWithinNopdButton");
+    ).click("@selectNewCivilianWithinNopdButton", e2e.logOnClick);
   }
 };
 

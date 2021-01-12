@@ -5,7 +5,7 @@ const incidentCommands = {
     return this.waitForElementVisible(
       "@editIncidentDetailsButton",
       e2e.rerenderWait
-    ).click("@editIncidentDetailsButton");
+    ).click("@editIncidentDetailsButton", e2e.logOnClick);
   },
   incidentAddressIsSpecified: function () {
     this.waitForElementPresent("@incidentAddress", e2e.rerenderWait)
@@ -30,7 +30,7 @@ const incidentCommands = {
     return this.waitForElementVisible(
       "@narrativePromptDetails",
       e2e.rerenderWait
-    ).click("@narrativePromptDetails");
+    ).click("@narrativePromptDetails", e2e.logOnClick);
   }
 };
 

@@ -9,13 +9,13 @@ const letterPreviewCommands = {
     return this;
   },
   clickEditLetter: function () {
-    return this.click("@editButton");
+    return this.click("@editButton", e2e.logOnClick);
   },
   confirmEditLetterOnDialog: function () {
     return this.waitForElementPresent(
       "@dialogEditButton",
       e2e.rerenderWait
-    ).click("@dialogEditButton");
+    ).click("@dialogEditButton", e2e.logOnClick);
   },
   clickSubmit: function () {
     e2e.waitMoveAndClick(this, "@submitButton");
@@ -24,7 +24,7 @@ const letterPreviewCommands = {
     return this.waitForElementPresent(
       "@confirmSubmitButton",
       e2e.rerenderWait
-    ).click("@confirmSubmitButton");
+    ).click("@confirmSubmitButton", e2e.logOnClick);
   },
   waitForData: function () {
     this.api.pause(e2e.dataLoadWait);

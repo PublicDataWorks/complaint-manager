@@ -3,30 +3,30 @@ const e2e = require("./e2eUtilities.js");
 const navBarCommands = {
   goToArchivedCases: function() {
     return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
-      .click("@menuButton")
+      .click("@menuButton", e2e.logOnClick)
       .waitForElementVisible("@archivedCasesLink", e2e.rerenderWait)
       .moveToElement("@archivedCasesLink", undefined, undefined)
-      .click("@archivedCasesLink");
+      .click("@archivedCasesLink", e2e.logOnClick);
   },
   goToAllExports: function() {
     return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
-      .click("@menuButton")
+      .click("@menuButton", e2e.logOnClick)
       .waitForElementVisible("@allExportsLink", e2e.rerenderWait)
-      .click("@allExportsLink");
+      .click("@allExportsLink", e2e.logOnClick);
   },
   clickHamburgerButton: function() {
-    return this.click("@menuButton");
+    return this.click("@menuButton", e2e.logOnClick);
   },
   clickLogout: function() {
     return this.waitForElementVisible("@logoutButton", e2e.rerenderWait)
       .moveToElement("@logoutButton", undefined, undefined)
-      .click("@logoutButton");
+      .click("@logoutButton", e2e.logOnClick);
   },
   goToComplaints: function() {
     return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
-      .click("@menuButton")
+      .click("@menuButton", e2e.logOnClick)
       .waitForElementVisible("@complaintsLink", e2e.rerenderWait)
-      .click("@complaintsLink");
+      .click("@complaintsLink", e2e.logOnClick);
   }
 };
 

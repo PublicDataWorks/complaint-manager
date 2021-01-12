@@ -10,7 +10,7 @@ const caseReviewCommands = {
   },
   clickNext: function () {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait)
-      .click("@nextButton")
+      .click("@nextButton", e2e.logOnClick)
       .pause(e2e.pause);
   },
   clickPreview: function () {
