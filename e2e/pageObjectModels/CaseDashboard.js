@@ -1,38 +1,37 @@
 const e2e = require("./e2eUtilities.js");
 
 const caseDashboardCommands = {
-  isOnPage: function() {
+  isOnPage: function () {
     return this.waitForElementVisible(
       "@pageTitle",
       e2e.roundtripWait
     ).assert.containsText("@pageTitle", "View All Cases");
   },
-  hasCaseWithAC: function() {
-    return this.waitForElementVisible(
-      "@caseReference",
-      e2e.roundtripWait
-    ).assert.containsText("@caseReference", "AC");
+  hasCaseWithAC: function () {
+    return this.pause(e2e.dataLoadWait)
+      .waitForElementVisible("@caseReference", e2e.roundtripWait)
+      .assert.containsText("@caseReference", "AC");
   },
-  goToACCase: function() {
+  goToACCase: function () {
     this.click("@openCaseButton", e2e.logOnClick);
   },
-  createNewCase: function() {
+  createNewCase: function () {
     return this.waitForElementVisible("@newCaseButton", e2e.rerenderWait)
       .click("@newCaseButton", e2e.logOnClick)
       .waitForElementVisible("@caseDialog", e2e.rerenderWait);
   },
-  setFirstName: function(firstName) {
+  setFirstName: function (firstName) {
     return this.setValue("@firstName", firstName);
   },
-  setLastName: function(lastName) {
+  setLastName: function (lastName) {
     return this.setValue("@lastName", lastName);
   },
-  setPhoneNumber: function(phoneNumber, browser) {
+  setPhoneNumber: function (phoneNumber, browser) {
     this.click("@phoneNumber", e2e.logOnClick);
     browser.keys(phoneNumber);
     return this;
   },
-  setIntakeSource: function() {
+  setIntakeSource: function () {
     return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
       .click("@intakeSourceDropdown", e2e.logOnClick)
       .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
@@ -40,7 +39,7 @@ const caseDashboardCommands = {
       .click("@intakeSourceToSelect", e2e.logOnClick)
       .waitForElementNotPresent("@intakeSourceMenu", e2e.rerenderWait);
   },
-  submitCase: function() {
+  submitCase: function () {
     this.click("@createAndViewButton", e2e.logOnClick);
   }
 };
