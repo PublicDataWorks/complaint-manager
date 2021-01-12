@@ -32,7 +32,7 @@ const caseDashboardCommands = {
     browser.keys(phoneNumber);
     return this;
   },
-  setIntakeSourceId: function() {
+  setIntakeSource: function() {
     return this.waitForElementPresent("@intakeSourceDropdown", e2e.rerenderWait)
       .click("@intakeSourceDropdown", e2e.logOnClick)
       .waitForElementPresent("@intakeSourceMenu", e2e.rerenderWait)
@@ -80,7 +80,7 @@ module.exports = {
       selector: ".MuiAutocomplete-popper"
     },
     intakeSourceToSelect: {
-      selector: '[data-option-index="2"]'
+      selector: '[data-option-index="1"]'
     }
   }
 };
