@@ -16,7 +16,8 @@ const AddOfficerDetailsCommands = {
   },
   submitOfficer: function () {
     this.waitForElementVisible("@submitOfficerButton", e2e.rerenderWait).click(
-      "@submitOfficerButton"
+      "@submitOfficerButton",
+      e2e.logOnClick
     );
   }
 };

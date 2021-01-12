@@ -75,7 +75,8 @@ const caseDetailsCommands = {
   },
   clickAddTagButton: function () {
     return this.waitForElementVisible("@addTagButton", e2e.rerenderWait).click(
-      "@addTagButton"
+      "@addTagButton",
+      e2e.logOnClick
     );
   },
   caseTagIsPresent: function (tagName) {

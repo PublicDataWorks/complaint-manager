@@ -15,7 +15,8 @@ const caseReviewCommands = {
   },
   clickPreview: function () {
     return this.waitForElementPresent("@previewButton", e2e.rerenderWait).click(
-      "@previewButton"
+      "@previewButton",
+      e2e.logOnClick
     );
   }
 };

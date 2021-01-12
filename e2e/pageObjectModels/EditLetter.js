@@ -14,7 +14,8 @@ const editLetterCommands = {
   },
   saveEdits: function() {
     return this.waitForElementPresent("@saveButton", e2e.rerenderWait).click(
-      "@saveButton"
+      "@saveButton",
+      e2e.logOnClick
     );
   }
 };
