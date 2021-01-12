@@ -49,7 +49,8 @@ const officerCommands = {
   },
   addWitnessCivilianWithinNopd: function() {
     this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
-      "@addWitnessMenu"
+      "@addWitnessMenu",
+      e2e.logOnClick
     );
     return this.waitForElementVisible(
       "@addWitnessCivilianWithinNopd",
@@ -68,7 +69,8 @@ const officerCommands = {
   },
   addAccusedOfficer: function() {
     this.waitForElementVisible("@addAccusedMenu", e2e.rerenderWait).click(
-      "@addAccusedMenu"
+      "@addAccusedMenu",
+      e2e.logOnClick
     );
     return this.waitForElementVisible(
       "@addAccusedOfficer",
