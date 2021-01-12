@@ -20,7 +20,7 @@ const recommendedActionsCommands = {
   clickNext: function () {
     return this.waitForElementPresent("@nextButton", e2e.rerenderWait)
       .click("@nextButton", e2e.logOnClick)
-      .pause(e2e.pause);
+      .pause(e2e.dataLoadWait);
   },
   selectClassification: function (classificationName) {
     return e2e.waitMoveAndClick(
@@ -29,10 +29,19 @@ const recommendedActionsCommands = {
     );
   },
   classificationsAreDisabled: function () {
-    return this.waitForElementPresent(
+    this.waitForElementPresent(
       "@useOfForce",
       e2e.rerenderWait
     ).assert.attributeEquals("@useOfForce", "disabled", "true");
+    this.waitForElementPresent(
+      "@criminalMisconduct",
+      e2e.rerenderWait
+    ).assert.attributeEquals("@criminalMisconduct", "disabled", "true");
+    this.waitForElementPresent(
+      "@seriousMisconduct",
+      e2e.rerenderWait
+    ).assert.attributeEquals("@seriousMisconduct", "disabled", "true");
+    return this;
   }
 };
 
@@ -50,6 +59,12 @@ module.exports = {
     },
     useOfForce: {
       selector: "[data-testid='use-of-force'] input"
+    },
+    criminalMisconduct: {
+      selector: "[data-testid='criminal-misconduct'] input"
+    },
+    seriousMisconduct: {
+      selector: "[data-testid='serious-misconduct'] input"
     }
   }
 };
