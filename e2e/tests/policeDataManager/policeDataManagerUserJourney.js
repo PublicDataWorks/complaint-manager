@@ -194,6 +194,8 @@ if (TEST_PASS && TEST_USER) {
       civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
 
       snackbar.presentWithMessage("Civilian was successfully updated").close();
+
+      caseDetailsPage.caseReferenceIsCC();
     },
 
     "should not show address in Complainant & Witnesses section of Case Detail": browser => {

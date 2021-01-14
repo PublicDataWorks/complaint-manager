@@ -1,4 +1,6 @@
 const e2e = require("./e2eUtilities.js");
+const util = require("util");
+const c2x = require("css2xpath");
 
 const caseDashboardCommands = {
   isOnPage: function () {
@@ -8,12 +10,21 @@ const caseDashboardCommands = {
     ).assert.containsText("@pageTitle", "View All Cases");
   },
   hasCaseWithAC: function () {
+    const customSelector = util.format(
+      this.elements.caseReference.selector,
+      this.api.globals.current_case
+    );
     return this.pause(e2e.dataLoadWait)
-      .waitForElementVisible("@caseReference", e2e.roundtripWait)
-      .assert.containsText("@caseReference", "AC");
+      .useXpath()
+      .waitForElementVisible(c2x(customSelector), e2e.roundtripWait)
+      .useCss();
   },
   goToACCase: function () {
-    this.click("@openCaseButton", e2e.logOnClick);
+    const customSelector = util.format(
+      this.elements.openCaseButton.selector,
+      this.api.globals.current_case
+    );
+    this.api.useXpath().click(c2x(customSelector), e2e.logOnClick).useCss();
   },
   createNewCase: function () {
     return this.waitForElementVisible("@newCaseButton", e2e.rerenderWait)
@@ -49,10 +60,11 @@ module.exports = {
   elements: {
     pageTitle: { selector: "[data-testid='pageTitle']" },
     caseReference: {
-      selector: "[data-testid='caseReference']"
+      selector: "[data-testid='caseReference']:contains('%s')"
     },
     openCaseButton: {
-      selector: "[data-testid='openCaseButton']"
+      selector:
+        ".//*[@data-testid='caseReference'][contains(normalize-space(),'%s')]/parent::tr/descendant::*[@data-testid='openCaseButton']"
     },
     newCaseButton: {
       selector: "[data-testid='createCaseButton'] > span"

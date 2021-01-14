@@ -1,4 +1,6 @@
 const e2e = require("./e2eUtilities.js");
+const util = require("util");
+
 const {
   attachmentCommands,
   attachmentElements
@@ -15,6 +17,12 @@ const {
   incidentCommands,
   incidentElements
 } = require("./caseDetailsCommands/incidentCommands.js");
+
+const storeCaseRefCallback = function (context) {
+  return result => {
+    context.api.globals.current_case = result.value.substring(6);
+  };
+};
 
 const caseDetailsCommands = {
   isOnPage: function () {
@@ -110,13 +118,17 @@ const caseDetailsCommands = {
     ).assert.containsText("@caseNoteText", caseNote);
   },
   caseReferenceIsAC: function () {
-    return this.waitForElementVisible(
-      "@caseReference",
-      e2e.rerenderWait
-    ).assert.containsText("@caseReference", "AC");
+    return this.waitForElementVisible("@caseReference", e2e.rerenderWait)
+      .getText("@caseReference", storeCaseRefCallback(this))
+      .assert.containsText("@caseReference", "AC");
   },
   addCivilianComplainant: function () {
     this.click("@addCivilianComplainant", e2e.logOnClick);
+  },
+  caseReferenceIsCC: function () {
+    return this.waitForElementVisible("@caseReference", e2e.rerenderWait)
+      .getText("@caseReference", storeCaseRefCallback(this))
+      .assert.containsText("@caseReference", "CC");
   }
 };
 
