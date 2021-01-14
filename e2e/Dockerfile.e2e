@@ -42,14 +42,11 @@ ENV DBUS_SESSION_BUS_ADDRESS=/dev/null
 
 #ENTRYPOINT java -jar /opt/selenium/selenium-server-standalone.jar
 
-#==========
-# Selenium
-#==========
+#==========================
+# Installing Dependencies
+#==========================
 RUN npm install selenium-server
-
-#==================
-# Chrome webdriver
-#==================
+RUN npm install css2xpath
 RUN npm install chromedriver
 
 RUN npm install -g nightwatch

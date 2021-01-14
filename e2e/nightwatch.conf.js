@@ -29,6 +29,10 @@ module.exports = {
         chromeOptions: {
           args: ["--headless", "--no-sandbox"]
         }
+      },
+      persist_globals: true,
+      globals: {
+        current_case: ""
       }
     },
     local: {
