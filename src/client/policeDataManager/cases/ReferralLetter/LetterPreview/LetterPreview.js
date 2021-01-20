@@ -21,6 +21,7 @@ import {
   openEditLetterConfirmationDialog,
   openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
+  openMissingComplainantDialog,
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
@@ -35,6 +36,7 @@ import getReferralLetterData from "../thunks/getReferralLetterData";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
+import MissingComplainantDialog from "../../sharedFormComponents/MissingComplainantDialog";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
@@ -405,6 +407,7 @@ class LetterPreview extends Component {
             </div>
           </div>
         </form>
+        <MissingComplainantDialog caseId={this.state.caseId} />
         <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
         <IncompleteClassificationsDialog caseId={this.state.caseId} />
         <UpdateCaseStatusDialog
@@ -435,6 +438,7 @@ const mapDispatchToProps = {
   stopLetterDownload,
   getReferralLetterData,
   getReferralLetterPreview,
+  openMissingComplainantDialog,
   openIncompleteOfficerHistoryDialog,
   openIncompleteClassificationsDialog
 };

@@ -8,13 +8,15 @@ import { connect } from "react-redux";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import {
   openIncompleteClassificationsDialog,
-  openIncompleteOfficerHistoryDialog
+  openIncompleteOfficerHistoryDialog,
+  openMissingComplainantDialog
 } from "../../../actionCreators/letterActionCreators";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetterData";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import history from "../../../../history";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
+import MissingComplainantDialog from "../../sharedFormComponents/MissingComplainantDialog";
 
 class StatusButton extends Component {
   componentDidMount() {
@@ -90,6 +92,7 @@ class StatusButton extends Component {
           >
             Review and Approve Letter
           </PrimaryButton>
+          <MissingComplainantDialog caseId={this.props.caseId} />
           <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
           <IncompleteClassificationsDialog caseId={this.props.caseId} />
         </Fragment>
@@ -107,6 +110,7 @@ class StatusButton extends Component {
               ? `Begin Letter`
               : `Mark as ${nextStatus}`}
           </PrimaryButton>
+          <MissingComplainantDialog caseId={this.props.caseId} />
           <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
           <IncompleteClassificationsDialog caseId={this.props.caseId} />
         </Fragment>
@@ -117,6 +121,7 @@ class StatusButton extends Component {
 
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
+  caseDetails: state.currentCase.details,
   status: state.currentCase.details.status,
   nextStatus: state.currentCase.details.nextStatus,
   isArchived: state.currentCase.details.isArchived,
@@ -126,6 +131,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  openMissingComplainantDialog,
   openIncompleteOfficerHistoryDialog,
   openIncompleteClassificationsDialog,
   openCaseStatusUpdateDialog,
