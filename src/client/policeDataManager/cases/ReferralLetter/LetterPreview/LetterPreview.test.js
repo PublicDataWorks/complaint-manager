@@ -10,6 +10,7 @@ import {
   openEditLetterConfirmationDialog,
   openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
+  openMissingComplainantDialog,
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
@@ -174,6 +175,8 @@ describe("LetterPreview", function () {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: [],
         status: CASE_STATUS.READY_FOR_REVIEW,
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
@@ -243,6 +246,16 @@ describe("LetterPreview", function () {
   test("dispatch open case status dialog on click of submit for review button", async () => {
     dispatchSpy.mockClear();
     store.dispatch(
+        getCaseDetailsSuccess({
+          id: caseId,
+          complainantCivilians: [{ fullName: "someone" }],
+          complainantOfficers: [],
+          status: CASE_STATUS.LETTER_IN_PROGRESS,
+          nextStatus: CASE_STATUS.READY_FOR_REVIEW
+        })
+    );
+
+    store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
           {
@@ -266,6 +279,13 @@ describe("LetterPreview", function () {
   });
 
   test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", async () => {
+    store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: []
+      })
+    );
+
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -730,8 +750,47 @@ describe("LetterPreview", function () {
     expect(progressIndicator.props().style.display).toEqual("none");
   });
 
-  test("should call incomplete officer history modal when accused officer is missing officer history", () => {
+  test("should call missing complainant dialog when complainant is missing", () => {
     dispatchSpy.mockClear();
+    store.dispatch(
+        getCaseDetailsSuccess({
+          id: caseId,
+          complainantCivilians: [],
+          complainantOfficers: [],
+          status: CASE_STATUS.READY_FOR_REVIEW,
+          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+    );
+
+    store.dispatch(
+      getReferralLetterSuccess({
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: null
+          }
+        ]
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-testid='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openMissingComplainantDialog(expect.anything())
+    );
+  });
+
+  test("should call incomplete officer history dialog when accused officer is missing officer history", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: []
+      })
+    );
+
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -752,8 +811,15 @@ describe("LetterPreview", function () {
     );
   });
 
-  test("should call missing classifications modal when no classifications are selected", () => {
+  test("should call missing classifications dialog when no classifications are selected", () => {
     dispatchSpy.mockClear();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: []
+      })
+    );
+
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -778,6 +844,13 @@ describe("LetterPreview", function () {
   test("should call incomplete officer history dialog if both classifications and officer history are missing", () => {
     dispatchSpy.mockClear();
     store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: []
+      })
+    );
+
+    store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
           {
@@ -798,12 +871,41 @@ describe("LetterPreview", function () {
     );
   });
 
+  test("should call missing complainant dialog if complainant information, classifications, and officer history are missing", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getReferralLetterSuccess({
+        caseDetails: {
+          complainantCivilians: [],
+          complainantOfficers: []
+        },
+        letterOfficers: [
+          {
+            fullName: "somebody",
+            officerHistoryOptionId: null
+          }
+        ],
+        classifications: {}
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-testid='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      openMissingComplainantDialog(expect.anything())
+    );
+  });
+
   describe("validation when case status is ready for review", () => {
     beforeEach(() => {
       dispatchSpy.mockClear();
       store.dispatch(
         getCaseDetailsSuccess({
           id: caseId,
+          complainantCivilians: [{ fullName: "someone" }],
+          complainantOfficers: [],
           status: CASE_STATUS.READY_FOR_REVIEW,
           nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
         })
@@ -814,6 +916,40 @@ describe("LetterPreview", function () {
         })
       );
     });
+
+    test("should not approve letter with missing complainant", async () => {
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: caseId,
+          complainantCivilians: [],
+          complainantOfficers: [],
+          status: CASE_STATUS.READY_FOR_REVIEW,
+          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+        })
+      );
+
+      store.dispatch(
+        getReferralLetterSuccess({
+          letterOfficers: [
+            {
+              fullName: "somebody",
+              officerHistoryOptionId: null
+            }
+          ],
+          classifications: {}
+        })
+      );
+      wrapper.update();
+      const openReviewAndApproveButton = wrapper
+        .find("[data-testid='review-and-approve-letter-button']")
+        .first();
+      openReviewAndApproveButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openMissingComplainantDialog(expect.anything())
+      );
+    });
+
     test("should not approve letter with missing officer history details", async () => {
       store.dispatch(
         getReferralLetterSuccess({

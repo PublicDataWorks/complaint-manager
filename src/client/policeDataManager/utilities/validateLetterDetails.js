@@ -2,6 +2,19 @@ import _ from "lodash";
 import { UNKNOWN_OFFICER_NAME } from "../../../sharedUtilities/constants";
 
 const validateLetterDetails = props => {
+  const complainantCivilians =
+    !props.caseDetails.complainantCivilians ||
+    _.isEmpty(props.caseDetails.complainantCivilians);
+
+  const complainantOfficers =
+      !props.caseDetails.complainantOfficers ||
+      _.isEmpty(props.caseDetails.complainantOfficers);
+
+  if (complainantCivilians && complainantOfficers){
+    props.openMissingComplainantDialog();
+    return false;
+  }
+
   if (!props.letterOfficers || _.isEmpty(props.letterOfficers)) {
     props.openIncompleteOfficerHistoryDialog();
     return false;
