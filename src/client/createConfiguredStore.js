@@ -63,6 +63,7 @@ import usersReducer from "./common/reducers/users/usersReducer";
 import classificationsReducer from "./policeDataManager/reducers/cases/classificationsReducer";
 import getNotificationsReducer from "./policeDataManager/reducers/notifications/getNotificationsReducer";
 import highlightCaseNoteReducer from "./policeDataManager/reducers/ui/highlightCaseNoteReducer";
+import missingComplainantDialogReducer from "./policeDataManager/reducers/ui/missingComplainantDialogReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -115,6 +116,7 @@ const rootReducer = combineReducers({
     officerHistoryOptions: officerHistoryOptionsReducer,
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
     openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,
+    openMissingComplainantDialog: missingComplainantDialogReducer,
     editAllegationForms: editAllegationFormsReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     accusedOfficerPanels: accusedOfficerPanelsReducer,
