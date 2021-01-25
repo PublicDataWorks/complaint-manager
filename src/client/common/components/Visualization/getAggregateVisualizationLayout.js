@@ -61,11 +61,11 @@ export const baseLayouts = {
       showticklabels: false
     },
     margin: {
-      l: 235,
+      l: 145,
       r: 0,
       b: 70,
       t: 130,
-      pad: 8
+      pad: 10
     },
     font: LABEL_FONT,
     title: {
