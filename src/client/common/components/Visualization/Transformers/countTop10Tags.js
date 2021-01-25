@@ -23,7 +23,7 @@ export const transformData = rawData => {
     text: xValues,
     textposition: "auto",
     textangle: 0,
-    hoverinfo: "none"
+    hoverinfo: "y"
   };
 
   return {
