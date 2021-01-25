@@ -49,6 +49,7 @@ const baseLayouts = {
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     barmode: "group",
+    hovermode: "closest",
     dragmode: false,
     xaxis: {
       showgrid: false,

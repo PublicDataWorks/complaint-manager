@@ -38,7 +38,7 @@ describe("countTop10Tags Data Transformer", () => {
           text: ["3", "2", "1", "1"],
           textposition: "auto",
           textangle: 0,
-          hoverinfo: "none"
+          hoverinfo: "y"
         }
       ]
     };
@@ -65,7 +65,7 @@ describe("countTop10Tags Data Transformer", () => {
           text: [],
           textposition: "auto",
           textangle: 0,
-          hoverinfo: "none"
+          hoverinfo: "y"
         }
       ]
     };
