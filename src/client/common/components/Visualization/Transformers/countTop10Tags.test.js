@@ -38,7 +38,63 @@ describe("countTop10Tags Data Transformer", () => {
           text: ["3", "2", "1", "1"],
           textposition: "auto",
           textangle: 0,
-          hoverinfo: "y"
+          hovertext: ["Chicago hot dogs", "Tofu", "sabs", "karancitoooooo"],
+          hoverinfo: "text"
+        }
+      ]
+    };
+
+    expect(transformedData).toEqual(expectedTransformedData);
+  });
+
+  test("should truncate long values on y-axis and retain full values for hovertext for the visualization component", () => {
+    const rawData = [
+      {
+        name: "Chicago deep dish pizza",
+        count: "1"
+      },
+      {
+        name: "Tofu",
+        count: "1"
+      },
+      {
+        name: "The Museum of Science and Industry",
+        count: "2"
+      },
+      {
+        name: "Cars",
+        count: "3"
+      }
+    ];
+
+    const transformedData = countTop10Tags.transformData(rawData);
+
+    const expectedTransformedData = {
+      data: [
+        {
+          x: ["3", "2", "1", "1"],
+          y: [
+            "Cars",
+            "The Museum of Science ...",
+            "Tofu",
+            "Chicago deep dish pizz..."
+          ],
+          type: "bar",
+          width: 0.75,
+          orientation: "h",
+          marker: {
+            color: COLORS[0]
+          },
+          text: ["3", "2", "1", "1"],
+          textposition: "auto",
+          textangle: 0,
+          hovertext: [
+            "Cars",
+            "The Museum of Science and Industry",
+            "Tofu",
+            "Chicago deep dish pizza"
+          ],
+          hoverinfo: "text"
         }
       ]
     };
@@ -65,7 +121,8 @@ describe("countTop10Tags Data Transformer", () => {
           text: [],
           textposition: "auto",
           textangle: 0,
-          hoverinfo: "y"
+          hovertext: [],
+          hoverinfo: "text"
         }
       ]
     };
