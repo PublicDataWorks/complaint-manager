@@ -26,7 +26,7 @@ export const LABEL_FONT = {
 };
 
 export const PUBLIC_LABEL_FONT = {
-  family: '"SF Compact Display", "Roboto", "Helvetica", "Arial", sans-serif',
+  family: '"IBM Plex Sans Medium", "IBM Plex Sans", "Arial", sans-serif',
   size: 12,
   color: "#777777"
 };
