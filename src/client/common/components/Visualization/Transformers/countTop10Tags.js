@@ -1,4 +1,14 @@
 import { COLORS } from "../dataVizStyling";
+import { TAG_LABEL_CHAR_LIMIT } from "../../../../../sharedUtilities/constants";
+
+export const truncateYValues = values => {
+  return values.map(value => {
+    if (value.length > TAG_LABEL_CHAR_LIMIT) {
+      return value.substring(0, TAG_LABEL_CHAR_LIMIT).concat("...");
+    }
+    return value;
+  });
+};
 
 export const transformData = rawData => {
   let xValues = [];
@@ -11,9 +21,11 @@ export const transformData = rawData => {
     yValues.push(name);
   });
 
+  let truncatedYValues = truncateYValues(yValues);
+
   let caseTagTrace = {
     x: xValues,
-    y: yValues,
+    y: truncatedYValues,
     type: "bar",
     width: 0.75,
     orientation: "h",
@@ -23,7 +35,8 @@ export const transformData = rawData => {
     text: xValues,
     textposition: "auto",
     textangle: 0,
-    hoverinfo: "y"
+    hovertext: yValues,
+    hoverinfo: "text"
   };
 
   return {

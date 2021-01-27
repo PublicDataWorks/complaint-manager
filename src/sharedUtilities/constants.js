@@ -121,9 +121,9 @@ export const CLOSE_INCOMPLETE_CLASSIFICATIONS_DIALOG =
   "CLOSE_INCOMPLETE_CLASSIFICATIONS_DIALOG";
 
 export const OPEN_MISSING_COMPLAINANT_DIALOG =
-    "OPEN_MISSING_COMPLAINANT_DIALOG";
+  "OPEN_MISSING_COMPLAINANT_DIALOG";
 export const CLOSE_MISSING_COMPLAINANT_DIALOG =
-    "CLOSE_MISSING_COMPLAINANT_DIALOG";
+  "CLOSE_MISSING_COMPLAINANT_DIALOG";
 
 export const START_LETTER_DOWNLOAD = "START_LETTER_DOWNLOAD";
 export const STOP_LETTER_DOWNLOAD = "STOP_LETTER_DOWNLOAD";
@@ -491,6 +491,8 @@ export const DATA_SECTIONS = {
       "The Office of the Independent Police Monitor labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every OIPM case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.\n\nTags is a term created within the Office of the Independent Police Monitor and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the OIPM wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the OIPM will continue to develop and implement new tags.  This chart captures tag use on a rolling twelve month basis."
   }
 };
+
+export const TAG_LABEL_CHAR_LIMIT = 22;
 
 // ----------------------------------------
 //          Case Status Map
