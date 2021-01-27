@@ -492,7 +492,7 @@ export const DATA_SECTIONS = {
   }
 };
 
-export const TAG_LABEL_CHAR_LIMIT = 22;
+export const TAG_LABEL_CHAR_LIMIT = 20;
 
 // ----------------------------------------
 //          Case Status Map
