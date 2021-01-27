@@ -75,9 +75,9 @@ describe("countTop10Tags Data Transformer", () => {
           x: ["3", "2", "1", "1"],
           y: [
             "Cars",
-            "The Museum of Science ...",
+            "The Museum of Scienc...",
             "Tofu",
-            "Chicago deep dish pizz..."
+            "Chicago deep dish pi..."
           ],
           type: "bar",
           width: 0.75,
