@@ -5,9 +5,8 @@ const muiTheme = createMuiTheme({
   palette: styles.colors,
   typography: {
     fontFamily: [
-      "SF Compact Display Medium",
-      "SF Compact Display",
-      "Helvetica Neue",
+      "IBM Plex Sans Medium",
+      "IBM Plex Sans",
       "Arial",
       "sans-serif"
     ].join(","),
