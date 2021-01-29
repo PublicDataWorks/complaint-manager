@@ -43,7 +43,8 @@
     "coverageReporters": [
       "text",
       "text-summary"
-    ]
+    ],
+    "resetMocks": false
   },
   "dependencies": {
     "@hapi/hoek": "~9.0.3",
