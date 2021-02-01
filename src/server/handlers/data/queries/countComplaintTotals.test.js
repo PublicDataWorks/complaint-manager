@@ -62,18 +62,15 @@ describe("getCountByDateRange", () => {
     await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
   });
 
-  test("returns count of complaints broken down by year to date and previous year", async done => {
-    const responsePromise = request(app)
+  test("returns count of complaints broken down by year to date and previous year", async () => {
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual(expectedData);
-    });
-    done();
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual(expectedData);
   });
 
   test("should return only cases within the current year to date or previous year", async () => {
@@ -88,16 +85,14 @@ describe("getCountByDateRange", () => {
     );
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual(expectedData);
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual(expectedData);
   });
 
   test("should return only cases where status is forwarded to agency or closed", async () => {
@@ -150,16 +145,14 @@ describe("getCountByDateRange", () => {
 
     await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual(expectedData);
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual(expectedData);
   });
 
   test("should return only cases that are NOT archived", async () => {
@@ -176,15 +169,13 @@ describe("getCountByDateRange", () => {
 
     await archivedCase.destroy({ auditUser: "someone" });
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintTotals" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toEqual(expectedData);
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toEqual(expectedData);
   });
 });

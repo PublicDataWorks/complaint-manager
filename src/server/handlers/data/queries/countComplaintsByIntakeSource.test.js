@@ -77,25 +77,22 @@ describe("executeQuery", () => {
     await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
   });
 
-  test("returns count of complaints broken down by Intake Source", async done => {
+  test("returns count of complaints broken down by Intake Source", async () => {
     const expectedData = [
       { count: "1", name: "Email" },
       { count: "2", name: "Facebook" },
       { count: "1", name: "Other" }
     ];
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
-    });
-    done();
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveLength(3);
+    expect(response.body).toEqual(expect.arrayContaining(expectedData));
   });
 
   test("should return cases within the past 12 months", async () => {
@@ -122,7 +119,7 @@ describe("executeQuery", () => {
       { count: "1", name: "Instagram" }
     ];
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
@@ -131,11 +128,9 @@ describe("executeQuery", () => {
         dateRangeType: "PAST_12_MONTHS"
       });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(4);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveLength(4);
+    expect(response.body).toEqual(expect.arrayContaining(expectedData));
   });
 
   test("should return only cases within the current year to date", async () => {
@@ -161,7 +156,7 @@ describe("executeQuery", () => {
       { count: "1", name: "Other" }
     ];
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
@@ -170,11 +165,9 @@ describe("executeQuery", () => {
         dateRangeType: "YTD"
       });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveLength(3);
+    expect(response.body).toEqual(expect.arrayContaining(expectedData));
   });
 
   test("should return only cases where status is forwarded to agency or closed", async () => {
@@ -241,17 +234,15 @@ describe("executeQuery", () => {
       { count: "1", name: "Other" }
     ];
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveLength(3);
+    expect(response.body).toEqual(expect.arrayContaining(expectedData));
   });
 
   test("should return only cases that are NOT archived", async () => {
@@ -279,16 +270,14 @@ describe("executeQuery", () => {
       { count: "1", name: "Other" }
     ];
 
-    const responsePromise = request(app)
+    const response = await request(app)
       .get("/api/public-data")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`)
       .query({ queryType: "countComplaintsByIntakeSource" });
 
-    await responsePromise.then(response => {
-      expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual(expect.arrayContaining(expectedData));
-    });
+    expect(response.statusCode).toEqual(200);
+    expect(response.body).toHaveLength(3);
+    expect(response.body).toEqual(expect.arrayContaining(expectedData));
   });
 });

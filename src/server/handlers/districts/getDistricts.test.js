@@ -12,7 +12,7 @@ describe("getDistricts", () => {
     await cleanupDatabase();
   });
 
-  test("returns a list of districts to populate dropdown", async done => {
+  test("returns a list of districts to populate dropdown", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
     const secondDistrict = await models.district.create({
@@ -45,6 +45,5 @@ describe("getDistricts", () => {
       .set("Authorization", `Bearer ${token}`);
 
     await expectResponse(responsePromise, 200, expectedOrderedDistricts);
-    done();
   });
 });
