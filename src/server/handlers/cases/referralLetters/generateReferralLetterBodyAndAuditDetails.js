@@ -130,8 +130,7 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
   return { caseData: caseData, auditDetails: auditDetails };
 };
 
-const referralLetterBodyPath =
-  "src/server/handlers/cases/referralLetters/getReferralLetterPreview/letterBody.tpl";
+const referralLetterBodyPath = "instance-files/letterBody.tpl";
 
 export const generateReferralLetterBodyAndAuditDetails = async (
   caseId,

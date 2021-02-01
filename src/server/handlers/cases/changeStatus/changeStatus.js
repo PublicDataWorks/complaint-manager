@@ -1,15 +1,11 @@
-import {
-  RECIPIENT,
-  SENDER,
-  RECIPIENT_ADDRESS
-} from "../referralLetters/referralLetterDefaults";
+import constants from "../../../../../instance-files/referralLetterDefaults";
 import {
   ACCUSED,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import _ from "lodash";
+import { get, isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 
@@ -81,7 +77,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       auditDetails,
       transaction
     );
-    if (!_.isEmpty(validationErrors)) {
+    if (!isEmpty(validationErrors)) {
       throw Boom.badRequest(
         BAD_REQUEST_ERRORS.VALIDATION_ERROR_HEADER,
         validationErrors
@@ -125,6 +121,8 @@ const createReferralLetterAndLetterOfficers = async (
   nickname,
   transaction
 ) => {
+  const { RECIPIENT, RECIPIENT_ADDRESS, SENDER } = constants || {};
+  
   await models.referral_letter.create(
     {
       caseId: caseToUpdate.id,
