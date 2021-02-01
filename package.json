@@ -13,7 +13,7 @@
     "setup:test:db": "./scripts/setup-test-db.sh",
     "drop:db": "sequelize db:drop",
     "start:client": "HTTPS=true PORT=443 react-scripts start",
-    "start:server:dev": "nodemon --watch src/server --watch src/sharedUtilities src/startServer.js --exec babel-node",
+    "start:server:dev": "nodemon --watch instance-files --watch src/server --watch src/sharedUtilities src/startServer.js --exec babel-node",
     "start:worker:dev": "nodemon --watch src/worker --watch src/sharedUtilities src/startWorker.js --exec babel-node",
     "start:server": "node dist/startServer.js",
     "start:worker": "node dist/startWorker.js",
