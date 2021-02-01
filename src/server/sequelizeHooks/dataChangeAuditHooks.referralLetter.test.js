@@ -3,7 +3,7 @@ import Case from "../../sharedTestHelpers/case";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import constants from "../../../../../instance-files/referralLetterDefaults";
+import constants from "../../../instance-files/referralLetterDefaults";
 
 describe("dataChangeAuditHooks for referral letter", () => {
   const { RECIPIENT, RECIPIENT_ADDRESS, SENDER } = constants || {};
