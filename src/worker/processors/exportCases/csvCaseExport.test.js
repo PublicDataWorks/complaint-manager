@@ -59,7 +59,7 @@ describe("csvCaseExport request", () => {
     id: "123"
   };
 
-  beforeEach(async done => {
+  beforeEach(async () => {
     await models.district.create({
       id: 1,
       name: "1st District"
@@ -71,7 +71,6 @@ describe("csvCaseExport request", () => {
         return awsResult;
       }
     );
-    done();
   });
 
   afterEach(async () => {
@@ -220,7 +219,7 @@ describe("csvCaseExport request", () => {
       genderIdentity,
       classification;
 
-    beforeEach(async done => {
+    beforeEach(async () => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withDistrictId(1)
@@ -337,10 +336,9 @@ describe("csvCaseExport request", () => {
       await models.case_classification.create(caseClassificationAttributes, {
         auditUser: "tuser"
       });
-      done();
     });
 
-    test("should retrieve case data", async done => {
+    test("should retrieve case data", async () => {
       await caseToExport.reload({
         include: [
           {
@@ -406,28 +404,25 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Narrative Details"]).toEqual(
         caseToExport.narrativeDetails
       );
-      done();
     });
 
-    test("should display empty when civilian has no phone number", async done => {
+    test("should display empty when civilian has no phone number", async () => {
       await civilian.update({ phoneNumber: null }, { auditUser: "someone" });
 
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
-      done();
     });
 
-    test("should display empty when civilian has a blank phone number", async done => {
+    test("should display empty when civilian has a blank phone number", async () => {
       await civilian.update({ phoneNumber: "" }, { auditUser: "someone" });
 
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Civilian Complainant Phone Number"]).toEqual("");
-      done();
     });
 
-    test("should retrieve civilian complainant data", async done => {
+    test("should retrieve civilian complainant data", async () => {
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Complainant"]).toEqual("Civilian");
@@ -476,10 +471,9 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Civilian Complainant Notes"]).toEqual(
         civilian.additionalInfo
       );
-      done();
     });
 
-    test("should set civilian complainant age to N/A when dob or incident date is blank", async done => {
+    test("should set civilian complainant age to N/A when dob or incident date is blank", async () => {
       await civilian.update({ birthDate: null }, { auditUser: "someone" });
 
       await csvCaseExport(job, jobDone);
@@ -488,10 +482,9 @@ describe("csvCaseExport request", () => {
       expect(records[0]["Civilian Complainant Age on Incident Date"]).toEqual(
         "N/A"
       );
-      done();
     });
 
-    test("should retrieve civilian data with two civilian complainants", async done => {
+    test("should retrieve civilian data with two civilian complainants", async () => {
       const civilianAttributes2 = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
@@ -519,10 +512,9 @@ describe("csvCaseExport request", () => {
         `${civilian2.firstName} ${civilian2.middleInitial} ${civilian2.lastName} ${civilian2.suffix}`
       );
       expect(secondRecord["Case #"]).toEqual(caseReference);
-      done();
     });
 
-    test("should retrieve civilian complainant + officer complainant data", async done => {
+    test("should retrieve civilian complainant + officer complainant data", async () => {
       const officerComplainantAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Jasmine")
@@ -615,10 +607,9 @@ describe("csvCaseExport request", () => {
       expect(civilianComplainantRow["Civilian Complainant Name"]).toEqual(
         `${civilian.firstName} ${civilian.middleInitial} ${civilian.lastName} ${civilian.suffix}`
       );
-      done();
     });
 
-    test("should set officer complainant age to N/A when dob or incident date is blank", async done => {
+    test("should set officer complainant age to N/A when dob or incident date is blank", async () => {
       const officerComplainantAttributes = new Officer.Builder()
         .defaultOfficer()
         .withDOB(null)
@@ -647,10 +638,9 @@ describe("csvCaseExport request", () => {
       expect(
         complainantOfficerRow["Officer Complainant Age on Incident Date"]
       ).toEqual("N/A");
-      done();
     });
 
-    test("should include witness count when two civilian witnesses", async done => {
+    test("should include witness count when two civilian witnesses", async () => {
       const otherCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -686,10 +676,9 @@ describe("csvCaseExport request", () => {
       expect(records.length).toEqual(2);
       expect(records[0]["Number of Witnesses"]).toEqual("1");
       expect(records[1]["Number of Witnesses"]).toEqual("2");
-      done();
     });
 
-    test("should not include deleted witnesses in witness count", async done => {
+    test("should not include deleted witnesses in witness count", async () => {
       const officerToBeCreated = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
@@ -725,10 +714,9 @@ describe("csvCaseExport request", () => {
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Number of Witnesses"]).toEqual("0");
-      done();
     });
 
-    test("should include witness count when 1 officer witness and 1 civilian witness", async done => {
+    test("should include witness count when 1 officer witness and 1 civilian witness", async () => {
       const officerToBeCreated = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
@@ -762,17 +750,15 @@ describe("csvCaseExport request", () => {
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Number of Witnesses"]).toEqual("2");
-      done();
     });
 
-    test("should include witness count when no witnesses", async done => {
+    test("should include witness count when no witnesses", async () => {
       await csvCaseExport(job, jobDone);
 
       expect(records[0]["Number of Witnesses"]).toEqual("0");
-      done();
     });
 
-    test("should display unknown officer names when unknown officers", async done => {
+    test("should display unknown officer names when unknown officers", async () => {
       const unknownComplainantOfficerToCreate = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withRoleOnCase(COMPLAINANT)
@@ -803,10 +789,9 @@ describe("csvCaseExport request", () => {
 
       expect(records[2]["Officer Complainant Name"]).toEqual("Unknown Officer");
       expect(records[1]["Accused Officer Name"]).toEqual("Unknown Officer");
-      done();
     });
 
-    test("should include data about officer", async done => {
+    test("should include data about officer", async () => {
       await csvCaseExport(job, jobDone);
       const firstRecord = records[0];
 
@@ -857,10 +842,9 @@ describe("csvCaseExport request", () => {
         expectedAge.toString()
       );
       expect(firstRecord["Accused Officer Notes"]).toEqual(caseOfficer.notes);
-      done();
     });
 
-    test("should include data about two officers", async done => {
+    test("should include data about two officers", async () => {
       const officerAttributes2 = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Sally")
@@ -904,10 +888,9 @@ describe("csvCaseExport request", () => {
         caseOfficer2.windowsUsername.toString()
       );
       expect(secondRecord["Case #"]).toEqual(caseReference);
-      done();
     });
 
-    test("exports officers from two different cases", async done => {
+    test("exports officers from two different cases", async () => {
       const otherCaseAttributes = new Case.Builder()
         .defaultCase()
         .withId(undefined)
@@ -964,10 +947,9 @@ describe("csvCaseExport request", () => {
       expect(secondRecord["Accused Officer Windows Username"]).toEqual(
         caseOfficer2.windowsUsername.toString()
       );
-      done();
     });
 
-    test("creates 4 rows for 2 civilian complainants and 2 accused officers", async done => {
+    test("creates 4 rows for 2 civilian complainants and 2 accused officers", async () => {
       const civilianAttributes2 = new Civilian.Builder()
         .defaultCivilian()
         .withId(undefined)
@@ -1051,10 +1033,9 @@ describe("csvCaseExport request", () => {
       expect(fourthRecord["Accused Officer Windows Username"]).toEqual(
         caseOfficer2.windowsUsername.toString()
       );
-      done();
     });
 
-    test("exports allegation information for single allegation", async done => {
+    test("exports allegation information for single allegation", async () => {
       await csvCaseExport(job, jobDone);
 
       expect(records.length).toEqual(1);
@@ -1064,10 +1045,9 @@ describe("csvCaseExport request", () => {
       expect(record["Allegation Directive"]).toEqual(allegation.directive);
       expect(record["Allegation Details"]).toEqual(officerAllegation.details);
       expect(record["Allegation Severity"]).toEqual(officerAllegation.severity);
-      done();
     });
 
-    test("exports allegation information for two allegations on same officer", async done => {
+    test("exports allegation information for two allegations on same officer", async () => {
       const allegation2Attributes = new Allegation.Builder()
         .defaultAllegation()
         .withRule("new rule")
@@ -1112,10 +1092,9 @@ describe("csvCaseExport request", () => {
       expect(record2["Allegation Severity"]).toEqual(
         officerAllegation2.severity
       );
-      done();
     });
 
-    test("should include list of attachment file types in case data", async done => {
+    test("should include list of attachment file types in case data", async () => {
       const extension1 = "pdf";
       const extension2 = "mp4";
       const extension3 = "csv";
@@ -1154,10 +1133,9 @@ describe("csvCaseExport request", () => {
       expect(record1["Types of Attachments"]).toEqual(extension1Matcher);
       expect(record1["Types of Attachments"]).toEqual(extension2Matcher);
       expect(record1["Types of Attachments"]).toEqual(extension3Matcher);
-      done();
     });
 
-    test("should display correct timezone", async done => {
+    test("should display correct timezone", async () => {
       await csvCaseExport(job, jobDone);
 
       expect(records.length).toEqual(1);
@@ -1168,10 +1146,9 @@ describe("csvCaseExport request", () => {
         .format("MM/DD/YYYY HH:mm:ss z");
 
       expect(record1["Created on"]).toEqual(expectedTimestampString);
-      done();
     });
 
-    test("should not add extra space when civilian has no middle initial", async done => {
+    test("should not add extra space when civilian has no middle initial", async () => {
       await civilian.update({ middleInitial: "" }, { auditUser: "test user" });
 
       await csvCaseExport(job, jobDone);
@@ -1182,10 +1159,9 @@ describe("csvCaseExport request", () => {
       const expectedFullName = `${civilian.firstName} ${civilian.lastName} ${civilian.suffix}`;
 
       expect(record1["Civilian Complainant Name"]).toEqual(expectedFullName);
-      done();
     });
 
-    test("should not add extra space when complainant officer has no middle name", async done => {
+    test("should not add extra space when complainant officer has no middle name", async () => {
       const officerToCreate = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
@@ -1217,10 +1193,9 @@ describe("csvCaseExport request", () => {
       expect(complainantOfficerRow["Officer Complainant Name"]).toEqual(
         expectedFullName
       );
-      done();
     });
 
-    test("should not add extra space when complainant officer supervisor has no middle name", async done => {
+    test("should not add extra space when complainant officer supervisor has no middle name", async () => {
       const supervisorToCreate = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
@@ -1261,10 +1236,9 @@ describe("csvCaseExport request", () => {
       expect(
         complainantOfficerRow["Officer Complainant Supervisor Name"]
       ).toEqual(expectedFullName);
-      done();
     });
 
-    test("should not add extra space when accused officer middle name is blank", async done => {
+    test("should not add extra space when accused officer middle name is blank", async () => {
       await caseOfficer.update({ middleName: "" }, { auditUser: "test user" });
 
       await csvCaseExport(job, jobDone);
@@ -1275,10 +1249,9 @@ describe("csvCaseExport request", () => {
       const expectedFullName = `${caseOfficer.firstName} ${caseOfficer.lastName}`;
 
       expect(record1["Accused Officer Name"]).toEqual(expectedFullName);
-      done();
     });
 
-    test("should set age to NA when dob is blank and incident date is not blank", async done => {
+    test("should set age to NA when dob is blank and incident date is not blank", async () => {
       await caseOfficer.update({ dob: null }, { auditUser: "someone" });
 
       await csvCaseExport(job, jobDone);
@@ -1287,10 +1260,9 @@ describe("csvCaseExport request", () => {
 
       const record1 = records[0];
       expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
-      done();
     });
 
-    test("should set age to NA when dob is given and incident date is blank", async done => {
+    test("should set age to NA when dob is given and incident date is blank", async () => {
       await caseToExport.update(
         { incidentDate: null },
         { auditUser: "someone" }
@@ -1302,10 +1274,9 @@ describe("csvCaseExport request", () => {
 
       const record1 = records[0];
       expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
-      done();
     });
 
-    test("should not add extra space when accused officer supervisor middle name is blank", async done => {
+    test("should not add extra space when accused officer supervisor middle name is blank", async () => {
       await caseOfficer.update(
         { supervisorMiddleName: "" },
         { auditUser: "test user" }
@@ -1321,10 +1292,9 @@ describe("csvCaseExport request", () => {
       expect(record1["Accused Officer Supervisor Name"]).toEqual(
         expectedFullName
       );
-      done();
     });
 
-    test("should set age to NA when both and incident date are blank", async done => {
+    test("should set age to NA when both and incident date are blank", async () => {
       await caseOfficer.update({ dob: null }, { auditUser: "someone" });
       await caseToExport.update(
         { incidentDate: null },
@@ -1337,10 +1307,9 @@ describe("csvCaseExport request", () => {
 
       const record1 = records[0];
       expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
-      done();
     });
 
-    test("should set pib case number when set", async done => {
+    test("should set pib case number when set", async () => {
       const pibCaseNumber = "2019-0023-R";
       await caseToExport.update(
         { pibCaseNumber: pibCaseNumber },
@@ -1352,7 +1321,6 @@ describe("csvCaseExport request", () => {
       expect(records.length).toEqual(1);
       const record1 = records[0];
       expect(record1["PIB Case Number"]).toEqual(pibCaseNumber);
-      done();
     });
   });
 
@@ -1495,7 +1463,7 @@ describe("csvCaseExport request", () => {
   });
 
   describe("multiple cases export", () => {
-    test("should sort cases by case reference if no date range", async done => {
+    test("should sort cases by case reference if no date range", async () => {
       const thirdCase = await models.cases.create(
         new Case.Builder()
           .defaultCase()
@@ -1531,10 +1499,9 @@ describe("csvCaseExport request", () => {
           "Case #": thirdCase.caseReference
         })
       ]);
-      done();
     });
 
-    test("should export cases with first contact date within the date range", async done => {
+    test("should export cases with first contact date within the date range", async () => {
       const caseAtEndOfDateRange = await models.cases.create(
         new Case.Builder()
           .defaultCase()
@@ -1581,10 +1548,9 @@ describe("csvCaseExport request", () => {
           "Case #": caseAtEndOfDateRange.caseReference
         })
       ]);
-      done();
     });
 
-    test("should export cases with incident date within the date range", async done => {
+    test("should export cases with incident date within the date range", async () => {
       const caseAtEndOfDateRange = await models.cases.create(
         new Case.Builder()
           .defaultCase()
@@ -1631,7 +1597,6 @@ describe("csvCaseExport request", () => {
           "Case #": caseAtEndOfDateRange.caseReference
         })
       ]);
-      done();
     });
   });
 });
