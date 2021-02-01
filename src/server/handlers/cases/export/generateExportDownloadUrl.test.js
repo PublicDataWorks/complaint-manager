@@ -151,7 +151,7 @@ describe("generate export download url", () => {
     });
   });
 
-  test("create an authenticated download url", async done => {
+  test("create an authenticated download url", async () => {
     let fileName = "fileInS3.csv";
 
     const authenticatedUrl = await generateExportDownloadUrl(
@@ -161,7 +161,5 @@ describe("generate export download url", () => {
     );
 
     expect(authenticatedUrl).toEqual("authenticated file url");
-
-    done();
   });
 });
