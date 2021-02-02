@@ -33,6 +33,7 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
+      - ./instance-files:/app/instance-files
       - ./scripts:/app/scripts
       - ./package.json:/app/package.json
       - ./localstack-seed-files:/app/localstack-seed-files
@@ -79,6 +80,7 @@ services:
     command: ["yarn", "start:dev"]
     volumes:
       - ./src:/app/src
+      - ./instance-files:/app/instance-files
       - ./scripts:/app/scripts
       - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
@@ -104,6 +106,7 @@ services:
     command: ["yarn", "start:worker:dev"]
     volumes:
       - ./src:/app/src
+      - ./instance-files:/app/instance-files
       - ./package.json:/app/package.json
       - ./node_modules:/app/node_modules
   db:
