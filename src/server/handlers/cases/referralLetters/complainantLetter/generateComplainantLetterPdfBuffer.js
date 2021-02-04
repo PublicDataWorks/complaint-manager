@@ -2,6 +2,7 @@ import { OFFICER_COMPLAINANT_TITLE } from "../../../../../sharedUtilities/consta
 import fs from "fs";
 import Handlebars from "handlebars";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
+import {getPersonType} from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 
 require("../../../../handlebarHelpers");
 
@@ -50,7 +51,8 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
     complainantAddress: complainant.address ? complainant.address : null,
     complainantEmail: complainant.email ? complainant.email : null,
     firstContactDate: existingCase.firstContactDate,
-    title: revisedTitle
+    title: revisedTitle,
+    complainantPersonType: getPersonType(complainant)
   };
 };
 
