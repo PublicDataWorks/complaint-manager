@@ -14,11 +14,7 @@ import {
   isEqual,
   getResourceUrlFromS3
 } from "./handlebarHelpers";
-import {
-  S3_GET_OBJECT,
-  S3_URL_EXPIRATION,
-  SIGNATURE_KEYS
-} from "../sharedUtilities/constants";
+import { S3_GET_OBJECT, S3_URL_EXPIRATION } from "../sharedUtilities/constants";
 
 const AWS = require("aws-sdk");
 const config = require("./config/config");

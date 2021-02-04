@@ -579,21 +579,6 @@ export const AUTH0_USERS_CACHE_KEY = "AUTH0_USERS_CACHE_KEY";
 export const TTL_SEC = 24 * 60 * 60;
 
 // ----------------------------------------
-//               Image Keys
-// ----------------------------------------
-
-export const SIGNATURE_KEYS = {
-  STELLA: {
-    name: "Stella Cziment",
-    signature: "stella_cziment.png"
-  },
-  BONYCLE: {
-    name: "Bonycle Sokunbi",
-    signature: "bonycle_sokunbi.png"
-  }
-};
-
-// ----------------------------------------
 //          Pagination
 // ----------------------------------------
 export const DEFAULT_PAGINATION_LIMIT = 20;
