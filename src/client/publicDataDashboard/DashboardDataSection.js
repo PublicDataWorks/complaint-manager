@@ -8,7 +8,7 @@ import useTheme from "@material-ui/core/styles/useTheme";
 const getIdFromDataSectionType = dataSectionType => {
   if (!dataSectionType || typeof dataSectionType !== "string")
     return "cannot-convert-id";
-  const [_, rawId] = dataSectionType.split("DDS_") || [];
+  const [_, rawId = ''] = dataSectionType.split("DDS_") || [];
   return rawId.toLowerCase().replace(/_/g, "-");
 };
 
@@ -85,11 +85,10 @@ const DashboardDataSection = props => {
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
       <Grid
-        item
-        xs={12}
-        style={{ padding: 0, width: "auto", overflow: "auto" }}
-      >
-        <Visualization
+    item
+    xs={12}
+    style={{ padding: 0, height: "550px", maxWidth: "800px" }}>
+      <Visualization
           data-testid={dataTestId}
           isPublic
           queryType={queryType}

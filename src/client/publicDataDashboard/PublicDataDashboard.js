@@ -273,10 +273,10 @@ const PublicDataDashboard = () => {
 
         {Object.keys(DATA_SECTIONS).map((dataSectionType, index) => {
           return (
-            <DashboardDataSection
-              key={index}
-              dataSectionType={dataSectionType}
-            />
+              <DashboardDataSection
+                 key={index}
+                 dataSectionType={dataSectionType}
+              />
           );
         })}
 

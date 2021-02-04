@@ -4,20 +4,26 @@ import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
+import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-const Visualization = props => {
+const Visualization = ({ queryType, isPublic, queryOptions }) => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
+  const [config, setConfig] = useState({});
   const isMobile = useMediaQuery("(max-width:768px)");
 
+  useEffect(() => {
+    setConfig({ ...getVisualizationConfig(queryType) });
+  }, [queryType]);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const newData = await getVisualizationData({
-          queryType: props.queryType,
-          isPublic: props.isPublic,
-          queryOptions: props.queryOptions
+          queryType,
+          isPublic,
+          queryOptions
         });
 
         setData({ data: newData.data, isFetching: false });
@@ -28,26 +34,30 @@ const Visualization = props => {
     };
 
     fetchData();
-  }, []);
+  }, [queryType, isPublic, queryOptions]);
 
   useEffect(() => {
     const createLayout = () => {
       const newLayout =
         getAggregateVisualizationLayout({
-          queryType: props.queryType,
-          queryOptions: props.queryOptions,
-          isPublic: props.isPublic,
-          isMobile: isMobile,
-            newData: data
+          newData: data,
+          queryType,
+          queryOptions,
+          isPublic,
+          isMobile
         }) || {};
-      setLayout(newLayout);
+      setLayout({ ...newLayout });
     };
 
     createLayout();
-  }, [data, isMobile]);
+  }, [data, queryType, queryOptions, isPublic, isMobile]);
 
   return (
-    <PlotlyWrapper data={isEmpty(data.data) ? [] : data.data} layout={layout} />
+      <PlotlyWrapper
+    style={{ height: "100%", width: "100%" }}
+    data={isEmpty(data.data) ? [] : data.data}
+    layout={layout}
+    config={config} />
   );
 };
 
