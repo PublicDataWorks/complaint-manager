@@ -48,6 +48,10 @@ export const isPresent = value =>
   value && value !== "" && value !== "<p><br></p>";
 Handlebars.registerHelper("isPresent", isPresent);
 
+export const isCivilianComplainant = complainantPersonType =>
+  isPresent(complainantPersonType) && complainantPersonType === "Civilian";
+Handlebars.registerHelper("isCivilianComplainant", isCivilianComplainant);
+
 export const renderHtml = html => {
   if (html) return new Handlebars.SafeString(html);
   return "";

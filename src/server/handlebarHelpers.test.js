@@ -12,7 +12,8 @@ import {
   isGreaterThan,
   atLeastOneInputDefined,
   isEqual,
-  getResourceUrlFromS3
+  getResourceUrlFromS3,
+  isCivilianComplainant
 } from "./handlebarHelpers";
 import {
   S3_GET_OBJECT,
@@ -128,6 +129,20 @@ describe("handlebarHelpers", function () {
       const value = "<p><br></p>";
       const evaluatedValue = isPresent(value);
       expect(evaluatedValue).toBeFalsy();
+    });
+  });
+
+  describe("isCivilianComplainant", () => {
+    test("complainantPersonType is a civilian", () => {
+      const complainantPersonType = "Civilian";
+      const evaluatedPersonType = isCivilianComplainant(complainantPersonType);
+      expect(evaluatedPersonType).toBeTrue();
+    });
+
+    test("complainantPersonType is not a civilian", () => {
+      const complainantPersonType = "Unknown Officer";
+      const evaluatedPersonType = isCivilianComplainant(complainantPersonType);
+      expect(evaluatedPersonType).toBeFalse();
     });
   });
 
