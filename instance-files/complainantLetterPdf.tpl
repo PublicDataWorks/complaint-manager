@@ -38,24 +38,21 @@
         {{{formatLongDate currentDate}}}
         </p>
         <p><br/></p>
+        {{#if (isCivilianComplainant complainantPersonType)}}
         <p>
-        {{title}} {{recipientLastName}}
-            {{#if (isPresent (formatAddress complainantAddress))}}
-            <p>{{{formatAddress complainantAddress}}}</p>
+            {{recipientFirstName}} {{recipientLastName}}
+                {{#if (isPresent (formatAddress complainantAddress))}}
+                <p>{{{formatAddress complainantAddress}}}</p>
+                {{/if}}
+            {{#if (isPresent complainantEmail)}}
+                <p>{{complainantEmail}}</p>
             {{/if}}
-        {{#if (isPresent complainantEmail)}}
-            <p>{{complainantEmail}}</p>
-        {{/if}}
         </p>
+        {{/if}}
         <p><br/></p>
         <p>Re: OIPM Complaint# {{caseReference}}</p>
         <p><br/></p>
-        <p>Dear 
-            {{#if (isPresent title)}} {{title}} {{recipientLastName}}:
-            {{else}}
-                {{recipientFirstName}} {{recipientLastName}}:
-            {{/if}}
-        </p>
+        <p>Dear {{title}} {{recipientFirstName}} {{recipientLastName}}</p>
         <p><br/></p>
         <p>
             On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor

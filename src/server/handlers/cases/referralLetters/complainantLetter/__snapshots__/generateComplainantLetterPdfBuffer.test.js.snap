@@ -42,16 +42,14 @@ exports[`generateComplainantLetterPdfBuffer generates complainant letter pdf htm
         </p>
         <p><br/></p>
         <p>
-        Miss Berry
-            <p>123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-            <p>cberry@cberry.com</p>
+            Chuck Berry
+                <p>123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+                <p>cberry@cberry.com</p>
         </p>
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear 
-             Miss Berry:
-        </p>
+        <p>Dear Miss Chuck Berry</p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
@@ -139,16 +137,14 @@ exports[`generateComplainantLetterPdfBuffer pdf buffer is created for complainan
         </p>
         <p><br/></p>
         <p>
-        Miss Berry
-            <p>123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
-            <p>cberry@cberry.com</p>
+            Chuck Berry
+                <p>123 Main St, Fl 2, Mayo St & Mustard Ave, Sandwich, IL 63456 (In front of Wal-Mart)</p>
+                <p>cberry@cberry.com</p>
         </p>
         <p><br/></p>
         <p>Re: OIPM Complaint# CC2017-0001</p>
         <p><br/></p>
-        <p>Dear 
-             Miss Berry:
-        </p>
+        <p>Dear Miss Chuck Berry</p>
         <p><br/></p>
         <p>
             On December 25, 2017, you contacted the Office of the Independent Police Monitor
