@@ -2,11 +2,8 @@ import axios from "axios";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import { transformData as countTop10TagsTransformer } from "./Transformers/countTop10Tags";
-
 import { transformData as countComplaintsByIntakeSourceTransformer } from "./Transformers/countComplaintsByIntakeSource";
-
 import { transformData as countComplaintsByComplainantTypeTransformer } from "./Transformers/countComplaintsByComplainantType";
-
 import { transformData as countComplaintsByComplainantTypePast12MonthsTransformer } from "./Transformers/countComplaintsByComplainantTypePast12Months";
 
 const transformers = {
