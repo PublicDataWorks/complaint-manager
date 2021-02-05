@@ -100,7 +100,6 @@ export const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     title: null,
     font: PUBLIC_LABEL_FONT,
-    width: 806,
     plot_bgcolor: "#F5F4F4",
     legend: {
       x: 0,

@@ -26,14 +26,26 @@ jest.mock("./PlotlyWrapper", () => {
 const MOCK_DATA = {
   CC: 1
 };
+
 jest.mock("./getVisualizationData", () => ({
   getVisualizationData: jest.fn(queryType => ({
     data: MOCK_DATA
   }))
 }));
 
+const MOCK_CONFIG = {
+  responsive: true,
+  useResizeHandler: true
+};
+
+const MOCK_STYLE = {
+  height: "100%",
+  width: "100%"
+}
+
 const MOCK_LAYOUT = {};
 const MOCK_MOBILE_LAYOUT = { mobileLayout: true };
+
 jest.mock("./getAggregateVisualizationLayout", () => ({
   getAggregateVisualizationLayout: jest.fn(options => {
     return options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT;
@@ -53,6 +65,7 @@ describe("Visualization", () => {
       visualization = render(
         <Visualization
           queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+          queryOptions={queryOptions}
         />
       );
     });
@@ -70,6 +83,8 @@ describe("Visualization", () => {
 
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
     expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
+      style: MOCK_STYLE,
+      config: MOCK_CONFIG,
       data: MOCK_DATA,
       layout: MOCK_MOBILE_LAYOUT
     });
@@ -102,6 +117,8 @@ describe("Visualization", () => {
       );
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
     expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
+      style: MOCK_STYLE,
+      config: MOCK_CONFIG,
       data: MOCK_DATA,
       layout: MOCK_LAYOUT
     });

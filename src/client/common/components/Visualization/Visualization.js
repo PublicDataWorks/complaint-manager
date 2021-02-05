@@ -14,10 +14,6 @@ const Visualization = ({ queryType, isPublic, queryOptions }) => {
   const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
-    setConfig({ ...getVisualizationConfig(queryType) });
-  }, [queryType]);
-  
-  useEffect(() => {
     const fetchData = async () => {
       try {
         const newData = await getVisualizationData({
@@ -35,8 +31,13 @@ const Visualization = ({ queryType, isPublic, queryOptions }) => {
 
     fetchData();
   }, [queryType, isPublic, queryOptions]);
-
+  
   useEffect(() => {
+    const createConfig = () => {
+      const config = { ...getVisualizationConfig(queryType) };
+      setConfig({ ...config });
+    }
+
     const createLayout = () => {
       const newLayout =
         getAggregateVisualizationLayout({
@@ -50,14 +51,15 @@ const Visualization = ({ queryType, isPublic, queryOptions }) => {
     };
 
     createLayout();
+    createConfig();
   }, [data, queryType, queryOptions, isPublic, isMobile]);
 
   return (
       <PlotlyWrapper
-    style={{ height: "100%", width: "100%" }}
-    data={isEmpty(data.data) ? [] : data.data}
-    layout={layout}
-    config={config} />
+         style={{ height: "100%", width: "100%" }}
+         data={isEmpty(data.data) ? [] : data.data}
+         layout={layout}
+         config={config} />
   );
 };
 

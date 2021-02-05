@@ -15,8 +15,6 @@ const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
     showlegend: false,
     font: LABEL_FONT,
-    height: 600,
-    width: 800,
     title: {
       text: "Intake Source<br><sub>Past 12 Months",
       font: TITLE_FONT
@@ -28,8 +26,6 @@ const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     showlegend: false,
     font: LABEL_FONT,
-    height: 600,
-    width: 800,
     title: {
       text: "Complainant Type<br><sub>Past 12 Months",
       font: TITLE_FONT
@@ -68,15 +64,12 @@ const baseLayouts = {
     title: {
       text: "Top Tags<br><sub>Past 12 Months",
       font: TITLE_FONT
-    },
-    width: 750
+    }
   }
 };
 
 const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    height: 536,
-    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -89,8 +82,6 @@ const extendedLayouts = {
     plot_bgcolor: "#F5F4F4"
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    height: 536,
-    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -105,7 +96,6 @@ const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
     title: null,
     font: PUBLIC_LABEL_FONT,
-    width: 806,
     plot_bgcolor: "#F5F4F4",
     legend: {
       x: 0,
@@ -121,7 +111,6 @@ const extendedLayouts = {
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     title: null,
     font: PUBLIC_LABEL_FONT,
-    width: 806,
     margin: {
       b: 24,
       t: 24,
@@ -200,7 +189,5 @@ describe("getAggregateVisualizationLayout functionality", () => {
     });
 
     expect(mobileLayout.margin).toEqual({ b: 125, t: 125, l: 20, r: 20 });
-    expect(mobileLayout.height).toEqual(500);
-    expect(mobileLayout.width).toEqual(600);
   });
 });
