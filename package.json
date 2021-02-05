@@ -55,7 +55,7 @@
     "@testing-library/dom": "~7.16.2",
     "@testing-library/jest-dom": "~5.10.0",
     "@testing-library/react": "~11.0.0",
-    "auth0": "~2.24.0",
+    "auth0": "2.31.1",
     "auth0-js": "~9.12.2",
     "autosuggest-highlight": "~3.1.1",
     "aws-sdk": "^2.722.0",
