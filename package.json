@@ -87,7 +87,7 @@
     "html-pdf": "~2.2.0",
     "jsonwebtoken": "~8.5.0",
     "jwks-rsa": "1.6.0",
-    "lodash": "~4.17.11",
+    "lodash": "4.17.20",
     "moment": "~2.24.0",
     "moment-timezone": "~0.5.23",
     "newrelic": "^7.0.2",
@@ -163,7 +163,8 @@
     "**/acorn": "^6.4.1",
     "**/minimist": "^1.2.5",
     "**/yargs-parser": "^13.1.2",
-    "**/http-proxy": "^1.18.1"
+    "**/http-proxy": "^1.18.1",
+    "**/lodash": "4.17.20"
   },
   "browserslist": {
     "production": [
