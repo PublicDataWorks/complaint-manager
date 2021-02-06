@@ -164,7 +164,8 @@
     "**/minimist": "^1.2.5",
     "**/yargs-parser": "^13.1.2",
     "**/http-proxy": "^1.18.1",
-    "**/lodash": "4.17.20"
+    "**/lodash": "4.17.20",
+    "**/elliptic": "6.5.3"
   },
   "browserslist": {
     "production": [
