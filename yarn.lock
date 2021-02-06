@@ -4486,13 +4486,6 @@ axios@0.21.1, axios@^0.21.1:
   dependencies:
     follow-redirects "^1.10.0"
 
-axios@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
-  integrity sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
-  dependencies:
-    follow-redirects "^1.10.0"
-
 axobject-query@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
@@ -5545,13 +5538,13 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
-chromedriver@^87.0.4:
-  version "87.0.4"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-87.0.4.tgz#749f69e9427880abff19c1838258c35238397e50"
-  integrity sha512-kD4N/L8c0nAzh1eEAiAbEIq6Pn5TvGvckODvP5dPqF90q5tPiAJZCoWWSOUV/mrPxiodjHPfmNeOfGERHugzug==
+chromedriver@^87.0.7:
+  version "87.0.7"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-87.0.7.tgz#74041e02ff7f633e91b98eb707e2476f713dc4ca"
+  integrity sha512-7J7iN2rJuSDsKb9BUUMewJt07PuTlZYd809D10dUCT1rjMD3i2jUw7dum9RxdC1xO3aFwMd8TwZ5NR82T+S+Dg==
   dependencies:
     "@testim/chrome-version" "^1.0.7"
-    axios "^0.21.0"
+    axios "^0.21.1"
     del "^6.0.0"
     extract-zip "^2.0.1"
     https-proxy-agent "^5.0.0"
