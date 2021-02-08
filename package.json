@@ -19,7 +19,7 @@
     "start:worker": "node dist/startWorker.js",
     "e2e": "yarn e2e:pdm",
     "e2e:pdm": "./scripts/run-e2e-pdm.sh",
-    "build": "react-scripts --max_old_space_size=4096 build && babel src --out-dir dist --copy-files",
+    "build": "INLINE_RUNTIME_CHUNK=false react-scripts --max_old_space_size=4096 build && babel src --out-dir dist --copy-files",
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
     "test:server": "yarn setup:test:db test1 && yarn setup:test:db test2 && react-scripts --max_old_space_size=1500 test src/server --logHeapUsage --maxWorkers=2 --forceExit --env=node",
     "test:server:ci": "CI=true yarn test:server --coverage  --collectCoverageFrom='src/server/**/*.{js,jsx}'",
