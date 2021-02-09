@@ -5,10 +5,10 @@
   <body>
     <div id="pageHeader-first">
       <div style="text-align: center;">
-        <img style="max-width: 223px" src={{{ getResourceUrlFromS3 "noipm-private-images" "header_text.png"}}} />
+        <img style="max-width: 223px" src="file:/app/instance-files/images/header_text.png" />
       </div>
       <div style="text-align: center; margin-top: 8px">
-        <img style="max-width: 42px" src={{{ getResourceUrlFromS3 "noipm-private-images" "icon.ico"}}} />
+        <img style="max-width: 42px" src="file:/app/instance-files/images/icon.ico" />
       </div>
     </div>
     <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">
@@ -19,7 +19,7 @@
 
     <div id="pageFooter" style="text-align: center; margin-top: 16px">
             <span  style="display:inline-block; margin: 6px 16px 0 0">
-                <img style="max-width: 30px" src={{{ getResourceUrlFromS3 "noipm-private-images" "icon.ico"}}} />
+                <img style="max-width: 30px" src="file:/app/instance-files/images/icon.ico" />
             </span>
       <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">
                 INDEPENDENT POLICE MONITOR <br />
