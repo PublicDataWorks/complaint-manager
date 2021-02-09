@@ -54,13 +54,12 @@ describe("generateReferralLetterPdfBuffer", function () {
     timekeeper.freeze(timeOfDownload);
 
     let s3 = AWS.S3.mockImplementation(() => ({
-      getSignedUrl: jest.fn().mockImplementation(() => "SIGNED_URL"),
       config: {
         loadFromPath: jest.fn(),
         update: jest.fn()
       }
     }));
-    
+
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);

@@ -2,11 +2,11 @@
   "signatureKeys": {
     "STELLA": {
       "name": "Stella Cziment",
-      "signature": "stella_cziment.png"
+      "signature": "file:/app/instance-files/images/stella_cziment.png"
     },
     "BONYCLE": {
       "name": "Bonycle Sokunbi",
-      "signature": "bonycle_sokunbi.png"
+      "signature": "file:/app/instance-files/images/bonycle_sokunbi.png"
     }
   }
 }

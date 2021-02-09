@@ -6,12 +6,7 @@ import {
   formatShortDate
 } from "../sharedUtilities/formatDate";
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
-import {
-  DECLINES_OPTION,
-  S3_GET_OBJECT,
-  S3_URL_EXPIRATION
-} from "../sharedUtilities/constants";
-import createConfiguredS3Instance from "./createConfiguredS3Instance";
+import { DECLINES_OPTION } from "../sharedUtilities/constants";
 import { findFirstSender } from "../sharedUtilities/findFirstSender";
 
 const caseReferenceLength = 4;
@@ -133,10 +128,7 @@ export const generateSignature = (sender, includeSignature) => {
     let firstSender = findFirstSender(sender);
 
     return firstSender
-      ? `<img style="max-height: 55px" src=${getResourceUrlFromS3(
-          "noipm-private-images",
-          firstSender
-        )} />`
+      ? `<img style="max-height: 55px" src=${firstSender} />`
       : "<p><br></p>";
   }
 
@@ -181,14 +173,3 @@ Handlebars.registerHelper(
   "caseClassificationIsDeclinesToClassify",
   caseClassificationIsDeclinesToClassify
 );
-
-export const getResourceUrlFromS3 = (bucketName, key) => {
-  const s3 = createConfiguredS3Instance();
-
-  return s3.getSignedUrl(S3_GET_OBJECT, {
-    Bucket: bucketName,
-    Key: key,
-    Expires: S3_URL_EXPIRATION
-  });
-};
-Handlebars.registerHelper("getResourceUrlFromS3", getResourceUrlFromS3);
