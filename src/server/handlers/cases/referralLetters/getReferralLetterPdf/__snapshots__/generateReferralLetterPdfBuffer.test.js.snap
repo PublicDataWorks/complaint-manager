@@ -345,7 +345,7 @@ exports[`generateReferralLetterPdfBuffer sender is stella signature is included 
     <p><br></p>
     Sincerely,
     <p><br></p>
-    <img style=\\"max-height: 55px\\" src=SIGNED_URL />
+    <img style=\\"max-height: 55px\\" src=file:/app/instance-files/images/stella_cziment.png />
     <p><br></p>
     Stella Cziment
     <p><br></p>

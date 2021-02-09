@@ -12,28 +12,8 @@ import {
   isGreaterThan,
   atLeastOneInputDefined,
   isEqual,
-  getResourceUrlFromS3,
   isCivilianComplainant
 } from "./handlebarHelpers";
-import { S3_GET_OBJECT, S3_URL_EXPIRATION } from "../sharedUtilities/constants";
-
-const AWS = require("aws-sdk");
-const config = require("./config/config");
-
-jest.mock("aws-sdk");
-
-let s3, getSignedUrl;
-
-getSignedUrl = jest.fn().mockImplementation(() => {
-  return "SIGNED_URL";
-});
-s3 = AWS.S3.mockImplementation(() => ({
-  getSignedUrl: getSignedUrl,
-  config: {
-    loadFromPath: jest.fn(),
-    update: jest.fn()
-  }
-}));
 
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {
@@ -391,10 +371,6 @@ describe("handlebarHelpers", function () {
     const bonycleSender = "Bonycle Sokunbi\nDPM";
     const multipleSenders = "Bonycle Sokunbi and Stella Cziment\nDPM";
 
-    afterEach(() => {
-      getSignedUrl.mockClear();
-    });
-
     test("returns an blank line without signature when includeSignature is false", () => {
       expect(generateSignature(stellaSender, false)).toEqual(blankLine);
     });
@@ -407,14 +383,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(bonycleSender, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=SIGNED_URL />'
-      );
-      expect(getSignedUrl).toHaveBeenCalledWith(
-        S3_GET_OBJECT,
-        expect.objectContaining({
-          Bucket: "noipm-private-images",
-          Key: "bonycle_sokunbi.png"
-        })
+        '<img style="max-height: 55px" src=file:/app/instance-files/images/bonycle_sokunbi.png />'
       );
     });
 
@@ -422,14 +391,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(stellaSender, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=SIGNED_URL />'
-      );
-      expect(getSignedUrl).toHaveBeenCalledWith(
-        S3_GET_OBJECT,
-        expect.objectContaining({
-          Bucket: "noipm-private-images",
-          Key: "stella_cziment.png"
-        })
+        '<img style="max-height: 55px" src=file:/app/instance-files/images/stella_cziment.png />'
       );
     });
 
@@ -437,14 +399,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(multipleSenders, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=SIGNED_URL />'
-      );
-      expect(getSignedUrl).toHaveBeenCalledWith(
-        S3_GET_OBJECT,
-        expect.objectContaining({
-          Bucket: "noipm-private-images",
-          Key: "bonycle_sokunbi.png"
-        })
+        '<img style="max-height: 55px" src=file:/app/instance-files/images/bonycle_sokunbi.png />'
       );
     });
   });
@@ -503,21 +458,5 @@ describe("officer history helpers", function () {
 
   test("returns false when integer and string are same value", () => {
     expect(isEqual("1", 1)).toBeFalsy();
-  });
-});
-
-describe("getResourceUrlFromS3", () => {
-  test("should call getSignedUrl with correct variables and return signed url", async () => {
-    const signedUrl = getResourceUrlFromS3("test-bucket", "test.png");
-
-    expect(signedUrl).toEqual("SIGNED_URL");
-    expect(getSignedUrl).toHaveBeenCalledWith(
-      S3_GET_OBJECT,
-      expect.objectContaining({
-        Bucket: "test-bucket",
-        Key: "test.png",
-        Expires: S3_URL_EXPIRATION
-      })
-    );
   });
 });
