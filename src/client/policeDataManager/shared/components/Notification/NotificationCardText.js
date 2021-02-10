@@ -20,7 +20,7 @@ const NotificationCardText = props => {
         <React.Fragment>
           <Typography
             component="span"
-            style={{ fontWeight: 600, color: "black" }}
+            style={{ fontWeight: 600, color: "black", wordBreak: "break-word" }}
           >
             {title}
           </Typography>
