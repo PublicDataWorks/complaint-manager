@@ -33,7 +33,7 @@ describe("case reference helper functions", () => {
     });
 
     test("should return CN prefix based on civilian within nopd person type", () => {
-      const personType = PERSON_TYPE.CIVILIAN_WITHIN_NOPD;
+      const personType = PERSON_TYPE.CIVILIAN_WITHIN_PD;
       const result = getCaseReferencePrefix(isAnonymous, personType);
       expect(result).toEqual("CN");
     });

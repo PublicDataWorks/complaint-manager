@@ -45,6 +45,6 @@ describe("getPersonType", () => {
       isUnknownOfficer: false
     };
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_NOPD);
+    expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_PD);
   });
 });

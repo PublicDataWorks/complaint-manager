@@ -26,7 +26,7 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
             (SELECT case_id,
                     CASE
                         WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
                         WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                         ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
                     END AS accused_person_type,
@@ -70,7 +70,7 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
                                  NULL AS suffix,
                                  CASE
                                      WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
                                      WHEN officer_id IS NULL
                                      THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                                      ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
@@ -120,7 +120,7 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
             (SELECT case_id,
                     CASE
                         WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
                         WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                         ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
                     END AS accused_person_type,
@@ -164,7 +164,7 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
                                  NULL AS suffix,
                                  CASE
                                      WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
                                      WHEN officer_id IS NULL
                                      THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                                      ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
