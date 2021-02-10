@@ -1,7 +1,6 @@
 import {
   formatAddress,
   generateSignature,
-  generateSubjectLine,
   isPresent,
   newLineToLineBreak,
   renderHtml,
@@ -14,6 +13,7 @@ import {
   isEqual,
   isCivilianComplainant
 } from "./handlebarHelpers";
+import { generateSubjectLine } from "../instance-files/constants";
 
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {

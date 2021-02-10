@@ -8,6 +8,7 @@ import {
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import { DECLINES_OPTION } from "../sharedUtilities/constants";
 import { findFirstSender } from "../sharedUtilities/findFirstSender";
+import { generateSubjectLine } from "../instance-files/constants";
 
 const caseReferenceLength = 4;
 
@@ -136,12 +137,6 @@ export const generateSignature = (sender, includeSignature) => {
 };
 Handlebars.registerHelper("generateSignature", generateSignature);
 
-export const generateSubjectLine = (caseReference, pibCaseNumber) => {
-  if (pibCaseNumber) {
-    return `Supplemental Referral; OIPM Complaint ${caseReference}; PIB Case ${pibCaseNumber}`;
-  }
-  return `Complaint Referral; OIPM Complaint ${caseReference}`;
-};
 Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);
 
 export const addNumbers = (num1, num2) => {
