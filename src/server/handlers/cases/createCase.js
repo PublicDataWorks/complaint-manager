@@ -10,7 +10,7 @@ import getQueryAuditAccessDetails, {
 import {
   ADDRESSABLE_TYPE,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import { get } from "lodash";
@@ -31,7 +31,7 @@ const createCase = asyncMiddleware(async (request, response, next) => {
   const { complaintType } = get(request, ["body", "case"], {});
   if (
     complaintType === RANK_INITIATED ||
-    complaintType === CIVILIAN_WITHIN_NOPD_INITIATED
+    complaintType === CIVILIAN_WITHIN_PD_INITIATED
   ) {
     newCase = await createCaseWithoutCivilian(request);
   } else {

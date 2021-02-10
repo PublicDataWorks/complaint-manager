@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import {
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   CIVILIAN_WITHIN_PD_TITLE,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
@@ -42,10 +42,10 @@ export default props => (
       />
       <FormControlLabel
         data-testid="civilianWithinNOPDRadioButton"
-        value={CIVILIAN_WITHIN_NOPD_INITIATED}
+        value={CIVILIAN_WITHIN_PD_INITIATED}
         control={<Radio color="primary" />}
         label={CIVILIAN_WITHIN_PD_TITLE}
-        onClick={() => props.input.onChange(CIVILIAN_WITHIN_NOPD_INITIATED)}
+        onClick={() => props.input.onChange(CIVILIAN_WITHIN_PD_INITIATED)}
       />
     </RadioGroup>
   </FormControl>

@@ -1,4 +1,7 @@
-import { INSTANCE_CIVILIAN_WITHIN_PD_TITLE } from "../instance-files/constants";
+import {
+  INSTANCE_CIVILIAN_WITHIN_PD_INITIATED,
+  INSTANCE_CIVILIAN_WITHIN_PD_TITLE
+} from "../instance-files/constants";
 
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
@@ -392,7 +395,7 @@ export const PERSON_TYPE = {
 // ----------------------------------------
 export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
-export const CIVILIAN_WITHIN_NOPD_INITIATED = "Civilian Within NOPD Initiated";
+export const CIVILIAN_WITHIN_PD_INITIATED = INSTANCE_CIVILIAN_WITHIN_PD_INITIATED;
 
 // ----------------------------------------
 //          Edit Status Options

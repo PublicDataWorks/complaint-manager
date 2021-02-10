@@ -15,7 +15,7 @@ import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDate";
 import {
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   DESCENDING,
   RANK_INITIATED,
   SORT_CASES_BY
@@ -595,7 +595,7 @@ describe("CreateCaseDialog component", () => {
           redirect: true,
           caseDetails: expect.objectContaining({
             case: expect.objectContaining({
-              complaintType: CIVILIAN_WITHIN_NOPD_INITIATED
+              complaintType: CIVILIAN_WITHIN_PD_INITIATED
             })
           })
         })

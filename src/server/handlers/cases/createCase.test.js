@@ -3,7 +3,7 @@ import {
   ASCENDING,
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
@@ -155,7 +155,7 @@ describe("createCase handler", () => {
       },
       body: {
         case: {
-          complaintType: CIVILIAN_WITHIN_NOPD_INITIATED,
+          complaintType: CIVILIAN_WITHIN_PD_INITIATED,
           firstContactDate: "2018-02-08",
           incidentDate: "2018-03-16T17:42"
         }
@@ -165,14 +165,14 @@ describe("createCase handler", () => {
 
     await createCase(civilianWithinNopd, response, next);
     const insertedCase = await models.cases.findOne({
-      where: { complaintType: CIVILIAN_WITHIN_NOPD_INITIATED },
+      where: { complaintType: CIVILIAN_WITHIN_PD_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
     expect(insertedCase).toEqual(
       expect.objectContaining({
         year: 2018,
         caseNumber: 1,
-        complaintType: CIVILIAN_WITHIN_NOPD_INITIATED,
+        complaintType: CIVILIAN_WITHIN_PD_INITIATED,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
