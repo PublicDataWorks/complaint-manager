@@ -34,7 +34,7 @@ class ManageOfficerMenu extends React.Component {
     const { caseOfficer } = this.props;
 
     const isCivilianWithinNopd =
-      caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
 
     const caseEmployeeTitle = isCivilianWithinNopd
       ? CIVILIAN_WITHIN_PD_TITLE

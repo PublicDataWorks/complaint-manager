@@ -61,7 +61,7 @@ const AddAccusedMenu = props => {
               })
             );
             props.dispatch(
-              addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
+              addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD)
             );
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));
           }}

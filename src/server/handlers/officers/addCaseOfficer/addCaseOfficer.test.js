@@ -389,7 +389,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: officer.id,
         roleOnCase: ACCUSED,
-        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME"
@@ -400,7 +400,7 @@ describe("addCaseOfficer", () => {
     const caseOfficerEmployeeType = response._getData().accusedOfficers[0]
       .caseEmployeeType;
 
-    expect(caseOfficerEmployeeType).toEqual(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD);
+    expect(caseOfficerEmployeeType).toEqual(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD);
   });
 
   test("Should return an officer with phone number and email when given phone number and email", async () => {
@@ -425,7 +425,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: createdOfficer.id,
         roleOnCase: COMPLAINANT,
-        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
         notes: "these are notes",
         phoneNumber: "8005882300",
         email: "notAnOfficer@gmail.com"

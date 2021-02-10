@@ -39,7 +39,7 @@ describe("addOfficer", () => {
     };
     const payload = {
       officerId: officer.id,
-      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
       ...formValues
     };
 
@@ -55,7 +55,7 @@ describe("addOfficer", () => {
     await addOfficer(
       defaultCase.id,
       officer.id,
-      EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+      EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
       formValues
     )(dispatch);
 

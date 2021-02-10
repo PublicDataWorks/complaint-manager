@@ -139,7 +139,7 @@ module.exports = (sequelize, DataTypes) => {
         field: "case_employee_type",
         type: DataTypes.STRING,
         validate: {
-          isIn: [[EMPLOYEE_TYPE.OFFICER, EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD]]
+          isIn: [[EMPLOYEE_TYPE.OFFICER, EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD]]
         },
         defaultValue: EMPLOYEE_TYPE.OFFICER,
         allowNull: false

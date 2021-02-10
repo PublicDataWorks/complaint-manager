@@ -50,7 +50,7 @@ describe("OfficerSearch test", () => {
         <Router>
           <OfficerSearch
             employeeSearchTitle={CIVILIAN_WITHIN_PD_TITLE}
-            caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}
+            caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}
             path={mockPath}
           />
         </Router>

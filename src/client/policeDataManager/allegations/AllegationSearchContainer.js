@@ -58,7 +58,7 @@ export class AllegationSearchContainer extends Component {
 
     const isCivilianWithinNopd =
       currentCaseOfficerData.caseEmployeeType ===
-      EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
     const titleText = isCivilianWithinNopd
       ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Accused ${OFFICER_TITLE}`;

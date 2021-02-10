@@ -1,6 +1,4 @@
-import {
-  createCaseSuccess
-} from "../../actionCreators/casesActionCreators";
+import { createCaseSuccess } from "../../actionCreators/casesActionCreators";
 import { initialize, reset, startSubmit, stopSubmit } from "redux-form";
 import { push } from "connected-react-router";
 import axios from "axios";
@@ -38,7 +36,7 @@ const createCase = creationDetails => async dispatch => {
           addCaseEmployeeType(
             complaintType === RANK_INITIATED
               ? EMPLOYEE_TYPE.OFFICER
-              : EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+              : EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
           )
         );
         dispatch(
@@ -58,8 +56,8 @@ const createCase = creationDetails => async dispatch => {
       );
     }
     return dispatch(reset(CREATE_CASE_FORM_NAME));
-  } catch (e) {}
-  finally {
+  } catch (e) {
+  } finally {
     dispatch(stopSubmit(CREATE_CASE_FORM_NAME));
   }
 };

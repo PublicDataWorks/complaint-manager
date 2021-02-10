@@ -29,7 +29,7 @@ import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber"
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const isCivilianWithinNopd =
-    caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
   const caseEmployeeTitle = isCivilianWithinNopd
     ? CIVILIAN_WITHIN_PD_TITLE
     : OFFICER_TITLE;

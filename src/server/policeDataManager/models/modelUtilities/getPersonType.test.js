@@ -41,7 +41,7 @@ describe("getPersonType", () => {
   test("should return Civilian (NOPD) based on civilian within nopd primaryComplainant", () => {
     const primaryComplainant = {
       officerId: "123ABC",
-      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD,
+      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
       isUnknownOfficer: false
     };
     const result = getPersonType(primaryComplainant);
