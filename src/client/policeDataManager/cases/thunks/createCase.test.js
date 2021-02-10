@@ -7,7 +7,7 @@ import {
   CREATE_CASE_FORM_NAME,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
   RANK_INITIATED,
@@ -175,7 +175,7 @@ describe("createCase", () => {
         case: {
           firstName: "Civilian",
           lastName: "Within NOPD",
-          complaintType: CIVILIAN_WITHIN_NOPD_INITIATED
+          complaintType: CIVILIAN_WITHIN_PD_INITIATED
         }
       },
       redirect: true

@@ -1,6 +1,6 @@
 import {
   ADDRESSABLE_TYPE,
-  CIVILIAN_WITHIN_NOPD_INITIATED,
+  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import moment from "moment";
@@ -59,7 +59,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           isIn: [
-            [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_NOPD_INITIATED]
+            [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_PD_INITIATED]
           ]
         },
         defaultValue: CIVILIAN_INITIATED,
