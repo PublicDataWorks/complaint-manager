@@ -1,4 +1,4 @@
-const signatureKeys = require("../../instance-files/content").signatureKeys;
+const signatureKeys = require("../instance-files/content").signatureKeys;
 
 export const findFirstSender = sender => {
   const includedSenders = [];
