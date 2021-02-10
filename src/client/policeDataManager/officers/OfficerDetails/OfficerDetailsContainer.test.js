@@ -16,7 +16,7 @@ import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import {
   ACCUSED,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
@@ -153,7 +153,7 @@ describe("OfficerDetailsContainer", () => {
       .text();
 
     expect(pageTitle).toEqual(
-      expect.stringContaining(CIVILIAN_WITHIN_NOPD_TITLE)
+      expect.stringContaining(CIVILIAN_WITHIN_PD_TITLE)
     );
     expect(pageTitle).toEqual(expect.not.stringContaining(OFFICER_TITLE));
   });

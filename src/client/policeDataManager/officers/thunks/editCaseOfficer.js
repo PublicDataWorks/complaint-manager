@@ -3,7 +3,7 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import axios from "axios";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
@@ -19,7 +19,7 @@ const editCaseOfficer = (
     const payload = { ...values, officerId };
     const caseEmployeeTitle =
       caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
-        ? CIVILIAN_WITHIN_NOPD_TITLE
+        ? CIVILIAN_WITHIN_PD_TITLE
         : OFFICER_TITLE;
     await axios.put(
       `api/cases/${caseId}/cases-officers/${caseOfficerId}`,

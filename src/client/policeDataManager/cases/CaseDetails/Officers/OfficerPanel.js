@@ -13,7 +13,7 @@ import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../../common/globalStyling/styles";
 import {
   ACCUSED,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
@@ -31,7 +31,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const isCivilianWithinNopd =
     caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
   const caseEmployeeTitle = isCivilianWithinNopd
-    ? CIVILIAN_WITHIN_NOPD_TITLE
+    ? CIVILIAN_WITHIN_PD_TITLE
     : OFFICER_TITLE;
   const fullNameIsAnonymous = caseOfficer.isAnonymous
     ? `(AC) ${caseOfficer.fullName}`

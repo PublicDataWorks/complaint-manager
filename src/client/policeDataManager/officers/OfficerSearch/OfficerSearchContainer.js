@@ -6,7 +6,7 @@ import LinkButton from "../../shared/components/LinkButton";
 import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
@@ -27,7 +27,7 @@ export class OfficerSearchContainer extends Component {
 
     const employeeSearchTitle =
       caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
-        ? CIVILIAN_WITHIN_NOPD_TITLE
+        ? CIVILIAN_WITHIN_PD_TITLE
         : OFFICER_TITLE;
 
     return (

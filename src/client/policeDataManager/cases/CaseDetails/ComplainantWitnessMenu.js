@@ -2,7 +2,7 @@ import {
   CIVILIAN_FORM_NAME,
   OFFICER_DETAILS_FORM_NAME,
   EMPLOYEE_TYPE,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
@@ -83,7 +83,7 @@ const ComplainantWitnessMenu = props => {
             );
           }}
         >
-          {CIVILIAN_WITHIN_NOPD_TITLE} {props.civilianType}
+          {CIVILIAN_WITHIN_PD_TITLE} {props.civilianType}
         </MenuItem>
       </Menu>
     </div>

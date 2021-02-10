@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE,
   REMOVE_PERSON_FORM_NAME
@@ -22,7 +22,7 @@ const removePerson = personDetails => async dispatch => {
     const isCivilianWithinNopd =
       personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
     personTypeForDisplay = isCivilianWithinNopd
-      ? CIVILIAN_WITHIN_NOPD_TITLE
+      ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
   }
 

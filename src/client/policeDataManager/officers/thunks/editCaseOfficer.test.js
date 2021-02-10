@@ -6,7 +6,7 @@ import nock from "nock";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { authEnabledTest } from "../../../testHelpers";
@@ -98,7 +98,7 @@ describe("editCaseOfficer thunk", () => {
 
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess(`${CIVILIAN_WITHIN_NOPD_TITLE} was successfully updated`)
+      snackbarSuccess(`${CIVILIAN_WITHIN_PD_TITLE} was successfully updated`)
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });

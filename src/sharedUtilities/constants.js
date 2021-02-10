@@ -1,3 +1,5 @@
+import { INSTANCE_CIVILIAN_WITHIN_PD_TITLE } from "../instance-files/constants";
+
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
 // ----------------------------------------
@@ -647,7 +649,7 @@ export const QUEUE_PREFIX = "noipm_q";
 // ------------------------------------------
 export const ALLEGATION_DETAILS_LABEL =
   "Enter narrative details pertaining to this allegation";
-export const CIVILIAN_WITHIN_NOPD_TITLE = "Civilian (NOPD)";
+export const CIVILIAN_WITHIN_PD_TITLE = INSTANCE_CIVILIAN_WITHIN_PD_TITLE;
 export const OFFICER_TITLE = "Officer";
 export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
 

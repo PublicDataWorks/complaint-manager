@@ -11,7 +11,7 @@ import AllegationSearch from "./AllegationSearch";
 import OfficerAllegations from "./OfficerAllegations";
 import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../sharedUtilities/constants";
@@ -60,7 +60,7 @@ export class AllegationSearchContainer extends Component {
       currentCaseOfficerData.caseEmployeeType ===
       EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
     const titleText = isCivilianWithinNopd
-      ? `Accused ${CIVILIAN_WITHIN_NOPD_TITLE}`
+      ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Accused ${OFFICER_TITLE}`;
 
     return (
