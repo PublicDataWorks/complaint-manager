@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
@@ -36,7 +36,7 @@ class EditOfficerDetails extends React.Component {
     const isCivilianWithinNopd =
       this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
     const submitButtonText = isCivilianWithinNopd
-      ? `Save ${CIVILIAN_WITHIN_NOPD_TITLE}`
+      ? `Save ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Save ${OFFICER_TITLE}`;
 
     return (
@@ -62,7 +62,4 @@ const mapDispatchToProps = {
   getCaseDetails
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditOfficerDetails);
+export default connect(mapStateToProps, mapDispatchToProps)(EditOfficerDetails);

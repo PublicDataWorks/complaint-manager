@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
@@ -37,7 +37,7 @@ class ManageOfficerMenu extends React.Component {
       caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
 
     const caseEmployeeTitle = isCivilianWithinNopd
-      ? CIVILIAN_WITHIN_NOPD_TITLE
+      ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
 
     return (

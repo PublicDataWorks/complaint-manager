@@ -1,6 +1,6 @@
 import OfficerSearch from "./OfficerSearch";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
@@ -49,7 +49,7 @@ describe("OfficerSearch test", () => {
       <Provider store={store}>
         <Router>
           <OfficerSearch
-            employeeSearchTitle={CIVILIAN_WITHIN_NOPD_TITLE}
+            employeeSearchTitle={CIVILIAN_WITHIN_PD_TITLE}
             caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}
             path={mockPath}
           />
@@ -66,7 +66,7 @@ describe("OfficerSearch test", () => {
       .first();
 
     expect(officerSearchTitle.text()).toEqual(
-      `Search for a ${CIVILIAN_WITHIN_NOPD_TITLE}`
+      `Search for a ${CIVILIAN_WITHIN_PD_TITLE}`
     );
     expect(unknownOfficerLink).toEqual({});
   });

@@ -5,7 +5,7 @@ import { initialize } from "redux-form";
 import {
   ACCUSED,
   CIVILIAN_FORM_NAME,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
@@ -66,7 +66,7 @@ const AddAccusedMenu = props => {
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));
           }}
         >
-          Accused {CIVILIAN_WITHIN_NOPD_TITLE}
+          Accused {CIVILIAN_WITHIN_PD_TITLE}
         </MenuItem>
       </Menu>
     </div>

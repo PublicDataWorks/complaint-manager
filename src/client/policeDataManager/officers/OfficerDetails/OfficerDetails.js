@@ -13,7 +13,7 @@ import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import {
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   COMPLAINANT,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
@@ -53,13 +53,13 @@ class OfficerDetails extends React.Component {
       this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
     const additionalInformationText = isCivilianWithinNopd
       ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
-          CIVILIAN_WITHIN_NOPD_TITLE
+          CIVILIAN_WITHIN_PD_TITLE
         )}.`
       : `Use this section to add notes, a description, or indicate any information about the ${_.toLower(
           OFFICER_TITLE
         )}’s history or risk assessment.`;
     const caseEmployeeTitle = isCivilianWithinNopd
-      ? CIVILIAN_WITHIN_NOPD_TITLE
+      ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
 
     return (

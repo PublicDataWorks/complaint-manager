@@ -19,7 +19,7 @@ import {
   CASE_TAG_DIALOG_OPENED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_NOTE_SUCCEEDED,
   EDIT_CIVILIAN_DIALOG_CLOSED,
@@ -282,7 +282,7 @@ export const openRemovePersonDialog = (personDetails, personType) => {
     const isCivilianWithinNopd =
       personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
     personTypeTitleDisplay = isCivilianWithinNopd
-      ? CIVILIAN_WITHIN_NOPD_TITLE
+      ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
     optionalText = ` This includes any Notes or Allegations associated to the ${_.lowerCase(
       personTypeTitleDisplay

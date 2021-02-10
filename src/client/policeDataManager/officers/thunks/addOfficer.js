@@ -10,7 +10,7 @@ import { startSubmit, stopSubmit } from "redux-form";
 import {
   OFFICER_DETAILS_FORM_NAME,
   EMPLOYEE_TYPE,
-  CIVILIAN_WITHIN_NOPD_TITLE,
+  CIVILIAN_WITHIN_PD_TITLE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
 
@@ -24,7 +24,7 @@ const addOfficer = (
   const isCivilianWithinNopd =
     caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
   const caseEmployeeTitle = isCivilianWithinNopd
-    ? CIVILIAN_WITHIN_NOPD_TITLE
+    ? CIVILIAN_WITHIN_PD_TITLE
     : OFFICER_TITLE;
 
   try {
