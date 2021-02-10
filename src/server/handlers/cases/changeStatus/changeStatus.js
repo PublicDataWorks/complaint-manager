@@ -1,4 +1,4 @@
-import constants from "../../../../../instance-files/referralLetterDefaults";
+import constants from "../../../../instance-files/referralLetterDefaults";
 import {
   ACCUSED,
   USER_PERMISSIONS
@@ -122,7 +122,7 @@ const createReferralLetterAndLetterOfficers = async (
   transaction
 ) => {
   const { RECIPIENT, RECIPIENT_ADDRESS, SENDER } = constants || {};
-  
+
   await models.referral_letter.create(
     {
       caseId: caseToUpdate.id,

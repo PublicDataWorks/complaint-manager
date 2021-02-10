@@ -117,7 +117,9 @@ export const generateLetterPdfHtml = (
     currentDate
   };
 
-  const rawTemplate = fs.readFileSync("instance-files/referralLetterPdf.tpl");
+  const rawTemplate = fs.readFileSync(
+    "src/instance-files/referralLetterPdf.tpl"
+  );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);
 };

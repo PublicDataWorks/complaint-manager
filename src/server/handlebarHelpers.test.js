@@ -383,7 +383,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(bonycleSender, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/instance-files/images/bonycle_sokunbi.png />'
+        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/bonycle_sokunbi.png />'
       );
     });
 
@@ -391,7 +391,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(stellaSender, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/instance-files/images/stella_cziment.png />'
+        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/stella_cziment.png />'
       );
     });
 
@@ -399,7 +399,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(multipleSenders, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/instance-files/images/bonycle_sokunbi.png />'
+        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/bonycle_sokunbi.png />'
       );
     });
   });

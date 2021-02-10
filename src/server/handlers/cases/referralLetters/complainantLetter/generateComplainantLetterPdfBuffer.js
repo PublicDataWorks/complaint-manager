@@ -2,7 +2,7 @@ import { OFFICER_COMPLAINANT_TITLE } from "../../../../../sharedUtilities/consta
 import fs from "fs";
 import Handlebars from "handlebars";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
-import {getPersonType} from "../../../../policeDataManager/models/modelUtilities/getPersonType";
+import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 
 require("../../../../handlebarHelpers");
 
@@ -23,7 +23,9 @@ export const generateComplainantLetterHtml = async (
 ) => {
   const pdfData = getComplainantLetterPdfData(existingCase, complainant);
 
-  const rawTemplate = fs.readFileSync("instance-files/complainantLetterPdf.tpl");
+  const rawTemplate = fs.readFileSync(
+    "src/instance-files/complainantLetterPdf.tpl"
+  );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(pdfData);
 };
