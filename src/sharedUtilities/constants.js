@@ -1,6 +1,7 @@
 import {
   INSTANCE_CIVILIAN_WITHIN_PD_INITIATED,
-  INSTANCE_CIVILIAN_WITHIN_PD_TITLE
+  INSTANCE_CIVILIAN_WITHIN_PD_TITLE,
+  INSTANCE_EMPLOYEE_TYPE_CIVILIAN_WITHIN_PD
 } from "../instance-files/constants";
 
 export const LOCAL_DEV_PORT = 443;
@@ -239,7 +240,7 @@ export const SEARCH_CLEARED = "SEARCH_CLEARED";
 // ----------------------------------------
 export const EMPLOYEE_TYPE = {
   OFFICER: "Officer",
-  CIVILIAN_WITHIN_NOPD: "Civilian Within NOPD"
+  CIVILIAN_WITHIN_PD: INSTANCE_EMPLOYEE_TYPE_CIVILIAN_WITHIN_PD
 };
 
 // ----------------------------------------

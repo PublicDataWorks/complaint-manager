@@ -70,7 +70,7 @@ export const getComplainantData = caseDetail => {
         return { "Officer Name": "Unknown" };
       } else {
         const nameTitle =
-          complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
             ? "Civilian (NOPD) Name"
             : "Officer Name";
 
@@ -102,7 +102,7 @@ export const getWitnessData = caseDetail => {
       return { "Officer Name": "Unknown" };
     } else {
       const nameTitle =
-        witness.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        witness.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
           ? "Civilian (NOPD) Name"
           : "Officer Name";
       const witnessData = {
@@ -126,7 +126,7 @@ export const getAccusedOfficerData = officer => {
     officerData = [{ "Officer Name": "Unknown" }];
   } else {
     const nameTitle =
-      officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+      officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
         ? "Civilian (NOPD) Name"
         : "Officer Name";
     officerData = [

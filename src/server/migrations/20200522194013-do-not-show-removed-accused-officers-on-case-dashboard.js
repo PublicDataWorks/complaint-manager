@@ -25,7 +25,7 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}'
+                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
                         THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
                         WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                         ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
@@ -69,7 +69,7 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}'
+                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
                                      THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
                                      WHEN officer_id IS NULL
                                      THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
@@ -119,7 +119,7 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}'
+                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
                         THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
                         WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
                         ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
@@ -163,7 +163,7 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}'
+                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
                                      THEN '${PERSON_TYPE.CIVILIAN_WITHIN_NOPD}'
                                      WHEN officer_id IS NULL
                                      THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'

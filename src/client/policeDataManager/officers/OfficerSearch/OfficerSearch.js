@@ -12,7 +12,7 @@ const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;
 
   const isCivilianWithinNopd =
-    caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
 
   const searchText = isCivilianWithinNopd
     ? `Search for a ${employeeSearchTitle}`

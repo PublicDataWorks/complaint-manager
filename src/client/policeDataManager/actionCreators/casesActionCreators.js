@@ -280,7 +280,7 @@ export const openRemovePersonDialog = (personDetails, personType) => {
     personTypeTitleDisplay = "Civilian";
   } else {
     const isCivilianWithinNopd =
-      personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
     personTypeTitleDisplay = isCivilianWithinNopd
       ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;

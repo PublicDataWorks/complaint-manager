@@ -50,7 +50,7 @@ class OfficerDetails extends React.Component {
 
   render() {
     const isCivilianWithinNopd =
-      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
     const additionalInformationText = isCivilianWithinNopd
       ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
           CIVILIAN_WITHIN_PD_TITLE

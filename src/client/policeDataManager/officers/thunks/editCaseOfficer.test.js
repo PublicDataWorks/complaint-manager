@@ -74,7 +74,7 @@ describe("editCaseOfficer thunk", () => {
     const caseId = 100;
     const caseOfficerId = 100;
     const officerId = 200;
-    const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+    const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
 
     const values = { payload: "test edit" };
     const payload = { ...values, officerId };

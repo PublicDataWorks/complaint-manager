@@ -34,7 +34,7 @@ class AddOfficerDetails extends React.Component {
     if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
     const isCivilianWithinNopd =
-      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
     const submitButtonText = isCivilianWithinNopd
       ? `Add ${CIVILIAN_WITHIN_PD_TITLE} to Case`
       : `Add ${OFFICER_TITLE} to Case`;

@@ -13,7 +13,7 @@ describe("addOfficerReducer", () => {
         officerCurrentlySelected: false,
         caseEmployeeType: null
       };
-      const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD;
+      const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
 
       const newState = addOfficerReducer(
         initialState,
@@ -23,7 +23,7 @@ describe("addOfficerReducer", () => {
       const expectedState = {
         selectedOfficerData: null,
         officerCurrentlySelected: false,
-        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+        caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
       };
       expect(newState).toEqual(expectedState);
     });

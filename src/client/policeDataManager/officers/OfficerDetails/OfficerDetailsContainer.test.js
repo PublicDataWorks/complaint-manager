@@ -142,7 +142,7 @@ describe("OfficerDetailsContainer", () => {
             submitButtonText={"Test Employee"}
             submitAction={jest.fn()}
             officerSearchUrl={`/test-search`}
-            caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD}
+            caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}
           />
         </Router>
       </Provider>

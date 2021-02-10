@@ -18,7 +18,7 @@ const editCaseOfficer = (
   try {
     const payload = { ...values, officerId };
     const caseEmployeeTitle =
-      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
         ? CIVILIAN_WITHIN_PD_TITLE
         : OFFICER_TITLE;
     await axios.put(

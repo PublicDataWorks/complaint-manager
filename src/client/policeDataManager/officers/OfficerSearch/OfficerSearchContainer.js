@@ -26,7 +26,7 @@ export class OfficerSearchContainer extends Component {
     } = this.props;
 
     const employeeSearchTitle =
-      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
         ? CIVILIAN_WITHIN_PD_TITLE
         : OFFICER_TITLE;
 

@@ -78,7 +78,7 @@ describe("LetterReview", () => {
         .withAccusedOfficers([
           new CaseOfficer.Builder()
             .defaultCaseOfficer()
-            .withCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD)
+            .withCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD)
             .build()
         ])
         .build();

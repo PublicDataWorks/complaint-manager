@@ -146,7 +146,7 @@ export class LetterReview extends Component {
 
           {caseDetails.accusedOfficers.map(officer => {
             const cardTitle =
-              officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+              officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
                 ? "Accused Civilian (NOPD)"
                 : "Accused Officer";
             return (

@@ -423,7 +423,7 @@ describe("caseDetailDataHelpers", function () {
             fullName: "complainant joe",
             windowsUsername: 12345,
             district: "some district",
-            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
           }
         ]
       };
@@ -451,7 +451,7 @@ describe("caseDetailDataHelpers", function () {
             fullName: "complainant joe",
             windowsUsername: 12345,
             district: "some district",
-            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+            caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
           }
         ]
       };
@@ -752,7 +752,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "witness joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
             }
           ]
         };
@@ -780,7 +780,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "witness joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+              caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
             }
           ]
         };
@@ -931,7 +931,7 @@ describe("caseDetailDataHelpers", function () {
           fullName: "some name",
           windowsUsername: "some id",
           district: "some district",
-          caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_NOPD
+          caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
         };
 
         const accusedOfficerData = getAccusedOfficerData(officer);
