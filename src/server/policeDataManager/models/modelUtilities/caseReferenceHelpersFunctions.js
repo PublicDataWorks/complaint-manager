@@ -18,7 +18,7 @@ const getPrefix = personType => {
     case PERSON_TYPE.UNKNOWN_OFFICER:
       return "PO";
       break;
-    case PERSON_TYPE.CIVILIAN_WITHIN_NOPD:
+    case PERSON_TYPE.CIVILIAN_WITHIN_PD:
       return "CN";
       break;
     default:
