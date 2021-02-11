@@ -10,7 +10,7 @@ module.exports = {
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
-    operatorsAliases: false,
+    operatorsAliases: '0',
     logging: false,
     pool: {
       max: 10,
@@ -29,7 +29,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: false,
+    operatorsAliases: '0',
     pool: {
       max: 10,
       min: 0,
@@ -47,7 +47,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: false,
+    operatorsAliases: '0',
     pool: {
       max: 10,
       min: 0,
@@ -64,7 +64,7 @@ module.exports = {
       ssl: true
     },
     dialect: "postgres",
-    operatorsAliases: false,
+    operatorsAliases: '0',
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -84,7 +84,7 @@ module.exports = {
       ssl: true
     },
     dialect: "postgres",
-    operatorsAliases: false,
+    operatorsAliases: '0',
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -104,7 +104,7 @@ module.exports = {
       ssl: true
     },
     dialect: "postgres",
-    operatorsAliases: false,
+    operatorsAliases: '0',
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -128,7 +128,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: false,
+    operatorsAliases: '0',
     pool: {
       max: 100,
       min: 0,
