@@ -47,6 +47,7 @@
     "resetMocks": false
   },
   "dependencies": {
+    "@elastic/elasticsearch": "^7.10.0",
     "@hapi/hoek": "~9.0.3",
     "@material-ui/core": "~4.10.2",
     "@material-ui/icons": "^4.5.1",
@@ -92,7 +93,7 @@
     "moment-timezone": "~0.5.23",
     "newrelic": "^7.0.2",
     "node-cache": "^5.1.0",
-    "pg": "7.12.1",
+    "pg": "8.0.3",
     "pg-hstore": "~2.3.2",
     "plotly.js": "^1.58.4",
     "rc-pagination": "^3.1.2",
