@@ -87,7 +87,7 @@ const DashboardDataSection = props => {
       <Grid
     item
     xs={12}
-    style={{ padding: 0, height: "550px", maxWidth: "800px" }}>
+    style={{ padding: 0, height: "450px", maxWidth: "800px" }}>
       <Visualization
           data-testid={dataTestId}
           isPublic
