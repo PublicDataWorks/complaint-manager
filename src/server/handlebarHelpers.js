@@ -8,7 +8,7 @@ import {
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import { DECLINES_OPTION } from "../sharedUtilities/constants";
 import { findFirstSender } from "../sharedUtilities/findFirstSender";
-import { generateSubjectLine } from "../instance-files/constants";
+import { generateSubjectLine } from "../instance-files/helpers";
 
 const caseReferenceLength = 4;
 

@@ -13,7 +13,7 @@ import {
   isEqual,
   isCivilianComplainant
 } from "./handlebarHelpers";
-import { generateSubjectLine } from "../instance-files/constants";
+import { generateSubjectLine } from "../instance-files/helpers";
 
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {
