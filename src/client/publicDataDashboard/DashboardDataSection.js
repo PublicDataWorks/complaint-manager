@@ -8,7 +8,7 @@ import useTheme from "@material-ui/core/styles/useTheme";
 const getIdFromDataSectionType = dataSectionType => {
   if (!dataSectionType || typeof dataSectionType !== "string")
     return "cannot-convert-id";
-  const [_, rawId = ''] = dataSectionType.split("DDS_") || [];
+  const [_, rawId = ""] = dataSectionType.split("DDS_") || [];
   return rawId.toLowerCase().replace(/_/g, "-");
 };
 
@@ -37,7 +37,7 @@ const DashboardDataSection = props => {
     const textArray = text.split("#");
     return (
       <Typography
-        variant="body2"
+        variant="body1"
         style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
         data-testid={"dataSectionText"}
       >
@@ -59,7 +59,7 @@ const DashboardDataSection = props => {
       getTextWithLink(text)
     ) : (
       <Typography
-        variant="body2"
+        variant="body1"
         style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
         data-testid={"dataSectionText"}
       >
@@ -85,10 +85,11 @@ const DashboardDataSection = props => {
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
       <Grid
-    item
-    xs={12}
-    style={{ padding: 0, height: "450px", maxWidth: "800px" }}>
-      <Visualization
+        item
+        xs={12}
+        style={{ padding: 0, height: "450px", maxWidth: "800px" }}
+      >
+        <Visualization
           data-testid={dataTestId}
           isPublic
           queryType={queryType}
