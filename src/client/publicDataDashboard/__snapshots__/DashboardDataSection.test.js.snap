@@ -1110,7 +1110,7 @@ The Office of the Independent Police Monitor tracks complaints and our internal 
                           "wordBreak": "break-word",
                         }
                       }
-                      variant="body2"
+                      variant="body1"
                     >
                       <ForwardRef(Typography)
                         classes={
@@ -1154,10 +1154,10 @@ The Office of the Independent Police Monitor tracks complaints and our internal 
                             "wordBreak": "break-word",
                           }
                         }
-                        variant="body2"
+                        variant="body1"
                       >
                         <p
-                          className="MuiTypography-root MuiTypography-body2"
+                          className="MuiTypography-root MuiTypography-body1"
                           data-testid="dataSectionText"
                           style={
                             Object {
@@ -2491,7 +2491,7 @@ As the year progresses, the table will show the last twelve (12) months from the
                           "wordBreak": "break-word",
                         }
                       }
-                      variant="body2"
+                      variant="body1"
                     >
                       <ForwardRef(Typography)
                         classes={
@@ -2535,10 +2535,10 @@ As the year progresses, the table will show the last twelve (12) months from the
                             "wordBreak": "break-word",
                           }
                         }
-                        variant="body2"
+                        variant="body1"
                       >
                         <p
-                          className="MuiTypography-root MuiTypography-body2"
+                          className="MuiTypography-root MuiTypography-body1"
                           data-testid="dataSectionText"
                           style={
                             Object {
@@ -3872,7 +3872,7 @@ Tags is a term created within the Office of the Independent Police Monitor and i
                           "wordBreak": "break-word",
                         }
                       }
-                      variant="body2"
+                      variant="body1"
                     >
                       <ForwardRef(Typography)
                         classes={
@@ -3916,10 +3916,10 @@ Tags is a term created within the Office of the Independent Police Monitor and i
                             "wordBreak": "break-word",
                           }
                         }
-                        variant="body2"
+                        variant="body1"
                       >
                         <p
-                          className="MuiTypography-root MuiTypography-body2"
+                          className="MuiTypography-root MuiTypography-body1"
                           data-testid="dataSectionText"
                           style={
                             Object {
@@ -5354,7 +5354,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                           "wordBreak": "break-word",
                         }
                       }
-                      variant="body2"
+                      variant="body1"
                     >
                       <ForwardRef(Typography)
                         classes={
@@ -5398,10 +5398,10 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                             "wordBreak": "break-word",
                           }
                         }
-                        variant="body2"
+                        variant="body1"
                       >
                         <p
-                          className="MuiTypography-root MuiTypography-body2"
+                          className="MuiTypography-root MuiTypography-body1"
                           data-testid="dataSectionText"
                           style={
                             Object {
