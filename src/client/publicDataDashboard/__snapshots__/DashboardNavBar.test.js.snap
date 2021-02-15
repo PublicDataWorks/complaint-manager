@@ -477,7 +477,7 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                     "marginBottom": "22px",
                   }
                 }
-                xs={8}
+                xs={5}
               >
                 <ForwardRef(Grid)
                   classes={
@@ -593,10 +593,10 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                       "marginBottom": "22px",
                     }
                   }
-                  xs={8}
+                  xs={5}
                 >
                   <div
-                    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-8"
+                    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-5"
                     style={
                       Object {
                         "marginBottom": "22px",
@@ -622,7 +622,7 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                     "padding": 0,
                   }
                 }
-                xs={4}
+                xs={7}
               >
                 <ForwardRef(Grid)
                   classes={
@@ -738,10 +738,10 @@ exports[`Dashboard NavBar should render the navbar in the public data dashboard 
                       "padding": 0,
                     }
                   }
-                  xs={4}
+                  xs={7}
                 >
                   <div
-                    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-4"
+                    className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-7"
                     style={
                       Object {
                         "padding": 0,

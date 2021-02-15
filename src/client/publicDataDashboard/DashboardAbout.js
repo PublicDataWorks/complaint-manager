@@ -40,7 +40,7 @@ const DashboardAbout = () => {
       >
         <Grid
           item
-          xs={7}
+          xs={12}
           style={{ paddingTop: "32px", paddingBottom: "120px" }}
         >
           <LinkButton
@@ -72,7 +72,7 @@ const DashboardAbout = () => {
             </Typography>
           </LinkButton>
         </Grid>
-        <Grid item xs={7} style={{ paddingBottom: "22px" }}>
+        <Grid item xs={12} style={{ paddingBottom: "22px" }}>
           <Typography variant="h2">About the Dashboard</Typography>
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
@@ -84,7 +84,7 @@ const DashboardAbout = () => {
             }}
           />
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <Typography variant="h2">Complaints</Typography>
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
@@ -107,7 +107,7 @@ const DashboardAbout = () => {
             to work alongside the NOPD to ensure there was accountability.
           </Typography>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <Typography variant="h2">Data</Typography>
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
@@ -140,7 +140,7 @@ const DashboardAbout = () => {
             Bureau, the data will automatically update once daily.
           </Typography>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <Typography variant="h2">What's next?</Typography>
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "64px" }}>
