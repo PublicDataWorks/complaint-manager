@@ -803,6 +803,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               Object {
                 "height": "450px",
                 "maxWidth": "800px",
+                "overflow": "auto",
                 "padding": 0,
               }
             }
@@ -921,6 +922,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                 Object {
                   "height": "450px",
                   "maxWidth": "800px",
+                  "overflow": "auto",
                   "padding": 0,
                 }
               }
@@ -932,6 +934,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                   Object {
                     "height": "450px",
                     "maxWidth": "800px",
+                    "overflow": "auto",
                     "padding": 0,
                   }
                 }
@@ -2197,6 +2200,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               Object {
                 "height": "450px",
                 "maxWidth": "800px",
+                "overflow": "auto",
                 "padding": 0,
               }
             }
@@ -2315,6 +2319,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                 Object {
                   "height": "450px",
                   "maxWidth": "800px",
+                  "overflow": "auto",
                   "padding": 0,
                 }
               }
@@ -2326,6 +2331,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                   Object {
                     "height": "450px",
                     "maxWidth": "800px",
+                    "overflow": "auto",
                     "padding": 0,
                   }
                 }
@@ -3578,6 +3584,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               Object {
                 "height": "450px",
                 "maxWidth": "800px",
+                "overflow": "auto",
                 "padding": 0,
               }
             }
@@ -3696,6 +3703,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                 Object {
                   "height": "450px",
                   "maxWidth": "800px",
+                  "overflow": "auto",
                   "padding": 0,
                 }
               }
@@ -3707,6 +3715,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                   Object {
                     "height": "450px",
                     "maxWidth": "800px",
+                    "overflow": "auto",
                     "padding": 0,
                   }
                 }
@@ -5049,6 +5058,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               Object {
                 "height": "450px",
                 "maxWidth": "800px",
+                "overflow": "auto",
                 "padding": 0,
               }
             }
@@ -5167,6 +5177,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 Object {
                   "height": "450px",
                   "maxWidth": "800px",
+                  "overflow": "auto",
                   "padding": 0,
                 }
               }
@@ -5178,6 +5189,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                   Object {
                     "height": "450px",
                     "maxWidth": "800px",
+                    "overflow": "auto",
                     "padding": 0,
                   }
                 }

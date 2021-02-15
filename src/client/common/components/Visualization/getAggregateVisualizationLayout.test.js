@@ -70,6 +70,7 @@ const baseLayouts = {
 
 const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
+    width: 800,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -82,6 +83,7 @@ const extendedLayouts = {
     plot_bgcolor: "#F5F4F4"
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
+    width: 800,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -94,6 +96,7 @@ const extendedLayouts = {
     plot_bgcolor: "#F5F4F4"
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
+    width: 800,
     title: null,
     font: PUBLIC_LABEL_FONT,
     plot_bgcolor: "#F5F4F4",
