@@ -10,8 +10,8 @@ export const configs = {
     useResizeHandler: false
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    responsive: false,
-    useResizeHandler: false
+    responsive: true,
+    useResizeHandler: true
   }
 };
 
