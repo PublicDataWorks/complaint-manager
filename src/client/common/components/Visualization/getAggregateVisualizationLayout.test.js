@@ -115,6 +115,7 @@ const extendedLayouts = {
       b: 24,
       t: 24,
       l: 145,
+      r: 15,
       pad: 10
     },
     paper_bgcolor: "#F5F4F4",
