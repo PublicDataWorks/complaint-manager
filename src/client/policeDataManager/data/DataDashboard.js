@@ -18,7 +18,13 @@ class DataDashboard extends Component {
             flexDirection: "column"
           }}
         >
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
             <Visualization
               data-testid={"intakeSourceGraphYTD"}
               queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
@@ -31,7 +37,13 @@ class DataDashboard extends Component {
             />
           </div>
           <br />
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
             <Visualization
               data-testid={"complainantTypeGraphYTD"}
               queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
@@ -54,7 +66,13 @@ class DataDashboard extends Component {
             />
           </div>
           <br />
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
             <Visualization
               data-testid={"top10TagsGraph"}
               queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
