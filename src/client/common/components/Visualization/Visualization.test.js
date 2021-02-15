@@ -34,14 +34,14 @@ jest.mock("./getVisualizationData", () => ({
 }));
 
 const MOCK_CONFIG = {
-  responsive: true,
-  useResizeHandler: true
+  responsive: false,
+  useResizeHandler: false
 };
 
 const MOCK_STYLE = {
   height: "100%",
   width: "100%"
-}
+};
 
 const MOCK_LAYOUT = {};
 const MOCK_MOBILE_LAYOUT = { mobileLayout: true };
@@ -108,13 +108,13 @@ describe("Visualization", () => {
         queryOptions
       })
     );
-      expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
-          expect.objectContaining({
-              queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
-              queryOptions,
-              newData: expect.objectContaining({data: MOCK_DATA})
-          })
-      );
+    expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
+      expect.objectContaining({
+        queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+        queryOptions,
+        newData: expect.objectContaining({ data: MOCK_DATA })
+      })
+    );
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
     expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
       style: MOCK_STYLE,
