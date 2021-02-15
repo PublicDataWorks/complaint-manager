@@ -61,7 +61,7 @@ module.exports = {
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME,
     dialectOptions: {
-      ssl: true
+      ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
     operatorsAliases: '0',
@@ -81,7 +81,7 @@ module.exports = {
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME,
     dialectOptions: {
-      ssl: true
+      ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
     operatorsAliases: '0',
@@ -101,7 +101,7 @@ module.exports = {
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME,
     dialectOptions: {
-      ssl: true
+      ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
     operatorsAliases: '0',
@@ -121,7 +121,7 @@ module.exports = {
     password: process.env.DATABASE_PASS,
     database: process.env.DATABASE_NAME,
     dialectOptions: {
-      ssl: true
+      ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
     migrationStorageTableName: "sequelize_meta",
