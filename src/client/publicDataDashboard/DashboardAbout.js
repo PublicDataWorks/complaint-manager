@@ -9,9 +9,7 @@ import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
-import ReactGA from "react-ga";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import oipmBuilding from "./assets/oipm_building.svg";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -74,8 +72,17 @@ const DashboardAbout = () => {
             </Typography>
           </LinkButton>
         </Grid>
-        <Grid item xs={7} style={{ paddingBottom: "108px" }}>
+        <Grid item xs={7} style={{ paddingBottom: "22px" }}>
           <Typography variant="h2">About the Dashboard</Typography>
+        </Grid>
+        <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
+          <img
+            src={oipmBuilding}
+            style={{
+              width: "100%",
+              height: "100%"
+            }}
+          />
         </Grid>
         <Grid item xs={7}>
           <Typography variant="h2">Complaints</Typography>
