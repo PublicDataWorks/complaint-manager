@@ -791,7 +791,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                             "paddingTop": "32px",
                           }
                         }
-                        xs={7}
+                        xs={12}
                       >
                         <ForwardRef(Grid)
                           classes={
@@ -908,10 +908,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                               "paddingTop": "32px",
                             }
                           }
-                          xs={7}
+                          xs={12}
                         >
                           <div
-                            className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                            className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                             style={
                               Object {
                                 "paddingBottom": "120px",
@@ -1379,7 +1379,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                       </WithStyles(ForwardRef(Grid))>
                       <WithStyles(ForwardRef(Grid))
                         item={true}
-                        xs={7}
+                        xs={12}
                       >
                         <ForwardRef(Grid)
                           classes={
@@ -1490,10 +1490,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                             }
                           }
                           item={true}
-                          xs={7}
+                          xs={12}
                         >
                           <div
-                            className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                            className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                           >
                             <WithStyles(ForwardRef(Typography))
                               style={
@@ -1704,7 +1704,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -1820,10 +1820,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -2239,7 +2239,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -2355,10 +2355,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -2774,7 +2774,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -2890,10 +2890,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -3309,7 +3309,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -3425,10 +3425,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -3844,7 +3844,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -3960,10 +3960,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -4379,7 +4379,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -4495,10 +4495,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -4914,7 +4914,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -5030,10 +5030,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -5449,7 +5449,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -5565,10 +5565,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -5984,7 +5984,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -6100,10 +6100,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -6519,7 +6519,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -6635,10 +6635,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -7054,7 +7054,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -7170,10 +7170,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -7589,7 +7589,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -7705,10 +7705,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -8124,7 +8124,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -8240,10 +8240,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -8659,7 +8659,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -8775,10 +8775,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -9194,7 +9194,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -9310,10 +9310,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -9729,7 +9729,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -9845,10 +9845,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -10264,7 +10264,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -10380,10 +10380,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -10799,7 +10799,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -10915,10 +10915,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -11334,7 +11334,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -11450,10 +11450,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -11869,7 +11869,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -11985,10 +11985,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -12404,7 +12404,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -12520,10 +12520,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -12939,7 +12939,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -13055,10 +13055,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -13474,7 +13474,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -13590,10 +13590,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -14009,7 +14009,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -14125,10 +14125,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -14544,7 +14544,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -14660,10 +14660,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -15079,7 +15079,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -15195,10 +15195,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -15614,7 +15614,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -15730,10 +15730,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -16149,7 +16149,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -16265,10 +16265,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -16684,7 +16684,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -16800,10 +16800,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -17219,7 +17219,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -17335,10 +17335,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -17754,7 +17754,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -17870,10 +17870,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -18289,7 +18289,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -18405,10 +18405,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -18824,7 +18824,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -18940,10 +18940,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -19359,7 +19359,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -19475,10 +19475,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -19894,7 +19894,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -20010,10 +20010,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -20429,7 +20429,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -20545,10 +20545,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -20964,7 +20964,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -21080,10 +21080,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -21499,7 +21499,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -21615,10 +21615,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -22034,7 +22034,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -22150,10 +22150,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",
@@ -22569,7 +22569,7 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                   "paddingBottom": "18px",
                                 }
                               }
-                              xs={7}
+                              xs={12}
                             >
                               <ForwardRef(Grid)
                                 classes={
@@ -22685,10 +22685,10 @@ exports[`Dashboard Glossary page should render the Glossary page for the public 
                                     "paddingBottom": "18px",
                                   }
                                 }
-                                xs={7}
+                                xs={12}
                               >
                                 <div
-                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-7-42"
+                                  className="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
                                   style={
                                     Object {
                                       "paddingBottom": "18px",

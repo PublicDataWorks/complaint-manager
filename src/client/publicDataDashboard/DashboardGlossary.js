@@ -33,7 +33,7 @@ const generateTagBlocks = () => {
   return sortedTags.map(([tagName, tagDescription], index) => {
     return (
       <Grid item xs={12} key={index} style={{ paddingBottom: "64px" }}>
-        <Grid item xs={7} style={{ paddingBottom: "18px" }}>
+        <Grid item xs={12} style={{ paddingBottom: "18px" }}>
           <Typography variant="body2" style={{ color: styles.colors.white }}>
             {tagName}
           </Typography>
@@ -77,9 +77,8 @@ const DashboardGlossary = () => {
       >
         <Grid
           item
-          xs={7}
+          xs={12}
           style={{
-            // paddingLeft: "0",
             paddingTop: "32px",
             paddingBottom: "120px"
           }}
@@ -113,7 +112,7 @@ const DashboardGlossary = () => {
             </Typography>
           </LinkButton>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={12}>
           <Typography
             variant="h2"
             style={{ paddingBottom: "116px", color: styles.colors.white }}

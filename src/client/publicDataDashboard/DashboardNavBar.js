@@ -12,7 +12,7 @@ const DashboardNavBar = () => {
 
   return (
     <Grid container style={{ padding: theme.dashboard.navBar.padding }}>
-      <Grid item xs={8} style={{ marginBottom: "22px" }}>
+      <Grid item xs={5} style={{ marginBottom: "22px" }}>
         <img
           src={isMobile ? logoSmall : "/favicon.ico"}
           style={{
@@ -21,7 +21,7 @@ const DashboardNavBar = () => {
           }}
         />
       </Grid>
-      <Grid item xs={4} style={{ padding: 0 }}>
+      <Grid item xs={7} style={{ padding: 0 }}>
         <Container
           style={{
             display: "flex",
