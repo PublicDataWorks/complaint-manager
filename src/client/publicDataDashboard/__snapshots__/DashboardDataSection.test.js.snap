@@ -801,7 +801,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
             item={true}
             style={
               Object {
-                "height": "450px",
+                "height": "550px",
                 "maxWidth": "800px",
                 "overflow": "auto",
                 "padding": 0,
@@ -920,7 +920,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
               item={true}
               style={
                 Object {
-                  "height": "450px",
+                  "height": "550px",
                   "maxWidth": "800px",
                   "overflow": "auto",
                   "padding": 0,
@@ -932,7 +932,7 @@ exports[`Public Data Dashboard should render correct styling for complainants su
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
-                    "height": "450px",
+                    "height": "550px",
                     "maxWidth": "800px",
                     "overflow": "auto",
                     "padding": 0,
@@ -2198,7 +2198,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
             item={true}
             style={
               Object {
-                "height": "450px",
+                "height": "550px",
                 "maxWidth": "800px",
                 "overflow": "auto",
                 "padding": 0,
@@ -2317,7 +2317,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
               item={true}
               style={
                 Object {
-                  "height": "450px",
+                  "height": "550px",
                   "maxWidth": "800px",
                   "overflow": "auto",
                   "padding": 0,
@@ -2329,7 +2329,7 @@ exports[`Public Data Dashboard should render correct styling for complaints over
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
-                    "height": "450px",
+                    "height": "550px",
                     "maxWidth": "800px",
                     "overflow": "auto",
                     "padding": 0,
@@ -3582,7 +3582,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
             item={true}
             style={
               Object {
-                "height": "450px",
+                "height": "550px",
                 "maxWidth": "800px",
                 "overflow": "auto",
                 "padding": 0,
@@ -3701,7 +3701,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
               item={true}
               style={
                 Object {
-                  "height": "450px",
+                  "height": "550px",
                   "maxWidth": "800px",
                   "overflow": "auto",
                   "padding": 0,
@@ -3713,7 +3713,7 @@ exports[`Public Data Dashboard should render correct styling for emerging themes
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
-                    "height": "450px",
+                    "height": "550px",
                     "maxWidth": "800px",
                     "overflow": "auto",
                     "padding": 0,
@@ -5056,7 +5056,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
             item={true}
             style={
               Object {
-                "height": "450px",
+                "height": "550px",
                 "maxWidth": "800px",
                 "overflow": "auto",
                 "padding": 0,
@@ -5175,7 +5175,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
               item={true}
               style={
                 Object {
-                  "height": "450px",
+                  "height": "550px",
                   "maxWidth": "800px",
                   "overflow": "auto",
                   "padding": 0,
@@ -5187,7 +5187,7 @@ exports[`Public Data Dashboard should render correct styling for who submits com
                 className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12"
                 style={
                   Object {
-                    "height": "450px",
+                    "height": "550px",
                     "maxWidth": "800px",
                     "overflow": "auto",
                     "padding": 0,

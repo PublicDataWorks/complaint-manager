@@ -15,6 +15,8 @@ const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
     showlegend: false,
     font: LABEL_FONT,
+    height: 600,
+    width: 800,
     title: {
       text: "Intake Source<br><sub>Past 12 Months",
       font: TITLE_FONT
@@ -26,6 +28,8 @@ const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     showlegend: false,
     font: LABEL_FONT,
+    height: 600,
+    width: 800,
     title: {
       text: "Complainant Type<br><sub>Past 12 Months",
       font: TITLE_FONT
@@ -70,7 +74,8 @@ const baseLayouts = {
 
 const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    width: 800,
+    height: 536,
+    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -83,7 +88,8 @@ const extendedLayouts = {
     plot_bgcolor: "#F5F4F4"
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    width: 800,
+    height: 536,
+    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
