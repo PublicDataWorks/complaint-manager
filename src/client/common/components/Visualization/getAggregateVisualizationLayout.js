@@ -19,6 +19,8 @@ export const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
     showlegend: false,
     font: LABEL_FONT,
+    height: 600,
+    width: 800,
     title: {
       text: "Intake Source",
       font: TITLE_FONT
@@ -30,6 +32,8 @@ export const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     showlegend: false,
     font: LABEL_FONT,
+    height: 600,
+    width: 800,
     title: {
       text: "Complainant Type",
       font: TITLE_FONT
@@ -74,7 +78,8 @@ export const baseLayouts = {
 
 export const extendedLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    width: 800,
+    height: 536,
+    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -87,7 +92,8 @@ export const extendedLayouts = {
     plot_bgcolor: "#F5F4F4"
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    width: 800,
+    height: 536,
+    width: 806,
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {
@@ -132,6 +138,8 @@ export const extendedLayouts = {
 
 export const mobileLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
+    height: 500,
+    width: 600,
     margin: {
       b: 125,
       t: 125,
@@ -141,6 +149,8 @@ export const mobileLayouts = {
     font: { ...PUBLIC_LABEL_FONT, size: 10 }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
+    height: 500,
+    width: 600,
     margin: {
       b: 125,
       t: 125,
