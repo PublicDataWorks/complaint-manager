@@ -146,7 +146,7 @@ export const mobileLayouts = {
       l: 20,
       r: 20
     },
-    font: { ...PUBLIC_LABEL_FONT, size: 10 }
+    font: { ...PUBLIC_LABEL_FONT, size: 12 }
   },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     height: 500,
@@ -157,7 +157,7 @@ export const mobileLayouts = {
       l: 20,
       r: 20
     },
-    font: { ...PUBLIC_LABEL_FONT, size: 10 }
+    font: { ...PUBLIC_LABEL_FONT, size: 12 }
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     font: { ...PUBLIC_LABEL_FONT, size: 10 }
