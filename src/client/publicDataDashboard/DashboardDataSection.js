@@ -87,7 +87,12 @@ const DashboardDataSection = props => {
       <Grid
         item
         xs={12}
-        style={{ padding: 0, height: "450px", maxWidth: "800px", overflow: "auto" }}
+        style={{
+          padding: 0,
+          height: "550px",
+          maxWidth: "800px",
+          overflow: "auto"
+        }}
       >
         <Visualization
           data-testid={dataTestId}
