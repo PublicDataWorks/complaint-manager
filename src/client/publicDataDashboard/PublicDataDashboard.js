@@ -24,8 +24,7 @@ const removeDragCover = () => {
   const callback = mutationsList => {
     mutationsList.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
-        const isDragCover =
-          node.classList && node.classList.contains("dragcover");
+        const isDragCover = node.classList && node.classList.contains('dragcover');
         if (isDragCover) node.remove();
       });
     });
@@ -48,6 +47,7 @@ const scrollIntoViewById = selector => event => {
     behavior: "smooth"
   });
 };
+
 
 const PublicDataDashboardWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
