@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Typography,
   Grid,
@@ -19,6 +19,25 @@ import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
+
+const removeDragCover = () => {
+  const callback = mutationsList => {
+    mutationsList.forEach(mutation => {
+      mutation.addedNodes.forEach(node => {
+        const isDragCover =
+          node.classList && node.classList.contains("dragcover");
+        if (isDragCover) node.remove();
+      });
+    });
+  };
+
+  const observer = new MutationObserver(callback);
+  observer.observe(document.body, { childList: true });
+
+  document.addEventListener("onbeforeunload", () => {
+    observer.disconnect();
+  });
+};
 
 const scrollIntoViewById = selector => event => {
   const target = event.target.ownerDocument || document;
@@ -45,6 +64,8 @@ const PublicDataDashboardWrapper = () => {
 };
 
 const PublicDataDashboard = () => {
+  useEffect(removeDragCover);
+
   const theme = useTheme();
   const currentDate = formatShortDate(moment(Date.now()));
 
@@ -273,10 +294,10 @@ const PublicDataDashboard = () => {
 
         {Object.keys(DATA_SECTIONS).map((dataSectionType, index) => {
           return (
-              <DashboardDataSection
-                 key={index}
-                 dataSectionType={dataSectionType}
-              />
+            <DashboardDataSection
+              key={index}
+              dataSectionType={dataSectionType}
+            />
           );
         })}
 
