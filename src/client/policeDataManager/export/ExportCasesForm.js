@@ -20,6 +20,7 @@ import {
 import ExportDateRange from "./ExportDateRange/ExportDateRange";
 import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../instance-files/constants";
 
 const formLabel = "exportCases";
 
@@ -49,7 +50,7 @@ const ExportCasesTypeRadioGroup = props => (
         data-testid={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}`}
         value={CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}
         control={<Radio color="primary" />}
-        label={"First-contacted OIPM date"}
+        label={`${FIRST_CONTACTED_ORGANIZATION} date`}
         onClick={() =>
           props.input.onChange(CASE_EXPORT_TYPE.FIRST_CONTACT_DATE)
         }

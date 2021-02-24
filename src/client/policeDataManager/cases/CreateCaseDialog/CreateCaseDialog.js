@@ -24,6 +24,7 @@ import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../../instance-files/constants";
 
 const styles = {
   dialogPaper: {
@@ -102,7 +103,7 @@ const Timeline = () => (
     <DateField
       required
       name="case.firstContactDate"
-      label="First Contacted OIPM"
+      label={FIRST_CONTACTED_ORGANIZATION}
       data-testid="firstContactDateField"
       inputProps={{
         "data-testid": "firstContactDateInput",

@@ -33,7 +33,7 @@ const removeDragCover = () => {
   const observer = new MutationObserver(callback);
   observer.observe(document.body, { childList: true });
 
-  document.addEventListener("onbeforeunload", () => {
+  document.addEventListener('onbeforeunload', () => {
     observer.disconnect();
   });
 };
