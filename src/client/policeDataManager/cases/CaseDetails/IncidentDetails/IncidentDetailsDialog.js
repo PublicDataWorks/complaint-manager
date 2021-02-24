@@ -36,6 +36,7 @@ import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDrop
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -94,7 +95,7 @@ class IncidentDetailsDialog extends Component {
               <DateField
                 required
                 name="firstContactDate"
-                label="First Contacted OIPM"
+                label={FIRST_CONTACTED_ORGANIZATION}
                 data-testid="editFirstContactDateField"
                 inputProps={{
                   "data-testid": "editFirstContactDateInput",

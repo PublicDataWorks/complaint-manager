@@ -5,6 +5,7 @@ import formatDate, {
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -27,7 +28,7 @@ export const getIncidentInfoData = caseDetail => {
 
   return [
     {
-      "First Contacted OIPM": formatDate(caseDetail.firstContactDate),
+      [FIRST_CONTACTED_ORGANIZATION]: formatDate(caseDetail.firstContactDate),
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,

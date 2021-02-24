@@ -16,6 +16,7 @@ import {
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
 
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
@@ -77,7 +78,7 @@ class IncidentDetails extends React.Component {
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel="First Contacted OIPM"
+                    displayLabel={FIRST_CONTACTED_ORGANIZATION}
                     value={formatDate(firstContactDate)}
                     testLabel="firstContactDate"
                   />
