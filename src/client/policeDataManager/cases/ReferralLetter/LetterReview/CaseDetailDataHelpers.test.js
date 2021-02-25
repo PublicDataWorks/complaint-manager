@@ -7,6 +7,7 @@ import {
   getWitnessData
 } from "./CaseDetailDataHelpers";
 import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
+import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
 
 describe("caseDetailDataHelpers", function () {
   describe("incident info", function () {
@@ -38,7 +39,7 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            "First Contacted OIPM": formattedFirstContactDate,
+            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: "some district",
@@ -76,7 +77,7 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            "First Contacted OIPM": formattedFirstContactDate,
+            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",
@@ -111,7 +112,7 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            "First Contacted OIPM": formattedFirstContactDate,
+            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: null,
