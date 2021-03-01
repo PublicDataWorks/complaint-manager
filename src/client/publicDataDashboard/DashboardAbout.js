@@ -9,7 +9,7 @@ import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
-import oipmBuilding from "./assets/oipm_building.svg";
+import oipmBuilding from "./assets/oipm_building.jpeg";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
