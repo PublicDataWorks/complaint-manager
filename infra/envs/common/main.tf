@@ -17,6 +17,10 @@ provider "aws" {
   profile = "noipm-terraform"
 }
 
+provider "ec" {
+  apikey = var.ec_api_key
+}
+
 variable "s3_bucket_names" {
   type    = list
   default = ["noipm-seed-files"]
@@ -131,4 +135,17 @@ resource "aws_iam_policy_attachment" "attach_policy" {
     "developer",
     "production"]
   policy_arn = aws_iam_policy.env_policy.arn
+}
+
+resource "ec_deployment" "ec-deployment" {
+  name               = "${var.organization_name}-deployment"
+  region                 = "us-east-1"
+  version                = "7.11.1"
+  deployment_template_id="aws-compute-optimized-v2"
+  elasticsearch {
+    topology {
+     zone_count=1
+     size="1g"
+   }
+  }
 }
