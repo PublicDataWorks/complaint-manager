@@ -1696,7 +1696,7 @@ exports[`Dashboard About page should render the About page for the public data d
                             }
                           >
                             <img
-                              src="oipm_building.svg"
+                              src="oipm_building.jpeg"
                               style={
                                 Object {
                                   "height": "100%",
