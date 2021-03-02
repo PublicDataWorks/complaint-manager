@@ -71,12 +71,12 @@ class RemoveCaseTagDialog extends Component {
 
           {this.props.isArchived ? (
               <PrimaryButton
-                  data-testid="cancelButton"
+                  data-testid="returnButton"
                   onClick={() =>
                       dispatch(closeRemoveCaseTagDialog())
                   }
               >
-                  Ok
+                  Return
               </PrimaryButton>
           ) : (
             <PrimaryButton

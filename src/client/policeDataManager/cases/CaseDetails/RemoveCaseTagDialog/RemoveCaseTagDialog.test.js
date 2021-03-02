@@ -1,6 +1,6 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
 import {
-  closeRemoveCaseTagDialog,
+  closeRemoveCaseTagDialog, getCaseDetailsSuccess,
   openRemoveCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";
@@ -74,7 +74,7 @@ describe("RemoveCaseTagDialog", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
   });
 
-  test("should close dialog when ok button clicked when case is archived", () => {
+  test("should close dialog when return button clicked when case is archived", () => {
     const store = createConfiguredStore();
 
     const caseTag = {
@@ -89,15 +89,17 @@ describe("RemoveCaseTagDialog", () => {
 
     store.dispatch(openRemoveCaseTagDialog(caseTag));
     const dispatchSpy = jest.spyOn(store, "dispatch");
+    const caseDetail = { isArchived: true };
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
 
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveCaseTagDialog isArchived={true} />
+        <RemoveCaseTagDialog />
       </Provider>
     );
 
-    const okButton = wrapper.find('[data-testid="cancelButton"]').first();
-    okButton.simulate("click");
+    const returnButton = wrapper.find('[data-testid="returnButton"]').first();
+    returnButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
   });
 });
