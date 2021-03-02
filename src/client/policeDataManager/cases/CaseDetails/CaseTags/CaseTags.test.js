@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { mount } from "enzyme";
 import { containsText } from "../../../../testHelpers";
 import {
-  fetchingCaseTags,
+  fetchingCaseTags, getCaseDetailsSuccess,
   getCaseTagSuccess,
   openCaseTagDialog,
   openRemoveCaseTagDialog
@@ -129,10 +129,13 @@ describe("Case Tags", () => {
   });
 
   test("should not display button to add tag when case is archived", () => {
+    const caseDetail = { isArchived: true };
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
+
     dialog = mount(
         <Provider store={store}>
           <Router>
-            <CaseTags caseId={1} isArchived={true} dispatch={jest.fn()} />
+            <CaseTags caseId={1} dispatch={jest.fn()} />
           </Router>
         </Provider>
     );
