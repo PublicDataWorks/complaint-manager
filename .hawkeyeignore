@@ -17,6 +17,8 @@ files-contents-scripts/checkEmptySchema.js-1
 files-contents-docker-compose.yml-1
 files-contents-scripts/init-localstack.sh-13
 files-contents-scripts/init-localstack.sh-14
+files-contents-scripts/search/create-search-index.js-1
+files-contents-scripts/search/query-index.js-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-braces-786
