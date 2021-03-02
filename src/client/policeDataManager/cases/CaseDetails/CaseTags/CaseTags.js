@@ -62,13 +62,19 @@ class CaseTags extends Component {
           </div>
           <RemoveCaseTagDialog />
         </div>
-        <LinkButton
-          onClick={() => this.props.dispatch(openCaseTagDialog())}
-          style={{ margin: "0% 0% 5% 2%" }}
-          data-testid="addTagButton"
-        >
-          + Add Tag
-        </LinkButton>
+        <div>
+          {this.props.isArchived ? (
+            <div />
+          ) : (
+            <LinkButton
+              onClick={() => this.props.dispatch(openCaseTagDialog())}
+              style={{ margin: "0% 0% 5% 2%" }}
+              data-testid="addTagButton"
+            >
+              + Add Tag
+            </LinkButton>
+          )}
+        </div>
         <CaseTagDialog />
       </div>
     );
@@ -78,7 +84,8 @@ class CaseTags extends Component {
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   caseTags: state.currentCase.caseTags,
-  fetchingCaseTags: state.currentCase.fetchingCaseTags
+  fetchingCaseTags: state.currentCase.fetchingCaseTags,
+  isArchived: state.currentCase.details.isArchived
 });
 
 export default connect(mapStateToProps)(CaseTags);

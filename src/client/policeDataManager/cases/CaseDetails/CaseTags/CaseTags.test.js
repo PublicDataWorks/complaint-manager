@@ -6,12 +6,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { mount } from "enzyme";
 import { containsText } from "../../../../testHelpers";
 import {
-  fetchingCaseTags,
+  fetchingCaseTags, getCaseDetailsSuccess,
   getCaseTagSuccess,
   openCaseTagDialog,
   openRemoveCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 describe("Case Tags", () => {
   let dialog, dispatchSpy, store;
@@ -32,7 +31,7 @@ describe("Case Tags", () => {
     dispatchSpy.mockClear();
   });
 
-  test("should display button to add tag", () => {
+  test("should display button to add tag when case is not archived", () => {
     containsText(dialog, '[data-testid="addTagButton"]', "+ Add Tag");
   });
 
@@ -85,7 +84,7 @@ describe("Case Tags", () => {
     expect(secondCaseTagChip.text()).toEqual("Osprey");
   });
 
-  test("add tag button should call openCaseTagDialog when clicked", () => {
+  test("add tag button should call openCaseTagDialog when clicked when case is not archived", () => {
     const addTagButton = dialog.find('button[data-testid="addTagButton"]');
     addTagButton.simulate("click");
 
@@ -127,5 +126,21 @@ describe("Case Tags", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       openRemoveCaseTagDialog(firstCaseTag)
     );
+  });
+
+  test("should not display button to add tag when case is archived", () => {
+    const caseDetail = { isArchived: true };
+    store.dispatch(getCaseDetailsSuccess(caseDetail));
+
+    dialog = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseTags caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
+    );
+
+    const noDisplayButton = dialog.find('[data-testid="addTagButton"]').first();
+    expect(noDisplayButton).toEqual({});
   });
 });
