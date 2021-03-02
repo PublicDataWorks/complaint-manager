@@ -22,14 +22,29 @@ class RemoveCaseTagDialog extends Component {
 
     return (
       <Dialog open={dialogOpen} fullWidth={true}>
-        <DialogTitle data-testid="removeCaseTagDialogTitle">
-          Remove Case Tag
-        </DialogTitle>
+        <div>
+          {this.props.isArchived ? (
+            <DialogTitle data-testid="removeCaseTagDialogTitle">
+              Cannot Remove Case Tag
+            </DialogTitle>
+          ) : (
+            <DialogTitle data-testid="removeCaseTagDialogTitle">
+              Remove Case Tag
+            </DialogTitle>
+          )}
+        </div>
         <DialogContent>
-          <Typography style={{ marginBottom: "24px" }}>
-            This action will remove the <b>{caseTag.tag.name}</b> tag from the
-            case. Are you sure you want to continue?
-          </Typography>
+          {this.props.isArchived ? (
+            <Typography style={{ marginBottom: "24px" }}>
+              This case has been archived. Changes to tags are not allowed while
+              case is archived.
+            </Typography>
+          ) : (
+            <Typography style={{ marginBottom: "24px" }}>
+              This action will remove the <b>{caseTag.tag.name}</b> tag from the
+              case. Are you sure you want to continue?
+            </Typography>
+          )}
           <div />
         </DialogContent>
         <DialogActions
@@ -40,22 +55,40 @@ class RemoveCaseTagDialog extends Component {
             justifyContent: "space-between"
           }}
         >
-          <SecondaryButton
-            style={{
-              marginLeft: "0px"
-            }}
-            data-testid="cancelButton"
-            onClick={() => dispatch(closeRemoveCaseTagDialog())}
-          >
-            Cancel
-          </SecondaryButton>
-          <PrimaryButton
-            data-testid="removeCaseTag"
-            onClick={() => dispatch(removeCaseTag(caseTag.caseId, caseTag.id))}
-            disabled={submitting}
-          >
-            Remove
-          </PrimaryButton>
+          {this.props.isArchived ? (
+            <div />
+          ) : (
+            <SecondaryButton
+              style={{
+                marginLeft: "0px"
+              }}
+              data-testid="cancelButton"
+              onClick={() => dispatch(closeRemoveCaseTagDialog())}
+            >
+              Cancel
+            </SecondaryButton>
+          )}
+
+          {this.props.isArchived ? (
+              <PrimaryButton
+                  data-testid="cancelButton"
+                  onClick={() =>
+                      dispatch(closeRemoveCaseTagDialog())
+                  }
+              >
+                  Ok
+              </PrimaryButton>
+          ) : (
+            <PrimaryButton
+              data-testid="removeCaseTag"
+              onClick={() =>
+                dispatch(removeCaseTag(caseTag.caseId, caseTag.id))
+              }
+              disabled={submitting}
+            >
+              Remove
+            </PrimaryButton>
+          )}
         </DialogActions>
       </Dialog>
     );
@@ -68,7 +101,8 @@ const RemoveCaseTagDialogForm = reduxForm({
 
 const mapStateToProps = state => ({
   dialogOpen: state.ui.removeCaseTagDialog.dialogOpen,
-  caseTag: state.ui.removeCaseTagDialog.caseTag
+  caseTag: state.ui.removeCaseTagDialog.caseTag,
+  isArchived: state.currentCase.details.isArchived
 });
 
 export default connect(mapStateToProps)(RemoveCaseTagDialogForm);
