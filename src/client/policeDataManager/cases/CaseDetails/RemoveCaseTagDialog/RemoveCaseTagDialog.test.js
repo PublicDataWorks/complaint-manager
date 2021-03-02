@@ -73,4 +73,31 @@ describe("RemoveCaseTagDialog", () => {
     cancelButton.simulate("click");
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
   });
+
+  test("should close dialog when ok button clicked when case is archived", () => {
+    const store = createConfiguredStore();
+
+    const caseTag = {
+      id: 1,
+      caseId: 1,
+      tagId: 1,
+      tag: {
+        id: 1,
+        name: "Penguin"
+      }
+    };
+
+    store.dispatch(openRemoveCaseTagDialog(caseTag));
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <RemoveCaseTagDialog isArchived={true} />
+      </Provider>
+    );
+
+    const okButton = wrapper.find('[data-testid="cancelButton"]').first();
+    okButton.simulate("click");
+    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
+  });
 });
