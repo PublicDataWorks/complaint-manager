@@ -1,38 +1,53 @@
-'use strict';
+"use strict";
 
 (async () => {
-  const environment = process.env.NODE_ENV || 'development';
-  const { host, port, indexName: index } = require('./index-config')[environment];
+  const environment = process.env.NODE_ENV || "development";
+  const { protocol, host, port, indexName: index } = require("./index-config")[
+    environment
+  ];
 
-  const elasticSearch = require('@elastic/elasticsearch');
-  const elasticClient = new elasticSearch.Client({ node: `${host}${port ? ':' + port : ''}` });
+  const username = process.env.ELASTIC_USERNAME;
+  const password = process.env.ELASTIC_PASSWORD;
 
-  const [
-    /* Process Name */,
-    /* File Name */,
-    query
-  ] = process.argv;
-
-  console.log(`Searching for '${query}'...`);
-  
-  const { body: searchResults } = await elasticClient.search({
-    index,
-    size: 100,
-    body: {
-      query: {
-        query_string: {
-          query: `*${query}*`
-        }
-      }
-    }
+  const elasticSearch = require("@elastic/elasticsearch");
+  const elasticClient = new elasticSearch.Client({
+    node: `${protocol}${
+      username ? username + ":" + password + "@" : ""
+    }${host}${port ? ":" + port : ""}`
   });
 
-  const { get, chunk } = require('lodash');
-  const { hits } = get(searchResults, ['hits'], {});
+  function handleError(err) {
+    console.error("Caught Error: ", err);
+    process.exit(1);
+  }
+
+  const [, , /* Process Name */ /* File Name */ query] = process.argv;
+
+  console.log(`Searching for '${query}'...`);
+
+  const { body: searchResults } = await elasticClient
+    .search({
+      index,
+      size: 100,
+      body: {
+        query: {
+          query_string: {
+            query: `*${query}*`
+          }
+        }
+      }
+    })
+    .catch(handleError);
+
+  const { get, chunk } = require("lodash");
+  const { hits } = get(searchResults, ["hits"], {});
   console.log(`Found ${hits.length} results.`);
-  
+
   if (Array.isArray(hits) && hits.length) {
-    chunk(hits.map(hit => hit._source), 10).forEach(page => console.table(page));
+    chunk(
+      hits.map(hit => hit._source),
+      10
+    ).forEach(page => console.table(page));
   }
 
   return 0;
