@@ -1,6 +1,6 @@
 import winston from "winston";
 import Transport from "winston-transport";
-import axios from 'axios';
+import axios from "axios";
 
 class MessageBatch {
   constructor(messageLimit = 1) {
@@ -30,7 +30,7 @@ class BackendTransport extends Transport {
   }
 
   async log(message, callback) {
-    const payload = { messages: this.messageBatch.queue(message) } 
+    const payload = { messages: this.messageBatch.queue(message) };
 
     if (!payload.messages) {
       this.emit(message);
@@ -44,14 +44,14 @@ class BackendTransport extends Transport {
         this.emit(error);
       }
     }
-    
+
     if (callback) callback();
   }
 }
 
 const { combine, timestamp, label } = winston.format;
 const winstonFormat = combine(
-  label({ label: 'Client-side Log' }),
+  label({ label: `${process.env.REACT_APP_ENV.toUpperCase()}` }),
   timestamp()
 );
 
@@ -59,7 +59,7 @@ const winstonOptions = {
   format: winstonFormat,
   transports: [
     new BackendTransport({
-      endpoint: '/api/logs'
+      endpoint: "/api/logs"
     })
   ]
 };

@@ -1,31 +1,30 @@
-import axios from 'axios';
-import logger from './logger';
+import axios from "axios";
+import logger from "./logger";
 
 const messages = [
   {
-    "label": "Client-side Log",
-    "level": "info",
-    "message": "This is a test 1",
-    "timestamp": `${new Date()}`
+    label: "Client-side Log",
+    level: "info",
+    message: "This is a test 1",
+    timestamp: `${new Date()}`
   }
 ];
 
-jest.mock('axios');
+jest.mock("axios");
 
-describe('Custom logger', () => {
-  test('should POST logs to server', () => {
-    logger.info('This is a test 1');
+describe("Custom logger", () => {
+  test("should POST logs to server", () => {
+    logger.info("This is a test 1");
 
-    expect(axios.post).toHaveBeenCalledWith('/api/logs', {
+    expect(axios.post).toHaveBeenCalledWith("/api/logs", {
       messages: expect.arrayContaining([
         expect.objectContaining({
-          "label": "Client-side Log",
-          "level": "info",
-          "message": "This is a test 1",
-          "timestamp": expect.any(String)
+          label: expect.any(String),
+          level: "info",
+          message: "This is a test 1",
+          timestamp: expect.any(String)
         })
       ])
     });
-    
   });
 });
