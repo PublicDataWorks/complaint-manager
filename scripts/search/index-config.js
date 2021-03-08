@@ -23,13 +23,13 @@ const config = {
   },
   [CI]: {
     protocol: "https://",
-    host: "405d72828d1c44fca5344807ef8256ba.us-east-1.aws.found.io",
+    host: "a391144cd5a24f97b8cb06634ace33d3.us-east-1.aws.found.io",
     port: "9243",
     indexName: `${CI}_${INDEX_NAME}`
   },
   [STAGING]: {
     protocol: "https://",
-    host: "405d72828d1c44fca5344807ef8256ba.us-east-1.aws.found.io",
+    host: "a391144cd5a24f97b8cb06634ace33d3.us-east-1.aws.found.io",
     port: "9243",
     indexName: `${STAGING}_${INDEX_NAME}`
   },

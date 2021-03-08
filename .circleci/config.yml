@@ -305,8 +305,40 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
+  update-search-indices-ci:
+    docker:
+      - image: noipm/docker-node-ubuntu:2.0.1
+    steps:
+      - run:
+          name: Defines Environment Variables at Runtime
+          command: |
+            echo 'export NODE_ENV=ci' >> $BASH_ENV \
+            echo `export DATABASE_USERNAME=$CI_DATABASE_USERNAME >> $BASH_ENV \
+            echo `export DATABASE_PASS=$CI_DATABASE_PASS >> $BASH_ENV \
+            echo `export DATABASE_NAME=$CI_DATABASE_NAME >> $BASH_ENV \
+            echo `export DATABASE_HOST=$CI_DATABASE_HOST >> $BASH_ENV \
+            source $BASH_ENV
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Update Search Indices
+          command: npx babel-node scripts/search/create-search-index.js
+
 workflows:
   version: 2
+  nightly_index_update_ci:
+    triggers:
+      - schedule:
+          cron: "0 6 * * *" # Resolves to 12 AM CST
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - update-search-indices-ci
+
   build_and_deploy_master:
     jobs:
       - security-check:
