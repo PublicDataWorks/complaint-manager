@@ -21,8 +21,11 @@ const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");
 const adminRouter = require("./adminRouter");
 const featureToggleRouter = require("./featureToggleRouter");
+
 const expressWinston = require("express-winston");
 const winston = require("winston");
+const { combine, json } = winston.format
+
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const compression = require("compression");
@@ -30,6 +33,7 @@ const compression = require("compression");
 const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
 
 winston.configure({
+  format: combine(json()),
   transports: [
     new winston.transports.Console({
       json: config.winston.json,
