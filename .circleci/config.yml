@@ -313,10 +313,10 @@ jobs:
           name: Defines Environment Variables at Runtime
           command: |
             echo 'export NODE_ENV=ci' >> $BASH_ENV \
-            echo `export DATABASE_USERNAME=$CI_DATABASE_USERNAME >> $BASH_ENV \
-            echo `export DATABASE_PASS=$CI_DATABASE_PASS >> $BASH_ENV \
-            echo `export DATABASE_NAME=$CI_DATABASE_NAME >> $BASH_ENV \
-            echo `export DATABASE_HOST=$CI_DATABASE_HOST >> $BASH_ENV \
+            echo 'export DATABASE_USERNAME=$CI_DATABASE_USERNAME' >> $BASH_ENV \
+            echo 'export DATABASE_PASS=$CI_DATABASE_PASS' >> $BASH_ENV \
+            echo 'export DATABASE_NAME=$CI_DATABASE_NAME' >> $BASH_ENV \
+            echo 'export DATABASE_HOST=$CI_DATABASE_HOST' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - run:
