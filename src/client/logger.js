@@ -49,10 +49,11 @@ class BackendTransport extends Transport {
   }
 }
 
-const { combine, timestamp, label } = winston.format;
+const { combine, timestamp, label, json } = winston.format;
 const winstonFormat = combine(
   label({ label: `${process.env.REACT_APP_ENV.toUpperCase()}` }),
-  timestamp()
+  timestamp(),
+  json()
 );
 
 const winstonOptions = {
