@@ -35,8 +35,8 @@ const config = {
   },
   [PRODUCTION]: {
     protocol: "https://",
-    host: "localhost",
-    port: "9200",
+    host: "a391144cd5a24f97b8cb06634ace33d3.us-east-1.aws.found.io",
+    port: "9243",
     indexName: `${PRODUCTION}_${INDEX_NAME}`
   }
 };
