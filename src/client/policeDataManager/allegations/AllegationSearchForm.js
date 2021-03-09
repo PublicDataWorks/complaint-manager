@@ -96,13 +96,13 @@ class AllegationSearchForm extends React.Component {
               {searchRuleMenu(allegations)}
             </Field>
             <Field
-              disabled={!currentRuleSelected}
               label="Paragraph"
               name="paragraph"
               component={Dropdown}
               inputProps={{
                 "data-testid": "paragraphInput",
-                autoComplete: "off"
+                autoComplete: "off",
+                disabled: !currentRuleSelected
               }}
               style={{ flex: "1", marginRight: "24px" }}
             >
