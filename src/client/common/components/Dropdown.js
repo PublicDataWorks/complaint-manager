@@ -42,6 +42,7 @@ class Dropdown extends React.Component {
         <Autocomplete
           autoSelect={true}
           disableClearable={true}
+          disabled={this.props.inputProps.disabled}
           onChange={this.handleChange.bind(this)}
           value={selectedOption}
           options={children && Array.isArray(children) ? children : []}

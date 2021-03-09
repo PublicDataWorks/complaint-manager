@@ -196,6 +196,9 @@ class IncidentDetailsDialog extends Component {
                 label="Intake Source"
                 hinttext="Intake Source"
                 data-testid="intakeSourceDropdown"
+                inputProps={{
+                  "data-testid": "intakeSourceInput"
+                }}
                 style={{ width: "60%" }}
                 validate={[intakeSourceIsRequired]}
               >
@@ -209,6 +212,9 @@ class IncidentDetailsDialog extends Component {
                 label="How did you hear about us?"
                 hinttext="How did you hear about us?"
                 data-testid="howDidYouHearAboutUsSourceDropdown"
+                inputProps={{
+                  "data-testid": "howDidYouHearAboutUsSourceInput"
+                }}
                 style={{ width: "60%" }}
               >
                 {generateMenuOptions(props.howDidYouHearAboutUsSources)}

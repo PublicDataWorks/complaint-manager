@@ -24,6 +24,9 @@ describe("Dropdown test", () => {
           data-testid="testDropdown"
           input={{ value: 2 }}
           component={Dropdown}
+          inputProps={{
+            disabled: false
+          }}
         >
           {children}
         </Field>
@@ -74,6 +77,9 @@ describe("Dropdown test", () => {
           data-testid="testDropdown"
           input={{ onChange: onChangeSpy }}
           component={Dropdown}
+          inputProps={{
+            disabled: false
+          }}
         >
           {children}
         </Field>
