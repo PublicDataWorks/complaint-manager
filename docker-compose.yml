@@ -130,6 +130,7 @@ services:
       - "./e2e/tests:/tests"
       - "./e2e/pageObjectModels:/pageObjectModels"
       - "./src/instance-files/tests/e2e/nightwatch.conf.js:/nightwatch.conf.js"
+      - "./src/instance-files/constants.js:/constants.js"
       - "./wait-for-it.sh:/wait-for-it.sh"
     entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "120", "--"]
     command: ["nightwatch", "--env", "local"]

@@ -1,5 +1,10 @@
 const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
+const {
+  ADD_CIVILIAN_WITHIN_PD,
+  SEARCH_CIVILIAN_WITHIN_PD,
+  ORGANIZATION
+} = require("./constants");
 
 module.exports = {
   src_folders: ["tests"],
@@ -35,7 +40,10 @@ module.exports = {
         current_case: "",
         added_civilian_success: "Civilian (NOPD) was successfully added",
         decline_complaint_letter_section: "OIPM declines to classify the complaint at this time.",
-        pd_address: "Location: Bourbon St & Canal St, New Orleans, LA 70112"
+        pd_address: "Location: Bourbon St & Canal St, New Orleans, LA 70112",
+        add_civilian: ADD_CIVILIAN_WITHIN_PD,
+        search_civilian: SEARCH_CIVILIAN_WITHIN_PD,
+        organization: ORGANIZATION
       }
     },
     local: {

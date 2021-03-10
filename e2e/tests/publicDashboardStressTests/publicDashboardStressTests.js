@@ -8,7 +8,7 @@ module.exports = {
     });
 
     const publicDataDashboardPage = browser.page.publicDataDashboard.PublicDataDashboard();
-    publicDataDashboardPage.isOnPage();
+    publicDataDashboardPage.isOnPage(browser);
   },
 
   "wait for visualizations": browser => {
