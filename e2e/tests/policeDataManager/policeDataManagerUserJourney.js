@@ -246,7 +246,7 @@ if (TEST_PASS && TEST_USER) {
       const addCivilianWithinPdSearchPage = browser.page.AddCivilianWithinPdSearch();
 
       addCivilianWithinPdSearchPage
-        .isOnPage()
+        .isOnPage(browser)
         .setLastName("Jaskolski")
         .searchForCivilianWithinPd()
         .selectNewCivilianWithinPd();

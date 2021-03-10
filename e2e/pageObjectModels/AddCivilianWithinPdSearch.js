@@ -1,12 +1,12 @@
 const e2e = require("./e2eUtilities.js");
 
 const addCivilianWithinPdCommands = {
-  isOnPage: function() {
+  isOnPage: function(browser) {
     this.waitForElementPresent(
       "@pageTitle",
       e2e.rerenderWait
-    ).assert.containsText("@pageTitle", "Add Civilian (NOPD)");
-    this.assert.containsText("@pageHeader", "Search for a Civilian (NOPD)");
+    ).assert.containsText("@pageTitle", browser.globals.add_civilian);
+    this.assert.containsText("@pageHeader", browser.globals.search_civilian);
     return this;
   },
   setLastName: function(lastName) {
