@@ -243,9 +243,9 @@ if (TEST_PASS && TEST_USER) {
     },
 
     "should see add employee page and add civilian within nopd": browser => {
-      const addCivilianWithinNopdSearchPage = browser.page.AddCivilianWithinPdSearch();
+      const addCivilianWithinPdSearchPage = browser.page.AddCivilianWithinPdSearch();
 
-      addCivilianWithinNopdSearchPage
+      addCivilianWithinPdSearchPage
         .isOnPage()
         .setLastName("Jaskolski")
         .searchForCivilianWithinPd()
@@ -253,16 +253,16 @@ if (TEST_PASS && TEST_USER) {
     },
 
     "should return to edit civilian within nopd details and save civilian nopd": browser => {
-      const addCivilianWithinNopdDetailsPage = browser.page.AddCivilianWithinPdDetails();
+      const addCivilianWithinPdDetailsPage = browser.page.AddCivilianWithinPdDetails();
       const snackBar = browser.page.SnackbarPOM();
 
-      addCivilianWithinNopdDetailsPage
+      addCivilianWithinPdDetailsPage
         .isOnPage()
         .selectRole(2)
         .submitCivilianWithinPd();
 
       snackBar
-        .presentWithMessage("Civilian (NOPD) was successfully added")
+        .presentWithMessage(browser.globals.added_civilian_success)
         .close();
     },
 
@@ -510,7 +510,7 @@ if (TEST_PASS && TEST_USER) {
         .letterContains("Name: Night Watch")
         .letterContains("Name: Ansel W Rice")
         .letterContains(
-          "Location: Bourbon St & Canal St, New Orleans, LA 70112"
+          browser.globals.pd_address
         )
         .letterContains(
           "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
@@ -522,7 +522,7 @@ if (TEST_PASS && TEST_USER) {
           "Be temporarily or permanently reassigned from his/her current assignment"
         )
         .letterContains(
-          "OIPM declines to classify the complaint at this time."
+          browser.globals.decline_complaint_letter_section
         );
     },
 

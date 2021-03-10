@@ -32,7 +32,10 @@ module.exports = {
       },
       persist_globals: true,
       globals: {
-        current_case: ""
+        current_case: "",
+        added_civilian_success: "Civilian (NOPD) was successfully added",
+        decline_complaint_letter_section: "OIPM declines to classify the complaint at this time.",
+        pd_address: "Location: Bourbon St & Canal St, New Orleans, LA 70112"
       }
     },
     local: {
