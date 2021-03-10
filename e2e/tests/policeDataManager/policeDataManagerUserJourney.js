@@ -239,27 +239,27 @@ if (TEST_PASS && TEST_USER) {
 
       caseDetailsPage
         .incidentAddressIsSpecified()
-        .addWitnessCivilianWithinNopd();
+        .addWitnessCivilianWithinPd();
     },
 
     "should see add employee page and add civilian within nopd": browser => {
-      const addCivilianWithinNopdSearchPage = browser.page.AddCivilianWithinNopdSearch();
+      const addCivilianWithinNopdSearchPage = browser.page.AddCivilianWithinPdSearch();
 
       addCivilianWithinNopdSearchPage
         .isOnPage()
         .setLastName("Jaskolski")
-        .searchForCivilianWithinNopd()
-        .selectNewCivilianWithinNopd();
+        .searchForCivilianWithinPd()
+        .selectNewCivilianWithinPd();
     },
 
     "should return to edit civilian within nopd details and save civilian nopd": browser => {
-      const addCivilianWithinNopdDetailsPage = browser.page.AddCivilianWithinNopdDetails();
+      const addCivilianWithinNopdDetailsPage = browser.page.AddCivilianWithinPdDetails();
       const snackBar = browser.page.SnackbarPOM();
 
       addCivilianWithinNopdDetailsPage
         .isOnPage()
         .selectRole(2)
-        .submitCivilianWithinNopd();
+        .submitCivilianWithinPd();
 
       snackBar
         .presentWithMessage("Civilian (NOPD) was successfully added")
@@ -269,7 +269,7 @@ if (TEST_PASS && TEST_USER) {
     "should display civilian within nopd on case details page": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
 
-      caseDetailsPage.thereIsAKnownCivilianWithinNopd("Amira");
+      caseDetailsPage.thereIsAKnownCivilianWithinPd("Amira");
     },
 
     "should display the incident location in the Incident Details section of the Case Detail": browser => {
