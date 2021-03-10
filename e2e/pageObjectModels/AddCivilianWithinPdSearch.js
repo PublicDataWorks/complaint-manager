@@ -1,6 +1,6 @@
 const e2e = require("./e2eUtilities.js");
 
-const addCivilianWithinNopdCommands = {
+const addCivilianWithinPdCommands = {
   isOnPage: function() {
     this.waitForElementPresent(
       "@pageTitle",
@@ -12,22 +12,22 @@ const addCivilianWithinNopdCommands = {
   setLastName: function(lastName) {
     return this.setValue("@lastNameField", lastName);
   },
-  searchForCivilianWithinNopd: function() {
+  searchForCivilianWithinPd: function() {
     return this.waitForElementVisible(
       "@submitSearchButton",
       e2e.rerenderWait
     ).click("@submitSearchButton", e2e.logOnClick);
   },
-  selectNewCivilianWithinNopd: function() {
+  selectNewCivilianWithinPd: function() {
     return this.waitForElementVisible(
-      "@selectNewCivilianWithinNopdButton",
+      "@selectNewCivilianWithinPdButton",
       e2e.roundtripWait
-    ).click("@selectNewCivilianWithinNopdButton", e2e.logOnClick);
+    ).click("@selectNewCivilianWithinPdButton", e2e.logOnClick);
   }
 };
 
 module.exports = {
-  commands: [addCivilianWithinNopdCommands],
+  commands: [addCivilianWithinPdCommands],
   elements: {
     pageTitle: {
       selector: '[data-testid="officer-search-title"]'
@@ -41,7 +41,7 @@ module.exports = {
     submitSearchButton: {
       selector: '[data-testid="officerSearchSubmitButton"]'
     },
-    selectNewCivilianWithinNopdButton: {
+    selectNewCivilianWithinPdButton: {
       selector: '[data-testid="selectNewOfficerButton"]'
     }
   }

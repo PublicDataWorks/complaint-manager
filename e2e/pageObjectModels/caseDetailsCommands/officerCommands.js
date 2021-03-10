@@ -47,23 +47,23 @@ const officerCommands = {
       .moveToElement("@manageAllegationsButton", undefined, undefined)
       .click("@manageAllegationsButton", e2e.logOnClick);
   },
-  addWitnessCivilianWithinNopd: function() {
+  addWitnessCivilianWithinPd: function() {
     this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
       "@addWitnessMenu",
       e2e.logOnClick
     );
     return this.waitForElementVisible(
-      "@addWitnessCivilianWithinNopd",
+      "@addWitnessCivilianWithinPd",
       e2e.rerenderWait
-    ).click("@addWitnessCivilianWithinNopd", e2e.logOnClick);
+    ).click("@addWitnessCivilianWithinPd", e2e.logOnClick);
   },
-  thereIsAKnownCivilianWithinNopd: function(civilianWithinNopdName) {
+  thereIsAKnownCivilianWithinPd: function(civilianWithinPdName) {
     this.waitForElementVisible(
-      "@knownCivilianWithinNopdPanel",
+      "@knownCivilianWithinPdPanel",
       e2e.roundtripWait
     ).assert.containsText(
-      "@knownCivilianWithinNopdPanel",
-      civilianWithinNopdName
+      "@knownCivilianWithinPdPanel",
+      civilianWithinPdName
     );
     return this;
   },
@@ -115,10 +115,10 @@ const officerElements = {
   addWitnessMenu: {
     selector: '[data-testid="addComplainantWitness"]'
   },
-  addWitnessCivilianWithinNopd: {
+  addWitnessCivilianWithinPd: {
     selector: '[data-testid="addCivilianWithinNopdComplainantWitness"]'
   },
-  knownCivilianWithinNopdPanel: {
+  knownCivilianWithinPdPanel: {
     selector: "[data-testid='knownCivilian(NOPD)Panel']"
   },
   addAccusedMenu: {

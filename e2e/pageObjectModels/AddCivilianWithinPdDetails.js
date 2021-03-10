@@ -1,9 +1,9 @@
 const e2e = require("./e2eUtilities.js");
 
-const AddCivilainWithinNopdCommands = {
+const AddCivilainWithinPdCommands = {
   isOnPage: function () {
     return this.waitForElementVisible(
-      "@submitCivilianWithinNopdButton",
+      "@submitCivilianWithinPdButton",
       e2e.rerenderWait
     );
   },
@@ -14,16 +14,16 @@ const AddCivilainWithinNopdCommands = {
       .click({ selector: "@toSelect", index: roleId }, e2e.logOnClick)
       .waitForElementNotPresent("@roleMenu", e2e.rerenderWait);
   },
-  submitCivilianWithinNopd: function () {
+  submitCivilianWithinPd: function () {
     this.waitForElementVisible(
-      "@submitCivilianWithinNopdButton",
+      "@submitCivilianWithinPdButton",
       e2e.rerenderWait
-    ).click("@submitCivilianWithinNopdButton", e2e.logOnClick);
+    ).click("@submitCivilianWithinPdButton", e2e.logOnClick);
   }
 };
 
 module.exports = {
-  commands: [AddCivilainWithinNopdCommands],
+  commands: [AddCivilainWithinPdCommands],
   elements: {
     roleDropdown: {
       selector: '[data-testid="roleOnCaseInput"] + div > button'
@@ -31,7 +31,7 @@ module.exports = {
     roleMenu: {
       selector: ".MuiAutocomplete-popper"
     },
-    submitCivilianWithinNopdButton: {
+    submitCivilianWithinPdButton: {
       selector: '[data-testid="officerSubmitButton"]'
     },
     toSelect: {
