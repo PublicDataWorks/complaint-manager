@@ -1,14 +1,11 @@
 const chromedriver = require("chromedriver");
 const selenium = require("selenium-server");
 
-let constantsFilePath = "./constants";
-if (process.env.NODE_ENV) constantsFilePath = "../../constants";
-
 const {
   ADD_CIVILIAN_WITHIN_PD,
   SEARCH_CIVILIAN_WITHIN_PD,
   ORGANIZATION
-} = require(constantsFilePath);
+} = require("../../constants");
 
 module.exports = {
   src_folders: ["tests"],
