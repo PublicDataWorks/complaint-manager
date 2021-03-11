@@ -13,7 +13,7 @@ fi
 # nightwatch --env local --test tests/policeDataManager/policeDataManagerUserJourney.js --testcase "should navigate to all exports page and export all cases"
 
 echo "Running E2E test suite for Police Data Manager..."
-docker-compose run --rm e2e nightwatch --env local tests/policeDataManager
+docker-compose run --rm e2e nightwatch --config ./instance-files/tests/e2e/nightwatch.conf.js --env local tests/policeDataManager
 
 echo "Stopping app-e2e container..."
 docker-compose stop app-e2e
