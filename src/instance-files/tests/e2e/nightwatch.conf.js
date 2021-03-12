@@ -8,11 +8,11 @@ const {
 } = require("../../constants");
 
 module.exports = {
-  src_folders: ["tests"],
+  src_folders: ["./e2e/tests"],
   output_folder: "reports",
   custom_commands_path: "",
   custom_assertions_path: "",
-  page_objects_path: "./pageObjectModels",
+  page_objects_path: "./e2e/pageObjectModels",
   globals_path: "",
   webdriver: {
     start_process: true,
@@ -26,7 +26,7 @@ module.exports = {
       silent: true,
       screenshots: {
         enabled: true,
-        path: "./tests",
+        path: "./e2e/tests",
         on_failure: true,
         on_error: true
       },
