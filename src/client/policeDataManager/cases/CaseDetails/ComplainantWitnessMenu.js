@@ -68,7 +68,7 @@ const ComplainantWitnessMenu = props => {
           {OFFICER_TITLE} {props.civilianType}
         </MenuItem>
         <MenuItem
-          data-testid="addCivilianWithinNopdComplainantWitness"
+          data-testid="addCivilianWithinPdComplainantWitness"
           onClick={() => {
             props.dispatch(
               initialize("OfficerDetails", {
