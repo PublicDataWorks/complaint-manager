@@ -37,10 +37,10 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
     ? `(AC) ${caseOfficer.fullName}`
     : caseOfficer.fullName;
 
-  const knownEmployeePanelDataTest = `known${caseEmployeeTitle.replace(
-    /\s/g,
-    ""
-  )}Panel`;
+  const knownEmployeePanelDataTest = isCivilianWithinNopd 
+  ? "knownCivilian(PD)Panel"
+  : "knownOfficerPanel";
+
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);
 
   return (

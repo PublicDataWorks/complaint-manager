@@ -116,10 +116,10 @@ const officerElements = {
     selector: '[data-testid="addComplainantWitness"]'
   },
   addWitnessCivilianWithinPd: {
-    selector: '[data-testid="addCivilianWithinNopdComplainantWitness"]'
+    selector: '[data-testid="addCivilianWithinPdComplainantWitness"]'
   },
   knownCivilianWithinPdPanel: {
-    selector: "[data-testid='knownCivilian(NOPD)Panel']"
+    selector: "[data-testid='knownCivilian(PD)Panel']"
   },
   addAccusedMenu: {
     selector: '[data-testid="addAccusedMenu"]'

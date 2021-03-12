@@ -234,7 +234,7 @@ if (TEST_PASS && TEST_USER) {
         .close();
     },
 
-    "should click add witness civilian within nopd": browser => {
+    "should click add witness civilian within pd": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
 
       caseDetailsPage
@@ -242,7 +242,7 @@ if (TEST_PASS && TEST_USER) {
         .addWitnessCivilianWithinPd();
     },
 
-    "should see add employee page and add civilian within nopd": browser => {
+    "should see add employee page and add civilian within pd": browser => {
       const addCivilianWithinPdSearchPage = browser.page.AddCivilianWithinPdSearch();
 
       addCivilianWithinPdSearchPage
@@ -252,7 +252,7 @@ if (TEST_PASS && TEST_USER) {
         .selectNewCivilianWithinPd();
     },
 
-    "should return to edit civilian within nopd details and save civilian nopd": browser => {
+    "should return to edit civilian within pd details and save civilian pd": browser => {
       const addCivilianWithinPdDetailsPage = browser.page.AddCivilianWithinPdDetails();
       const snackBar = browser.page.SnackbarPOM();
 
@@ -266,7 +266,7 @@ if (TEST_PASS && TEST_USER) {
         .close();
     },
 
-    "should display civilian within nopd on case details page": browser => {
+    "should display civilian within pd on case details page": browser => {
       const caseDetailsPage = browser.page.CaseDetails();
 
       caseDetailsPage.thereIsAKnownCivilianWithinPd("Amira");
