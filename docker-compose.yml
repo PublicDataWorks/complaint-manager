@@ -127,12 +127,12 @@ services:
     depends_on:
       - app-e2e
     volumes:
-      - "./e2e/tests:/tests"
-      - "./e2e/pageObjectModels:/pageObjectModels"
+      - "./e2e/tests:/e2e/tests"
+      - "./e2e/pageObjectModels:/e2e/pageObjectModels"
       - "./src/instance-files:/instance-files"
       - "./wait-for-it.sh:/wait-for-it.sh"
     entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "120", "--"]
-    command: ["nightwatch", "--config", "./instance-files/tests/e2e/nightwatch.conf.js", "--env", "local"]
+    command: ["nightwatch", "--config", "/instance-files/tests/e2e/nightwatch.conf.js", "--env", "local"]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}
