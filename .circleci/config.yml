@@ -363,7 +363,7 @@ jobs:
       - checkout
       - run:
           name: Install Dependencies
-          command: yarn install
+          command: yarn install --production=false
       - run:
           name: Update Search Indices
           command: npx babel-node scripts/search/create-search-index.js
