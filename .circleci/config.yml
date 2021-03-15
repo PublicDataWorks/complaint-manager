@@ -392,16 +392,16 @@ workflows:
     jobs:
       - update-search-indices-staging
 
-#  nightly_index_update_production:
-#    triggers:
-#      - schedule:
-#          cron: "0 7 * * *" # Resolves to 1 AM CST
-#          filters:
-#            branches:
-#              only:
-#                - master
-#    jobs:
-#      - update-search-indices-production
+  nightly_index_update_production:
+    triggers:
+      - schedule:
+          cron: "0 7 * * *" # Resolves to 1 AM CST
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - update-search-indices-production
 
   build_and_deploy_master:
     jobs:
