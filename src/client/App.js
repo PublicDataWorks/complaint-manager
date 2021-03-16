@@ -33,7 +33,7 @@ const App = props => {
       auth.setDummyUserInfoInStore(props.userAuthSuccess);
     }
 
-    if (accessToken) {
+    if (accessToken && !isAuthDisabled()) {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
     }
   }, []);

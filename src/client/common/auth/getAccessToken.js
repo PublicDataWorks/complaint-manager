@@ -1,3 +1,5 @@
+import { isAuthDisabled } from "../../isAuthDisabled";
+
 export default () => {
-  return localStorage.getItem("access_token");
+  return isAuthDisabled() ? "MOCK_TOKEN" : localStorage.getItem("access_token");
 };
