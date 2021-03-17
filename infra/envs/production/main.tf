@@ -2,19 +2,19 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-production"
+    key    = "tfstate-production"
 
-    encrypt = true
+    encrypt                 = true
     shared_credentials_file = "~/.aws/credentials"
-    profile = "noipm-terraform"
+    profile                 = "noipm-terraform"
   }
 }
 
 provider "aws" {
-  version = "~> 2.0"
-  region = "us-east-1"
+  version                 = "~> 2.0"
+  region                  = "us-east-1"
   shared_credentials_file = "~/.aws/credentials"
-  profile = "noipm-terraform"
+  profile                 = "noipm-terraform"
 }
 
 variable "heroku_api_key" {
@@ -22,12 +22,12 @@ variable "heroku_api_key" {
 }
 
 module "webapp" {
-  source = "../../modules/webapp"
+  source         = "../../modules/webapp"
   heroku_api_key = var.heroku_api_key
 
   heroku_email = "noipm.infrastructure@gmail.com"
-  team_name = "noipm"
-  app_name = "noipm-production"
+  team_name    = "noipm"
+  app_name     = "noipm-production"
 
   env_name = "production"
 
@@ -38,10 +38,10 @@ module "webapp" {
     "noipm-referral-letters-production"
   ]
 
-  api_target = "https://noipm-production.herokuapp.com"
+  api_target    = "https://noipm-production.herokuapp.com"
   public_domain = "https://complaints.nolaipm.gov"
 
-  postgres_plan = "standard-0"
+  postgres_plan   = "standard-0"
   papertrail_plan = "fixa"
 
   env_policy = <<POLICY
@@ -163,5 +163,7 @@ module "webapp" {
 POLICY
 
   env_policy_groups = [
-    "production"]
+  "production"]
+
+  env_policy_roles = []
 }
