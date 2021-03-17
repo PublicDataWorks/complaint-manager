@@ -2,19 +2,19 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-playground"
+    key    = "tfstate-playground"
 
-    encrypt = true
+    encrypt                 = true
     shared_credentials_file = "~/.aws/credentials"
-    profile = "noipm-terraform"
+    profile                 = "noipm-terraform"
   }
 }
 
 provider "aws" {
-  version = "~> 2.0"
-  region = "us-east-1"
+  version                 = "~> 2.0"
+  region                  = "us-east-1"
   shared_credentials_file = "~/.aws/credentials"
-  profile = "noipm-terraform"
+  profile                 = "noipm-terraform"
 }
 
 variable "heroku_api_key" {
@@ -29,7 +29,7 @@ module "webapp" {
   heroku_email = "noipm.infrastructure@gmail.com"
 
   team_name = "noipm"
-  app_name = "noipm-playground"
+  app_name  = "noipm-playground"
 
   env_name = "playground"
 
@@ -42,7 +42,7 @@ module "webapp" {
 
   api_target = "https://noipm-playground.herokuapp.com"
 
-  postgres_plan = "hobby-dev"
+  postgres_plan   = "hobby-dev"
   papertrail_plan = "choklad"
 
   env_policy = <<POLICY
@@ -160,5 +160,9 @@ POLICY
 
   env_policy_groups = [
     "developer",
-    "contributor"]
+  "contributor"]
+
+  env_policy_roles = [
+    "federated-contributor"
+  ]
 }

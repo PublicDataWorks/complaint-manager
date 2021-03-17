@@ -202,6 +202,7 @@ resource "aws_iam_policy" "env_policy" {
 resource "aws_iam_policy_attachment" "attach_policy" {
   name = "${var.env_name}-policy-group-attachment"
   groups = var.env_policy_groups
+  roles = var.env_policy_roles
   policy_arn = aws_iam_policy.env_policy.arn
 }
 

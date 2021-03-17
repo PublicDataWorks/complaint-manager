@@ -2,19 +2,19 @@ terraform {
   backend "s3" {
     bucket = "noipm-terraform"
     region = "us-east-1"
-    key = "tfstate-common"
+    key    = "tfstate-common"
 
-    encrypt = true
+    encrypt                 = true
     shared_credentials_file = "~/.aws/credentials"
-    profile = "noipm-terraform"
+    profile                 = "noipm-terraform"
   }
 }
 
 provider "aws" {
-  version = "~> 2.0"
-  region = "us-east-1"
+  version                 = "~> 2.0"
+  region                  = "us-east-1"
   shared_credentials_file = "~/.aws/credentials"
-  profile = "noipm-terraform"
+  profile                 = "noipm-terraform"
 }
 
 provider "ec" {
@@ -28,7 +28,7 @@ variable "s3_bucket_names" {
 
 resource "aws_s3_bucket" "seed_files" {
   bucket = "${var.organization_name}-seed-files"
-  acl = "private"
+  acl    = "private"
 
   versioning {
     enabled = true
@@ -96,9 +96,9 @@ POLICY
 }
 
 resource "aws_iam_policy" "env_policy" {
-  name = "${var.organization_name}-shared-bucket-access"
+  name        = "${var.organization_name}-shared-bucket-access"
   description = "A policy to allow bucket listing and CRUD on bucket contents"
-  policy = <<POLICY
+  policy      = <<POLICY
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -133,19 +133,22 @@ resource "aws_iam_policy_attachment" "attach_policy" {
   groups = [
     "contributor",
     "developer",
-    "production"]
+  "production"]
+  roles = [
+    "federated-contributor",
+  ]
   policy_arn = aws_iam_policy.env_policy.arn
 }
 
 resource "ec_deployment" "ec-deployment" {
-  name               = "${var.organization_name}-deployment"
+  name                   = "${var.organization_name}-deployment"
   region                 = "us-east-1"
   version                = "7.11.1"
-  deployment_template_id="aws-compute-optimized-v2"
+  deployment_template_id = "aws-compute-optimized-v2"
   elasticsearch {
     topology {
-     zone_count=1
-     size="1g"
-   }
+      zone_count = 1
+      size       = "1g"
+    }
   }
 }
