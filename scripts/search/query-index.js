@@ -21,7 +21,7 @@
     process.exit(1);
   }
 
-  const [, , /* Process Name */ /* File Name */ query] = process.argv;
+  const query = process.argv.slice(2).join(" ");
 
   console.log(`Searching for '${query}'...`);
 
