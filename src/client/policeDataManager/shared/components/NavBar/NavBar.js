@@ -123,7 +123,7 @@ class NavBar extends Component {
             onClose={() => this.handleNotificationClick()}
           />
           <IconButton
-            data-testid="hamburgerButton"
+            data-testid="userAvatarButton"
             onClick={this.handleMenuOpen}
             style={{
               color: !this.state.notificationDrawer ? "inherit" : "white"

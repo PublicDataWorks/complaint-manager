@@ -53,10 +53,10 @@ describe("NavBar", () => {
   describe("hamburger menu", () => {
     test("should see log out button", () => {
       authEnabledTest(() => {
-        const hamburgerButton = wrapper.find(
-          'button[data-testid="hamburgerButton"]'
+        const userAvatarButton = wrapper.find(
+          'button[data-testid="userAvatarButton"]'
         );
-        hamburgerButton.simulate("click");
+        userAvatarButton.simulate("click");
 
         const logOutButton = wrapper.find('[data-testid="logOutButton"]');
 
@@ -66,10 +66,10 @@ describe("NavBar", () => {
     });
 
     test("should dismiss menu when clicking away", () => {
-      const hamburgerButton = wrapper
-        .find('[data-testid="hamburgerButton"]')
+      const userAvatarButton = wrapper
+        .find('[data-testid="userAvatarButton"]')
         .last();
-      hamburgerButton.simulate("click");
+      userAvatarButton.simulate("click");
 
       const backdrop = wrapper.find("ForwardRef(SimpleBackdrop)");
       backdrop.simulate("click");
@@ -88,10 +88,10 @@ describe("NavBar", () => {
       store.dispatch(userAuthSuccess(userInfo));
       wrapper.update();
 
-      const hamburgerButton = wrapper
-        .find('[data-testid="hamburgerButton"]')
+      const userAvatarButton = wrapper
+        .find('[data-testid="userAvatarButton"]')
         .last();
-      hamburgerButton.simulate("click");
+      userAvatarButton.simulate("click");
 
       const exportAuditLogMenuItem = wrapper
         .find('[data-testid="exports"]')
