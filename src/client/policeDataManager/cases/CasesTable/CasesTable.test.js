@@ -273,7 +273,7 @@ describe("cases table", () => {
 
     test("should display assigned to", () => {
       const assignedTo = caseRow.find('td[data-testid="caseAssignedTo"]');
-      expect(assignedTo.text()).toEqual("tuser");
+      expect(assignedTo.text()).toEqual("TU");
     });
 
     test("should display an open case button", () => {

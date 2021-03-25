@@ -1,5 +1,5 @@
 import React from "react";
-import { div, TableCell, TableRow } from "@material-ui/core";
+import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../../../sharedUtilities/formatDate";
 import { Link } from "react-router-dom";
@@ -12,6 +12,7 @@ import {
   CASE_STATUS,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
+import UserAvatar from "../UserAvatar";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -50,7 +51,7 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
         <div>{formatDate(caseDetails.firstContactDate)}</div>
       </TableCell>
       <TableCell data-testid="caseAssignedTo" className={classes.cell}>
-        <div>{caseDetails.assignedTo}</div>
+        <UserAvatar email={caseDetails.assignedTo} />
       </TableCell>
       <TableCell data-testid="openCase" className={classes.buttonCell}>
         <LinkButton
