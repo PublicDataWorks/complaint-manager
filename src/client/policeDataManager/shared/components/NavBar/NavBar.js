@@ -19,6 +19,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 import Badge from "@material-ui/core/Badge";
 import { isAuthDisabled } from "../../../../isAuthDisabled";
+import UserAvatar from "../../../cases/UserAvatar";
 
 class NavBar extends Component {
   state = {
@@ -103,11 +104,6 @@ class NavBar extends Component {
 
           <div style={{ flex: 1, flexDirection: "row-reverse" }} />
 
-          <Typography
-            data-testid="userNickName"
-            variant="h6"
-            color="inherit"
-          >{`${nickname}`}</Typography>
           <IconButton
             color="inherit"
             className="notificationBell"
@@ -134,7 +130,7 @@ class NavBar extends Component {
             }}
             disabled={this.state.notificationDrawer}
           >
-            <Settings />
+            <UserAvatar email={nickname} />
           </IconButton>
           <Menu
             open={this.state.menuOpen}
