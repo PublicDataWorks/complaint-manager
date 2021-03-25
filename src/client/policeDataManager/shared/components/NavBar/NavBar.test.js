@@ -50,11 +50,6 @@ describe("NavBar", () => {
     expect(wrapper.find('[data-testid="homeButton"]').exists()).toBeFalse();
   });
 
-  test("should display default nickname", () => {
-    const nickname = wrapper.find('[data-testid="userNickName"]').last();
-    expect(nickname.text()).toEqual("");
-  });
-
   describe("hamburger menu", () => {
     test("should see log out button", () => {
       authEnabledTest(() => {

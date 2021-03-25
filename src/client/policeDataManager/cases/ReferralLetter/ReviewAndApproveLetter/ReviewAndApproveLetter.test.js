@@ -30,6 +30,15 @@ jest.mock("../../thunks/invalidCaseStatusRedirect", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
 );
 
+jest.mock("../../UserAvatar", () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div />;
+    }
+  };
+});
+
 describe("ReviewAndApproveLetter", () => {
   const caseId = 100;
   let store, wrapper, dispatchSpy, nowTimestamp;

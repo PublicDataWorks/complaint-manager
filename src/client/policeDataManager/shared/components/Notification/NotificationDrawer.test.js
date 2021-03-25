@@ -29,7 +29,7 @@ describe("notifications drawer", () => {
     //ARRANGE
     const { getByTestId, queryByText } = renderNavBar();
     const notificationBell = getByTestId("notificationBell");
-    const headerUserName = getByTestId("userNickName");
+    const header = getByTestId("header");
 
     // ACT -- open drawer
     fireEvent.click(notificationBell);
@@ -40,7 +40,7 @@ describe("notifications drawer", () => {
     });
 
     // ACT -- close drawer by clicking on header
-    fireEvent.click(headerUserName);
+    fireEvent.click(header);
 
     // ASSERT -- drawer is closed
     await waitFor(() => {

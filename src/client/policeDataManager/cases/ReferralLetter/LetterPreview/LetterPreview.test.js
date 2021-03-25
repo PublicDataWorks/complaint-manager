@@ -61,6 +61,15 @@ jest.mock(
   }
 );
 
+jest.mock("../../UserAvatar", () => {
+  return {
+    __esModule: true,
+    default: () => {
+      return <div />;
+    }
+  };
+});
+
 describe("LetterPreview", function () {
   const finalFilename = "final_filename.pdf";
   const draftFilename = "draft_filename.pdf";
@@ -246,13 +255,13 @@ describe("LetterPreview", function () {
   test("dispatch open case status dialog on click of submit for review button", async () => {
     dispatchSpy.mockClear();
     store.dispatch(
-        getCaseDetailsSuccess({
-          id: caseId,
-          complainantCivilians: [{ fullName: "someone" }],
-          complainantOfficers: [],
-          status: CASE_STATUS.LETTER_IN_PROGRESS,
-          nextStatus: CASE_STATUS.READY_FOR_REVIEW
-        })
+      getCaseDetailsSuccess({
+        id: caseId,
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: [],
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+      })
     );
 
     store.dispatch(
@@ -753,13 +762,13 @@ describe("LetterPreview", function () {
   test("should call missing complainant dialog when complainant is missing", () => {
     dispatchSpy.mockClear();
     store.dispatch(
-        getCaseDetailsSuccess({
-          id: caseId,
-          complainantCivilians: [],
-          complainantOfficers: [],
-          status: CASE_STATUS.READY_FOR_REVIEW,
-          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
-        })
+      getCaseDetailsSuccess({
+        id: caseId,
+        complainantCivilians: [],
+        complainantOfficers: [],
+        status: CASE_STATUS.READY_FOR_REVIEW,
+        nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+      })
     );
 
     store.dispatch(
