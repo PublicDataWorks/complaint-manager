@@ -33,6 +33,7 @@ import removeCivilian from "./handlers/civilians/removeCivilian";
 import audit from "./handlers/audits/auditAuthentication";
 import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
 import searchAllegations from "./handlers/allegations/searchAllegations";
+import searchCases from "./handlers/cases/casesSearch/searchCases";
 import getAllegations from "./handlers/allegations/getAllegations";
 import getClassifications from "./handlers/classifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
@@ -114,6 +115,13 @@ export const API_ROUTES = {
       handler: getArchivedCases,
       errorMessage:
         "Something went wrong and the archived cases were not loaded. Please try again."
+    }
+  },
+  "/cases/search": {
+    get: {
+      handler: searchCases,
+      errorMessage:
+        "Something went wrong and the search was not completed. Please try again."
     }
   },
   "/cases/:caseId": {

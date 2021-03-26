@@ -17,7 +17,7 @@ const config = {
   },
   [TEST]: {
     protocol: "http://",
-    host: "localhost",
+    host: "elasticsearch",
     port: "9200",
     indexName: `${TEST}_${INDEX_NAME}`
   },
