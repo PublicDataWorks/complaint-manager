@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import React from "react";
 import App from "./App";
 import { getFeaturesSuccess } from "./policeDataManager/actionCreators/featureTogglesActionCreators";
-import { mockLocalStorage } from "../mockLocalStorage";
 import { userAuthSuccess } from "./common/auth/actionCreators";
 import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
 import EventSource from "eventsourcemock";
@@ -39,6 +38,10 @@ jest.mock(
   })
 );
 
+jest.mock(
+  "./common/auth/getAccessToken", () => jest.fn(() => "MOCK_TOKEN"
+  ));
+
 process.env.REACT_APP_ENV = "test";
 const backendUrl = config[process.env.REACT_APP_ENV].backendUrl;
 
@@ -47,8 +50,6 @@ describe("App", () => {
   const eventSourceUrl = `${backendUrl}/api/messageStream?token=MOCK_TOKEN`;
 
   beforeEach(() => {
-    mockLocalStorage();
-    window.localStorage.__proto__.getItem.mockReturnValue("MOCK_TOKEN");
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
