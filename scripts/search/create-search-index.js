@@ -59,26 +59,21 @@
   console.log(`Index ${index} created.`);
 
   const models = require("../../src/server/policeDataManager/models/index");
-  let tagsResults, accusedOfficersResults, civiliansResults;
 
-  await models.sequelize
-    .transaction(async transaction => {
-      tagsResults = await models.case_tag.findAll({
-        include: [
-          {
-            model: models.tag,
-            as: "tag"
-          }
-        ]
-      });
-      accusedOfficersResults = await models.case_officer.findAll();
-      civiliansResults = await models.civilian.findAll();
-    })
-    .catch(handleError);
+  const tagsResults = await models.case_tag.findAll({
+    include: [
+      {
+        model: models.tag,
+        as: "tag"
+      }
+    ]
+  });
+  const caseOfficersResults = await models.case_officer.findAll({});
+  const civiliansResults = await models.civilian.findAll({});
 
   if (
     !tagsResults.length &&
-    !accusedOfficersResults.length &&
+    !caseOfficersResults.length &&
     !civiliansResults.length
   ) {
     console.log("No results were found. Ending script.");
@@ -87,13 +82,13 @@
 
   const operation = { index: { _index: index } };
 
-  const caseOfficerBulkOperations = accusedOfficersResults.flatMap(
-    accusedOfficersResult => {
+  const caseOfficerBulkOperations = caseOfficersResults.flatMap(
+    caseOfficersResult => {
       const {
         caseId: case_id,
         firstName: first_name,
         lastName: last_name
-      } = accusedOfficersResult.dataValues;
+      } = caseOfficersResult.dataValues;
       const document = { case_id, first_name, last_name };
 
       return [operation, document];
@@ -123,6 +118,8 @@
     caseOfficerBulkOperations,
     civilianBulkOperations
   );
+
+  console.log(bulkOperations);
 
   await elasticClient
     .bulk({ refresh: true, body: bulkOperations })
