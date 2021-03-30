@@ -7,7 +7,7 @@ export const getResultsFromES = async (queryString, currentPage = 1) => {
     host,
     port,
     indexName: index
-  } = require("../../../../../scripts/search/index-config")[environment];
+  } = require("../../../scripts/search/index-config")[environment];
   const size = DEFAULT_PAGINATION_LIMIT;
 
   const username = process.env.ELASTIC_USERNAME;
@@ -43,6 +43,6 @@ export const getResultsFromES = async (queryString, currentPage = 1) => {
 
   return [
     Array.isArray(hits) ? hits.map(hit => hit._source) : [],
-    searchResults.hits.count
+    searchResults.hits.total.value
   ];
 };
