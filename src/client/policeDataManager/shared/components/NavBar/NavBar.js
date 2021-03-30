@@ -20,6 +20,7 @@ import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 import Badge from "@material-ui/core/Badge";
 import { isAuthDisabled } from "../../../../isAuthDisabled";
 import UserAvatar from "../../../cases/UserAvatar";
+import SearchCasesForm from "../../../cases/SearchCases/SearchCasesForm";
 
 class NavBar extends Component {
   state = {
@@ -67,7 +68,14 @@ class NavBar extends Component {
   };
 
   render() {
-    let { showHome, nickname, children, menuType, dataTest } = this.props;
+    let {
+      showHome,
+      nickname,
+      children,
+      menuType,
+      dataTest,
+      showSearchBar
+    } = this.props;
 
     if (isAuthDisabled()) {
       menuType = menuType.filter(item => item.dataTestName !== "logOutButton");
@@ -102,8 +110,17 @@ class NavBar extends Component {
             {children}
           </Typography>
 
-          <div style={{ flex: 1, flexDirection: "row-reverse" }} />
+          <div
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          />
+          {showSearchBar ? <SearchCasesForm /> : <div />}
 
+          <div style={{ flex: 1, flexDirection: "row-reverse" }} />
           <IconButton
             color="inherit"
             className="notificationBell"

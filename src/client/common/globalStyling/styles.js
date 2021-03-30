@@ -72,6 +72,15 @@ const styles = {
     flexDirection: "column",
     height: "100%",
     justifyContent: "center"
+  },
+  searchBar: {
+    background: "#5472AC",
+    display: "inline-flex",
+    alignItems: "center",
+    padding: "5px 20px 5px 10px",
+    borderRadius: "5px",
+    width: "50%",
+    height: "33px"
   }
 };
 

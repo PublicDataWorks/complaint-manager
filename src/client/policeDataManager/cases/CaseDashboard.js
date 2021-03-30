@@ -21,7 +21,9 @@ class CaseDashboard extends Component {
   render() {
     return (
       <div>
-        <NavBar menuType={policeDataManagerMenuOptions}>View All Cases</NavBar>
+        <NavBar menuType={policeDataManagerMenuOptions} showSearchBar>
+          View All Cases
+        </NavBar>
         <ComplaintTotals />
         <CreateCaseButton />
         <CasesTable currentPage={this.props.currentPage} archived={false} />

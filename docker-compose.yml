@@ -21,6 +21,7 @@ services:
     depends_on:
       - db
       - worker
+      - create-search-index
     ports:
       - "1234:1234"
       - "443:443"
