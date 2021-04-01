@@ -5,7 +5,10 @@ import formatDate, {
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
+import {
+  FIRST_CONTACTED_ORGANIZATION,
+  INSTANCE_CIVILIAN_WITHIN_PD_TITLE
+} from "../../../../../instance-files/constants";
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
@@ -72,7 +75,7 @@ export const getComplainantData = caseDetail => {
       } else {
         const nameTitle =
           complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
-            ? "Civilian (NOPD) Name"
+            ? `${INSTANCE_CIVILIAN_WITHIN_PD_TITLE} Name`
             : "Officer Name";
 
         const complainantData = {
@@ -104,7 +107,7 @@ export const getWitnessData = caseDetail => {
     } else {
       const nameTitle =
         witness.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
-          ? "Civilian (NOPD) Name"
+          ? `${INSTANCE_CIVILIAN_WITHIN_PD_TITLE} Name`
           : "Officer Name";
       const witnessData = {
         [nameTitle]: fullNameIsAnonymous(witness),
@@ -128,7 +131,7 @@ export const getAccusedOfficerData = officer => {
   } else {
     const nameTitle =
       officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
-        ? "Civilian (NOPD) Name"
+        ? `${INSTANCE_CIVILIAN_WITHIN_PD_TITLE} Name`
         : "Officer Name";
     officerData = [
       {
