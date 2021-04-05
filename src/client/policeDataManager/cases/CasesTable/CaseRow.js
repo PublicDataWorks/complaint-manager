@@ -2,8 +2,7 @@ import React from "react";
 import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../../../sharedUtilities/formatDate";
-import { Link } from "react-router-dom";
-import LinkButton from "../../shared/components/LinkButton";
+import history from "../../../history";
 import tableStyleGenerator from "../../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
 import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
@@ -28,7 +27,15 @@ const formatCaseStatusForDPM = status => {
 
 const CaseRow = ({ classes, caseDetails, currentUser }) => {
   return (
-    <TableRow data-testid={`caseRow${caseDetails.id}`} className={classes.row}>
+    <TableRow
+      style={{ cursor: "pointer" }}
+      data-testid={`caseRow${caseDetails.id}`}
+      className={classes.row}
+      hover
+      onClick={() => {
+        history.push(`/cases/${caseDetails.id}`);
+      }}
+    >
       <TableCell data-testid="caseReference" className={classes.cell}>
         <div>{caseDetails.caseReference}</div>
       </TableCell>
@@ -50,17 +57,8 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       <TableCell data-testid="caseFirstContactDate" className={classes.cell}>
         <div>{formatDate(caseDetails.firstContactDate)}</div>
       </TableCell>
-      <TableCell data-testid="caseAssignedTo" className={classes.cell}>
+      <TableCell data-testid="caseAssignedTo" className={classes.buttonCell}>
         <UserAvatar email={caseDetails.assignedTo} />
-      </TableCell>
-      <TableCell data-testid="openCase" className={classes.buttonCell}>
-        <LinkButton
-          component={Link}
-          to={`/cases/${caseDetails.id}`}
-          data-testid="openCaseButton"
-        >
-          Open Case
-        </LinkButton>
       </TableCell>
     </TableRow>
   );

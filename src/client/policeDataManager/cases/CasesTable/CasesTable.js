@@ -224,10 +224,6 @@ class CasesTable extends React.Component {
                       <Typography variant="subtitle2">Assigned To</Typography>
                     </TableSortLabel>
                   </TableCell>
-                  <TableCell
-                    style={{ width: "14%" }}
-                    className={classes.cell}
-                  />
                 </TableRow>
               </TableHead>
             </Fragment>
