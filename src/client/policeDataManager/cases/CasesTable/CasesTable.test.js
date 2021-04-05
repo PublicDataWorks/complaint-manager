@@ -276,16 +276,6 @@ describe("cases table", () => {
       expect(assignedTo.text()).toEqual("TU");
     });
 
-    test("should display an open case button", () => {
-      const openCaseButton = caseRow.find('[data-testid="openCaseButton"]');
-      expect(openCaseButton.exists()).toEqual(true);
-    });
-
-    test("open case button should refer to the case detail page", () => {
-      const openCaseButton = caseRow.find('a[data-testid="openCaseButton"]');
-      expect(openCaseButton.prop("href")).toEqual("/cases/17");
-    });
-
     test("should display multiple cases", () => {
       const otherCaseRow = tableWrapper.find('tr[data-testid="caseRow24"]');
       expect(otherCaseRow.exists()).toEqual(true);
