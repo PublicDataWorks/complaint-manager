@@ -48,7 +48,7 @@ services:
       - 9300:9300
   localstack:
     container_name: "${LOCALSTACK_DOCKER_NAME-localstack}"
-    image: localstack/localstack
+    image: localstack/localstack:0.12.7
     hostname: localstack
     ports:
       - "4566:4566"
