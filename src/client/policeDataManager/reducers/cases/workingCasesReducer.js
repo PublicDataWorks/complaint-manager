@@ -1,7 +1,8 @@
 import {
   CASE_CREATED_SUCCESS,
   GET_WORKING_CASES_SUCCESS,
-  RESET_WORKING_CASES_LOADED
+  RESET_WORKING_CASES_LOADED,
+  SEARCH_SUCCESS
 } from "../../../../sharedUtilities/constants";
 
 const initialState = {
@@ -12,6 +13,18 @@ const initialState = {
 };
 const workingCasesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SEARCH_SUCCESS:
+      const {
+        rows: cases,
+        totalRecords: totalCaseCount
+      } = action.searchResults || {};
+
+      return {
+        loaded: true,
+        cases,
+        totalCaseCount,
+        currentPage: 1
+      };
     case GET_WORKING_CASES_SUCCESS:
       return {
         loaded: true,

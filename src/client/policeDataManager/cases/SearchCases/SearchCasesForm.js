@@ -10,9 +10,11 @@ import axios from "axios";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 const getSearchResults = async queryString => {
-  return await axios.get(`api/cases/search`, {
-    params: { queryString: queryString }
+  const searchResults = await axios.get(`api/cases/search`, {
+    params: { queryString }
   });
+
+  return searchResults;
 };
 
 class SearchCasesForm extends Component {
