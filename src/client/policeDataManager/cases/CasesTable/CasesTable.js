@@ -28,12 +28,7 @@ const styles = theme => ({
   ...tableStyleGenerator(theme).table
 });
 
-const toggleDirection = direction => {
-  if (direction === DESCENDING) {
-    return ASCENDING;
-  }
-  return DESCENDING;
-};
+const toggleDirection = direction => direction === DESCENDING ? ASCENDING : DESCENDING;
 
 class CasesTable extends React.Component {
   constructor(props) {
@@ -44,6 +39,7 @@ class CasesTable extends React.Component {
   updateSort(sortBy, sortDirection) {
     this.props.dispatch(updateSort(sortBy, sortDirection));
   }
+  
   getCases(sortBy, sortDirection, page) {
     this.props.archived
       ? this.props.dispatch(getArchivedCases(sortBy, sortDirection, page))

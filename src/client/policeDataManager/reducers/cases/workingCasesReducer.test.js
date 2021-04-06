@@ -2,8 +2,9 @@ import workingCasesReducer from "./workingCasesReducer";
 import {
   createCaseSuccess,
   getWorkingCasesSuccess,
-  resetWorkingCasesLoaded
+  resetWorkingCasesLoaded,
 } from "../../actionCreators/casesActionCreators";
+import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 describe("workingCasesReducer", () => {
   test("should default to empty array", () => {
@@ -37,6 +38,34 @@ describe("workingCasesReducer", () => {
     });
   });
 
+  describe("SEARCH_SUCCESS", () => {
+    test("should replace all cases in state", () => {
+      const oldState = {
+        loaded: false,
+        cases: ["case a", "case b"],
+        totalCaseCount: 5,
+        currentPage: 1
+      };
+
+      const newPage = 1;
+      const searchResults = {
+        rows: ["case 1", "case 2"],
+        totalRecords: 2
+      };
+
+      const action = searchSuccess(searchResults, newPage);
+
+      const newState = workingCasesReducer(oldState, action);
+
+      expect(newState).toStrictEqual({
+        loaded: true,
+        cases: action.searchResults.rows,
+        totalCaseCount: action.searchResults.totalRecords,
+        currentPage: 1
+      });
+    });
+  });
+  
   describe("GET_WORKING_CASES_SUCCESS", () => {
     test("should replace all cases in state", () => {
       const oldState = {

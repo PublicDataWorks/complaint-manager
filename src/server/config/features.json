@@ -26,5 +26,14 @@
     "criteria": {
       "isPreProd": true
     }
+  },
+  {
+    "id": "searchCasesFeature",
+    "name": "searchCasesFeature",
+    "description": "Search for cases using Elasticsearch",
+    "enabled": true,
+    "criteria": {
+      "isPreProd": true
+    }
   }
 ]

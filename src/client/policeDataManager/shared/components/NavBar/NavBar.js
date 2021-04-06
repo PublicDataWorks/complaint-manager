@@ -118,7 +118,10 @@ class NavBar extends Component {
               justifyContent: "center"
             }}
           />
-          {showSearchBar ? <SearchCasesForm /> : <div />}
+
+          {this.props.featureToggles.searchCasesFeature && showSearchBar
+           ? <SearchCasesForm />
+           : <div />}
 
           <div style={{ flex: 1, flexDirection: "row-reverse" }} />
           <IconButton
