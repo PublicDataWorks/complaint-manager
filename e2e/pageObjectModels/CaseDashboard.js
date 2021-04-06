@@ -21,7 +21,7 @@ const caseDashboardCommands = {
   },
   goToACCase: function () {
     const customSelector = util.format(
-      this.elements.openCaseButton.selector,
+      this.elements.caseReference.selector,
       this.api.globals.current_case
     );
     this.api.useXpath().click(c2x(customSelector), e2e.logOnClick).useCss();
@@ -61,10 +61,6 @@ module.exports = {
     pageTitle: { selector: "[data-testid='pageTitle']" },
     caseReference: {
       selector: "[data-testid='caseReference']:contains('%s')"
-    },
-    openCaseButton: {
-      selector:
-        ".//*[@data-testid='caseReference'][contains(normalize-space(),'%s')]/parent::tr/descendant::*[@data-testid='openCaseButton']"
     },
     newCaseButton: {
       selector: "[data-testid='createCaseButton'] > span"
