@@ -11,7 +11,7 @@ const archivedCasesCommands = {
   },
   openArchivedCase: function () {
     const customSelector = util.format(
-      this.elements.openCaseButton.selector,
+      this.elements.caseReference.selector,
       this.api.globals.current_case
     );
     this.api
@@ -26,9 +26,8 @@ module.exports = {
   commands: [archivedCasesCommands],
   elements: {
     pageTitle: { selector: "[data-testid='pageTitle']" },
-    openCaseButton: {
-      selector:
-        ".//*[@data-testid='caseReference'][contains(normalize-space(),'%s')]/parent::tr/descendant::*[@data-testid='openCaseButton']"
-    }
+    caseReference: {
+      selector: "[data-testid='caseReference']:contains('%s')"
+    },
   }
 };
