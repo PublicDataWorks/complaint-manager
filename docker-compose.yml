@@ -39,6 +39,7 @@ services:
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
       - ./localstack-seed-files:/app/localstack-seed-files
+      - $INSTANCE_FILES_DIR:/app/src/instance-files
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
     container_name: elasticsearch
@@ -93,6 +94,7 @@ services:
       - ./scripts:/app/scripts
       - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
+      - $INSTANCE_FILES_DIR:/app/src/instance-files
   worker:
     build:
       context: .
