@@ -15,15 +15,19 @@ const useStyles = makeStyles({
 const UserAvatar = props => {
   const classes = useStyles();
 
-  const initials = props.email.substring(0, 2).toUpperCase();
+  if (props.email) {
+    const initials = props.email.substring(0, 2).toUpperCase();
 
-  return (
-    <div>
-      <Tooltip data-testid={`tooltip-${initials}`} title={props.email}>
-        <Avatar className={classes.avatar}>{initials}</Avatar>
-      </Tooltip>
-    </div>
-  );
+    return (
+      <div>
+        <Tooltip data-testid={`tooltip-${initials}`} title={props.email}>
+          <Avatar className={classes.avatar}>{initials}</Avatar>
+        </Tooltip>
+      </div>
+    );
+  } else {
+    return <div data-testid="no-avatar"></div>;
+  }
 };
 
 export default UserAvatar;
