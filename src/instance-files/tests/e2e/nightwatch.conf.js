@@ -57,7 +57,8 @@ module.exports = {
         browserName: "chrome",
         chromeOptions: {
           args: ["--headless", "--no-sandbox", "--ignore-certificate-errors"]
-        }
+        },
+        acceptInsecureCerts: true
       }
     },
     ci: {
