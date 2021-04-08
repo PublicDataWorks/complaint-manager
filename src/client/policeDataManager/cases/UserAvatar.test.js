@@ -13,4 +13,9 @@ describe("UserAvatar", () => {
     fireEvent.mouseMove(screen.getByText("TE"));
     expect(screen.getByTestId("tooltip-TE")).toBeTruthy();
   });
+
+  it("should not display avatar unless an email is provided", () => {
+    render(<UserAvatar></UserAvatar>);
+    expect(screen.getByTestId("no-avatar")).toBeTruthy();
+  });
 });
