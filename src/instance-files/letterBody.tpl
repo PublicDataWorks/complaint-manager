@@ -399,7 +399,7 @@
 
   <p>I appreciate your prompt attention to this matter.
     Please acknowledge receipt of this complaint and provide the OIPM with a PIB #.
-    Please contact Bonycle Sokunbi or Abe Lowe IV if you have any questions regarding this complaint.
+    Please contact Stella Cziment or Abe Lowe IV if you have any questions regarding this complaint.
   </p>
   <p><br></p>
 
