@@ -2,19 +2,25 @@
 
 (async () => {
   const environment = process.env.NODE_ENV || "development";
-  const { protocol, host, port, indexName: index } = require("./index-config")[
-    environment
-  ];
-  const username = process.env.ELASTIC_USERNAME;
-  const password = process.env.ELASTIC_PASSWORD;
+  const {
+    protocol,
+    host,
+    port,
+    indexName: index
+  } = require("./index-config")[environment];
+  
+  const username = process.env.ELASTIC_USERNAME || null;
+  const password = process.env.ELASTIC_PASSWORD || null;
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${
-      username ? username + ":" + password + "@" : ""
-    }${host}${port ? ":" + port : ""}`
+    node: `${protocol}${host}${port ? ':' + port : ''}`,
+    auth: { username, password },
+    ssl: {
+      rejectUnauthorized: false
+    }
   });
-
+  
   process.on("uncaughtException", error => {
     console.error(typeof error);
     console.error(error);
@@ -69,7 +75,10 @@
     ]
   });
   const caseOfficersResults = await models.case_officer.findAll({});
-  const civiliansResults = await models.civilian.findAll({});
+  const civiliansResults = await models.civilian.findAll(
+    { where: {} },
+    { roleOnCase: 'Complainant' }
+  );
 
   if (
     !tagsResults.length &&

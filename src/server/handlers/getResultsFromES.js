@@ -10,14 +10,16 @@ export const getResultsFromES = async (queryString, currentPage = 1) => {
   } = require("../../../scripts/search/index-config")[environment];
   const size = DEFAULT_PAGINATION_LIMIT;
 
-  const username = process.env.ELASTIC_USERNAME;
-  const password = process.env.ELASTIC_PASSWORD;
+  const username = process.env.ELASTIC_USERNAME || null;
+  const password = process.env.ELASTIC_PASSWORD || null;
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${
-      username ? username + ":" + password + "@" : ""
-    }${host}${port ? ":" + port : ""}`
+    node: `${protocol}${host}${port ? ':' + port : ''}`,
+    auth: { username, password },
+    ssl: {
+      rejectUnauthorized: false
+    }
   });
 
   const { body: searchResults } = await elasticClient
