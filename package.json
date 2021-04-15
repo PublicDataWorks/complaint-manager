@@ -174,7 +174,8 @@
     "**/node-fetch": "2.6.1",
     "**/immer": "8.0.1",
     "**/bl": "2.2.1",
-    "**/netmask": "2.0.1"
+    "**/netmask": "2.0.1",
+    "**/ssri": "8.0.1"
   },
   "browserslist": {
     "production": [

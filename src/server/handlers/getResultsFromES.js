@@ -18,7 +18,6 @@ export const getResultsFromES = async (queryString, currentPage = 1) => {
     node: `${protocol}${host}${port ? ':' + port : ''}`,
     auth: { username, password },
     ssl: {
-      ca: "../../server.crt",
       rejectUnauthorized: false
     }
   });
