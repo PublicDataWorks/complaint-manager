@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import history from "../../../history";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { SEARCH_CASES_FORM_NAME } from "../../../../sharedUtilities/constants";
@@ -9,26 +10,26 @@ import { renderTextField } from "../sharedFormComponents/renderFunctions";
 import axios from "axios";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
-const getSearchResults = async queryString => {
-  const searchResults = await axios.get(`api/cases/search`, {
-    params: { queryString }
-  });
-
-  return searchResults;
-};
-
 class SearchCasesForm extends Component {
-  submit = async ({ queryString }, dispatch) => {
-    const response = await getSearchResults(queryString);
-    dispatch(searchSuccess(response.data));
+  submit = async({ queryString }, dispatch) => {
+    if (!queryString || queryString.length < 3) return;
+    const response = await axios.get(`api/cases/search`, {
+      params: { queryString }
+    });
+    await dispatch(searchSuccess(response.data));
+    history.push(`/search?queryString=${queryString}`);
   };
 
+  submitWithKey = event => {
+    event.preventDefault();
+    this.props.handleSubmit(this.submit)();
+  };
+  
   render() {
     return (
       <form
-        onSubmit={event => event.preventDefault()}
-        style={{ ...styles.searchBar }}
-      >
+        onSubmit={this.submitWithKey}
+        style={{ ...styles.searchBar }}>
         <IconButton
           color="inherit"
           data-testid="searchButton"

@@ -22,6 +22,8 @@ import {
 } from "../../../../sharedUtilities/constants";
 import SearchResults from "../../shared/components/SearchResults";
 import logger from "../../../logger";
+import axios from "axios";
+import { searchSuccess, searchFailed } from "../../actionCreators/searchActionCreators";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -33,11 +35,29 @@ const toggleDirection = direction => direction === DESCENDING ? ASCENDING : DESC
 class CasesTable extends React.Component {
   constructor(props) {
     super(props);
+    this.currentPage = this.props.currentPage || 1;
     this.onChange = this.onChange.bind(this);
   }
 
   updateSort(sortBy, sortDirection) {
     this.props.dispatch(updateSort(sortBy, sortDirection));
+  }
+
+  async getSearchResults(sortBy, sortDirection) {
+    // Get currentPage from here, if necessary.
+    const rawParams = location.search;
+    const [queryString] = rawParams.split(/(?:&|\?)[^=]+=/).slice(1)
+    if (!queryString) {
+      console.warn("No queryString param provided while searching.");
+      this.props.dispatch(searchFailed());
+      return;
+    }
+    
+    const response = await axios.get(`api/cases/search`, {
+      params: { queryString, currentPage: this.currentPage }
+    });
+
+    this.props.dispatch(searchSuccess(response.data));
   }
   
   getCases(sortBy, sortDirection, page) {
@@ -46,10 +66,15 @@ class CasesTable extends React.Component {
       : this.props.dispatch(getWorkingCases(sortBy, sortDirection, page));
   }
 
+  getCasesOrSearchResults(sortBy, sortDirection, currentPage) {
+    const caseFetchType = this.props.searchResults ? 'getSearchResults' : 'getCases';
+    this.currentPage = currentPage;
+    this[caseFetchType](sortBy, sortDirection, this.currentPage);
+  }
+
   renderNoCasesMessage() {
-    return `There are no ${
-      this.props.archived ? "archived " : ""
-    }cases to view.`;
+    if (this.props.searchResults) return 'No complaints matched your search.';
+    return `There are no ${this.props.archived ? 'archived ' : ''}cases to view.`;
   }
 
   getPagination() {
@@ -57,12 +82,12 @@ class CasesTable extends React.Component {
       onChange: this.onChange,
       totalMessage: total => `${total} results found`,
       count: this.props.totalCaseCount,
-      currentPage: this.props.currentPage
+      currentPage: this.currentPage
     };
   }
 
   componentDidMount() {
-    this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
+    this.getCasesOrSearchResults(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
     this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
   }
 
@@ -85,6 +110,7 @@ class CasesTable extends React.Component {
   }
 
   updateSorting(newSortBy) {
+    if (this.props.searchResults) return;
     let newSortDirection;
     if (this.props.sortBy === newSortBy) {
       newSortDirection = toggleDirection(this.props.sortDirection);
@@ -96,7 +122,7 @@ class CasesTable extends React.Component {
   }
 
   onChange(currentPage) {
-    this.getCases(this.props.sortBy, this.props.sortDirection, currentPage);
+    this.getCasesOrSearchResults(this.props.sortBy, this.props.sortDirection, currentPage);
   }
 
   render() {
@@ -239,20 +265,26 @@ class CasesTable extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  cases: ownProps.archived
-    ? state.cases.archived.cases
-    : state.cases.working.cases,
-  totalCaseCount: ownProps.archived
-    ? state.cases.archived.totalCaseCount
-    : state.cases.working.totalCaseCount,
-  loaded: ownProps.archived
-    ? state.cases.archived.loaded
-    : state.cases.working.loaded,
-  currentUser: state.users.current.userInfo,
-  sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection
-});
+const mapStateToProps = (state, { archived, searchResults }) => {
+  let caseType = archived ? 'archived' : 'working';
+  let currentUser = state.users.current.userInfo;
+  let { sortBy, sortDirection } = state.ui.casesTable;
+  let { cases, totalCaseCount, loaded } = state.cases[caseType];
+
+  if (searchResults) {
+    cases = state.ui.search.searchResults.rows;
+    totalCaseCount = state.ui.search.searchResults.totalRecords;
+  }
+
+  return {
+    cases,
+    totalCaseCount,
+    loaded,
+    currentUser,
+    sortBy,
+    sortDirection
+  };
+};
 
 export default withStyles(styles, { withTheme: true })(
   connect(mapStateToProps)(CasesTable)
