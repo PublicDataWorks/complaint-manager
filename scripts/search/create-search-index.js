@@ -76,8 +76,7 @@
   });
   const caseOfficersResults = await models.case_officer.findAll({});
   const civiliansResults = await models.civilian.findAll(
-    { where: {} },
-    { roleOnCase: 'Complainant' }
+    { where: { roleOnCase: 'Complainant' } }
   );
 
   if (
