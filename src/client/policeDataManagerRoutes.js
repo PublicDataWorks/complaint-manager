@@ -17,6 +17,7 @@ import EditOfficerDetails from "./policeDataManager/officers/OfficerDetails/Edit
 import LetterPreview from "./policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview";
 import ReviewAndApproveLetter from "./policeDataManager/cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
 import DataDashboard from "./policeDataManager/data/DataDashboard";
+import SearchCasesPage from "./policeDataManager/cases/SearchCases/SearchCasesPage";
 
 const policeDataManagerRoutes = [
   {
@@ -26,6 +27,10 @@ const policeDataManagerRoutes = [
   {
     path: "/",
     component: CaseDashboard
+  },
+  {
+    path: "/search",
+    component: SearchCasesPage
   },
   {
     path: "/dashboard",

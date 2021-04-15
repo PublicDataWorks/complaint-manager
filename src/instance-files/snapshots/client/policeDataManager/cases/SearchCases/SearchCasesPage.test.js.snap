@@ -1,0 +1,2386 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Cases Page should render cases table with correct styling 1`] = `
+<Provider
+  store={
+    Object {
+      "dispatch": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+      Symbol(observable): [Function],
+    }
+  }
+>
+  <BrowserRouter>
+    <Router
+      history={
+        Object {
+          "action": "POP",
+          "block": [Function],
+          "createHref": [Function],
+          "go": [Function],
+          "goBack": [Function],
+          "goForward": [Function],
+          "length": 1,
+          "listen": [Function],
+          "location": Object {
+            "hash": "",
+            "pathname": "/",
+            "search": "",
+            "state": undefined,
+          },
+          "push": [Function],
+          "replace": [Function],
+        }
+      }
+    >
+      <Connect(SearchCasesPage)>
+        <SearchCasesPage
+          updateSort={[Function]}
+        >
+          <Connect(NavBar)
+            menuType={
+              Array [
+                Object {
+                  "dataTestName": "dataDashboard",
+                  "path": "/dashboard",
+                  "title": "Data Dashboard",
+                },
+                Object {
+                  "dataTestName": "exports",
+                  "path": "/export/all",
+                  "title": "Export",
+                },
+                Object {
+                  "dataTestName": "archivedCases",
+                  "path": "/archived-cases",
+                  "title": "Archived Cases",
+                },
+                Object {
+                  "dataTestName": "logOutButton",
+                  "path": "/logout",
+                  "title": "Log Out",
+                },
+              ]
+            }
+            showSearchBar={true}
+          >
+            <NavBar
+              featureToggles={Object {}}
+              getNotificationsForUser={[Function]}
+              menuType={
+                Array [
+                  Object {
+                    "dataTestName": "dataDashboard",
+                    "path": "/dashboard",
+                    "title": "Data Dashboard",
+                  },
+                  Object {
+                    "dataTestName": "exports",
+                    "path": "/export/all",
+                    "title": "Export",
+                  },
+                  Object {
+                    "dataTestName": "archivedCases",
+                    "path": "/archived-cases",
+                    "title": "Archived Cases",
+                  },
+                  Object {
+                    "dataTestName": "logOutButton",
+                    "path": "/logout",
+                    "title": "Log Out",
+                  },
+                ]
+              }
+              nickname=""
+              notifications={Array []}
+              permissions={Array []}
+              showHome={true}
+              showSearchBar={true}
+            >
+              <WithStyles(ForwardRef(AppBar))
+                data-testid="header"
+                position="static"
+                style={
+                  Object {
+                    "position": "relative",
+                    "width": "100%",
+                    "zIndex": 2200,
+                  }
+                }
+              >
+                <ForwardRef(AppBar)
+                  classes={
+                    Object {
+                      "colorDefault": "MuiAppBar-colorDefault",
+                      "colorInherit": "MuiAppBar-colorInherit",
+                      "colorPrimary": "MuiAppBar-colorPrimary",
+                      "colorSecondary": "MuiAppBar-colorSecondary",
+                      "colorTransparent": "MuiAppBar-colorTransparent",
+                      "positionAbsolute": "MuiAppBar-positionAbsolute",
+                      "positionFixed": "MuiAppBar-positionFixed",
+                      "positionRelative": "MuiAppBar-positionRelative",
+                      "positionStatic": "MuiAppBar-positionStatic",
+                      "positionSticky": "MuiAppBar-positionSticky",
+                      "root": "MuiAppBar-root",
+                    }
+                  }
+                  data-testid="header"
+                  position="static"
+                  style={
+                    Object {
+                      "position": "relative",
+                      "width": "100%",
+                      "zIndex": 2200,
+                    }
+                  }
+                >
+                  <WithStyles(ForwardRef(Paper))
+                    className="MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary"
+                    component="header"
+                    data-testid="header"
+                    elevation={4}
+                    square={true}
+                    style={
+                      Object {
+                        "position": "relative",
+                        "width": "100%",
+                        "zIndex": 2200,
+                      }
+                    }
+                  >
+                    <ForwardRef(Paper)
+                      className="MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary"
+                      classes={
+                        Object {
+                          "elevation0": "MuiPaper-elevation0",
+                          "elevation1": "MuiPaper-elevation1",
+                          "elevation10": "MuiPaper-elevation10",
+                          "elevation11": "MuiPaper-elevation11",
+                          "elevation12": "MuiPaper-elevation12",
+                          "elevation13": "MuiPaper-elevation13",
+                          "elevation14": "MuiPaper-elevation14",
+                          "elevation15": "MuiPaper-elevation15",
+                          "elevation16": "MuiPaper-elevation16",
+                          "elevation17": "MuiPaper-elevation17",
+                          "elevation18": "MuiPaper-elevation18",
+                          "elevation19": "MuiPaper-elevation19",
+                          "elevation2": "MuiPaper-elevation2",
+                          "elevation20": "MuiPaper-elevation20",
+                          "elevation21": "MuiPaper-elevation21",
+                          "elevation22": "MuiPaper-elevation22",
+                          "elevation23": "MuiPaper-elevation23",
+                          "elevation24": "MuiPaper-elevation24",
+                          "elevation3": "MuiPaper-elevation3",
+                          "elevation4": "MuiPaper-elevation4",
+                          "elevation5": "MuiPaper-elevation5",
+                          "elevation6": "MuiPaper-elevation6",
+                          "elevation7": "MuiPaper-elevation7",
+                          "elevation8": "MuiPaper-elevation8",
+                          "elevation9": "MuiPaper-elevation9",
+                          "outlined": "MuiPaper-outlined",
+                          "root": "MuiPaper-root",
+                          "rounded": "MuiPaper-rounded",
+                        }
+                      }
+                      component="header"
+                      data-testid="header"
+                      elevation={4}
+                      square={true}
+                      style={
+                        Object {
+                          "position": "relative",
+                          "width": "100%",
+                          "zIndex": 2200,
+                        }
+                      }
+                    >
+                      <header
+                        className="MuiPaper-root MuiAppBar-root MuiAppBar-positionStatic MuiAppBar-colorPrimary MuiPaper-elevation4"
+                        data-testid="header"
+                        style={
+                          Object {
+                            "position": "relative",
+                            "width": "100%",
+                            "zIndex": 2200,
+                          }
+                        }
+                      >
+                        <WithStyles(ForwardRef(Toolbar))>
+                          <ForwardRef(Toolbar)
+                            classes={
+                              Object {
+                                "dense": "MuiToolbar-dense",
+                                "gutters": "MuiToolbar-gutters",
+                                "regular": "MuiToolbar-regular",
+                                "root": "MuiToolbar-root",
+                              }
+                            }
+                          >
+                            <div
+                              className="MuiToolbar-root MuiToolbar-regular MuiToolbar-gutters"
+                            >
+                              <WithStyles(ForwardRef(IconButton))
+                                component={
+                                  Object {
+                                    "$$typeof": Symbol(react.forward_ref),
+                                    "displayName": "Link",
+                                    "propTypes": Object {
+                                      "innerRef": [Function],
+                                      "onClick": [Function],
+                                      "replace": [Function],
+                                      "target": [Function],
+                                      "to": [Function],
+                                    },
+                                    "render": [Function],
+                                  }
+                                }
+                                data-testid="homeButton"
+                                disabled={false}
+                                style={
+                                  Object {
+                                    "color": "inherit",
+                                  }
+                                }
+                                to="/"
+                              >
+                                <ForwardRef(IconButton)
+                                  classes={
+                                    Object {
+                                      "colorInherit": "MuiIconButton-colorInherit",
+                                      "colorPrimary": "MuiIconButton-colorPrimary",
+                                      "colorSecondary": "MuiIconButton-colorSecondary",
+                                      "disabled": "Mui-disabled",
+                                      "edgeEnd": "MuiIconButton-edgeEnd",
+                                      "edgeStart": "MuiIconButton-edgeStart",
+                                      "label": "MuiIconButton-label",
+                                      "root": "MuiIconButton-root",
+                                      "sizeSmall": "MuiIconButton-sizeSmall",
+                                    }
+                                  }
+                                  component={
+                                    Object {
+                                      "$$typeof": Symbol(react.forward_ref),
+                                      "displayName": "Link",
+                                      "propTypes": Object {
+                                        "innerRef": [Function],
+                                        "onClick": [Function],
+                                        "replace": [Function],
+                                        "target": [Function],
+                                        "to": [Function],
+                                      },
+                                      "render": [Function],
+                                    }
+                                  }
+                                  data-testid="homeButton"
+                                  disabled={false}
+                                  style={
+                                    Object {
+                                      "color": "inherit",
+                                    }
+                                  }
+                                  to="/"
+                                >
+                                  <WithStyles(ForwardRef(ButtonBase))
+                                    centerRipple={true}
+                                    className="MuiIconButton-root"
+                                    component={
+                                      Object {
+                                        "$$typeof": Symbol(react.forward_ref),
+                                        "displayName": "Link",
+                                        "propTypes": Object {
+                                          "innerRef": [Function],
+                                          "onClick": [Function],
+                                          "replace": [Function],
+                                          "target": [Function],
+                                          "to": [Function],
+                                        },
+                                        "render": [Function],
+                                      }
+                                    }
+                                    data-testid="homeButton"
+                                    disabled={false}
+                                    focusRipple={true}
+                                    style={
+                                      Object {
+                                        "color": "inherit",
+                                      }
+                                    }
+                                    to="/"
+                                  >
+                                    <ForwardRef(ButtonBase)
+                                      centerRipple={true}
+                                      className="MuiIconButton-root"
+                                      classes={
+                                        Object {
+                                          "disabled": "Mui-disabled",
+                                          "focusVisible": "Mui-focusVisible",
+                                          "root": "MuiButtonBase-root",
+                                        }
+                                      }
+                                      component={
+                                        Object {
+                                          "$$typeof": Symbol(react.forward_ref),
+                                          "displayName": "Link",
+                                          "propTypes": Object {
+                                            "innerRef": [Function],
+                                            "onClick": [Function],
+                                            "replace": [Function],
+                                            "target": [Function],
+                                            "to": [Function],
+                                          },
+                                          "render": [Function],
+                                        }
+                                      }
+                                      data-testid="homeButton"
+                                      disabled={false}
+                                      focusRipple={true}
+                                      style={
+                                        Object {
+                                          "color": "inherit",
+                                        }
+                                      }
+                                      to="/"
+                                    >
+                                      <Link
+                                        aria-disabled={false}
+                                        className="MuiButtonBase-root MuiIconButton-root"
+                                        data-testid="homeButton"
+                                        onBlur={[Function]}
+                                        onDragLeave={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
+                                        role="button"
+                                        style={
+                                          Object {
+                                            "color": "inherit",
+                                          }
+                                        }
+                                        tabIndex={0}
+                                        to="/"
+                                      >
+                                        <LinkAnchor
+                                          aria-disabled={false}
+                                          className="MuiButtonBase-root MuiIconButton-root"
+                                          data-testid="homeButton"
+                                          href="/"
+                                          navigate={[Function]}
+                                          onBlur={[Function]}
+                                          onDragLeave={[Function]}
+                                          onFocus={[Function]}
+                                          onKeyDown={[Function]}
+                                          onKeyUp={[Function]}
+                                          onMouseDown={[Function]}
+                                          onMouseLeave={[Function]}
+                                          onMouseUp={[Function]}
+                                          onTouchEnd={[Function]}
+                                          onTouchMove={[Function]}
+                                          onTouchStart={[Function]}
+                                          role="button"
+                                          style={
+                                            Object {
+                                              "color": "inherit",
+                                            }
+                                          }
+                                          tabIndex={0}
+                                        >
+                                          <a
+                                            aria-disabled={false}
+                                            className="MuiButtonBase-root MuiIconButton-root"
+                                            data-testid="homeButton"
+                                            href="/"
+                                            onBlur={[Function]}
+                                            onClick={[Function]}
+                                            onDragLeave={[Function]}
+                                            onFocus={[Function]}
+                                            onKeyDown={[Function]}
+                                            onKeyUp={[Function]}
+                                            onMouseDown={[Function]}
+                                            onMouseLeave={[Function]}
+                                            onMouseUp={[Function]}
+                                            onTouchEnd={[Function]}
+                                            onTouchMove={[Function]}
+                                            onTouchStart={[Function]}
+                                            role="button"
+                                            style={
+                                              Object {
+                                                "color": "inherit",
+                                              }
+                                            }
+                                            tabIndex={0}
+                                          >
+                                            <span
+                                              className="MuiIconButton-label"
+                                            >
+                                              <ForwardRef(HomeIcon)>
+                                                <WithStyles(ForwardRef(SvgIcon))>
+                                                  <ForwardRef(SvgIcon)
+                                                    classes={
+                                                      Object {
+                                                        "colorAction": "MuiSvgIcon-colorAction",
+                                                        "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                                        "colorError": "MuiSvgIcon-colorError",
+                                                        "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                                        "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                                        "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                                        "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                                        "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                                        "root": "MuiSvgIcon-root",
+                                                      }
+                                                    }
+                                                  >
+                                                    <svg
+                                                      aria-hidden={true}
+                                                      className="MuiSvgIcon-root"
+                                                      focusable="false"
+                                                      viewBox="0 0 24 24"
+                                                    >
+                                                      <path
+                                                        d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+                                                      />
+                                                    </svg>
+                                                  </ForwardRef(SvgIcon)>
+                                                </WithStyles(ForwardRef(SvgIcon))>
+                                              </ForwardRef(HomeIcon)>
+                                            </span>
+                                            <WithStyles(memo)
+                                              center={true}
+                                            >
+                                              <ForwardRef(TouchRipple)
+                                                center={true}
+                                                classes={
+                                                  Object {
+                                                    "child": "MuiTouchRipple-child",
+                                                    "childLeaving": "MuiTouchRipple-childLeaving",
+                                                    "childPulsate": "MuiTouchRipple-childPulsate",
+                                                    "ripple": "MuiTouchRipple-ripple",
+                                                    "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                    "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                    "root": "MuiTouchRipple-root",
+                                                  }
+                                                }
+                                              >
+                                                <span
+                                                  className="MuiTouchRipple-root"
+                                                >
+                                                  <TransitionGroup
+                                                    childFactory={[Function]}
+                                                    component={null}
+                                                    exit={true}
+                                                  />
+                                                </span>
+                                              </ForwardRef(TouchRipple)>
+                                            </WithStyles(memo)>
+                                          </a>
+                                        </LinkAnchor>
+                                      </Link>
+                                    </ForwardRef(ButtonBase)>
+                                  </WithStyles(ForwardRef(ButtonBase))>
+                                </ForwardRef(IconButton)>
+                              </WithStyles(ForwardRef(IconButton))>
+                              <WithStyles(ForwardRef(Typography))
+                                color="inherit"
+                                data-testid="pageTitle"
+                                variant="h6"
+                              >
+                                <ForwardRef(Typography)
+                                  classes={
+                                    Object {
+                                      "alignCenter": "MuiTypography-alignCenter",
+                                      "alignJustify": "MuiTypography-alignJustify",
+                                      "alignLeft": "MuiTypography-alignLeft",
+                                      "alignRight": "MuiTypography-alignRight",
+                                      "body1": "MuiTypography-body1",
+                                      "body2": "MuiTypography-body2",
+                                      "button": "MuiTypography-button",
+                                      "caption": "MuiTypography-caption",
+                                      "colorError": "MuiTypography-colorError",
+                                      "colorInherit": "MuiTypography-colorInherit",
+                                      "colorPrimary": "MuiTypography-colorPrimary",
+                                      "colorSecondary": "MuiTypography-colorSecondary",
+                                      "colorTextPrimary": "MuiTypography-colorTextPrimary",
+                                      "colorTextSecondary": "MuiTypography-colorTextSecondary",
+                                      "displayBlock": "MuiTypography-displayBlock",
+                                      "displayInline": "MuiTypography-displayInline",
+                                      "gutterBottom": "MuiTypography-gutterBottom",
+                                      "h1": "MuiTypography-h1",
+                                      "h2": "MuiTypography-h2",
+                                      "h3": "MuiTypography-h3",
+                                      "h4": "MuiTypography-h4",
+                                      "h5": "MuiTypography-h5",
+                                      "h6": "MuiTypography-h6",
+                                      "noWrap": "MuiTypography-noWrap",
+                                      "overline": "MuiTypography-overline",
+                                      "paragraph": "MuiTypography-paragraph",
+                                      "root": "MuiTypography-root",
+                                      "srOnly": "MuiTypography-srOnly",
+                                      "subtitle1": "MuiTypography-subtitle1",
+                                      "subtitle2": "MuiTypography-subtitle2",
+                                    }
+                                  }
+                                  color="inherit"
+                                  data-testid="pageTitle"
+                                  variant="h6"
+                                >
+                                  <h6
+                                    className="MuiTypography-root MuiTypography-h6 MuiTypography-colorInherit"
+                                    data-testid="pageTitle"
+                                  >
+                                    Search Results
+                                  </h6>
+                                </ForwardRef(Typography)>
+                              </WithStyles(ForwardRef(Typography))>
+                              <div
+                                style={
+                                  Object {
+                                    "alignItems": "center",
+                                    "flex": 1,
+                                    "flexDirection": "row",
+                                    "justifyContent": "center",
+                                  }
+                                }
+                              />
+                              <div />
+                              <div
+                                style={
+                                  Object {
+                                    "flex": 1,
+                                    "flexDirection": "row-reverse",
+                                  }
+                                }
+                              />
+                              <WithStyles(ForwardRef(IconButton))
+                                className="notificationBell"
+                                color="inherit"
+                                data-testid="notificationBell"
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "marginLeft": "16px",
+                                  }
+                                }
+                              >
+                                <ForwardRef(IconButton)
+                                  className="notificationBell"
+                                  classes={
+                                    Object {
+                                      "colorInherit": "MuiIconButton-colorInherit",
+                                      "colorPrimary": "MuiIconButton-colorPrimary",
+                                      "colorSecondary": "MuiIconButton-colorSecondary",
+                                      "disabled": "Mui-disabled",
+                                      "edgeEnd": "MuiIconButton-edgeEnd",
+                                      "edgeStart": "MuiIconButton-edgeStart",
+                                      "label": "MuiIconButton-label",
+                                      "root": "MuiIconButton-root",
+                                      "sizeSmall": "MuiIconButton-sizeSmall",
+                                    }
+                                  }
+                                  color="inherit"
+                                  data-testid="notificationBell"
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "marginLeft": "16px",
+                                    }
+                                  }
+                                >
+                                  <WithStyles(ForwardRef(ButtonBase))
+                                    centerRipple={true}
+                                    className="MuiIconButton-root notificationBell MuiIconButton-colorInherit"
+                                    data-testid="notificationBell"
+                                    disabled={false}
+                                    focusRipple={true}
+                                    onClick={[Function]}
+                                    style={
+                                      Object {
+                                        "marginLeft": "16px",
+                                      }
+                                    }
+                                  >
+                                    <ForwardRef(ButtonBase)
+                                      centerRipple={true}
+                                      className="MuiIconButton-root notificationBell MuiIconButton-colorInherit"
+                                      classes={
+                                        Object {
+                                          "disabled": "Mui-disabled",
+                                          "focusVisible": "Mui-focusVisible",
+                                          "root": "MuiButtonBase-root",
+                                        }
+                                      }
+                                      data-testid="notificationBell"
+                                      disabled={false}
+                                      focusRipple={true}
+                                      onClick={[Function]}
+                                      style={
+                                        Object {
+                                          "marginLeft": "16px",
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        className="MuiButtonBase-root MuiIconButton-root notificationBell MuiIconButton-colorInherit"
+                                        data-testid="notificationBell"
+                                        disabled={false}
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onDragLeave={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
+                                        style={
+                                          Object {
+                                            "marginLeft": "16px",
+                                          }
+                                        }
+                                        tabIndex={0}
+                                        type="button"
+                                      >
+                                        <span
+                                          className="MuiIconButton-label"
+                                        >
+                                          <WithStyles(ForwardRef(Badge))
+                                            badgeContent={0}
+                                            color="error"
+                                          >
+                                            <ForwardRef(Badge)
+                                              badgeContent={0}
+                                              classes={
+                                                Object {
+                                                  "anchorOriginBottomLeftCircle": "MuiBadge-anchorOriginBottomLeftCircle",
+                                                  "anchorOriginBottomLeftRectangle": "MuiBadge-anchorOriginBottomLeftRectangle",
+                                                  "anchorOriginBottomRightCircle": "MuiBadge-anchorOriginBottomRightCircle",
+                                                  "anchorOriginBottomRightRectangle": "MuiBadge-anchorOriginBottomRightRectangle",
+                                                  "anchorOriginTopLeftCircle": "MuiBadge-anchorOriginTopLeftCircle",
+                                                  "anchorOriginTopLeftRectangle": "MuiBadge-anchorOriginTopLeftRectangle",
+                                                  "anchorOriginTopRightCircle": "MuiBadge-anchorOriginTopRightCircle",
+                                                  "anchorOriginTopRightRectangle": "MuiBadge-anchorOriginTopRightRectangle",
+                                                  "badge": "MuiBadge-badge",
+                                                  "colorError": "MuiBadge-colorError",
+                                                  "colorPrimary": "MuiBadge-colorPrimary",
+                                                  "colorSecondary": "MuiBadge-colorSecondary",
+                                                  "dot": "MuiBadge-dot",
+                                                  "invisible": "MuiBadge-invisible",
+                                                  "root": "MuiBadge-root",
+                                                }
+                                              }
+                                              color="error"
+                                            >
+                                              <span
+                                                className="MuiBadge-root"
+                                              >
+                                                <ForwardRef(NotificationsIcon)>
+                                                  <WithStyles(ForwardRef(SvgIcon))>
+                                                    <ForwardRef(SvgIcon)
+                                                      classes={
+                                                        Object {
+                                                          "colorAction": "MuiSvgIcon-colorAction",
+                                                          "colorDisabled": "MuiSvgIcon-colorDisabled",
+                                                          "colorError": "MuiSvgIcon-colorError",
+                                                          "colorPrimary": "MuiSvgIcon-colorPrimary",
+                                                          "colorSecondary": "MuiSvgIcon-colorSecondary",
+                                                          "fontSizeInherit": "MuiSvgIcon-fontSizeInherit",
+                                                          "fontSizeLarge": "MuiSvgIcon-fontSizeLarge",
+                                                          "fontSizeSmall": "MuiSvgIcon-fontSizeSmall",
+                                                          "root": "MuiSvgIcon-root",
+                                                        }
+                                                      }
+                                                    >
+                                                      <svg
+                                                        aria-hidden={true}
+                                                        className="MuiSvgIcon-root"
+                                                        focusable="false"
+                                                        viewBox="0 0 24 24"
+                                                      >
+                                                        <path
+                                                          d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"
+                                                        />
+                                                      </svg>
+                                                    </ForwardRef(SvgIcon)>
+                                                  </WithStyles(ForwardRef(SvgIcon))>
+                                                </ForwardRef(NotificationsIcon)>
+                                                <span
+                                                  className="MuiBadge-badge MuiBadge-anchorOriginTopRightRectangle MuiBadge-colorError MuiBadge-invisible"
+                                                >
+                                                  0
+                                                </span>
+                                              </span>
+                                            </ForwardRef(Badge)>
+                                          </WithStyles(ForwardRef(Badge))>
+                                        </span>
+                                        <WithStyles(memo)
+                                          center={true}
+                                        >
+                                          <ForwardRef(TouchRipple)
+                                            center={true}
+                                            classes={
+                                              Object {
+                                                "child": "MuiTouchRipple-child",
+                                                "childLeaving": "MuiTouchRipple-childLeaving",
+                                                "childPulsate": "MuiTouchRipple-childPulsate",
+                                                "ripple": "MuiTouchRipple-ripple",
+                                                "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                "root": "MuiTouchRipple-root",
+                                              }
+                                            }
+                                          >
+                                            <span
+                                              className="MuiTouchRipple-root"
+                                            >
+                                              <TransitionGroup
+                                                childFactory={[Function]}
+                                                component={null}
+                                                exit={true}
+                                              />
+                                            </span>
+                                          </ForwardRef(TouchRipple)>
+                                        </WithStyles(memo)>
+                                      </button>
+                                    </ForwardRef(ButtonBase)>
+                                  </WithStyles(ForwardRef(ButtonBase))>
+                                </ForwardRef(IconButton)>
+                              </WithStyles(ForwardRef(IconButton))>
+                              <Connect(NotificationDrawer)
+                                onClose={[Function]}
+                                open={false}
+                              >
+                                <NotificationDrawer
+                                  dispatch={[Function]}
+                                  notifications={Array []}
+                                  onClose={[Function]}
+                                  open={false}
+                                >
+                                  <WithStyles(ForwardRef(Drawer))
+                                    SlideProps={
+                                      Object {
+                                        "appear": true,
+                                        "enter": true,
+                                        "exit": true,
+                                        "timeout": Object {
+                                          "enter": 300,
+                                          "exit": 300,
+                                        },
+                                      }
+                                    }
+                                    anchor="right"
+                                    data-testid="notificationDrawer"
+                                    onClose={[Function]}
+                                    open={false}
+                                    variant="temporary"
+                                  >
+                                    <ForwardRef(Drawer)
+                                      SlideProps={
+                                        Object {
+                                          "appear": true,
+                                          "enter": true,
+                                          "exit": true,
+                                          "timeout": Object {
+                                            "enter": 300,
+                                            "exit": 300,
+                                          },
+                                        }
+                                      }
+                                      anchor="right"
+                                      classes={
+                                        Object {
+                                          "docked": "MuiDrawer-docked",
+                                          "modal": "MuiDrawer-modal",
+                                          "paper": "MuiDrawer-paper",
+                                          "paperAnchorBottom": "MuiDrawer-paperAnchorBottom",
+                                          "paperAnchorDockedBottom": "MuiDrawer-paperAnchorDockedBottom",
+                                          "paperAnchorDockedLeft": "MuiDrawer-paperAnchorDockedLeft",
+                                          "paperAnchorDockedRight": "MuiDrawer-paperAnchorDockedRight",
+                                          "paperAnchorDockedTop": "MuiDrawer-paperAnchorDockedTop",
+                                          "paperAnchorLeft": "MuiDrawer-paperAnchorLeft",
+                                          "paperAnchorRight": "MuiDrawer-paperAnchorRight",
+                                          "paperAnchorTop": "MuiDrawer-paperAnchorTop",
+                                          "root": "MuiDrawer-root",
+                                        }
+                                      }
+                                      data-testid="notificationDrawer"
+                                      onClose={[Function]}
+                                      open={false}
+                                      variant="temporary"
+                                    >
+                                      <ForwardRef(Modal)
+                                        BackdropComponent={
+                                          Object {
+                                            "$$typeof": Symbol(react.forward_ref),
+                                            "Naked": Object {
+                                              "$$typeof": Symbol(react.forward_ref),
+                                              "propTypes": Object {
+                                                "children": [Function],
+                                                "className": [Function],
+                                                "classes": [Function],
+                                                "invisible": [Function],
+                                                "open": [Function],
+                                                "transitionDuration": [Function],
+                                              },
+                                              "render": [Function],
+                                            },
+                                            "displayName": "WithStyles(ForwardRef(Backdrop))",
+                                            "options": Object {
+                                              "defaultTheme": Object {
+                                                "breakpoints": Object {
+                                                  "between": [Function],
+                                                  "down": [Function],
+                                                  "keys": Array [
+                                                    "xs",
+                                                    "sm",
+                                                    "md",
+                                                    "lg",
+                                                    "xl",
+                                                  ],
+                                                  "only": [Function],
+                                                  "up": [Function],
+                                                  "values": Object {
+                                                    "lg": 1280,
+                                                    "md": 960,
+                                                    "sm": 600,
+                                                    "xl": 1920,
+                                                    "xs": 0,
+                                                  },
+                                                  "width": [Function],
+                                                },
+                                                "direction": "ltr",
+                                                "mixins": Object {
+                                                  "gutters": [Function],
+                                                  "toolbar": Object {
+                                                    "@media (min-width:0px) and (orientation: landscape)": Object {
+                                                      "minHeight": 48,
+                                                    },
+                                                    "@media (min-width:600px)": Object {
+                                                      "minHeight": 64,
+                                                    },
+                                                    "minHeight": 56,
+                                                  },
+                                                },
+                                                "overrides": Object {},
+                                                "palette": Object {
+                                                  "action": Object {
+                                                    "activatedOpacity": 0.12,
+                                                    "active": "rgba(0, 0, 0, 0.54)",
+                                                    "disabled": "rgba(0, 0, 0, 0.26)",
+                                                    "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                                                    "disabledOpacity": 0.38,
+                                                    "focus": "rgba(0, 0, 0, 0.12)",
+                                                    "focusOpacity": 0.12,
+                                                    "hover": "rgba(0, 0, 0, 0.04)",
+                                                    "hoverOpacity": 0.04,
+                                                    "selected": "rgba(0, 0, 0, 0.08)",
+                                                    "selectedOpacity": 0.08,
+                                                  },
+                                                  "augmentColor": [Function],
+                                                  "background": Object {
+                                                    "default": "#fafafa",
+                                                    "paper": "#fff",
+                                                  },
+                                                  "common": Object {
+                                                    "black": "#000",
+                                                    "white": "#fff",
+                                                  },
+                                                  "contrastThreshold": 3,
+                                                  "divider": "rgba(0, 0, 0, 0.12)",
+                                                  "error": Object {
+                                                    "contrastText": "#fff",
+                                                    "dark": "#d32f2f",
+                                                    "light": "#e57373",
+                                                    "main": "#f44336",
+                                                  },
+                                                  "getContrastText": [Function],
+                                                  "grey": Object {
+                                                    "100": "#f5f5f5",
+                                                    "200": "#eeeeee",
+                                                    "300": "#e0e0e0",
+                                                    "400": "#bdbdbd",
+                                                    "50": "#fafafa",
+                                                    "500": "#9e9e9e",
+                                                    "600": "#757575",
+                                                    "700": "#616161",
+                                                    "800": "#424242",
+                                                    "900": "#212121",
+                                                    "A100": "#d5d5d5",
+                                                    "A200": "#aaaaaa",
+                                                    "A400": "#303030",
+                                                    "A700": "#616161",
+                                                  },
+                                                  "info": Object {
+                                                    "contrastText": "#fff",
+                                                    "dark": "#1976d2",
+                                                    "light": "#64b5f6",
+                                                    "main": "#2196f3",
+                                                  },
+                                                  "primary": Object {
+                                                    "contrastText": "#fff",
+                                                    "dark": "#303f9f",
+                                                    "light": "#7986cb",
+                                                    "main": "#3f51b5",
+                                                  },
+                                                  "secondary": Object {
+                                                    "contrastText": "#fff",
+                                                    "dark": "#c51162",
+                                                    "light": "#ff4081",
+                                                    "main": "#f50057",
+                                                  },
+                                                  "success": Object {
+                                                    "contrastText": "rgba(0, 0, 0, 0.87)",
+                                                    "dark": "#388e3c",
+                                                    "light": "#81c784",
+                                                    "main": "#4caf50",
+                                                  },
+                                                  "text": Object {
+                                                    "disabled": "rgba(0, 0, 0, 0.38)",
+                                                    "hint": "rgba(0, 0, 0, 0.38)",
+                                                    "primary": "rgba(0, 0, 0, 0.87)",
+                                                    "secondary": "rgba(0, 0, 0, 0.54)",
+                                                  },
+                                                  "tonalOffset": 0.2,
+                                                  "type": "light",
+                                                  "warning": Object {
+                                                    "contrastText": "rgba(0, 0, 0, 0.87)",
+                                                    "dark": "#f57c00",
+                                                    "light": "#ffb74d",
+                                                    "main": "#ff9800",
+                                                  },
+                                                },
+                                                "props": Object {},
+                                                "shadows": Array [
+                                                  "none",
+                                                  "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+                                                  "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
+                                                  "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+                                                  "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+                                                  "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
+                                                  "0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)",
+                                                  "0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12)",
+                                                  "0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)",
+                                                  "0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)",
+                                                  "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
+                                                  "0px 6px 7px -4px rgba(0,0,0,0.2),0px 11px 15px 1px rgba(0,0,0,0.14),0px 4px 20px 3px rgba(0,0,0,0.12)",
+                                                  "0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12)",
+                                                  "0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12)",
+                                                  "0px 7px 9px -4px rgba(0,0,0,0.2),0px 14px 21px 2px rgba(0,0,0,0.14),0px 5px 26px 4px rgba(0,0,0,0.12)",
+                                                  "0px 8px 9px -5px rgba(0,0,0,0.2),0px 15px 22px 2px rgba(0,0,0,0.14),0px 6px 28px 5px rgba(0,0,0,0.12)",
+                                                  "0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12)",
+                                                  "0px 8px 11px -5px rgba(0,0,0,0.2),0px 17px 26px 2px rgba(0,0,0,0.14),0px 6px 32px 5px rgba(0,0,0,0.12)",
+                                                  "0px 9px 11px -5px rgba(0,0,0,0.2),0px 18px 28px 2px rgba(0,0,0,0.14),0px 7px 34px 6px rgba(0,0,0,0.12)",
+                                                  "0px 9px 12px -6px rgba(0,0,0,0.2),0px 19px 29px 2px rgba(0,0,0,0.14),0px 7px 36px 6px rgba(0,0,0,0.12)",
+                                                  "0px 10px 13px -6px rgba(0,0,0,0.2),0px 20px 31px 3px rgba(0,0,0,0.14),0px 8px 38px 7px rgba(0,0,0,0.12)",
+                                                  "0px 10px 13px -6px rgba(0,0,0,0.2),0px 21px 33px 3px rgba(0,0,0,0.14),0px 8px 40px 7px rgba(0,0,0,0.12)",
+                                                  "0px 10px 14px -6px rgba(0,0,0,0.2),0px 22px 35px 3px rgba(0,0,0,0.14),0px 8px 42px 7px rgba(0,0,0,0.12)",
+                                                  "0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12)",
+                                                  "0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)",
+                                                ],
+                                                "shape": Object {
+                                                  "borderRadius": 4,
+                                                },
+                                                "spacing": [Function],
+                                                "transitions": Object {
+                                                  "create": [Function],
+                                                  "duration": Object {
+                                                    "complex": 375,
+                                                    "enteringScreen": 225,
+                                                    "leavingScreen": 195,
+                                                    "short": 250,
+                                                    "shorter": 200,
+                                                    "shortest": 150,
+                                                    "standard": 300,
+                                                  },
+                                                  "easing": Object {
+                                                    "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+                                                    "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+                                                    "easeOut": "cubic-bezier(0.0, 0, 0.2, 1)",
+                                                    "sharp": "cubic-bezier(0.4, 0, 0.6, 1)",
+                                                  },
+                                                  "getAutoHeightDuration": [Function],
+                                                },
+                                                "typography": Object {
+                                                  "body1": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "1rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.00938em",
+                                                    "lineHeight": 1.5,
+                                                  },
+                                                  "body2": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "0.875rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.01071em",
+                                                    "lineHeight": 1.43,
+                                                  },
+                                                  "button": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "0.875rem",
+                                                    "fontWeight": 500,
+                                                    "letterSpacing": "0.02857em",
+                                                    "lineHeight": 1.75,
+                                                    "textTransform": "uppercase",
+                                                  },
+                                                  "caption": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "0.75rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.03333em",
+                                                    "lineHeight": 1.66,
+                                                  },
+                                                  "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                  "fontSize": 14,
+                                                  "fontWeightBold": 700,
+                                                  "fontWeightLight": 300,
+                                                  "fontWeightMedium": 500,
+                                                  "fontWeightRegular": 400,
+                                                  "h1": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "6rem",
+                                                    "fontWeight": 300,
+                                                    "letterSpacing": "-0.01562em",
+                                                    "lineHeight": 1.167,
+                                                  },
+                                                  "h2": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "3.75rem",
+                                                    "fontWeight": 300,
+                                                    "letterSpacing": "-0.00833em",
+                                                    "lineHeight": 1.2,
+                                                  },
+                                                  "h3": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "3rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0em",
+                                                    "lineHeight": 1.167,
+                                                  },
+                                                  "h4": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "2.125rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.00735em",
+                                                    "lineHeight": 1.235,
+                                                  },
+                                                  "h5": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "1.5rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0em",
+                                                    "lineHeight": 1.334,
+                                                  },
+                                                  "h6": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "1.25rem",
+                                                    "fontWeight": 500,
+                                                    "letterSpacing": "0.0075em",
+                                                    "lineHeight": 1.6,
+                                                  },
+                                                  "htmlFontSize": 16,
+                                                  "overline": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "0.75rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.08333em",
+                                                    "lineHeight": 2.66,
+                                                    "textTransform": "uppercase",
+                                                  },
+                                                  "pxToRem": [Function],
+                                                  "round": [Function],
+                                                  "subtitle1": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "1rem",
+                                                    "fontWeight": 400,
+                                                    "letterSpacing": "0.00938em",
+                                                    "lineHeight": 1.75,
+                                                  },
+                                                  "subtitle2": Object {
+                                                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                                                    "fontSize": "0.875rem",
+                                                    "fontWeight": 500,
+                                                    "letterSpacing": "0.00714em",
+                                                    "lineHeight": 1.57,
+                                                  },
+                                                },
+                                                "zIndex": Object {
+                                                  "appBar": 1100,
+                                                  "drawer": 1200,
+                                                  "mobileStepper": 1000,
+                                                  "modal": 1300,
+                                                  "snackbar": 1400,
+                                                  "speedDial": 1050,
+                                                  "tooltip": 1500,
+                                                },
+                                              },
+                                              "name": "MuiBackdrop",
+                                            },
+                                            "propTypes": Object {
+                                              "classes": [Function],
+                                              "innerRef": [Function],
+                                            },
+                                            "render": [Function],
+                                            "useStyles": [Function],
+                                          }
+                                        }
+                                        BackdropProps={
+                                          Object {
+                                            "transitionDuration": Object {
+                                              "enter": 225,
+                                              "exit": 195,
+                                            },
+                                          }
+                                        }
+                                        className="MuiDrawer-root MuiDrawer-modal"
+                                        data-testid="notificationDrawer"
+                                        onClose={[Function]}
+                                        open={false}
+                                      />
+                                    </ForwardRef(Drawer)>
+                                  </WithStyles(ForwardRef(Drawer))>
+                                </NotificationDrawer>
+                              </Connect(NotificationDrawer)>
+                              <WithStyles(ForwardRef(IconButton))
+                                data-testid="userAvatarButton"
+                                disabled={false}
+                                onClick={[Function]}
+                                style={
+                                  Object {
+                                    "color": "inherit",
+                                  }
+                                }
+                              >
+                                <ForwardRef(IconButton)
+                                  classes={
+                                    Object {
+                                      "colorInherit": "MuiIconButton-colorInherit",
+                                      "colorPrimary": "MuiIconButton-colorPrimary",
+                                      "colorSecondary": "MuiIconButton-colorSecondary",
+                                      "disabled": "Mui-disabled",
+                                      "edgeEnd": "MuiIconButton-edgeEnd",
+                                      "edgeStart": "MuiIconButton-edgeStart",
+                                      "label": "MuiIconButton-label",
+                                      "root": "MuiIconButton-root",
+                                      "sizeSmall": "MuiIconButton-sizeSmall",
+                                    }
+                                  }
+                                  data-testid="userAvatarButton"
+                                  disabled={false}
+                                  onClick={[Function]}
+                                  style={
+                                    Object {
+                                      "color": "inherit",
+                                    }
+                                  }
+                                >
+                                  <WithStyles(ForwardRef(ButtonBase))
+                                    centerRipple={true}
+                                    className="MuiIconButton-root"
+                                    data-testid="userAvatarButton"
+                                    disabled={false}
+                                    focusRipple={true}
+                                    onClick={[Function]}
+                                    style={
+                                      Object {
+                                        "color": "inherit",
+                                      }
+                                    }
+                                  >
+                                    <ForwardRef(ButtonBase)
+                                      centerRipple={true}
+                                      className="MuiIconButton-root"
+                                      classes={
+                                        Object {
+                                          "disabled": "Mui-disabled",
+                                          "focusVisible": "Mui-focusVisible",
+                                          "root": "MuiButtonBase-root",
+                                        }
+                                      }
+                                      data-testid="userAvatarButton"
+                                      disabled={false}
+                                      focusRipple={true}
+                                      onClick={[Function]}
+                                      style={
+                                        Object {
+                                          "color": "inherit",
+                                        }
+                                      }
+                                    >
+                                      <button
+                                        className="MuiButtonBase-root MuiIconButton-root"
+                                        data-testid="userAvatarButton"
+                                        disabled={false}
+                                        onBlur={[Function]}
+                                        onClick={[Function]}
+                                        onDragLeave={[Function]}
+                                        onFocus={[Function]}
+                                        onKeyDown={[Function]}
+                                        onKeyUp={[Function]}
+                                        onMouseDown={[Function]}
+                                        onMouseLeave={[Function]}
+                                        onMouseUp={[Function]}
+                                        onTouchEnd={[Function]}
+                                        onTouchMove={[Function]}
+                                        onTouchStart={[Function]}
+                                        style={
+                                          Object {
+                                            "color": "inherit",
+                                          }
+                                        }
+                                        tabIndex={0}
+                                        type="button"
+                                      >
+                                        <span
+                                          className="MuiIconButton-label"
+                                        >
+                                          <UserAvatar
+                                            email=""
+                                          >
+                                            <div
+                                              data-testid="no-avatar"
+                                            />
+                                          </UserAvatar>
+                                        </span>
+                                        <WithStyles(memo)
+                                          center={true}
+                                        >
+                                          <ForwardRef(TouchRipple)
+                                            center={true}
+                                            classes={
+                                              Object {
+                                                "child": "MuiTouchRipple-child",
+                                                "childLeaving": "MuiTouchRipple-childLeaving",
+                                                "childPulsate": "MuiTouchRipple-childPulsate",
+                                                "ripple": "MuiTouchRipple-ripple",
+                                                "ripplePulsate": "MuiTouchRipple-ripplePulsate",
+                                                "rippleVisible": "MuiTouchRipple-rippleVisible",
+                                                "root": "MuiTouchRipple-root",
+                                              }
+                                            }
+                                          >
+                                            <span
+                                              className="MuiTouchRipple-root"
+                                            >
+                                              <TransitionGroup
+                                                childFactory={[Function]}
+                                                component={null}
+                                                exit={true}
+                                              />
+                                            </span>
+                                          </ForwardRef(TouchRipple)>
+                                        </WithStyles(memo)>
+                                      </button>
+                                    </ForwardRef(ButtonBase)>
+                                  </WithStyles(ForwardRef(ButtonBase))>
+                                </ForwardRef(IconButton)>
+                              </WithStyles(ForwardRef(IconButton))>
+                              <WithStyles(ForwardRef(Menu))
+                                anchorEl={null}
+                                anchorOrigin={
+                                  Object {
+                                    "horizontal": "center",
+                                    "vertical": "bottom",
+                                  }
+                                }
+                                data-testid="menu"
+                                getContentAnchorEl={null}
+                                onClose={[Function]}
+                                open={false}
+                                style={
+                                  Object {
+                                    "zIndex": 11200,
+                                  }
+                                }
+                              >
+                                <ForwardRef(Menu)
+                                  anchorEl={null}
+                                  anchorOrigin={
+                                    Object {
+                                      "horizontal": "center",
+                                      "vertical": "bottom",
+                                    }
+                                  }
+                                  classes={
+                                    Object {
+                                      "list": "MuiMenu-list",
+                                      "paper": "MuiMenu-paper",
+                                    }
+                                  }
+                                  data-testid="menu"
+                                  getContentAnchorEl={null}
+                                  onClose={[Function]}
+                                  open={false}
+                                  style={
+                                    Object {
+                                      "zIndex": 11200,
+                                    }
+                                  }
+                                >
+                                  <WithStyles(ForwardRef(Popover))
+                                    PaperProps={
+                                      Object {
+                                        "classes": Object {
+                                          "root": "MuiMenu-paper",
+                                        },
+                                      }
+                                    }
+                                    anchorEl={null}
+                                    anchorOrigin={
+                                      Object {
+                                        "horizontal": "center",
+                                        "vertical": "bottom",
+                                      }
+                                    }
+                                    data-testid="menu"
+                                    getContentAnchorEl={null}
+                                    onClose={[Function]}
+                                    onEntering={[Function]}
+                                    open={false}
+                                    style={
+                                      Object {
+                                        "zIndex": 11200,
+                                      }
+                                    }
+                                    transformOrigin={
+                                      Object {
+                                        "horizontal": "left",
+                                        "vertical": "top",
+                                      }
+                                    }
+                                    transitionDuration="auto"
+                                  >
+                                    <ForwardRef(Popover)
+                                      PaperProps={
+                                        Object {
+                                          "classes": Object {
+                                            "root": "MuiMenu-paper",
+                                          },
+                                        }
+                                      }
+                                      anchorEl={null}
+                                      anchorOrigin={
+                                        Object {
+                                          "horizontal": "center",
+                                          "vertical": "bottom",
+                                        }
+                                      }
+                                      classes={
+                                        Object {
+                                          "paper": "MuiPopover-paper",
+                                          "root": "MuiPopover-root",
+                                        }
+                                      }
+                                      data-testid="menu"
+                                      getContentAnchorEl={null}
+                                      onClose={[Function]}
+                                      onEntering={[Function]}
+                                      open={false}
+                                      style={
+                                        Object {
+                                          "zIndex": 11200,
+                                        }
+                                      }
+                                      transformOrigin={
+                                        Object {
+                                          "horizontal": "left",
+                                          "vertical": "top",
+                                        }
+                                      }
+                                      transitionDuration="auto"
+                                    >
+                                      <ForwardRef(Modal)
+                                        BackdropProps={
+                                          Object {
+                                            "invisible": true,
+                                          }
+                                        }
+                                        className="MuiPopover-root"
+                                        data-testid="menu"
+                                        onClose={[Function]}
+                                        open={false}
+                                        style={
+                                          Object {
+                                            "zIndex": 11200,
+                                          }
+                                        }
+                                      />
+                                    </ForwardRef(Popover)>
+                                  </WithStyles(ForwardRef(Popover))>
+                                </ForwardRef(Menu)>
+                              </WithStyles(ForwardRef(Menu))>
+                            </div>
+                          </ForwardRef(Toolbar)>
+                        </WithStyles(ForwardRef(Toolbar))>
+                      </header>
+                    </ForwardRef(Paper)>
+                  </WithStyles(ForwardRef(Paper))>
+                </ForwardRef(AppBar)>
+              </WithStyles(ForwardRef(AppBar))>
+            </NavBar>
+          </Connect(NavBar)>
+          <WithStyles(Connect(CasesTable))
+            currentPage={1}
+            searchResults={true}
+          >
+            <Connect(CasesTable)
+              classes={
+                Object {
+                  "cell": "Connect(CasesTable)-cell-4",
+                  "labelMargin": "Connect(CasesTable)-labelMargin-6",
+                  "row": "Connect(CasesTable)-row-3",
+                  "tableMargin": "Connect(CasesTable)-tableMargin-5",
+                }
+              }
+              currentPage={1}
+              searchResults={true}
+              theme={
+                Object {
+                  "breakpoints": Object {
+                    "between": [Function],
+                    "down": [Function],
+                    "keys": Array [
+                      "xs",
+                      "sm",
+                      "md",
+                      "lg",
+                      "xl",
+                    ],
+                    "only": [Function],
+                    "up": [Function],
+                    "values": Object {
+                      "lg": 1280,
+                      "md": 960,
+                      "sm": 600,
+                      "xl": 1920,
+                      "xs": 0,
+                    },
+                    "width": [Function],
+                  },
+                  "direction": "ltr",
+                  "mixins": Object {
+                    "gutters": [Function],
+                    "toolbar": Object {
+                      "@media (min-width:0px) and (orientation: landscape)": Object {
+                        "minHeight": 48,
+                      },
+                      "@media (min-width:600px)": Object {
+                        "minHeight": 64,
+                      },
+                      "minHeight": 56,
+                    },
+                  },
+                  "overrides": Object {},
+                  "palette": Object {
+                    "action": Object {
+                      "activatedOpacity": 0.12,
+                      "active": "rgba(0, 0, 0, 0.54)",
+                      "disabled": "rgba(0, 0, 0, 0.26)",
+                      "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                      "disabledOpacity": 0.38,
+                      "focus": "rgba(0, 0, 0, 0.12)",
+                      "focusOpacity": 0.12,
+                      "hover": "rgba(0, 0, 0, 0.04)",
+                      "hoverOpacity": 0.04,
+                      "selected": "rgba(0, 0, 0, 0.08)",
+                      "selectedOpacity": 0.08,
+                    },
+                    "augmentColor": [Function],
+                    "background": Object {
+                      "default": "#fafafa",
+                      "paper": "#fff",
+                    },
+                    "common": Object {
+                      "black": "#000",
+                      "white": "#fff",
+                    },
+                    "contrastThreshold": 3,
+                    "divider": "rgba(0, 0, 0, 0.12)",
+                    "error": Object {
+                      "contrastText": "#fff",
+                      "dark": "#d32f2f",
+                      "light": "#e57373",
+                      "main": "#f44336",
+                    },
+                    "getContrastText": [Function],
+                    "grey": Object {
+                      "100": "#f5f5f5",
+                      "200": "#eeeeee",
+                      "300": "#e0e0e0",
+                      "400": "#bdbdbd",
+                      "50": "#fafafa",
+                      "500": "#9e9e9e",
+                      "600": "#757575",
+                      "700": "#616161",
+                      "800": "#424242",
+                      "900": "#212121",
+                      "A100": "#d5d5d5",
+                      "A200": "#aaaaaa",
+                      "A400": "#303030",
+                      "A700": "#616161",
+                    },
+                    "info": Object {
+                      "contrastText": "#fff",
+                      "dark": "#1976d2",
+                      "light": "#64b5f6",
+                      "main": "#2196f3",
+                    },
+                    "primary": Object {
+                      "contrastText": "#fff",
+                      "dark": "#303f9f",
+                      "light": "#7986cb",
+                      "main": "#3f51b5",
+                    },
+                    "secondary": Object {
+                      "contrastText": "#fff",
+                      "dark": "#c51162",
+                      "light": "#ff4081",
+                      "main": "#f50057",
+                    },
+                    "success": Object {
+                      "contrastText": "rgba(0, 0, 0, 0.87)",
+                      "dark": "#388e3c",
+                      "light": "#81c784",
+                      "main": "#4caf50",
+                    },
+                    "text": Object {
+                      "disabled": "rgba(0, 0, 0, 0.38)",
+                      "hint": "rgba(0, 0, 0, 0.38)",
+                      "primary": "rgba(0, 0, 0, 0.87)",
+                      "secondary": "rgba(0, 0, 0, 0.54)",
+                    },
+                    "tonalOffset": 0.2,
+                    "type": "light",
+                    "warning": Object {
+                      "contrastText": "rgba(0, 0, 0, 0.87)",
+                      "dark": "#f57c00",
+                      "light": "#ffb74d",
+                      "main": "#ff9800",
+                    },
+                  },
+                  "props": Object {},
+                  "shadows": Array [
+                    "none",
+                    "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+                    "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
+                    "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+                    "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+                    "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
+                    "0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)",
+                    "0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12)",
+                    "0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)",
+                    "0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)",
+                    "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
+                    "0px 6px 7px -4px rgba(0,0,0,0.2),0px 11px 15px 1px rgba(0,0,0,0.14),0px 4px 20px 3px rgba(0,0,0,0.12)",
+                    "0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12)",
+                    "0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12)",
+                    "0px 7px 9px -4px rgba(0,0,0,0.2),0px 14px 21px 2px rgba(0,0,0,0.14),0px 5px 26px 4px rgba(0,0,0,0.12)",
+                    "0px 8px 9px -5px rgba(0,0,0,0.2),0px 15px 22px 2px rgba(0,0,0,0.14),0px 6px 28px 5px rgba(0,0,0,0.12)",
+                    "0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12)",
+                    "0px 8px 11px -5px rgba(0,0,0,0.2),0px 17px 26px 2px rgba(0,0,0,0.14),0px 6px 32px 5px rgba(0,0,0,0.12)",
+                    "0px 9px 11px -5px rgba(0,0,0,0.2),0px 18px 28px 2px rgba(0,0,0,0.14),0px 7px 34px 6px rgba(0,0,0,0.12)",
+                    "0px 9px 12px -6px rgba(0,0,0,0.2),0px 19px 29px 2px rgba(0,0,0,0.14),0px 7px 36px 6px rgba(0,0,0,0.12)",
+                    "0px 10px 13px -6px rgba(0,0,0,0.2),0px 20px 31px 3px rgba(0,0,0,0.14),0px 8px 38px 7px rgba(0,0,0,0.12)",
+                    "0px 10px 13px -6px rgba(0,0,0,0.2),0px 21px 33px 3px rgba(0,0,0,0.14),0px 8px 40px 7px rgba(0,0,0,0.12)",
+                    "0px 10px 14px -6px rgba(0,0,0,0.2),0px 22px 35px 3px rgba(0,0,0,0.14),0px 8px 42px 7px rgba(0,0,0,0.12)",
+                    "0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12)",
+                    "0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)",
+                  ],
+                  "shape": Object {
+                    "borderRadius": 4,
+                  },
+                  "spacing": [Function],
+                  "transitions": Object {
+                    "create": [Function],
+                    "duration": Object {
+                      "complex": 375,
+                      "enteringScreen": 225,
+                      "leavingScreen": 195,
+                      "short": 250,
+                      "shorter": 200,
+                      "shortest": 150,
+                      "standard": 300,
+                    },
+                    "easing": Object {
+                      "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+                      "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+                      "easeOut": "cubic-bezier(0.0, 0, 0.2, 1)",
+                      "sharp": "cubic-bezier(0.4, 0, 0.6, 1)",
+                    },
+                    "getAutoHeightDuration": [Function],
+                  },
+                  "typography": Object {
+                    "body1": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.00938em",
+                      "lineHeight": 1.5,
+                    },
+                    "body2": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.01071em",
+                      "lineHeight": 1.43,
+                    },
+                    "button": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 500,
+                      "letterSpacing": "0.02857em",
+                      "lineHeight": 1.75,
+                      "textTransform": "uppercase",
+                    },
+                    "caption": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.75rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.03333em",
+                      "lineHeight": 1.66,
+                    },
+                    "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                    "fontSize": 14,
+                    "fontWeightBold": 700,
+                    "fontWeightLight": 300,
+                    "fontWeightMedium": 500,
+                    "fontWeightRegular": 400,
+                    "h1": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "6rem",
+                      "fontWeight": 300,
+                      "letterSpacing": "-0.01562em",
+                      "lineHeight": 1.167,
+                    },
+                    "h2": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "3.75rem",
+                      "fontWeight": 300,
+                      "letterSpacing": "-0.00833em",
+                      "lineHeight": 1.2,
+                    },
+                    "h3": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "3rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0em",
+                      "lineHeight": 1.167,
+                    },
+                    "h4": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "2.125rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.00735em",
+                      "lineHeight": 1.235,
+                    },
+                    "h5": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1.5rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0em",
+                      "lineHeight": 1.334,
+                    },
+                    "h6": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1.25rem",
+                      "fontWeight": 500,
+                      "letterSpacing": "0.0075em",
+                      "lineHeight": 1.6,
+                    },
+                    "htmlFontSize": 16,
+                    "overline": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.75rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.08333em",
+                      "lineHeight": 2.66,
+                      "textTransform": "uppercase",
+                    },
+                    "pxToRem": [Function],
+                    "round": [Function],
+                    "subtitle1": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "1rem",
+                      "fontWeight": 400,
+                      "letterSpacing": "0.00938em",
+                      "lineHeight": 1.75,
+                    },
+                    "subtitle2": Object {
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": "0.875rem",
+                      "fontWeight": 500,
+                      "letterSpacing": "0.00714em",
+                      "lineHeight": 1.57,
+                    },
+                  },
+                  "zIndex": Object {
+                    "appBar": 1100,
+                    "drawer": 1200,
+                    "mobileStepper": 1000,
+                    "modal": 1300,
+                    "snackbar": 1400,
+                    "speedDial": 1050,
+                    "tooltip": 1500,
+                  },
+                }
+              }
+            >
+              <CasesTable
+                classes={
+                  Object {
+                    "cell": "Connect(CasesTable)-cell-4",
+                    "labelMargin": "Connect(CasesTable)-labelMargin-6",
+                    "row": "Connect(CasesTable)-row-3",
+                    "tableMargin": "Connect(CasesTable)-tableMargin-5",
+                  }
+                }
+                currentPage={1}
+                currentUser={
+                  Object {
+                    "nickname": "",
+                    "permissions": Array [],
+                  }
+                }
+                dispatch={[Function]}
+                loaded={false}
+                searchResults={true}
+                sortBy="caseReference"
+                sortDirection="desc"
+                theme={
+                  Object {
+                    "breakpoints": Object {
+                      "between": [Function],
+                      "down": [Function],
+                      "keys": Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ],
+                      "only": [Function],
+                      "up": [Function],
+                      "values": Object {
+                        "lg": 1280,
+                        "md": 960,
+                        "sm": 600,
+                        "xl": 1920,
+                        "xs": 0,
+                      },
+                      "width": [Function],
+                    },
+                    "direction": "ltr",
+                    "mixins": Object {
+                      "gutters": [Function],
+                      "toolbar": Object {
+                        "@media (min-width:0px) and (orientation: landscape)": Object {
+                          "minHeight": 48,
+                        },
+                        "@media (min-width:600px)": Object {
+                          "minHeight": 64,
+                        },
+                        "minHeight": 56,
+                      },
+                    },
+                    "overrides": Object {},
+                    "palette": Object {
+                      "action": Object {
+                        "activatedOpacity": 0.12,
+                        "active": "rgba(0, 0, 0, 0.54)",
+                        "disabled": "rgba(0, 0, 0, 0.26)",
+                        "disabledBackground": "rgba(0, 0, 0, 0.12)",
+                        "disabledOpacity": 0.38,
+                        "focus": "rgba(0, 0, 0, 0.12)",
+                        "focusOpacity": 0.12,
+                        "hover": "rgba(0, 0, 0, 0.04)",
+                        "hoverOpacity": 0.04,
+                        "selected": "rgba(0, 0, 0, 0.08)",
+                        "selectedOpacity": 0.08,
+                      },
+                      "augmentColor": [Function],
+                      "background": Object {
+                        "default": "#fafafa",
+                        "paper": "#fff",
+                      },
+                      "common": Object {
+                        "black": "#000",
+                        "white": "#fff",
+                      },
+                      "contrastThreshold": 3,
+                      "divider": "rgba(0, 0, 0, 0.12)",
+                      "error": Object {
+                        "contrastText": "#fff",
+                        "dark": "#d32f2f",
+                        "light": "#e57373",
+                        "main": "#f44336",
+                      },
+                      "getContrastText": [Function],
+                      "grey": Object {
+                        "100": "#f5f5f5",
+                        "200": "#eeeeee",
+                        "300": "#e0e0e0",
+                        "400": "#bdbdbd",
+                        "50": "#fafafa",
+                        "500": "#9e9e9e",
+                        "600": "#757575",
+                        "700": "#616161",
+                        "800": "#424242",
+                        "900": "#212121",
+                        "A100": "#d5d5d5",
+                        "A200": "#aaaaaa",
+                        "A400": "#303030",
+                        "A700": "#616161",
+                      },
+                      "info": Object {
+                        "contrastText": "#fff",
+                        "dark": "#1976d2",
+                        "light": "#64b5f6",
+                        "main": "#2196f3",
+                      },
+                      "primary": Object {
+                        "contrastText": "#fff",
+                        "dark": "#303f9f",
+                        "light": "#7986cb",
+                        "main": "#3f51b5",
+                      },
+                      "secondary": Object {
+                        "contrastText": "#fff",
+                        "dark": "#c51162",
+                        "light": "#ff4081",
+                        "main": "#f50057",
+                      },
+                      "success": Object {
+                        "contrastText": "rgba(0, 0, 0, 0.87)",
+                        "dark": "#388e3c",
+                        "light": "#81c784",
+                        "main": "#4caf50",
+                      },
+                      "text": Object {
+                        "disabled": "rgba(0, 0, 0, 0.38)",
+                        "hint": "rgba(0, 0, 0, 0.38)",
+                        "primary": "rgba(0, 0, 0, 0.87)",
+                        "secondary": "rgba(0, 0, 0, 0.54)",
+                      },
+                      "tonalOffset": 0.2,
+                      "type": "light",
+                      "warning": Object {
+                        "contrastText": "rgba(0, 0, 0, 0.87)",
+                        "dark": "#f57c00",
+                        "light": "#ffb74d",
+                        "main": "#ff9800",
+                      },
+                    },
+                    "props": Object {},
+                    "shadows": Array [
+                      "none",
+                      "0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)",
+                      "0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)",
+                      "0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)",
+                      "0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)",
+                      "0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)",
+                      "0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)",
+                      "0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12)",
+                      "0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)",
+                      "0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)",
+                      "0px 6px 6px -3px rgba(0,0,0,0.2),0px 10px 14px 1px rgba(0,0,0,0.14),0px 4px 18px 3px rgba(0,0,0,0.12)",
+                      "0px 6px 7px -4px rgba(0,0,0,0.2),0px 11px 15px 1px rgba(0,0,0,0.14),0px 4px 20px 3px rgba(0,0,0,0.12)",
+                      "0px 7px 8px -4px rgba(0,0,0,0.2),0px 12px 17px 2px rgba(0,0,0,0.14),0px 5px 22px 4px rgba(0,0,0,0.12)",
+                      "0px 7px 8px -4px rgba(0,0,0,0.2),0px 13px 19px 2px rgba(0,0,0,0.14),0px 5px 24px 4px rgba(0,0,0,0.12)",
+                      "0px 7px 9px -4px rgba(0,0,0,0.2),0px 14px 21px 2px rgba(0,0,0,0.14),0px 5px 26px 4px rgba(0,0,0,0.12)",
+                      "0px 8px 9px -5px rgba(0,0,0,0.2),0px 15px 22px 2px rgba(0,0,0,0.14),0px 6px 28px 5px rgba(0,0,0,0.12)",
+                      "0px 8px 10px -5px rgba(0,0,0,0.2),0px 16px 24px 2px rgba(0,0,0,0.14),0px 6px 30px 5px rgba(0,0,0,0.12)",
+                      "0px 8px 11px -5px rgba(0,0,0,0.2),0px 17px 26px 2px rgba(0,0,0,0.14),0px 6px 32px 5px rgba(0,0,0,0.12)",
+                      "0px 9px 11px -5px rgba(0,0,0,0.2),0px 18px 28px 2px rgba(0,0,0,0.14),0px 7px 34px 6px rgba(0,0,0,0.12)",
+                      "0px 9px 12px -6px rgba(0,0,0,0.2),0px 19px 29px 2px rgba(0,0,0,0.14),0px 7px 36px 6px rgba(0,0,0,0.12)",
+                      "0px 10px 13px -6px rgba(0,0,0,0.2),0px 20px 31px 3px rgba(0,0,0,0.14),0px 8px 38px 7px rgba(0,0,0,0.12)",
+                      "0px 10px 13px -6px rgba(0,0,0,0.2),0px 21px 33px 3px rgba(0,0,0,0.14),0px 8px 40px 7px rgba(0,0,0,0.12)",
+                      "0px 10px 14px -6px rgba(0,0,0,0.2),0px 22px 35px 3px rgba(0,0,0,0.14),0px 8px 42px 7px rgba(0,0,0,0.12)",
+                      "0px 11px 14px -7px rgba(0,0,0,0.2),0px 23px 36px 3px rgba(0,0,0,0.14),0px 9px 44px 8px rgba(0,0,0,0.12)",
+                      "0px 11px 15px -7px rgba(0,0,0,0.2),0px 24px 38px 3px rgba(0,0,0,0.14),0px 9px 46px 8px rgba(0,0,0,0.12)",
+                    ],
+                    "shape": Object {
+                      "borderRadius": 4,
+                    },
+                    "spacing": [Function],
+                    "transitions": Object {
+                      "create": [Function],
+                      "duration": Object {
+                        "complex": 375,
+                        "enteringScreen": 225,
+                        "leavingScreen": 195,
+                        "short": 250,
+                        "shorter": 200,
+                        "shortest": 150,
+                        "standard": 300,
+                      },
+                      "easing": Object {
+                        "easeIn": "cubic-bezier(0.4, 0, 1, 1)",
+                        "easeInOut": "cubic-bezier(0.4, 0, 0.2, 1)",
+                        "easeOut": "cubic-bezier(0.0, 0, 0.2, 1)",
+                        "sharp": "cubic-bezier(0.4, 0, 0.6, 1)",
+                      },
+                      "getAutoHeightDuration": [Function],
+                    },
+                    "typography": Object {
+                      "body1": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "1rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.00938em",
+                        "lineHeight": 1.5,
+                      },
+                      "body2": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "0.875rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.01071em",
+                        "lineHeight": 1.43,
+                      },
+                      "button": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "0.875rem",
+                        "fontWeight": 500,
+                        "letterSpacing": "0.02857em",
+                        "lineHeight": 1.75,
+                        "textTransform": "uppercase",
+                      },
+                      "caption": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "0.75rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.03333em",
+                        "lineHeight": 1.66,
+                      },
+                      "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                      "fontSize": 14,
+                      "fontWeightBold": 700,
+                      "fontWeightLight": 300,
+                      "fontWeightMedium": 500,
+                      "fontWeightRegular": 400,
+                      "h1": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "6rem",
+                        "fontWeight": 300,
+                        "letterSpacing": "-0.01562em",
+                        "lineHeight": 1.167,
+                      },
+                      "h2": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "3.75rem",
+                        "fontWeight": 300,
+                        "letterSpacing": "-0.00833em",
+                        "lineHeight": 1.2,
+                      },
+                      "h3": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "3rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0em",
+                        "lineHeight": 1.167,
+                      },
+                      "h4": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "2.125rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.00735em",
+                        "lineHeight": 1.235,
+                      },
+                      "h5": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "1.5rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0em",
+                        "lineHeight": 1.334,
+                      },
+                      "h6": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "1.25rem",
+                        "fontWeight": 500,
+                        "letterSpacing": "0.0075em",
+                        "lineHeight": 1.6,
+                      },
+                      "htmlFontSize": 16,
+                      "overline": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "0.75rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.08333em",
+                        "lineHeight": 2.66,
+                        "textTransform": "uppercase",
+                      },
+                      "pxToRem": [Function],
+                      "round": [Function],
+                      "subtitle1": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "1rem",
+                        "fontWeight": 400,
+                        "letterSpacing": "0.00938em",
+                        "lineHeight": 1.75,
+                      },
+                      "subtitle2": Object {
+                        "fontFamily": "\\"Roboto\\", \\"Helvetica\\", \\"Arial\\", sans-serif",
+                        "fontSize": "0.875rem",
+                        "fontWeight": 500,
+                        "letterSpacing": "0.00714em",
+                        "lineHeight": 1.57,
+                      },
+                    },
+                    "zIndex": Object {
+                      "appBar": 1100,
+                      "drawer": 1200,
+                      "mobileStepper": 1000,
+                      "modal": 1300,
+                      "snackbar": 1400,
+                      "speedDial": 1050,
+                      "tooltip": 1500,
+                    },
+                  }
+                }
+              >
+                <div
+                  className="Connect(CasesTable)-tableMargin-5"
+                  style={
+                    Object {
+                      "marginTop": "24px",
+                    }
+                  }
+                >
+                  <SearchResults
+                    dispatch={[Function]}
+                    noResultsMessage="No complaints matched your search."
+                    pagination={
+                      Object {
+                        "count": undefined,
+                        "currentPage": 1,
+                        "onChange": [Function],
+                        "totalMessage": [Function],
+                      }
+                    }
+                    render={[Function]}
+                    spinnerVisible={true}
+                    subtitleResultCount={false}
+                    tableHeaderComponent={
+                      <React.Fragment>
+                        <WithStyles(ForwardRef(TableHead))>
+                          <WithStyles(ForwardRef(TableRow))
+                            className="Connect(CasesTable)-row-3"
+                          >
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesNumberHeader"
+                              style={
+                                Object {
+                                  "width": "10%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={true}
+                                data-testid="caseReferenceSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Case #
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesStatusHeader"
+                              style={
+                                Object {
+                                  "width": "13%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="statusSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Status
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesComplainantHeader"
+                              style={
+                                Object {
+                                  "width": "16%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="complainantSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Complainant
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesAccusedOfficerHeader"
+                              style={
+                                Object {
+                                  "width": "16%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="primaryAccusedOfficerSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Accused Officer
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesFirstContactDateHeader"
+                              style={
+                                Object {
+                                  "width": "15%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="firstContactDateSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  First Contact
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
+                              data-testid="casesAssignedToHeader"
+                              style={
+                                Object {
+                                  "width": "14%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="casesAssignedToSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
+                              >
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Assigned To
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
+                            </WithStyles(ForwardRef(TableCell))>
+                          </WithStyles(ForwardRef(TableRow))>
+                        </WithStyles(ForwardRef(TableHead))>
+                      </React.Fragment>
+                    }
+                  >
+                    <div>
+                      <WithStyles(ForwardRef(Paper))
+                        elevation={0}
+                      >
+                        <ForwardRef(Paper)
+                          classes={
+                            Object {
+                              "elevation0": "MuiPaper-elevation0",
+                              "elevation1": "MuiPaper-elevation1",
+                              "elevation10": "MuiPaper-elevation10",
+                              "elevation11": "MuiPaper-elevation11",
+                              "elevation12": "MuiPaper-elevation12",
+                              "elevation13": "MuiPaper-elevation13",
+                              "elevation14": "MuiPaper-elevation14",
+                              "elevation15": "MuiPaper-elevation15",
+                              "elevation16": "MuiPaper-elevation16",
+                              "elevation17": "MuiPaper-elevation17",
+                              "elevation18": "MuiPaper-elevation18",
+                              "elevation19": "MuiPaper-elevation19",
+                              "elevation2": "MuiPaper-elevation2",
+                              "elevation20": "MuiPaper-elevation20",
+                              "elevation21": "MuiPaper-elevation21",
+                              "elevation22": "MuiPaper-elevation22",
+                              "elevation23": "MuiPaper-elevation23",
+                              "elevation24": "MuiPaper-elevation24",
+                              "elevation3": "MuiPaper-elevation3",
+                              "elevation4": "MuiPaper-elevation4",
+                              "elevation5": "MuiPaper-elevation5",
+                              "elevation6": "MuiPaper-elevation6",
+                              "elevation7": "MuiPaper-elevation7",
+                              "elevation8": "MuiPaper-elevation8",
+                              "elevation9": "MuiPaper-elevation9",
+                              "outlined": "MuiPaper-outlined",
+                              "root": "MuiPaper-root",
+                              "rounded": "MuiPaper-rounded",
+                            }
+                          }
+                          elevation={0}
+                        >
+                          <div
+                            className="MuiPaper-root MuiPaper-elevation0 MuiPaper-rounded"
+                          >
+                            <div
+                              style={
+                                Object {
+                                  "textAlign": "center",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(CircularProgress))
+                                data-testid="spinner"
+                                size={80}
+                                style={
+                                  Object {
+                                    "marginBottom": "32px",
+                                    "marginTop": "100px",
+                                  }
+                                }
+                              >
+                                <ForwardRef(CircularProgress)
+                                  classes={
+                                    Object {
+                                      "circle": "MuiCircularProgress-circle",
+                                      "circleDisableShrink": "MuiCircularProgress-circleDisableShrink",
+                                      "circleIndeterminate": "MuiCircularProgress-circleIndeterminate",
+                                      "circleStatic": "MuiCircularProgress-circleStatic",
+                                      "colorPrimary": "MuiCircularProgress-colorPrimary",
+                                      "colorSecondary": "MuiCircularProgress-colorSecondary",
+                                      "indeterminate": "MuiCircularProgress-indeterminate",
+                                      "root": "MuiCircularProgress-root",
+                                      "static": "MuiCircularProgress-static",
+                                      "svg": "MuiCircularProgress-svg",
+                                    }
+                                  }
+                                  data-testid="spinner"
+                                  size={80}
+                                  style={
+                                    Object {
+                                      "marginBottom": "32px",
+                                      "marginTop": "100px",
+                                    }
+                                  }
+                                >
+                                  <div
+                                    className="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+                                    data-testid="spinner"
+                                    role="progressbar"
+                                    style={
+                                      Object {
+                                        "height": 80,
+                                        "marginBottom": "32px",
+                                        "marginTop": "100px",
+                                        "width": 80,
+                                      }
+                                    }
+                                  >
+                                    <svg
+                                      className="MuiCircularProgress-svg"
+                                      viewBox="22 22 44 44"
+                                    >
+                                      <circle
+                                        className="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+                                        cx={44}
+                                        cy={44}
+                                        fill="none"
+                                        r={20.2}
+                                        strokeWidth={3.6}
+                                        style={Object {}}
+                                      />
+                                    </svg>
+                                  </div>
+                                </ForwardRef(CircularProgress)>
+                              </WithStyles(ForwardRef(CircularProgress))>
+                            </div>
+                          </div>
+                        </ForwardRef(Paper)>
+                      </WithStyles(ForwardRef(Paper))>
+                      <div
+                        style={
+                          Object {
+                            "display": "flex",
+                            "justifyContent": "flex-end",
+                          }
+                        }
+                      >
+                        <Pagination
+                          className=""
+                          current={1}
+                          defaultCurrent={1}
+                          defaultPageSize={20}
+                          hideOnSinglePage={true}
+                          itemRender={[Function]}
+                          locale={
+                            Object {
+                              "items_per_page": "/ page",
+                              "jump_to": "Go to",
+                              "jump_to_confirm": "confirm",
+                              "next_3": "Next 3 Pages",
+                              "next_5": "Next 5 Pages",
+                              "next_page": "Next Page",
+                              "page": "",
+                              "prev_3": "Previous 3 Pages",
+                              "prev_5": "Previous 5 Pages",
+                              "prev_page": "Previous Page",
+                            }
+                          }
+                          onChange={[Function]}
+                          onShowSizeChange={[Function]}
+                          pageSize={20}
+                          prefixCls="rc-pagination"
+                          selectComponentClass={null}
+                          selectPrefixCls="rc-select"
+                          showLessItems={false}
+                          showPrevNextJumpers={true}
+                          showQuickJumper={false}
+                          showTitle={true}
+                          showTotal={[Function]}
+                          style={Object {}}
+                          total={0}
+                          totalBoundaryShowSizeChanger={50}
+                        />
+                      </div>
+                    </div>
+                  </SearchResults>
+                </div>
+              </CasesTable>
+            </Connect(CasesTable)>
+          </WithStyles(Connect(CasesTable))>
+        </SearchCasesPage>
+      </Connect(SearchCasesPage)>
+    </Router>
+  </BrowserRouter>
+</Provider>
+`;
