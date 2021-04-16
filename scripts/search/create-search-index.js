@@ -74,10 +74,8 @@
       }
     ]
   });
-  const caseOfficersResults = await models.case_officer.findAll({});
-  const civiliansResults = await models.civilian.findAll(
-    { where: { roleOnCase: 'Complainant' } }
-  );
+  const caseOfficersResults = await models.case_officer.findAll({ where: { roleOnCase: 'Complainant' } });
+  const civiliansResults = await models.civilian.findAll({ where: { roleOnCase: 'Complainant' } });
 
   if (
     !tagsResults.length &&
