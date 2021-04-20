@@ -1,3 +1,7 @@
+ARG instance_version=latest
+
+FROM noipm/instance-files:$instance_version AS instance
+
 FROM noipm/docker-node-ubuntu:2.0.1
 
 RUN apt-get update
@@ -12,7 +16,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 RUN unzip -q awscliv2.zip
 RUN /app/aws/install
 
+COPY --from=instance /instance-files /app/src/instance-files
 COPY . /app/
+
 RUN yarn install
 ARG REACT_APP_ENV
 ARG REACT_APP_GOOGLE_API_KEY

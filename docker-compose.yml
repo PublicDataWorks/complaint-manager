@@ -34,12 +34,13 @@ services:
 #      Mount this volume if you want to run a static front end on localhost:1234
 #      - ./build:/app/build
       - ./src:/app/src
+      - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
       - ./localstack-seed-files:/app/localstack-seed-files
-      - $INSTANCE_FILES_DIR:/app/src/instance-files
+      #- $INSTANCE_FILES_DIR:/app/src/instance-files
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
     container_name: elasticsearch
@@ -91,10 +92,11 @@ services:
     command: ["yarn", "start:dev"]
     volumes:
       - ./src:/app/src
+      - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
-      - $INSTANCE_FILES_DIR:/app/src/instance-files
+#      - $INSTANCE_FILES_DIR:/app/src/instance-files
   worker:
     build:
       context: .
@@ -117,8 +119,10 @@ services:
     command: ["yarn", "start:worker:dev"]
     volumes:
       - ./src:/app/src
+      - /app/src/instance-files/
       - ./package.json:/app/package.json
       - ./node_modules:/app/node_modules
+#      - $INSTANCE_FILES_DIR:/app/src/instance-files
   db:
     image: postgres:10.9-alpine
     depends_on:
@@ -134,10 +138,8 @@ services:
     volumes:
       - "./e2e/tests:/e2e/tests"
       - "./e2e/pageObjectModels:/e2e/pageObjectModels"
-      - "./src/instance-files:/instance-files"
       - "./wait-for-it.sh:/wait-for-it.sh"
     entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "120", "--"]
-    command: ["nightwatch", "--config", "/instance-files/tests/e2e/nightwatch.conf.js", "--env", "local"]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}

@@ -1,3 +1,6 @@
+ARG instance_version=latest
+
+FROM noipm/instance-files:$instance_version AS instance
 FROM noipm/docker-node-ubuntu:2.0.1
 
 RUN apt-get update
@@ -7,6 +10,7 @@ WORKDIR /app
 COPY package.json yarn.lock /app/
 RUN yarn install --pure-lockfile
 
+COPY --from=instance /instance-files /app/src/instance-files
 COPY . /app/
 
 RUN yarn build
