@@ -1,3 +1,7 @@
+ARG instance_version=latest
+
+FROM noipm/instance-files:$instance_version AS instance
+
 FROM ubuntu:16.04
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -10,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     bzip2 \
     wget \
     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=instance /instance-files /app/src/instance-files
 
 #==========
 # Chrome
