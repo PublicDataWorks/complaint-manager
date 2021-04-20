@@ -1,26 +1,25 @@
 "use strict";
 
+import { ACCUSED, COMPLAINANT } from "../../src/sharedUtilities/constants";
+
 (async () => {
   const environment = process.env.NODE_ENV || "development";
-  const {
-    protocol,
-    host,
-    port,
-    indexName: index
-  } = require("./index-config")[environment];
-  
+  const { protocol, host, port, indexName: index } = require("./index-config")[
+    environment
+  ];
+
   const username = process.env.ELASTIC_USERNAME || null;
   const password = process.env.ELASTIC_PASSWORD || null;
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${host}${port ? ':' + port : ''}`,
+    node: `${protocol}${host}${port ? ":" + port : ""}`,
     auth: { username, password },
     ssl: {
       rejectUnauthorized: false
     }
   });
-  
+
   process.on("uncaughtException", error => {
     console.error(typeof error);
     console.error(error);
@@ -74,8 +73,14 @@
       }
     ]
   });
-  const caseOfficersResults = await models.case_officer.findAll({ where: { roleOnCase: 'Complainant' } });
-  const civiliansResults = await models.civilian.findAll({ where: { roleOnCase: 'Complainant' } });
+  const caseOfficersResults = await models.case_officer.findAll({
+    where: {
+      roleOnCase: { [models.Sequelize.Op.or]: [COMPLAINANT, ACCUSED] }
+    }
+  });
+  const civiliansResults = await models.civilian.findAll({
+    where: { roleOnCase: COMPLAINANT }
+  });
 
   if (
     !tagsResults.length &&
