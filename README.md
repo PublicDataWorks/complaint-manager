@@ -115,6 +115,16 @@ run all tests, and run the security checks before pushing.
     ```bash
     docker-compose down
     ```
+    
+### Instance Files
+By default, local builds will pull noipm/instance-files:latest.
+
+To create a new versioned instance-files image (i.e. noipm/instance-files:1.0.0), execute the following commands from your private instance files repository (i.e. instance_files_noipm):
+```
+docker login $DOCKER_USERNAME $DOCKER_PASSWORD
+docker build -t noipm/instance-files:your-tag .
+docker push noipm/instance-files:your-tag
+```
 
 ## The following need to be performed before pushing:
 
