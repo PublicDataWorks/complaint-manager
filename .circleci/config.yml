@@ -96,9 +96,9 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=1.0.0 -t noipm/police-data-manager-staging:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=1.0.0 -t noipm/police-data-manager-production:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=1.0.0 -t noipm/police-data-manager-worker:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=1.0.2 -t noipm/police-data-manager-staging:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=1.0.2 -t noipm/police-data-manager-production:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=1.0.2 -t noipm/police-data-manager-worker:$CIRCLE_SHA1 .
       - run: docker push noipm/police-data-manager-staging:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-production:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-worker:$CIRCLE_SHA1
