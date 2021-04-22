@@ -131,17 +131,17 @@ const deleteUnsubmittedExistingOfficerHistoryNotes = async (
 };
 
 const getExistingOfficerHistoryNoteIdsForReferralOfficer = async referralLetterOfficerId => {
-  return await models.referral_letter_officer_history_note
-    .findAll({
+  const officerHistoryNotes = await models.referral_letter_officer_history_note.findAll(
+    {
       where: {
         referralLetterOfficerId: referralLetterOfficerId
       },
       attributes: ["id"],
       raw: true
-    })
-    .map(note => {
-      return note.id;
-    });
+    }
+  );
+
+  return officerHistoryNotes.map(note => note.id);
 };
 
 const updateExistingOfficerHistoryNote = async (

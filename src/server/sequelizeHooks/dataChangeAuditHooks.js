@@ -183,7 +183,7 @@ exports.init = (sequelize, model) => {
 
   const afterDestroyHook = async (instance, options) => {
     const auditAction =
-      instance._modelOptions.name.singular === "case"
+      instance.constructor.options.name.singular === "case"
         ? AUDIT_ACTION.DATA_ARCHIVED
         : AUDIT_ACTION.DATA_DELETED;
     await createDataChangeAudit(instance, options, auditAction);
@@ -239,8 +239,8 @@ exports.init = (sequelize, model) => {
     );
   };
   const getModelName = instance => {
-    const pluralName = instance._modelOptions.name.plural;
-    const singularName = instance._modelOptions.name.singular;
+    const pluralName = instance.constructor.options.name.plural;
+    const singularName = instance.constructor.options.name.singular;
 
     if (sequelize.models[pluralName]) {
       return pluralName;
@@ -254,7 +254,7 @@ exports.init = (sequelize, model) => {
 
     const modelName = getModelName(instance);
     const formattedModelName = _.startCase(
-      instance._modelOptions.name.singular
+      instance.constructor.options.name.singular
     );
 
     const managerType = await getManagerType(

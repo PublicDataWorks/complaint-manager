@@ -32,7 +32,7 @@ const {
   WITNESS
 } = require("../../../sharedUtilities/constants");
 
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const Case = sequelize.define(
     "cases",
     {

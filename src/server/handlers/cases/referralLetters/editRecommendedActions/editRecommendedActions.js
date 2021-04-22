@@ -120,15 +120,16 @@ const deleteRemovedReferralOfficerRecommendedActions = async (
 };
 
 const getExistingReferralLetterOfficerRecommendedActions = async referralLetterOfficerId => {
-  return await models.referral_letter_officer_recommended_action
-    .findAll({
+  const officerRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+    {
       where: { referralLetterOfficerId },
       attributes: ["recommended_action_id"],
       raw: true
-    })
-    .map(recommendedAction => {
-      return recommendedAction.recommended_action_id;
-    });
+    }
+  );
+  return officerRecommendedActions.map(recommendedAction => {
+    return recommendedAction.recommended_action_id;
+  });
 };
 
 const updateIncludeRetaliationConcerns = async (

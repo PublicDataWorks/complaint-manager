@@ -179,14 +179,13 @@ const getLetterDataAndAuditDetails = async (caseId, transaction) => {
 
 const getClassificationAndAuditDetails = async (caseId, transaction) => {
   let classificationIds = {};
-  const classificationData = await models.case_classification
-    .findAll({
-      where: { caseId: caseId },
-      transaction
-    })
-    .map(data => {
-      classificationIds[`csfn-${data.classificationId}`] = true;
-    });
+  const classificationData = await models.case_classification.findAll({
+    where: { caseId: caseId },
+    transaction
+  });
+  classificationData.forEach(data => {
+    classificationIds[`csfn-${data.classificationId}`] = true;
+  });
   const classificationAuditDetails = getQueryAuditAccessDetails(
     {},
     models.case_classification.name

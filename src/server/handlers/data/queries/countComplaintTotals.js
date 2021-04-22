@@ -15,7 +15,7 @@ export const executeQuery = async nickname => {
 
     const queryOptions = {
       where: where,
-      attributes: []
+      attributes: ["id"]
     };
 
     const complaints = await models.sequelize.transaction(async transaction => {

@@ -13,7 +13,7 @@ jest.mock("aws-sdk", () => ({
 }));
 
 describe("loadCsvFromS3", () => {
-  afterAll(async () => {
+  afterEach(async () => {
     await cleanupDatabase();
   });
 
