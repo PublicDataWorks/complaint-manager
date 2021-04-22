@@ -11,7 +11,7 @@ winston.configure({
       colorize: true
     })
   ],
-  level: 'info',
+  level: "info",
   colorize: true
 });
 
@@ -52,16 +52,16 @@ const loadCsvFromS3 = async (fileName, model) => {
       let oldItems = [];
       let newItems = [];
       try {
-        oldItems = await model
-          .findAll()
-          .map(oldItem =>
-            omit(oldItem.dataValues, [
-              "id",
-              "createdAt",
-              "updatedAt",
-              "deletedAt"
-            ])
-          );
+        oldItems = await model.findAll();
+
+        oldItems.map(oldItem =>
+          omit(oldItem.dataValues, [
+            "id",
+            "createdAt",
+            "updatedAt",
+            "deletedAt"
+          ])
+        );
         newItems = checkForOldItems(oldItems, entries);
       } catch (error) {
         winston.error(`There was an error retrieving data. Error: ${error}`);

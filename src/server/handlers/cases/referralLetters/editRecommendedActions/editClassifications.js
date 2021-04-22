@@ -57,18 +57,18 @@ const createNewClassifications = async (
 };
 
 const getExistingClassifications = async (caseId, transaction) => {
-  return await models.case_classification
-    .findAll(
-      {
-        where: { caseId },
-        attributes: ["classification_id"],
-        raw: true
-      },
-      { transaction }
-    )
-    .map(classification => {
-      return classification.classification_id;
-    });
+  const caseClassifications = await models.case_classification.findAll(
+    {
+      where: { caseId },
+      attributes: ["classification_id"],
+      raw: true
+    },
+    { transaction }
+  );
+
+  return caseClassifications.map(classification => {
+    return classification.classification_id;
+  });
 };
 
 const removeUnmarkedClassifications = async (

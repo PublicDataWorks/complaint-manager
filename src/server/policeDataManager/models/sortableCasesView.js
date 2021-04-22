@@ -13,7 +13,7 @@ import {
   getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 
-export default (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
     "sortable_cases_view",
     {
