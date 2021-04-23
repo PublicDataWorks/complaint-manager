@@ -1,4 +1,4 @@
-import { PERSON_TYPE } from "./constants";
+import { PERSON_TYPE } from "../instance-files/constants";
 
 export const getCivilianFullName = (
   givenFirst,

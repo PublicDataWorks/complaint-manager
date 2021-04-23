@@ -3,10 +3,8 @@ import Civilian from "../../../../sharedTestHelpers/civilian";
 import { mount } from "enzyme";
 import DisplayComplainant from "./DisplayComplainant";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
-import {
-  COMPLAINANT,
-  PERSON_TYPE
-} from "../../../../sharedUtilities/constants";
+import { COMPLAINANT } from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 test("displays the complainant when complainant is civilian", () => {
   const firstName = "Sal";

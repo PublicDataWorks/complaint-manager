@@ -2,7 +2,7 @@ import {
   getCaseReference,
   getCaseReferencePrefix
 } from "./caseReferenceHelpersFunctions";
-import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("case reference helper functions", () => {
   test("getCaseReference should format case prefix, year, and case number", () => {

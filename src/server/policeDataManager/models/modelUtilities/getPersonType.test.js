@@ -1,7 +1,9 @@
 import models from "../index";
 import { getPersonType } from "./getPersonType";
-import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+import {
+  EMPLOYEE_TYPE,
+  PERSON_TYPE
+} from "../../../../instance-files/constants";
 
 describe("getPersonType", () => {
   test("should return Civilian based on civilian primaryComplainant", () => {

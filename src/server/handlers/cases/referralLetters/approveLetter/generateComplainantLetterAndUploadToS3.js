@@ -1,8 +1,7 @@
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  COMPLAINANT_LETTER,
-  PERSON_TYPE
+  COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import constructFilename from "../constructFilename";
 import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
@@ -11,6 +10,7 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
+import { PERSON_TYPE } from "../../../../../instance-files/constants";
 
 export const generateComplainantLetterAndUploadToS3 = async (
   existingCase,

@@ -1,5 +1,3 @@
-import { INSTANCE_PERSON_TYPE_CIVILIAN_WITHIN_PD } from "../instance-files/constants";
-
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
 // ----------------------------------------
@@ -370,16 +368,6 @@ export const ASCENDING = "asc";
 export const ACCUSED = "Accused";
 export const WITNESS = "Witness";
 export const COMPLAINANT = "Complainant";
-
-// ----------------------------------------
-//          Person Type Options
-// ----------------------------------------
-export const PERSON_TYPE = {
-  CIVILIAN: "Civilian",
-  KNOWN_OFFICER: "Known Officer",
-  UNKNOWN_OFFICER: "Unknown Officer",
-  CIVILIAN_WITHIN_PD: INSTANCE_PERSON_TYPE_CIVILIAN_WITHIN_PD
-};
 
 // ----------------------------------------
 //          Complaint Type Options
