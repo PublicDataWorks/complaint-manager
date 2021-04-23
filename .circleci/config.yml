@@ -442,7 +442,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.33.0
+                - release_v3.34.0
       - test-client:
           requires:
             - security-check
