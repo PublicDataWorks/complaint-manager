@@ -4,13 +4,13 @@ import {
   AUDIT_ACTION,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  EMPLOYEE_TYPE,
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
+import { EMPLOYEE_TYPE } from "../../instance-files/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {

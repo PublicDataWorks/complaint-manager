@@ -10,11 +10,11 @@ import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTab
 import AllegationSearch from "./AllegationSearch";
 import OfficerAllegations from "./OfficerAllegations";
 import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
+import { OFFICER_TITLE } from "../../../sharedUtilities/constants";
 import {
-  EMPLOYEE_TYPE,
-  OFFICER_TITLE
-} from "../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../instance-files/constants";
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../instance-files/constants";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 
 export class AllegationSearchContainer extends Component {

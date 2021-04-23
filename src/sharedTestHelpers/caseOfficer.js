@@ -1,4 +1,5 @@
-import { ACCUSED, EMPLOYEE_TYPE } from "../sharedUtilities/constants";
+import { ACCUSED } from "../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../instance-files/constants";
 
 class CaseOfficer {
   constructor(build) {

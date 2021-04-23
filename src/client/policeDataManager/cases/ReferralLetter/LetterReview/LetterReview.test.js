@@ -2,10 +2,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import {
-  CASE_STATUS,
-  EMPLOYEE_TYPE
-} from "../../../../../sharedUtilities/constants";
+import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
@@ -15,6 +12,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+import { EMPLOYEE_TYPE } from "../../../../../instance-files/constants";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",

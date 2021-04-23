@@ -6,7 +6,7 @@ import {
   SelectUnknownOfficerButton,
   SelectUnknownOfficerLink
 } from "./OfficerSearchResults/officerSearchResultsRowButtons";
-import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;

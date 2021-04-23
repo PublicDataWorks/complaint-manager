@@ -4,7 +4,6 @@ import { push } from "connected-react-router";
 import axios from "axios";
 import {
   CIVILIAN_INITIATED,
-  EMPLOYEE_TYPE,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
   RANK_INITIATED,
@@ -15,6 +14,7 @@ import getWorkingCases from "./getWorkingCases";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 const createCase = creationDetails => async dispatch => {
   dispatch(startSubmit(CREATE_CASE_FORM_NAME));

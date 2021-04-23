@@ -1,10 +1,12 @@
 import {
   CIVILIAN_FORM_NAME,
   OFFICER_DETAILS_FORM_NAME,
-  EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+import {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../instance-files/constants";
 import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";

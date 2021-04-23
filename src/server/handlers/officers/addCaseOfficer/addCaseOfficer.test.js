@@ -8,7 +8,6 @@ import {
   AUDIT_SUBJECT,
   CASE_STATUS,
   COMPLAINANT,
-  EMPLOYEE_TYPE,
   MANAGER_TYPE,
   WITNESS
 } from "../../../../sharedUtilities/constants";
@@ -16,6 +15,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 jest.mock("../../audits/auditDataAccess");
 

@@ -10,11 +10,11 @@ import {
 } from "../../actionCreators/officersActionCreators";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import {
-  EMPLOYEE_TYPE,
-  OFFICER_TITLE
-} from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../instance-files/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
 export class OfficerDetailsContainer extends Component {

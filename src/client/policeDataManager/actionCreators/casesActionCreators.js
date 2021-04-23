@@ -24,7 +24,6 @@ import {
   EDIT_CIVILIAN_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
-  EMPLOYEE_TYPE,
   FETCHING_CASE_NOTES,
   FETCHING_CASE_TAGS,
   GET_ARCHIVED_CASES_SUCCESS,
@@ -55,7 +54,10 @@ import {
   UPDATE_CASE_STATUS_SUCCESS,
   UPDATE_CASES_TABLE_SORTING
 } from "../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../instance-files/constants";
+import {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../instance-files/constants";
 import _ from "lodash";
 
 export const createCaseSuccess = caseDetails => ({

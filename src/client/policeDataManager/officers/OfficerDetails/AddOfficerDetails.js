@@ -5,11 +5,11 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
+import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import {
-  EMPLOYEE_TYPE,
-  OFFICER_TITLE
-} from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../instance-files/constants";
 
 class AddOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded() {
