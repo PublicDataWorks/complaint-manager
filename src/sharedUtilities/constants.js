@@ -1,6 +1,4 @@
 import {
-  INSTANCE_CIVILIAN_WITHIN_PD_INITIATED,
-  INSTANCE_CIVILIAN_WITHIN_PD_TITLE,
   INSTANCE_EMPLOYEE_TYPE_CIVILIAN_WITHIN_PD,
   INSTANCE_PERSON_TYPE_CIVILIAN_WITHIN_PD
 } from "../instance-files/constants";
@@ -399,7 +397,6 @@ export const PERSON_TYPE = {
 // ----------------------------------------
 export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
-export const CIVILIAN_WITHIN_PD_INITIATED = INSTANCE_CIVILIAN_WITHIN_PD_INITIATED;
 
 // ----------------------------------------
 //          Edit Status Options
@@ -656,7 +653,6 @@ export const QUEUE_PREFIX = "noipm_q";
 // ------------------------------------------
 export const ALLEGATION_DETAILS_LABEL =
   "Enter narrative details pertaining to this allegation";
-export const CIVILIAN_WITHIN_PD_TITLE = INSTANCE_CIVILIAN_WITHIN_PD_TITLE;
 export const OFFICER_TITLE = "Officer";
 export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
 

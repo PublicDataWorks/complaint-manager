@@ -1,8 +1,8 @@
 import {
   ADDRESSABLE_TYPE,
-  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
 import moment from "moment";
 import { head, isEmpty, sortBy } from "lodash";
 import models from "./index";

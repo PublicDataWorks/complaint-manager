@@ -19,7 +19,6 @@ import {
   CASE_TAG_DIALOG_OPENED,
   CIVILIAN_CREATION_SUCCEEDED,
   CIVILIAN_DIALOG_OPENED,
-  CIVILIAN_WITHIN_PD_TITLE,
   CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_NOTE_SUCCEEDED,
   EDIT_CIVILIAN_DIALOG_CLOSED,
@@ -56,6 +55,7 @@ import {
   UPDATE_CASE_STATUS_SUCCESS,
   UPDATE_CASES_TABLE_SORTING
 } from "../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../instance-files/constants";
 import _ from "lodash";
 
 export const createCaseSuccess = caseDetails => ({

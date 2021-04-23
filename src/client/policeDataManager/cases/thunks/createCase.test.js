@@ -7,12 +7,12 @@ import {
   CREATE_CASE_FORM_NAME,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_PD_INITIATED,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";

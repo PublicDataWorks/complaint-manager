@@ -5,11 +5,11 @@ import { initialize } from "redux-form";
 import {
   ACCUSED,
   CIVILIAN_FORM_NAME,
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import createCivilian from "../../thunks/createCivilian";
 import { push } from "connected-react-router";

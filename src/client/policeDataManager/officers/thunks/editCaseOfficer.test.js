@@ -5,10 +5,8 @@ import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 import { authEnabledTest } from "../../../testHelpers";
 
 jest.mock("../../../common/auth/getAccessToken", () =>

@@ -3,10 +3,10 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import axios from "axios";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 
 const editCaseOfficer = (
   caseId,

@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 
 class EditOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded = () => {

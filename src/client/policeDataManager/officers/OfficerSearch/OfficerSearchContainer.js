@@ -6,10 +6,10 @@ import LinkButton from "../../shared/components/LinkButton";
 import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
 export class OfficerSearchContainer extends Component {

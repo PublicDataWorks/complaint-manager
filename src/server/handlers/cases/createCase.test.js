@@ -3,10 +3,10 @@ import {
   ASCENDING,
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../sharedTestHelpers/case";

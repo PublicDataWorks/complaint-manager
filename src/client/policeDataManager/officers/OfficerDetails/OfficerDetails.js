@@ -13,13 +13,13 @@ import { roleOnCaseMenu } from "../../utilities/generateMenuOptions";
 import { officerRoleRequired } from "../../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   COMPLAINANT,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE,
   WITNESS
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 import SelectedOfficerDisplay from "./SelectedOfficerDisplay";
 import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 import _ from "lodash";

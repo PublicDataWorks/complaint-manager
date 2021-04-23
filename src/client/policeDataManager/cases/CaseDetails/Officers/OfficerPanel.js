@@ -13,10 +13,10 @@ import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../../common/globalStyling/styles";
 import {
   ACCUSED,
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
 import { connect } from "react-redux";
 import {
   accusedOfficerPanelCollapsed,
@@ -37,9 +37,9 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
     ? `(AC) ${caseOfficer.fullName}`
     : caseOfficer.fullName;
 
-  const knownEmployeePanelDataTest = isCivilianWithinNopd 
-  ? "knownCivilian(PD)Panel"
-  : "knownOfficerPanel";
+  const knownEmployeePanelDataTest = isCivilianWithinNopd
+    ? "knownCivilian(PD)Panel"
+    : "knownOfficerPanel";
 
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);
 

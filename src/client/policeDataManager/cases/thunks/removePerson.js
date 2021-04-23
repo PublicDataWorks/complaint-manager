@@ -5,11 +5,11 @@ import {
 import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_TITLE,
   REMOVE_PERSON_FORM_NAME
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import _ from "lodash";
 
