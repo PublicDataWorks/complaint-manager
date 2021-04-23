@@ -9,10 +9,10 @@ import {
 } from "@material-ui/core";
 import {
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_PD_INITIATED,
-  CIVILIAN_WITHIN_PD_TITLE,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
 
 export default props => (
   <FormControl>

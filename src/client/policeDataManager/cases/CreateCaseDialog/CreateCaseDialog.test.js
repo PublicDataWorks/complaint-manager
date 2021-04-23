@@ -15,14 +15,13 @@ import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDate";
 import {
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_PD_INITIATED,
   DESCENDING,
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { updateSort } from "../../actionCreators/casesActionCreators";
-import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
 
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
 

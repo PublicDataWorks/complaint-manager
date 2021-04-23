@@ -10,9 +10,9 @@ import getQueryAuditAccessDetails, {
 import {
   ADDRESSABLE_TYPE,
   CIVILIAN_INITIATED,
-  CIVILIAN_WITHIN_PD_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
 import { get } from "lodash";
 
 const {

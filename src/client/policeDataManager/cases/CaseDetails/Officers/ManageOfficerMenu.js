@@ -11,11 +11,11 @@ import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import {
-  CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
+import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };
