@@ -9,12 +9,12 @@ import app from "../../../server";
 import {
   CASE_STATUS,
   COMPLAINANT,
-  EMPLOYEE_TYPE,
   DATE_RANGE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 describe("executeQuery", () => {
   let complainantOfficerPO;

@@ -1,7 +1,5 @@
-import {
-  EMPLOYEE_TYPE,
-  PERSON_TYPE
-} from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 export const getPersonType = primaryComplainant => {
   if (primaryComplainant && primaryComplainant.officerId) {

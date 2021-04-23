@@ -6,8 +6,10 @@ import {
   getIncidentInfoData,
   getWitnessData
 } from "./CaseDetailDataHelpers";
-import { EMPLOYEE_TYPE } from "../../../../../sharedUtilities/constants";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
+import {
+  EMPLOYEE_TYPE,
+  FIRST_CONTACTED_ORGANIZATION
+} from "../../../../../instance-files/constants";
 
 describe("caseDetailDataHelpers", function () {
   describe("incident info", function () {

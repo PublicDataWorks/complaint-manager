@@ -9,10 +9,12 @@ import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
 import {
   OFFICER_DETAILS_FORM_NAME,
-  EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+import {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../instance-files/constants";
 
 const addOfficer = (
   caseId,

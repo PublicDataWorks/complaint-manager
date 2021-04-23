@@ -13,10 +13,12 @@ import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../../common/globalStyling/styles";
 import {
   ACCUSED,
-  EMPLOYEE_TYPE,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
+import {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../../instance-files/constants";
 import { connect } from "react-redux";
 import {
   accusedOfficerPanelCollapsed,

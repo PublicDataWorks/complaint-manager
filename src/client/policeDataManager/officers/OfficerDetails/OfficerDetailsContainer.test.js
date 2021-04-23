@@ -14,12 +14,11 @@ import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import { ACCUSED, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import {
-  ACCUSED,
-  EMPLOYEE_TYPE,
-  OFFICER_TITLE
-} from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} from "../../../../instance-files/constants";
 import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../../cases/thunks/getCaseDetails");

@@ -1,7 +1,7 @@
 "use strict";
 
 import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
-import { EMPLOYEE_TYPE } from "../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../instance-files/constants";
 
 const {
   ACCUSED,

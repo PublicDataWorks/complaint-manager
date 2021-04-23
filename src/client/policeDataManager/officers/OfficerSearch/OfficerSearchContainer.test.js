@@ -15,7 +15,8 @@ import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators"
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../sharedTestHelpers/case";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
-import { ACCUSED, EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 jest.mock("../../cases/thunks/getCaseDetails");
 

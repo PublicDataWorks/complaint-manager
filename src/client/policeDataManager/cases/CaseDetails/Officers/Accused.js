@@ -8,7 +8,6 @@ import WarningMessage from "../../../shared/components/WarningMessage";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
 import {
   ACCUSED,
-  EMPLOYEE_TYPE,
   OFFICER_DETAILS_FORM_NAME
 } from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
@@ -16,6 +15,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { initialize } from "redux-form";
 import { push } from "connected-react-router";
 import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
+import { EMPLOYEE_TYPE } from "../../../../../instance-files/constants";
 
 const Accused = props => {
   const {

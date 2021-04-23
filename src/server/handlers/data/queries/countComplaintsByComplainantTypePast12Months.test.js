@@ -7,8 +7,7 @@ import app from "../../../server";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   CASE_STATUS,
-  COMPLAINANT,
-  EMPLOYEE_TYPE
+  COMPLAINANT
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Case from "../../../../sharedTestHelpers/case";
@@ -19,6 +18,7 @@ import {
   getAllComplaints
 } from "./countComplaintsByComplainantTypePast12Months";
 import moment from "moment";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 describe("executeQuery", () => {
   let complainantOfficerPO,

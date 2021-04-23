@@ -19,7 +19,6 @@ import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import {
   CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
-  EMPLOYEE_TYPE,
   LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
@@ -27,7 +26,10 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
-import { INSTANCE_CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
+import {
+  EMPLOYEE_TYPE,
+  CIVILIAN_WITHIN_PD_TITLE
+} from "../../../../../instance-files/constants";
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
@@ -148,7 +150,7 @@ export class LetterReview extends Component {
           {caseDetails.accusedOfficers.map(officer => {
             const cardTitle =
               officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
-                ? `Accused ${INSTANCE_CIVILIAN_WITHIN_PD_TITLE}`
+                ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
                 : "Accused Officer";
             return (
               <CaseDetailCard

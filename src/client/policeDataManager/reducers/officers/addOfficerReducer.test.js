@@ -1,9 +1,9 @@
-import { EMPLOYEE_TYPE } from "../../../../sharedUtilities/constants";
 import {
   addCaseEmployeeType,
   clearCaseEmployeeType
 } from "../../actionCreators/officersActionCreators";
 import addOfficerReducer from "./addOfficerReducer";
+import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 
 describe("addOfficerReducer", () => {
   describe("ADD_OFFICER", () => {

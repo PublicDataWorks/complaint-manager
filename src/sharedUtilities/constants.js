@@ -1,7 +1,4 @@
-import {
-  INSTANCE_EMPLOYEE_TYPE_CIVILIAN_WITHIN_PD,
-  INSTANCE_PERSON_TYPE_CIVILIAN_WITHIN_PD
-} from "../instance-files/constants";
+import { INSTANCE_PERSON_TYPE_CIVILIAN_WITHIN_PD } from "../instance-files/constants";
 
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
@@ -234,14 +231,6 @@ export const SEARCH_INITIATED = "SEARCH_INITIATED";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILED = "SEARCH_FAILED";
 export const SEARCH_CLEARED = "SEARCH_CLEARED";
-
-// ----------------------------------------
-//          Employee Types
-// ----------------------------------------
-export const EMPLOYEE_TYPE = {
-  OFFICER: "Officer",
-  CIVILIAN_WITHIN_PD: INSTANCE_EMPLOYEE_TYPE_CIVILIAN_WITHIN_PD
-};
 
 // ----------------------------------------
 //          Officers
