@@ -15,13 +15,13 @@ import {
   COMPLAINANT,
   DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
-  PERSON_TYPE,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("getCases", () => {
   afterEach(async () => {

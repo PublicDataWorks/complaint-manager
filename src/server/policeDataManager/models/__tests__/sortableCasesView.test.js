@@ -1,16 +1,13 @@
 import models from "../index";
 import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import Civilian from "../../../../sharedTestHelpers/civilian";
-import {
-  ACCUSED,
-  COMPLAINANT,
-  PERSON_TYPE
-} from "../../../../sharedUtilities/constants";
+import { ACCUSED, COMPLAINANT } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import sortableCasesView from "../sortableCasesView";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("sortableCasesView", () => {
   afterEach(async () => {

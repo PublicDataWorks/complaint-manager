@@ -3,7 +3,7 @@ import {
   getOfficerFullName,
   getPersonFullName
 } from "./getFullName";
-import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../instance-files/constants";
 
 describe("getFullName", () => {
   describe("getPersonFullName", () => {

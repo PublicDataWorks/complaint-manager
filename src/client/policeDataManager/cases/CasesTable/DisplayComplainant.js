@@ -1,6 +1,6 @@
 import React from "react";
 import WarningMessage from "../../shared/components/WarningMessage";
-import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 export default ({ complainant }) =>
   complainant ? (

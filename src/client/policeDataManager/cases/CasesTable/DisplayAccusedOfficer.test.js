@@ -2,7 +2,7 @@ import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 import React from "react";
 import { mount } from "enzyme";
 import { containsText } from "../../../testHelpers";
-import { PERSON_TYPE } from "../../../../sharedUtilities/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("DisplayAccusedOfficer", () => {
   const noAccusedDisplayText = "No Accused Officers";

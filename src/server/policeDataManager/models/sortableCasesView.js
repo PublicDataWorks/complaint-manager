@@ -1,7 +1,6 @@
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  PERSON_TYPE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import {
@@ -12,6 +11,7 @@ import {
   getCaseReference,
   getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
+import { PERSON_TYPE } from "../../../instance-files/constants";
 
 module.exports = (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
