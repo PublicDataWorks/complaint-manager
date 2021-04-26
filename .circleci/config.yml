@@ -487,9 +487,16 @@ workflows:
       - test-client:
           requires:
             - security-check
-      - test-server-handlers:
-          requires:
-            - security-check
       - test-server-worker-non-handlers:
           requires:
             - security-check
+      - build-and-publish-playground:
+          requires:
+            - test-client
+            - test-server-worker-non-handlers
+      - deploy-playground:
+          requires:
+            - build-and-publish-playground
+      - ensure-playground-deploy-succeeded:
+          requires:
+            - deploy-playground
