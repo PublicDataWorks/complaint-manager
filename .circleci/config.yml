@@ -483,13 +483,13 @@ workflows:
           filters:
             branches:
               only:
-                - https-redirect
-      - build-and-publish-playground:
+                - instance-setup-workspace
+      - test-client:
           requires:
             - security-check
-      - deploy-playground:
+      - test-server-handlers:
           requires:
-            - build-and-publish-playground
-      - ensure-playground-deploy-succeeded:
+            - security-check
+      - test-server-worker-non-handlers:
           requires:
-            - deploy-playground
+            - security-check
