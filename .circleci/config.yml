@@ -1,5 +1,22 @@
 version: 2
 jobs:
+  get-instance-files-latest:
+    docker:
+      - image: docker:stable
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/instance-files:latest
+      - run:
+          name: Copies instance files from temp container
+          command: docker cp $(docker create --name temp-container noipm/instance-files):/instance-files instance-files/
+      - run:
+          name: Removes temporary container
+          command: docker rm temp-container
+      - persist_to_workspace:
+          root: .
+          paths: instance-files/
+
   test-client:
     docker:
       - image: noipm/docker-node-ubuntu:2.0.1
@@ -7,6 +24,8 @@ jobs:
           NODE_ENV: test
     steps:
       - checkout
+      - attach_workspace:
+          at: ./src/instance-files
       - run:
           name: Install Dependencies
           command: yarn install
@@ -58,6 +77,8 @@ jobs:
       - image: postgres:10.9-alpine
     steps:
       - checkout
+      - attach_workspace:
+          at: ./src/instance-files
       - run:
           name: Install Dependencies
           command: yarn install
@@ -484,12 +505,15 @@ workflows:
             branches:
               only:
                 - instance-setup-workspace
+      - get-instance-files-latest:
+          requires:
+            - security-check
       - test-client:
           requires:
-            - security-check
+            - get-instance-files-latest
       - test-server-worker-non-handlers:
           requires:
-            - security-check
+            - get-instance-files-latest
       - build-and-publish-playground:
           requires:
             - test-client
