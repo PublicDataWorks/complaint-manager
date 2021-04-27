@@ -15,7 +15,7 @@ jobs:
           command: docker rm temp-container
       - persist_to_workspace:
           root: .
-          paths: instance-files/
+          paths: .
 
   test-client:
     docker:
@@ -25,7 +25,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./src/instance-files
+          at: .
       - run:
           name: Install Dependencies
           command: yarn install
@@ -78,7 +78,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ./src/instance-files
+          at: .
       - run:
           name: Install Dependencies
           command: yarn install
