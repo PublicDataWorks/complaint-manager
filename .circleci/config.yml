@@ -1,6 +1,7 @@
 version: 2
 jobs:
   get-instance-files-latest:
+    working_directory: .
     docker:
       - image: docker:stable
     steps:
