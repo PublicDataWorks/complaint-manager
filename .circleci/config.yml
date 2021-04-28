@@ -1,7 +1,6 @@
 version: 2
 jobs:
   get-instance-files-latest:
-    working_directory: .
     docker:
       - image: docker:stable
     steps:
@@ -15,8 +14,8 @@ jobs:
           name: Removes temporary container
           command: docker rm temp-container
       - persist_to_workspace:
-          root: .
-          paths: .
+          root: src
+          paths: instance-files/*
 
   test-client:
     docker:
@@ -26,7 +25,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
@@ -79,7 +78,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
