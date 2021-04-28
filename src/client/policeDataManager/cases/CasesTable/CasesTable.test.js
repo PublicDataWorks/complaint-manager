@@ -21,6 +21,7 @@ import {
 import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+import Tag from "../../../../server/testHelpers/tag";
 
 jest.mock("../thunks/getWorkingCases");
 
@@ -36,6 +37,7 @@ describe("cases table", () => {
     civilianChuck,
     civilianAriel,
     accusedOfficer,
+    tagOne,
     caseOne;
 
   beforeEach(() => {
@@ -59,6 +61,8 @@ describe("cases table", () => {
       personType: PERSON_TYPE.KNOWN_OFFICER
     };
 
+    tagOne = new Tag.Builder().defaultTag().build();
+
     caseOne = new SortableCase.Builder()
       .defaultSortableCase()
       .withId(17)
@@ -69,6 +73,7 @@ describe("cases table", () => {
       .withAssignedTo("tuser")
       .withPrimaryAccusedOfficer(accusedOfficer)
       .withFirstContactDate("2017-12-25")
+      .withTagNames(["Use of Force", "Winter"])
       .build();
 
     const caseTwo = new SortableCase.Builder()
@@ -197,6 +202,7 @@ describe("cases table", () => {
       status,
       complainant,
       firstContactDate,
+      tags,
       assignedTo;
 
     beforeEach(() => {
@@ -212,6 +218,11 @@ describe("cases table", () => {
         'th[data-testid="casesFirstContactDateHeader"]'
       );
       assignedTo = tableWrapper.find('th[data-testid="casesAssignedToHeader"]');
+      tags = tableWrapper.find('th[data-testid="casesTagsHeader"]');
+    });
+
+    test("should display tags", () => {
+      expect(tags.text()).toEqual("Tags");
     });
 
     test("should display case reference", () => {
@@ -269,6 +280,11 @@ describe("cases table", () => {
         'td[data-testid="caseFirstContactDate"]'
       );
       expect(firstContactDate.text()).toEqual("Dec 25, 2017");
+    });
+
+    test("should display tags", () => {
+      const tags = caseRow.find('td[data-testid="caseTags"]');
+      expect(tags.text()).toEqual("Use of Force, Winter");
     });
 
     test("should display assigned to", () => {

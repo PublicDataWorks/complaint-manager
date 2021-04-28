@@ -13,6 +13,7 @@ class SortableCase {
     this.firstContactDate = build.firstContactDate;
     this.deletedAt = build.deletedAt;
     this.assignedTo = build.assignedTo;
+    this.tagNames = build.tagNames;
     this.primaryComplainant = build.primaryComplainant;
     this.primaryAccusedOfficer = build.primaryAccusedOfficer;
   }
@@ -27,6 +28,7 @@ class SortableCase {
         this.firstContactDate = new Date().toISOString();
         this.deletedAt = "null";
         this.assignedTo = "someone";
+        this.tagNames = [];
         this.primaryComplainant = null;
         this.primaryAccusedOfficer = null;
         return this;
@@ -61,6 +63,17 @@ class SortableCase {
         this.assignedTo = assignedTo;
         return this;
       }
+
+      withTagNames(tagNames) {
+        this.tagNames = tagNames;
+        return this;
+      }
+
+      addTagName(tagName) {
+        this.tagNames.push(tagName);
+        return this;
+      }
+
       build() {
         return new SortableCase(this);
       }
