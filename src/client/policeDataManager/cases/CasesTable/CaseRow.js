@@ -2,6 +2,7 @@ import React from "react";
 import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import formatDate from "../../../../sharedUtilities/formatDate";
+import formatTags from "../../../../sharedUtilities/formatTags";
 import history from "../../../history";
 import tableStyleGenerator from "../../../tableStyles";
 import DisplayComplainant from "./DisplayComplainant";
@@ -56,6 +57,9 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       </TableCell>
       <TableCell data-testid="caseFirstContactDate" className={classes.cell}>
         <div>{formatDate(caseDetails.firstContactDate)}</div>
+      </TableCell>
+      <TableCell data-testid="caseTags" className={classes.cell}>
+        <div>{formatTags(caseDetails.tagNames)}</div>
       </TableCell>
       <TableCell data-testid="caseAssignedTo" className={classes.buttonCell}>
         <UserAvatar email={caseDetails.assignedTo} />

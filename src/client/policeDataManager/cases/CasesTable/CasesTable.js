@@ -23,14 +23,18 @@ import {
 import SearchResults from "../../shared/components/SearchResults";
 import logger from "../../../logger";
 import axios from "axios";
-import { searchSuccess, searchFailed } from "../../actionCreators/searchActionCreators";
+import {
+  searchSuccess,
+  searchFailed
+} from "../../actionCreators/searchActionCreators";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
   ...tableStyleGenerator(theme).table
 });
 
-const toggleDirection = direction => direction === DESCENDING ? ASCENDING : DESCENDING;
+const toggleDirection = direction =>
+  direction === DESCENDING ? ASCENDING : DESCENDING;
 
 class CasesTable extends React.Component {
   constructor(props) {
@@ -46,20 +50,20 @@ class CasesTable extends React.Component {
   async getSearchResults(sortBy, sortDirection) {
     // Get currentPage from here, if necessary.
     const rawParams = location.search;
-    const [queryString] = rawParams.split(/(?:&|\?)[^=]+=/).slice(1)
+    const [queryString] = rawParams.split(/(?:&|\?)[^=]+=/).slice(1);
     if (!queryString) {
       console.warn("No queryString param provided while searching.");
       this.props.dispatch(searchFailed());
       return;
     }
-    
+
     const response = await axios.get(`api/cases/search`, {
       params: { queryString, currentPage: this.currentPage }
     });
 
     this.props.dispatch(searchSuccess(response.data));
   }
-  
+
   getCases(sortBy, sortDirection, page) {
     this.props.archived
       ? this.props.dispatch(getArchivedCases(sortBy, sortDirection, page))
@@ -67,14 +71,18 @@ class CasesTable extends React.Component {
   }
 
   getCasesOrSearchResults(sortBy, sortDirection, currentPage) {
-    const caseFetchType = this.props.searchResults ? 'getSearchResults' : 'getCases';
+    const caseFetchType = this.props.searchResults
+      ? "getSearchResults"
+      : "getCases";
     this.currentPage = currentPage;
     this[caseFetchType](sortBy, sortDirection, this.currentPage);
   }
 
   renderNoCasesMessage() {
-    if (this.props.searchResults) return 'No complaints matched your search.';
-    return `There are no ${this.props.archived ? 'archived ' : ''}cases to view.`;
+    if (this.props.searchResults) return "No complaints matched your search.";
+    return `There are no ${
+      this.props.archived ? "archived " : ""
+    }cases to view.`;
   }
 
   getPagination() {
@@ -122,7 +130,11 @@ class CasesTable extends React.Component {
   }
 
   onChange(currentPage) {
-    this.getCasesOrSearchResults(this.props.sortBy, this.props.sortDirection, currentPage);
+    this.getCasesOrSearchResults(
+      this.props.sortBy,
+      this.props.sortDirection,
+      currentPage
+    );
   }
 
   render() {
@@ -231,6 +243,13 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
+                    data-testid="casesTagsHeader"
+                    style={{ width: "18%" }}
+                    className={classes.cell}
+                  >
+                    <Typography variant="subtitle2">Tags</Typography>
+                  </TableCell>
+                  <TableCell
                     data-testid="casesAssignedToHeader"
                     style={{ width: "14%" }}
                     className={classes.cell}
@@ -266,7 +285,7 @@ class CasesTable extends React.Component {
 }
 
 const mapStateToProps = (state, { archived, searchResults }) => {
-  let caseType = archived ? 'archived' : 'working';
+  let caseType = archived ? "archived" : "working";
   let currentUser = state.users.current.userInfo;
   let { sortBy, sortDirection } = state.ui.casesTable;
   let { cases, totalCaseCount, loaded } = state.cases[caseType];
