@@ -10,7 +10,7 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 const createCaseTag = (values, caseId) => async dispatch => {
   let tagValue = values.caseTagValue;
   if (tagValue.value) {
-    tagValue = tagValue.value.trim();
+    tagValue = _.trim(tagValue.value);
   }
 
   const requestBody = {};
