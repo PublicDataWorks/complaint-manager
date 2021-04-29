@@ -102,7 +102,7 @@ const sortableCasesViewWithTags = `CREATE VIEW sortable_cases_view AS (
             array_agg(
               cast(tagDetails.name as text)
               order by
-                tagDetails.name ASC
+                upper(tagDetails.name) ASC
             ) as tag_names,
             complaint_type,
             case_number,

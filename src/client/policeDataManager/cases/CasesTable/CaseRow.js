@@ -40,13 +40,6 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       <TableCell data-testid="caseReference" className={classes.cell}>
         <div>{caseDetails.caseReference}</div>
       </TableCell>
-      <TableCell data-testid="caseStatus" className={classes.cell}>
-        {currentUser.permissions.includes(
-          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
-        )
-          ? formatCaseStatusForDPM(caseDetails.status)
-          : caseDetails.status}
-      </TableCell>
       <TableCell data-testid="caseName" className={classes.cell}>
         <DisplayComplainant complainant={caseDetails.primaryComplainant} />
       </TableCell>
@@ -60,6 +53,13 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       </TableCell>
       <TableCell data-testid="tagNames" className={classes.cell}>
         <div>{formatTags(caseDetails.tagNames)}</div>
+      </TableCell>
+      <TableCell data-testid="caseStatus" className={classes.cell}>
+        {currentUser.permissions.includes(
+          USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+        )
+          ? formatCaseStatusForDPM(caseDetails.status)
+          : caseDetails.status}
       </TableCell>
       <TableCell data-testid="caseAssignedTo" className={classes.buttonCell}>
         <UserAvatar email={caseDetails.assignedTo} />

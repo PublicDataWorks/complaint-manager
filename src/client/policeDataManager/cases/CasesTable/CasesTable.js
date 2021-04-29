@@ -170,20 +170,6 @@ class CasesTable extends React.Component {
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
-                    data-testid="casesStatusHeader"
-                    style={{ width: "13%" }}
-                    className={classes.cell}
-                  >
-                    <TableSortLabel
-                      data-testid="statusSortLabel"
-                      onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
-                      direction={this.props.sortDirection}
-                      active={this.props.sortBy === SORT_CASES_BY.STATUS}
-                    >
-                      <Typography variant="subtitle2">Status</Typography>
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell
                     data-testid="casesComplainantHeader"
                     style={{ width: "16%" }}
                     className={classes.cell}
@@ -203,7 +189,7 @@ class CasesTable extends React.Component {
                   </TableCell>
                   <TableCell
                     data-testid="casesAccusedOfficerHeader"
-                    style={{ width: "16%" }}
+                    style={{ width: "18%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
@@ -250,8 +236,22 @@ class CasesTable extends React.Component {
                     <Typography variant="subtitle2">Tags</Typography>
                   </TableCell>
                   <TableCell
+                    data-testid="casesStatusHeader"
+                    style={{ width: "13%" }}
+                    className={classes.cell}
+                  >
+                    <TableSortLabel
+                      data-testid="statusSortLabel"
+                      onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
+                      direction={this.props.sortDirection}
+                      active={this.props.sortBy === SORT_CASES_BY.STATUS}
+                    >
+                      <Typography variant="subtitle2">Status</Typography>
+                    </TableSortLabel>
+                  </TableCell>
+                  <TableCell
                     data-testid="casesAssignedToHeader"
-                    style={{ width: "14%" }}
+                    style={{ width: "10%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
