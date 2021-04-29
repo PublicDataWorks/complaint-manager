@@ -73,7 +73,7 @@ describe("cases table", () => {
       .withAssignedTo("tuser")
       .withPrimaryAccusedOfficer(accusedOfficer)
       .withFirstContactDate("2017-12-25")
-      .withTagNames(["Use of Force", "Winter"])
+      .withTagNames(["cold-cut sandwich", "Grapes", "Use of Force"])
       .build();
 
     const caseTwo = new SortableCase.Builder()
@@ -284,7 +284,7 @@ describe("cases table", () => {
 
     test("should display tags", () => {
       const tags = caseRow.find('td[data-testid="tagNames"]');
-      expect(tags.text()).toEqual("Use of Force, Winter");
+      expect(tags.text()).toEqual("cold-cut sandwich, Grapes, Use of Force");
     });
 
     test("should display assigned to", () => {
