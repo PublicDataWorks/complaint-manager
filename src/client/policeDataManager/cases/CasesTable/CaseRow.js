@@ -58,7 +58,7 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       <TableCell data-testid="caseFirstContactDate" className={classes.cell}>
         <div>{formatDate(caseDetails.firstContactDate)}</div>
       </TableCell>
-      <TableCell data-testid="caseTags" className={classes.cell}>
+      <TableCell data-testid="tagNames" className={classes.cell}>
         <div>{formatTags(caseDetails.tagNames)}</div>
       </TableCell>
       <TableCell data-testid="caseAssignedTo" className={classes.buttonCell}>

@@ -283,7 +283,7 @@ describe("cases table", () => {
     });
 
     test("should display tags", () => {
-      const tags = caseRow.find('td[data-testid="caseTags"]');
+      const tags = caseRow.find('td[data-testid="tagNames"]');
       expect(tags.text()).toEqual("Use of Force, Winter");
     });
 

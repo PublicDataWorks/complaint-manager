@@ -118,6 +118,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "first_contact_date",
         type: DataTypes.DATEONLY
       },
+      tagNames: {
+        field: "tag_names",
+        type: DataTypes.ARRAY(DataTypes.STRING)
+      },
       deletedAt: {
         field: "deleted_at",
         type: DataTypes.DATEONLY
