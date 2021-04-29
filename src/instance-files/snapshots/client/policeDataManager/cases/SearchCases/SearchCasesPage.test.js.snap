@@ -2185,6 +2185,21 @@ exports[`Search Cases Page should render cases table with correct styling 1`] = 
                             </WithStyles(ForwardRef(TableCell))>
                             <WithStyles(ForwardRef(TableCell))
                               className="Connect(CasesTable)-cell-4"
+                              data-testid="casesTagsHeader"
+                              style={
+                                Object {
+                                  "width": "18%",
+                                }
+                              }
+                            >
+                              <WithStyles(ForwardRef(Typography))
+                                variant="subtitle2"
+                              >
+                                Tags
+                              </WithStyles(ForwardRef(Typography))>
+                            </WithStyles(ForwardRef(TableCell))>
+                            <WithStyles(ForwardRef(TableCell))
+                              className="Connect(CasesTable)-cell-4"
                               data-testid="casesAssignedToHeader"
                               style={
                                 Object {
