@@ -370,6 +370,7 @@ export const SORT_CASES_BY = {
   PRIMARY_COMPLAINANT: "primaryComplainant",
   PRIMARY_ACCUSED_OFFICER: "primaryAccusedOfficer",
   FIRST_CONTACT_DATE: "firstContactDate",
+  TAGS: "tagNames",
   ASSIGNED_TO: "assignedTo"
 };
 

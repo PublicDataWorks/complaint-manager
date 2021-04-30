@@ -13,7 +13,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import UserAvatar from "../UserAvatar";
-import { isEmpty } from 'lodash';
+import { isEmpty, get } from "lodash";
 import WarningMessage from "../../shared/components/WarningMessage";
 
 const styles = theme => ({
@@ -54,9 +54,11 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
         <div>{formatDate(caseDetails.firstContactDate)}</div>
       </TableCell>
       <TableCell data-testid="tagNames" className={classes.cell}>
-        {isEmpty(caseDetails.tagNames[0])
-         ? <WarningMessage variant="grayText">No Tags</WarningMessage>
-         : formatTags(caseDetails.tagNames)}
+        {isEmpty(get(caseDetails, ["tagNames", "0"], [])) ? (
+          <WarningMessage variant="grayText">No Tags</WarningMessage>
+        ) : (
+          formatTags(caseDetails.tagNames)
+        )}
       </TableCell>
       <TableCell data-testid="caseStatus" className={classes.cell}>
         {currentUser.permissions.includes(

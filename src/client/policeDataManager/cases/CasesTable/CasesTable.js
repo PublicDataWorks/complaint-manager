@@ -233,7 +233,13 @@ class CasesTable extends React.Component {
                     style={{ width: "15%" }}
                     className={classes.cell}
                   >
-                    <Typography variant="subtitle2">Tags</Typography>
+                    <TableSortLabel
+                      data-testid="tagsSortLabel"
+                      onClick={() => this.updateSorting(SORT_CASES_BY.TAGS)}
+                      direction={this.props.sortDirection}
+                      active={this.props.sortBy === SORT_CASES_BY.TAGS}>
+                      <Typography variant="subtitle2">Tags</Typography>
+                    </TableSortLabel>
                   </TableCell>
                   <TableCell
                     data-testid="casesStatusHeader"
