@@ -194,6 +194,29 @@ describe("cases table", () => {
         updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, DESCENDING)
       );
     });
+
+    test("should update sort by when tags clicked", () => {
+      const caseReferenceLabel = tableWrapper
+        .find('[data-testid="tagsSortLabel"]')
+        .last();
+      caseReferenceLabel.simulate("click");
+
+      expect(getWorkingCases).toHaveBeenCalledWith(
+        SORT_CASES_BY.TAGS,
+        ASCENDING,
+        1
+      );
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.TAGS, ASCENDING)
+      );
+
+      caseReferenceLabel.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        updateSort(SORT_CASES_BY.TAGS, DESCENDING)
+      );
+    });
   });
 
   describe("column headers", () => {

@@ -2166,15 +2166,22 @@ exports[`Search Cases Page should render cases table with correct styling 1`] = 
                               data-testid="casesTagsHeader"
                               style={
                                 Object {
-                                  "width": "18%",
+                                  "width": "15%",
                                 }
                               }
                             >
-                              <WithStyles(ForwardRef(Typography))
-                                variant="subtitle2"
+                              <WithStyles(ForwardRef(TableSortLabel))
+                                active={false}
+                                data-testid="tagsSortLabel"
+                                direction="desc"
+                                onClick={[Function]}
                               >
-                                Tags
-                              </WithStyles(ForwardRef(Typography))>
+                                <WithStyles(ForwardRef(Typography))
+                                  variant="subtitle2"
+                                >
+                                  Tags
+                                </WithStyles(ForwardRef(Typography))>
+                              </WithStyles(ForwardRef(TableSortLabel))>
                             </WithStyles(ForwardRef(TableCell))>
                             <WithStyles(ForwardRef(TableCell))
                               className="Connect(CasesTable)-cell-4"
@@ -2203,7 +2210,7 @@ exports[`Search Cases Page should render cases table with correct styling 1`] = 
                               data-testid="casesAssignedToHeader"
                               style={
                                 Object {
-                                  "width": "10%",
+                                  "width": "13%",
                                 }
                               }
                             >
