@@ -230,7 +230,7 @@ class CasesTable extends React.Component {
                   </TableCell>
                   <TableCell
                     data-testid="casesTagsHeader"
-                    style={{ width: "18%" }}
+                    style={{ width: "15%" }}
                     className={classes.cell}
                   >
                     <Typography variant="subtitle2">Tags</Typography>
@@ -251,7 +251,7 @@ class CasesTable extends React.Component {
                   </TableCell>
                   <TableCell
                     data-testid="casesAssignedToHeader"
-                    style={{ width: "10%" }}
+                    style={{ width: "13%" }}
                     className={classes.cell}
                   >
                     <TableSortLabel
