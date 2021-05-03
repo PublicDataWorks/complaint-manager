@@ -1,6 +1,6 @@
 "use strict";
 
-import { EMPLOYEE_TYPE, PERSON_TYPE } from "../../sharedUtilities/constants";
+import { EMPLOYEE_TYPE, PERSON_TYPE } from "../../instance-files/constants";
 
 const sortableCasesViewWithoutTags = `CREATE VIEW sortable_cases_view AS
           (SELECT id,
