@@ -17,6 +17,23 @@ jobs:
           root: .
           paths: instance-files/*
 
+  get-instance-files-release:
+    docker:
+      - image: docker:stable
+    steps:
+      - setup_remote_docker
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull noipm/instance-files:1.0.3
+      - run:
+          name: Copies instance files from temp container
+          command: docker cp $(docker create --name temp-container noipm/instance-files):/instance-files instance-files/
+      - run:
+          name: Removes temporary container
+          command: docker rm temp-container
+      - persist_to_workspace:
+          root: .
+          paths: instance-files/*
+
   test-client:
     docker:
       - image: noipm/docker-node-ubuntu:2.0.1
@@ -435,15 +452,18 @@ workflows:
             branches:
               only:
                 - master
+      - get-instance-files-latest:
+          requires:
+            - security-check
       - test-client:
           requires:
-            - security-check
+            - get-instance-files-latest
       - test-server-handlers-ci:
           requires:
-            - security-check
+            - get-instance-files-latest
       - test-server-worker-non-handlers:
           requires:
-            - security-check
+            - get-instance-files-latest
       - build-and-publish-master:
           requires:
             - test-client
@@ -468,15 +488,18 @@ workflows:
             branches:
               only:
                 - release_v3.34.0
+      - get-instance-files-release:
+          requires:
+            - security-check
       - test-client:
           requires:
-            - security-check
+            - get-instance-files-release
       - test-server-handlers-staging:
           requires:
-            - security-check
+            - get-instance-files-release
       - test-server-worker-non-handlers:
           requires:
-            - security-check
+            - get-instance-files-release
       - build-and-publish-release:
           requires:
             - test-client
