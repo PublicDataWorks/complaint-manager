@@ -43,6 +43,8 @@ jobs:
       - image: postgres:10.9-alpine
     steps:
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
@@ -60,6 +62,8 @@ jobs:
       - image: postgres:10.9-alpine
     steps:
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
