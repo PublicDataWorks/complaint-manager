@@ -260,6 +260,23 @@ describe("searchCases handler", function () {
     );
   });
 
+  test("should return the cases for first page by default", async () => {
+    request = createSearchRequest(
+      "Chuck E Berry",
+      null,
+      SORT_CASES_BY.TAGS,
+      DESCENDING
+    );
+
+    // Removes the currentPage to test defaulting
+    delete request.query.currentPage;
+
+    await searchCases(request, response, next);
+
+    expect(getResultsFromES).toHaveBeenCalledTimes(1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(response._getData().rows).toHaveLength(2);
+  });
   test("should return the cases for selected page", async () => {
     const currentPage = 2;
     const numberOfResults = 25;
