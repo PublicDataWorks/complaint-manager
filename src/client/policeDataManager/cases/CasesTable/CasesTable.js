@@ -58,7 +58,12 @@ class CasesTable extends React.Component {
     }
 
     const response = await axios.get(`api/cases/search`, {
-      params: { queryString, currentPage: this.currentPage }
+      params: {
+        queryString,
+        sortBy,
+        sortDirection,
+        currentPage: this.currentPage
+      }
     });
 
     this.props.dispatch(searchSuccess(response.data));
@@ -118,14 +123,13 @@ class CasesTable extends React.Component {
   }
 
   updateSorting(newSortBy) {
-    if (this.props.searchResults) return;
     let newSortDirection;
     if (this.props.sortBy === newSortBy) {
       newSortDirection = toggleDirection(this.props.sortDirection);
     } else {
       newSortDirection = ASCENDING;
     }
-    this.getCases(newSortBy, newSortDirection, 1);
+    this.getCasesOrSearchResults(newSortBy, newSortDirection, 1);
     this.updateSort(newSortBy, newSortDirection);
   }
 
@@ -237,7 +241,8 @@ class CasesTable extends React.Component {
                       data-testid="tagsSortLabel"
                       onClick={() => this.updateSorting(SORT_CASES_BY.TAGS)}
                       direction={this.props.sortDirection}
-                      active={this.props.sortBy === SORT_CASES_BY.TAGS}>
+                      active={this.props.sortBy === SORT_CASES_BY.TAGS}
+                    >
                       <Typography variant="subtitle2">Tags</Typography>
                     </TableSortLabel>
                   </TableCell>
