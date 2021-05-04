@@ -249,8 +249,6 @@ jobs:
       #     name: Install Git
       #     command: apt-get update && apt-get install --assume-yes git
       - checkout
-      - attach_workspace:
-          at: src/
       - run:
           name: Run E2E tests
           command: |
@@ -482,7 +480,6 @@ workflows:
             - ensure-ci-deploy-succeeded
       - e2e-testing-ci-pdm:
           requires:
-            - get-instance-files-latest
             - letter-generation-testing-ci
   build_and_deploy_release:
     jobs:
