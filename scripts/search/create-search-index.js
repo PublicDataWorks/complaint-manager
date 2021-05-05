@@ -2,7 +2,7 @@
 
 import { ACCUSED, COMPLAINANT } from "../../src/sharedUtilities/constants";
 
-(async () => {
+const updateSearchIndex = async () => {
   const environment = process.env.NODE_ENV || "development";
   const { protocol, host, port, indexName: index } = require("./index-config")[
     environment
@@ -143,4 +143,9 @@ import { ACCUSED, COMPLAINANT } from "../../src/sharedUtilities/constants";
   console.log(`${count} records indexed.`);
 
   return 0;
-})();
+};
+
+updateSearchIndex().catch(error => {
+  console.error(error);
+  process.exit(1);
+});
