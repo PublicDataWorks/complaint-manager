@@ -360,7 +360,12 @@ jobs:
             echo 'export DATABASE_NAME=$CI_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$CI_DATABASE_HOST' >> $BASH_ENV \
             source $BASH_ENV
+      # - run:
+      #     name: Install Git
+      #     command: apt-get update && apt-get install --assume-yes git
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
@@ -382,6 +387,8 @@ jobs:
             echo 'export DATABASE_HOST=$STAGING_DATABASE_HOST' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install
@@ -403,6 +410,8 @@ jobs:
             echo 'export DATABASE_HOST=$PRODUCTION_DATABASE_HOST' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
+      - attach_workspace:
+          at: src/
       - run:
           name: Install Dependencies
           command: yarn install --production=false
@@ -421,7 +430,10 @@ workflows:
               only:
                 - master
     jobs:
-      - update-search-indices-ci
+      - get-instance-files-latest
+      - update-search-indices-ci:
+          requires:
+            - get-instance-files-latest
 
   nightly_index_update_staging:
     triggers:
@@ -432,7 +444,10 @@ workflows:
               only:
                 - master
     jobs:
-      - update-search-indices-staging
+      - get-instance-files-latest
+      - update-search-indices-staging:
+          requires:
+            - get-instance-files-latest
 
   nightly_index_update_production:
     triggers:
@@ -443,7 +458,10 @@ workflows:
               only:
                 - master
     jobs:
-      - update-search-indices-production
+      - get-instance-files-latest
+      - update-search-indices-production:
+          requires:
+            - get-instance-files-latest
 
   build_and_deploy_master:
     jobs:
