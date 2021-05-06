@@ -21,7 +21,6 @@ services:
     depends_on:
       - db
       - worker
-      - create-search-index
     ports:
       - "1234:1234"
       - "443:443"
@@ -167,13 +166,3 @@ services:
     working_dir: "/target"
     entrypoint: ["/bin/sh"]
     command: ["./scripts/security-checks.sh"]
-  create-search-index:
-    image: noipm/docker-node-ubuntu:2.0.1
-    depends_on:
-      - db
-      - elasticsearch
-    volumes:
-      - ".:/target"
-    working_dir: "/target"
-    entrypoint: ["./wait-for-it.sh", "db:5432", "elasticsearch:9200", "--"]
-    command: ["npx", "babel-node", "./scripts/search/create-search-index.js"]
