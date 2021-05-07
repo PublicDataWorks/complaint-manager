@@ -10,6 +10,8 @@ export const getResultsFromES = async queryString => {
   const username = process.env.ELASTIC_USERNAME || null;
   const password = process.env.ELASTIC_PASSWORD || null;
 
+  const MAX_ELASTICSEARCH_HIT_SIZE = 10000;
+
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
     node: `${protocol}${host}${port ? ":" + port : ""}`,
@@ -22,6 +24,7 @@ export const getResultsFromES = async queryString => {
   const { body: searchResults } = await elasticClient
     .search({
       index,
+      size: MAX_ELASTICSEARCH_HIT_SIZE,
       body: {
         query: {
           query_string: {
