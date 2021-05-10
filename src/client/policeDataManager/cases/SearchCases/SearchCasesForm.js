@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import history from "../../../history";
-import { connect } from "react-redux";
+import { push } from 'connected-react-router';
 import { Field, reduxForm } from "redux-form";
 import { SEARCH_CASES_FORM_NAME } from "../../../../sharedUtilities/constants";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,25 +10,23 @@ import axios from "axios";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 class SearchCasesForm extends Component {
-  submit = async({ queryString }, dispatch) => {
+  submit = async ({ queryString }, dispatch) => {
     if (!queryString || queryString.length < 3) return;
     const response = await axios.get(`api/cases/search`, {
       params: { queryString }
     });
     await dispatch(searchSuccess(response.data));
-    history.push(`/search?queryString=${queryString}`);
+    dispatch(push(`/search?queryString=${queryString}`));
   };
 
   submitWithKey = event => {
     event.preventDefault();
     this.props.handleSubmit(this.submit)();
   };
-  
+
   render() {
     return (
-      <form
-        onSubmit={this.submitWithKey}
-        style={{ ...styles.searchBar }}>
+      <form onSubmit={this.submitWithKey} style={{ ...styles.searchBar }}>
         <IconButton
           color="inherit"
           data-testid="searchButton"
@@ -40,6 +37,9 @@ class SearchCasesForm extends Component {
         <Field
           name="queryString"
           component={renderTextField}
+          inputProps={{
+            "data-testid": "searchField"
+          }}
           fullWidth
           placeholder="Search by complainant names, accused officers, tags"
           InputProps={{
@@ -62,14 +62,8 @@ class SearchCasesForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-const connectedForm = reduxForm({
+const searchCasesForm = reduxForm({
   form: SEARCH_CASES_FORM_NAME
 })(SearchCasesForm);
 
-export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);
+export default searchCasesForm;
