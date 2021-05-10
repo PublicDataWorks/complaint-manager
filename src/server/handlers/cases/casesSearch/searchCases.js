@@ -25,26 +25,6 @@ const searchCases = asyncMiddleware(async (request, response) => {
     limit
   });
 
-  const allSearchResults = searchResults.reduce(
-    (_allSearchResults, searchResult) => {
-      const otherData = _allSearchResults[searchResult.case_id] || {};
-      _allSearchResults[searchResult.case_id] = {
-        ...otherData,
-        ...searchResult
-      };
-      return _allSearchResults;
-    },
-    {}
-  );
-
-  rows.forEach(caseDetail => {
-    const { tag_name } = allSearchResults[caseDetail.id] || {};
-    if (tag_name) caseDetail.tag_name = tag_name;
-    caseDetail.dataValues.primaryComplainant = getPrimaryComplainant(
-      caseDetail.dataValues
-    );
-  });
-
   response.send({ rows, totalRecords });
 });
 
