@@ -119,11 +119,9 @@ describe("searchCases handler", function () {
     });
 
     getResultsFromES.mockReturnValue([
-      [
-        { case_id: createdCaseA.id, first_name: "Chuck", last_name: "Berry" },
-        { case_id: createdCaseB.id, first_name: "Chuck", last_name: "Berry" }
-      ],
-      2
+      { case_id: createdCaseA.id, first_name: "Chuck", last_name: "Berry" },
+      { case_id: createdCaseB.id, first_name: "Chuck", last_name: "Berry" },
+      { case_id: createdCaseB.id, tag_name: "Chuck-e-Cheese " }
     ]);
   });
 
@@ -134,7 +132,7 @@ describe("searchCases handler", function () {
 
   test("should only return case details for resulting caseIds from ES", async () => {
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       1,
       SORT_CASES_BY.CASE_REFERENCE,
       DESCENDING
@@ -143,7 +141,7 @@ describe("searchCases handler", function () {
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
     expect(response._getData().totalRecords).toEqual(2);
     expect(response._getData().rows[1]).toEqual(
       expect.objectContaining({
@@ -154,7 +152,7 @@ describe("searchCases handler", function () {
 
   test("should return rows and total records count in response", async () => {
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       1,
       SORT_CASES_BY.CASE_REFERENCE,
       DESCENDING
@@ -179,7 +177,7 @@ describe("searchCases handler", function () {
 
   test("should sort cases by descending Case ID", async () => {
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       1,
       SORT_CASES_BY.CASE_REFERENCE,
       DESCENDING
@@ -188,7 +186,7 @@ describe("searchCases handler", function () {
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
     expect(response._getData()).toEqual(
       expect.objectContaining({
         rows: [
@@ -206,7 +204,7 @@ describe("searchCases handler", function () {
 
   test("should sort cases by ascending Case ID", async () => {
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       1,
       SORT_CASES_BY.CASE_REFERENCE,
       ASCENDING
@@ -215,7 +213,7 @@ describe("searchCases handler", function () {
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
     expect(response._getData()).toEqual(
       expect.objectContaining({
         rows: [
@@ -232,17 +230,12 @@ describe("searchCases handler", function () {
   });
 
   test("should sort cases by descending tag names", async () => {
-    request = createSearchRequest(
-      "Chuck E Berry",
-      1,
-      SORT_CASES_BY.TAGS,
-      DESCENDING
-    );
+    request = createSearchRequest("Chuck", 1, SORT_CASES_BY.TAGS, DESCENDING);
 
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
     expect(response._getData()).toEqual(
       expect.objectContaining({
         rows: [
@@ -262,7 +255,7 @@ describe("searchCases handler", function () {
 
   test("should return the cases for first page by default", async () => {
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       null,
       SORT_CASES_BY.TAGS,
       DESCENDING
@@ -274,7 +267,7 @@ describe("searchCases handler", function () {
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", 1);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
     expect(response._getData().rows).toHaveLength(2);
   });
   test("should return the cases for selected page", async () => {
@@ -283,7 +276,7 @@ describe("searchCases handler", function () {
     const casePromises = [];
 
     request = createSearchRequest(
-      "Chuck E Berry",
+      "Chuck",
       currentPage,
       SORT_CASES_BY.TAGS,
       DESCENDING
@@ -302,15 +295,12 @@ describe("searchCases handler", function () {
       };
     });
 
-    getResultsFromES.mockReturnValue([
-      mockSearchResults,
-      mockSearchResults.length
-    ]);
+    getResultsFromES.mockReturnValue(mockSearchResults);
 
     await searchCases(request, response, next);
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
-    expect(getResultsFromES).toHaveBeenCalledWith("Chuck E Berry", currentPage);
+    expect(getResultsFromES).toHaveBeenCalledWith("Chuck", currentPage);
     expect(response._getData().rows).toHaveLength(5);
 
     expect(response._getData()).toEqual(

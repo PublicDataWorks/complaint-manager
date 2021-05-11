@@ -41,8 +41,5 @@ export const getResultsFromES = async queryString => {
   const { get } = require("lodash");
   const { hits } = get(searchResults, ["hits"], {});
 
-  return [
-    Array.isArray(hits) ? hits.map(hit => hit._source) : [],
-    searchResults.hits.total.value
-  ];
+  return Array.isArray(hits) ? hits.map(hit => hit._source) : [];
 };
