@@ -1,17 +1,14 @@
 import { getResultsFromES } from "../../getResultsFromES";
-import { getPrimaryComplainant } from "../../../../sharedUtilities/getPrimaryComplainant";
 import { getSortingOrderForQuery } from "../helpers/getSortingOrderForQuery";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../../sharedUtilities/constants";
+
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../policeDataManager/models/index");
 
 const searchCases = asyncMiddleware(async (request, response) => {
   const { queryString, sortBy, sortDirection, currentPage = 1 } = request.query;
 
-  const [searchResults, totalRecords] = await getResultsFromES(
-    queryString,
-    currentPage
-  );
+  const searchResults = await getResultsFromES(queryString, currentPage);
 
   const offset = (currentPage - 1) * DEFAULT_PAGINATION_LIMIT;
   const limit = DEFAULT_PAGINATION_LIMIT;
@@ -25,7 +22,7 @@ const searchCases = asyncMiddleware(async (request, response) => {
     limit
   });
 
-  response.send({ rows, totalRecords });
+  response.send({ rows, totalRecords: caseIds.length });
 });
 
 export default searchCases;
