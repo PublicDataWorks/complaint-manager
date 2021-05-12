@@ -84,10 +84,7 @@ class CasesTable extends React.Component {
   }
 
   renderNoCasesMessage() {
-    if (this.props.searchResults) return "No complaints matched your search.";
-    return `There are no ${
-      this.props.archived ? "archived " : ""
-    }cases to view.`;
+    return this.props.noCasesMessage;
   }
 
   getPagination() {
