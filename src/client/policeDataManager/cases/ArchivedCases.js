@@ -17,7 +17,11 @@ class ArchivedCases extends Component {
         <NavBar menuType={policeDataManagerMenuOptions}>
           View Archived Cases
         </NavBar>
-        <CasesTable archived={true} currentPage={this.props.currentPage} />
+        <CasesTable
+          archived={true}
+          currentPage={this.props.currentPage}
+          noCasesMessage={"There are no archived cases to view."}
+        />
       </div>
     );
   }
@@ -32,7 +36,4 @@ const mapStateToProps = (state, ownProps) => ({
   currentPage: state.cases.archived.currentPage
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ArchivedCases);
+export default connect(mapStateToProps, mapDispatchToProps)(ArchivedCases);

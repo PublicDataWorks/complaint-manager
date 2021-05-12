@@ -13,7 +13,11 @@ class SearchCasesPage extends Component {
         <NavBar menuType={policeDataManagerMenuOptions} showSearchBar>
           Search Results
         </NavBar>
-        <CasesTable searchResults currentPage={1} />
+        <CasesTable
+          searchResults
+          currentPage={1}
+          noCasesMessage={"No complaints matched your search."}
+        />
       </>
     );
   }

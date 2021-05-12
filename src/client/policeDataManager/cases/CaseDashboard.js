@@ -26,7 +26,11 @@ class CaseDashboard extends Component {
         </NavBar>
         <ComplaintTotals />
         <CreateCaseButton />
-        <CasesTable currentPage={this.props.currentPage} archived={false} />
+        <CasesTable
+          currentPage={this.props.currentPage}
+          archived={false}
+          noCasesMessage={"There are no cases to view."}
+        />
       </div>
     );
   }
