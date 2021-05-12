@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { push } from 'connected-react-router';
+import { push } from "connected-react-router";
 import { Field, reduxForm } from "redux-form";
 import { SEARCH_CASES_FORM_NAME } from "../../../../sharedUtilities/constants";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,10 +12,6 @@ import { searchSuccess } from "../../actionCreators/searchActionCreators";
 class SearchCasesForm extends Component {
   submit = async ({ queryString }, dispatch) => {
     if (!queryString || queryString.length < 3) return;
-    const response = await axios.get(`api/cases/search`, {
-      params: { queryString }
-    });
-    await dispatch(searchSuccess(response.data));
     dispatch(push(`/search?queryString=${queryString}`));
   };
 
