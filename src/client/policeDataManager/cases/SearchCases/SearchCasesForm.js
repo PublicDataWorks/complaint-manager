@@ -11,8 +11,9 @@ import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 class SearchCasesForm extends Component {
   submit = async ({ queryString }, dispatch) => {
-    if (!queryString || queryString.length < 3) return;
-    dispatch(push(`/search?queryString=${queryString}`));
+    const formattedQueryString = (queryString || '').trim();
+    if (formattedQueryString.length < 1) return;
+    dispatch(push(`/search?queryString=${formattedQueryString}`));
   };
 
   submitWithKey = event => {
