@@ -18,6 +18,7 @@ import caseNoteDialogReducer from "./policeDataManager/reducers/ui/caseNoteDialo
 import removePersonDialogReducer from "./policeDataManager/reducers/ui/removePersonDialogReducer";
 import removeCaseNoteDialogReducer from "./policeDataManager/reducers/ui/removeCaseNoteDialogReducer";
 import searchReducer from "./policeDataManager/reducers/ui/searchReducer";
+import searchCasesReducer from "./policeDataManager/reducers/ui/searchCasesReducer";
 import allegationMenuDisplay from "./policeDataManager/reducers/ui/allegationMenuDisplay";
 import createDialogReducer from "./common/reducers/ui/createDialogReducer";
 import updateCaseStatusDialogReducer from "./policeDataManager/reducers/ui/updateCaseStatusDialogReducer";
@@ -70,6 +71,7 @@ const rootReducer = combineReducers({
   router: connectRouter(history),
   cases: combineReducers({
     working: workingCasesReducer,
+    search: searchCasesReducer,
     archived: archivedCasesReducer
   }),
   currentCase: combineReducers({
