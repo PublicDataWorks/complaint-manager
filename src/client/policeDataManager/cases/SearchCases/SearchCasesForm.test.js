@@ -9,7 +9,8 @@ import createConfiguredStore from "../../../createConfiguredStore";
 
 describe("SearchCasesForm", () => {
   let store, dispatchSpy, searchCasesFormWrapper;
-  let searchQuery = "app";
+  let searchQuery = "   a     ";
+  let correctSearchQuery = "a";
 
   beforeEach(() => {
     store = createConfiguredStore();
@@ -34,7 +35,7 @@ describe("SearchCasesForm", () => {
       await waitFor(() => {
         // Assert
         expect(dispatchSpy).toHaveBeenCalledWith(
-          push(`/search?queryString=${searchQuery}`)
+          push(`/search?queryString=${correctSearchQuery}`)
         );
       });
     });
