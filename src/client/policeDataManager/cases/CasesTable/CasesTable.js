@@ -56,17 +56,6 @@ class CasesTable extends React.Component {
       this.props.dispatch(searchFailed());
       return;
     }
-
-    const response = await axios.get(`api/cases/search`, {
-      params: {
-        queryString,
-        sortBy,
-        sortDirection,
-        currentPage: this.currentPage
-      }
-    });
-
-    this.props.dispatch(searchSuccess(response.data));
   }
 
   getCases(sortBy, sortDirection, page) {

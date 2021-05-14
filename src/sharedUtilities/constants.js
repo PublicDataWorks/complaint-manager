@@ -222,13 +222,17 @@ export const OPENID = "openid";
 export const PROFILE = "profile";
 
 // ----------------------------------------
-//          Shared Search
+//          Search
 // ----------------------------------------
 
 export const SEARCH_INITIATED = "SEARCH_INITIATED";
 export const SEARCH_SUCCESS = "SEARCH_SUCCESS";
 export const SEARCH_FAILED = "SEARCH_FAILED";
 export const SEARCH_CLEARED = "SEARCH_CLEARED";
+export const SEARCH_CASES_INITIATED = "SEARCH_CASES_INITIATED";
+export const SEARCH_CASES_SUCCESS = "SEARCH_CASES_SUCCESS";
+export const SEARCH_CASES_FAILED = "SEARCH_CASES_FAILED";
+export const SEARCH_CASES_CLEARED = "SEARCH_CASES_CLEARED";
 
 // ----------------------------------------
 //          Officers
