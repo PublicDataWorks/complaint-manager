@@ -49,7 +49,7 @@ class CasesTable extends React.Component {
 
   async getSearchResults(sortBy, sortDirection) {
     // Get currentPage from here, if necessary.
-    const rawParams = location.search;
+    const rawParams = decodeURIComponent(location.search);
     const [queryString] = rawParams.split(/(?:&|\?)[^=]+=/).slice(1);
     if (!queryString) {
       console.warn("No queryString param provided while searching.");
