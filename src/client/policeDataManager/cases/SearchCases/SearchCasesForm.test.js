@@ -9,8 +9,8 @@ import createConfiguredStore from "../../../createConfiguredStore";
 
 describe("SearchCasesForm", () => {
   let store, dispatchSpy, searchCasesFormWrapper;
-  let searchQuery = "   a     ";
-  let correctSearchQuery = "a";
+  let searchQuery = "   an apple    ";
+  let correctSearchQuery = "an apple";
 
   beforeEach(() => {
     store = createConfiguredStore();

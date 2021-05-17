@@ -86,6 +86,7 @@ services:
     depends_on:
       - db
       - worker
+      - elasticsearch
     ports:
       - "1234:1234"
       - "443:443"
