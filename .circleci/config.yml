@@ -505,7 +505,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.34.0
+                - release_v3.35.0
       - get-instance-files-release:
           requires:
             - security-check
