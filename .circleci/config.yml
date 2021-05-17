@@ -307,7 +307,7 @@ jobs:
             echo 'export TEST_PASS=$STAGING_TEST_PASS' >> $BASH_ENV
             echo 'export AUTH0_CLIENT_SECRET=$STAGING_AUTH0_CLIENT_SECRET' >> $BASH_ENV
             source $BASH_ENV
-            nightwatch --config src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
+            nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env staging e2e/tests/policeDataManager --retries 2
       - store_artifacts:
           path: e2e/tests
 
