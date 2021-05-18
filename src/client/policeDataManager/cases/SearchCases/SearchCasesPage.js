@@ -25,6 +25,8 @@ class SearchCasesPage extends Component {
 
 const mapDispatchToProps = { updateSort };
 
-const mapStateToProps = (state, ownProps) => ({});
+const mapStateToProps = (state, ownProps) => ({
+    loaded: state.cases.search.loaded
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchCasesPage);
