@@ -17,8 +17,7 @@ import caseNotesReducer from "./policeDataManager/reducers/cases/caseNotesReduce
 import caseNoteDialogReducer from "./policeDataManager/reducers/ui/caseNoteDialogReducer";
 import removePersonDialogReducer from "./policeDataManager/reducers/ui/removePersonDialogReducer";
 import removeCaseNoteDialogReducer from "./policeDataManager/reducers/ui/removeCaseNoteDialogReducer";
-import searchReducer from "./policeDataManager/reducers/ui/searchReducer";
-import searchCasesReducer from "./policeDataManager/reducers/ui/searchCasesReducer";
+import searchCasesReducer from "./policeDataManager/reducers/cases/searchCasesReducer";
 import allegationMenuDisplay from "./policeDataManager/reducers/ui/allegationMenuDisplay";
 import createDialogReducer from "./common/reducers/ui/createDialogReducer";
 import updateCaseStatusDialogReducer from "./policeDataManager/reducers/ui/updateCaseStatusDialogReducer";
