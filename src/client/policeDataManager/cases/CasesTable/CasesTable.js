@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import CaseRow from "./CaseRow";
+import getSearchCases from "../thunks/getSearchCases";
 import tableStyleGenerator from "../../../tableStyles";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 import _ from "lodash";
@@ -56,6 +57,7 @@ class CasesTable extends React.Component {
       this.props.dispatch(searchFailed());
       return;
     }
+    this.props.dispatch(getSearchCases(queryString, sortBy, sortDirection, this.currentPage));
   }
 
   getCases(sortBy, sortDirection, page) {
@@ -285,11 +287,13 @@ const mapStateToProps = (state, { archived, searchResults }) => {
   let caseType = archived ? "archived" : "working";
   let currentUser = state.users.current.userInfo;
   let { sortBy, sortDirection } = state.ui.casesTable;
+  let location = state.router.location;
   let { cases, totalCaseCount, loaded } = state.cases[caseType];
 
   if (searchResults) {
-    cases = state.ui.search.searchResults.rows;
-    totalCaseCount = state.ui.search.searchResults.totalRecords;
+    cases = state.cases.search.cases;
+    totalCaseCount = state.cases.search.totalCaseCount;
+    loaded = state.cases.search.loaded;
   }
 
   return {
@@ -298,7 +302,8 @@ const mapStateToProps = (state, { archived, searchResults }) => {
     loaded,
     currentUser,
     sortBy,
-    sortDirection
+    sortDirection,
+    location
   };
 };
 
