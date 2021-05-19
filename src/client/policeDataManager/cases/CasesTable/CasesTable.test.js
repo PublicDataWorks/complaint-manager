@@ -12,6 +12,7 @@ import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   ASCENDING,
   CASE_STATUS,
+  CASE_TYPE,
   CIVILIAN_INITIATED,
   COMPLAINANT,
   DESCENDING,
@@ -19,15 +20,29 @@ import {
 } from "../../../../sharedUtilities/constants";
 import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
+import getArchivedCases from "../thunks/getArchivedCases";
+import getSearchCases from "../thunks/getSearchCases";
 import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 import Tag from "../../../../server/testHelpers/tag";
 import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 jest.mock("../thunks/getWorkingCases");
+jest.mock("../thunks/getArchivedCases");
+jest.mock("../thunks/getSearchCases");
 
 getWorkingCases.mockImplementation((sortBy, sortDirection, page) => ({
   type: "MOCK_GET_CASES_THUNK"
 }));
+
+getArchivedCases.mockImplementation((sortBy, sortDirection, page) => ({
+  type: "MOCK_GET_CASES_THUNK"
+}));
+
+getSearchCases.mockImplementation(
+  (queryString, sortBy, sortDirection, page) => ({
+    type: "MOCK_GET_CASES_THUNK"
+  })
+);
 
 describe("cases table", () => {
   let tableWrapper,
@@ -96,7 +111,7 @@ describe("cases table", () => {
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CasesTable />
+          <CasesTable caseType={CASE_TYPE.WORKING} />
         </Router>
       </Provider>
     );
@@ -330,14 +345,71 @@ describe("cases table", () => {
       expect(getWorkingCases.mock.calls[1][2]).toEqual(12);
     });
   });
+});
 
-  describe("component mounting", () => {
-    test("should mount case table with page 1", () => {
-      expect(getWorkingCases).toHaveBeenCalledWith(
-        SORT_CASES_BY.CASE_REFERENCE,
-        DESCENDING,
-        1
-      );
-    });
+describe("component mounting", () => {
+  let tableWrapper, store;
+
+  test("should mount working case table with page 1", () => {
+    store = createConfiguredStore();
+    tableWrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CasesTable caseType={CASE_TYPE.WORKING} />
+        </Router>
+      </Provider>
+    );
+
+    expect(getWorkingCases).toHaveBeenCalledWith(
+      SORT_CASES_BY.CASE_REFERENCE,
+      DESCENDING,
+      1
+    );
+  });
+
+  test("should mount archived cases table with page 1", () => {
+    store = createConfiguredStore();
+    tableWrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CasesTable caseType={CASE_TYPE.ARCHIVE} />
+        </Router>
+      </Provider>
+    );
+
+    expect(getArchivedCases).toHaveBeenCalledWith(
+      SORT_CASES_BY.CASE_REFERENCE,
+      DESCENDING,
+      1
+    );
+  });
+
+  test("should mount search cases table with page 1", () => {
+    store = createConfiguredStore();
+    const expectedQuery = "yay";
+
+    const oldWindowLocation = window.location;
+    delete window.location;
+    window.location = new URL(
+      `https://www.doesnt-matter.com?queryString=${expectedQuery}`
+    );
+
+    tableWrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CasesTable caseType={CASE_TYPE.SEARCH} />
+        </Router>
+      </Provider>
+    );
+
+    expect(getSearchCases).toHaveBeenCalledWith(
+      expectedQuery,
+      SORT_CASES_BY.CASE_REFERENCE,
+      DESCENDING,
+      1
+    );
+
+    // Restores previous state of window location
+    window.location = oldWindowLocation;
   });
 });

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
+import { CASE_TYPE } from "../../../../sharedUtilities/constants";
 
 class SearchCasesPage extends Component {
   render() {
@@ -14,8 +15,8 @@ class SearchCasesPage extends Component {
           Search Results
         </NavBar>
         <CasesTable
-          searchResults
           currentPage={1}
+          caseType={CASE_TYPE.SEARCH}
           noCasesMessage={"No complaints matched your search."}
         />
       </>
@@ -25,8 +26,6 @@ class SearchCasesPage extends Component {
 
 const mapDispatchToProps = { updateSort };
 
-const mapStateToProps = (state, ownProps) => ({
-    loaded: state.cases.search.loaded
-});
+const mapStateToProps = (state, ownProps) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchCasesPage);
