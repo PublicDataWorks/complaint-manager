@@ -18,8 +18,11 @@ import getArchivedCases from "../thunks/getArchivedCases";
 import getWorkingCases from "../thunks/getWorkingCases";
 import {
   ASCENDING,
+  ARCHIVE,
   DESCENDING,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  WORKING,
+  SEARCH
 } from "../../../../sharedUtilities/constants";
 import SearchResults from "../../shared/components/SearchResults";
 import logger from "../../../logger";
@@ -48,30 +51,33 @@ class CasesTable extends React.Component {
     this.props.dispatch(updateSort(sortBy, sortDirection));
   }
 
-  async getSearchResults(sortBy, sortDirection) {
+  getQueryString() {
     // Get currentPage from here, if necessary.
     const rawParams = decodeURIComponent(location.search);
     const [queryString] = rawParams.split(/(?:&|\?)[^=]+=/).slice(1);
-    if (!queryString) {
-      console.warn("No queryString param provided while searching.");
-      this.props.dispatch(searchFailed());
-      return;
-    }
-    this.props.dispatch(getSearchCases(queryString, sortBy, sortDirection, this.currentPage));
+    return queryString;
   }
 
   getCases(sortBy, sortDirection, page) {
-    this.props.archived
-      ? this.props.dispatch(getArchivedCases(sortBy, sortDirection, page))
-      : this.props.dispatch(getWorkingCases(sortBy, sortDirection, page));
-  }
-
-  getCasesOrSearchResults(sortBy, sortDirection, currentPage) {
-    const caseFetchType = this.props.searchResults
-      ? "getSearchResults"
-      : "getCases";
-    this.currentPage = currentPage;
-    this[caseFetchType](sortBy, sortDirection, this.currentPage);
+    switch (this.props.caseType) {
+      case ARCHIVE:
+        this.props.dispatch(getArchivedCases(sortBy, sortDirection, page));
+        break;
+      case WORKING:
+        this.props.dispatch(getWorkingCases(sortBy, sortDirection, page));
+        break;
+      case SEARCH:
+        const queryString = this.getQueryString();
+        if (!queryString) {
+          console.warn("No queryString param provided while searching.");
+          this.props.dispatch(searchFailed());
+          return;
+        }
+        this.props.dispatch(
+          getSearchCases(queryString, sortBy, sortDirection, page)
+        );
+        break;
+    }
   }
 
   renderNoCasesMessage() {
@@ -88,7 +94,7 @@ class CasesTable extends React.Component {
   }
 
   componentDidMount() {
-    this.getCasesOrSearchResults(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
+    this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
     this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
   }
 
@@ -117,15 +123,16 @@ class CasesTable extends React.Component {
     } else {
       newSortDirection = ASCENDING;
     }
-    this.getCasesOrSearchResults(newSortBy, newSortDirection, 1);
+    this.getCases(newSortBy, newSortDirection, 1);
     this.updateSort(newSortBy, newSortDirection);
   }
 
   onChange(currentPage) {
-    this.getCasesOrSearchResults(
+    this.currentPage = currentPage;
+    this.getCases(
       this.props.sortBy,
       this.props.sortDirection,
-      currentPage
+      this.currentPage
     );
   }
 
@@ -283,18 +290,10 @@ class CasesTable extends React.Component {
   }
 }
 
-const mapStateToProps = (state, { archived, searchResults }) => {
-  let caseType = archived ? "archived" : "working";
+const mapStateToProps = (state, { caseType }) => {
   let currentUser = state.users.current.userInfo;
   let { sortBy, sortDirection } = state.ui.casesTable;
-  let location = state.router.location;
   let { cases, totalCaseCount, loaded } = state.cases[caseType];
-
-  if (searchResults) {
-    cases = state.cases.search.cases;
-    totalCaseCount = state.cases.search.totalCaseCount;
-    loaded = state.cases.search.loaded;
-  }
 
   return {
     cases,
@@ -302,8 +301,7 @@ const mapStateToProps = (state, { archived, searchResults }) => {
     loaded,
     currentUser,
     sortBy,
-    sortDirection,
-    location
+    sortDirection
   };
 };
 

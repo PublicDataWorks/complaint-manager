@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { closeSnackbar } from "../actionCreators/snackBarActionCreators";
 import { resetArchivedCasesLoaded } from "../actionCreators/casesActionCreators";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
+import { CASE_TYPE } from "../../../sharedUtilities/constants";
 
 class ArchivedCases extends Component {
   componentWillUnmount() {
@@ -18,7 +19,7 @@ class ArchivedCases extends Component {
           View Archived Cases
         </NavBar>
         <CasesTable
-          archived={true}
+          caseType={CASE_TYPE.ARCHIVE}
           currentPage={this.props.currentPage}
           noCasesMessage={"There are no archived cases to view."}
         />

@@ -11,6 +11,7 @@ import { policeDataManagerMenuOptions } from "../shared/components/NavBar/police
 import ComplaintTotals from "./ComplaintTotals";
 import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../common/actionCreators/dialogTypes";
+import { CASE_TYPE } from "../../../sharedUtilities/constants";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -28,7 +29,7 @@ class CaseDashboard extends Component {
         <CreateCaseButton />
         <CasesTable
           currentPage={this.props.currentPage}
-          archived={false}
+          caseType={CASE_TYPE.WORKING}
           noCasesMessage={"There are no cases to view."}
         />
       </div>

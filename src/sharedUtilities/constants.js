@@ -388,6 +388,19 @@ export const EDIT_STATUS = {
 };
 
 // ----------------------------------------
+//          Case Table Types
+// ----------------------------------------
+export const SEARCH = "search";
+export const WORKING = "working";
+export const ARCHIVE = "archived";
+
+export const CASE_TYPE = {
+  SEARCH,
+  WORKING,
+  ARCHIVE
+};
+
+// ----------------------------------------
 //         Referral Letter Type Options
 // ----------------------------------------
 export const REFERRAL_LETTER_VERSION = {
