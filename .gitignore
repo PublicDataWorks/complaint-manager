@@ -52,3 +52,4 @@ chromedriver.log
 *.tfstate.backup
 
 data/
+.cert/
