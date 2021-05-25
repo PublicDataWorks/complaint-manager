@@ -41,6 +41,27 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
   * The pre-push hook will execute when you run `git push`. It will pull any remote changes, rebuild the app, 
 run all tests, and run the security checks before pushing.
 
+### Install local certificates
+
+We use a tool called `mkcert` to manage self-signed certificates for the local environment. 
+
+Run these commands to manage these certificates on your local machine: 
+  ```
+  brew install mkcert
+
+  # if you use Firefox
+  brew install nss
+  
+  # installs the local CA
+  mkcert -install
+
+  cd <root of project>
+  mkdir .cert
+
+  # generates the local certificates signed by local CA
+  mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
+  ```
+
 ### Set up Google Maps API Key
 
 #### Core Team:
