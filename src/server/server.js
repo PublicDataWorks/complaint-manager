@@ -24,7 +24,7 @@ const featureToggleRouter = require("./featureToggleRouter");
 
 const expressWinston = require("express-winston");
 const winston = require("winston");
-const { combine, json } = winston.format
+const { combine, json } = winston.format;
 
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
@@ -153,8 +153,8 @@ export let server;
 
 if (isLowerEnv) {
   const options = {
-    key: fs.readFileSync("src/server.key"),
-    cert: fs.readFileSync("src/server.crt")
+    key: fs.readFileSync(".cert/client.key"),
+    cert: fs.readFileSync(".cert/client.crt")
   };
   server = https.createServer(options, app);
 } else {

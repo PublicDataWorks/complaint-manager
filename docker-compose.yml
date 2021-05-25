@@ -37,6 +37,7 @@ services:
 #      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
 #      - /app/src/instance-files/
       - ./scripts:/app/scripts
+      - ./.cert:/app/.cert
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
@@ -98,6 +99,7 @@ services:
 #      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
 #      - /app/src/instance-files/
       - ./scripts:/app/scripts
+      - ./.cert:/app/.cert
       - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
 #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
