@@ -45,7 +45,7 @@ run all tests, and run the security checks before pushing.
 
 We use a tool called `mkcert` to manage self-signed certificates for the local environment. 
 
-Run these commands to manage these certificates on your local machine: 
+Run these commands to install a signing certificate authority on your local machine: 
   ```
   brew install mkcert
 
@@ -54,12 +54,6 @@ Run these commands to manage these certificates on your local machine:
   
   # installs the local CA
   mkcert -install
-
-  cd <root of project>
-  mkdir .cert
-
-  # generates the local certificates signed by local CA
-  mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
   ```
 
 ### Set up Google Maps API Key
