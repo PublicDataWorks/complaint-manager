@@ -31,6 +31,7 @@ const cors = require("cors");
 const compression = require("compression");
 
 const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
+const isOnCI = process.env.CIRCLECI;
 
 winston.configure({
   format: combine(json()),
@@ -151,7 +152,7 @@ app.use(errorHandler);
 
 export let server;
 
-if (isLowerEnv) {
+if (isLowerEnv && !isOnCI) {
   const options = {
     key: fs.readFileSync(".cert/client.key"),
     cert: fs.readFileSync(".cert/client.crt")
