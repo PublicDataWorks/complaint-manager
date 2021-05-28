@@ -148,7 +148,7 @@ services:
       - "./e2e/tests:/e2e/tests"
       - "./e2e/pageObjectModels:/e2e/pageObjectModels"
       - "./wait-for-it.sh:/wait-for-it.sh"
-    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "120", "--"]
+    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "300", "--"]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}
