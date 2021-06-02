@@ -55,11 +55,19 @@ Run these commands to install a signing certificate authority and certificates o
   # installs the local CA
   mkcert -install
 
+  # make directory to store certs
   cd <root of project>
+  mkdir .cert/
   
   # generates the local certificates signed by local CA
   mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
   ```
+
+If you run into issues like `ERROR: failed to read the CA key: open /Users/<username>/Library/Application Support/mkcert/rootCA-key.pem: permission denied`, then you can solve this using:
+
+```
+sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/rootCA-key.pem
+```
 
 ### Set up Google Maps API Key
 
