@@ -35,11 +35,11 @@ const sortableCasesViewWithoutTags = `CREATE VIEW sortable_cases_view AS
                     middle_name AS accused_middle_name,
                     last_name AS accused_last_name
              FROM cases_officers AS officers
-             WHERE officers.role_on_case = 'Accused'
+             WHERE officers.role_on_case = 'Accused' AND officers.deleted_at IS NULL
                AND officers.created_at =
                  (SELECT MIN(created_at)
                   FROM cases_officers AS earliest_officer
-                  WHERE earliest_officer.role_on_case = 'Accused'
+                  WHERE earliest_officer.role_on_case = 'Accused' AND earliest_officer.deleted_at IS NULL
                     AND officers.case_id = earliest_officer.case_id))
                     AS accused_officers
           ON cases.id = accused_officers.case_id
@@ -139,14 +139,14 @@ const sortableCasesViewWithTags = `CREATE VIEW sortable_cases_view AS (
               FROM
                 cases_officers AS officers
               WHERE
-                officers.role_on_case = 'Accused'
+                officers.role_on_case = 'Accused' AND officers.deleted_at IS NULL
                 AND officers.created_at = (
                   SELECT
                     MIN(created_at)
                   FROM
                     cases_officers AS earliest_officer
                   WHERE
-                    earliest_officer.role_on_case = 'Accused'
+                    earliest_officer.role_on_case = 'Accused' AND earliest_officer.deleted_at IS NULL
                     AND officers.case_id = earliest_officer.case_id
                 )
             ) AS accused_officers ON cases.id = accused_officers.case_id
