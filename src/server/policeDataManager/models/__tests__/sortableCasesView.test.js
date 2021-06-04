@@ -29,6 +29,7 @@ describe("sortableCasesView", () => {
       accusedOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withId(undefined)
+        .withFirstName("First")
         .withOfficerId(officer.id)
         .withCreatedAt(new Date("2018-09-22"))
         .withRoleOnCase(ACCUSED);
@@ -36,6 +37,7 @@ describe("sortableCasesView", () => {
       secondAccusedOfficer = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withId(undefined)
+        .withFirstName("Second")
         .withOfficerId(officer.id)
         .withCreatedAt(new Date("2018-09-23"))
         .withRoleOnCase(ACCUSED);
@@ -70,6 +72,30 @@ describe("sortableCasesView", () => {
           accusedFirstName: accusedOfficer.firstName,
           accusedMiddleName: accusedOfficer.middleName,
           accusedLastName: accusedOfficer.lastName,
+          accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
+          id: existingCase.id
+        })
+      );
+    });
+
+    test("doesn't return deleted accused officer", async () => {
+      await (
+        await models.case_officer.findOne({
+          where: {
+            firstName: "First"
+          }
+        })
+      ).destroy({ auditUser: "someone" });
+
+      const sortedCase = await models.sortable_cases_view.findOne({
+        where: { id: existingCase.id }
+      });
+
+      expect(sortedCase).toEqual(
+        expect.objectContaining({
+          accusedFirstName: secondAccusedOfficer.firstName,
+          accusedMiddleName: secondAccusedOfficer.middleName,
+          accusedLastName: secondAccusedOfficer.lastName,
           accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
           id: existingCase.id
         })
