@@ -3808,10 +3808,10 @@ autosuggest-highlight@~3.1.1:
   dependencies:
     diacritic "0.0.2"
 
-aws-sdk@2.919.0:
-  version "2.919.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.919.0.tgz#90023a1edeac948b295cf0594aa20bc1ed160570"
-  integrity sha512-9hPKuw3w7iDeDByIeoMspKgmiljTtYGM3bDkICEIDeJuPAlEMu+z3jOTFu5gHzZ95noXRqhRL1eeXI7o1F/hpQ==
+aws-sdk@2.722.0:
+  version "2.722.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.722.0.tgz#41d2be501961b91ee0362be6dc77af68fd4438cb"
+  integrity sha512-zPKAHAQHhLYeMsLIaV1KG0lE3RGO60td4KnC/boIRM3IlHrm7aGryuToAQ+LegZ7rH7Et92moe36F1qgelC5fg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
