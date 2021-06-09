@@ -200,6 +200,7 @@ jobs:
       - image: postman/newman:latest
     steps:
       - checkout
+      - run: mkdir /tmp/output
       - run:
           name: Run Letter Integration Tests
           command: |
@@ -207,7 +208,33 @@ jobs:
             -e doc/postman/CI.postman_environment.json \
             --env-var client_id=$CI_AUTH0_CLIENT_ID \
             --env-var client_secret=$CI_AUTH0_CLIENT_SECRET \
-            doc/postman/Police\ Data\ Management.postman_collection.json
+            doc/postman/Police\ Data\ Management.postman_collection.json > /tmp/output/newman-result.txt
+      - run:
+          name: Test Results
+          command: cat /tmp/output/newman-result.txt
+      - persist_to_workspace:
+          root: '/tmp'
+          paths:
+            - output/newman-result.txt
+  
+  letter-generation-ci-latency-check:
+    docker:
+      - image: node:latest
+    steps:
+      - run:
+          name: Install Git
+          command: apt-get update && apt-get install git --assume-yes
+      - checkout
+      - attach_workspace:
+          at: .
+      - run:
+          name: Capture Test Output as CSV
+          command: scripts/extractTestLatency.sh > output/letter-generation-test-stats.csv
+      - run:
+          name: Assert on Test Latency
+          command: node scripts/assertOnTestLatency.js
+      - store_artifacts:
+          path: output/
 
   deploy-ci:
     docker:
@@ -502,9 +529,13 @@ workflows:
       - letter-generation-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded
+      - letter-generation-ci-latency-check:
+          requires:
+            - letter-generation-testing-ci
       - e2e-testing-ci-pdm:
           requires:
             - letter-generation-testing-ci
+  
   build_and_deploy_release:
     jobs:
       - security-check:
