@@ -213,7 +213,14 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      run: cat output/newman-result.txt # TODO
+      - run:
+          name: Capture Test Output as CSV
+          command: sh scripts/extractTestLatency.sh > output/letter-generation-test-stats.csv
+      - run:
+          name: Assert on Test Latency
+          command: npx babel-node scripts/assertOnTestLatency.js
+      - store_artifacts:
+          path: output/
 
   deploy-ci:
     docker:
