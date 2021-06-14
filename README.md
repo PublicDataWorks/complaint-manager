@@ -84,6 +84,7 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
   * Using your credentials for Auth0 ci, set local test environment variables called TEST_USER and TEST_PASS in either your ~/.profile or ~/.zshrc file.
     * Make sure your credentials were given DPM access.
     * Contributors should receive these from a Core Team member.
+    * If you still get the message about missing one of these environment variables, you may need to export it in your console `export TEST_USER=${TEST_USER}
 
 ### Set up Local Configuration for AWS S3
 
@@ -139,6 +140,9 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
     * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
     * In these case, please click "Advanced" and then "Proceed to localhost (unsafe)" to move to the local host web page.
 
+#### Possible Errors
+  * `Failed to load metadata for instance-files` - make sure that you are logged into docker (`docker login` or via Docker Desktop)
+
 ### Stop all running containers:
     ```bash
     docker-compose down
@@ -178,6 +182,13 @@ docker push noipm/instance-files:your-tag
     ```bash
     docker-compose run app yarn test:server
     ```
+
+#### Running server side tests locally
+  * You can run server-side tests locally without the authorize step.  There is a separate postman json that skips that step # TODO remove if that doesn't get merged in
+  * run tests locally with the --insecure flag to avoid certificate issues
+  ```
+  newman run -e doc/postman/Local.postman_environment.json doc/postman/Police\ Data\ Management.postman_collection.no_auth.json --insecure
+  ```
 
 #### Running worker tests in watch mode:
 
