@@ -1,5 +1,10 @@
 config:
   target: "https://localhost:1234/api"
+  environments:
+    staging:
+      target: "https://noipm-staging.herokuapp.com"
+    ci:
+      target: "https://noipm-ci.herokuapp.com"
   phases:
     - duration: 1
       arrivalRate: 5
