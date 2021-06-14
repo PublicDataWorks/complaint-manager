@@ -1,0 +1,43 @@
+config:
+  target: "https://localhost:1234/api"
+  phases:
+    - duration: 1
+      arrivalRate: 5
+      name: Warm up
+    - duration: 1
+      arrivalRate: 5
+      rampTo: 10
+      name: Ramp up load
+    - duration: 3
+      arrivalRate: 10
+      name: Sustained load
+  ensure:
+    max: 400
+    median: 30
+    maxErrorRate: 1
+scenarios:
+  - name: 'Create Case'
+    flow:
+      - post:
+          url: "/cases"
+          json:
+            case:
+              complaintType: "Civilian Initiated"
+              firstContactDate: "2020-07-22"
+              intakeSourceId: 3
+            civilian:
+              firstName: "Tim"
+              lastName: "Names"
+              phoneNumber: "3147834127"
+  - name: 'Create Civilian'
+    flow:
+      - post:
+          url: "/cases/1/civilians"
+          json:
+            roleOnCase: "Complainant"
+            caseId: 1
+            civilianTitleId: 2
+            genderIdentityId: 1
+            raceEthnicityId: 3
+            firstName: "Civilian"
+            lastName: "Number One"
