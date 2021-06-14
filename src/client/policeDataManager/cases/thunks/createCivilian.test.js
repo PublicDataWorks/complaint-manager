@@ -64,7 +64,7 @@ describe("civilian creation", function () {
         "Content-Type": "application/json"
       }
     })
-      .post(`/api/cases/${civilian.caseId}/civilians`, civilian)
+      .post(`/api/cases/${civilian.caseId}/civilians`, JSON.stringify(civilian))
       .reply(201, [civilian]);
 
     await createCivilian(civilian)(dispatch);
