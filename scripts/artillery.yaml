@@ -21,7 +21,7 @@ config:
     median: 30
     maxErrorRate: 1
 scenarios:
-  - name: 'Create Case'
+  - name: 'Letter Generation'
     flow:
       - post:
           url: "/cases"
@@ -34,13 +34,58 @@ scenarios:
               firstName: "Tim"
               lastName: "Names"
               phoneNumber: "3147834127"
-  - name: 'Create Civilian'
-    flow:
+          capture:
+            - json: "$.id"
+              as: "caseId"
+      - put:
+          url: "/cases/{{ caseId }}/narrative"
+          json:
+            narrativeSummary: "a thing happened"
+            narrativeDetails: "it was actually several things"
+      # - post:
+      #     url: "/cases/{{ caseId }}/case-tags"
+      #     json:
+      #       tagId: "apricots"
+      - get:
+          url: "/cases/{{ caseId }}/case-tags"
       - post:
-          url: "/cases/1/civilians"
+          url: "/cases/{{ caseId }}/case-notes"
+          json:
+            actionTakenAt: "2021-06-15T13:57:00-05:00"
+            caseNoteActionId: 4
+            notes: "This happened"
+            caseId: "{{ caseId }}"
+            mentionedUsers:
+              - name: "NOIPM Infra"
+                value: "email@email.com"
+      - get:
+          url: "/cases/{{ caseId }}/case-notes"
+      - post:
+          url: "/cases/{{ caseId }}/cases-officers"
+          json:
+            officerId: 3400
+            caseEmployeeType: "Officer"
+            roleOnCase: "Accused"
+          capture:
+            - json: "$.accusedOfficers[0].id"
+              as: "caseOfficerId"
+      - post:
+          url: "/cases/{{ caseId }}/case-officers/{{ caseOfficerId }}/officers-allegations"
+          json:
+            severity: "Low"
+            details: "test"
+            allegationId: 3286
+      - put:
+          url: "/cases/{{ caseId }}/status"
+          json:
+            status: "Letter in Progress"
+      - get:
+          url: "/cases/{{ caseId }}/referral-letter"
+      - post:
+          url: "/cases/{{ caseId }}/civilians"
           json:
             roleOnCase: "Complainant"
-            caseId: 1
+            caseId: "{{ caseId }}"
             civilianTitleId: 2
             genderIdentityId: 1
             raceEthnicityId: 3
