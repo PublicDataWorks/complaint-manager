@@ -36,7 +36,7 @@ jobs:
 
   test-client:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
         environment:
           NODE_ENV: test
     steps:
@@ -54,7 +54,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers-ci:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -73,7 +73,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers-staging:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -92,7 +92,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-worker-non-handlers:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -365,7 +365,7 @@ jobs:
 
   update-search-indices-ci:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
     steps:
       - run:
           name: Defines Environment Variables at Runtime
@@ -391,7 +391,7 @@ jobs:
 
   update-search-indices-staging:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
     steps:
       - run:
           name: Defines Environment Variables at Runtime
@@ -414,7 +414,7 @@ jobs:
 
   update-search-indices-production:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.1
+      - image: noipm/docker-node-ubuntu:2.0.2
     steps:
       - run:
           name: Defines Environment Variables at Runtime
