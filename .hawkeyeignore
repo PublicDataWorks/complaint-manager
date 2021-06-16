@@ -22,9 +22,8 @@ files-contents-scripts/search/query-index.js-1
 files-contents-src/server/handlers/getResultsFromES.js-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
-node-yarnaudit-braces-786
-node-yarnaudit-js-yaml-788
-node-yarnaudit-js-yaml-813
+node-yarnaudit-quill-1695
+node-yarnaudit-postcss-1693
 
 # There is currently no patch for these vulnerabilities:
 node-yarnaudit-html-pdf-1095
