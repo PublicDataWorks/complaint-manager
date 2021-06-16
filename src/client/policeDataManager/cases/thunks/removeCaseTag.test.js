@@ -58,7 +58,7 @@ describe("removeCaseTag", () => {
     const caseTagId = 2;
 
     nock("http://localhost")
-      .delete(`api/cases/${caseId}/case-tags/${caseTagId}`)
+      .delete(`/api/cases/${caseId}/case-tags/${caseTagId}`)
       .reply(500);
 
     await removeCaseTag(caseId, caseNoteId)(dispatch);
