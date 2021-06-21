@@ -6,10 +6,9 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/instance-files:latest
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container noipm/instance-files):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container noipm/instance-files:latest):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -23,10 +22,9 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/instance-files:1.0.3
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container noipm/instance-files):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container noipm/instance-files:1.0.4):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -226,7 +224,7 @@ jobs:
       #     command: apt-get update && apt-get install git --assume-yes
       - checkout
       - attach_workspace:
-          at: output
+          at: /tmp/output
       - run: mkdir output
       - run:
           name: Capture Test Output as CSV
@@ -499,14 +497,11 @@ workflows:
 
   test-ci-latency:
     jobs:
-      - security-check:
+      - letter-generation-testing-ci:
           filters:
             branches:
               only:
                 - preformance
-      - letter-generation-testing-ci:
-          requires:
-            - security-check
       - letter-generation-ci-latency-check:
           requires:
             - letter-generation-testing-ci

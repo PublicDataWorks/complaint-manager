@@ -8,4 +8,4 @@ do
         echo "${previous_line:2},${BASH_REMATCH[2]},${BASH_REMATCH[3]}"
     fi
     previous_line=$line
-done <output/newman-result.txt
+done </tmp/output/newman-result.txt
