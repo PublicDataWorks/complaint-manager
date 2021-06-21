@@ -7,7 +7,7 @@ const THRESHOLDS = {
 
 fs.readFile("output/letter-generation-test-stats.csv", "utf8", (err, data) => {
   if (err) {
-    console.error(err);
+    console.error("failed reading letter-generation-test-stats.csv", err);
     process.exit(1);
   }
 
