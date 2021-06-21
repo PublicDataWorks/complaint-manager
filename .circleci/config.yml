@@ -492,7 +492,7 @@ workflows:
           filters:
             branches:
               only:
-                - performance
+                - preformance
       - letter-generation-testing-ci:
           requires:
             - security-check
