@@ -209,17 +209,28 @@ jobs:
             -e doc/postman/CI.postman_environment.json \
             --env-var client_id=$CI_AUTH0_CLIENT_ID \
             --env-var client_secret=$CI_AUTH0_CLIENT_SECRET \
-            doc/postman/Police\ Data\ Management.postman_collection.json > output/newman-result.txt
+            doc/postman/Police\ Data\ Management.postman_collection.json > /tmp/output/newman-result.txt
       - store_artifacts:
-          path: output/
+          path: /tmp/output/
+      - persist_to_workspace:
+          root: '/tmp'
+          paths:
+            - output/
   
   letter-generation-ci-latency-check:
     docker:
-      - image: alpine:latest
+      - image: ubuntu:latest
     steps:
+      # - run:
+      #     name: Install Git
+      #     command: apt-get update && apt-get install git --assume-yes
+      - checkout
+      - attach_workspace:
+          at: output
+      - run: mkdir output
       - run:
           name: Capture Test Output as CSV
-          command: sh scripts/extractTestLatency.sh > output/letter-generation-test-stats.csv
+          command: scripts/extractTestLatency.sh > output/letter-generation-test-stats.csv
       - run:
           name: Assert on Test Latency
           command: npx babel-node scripts/assertOnTestLatency.js

@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 echo "operation,response code,latency (ms)"
 previous_line=''
 while read line;
