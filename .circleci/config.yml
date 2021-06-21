@@ -486,14 +486,11 @@ workflows:
 
   test-ci-latency:
     jobs:
-      - security-check:
+      - letter-generation-testing-ci:
           filters:
             branches:
               only:
                 - preformance
-      - letter-generation-testing-ci:
-          requires:
-            - security-check
       - letter-generation-ci-latency-check:
           requires:
             - letter-generation-testing-ci
