@@ -2,7 +2,6 @@ const fs = require("fs");
 
 const THRESHOLDS = {
   // set a specific threshold (in ms) for an operation, otherwise DEFAULT will be used
-  ["Retrieve Final Referral Letter URL"]: 60,
   DEFAULT: 500
 };
 
