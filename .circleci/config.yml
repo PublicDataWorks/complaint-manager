@@ -486,6 +486,20 @@ workflows:
           requires:
             - get-instance-files-latest
 
+  test-ci-latency:
+    jobs:
+      - security-check:
+          filters:
+            branches:
+              only:
+                - performance
+      - letter-generation-testing-ci:
+          requires:
+            - security-check
+      - letter-generation-ci-latency-check:
+          requires:
+            - letter-generation-testing-ci
+
   build_and_deploy_master:
     jobs:
       - security-check:
