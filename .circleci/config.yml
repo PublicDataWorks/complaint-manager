@@ -199,7 +199,7 @@ jobs:
       - image: postman/newman:latest
     steps:
       - checkout
-      - run: mkdir output
+      - run: mkdir /tmp/output
       - run:
           name: Run Letter Integration Tests
           command: |
