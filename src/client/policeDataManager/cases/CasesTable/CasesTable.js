@@ -98,6 +98,16 @@ class CasesTable extends React.Component {
     this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.searchQuery !== this.props.searchQuery) {
+      this.getCases(
+        this.props.sortBy,
+        this.props.sortDirection,
+        this.currentPage
+      );
+    }
+  }
+
   renderCases(classes) {
     if (_.isEmpty(this.props.cases)) {
       return null;
@@ -294,6 +304,10 @@ const mapStateToProps = (state, { caseType }) => {
   let currentUser = state.users.current.userInfo;
   let { sortBy, sortDirection } = state.ui.casesTable;
   let { cases, totalCaseCount, loaded } = state.cases[caseType];
+  let searchQuery = state.router.location.search
+    .substring(1)
+    .split("&")
+    .find(s => s.startsWith("queryString"));
 
   return {
     cases,
@@ -301,7 +315,8 @@ const mapStateToProps = (state, { caseType }) => {
     loaded,
     currentUser,
     sortBy,
-    sortDirection
+    sortDirection,
+    searchQuery
   };
 };
 
