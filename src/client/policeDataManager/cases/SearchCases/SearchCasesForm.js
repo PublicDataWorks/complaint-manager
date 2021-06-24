@@ -60,7 +60,8 @@ class SearchCasesForm extends Component {
 }
 
 const searchCasesForm = reduxForm({
-  form: SEARCH_CASES_FORM_NAME
+  form: SEARCH_CASES_FORM_NAME,
+  destroyOnUnmount: false
 })(SearchCasesForm);
 
 export default searchCasesForm;
