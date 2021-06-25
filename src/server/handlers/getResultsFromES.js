@@ -14,11 +14,9 @@ export const getResultsFromES = async queryString => {
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${host}${port ? ":" + port : ""}`,
-    auth: { username, password },
-    ssl: {
-      rejectUnauthorized: false
-    }
+    node: `${protocol}${
+      username ? username + ":" + password + "@" : ""
+    }${host}${port ? ":" + port : ""}`
   });
 
   const { body: searchResults } = await elasticClient
