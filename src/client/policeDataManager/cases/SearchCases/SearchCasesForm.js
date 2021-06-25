@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { push } from "connected-react-router";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { SEARCH_CASES_FORM_NAME } from "../../../../sharedUtilities/constants";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import styles from "../../../common/globalStyling/styles";
 import { renderTextField } from "../sharedFormComponents/renderFunctions";
-import axios from "axios";
-import { searchSuccess } from "../../actionCreators/searchActionCreators";
 
 class SearchCasesForm extends Component {
   submit = async ({ queryString }, dispatch) => {
@@ -64,4 +63,18 @@ const searchCasesForm = reduxForm({
   destroyOnUnmount: false
 })(SearchCasesForm);
 
-export default searchCasesForm;
+
+
+export default connect(state => {
+  let queryString = state.router.location.search;
+  if (queryString) {
+    queryString = queryString
+    .substring(1)
+    .split("&")
+    .find(s => s.startsWith("queryString"))
+    queryString = (queryString) ? queryString.split("=")[1]: undefined
+  }
+  return ({ initialValues: {queryString} })
+}
+)
+(searchCasesForm);
