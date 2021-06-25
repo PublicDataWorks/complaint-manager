@@ -4,20 +4,21 @@ import { ACCUSED, COMPLAINANT } from "../../src/sharedUtilities/constants";
 
 const updateSearchIndex = async () => {
   const environment = process.env.NODE_ENV || "development";
-  const { protocol, host, port, indexName: index } = require("./index-config")[
-    environment
-  ];
+  const {
+    protocol,
+    host,
+    port,
+    indexName: index
+  } = require("./index-config")[environment];
 
   const username = process.env.ELASTIC_USERNAME || null;
   const password = process.env.ELASTIC_PASSWORD || null;
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${host}${port ? ":" + port : ""}`,
-    auth: { username, password },
-    ssl: {
-      rejectUnauthorized: false
-    }
+    node: `${protocol}${
+      username ? username + ":" + password + "@" : ""
+    }${host}${port ? ":" + port : ""}`
   });
 
   process.on("uncaughtException", error => {
