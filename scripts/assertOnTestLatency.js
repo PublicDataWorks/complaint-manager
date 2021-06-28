@@ -18,9 +18,9 @@ const THRESHOLDS = {
   ["Retrieve Case Notes"]: 297,
   ["Delete Case Note"]: 229,
   // Notification
-  ["Retrieve Notifications"]: 155,
+  ["Retrieve Notifications"]: 177,
   ["Retrieve Notification Status"]: 36,
-  ["Update Notification as Read"]: 141,
+  ["Update Notification as Read"]: 163,
   // Case Officer
   ["Create Case Officer"]: 464,
   ["Create Case Officer Allegation"]: 298,
