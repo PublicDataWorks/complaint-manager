@@ -63,9 +63,7 @@ const searchCasesForm = reduxForm({
   destroyOnUnmount: false
 })(SearchCasesForm);
 
-
-
-export default connect(state => {
+export const mapsStateToProps = state => {
   let queryString = state.router.location.search;
   if (queryString) {
     queryString = queryString
@@ -76,5 +74,8 @@ export default connect(state => {
   }
   return ({ initialValues: {queryString} })
 }
+
+export default connect(
+  mapsStateToProps
 )
 (searchCasesForm);
