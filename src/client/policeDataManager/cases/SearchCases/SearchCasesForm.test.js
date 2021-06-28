@@ -7,25 +7,33 @@ import { waitFor } from "@testing-library/dom";
 import SearchCasesForm, { mapsStateToProps } from "./SearchCasesForm";
 import createConfiguredStore from "../../../createConfiguredStore";
 
-
 describe("SearchCasesForm.mapStateToProps", () => {
-  const queryString = 'hello';
+  const queryString = "hello";
   test("should map queryString from URL with defined queryString", async () => {
     expect(
-    mapsStateToProps(
-      { router: { location: { search: `?queryString=${queryString}` } } }
-    )
-    ).toEqual({ initialValues: {queryString} });
+      mapsStateToProps({
+        router: { location: { search: `?queryString=${queryString}` } }
+      })
+    ).toEqual({ initialValues: { queryString } });
+  });
+
+  test("should map no queryString from URL with no queryString", async () => {
+    expect(mapsStateToProps({ router: { location: {} } })).toEqual({
+      initialValues: {}
+    });
   });
 
   test("should map no queryString from URL with no queryString", async () => {
     expect(
-    mapsStateToProps(
-      { router: { location: {}}}
-    )
-    ).toEqual({ initialValues: {} });
+      mapsStateToProps({
+        router: {
+          location: {
+            search: "?queryString=hello%20there"
+          }
+        }
+      })
+    ).toEqual({ initialValues: { queryString: "hello there" } });
   });
-
 });
 
 describe("SearchCasesForm", () => {
