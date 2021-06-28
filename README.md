@@ -15,6 +15,8 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
 
 ### Set docker hosts for Postgres db and Redis
   
+  **Note:** You only need this if you are trying to run tests outside of the containers OR if you want to run DB migrations
+
   * We depend on access to the local db container for running tests in our IDE and also for running up/down migrations locally
   * We depend on access to the local redis instance for debugging purposes
   * Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost:
@@ -29,7 +31,7 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
   * Under “Resources > Advanced” section in Docker preferences, change your default settings to the following:
     ```
     CPUs: 4,
-    Memory: 5.0 GB
+    Memory: 6.0 GB
     Swap: 1.0 GB
     ```
 
@@ -49,9 +51,6 @@ Run these commands to install a signing certificate authority and certificates o
   ```
   brew install mkcert
 
-  # if you use Firefox
-  brew install nss
-  
   # installs the local CA
   mkcert -install
 
@@ -62,6 +61,8 @@ Run these commands to install a signing certificate authority and certificates o
   # generates the local certificates signed by local CA
   mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
   ```
+
+If you want to run using certs on Firefox also run `brew install nss`
 
 If you run into issues like `ERROR: failed to read the CA key: open /Users/<username>/Library/Application Support/mkcert/rootCA-key.pem: permission denied`, then you can solve this using:
 
@@ -87,10 +88,12 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 ### Set up Local Configuration for AWS S3
 
+Note: You only need to setup the AWS keys if you are using Authentication locally
+
 #### Core Team:
-  * Log into AWS with root user (credentials are in the team 1Password)
+  * Log into AWS from Okta
   * Create a new user for yourself in the developer group in IAM
-    * You will need programmatic access
+    * You will need only programmatic access
     * No tags are required
     * Be sure to add yourself to the developer group
 
@@ -99,7 +102,8 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 #### Everyone:
   * Save your login, access key ID and secret access key in your personal password manager
-  * Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
+  * if you need aws locally
+  Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
 
     ```json
     {
@@ -110,9 +114,15 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
     ```
 
 ### Install Local Dependencies
-  * Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests outside the container e.g. your IDE)
+  * Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests outside the container e.g. your IDE, also Security Checks will run against your locally installed dependencies)
 
 ## Local Development Tasks
+
+### Log Into Docker:
+
+  * Log into Docker using credentials provided by Core Team
+
+   ```docker login```
 
 ### Build the app:
     ```bash
@@ -123,7 +133,7 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
 
 ### Run the app locally in watch mode:
     ```bash
-    docker-compose up app
+    docker compose up app
     ```
   * Wait for the backend and frontend to initialize
     * Healthy console outputs for backend 
@@ -136,12 +146,10 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
     Compiled with warnings.
     ```
   * Navigate to `https://localhost`.
-    * Because we use a self-signed certificate for local host, you will get a warning that your connection to the site is not private.
-    * In these case, please click "Advanced" and then "Proceed to localhost (unsafe)" to move to the local host web page.
 
-### Stop all running containers:
+### Stop and remove all running containers:
     ```bash
-    docker-compose down
+    docker compose down
     ```
     
 ### Instance Files
@@ -158,7 +166,7 @@ docker push noipm/instance-files:your-tag
 
 ### Run security checks
     ```
-    docker-compose run security-checks
+    docker compose run --rm security-checks
     ```
 
 ### Running tests
@@ -168,7 +176,7 @@ docker push noipm/instance-files:your-tag
   * Run all tests in `src/client` in parallel:
 
     ```bash
-    docker-compose run app yarn test:client
+    docker-compose run --rm app yarn test:client
     ```
 
 #### Running server side tests in watch mode:
@@ -176,7 +184,7 @@ docker push noipm/instance-files:your-tag
   * Set up a test DB and run all tests in `src/server` sequentially:
 
     ```bash
-    docker-compose run app yarn test:server
+    docker-compose run --rm app yarn test:server
     ```
 
 #### Running worker tests in watch mode:
@@ -184,14 +192,14 @@ docker push noipm/instance-files:your-tag
   * Set up a test DB and run all tests in `src/worker` sequentially:
 
     ```bash
-    docker-compose run app yarn test:worker
+    docker-compose run --rm app yarn test:worker
     ```
 
 #### Hints for unit tests
 
   * For running server, client, and worker tests all together (no watch mode)
     ```bash
-    docker-compose run app yarn test:once
+    docker-compose run --rm app yarn test:once
     ```
   * For when you want to run a specific test suite in the terminal for either client, server, or worker tests
     * Run the command for either client, worker, or server tests depending on the type of test you are working on
@@ -213,8 +221,8 @@ docker push noipm/instance-files:your-tag
       * Remove the app-e2e container (so that it can be recreated)
       
       ```
-      docker-compose kill app-e2e
-      docker-compose rm app-e2e
+      docker compose kill app-e2e
+      docker compose rm app-e2e
       ```
       * Rerun e2e tests
 
