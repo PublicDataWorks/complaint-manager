@@ -10,7 +10,7 @@ import { renderTextField } from "../sharedFormComponents/renderFunctions";
 
 class SearchCasesForm extends Component {
   submit = async ({ queryString }, dispatch) => {
-    const formattedQueryString = (queryString || '').trim();
+    const formattedQueryString = (queryString || "").trim();
     if (formattedQueryString.length < 1) return;
     dispatch(push(`/search?queryString=${formattedQueryString}`));
   };
@@ -67,15 +67,14 @@ export const mapsStateToProps = state => {
   let queryString = state.router.location.search;
   if (queryString) {
     queryString = queryString
-    .substring(1)
-    .split("&")
-    .find(s => s.startsWith("queryString"))
-    queryString = (queryString) ? queryString.split("=")[1]: undefined
+      .substring(1)
+      .split("&")
+      .find(s => s.startsWith("queryString"));
+    queryString = queryString
+      ? decodeURIComponent(queryString.split("=")[1])
+      : undefined;
   }
-  return ({ initialValues: {queryString} })
-}
+  return { initialValues: { queryString } };
+};
 
-export default connect(
-  mapsStateToProps
-)
-(searchCasesForm);
+export default connect(mapsStateToProps)(searchCasesForm);
