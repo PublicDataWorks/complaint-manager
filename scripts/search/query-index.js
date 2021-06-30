@@ -48,11 +48,31 @@
   const { hits } = get(searchResults, ["hits"], {});
   console.log(`Found ${hits.length} results.`);
 
+  const logPage = page => {
+    page.forEach((row, idx) => {
+      console.group(idx);
+      Object.keys(row).forEach(key => {
+        if (Array.isArray(row[key])) {
+          console.group(key);
+          row[key].forEach(item => {
+            console.log(item);
+          });
+          console.groupEnd();
+        } else if (typeof row[key] === "object") {
+          console.log(key, util.inspect(row[key], { depth: null }));
+        } else {
+          console.log(key, row[key]);
+        }
+      });
+      console.groupEnd();
+    });
+  };
+
   if (Array.isArray(hits) && hits.length) {
     chunk(
       hits.map(hit => hit._source),
       10
-    ).forEach(page => console.table(page));
+    ).forEach(logPage);
   }
 
   return 0;
