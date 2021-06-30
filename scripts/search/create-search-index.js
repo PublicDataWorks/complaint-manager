@@ -66,70 +66,60 @@ const updateSearchIndex = async () => {
 
   const models = require("../../src/server/policeDataManager/models/index");
 
-  const tagsResults = await models.case_tag.findAll({
+  const results = await models.cases.findAll({
     include: [
       {
-        model: models.tag,
-        as: "tag"
+        model: models.case_tag,
+        as: "caseTags",
+        include: [
+          {
+            model: models.tag,
+            as: "tag"
+          }
+        ]
+      },
+      {
+        model: models.case_officer,
+        as: "complainantOfficers"
+      },
+      {
+        model: models.case_officer,
+        as: "accusedOfficers"
+      },
+      {
+        model: models.civilian,
+        as: "complainantCivilians"
       }
     ]
   });
-  const caseOfficersResults = await models.case_officer.findAll({
-    where: {
-      roleOnCase: { [models.Sequelize.Op.or]: [COMPLAINANT, ACCUSED] }
-    }
-  });
-  const civiliansResults = await models.civilian.findAll({
-    where: { roleOnCase: COMPLAINANT }
-  });
 
-  if (
-    !tagsResults.length &&
-    !caseOfficersResults.length &&
-    !civiliansResults.length
-  ) {
+  if (!results.length) {
     console.log("No results were found. Ending script.");
     return 0;
   }
 
   const operation = { index: { _index: index } };
+  const mapPerson = person => ({
+    first_name: person.firstName,
+    last_name: person.lastName
+  });
 
-  const caseOfficerBulkOperations = caseOfficersResults.flatMap(
-    caseOfficersResult => {
-      const {
-        caseId: case_id,
-        firstName: first_name,
-        lastName: last_name
-      } = caseOfficersResult.dataValues;
-      const document = { case_id, first_name, last_name };
-
-      return [operation, document];
-    }
-  );
-
-  const civilianBulkOperations = civiliansResults.flatMap(civiliansResult => {
-    const {
-      caseId: case_id,
-      firstName: first_name,
-      lastName: last_name
-    } = civiliansResult.dataValues;
-    const document = { case_id, first_name, last_name };
+  const bulkOperations = results.flatMap(result => {
+    let case_id = result.id;
+    let tags = result.caseTags.map(tag => tag.tag.name);
+    let complainantOfficers = result.complainantOfficers.map(mapPerson);
+    let accusedOfficers = result.accusedOfficers.map(mapPerson);
+    let civilians = result.complainantCivilians.map(mapPerson);
+    const document = {
+      case_id,
+      tags,
+      accusedOfficers,
+      complainantOfficers,
+      civilians
+    };
 
     return [operation, document];
   });
-
-  const tagBulkOperations = tagsResults.flatMap(tagsResult => {
-    const { caseId: case_id } = tagsResult.dataValues;
-    const { name: tag_name } = tagsResult.tag.dataValues;
-    const document = { case_id, tag_name };
-
-    return [operation, document];
-  });
-
-  const bulkOperations = tagBulkOperations.concat(
-    caseOfficerBulkOperations,
-    civilianBulkOperations
-  );
 
   console.log(bulkOperations);
 

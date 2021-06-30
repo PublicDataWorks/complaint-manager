@@ -26,7 +26,8 @@ export const getResultsFromES = async queryString => {
       body: {
         query: {
           query_string: {
-            query: `*${queryString}*`
+            query: `*${queryString.split(" ").join("* *")}*`,
+            default_operator: "and"
           }
         }
       }

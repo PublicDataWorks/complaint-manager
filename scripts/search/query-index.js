@@ -36,7 +36,8 @@
       body: {
         query: {
           query_string: {
-            query: `*${query}*`
+            query: `*${query.split(" ").join("* *")}*`,
+            default_operator: "and"
           }
         }
       }
