@@ -529,9 +529,9 @@ workflows:
       - letter-generation-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded
-      - letter-generation-ci-latency-check:
-          requires:
-            - letter-generation-testing-ci
+      # - letter-generation-ci-latency-check:
+      #     requires:
+      #       - letter-generation-testing-ci
       - e2e-testing-ci-pdm:
           requires:
             - letter-generation-testing-ci
