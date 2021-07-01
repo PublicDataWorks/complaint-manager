@@ -542,7 +542,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.36.0
+                - release_v3.37.0
       - get-instance-files-release:
           requires:
             - security-check
