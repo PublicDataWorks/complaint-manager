@@ -1,4 +1,4 @@
-import models from "../../../policeDataManager/models";
+import models, { sequelize } from "../../../policeDataManager/models";
 import {
   ASCENDING,
   DESCENDING,
@@ -43,37 +43,61 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
           ]
         ];
       }
-    case SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER:
+    case SORT_CASES_BY.ACCUSED_OFFICERS:
       if (sortDirection === ASCENDING) {
         return [
-          ["accusedPersonType", DESCENDING],
           [
-            caseInsensitiveSort("accusedLastName", model),
-            `${ASCENDING} NULLS FIRST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_last_name")
+            ),
+            `${ASCENDING} NULLS LAST`
           ],
           [
-            caseInsensitiveSort("accusedFirstName", model),
-            `${ASCENDING} NULLS FIRST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_first_name")
+            ),
+            `${ASCENDING} NULLS LAST`
           ],
           [
-            caseInsensitiveSort("accusedMiddleName", model),
-            `${ASCENDING} NULLS FIRST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_middle_name")
+            ),
+            `${ASCENDING} NULLS LAST`
+          ],
+          [
+            sequelize.json("accused_officers[0].accused_person_type"),
+            `${ASCENDING} NULLS LAST`
           ]
         ];
       } else {
         return [
-          ["accusedPersonType", ASCENDING],
           [
-            caseInsensitiveSort("accusedLastName", model),
-            `${DESCENDING} NULLS LAST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_last_name")
+            ),
+            `${DESCENDING} NULLS FIRST`
           ],
           [
-            caseInsensitiveSort("accusedFirstName", model),
-            `${DESCENDING} NULLS LAST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_first_name")
+            ),
+            `${DESCENDING} NULLS FIRST`
           ],
           [
-            caseInsensitiveSort("accusedMiddleName", model),
-            `${DESCENDING} NULLS LAST`
+            sequelize.fn(
+              "lower",
+              sequelize.json("accused_officers[0].accused_middle_name")
+            ),
+            `${DESCENDING} NULLS FIRST`
+          ],
+          [
+            sequelize.json("accused_officers[0].accused_person_type"),
+            `${DESCENDING} NULLS FIRST`
           ]
         ];
       }

@@ -15,7 +15,7 @@ class SortableCase {
     this.assignedTo = build.assignedTo;
     this.tagNames = build.tagNames;
     this.primaryComplainant = build.primaryComplainant;
-    this.primaryAccusedOfficer = build.primaryAccusedOfficer;
+    this.accusedOfficers = build.accusedOfficers;
   }
 
   static get Builder() {
@@ -30,7 +30,7 @@ class SortableCase {
         this.assignedTo = "someone";
         this.tagNames = [];
         this.primaryComplainant = null;
-        this.primaryAccusedOfficer = null;
+        this.accusedOfficers = [];
         return this;
       }
 
@@ -90,17 +90,23 @@ class SortableCase {
         };
         return this;
       }
-      withPrimaryAccusedOfficer(primaryAccusedOfficer) {
-        this.primaryAccusedOfficer = {
+      withAccusedOfficer(accusedOfficer) {
+        this.accusedOfficers.push({
           fullName: getPersonFullName(
-            primaryAccusedOfficer.firstName,
-            primaryAccusedOfficer.middleName,
-            primaryAccusedOfficer.lastName,
-            primaryAccusedOfficer.suffix,
-            primaryAccusedOfficer.personType
+            accusedOfficer.firstName,
+            accusedOfficer.middleName,
+            accusedOfficer.lastName,
+            accusedOfficer.suffix,
+            accusedOfficer.personType
           ),
-          personType: primaryAccusedOfficer.personType
-        };
+          personType: accusedOfficer.personType
+        });
+        return this;
+      }
+      withAccusedOfficers(accusedOfficers) {
+        accusedOfficers.forEach(accusedOfficer =>
+          this.withAccusedOfficer(accusedOfficer)
+        );
         return this;
       }
     }

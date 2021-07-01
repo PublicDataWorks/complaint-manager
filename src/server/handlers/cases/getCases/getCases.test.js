@@ -103,8 +103,8 @@ describe("getCases", () => {
 
     test("should not get archived cases", async () => {
       const existingArchivedCaseAttributes = new Case.Builder()
-            .defaultCase()
-            .withId(undefined);
+        .defaultCase()
+        .withId(undefined);
       const existingArchivedCase = await models.cases.create(
         existingArchivedCaseAttributes,
         {
@@ -158,8 +158,8 @@ describe("getCases", () => {
 
     test("should not get unarchived case", async () => {
       const existingUnarchivedCaseAttributes = new Case.Builder()
-            .defaultCase()
-            .withId(undefined);
+        .defaultCase()
+        .withId(undefined);
       const existingUnarchivedCase = await models.cases.create(
         existingUnarchivedCaseAttributes,
         {
@@ -202,11 +202,11 @@ describe("getCases", () => {
 
     describe("by status", () => {
       let initialCase,
-          activeCase,
-          letterInProgressCase,
-          readyForReviewCase,
-          forwardedToAgencyCase,
-          closedCase;
+        activeCase,
+        letterInProgressCase,
+        readyForReviewCase,
+        forwardedToAgencyCase,
+        closedCase;
 
       beforeEach(async () => {
         activeCase = await createCaseInStatus(CASE_STATUS.ACTIVE);
@@ -431,9 +431,10 @@ describe("getCases", () => {
 
     describe("by accused officer", () => {
       let firstCaseWithKnownAccused,
-          secondCaseWithKnownAccused,
-          caseWithUnknownAccused,
-          caseWithNoAccused;
+        secondCaseWithKnownAccused,
+        caseWithUnknownAccused,
+        caseWithNoAccused,
+        caseWithMultipleAccused;
 
       beforeEach(async () => {
         const firstOfficer = await models.officer.create(
@@ -444,16 +445,16 @@ describe("getCases", () => {
         );
 
         const firstKnownOfficer = new CaseOfficer.Builder()
-              .defaultCaseOfficer()
-              .withId(undefined)
-              .withRoleOnCase(ACCUSED)
-              .withOfficerId(firstOfficer.id)
-              .withLastName("Bruce");
+          .defaultCaseOfficer()
+          .withId(undefined)
+          .withRoleOnCase(ACCUSED)
+          .withOfficerId(firstOfficer.id)
+          .withLastName("Bruce");
 
         firstCaseWithKnownAccused = await models.cases.create(
           new Case.Builder()
             .defaultCase()
-            .withId(undefined)
+            .withId(5)
             .withAccusedOfficers([firstKnownOfficer]),
           {
             include: [
@@ -478,16 +479,33 @@ describe("getCases", () => {
         );
 
         const secondKnownOfficer = new CaseOfficer.Builder()
-              .defaultCaseOfficer()
-              .withId(undefined)
-              .withRoleOnCase(ACCUSED)
-              .withLastName("Allen")
-              .withOfficerId(secondOfficer.id);
+          .defaultCaseOfficer()
+          .withId(undefined)
+          .withRoleOnCase(ACCUSED)
+          .withLastName("Allen")
+          .withOfficerId(secondOfficer.id);
+
+        const thirdOfficer = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withId(777)
+            .withOfficerNumber(5),
+          {
+            auditUser: "test"
+          }
+        );
+
+        const thirdKnownOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(999)
+          .withRoleOnCase(ACCUSED)
+          .withLastName("Aaron")
+          .withOfficerId(thirdOfficer.id);
 
         secondCaseWithKnownAccused = await models.cases.create(
           new Case.Builder()
             .defaultCase()
-            .withId(undefined)
+            .withId(6)
             .withAccusedOfficers([secondKnownOfficer]),
           {
             include: [
@@ -504,7 +522,7 @@ describe("getCases", () => {
         caseWithUnknownAccused = await models.cases.create(
           new Case.Builder()
             .defaultCase()
-            .withId(undefined)
+            .withId(7)
             .withAccusedOfficers([
               new CaseOfficer.Builder()
                 .withId(undefined)
@@ -524,66 +542,76 @@ describe("getCases", () => {
         );
 
         caseWithNoAccused = await models.cases.create(
-          new Case.Builder().defaultCase().withId(undefined),
+          new Case.Builder().defaultCase().withId(8),
           {
             auditUser: "test"
+          }
+        );
+
+        caseWithMultipleAccused = await models.cases.create(
+          new Case.Builder()
+            .defaultCase()
+            .withId(9)
+            .withAccusedOfficers([
+              secondKnownOfficer,
+              new CaseOfficer.Builder()
+                .withId(undefined)
+                .withUnknownOfficer()
+                .withRoleOnCase(ACCUSED),
+              thirdKnownOfficer
+            ]),
+          {
+            include: [
+              {
+                model: models.case_officer,
+                as: "accusedOfficers",
+                auditUser: "someone"
+              }
+            ],
+            auditUser: "someone"
           }
         );
       });
 
       test("gets correct order for ascending", async () => {
+        // TODO fix after sorting is in place
         const sortedCases = await getCases(
           CASES_TYPE.WORKING,
-          SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER,
+          SORT_CASES_BY.ACCUSED_OFFICERS,
           ASCENDING
         );
 
-        expect(sortedCases.rows).toEqual([
-          expect.objectContaining({
-            id: caseWithNoAccused.id,
-            accusedPersonType: null
-          }),
-          expect.objectContaining({
-            id: caseWithUnknownAccused.id,
-            accusedPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
-            accusedLastName: null
-          }),
-          expect.objectContaining({
-            id: secondCaseWithKnownAccused.id,
-            accusedLastName: "Allen"
-          }),
-          expect.objectContaining({
-            id: firstCaseWithKnownAccused.id,
-            accusedLastName: "Bruce"
-          })
+        expect(sortedCases.rows.map(row => row.id)).toEqual([
+          caseWithMultipleAccused.id,
+          secondCaseWithKnownAccused.id,
+          firstCaseWithKnownAccused.id,
+          caseWithUnknownAccused.id,
+          caseWithNoAccused.id
         ]);
       });
 
       test("gets correct order for descending", async () => {
         const sortedCases = await getCases(
           CASES_TYPE.WORKING,
-          SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER,
+          SORT_CASES_BY.ACCUSED_OFFICERS,
           DESCENDING
         );
 
         expect(sortedCases.rows).toEqual([
           expect.objectContaining({
-            id: firstCaseWithKnownAccused.id,
-            accusedLastName: "Bruce"
-          }),
-
-          expect.objectContaining({
-            id: secondCaseWithKnownAccused.id,
-            accusedLastName: "Allen"
+            id: caseWithNoAccused.id
           }),
           expect.objectContaining({
-            id: caseWithUnknownAccused.id,
-            accusedPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
-            accusedLastName: null
+            id: caseWithUnknownAccused.id
           }),
           expect.objectContaining({
-            id: caseWithNoAccused.id,
-            accusedPersonType: null
+            id: firstCaseWithKnownAccused.id
+          }),
+          expect.objectContaining({
+            id: secondCaseWithKnownAccused.id
+          }),
+          expect.objectContaining({
+            id: caseWithMultipleAccused.id
           })
         ]);
       });
@@ -591,12 +619,12 @@ describe("getCases", () => {
 
     describe("by complainant", () => {
       let firstCaseWithCivilian,
-          secondCaseWithCivilian,
-          thirdCaseWithCivilian,
-          firstCaseWithOfficerComplainant,
-          secondCaseWithOfficerComplainant,
-          caseWithUnknownOfficerComplainant,
-          caseWithoutComplainant;
+        secondCaseWithCivilian,
+        thirdCaseWithCivilian,
+        firstCaseWithOfficerComplainant,
+        secondCaseWithOfficerComplainant,
+        caseWithUnknownOfficerComplainant,
+        caseWithoutComplainant;
 
       beforeEach(async () => {
         const raceEthnicity = await models.race_ethnicity.create(
@@ -607,13 +635,13 @@ describe("getCases", () => {
         );
 
         const complainantCivilian = new Civilian.Builder()
-              .defaultCivilian()
-              .withLastName("Shane")
-              .withRaceEthnicityId(raceEthnicity.id)
-              .withRoleOnCase(COMPLAINANT)
-              .withNoAddress()
-              .withId(undefined)
-              .withCaseId(undefined);
+          .defaultCivilian()
+          .withLastName("Shane")
+          .withRaceEthnicityId(raceEthnicity.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withNoAddress()
+          .withId(undefined)
+          .withCaseId(undefined);
 
         firstCaseWithCivilian = await models.cases.create(
           new Case.Builder()
@@ -635,13 +663,13 @@ describe("getCases", () => {
         );
 
         const secondCaseComplainantCivilian = new Civilian.Builder()
-              .defaultCivilian()
-              .withLastName("Andie")
-              .withRaceEthnicityId(raceEthnicity.id)
-              .withRoleOnCase(COMPLAINANT)
-              .withId(undefined)
-              .withNoAddress()
-              .withCaseId(undefined);
+          .defaultCivilian()
+          .withLastName("Andie")
+          .withRaceEthnicityId(raceEthnicity.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withId(undefined)
+          .withNoAddress()
+          .withCaseId(undefined);
 
         secondCaseWithCivilian = await models.cases.create(
           new Case.Builder()
@@ -663,13 +691,13 @@ describe("getCases", () => {
         );
 
         const thirdComplainantCivilian = new Civilian.Builder()
-              .defaultCivilian()
-              .withLastName("bard")
-              .withRaceEthnicityId(raceEthnicity.id)
-              .withRoleOnCase(COMPLAINANT)
-              .withNoAddress()
-              .withId(undefined)
-              .withCaseId(undefined);
+          .defaultCivilian()
+          .withLastName("bard")
+          .withRaceEthnicityId(raceEthnicity.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withNoAddress()
+          .withId(undefined)
+          .withCaseId(undefined);
 
         thirdCaseWithCivilian = await models.cases.create(
           new Case.Builder()
@@ -701,11 +729,11 @@ describe("getCases", () => {
         );
 
         const firstCaseOfficer = new CaseOfficer.Builder()
-              .defaultCaseOfficer()
-              .withLastName("Bo")
-              .withId(undefined)
-              .withOfficerId(firstOfficer.id)
-              .withRoleOnCase(COMPLAINANT);
+          .defaultCaseOfficer()
+          .withLastName("Bo")
+          .withId(undefined)
+          .withOfficerId(firstOfficer.id)
+          .withRoleOnCase(COMPLAINANT);
 
         firstCaseWithOfficerComplainant = await models.cases.create(
           new Case.Builder()
@@ -737,11 +765,11 @@ describe("getCases", () => {
         );
 
         const secondCaseOfficer = new CaseOfficer.Builder()
-              .defaultCaseOfficer()
-              .withLastName("Zebra")
-              .withId(undefined)
-              .withOfficerId(secondOfficer.id)
-              .withRoleOnCase(COMPLAINANT);
+          .defaultCaseOfficer()
+          .withLastName("Zebra")
+          .withId(undefined)
+          .withOfficerId(secondOfficer.id)
+          .withRoleOnCase(COMPLAINANT);
 
         secondCaseWithOfficerComplainant = await models.cases.create(
           new Case.Builder()
@@ -763,8 +791,8 @@ describe("getCases", () => {
         );
 
         const unknownOfficer = new CaseOfficer.Builder()
-              .withUnknownOfficer()
-              .withRoleOnCase(COMPLAINANT);
+          .withUnknownOfficer()
+          .withRoleOnCase(COMPLAINANT);
 
         caseWithUnknownOfficerComplainant = await models.cases.create(
           new Case.Builder()
@@ -977,31 +1005,215 @@ describe("getCases", () => {
       });
     });
 
+    describe("by accused officers", () => {
+      let officer1, officer2, officer3;
+      let case1, case2;
+      let caseOfficer1, caseOfficer2, caseOfficer3, caseOfficer4;
+
+      beforeEach(async () => {
+        case1 = await models.cases.create(
+          new Case.Builder().defaultCase().withId(13).withAssignedTo("zmail"),
+          { auditUser: "test" }
+        );
+        case2 = await models.cases.create(
+          new Case.Builder().defaultCase().withId(14).withAssignedTo("bmail"),
+          { auditUser: "test" }
+        );
+
+        officer1 = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withOfficerNumber(456)
+            .withId(456)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        officer2 = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withOfficerNumber(457)
+            .withId(457)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        officer3 = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withLastName("Old")
+            .withOfficerNumber(458)
+            .withId(458)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        caseOfficer1 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(1)
+            .withOfficerId(officer1.id)
+            .withCaseId(case1.id)
+            .withRoleOnCase(ACCUSED)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        caseOfficer2 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(2)
+            .withOfficerId(officer3.id)
+            .withLastName("Old")
+            .withCaseId(case1.id)
+            .withRoleOnCase(ACCUSED)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        caseOfficer3 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(3)
+            .withOfficerId(officer1.id)
+            .withCaseId(case2.id)
+            .withRoleOnCase(ACCUSED)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        caseOfficer4 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(4)
+            .withOfficerId(officer2.id)
+            .withCaseId(case2.id)
+            .withRoleOnCase(ACCUSED)
+            .build(),
+          { auditUser: "test" }
+        );
+      });
+
+      test("cases should return multiple accused officers", async () => {
+        const cases = await getCases(CASES_TYPE.WORKING);
+        expect(cases.rows[1].accusedOfficers).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              fullName: "Grant M Young"
+            }),
+            expect.objectContaining({
+              fullName: "Grant M Old"
+            })
+          ])
+        );
+      });
+
+      test("accused officers should be sorted by last name then first name with unknown officers at the end", async () => {
+        let officer4 = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withFirstName("Bob")
+            .withMiddleName("M")
+            .withLastName("Loblaw")
+            .withOfficerNumber(470)
+            .withId(470)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        let officer5 = await models.officer.create(
+          new Officer.Builder()
+            .defaultOfficer()
+            .withFirstName("Hope")
+            .withMiddleName("M")
+            .withLastName("Loblaw")
+            .withOfficerNumber(471)
+            .withId(471)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        let caseOfficer5 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(88)
+            .withOfficerId(officer1.id)
+            .withCaseId(case1.id)
+            .withRoleOnCase(ACCUSED)
+            .withFirstName("Bob")
+            .withLastName("Loblaw")
+            .withFullName("Bob M Loblaw")
+            .build(),
+          { auditUser: "test" }
+        );
+
+        let caseOfficer6 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(89)
+            .withOfficerId(officer4.id)
+            .withCaseId(case1.id)
+            .withRoleOnCase(ACCUSED)
+            .withFirstName("Hope")
+            .withLastName("Loblaw")
+            .withFullName("Hope M Loblaw")
+            .build(),
+          { auditUser: "test" }
+        );
+
+        let caseOfficer7 = await models.case_officer.create(
+          new CaseOfficer.Builder()
+            .defaultCaseOfficer()
+            .withId(90)
+            .withOfficerId(officer5.id)
+            .withCaseId(case1.id)
+            .withRoleOnCase(ACCUSED)
+            .withUnknownOfficer()
+            .build(),
+          { auditUser: "test" }
+        );
+
+        const cases = await getCases(CASES_TYPE.WORKING);
+        expect(cases.rows[1].accusedOfficers).toEqual([
+          {
+            fullName: "Bob M Loblaw",
+            personType: "Known Officer"
+          },
+          {
+            fullName: "Hope M Loblaw",
+            personType: "Known Officer"
+          },
+          {
+            fullName: "Grant M Old",
+            personType: "Known Officer"
+          },
+          {
+            fullName: "Grant M Young",
+            personType: "Known Officer"
+          },
+          {
+            fullName: "Unknown Officer",
+            personType: "Unknown Officer"
+          }
+        ]);
+      });
+    });
     describe("by tags", () => {
       let case1, case2, case3;
       let tag1, tag2, tag3;
       let caseTag1, caseTag2, caseTag3;
-      
+
       beforeEach(async () => {
         case1 = await models.cases.create(
-          new Case.Builder()
-            .defaultCase()
-            .withId(13)
-            .withAssignedTo("zmail"),
+          new Case.Builder().defaultCase().withId(13).withAssignedTo("zmail"),
           { auditUser: "test" }
         );
         case2 = await models.cases.create(
-          new Case.Builder()
-            .defaultCase()
-            .withId(14)
-            .withAssignedTo("bmail"),
+          new Case.Builder().defaultCase().withId(14).withAssignedTo("bmail"),
           { auditUser: "test" }
         );
         case3 = await models.cases.create(
-          new Case.Builder()
-            .defaultCase()
-            .withId(15)
-            .withAssignedTo("email"),
+          new Case.Builder().defaultCase().withId(15).withAssignedTo("email"),
           { auditUser: "test" }
         );
 
@@ -1009,7 +1221,7 @@ describe("getCases", () => {
           new Tag.Builder().withId(1).withName("Pellentesque").build(),
           { auditUser: "test" }
         );
-        
+
         tag2 = await models.tag.create(
           new Tag.Builder().withId(2).withName("Donec").build(),
           { auditUser: "test" }
@@ -1018,8 +1230,8 @@ describe("getCases", () => {
         tag3 = await models.tag.create(
           new Tag.Builder().withId(3).withName("Etiam").build(),
           { auditUser: "test" }
-        )
-        
+        );
+
         caseTag1 = await models.case_tag.create(
           new CaseTag.Builder()
             .defaultCaseTag()
@@ -1046,8 +1258,6 @@ describe("getCases", () => {
             .build(),
           { auditUser: "test" }
         );
-        
-        
       });
 
       test("cases are sorted in order of ascending tags", async () => {

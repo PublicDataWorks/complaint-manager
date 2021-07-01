@@ -5,7 +5,7 @@ import { containsText } from "../../../testHelpers";
 import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("DisplayAccusedOfficer", () => {
-  const noAccusedDisplayText = "No Accused Officers";
+  const noAccusedDisplayText = "No Accused";
 
   test("should display an accused officer", () => {
     const accusedOfficer = {
@@ -14,12 +14,12 @@ describe("DisplayAccusedOfficer", () => {
     };
 
     const wrapper = mount(
-      <DisplayAccusedOfficer primaryAccusedOfficer={accusedOfficer} />
+      <DisplayAccusedOfficer accusedOfficers={[accusedOfficer]} />
     );
 
     containsText(
       wrapper,
-      '[data-testid="primaryAccusedOfficerName"]',
+      '[data-testid="accusedOfficerName"]',
       accusedOfficer.fullName
     );
   });
@@ -27,18 +27,14 @@ describe("DisplayAccusedOfficer", () => {
   test("should be blank when no accused officers", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={[]} />);
 
-    const nameDisplay = wrapper.find(
-      'div[data-testid="primaryAccusedOfficerName"]'
-    );
+    const nameDisplay = wrapper.find('div[data-testid="accusedOfficerName"]');
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 
   test("should be blank when accused officers is null", () => {
     const wrapper = mount(<DisplayAccusedOfficer accusedOfficers={null} />);
 
-    const nameDisplay = wrapper.find(
-      'div[data-testid="primaryAccusedOfficerName"]'
-    );
+    const nameDisplay = wrapper.find('div[data-testid="accusedOfficerName"]');
     expect(nameDisplay.text()).toEqual(noAccusedDisplayText);
   });
 });

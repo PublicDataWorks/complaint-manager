@@ -76,6 +76,12 @@ describe("cases table", () => {
       personType: PERSON_TYPE.KNOWN_OFFICER
     };
 
+    let accusedOfficer2 = {
+      firstName: "William",
+      lastName: "Wallace",
+      personType: PERSON_TYPE.KNOWN_OFFICER
+    };
+
     tagOne = new Tag.Builder().defaultTag().build();
 
     caseOne = new SortableCase.Builder()
@@ -86,7 +92,7 @@ describe("cases table", () => {
       .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.INITIAL)
       .withAssignedTo("tuser")
-      .withPrimaryAccusedOfficer(accusedOfficer)
+      .withAccusedOfficer(accusedOfficer)
       .withFirstContactDate("2017-12-25")
       .withTagNames(["cold-cut sandwich", "Grapes", "Use of Force"])
       .build();
@@ -102,7 +108,20 @@ describe("cases table", () => {
       .withFirstContactDate("2017-12-25")
       .build();
 
-    cases = [caseOne, caseTwo];
+    const caseThree = new SortableCase.Builder()
+      .defaultSortableCase()
+      .withId(28)
+      .withCaseReference("CC2017-0002")
+      .withPrimaryComplainant(civilianAriel)
+      .withComplaintType(CIVILIAN_INITIATED)
+      .withStatus(CASE_STATUS.READY_FOR_REVIEW)
+      .withAccusedOfficer(accusedOfficer)
+      .withAccusedOfficer(accusedOfficer2)
+      .withAssignedTo("tuser")
+      .withFirstContactDate("2017-12-25")
+      .build();
+
+    cases = [caseOne, caseTwo, caseThree];
 
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -308,9 +327,19 @@ describe("cases table", () => {
 
     test("should display accused officer", () => {
       const accusedOfficerName = caseRow.find(
-        'td[data-testid="primaryAccusedOfficer"]'
+        'td[data-testid="accusedOfficers"]'
       );
       expect(accusedOfficerName.text()).toEqual("Jeff Wallace");
+    });
+
+    test("should display multiple accused officers", () => {
+      const lastRow = tableWrapper.find('tr[data-testid="caseRow28"]');
+      const accusedOfficerName = lastRow.find(
+        'td[data-testid="accusedOfficers"]'
+      );
+      expect(accusedOfficerName.text()).toEqual(
+        "Jeff Wallace, William Wallace"
+      );
     });
 
     test("should display first contact date", () => {

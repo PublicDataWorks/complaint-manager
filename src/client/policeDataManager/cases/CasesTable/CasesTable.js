@@ -204,19 +204,14 @@ class CasesTable extends React.Component {
                     <TableSortLabel
                       data-testid="primaryAccusedOfficerSortLabel"
                       onClick={() =>
-                        this.updateSorting(
-                          SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
-                        )
+                        this.updateSorting(SORT_CASES_BY.ACCUSED_OFFICERS)
                       }
                       direction={this.props.sortDirection}
                       active={
-                        this.props.sortBy ===
-                        SORT_CASES_BY.PRIMARY_ACCUSED_OFFICER
+                        this.props.sortBy === SORT_CASES_BY.ACCUSED_OFFICERS
                       }
                     >
-                      <Typography variant="subtitle2">
-                        Accused Officer
-                      </Typography>
+                      <Typography variant="subtitle2">Accused</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell
