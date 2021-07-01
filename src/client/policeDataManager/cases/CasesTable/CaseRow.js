@@ -45,10 +45,8 @@ const CaseRow = ({ classes, caseDetails, currentUser }) => {
       <TableCell data-testid="caseName" className={classes.cell}>
         <DisplayComplainant complainant={caseDetails.primaryComplainant} />
       </TableCell>
-      <TableCell data-testid="primaryAccusedOfficer" className={classes.cell}>
-        <DisplayAccusedOfficer
-          primaryAccusedOfficer={caseDetails.primaryAccusedOfficer}
-        />
+      <TableCell data-testid="accusedOfficers" className={classes.cell}>
+        <DisplayAccusedOfficer accusedOfficers={caseDetails.accusedOfficers} />
       </TableCell>
       <TableCell data-testid="caseFirstContactDate" className={classes.cell}>
         <div>{formatDate(caseDetails.firstContactDate)}</div>

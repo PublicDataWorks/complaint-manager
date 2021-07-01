@@ -53,25 +53,27 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      primaryAccusedOfficer: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "accusedFirstName",
-          "accusedMiddleName",
-          "accusedLastName",
-          "accusedPersonType"
-        ]),
+      accusedOfficers: {
+        field: "accused_officers",
+        type: DataTypes.JSON,
         get: function () {
-          if (this.get("accusedPersonType")) {
-            return {
-              fullName: getOfficerFullName(
-                this.get("accusedFirstName"),
-                this.get("accusedMiddleName"),
-                this.get("accusedLastName"),
-                this.get("accusedPersonType") === PERSON_TYPE.UNKNOWN_OFFICER
+          if (
+            this.getDataValue("accusedOfficers") &&
+            this.getDataValue("accusedOfficers").length &&
+            this.getDataValue("accusedOfficers")[0]
+          ) {
+            return this.getDataValue("accusedOfficers").map(accused => ({
+              personType: accused.accused_person_type,
+              fullName: getPersonFullName(
+                accused.accused_first_name,
+                accused.accused_middle_name,
+                accused.accused_last_name,
+                null,
+                accused.accused_person_type
               )
-            };
+            }));
           } else {
-            return null;
+            return [];
           }
         }
       },
@@ -129,22 +131,6 @@ module.exports = (sequelize, DataTypes) => {
       assignedTo: {
         field: "assigned_to",
         type: DataTypes.STRING
-      },
-      accusedFirstName: {
-        field: "accused_first_name",
-        type: DataTypes.STRING
-      },
-      accusedMiddleName: {
-        field: "accused_middle_name",
-        type: DataTypes.STRING
-      },
-      accusedLastName: {
-        field: "accused_last_name",
-        type: DataTypes.STRING
-      },
-      accusedPersonType: {
-        field: "accused_person_type",
-        type: DataTypes.BOOLEAN
       },
       complainantPersonType: {
         field: "complainant_person_type",

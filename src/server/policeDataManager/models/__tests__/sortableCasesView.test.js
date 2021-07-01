@@ -62,22 +62,6 @@ describe("sortableCasesView", () => {
       );
     });
 
-    test("returns correct accused officer when added first", async () => {
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          accusedFirstName: accusedOfficer.firstName,
-          accusedMiddleName: accusedOfficer.middleName,
-          accusedLastName: accusedOfficer.lastName,
-          accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
-          id: existingCase.id
-        })
-      );
-    });
-
     test("doesn't return deleted accused officer", async () => {
       await (
         await models.case_officer.findOne({
@@ -91,11 +75,11 @@ describe("sortableCasesView", () => {
         where: { id: existingCase.id }
       });
 
-      expect(sortedCase).toEqual(
+      expect(sortedCase.accusedOfficers).not.toContain(
         expect.objectContaining({
-          accusedFirstName: secondAccusedOfficer.firstName,
-          accusedMiddleName: secondAccusedOfficer.middleName,
-          accusedLastName: secondAccusedOfficer.lastName,
+          accusedFirstName: accusedOfficer.firstName,
+          accusedMiddleName: accusedOfficer.middleName,
+          accusedLastName: accusedOfficer.lastName,
           accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
           id: existingCase.id
         })
@@ -118,15 +102,7 @@ describe("sortableCasesView", () => {
         where: { id: existingCase.id }
       });
 
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          accusedPersonType: null,
-          accusedFirstName: null,
-          accusedMiddleName: null,
-          accusedLastName: null,
-          id: existingCase.id
-        })
-      );
+      expect(sortedCase.accusedOfficers).toEqual([]);
     });
 
     test("returns accused officer id but no accused officer name when an unknown officer added first", async () => {
@@ -150,14 +126,12 @@ describe("sortableCasesView", () => {
         where: { id: existingCase.id }
       });
 
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          accusedPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
-          accusedFirstName: null,
-          accusedMiddleName: null,
-          accusedLastName: null,
-          id: existingCase.id
-        })
+      expect(sortedCase.accusedOfficers[2]).toEqual(
+        // TODO fix once sorting is in place
+        {
+          fullName: "Unknown Officer",
+          personType: "Unknown Officer"
+        }
       );
     });
   });

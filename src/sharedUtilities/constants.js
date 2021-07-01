@@ -357,7 +357,7 @@ export const SORT_CASES_BY = {
   CASE_REFERENCE: "caseReference",
   STATUS: "status",
   PRIMARY_COMPLAINANT: "primaryComplainant",
-  PRIMARY_ACCUSED_OFFICER: "primaryAccusedOfficer",
+  ACCUSED_OFFICERS: "primaryAccusedOfficer",
   FIRST_CONTACT_DATE: "firstContactDate",
   TAGS: "tagNames",
   ASSIGNED_TO: "assignedTo"
