@@ -882,10 +882,10 @@ describe("getCases", () => {
             complainantLastName: "Shane"
           }),
           expect.objectContaining({
-            complainantLastName: "bard"
+            complainantLastName: "Bo"
           }),
           expect.objectContaining({
-            complainantLastName: "Bo"
+            complainantLastName: "bard"
           }),
           expect.objectContaining({
             complainantLastName: "Andie"
