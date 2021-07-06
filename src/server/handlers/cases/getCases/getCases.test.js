@@ -832,7 +832,19 @@ describe("getCases", () => {
 
         expect(cases.rows).toEqual([
           expect.objectContaining({
-            complainantPersonType: null
+            complainantLastName: "Andie"
+          }),
+          expect.objectContaining({
+            complainantLastName: "bard"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Bo"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Shane"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Zebra"
           }),
           expect.objectContaining({
             complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
@@ -841,19 +853,7 @@ describe("getCases", () => {
             complainantMiddleName: null
           }),
           expect.objectContaining({
-            complainantLastName: "Bo"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Zebra"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Andie"
-          }),
-          expect.objectContaining({
-            complainantLastName: "bard"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Shane"
+            complainantPersonType: null
           })
         ]);
       });
@@ -867,19 +867,7 @@ describe("getCases", () => {
 
         expect(cases.rows).toEqual([
           expect.objectContaining({
-            complainantLastName: "Shane"
-          }),
-          expect.objectContaining({
-            complainantLastName: "bard"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Andie"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Zebra"
-          }),
-          expect.objectContaining({
-            complainantLastName: "Bo"
+            complainantPersonType: null
           }),
           expect.objectContaining({
             complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
@@ -888,7 +876,19 @@ describe("getCases", () => {
             complainantMiddleName: null
           }),
           expect.objectContaining({
-            complainantPersonType: null
+            complainantLastName: "Zebra"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Shane"
+          }),
+          expect.objectContaining({
+            complainantLastName: "bard"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Bo"
+          }),
+          expect.objectContaining({
+            complainantLastName: "Andie"
           })
         ]);
       });
