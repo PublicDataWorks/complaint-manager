@@ -12,34 +12,38 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
     case SORT_CASES_BY.PRIMARY_COMPLAINANT:
       if (sortDirection === ASCENDING) {
         return [
-          ["complainantPersonType", DESCENDING],
           [
             caseInsensitiveSort("complainantLastName", model),
-            `${ASCENDING} NULLS FIRST`
+            `${ASCENDING} NULLS LAST`
           ],
           [
             caseInsensitiveSort("complainantFirstName", model),
-            `${ASCENDING} NULLS FIRST`
+            `${ASCENDING} NULLS LAST`
           ],
           [
             caseInsensitiveSort("complainantMiddleName", model),
-            `${ASCENDING} NULLS FIRST`
+            `${ASCENDING} NULLS LAST`
+          ],
+          [
+            "complainantPersonType", `${ASCENDING} NULLS LAST`
           ]
         ];
       } else {
         return [
-          ["complainantPersonType", ASCENDING],
           [
             caseInsensitiveSort("complainantLastName", model),
-            `${DESCENDING} NULLS LAST`
+            `${DESCENDING} NULLS FIRST`
           ],
           [
             caseInsensitiveSort("complainantFirstName", model),
-            `${DESCENDING} NULLS LAST`
+            `${DESCENDING} NULLS FIRST`
           ],
           [
             caseInsensitiveSort("complainantMiddleName", model),
-            `${DESCENDING} NULLS LAST`
+            `${DESCENDING} NULLS FIRST`
+          ],
+          [
+            "complainantPersonType", `${DESCENDING} NULLS FIRST`
           ]
         ];
       }
