@@ -29,7 +29,7 @@ export const GET_CASES_AUDIT_DETAILS = {
       "assignedTo"
     ]
   },
-  earliestAddedAccusedOfficer: {
+  accusedOfficers: {
     attributes: ["firstName", "middleName", "lastName", "personType"]
   },
   earliestAddedComplainant: {
