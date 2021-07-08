@@ -50,10 +50,29 @@ const updateSearchIndex = async () => {
         body: {
           mappings: {
             properties: {
-              tag_name: { type: "text" },
-              first_name: { type: "text" },
-              last_name: { type: "text" },
-              case_id: { type: "integer" }
+              case_id: { type: "integer" },
+              tags: { type: "text" },
+              accusedOfficers: {
+                type: "nested",
+                properties: {
+                  full_name: { type: "text" },
+                  full_name_with_initial: { type: "text" }
+                },
+                complainantOfficers: {
+                  type: "nested",
+                  properties: {
+                    full_name: { type: "text" },
+                    full_name_with_initial: { type: "text" }
+                  },
+                  civilians: {
+                    type: "nested",
+                    properties: {
+                      full_name: { type: "text" },
+                      full_name_with_initial: { type: "text" }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -99,10 +118,15 @@ const updateSearchIndex = async () => {
   }
 
   const operation = { index: { _index: index } };
-  const mapPerson = person => ({
-    first_name: person.firstName,
-    last_name: person.lastName
-  });
+  const mapPerson = person => {
+    let results = {
+      full_name: `${person.firstName} ${person.lastName}`
+    };
+    if (person.middleName) {
+      results.full_name_with_initial = `${person.firstName} ${person.middleName} ${person.lastName}`;
+    }
+    return results;
+  };
 
   const bulkOperations = results.flatMap(result => {
     let case_id = result.id;
