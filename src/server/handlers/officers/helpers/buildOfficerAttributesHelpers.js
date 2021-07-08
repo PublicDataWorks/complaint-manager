@@ -22,7 +22,7 @@ const buildOfficerAttributesForNewOfficer = async (
     {
       officerId: newOfficer.id,
       firstName: newOfficer.firstName,
-      middleName: newOfficer.middleName,
+      middleInitial: newOfficer.middleInitial,
       lastName: newOfficer.lastName,
       windowsUsername: newOfficer.windowsUsername,
       bureau: newOfficer.bureau,
@@ -55,7 +55,7 @@ const buildSupervisorAttributes = async newOfficer => {
 
   return {
     supervisorFirstName: supervisor.firstName,
-    supervisorMiddleName: supervisor.middleName,
+    supervisorMiddleInitial: supervisor.middleInitial,
     supervisorLastName: supervisor.lastName,
     supervisorWindowsUsername: supervisor.windowsUsername
   };

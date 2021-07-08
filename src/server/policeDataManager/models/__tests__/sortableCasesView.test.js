@@ -78,7 +78,7 @@ describe("sortableCasesView", () => {
       expect(sortedCase.accusedOfficers).not.toContain(
         expect.objectContaining({
           accusedFirstName: accusedOfficer.firstName,
-          accusedMiddleName: accusedOfficer.middleName,
+          accusedMiddleInitial: accusedOfficer.middleInitial,
           accusedLastName: accusedOfficer.lastName,
           accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
           id: existingCase.id
@@ -113,7 +113,7 @@ describe("sortableCasesView", () => {
         .withId(undefined)
         .withFirstName(null)
         .withLastName(null)
-        .withMiddleName(null)
+        .withMiddleInitial(null)
         .withOfficerId(null);
 
       const unknownOfficer = await models.case_officer.create(
@@ -207,7 +207,7 @@ describe("sortableCasesView", () => {
         expect.objectContaining({
           complainantPersonType: PERSON_TYPE.CIVILIAN,
           complainantFirstName: complainantCivilian.firstName,
-          complainantMiddleName: complainantCivilian.middleInitial,
+          complainantMiddleInitial: complainantCivilian.middleInitial,
           complainantLastName: complainantCivilian.lastName,
           id: existingCase.id
         })
@@ -270,7 +270,7 @@ describe("sortableCasesView", () => {
         expect.objectContaining({
           complainantPersonType: PERSON_TYPE.KNOWN_OFFICER,
           complainantFirstName: complainantCaseOfficer.firstName,
-          complainantMiddleName: complainantCaseOfficer.middleName,
+          complainantMiddleInitial: complainantCaseOfficer.middleInitial,
           complainantLastName: complainantCaseOfficer.lastName,
           id: existingCase.id
         })
@@ -336,7 +336,7 @@ describe("sortableCasesView", () => {
         expect.objectContaining({
           complainantPersonType: null,
           complainantFirstName: null,
-          complainantMiddleName: null,
+          complainantMiddleInitial: null,
           complainantLastName: null,
           id: existingCase.id
         })
@@ -351,7 +351,7 @@ describe("sortableCasesView", () => {
         .withId(undefined)
         .withFirstName(null)
         .withLastName(null)
-        .withMiddleName(null)
+        .withMiddleInitial(null)
         .withOfficerId(null);
 
       await models.case_officer.create(unknownOfficerAttributes, {
@@ -365,7 +365,7 @@ describe("sortableCasesView", () => {
         expect.objectContaining({
           complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
           complainantFirstName: null,
-          complainantMiddleName: null,
+          complainantMiddleInitial: null,
           complainantLastName: null,
           id: existingCase.id
         })

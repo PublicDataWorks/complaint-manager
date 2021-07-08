@@ -77,9 +77,9 @@ describe("GET /officers/search", () => {
           rows: [
             expect.objectContaining({
               firstName: bobOfficer.firstName,
-              middleName: bobOfficer.middleName,
+              middleInitial: bobOfficer.middleInitial,
               lastName: bobOfficer.lastName,
-              fullName: `${bobOfficer.firstName} ${bobOfficer.middleName} ${bobOfficer.lastName}`
+              fullName: `${bobOfficer.firstName} ${bobOfficer.middleInitial} ${bobOfficer.lastName}`
             })
           ]
         })

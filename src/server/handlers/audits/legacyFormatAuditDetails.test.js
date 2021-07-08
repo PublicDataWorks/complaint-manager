@@ -61,12 +61,12 @@ describe("legacyFormatAuditDetails", () => {
         attributes: ["id", "status"]
       },
       earliestAddedAccusedOfficer: {
-        attributes: ["firstName", "middleName", "lastName", "personType"]
+        attributes: ["firstName", "middleInitial", "lastName", "personType"]
       },
       earliestAddedComplainant: {
         attributes: [
           "firstName",
-          "middleName",
+          "middleInitial",
           "lastName",
           "suffix",
           "personType"
@@ -80,13 +80,13 @@ describe("legacyFormatAuditDetails", () => {
       Case: ["Id", "Status"],
       "Earliest Added Accused Officer": [
         "First Name",
-        "Middle Name",
+        "Middle Initial",
         "Last Name",
         "Person Type"
       ],
       "Earliest Added Complainant": [
         "First Name",
-        "Middle Name",
+        "Middle Initial",
         "Last Name",
         "Suffix",
         "Person Type"

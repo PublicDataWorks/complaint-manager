@@ -8,7 +8,7 @@ describe("officers", () => {
     test("fullName should be constructed of first, middle, and last", () => {
       const officer = models.officer.build({
         firstName: "Johann",
-        middleName: "Sebastian",
+        middleInitial: "Sebastian",
         lastName: "Bach"
       });
       expect(officer.fullName).toEqual("Johann Sebastian Bach");
@@ -17,7 +17,7 @@ describe("officers", () => {
     test("fullName should only include one space when no middle name", () => {
       const officer = models.officer.build({
         firstName: "Johann",
-        middleName: "",
+        middleInitial: "",
         lastName: "Bach"
       });
       expect(officer.fullName).toEqual("Johann Bach");
@@ -49,7 +49,7 @@ describe("officers", () => {
         id: null,
         districtId: 1,
         firstName: "Johann",
-        middleName: "",
+        middleInitial: "",
         lastName: "Bach",
         officerNumber: 1
       });

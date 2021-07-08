@@ -60,11 +60,11 @@ describe("POST /cases/:caseId/cases_officers", () => {
             notes: officerNotes,
             roleOnCase: officerRole,
             firstName: seededOfficer.firstName,
-            middleName: seededOfficer.middleName,
+            middleInitial: seededOfficer.middleInitial,
             lastName: seededOfficer.lastName,
             fullName: "Ugochi Grant Smith",
             supervisorFirstName: null,
-            supervisorMiddleName: null,
+            supervisorMiddleInitial: null,
             supervisorLastName: null,
             supervisorFullName: "",
             supervisorWindowsUsername: null,
@@ -92,7 +92,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
       .defaultOfficer()
       .withOfficerNumber(123)
       .withFirstName("Garret")
-      .withMiddleName("Bobby")
+      .withMiddleInitial("Bobby")
       .withLastName("Ferguson")
       .withWindowsUsername(12345)
       .withId(undefined)
@@ -135,11 +135,11 @@ describe("POST /cases/:caseId/cases_officers", () => {
             notes: officerNotes,
             roleOnCase: officerRole,
             firstName: seededOfficer.firstName,
-            middleName: seededOfficer.middleName,
+            middleInitial: seededOfficer.middleInitial,
             lastName: seededOfficer.lastName,
             fullName: "Ugochi Grant Smith",
             supervisorFirstName: seededSupervisor.firstName,
-            supervisorMiddleName: seededSupervisor.middleName,
+            supervisorMiddleInitial: seededSupervisor.middleInitial,
             supervisorLastName: seededSupervisor.lastName,
             supervisorFullName: "Garret Bobby Ferguson",
             supervisorWindowsUsername: seededSupervisor.windowsUsername,

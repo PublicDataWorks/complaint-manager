@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       field: "first_name"
     },
-    middleName: {
+    middleInitial: {
       type: DataTypes.STRING,
       field: "middle_name"
     },
@@ -31,13 +31,13 @@ module.exports = (sequelize, DataTypes) => {
     fullName: {
       type: new DataTypes.VIRTUAL(DataTypes.STRING, [
         "firstName",
-        "middleName",
+        "middleInitial",
         "lastName"
       ]),
       get: function () {
         return getOfficerFullName(
           this.get("firstName"),
-          this.get("middleName"),
+          this.get("middleInitial"),
           this.get("lastName")
         );
       }

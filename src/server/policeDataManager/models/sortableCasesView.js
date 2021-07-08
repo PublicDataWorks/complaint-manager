@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.VIRTUAL(DataTypes.STRING, [
           "complainantPersonType",
           "complainantFirstName",
-          "complainantMiddleName",
+          "complainantMiddleInitial",
           "complainantLastName",
           "complainantSuffix",
           "complainantPersonType",
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
               personType: this.get("complainantPersonType"),
               fullName: getPersonFullName(
                 this.get("complainantFirstName"),
-                this.get("complainantMiddleName"),
+                this.get("complainantMiddleInitial"),
                 this.get("complainantLastName"),
                 this.get("complainantSuffix"),
                 this.get("complainantPersonType")
@@ -140,7 +140,7 @@ module.exports = (sequelize, DataTypes) => {
         field: "complainant_first_name",
         type: DataTypes.STRING
       },
-      complainantMiddleName: {
+      complainantMiddleInitial: {
         field: "complainant_middle_name",
         type: DataTypes.STRING
       },

@@ -850,7 +850,7 @@ describe("getCases", () => {
             complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
             complainantLastName: null,
             complainantFirstName: null,
-            complainantMiddleName: null
+            complainantMiddleInitial: null
           }),
           expect.objectContaining({
             complainantPersonType: null
@@ -873,7 +873,7 @@ describe("getCases", () => {
             complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
             complainantLastName: null,
             complainantFirstName: null,
-            complainantMiddleName: null
+            complainantMiddleInitial: null
           }),
           expect.objectContaining({
             complainantLastName: "Zebra"
@@ -1113,7 +1113,7 @@ describe("getCases", () => {
           new Officer.Builder()
             .defaultOfficer()
             .withFirstName("Bob")
-            .withMiddleName("M")
+            .withMiddleInitial("M")
             .withLastName("Loblaw")
             .withOfficerNumber(470)
             .withId(470)
@@ -1125,7 +1125,7 @@ describe("getCases", () => {
           new Officer.Builder()
             .defaultOfficer()
             .withFirstName("Hope")
-            .withMiddleName("M")
+            .withMiddleInitial("M")
             .withLastName("Loblaw")
             .withOfficerNumber(471)
             .withId(471)
