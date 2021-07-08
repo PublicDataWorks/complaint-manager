@@ -6,7 +6,7 @@ class Officer {
     this.officerNumber = build.officerNumber;
     this.fullName = build.fullName;
     this.firstName = build.firstName;
-    this.middleName = build.middleName;
+    this.middleInitial = build.middleInitial;
     this.lastName = build.lastName;
     this.rank = build.rank;
     this.race = build.race;
@@ -31,7 +31,7 @@ class Officer {
         this.officerNumber = 200;
         this.fullName = "Ugochi Grant Smith";
         this.firstName = "Ugochi";
-        this.middleName = "Grant";
+        this.middleInitial = "Grant";
         this.lastName = "Smith";
         this.rank = "Police Commander";
         this.race = "Cuban";
@@ -70,8 +70,8 @@ class Officer {
         return this;
       }
 
-      withMiddleName(middleName) {
-        this.middleName = middleName;
+      withMiddleInitial(middleInitial) {
+        this.middleInitial = middleInitial;
         return this;
       }
 

@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      middleName: {
+      middleInitial: {
         field: "middle_name",
         type: DataTypes.STRING,
         allowNull: true
@@ -47,14 +47,14 @@ module.exports = (sequelize, DataTypes) => {
       fullName: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, [
           "firstName",
-          "middleName",
+          "middleInitial",
           "lastName",
           "isUnknownOfficer"
         ]),
         get: function () {
           return getOfficerFullName(
             this.get("firstName"),
-            this.get("middleName"),
+            this.get("middleInitial"),
             this.get("lastName"),
             this.get("isUnknownOfficer")
           );
@@ -84,7 +84,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true
       },
-      supervisorMiddleName: {
+      supervisorMiddleInitial: {
         field: "supervisor_middle_name",
         type: DataTypes.STRING,
         allowNull: true
@@ -98,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, [
           "officerId",
           "supervisorFirstName",
-          "supervisorMiddleName",
+          "supervisorMiddleInitial",
           "supervisorLastName"
         ]),
         get: function () {
@@ -106,14 +106,14 @@ module.exports = (sequelize, DataTypes) => {
             const firstName = this.get("supervisorFirstName")
               ? this.get("supervisorFirstName")
               : "";
-            const middleName = this.get("supervisorMiddleName")
-              ? this.get("supervisorMiddleName")
+            const middleInitial = this.get("supervisorMiddleInitial")
+              ? this.get("supervisorMiddleInitial")
               : "";
             const lastName = this.get("supervisorLastName")
               ? this.get("supervisorLastName")
               : "";
 
-            const fullName = `${firstName} ${middleName} ${lastName}`;
+            const fullName = `${firstName} ${middleInitial} ${lastName}`;
             return fullName.replace("  ", " ").trim();
           }
 
@@ -252,11 +252,11 @@ module.exports = (sequelize, DataTypes) => {
     return {
       officerId: null,
       firstName: null,
-      middleName: null,
+      middleInitial: null,
       lastName: null,
       windowsUsername: null,
       supervisorFirstName: null,
-      supervisorMiddleName: null,
+      supervisorMiddleInitial: null,
       supervisorLastName: null,
       supervisorWindowsUsername: null,
       supervisorOfficerNumber: null,

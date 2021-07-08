@@ -1,4 +1,4 @@
-officerNumber,firstName,middleName,lastName,rank,workStatus,endDate,sex,race,hireDate,bureau,district,windowsUsername,employeeType,supervisorOfficerNumber
+officerNumber,firstName,middleInitial,lastName,rank,workStatus,endDate,sex,race,hireDate,bureau,district,windowsUsername,employeeType,supervisorOfficerNumber
 6433,Alysa,Q,Streich,NULL,NULL,NULL,Unknown Sex,Unknown Race,NULL,NULL,NULL,NULL,NULL,NULL
 6432,Ignacio,I,Reynolds,NULL,NULL,NULL,Unknown Sex,Unknown Race,NULL,NULL,NULL,NULL,NULL,NULL
 6431,Stone,G,McKenzie,POLICE RECRUIT ACADEMY,Active,NULL,F,White,2017-11-26,MSB - Management Service Bureau,NULL,30326,Non-Commissioned,6072

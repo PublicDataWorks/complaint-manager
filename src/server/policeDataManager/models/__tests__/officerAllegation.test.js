@@ -18,7 +18,7 @@ describe("officerAllegation", function () {
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withFirstName("full")
-      .withMiddleName("name")
+      .withMiddleInitial("name")
       .withLastName("smith")
       .withId(undefined);
 
@@ -35,7 +35,7 @@ describe("officerAllegation", function () {
     const caseOfficerAttributes = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withFirstName(officer.firstName)
-      .withMiddleName(officer.middleName)
+      .withMiddleInitial(officer.middleInitial)
       .withLastName(officer.lastName)
       .withId(undefined)
       .withCaseId(createdCase.id)

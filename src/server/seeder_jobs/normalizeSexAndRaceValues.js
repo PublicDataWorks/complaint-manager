@@ -91,7 +91,7 @@ const normalizeRaceValue = originalRaceValue => {
 const columns = {
   officerNumber: "officerNumber",
   firstName: "firstName",
-  middleName: "middleName",
+  middleInitial: "middleInitial",
   lastName: "lastName",
   rank: "rank",
   workStatus: "workStatus",

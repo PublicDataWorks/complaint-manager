@@ -9,13 +9,19 @@ describe("getFullName", () => {
   describe("getPersonFullName", () => {
     test("should get full name for known officer", () => {
       const firstName = "First";
-      const middleName = "M";
+      const middleInitial = "M";
       const lastName = "Last";
       const suffix = null;
       const personType = PERSON_TYPE.KNOWN_OFFICER;
 
       expect(
-        getPersonFullName(firstName, middleName, lastName, suffix, personType)
+        getPersonFullName(
+          firstName,
+          middleInitial,
+          lastName,
+          suffix,
+          personType
+        )
       ).toEqual("First M Last");
     });
 

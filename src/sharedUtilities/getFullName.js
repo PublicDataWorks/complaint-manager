@@ -31,7 +31,7 @@ export const getCivilianFullName = (
 
 export const getPersonFullName = (
   firstName,
-  middleName,
+  middleInitial,
   lastName,
   suffix,
   personType
@@ -39,14 +39,14 @@ export const getPersonFullName = (
   if (personType === PERSON_TYPE.CIVILIAN) {
     return getCivilianFullName(
       firstName,
-      middleName ? middleName.substr(0, 1).toUpperCase() : null,
+      middleInitial ? middleInitial.substr(0, 1).toUpperCase() : null,
       lastName,
       suffix
     );
   } else {
     return getOfficerFullName(
       firstName,
-      middleName,
+      middleInitial,
       lastName,
       personType === PERSON_TYPE.UNKNOWN_OFFICER
     );
@@ -55,7 +55,7 @@ export const getPersonFullName = (
 
 export const getOfficerFullName = (
   firstName,
-  middleName,
+  middleInitial,
   lastName,
   isUnknownOfficer
 ) => {
@@ -63,10 +63,10 @@ export const getOfficerFullName = (
     return "Unknown Officer";
   } else {
     const editedFirstName = firstName ? firstName : "";
-    const editedMiddleName = middleName ? middleName : "";
+    const editedMiddleInitial = middleInitial ? middleInitial : "";
     const editedLastName = lastName ? lastName : "";
 
-    return `${editedFirstName} ${editedMiddleName} ${editedLastName}`.replace(
+    return `${editedFirstName} ${editedMiddleInitial} ${editedLastName}`.replace(
       "  ",
       " "
     );
