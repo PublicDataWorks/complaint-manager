@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import { getPersonFullName } from "./getFullName";
-import { pick, isEmpty } from "lodash";
+import { getPersonFullName } from './getFullName';
+import { pick, isEmpty } from 'lodash';
 
 export const getPrimaryComplainant = ({
   complainantPersonType: personType,
@@ -9,14 +9,15 @@ export const getPrimaryComplainant = ({
   ...otherFields
 }) => {
   if (isEmpty(otherFields)) return null;
-
+  
   const fullName = getPersonFullName(
-    otherFields["complainantFirstName"],
-    otherFields["complainantMiddleInitial"],
-    otherFields["complainantLastName"],
-    otherFields["complainantSuffix"],
-    otherFields["complainantPersonType"]
+    otherFields['complainantFirstName'],
+    otherFields['complainantMiddleName'],
+    otherFields['complainantLastName'],
+    otherFields['complainantSuffix'],
+    otherFields['complainantPersonType']
   );
 
   return { personType, fullName, isAnonymous };
 };
+

@@ -255,8 +255,7 @@ describe("csvCaseExport request", () => {
         .defaultAddress()
         .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined);
-      const raceAndEthnicityAttributes =
-        new RaceEthnicity.Builder().defaultRaceEthnicity();
+      const raceAndEthnicityAttributes = new RaceEthnicity.Builder().defaultRaceEthnicity();
       raceEthnicity = await models.race_ethnicity.create(
         raceAndEthnicityAttributes,
         { auditUser: "tuser" }
@@ -330,11 +329,10 @@ describe("csvCaseExport request", () => {
         { auditUser: "Wanchenlearn" }
       );
 
-      const caseClassificationAttributes =
-        new ReferralLetterCaseClassification.Builder()
-          .defaultReferralLetterCaseClassification()
-          .withCaseId(caseToExport.id)
-          .withClassificationId(classification.id);
+      const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
+        .defaultReferralLetterCaseClassification()
+        .withCaseId(caseToExport.id)
+        .withClassificationId(classification.id);
       await models.case_classification.create(caseClassificationAttributes, {
         auditUser: "tuser"
       });
@@ -551,7 +549,7 @@ describe("csvCaseExport request", () => {
         officerComplainantRow["Officer Complainant Case Officer Database ID"]
       ).toEqual(`${caseOfficerComplainant.id}`);
       expect(officerComplainantRow["Officer Complainant Name"]).toEqual(
-        `${caseOfficerComplainant.firstName} ${caseOfficerComplainant.middleInitial} ${caseOfficerComplainant.lastName}`
+        `${caseOfficerComplainant.firstName} ${caseOfficerComplainant.middleName} ${caseOfficerComplainant.lastName}`
       );
       expect(
         officerComplainantRow["Officer Complainant Windows Username"]
@@ -562,7 +560,7 @@ describe("csvCaseExport request", () => {
       expect(
         officerComplainantRow["Officer Complainant Supervisor Name"]
       ).toEqual(
-        `${caseOfficerComplainant.supervisorFirstName} ${caseOfficerComplainant.supervisorMiddleInitial} ${caseOfficerComplainant.supervisorLastName}`
+        `${caseOfficerComplainant.supervisorFirstName} ${caseOfficerComplainant.supervisorMiddleName} ${caseOfficerComplainant.supervisorLastName}`
       );
       expect(
         officerComplainantRow["Officer Complainant Supervisor Windows Username"]
@@ -802,7 +800,7 @@ describe("csvCaseExport request", () => {
       );
 
       expect(firstRecord["Accused Officer Name"]).toEqual(
-        `${caseOfficer.firstName} ${caseOfficer.middleInitial} ${caseOfficer.lastName}`
+        `${caseOfficer.firstName} ${caseOfficer.middleName} ${caseOfficer.lastName}`
       );
 
       expect(firstRecord["Accused Officer Windows Username"]).toEqual(
@@ -812,7 +810,7 @@ describe("csvCaseExport request", () => {
         caseOfficer.rank
       );
       expect(firstRecord["Accused Officer Supervisor Name"]).toEqual(
-        `${caseOfficer.supervisorFirstName} ${caseOfficer.supervisorMiddleInitial} ${caseOfficer.supervisorLastName}`
+        `${caseOfficer.supervisorFirstName} ${caseOfficer.supervisorMiddleName} ${caseOfficer.supervisorLastName}`
       );
       expect(
         firstRecord["Accused Officer Supervisor Windows Username"]
@@ -1167,7 +1165,7 @@ describe("csvCaseExport request", () => {
       const officerToCreate = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
-        .withMiddleInitial("")
+        .withMiddleName("")
         .withOfficerNumber(300)
         .build();
 
@@ -1202,7 +1200,7 @@ describe("csvCaseExport request", () => {
         .defaultOfficer()
         .withId(undefined)
         .withOfficerNumber(300)
-        .withMiddleInitial("")
+        .withMiddleName("")
         .build();
 
       const createdSupervisor = await models.officer.create(supervisorToCreate);
@@ -1241,10 +1239,7 @@ describe("csvCaseExport request", () => {
     });
 
     test("should not add extra space when accused officer middle name is blank", async () => {
-      await caseOfficer.update(
-        { middleInitial: "" },
-        { auditUser: "test user" }
-      );
+      await caseOfficer.update({ middleName: "" }, { auditUser: "test user" });
 
       await csvCaseExport(job, jobDone);
 
@@ -1283,7 +1278,7 @@ describe("csvCaseExport request", () => {
 
     test("should not add extra space when accused officer supervisor middle name is blank", async () => {
       await caseOfficer.update(
-        { supervisorMiddleInitial: "" },
+        { supervisorMiddleName: "" },
         { auditUser: "test user" }
       );
 

@@ -30,16 +30,10 @@ export const GET_CASES_AUDIT_DETAILS = {
     ]
   },
   accusedOfficers: {
-    attributes: ["firstName", "middleInitial", "lastName", "personType"]
+    attributes: ["firstName", "middleName", "lastName", "personType"]
   },
   earliestAddedComplainant: {
-    attributes: [
-      "firstName",
-      "middleInitial",
-      "lastName",
-      "suffix",
-      "personType"
-    ]
+    attributes: ["firstName", "middleName", "lastName", "suffix", "personType"]
   }
 };
 

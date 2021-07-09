@@ -19,8 +19,7 @@ describe("caseOfficer", () => {
     });
 
     test("returns false if there is an officerId", () => {
-      const caseOfficerAttributes =
-        new CaseOfficer.Builder().defaultCaseOfficer();
+      const caseOfficerAttributes = new CaseOfficer.Builder().defaultCaseOfficer();
       const caseOfficer = models.case_officer.build(caseOfficerAttributes);
       expect(caseOfficer.isUnknownOfficer).toEqual(false);
     });
@@ -30,7 +29,7 @@ describe("caseOfficer", () => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Monica")
-        .withMiddleInitial("Jane")
+        .withMiddleName("Jane")
         .withLastName("Jones");
       const caseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -42,7 +41,7 @@ describe("caseOfficer", () => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Monica")
-        .withMiddleInitial(null)
+        .withMiddleName(null)
         .withLastName("Jones");
       const caseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -154,11 +153,10 @@ describe("caseOfficer", () => {
         auditUser: "someone"
       });
 
-      const retrievedOfficerAllegation =
-        await models.officer_allegation.findByPk(officerAllegation.id, {
-          transaction: null,
-          paranoid: false
-        });
+      const retrievedOfficerAllegation = await models.officer_allegation.findByPk(
+        officerAllegation.id,
+        { transaction: null, paranoid: false }
+      );
 
       expect(retrievedOfficerAllegation.deletedAt).not.toEqual(null);
     });

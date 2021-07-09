@@ -182,19 +182,17 @@ describe("getReferralLetterData", () => {
     });
 
     test("it returns needed letter data when there is already a letter and letter officers and notes created", async () => {
-      const referralLetterOfficerHistoryNoteAttributes =
-        new ReferralLetterOfficerHistoryNote.Builder()
-          .defaultReferralLetterOfficerHistoryNote()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id)
-          .withPibCaseNumber("#123")
-          .withDetails("some officer history note details");
+      const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
+        .defaultReferralLetterOfficerHistoryNote()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withPibCaseNumber("#123")
+        .withDetails("some officer history note details");
 
-      const referralLetterOfficerHistoryNote =
-        await models.referral_letter_officer_history_note.create(
-          referralLetterOfficerHistoryNoteAttributes,
-          { auditUser: "test" }
-        );
+      const referralLetterOfficerHistoryNote = await models.referral_letter_officer_history_note.create(
+        referralLetterOfficerHistoryNoteAttributes,
+        { auditUser: "test" }
+      );
 
       const expectedResponseBody = {
         id: referralLetter.id,
@@ -243,31 +241,27 @@ describe("getReferralLetterData", () => {
         { description: description2 },
         { auditUser: "someone" }
       );
-      const referralLetterOfficerRecommendedActionAttributes1 =
-        new ReferralLetterOfficerRecommendedAction.Builder()
-          .defaultReferralLetterOfficerRecommendedAction()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id)
-          .withRecommendedActionId(recommendedAction1.id);
+      const referralLetterOfficerRecommendedActionAttributes1 = new ReferralLetterOfficerRecommendedAction.Builder()
+        .defaultReferralLetterOfficerRecommendedAction()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withRecommendedActionId(recommendedAction1.id);
 
-      const referralLetterOfficerRecommendedActionAttributes2 =
-        new ReferralLetterOfficerRecommendedAction.Builder()
-          .defaultReferralLetterOfficerRecommendedAction()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id)
-          .withRecommendedActionId(recommendedAction2.id);
+      const referralLetterOfficerRecommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
+        .defaultReferralLetterOfficerRecommendedAction()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withRecommendedActionId(recommendedAction2.id);
 
-      const referralLetterOfficerRecommendedAction1 =
-        await models.referral_letter_officer_recommended_action.create(
-          referralLetterOfficerRecommendedActionAttributes1,
-          { auditUser: "someone" }
-        );
+      const referralLetterOfficerRecommendedAction1 = await models.referral_letter_officer_recommended_action.create(
+        referralLetterOfficerRecommendedActionAttributes1,
+        { auditUser: "someone" }
+      );
 
-      const referralLetterOfficerRecommendedAction2 =
-        await models.referral_letter_officer_recommended_action.create(
-          referralLetterOfficerRecommendedActionAttributes2,
-          { auditUser: "someone" }
-        );
+      const referralLetterOfficerRecommendedAction2 = await models.referral_letter_officer_recommended_action.create(
+        referralLetterOfficerRecommendedActionAttributes2,
+        { auditUser: "someone" }
+      );
 
       const expectedResponseBody = {
         id: referralLetter.id,
@@ -393,11 +387,10 @@ describe("getReferralLetterData", () => {
       },
       { auditUser: "Wanchenlearn" }
     );
-    const caseClassificationAttributes =
-      new ReferralLetterCaseClassification.Builder()
-        .defaultReferralLetterCaseClassification()
-        .withCaseId(existingCase.id)
-        .withClassificationId(classification.id);
+    const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
+      .defaultReferralLetterCaseClassification()
+      .withCaseId(existingCase.id)
+      .withClassificationId(classification.id);
     await models.case_classification.create(caseClassificationAttributes, {
       auditUser: "test"
     });
@@ -425,7 +418,7 @@ describe("getReferralLetterData", () => {
             "firstName",
             "id",
             "lastName",
-            "middleInitial"
+            "middleName"
           ]),
           model: models.case_officer.name
         },

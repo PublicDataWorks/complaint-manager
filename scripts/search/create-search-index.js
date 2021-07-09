@@ -122,8 +122,9 @@ const updateSearchIndex = async () => {
     let results = {
       full_name: `${person.firstName} ${person.lastName}`
     };
-    if (person.middleInitial) {
-      results.full_name_with_initial = `${person.firstName} ${person.middleInitial} ${person.lastName}`;
+    let middle = person.middleName || person.middleInitial;
+    if (middle) {
+      results.full_name_with_initial = `${person.firstName} ${middle} ${person.lastName}`;
     }
     return results;
   };

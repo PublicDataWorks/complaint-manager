@@ -1,4 +1,4 @@
-workStatus,rank,bureau,district,sex,race,windowsUsername,hireDate,endDate,supervisorOfficerNumber,employeeType,officerNumber,firstName,middleInitial,lastName
+workStatus,rank,bureau,district,sex,race,windowsUsername,hireDate,endDate,supervisorOfficerNumber,employeeType,officerNumber,firstName,middleName,lastName
 Retired,ADMIN SUPPORT SPECIALIST II,MSB - Management Service Bureau,First District,F,Black,4567,,,765,Non-Commissioned,386, Chris, R, Pratt
 ,Admin Sup Sup IV,MSB - Management Service Bureau,,F,Black,,1987-04-12,,,Non-Commissioned,2248, Kirstin, H, Hudson
 ,Admin Sup Sup IV,MSB - Management Service Bureau,First District,F,Black,,1989-07-10,,,Commissioned,765, Maggie, L, Smith
