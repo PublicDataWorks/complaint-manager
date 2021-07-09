@@ -21,10 +21,12 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
             `${ASCENDING} NULLS LAST`
           ],
           [
-            caseInsensitiveSort("complainantMiddleInitial", model),
+            caseInsensitiveSort("complainantMiddleName", model),
             `${ASCENDING} NULLS LAST`
           ],
-          ["complainantPersonType", `${ASCENDING} NULLS LAST`]
+          [
+            "complainantPersonType", `${ASCENDING} NULLS LAST`
+          ]
         ];
       } else {
         return [
@@ -37,10 +39,12 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
             `${DESCENDING} NULLS FIRST`
           ],
           [
-            caseInsensitiveSort("complainantMiddleInitial", model),
+            caseInsensitiveSort("complainantMiddleName", model),
             `${DESCENDING} NULLS FIRST`
           ],
-          ["complainantPersonType", `${DESCENDING} NULLS FIRST`]
+          [
+            "complainantPersonType", `${DESCENDING} NULLS FIRST`
+          ]
         ];
       }
     case SORT_CASES_BY.ACCUSED_OFFICERS:

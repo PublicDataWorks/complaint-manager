@@ -10,10 +10,10 @@ class CaseOfficer {
     this.roleOnCase = build.roleOnCase;
     this.fullName = build.fullName;
     this.firstName = build.firstName;
-    this.middleInitial = build.middleInitial;
+    this.middleName = build.middleName;
     this.lastName = build.lastName;
     this.supervisorFirstName = build.supervisorFirstName;
-    this.supervisorMiddleInitial = build.supervisorMiddleInitial;
+    this.supervisorMiddleName = build.supervisorMiddleName;
     this.supervisorLastName = build.supervisorLastName;
     this.windowsUsername = build.windowsUsername;
     this.supervisorWindowsUsername = build.supervisorWindowsUsername;
@@ -42,10 +42,10 @@ class CaseOfficer {
         this.caseId = 17;
         this.fullName = "Grant M. Young";
         this.firstName = "Grant";
-        this.middleInitial = "M";
+        this.middleName = "M";
         this.lastName = "Young";
         this.supervisorFirstName = "Belly";
-        this.supervisorMiddleInitial = "G";
+        this.supervisorMiddleName = "G";
         this.supervisorLastName = "Walsh";
         this.windowsUsername = 12;
         this.supervisorWindowsUsername = 14;
@@ -96,7 +96,7 @@ class CaseOfficer {
 
       withUnknownOfficer() {
         this.firstName = null;
-        this.middleInitial = null;
+        this.middleName = null;
         this.lastName = null;
         this.windowsUsername = null;
         this.rank = null;
@@ -117,7 +117,7 @@ class CaseOfficer {
 
       withOfficerAttributes(officer) {
         this.firstName = officer.firstName;
-        this.middleInitial = officer.middleInitial;
+        this.middleName = officer.middleName;
         this.lastName = officer.lastName;
         this.windowsUsername = officer.windowsUsername;
         this.rank = officer.rank;
@@ -137,7 +137,7 @@ class CaseOfficer {
 
       withNoSupervisor() {
         this.supervisorFirstName = null;
-        this.supervisorMiddleInitial = null;
+        this.supervisorMiddleName = null;
         this.supervisorLastName = null;
         this.supervisorWindowsUsername = null;
         this.supervisorOfficerNumber = null;
@@ -147,7 +147,7 @@ class CaseOfficer {
 
       withSupervisor(officer) {
         this.supervisorFirstName = officer.firstName;
-        this.supervisorMiddleInitial = officer.middleInitial;
+        this.supervisorMiddleName = officer.middleName;
         this.supervisorLastName = officer.lastName;
         this.supervisorWindowsUsername = officer.windowsUsername;
         this.supervisorOfficerNumber = officer.officerNumber;
@@ -184,8 +184,8 @@ class CaseOfficer {
         return this;
       }
 
-      withMiddleInitial(middleInitial) {
-        this.middleInitial = middleInitial;
+      withMiddleName(middleName) {
+        this.middleName = middleName;
         return this;
       }
 

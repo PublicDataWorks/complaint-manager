@@ -81,7 +81,7 @@ class SortableCase {
         this.primaryComplainant = {
           fullName: getPersonFullName(
             primaryComplainant.firstName,
-            primaryComplainant.middleInitial,
+            primaryComplainant.middleName,
             primaryComplainant.lastName,
             primaryComplainant.suffix,
             primaryComplainant.personType
@@ -94,7 +94,7 @@ class SortableCase {
         this.accusedOfficers.push({
           fullName: getPersonFullName(
             accusedOfficer.firstName,
-            accusedOfficer.middleInitial,
+            accusedOfficer.middleName,
             accusedOfficer.lastName,
             accusedOfficer.suffix,
             accusedOfficer.personType

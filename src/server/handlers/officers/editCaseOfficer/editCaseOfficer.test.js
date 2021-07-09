@@ -71,7 +71,7 @@ describe("editCaseOfficer", () => {
       const newOfficer = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Garret")
-        .withMiddleInitial("Bobby")
+        .withMiddleName("Bobby")
         .withLastName("Freezer")
         .withWindowsUsername(87654)
         .withId(undefined)
@@ -105,8 +105,8 @@ describe("editCaseOfficer", () => {
       );
       expect(updatedCaseOfficer.officerId).toEqual(createdNewOfficer.id);
       expect(updatedCaseOfficer.firstName).toEqual(createdNewOfficer.firstName);
-      expect(updatedCaseOfficer.middleInitial).toEqual(
-        createdNewOfficer.middleInitial
+      expect(updatedCaseOfficer.middleName).toEqual(
+        createdNewOfficer.middleName
       );
       expect(updatedCaseOfficer.lastName).toEqual(createdNewOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(createdNewOfficer.fullName);
@@ -282,7 +282,7 @@ describe("editCaseOfficer", () => {
       const supervisorAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Super")
-        .withMiddleInitial("G")
+        .withMiddleName("G")
         .withLastName("Visor")
         .withWindowsUsername(27705)
         .withId(undefined)
@@ -295,7 +295,7 @@ describe("editCaseOfficer", () => {
       const newOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Garret")
-        .withMiddleInitial("Bobby")
+        .withMiddleName("Bobby")
         .withLastName("Freezer")
         .withWindowsUsername(87654)
         .withId(undefined)
@@ -332,9 +332,7 @@ describe("editCaseOfficer", () => {
 
       expect(updatedCaseOfficer.officerId).toEqual(newOfficer.id);
       expect(updatedCaseOfficer.firstName).toEqual(newOfficer.firstName);
-      expect(updatedCaseOfficer.middleInitial).toEqual(
-        newOfficer.middleInitial
-      );
+      expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
       expect(updatedCaseOfficer.windowsUsername).toEqual(
@@ -343,8 +341,8 @@ describe("editCaseOfficer", () => {
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(
         supervisor.firstName
       );
-      expect(updatedCaseOfficer.supervisorMiddleInitial).toEqual(
-        supervisor.middleInitial
+      expect(updatedCaseOfficer.supervisorMiddleName).toEqual(
+        supervisor.middleName
       );
       expect(updatedCaseOfficer.supervisorLastName).toEqual(
         supervisor.lastName
@@ -358,7 +356,7 @@ describe("editCaseOfficer", () => {
       const newOfficerAttributes = new Officer.Builder()
         .defaultOfficer()
         .withFirstName("Garret")
-        .withMiddleInitial("Bobby")
+        .withMiddleName("Bobby")
         .withLastName("Freezer")
         .withWindowsUsername(87654)
         .withId(undefined)
@@ -395,16 +393,14 @@ describe("editCaseOfficer", () => {
 
       expect(updatedCaseOfficer.officerId).toEqual(newOfficer.id);
       expect(updatedCaseOfficer.firstName).toEqual(newOfficer.firstName);
-      expect(updatedCaseOfficer.middleInitial).toEqual(
-        newOfficer.middleInitial
-      );
+      expect(updatedCaseOfficer.middleName).toEqual(newOfficer.middleName);
       expect(updatedCaseOfficer.lastName).toEqual(newOfficer.lastName);
       expect(updatedCaseOfficer.fullName).toEqual(newOfficer.fullName);
       expect(updatedCaseOfficer.windowsUsername).toEqual(
         newOfficer.windowsUsername
       );
       expect(updatedCaseOfficer.supervisorFirstName).toEqual(null);
-      expect(updatedCaseOfficer.supervisorMiddleInitial).toEqual(null);
+      expect(updatedCaseOfficer.supervisorMiddleName).toEqual(null);
       expect(updatedCaseOfficer.supervisorLastName).toEqual(null);
       expect(updatedCaseOfficer.supervisorWindowsUsername).toEqual(null);
     });
@@ -454,7 +450,7 @@ describe("editCaseOfficer", () => {
     const newOfficer = new Officer.Builder()
       .defaultOfficer()
       .withFirstName("Garret")
-      .withMiddleInitial("Bobby")
+      .withMiddleName("Bobby")
       .withLastName("Freezer")
       .withWindowsUsername(87654)
       .withId(undefined)

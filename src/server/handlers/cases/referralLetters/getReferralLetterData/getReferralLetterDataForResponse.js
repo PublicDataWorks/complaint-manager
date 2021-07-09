@@ -16,18 +16,19 @@ const getReferralLetterDataForResponse = async (caseId, transaction) => {
   letterData = letterData.toJSON();
   const letterDataAuditDetails = letterDataAndAuditDetails.auditDetails;
 
-  const transformedLetterOfficerDataAndAuditDetails =
-    transformLetterOfficerDataAndAuditDetails(
-      letterData,
-      letterDataAuditDetails
-    );
+  const transformedLetterOfficerDataAndAuditDetails = transformLetterOfficerDataAndAuditDetails(
+    letterData,
+    letterDataAuditDetails
+  );
   const letterAndLetterOfficerAuditDetails =
     transformedLetterOfficerDataAndAuditDetails.auditDetails;
   const transformedLetterOfficerData =
     transformedLetterOfficerDataAndAuditDetails.letterOfficerData;
 
-  const classificationDataAndAuditDetails =
-    await getClassificationAndAuditDetails(caseId, transaction);
+  const classificationDataAndAuditDetails = await getClassificationAndAuditDetails(
+    caseId,
+    transaction
+  );
 
   const auditDetails = combineAuditDetails(
     letterAndLetterOfficerAuditDetails,
@@ -52,16 +53,13 @@ const letterOfficerAttributes = caseOfficer => {
     !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
     letterOfficerAttributes.referralLetterOfficerHistoryNotes.length === 0
   ) {
-    letterOfficerAttributes.referralLetterOfficerHistoryNotes =
-      buildEmptyNotes();
+    letterOfficerAttributes.referralLetterOfficerHistoryNotes = buildEmptyNotes();
   }
-  letterOfficerAttributes.referralLetterOfficerRecommendedActions =
-    buildRecommendedActions(
-      letterOfficerAttributes.referralLetterOfficerRecommendedActions
-    );
+  letterOfficerAttributes.referralLetterOfficerRecommendedActions = buildRecommendedActions(
+    letterOfficerAttributes.referralLetterOfficerRecommendedActions
+  );
   if (letterOfficerAttributes.officerHistoryOptionId) {
-    letterOfficerAttributes.officerHistoryOptionId =
-      letterOfficerAttributes.officerHistoryOptionId.toString();
+    letterOfficerAttributes.officerHistoryOptionId = letterOfficerAttributes.officerHistoryOptionId.toString();
   }
 
   return letterOfficerAttributes;
@@ -125,7 +123,7 @@ const getLetterDataAndAuditDetails = async (caseId, transaction) => {
           "id", //must include officerId or will be named unknown officer
           "officerId",
           "firstName",
-          "middleInitial",
+          "middleName",
           "lastName",
           "fullName"
         ],
