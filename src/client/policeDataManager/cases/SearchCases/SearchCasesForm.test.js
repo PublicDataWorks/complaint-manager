@@ -4,7 +4,10 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { waitFor } from "@testing-library/dom";
-import SearchCasesForm, { mapsStateToProps } from "./SearchCasesForm";
+import SearchCasesForm, {
+  mapsStateToProps,
+  validateQuotes
+} from "./SearchCasesForm";
 import createConfiguredStore from "../../../createConfiguredStore";
 
 describe("SearchCasesForm.mapStateToProps", () => {

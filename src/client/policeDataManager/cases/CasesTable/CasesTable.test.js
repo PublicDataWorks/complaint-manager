@@ -1,4 +1,4 @@
-import CasesTable from "./CasesTable";
+import CasesTable, { validateQuotes } from "./CasesTable";
 import React from "react";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
@@ -16,6 +16,7 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   DESCENDING,
+  SEARCH_CASES_SUCCESS,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import SortableCase from "../../testUtilities/SortableCase";
@@ -25,6 +26,8 @@ import getSearchCases from "../thunks/getSearchCases";
 import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 import Tag from "../../../../server/testHelpers/tag";
 import { PERSON_TYPE } from "../../../../instance-files/constants";
+import { crossOriginResourcePolicy } from "helmet";
+import SearchCasesForm from "../SearchCases/SearchCasesForm";
 
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");
@@ -376,8 +379,80 @@ describe("cases table", () => {
   });
 });
 
+describe("validateQuotes", () => {
+  test("should return successfully if value is undefined", () => {
+    expect(validateQuotes()).toBeUndefined();
+  });
+
+  test("should return error when quotation marks are unbalanced", () => {
+    expect(validateQuotes('"Hello There" "General Kenobi')).not.toBeUndefined();
+  });
+
+  test("should return error when empty value between open and close quotation marks", () => {
+    expect(validateQuotes('search "" search')).not.toBeUndefined();
+    expect(validateQuotes('"search" search "" search')).not.toBeUndefined();
+    expect(validateQuotes('"search""" search')).not.toBeUndefined();
+  });
+
+  test("should return error when whitespace only between open and close quotation marks", () => {
+    expect(validateQuotes('search "     " search')).not.toBeUndefined();
+    expect(
+      validateQuotes('"search" search " \n   " search')
+    ).not.toBeUndefined();
+    expect(validateQuotes('"search""\t\t\t" search')).not.toBeUndefined();
+  });
+
+  test("should return successfully when there are no quotes", () => {
+    expect(validateQuotes("Night Watch")).toBeUndefined();
+  });
+
+  test("should return successfully when quotes are balanced and no quote pairs have only whitespace", () => {
+    expect(
+      validateQuotes('"Night J Watch" "a cold cut sandwich" Hello')
+    ).toBeUndefined();
+  });
+});
+
 describe("component mounting", () => {
   let tableWrapper, store;
+
+  test("should show search error message when there is no query string", () => {
+    store = createConfiguredStore();
+    tableWrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CasesTable caseType={CASE_TYPE.SEARCH} />
+        </Router>
+      </Provider>
+    );
+
+    expect(
+      tableWrapper.find("p[data-testid='searchResultsMessage']").text()
+    ).toEqual("Invalid search, Please try again");
+  });
+
+  test("should show search error message when there is no query string", () => {
+    store = createConfiguredStore();
+    tableWrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <SearchCasesForm />
+          <CasesTable caseType={CASE_TYPE.SEARCH} noCasesMessage="Noop!" />
+        </Router>
+      </Provider>
+    );
+
+    tableWrapper
+      .find("[data-testid='searchField']")
+      .simulate("change", { target: { value: "search term" } });
+    tableWrapper.find("button[data-testid='searchButton']").simulate("click");
+
+    setTimeout(() => {
+      expect(
+        tableWrapper.find("p[data-testid='searchResultsMessage']").text()
+      ).toEqual("Noop!");
+    }, 2000);
+  });
 
   test("should mount working case table with page 1", () => {
     store = createConfiguredStore();
