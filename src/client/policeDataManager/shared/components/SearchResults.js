@@ -70,11 +70,7 @@ export class SearchResults extends Component {
     let message = "";
     const searchResultsLength =
       this.props.searchResults && this.props.searchResults.length;
-    if (!this.props.searchResults || searchResultsLength === 0) {
-      message = this.props.noResultsMessage
-        ? this.props.noResultsMessage
-        : "No results found";
-    } else if (this.props.subtitleResultCount) {
+    if (this.props.subtitleResultCount) {
       if (searchResultsLength === 1) {
         message = `1 result found`;
       } else {

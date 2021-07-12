@@ -15,8 +15,9 @@ export const searchSuccess = (searchResults, newPage) => ({
   newPage
 });
 
-export const searchFailed = () => ({
-  type: SEARCH_FAILED
+export const searchFailed = (message = "Invalid search, Please try again") => ({
+  type: SEARCH_FAILED,
+  payload: message
 });
 
 export const searchCleared = () => ({

@@ -112,41 +112,6 @@ describe("SearchResults", () => {
     return expect(containsText.text()).toBeFalsy();
   });
 
-  test("should show correct no results message when passed in as parameter", () => {
-    const noResultsMessage = "Test No Results Message";
-    const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[]}
-        render={jest.fn()}
-        noResultsMessage={noResultsMessage}
-      />
-    );
-    const resultsMessage = wrapper
-      .find("[data-testid='searchResultsMessage']")
-      .children()
-      .text();
-
-    return expect(resultsMessage).toEqual(noResultsMessage);
-  });
-
-  test("should show default no results message when no parameter is passed.", () => {
-    const defaultNoResultsMessage = "No results found";
-    const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[]}
-        render={jest.fn()}
-      />
-    );
-    const resultsMessage = wrapper
-      .find("[data-testid='searchResultsMessage']")
-      .children()
-      .text();
-
-    return expect(resultsMessage).toEqual(defaultNoResultsMessage);
-  });
-
   test("should not find pagination component when not paginating", () => {
     const wrapper = shallow(
       <SearchResults
