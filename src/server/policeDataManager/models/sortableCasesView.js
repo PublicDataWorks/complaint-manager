@@ -62,16 +62,29 @@ module.exports = (sequelize, DataTypes) => {
             this.getDataValue("accusedOfficers").length &&
             this.getDataValue("accusedOfficers")[0]
           ) {
-            return this.getDataValue("accusedOfficers").map(accused => ({
-              personType: accused.accused_person_type,
-              fullName: getPersonFullName(
-                accused.accused_first_name,
-                accused.accused_middle_name,
-                accused.accused_last_name,
-                null,
-                accused.accused_person_type
-              )
-            }));
+            return this.getDataValue("accusedOfficers")
+              .reduce((acc, accused) => {
+                if (
+                  !acc.length ||
+                  !acc.find(
+                    element =>
+                      element.case_officer_id === accused.case_officer_id
+                  )
+                ) {
+                  acc.push(accused);
+                }
+                return acc;
+              }, [])
+              .map(accused => ({
+                personType: accused.accused_person_type,
+                fullName: getPersonFullName(
+                  accused.accused_first_name,
+                  accused.accused_middle_name,
+                  accused.accused_last_name,
+                  null,
+                  accused.accused_person_type
+                )
+              }));
           } else {
             return [];
           }
@@ -122,7 +135,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       tagNames: {
         field: "tag_names",
-        type: DataTypes.ARRAY(DataTypes.STRING)
+        type: DataTypes.ARRAY(DataTypes.STRING),
+        get: function () {
+          return this.getDataValue("tagNames").reduce((acc, tagName) => {
+            if (!acc.includes(tagName)) {
+              acc.push(tagName);
+            }
+            return acc;
+          }, []);
+        }
       },
       deletedAt: {
         field: "deleted_at",
