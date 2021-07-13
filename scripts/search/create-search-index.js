@@ -1,6 +1,7 @@
 "use strict";
 
 import { ACCUSED, COMPLAINANT } from "../../src/sharedUtilities/constants";
+import { parseSearchTerm } from "../../src/sharedUtilities/searchUtilities";
 
 const updateSearchIndex = async () => {
   const environment = process.env.NODE_ENV || "development";
@@ -120,18 +121,20 @@ const updateSearchIndex = async () => {
   const operation = { index: { _index: index } };
   const mapPerson = person => {
     let results = {
-      full_name: `${person.firstName} ${person.lastName}`
+      full_name: parseSearchTerm(`${person.firstName} ${person.lastName}`)
     };
     let middle = person.middleName || person.middleInitial;
     if (middle) {
-      results.full_name_with_initial = `${person.firstName} ${middle} ${person.lastName}`;
+      parseSearchTerm(
+        (results.full_name_with_initial = `${person.firstName} ${middle} ${person.lastName}`)
+      );
     }
     return results;
   };
 
   const bulkOperations = results.flatMap(result => {
     let case_id = result.id;
-    let tags = result.caseTags.map(tag => tag.tag.name);
+    let tags = result.caseTags.map(tag => parseSearchTerm(tag.tag.name));
     let complainantOfficers = result.complainantOfficers.map(mapPerson);
     let accusedOfficers = result.accusedOfficers.map(mapPerson);
     let civilians = result.complainantCivilians.map(mapPerson);

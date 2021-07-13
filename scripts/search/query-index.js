@@ -1,5 +1,9 @@
 "use strict";
 
+const {
+  buildQueryString
+} = require("../../src/sharedUtilities/searchUtilities");
+
 (async () => {
   const environment = process.env.NODE_ENV || "development";
   const {
@@ -25,7 +29,7 @@
     process.exit(1);
   }
 
-  const query = process.argv.slice(2).join(" ");
+  const query = buildQueryString(process.argv.slice(2).join(" "));
 
   console.log(`Searching for '${query}'...`);
 
@@ -36,7 +40,7 @@
       body: {
         query: {
           query_string: {
-            query: `*${query.split(" ").join("* *")}*`,
+            query,
             default_operator: "and"
           }
         }
