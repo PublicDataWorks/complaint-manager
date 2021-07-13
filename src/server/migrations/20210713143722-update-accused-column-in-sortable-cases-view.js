@@ -125,7 +125,8 @@ const sortableCasesViewWithMultipleAccused = `CREATE VIEW sortable_cases_view AS
       cases
       LEFT JOIN (
         SELECT
-          case_id,
+          case_id, 
+          officers.id as case_officer_id,
           CASE
             WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
             THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
@@ -249,9 +250,12 @@ module.exports = {
         await queryInterface.sequelize
           .query(`DROP VIEW ${viewName}`, { transaction })
           .then(async () => {
-            await queryInterface.sequelize.query(sortableCasesViewWithMultipleAccused, {
-              transaction
-            });
+            await queryInterface.sequelize.query(
+              sortableCasesViewWithMultipleAccused,
+              {
+                transaction
+              }
+            );
           });
       });
     } catch (error) {
@@ -268,9 +272,12 @@ module.exports = {
         await queryInterface.sequelize
           .query(`DROP VIEW ${viewName}`, { transaction })
           .then(async () => {
-            await queryInterface.sequelize.query(sortableCasesViewWithoutMultipleAccused, {
-              transaction
-            });
+            await queryInterface.sequelize.query(
+              sortableCasesViewWithoutMultipleAccused,
+              {
+                transaction
+              }
+            );
           });
       });
     } catch (error) {
