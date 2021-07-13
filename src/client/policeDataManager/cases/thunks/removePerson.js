@@ -21,9 +21,9 @@ const removePerson = personDetails => async dispatch => {
   if (personType === "civilians") {
     personTypeForDisplay = "Civilian";
   } else {
-    const isCivilianWithinNopd =
+    const isCivilianWithinPd =
       personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
-    personTypeForDisplay = isCivilianWithinNopd
+    personTypeForDisplay = isCivilianWithinPd
       ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
   }

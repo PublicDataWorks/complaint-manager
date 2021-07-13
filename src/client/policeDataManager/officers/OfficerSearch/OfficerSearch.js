@@ -11,10 +11,10 @@ import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
 const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;
 
-  const isCivilianWithinNopd =
+  const isCivilianWithinPd =
     caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
 
-  const searchText = isCivilianWithinNopd
+  const searchText = isCivilianWithinPd
     ? `Search for a ${employeeSearchTitle}`
     : `Search for an ${employeeSearchTitle}`;
 
@@ -28,7 +28,7 @@ const OfficerSearch = props => {
         >
           {searchText}
         </Typography>
-        {isCivilianWithinNopd ? null : (
+        {isCivilianWithinPd ? null : (
           <Typography data-testid="unknown-officer-link" variant="body2">
             Unable to find an officer? You can{" "}
             <SelectUnknownOfficerLink

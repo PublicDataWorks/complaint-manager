@@ -281,9 +281,9 @@ export const openRemovePersonDialog = (personDetails, personType) => {
     optionalText = "";
     personTypeTitleDisplay = "Civilian";
   } else {
-    const isCivilianWithinNopd =
+    const isCivilianWithinPd =
       personDetails.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
-    personTypeTitleDisplay = isCivilianWithinNopd
+    personTypeTitleDisplay = isCivilianWithinPd
       ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;
     optionalText = ` This includes any Notes or Allegations associated to the ${_.lowerCase(

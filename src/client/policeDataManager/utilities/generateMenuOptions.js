@@ -1,4 +1,3 @@
-import React from "react";
 import * as _ from "lodash";
 import formatStringToTitleCase from "./formatStringToTitleCase";
 import {
@@ -7,6 +6,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
+import { PD } from "../../../instance-files/constants";
 
 export const generateMenuOptions = (contents, extraMenuOption = null) => {
   let menuOptionsArray = contents.map(content => {
@@ -30,18 +30,18 @@ export const generateMenuOptions = (contents, extraMenuOption = null) => {
 };
 
 export const caseNotes = generateMenuOptions([
-  "Case briefing from NOPD",
+  `Case briefing from ${PD}`,
   "Checked status",
   "Contacted complainant",
   "Contacted complainant support person",
-  "Contacted NOPD",
+  `Contacted ${PD}`,
   "Contacted outside agency",
   "Gathered information from outside source",
   "Memo to file",
   "Pulled docket from the court website",
-  "Pulled information from NOPD databases",
+  `Pulled information from ${PD} databases`,
   "Requested documents from other agency",
-  "Requested information from NOPD",
+  `Requested information from ${PD}`,
   "Researched issue related to a complaint",
   "Sent closeout memo",
   "Sent notice of case review",

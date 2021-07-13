@@ -367,7 +367,7 @@ describe("addCaseOfficer", () => {
     expect(letterOfficer).toBeNull();
   });
 
-  test("Should return an officer with employee type civilian within NOPD", async () => {
+  test("Should return an officer with employee type civilian within PD", async () => {
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withFirstName("Brandon")

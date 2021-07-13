@@ -550,15 +550,15 @@ describe("CreateCaseDialog component", () => {
     });
   });
 
-  describe("civilian within nopd radio button", () => {
+  describe("civilian within pd radio button", () => {
     beforeEach(() => {
-      const civilianWithinNOPDRadioButton = dialog
-        .find('[data-testid="civilianWithinNOPDRadioButton"]')
+      const civilianWithinPDRadioButton = dialog
+        .find('[data-testid="civilianWithinPDRadioButton"]')
         .last();
-      civilianWithinNOPDRadioButton.simulate("click");
+      civilianWithinPDRadioButton.simulate("click");
     });
 
-    test("should not see civilian details or civilian create buttons when civilian within nopd selected", () => {
+    test("should not see civilian details or civilian create buttons when civilian within pd selected", () => {
       expect(
         dialog.find('[data-testid="firstNameField"]').exists()
       ).toBeFalsy();
@@ -571,7 +571,7 @@ describe("CreateCaseDialog component", () => {
       ).toBeTruthy();
     });
 
-    test("should see create and search button when civilian within nopd complainant selected", () => {
+    test("should see create and search button when civilian within pd complainant selected", () => {
       expect(
         dialog.find('[data-testid="createAndSearch"]').exists()
       ).toBeTruthy();

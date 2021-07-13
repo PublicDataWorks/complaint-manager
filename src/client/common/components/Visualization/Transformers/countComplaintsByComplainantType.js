@@ -1,6 +1,7 @@
 import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
+import { PD } from "../../../../../instance-files/constants"
 
 export function transformData(rawData) {
   let labels = [];
@@ -10,7 +11,7 @@ export function transformData(rawData) {
   const caseReferenceToName = {
     CC: "Civilian (CC)",
     PO: "Police Officer (PO)",
-    CN: "Civilian NOPD Employee (CN)",
+    CN: `Civilian ${PD} Employee (CN)`,
     AC: "Anonymous (AC)"
   };
 

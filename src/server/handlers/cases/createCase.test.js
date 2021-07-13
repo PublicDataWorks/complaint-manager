@@ -147,8 +147,8 @@ describe("createCase handler", () => {
     );
   });
 
-  test("should create case without civilian model if civilian within NOPD complainant", async () => {
-    const civilianWithinNopd = httpMocks.createRequest({
+  test("should create case without civilian model if civilian within PD complainant", async () => {
+    const civilianWithinPd = httpMocks.createRequest({
       method: "POST",
       headers: {
         authorization: "Bearer SOME_MOCK_TOKEN"
@@ -163,7 +163,7 @@ describe("createCase handler", () => {
       nickname: user
     });
 
-    await createCase(civilianWithinNopd, response, next);
+    await createCase(civilianWithinPd, response, next);
     const insertedCase = await models.cases.findOne({
       where: { complaintType: CIVILIAN_WITHIN_PD_INITIATED },
       include: [{ model: models.civilian, as: "complainantCivilians" }]

@@ -1,5 +1,6 @@
 import { getCaseNoteActionsSuccess } from "../../actionCreators/caseNoteActionActionCreators";
 import caseNoteActionReducer from "./caseNoteActionReducer";
+import PD from "../../../../instance-files/constants"
 
 describe("caseNoteActionReducer", () => {
   test("should initialize to blank array", () => {
@@ -11,7 +12,7 @@ describe("caseNoteActionReducer", () => {
 
   test("should set given caseNoteActions on state", () => {
     const caseNoteActions = [
-      ["Case briefing from NOPD", 0],
+      [`Case briefing from ${PD}`, 0],
       ["Checked status", 1],
       ["Contacted outside agency", 2]
     ];

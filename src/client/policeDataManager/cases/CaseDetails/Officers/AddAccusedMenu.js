@@ -54,7 +54,7 @@ const AddAccusedMenu = props => {
           Accused {OFFICER_TITLE}
         </MenuItem>
         <MenuItem
-          data-testid="addAccusedCivilianWithinNOPD"
+          data-testid="addAccusedCivilianWithinPD"
           onClick={() => {
             props.handleMenuClose();
             props.dispatch(

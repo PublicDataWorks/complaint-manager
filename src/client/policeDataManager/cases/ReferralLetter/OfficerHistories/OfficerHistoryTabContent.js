@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import {
   FormControlLabel,
   Radio,
-  RadioGroup,
   Typography
 } from "@material-ui/core";
 import styles from "../../../../common/globalStyling/styles";
@@ -15,6 +14,7 @@ import OfficerAllegationHistory from "./OfficerAllegationHistory";
 import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
 import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
 import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
+import { ORGANIZATION } from "../../../../../instance-files/constants";
 
 class OfficerHistoryTabContent extends React.Component {
   constructor(props) {
@@ -117,7 +117,7 @@ class OfficerHistoryTabContent extends React.Component {
           </div>
         ) : (
           <p>
-            The OIPM is unable to review this officer’s disciplinary history as
+            The {ORGANIZATION} is unable to review this officer’s disciplinary history as
             they are unable to be identified at this time.
           </p>
         )}

@@ -1,6 +1,6 @@
 const colors = {
-  oipmBlue: "#216DA1",
-  oipmGold: "#C5AD51",
+  blue: "#216DA1",
+  gold: "#C5AD51",
   softBlack: "#231F20",
   textGray: "#767676",
   buttonGray: "#F5F4F4",

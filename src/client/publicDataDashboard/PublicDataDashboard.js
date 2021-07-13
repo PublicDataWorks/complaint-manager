@@ -19,6 +19,7 @@ import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
+import { PD, CITY, ORGANIZATION } from "../../instance-files/constants";
 
 const removeDragCover = () => {
   const callback = mutationsList => {
@@ -86,8 +87,8 @@ const PublicDataDashboard = () => {
             <Link href="https://nolaipm.gov/" style={styles.link}>
               Office of the Independent Police Monitor
             </Link>{" "}
-            (OIPM) is sharing data with the public to increase transparency to
-            inform and empower the New Orleans community.
+            ({ORGANIZATION}) is sharing data with the public to increase transparency to
+            inform and empower the {CITY} community.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -95,7 +96,7 @@ const PublicDataDashboard = () => {
             The Office of the Independent Police Monitor receives commendations
             and complaints, monitors and reviews misconduct complaint
             investigations and disciplinary proceedings, and keeps data on
-            relevant trends and patterns to communicate back to the NOPD through
+            relevant trends and patterns to communicate back to the {PD} through
             policy and practice recommendations.
           </Typography>
           <br />
@@ -320,7 +321,7 @@ const PublicDataDashboard = () => {
                 maxWidth: theme.dashboard.box.titleMaxWidth
               }}
             >
-              Have you had an encounter with police in New Orleans?
+              Have you had an encounter with police in {CITY}?
             </Typography>
             <Button
               variant="contained"

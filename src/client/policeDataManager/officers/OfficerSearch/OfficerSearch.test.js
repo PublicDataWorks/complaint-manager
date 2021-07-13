@@ -44,7 +44,7 @@ describe("OfficerSearch test", () => {
     );
   });
 
-  test("Should display Employee in title and hide unknown officer link when searching for a civilian within NOPD", () => {
+  test("Should display Employee in title and hide unknown officer link when searching for a civilian within PD", () => {
     const officerSearch = mount(
       <Provider store={store}>
         <Router>

@@ -8,7 +8,8 @@ import {
 } from "./CaseDetailDataHelpers";
 import {
   EMPLOYEE_TYPE,
-  FIRST_CONTACTED_ORGANIZATION
+  FIRST_CONTACTED_ORGANIZATION,
+  CIVILIAN_WITHIN_PD_NAME
 } from "../../../../../instance-files/constants";
 
 describe("caseDetailDataHelpers", function () {
@@ -417,7 +418,7 @@ describe("caseDetailDataHelpers", function () {
       );
     });
 
-    test("returns correct complainant data when single civilian within NOPD", () => {
+    test("returns correct complainant data when single civilian within PD", () => {
       const caseDetail = {
         complainantCivilians: [],
         complainantOfficers: [
@@ -436,7 +437,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            "Civilian (NOPD) Name": "complainant joe",
+            [CIVILIAN_WITHIN_PD_NAME]: "complainant joe",
             ID: "#12345",
             District: "some district"
           })
@@ -444,7 +445,7 @@ describe("caseDetailDataHelpers", function () {
       );
     });
 
-    test("returns correct complainant data when single civilian within NOPD AND anonymous", () => {
+    test("returns correct complainant data when single civilian within PD AND anonymous", () => {
       const caseDetail = {
         complainantCivilians: [],
         complainantOfficers: [
@@ -464,7 +465,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            "Civilian (NOPD) Name": "(AC) complainant joe",
+            [CIVILIAN_WITHIN_PD_NAME]: "(AC) complainant joe",
             ID: "#12345",
             District: "some district"
           })
@@ -746,7 +747,7 @@ describe("caseDetailDataHelpers", function () {
         );
       });
 
-      test("returns correct witness data when single civilian within NOPD", () => {
+      test("returns correct witness data when single civilian within PD", () => {
         const caseDetail = {
           witnessCivilians: [],
           witnessOfficers: [
@@ -765,7 +766,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian (NOPD) Name": "witness joe",
+              [CIVILIAN_WITHIN_PD_NAME]: "witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -773,7 +774,7 @@ describe("caseDetailDataHelpers", function () {
         );
       });
 
-      test("returns correct witness data when single civilian within NOPD is anonymous", () => {
+      test("returns correct witness data when single civilian within PD is anonymous", () => {
         const caseDetail = {
           witnessCivilians: [],
           witnessOfficers: [
@@ -793,7 +794,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian (NOPD) Name": "(AC) witness joe",
+              [CIVILIAN_WITHIN_PD_NAME]: "(AC) witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -928,7 +929,7 @@ describe("caseDetailDataHelpers", function () {
         );
       });
 
-      test("returns correct accused data when single civilian within NOPD", () => {
+      test("returns correct accused data when single civilian within PD", () => {
         const officer = {
           isUnknownOfficer: false,
           fullName: "some name",
@@ -942,7 +943,7 @@ describe("caseDetailDataHelpers", function () {
         expect(accusedOfficerData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian (NOPD) Name": "some name",
+              [CIVILIAN_WITHIN_PD_NAME]: "some name",
               ID: "#some id",
               District: "some district"
             })

@@ -40,18 +40,22 @@ describe("getHowDidYouHearAboutUsSources", () => {
         name: "Outreach Event"
       }
     );
-    const nopdHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
+    const facebookHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
       {
-        name: "NOPD"
+        name: "Facebook"
       }
-    );
+    )
+
 
     const expectedOrderedHowDidYouHearAboutUsSourceValues = [
+      [
+        facebookHowDidYouHearAboutUsSource.name,
+        facebookHowDidYouHearAboutUsSource.id
+      ],
       [
         friendHowDidYouHearAboutUsSource.name,
         friendHowDidYouHearAboutUsSource.id
       ],
-      [nopdHowDidYouHearAboutUsSource.name, nopdHowDidYouHearAboutUsSource.id],
       [
         outreachEventHowDidYouHearAboutUsSource.name,
         outreachEventHowDidYouHearAboutUsSource.id

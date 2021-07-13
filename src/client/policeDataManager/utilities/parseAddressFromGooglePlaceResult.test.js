@@ -8,7 +8,7 @@ describe("parseAddressFromGooglePlaceResult", () => {
           long_name: "2714",
           short_name: "2714",
           types: ["street_number"]
-        },
+        }, 
         {
           long_name: "Canal Street",
           short_name: "Canal St",

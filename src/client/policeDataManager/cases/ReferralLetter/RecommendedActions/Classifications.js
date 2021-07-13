@@ -9,10 +9,7 @@ import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import { DECLINES_OPTION } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
-import {
-  CLASSIFICATIONS_INFORMATIONAL_TEXT,
-  RETALIATION_CONCERNS_TEXT
-} from "../referralLetterConstants";
+import { CLASSIFICATIONS_INFORMATIONAL_TEXT } from "../../../../../instance-files/referralLetterDefaults";
 
 class Classifications extends Component {
   constructor(props) {

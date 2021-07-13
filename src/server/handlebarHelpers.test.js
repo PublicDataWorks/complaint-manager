@@ -14,6 +14,8 @@ import {
   isCivilianComplainant
 } from "./handlebarHelpers";
 import { generateSubjectLine } from "../instance-files/helpers";
+import { ORGANIZATION } from "../instance-files/constants";
+import { SENDER_NAME, SENDER_SIGNATURE } from "../instance-files/referralLetterDefaults";
 
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {
@@ -367,39 +369,21 @@ describe("handlebarHelpers", function () {
 
   describe("generateSignature", function () {
     const blankLine = "<p><br></p>";
-    const stellaSender = "Stella Cziment\nDPM";
-    const bonycleSender = "Bonycle Sokunbi\nDPM";
-    const multipleSenders = "Bonycle Sokunbi and Stella Cziment\nDPM";
+    const sender = `${SENDER_NAME}\nDPM`;
 
     test("returns an blank line without signature when includeSignature is false", () => {
-      expect(generateSignature(stellaSender, false)).toEqual(blankLine);
+      expect(generateSignature(sender, false)).toEqual(blankLine);
     });
 
     test("returns an blank line without signature when no signature for given name", () => {
-      expect(generateSignature("someone not stella", true)).toEqual(blankLine);
+      expect(generateSignature("someone not sender", true)).toEqual(blankLine);
     });
 
-    test("returns bonycles signature when bonycle is sender", () => {
-      const signature = generateSignature(bonycleSender, true);
+    test("returns official signature when they are the sender", () => {
+      const signature = generateSignature(sender, true);
 
       expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/bonycle_sokunbi.png />'
-      );
-    });
-
-    test("returns stellas signature when stella is sender", () => {
-      const signature = generateSignature(stellaSender, true);
-
-      expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/stella_cziment.png />'
-      );
-    });
-
-    test("returns signature of the first found sender when there are multiple senders", () => {
-      const signature = generateSignature(multipleSenders, true);
-
-      expect(signature).toEqual(
-        '<img style="max-height: 55px" src=file:/app/src/instance-files/images/bonycle_sokunbi.png />'
+        `<img style="max-height: 55px" src=file:/app/src/instance-files/images/${SENDER_SIGNATURE} />`
       );
     });
   });
@@ -409,9 +393,9 @@ describe("generate subject line", function () {
   const caseReference = "CC2019-0027";
   const pibCaseNumber = "2019-0027-R";
   const supplementalSubjectLine =
-    "Supplemental Referral; OIPM Complaint CC2019-0027; PIB Case 2019-0027-R";
+    `Supplemental Referral; ${ORGANIZATION} Complaint CC2019-0027; PIB Case 2019-0027-R`;
   const subjectLineWithoutPibCaseNumber =
-    "Complaint Referral; OIPM Complaint CC2019-0027";
+    `Complaint Referral; ${ORGANIZATION} Complaint CC2019-0027`;
 
   test("returns supplemental subject line whe pib case number present", () => {
     expect(generateSubjectLine(caseReference, pibCaseNumber)).toEqual(
