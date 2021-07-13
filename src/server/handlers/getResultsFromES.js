@@ -1,3 +1,5 @@
+import { buildQueryString } from "../../sharedUtilities/searchUtilities";
+
 export const getResultsFromES = async queryString => {
   const environment = process.env.NODE_ENV || "development";
   const {
@@ -26,7 +28,7 @@ export const getResultsFromES = async queryString => {
       body: {
         query: {
           query_string: {
-            query: `*${queryString.split(" ").join("* *")}*`,
+            query: buildQueryString(queryString),
             default_operator: "and"
           }
         }
