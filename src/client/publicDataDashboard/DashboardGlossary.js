@@ -13,7 +13,7 @@ import ReactGA from "react-ga";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-const tagGlossary = require("./assets/tag-glossary.json");
+const tagGlossary = require("../../instance-files/tag-glossary.json");
 
 const transformTagDescription = (tagName, tagDescription) => {
   const [firstFragment, ...otherFragments] = tagDescription
