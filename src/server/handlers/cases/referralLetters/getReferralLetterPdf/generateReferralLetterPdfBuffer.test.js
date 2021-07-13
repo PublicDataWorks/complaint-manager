@@ -5,7 +5,6 @@ import timekeeper from "timekeeper";
 import Case from "../../../../../sharedTestHelpers/case";
 import {
   CASE_STATUS,
-  CIVILIAN_INITIATED,
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../../sharedUtilities/constants";
@@ -15,6 +14,7 @@ import generateReferralLetterPdfBuffer, {
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+import { SENDER_NAME } from "../../../../../instance-files/referralLetterDefaults";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
@@ -191,7 +191,7 @@ describe("generateReferralLetterPdfBuffer", function () {
       });
     });
 
-    test("signature is not included when sender is not stella even if includeSignature is true", async () => {
+    test("signature is not included when sender is not official sender even if includeSignature is true", async () => {
       await referralLetter.update(
         { editedLetterHtml: "Custom Letter HTML" },
         { auditUser: "someone" }
@@ -238,7 +238,7 @@ describe("generateReferralLetterPdfBuffer", function () {
     });
   });
 
-  describe("sender is stella", () => {
+  describe("sender is official sender", () => {
     beforeEach(async () => {
       const referralLetterAttributes = new ReferralLetter.Builder()
         .defaultReferralLetter()
@@ -246,7 +246,7 @@ describe("generateReferralLetterPdfBuffer", function () {
         .withCaseId(existingCase.id)
         .withRecipient("recipient title and name")
         .withRecipientAddress("recipient address")
-        .withSender("Stella Cziment")
+        .withSender(SENDER_NAME)
         .withTranscribedBy("transcriber")
         .withIncludeRetaliationConcerns(true);
 
@@ -258,7 +258,7 @@ describe("generateReferralLetterPdfBuffer", function () {
       );
     });
 
-    test("signature is included when sender is stella and includeSignature is true", async () => {
+    test("signature is included when sender is official sender and includeSignature is true", async () => {
       await models.sequelize.transaction(async transaction => {
         const pdfResultsAndAuditDetails = await generateReferralLetterPdfBuffer(
           existingCase.id,

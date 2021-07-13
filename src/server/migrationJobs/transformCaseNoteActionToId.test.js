@@ -6,6 +6,7 @@ import {
   revertTransformCaseNoteActionToId,
   transformCaseNoteActionToId
 } from "./transformCaseNoteActionToId";
+import { PD } from "../../instance-files/constants";
 
 describe("transform case note action to ID", () => {
   const caseNoteActionProperties = {
@@ -13,9 +14,9 @@ describe("transform case note action to ID", () => {
       id: 1,
       name: "Checked status"
     },
-    contactedNopd: {
+    contactedPd: {
       id: 2,
-      name: "Contacted NOPD"
+      name: `Contacted ${PD}`
     },
     memoToFile: {
       id: 3,
@@ -30,7 +31,7 @@ describe("transform case note action to ID", () => {
   let caseNoteActions,
     testCaseNotes,
     caseNoteWithActionStringCheckedStatus,
-    caseNoteWithActionStringContactedNopd,
+    caseNoteWithActionStringContactedPd,
     caseNoteWithActionIdMemoToFile,
     caseNoteWithActionIdMisc;
 
@@ -59,11 +60,11 @@ describe("transform case note action to ID", () => {
       { auditUser: "testUser" }
     );
 
-    caseNoteWithActionStringContactedNopd = await models.case_note.create(
+    caseNoteWithActionStringContactedPd = await models.case_note.create(
       new CaseNote.Builder()
         .defaultCaseNote()
         .withCaseId(existingCase.id)
-        .withNotes(caseNoteActionProperties.contactedNopd.name),
+        .withNotes(caseNoteActionProperties.contactedPd.name),
       { auditUser: "testUser" }
     );
 
@@ -87,7 +88,7 @@ describe("transform case note action to ID", () => {
 
     const updateCaseNotes =
       `UPDATE case_notes SET action = '${caseNoteActionProperties.checkedStatus.name}' WHERE id = ${caseNoteWithActionStringCheckedStatus.id};` +
-      ` UPDATE case_notes SET action = '${caseNoteActionProperties.contactedNopd.name}' WHERE id = ${caseNoteWithActionStringContactedNopd.id};`;
+      ` UPDATE case_notes SET action = '${caseNoteActionProperties.contactedPd.name}' WHERE id = ${caseNoteWithActionStringContactedPd.id};`;
 
     await models.sequelize.query(updateCaseNotes, {
       type: models.sequelize.QueryTypes.UPDATE
@@ -125,8 +126,8 @@ describe("transform case note action to ID", () => {
           case_note_action_id: caseNoteActionProperties.checkedStatus.id
         }),
         expect.objectContaining({
-          id: caseNoteWithActionStringContactedNopd.id,
-          case_note_action_id: caseNoteActionProperties.contactedNopd.id
+          id: caseNoteWithActionStringContactedPd.id,
+          case_note_action_id: caseNoteActionProperties.contactedPd.id
         }),
         expect.objectContaining({
           id: caseNoteWithActionIdMemoToFile.id,
@@ -163,8 +164,8 @@ describe("transform case note action to ID", () => {
           action: caseNoteActionProperties.checkedStatus.name
         }),
         expect.objectContaining({
-          id: caseNoteWithActionStringContactedNopd.id,
-          action: caseNoteActionProperties.contactedNopd.name
+          id: caseNoteWithActionStringContactedPd.id,
+          action: caseNoteActionProperties.contactedPd.name
         }),
         expect.objectContaining({
           id: caseNoteWithActionIdMemoToFile.id,

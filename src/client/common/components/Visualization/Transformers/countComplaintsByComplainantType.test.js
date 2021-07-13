@@ -5,6 +5,7 @@ import {
   LABEL_FONT,
   TITLE_FONT
 } from "../dataVizStyling";
+import { PD } from "../../../../../instance-files/constants"
 
 describe("countComplaintsByComplainantType data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
@@ -24,7 +25,7 @@ describe("countComplaintsByComplainantType data transformer", () => {
           labels: [
             "Civilian (CC)",
             "Police Officer (PO)",
-            "Civilian NOPD Employee (CN)",
+            `Civilian ${PD} Employee (CN)`,
             "Anonymous (AC)"
           ],
           values: [3, 2, 2, 1],

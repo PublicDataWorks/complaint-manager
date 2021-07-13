@@ -30,16 +30,16 @@ import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
-  const isCivilianWithinNopd =
+  const isCivilianWithinPd =
     caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
-  const caseEmployeeTitle = isCivilianWithinNopd
+  const caseEmployeeTitle = isCivilianWithinPd
     ? CIVILIAN_WITHIN_PD_TITLE
     : OFFICER_TITLE;
   const fullNameIsAnonymous = caseOfficer.isAnonymous
     ? `(AC) ${caseOfficer.fullName}`
     : caseOfficer.fullName;
 
-  const knownEmployeePanelDataTest = isCivilianWithinNopd
+  const knownEmployeePanelDataTest = isCivilianWithinPd
     ? "knownCivilian(PD)Panel"
     : "knownOfficerPanel";
 

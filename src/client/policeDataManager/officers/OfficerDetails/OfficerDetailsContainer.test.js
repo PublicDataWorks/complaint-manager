@@ -126,7 +126,7 @@ describe("OfficerDetailsContainer", () => {
     );
   });
 
-  test("should show employee when caseEmployee type is civilian within NOPD", () => {
+  test("should show employee when caseEmployee type is civilian within PD", () => {
     const officerDashboard = mount(
       <Provider store={store}>
         <Router>

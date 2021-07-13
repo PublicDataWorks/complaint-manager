@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
-import { OFFICER_HISTORY_MESSAGE } from "../referralLetterConstants";
+import { OFFICER_HISTORY_MESSAGE } from "../../../../../instance-files/referralLetterDefaults";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 const RichTextEditorComponent = props => (

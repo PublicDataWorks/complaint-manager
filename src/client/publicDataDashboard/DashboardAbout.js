@@ -10,6 +10,7 @@ import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop"
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
 import oipmBuilding from "./assets/oipm_building.jpeg";
+import { ORGANIZATION_TITLE, CITY, PD, ORGANIZATION }  from "../../instance-files/constants";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -89,22 +90,22 @@ const DashboardAbout = () => {
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
           <Typography variant="body1">
-            In 2019, the Office of the Independent Police Monitor received one
+            In 2019, the {ORGANIZATION_TITLE} received one
             hundred (100) complaints. <br />
             <br /> These complaints ranged from how the police interacted with
             them and their loved ones during calls for assistance to how the
             police treated one another internally. <br />
-            <br /> The Office of the Independent Police Monitor received named
+            <br /> The {ORGANIZATION_TITLE} received named
             and anonymous complaints from officers and civilians working within
-            the New Orleans Police Department. <br />
+            the {CITY} Police Department. <br />
             <br /> Some of the complaints were from officers who were speaking
             up regarding disparities in disciplinary concerns and some anonymous
-            complaints brought the OIPM’s attention to possible relationships
+            complaints brought the {ORGANIZATION}’s attention to possible relationships
             between supervisors and subordinates and misuse of Department
             equipment. <br />
             <br /> Each complaint was an opportunity for the Office of the
             Independent Police Monitor to make these individuals feel heard and
-            to work alongside the NOPD to ensure there was accountability.
+            to work alongside the {PD} to ensure there was accountability.
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -122,9 +123,9 @@ const DashboardAbout = () => {
             policing from both the community and those within the police
             district are valuable and can be the catalyst for important progress
             within the police department. Each complaint and commendation is an
-            opportunity for the New Orleans Police Department (NOPD) to learn
+            opportunity for the {CITY} Police Department ({PD}) to learn
             more about themselves and to adapt to the changing needs of the
-            community, and when properly handled brings the NOPD one step closer
+            community, and when properly handled brings the {PD} one step closer
             to being in full compliance with the Federal Consent Decree. <br />
             <br /> This dashboard contains data visualizations regarding our
             complaint process and the complaints the Office of the Independent
@@ -146,9 +147,9 @@ const DashboardAbout = () => {
         <Grid item xs={12} sm={7} style={{ paddingBottom: "64px" }}>
           <Typography variant="body1">
             At this time, these tables do not include any data visualizations
-            regarding the complaints submitted directly to the NOPD’s Public
+            regarding the complaints submitted directly to the {PD}’s Public
             Integrity Bureau. <br />
-            <br /> In the future, the OIPM seeks to expand our data
+            <br /> In the future, the {ORGANIZATION} seeks to expand our data
             visualizations to include: data regarding requests for commendations
             to recognize positive policing, data from complaints received by our
             remote intake sites, data regarding the outcome of the
@@ -157,7 +158,7 @@ const DashboardAbout = () => {
             the Public Integrity Bureau. <br />
             <br /> For more data visualizations regarding some of these topics
             and Use of Force and Critical Incidents, please see the annual
-            report section of the OIPM website (link out to annual report{" "}
+            report section of the {ORGANIZATION} website (link out to annual report{" "}
             <MUILink href="https://nolaipm.gov/annual-reports/">here</MUILink>).
           </Typography>
         </Grid>

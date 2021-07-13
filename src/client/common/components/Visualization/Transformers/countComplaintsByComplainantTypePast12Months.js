@@ -1,4 +1,5 @@
 import { COLORS } from "../dataVizStyling";
+import { PD } from "../../../../../instance-files/constants"
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
@@ -76,7 +77,7 @@ export const transformData = rawData => {
   let cnTrace = {
     x: insertDateValues(rawData["CN"]),
     y: insertCountValues(rawData["CN"]),
-    name: "Civilian NOPD Employee (CN)",
+    name: `Civilian ${PD} Employee (CN)`,
     marker: {
       color: COLORS[2]
     },

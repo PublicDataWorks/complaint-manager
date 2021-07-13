@@ -41,7 +41,7 @@ export default props => (
         onClick={() => props.input.onChange(RANK_INITIATED)}
       />
       <FormControlLabel
-        data-testid="civilianWithinNOPDRadioButton"
+        data-testid="civilianWithinPDRadioButton"
         value={CIVILIAN_WITHIN_PD_INITIATED}
         control={<Radio color="primary" />}
         label={CIVILIAN_WITHIN_PD_TITLE}

@@ -12,7 +12,7 @@ import {
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
+import { CIVILIAN_WITHIN_PD_INITIATED, PD } from "../../../../instance-files/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
@@ -167,14 +167,14 @@ describe("createCase", () => {
     );
   });
 
-  test("should redirect to add employee if complainant is an employee within NOPD", async () => {
+  test("should redirect to add employee if complainant is an employee within PD", async () => {
     const caseId = 12;
 
     const creationDetails = {
       caseDetails: {
         case: {
           firstName: "Civilian",
-          lastName: "Within NOPD",
+          lastName: `Within ${PD}`,
           complaintType: CIVILIAN_WITHIN_PD_INITIATED
         }
       },
@@ -184,7 +184,7 @@ describe("createCase", () => {
     const responseBody = {
       id: caseId,
       firstName: "Civilian",
-      lastName: "Within NOPD",
+      lastName: `Within ${PD}`,
       status: CASE_STATUS.INITIAL
     };
 

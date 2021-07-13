@@ -12,7 +12,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-import { EMPLOYEE_TYPE } from "../../../../../instance-files/constants";
+import { EMPLOYEE_TYPE, CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
@@ -68,7 +68,7 @@ describe("LetterReview", () => {
       expect(accusedCard.props().cardTitle).toEqual("Accused Officer");
     });
 
-    test("accused card with civilian within NOPD", () => {
+    test("accused card with civilian within PD", () => {
       const testCase = new Case.Builder()
         .defaultCase()
         .withId(caseId)
@@ -87,7 +87,7 @@ describe("LetterReview", () => {
       const accusedCard = wrapper.find(
         '[data-testid="case-detail-card-accused"]'
       );
-      expect(accusedCard.props().cardTitle).toEqual("Accused Civilian (NOPD)");
+      expect(accusedCard.props().cardTitle).toEqual(`Accused ${CIVILIAN_WITHIN_PD_TITLE}`);
     });
   });
 

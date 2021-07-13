@@ -33,9 +33,9 @@ class EditOfficerDetails extends React.Component {
     if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
     const caseOfficerId = this.props.match.params.caseOfficerId;
-    const isCivilianWithinNopd =
+    const isCivilianWithinPd =
       this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
-    const submitButtonText = isCivilianWithinNopd
+    const submitButtonText = isCivilianWithinPd
       ? `Save ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Save ${OFFICER_TITLE}`;
 

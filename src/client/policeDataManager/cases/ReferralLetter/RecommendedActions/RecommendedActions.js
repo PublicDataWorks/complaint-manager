@@ -24,7 +24,7 @@ import {
   RECOMMENDED_ACTIONS_TEXT,
   RETALIATION_CONCERNS_LABEL,
   RETALIATION_CONCERNS_TEXT
-} from "../referralLetterConstants";
+} from "../../../../../instance-files/referralLetterDefaults";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";

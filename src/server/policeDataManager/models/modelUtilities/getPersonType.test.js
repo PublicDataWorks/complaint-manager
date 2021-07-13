@@ -38,7 +38,7 @@ describe("getPersonType", () => {
     expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER);
   });
 
-  test("should return Civilian (NOPD) based on civilian within nopd primaryComplainant", () => {
+  test("should return Civilian (PD) based on civilian within pd primaryComplainant", () => {
     const primaryComplainant = {
       officerId: "123ABC",
       caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
