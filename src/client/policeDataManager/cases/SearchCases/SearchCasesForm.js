@@ -42,12 +42,9 @@ class SearchCasesForm extends Component {
             disableUnderline: true,
             style: {
               color: "#fff",
-              fontFamily: [
-                "IBM Plex Sans Medium",
-                "IBM Plex Sans",
-                "Arial",
-                "sans-serif"
-              ].join(","),
+              fontFamily: ["Roboto", "Helvetica", "Arial", "sans-serif"].join(
+                ","
+              ),
               fontWeight: "300",
               fontSize: "16px"
             }
