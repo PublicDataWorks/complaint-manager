@@ -49,10 +49,10 @@ describe("getTagsAndAuditDetails", () => {
   test("should get all tags ordered alphabetically", async () => {
     const tagsAndAuditDetails = await getTagsAndAuditDetails();
     const expectedTags = [
-      [firstTag.name, firstTag.id],
-      [secondTag.name, secondTag.id],
-      [thirdTag.name, thirdTag.id],
-      [fourthTag.name, fourthTag.id]
+      { name: firstTag.name, id: firstTag.id },
+      { name: secondTag.name, id: secondTag.id },
+      { name: thirdTag.name, id: thirdTag.id },
+      { name: fourthTag.name, id: fourthTag.id }
     ];
 
     expect(tagsAndAuditDetails).toEqual({

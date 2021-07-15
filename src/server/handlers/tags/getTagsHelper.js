@@ -14,9 +14,7 @@ const getTagsAndAuditDetails = async transaction => {
     models.tag.name
   );
 
-  const tags = tagObjects.map(tag => {
-    return [tag.name, tag.id];
-  });
+  const tags = tagObjects.map(tag => ({ name: tag.name, id: tag.id }));
 
   return { tags: tags, auditDetails: auditDetails };
 };

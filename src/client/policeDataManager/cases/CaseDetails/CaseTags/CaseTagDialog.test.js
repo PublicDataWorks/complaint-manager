@@ -68,7 +68,7 @@ describe("CaseTagDialog", () => {
   });
 
   test("tags should appear in dropdown menu", () => {
-    const testTag = ["testTagName", 1];
+    const testTag = { name: "testTagName", id: 1 };
 
     store.dispatch(getTagsSuccess([testTag]));
 
