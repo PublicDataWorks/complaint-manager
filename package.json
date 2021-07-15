@@ -152,6 +152,7 @@
     "nodemon": "~2.0.4",
     "prettier": "2.3.0",
     "promise-retry": "2.0.1",
+    "prop-types": "^15.7.2",
     "redux-devtools-extension": "~2.13.8",
     "source-map-explorer": "^2.4.2",
     "supertest": "^6.0.1",

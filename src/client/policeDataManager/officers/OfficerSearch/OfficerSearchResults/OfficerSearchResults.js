@@ -16,6 +16,10 @@ export class OfficerSearchResults extends Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(searchCleared());
+  }
+
   normalizeValues(values) {
     const normalizedValues = values.directive && {
       directive: values.directive.trim()
@@ -56,8 +60,7 @@ export class OfficerSearchResults extends Component {
         spinnerVisible={this.props.spinnerVisible}
         searchResultsIds={this.props.officerIds}
         tableHeaderComponent={<OfficerSearchTableHeader />}
-        dispatch={this.props.dispatch}
-        render={(officer, officerIds) => (
+        renderRow={(officer, officerIds) => (
           <OfficerSearchResultsRow key={officer.id} officer={officer}>
             {officerIds.includes(officer.id) ? (
               <PreviouslyAddedOfficer />

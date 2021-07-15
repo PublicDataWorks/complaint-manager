@@ -28,8 +28,9 @@ import SearchResults from "../../shared/components/SearchResults";
 import logger from "../../../logger";
 import axios from "axios";
 import {
-  searchSuccess,
-  searchFailed
+  searchCleared,
+  searchFailed,
+  searchSuccess
 } from "../../actionCreators/searchActionCreators";
 
 const styles = theme => ({
@@ -63,6 +64,10 @@ class CasesTable extends React.Component {
     super(props);
     this.currentPage = this.props.currentPage || 1;
     this.onChange = this.onChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(searchCleared());
   }
 
   updateSort(sortBy, sortDirection) {
@@ -185,7 +190,6 @@ class CasesTable extends React.Component {
             pagination={this.getPagination()}
             subtitleResultCount={false}
             searchResults={this.props.cases}
-            noResultsMessage={this.renderNoCasesMessage()}
             spinnerVisible={!this.props.loaded}
             tableHeaderComponent={
               <Fragment>
@@ -314,8 +318,7 @@ class CasesTable extends React.Component {
                 </TableHead>
               </Fragment>
             }
-            dispatch={this.props.dispatch}
-            render={caseDetails => (
+            renderRow={caseDetails => (
               <CaseRow
                 key={caseDetails.id}
                 caseDetails={caseDetails}
