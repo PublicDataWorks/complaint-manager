@@ -54,9 +54,9 @@ describe("getTags", () => {
     );
 
     const expectedOrderedTags = [
-      [firstTag.name, firstTag.id],
-      [secondTag.name, secondTag.id],
-      [thirdTag.name, thirdTag.id]
+      { name: firstTag.name, id: firstTag.id },
+      { name: secondTag.name, id: secondTag.id },
+      { name: thirdTag.name, id: thirdTag.id }
     ];
 
     await getTags(request, response, next);
