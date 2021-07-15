@@ -98,8 +98,8 @@ describe("createCaseTag", () => {
         })
       ]),
       tags: expect.toIncludeSameMembers([
-        [createdTag.name, createdTag.id],
-        [anotherTag.name, anotherTag.id]
+        { name: createdTag.name, id: createdTag.id },
+        { name: anotherTag.name, id: anotherTag.id }
       ])
     };
     expect(response._getData()).toEqual(expectedResponseBody);

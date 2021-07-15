@@ -7,7 +7,7 @@ import {
 } from "../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import getTagsAndAuditDetails from "../tags/getTagsHelper";
+import { getTagsAndAuditDetails } from "../tags/getTagsHelper";
 
 const asyncMiddleware = require("../asyncMiddleware");
 
