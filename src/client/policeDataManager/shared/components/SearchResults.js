@@ -6,16 +6,12 @@ import {
   TableBody,
   Typography
 } from "@material-ui/core";
-import { searchCleared } from "../../actionCreators/searchActionCreators";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../../sharedUtilities/constants";
+import PropTypes from "prop-types";
 import localeInfo from "rc-pagination/lib/locale/en_US";
 import Pagination from "rc-pagination";
 
 export class SearchResults extends Component {
-  componentWillUnmount() {
-    this.props.dispatch(searchCleared());
-  }
-
   pagination() {
     return (
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
@@ -108,13 +104,27 @@ export class SearchResults extends Component {
     const { searchResults, searchResultsIds } = this.props;
 
     return searchResults.map(searchResult =>
-      this.props.render(searchResult, searchResultsIds)
+      this.props.renderRow(searchResult, searchResultsIds)
     );
   }
 }
 //NOTE: This does work, if you take it out some of the other tests fail.
 SearchResults.defaultProps = {
   subtitleResultCount: true
+};
+
+SearchResults.propTypes = {
+  pagination: PropTypes.shape({
+    count: PropTypes.number,
+    currentPage: PropTypes.number,
+    onChange: PropTypes.func,
+    totalMessage: PropTypes.func
+  }),
+  renderRow: PropTypes.func,
+  searchResults: PropTypes.array,
+  spinnerVisible: PropTypes.bool,
+  subtitleResultCount: PropTypes.bool,
+  tableHeaderComponent: PropTypes.element.isRequired
 };
 
 export default SearchResults;

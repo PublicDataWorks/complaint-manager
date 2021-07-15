@@ -11,7 +11,7 @@ describe("SearchResults", () => {
         spinnerVisible={true}
         searchResults={[]}
         searchResultsIds={[]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     const spinner = wrapper.find("[data-testid='spinner']");
@@ -24,7 +24,7 @@ describe("SearchResults", () => {
         spinnerVisible={false}
         searchResults={[]}
         searchResultsIds={[]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     const spinner = wrapper.find("[data-testid='spinner']");
@@ -37,7 +37,7 @@ describe("SearchResults", () => {
         spinnerVisible={false}
         searchResults={[]}
         searchResultsIds={[]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     const searchResultsMessage = wrapper.find(
@@ -52,7 +52,7 @@ describe("SearchResults", () => {
         spinnerVisible={false}
         searchResults={[{ firstName: "bob", id: 1 }]}
         searchResultsIds={[4]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     expect(
@@ -66,7 +66,7 @@ describe("SearchResults", () => {
         spinnerVisible={true}
         searchResults={[]}
         searchResultsIds={[]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     const searchResultsMessage = wrapper.find(
@@ -84,7 +84,7 @@ describe("SearchResults", () => {
           { firstName: "joan", id: 2 }
         ]}
         searchResultsIds={[1, 2]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     expect(
@@ -101,7 +101,7 @@ describe("SearchResults", () => {
           { firstName: "joan", id: 2 }
         ]}
         searchResultsIds={[1, 2]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
         subtitleResultCount={false}
       />
     );
@@ -121,7 +121,7 @@ describe("SearchResults", () => {
           { firstName: "joan", id: 2 }
         ]}
         searchResultsIds={[1, 2]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     expect(wrapper.find(Pagination).exists()).toBeFalsy();
@@ -142,7 +142,7 @@ describe("SearchResults", () => {
           { firstName: "joan", id: 2 }
         ]}
         searchResultsIds={[1, 2]}
-        render={jest.fn()}
+        renderRow={jest.fn()}
       />
     );
     expect(wrapper.find(Pagination).exists()).toBeTruthy();
