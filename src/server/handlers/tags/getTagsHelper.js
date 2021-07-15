@@ -1,9 +1,10 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import models from "../../policeDataManager/models";
-import { ASCENDING } from "../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../sequelizeHelpers";
+import sequelize from "sequelize";
+import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
 
-const getTagsAndAuditDetails = async transaction => {
+export const getTagsAndAuditDetails = async transaction => {
   const queryOptions = {
     order: [[caseInsensitiveSort("name", models.tag), ASCENDING]],
     transaction
@@ -19,4 +20,39 @@ const getTagsAndAuditDetails = async transaction => {
   return { tags: tags, auditDetails: auditDetails };
 };
 
-export default getTagsAndAuditDetails;
+export const getTagsWithCountAndAuditDetails = async transaction => {
+  const queryOptions = {
+    attributes: [
+      "tag.name",
+      "tag.id",
+      [sequelize.fn("COUNT", sequelize.col("case_tag.case_id")), "count"]
+    ],
+    include: [
+      {
+        model: models.tag,
+        as: "tag",
+        attributes: []
+      },
+      {
+        model: models.cases,
+        attributes: []
+      }
+    ],
+    raw: true,
+    group: ["tag.name", "tag.id"],
+    order: [["count", DESCENDING]]
+  };
+  const tagObjects = await models.case_tag.findAll(queryOptions);
+  const auditDetails = getQueryAuditAccessDetails(
+    queryOptions,
+    models.tag.name
+  );
+
+  const tags = tagObjects.map(tag => ({
+    name: tag.name,
+    id: tag.id,
+    count: tag.count
+  }));
+
+  return { tags: tags, auditDetails: auditDetails };
+};
