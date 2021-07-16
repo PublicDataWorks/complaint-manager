@@ -210,10 +210,10 @@ describe("cases table", () => {
     });
 
     test("should update sort by when date clicked", () => {
-      const caseReferenceLabel = tableWrapper
+      const firstContactDateLabel = tableWrapper
         .find('[data-testid="firstContactDateSortLabel"]')
         .last();
-      caseReferenceLabel.simulate("click");
+      firstContactDateLabel.simulate("click");
 
       expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.FIRST_CONTACT_DATE,
@@ -225,7 +225,7 @@ describe("cases table", () => {
         updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, ASCENDING)
       );
 
-      caseReferenceLabel.simulate("click");
+      firstContactDateLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, DESCENDING)
@@ -233,10 +233,10 @@ describe("cases table", () => {
     });
 
     test("should update sort by when tags clicked", () => {
-      const caseReferenceLabel = tableWrapper
+      const tagsLabel = tableWrapper
         .find('[data-testid="tagsSortLabel"]')
         .last();
-      caseReferenceLabel.simulate("click");
+      tagsLabel.simulate("click");
 
       expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.TAGS,
@@ -248,7 +248,7 @@ describe("cases table", () => {
         updateSort(SORT_CASES_BY.TAGS, ASCENDING)
       );
 
-      caseReferenceLabel.simulate("click");
+      tagsLabel.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         updateSort(SORT_CASES_BY.TAGS, DESCENDING)
@@ -266,19 +266,19 @@ describe("cases table", () => {
       assignedTo;
 
     beforeEach(() => {
-      caseReference = tableWrapper.find('th[data-testid="casesNumberHeader"]');
+      caseReference = tableWrapper.find(
+        'th[data-testid="caseReferenceHeader"]'
+      );
       complaintType = tableWrapper.find(
         'th[data-testid="casesComplaintTypeHeader"]'
       );
-      status = tableWrapper.find('th[data-testid="casesStatusHeader"]');
-      complainant = tableWrapper.find(
-        'th[data-testid="casesComplainantHeader"]'
-      );
+      status = tableWrapper.find('th[data-testid="statusHeader"]');
+      complainant = tableWrapper.find('th[data-testid="complainantHeader"]');
       firstContactDate = tableWrapper.find(
-        'th[data-testid="casesFirstContactDateHeader"]'
+        'th[data-testid="firstContactDateHeader"]'
       );
       assignedTo = tableWrapper.find('th[data-testid="casesAssignedToHeader"]');
-      tags = tableWrapper.find('th[data-testid="casesTagsHeader"]');
+      tags = tableWrapper.find('th[data-testid="tagsHeader"]');
     });
 
     test("should display tags", () => {

@@ -30,6 +30,7 @@ import {
   searchCleared,
   searchFailed
 } from "../../actionCreators/searchActionCreators";
+import CasesTableHeaderCell from "./CasesTableHeaderCell";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -214,116 +215,82 @@ class CasesTable extends React.Component {
   renderTableHeader() {
     const { classes, sortBy, sortDirection } = this.props;
     return (
-      <Fragment>
-        <TableHead>
-          <TableRow className={classes.row}>
-            <TableCell
-              data-testid="casesNumberHeader"
-              style={{ width: "10%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="caseReferenceSortLabel"
-                onClick={() => this.updateSorting(SORT_CASES_BY.CASE_REFERENCE)}
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.CASE_REFERENCE}
-              >
-                <Typography variant="subtitle2">Case #</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesComplainantHeader"
-              style={{ width: "16%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="complainantSortLabel"
-                onClick={() =>
-                  this.updateSorting(SORT_CASES_BY.PRIMARY_COMPLAINANT)
-                }
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.PRIMARY_COMPLAINANT}
-              >
-                <Typography variant="subtitle2">Complainant</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesAccusedOfficerHeader"
-              style={{ width: "18%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="primaryAccusedOfficerSortLabel"
-                onClick={() =>
-                  this.updateSorting(SORT_CASES_BY.ACCUSED_OFFICERS)
-                }
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.ACCUSED_OFFICERS}
-              >
-                <Typography variant="subtitle2">Accused</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesFirstContactDateHeader"
-              style={{ width: "15%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="firstContactDateSortLabel"
-                onClick={() =>
-                  this.updateSorting(SORT_CASES_BY.FIRST_CONTACT_DATE)
-                }
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.FIRST_CONTACT_DATE}
-              >
-                <Typography variant="subtitle2">First Contact</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesTagsHeader"
-              style={{ width: "15%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="tagsSortLabel"
-                onClick={() => this.updateSorting(SORT_CASES_BY.TAGS)}
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.TAGS}
-              >
-                <Typography variant="subtitle2">Tags</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesStatusHeader"
-              style={{ width: "13%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="statusSortLabel"
-                onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.STATUS}
-              >
-                <Typography variant="subtitle2">Status</Typography>
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              data-testid="casesAssignedToHeader"
-              style={{ width: "13%" }}
-              className={classes.cell}
-            >
-              <TableSortLabel
-                data-testid="casesAssignedToSortLabel"
-                onClick={() => this.updateSorting(SORT_CASES_BY.ASSIGNED_TO)}
-                direction={sortDirection}
-                active={sortBy === SORT_CASES_BY.ASSIGNED_TO}
-              >
-                <Typography variant="subtitle2">Assigned To</Typography>
-              </TableSortLabel>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-      </Fragment>
+      <TableHead>
+        <TableRow className={classes.row}>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.CASE_REFERENCE}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.CASE_REFERENCE)}
+            sortDirection={sortDirection}
+            testId="caseReference"
+            width="10%"
+          >
+            Case #
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.PRIMARY_COMPLAINANT}
+            className={classes.cell}
+            onClick={() =>
+              this.updateSorting(SORT_CASES_BY.PRIMARY_COMPLAINANT)
+            }
+            sortDirection={sortDirection}
+            testId="complainant"
+            width="16%"
+          >
+            Complainant
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.ACCUSED_OFFICERS}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.ACCUSED_OFFICERS)}
+            sortDirection={sortDirection}
+            testId="accusedOfficers"
+            width="18%"
+          >
+            Accused
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.FIRST_CONTACT_DATE}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.FIRST_CONTACT_DATE)}
+            sortDirection={sortDirection}
+            testId="firstContactDate"
+            width="15%"
+          >
+            First Contact
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.TAGS}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.TAGS)}
+            sortDirection={sortDirection}
+            testId="tags"
+            width="15%"
+          >
+            Tags
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.STATUS}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.STATUS)}
+            sortDirection={sortDirection}
+            testId="status"
+            width="13%"
+          >
+            Status
+          </CasesTableHeaderCell>
+          <CasesTableHeaderCell
+            active={sortBy === SORT_CASES_BY.ASSIGNED_TO}
+            className={classes.cell}
+            onClick={() => this.updateSorting(SORT_CASES_BY.ASSIGNED_TO)}
+            sortDirection={sortDirection}
+            testId="casesAssignedTo"
+            width="13%"
+          >
+            Assigned To
+          </CasesTableHeaderCell>
+        </TableRow>
+      </TableHead>
     );
   }
 }
