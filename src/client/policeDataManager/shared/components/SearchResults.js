@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  CircularProgress,
-  Paper,
-  Table,
-  TableBody,
-  Typography
-} from "@material-ui/core";
+import { CircularProgress, Paper, Typography } from "@material-ui/core";
 import { DEFAULT_PAGINATION_LIMIT } from "../../../../sharedUtilities/constants";
 import PropTypes from "prop-types";
 import localeInfo from "rc-pagination/lib/locale/en_US";
@@ -96,16 +90,12 @@ export class SearchResults extends Component {
     if (this.props.searchResultsLength === 0) {
       return null;
     }
-    return (
-      <Table style={{ marginBottom: "32px" }}>
-        {this.props.tableHeaderComponent}
-        <TableBody>{this.props.children}</TableBody>
-      </Table>
-    );
+    return this.props.children;
   };
 }
 //NOTE: This does work, if you take it out some of the other tests fail.
 SearchResults.defaultProps = {
+  searchResultsLength: 0,
   subtitleResultCount: true
 };
 
@@ -119,8 +109,7 @@ SearchResults.propTypes = {
   }),
   searchResultsLength: PropTypes.number,
   spinnerVisible: PropTypes.bool,
-  subtitleResultCount: PropTypes.bool,
-  tableHeaderComponent: PropTypes.element.isRequired
+  subtitleResultCount: PropTypes.bool
 };
 
 export default SearchResults;

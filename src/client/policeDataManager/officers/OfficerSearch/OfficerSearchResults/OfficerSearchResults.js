@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Table, TableBody } from "@material-ui/core";
 import OfficerSearchResultsRow from "./OfficerSearchResultsRow";
 import OfficerSearchTableHeader from "../OfficerSearchTableHeader";
 import {
@@ -61,24 +62,28 @@ export class OfficerSearchResults extends Component {
           this.props.searchResults ? this.props.searchResults.length : 0
         }
         spinnerVisible={this.props.spinnerVisible}
-        tableHeaderComponent={<OfficerSearchTableHeader />}
       >
-        {this.props.searchResults
-          ? this.props.searchResults.map(officer => (
-              <OfficerSearchResultsRow key={officer.id} officer={officer}>
-                {this.props.officerIds.includes(officer.id) ? (
-                  <PreviouslyAddedOfficer />
-                ) : (
-                  <SelectNewOfficer
-                    initialize={this.props.initialize}
-                    dispatch={this.props.dispatch}
-                    officer={officer}
-                    path={this.props.path}
-                  />
-                )}
-              </OfficerSearchResultsRow>
-            ))
-          : ""}
+        <Table style={{ marginBottom: "32px" }}>
+          <OfficerSearchTableHeader />
+          <TableBody>
+            {this.props.searchResults
+              ? this.props.searchResults.map(officer => (
+                  <OfficerSearchResultsRow key={officer.id} officer={officer}>
+                    {this.props.officerIds.includes(officer.id) ? (
+                      <PreviouslyAddedOfficer />
+                    ) : (
+                      <SelectNewOfficer
+                        initialize={this.props.initialize}
+                        dispatch={this.props.dispatch}
+                        officer={officer}
+                        path={this.props.path}
+                      />
+                    )}
+                  </OfficerSearchResultsRow>
+                ))
+              : ""}
+          </TableBody>
+        </Table>
       </SearchResults>
     );
   }
