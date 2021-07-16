@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { Table, TableBody } from "@material-ui/core";
 import "rc-pagination/assets/index.css";
 import "../../common/globalStyling/pagination.css";
 import AllegationSearchTableHeader from "./AllegationSearchTableHeader";
@@ -7,11 +8,16 @@ import AllegationSearchResultsRow from "./AllegationSearchResultsRow";
 import SearchResults from "../shared/components/SearchResults";
 import getSearchResults from "../shared/thunks/getSearchResults";
 import { ALLEGATION_SEARCH_FORM_NAME } from "../../../sharedUtilities/constants";
+import { searchCleared } from "../actionCreators/searchActionCreators";
 
 export class AllegationSearchResults extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch(searchCleared());
   }
 
   normalizeValues(values) {
@@ -51,19 +57,27 @@ export class AllegationSearchResults extends Component {
             count: this.props.count,
             currentPage: this.props.newPage
           }}
-          searchResults={this.props.searchResults}
+          searchResultsLength={
+            this.props.searchResults ? this.props.searchResults.length : 0
+          }
           spinnerVisible={this.props.spinnerVisible}
-          tableHeaderComponent={<AllegationSearchTableHeader />}
-          dispatch={this.props.dispatch}
-          render={allegation => (
-            <AllegationSearchResultsRow
-              key={allegation.id}
-              allegation={allegation}
-              caseId={this.props.caseId}
-              caseOfficerId={this.props.caseOfficerId}
-            />
-          )}
-        />
+        >
+          <Table style={{ marginBottom: "32px" }}>
+            <AllegationSearchTableHeader />
+            <TableBody>
+              {this.props.searchResults
+                ? this.props.searchResults.map(allegation => (
+                    <AllegationSearchResultsRow
+                      key={allegation.id}
+                      allegation={allegation}
+                      caseId={this.props.caseId}
+                      caseOfficerId={this.props.caseOfficerId}
+                    />
+                  ))
+                : ""}
+            </TableBody>
+          </Table>
+        </SearchResults>
       </Fragment>
     );
   }
