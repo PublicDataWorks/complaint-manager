@@ -9,6 +9,7 @@ import {
 import SearchResults from "../../../shared/components/SearchResults";
 import getSearchResults from "../../../shared/thunks/getSearchResults";
 import { OFFICER_SEARCH_FORM_NAME } from "../../../../../sharedUtilities/constants";
+import { searchCleared } from "../../../actionCreators/searchActionCreators";
 
 export class OfficerSearchResults extends Component {
   constructor(props) {
@@ -56,25 +57,29 @@ export class OfficerSearchResults extends Component {
           count: this.props.count,
           currentPage: this.props.newPage
         }}
-        searchResults={this.props.searchResults}
+        searchResultsLength={
+          this.props.searchResults ? this.props.searchResults.length : 0
+        }
         spinnerVisible={this.props.spinnerVisible}
-        searchResultsIds={this.props.officerIds}
         tableHeaderComponent={<OfficerSearchTableHeader />}
-        renderRow={(officer, officerIds) => (
-          <OfficerSearchResultsRow key={officer.id} officer={officer}>
-            {officerIds.includes(officer.id) ? (
-              <PreviouslyAddedOfficer />
-            ) : (
-              <SelectNewOfficer
-                initialize={this.props.initialize}
-                dispatch={this.props.dispatch}
-                officer={officer}
-                path={this.props.path}
-              />
-            )}
-          </OfficerSearchResultsRow>
-        )}
-      />
+      >
+        {this.props.searchResults
+          ? this.props.searchResults.map(officer => (
+              <OfficerSearchResultsRow key={officer.id} officer={officer}>
+                {this.props.officerIds.includes(officer.id) ? (
+                  <PreviouslyAddedOfficer />
+                ) : (
+                  <SelectNewOfficer
+                    initialize={this.props.initialize}
+                    dispatch={this.props.dispatch}
+                    officer={officer}
+                    path={this.props.path}
+                  />
+                )}
+              </OfficerSearchResultsRow>
+            ))
+          : ""}
+      </SearchResults>
     );
   }
 }

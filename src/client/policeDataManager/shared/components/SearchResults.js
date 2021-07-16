@@ -60,18 +60,22 @@ export class SearchResults extends Component {
   };
 
   renderSearchResultsMessage = paginating => {
-    if (this.props.spinnerVisible) {
+    const {
+      pagination,
+      searchResultsLength,
+      spinnerVisible,
+      subtitleResultCount
+    } = this.props;
+    if (spinnerVisible) {
       return null;
     }
     let message = "";
-    const searchResultsLength =
-      this.props.searchResults && this.props.searchResults.length;
-    if (this.props.subtitleResultCount) {
+    if (subtitleResultCount) {
       if (searchResultsLength === 1) {
         message = `1 result found`;
       } else {
         const amountOfResults = paginating
-          ? this.props.pagination.count
+          ? pagination.count
           : searchResultsLength;
         message = `${amountOfResults} results found`;
       }
@@ -89,24 +93,16 @@ export class SearchResults extends Component {
   };
 
   renderSearchResults = () => {
-    if (!this.props.searchResults || this.props.searchResults.length === 0) {
+    if (this.props.searchResultsLength === 0) {
       return null;
     }
     return (
       <Table style={{ marginBottom: "32px" }}>
         {this.props.tableHeaderComponent}
-        <TableBody>{this.generateResultsRows()}</TableBody>
+        <TableBody>{this.props.children}</TableBody>
       </Table>
     );
   };
-
-  generateResultsRows() {
-    const { searchResults, searchResultsIds } = this.props;
-
-    return searchResults.map(searchResult =>
-      this.props.renderRow(searchResult, searchResultsIds)
-    );
-  }
 }
 //NOTE: This does work, if you take it out some of the other tests fail.
 SearchResults.defaultProps = {
@@ -114,14 +110,14 @@ SearchResults.defaultProps = {
 };
 
 SearchResults.propTypes = {
+  children: PropTypes.element,
   pagination: PropTypes.shape({
     count: PropTypes.number,
     currentPage: PropTypes.number,
     onChange: PropTypes.func,
     totalMessage: PropTypes.func
   }),
-  renderRow: PropTypes.func,
-  searchResults: PropTypes.array,
+  searchResultsLength: PropTypes.number,
   spinnerVisible: PropTypes.bool,
   subtitleResultCount: PropTypes.bool,
   tableHeaderComponent: PropTypes.element.isRequired

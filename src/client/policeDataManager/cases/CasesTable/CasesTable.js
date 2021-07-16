@@ -25,12 +25,9 @@ import {
   SEARCH
 } from "../../../../sharedUtilities/constants";
 import SearchResults from "../../shared/components/SearchResults";
-import logger from "../../../logger";
-import axios from "axios";
 import {
   searchCleared,
-  searchFailed,
-  searchSuccess
+  searchFailed
 } from "../../actionCreators/searchActionCreators";
 
 const styles = theme => ({
@@ -174,7 +171,7 @@ class CasesTable extends React.Component {
   }
 
   render() {
-    const { classes, errorMsg, cases, loaded } = this.props;
+    const { cases, classes, errorMsg, loaded, noCasesMessage } = this.props;
     return (
       <div style={{ marginTop: "24px" }} className={classes.tableMargin}>
         {errorMsg || (loaded && !cases.length) ? (
@@ -183,14 +180,14 @@ class CasesTable extends React.Component {
             data-testid={"searchResultsMessage"}
             style={{ marginBottom: "16px" }}
           >
-            {errorMsg || this.renderNoCasesMessage()}
+            {errorMsg || noCasesMessage}
           </Typography>
         ) : (
           <SearchResults
             pagination={this.getPagination()}
             subtitleResultCount={false}
-            searchResults={this.props.cases}
             spinnerVisible={!this.props.loaded}
+            searchResultsLength={this.props.cases ? this.props.cases.length : 0}
             tableHeaderComponent={
               <Fragment>
                 <TableHead>
@@ -318,15 +315,18 @@ class CasesTable extends React.Component {
                 </TableHead>
               </Fragment>
             }
-            renderRow={caseDetails => (
-              <CaseRow
-                key={caseDetails.id}
-                caseDetails={caseDetails}
-                currentUser={this.props.currentUser}
-                dispatch={this.props.dispatch}
-              />
-            )}
-          />
+          >
+            {this.props.cases
+              ? this.props.cases.map(caseDetails => (
+                  <CaseRow
+                    key={caseDetails.id}
+                    caseDetails={caseDetails}
+                    currentUser={this.props.currentUser}
+                    dispatch={this.props.dispatch}
+                  />
+                ))
+              : ""}
+          </SearchResults>
         )}
       </div>
     );
