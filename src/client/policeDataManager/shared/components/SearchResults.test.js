@@ -7,12 +7,7 @@ import { mount } from "enzyme";
 describe("SearchResults", () => {
   test("should display spinner when spinnerVisible is true", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={true}
-        searchResults={[]}
-        searchResultsIds={[]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={true} searchResultsLength={0} />
     );
     const spinner = wrapper.find("[data-testid='spinner']");
     expect(spinner.exists()).toEqual(true);
@@ -20,12 +15,7 @@ describe("SearchResults", () => {
 
   test("should not display spinner when spinnerVisible is false", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[]}
-        searchResultsIds={[]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={false} searchResultsLength={0} />
     );
     const spinner = wrapper.find("[data-testid='spinner']");
     expect(spinner.exists()).toEqual(false);
@@ -33,12 +23,7 @@ describe("SearchResults", () => {
 
   test("should not display search results message when searchResults are empty and spinner is not visible", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[]}
-        searchResultsIds={[]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={false} searchResultsLength={0} />
     );
     const searchResultsMessage = wrapper.find(
       "[data-testid='searchResultsMessage']"
@@ -48,12 +33,7 @@ describe("SearchResults", () => {
 
   test("should display number of search results when single result is present and spinner is not visible", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[{ firstName: "bob", id: 1 }]}
-        searchResultsIds={[4]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={false} searchResultsLength={1} />
     );
     expect(
       wrapper.find("[data-testid='searchResultsMessage']").children().text()
@@ -62,12 +42,7 @@ describe("SearchResults", () => {
 
   test("should not display search results message when searchResults are empty and spinner is visible", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={true}
-        searchResults={[]}
-        searchResultsIds={[]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={true} searchResultsLength={0} />
     );
     const searchResultsMessage = wrapper.find(
       "[data-testid='searchResultsMessage']"
@@ -77,15 +52,7 @@ describe("SearchResults", () => {
 
   test("should display number of search results when searchResults are present and spinner is not visible", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joan", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={false} searchResultsLength={2} />
     );
     expect(
       wrapper.find("[data-testid='searchResultsMessage']").children().text()
@@ -96,12 +63,7 @@ describe("SearchResults", () => {
     const wrapper = mount(
       <SearchResults
         spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joan", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        renderRow={jest.fn()}
+        searchResultsLength={2}
         subtitleResultCount={false}
       />
     );
@@ -114,15 +76,7 @@ describe("SearchResults", () => {
 
   test("should not find pagination component when not paginating", () => {
     const wrapper = shallow(
-      <SearchResults
-        spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joan", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        renderRow={jest.fn()}
-      />
+      <SearchResults spinnerVisible={false} searchResultsLength={2} />
     );
     expect(wrapper.find(Pagination).exists()).toBeFalsy();
   });
@@ -137,12 +91,7 @@ describe("SearchResults", () => {
           currentPage: 1
         }}
         spinnerVisible={false}
-        searchResults={[
-          { firstName: "bob", id: 1 },
-          { firstName: "joan", id: 2 }
-        ]}
-        searchResultsIds={[1, 2]}
-        renderRow={jest.fn()}
+        searchResultsLength={2}
       />
     );
     expect(wrapper.find(Pagination).exists()).toBeTruthy();
