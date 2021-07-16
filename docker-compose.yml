@@ -41,10 +41,9 @@ services:
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
+      - ./localstack-seed-files:/app/localstack-seed-files
 #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
-#     - ./localstack-seed-files:/../instance_files_pm/instance-files/localstack-seed-files
-      - ./localstack-seed-files:/../instance_files_noipm/instance-files/localstack-seed-files
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
     container_name: elasticsearch
