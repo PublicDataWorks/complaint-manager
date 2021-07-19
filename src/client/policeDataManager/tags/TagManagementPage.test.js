@@ -1,12 +1,17 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import ConnectedTagManagementPage, {
   TagManagementPage
 } from "./TagManagementPage";
 import createConfiguredStore from "../../createConfiguredStore";
-import { GET_TAGS_SUCCEEDED } from "../../../sharedUtilities/constants";
+import {
+  ASCENDING,
+  DESCENDING,
+  GET_TAGS_SUCCEEDED
+} from "../../../sharedUtilities/constants";
 
 describe("TagManagementPage", () => {
   let store = createConfiguredStore();
@@ -24,10 +29,6 @@ describe("TagManagementPage", () => {
           </Router>
         </Provider>
       );
-    });
-
-    afterEach(() => {
-      getTagsWithCount.mockClear();
     });
 
     test("should have title Tag Management", () => {
@@ -76,6 +77,18 @@ describe("TagManagementPage", () => {
     test("should not call getTagsWithCount", () => {
       expect(getTagsWithCount).toBeCalledTimes(0);
     });
+
+    test("should call getTagsWithCount and update sort order when a header is clicked", async () => {
+      userEvent.click(screen.getByTestId("sortTagsByCountHeader"));
+      expect(getTagsWithCount.mock.calls[0]).toEqual(["count", ASCENDING]);
+      userEvent.click(screen.getByTestId("sortTagsByCountHeader"));
+      expect(getTagsWithCount.mock.calls[1]).toEqual(["count", DESCENDING]);
+    });
+
+    test("should call getTagsWithCount and update sort order when a header is clicked even if it's a different header", async () => {
+      userEvent.click(screen.getByTestId("sortTagsByNameHeader"));
+      expect(getTagsWithCount.mock.calls[0]).toEqual(["name", ASCENDING]);
+    });
   });
 
   describe("when using connected component", () => {
@@ -106,5 +119,9 @@ describe("TagManagementPage", () => {
     test("should show the appropriate number of rows", async () => {
       expect(await screen.findAllByRole("row")).toHaveLength(4); // 1 header row, three body rows
     });
+  });
+
+  afterEach(() => {
+    getTagsWithCount.mockClear();
   });
 });

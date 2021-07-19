@@ -20,7 +20,10 @@ export const getTagsAndAuditDetails = async transaction => {
   return { tags: tags, auditDetails: auditDetails };
 };
 
-export const getTagsWithCountAndAuditDetails = async transaction => {
+export const getTagsWithCountAndAuditDetails = async (
+  sortBy,
+  sortDirection
+) => {
   const queryOptions = {
     attributes: [
       "tag.name",
@@ -40,10 +43,7 @@ export const getTagsWithCountAndAuditDetails = async transaction => {
     ],
     raw: true,
     group: ["tag.name", "tag.id"],
-    order: [
-      ["count", DESCENDING],
-      sequelize.fn("upper", sequelize.col("tag.name"))
-    ]
+    order: determineOrderForQueryWithCount(sortBy, sortDirection)
   };
   const tagObjects = await models.case_tag.findAll(queryOptions);
   const auditDetails = getQueryAuditAccessDetails(
@@ -58,4 +58,27 @@ export const getTagsWithCountAndAuditDetails = async transaction => {
   }));
 
   return { tags: tags, auditDetails: auditDetails };
+};
+
+const determineOrderForQueryWithCount = (sortBy, sortDirection) => {
+  let sort = [
+    ["count", DESCENDING],
+    [sequelize.fn("upper", sequelize.col("tag.name")), ASCENDING]
+  ];
+
+  if (sortBy === "count") {
+    if (sortDirection === ASCENDING) {
+      // if it's default or descending, leave the param as is
+      sort[0][1] = ASCENDING;
+    }
+  } else if (sortBy === "name") {
+    let nameParam = sort[1];
+    sort[1] = sort[0];
+    if (sortDirection === DESCENDING) {
+      nameParam[1] = DESCENDING;
+    }
+    sort[0] = nameParam;
+  }
+
+  return sort;
 };
