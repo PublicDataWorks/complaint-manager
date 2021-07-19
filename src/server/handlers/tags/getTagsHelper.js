@@ -40,7 +40,10 @@ export const getTagsWithCountAndAuditDetails = async transaction => {
     ],
     raw: true,
     group: ["tag.name", "tag.id"],
-    order: [["count", DESCENDING]]
+    order: [
+      ["count", DESCENDING],
+      sequelize.fn("upper", sequelize.col("tag.name"))
+    ]
   };
   const tagObjects = await models.case_tag.findAll(queryOptions);
   const auditDetails = getQueryAuditAccessDetails(
