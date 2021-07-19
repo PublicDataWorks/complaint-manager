@@ -140,6 +140,16 @@ describe("getTagsHelper", () => {
         }
       );
 
+      let caseTag7 = await models.case_tag.create(
+        new CaseTag.Builder()
+          .defaultCaseTag()
+          .withCaseId(2)
+          .withTagId(secondTag.id),
+        {
+          auditUser: "Person"
+        }
+      );
+
       let caseTag4 = await models.case_tag.create(
         new CaseTag.Builder()
           .defaultCaseTag()
@@ -176,7 +186,7 @@ describe("getTagsHelper", () => {
       const expectedTags = [
         { name: fourthTag.name, id: fourthTag.id, count: "3" },
         { name: firstTag.name, id: firstTag.id, count: "2" },
-        { name: secondTag.name, id: secondTag.id, count: "1" }
+        { name: secondTag.name, id: secondTag.id, count: "2" }
       ];
 
       expect(tagsAndAuditDetails).toEqual({
