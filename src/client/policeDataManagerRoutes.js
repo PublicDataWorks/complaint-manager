@@ -18,6 +18,7 @@ import LetterPreview from "./policeDataManager/cases/ReferralLetter/LetterPrevie
 import ReviewAndApproveLetter from "./policeDataManager/cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
 import DataDashboard from "./policeDataManager/data/DataDashboard";
 import SearchCasesPage from "./policeDataManager/cases/SearchCases/SearchCasesPage";
+import TagManagementPage from "./policeDataManager/tags/TagManagementPage";
 
 const policeDataManagerRoutes = [
   {
@@ -95,6 +96,10 @@ const policeDataManagerRoutes = [
   {
     path: "/cases/:id",
     component: RedirectToCaseDashboard
+  },
+  {
+    path: "/manage-tags",
+    component: TagManagementPage
   }
 ];
 
