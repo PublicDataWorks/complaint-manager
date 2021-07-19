@@ -181,7 +181,7 @@ describe("getTagsHelper", () => {
       );
     });
 
-    test("should get all tags with count ordered by count", async () => {
+    test("should get all tags ordered by count when no sort parameters passed", async () => {
       const tagsAndAuditDetails = await getTagsWithCountAndAuditDetails();
       const expectedTags = [
         { name: fourthTag.name, id: fourthTag.id, count: "3" },
@@ -204,6 +204,54 @@ describe("getTagsHelper", () => {
         }),
         models.tag.name
       );
+    });
+
+    test("should get all tags ordered based on sort parameters: name desc", async () => {
+      const tagsAndAuditDetails = await getTagsWithCountAndAuditDetails(
+        "name",
+        "desc"
+      );
+      const expectedTags = [
+        { name: fourthTag.name, id: fourthTag.id, count: "3" },
+        { name: secondTag.name, id: secondTag.id, count: "2" },
+        { name: firstTag.name, id: firstTag.id, count: "2" }
+      ];
+
+      expect(tagsAndAuditDetails).toEqual({
+        tags: expectedTags,
+        auditDetails: expect.anything()
+      });
+    });
+
+    test("should get all tags ordered based on sort parameters: count asc", async () => {
+      const tagsAndAuditDetails = await getTagsWithCountAndAuditDetails(
+        "count",
+        "asc"
+      );
+      const expectedTags = [
+        { name: firstTag.name, id: firstTag.id, count: "2" },
+        { name: secondTag.name, id: secondTag.id, count: "2" },
+        { name: fourthTag.name, id: fourthTag.id, count: "3" }
+      ];
+
+      expect(tagsAndAuditDetails).toEqual({
+        tags: expectedTags,
+        auditDetails: expect.anything()
+      });
+    });
+
+    test("should get all tags ordered based on sort parameters: name default", async () => {
+      const tagsAndAuditDetails = await getTagsWithCountAndAuditDetails("name");
+      const expectedTags = [
+        { name: firstTag.name, id: firstTag.id, count: "2" },
+        { name: secondTag.name, id: secondTag.id, count: "2" },
+        { name: fourthTag.name, id: fourthTag.id, count: "3" }
+      ];
+
+      expect(tagsAndAuditDetails).toEqual({
+        tags: expectedTags,
+        auditDetails: expect.anything()
+      });
     });
   });
 });

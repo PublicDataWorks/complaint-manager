@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
 import {
@@ -16,6 +16,7 @@ import NavBar from "../shared/components/NavBar/NavBar";
 import SearchResults from "../shared/components/SearchResults";
 import TagTableRow from "./TagTableRow";
 import getTagsWithCount from "./thunks/getTagsWithCount";
+import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -23,11 +24,22 @@ const styles = theme => ({
 });
 
 export const TagManagementPage = props => {
+  const [sort, setSort] = useState({ by: "count", direction: DESCENDING });
+
   useEffect(() => {
     if (!props.tags || !props.tags.length || !props.tags[0].count) {
       props.getTagsWithCount();
     }
   }, []);
+
+  const changeSort = sortBy => {
+    let sortDirection =
+      sort.by === sortBy && sort.direction === ASCENDING
+        ? DESCENDING
+        : ASCENDING;
+    props.getTagsWithCount(sortBy, sortDirection);
+    setSort({ by: sortBy, direction: sortDirection });
+  };
 
   return (
     <main>
@@ -43,12 +55,22 @@ export const TagManagementPage = props => {
               <TableHead>
                 <TableRow className={props.classes.row}>
                   <TableCell className={props.classes.cell}>
-                    <TableSortLabel>
+                    <TableSortLabel
+                      direction={sort.direction}
+                      active={sort.by === "name"}
+                      data-testid="sortTagsByNameHeader"
+                      onClick={() => changeSort("name")}
+                    >
                       <Typography variant="subtitle2">TAG NAME</Typography>
                     </TableSortLabel>
                   </TableCell>
                   <TableCell className={props.classes.cell}>
-                    <TableSortLabel>
+                    <TableSortLabel
+                      direction={sort.direction}
+                      active={sort.by === "count"}
+                      data-testid="sortTagsByCountHeader"
+                      onClick={() => changeSort("count")}
+                    >
                       <Typography variant="subtitle2">
                         ASSOCIATED COMPLAINTS
                       </Typography>
