@@ -29,6 +29,9 @@ describe("MenuNavigator", () => {
         expect(
           wrapper.find('[data-testid="dataDashboard"]').exists()
         ).toBeTrue();
+        expect(
+          wrapper.find('[data-testid="tagManagement"]').exists()
+        ).toBeTrue();
       }
     );
   });

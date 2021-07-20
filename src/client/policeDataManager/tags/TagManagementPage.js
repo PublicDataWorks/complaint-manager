@@ -6,9 +6,7 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow,
-  TableSortLabel,
-  Typography
+  TableRow
 } from "@material-ui/core";
 import tableStyleGenerator from "../../tableStyles";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
@@ -26,12 +24,15 @@ const styles = theme => ({
 
 export const TagManagementPage = props => {
   const [sort, setSort] = useState({ by: "count", direction: DESCENDING });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!props.tags || !props.tags.length || !props.tags[0].count) {
-      props.getTagsWithCount();
-    }
+    props.getTagsWithCount();
   }, []);
+
+  useEffect(() => {
+    setLoading(false);
+  }, [props.tags]);
 
   const changeSort = sortBy => {
     let sortDirection =
@@ -49,7 +50,7 @@ export const TagManagementPage = props => {
         {props.tags && props.tags.length ? (
           <SearchResults
             searchResultsLength={props.tags ? props.tags.length : 0}
-            spinnerVisible={false}
+            spinnerVisible={loading}
             subtitleResultCount={false}
           >
             <Table style={{ marginBottom: "32px" }}>

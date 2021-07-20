@@ -186,8 +186,8 @@ class CasesTable extends React.Component {
           <SearchResults
             pagination={this.getPagination()}
             subtitleResultCount={false}
-            spinnerVisible={!this.props.loaded}
-            searchResultsLength={this.props.cases ? this.props.cases.length : 0}
+            spinnerVisible={!loaded}
+            searchResultsLength={cases ? cases.length : 0}
           >
             <Table style={{ marginBottom: "32px" }}>
               {this.renderTableHeader()}

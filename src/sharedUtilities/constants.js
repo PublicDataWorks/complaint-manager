@@ -1,4 +1,9 @@
-import { PD, ORGANIZATION, ORGANIZATION_TITLE, CITY } from "../instance-files/constants";
+import {
+  PD,
+  ORGANIZATION,
+  ORGANIZATION_TITLE,
+  CITY
+} from "../instance-files/constants";
 
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
@@ -93,7 +98,9 @@ export const GET_GENDER_IDENTITIES_SUCCEEDED =
 export const GET_CIVILIAN_TITLES_SUCCEEDED = "GET_CIVILIAN_TITLES_SUCCEEDED";
 export const GET_CASE_NOTE_ACTIONS_SUCCEEDED =
   "GET_CASE_NOTE_ACTIONS_SUCCEEDED";
+export const GET_TAGS_INITIATED = "GET_TAGS_INITIATED";
 export const GET_TAGS_SUCCEEDED = "GET_TAGS_SUCCEEDED";
+export const GET_TAGS_FAILED = "GET_TAGS_FAILED";
 
 export const GET_DISTRICTS_SUCCEEDED = "GET_DISTRICTS_SUCCEEDED";
 
@@ -455,10 +462,8 @@ export const DATA_SECTIONS = {
     subtitle: "Complainant Type over Past 12 Months",
     dataTestId: "complainantTypePast12MonthsGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
-    collapsedText:
-      `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months`,
-    fullMessage:
-      `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months.\n\nAs the year progresses, the table will show the last twelve (12) months from the current month (this is a rolling twelve months table).  With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year.  For example, there was a peak of complaints from the community – Civilian Complaints – in June during the interactions that occurred around the protests of police misconduct and the protest on the Crescent City Connection bridge.  ${ORGANIZATION} tracks to see if there are other concentrations of complainants or complaint types during other points of the year including festival season, Mardi Gras, Essence, Voodoo Festival, hurricane season, sporting events, and the holidays.`
+    collapsedText: `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months`,
+    fullMessage: `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months.\n\nAs the year progresses, the table will show the last twelve (12) months from the current month (this is a rolling twelve months table).  With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year.  For example, there was a peak of complaints from the community – Civilian Complaints – in June during the interactions that occurred around the protests of police misconduct and the protest on the Crescent City Connection bridge.  ${ORGANIZATION} tracks to see if there are other concentrations of complainants or complaint types during other points of the year including festival season, Mardi Gras, Essence, Voodoo Festival, hurricane season, sporting events, and the holidays.`
   },
   [DDS_COMPLAINANTS_SUBMIT_COMPLAINTS]: {
     title: "How do complainants submit complaints?",
@@ -466,10 +471,8 @@ export const DATA_SECTIONS = {
     dataTestId: "intakeSourceGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
-    collapsedText:
-      `${ORGANIZATION} works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.`,
-    fullMessage:
-      `${ORGANIZATION} works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.\n\nThe ${ORGANIZATION_TITLE} tracks complaints and our internal operations to ensure that the ${ORGANIZATION} is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Intake source refers to the method of communication through which the complaint was communicated to the ${ORGANIZATION}.  Currently, complaints can be filed with the ${ORGANIZATION} through:\n\u2022 Website\n\u2022 Email\n\u2022 Phone\n\u2022 In-person\n\u2022 Outreach Events\n\u2022 Social Media\n\u2022 U.S. Mail\n\u2022 Video Call`
+    collapsedText: `${ORGANIZATION} works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.`,
+    fullMessage: `${ORGANIZATION} works to provide as many methods for communication and intake as possible. This shows the intake source for complaints submitted over the past twelve months.\n\nThe ${ORGANIZATION_TITLE} tracks complaints and our internal operations to ensure that the ${ORGANIZATION} is providing as many opportunities as possible for the public to report alleged misconduct and to help hold officers accountable.  Intake source refers to the method of communication through which the complaint was communicated to the ${ORGANIZATION}.  Currently, complaints can be filed with the ${ORGANIZATION} through:\n\u2022 Website\n\u2022 Email\n\u2022 Phone\n\u2022 In-person\n\u2022 Outreach Events\n\u2022 Social Media\n\u2022 U.S. Mail\n\u2022 Video Call`
   },
   [DDS_WHO_SUBMITS_COMPLAINTS]: {
     title: "Who submits complaints?",
@@ -477,20 +480,16 @@ export const DATA_SECTIONS = {
     dataTestId: "complainantTypeGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
-    collapsedText:
-      `The ${ORGANIZATION} tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months.`,
-    fullMessage:
-      `The ${ORGANIZATION} tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months. The different complainant types include:\n\n\u2022 Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to ${ORGANIZATION} but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, ${ORGANIZATION} counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the ${PD}.\n\n\u2022 Civilian Complainant (CC) – this category applies to any member of the public who files a complaint.  This individual may or may not reside in ${CITY}.  In these referrals, the individual’s name does appear on the complaint referral to PIB.\n\n\u2022 Police Officer Complainant (PO) – Police Officer complainants applies to any sworn officer who files a complaint of misconduct to our office.  ${ORGANIZATION} reviews these referrals to identify and highlight any possibility of retaliation within the police department.  In these referrals, the officer’s name does appear on the complaint referral to PIB.\n\n\u2022 Civilian within ${PD} Complainant (CN) – this category applies to any civilian who is employed by the ${PD}. In these complaint referrals, ${ORGANIZATION} is concerned about the possibility of retaliation that may occur to a civilian by officers within the police department. In these referrals, the employee’s name does appear on the complaint referral to PIB.`
+    collapsedText: `The ${ORGANIZATION} tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months.`,
+    fullMessage: `The ${ORGANIZATION} tracked the complainant type to determine if we are reaching the full population with our services. This shows the complaint types for each complaint, over the past twelve months. The different complainant types include:\n\n\u2022 Anonymous Complainant (AC) – this means that the individual who filed the complaint either did not disclose his / her name or the complainant did disclose his / her name to ${ORGANIZATION} but has asked for his / her name to be removed in the complaint referral to PIB.  In both situations, ${ORGANIZATION} counts this complainant as “anonymous.”  This category does not differentiate between individuals who are members of the public or individuals that are employed by the ${PD}.\n\n\u2022 Civilian Complainant (CC) – this category applies to any member of the public who files a complaint.  This individual may or may not reside in ${CITY}.  In these referrals, the individual’s name does appear on the complaint referral to PIB.\n\n\u2022 Police Officer Complainant (PO) – Police Officer complainants applies to any sworn officer who files a complaint of misconduct to our office.  ${ORGANIZATION} reviews these referrals to identify and highlight any possibility of retaliation within the police department.  In these referrals, the officer’s name does appear on the complaint referral to PIB.\n\n\u2022 Civilian within ${PD} Complainant (CN) – this category applies to any civilian who is employed by the ${PD}. In these complaint referrals, ${ORGANIZATION} is concerned about the possibility of retaliation that may occur to a civilian by officers within the police department. In these referrals, the employee’s name does appear on the complaint referral to PIB.`
   },
   [DDS_EMERGING_THEMES]: {
     title: "What themes are emerging from the data?",
     subtitle: "Tags and Complaint Subject Matter Themes",
     dataTestId: "top10TagsGraph",
     queryType: QUERY_TYPES.COUNT_TOP_10_TAGS,
-    collapsedText:
-      `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information`,
-    fullMessage:
-      `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.\n\nTags is a term created within the ${ORGANIZATION_TITLE} and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the ${ORGANIZATION} wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the ${ORGANIZATION} will continue to develop and implement new tags.  This chart captures tag use on a rolling twelve month basis.`
+    collapsedText: `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information`,
+    fullMessage: `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.\n\nTags is a term created within the ${ORGANIZATION_TITLE} and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the ${ORGANIZATION} wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the ${ORGANIZATION} will continue to develop and implement new tags.  This chart captures tag use on a rolling twelve month basis.`
   }
 };
 

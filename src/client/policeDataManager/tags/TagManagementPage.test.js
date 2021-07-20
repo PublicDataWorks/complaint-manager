@@ -75,19 +75,19 @@ describe("TagManagementPage", () => {
     });
 
     test("should not call getTagsWithCount", () => {
-      expect(getTagsWithCount).toBeCalledTimes(0);
+      expect(getTagsWithCount).toBeCalledTimes(1);
     });
 
     test("should call getTagsWithCount and update sort order when a header is clicked", async () => {
       userEvent.click(screen.getByTestId("sortTagsByCountHeader"));
-      expect(getTagsWithCount.mock.calls[0]).toEqual(["count", ASCENDING]);
+      expect(getTagsWithCount.mock.calls[1]).toEqual(["count", ASCENDING]);
       userEvent.click(screen.getByTestId("sortTagsByCountHeader"));
-      expect(getTagsWithCount.mock.calls[1]).toEqual(["count", DESCENDING]);
+      expect(getTagsWithCount.mock.calls[2]).toEqual(["count", DESCENDING]);
     });
 
     test("should call getTagsWithCount and update sort order when a header is clicked even if it's a different header", async () => {
       userEvent.click(screen.getByTestId("sortTagsByNameHeader"));
-      expect(getTagsWithCount.mock.calls[0]).toEqual(["name", ASCENDING]);
+      expect(getTagsWithCount.mock.calls[1]).toEqual(["name", ASCENDING]);
     });
   });
 
