@@ -17,6 +17,7 @@ import SearchResults from "../shared/components/SearchResults";
 import TagTableRow from "./TagTableRow";
 import getTagsWithCount from "./thunks/getTagsWithCount";
 import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
+import TagTableHeader from "./TagTableHeader";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).header,
@@ -54,28 +55,24 @@ export const TagManagementPage = props => {
             <Table style={{ marginBottom: "32px" }}>
               <TableHead>
                 <TableRow className={props.classes.row}>
-                  <TableCell className={props.classes.cell}>
-                    <TableSortLabel
-                      direction={sort.direction}
-                      active={sort.by === "name"}
-                      data-testid="sortTagsByNameHeader"
-                      onClick={() => changeSort("name")}
-                    >
-                      <Typography variant="subtitle2">TAG NAME</Typography>
-                    </TableSortLabel>
-                  </TableCell>
-                  <TableCell className={props.classes.cell}>
-                    <TableSortLabel
-                      direction={sort.direction}
-                      active={sort.by === "count"}
-                      data-testid="sortTagsByCountHeader"
-                      onClick={() => changeSort("count")}
-                    >
-                      <Typography variant="subtitle2">
-                        ASSOCIATED COMPLAINTS
-                      </Typography>
-                    </TableSortLabel>
-                  </TableCell>
+                  <TagTableHeader
+                    active={sort.by === "name"}
+                    changeSort={changeSort}
+                    classes={props.classes}
+                    value="name"
+                    sortDirection={sort.direction}
+                  >
+                    TAG NAME
+                  </TagTableHeader>
+                  <TagTableHeader
+                    active={sort.by === "count"}
+                    changeSort={changeSort}
+                    classes={props.classes}
+                    value="count"
+                    sortDirection={sort.direction}
+                  >
+                    ASSOCIATED COMPLAINTS
+                  </TagTableHeader>
                 </TableRow>
               </TableHead>
               <TableBody>
