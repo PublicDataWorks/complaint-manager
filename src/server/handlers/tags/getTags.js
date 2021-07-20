@@ -1,6 +1,9 @@
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../sharedUtilities/constants";
 import asyncMiddleware from "../asyncMiddleware";
-import models from "../../policeDataManager/models";
-import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
+import auditDataAccess from "../audits/auditDataAccess";
 import {
   getTagsAndAuditDetails,
   getTagsWithCountAndAuditDetails
@@ -11,6 +14,15 @@ const getTags = asyncMiddleware(async (request, response, next) => {
     request.param("expand") === "count"
       ? await getTagsWithCount(request)
       : await getTagsAndAuditDetails();
+
+  auditDataAccess(
+    request.nickname,
+    null,
+    MANAGER_TYPE.COMPLAINT,
+    AUDIT_SUBJECT.ALL_TAGS,
+    auditDetails,
+    null
+  );
 
   response.status(200).send(tags);
 });
