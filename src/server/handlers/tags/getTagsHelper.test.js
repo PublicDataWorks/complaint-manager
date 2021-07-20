@@ -88,6 +88,7 @@ describe("getTagsHelper", () => {
   });
 
   describe("getTagsWithCountAndAuditDetails", () => {
+    let fifthTag;
     beforeEach(async () => {
       let case1 = await models.cases.create(
         new Case.Builder().defaultCase().withId(1),
@@ -179,6 +180,25 @@ describe("getTagsHelper", () => {
           auditUser: "Person"
         }
       );
+
+      const fifthTagAttributes = new Tag.Builder()
+        .defaultTag()
+        .withName("Zucar")
+        .withId(99);
+
+      fifthTag = await models.tag.create(fifthTagAttributes, {
+        auditUser: "Person"
+      });
+
+      let caseTag8 = await models.case_tag.create(
+        new CaseTag.Builder()
+          .defaultCaseTag()
+          .withCaseId(3)
+          .withTagId(fifthTag.id),
+        {
+          auditUser: "Person"
+        }
+      );
     });
 
     test("should get all tags ordered by count when no sort parameters passed", async () => {
@@ -186,7 +206,9 @@ describe("getTagsHelper", () => {
       const expectedTags = [
         { name: fourthTag.name, id: fourthTag.id, count: "3" },
         { name: firstTag.name, id: firstTag.id, count: "2" },
-        { name: secondTag.name, id: secondTag.id, count: "2" }
+        { name: secondTag.name, id: secondTag.id, count: "2" },
+        { name: fifthTag.name, id: fifthTag.id, count: "1" },
+        { name: thirdTag.name, id: thirdTag.id, count: "0" }
       ];
 
       expect(tagsAndAuditDetails).toEqual({
@@ -212,7 +234,9 @@ describe("getTagsHelper", () => {
         "desc"
       );
       const expectedTags = [
+        { name: fifthTag.name, id: fifthTag.id, count: "1" },
         { name: fourthTag.name, id: fourthTag.id, count: "3" },
+        { name: thirdTag.name, id: thirdTag.id, count: "0" },
         { name: secondTag.name, id: secondTag.id, count: "2" },
         { name: firstTag.name, id: firstTag.id, count: "2" }
       ];
@@ -229,6 +253,8 @@ describe("getTagsHelper", () => {
         "asc"
       );
       const expectedTags = [
+        { name: thirdTag.name, id: thirdTag.id, count: "0" },
+        { name: fifthTag.name, id: fifthTag.id, count: "1" },
         { name: firstTag.name, id: firstTag.id, count: "2" },
         { name: secondTag.name, id: secondTag.id, count: "2" },
         { name: fourthTag.name, id: fourthTag.id, count: "3" }
@@ -245,7 +271,9 @@ describe("getTagsHelper", () => {
       const expectedTags = [
         { name: firstTag.name, id: firstTag.id, count: "2" },
         { name: secondTag.name, id: secondTag.id, count: "2" },
-        { name: fourthTag.name, id: fourthTag.id, count: "3" }
+        { name: thirdTag.name, id: thirdTag.id, count: "0" },
+        { name: fourthTag.name, id: fourthTag.id, count: "3" },
+        { name: fifthTag.name, id: fifthTag.id, count: "1" }
       ];
 
       expect(tagsAndAuditDetails).toEqual({

@@ -22,16 +22,22 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Tag.prototype.modelDescription = function() {
+  Tag.prototype.modelDescription = function () {
     return [{ "New Tag Name": this.name }];
   };
-  Tag.prototype.getCaseId = function() {
+  Tag.prototype.getCaseId = function () {
     return null;
   };
 
   // TODO if tags are used in both managers should they not return a specific manager type?
-  Tag.prototype.getManagerType = function() {
+  Tag.prototype.getManagerType = function () {
     return "complaint";
+  };
+
+  Tag.associate = models => {
+    Tag.hasMany(models.case_tag, {
+      foreignKey: { name: "tagId", field: "tag_id" }
+    });
   };
 
   Tag.auditDataChange();
