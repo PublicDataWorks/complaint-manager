@@ -15,6 +15,11 @@ export const policeDataManagerMenuOptions = [
     title: "Archived Cases"
   },
   {
+    path: "/manage-tags",
+    dataTestName: "tagManagement",
+    title: "Manage Tags"
+  },
+  {
     path: "/logout",
     dataTestName: "logOutButton",
     title: "Log Out"
