@@ -26,26 +26,22 @@ export const getTagsWithCountAndAuditDetails = async (
 ) => {
   const queryOptions = {
     attributes: [
-      "tag.name",
-      "tag.id",
-      [sequelize.fn("COUNT", sequelize.col("case_tag.case_id")), "count"]
+      "name",
+      "id",
+      [sequelize.fn("COUNT", sequelize.col("case_tags.case_id")), "count"]
     ],
     include: [
       {
-        model: models.tag,
-        as: "tag",
-        attributes: []
-      },
-      {
-        model: models.cases,
+        model: models.case_tag,
+        as: "case_tags",
         attributes: []
       }
     ],
     raw: true,
-    group: ["tag.name", "tag.id"],
+    group: ["name", "tag.id"],
     order: determineOrderForQueryWithCount(sortBy, sortDirection)
   };
-  const tagObjects = await models.case_tag.findAll(queryOptions);
+  const tagObjects = await models.tag.findAll(queryOptions);
   const auditDetails = getQueryAuditAccessDetails(
     queryOptions,
     models.tag.name
@@ -62,7 +58,7 @@ export const getTagsWithCountAndAuditDetails = async (
 
 const determineOrderForQueryWithCount = (sortBy, sortDirection) => {
   let sort = [
-    ["count", DESCENDING],
+    [sequelize.col("count"), DESCENDING],
     [sequelize.fn("upper", sequelize.col("tag.name")), ASCENDING]
   ];
 
