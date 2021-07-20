@@ -208,14 +208,15 @@ jobs:
             -e doc/postman/CI.postman_environment.json \
             --env-var client_id=$CI_AUTH0_CLIENT_ID \
             --env-var client_secret=$CI_AUTH0_CLIENT_SECRET \
-            doc/postman/Police\ Data\ Management.postman_collection.json > /tmp/output/newman-result.txt
-      - run:
-          name: Test Results
-          command: cat /tmp/output/newman-result.txt
-      - persist_to_workspace:
-          root: '/tmp'
-          paths:
-            - output/newman-result.txt
+            doc/postman/Police\ Data\ Management.postman_collection.json
+# > /tmp/output/newman-result.txt
+      # - run:
+      #     name: Test Results
+      #     command: cat /tmp/output/newman-result.txt
+      # - persist_to_workspace:
+      #     root: '/tmp'
+      #     paths:
+      #       - output/newman-result.txt
   
   letter-generation-ci-latency-check:
     docker:
