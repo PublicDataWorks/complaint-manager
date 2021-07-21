@@ -27,7 +27,7 @@ CasesTableHeaderCell.defaultProps = {
 
 CasesTableHeaderCell.propTypes = {
   active: PropTypes.bool,
-  children: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   className: PropTypes.string,
   onClick: PropTypes.func,
   sortDirection: PropTypes.oneOf(["asc", "desc"]),
