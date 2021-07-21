@@ -555,7 +555,7 @@ describe("getReferralLetterPreview", function () {
         expect(response._getData().letterHtml).toMatchSnapshot();
       });
 
-      test("renders correctly with pib case number", async () => {
+      test("renders correctly with case number", async () => {
         await existingCase.update(
           { pibCaseNumber: "2019-0023-R" },
           { auditUser: "test" }

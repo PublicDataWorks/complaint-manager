@@ -7,7 +7,8 @@ import { formatAddressAsString } from "../../../utilities/formatAddress";
 import {
   EMPLOYEE_TYPE,
   FIRST_CONTACTED_ORGANIZATION,
-  CIVILIAN_WITHIN_PD_TITLE
+  CIVILIAN_WITHIN_PD_TITLE,
+  BUREAU_ACRONYM
 } from "../../../../../instance-files/constants";
 
 export const getFormattedDate = date => {
@@ -18,6 +19,8 @@ const formatTimeForDisplay = (date, time) => {
   if (!time) return time;
   return format12HourTime(time) + " " + computeTimeZone(date, time);
 };
+
+const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 
 export const getIncidentInfoData = caseDetail => {
   const incidentDate = getFormattedDate(caseDetail.incidentDate);
@@ -36,7 +39,7 @@ export const getIncidentInfoData = caseDetail => {
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,
       District: caseDetail.caseDistrict ? caseDetail.caseDistrict.name : null,
-      "PIB Case Number": caseDetail.pibCaseNumber
+      pbCaseNumberText: caseDetail.pibCaseNumber
     }
   ];
 };

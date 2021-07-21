@@ -9,8 +9,11 @@ import {
 import {
   EMPLOYEE_TYPE,
   FIRST_CONTACTED_ORGANIZATION,
-  CIVILIAN_WITHIN_PD_NAME
+  CIVILIAN_WITHIN_PD_NAME,
+  BUREAU_ACRONYM
 } from "../../../../../instance-files/constants";
+
+const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 
 describe("caseDetailDataHelpers", function () {
   describe("incident info", function () {
@@ -46,7 +49,7 @@ describe("caseDetailDataHelpers", function () {
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: "some district",
-            "PIB Case Number": "2018-0002-CC"
+            pbCaseNumberText: "2018-0002-CC"
           })
         ])
       );
@@ -84,7 +87,7 @@ describe("caseDetailDataHelpers", function () {
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",
-            "PIB Case Number": "2013-0004-CC"
+            pbCaseNumberText: "2013-0004-CC"
           })
         ])
       );
@@ -119,7 +122,7 @@ describe("caseDetailDataHelpers", function () {
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: null,
-            "PIB Case Number": "2013-0004-CC"
+            pbCaseNumberText: "2013-0004-CC"
           })
         ])
       );

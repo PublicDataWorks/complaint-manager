@@ -17,6 +17,7 @@ import {
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
+import { BUREAU_ACRONYM } from "../instance-files/constants";
 
 describe("Form Validations", () => {
   test("firstNameRequired should return an error message when undefined", () => {
@@ -90,13 +91,13 @@ describe("Form Validations", () => {
     expect(isPIBControlNumber(undefined)).toBeUndefined();
   });
 
-  test("pibControlNumberRequired should return an error when pib control number is not provided", () => {
-    expect(pibControlNumberRequired()).toEqual("Please enter a PIB Control #");
+  test("pibControlNumberRequired should return an error when the control number is not provided", () => {
+    expect(pibControlNumberRequired()).toEqual(`Please enter a ${BUREAU_ACRONYM} Control #`);
   });
 
-  test("pibControlNumberNotBlank should return an error when pib control number is empty", () => {
+  test("pibControlNumberNotBlank should return an error when the control number is empty", () => {
     expect(pibControlNumberNotBlank("   ")).toEqual(
-      "Please enter a PIB Control #"
+      `Please enter a ${BUREAU_ACRONYM} Control #`
     );
   });
   test("emailRequired should return an error when email is not provided", () => {

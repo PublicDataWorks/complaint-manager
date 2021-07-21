@@ -2,6 +2,7 @@ import {
   CIVILIAN_INITIATED,
   TIMEZONE
 } from "../../../sharedUtilities/constants";
+import { BUREAU_ACRONYM } from "../../../instance-files/constants";
 import timezone from "moment-timezone";
 import _ from "lodash";
 
@@ -87,7 +88,7 @@ const columns = {
   classifications: "Classification",
   intake_source: "Intake Source",
   how_did_you_hear_about_us_source: "How did you hear about us?",
-  pib_case_number: "PIB Case Number",
+  pib_case_number: `${BUREAU_ACRONYM} Case Number`,
   complaint_type: "Complaint Type",
   "complainants.complainant": "Complainant",
   "complainants.civilian_full_name": "Civilian Complainant Name",
