@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withStyles } from "@material-ui/core/styles";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
-} from "@material-ui/core";
+import { Table, TableBody, TableHead, TableRow } from "@material-ui/core";
 import tableStyleGenerator from "../../tableStyles";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import NavBar from "../shared/components/NavBar/NavBar";
 import SearchResults from "../shared/components/SearchResults";
 import TagTableRow from "./TagTableRow";
 import getTagsWithCount from "./thunks/getTagsWithCount";
-import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
+import clearTagManagement from "./thunks/clearTagManagement";
+import {
+  ASCENDING,
+  DESCENDING,
+  GET_TAGS_CLEARED
+} from "../../../sharedUtilities/constants";
 import TagTableHeader from "./TagTableHeader";
 
 const styles = theme => ({
@@ -24,15 +23,14 @@ const styles = theme => ({
 
 export const TagManagementPage = props => {
   const [sort, setSort] = useState({ by: "count", direction: DESCENDING });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     props.getTagsWithCount();
-  }, []);
 
-  useEffect(() => {
-    setLoading(false);
-  }, [props.tags]);
+    return () => {
+      props.clearTagManagement();
+    };
+  }, []);
 
   const changeSort = sortBy => {
     let sortDirection =
@@ -47,10 +45,10 @@ export const TagManagementPage = props => {
     <main>
       <NavBar menuType={policeDataManagerMenuOptions}>Tag Management</NavBar>
       <div style={{ marginTop: "24px" }} className={props.classes.tableMargin}>
-        {props.tags && props.tags.length ? (
+        {props.loading || (props.tags && props.tags.length) ? (
           <SearchResults
             searchResultsLength={props.tags ? props.tags.length : 0}
-            spinnerVisible={loading}
+            spinnerVisible={props.loading}
             subtitleResultCount={false}
           >
             <Table style={{ marginBottom: "32px" }}>
@@ -96,8 +94,9 @@ export const TagManagementPage = props => {
 export default withStyles(styles, { withTheme: true })(
   connect(
     state => ({
-      tags: state?.ui?.tags
+      tags: state?.ui?.tags,
+      loading: state?.ui?.tagManagement?.loading
     }),
-    { getTagsWithCount }
+    { getTagsWithCount, clearTagManagement }
   )(TagManagementPage)
 );

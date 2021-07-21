@@ -25,6 +25,8 @@ describe("TagManagementPage", () => {
               getTagsWithCount={getTagsWithCount}
               tags={[]}
               classes={{}}
+              loading={false}
+              clearTagManagement={jest.fn()}
             />
           </Router>
         </Provider>
@@ -52,7 +54,9 @@ describe("TagManagementPage", () => {
         <Provider store={store}>
           <Router>
             <TagManagementPage
+              clearTagManagement={jest.fn()}
               getTagsWithCount={getTagsWithCount}
+              loading={false}
               tags={[
                 { name: "tag with lots of complaints", count: 17, id: 4 },
                 { name: "tag with some complaints", count: 5, id: 2 },

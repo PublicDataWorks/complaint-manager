@@ -52,6 +52,7 @@ import genderIdentityReducer from "./policeDataManager/reducers/ui/genderIdentit
 import caseNoteActionReducer from "./policeDataManager/reducers/ui/caseNoteActionReducer";
 import caseTagDialogReducer from "./policeDataManager/reducers/ui/caseTagDialogReducer";
 import tagReducer from "./policeDataManager/reducers/ui/tagReducer";
+import tagManagementReducer from "./policeDataManager/reducers/ui/tagManagementPageReducer";
 import incompleteClassificationsDialogReducer from "./policeDataManager/reducers/ui/incompleteClassificationsDialogReducer";
 import caseTagReducer from "./policeDataManager/reducers/cases/caseTagsReducer";
 import fetchingCaseTagsReducer from "./policeDataManager/reducers/cases/fetchingCaseTagsReducer";
@@ -103,7 +104,8 @@ const rootReducer = combineReducers({
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
     removeCaseTagDialog: removeCaseTagDialogReducer,
     editLetterConfirmationDialog: editReferralLetterReducer,
-    cancelEditLetterConfirmationDialog: cancelEditLetterConfirmationDialogReducer,
+    cancelEditLetterConfirmationDialog:
+      cancelEditLetterConfirmationDialogReducer,
     attachments: attachmentsReducer,
     search: searchReducer,
     caseNoteActions: caseNoteActionReducer,
@@ -114,6 +116,7 @@ const rootReducer = combineReducers({
     civilianTitles: civilianTitleReducer,
     districts: districtReducer,
     tags: tagReducer,
+    tagManagement: tagManagementReducer,
     genderIdentities: genderIdentityReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
@@ -129,7 +132,8 @@ const rootReducer = combineReducers({
     archiveCaseDialog: archiveCaseDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
-    removeAttachmentConfirmationDialog: removeAttachmentConfirmationDialogReducer,
+    removeAttachmentConfirmationDialog:
+      removeAttachmentConfirmationDialogReducer,
     highlightedCaseNote: highlightCaseNoteReducer
   }),
   officers: combineReducers({
