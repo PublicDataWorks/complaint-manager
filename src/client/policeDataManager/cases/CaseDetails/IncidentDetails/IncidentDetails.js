@@ -16,7 +16,7 @@ import {
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
+import { FIRST_CONTACTED_ORGANIZATION, BUREAU_ACRONYM } from "../../../../../instance-files/constants";
 
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
@@ -63,6 +63,7 @@ class IncidentDetails extends React.Component {
       ? howDidYouHearAboutUsSource.name
       : "";
     const districtName = district ? district.name : "";
+    const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -135,7 +136,7 @@ class IncidentDetails extends React.Component {
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel="PIB Case Number"
+                    displayLabel={pbCaseNumberText}
                     value={pibCaseNumber}
                     testLabel="pibCaseNumber"
                   />

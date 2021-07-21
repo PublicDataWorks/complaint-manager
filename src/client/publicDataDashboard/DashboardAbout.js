@@ -10,7 +10,7 @@ import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop"
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
 import oipmBuilding from "./assets/oipm_building.jpeg";
-import { ORGANIZATION_TITLE, CITY, PD, ORGANIZATION }  from "../../instance-files/constants";
+import { ORGANIZATION_TITLE, CITY, PD, ORGANIZATION, BUREAU }  from "../../instance-files/constants";
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -137,8 +137,7 @@ const DashboardAbout = () => {
             is taken directly from our internally designed database: Police Data
             Manager. <br />
             <br /> As information is entered into Police Data Manager by our
-            staff and complaint referrals are submitted to the Public Integrity
-            Bureau, the data will automatically update once daily.
+            staff and complaint referrals are submitted to the {BUREAU}, the data will automatically update once daily.
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -155,7 +154,7 @@ const DashboardAbout = () => {
             remote intake sites, data regarding the outcome of the
             investigations or disciplinary actions taken in response to these
             complaints, and data regarding complaints submitted to directly to
-            the Public Integrity Bureau. <br />
+            the {BUREAU}. <br />
             <br /> For more data visualizations regarding some of these topics
             and Use of Force and Critical Incidents, please see the annual
             report section of the {ORGANIZATION} website (link out to annual report{" "}

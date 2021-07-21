@@ -36,7 +36,7 @@ import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDrop
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../../../instance-files/constants";
+import { FIRST_CONTACTED_ORGANIZATION, BUREAU_ACRONYM } from "../../../../../instance-files/constants";
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -77,6 +77,8 @@ class IncidentDetailsDialog extends Component {
 
   render() {
     const props = this.props;
+    const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
+    const enterPbCaseNumberText =  `Enter ${pbCaseNumberText}`;
 
     return (
       <Dialog
@@ -224,9 +226,9 @@ class IncidentDetailsDialog extends Component {
               <Field
                 name="pibCaseNumber"
                 component={renderTextField}
-                label="PIB Case Number"
+                label={pbCaseNumberText}
                 data-testid="pibCaseNumber"
-                placeholder="Enter PIB Case Number"
+                placeholder={enterPbCaseNumberText}
                 inputProps={{
                   "data-testid": "pibCaseNumberInput",
                   maxLength: 25,

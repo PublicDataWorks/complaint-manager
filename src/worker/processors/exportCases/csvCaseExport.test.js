@@ -25,6 +25,7 @@ import Address from "../../../sharedTestHelpers/Address";
 import Attachment from "../../../sharedTestHelpers/attachment";
 import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
+import { BUREAU_ACRONYM } from "../../../instance-files/constants";
 
 jest.mock("../fileUpload/uploadFileToS3");
 
@@ -107,7 +108,7 @@ describe("csvCaseExport request", () => {
           "Classification," +
           "Intake Source," +
           "How did you hear about us?," +
-          "PIB Case Number," +
+          `${BUREAU_ACRONYM} Case Number,` +
           "Complaint Type," +
           "Complainant," +
           "Civilian Complainant Name," +
@@ -1309,7 +1310,7 @@ describe("csvCaseExport request", () => {
       expect(record1["Accused Officer Age on Incident Date"]).toEqual("N/A");
     });
 
-    test("should set pib case number when set", async () => {
+    test("should set case number when set", async () => {
       const pibCaseNumber = "2019-0023-R";
       await caseToExport.update(
         { pibCaseNumber: pibCaseNumber },
@@ -1320,7 +1321,7 @@ describe("csvCaseExport request", () => {
 
       expect(records.length).toEqual(1);
       const record1 = records[0];
-      expect(record1["PIB Case Number"]).toEqual(pibCaseNumber);
+      expect(record1[`${BUREAU_ACRONYM} Case Number`]).toEqual(pibCaseNumber);
     });
   });
 

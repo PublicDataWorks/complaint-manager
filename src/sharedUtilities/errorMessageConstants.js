@@ -1,3 +1,5 @@
+import { BUREAU_ACRONYM } from "../instance-files/constants";
+
 export const PAGE_NOT_AVAILABLE = "Sorry, that page is not available";
 
 export const BAD_REQUEST_ERRORS = {
@@ -29,7 +31,7 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_JOB: "Could not find specified job",
   OPERATION_NOT_PERMITTED: "Operation not permitted",
   OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
-  PIB_CONTROL_NUMBER_ALREADY_EXISTS: "PIB Control # is already in use",
+  PIB_CONTROL_NUMBER_ALREADY_EXISTS: `${BUREAU_ACRONYM} Control # is already in use`,
   NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",
   NOTIFICATION_EDIT_ERROR: "There was an error notifying mentioned users.",
   NOTIFICATION_DELETION_ERROR: "There was an error removing the notification.",

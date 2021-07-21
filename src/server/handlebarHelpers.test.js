@@ -14,7 +14,7 @@ import {
   isCivilianComplainant
 } from "./handlebarHelpers";
 import { generateSubjectLine } from "../instance-files/helpers";
-import { ORGANIZATION } from "../instance-files/constants";
+import { ORGANIZATION, BUREAU_ACRONYM } from "../instance-files/constants";
 import { SENDER_NAME, SENDER_SIGNATURE } from "../instance-files/referralLetterDefaults";
 
 describe("handlebarHelpers", function () {
@@ -393,16 +393,16 @@ describe("generate subject line", function () {
   const caseReference = "CC2019-0027";
   const pibCaseNumber = "2019-0027-R";
   const supplementalSubjectLine =
-    `Supplemental Referral; ${ORGANIZATION} Complaint CC2019-0027; PIB Case 2019-0027-R`;
+    `Supplemental Referral; ${ORGANIZATION} Complaint CC2019-0027; ${BUREAU_ACRONYM} Case 2019-0027-R`;
   const subjectLineWithoutPibCaseNumber =
     `Complaint Referral; ${ORGANIZATION} Complaint CC2019-0027`;
 
-  test("returns supplemental subject line whe pib case number present", () => {
+  test("returns supplemental subject line when case number present", () => {
     expect(generateSubjectLine(caseReference, pibCaseNumber)).toEqual(
       supplementalSubjectLine
     );
   });
-  test("returns subject line without pib case number when pib case number null", () => {
+  test("returns subject line without case number when case number null", () => {
     expect(generateSubjectLine(caseReference, null)).toEqual(
       subjectLineWithoutPibCaseNumber
     );
