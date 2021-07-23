@@ -125,8 +125,8 @@ const updateSearchIndex = async () => {
     };
     let middle = person.middleName || person.middleInitial;
     if (middle) {
-      parseSearchTerm(
-        (results.full_name_with_initial = `${person.firstName} ${middle} ${person.lastName}`)
+      results.full_name_with_initial = parseSearchTerm(
+        `${person.firstName} ${middle} ${person.lastName}`
       );
     }
     return results;
