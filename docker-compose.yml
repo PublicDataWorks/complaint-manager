@@ -41,7 +41,6 @@ services:
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
-      - ./localstack-seed-files:/app/localstack-seed-files
 #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
   elasticsearch:
