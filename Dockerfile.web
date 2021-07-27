@@ -17,6 +17,7 @@ RUN unzip -q awscliv2.zip
 RUN /app/aws/install
 
 COPY --from=instance /instance-files /app/src/instance-files
+COPY --from=instance /instance-files/public /app/public
 COPY . /app/
 
 RUN yarn install

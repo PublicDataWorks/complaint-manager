@@ -11,6 +11,7 @@ COPY package.json yarn.lock /app/
 RUN yarn install --pure-lockfile
 
 COPY --from=instance /instance-files /app/src/instance-files
+COPY --from=instance /instance-files/public /app/public
 COPY . /app/
 
 RUN yarn build

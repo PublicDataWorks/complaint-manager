@@ -104,6 +104,7 @@ services:
       - "./e2e/.env.development:/app/.env.development"
 #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
+      - ${INSTANCE_FILES_DIR}/public:/app/public
   worker:
     build:
       context: .
@@ -131,6 +132,7 @@ services:
       - ./package.json:/app/package.json
 #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
+      - ${INSTANCE_FILES_DIR}/public:/app/public
   db:
     image: postgres:10.9-alpine
     depends_on:
