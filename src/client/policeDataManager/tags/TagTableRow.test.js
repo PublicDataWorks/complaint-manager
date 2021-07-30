@@ -18,5 +18,6 @@ describe("TagTableRow", () => {
     let cells = screen.getAllByRole("cell");
     expect(cells[0].textContent).toEqual("Mr. Tag");
     expect(cells[1].textContent).toEqual("32342");
+    expect(cells[2].textContent).toEqual("Edit");
   });
 });
