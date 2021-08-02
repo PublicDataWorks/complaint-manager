@@ -1,13 +1,11 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle,
-  Input,
-  TextField
+  DialogTitle
 } from "@material-ui/core";
 import {
   SecondaryButton,
@@ -15,13 +13,19 @@ import {
 } from "../shared/components/StyledButtons";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 
+const submit = () => {}; // TODO
+
 const EditTagDialog = props => {
-  const tagAlreadyExist = value => {
-    console.log("LOOK AT ME!!!!!");
-    return props.existingTags.filter(tag => tag.name === value).length
-      ? "The tag name you entered already exists"
-      : undefined;
-  };
+  const tagAlreadyExist = useMemo(
+    () => value =>
+      props.existingTags?.filter(
+        tag => tag?.name?.toUpperCase() === value?.toUpperCase()
+      ).length
+        ? "The tag name you entered already exists"
+        : undefined,
+    [props.existingTags]
+  );
+
   return (
     <Dialog
       open={props.open}
@@ -29,7 +33,7 @@ const EditTagDialog = props => {
         paperWidthSm: props.classes.paperWidthSm
       }}
     >
-      <form>
+      <form onSubmit={props.handleSubmit(submit)} role="form">
         <DialogTitle>Edit Tag</DialogTitle>
         <DialogContent>
           <Field
@@ -37,15 +41,29 @@ const EditTagDialog = props => {
             inputProps={{
               "data-testid": "editTagTextBox"
             }}
+            style={{ minWidth: "235px" }}
             name="tagName"
             validate={tagAlreadyExist}
           />
         </DialogContent>
         <DialogActions>
-          <SecondaryButton data-testid="editTagCancelButton">
+          <SecondaryButton
+            data-testid="editTagCancelButton"
+            onClick={props.cancel}
+          >
             Cancel
           </SecondaryButton>
-          <PrimaryButton data-testid="saveTagButton">Save Tag</PrimaryButton>
+          <PrimaryButton
+            data-testid="saveTagButton"
+            disabled={
+              !props.value ||
+              props.value.trim() === "" ||
+              props.tag.name === props.value ||
+              !!tagAlreadyExist(props.value)
+            }
+          >
+            Save Tag
+          </PrimaryButton>
         </DialogActions>
       </form>
     </Dialog>
@@ -54,7 +72,8 @@ const EditTagDialog = props => {
 
 const mapStateToProps = (state, props) => ({
   initialValues: { tagName: props.tag.name },
-  existingTags: state.ui.tags
+  existingTags: state.ui.tags,
+  value: state?.form?.EditTagForm?.values?.tagName
 });
 
 export default connect(mapStateToProps)(
