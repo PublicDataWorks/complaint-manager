@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import EditTagDialog from "./EditTagDialog";
 import {
   Dialog,
   DialogActions,
@@ -9,7 +10,6 @@ import {
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import LinkButton from "../shared/components/LinkButton";
-import { SecondaryButton } from "../shared/components/StyledButtons";
 import tableStyleGenerator from "../../tableStyles";
 
 const styles = theme => ({
@@ -18,6 +18,7 @@ const styles = theme => ({
 
 const TagTableRow = props => {
   const [dialog, setDialog] = useState(null);
+
   return (
     <TableRow
       className={`${props.classes.row}`}
@@ -36,20 +37,11 @@ const TagTableRow = props => {
           Edit
         </LinkButton>
       </TableCell>
-      <Dialog
-        open={dialog === "edit"}
-        classes={{
-          paperWidthSm: props.classes.paperWidthSm
-        }}
-      >
-        <DialogTitle>Edit Tag</DialogTitle>
-        <DialogContent>Hi</DialogContent>
-        <DialogActions>
-          <SecondaryButton onClick={() => setDialog(null)}>
-            Cancel
-          </SecondaryButton>
-        </DialogActions>
-      </Dialog>
+      <EditTagDialog
+        classes={{}}
+        tag={{ name: "Mr. Tag", id: 2 }}
+        open={true}
+      ></EditTagDialog>
     </TableRow>
   );
 };
