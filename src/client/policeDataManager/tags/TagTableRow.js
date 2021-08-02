@@ -40,7 +40,7 @@ const TagTableRow = props => {
       <EditTagDialog
         classes={{}}
         tag={{ name: "Mr. Tag", id: 2 }}
-        open={true}
+        open={dialog === "edit"}
       ></EditTagDialog>
     </TableRow>
   );
