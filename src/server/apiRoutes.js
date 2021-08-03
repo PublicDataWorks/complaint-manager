@@ -55,6 +55,7 @@ import getCaseNoteActions from "./handlers/caseNoteActions/getCaseNoteActions";
 import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
+import editTag from "./handlers/tags/editTag";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
@@ -419,6 +420,13 @@ export const API_ROUTES = {
       handler: getTags,
       errorMessage:
         "Something went wrong and the tag values were not found. Please try again."
+    }
+  },
+  "/tags/:tagId": {
+    put: {
+      handler: editTag,
+      errorMessage:
+        "Something went wrong and the tag could not be updated. Please try again."
     }
   },
   "/intake-sources": {

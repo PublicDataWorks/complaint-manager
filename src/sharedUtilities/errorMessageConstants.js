@@ -35,7 +35,8 @@ export const BAD_REQUEST_ERRORS = {
   NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",
   NOTIFICATION_EDIT_ERROR: "There was an error notifying mentioned users.",
   NOTIFICATION_DELETION_ERROR: "There was an error removing the notification.",
-  INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid"
+  INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
+  TAG_WITH_NAME_EXISTS: "A tag with that name already exists"
 };
 
 export const BAD_DATA_ERRORS = {
@@ -56,7 +57,8 @@ export const BAD_DATA_ERRORS = {
 };
 
 export const NOT_FOUND_ERRORS = {
-  PAGE_NOT_FOUND: "Page was not found"
+  PAGE_NOT_FOUND: "Page was not found",
+  RESOURCE_NOT_FOUND: "The requested resource was not found"
 };
 
 export const UNAUTHORIZED_ERRORS = {
