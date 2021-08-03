@@ -16,6 +16,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>
@@ -37,6 +38,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>
@@ -64,6 +66,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>
@@ -85,6 +88,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>
@@ -114,6 +118,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>
@@ -149,6 +154,7 @@ describe("EditTagDialog", () => {
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
             cancel={cancelFunction}
+            form="EditTagForm2"
           />
         </Router>
       </Provider>

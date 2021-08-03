@@ -1,13 +1,6 @@
 import React, { useState } from "react";
 import EditTagDialog from "./EditTagDialog";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TableCell,
-  TableRow
-} from "@material-ui/core";
+import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import LinkButton from "../shared/components/LinkButton";
 import tableStyleGenerator from "../../tableStyles";
@@ -39,9 +32,11 @@ const TagTableRow = props => {
       </TableCell>
       <EditTagDialog
         classes={{}}
-        tag={{ name: "Mr. Tag", id: 2 }}
+        tag={props.tag}
         open={dialog === "edit"}
-      ></EditTagDialog>
+        cancel={() => setDialog(null)}
+        form={`EditTagForm${props.tag.id}`}
+      />
     </TableRow>
   );
 };
