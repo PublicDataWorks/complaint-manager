@@ -9,11 +9,7 @@ import SearchResults from "../shared/components/SearchResults";
 import TagTableRow from "./TagTableRow";
 import getTagsWithCount from "./thunks/getTagsWithCount";
 import clearTagManagement from "./thunks/clearTagManagement";
-import {
-  ASCENDING,
-  DESCENDING,
-  GET_TAGS_CLEARED
-} from "../../../sharedUtilities/constants";
+import { ASCENDING, DESCENDING } from "../../../sharedUtilities/constants";
 import TagTableHeader from "./TagTableHeader";
 
 const styles = theme => ({

@@ -73,9 +73,9 @@ const EditTagDialog = props => {
 const mapStateToProps = (state, props) => ({
   initialValues: { tagName: props.tag.name },
   existingTags: state.ui.tags,
-  value: state?.form?.EditTagForm?.values?.tagName
+  value: state?.form?.[`EditTagForm${props.tag.id}`]?.values?.tagName
 });
 
 export default connect(mapStateToProps)(
-  reduxForm({ form: "EditTagForm" })(EditTagDialog)
+  reduxForm({ fields: ["tagName"] })(EditTagDialog)
 );
