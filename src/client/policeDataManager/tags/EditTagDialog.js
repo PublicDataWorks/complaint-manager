@@ -1,6 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
+import axios from "axios";
 import {
   Dialog,
   DialogActions,
@@ -12,18 +13,33 @@ import {
   PrimaryButton
 } from "../shared/components/StyledButtons";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
-
-const submit = () => {}; // TODO
+import getTagsWithCount from "./thunks/getTagsWithCount";
 
 const EditTagDialog = props => {
+  const [serverError, setServerError] = useState(null);
+  const submit = values => {
+    axios
+      .put(`api/tags/${props.tag.id}`, {
+        id: props.tag.id,
+        name: values.tagName
+      })
+      .then(result => {
+        props.getTagsWithCount();
+        props.exit();
+      })
+      .catch(error => {
+        setServerError(error?.output?.statusCode);
+      });
+  };
+
   const tagAlreadyExist = useMemo(
     () => value =>
       props.existingTags?.filter(
         tag => tag?.name?.toUpperCase() === value?.toUpperCase()
-      ).length
+      ).length || serverError === 400
         ? "The tag name you entered already exists"
         : undefined,
-    [props.existingTags]
+    [props.existingTags, serverError]
   );
 
   return (
@@ -49,7 +65,7 @@ const EditTagDialog = props => {
         <DialogActions>
           <SecondaryButton
             data-testid="editTagCancelButton"
-            onClick={props.cancel}
+            onClick={props.exit}
           >
             Cancel
           </SecondaryButton>
@@ -76,6 +92,6 @@ const mapStateToProps = (state, props) => ({
   value: state?.form?.[`EditTagForm${props.tag.id}`]?.values?.tagName
 });
 
-export default connect(mapStateToProps)(
+export default connect(mapStateToProps, { getTagsWithCount })(
   reduxForm({ fields: ["tagName"] })(EditTagDialog)
 );

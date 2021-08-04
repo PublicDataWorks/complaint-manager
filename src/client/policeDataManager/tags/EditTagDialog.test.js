@@ -7,6 +7,14 @@ import EditTagDialog from "./EditTagDialog";
 import createConfiguredStore from "../../createConfiguredStore";
 import { GET_TAGS_SUCCEEDED } from "../../../sharedUtilities/constants";
 
+let mockPut = jest.fn();
+jest.mock("axios", () => ({
+  put: (url, body) => mockPut(url, body)
+}));
+
+let mockGetTagsWithCount = jest.fn();
+jest.mock("./thunks/getTagsWithCount", () => () => mockGetTagsWithCount());
+
 describe("EditTagDialog", () => {
   test("should render a textbox with an already populated tag name", () => {
     render(
@@ -144,8 +152,8 @@ describe("EditTagDialog", () => {
     expect(saveTagButton.disabled).toEqual(true);
   });
 
-  test("should execute cancel function when cancel button is clicked", () => {
-    let cancelFunction = jest.fn();
+  test("should execute exit function when exit button is clicked", () => {
+    let exitFunction = jest.fn();
     render(
       <Provider store={createConfiguredStore()}>
         <Router>
@@ -153,7 +161,7 @@ describe("EditTagDialog", () => {
             classes={{}}
             tag={{ name: "Mr. Tag", id: 2 }}
             open={true}
-            cancel={cancelFunction}
+            exit={exitFunction}
             form="EditTagForm2"
           />
         </Router>
@@ -161,6 +169,36 @@ describe("EditTagDialog", () => {
     );
 
     userEvent.click(screen.getByTestId("editTagCancelButton"));
-    expect(cancelFunction).toBeCalledTimes(1);
+    expect(exitFunction).toBeCalledTimes(1);
+  });
+
+  test("should make axios call when save button is clicked and call getTagsWithCount and dialog closed on success", () => {
+    let exitFunction = jest.fn();
+    render(
+      <Provider store={createConfiguredStore()}>
+        <Router>
+          <EditTagDialog
+            classes={{}}
+            tag={{ name: "Mr. Tag", id: 2 }}
+            open={true}
+            form="EditTagForm2"
+            exit={exitFunction}
+          />
+        </Router>
+      </Provider>
+    );
+
+    let promise = Promise.resolve();
+    mockPut.mockReturnValue(promise);
+    userEvent.type(screen.getByTestId("editTagTextBox"), "hello");
+    userEvent.click(screen.getByTestId("saveTagButton"));
+    expect(mockPut).toHaveBeenCalledWith("api/tags/2", {
+      id: 2,
+      name: "Mr. Taghello"
+    });
+    promise.then(() => {
+      expect(mockGetTagsWithCount).toBeCalledTimes(1);
+      expect(exitFunction).toBeCalledTimes(1);
+    });
   });
 });

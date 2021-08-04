@@ -422,7 +422,7 @@ export const API_ROUTES = {
         "Something went wrong and the tag values were not found. Please try again."
     }
   },
-  "/tags/:tagId": {
+  "/tags/:id": {
     put: {
       handler: editTag,
       errorMessage:

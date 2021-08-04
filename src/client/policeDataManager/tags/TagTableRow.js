@@ -34,7 +34,7 @@ const TagTableRow = props => {
         classes={{}}
         tag={props.tag}
         open={dialog === "edit"}
-        cancel={() => setDialog(null)}
+        exit={() => setDialog(null)}
         form={`EditTagForm${props.tag.id}`}
       />
     </TableRow>
