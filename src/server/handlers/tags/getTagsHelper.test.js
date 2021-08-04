@@ -11,6 +11,7 @@ import Case from "../../../sharedTestHelpers/case";
 import CaseTag from "../../testHelpers/caseTag";
 import Tag from "../../testHelpers/tag";
 
+
 jest.mock("../audits/getQueryAuditAccessDetails", () =>
   jest.fn(() => {
     return {
