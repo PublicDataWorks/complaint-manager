@@ -14,15 +14,21 @@ import {
 } from "../shared/components/StyledButtons";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import getTagsWithCount from "./thunks/getTagsWithCount";
+import { snackbarError } from "../actionCreators/snackBarActionCreators";
 
 const EditTagDialog = props => {
   const submit = async values => {
-    await axios.put(`api/tags/${props.tag.id}`, {
-      id: props.tag.id,
-      name: values.tagName
-    });
-    props.getTagsWithCount();
-    props.exit();
+    try {
+      await axios.put(`api/tags/${props.tag.id}`, {
+        id: props.tag.id,
+        name: values.tagName
+      });
+      props.getTagsWithCount();
+      props.exit();
+    } catch (error) {
+      console.error(error);
+      props.snackbarError(error.message);
+    }
   };
 
   const tagAlreadyExist = useMemo(
@@ -83,6 +89,6 @@ const mapStateToProps = (state, props) => ({
   value: state?.form?.[`EditTagForm${props.tag.id}`]?.values?.tagName
 });
 
-export default connect(mapStateToProps, { getTagsWithCount })(
+export default connect(mapStateToProps, { getTagsWithCount, snackbarError })(
   reduxForm({ fields: ["tagName"] })(EditTagDialog)
 );
