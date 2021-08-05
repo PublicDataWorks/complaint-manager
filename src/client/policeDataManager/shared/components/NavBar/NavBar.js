@@ -14,7 +14,7 @@ import MenuNavigator from "./MenuNavigator";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import NotificationDrawer from "../Notification/NotificationDrawer";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import { createMuiTheme } from "@material-ui/core/styles";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import getNotificationsForUser from "../../thunks/getNotificationsForUser";
 import Badge from "@material-ui/core/Badge";
@@ -68,14 +68,8 @@ class NavBar extends Component {
   };
 
   render() {
-    let {
-      showHome,
-      nickname,
-      children,
-      menuType,
-      dataTest,
-      showSearchBar
-    } = this.props;
+    let { showHome, nickname, children, menuType, dataTest, showSearchBar } =
+      this.props;
 
     if (isAuthDisabled()) {
       menuType = menuType.filter(item => item.dataTestName !== "logOutButton");
@@ -119,9 +113,11 @@ class NavBar extends Component {
             }}
           />
 
-          {this.props.featureToggles.searchCasesFeature && showSearchBar
-           ? <SearchCasesForm />
-           : <div />}
+          {this.props.featureToggles.searchCasesFeature && showSearchBar ? (
+            <SearchCasesForm />
+          ) : (
+            <div />
+          )}
 
           <div style={{ flex: 1, flexDirection: "row-reverse" }} />
           <IconButton
