@@ -51,7 +51,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^7.10.0",
     "@hapi/hoek": "9.2.0",
-    "@material-ui/core": "4.11.4",
+    "@material-ui/core": "4.12.3",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/lab": "^4.0.0-alpha.40",
     "@material-ui/styles": "4.11.4",
