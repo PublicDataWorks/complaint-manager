@@ -49,7 +49,7 @@ describe("editTag", () => {
       name: "Mr. Tags"
     });
     await editTag(request, response, next);
-    expect(response._getData()).toEqual({ id: 1, name: "Mr. Tags" });
+    expect(response._getData()).toEqual(JSON.stringify({ id: 1, name: "Mr. Tags" }));
     expect(mockHelper).toHaveBeenCalledWith(request, 1, {
       id: 1,
       name: "Mr. Tags"

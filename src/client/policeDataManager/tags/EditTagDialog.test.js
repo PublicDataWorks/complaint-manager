@@ -58,12 +58,6 @@ describe("EditTagDialog", () => {
     });
     fireEvent.submit(screen.getByRole("form"));
     screen.getByText("The tag name you entered already exists");
-
-    fireEvent.change(screen.getByTestId("editTagTextBox"), {
-      target: { value: "tofu" }
-    });
-    fireEvent.submit(screen.getByRole("form"));
-    screen.getByText("The tag name you entered already exists");
   });
 
   test("should disable edit button by default", () => {
@@ -108,9 +102,9 @@ describe("EditTagDialog", () => {
     expect(screen.getByTestId("saveTagButton").disabled).toEqual(true);
 
     fireEvent.change(screen.getByTestId("editTagTextBox"), {
-      target: { value: "tofu" }
+      target: { value: "ofu" }
     });
-    expect(screen.getByTestId("saveTagButton").disabled).toEqual(true);
+    expect(screen.getByTestId("saveTagButton").disabled).toEqual(false);
   });
 
   test("should renable edit button when tag isn't blank or doesn't exist", () => {

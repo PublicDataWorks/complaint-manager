@@ -16,30 +16,21 @@ import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import getTagsWithCount from "./thunks/getTagsWithCount";
 
 const EditTagDialog = props => {
-  const [serverError, setServerError] = useState(null);
-  const submit = values => {
-    axios
-      .put(`api/tags/${props.tag.id}`, {
-        id: props.tag.id,
-        name: values.tagName
-      })
-      .then(result => {
-        props.getTagsWithCount();
-        props.exit();
-      })
-      .catch(error => {
-        setServerError(error?.output?.statusCode);
-      });
+  const submit = async values => {
+    await axios.put(`api/tags/${props.tag.id}`, {
+      id: props.tag.id,
+      name: values.tagName
+    });
+    props.getTagsWithCount();
+    props.exit();
   };
 
   const tagAlreadyExist = useMemo(
     () => value =>
-      props.existingTags?.filter(
-        tag => tag?.name?.toUpperCase() === value?.toUpperCase()
-      ).length || serverError === 400
+      props.existingTags?.filter(tag => tag?.name === value).length
         ? "The tag name you entered already exists"
         : undefined,
-    [props.existingTags, serverError]
+    [props.existingTags]
   );
 
   return (
