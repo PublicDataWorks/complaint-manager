@@ -30,13 +30,17 @@ const TagTableRow = props => {
           Edit
         </LinkButton>
       </TableCell>
-      <EditTagDialog
-        classes={{}}
-        tag={props.tag}
-        open={dialog === "edit"}
-        exit={() => setDialog(null)}
-        form={`EditTagForm${props.tag.id}`}
-      />
+      {dialog === "edit" ? (
+        <EditTagDialog
+          classes={{}}
+          tag={props.tag}
+          open={dialog === "edit"}
+          exit={() => setDialog(null)}
+          form={`EditTagForm${props.tag.id}`}
+        />
+      ) : (
+        ""
+      )}
     </TableRow>
   );
 };
