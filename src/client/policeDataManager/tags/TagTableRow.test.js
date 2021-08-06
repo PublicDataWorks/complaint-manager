@@ -62,9 +62,6 @@ describe("TagTableRow", () => {
     test("should close dialog when cancel button is clicked", async () => {
       userEvent.click(screen.getByTestId("editTagButton"));
       userEvent.click(screen.getByTestId("editTagCancelButton"));
-      await waitForElementToBeRemoved(() =>
-        screen.queryByTestId("editTagTextBox")
-      );
       expect(screen.queryByTestId("editTagButton")).not.toBeInTheDocument;
     });
   });
