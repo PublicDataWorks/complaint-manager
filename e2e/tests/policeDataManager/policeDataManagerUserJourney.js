@@ -636,6 +636,44 @@ module.exports = {
       .confirmExportInDialog()
       .waitForJobCompletion();
   },
+  "should navigate to tag management and locate existing tag": browser => {
+    const navBar = browser.page.NavBar();
+    const tagManagementPage = browser.page.TagManagementPage();
+
+    navBar.goToTagManagement();
+
+    tagManagementPage.isOnPage().tagExists("Tofu");
+  },
+  "should attempt to edit tag to same name, but get a validation error":
+    browser => {
+      const tagManagementPage = browser.page.TagManagementPage();
+      const editTagDialog = browser.page.EditTagDialog();
+
+      tagManagementPage.editTag("Tofu");
+      editTagDialog
+        .isDialogVisible()
+        .enterText("")
+        .tab()
+        .saveDisabled()
+        .hasValidationError();
+    },
+  "should edit tag to read TOFU!!!": browser => {
+    const tagManagementPage = browser.page.TagManagementPage();
+    const editTagDialog = browser.page.EditTagDialog();
+
+    editTagDialog.clear().enterText("TOFU!!!").save();
+
+    tagManagementPage.isOnPage().tagExists("TOFU!!!");
+  },
+  "should edit tag back to original name": browser => {
+    const tagManagementPage = browser.page.TagManagementPage();
+    const editTagDialog = browser.page.EditTagDialog();
+
+    tagManagementPage.editTag("TOFU!!!");
+    editTagDialog.isDialogVisible().clear().enterText("Tofu").save();
+
+    tagManagementPage.isOnPage().tagExists("Tofu");
+  },
   "should log out of the system": browser => {
     if (browser.globals.disableAuthentication) {
       console.log("Authentication is disabled. Skipping test.");

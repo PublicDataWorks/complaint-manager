@@ -8,7 +8,7 @@ const snackbarCommands = {
     return this.assert.equal(true, regex.test(regexexpression, text));
   },
   presentWithMessage: function (message) {
-    return this.waitForElementVisible("@snackbarText", e2e.rerenderWait)
+    return this.waitForElementVisible("@snackbarText", 4 * e2e.rerenderWait)
       .moveToElement("@snackbarText", 5, 5)
       .assert.containsText("@snackbarText", message);
   },
