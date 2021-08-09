@@ -47,7 +47,10 @@ export const TagManagementPage = props => {
             spinnerVisible={props.loading}
             subtitleResultCount={false}
           >
-            <Table style={{ marginBottom: "32px" }}>
+            <Table
+              style={{ marginBottom: "32px" }}
+              data-testid="tag-management-table"
+            >
               <TableHead>
                 <TableRow className={props.classes.row}>
                   <TagTableHeader

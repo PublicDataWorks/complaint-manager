@@ -21,7 +21,7 @@ const EditTagDialog = props => {
     try {
       await axios.put(`api/tags/${props.tag.id}`, {
         id: props.tag.id,
-        name: values.tagName
+        name: values.nameOfTag
       });
       props.getTagsWithCount();
       props.exit();
@@ -55,7 +55,7 @@ const EditTagDialog = props => {
               "data-testid": "editTagTextBox"
             }}
             style={{ minWidth: "235px" }}
-            name="tagName"
+            name="nameOfTag"
             validate={tagAlreadyExist}
           />
         </DialogContent>
@@ -84,11 +84,11 @@ const EditTagDialog = props => {
 };
 
 const mapStateToProps = (state, props) => ({
-  initialValues: { tagName: props.tag.name },
+  initialValues: { nameOfTag: props.tag.name },
   existingTags: state.ui.tags,
-  value: state?.form?.[`EditTagForm${props.tag.id}`]?.values?.tagName
+  value: state?.form?.[`EditTagForm${props.tag.id}`]?.values?.nameOfTag
 });
 
 export default connect(mapStateToProps, { getTagsWithCount, snackbarError })(
-  reduxForm({ fields: ["tagName"] })(EditTagDialog)
+  reduxForm({ fields: ["nameOfTag"] })(EditTagDialog)
 );

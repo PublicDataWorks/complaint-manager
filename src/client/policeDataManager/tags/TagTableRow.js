@@ -17,6 +17,7 @@ const TagTableRow = props => {
       className={`${props.classes.row}`}
       hover
       style={{ cursor: "pointer", height: "70px" }}
+      data-testid={`tagTableRow-${props.tag.name}`}
     >
       <TableCell className={props.classes.cell}>
         <div>{props.tag.name}</div>

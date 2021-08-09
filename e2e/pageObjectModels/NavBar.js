@@ -27,6 +27,12 @@ const navBarCommands = {
       .click("@menuButton", e2e.logOnClick)
       .waitForElementVisible("@complaintsLink", e2e.rerenderWait)
       .click("@complaintsLink", e2e.logOnClick);
+  },
+  goToTagManagement: function () {
+    return this.waitForElementPresent("@menuButton", e2e.roundtripWait)
+      .click("@menuButton", e2e.logOnClick)
+      .waitForElementVisible("@tagManagementLink", e2e.rerenderWait)
+      .click("@tagManagementLink", e2e.logOnClick);
   }
 };
 
@@ -43,6 +49,7 @@ module.exports = {
     logoutButton: {
       selector: '[data-testid="logOutButton"]'
     },
-    complaintsLink: { selector: "[data-testid='complaints']" }
+    complaintsLink: { selector: "[data-testid='complaints']" },
+    tagManagementLink: { selector: "[data-testid='tagManagement']" }
   }
 };
