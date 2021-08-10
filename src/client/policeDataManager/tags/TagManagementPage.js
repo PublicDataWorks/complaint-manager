@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { Table, TableBody, TableHead, TableRow } from "@material-ui/core";
 import tableStyleGenerator from "../../tableStyles";
@@ -88,6 +89,20 @@ export const TagManagementPage = props => {
       </div>
     </main>
   );
+};
+
+TagManagementPage.propTypes = {
+  classes: PropTypes.object,
+  clearTagManagement: PropTypes.func,
+  getTagsWithCount: PropTypes.func,
+  loading: PropTypes.bool,
+  tags: PropTypes.arrayOf(
+    PropTypes.shape({
+      count: PropTypes.string,
+      id: PropTypes.number,
+      name: PropTypes.string
+    })
+  )
 };
 
 export default withStyles(styles, { withTheme: true })(
