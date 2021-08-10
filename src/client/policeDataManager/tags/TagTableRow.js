@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import EditTagDialog from "./EditTagDialog";
 import { TableCell, TableRow } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -44,6 +45,15 @@ const TagTableRow = props => {
       )}
     </TableRow>
   );
+};
+
+TagTableRow.propTypes = {
+  classes: PropTypes.object,
+  tag: PropTypes.shape({
+    count: PropTypes.string,
+    id: PropTypes.number,
+    name: PropTypes.string
+  })
 };
 
 export default withStyles(styles, { withTheme: true })(TagTableRow);
