@@ -95,7 +95,7 @@ EditTagDialog.propTypes = {
   exit: PropTypes.func,
   getTagsWithCount: PropTypes.func,
   handleSubmit: PropTypes.func, // provided by reduxForm
-  open: PropTypes.func,
+  open: PropTypes.bool,
   snackbarError: PropTypes.func,
   tag: PropTypes.shape({
     id: PropTypes.number,
