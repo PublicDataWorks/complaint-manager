@@ -58,39 +58,48 @@ export const validateQuotes = value => {
 };
 
 export const areSearchOperatorsValid = queryString => {
-  const OPERATORS = ["AND", "OR", "NOT"];
-  const CONJUNCTIONS = ["AND", "OR"];
-  let words = queryString.split(" ");
-  if (
-    CONJUNCTIONS.includes(words[0]) ||
-    OPERATORS.includes(words[words.length - 1])
-  ) {
-    return false;
-  }
-
-  let previous = "";
-  for (let word of words) {
+  if (queryString.includes('"')) {
+    let blocks = queryString.split('"');
+    for (let i = 0; i < blocks.length; i += 2) {
+      // only check non-quoted blocks
+      if (!areSearchOperatorsValid(blocks[i])) {
+        return false;
+      }
+    }
+  } else {
+    const OPERATORS = ["AND", "OR", "NOT"];
+    const CONJUNCTIONS = ["AND", "OR"];
+    let words = queryString.split(" ");
     if (
-      (OPERATORS.includes(previous) && CONJUNCTIONS.includes(word)) ||
-      (previous === "NOT" && word === "NOT") // NOT can follow AND/OR
+      CONJUNCTIONS.includes(words[0]) ||
+      OPERATORS.includes(words[words.length - 1])
     ) {
       return false;
     }
-    previous = word;
-  }
 
-  for (let operator of OPERATORS) {
-    if (words.includes(`${operator})`)) {
-      return false;
+    let previous = "";
+    for (let word of words) {
+      if (
+        (OPERATORS.includes(previous) && CONJUNCTIONS.includes(word)) ||
+        (previous === "NOT" && word === "NOT") // NOT can follow AND/OR
+      ) {
+        return false;
+      }
+      previous = word;
+    }
+
+    for (let operator of OPERATORS) {
+      if (words.includes(`${operator})`)) {
+        return false;
+      }
+    }
+
+    for (let conjunction of CONJUNCTIONS) {
+      if (words.includes(`(${conjunction}`)) {
+        return false;
+      }
     }
   }
-
-  for (let conjunction of CONJUNCTIONS) {
-    if (words.includes(`(${conjunction}`)) {
-      return false;
-    }
-  }
-
   return true;
 };
 
