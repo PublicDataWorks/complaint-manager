@@ -463,6 +463,14 @@ describe("areSearchOperatorsValid", () => {
   test("should accept AND followed by NOT followed by term", () => {
     expect(areSearchOperatorsValid("cute AND NOT creepy")).toBeTrue();
   });
+
+  test("should not reject anything in quotes", () => {
+    expect(areSearchOperatorsValid('"NOT AND OR OR AND NOT"')).toBeTrue();
+  });
+
+  test("should reject an invalid operator even if there is a quote elsewhere in the string", () => {
+    expect(areSearchOperatorsValid('AND "Hi everybody"')).toBeFalse();
+  });
 });
 
 describe("component mounting", () => {
