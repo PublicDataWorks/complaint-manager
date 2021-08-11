@@ -1,3 +1,5 @@
+const SEARCH_TERMS = ["AND", "OR", "NOT"];
+
 export const parseSearchTerm = term => {
   if (!term) {
     return;
@@ -12,5 +14,13 @@ export const buildQueryString = query => {
     quoteArr[i] = parseSearchTerm(quoteArr[i]);
   }
   let queryString = quoteArr.join('"');
-  return `*${queryString.split(" ").join("* *")}*`;
+  return queryString.split(" ").reduce((str, word) => {
+    if (SEARCH_TERMS.includes(word)) {
+      return `${str === "" ? "" : str + " "}${word}`;
+    } else {
+      return `${str === "" ? "" : str + " "}${
+        word.startsWith('"') || word.startsWith("(") ? "" : "*"
+      }${word}${word.endsWith('"') || word.endsWith(")") ? "" : "*"}`;
+    }
+  }, "");
 };

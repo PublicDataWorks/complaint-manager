@@ -38,22 +38,60 @@ const styles = theme => ({
 const toggleDirection = direction =>
   direction === DESCENDING ? ASCENDING : DESCENDING;
 
+const INVALID_SEARCH_MSG = "Invalid search, Please try again";
+
 export const validateQuotes = value => {
-  const ERROR_MSG = "Invalid search, Please try again";
   if (!value) {
     return;
   }
 
   let chunks = value.split('"');
   if (chunks.length % 2 === 0) {
-    return ERROR_MSG;
+    return INVALID_SEARCH_MSG;
   }
 
   for (let i = 1; i < chunks.length; i += 2) {
     if (chunks[i].trim() === "") {
-      return ERROR_MSG;
+      return INVALID_SEARCH_MSG;
     }
   }
+};
+
+export const areSearchOperatorsValid = queryString => {
+  const OPERATORS = ["AND", "OR", "NOT"];
+  const CONJUNCTIONS = ["AND", "OR"];
+  let words = queryString.split(" ");
+  if (
+    CONJUNCTIONS.includes(words[0]) ||
+    OPERATORS.includes(words[words.length - 1])
+  ) {
+    return false;
+  }
+
+  let previous = "";
+  for (let word of words) {
+    if (
+      (OPERATORS.includes(previous) && CONJUNCTIONS.includes(word)) ||
+      (previous === "NOT" && word === "NOT") // NOT can follow AND/OR
+    ) {
+      return false;
+    }
+    previous = word;
+  }
+
+  for (let operator of OPERATORS) {
+    if (words.includes(`${operator})`)) {
+      return false;
+    }
+  }
+
+  for (let conjunction of CONJUNCTIONS) {
+    if (words.includes(`(${conjunction}`)) {
+      return false;
+    }
+  }
+
+  return true;
 };
 
 class CasesTable extends React.Component {
@@ -94,6 +132,10 @@ class CasesTable extends React.Component {
           return;
         } else if (validateQuotes(queryString)) {
           console.warn("Invalid use of quotation marks in queryString");
+          this.props.dispatch(searchFailed());
+          return;
+        } else if (!areSearchOperatorsValid(queryString)) {
+          console.warn("Invalid use of search operators");
           this.props.dispatch(searchFailed());
           return;
         }
