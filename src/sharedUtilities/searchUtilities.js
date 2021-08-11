@@ -23,7 +23,7 @@ export const buildQueryString = query => {
   }
   let queryString = quoteArr.join('"');
   return queryString.split(" ").reduce((str, word) => {
-    if (OPERATORS.includes(word)) {
+    if (OPERATORS.includes(word) || word === "(NOT") {
       return `${addSpaceIfNotEmpty(str)}${word}`;
     } else {
       return `${addSpaceIfNotEmpty(str)}${addAsterisksAroundWordIfNonGrouping(
