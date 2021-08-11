@@ -22,10 +22,10 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/instance-files:1.0.6
+      - run: docker pull noipm/instance-files:1.0.7
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container noipm/instance-files:1.0.6):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container noipm/instance-files:1.0.7):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -543,7 +543,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.38.0
+                - release_v3.39.0
       - get-instance-files-release:
           requires:
             - security-check
