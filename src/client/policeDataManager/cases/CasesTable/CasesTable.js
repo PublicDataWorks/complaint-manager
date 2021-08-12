@@ -89,13 +89,13 @@ export const areSearchOperatorsValid = queryString => {
     }
 
     for (let operator of OPERATORS) {
-      if (words.includes(`${operator})`)) {
+      if (queryString.includes(`${operator})`)) {
         return false;
       }
     }
 
     for (let conjunction of CONJUNCTIONS) {
-      if (words.includes(`(${conjunction}`)) {
+      if (queryString.includes(`(${conjunction}`)) {
         return false;
       }
     }
