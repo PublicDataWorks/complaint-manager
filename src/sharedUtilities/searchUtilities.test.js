@@ -1,4 +1,4 @@
-const { parseSearchTerm } = require("./searchUtilities");
+const { parseSearchTerm, buildQueryString } = require("./searchUtilities");
 
 describe("parseSearchTerm", () => {
   test("should return undefined if input is undefined", () => {
@@ -20,5 +20,44 @@ describe("parseSearchTerm", () => {
     expect(parseSearchTerm("Search      and       Seizure")).toEqual(
       "Search <<SPACE>> and <<SPACE>> Seizure"
     );
+  });
+
+  describe("buildQueryString", () => {
+    test("should asterisk all words if no operators, parens, or quotes", () => {
+      expect(
+        buildQueryString("I like tea and cakes for tea and cake time")
+      ).toEqual(
+        "*I* *like* *tea* *and* *cakes* *for* *tea* *and* *cake* *time*"
+      );
+    });
+
+    test("should not asterisk operators", () => {
+      expect(
+        buildQueryString("I like tea AND cakes for tea OR cake time")
+      ).toEqual("*I* *like* *tea* AND *cakes* *for* *tea* OR *cake* *time*");
+    });
+
+    test("should not asterisk quotes", () => {
+      expect(
+        buildQueryString('I "like tea" AND cakes for tea OR "cake time"')
+      ).toEqual(
+        '*I* "like* *<<SPACE>>* *tea" AND *cakes* *for* *tea* OR "cake* *<<SPACE>>* *time"'
+      );
+    });
+
+    test("should add parens around NOT and next term", () => {
+      expect(buildQueryString("NOT safe")).toEqual("(NOT *safe*)");
+      expect(buildQueryString("NOT safe AND definitely NOT SAFe")).toEqual(
+        "(NOT *safe*) AND *definitely* (NOT *SAFe*)"
+      );
+    });
+
+    test("should not asterisk parens or a NOT just inside of parens", () => {
+      expect(
+        buildQueryString("I like (tea AND cakes for) (NOT tea OR cake) time")
+      ).toEqual(
+        "*I* *like* (tea* AND *cakes* *for) ((NOT *tea*) OR *cake) *time*"
+      );
+    });
   });
 });
