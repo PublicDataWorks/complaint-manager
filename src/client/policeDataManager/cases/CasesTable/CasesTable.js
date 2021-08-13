@@ -69,6 +69,7 @@ export const areSearchOperatorsValid = queryString => {
   } else {
     const OPERATORS = ["AND", "OR", "NOT"];
     const CONJUNCTIONS = ["AND", "OR"];
+    const FIELDS = ["tag", "accused", "complainant", "case_id"];
     let words = queryString.split(" ");
     if (
       CONJUNCTIONS.includes(words[0]) ||
@@ -85,6 +86,16 @@ export const areSearchOperatorsValid = queryString => {
       ) {
         return false;
       }
+
+      let colonSplit = word.split(":");
+      if (
+        colonSplit.length > 2 ||
+        (colonSplit.length === 2 &&
+          !FIELDS.includes(colonSplit[0].replace(/\(+/g, "")))
+      ) {
+        return false;
+      }
+
       previous = word;
     }
 
@@ -100,6 +111,7 @@ export const areSearchOperatorsValid = queryString => {
       }
     }
   }
+
   return true;
 };
 

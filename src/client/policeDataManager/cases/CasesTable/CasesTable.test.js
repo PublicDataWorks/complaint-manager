@@ -471,6 +471,23 @@ describe("areSearchOperatorsValid", () => {
   test("should reject an invalid operator even if there is a quote elsewhere in the string", () => {
     expect(areSearchOperatorsValid('AND "Hi everybody"')).toBeFalse();
   });
+
+  test("should accept field searches as long as everything is in order", () => {
+    expect(
+      areSearchOperatorsValid(
+        "tag:Tofu AND (complainant:Night OR accused:Watch)"
+      )
+    ).toBeTrue();
+  });
+
+  test("should reject field searches for fields that don't exist", () => {
+    expect(areSearchOperatorsValid("sanity:zero")).toBeFalse();
+    expect(areSearchOperatorsValid("(sanity:zero AND hope)")).toBeFalse();
+  });
+
+  test("should reject words with multiple colons", () => {
+    expect(areSearchOperatorsValid("tag:Tofu:isGross")).toBeFalse();
+  });
 });
 
 describe("component mounting", () => {
