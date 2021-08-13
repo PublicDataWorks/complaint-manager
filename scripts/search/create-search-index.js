@@ -52,25 +52,18 @@ const updateSearchIndex = async () => {
           mappings: {
             properties: {
               case_id: { type: "integer" },
-              tags: { type: "text" },
-              accusedOfficers: {
+              tag: { type: "text" },
+              accused: {
                 type: "nested",
                 properties: {
                   full_name: { type: "text" },
                   full_name_with_initial: { type: "text" }
                 },
-                complainantOfficers: {
+                complainant: {
                   type: "nested",
                   properties: {
                     full_name: { type: "text" },
                     full_name_with_initial: { type: "text" }
-                  },
-                  civilians: {
-                    type: "nested",
-                    properties: {
-                      full_name: { type: "text" },
-                      full_name_with_initial: { type: "text" }
-                    }
                   }
                 }
               }
@@ -134,16 +127,15 @@ const updateSearchIndex = async () => {
 
   const bulkOperations = results.flatMap(result => {
     let case_id = result.id;
-    let tags = result.caseTags.map(tag => parseSearchTerm(tag.tag.name));
+    let tag = result.caseTags.map(tag => parseSearchTerm(tag.tag.name));
     let complainantOfficers = result.complainantOfficers.map(mapPerson);
-    let accusedOfficers = result.accusedOfficers.map(mapPerson);
+    let accused = result.accusedOfficers.map(mapPerson);
     let civilians = result.complainantCivilians.map(mapPerson);
     const document = {
       case_id,
-      tags,
-      accusedOfficers,
-      complainantOfficers,
-      civilians
+      tag,
+      accused,
+      complainant: complainantOfficers.concat(civilians)
     };
 
     return [operation, document];
