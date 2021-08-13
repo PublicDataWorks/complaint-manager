@@ -52,9 +52,9 @@ const {
   const { hits } = get(searchResults, ["hits"], {});
   console.log(`Found ${hits.length} results.`);
 
-  const logPage = page => {
+  const logPage = (page, pageIdx) => {
     page.forEach((row, idx) => {
-      console.group(idx);
+      console.group(`${pageIdx}.${idx}`);
       Object.keys(row).forEach(key => {
         if (Array.isArray(row[key])) {
           console.group(key);

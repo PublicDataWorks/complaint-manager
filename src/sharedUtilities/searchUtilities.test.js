@@ -41,7 +41,7 @@ describe("parseSearchTerm", () => {
       expect(
         buildQueryString('I "like tea" AND cakes for tea OR "cake time"')
       ).toEqual(
-        '*I* "like* *<<SPACE>>* *tea" AND *cakes* *for* *tea* OR "cake* *<<SPACE>>* *time"'
+        '*I* "*like* *<<SPACE>>* *tea*" AND *cakes* *for* *tea* OR "*cake* *<<SPACE>>* *time*"'
       );
     });
 
@@ -56,8 +56,20 @@ describe("parseSearchTerm", () => {
       expect(
         buildQueryString("I like (tea AND cakes for) (NOT tea OR cake) time")
       ).toEqual(
-        "*I* *like* (tea* AND *cakes* *for) ((NOT *tea*) OR *cake) *time*"
+        "*I* *like* (*tea* AND *cakes* *for*) ((NOT *tea*) OR *cake*) *time*"
       );
+    });
+
+    test("should preprocess a declared search field to add .\\* but not prepend with *", () => {
+      expect(
+        buildQueryString("tag:Tofu accused:(Night OR Ansel) Fred")
+      ).toEqual("tag.\\*:*Tofu* accused.\\*:(*Night* OR *Ansel*) *Fred*");
+    });
+
+    test("should add asterisks around terms even when stuck between a colon and a parenthesis", () => {
+      expect(
+        buildQueryString("Tofu OR (complainant:Nigh AND complainant:Wat)")
+      ).toEqual("*Tofu* OR (complainant.\\*:*Nigh* AND complainant.\\*:*Wat*)");
     });
   });
 });

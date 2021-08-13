@@ -11,9 +11,33 @@ export const parseSearchTerm = term => {
 const addSpaceIfNotEmpty = str => (str === "" ? "" : str + " ");
 
 const addAsterisksAroundWordIfNonGrouping = word => {
-  let prefix = word.startsWith('"') || word.startsWith("(") ? "" : "*";
-  let postfix = word.endsWith('"') || word.endsWith(")") ? "" : "*";
-  return `${prefix}${word}${postfix}`;
+  let processedWord = word;
+  let prefix = "*";
+  let postfix = "*";
+  if (processedWord.startsWith('"')) {
+    processedWord = processedWord.substring(1);
+    prefix = '"*';
+  } else if (processedWord.startsWith('("')) {
+    processedWord = processedWord.substring(2);
+    prefix = '("*';
+  } else if (processedWord.startsWith("(")) {
+    processedWord = processedWord.substring(1);
+    prefix = "(*";
+    1;
+  }
+
+  if (processedWord.endsWith('"')) {
+    processedWord = processedWord.substring(0, processedWord.length - 1);
+    postfix = '*"';
+  } else if (processedWord.endsWith('")')) {
+    processedWord = processedWord.substring(0, processedWord.length - 2);
+    postfix = '*")';
+  } else if (processedWord.endsWith(")")) {
+    processedWord = processedWord.substring(0, processedWord.length - 1);
+    postfix = "*)";
+  }
+
+  return `${prefix}${processedWord}${postfix}`;
 };
 
 const findEndOfNOTTerm = (str, start) => {
@@ -52,6 +76,11 @@ const parenthesizeAroundNOT = queryString => {
   return result;
 };
 
+const processFieldQuery = word => {
+  let [field, term] = word.split(":");
+  return `${field}.\\*:${addAsterisksAroundWordIfNonGrouping(term)}`;
+};
+
 export const buildQueryString = query => {
   let quoteArr = query.split('"');
   for (let i = 1; i < quoteArr.length; i += 2) {
@@ -62,6 +91,8 @@ export const buildQueryString = query => {
     queryString.split(" ").reduce((str, word) => {
       if (OPERATORS.includes(word) || word.endsWith("NOT")) {
         return `${addSpaceIfNotEmpty(str)}${word}`;
+      } else if (word.includes(":")) {
+        return `${addSpaceIfNotEmpty(str)}${processFieldQuery(word)}`;
       } else {
         return `${addSpaceIfNotEmpty(str)}${addAsterisksAroundWordIfNonGrouping(
           word
