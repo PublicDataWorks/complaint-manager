@@ -52,7 +52,12 @@ const updateSearchIndex = async () => {
           mappings: {
             properties: {
               case_id: { type: "integer" },
-              tag: { type: "text" },
+              tag: {
+                type: "nested",
+                properties: {
+                  name: { type: "text" }
+                }
+              },
               accused: {
                 type: "nested",
                 properties: {
@@ -127,7 +132,9 @@ const updateSearchIndex = async () => {
 
   const bulkOperations = results.flatMap(result => {
     let case_id = result.id;
-    let tag = result.caseTags.map(tag => parseSearchTerm(tag.tag.name));
+    let tag = result.caseTags.map(tag => ({
+      name: parseSearchTerm(tag.tag.name)
+    }));
     let complainantOfficers = result.complainantOfficers.map(mapPerson);
     let accused = result.accusedOfficers.map(mapPerson);
     let civilians = result.complainantCivilians.map(mapPerson);
