@@ -1,4 +1,18 @@
 version: 2
+parameters:
+  prod-branch:
+    type: string
+    default: "test-that-indexing"
+  stage-branch:
+    type: string
+    default: "release_v3.39.0"
+  instance-files-image-name:
+    type: string
+    default: "noipm/instance-files"
+  instance-files-version:
+    type: string
+    default: "1.0.7"
+
 jobs:
   get-instance-files-latest:
     docker:
@@ -8,7 +22,7 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container noipm/instance-files:latest):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:latest):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -22,10 +36,10 @@ jobs:
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/instance-files:1.0.7
+      - run: docker pull << pipeline.parameters.instance-files-image-name >>:<< pipeline.parameters.instance-files-version >>
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container noipm/instance-files:1.0.7):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:<< pipeline.parameters.instance-files-version >>):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -139,9 +153,9 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=1.0.6 -t noipm/police-data-manager-staging:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=1.0.6 -t noipm/police-data-manager-production:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=1.0.6 -t noipm/police-data-manager-worker:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=<< pipeline.parameters.instance-files-version >> -t noipm/police-data-manager-staging:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=<< pipeline.parameters.instance-files-version >> -t noipm/police-data-manager-production:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=<< pipeline.parameters.instance-files-version >> -t noipm/police-data-manager-worker:$CIRCLE_SHA1 .
       - run: docker push noipm/police-data-manager-staging:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-production:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-worker:$CIRCLE_SHA1
@@ -476,7 +490,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - << pipeline.parameters.stage-branch >>
     jobs:
       - get-instance-files-latest
       - update-search-indices-staging:
@@ -486,11 +500,11 @@ workflows:
   nightly_index_update_production:
     triggers:
       - schedule:
-          cron: "0 7 * * *" # Resolves to 1 AM CST
+          cron: "0 4 * * *" # Resolves to 10 PM CST TODO change this back
           filters:
             branches:
               only:
-                - master
+                - << pipeline.parameters.prod-branch >>
     jobs:
       - get-instance-files-latest
       - update-search-indices-production:
@@ -543,7 +557,7 @@ workflows:
           filters:
             branches:
               only:
-                - release_v3.39.0
+                - << pipeline.parameters.stage-branch >>
       - get-instance-files-release:
           requires:
             - security-check
