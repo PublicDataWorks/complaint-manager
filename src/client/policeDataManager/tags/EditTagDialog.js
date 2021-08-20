@@ -1,7 +1,8 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import axios from "axios";
+import PropTypes from "prop-types";
 import {
   Dialog,
   DialogActions,
@@ -81,6 +82,26 @@ const EditTagDialog = props => {
       </form>
     </Dialog>
   );
+};
+
+EditTagDialog.propTypes = {
+  classes: PropTypes.object,
+  existingTags: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string
+    })
+  ),
+  exit: PropTypes.func,
+  getTagsWithCount: PropTypes.func,
+  handleSubmit: PropTypes.func, // provided by reduxForm
+  open: PropTypes.bool,
+  snackbarError: PropTypes.func,
+  tag: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string
+  }),
+  value: PropTypes.string
 };
 
 const mapStateToProps = (state, props) => ({

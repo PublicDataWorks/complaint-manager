@@ -1,14 +1,16 @@
-import CasesTable, { validateQuotes } from "./CasesTable";
+import CasesTable, {
+  validateQuotes,
+  areSearchOperatorsValid
+} from "./CasesTable";
 import React from "react";
 import { mount } from "enzyme/build/index";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../createConfiguredStore";
+import { BrowserRouter as Router } from "react-router-dom";
 import {
   getWorkingCasesSuccess,
   updateSort
 } from "../../actionCreators/casesActionCreators";
-import { BrowserRouter as Router } from "react-router-dom";
-import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
   ASCENDING,
   CASE_STATUS,
@@ -16,18 +18,16 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   DESCENDING,
-  SEARCH_CASES_SUCCESS,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
+import Civilian from "../../../../sharedTestHelpers/civilian";
+import Tag from "../../../../server/testHelpers/tag";
+import SearchCasesForm from "../SearchCases/SearchCasesForm";
 import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
-import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
-import Tag from "../../../../server/testHelpers/tag";
 import { PERSON_TYPE } from "../../../../instance-files/constants";
-import { crossOriginResourcePolicy } from "helmet";
-import SearchCasesForm from "../SearchCases/SearchCasesForm";
 
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");
@@ -410,6 +410,66 @@ describe("validateQuotes", () => {
     expect(
       validateQuotes('"Night J Watch" "a cold cut sandwich" Hello')
     ).toBeUndefined();
+  });
+});
+
+describe("areSearchOperatorsValid", () => {
+  test("should accept a queryString with no operators", () => {
+    expect(areSearchOperatorsValid("beauty and")).toBeTrue();
+  });
+
+  test("should accept a queryString with a single AND in between terms", () => {
+    expect(areSearchOperatorsValid('beauty AND "the beast"')).toBeTrue();
+  });
+
+  test("should reject a queryString that starts with AND", () => {
+    expect(areSearchOperatorsValid("AND the beast")).toBeFalse();
+  });
+
+  test("should accept a queryString that starts with NOT", () => {
+    expect(areSearchOperatorsValid('NOT "the beast"')).toBeTrue();
+  });
+
+  test("should reject a queryString that ends with OR", () => {
+    expect(areSearchOperatorsValid("Beauty OR")).toBeFalse();
+  });
+
+  test("should reject a queryString that ends with NOT", () => {
+    expect(areSearchOperatorsValid("That looks good, NOT")).toBeFalse();
+  });
+
+  test("should accept multiple operators separated by search terms with no parentheses", () => {
+    expect(
+      areSearchOperatorsValid("so AND then OR then AND then OR then")
+    ).toBeTrue();
+  });
+
+  test("should reject AND and OR when adjacent", () => {
+    expect(areSearchOperatorsValid("this AND OR that")).toBeFalse();
+  });
+
+  test("should accept multiple operators separated by search terms with parentheses", () => {
+    expect(
+      areSearchOperatorsValid("(hot AND dry) OR (cool AND moist)")
+    ).toBeTrue();
+  });
+
+  test("should reject AND at the end of a parenthesis", () => {
+    expect(
+      areSearchOperatorsValid("(hot AND) dry OR (cool AND moist)")
+    ).toBeFalse();
+  });
+
+  test("should accept AND followed by NOT followed by term", () => {
+    expect(areSearchOperatorsValid("cute AND NOT creepy")).toBeTrue();
+  });
+
+  test("should not reject anything in quotes", () => {
+    expect(areSearchOperatorsValid('"NOT AND OR OR AND NOT"')).toBeTrue();
+  });
+
+  test("should reject an invalid operator even if there is a quote elsewhere in the string", () => {
+    expect(areSearchOperatorsValid('AND "Hi everybody"')).toBeFalse();
   });
 });
 
