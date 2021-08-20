@@ -2,7 +2,7 @@ version: 2.1
 parameters:
   prod-branch:
     type: string
-    default: "test-that-indexing"
+    default: "release_v3.38.0"
   stage-branch:
     type: string
     default: "release_v3.39.0"
@@ -12,6 +12,9 @@ parameters:
   instance-files-version:
     type: string
     default: "1.0.7"
+  ubuntu-version:
+    type: string
+    default: "2.0.2"
 
 jobs:
   get-instance-files-latest:
@@ -49,7 +52,7 @@ jobs:
 
   test-client:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
     steps:
@@ -67,7 +70,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers-ci:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -86,7 +89,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers-staging:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -105,7 +108,7 @@ jobs:
             NEW_RELIC_NO_CONFIG_FILE: true
   test-server-worker-non-handlers:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
       - image: postgres:10.9-alpine
@@ -397,7 +400,7 @@ jobs:
 
   update-search-indices-ci:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - run:
           name: Defines Environment Variables at Runtime
@@ -423,7 +426,7 @@ jobs:
 
   update-search-indices-staging:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - run:
           name: Defines Environment Variables at Runtime
@@ -446,7 +449,7 @@ jobs:
 
   update-search-indices-production:
     docker:
-      - image: noipm/docker-node-ubuntu:2.0.2
+      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - run:
           name: Defines Environment Variables at Runtime
@@ -500,7 +503,7 @@ workflows:
   nightly_index_update_production:
     triggers:
       - schedule:
-          cron: "0 4 * * *" # Resolves to 10 PM CST TODO change this back
+          cron: "0 7 * * *" # Resolves to 1 AM CST
           filters:
             branches:
               only:
