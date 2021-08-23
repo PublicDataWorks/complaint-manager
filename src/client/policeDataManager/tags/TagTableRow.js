@@ -1,17 +1,54 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
 import PropTypes from "prop-types";
 import EditTagDialog from "./EditTagDialog";
-import { TableCell, TableRow } from "@material-ui/core";
+import { TableCell, TableRow, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import LinkButton from "../shared/components/LinkButton";
+import ConfirmationDialog from "../shared/components/ConfirmationDialog";
+import getTagsWithCount from "./thunks/getTagsWithCount";
 import tableStyleGenerator from "../../tableStyles";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
 });
 
-const TagTableRow = props => {
+export const TagTableRow = props => {
   const [dialog, setDialog] = useState(null);
+
+  const renderDialog = () => {
+    switch (dialog) {
+      case "edit":
+        return (
+          <EditTagDialog
+            classes={{}}
+            tag={props.tag}
+            open={dialog === "edit"}
+            exit={() => setDialog(null)}
+            form={`EditTagForm${props.tag.id}`}
+          />
+        );
+      case "remove":
+        return (
+          <ConfirmationDialog
+            buttonStyle="SPLIT"
+            confirmText="DELETE TAG"
+            onConfirm={async () => {
+              await axios.delete(`api/tags/${props.tag.id}`);
+              props.getTagsWithCount();
+              setDialog(null);
+            }}
+            onCancel={() => setDialog(null)}
+            title="Remove Tag"
+          >
+            You are about to delete the tag <strong>"{props.tag.name}"</strong>
+          </ConfirmationDialog>
+        );
+      default:
+        return "";
+    }
+  };
 
   return (
     <TableRow
@@ -32,17 +69,15 @@ const TagTableRow = props => {
           Edit
         </LinkButton>
       </TableCell>
-      {dialog === "edit" ? (
-        <EditTagDialog
-          classes={{}}
-          tag={props.tag}
-          open={dialog === "edit"}
-          exit={() => setDialog(null)}
-          form={`EditTagForm${props.tag.id}`}
-        />
-      ) : (
-        ""
-      )}
+      <TableCell className={props.classes.cell}>
+        <LinkButton
+          data-testid="removeTagButton"
+          onClick={() => setDialog("remove")}
+        >
+          Remove
+        </LinkButton>
+      </TableCell>
+      {renderDialog()}
     </TableRow>
   );
 };
@@ -56,4 +91,6 @@ TagTableRow.propTypes = {
   })
 };
 
-export default withStyles(styles, { withTheme: true })(TagTableRow);
+export default withStyles(styles, { withTheme: true })(
+  connect(undefined, { getTagsWithCount })(TagTableRow)
+);
