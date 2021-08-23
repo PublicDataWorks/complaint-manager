@@ -56,6 +56,7 @@ import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import editTag from "./handlers/tags/editTag";
+import removeTag from "./handlers/tags/removeTag";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
@@ -427,6 +428,11 @@ export const API_ROUTES = {
       handler: editTag,
       errorMessage:
         "Something went wrong and the tag could not be updated. Please try again."
+    },
+    delete: {
+      handler: removeTag,
+      errorMessage:
+      "Something went wrong and the tag could not be deleted. Please try again."
     }
   },
   "/intake-sources": {
