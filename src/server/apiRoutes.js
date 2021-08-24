@@ -57,6 +57,7 @@ import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
 import editTag from "./handlers/tags/editTag";
 import removeTag from "./handlers/tags/removeTag";
+import mergeTag from "./handlers/tags/mergeTag";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
 import getUsers from "./common/handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
@@ -433,6 +434,11 @@ export const API_ROUTES = {
       handler: removeTag,
       errorMessage:
       "Something went wrong and the tag could not be deleted. Please try again."
+    },
+    patch: {
+      handler: mergeTag,
+      errorMessage:
+      "Something went wrong and the tag could not be merged. Please try again."
     }
   },
   "/intake-sources": {
