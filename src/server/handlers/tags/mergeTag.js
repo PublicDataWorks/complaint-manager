@@ -1,7 +1,6 @@
 import asyncMiddleware from "../asyncMiddleware";
 import mergeTagAndAuditDetails from "./mergeTagHelper";
 
-
 const mergeTag = asyncMiddleware(async (request, response, next) => {
   try {
     await mergeTagAndAuditDetails(
@@ -9,7 +8,7 @@ const mergeTag = asyncMiddleware(async (request, response, next) => {
       request.params.id,
       request.body.mergeTagId
     );
-    response.status(200).send({id: mergeTagId});
+    response.status(200).json({ id: request.body.mergeTagId });
   } catch (error) {
     next(error);
   }
