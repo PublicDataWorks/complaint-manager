@@ -9,6 +9,7 @@ import LinkButton from "../shared/components/LinkButton";
 import ConfirmationDialog from "../shared/components/ConfirmationDialog";
 import getTagsWithCount from "./thunks/getTagsWithCount";
 import tableStyleGenerator from "../../tableStyles";
+import MergeTagDialog from "./MergeTagDialog";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -45,6 +46,15 @@ export const TagTableRow = props => {
             You are about to delete the tag <strong>"{props.tag.name}"</strong>
           </ConfirmationDialog>
         );
+      case "merge":
+        return (
+          <MergeTagDialog
+            tag={props.tag}
+            open={dialog === "merge"}
+            form={`MergeTagForm${props.tag.id}`}
+            closeDialog={() => setDialog(null)}
+          />
+        );
       default:
         return "";
     }
@@ -66,7 +76,15 @@ export const TagTableRow = props => {
           data-testid="editTagButton"
           onClick={() => setDialog("edit")}
         >
-          Edit
+          Rename
+        </LinkButton>
+      </TableCell>
+      <TableCell className={props.classes.cell}>
+        <LinkButton
+          data-testid="mergeTagButton"
+          onClick={() => setDialog("merge")}
+        >
+          Merge
         </LinkButton>
       </TableCell>
       <TableCell className={props.classes.cell}>

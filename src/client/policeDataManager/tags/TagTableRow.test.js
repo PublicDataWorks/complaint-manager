@@ -35,8 +35,9 @@ describe("TagTableRow", () => {
     let cells = screen.getAllByRole("cell");
     expect(cells[0].textContent).toEqual("Monsieur Tag");
     expect(cells[1].textContent).toEqual("32342");
-    expect(cells[2].textContent).toEqual("Edit");
-    expect(cells[3].textContent).toEqual("Remove");
+    expect(cells[2].textContent).toEqual("Rename");
+    expect(cells[3].textContent).toEqual("Merge");
+    expect(cells[4].textContent).toEqual("Remove");
   });
 
   describe("Edit dialog", () => {
@@ -78,6 +79,20 @@ describe("TagTableRow", () => {
         expect(getTagsWithCount).toHaveBeenCalled();
         expect(screen.queryByTestId("dialog-cancel-button")).toBeNull();
       });
+    });
+  });
+
+  describe("Merge dialog", () => {
+    test("should launch a dialog with a tag select dropdown", () => {
+      userEvent.click(screen.getByTestId("mergeTagButton"));
+      expect(screen.getByTestId("select-merge-tag-dropdown")).toBeInTheDocument;
+    });
+
+    test("should close dialog when cancel button is clicked", async () => {
+      userEvent.click(screen.getByTestId("mergeTagButton"));
+      userEvent.click(screen.getByTestId("mergeTagCancelButton"));
+      expect(screen.queryByTestId("mergeTagCancelButton")).not
+        .toBeInTheDocument;
     });
   });
 });
