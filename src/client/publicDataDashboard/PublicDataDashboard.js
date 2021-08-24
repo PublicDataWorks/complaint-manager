@@ -25,7 +25,8 @@ const removeDragCover = () => {
   const callback = mutationsList => {
     mutationsList.forEach(mutation => {
       mutation.addedNodes.forEach(node => {
-        const isDragCover = node.classList && node.classList.contains('dragcover');
+        const isDragCover =
+          node.classList && node.classList.contains("dragcover");
         if (isDragCover) node.remove();
       });
     });
@@ -34,7 +35,7 @@ const removeDragCover = () => {
   const observer = new MutationObserver(callback);
   observer.observe(document.body, { childList: true });
 
-  document.addEventListener('onbeforeunload', () => {
+  document.addEventListener("onbeforeunload", () => {
     observer.disconnect();
   });
 };
@@ -48,7 +49,6 @@ const scrollIntoViewById = selector => event => {
     behavior: "smooth"
   });
 };
-
 
 const PublicDataDashboardWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -87,8 +87,8 @@ const PublicDataDashboard = () => {
             <Link href="https://nolaipm.gov/" style={styles.link}>
               Office of the Independent Police Monitor
             </Link>{" "}
-            ({ORGANIZATION}) is sharing data with the public to increase transparency to
-            inform and empower the {CITY} community.
+            ({ORGANIZATION}) is sharing data with the public to increase
+            transparency to inform and empower the {CITY} community.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8}>
@@ -151,7 +151,7 @@ const PublicDataDashboard = () => {
           item
           xs={12}
           style={{
-            backgroundColor: styles.colors.oipmBlue,
+            backgroundColor: "#216DA1",
             padding: 0,
             marginBottom: "98px"
           }}

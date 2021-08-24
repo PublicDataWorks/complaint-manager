@@ -38,7 +38,7 @@ const styles = {
     lineHeight: "28px"
   },
   link: {
-    color: colors.oipmBlue,
+    color: "#216DA1",
     fontSize: standards.fontMedium,
     fontWeight: 400,
     textDecoration: "underline"

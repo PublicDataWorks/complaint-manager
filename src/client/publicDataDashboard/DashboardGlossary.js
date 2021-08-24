@@ -72,7 +72,7 @@ const DashboardGlossary = () => {
         spacing={3}
         style={{
           padding: theme.dashboard.glossary.padding,
-          backgroundColor: styles.colors.oipmBlue
+          backgroundColor: "#216DA1"
         }}
       >
         <Grid
