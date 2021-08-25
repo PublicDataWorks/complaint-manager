@@ -100,14 +100,5 @@ export default connect(
 )(
   reduxForm({
     fields: ["mergeTag"]
-    // validate: (values, props) => {
-    //   if (values.mergeTag && values.mergeTag.value === props.tag.id) {
-    //     return { mergeTag: 'This is the same tag' }
-    //   }
-
-    //   if (values.mergeTag && !props.tags.filter(tag => tag.id === values.mergeTag.value).length) {
-    //     return { mergeTag: 'You must select a tag that already exists' };
-    //   }
-    // }
   })(MergeTagDialog)
 );

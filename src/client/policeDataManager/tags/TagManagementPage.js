@@ -49,7 +49,12 @@ export const TagManagementPage = props => {
             subtitleResultCount={false}
           >
             <Table
-              style={{ marginBottom: "32px" }}
+              style={{
+                marginBottom: "32px",
+                marginLeft: "auto",
+                marginRight: "auto",
+                width: "75%"
+              }}
               data-testid="tag-management-table"
             >
               <TableHead>
