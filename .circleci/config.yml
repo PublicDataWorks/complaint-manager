@@ -2,10 +2,10 @@ version: 2.1
 parameters:
   prod-branch:
     type: string
-    default: "release_v3.39.0"
+    default: "release_v3.39.1"
   stage-branch:
     type: string
-    default: "release_v3.39.0"
+    default: "release_v3.39.1"
   instance-files-image-name:
     type: string
     default: "noipm/instance-files"
