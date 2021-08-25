@@ -67,11 +67,22 @@ export const TagTableRow = props => {
       style={{ cursor: "pointer", height: "70px" }}
       data-testid={`tagTableRow-${props.tag.name}`}
     >
-      <TableCell className={props.classes.cell}>
+      <TableCell
+        className={props.classes.cell}
+        style={{ paddingRight: "24px" }}
+      >
         <div>{props.tag.name}</div>
       </TableCell>
-      <TableCell className={props.classes.cell}>{props.tag.count}</TableCell>
-      <TableCell className={props.classes.cell}>
+      <TableCell
+        className={props.classes.cell}
+        style={{ paddingRight: "24px" }}
+      >
+        {props.tag.count}
+      </TableCell>
+      <TableCell
+        className={props.classes.cell}
+        style={{ paddingRight: "24px" }}
+      >
         <LinkButton
           data-testid="editTagButton"
           onClick={() => setDialog("edit")}
@@ -79,7 +90,10 @@ export const TagTableRow = props => {
           Rename
         </LinkButton>
       </TableCell>
-      <TableCell className={props.classes.cell}>
+      <TableCell
+        className={props.classes.cell}
+        style={{ paddingRight: "24px" }}
+      >
         <LinkButton
           data-testid="mergeTagButton"
           onClick={() => setDialog("merge")}
@@ -87,7 +101,10 @@ export const TagTableRow = props => {
           Merge
         </LinkButton>
       </TableCell>
-      <TableCell className={props.classes.cell}>
+      <TableCell
+        className={props.classes.cell}
+        style={{ paddingRight: "24px" }}
+      >
         <LinkButton
           data-testid="removeTagButton"
           onClick={() => setDialog("remove")}
