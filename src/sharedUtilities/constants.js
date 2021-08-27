@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const {
   PD,
   ORGANIZATION,
@@ -443,7 +445,8 @@ export const QUERY_TYPES = {
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType",
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
     "countComplaintsByComplainantTypePast12Months",
-  COUNT_TOP_10_TAGS: "countTop10Tags"
+  COUNT_TOP_10_TAGS: "countTop10Tags",
+  LOCATION_DATA: "locationData"
 };
 
 export const QUERY_TYPE_FILE_MAP = {
@@ -452,6 +455,7 @@ export const QUERY_TYPE_FILE_MAP = {
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType.js"
 };
 
+export const DDS_LOCATION_DATA = "DDS_LOCATION_DATA";
 export const DDS_COMPLAINTS_OVER_TIME = "DDS_COMPLAINTS_OVER_TIME";
 export const DDS_COMPLAINANTS_SUBMIT_COMPLAINTS =
   "DDS_COMPLAINANTS_SUBMIT_COMPLAINTS";
@@ -459,6 +463,18 @@ export const DDS_WHO_SUBMITS_COMPLAINTS = "DDS_WHO_SUBMITS_COMPLAINTS";
 export const DDS_EMERGING_THEMES = "DDS_EMERGING_THEMES";
 
 export const DATA_SECTIONS = {
+  [DDS_LOCATION_DATA]: {
+    title: "Complaints on a Map",
+    subtitle: "Locations of Complaints for the Past 12 Months",
+    dataTestId: "complaintLocations",
+    queryType: QUERY_TYPES.LOCATION_DATA,
+    queryOptions: {
+      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+    },
+    // TODO replace placeholder
+    collapsedText: `With this map, the ${ORGANIZATION} seeks to capture if there are any patterns around where police misconduct is being reported. This map tracks the density of complaints referred to the ${ORGANIZATION} over the course of the last twelve months in a given location.`,
+    fullMessage: `With this map, the ${ORGANIZATION} seeks to capture if there are any patterns around where police misconduct is being reported. This map tracks the density of complaints referred to the ${ORGANIZATION} over the course of the last twelve months in a given location.`
+  },
   [DDS_COMPLAINTS_OVER_TIME]: {
     title: "Who is submitting complaints over time?",
     subtitle: "Complainant Type over Past 12 Months",

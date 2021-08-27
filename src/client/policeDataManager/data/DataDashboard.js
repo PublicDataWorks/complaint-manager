@@ -6,6 +6,8 @@ import {
   QUERY_TYPES,
   DATE_RANGE_TYPE
 } from "../../../sharedUtilities/constants";
+import moment from "moment";
+import { connect } from "react-redux";
 
 class DataDashboard extends Component {
   render() {
@@ -18,6 +20,42 @@ class DataDashboard extends Component {
             flexDirection: "column"
           }}
         >
+          {this.props.mapVisualizationFeature ? (
+            <>
+              <h2>Map of Complaints</h2>
+              <section
+                style={{
+                  display: "flex",
+                  flexDirection: "row"
+                }}
+              >
+                <section style={{ minHeight: "500px", minWidth: "70%" }}>
+                  <Visualization
+                    data-testid="complaintLocations"
+                    queryType={QUERY_TYPES.LOCATION_DATA}
+                    queryOptions={{
+                      minDate: moment()
+                        .subtract(12, "months")
+                        .format("YYYY-MM-DD")
+                    }}
+                  />
+                </section>
+                <section
+                  className="mapControls"
+                  style={{
+                    color: "transparent"
+                  }}
+                >
+                  <ul>
+                    <li>Include Districts</li>
+                    <li>Include Public Resources</li>
+                  </ul>
+                </section>
+              </section>
+            </>
+          ) : (
+            ""
+          )}
           <div
             style={{
               display: "flex",
@@ -85,4 +123,6 @@ class DataDashboard extends Component {
   }
 }
 
-export default DataDashboard;
+export default connect(state => ({
+  mapVisualizationFeature: state.featureToggles.mapVisualizationFeature
+}))(DataDashboard);
