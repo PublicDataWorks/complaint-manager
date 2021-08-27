@@ -12,19 +12,25 @@ import dashboardStyling from "./dashboardStyling/dashboardStyling";
 import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import styles from "./dashboardStyling/styles";
-import { DATA_SECTIONS } from "../../sharedUtilities/constants";
+import {
+  DATA_SECTIONS,
+  DDS_LOCATION_DATA
+} from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
 import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
+import { connect } from "react-redux";
 
 const {
   PD,
   CITY,
   ORGANIZATION
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import { PlotlyWrapper } from "../common/components/Visualization/PlotlyWrapper";
+import MapVisualization from "./MapVisualization";
 
 const removeDragCover = () => {
   const callback = mutationsList => {
@@ -63,13 +69,13 @@ const PublicDataDashboardWrapper = () => {
       theme={isMobile ? dashboardStylingMobile : dashboardStylingDesktop}
     >
       <MuiThemeProvider theme={dashboardStyling}>
-        <PublicDataDashboard />
+        <PublicDataDashboardContainer />
       </MuiThemeProvider>
     </MuiThemeProvider>
   );
 };
 
-const PublicDataDashboard = () => {
+const PublicDataDashboard = ({ mapVisualizationFeature }) => {
   useEffect(removeDragCover);
 
   const theme = useTheme();
@@ -172,6 +178,41 @@ const PublicDataDashboard = () => {
             >
               What are we looking for?
             </Typography>
+            {mapVisualizationFeature ? (
+              <Container
+                onClick={scrollIntoViewById("#location-data")}
+                style={{
+                  display: "flex",
+                  padding: "24px 0px",
+                  alignItems: "center",
+                  borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
+                }}
+              >
+                <Icon
+                  style={{
+                    transform: "rotate(90deg)",
+                    color: styles.colors.white,
+                    opacity: "0.5"
+                  }}
+                >
+                  double_arrow
+                </Icon>
+                <Typography
+                  variant="body1"
+                  style={{
+                    cursor: "pointer",
+                    letterSpacing: "1px",
+                    color: styles.colors.white,
+                    paddingLeft: "12px",
+                    opacity: 0.9
+                  }}
+                >
+                  Where are complaints being filed?
+                </Typography>
+              </Container>
+            ) : (
+              ""
+            )}
             <Container
               onClick={scrollIntoViewById("#complaints-over-time")}
               style={{
@@ -298,14 +339,16 @@ const PublicDataDashboard = () => {
           </Container>
         </Grid>
 
-        {Object.keys(DATA_SECTIONS).map((dataSectionType, index) => {
-          return (
-            <DashboardDataSection
-              key={index}
-              dataSectionType={dataSectionType}
-            />
-          );
-        })}
+        {Object.keys(DATA_SECTIONS)
+          .filter(key => mapVisualizationFeature || key !== DDS_LOCATION_DATA)
+          .map((dataSectionType, index) => {
+            return (
+              <DashboardDataSection
+                key={index}
+                dataSectionType={dataSectionType}
+              />
+            );
+          })}
 
         <Grid
           item
@@ -358,5 +401,9 @@ const PublicDataDashboard = () => {
     </div>
   );
 };
+
+const PublicDataDashboardContainer = connect(state => ({
+  mapVisualizationFeature: state.featureToggles.mapVisualizationFeature
+}))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;

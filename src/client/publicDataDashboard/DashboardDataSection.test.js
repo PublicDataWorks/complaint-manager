@@ -6,13 +6,15 @@ import {
   DDS_COMPLAINANTS_SUBMIT_COMPLAINTS,
   DDS_COMPLAINTS_OVER_TIME,
   DDS_EMERGING_THEMES,
-  DDS_WHO_SUBMITS_COMPLAINTS
+  DDS_WHO_SUBMITS_COMPLAINTS,
+  DDS_LOCATION_DATA
 } from "../../sharedUtilities/constants";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 
-jest.mock("../common/components/Visualization/Visualization", () => () =>
-  "Visualization"
+jest.mock(
+  "../common/components/Visualization/Visualization",
+  () => () => "Visualization"
 );
 
 // If you need to add new test, add a new key with a corresponding test description in the testDescriptions object below.
@@ -25,7 +27,8 @@ const testDescriptions = {
   [DDS_WHO_SUBMITS_COMPLAINTS]:
     "should render correct styling for who submits complaints graph",
   [DDS_EMERGING_THEMES]:
-    "should render correct styling for emerging themes graph"
+    "should render correct styling for emerging themes graph",
+  [DDS_LOCATION_DATA]: " should render the map like a map"
 };
 
 const renderDataSection = dataSectionType => () => {
