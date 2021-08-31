@@ -18,6 +18,7 @@ services:
       - REACT_APP_GOOGLE_API_KEY
       - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
+      - INSTANCE_FILES_DIR=/app/src/instance-files
     depends_on:
       - db
       - worker
@@ -26,22 +27,22 @@ services:
       - "1234:1234"
       - "443:443"
       - "4000:4000"
-#      Expose this port if using Node inspect flag for debugging purposes
-#     - "9229:9229"
+    #      Expose this port if using Node inspect flag for debugging purposes
+    #     - "9229:9229"
     entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
     command: ["yarn", "start:dev"]
     volumes:
-#      Mount this volume if you want to run a static front end on localhost:1234
-#      - ./build:/app/build
+      #      Mount this volume if you want to run a static front end on localhost:1234
+      #      - ./build:/app/build
       - ./src:/app/src
-#      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
-#      - /app/src/instance-files/
+      #      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
+      #      - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./.cert:/app/.cert
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
-#      Mount this volume only if you have set INSTANCE_FILES_DIR locally
+      #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${INSTANCE_FILES_DIR}/public:/app/public
   elasticsearch:
@@ -96,13 +97,13 @@ services:
     command: ["yarn", "start:dev"]
     volumes:
       - ./src:/app/src
-#      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
-#      - /app/src/instance-files/
+      #      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
+      #      - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./.cert:/app/.cert
       - ./package.json:/app/package.json
       - "./e2e/.env.development:/app/.env.development"
-#      Mount this volume only if you have set INSTANCE_FILES_DIR locally
+      #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${INSTANCE_FILES_DIR}/public:/app/public
   worker:
@@ -117,6 +118,7 @@ services:
       - AWS_SECRET_ACCESS_KEY
       - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
+      - INSTANCE_FILES_DIR=/app/src/instance-files
     depends_on:
       - db
       - redis
@@ -127,10 +129,10 @@ services:
     command: ["yarn", "start:worker:dev"]
     volumes:
       - ./src:/app/src
-#      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
-#      - /app/src/instance-files/
+      #      Mount this volume only if you have NOT set INSTANCE_FILES_DIR locally
+      #      - /app/src/instance-files/
       - ./package.json:/app/package.json
-#      Mount this volume only if you have set INSTANCE_FILES_DIR locally
+      #      Mount this volume only if you have set INSTANCE_FILES_DIR locally
       - ${INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${INSTANCE_FILES_DIR}/public:/app/public
   db:

@@ -1,5 +1,4 @@
-import { PD, ORGANIZATION, ORGANIZATION_TITLE, CITY, BUREAU_ACRONYM } from "../instance-files/constants";
-
+const { PD, ORGANIZATION, ORGANIZATION_TITLE, CITY, BUREAU_ACRONYM } = require(`${process.env.INSTANCE_FILES_DIR}/constants`)
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
 // ----------------------------------------

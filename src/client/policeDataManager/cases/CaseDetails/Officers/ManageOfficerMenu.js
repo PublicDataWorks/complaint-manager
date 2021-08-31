@@ -14,10 +14,11 @@ import {
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
-import {
+
+const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} from "../../../../../instance-files/constants";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };

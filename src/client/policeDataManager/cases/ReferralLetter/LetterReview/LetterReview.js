@@ -26,10 +26,11 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
-import {
+
+const {
   EMPLOYEE_TYPE,
   CIVILIAN_WITHIN_PD_TITLE
-} from "../../../../../instance-files/constants";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {

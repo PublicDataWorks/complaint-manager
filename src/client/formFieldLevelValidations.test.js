@@ -17,7 +17,9 @@ import {
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
-import { BUREAU_ACRONYM } from "../instance-files/constants";
+const {
+  BUREAU_ACRONYM
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("Form Validations", () => {
   test("firstNameRequired should return an error message when undefined", () => {
@@ -92,7 +94,9 @@ describe("Form Validations", () => {
   });
 
   test("pibControlNumberRequired should return an error when the control number is not provided", () => {
-    expect(pibControlNumberRequired()).toEqual(`Please enter a ${BUREAU_ACRONYM} Control #`);
+    expect(pibControlNumberRequired()).toEqual(
+      `Please enter a ${BUREAU_ACRONYM} Control #`
+    );
   });
 
   test("pibControlNumberNotBlank should return an error when the control number is empty", () => {
@@ -122,9 +126,7 @@ describe("Form Validations", () => {
   });
 
   test("notFutureDate should return an error when date is a future date", () => {
-    const today = moment(Date.now())
-      .add(1, "days")
-      .format("YYYY-MM-DD");
+    const today = moment(Date.now()).add(1, "days").format("YYYY-MM-DD");
     expect(notFutureDate(today)).toEqual("Date cannot be in the future");
   });
 

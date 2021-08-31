@@ -8,12 +8,13 @@ import {
   OFFICER_TITLE,
   REMOVE_PERSON_FORM_NAME
 } from "../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import _ from "lodash";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const removePerson = personDetails => async dispatch => {
   const { personType, id, caseId } = personDetails;

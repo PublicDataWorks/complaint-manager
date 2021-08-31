@@ -2,7 +2,8 @@ import DisplayAccusedOfficer from "./DisplayAccusedOfficer";
 import React from "react";
 import { mount } from "enzyme";
 import { containsText } from "../../../testHelpers";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("DisplayAccusedOfficer", () => {
   const noAccusedDisplayText = "No Accused";

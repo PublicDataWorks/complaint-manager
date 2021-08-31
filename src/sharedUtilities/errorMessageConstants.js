@@ -1,4 +1,6 @@
-import { BUREAU_ACRONYM } from "../instance-files/constants";
+const {
+  BUREAU_ACRONYM
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export const PAGE_NOT_AVAILABLE = "Sorry, that page is not available";
 

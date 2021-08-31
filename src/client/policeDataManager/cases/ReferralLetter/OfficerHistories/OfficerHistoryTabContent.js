@@ -1,9 +1,5 @@
 import React, { Fragment } from "react";
-import {
-  FormControlLabel,
-  Radio,
-  Typography
-} from "@material-ui/core";
+import { FormControlLabel, Radio, Typography } from "@material-ui/core";
 import styles from "../../../../common/globalStyling/styles";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
@@ -14,15 +10,16 @@ import OfficerAllegationHistory from "./OfficerAllegationHistory";
 import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
 import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
 import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
-import { ORGANIZATION } from "../../../../../instance-files/constants";
+
+const { ORGANIZATION } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 class OfficerHistoryTabContent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOfficerHistoryOption: this.props.letterOfficers[
-        this.props.letterOfficerIndex
-      ].officerHistoryOptionId
+      selectedOfficerHistoryOption:
+        this.props.letterOfficers[this.props.letterOfficerIndex]
+          .officerHistoryOptionId
     };
   }
 
@@ -117,8 +114,8 @@ class OfficerHistoryTabContent extends React.Component {
           </div>
         ) : (
           <p>
-            The {ORGANIZATION} is unable to review this officer’s disciplinary history as
-            they are unable to be identified at this time.
+            The {ORGANIZATION} is unable to review this officer’s disciplinary
+            history as they are unable to be identified at this time.
           </p>
         )}
       </div>
@@ -126,12 +123,8 @@ class OfficerHistoryTabContent extends React.Component {
   };
 
   render() {
-    const {
-      letterOfficer,
-      caseOfficerName,
-      caseOfficerId,
-      isSelectedOfficer
-    } = this.props;
+    const { letterOfficer, caseOfficerName, caseOfficerId, isSelectedOfficer } =
+      this.props;
     const display = isSelectedOfficer ? "block" : "none";
 
     return (

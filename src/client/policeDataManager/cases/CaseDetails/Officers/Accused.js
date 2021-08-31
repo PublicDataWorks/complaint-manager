@@ -15,7 +15,10 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { initialize } from "redux-form";
 import { push } from "connected-react-router";
 import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
-import { EMPLOYEE_TYPE } from "../../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const Accused = props => {
   const {

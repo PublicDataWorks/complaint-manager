@@ -7,7 +7,8 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import sortableCasesView from "../sortableCasesView";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("sortableCasesView", () => {
   afterEach(async () => {

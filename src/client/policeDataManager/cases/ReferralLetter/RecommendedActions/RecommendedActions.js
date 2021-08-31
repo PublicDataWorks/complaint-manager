@@ -20,11 +20,6 @@ import editRecommendedActions from "../thunks/editRecommendedActions";
 import getRecommendedActions from "../thunks/getRecommendedActions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
-import {
-  RECOMMENDED_ACTIONS_TEXT,
-  RETALIATION_CONCERNS_LABEL,
-  RETALIATION_CONCERNS_TEXT
-} from "../../../../../instance-files/referralLetterDefaults";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
@@ -32,6 +27,12 @@ import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/
 import Classifications from "./Classifications";
 import editClassifications from "../thunks/editClassifications";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+
+const {
+  RECOMMENDED_ACTIONS_TEXT,
+  RETALIATION_CONCERNS_LABEL,
+  RETALIATION_CONCERNS_TEXT
+} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 class RecommendedActions extends Component {
   constructor(props) {
@@ -107,9 +108,8 @@ class RecommendedActions extends Component {
       }
     );
 
-    letterOfficer.referralLetterOfficerRecommendedActions = selectedRecommendedActions.filter(
-      action => action !== null
-    );
+    letterOfficer.referralLetterOfficerRecommendedActions =
+      selectedRecommendedActions.filter(action => action !== null);
   };
 
   renderOfficerCards = ({ fields }) => {

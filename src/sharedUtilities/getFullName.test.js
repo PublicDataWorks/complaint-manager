@@ -3,7 +3,8 @@ import {
   getOfficerFullName,
   getPersonFullName
 } from "./getFullName";
-import { PERSON_TYPE } from "../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("getFullName", () => {
   describe("getPersonFullName", () => {

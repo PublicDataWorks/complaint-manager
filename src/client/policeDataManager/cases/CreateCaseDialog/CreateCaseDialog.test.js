@@ -21,7 +21,10 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { updateSort } from "../../actionCreators/casesActionCreators";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
+
+const {
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
 

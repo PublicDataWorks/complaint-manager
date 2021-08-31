@@ -1,14 +1,15 @@
 import OfficerSearch from "./OfficerSearch";
 import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
 import { mount } from "enzyme";
 import React from "react";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("OfficerSearch test", () => {
   let store, mockPath;

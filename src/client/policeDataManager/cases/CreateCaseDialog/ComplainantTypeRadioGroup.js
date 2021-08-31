@@ -11,8 +11,11 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_TITLE } from "../../../../instance-files/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../../instance-files/constants";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export default props => (
   <FormControl>

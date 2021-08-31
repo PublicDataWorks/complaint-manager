@@ -5,7 +5,8 @@ import {
   LABEL_FONT,
   TITLE_FONT
 } from "../dataVizStyling";
-import { PD } from "../../../../../instance-files/constants"
+
+const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("countComplaintsByComplainantType data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
@@ -16,7 +17,8 @@ describe("countComplaintsByComplainantType data transformer", () => {
       AC: 1
     };
 
-    const transformedData = countComplaintsByComplainantType.transformData(rawData);
+    const transformedData =
+      countComplaintsByComplainantType.transformData(rawData);
 
     const expectedTransformedData = {
       data: [

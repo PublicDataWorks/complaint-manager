@@ -8,14 +8,15 @@ import {
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../../instance-files/constants";
 import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import createCivilian from "../../thunks/createCivilian";
 import { push } from "connected-react-router";
 import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const AddAccusedMenu = props => {
   return (

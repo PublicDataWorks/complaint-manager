@@ -1,13 +1,22 @@
-'use strict';
+"use strict";
 
-const testPathForConsistencyCheck = '/app/src/client/policeDataManager/officers/OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow.test.js';
+const snapshots = `${process.env.INSTANCE_FILES_DIR}/snapshots`;
+const root = process.env.CIRCLECI ? "/root/project/src" : "/app/src";
+
+const testPathForConsistencyCheck =
+  root +
+  "/client/policeDataManager/officers/OfficerSearch/OfficerSearchResults/OfficerSearchResultsRow.test.js";
 
 const resolveSnapshotPath = (testPath, snapshotExtension) => {
-  return testPath.replace('src', 'src/instance-files/snapshots') + snapshotExtension;
+  const post = testPath.substring(testPath.indexOf("src") + 3);
+  const snapshotPath = snapshots + post + snapshotExtension;
+  return snapshotPath;
 };
 
 const resolveTestPath = (snapshotFilePath, snapshotExtension) => {
-  return snapshotFilePath.replace('src/instance-files/snapshots', 'src').slice(0, -snapshotExtension.length);
+  return snapshotFilePath
+    .replace(snapshots, root)
+    .slice(0, -snapshotExtension.length);
 };
 
 module.exports = {

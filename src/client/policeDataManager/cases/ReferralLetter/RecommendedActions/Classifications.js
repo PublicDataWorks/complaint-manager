@@ -9,8 +9,10 @@ import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
 import { DECLINES_OPTION } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
-import { CLASSIFICATIONS_INFORMATIONAL_TEXT } from "../../../../../instance-files/referralLetterDefaults";
 
+const {
+  CLASSIFICATIONS_INFORMATIONAL_TEXT
+} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
 class Classifications extends Component {
   constructor(props) {
     super(props);

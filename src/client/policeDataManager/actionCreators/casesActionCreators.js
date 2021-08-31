@@ -54,11 +54,12 @@ import {
   UPDATE_CASE_STATUS_SUCCESS,
   UPDATE_CASES_TABLE_SORTING
 } from "../../../sharedUtilities/constants";
-import {
+import _ from "lodash";
+
+const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} from "../../../instance-files/constants";
-import _ from "lodash";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export const createCaseSuccess = caseDetails => ({
   type: CASE_CREATED_SUCCESS,

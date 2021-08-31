@@ -18,10 +18,6 @@ import {
   OFFICER_TITLE,
   WITNESS
 } from "../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
 import SelectedOfficerDisplay from "./SelectedOfficerDisplay";
 import UnknownOfficerDisplay from "./UnknownOfficerDisplay";
 import _ from "lodash";
@@ -29,6 +25,10 @@ import EmailField from "../../cases/sharedFormComponents/EmailField";
 import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField";
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
     dispatch(this.props.submitAction(values));

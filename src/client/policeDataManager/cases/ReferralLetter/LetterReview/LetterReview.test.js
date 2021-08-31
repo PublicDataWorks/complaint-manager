@@ -12,7 +12,11 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getCaseDetails from "../../thunks/getCaseDetails";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-import { EMPLOYEE_TYPE, CIVILIAN_WITHIN_PD_TITLE } from "../../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE,
+  CIVILIAN_WITHIN_PD_TITLE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
@@ -87,7 +91,9 @@ describe("LetterReview", () => {
       const accusedCard = wrapper.find(
         '[data-testid="case-detail-card-accused"]'
       );
-      expect(accusedCard.props().cardTitle).toEqual(`Accused ${CIVILIAN_WITHIN_PD_TITLE}`);
+      expect(accusedCard.props().cardTitle).toEqual(
+        `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
+      );
     });
   });
 

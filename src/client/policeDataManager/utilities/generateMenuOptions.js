@@ -6,7 +6,8 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
-import { PD } from "../../../instance-files/constants";
+
+const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export const generateMenuOptions = (contents, extraMenuOption = null) => {
   let menuOptionsArray = contents.map(content => {

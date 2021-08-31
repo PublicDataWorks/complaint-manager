@@ -1,5 +1,6 @@
 import { COLORS } from "../dataVizStyling";
-import { PD } from "../../../../../instance-files/constants"
+
+const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();

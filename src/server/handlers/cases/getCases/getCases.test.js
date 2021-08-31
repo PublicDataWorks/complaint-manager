@@ -21,7 +21,8 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("getCases", () => {
   afterEach(async () => {

@@ -27,7 +27,8 @@ import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");

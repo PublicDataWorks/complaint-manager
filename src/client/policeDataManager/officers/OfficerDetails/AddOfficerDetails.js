@@ -6,10 +6,10 @@ import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
-import {
+const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 class AddOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded() {
