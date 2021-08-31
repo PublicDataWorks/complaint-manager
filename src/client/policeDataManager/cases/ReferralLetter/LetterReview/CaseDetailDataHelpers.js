@@ -4,12 +4,13 @@ import formatDate, {
 } from "../../../../../sharedUtilities/formatDate";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
-import {
+
+const {
   EMPLOYEE_TYPE,
   FIRST_CONTACTED_ORGANIZATION,
   CIVILIAN_WITHIN_PD_TITLE,
   BUREAU_ACRONYM
-} from "../../../../../instance-files/constants";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;

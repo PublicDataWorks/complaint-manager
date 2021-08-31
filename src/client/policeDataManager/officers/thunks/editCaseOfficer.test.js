@@ -5,11 +5,12 @@ import editCaseOfficer from "./editCaseOfficer";
 import nock from "nock";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import {
+import { authEnabledTest } from "../../../testHelpers";
+
+const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
-import { authEnabledTest } from "../../../testHelpers";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")

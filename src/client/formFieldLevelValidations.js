@@ -1,5 +1,7 @@
 import validator from "validator";
-import { BUREAU_ACRONYM } from "../instance-files/constants";
+const {
+  BUREAU_ACRONYM
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const isRequired = text => value => {
   return value ? undefined : `Please enter ${text}`;
@@ -35,7 +37,9 @@ export const isPIBControlNumber = value => {
   const formattedVal = value.replace(/[- ]/g, "");
   const missingOrValid =
     !Boolean(formattedVal) || /^[0-9]{8}[A-Za-z]$/.test(formattedVal);
-  return missingOrValid ? undefined : `Please enter a valid ${BUREAU_ACRONYM} control number`;
+  return missingOrValid
+    ? undefined
+    : `Please enter a valid ${BUREAU_ACRONYM} control number`;
 };
 
 export const isEmail = value => {
@@ -75,7 +79,11 @@ export const officerRoleRequired = selectRequired("Role on Case");
 export const titleIsRequired = isRequired("Title");
 export const intakeSourceIsRequired = isRequired("Intake Source");
 export const caseTagRequired = isRequired("a tag name");
-export const pibControlNumberRequired = isRequired(`a ${BUREAU_ACRONYM} Control #`);
-export const pibControlNumberNotBlank = notBlank(`a ${BUREAU_ACRONYM} Control #`);
+export const pibControlNumberRequired = isRequired(
+  `a ${BUREAU_ACRONYM} Control #`
+);
+export const pibControlNumberNotBlank = notBlank(
+  `a ${BUREAU_ACRONYM} Control #`
+);
 export const firstReviewerRequired = selectRequired("a First Reviewer");
 export const secondReviewerRequired = selectRequired("a Second Reviewer");

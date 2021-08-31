@@ -3,10 +3,6 @@ import {
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
 import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";
@@ -15,6 +11,11 @@ import { Menu, MenuItem } from "@material-ui/core";
 import React from "react";
 import LinkButton from "../../shared/components/LinkButton";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const ComplainantWitnessMenu = props => {
   return (

@@ -10,7 +10,13 @@ import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop"
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
 import oipmBuilding from "./assets/oipm_building.jpeg";
-import { ORGANIZATION_TITLE, CITY, PD, ORGANIZATION, BUREAU }  from "../../instance-files/constants";
+const {
+  ORGANIZATION_TITLE,
+  CITY,
+  PD,
+  ORGANIZATION,
+  BUREAU
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const DashboardAboutWrapper = () => {
   const isMobile = useMediaQuery("(max-width:768px)");
@@ -90,19 +96,19 @@ const DashboardAbout = () => {
         </Grid>
         <Grid item xs={12} sm={7} style={{ paddingBottom: "96px" }}>
           <Typography variant="body1">
-            In 2019, the {ORGANIZATION_TITLE} received one
-            hundred (100) complaints. <br />
+            In 2019, the {ORGANIZATION_TITLE} received one hundred (100)
+            complaints. <br />
             <br /> These complaints ranged from how the police interacted with
             them and their loved ones during calls for assistance to how the
             police treated one another internally. <br />
-            <br /> The {ORGANIZATION_TITLE} received named
-            and anonymous complaints from officers and civilians working within
-            the {CITY} Police Department. <br />
+            <br /> The {ORGANIZATION_TITLE} received named and anonymous
+            complaints from officers and civilians working within the {CITY}{" "}
+            Police Department. <br />
             <br /> Some of the complaints were from officers who were speaking
             up regarding disparities in disciplinary concerns and some anonymous
-            complaints brought the {ORGANIZATION}’s attention to possible relationships
-            between supervisors and subordinates and misuse of Department
-            equipment. <br />
+            complaints brought the {ORGANIZATION}’s attention to possible
+            relationships between supervisors and subordinates and misuse of
+            Department equipment. <br />
             <br /> Each complaint was an opportunity for the Office of the
             Independent Police Monitor to make these individuals feel heard and
             to work alongside the {PD} to ensure there was accountability.
@@ -123,8 +129,8 @@ const DashboardAbout = () => {
             policing from both the community and those within the police
             district are valuable and can be the catalyst for important progress
             within the police department. Each complaint and commendation is an
-            opportunity for the {CITY} Police Department ({PD}) to learn
-            more about themselves and to adapt to the changing needs of the
+            opportunity for the {CITY} Police Department ({PD}) to learn more
+            about themselves and to adapt to the changing needs of the
             community, and when properly handled brings the {PD} one step closer
             to being in full compliance with the Federal Consent Decree. <br />
             <br /> This dashboard contains data visualizations regarding our
@@ -137,7 +143,8 @@ const DashboardAbout = () => {
             is taken directly from our internally designed database: Police Data
             Manager. <br />
             <br /> As information is entered into Police Data Manager by our
-            staff and complaint referrals are submitted to the {BUREAU}, the data will automatically update once daily.
+            staff and complaint referrals are submitted to the {BUREAU}, the
+            data will automatically update once daily.
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -157,7 +164,8 @@ const DashboardAbout = () => {
             the {BUREAU}. <br />
             <br /> For more data visualizations regarding some of these topics
             and Use of Force and Critical Incidents, please see the annual
-            report section of the {ORGANIZATION} website (link out to annual report{" "}
+            report section of the {ORGANIZATION} website (link out to annual
+            report{" "}
             <MUILink href="https://nolaipm.gov/annual-reports/">here</MUILink>).
           </Typography>
         </Grid>

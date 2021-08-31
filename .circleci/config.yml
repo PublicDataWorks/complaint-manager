@@ -60,6 +60,12 @@ jobs:
       - attach_workspace:
           at: src/
       - run:
+          name: Shows current Directory
+          command: pwd
+      - run:
+          name: Shows content in Directory
+          command: ls /root/project/src/
+      - run:
           name: Install Dependencies
           command: yarn install
       - run:
@@ -68,11 +74,14 @@ jobs:
           environment:
             NEW_RELIC_ENABLED: false
             NEW_RELIC_NO_CONFIG_FILE: true
+            INSTANCE_FILES_DIR: /root/project/src/instance-files
+
   test-server-handlers-ci:
     docker:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
+          INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -92,6 +101,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
+          INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -111,6 +121,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
+          INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -196,6 +207,7 @@ jobs:
             -e DATABASE_HOST=$PLAYGROUND_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
+            -e INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-playground:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -226,7 +238,6 @@ jobs:
             --env-var client_id=$CI_AUTH0_CLIENT_ID \
             --env-var client_secret=$CI_AUTH0_CLIENT_SECRET \
             doc/postman/Police\ Data\ Management.postman_collection.json
-# > /tmp/output/newman-result.txt
       # - run:
       #     name: Test Results
       #     command: cat /tmp/output/newman-result.txt
@@ -234,7 +245,8 @@ jobs:
       #     root: '/tmp'
       #     paths:
       #       - output/newman-result.txt
-  
+
+  # > /tmp/output/newman-result.txt
   letter-generation-ci-latency-check:
     docker:
       - image: node:latest
@@ -274,6 +286,7 @@ jobs:
             -e DATABASE_HOST=$CI_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
+            -e INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-ci:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -328,6 +341,7 @@ jobs:
             -e DATABASE_HOST=$STAGING_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
+            -e INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-staging:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -337,6 +351,24 @@ jobs:
       - run: docker push registry.heroku.com/noipm-staging/worker
       - run: heroku container:release web worker --app noipm-staging
       - run: heroku maintenance:off --app noipm-staging
+
+  e2e-testing-playground:
+    docker:
+      - image: noipm/e2e:latest
+    steps:
+      # - run:
+      #     name: Install Git
+      #     command: apt-get update && apt-get install --assume-yes git
+      - checkout
+      - run:
+          name: Run E2E tests
+          command: |
+            echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
+            echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
+            source $BASH_ENV
+            nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
+      - store_artifacts:
+          path: e2e/tests/policeDataManager
 
   ensure-staging-deploy-succeeded:
     docker:
@@ -382,6 +414,7 @@ jobs:
             -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
+            -e INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-production:$CIRCLE_SHA1 yarn setup:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
       - run: docker tag noipm/police-data-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
@@ -553,7 +586,7 @@ workflows:
       - e2e-testing-ci-pdm:
           requires:
             - letter-generation-testing-ci
-  
+
   build_and_deploy_release:
     jobs:
       - security-check:
@@ -600,15 +633,18 @@ workflows:
 
   build_and_deploy_playground:
     jobs:
-      - security-check:
+      # - security-check:
+      - get-instance-files-latest:
           filters:
             branches:
               only:
-                - instance-setup-workspace
-      - get-instance-files-latest:
-          requires:
-            - security-check
+                - localclient
+          #requires:
+          # - security-check
       - test-client:
+          requires:
+            - get-instance-files-latest
+      - test-server-handlers-ci:
           requires:
             - get-instance-files-latest
       - test-server-worker-non-handlers:
@@ -618,9 +654,13 @@ workflows:
           requires:
             - test-client
             - test-server-worker-non-handlers
+            - test-server-handlers-ci
       - deploy-playground:
           requires:
             - build-and-publish-playground
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground
+      - e2e-testing-playground:
+          requires:
+            - ensure-playground-deploy-succeeded

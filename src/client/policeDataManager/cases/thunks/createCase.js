@@ -14,7 +14,10 @@ import getWorkingCases from "./getWorkingCases";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const createCase = creationDetails => async dispatch => {
   dispatch(startSubmit(CREATE_CASE_FORM_NAME));

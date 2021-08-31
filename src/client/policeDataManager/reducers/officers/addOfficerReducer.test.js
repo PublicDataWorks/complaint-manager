@@ -3,7 +3,10 @@ import {
   clearCaseEmployeeType
 } from "../../actionCreators/officersActionCreators";
 import addOfficerReducer from "./addOfficerReducer";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("addOfficerReducer", () => {
   describe("ADD_OFFICER", () => {

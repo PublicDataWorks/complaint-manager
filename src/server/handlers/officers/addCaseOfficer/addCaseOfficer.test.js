@@ -15,7 +15,10 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../audits/auditDataAccess");
 

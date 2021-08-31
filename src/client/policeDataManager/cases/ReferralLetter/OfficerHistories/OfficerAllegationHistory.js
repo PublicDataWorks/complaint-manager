@@ -6,8 +6,11 @@ import { connect } from "react-redux";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import calculateOfficerHistoryTotalAllegations from "./calculateOfficerHistoryTotalAllegations";
 import { numbersOnly } from "../../../utilities/fieldFormatters";
-import { OFFICER_HISTORY_MESSAGE } from "../../../../../instance-files/referralLetterDefaults";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+
+const {
+  OFFICER_HISTORY_MESSAGE
+} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -72,8 +75,10 @@ class OfficerAllegationHistory extends React.Component {
             style={{ flex: 1, marginTop: "32px" }}
             data-testid={`officers-${caseOfficerId}-total-historical-allegations`}
           >
-            <b data-testid={"total-allegations-count"}>{calculateOfficerHistoryTotalAllegations(this.props)}</b> total
-            allegations
+            <b data-testid={"total-allegations-count"}>
+              {calculateOfficerHistoryTotalAllegations(this.props)}
+            </b>{" "}
+            total allegations
           </Typography>
         </div>
         <Typography style={{ marginBottom: "8px", ...styles.inputLabel }}>

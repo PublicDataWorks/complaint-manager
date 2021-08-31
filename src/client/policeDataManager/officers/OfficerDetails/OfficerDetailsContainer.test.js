@@ -15,11 +15,12 @@ import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators"
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { ACCUSED, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
-import {
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+
+const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} from "../../../../instance-files/constants";
-import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../cases/thunks/getCaseDetails");
 

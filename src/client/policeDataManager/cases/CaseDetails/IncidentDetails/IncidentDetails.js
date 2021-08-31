@@ -16,8 +16,11 @@ import {
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import { FIRST_CONTACTED_ORGANIZATION, BUREAU_ACRONYM } from "../../../../../instance-files/constants";
 
+const {
+  FIRST_CONTACTED_ORGANIZATION,
+  BUREAU_ACRONYM
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
     if (!time) return time;

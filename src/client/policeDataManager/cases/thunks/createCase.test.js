@@ -12,13 +12,17 @@ import {
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED, PD } from "../../../../instance-files/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
 import { initialize, startSubmit, stopSubmit } from "redux-form";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
+
+const {
+  CIVILIAN_WITHIN_PD_INITIATED,
+  PD
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")

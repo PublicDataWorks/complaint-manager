@@ -24,7 +24,10 @@ import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../../instance-files/constants";
+
+const {
+  FIRST_CONTACTED_ORGANIZATION
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const styles = {
   dialogPaper: {
@@ -38,13 +41,8 @@ class CreateCaseDialog extends React.Component {
   }
 
   render() {
-    const {
-      handleSubmit,
-      complaintType,
-      open,
-      submitting,
-      classes
-    } = this.props;
+    const { handleSubmit, complaintType, open, submitting, classes } =
+      this.props;
     const civilianComplainant = complaintType === CIVILIAN_INITIATED;
 
     return (

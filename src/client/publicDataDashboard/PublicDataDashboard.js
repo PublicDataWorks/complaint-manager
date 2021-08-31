@@ -19,7 +19,12 @@ import moment from "moment";
 import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
-import { PD, CITY, ORGANIZATION } from "../../instance-files/constants";
+
+const {
+  PD,
+  CITY,
+  ORGANIZATION
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const removeDragCover = () => {
   const callback = mutationsList => {

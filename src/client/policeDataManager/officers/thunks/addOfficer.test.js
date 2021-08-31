@@ -14,7 +14,10 @@ import {
   OFFICER_DETAILS_FORM_NAME
 } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")

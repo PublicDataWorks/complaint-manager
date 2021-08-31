@@ -20,7 +20,10 @@ import {
 import ExportDateRange from "./ExportDateRange/ExportDateRange";
 import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import { FIRST_CONTACTED_ORGANIZATION } from "../../../instance-files/constants";
+
+const {
+  FIRST_CONTACTED_ORGANIZATION
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const formLabel = "exportCases";
 

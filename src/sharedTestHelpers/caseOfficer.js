@@ -1,5 +1,8 @@
 import { ACCUSED } from "../sharedUtilities/constants";
-import { EMPLOYEE_TYPE } from "../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 class CaseOfficer {
   constructor(build) {

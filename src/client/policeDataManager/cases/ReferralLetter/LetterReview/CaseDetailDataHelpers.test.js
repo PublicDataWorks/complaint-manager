@@ -6,12 +6,13 @@ import {
   getIncidentInfoData,
   getWitnessData
 } from "./CaseDetailDataHelpers";
-import {
+
+const {
   EMPLOYEE_TYPE,
   FIRST_CONTACTED_ORGANIZATION,
   CIVILIAN_WITHIN_PD_NAME,
   BUREAU_ACRONYM
-} from "../../../../../instance-files/constants";
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 

@@ -2,7 +2,8 @@ import {
   getCaseReference,
   getCaseReferencePrefix
 } from "./caseReferenceHelpersFunctions";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+
+const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("case reference helper functions", () => {
   test("getCaseReference should format case prefix, year, and case number", () => {

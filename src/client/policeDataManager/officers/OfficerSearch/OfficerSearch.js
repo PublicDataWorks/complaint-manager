@@ -6,7 +6,10 @@ import {
   SelectUnknownOfficerButton,
   SelectUnknownOfficerLink
 } from "./OfficerSearchResults/officerSearchResultsRowButtons";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;

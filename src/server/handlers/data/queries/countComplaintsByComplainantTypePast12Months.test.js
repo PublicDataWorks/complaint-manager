@@ -18,7 +18,10 @@ import {
   getAllComplaints
 } from "./countComplaintsByComplainantTypePast12Months";
 import moment from "moment";
-import { EMPLOYEE_TYPE } from "../../../../instance-files/constants";
+
+const {
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 describe("executeQuery", () => {
   let complainantOfficerPO,

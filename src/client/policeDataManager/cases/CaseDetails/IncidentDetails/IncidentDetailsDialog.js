@@ -36,7 +36,11 @@ import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDrop
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
-import { FIRST_CONTACTED_ORGANIZATION, BUREAU_ACRONYM } from "../../../../../instance-files/constants";
+
+const {
+  FIRST_CONTACTED_ORGANIZATION,
+  BUREAU_ACRONYM
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -78,7 +82,7 @@ class IncidentDetailsDialog extends Component {
   render() {
     const props = this.props;
     const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
-    const enterPbCaseNumberText =  `Enter ${pbCaseNumberText}`;
+    const enterPbCaseNumberText = `Enter ${pbCaseNumberText}`;
 
     return (
       <Dialog

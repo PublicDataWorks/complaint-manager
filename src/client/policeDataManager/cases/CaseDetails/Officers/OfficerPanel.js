@@ -15,10 +15,6 @@ import {
   ACCUSED,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
-import {
-  CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
-} from "../../../../../instance-files/constants";
 import { connect } from "react-redux";
 import {
   accusedOfficerPanelCollapsed,
@@ -28,6 +24,11 @@ import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAge
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
+
+const {
+  CIVILIAN_WITHIN_PD_TITLE,
+  EMPLOYEE_TYPE
+} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   const isCivilianWithinPd =
