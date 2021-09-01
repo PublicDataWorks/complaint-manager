@@ -106,6 +106,7 @@ export const TagTableRow = props => {
         style={{ paddingRight: "24px" }}
       >
         <LinkButton
+          style={{ color: "#d32f2f" }}
           data-testid="removeTagButton"
           onClick={() => setDialog("remove")}
         >
