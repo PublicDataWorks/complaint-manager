@@ -5,13 +5,13 @@ parameters:
     default: "release_v3.39.1"
   stage-branch:
     type: string
-    default: "release_v3.39.1"
+    default: "release_v3.40.0"
   instance-files-image-name:
     type: string
     default: "noipm/instance-files"
   instance-files-version:
     type: string
-    default: "1.0.7"
+    default: "1.0.8"
   ubuntu-version:
     type: string
     default: "2.0.2"
