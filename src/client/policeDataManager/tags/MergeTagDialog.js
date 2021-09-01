@@ -46,7 +46,7 @@ const MergeTagDialog = props => {
             component={Dropdown}
             name="mergeTag"
             required
-            style={{ width: "100%" }}
+            style={{ width: "12rem" }}
             validate={[caseTagRequired]}
           >
             {generateMenuOptions(
