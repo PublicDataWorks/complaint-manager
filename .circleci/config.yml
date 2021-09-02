@@ -154,8 +154,8 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=latest -t noipm/police-data-manager-ci:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=latest -t noipm/police-data-manager-ci-worker:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=latest --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t noipm/police-data-manager-ci:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=latest --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t noipm/police-data-manager-ci-worker:$CIRCLE_SHA1 .
       - run: docker push noipm/police-data-manager-ci:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-ci-worker:$CIRCLE_SHA1
 
