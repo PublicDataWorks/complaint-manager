@@ -11,7 +11,9 @@ import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHisto
 import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
 import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
 
-const { ORGANIZATION } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  ORGANIZATION
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class OfficerHistoryTabContent extends React.Component {
   constructor(props) {

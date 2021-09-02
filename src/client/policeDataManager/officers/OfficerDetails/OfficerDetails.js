@@ -28,7 +28,7 @@ import { renderTextField } from "../../cases/sharedFormComponents/renderFunction
 const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
     dispatch(this.props.submitAction(values));

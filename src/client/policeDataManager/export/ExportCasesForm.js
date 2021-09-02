@@ -23,7 +23,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 
 const {
   FIRST_CONTACTED_ORGANIZATION
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const formLabel = "exportCases";
 

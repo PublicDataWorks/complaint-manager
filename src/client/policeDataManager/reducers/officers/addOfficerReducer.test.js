@@ -6,7 +6,7 @@ import addOfficerReducer from "./addOfficerReducer";
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("addOfficerReducer", () => {
   describe("ADD_OFFICER", () => {

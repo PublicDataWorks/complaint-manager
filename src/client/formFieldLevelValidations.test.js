@@ -19,7 +19,7 @@ import {
 import moment from "moment";
 const {
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("Form Validations", () => {
   test("firstNameRequired should return an error message when undefined", () => {

@@ -20,7 +20,7 @@ import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 const {
   FIRST_CONTACTED_ORGANIZATION,
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
     if (!time) return time;

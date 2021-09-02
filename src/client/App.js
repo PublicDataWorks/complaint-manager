@@ -20,7 +20,7 @@ import { snackbarError } from "./policeDataManager/actionCreators/snackBarAction
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
 
-const App = props => { 
+const App = props => {
   let [eventSource, setEventSource] = useState(undefined);
 
   useEffect(() => {

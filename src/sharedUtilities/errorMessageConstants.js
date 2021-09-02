@@ -1,6 +1,6 @@
 const {
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const PAGE_NOT_AVAILABLE = "Sorry, that page is not available";
 
@@ -39,7 +39,8 @@ export const BAD_REQUEST_ERRORS = {
   NOTIFICATION_DELETION_ERROR: "There was an error removing the notification.",
   INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
   TAG_WITH_NAME_EXISTS: "A tag with that name already exists",
-  MERGE_TAG_DOES_NOT_EXIST: "The tag you are attempting to merge into does not exist"
+  MERGE_TAG_DOES_NOT_EXIST:
+    "The tag you are attempting to merge into does not exist"
 };
 
 export const BAD_DATA_ERRORS = {

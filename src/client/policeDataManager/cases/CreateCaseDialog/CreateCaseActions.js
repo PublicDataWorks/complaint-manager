@@ -23,7 +23,7 @@ import {
 // const {
 //   CIVILIAN_INITIATED,
 //   CREATE_CASE_FORM_NAME
-// } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+// } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 import normalizeAddress from "../../utilities/normalizeAddress";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";

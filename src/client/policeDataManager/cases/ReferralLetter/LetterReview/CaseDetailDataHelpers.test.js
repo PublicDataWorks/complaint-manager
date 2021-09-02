@@ -12,7 +12,7 @@ const {
   FIRST_CONTACTED_ORGANIZATION,
   CIVILIAN_WITHIN_PD_NAME,
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 

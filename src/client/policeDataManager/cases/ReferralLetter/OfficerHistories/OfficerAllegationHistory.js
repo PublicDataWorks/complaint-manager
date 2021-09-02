@@ -10,7 +10,7 @@ import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 
 const {
   OFFICER_HISTORY_MESSAGE
-} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 const RichTextEditorComponent = props => (
   <RichTextEditor

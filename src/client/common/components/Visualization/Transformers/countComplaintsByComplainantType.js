@@ -2,7 +2,7 @@ import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
 
-const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export function transformData(rawData) {
   let labels = [];

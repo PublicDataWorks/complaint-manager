@@ -18,7 +18,7 @@ import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDeta
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -400,8 +400,8 @@ describe("addCaseOfficer", () => {
 
     await addCaseOfficer(request, response, next);
 
-    const caseOfficerEmployeeType = response._getData().accusedOfficers[0]
-      .caseEmployeeType;
+    const caseOfficerEmployeeType =
+      response._getData().accusedOfficers[0].caseEmployeeType;
 
     expect(caseOfficerEmployeeType).toEqual(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD);
   });

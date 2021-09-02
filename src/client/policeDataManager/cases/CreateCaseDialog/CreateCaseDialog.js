@@ -27,7 +27,7 @@ import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFir
 
 const {
   FIRST_CONTACTED_ORGANIZATION
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const styles = {
   dialogPaper: {

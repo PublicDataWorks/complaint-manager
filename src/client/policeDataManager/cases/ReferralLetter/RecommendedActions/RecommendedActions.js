@@ -32,7 +32,7 @@ const {
   RECOMMENDED_ACTIONS_TEXT,
   RETALIATION_CONCERNS_LABEL,
   RETALIATION_CONCERNS_TEXT
-} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 class RecommendedActions extends Component {
   constructor(props) {

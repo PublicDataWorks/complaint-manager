@@ -7,7 +7,7 @@ import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const editCaseOfficer =
   (caseId, caseOfficerId, officerId, caseEmployeeType, values) =>

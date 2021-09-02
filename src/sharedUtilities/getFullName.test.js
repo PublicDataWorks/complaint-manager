@@ -4,7 +4,9 @@ import {
   getPersonFullName
 } from "./getFullName";
 
-const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("getFullName", () => {
   describe("getPersonFullName", () => {

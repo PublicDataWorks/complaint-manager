@@ -18,7 +18,7 @@ import {
 const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class ManageOfficerMenu extends React.Component {
   state = { menuOpen: false, anchorEl: null };

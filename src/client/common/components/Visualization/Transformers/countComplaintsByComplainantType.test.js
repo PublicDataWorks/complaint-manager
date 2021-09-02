@@ -6,7 +6,7 @@ import {
   TITLE_FONT
 } from "../dataVizStyling";
 
-const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("countComplaintsByComplainantType data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {

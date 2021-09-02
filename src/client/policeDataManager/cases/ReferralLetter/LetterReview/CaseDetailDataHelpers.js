@@ -10,7 +10,7 @@ const {
   FIRST_CONTACTED_ORGANIZATION,
   CIVILIAN_WITHIN_PD_TITLE,
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;

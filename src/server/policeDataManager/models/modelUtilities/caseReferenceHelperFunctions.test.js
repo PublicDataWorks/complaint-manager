@@ -3,7 +3,9 @@ import {
   getCaseReferencePrefix
 } from "./caseReferenceHelpersFunctions";
 
-const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("case reference helper functions", () => {
   test("getCaseReference should format case prefix, year, and case number", () => {

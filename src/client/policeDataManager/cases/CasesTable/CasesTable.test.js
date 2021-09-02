@@ -28,7 +28,9 @@ import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
 
-const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");

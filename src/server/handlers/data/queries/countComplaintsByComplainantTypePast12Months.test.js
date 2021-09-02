@@ -21,7 +21,7 @@ import moment from "moment";
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("executeQuery", () => {
   let complainantOfficerPO,

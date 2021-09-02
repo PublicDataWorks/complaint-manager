@@ -15,8 +15,8 @@ fi
 echo "Running E2E test suite for Police Data Manager..."
 docker-compose run --rm e2e nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env local /e2e/tests/policeDataManager
 
-# echo "Stopping app-e2e container..."
-# docker-compose stop app-e2e
+echo "Stopping app-e2e container..."
+docker-compose stop app-e2e
 
 if [[ $RESTART_APP_CHECK = true ]];
 then
