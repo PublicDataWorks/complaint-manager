@@ -85,6 +85,7 @@ services:
       - REACT_APP_GOOGLE_API_KEY
       - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
+      - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
     depends_on:
       - db
       - worker
