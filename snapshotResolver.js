@@ -1,6 +1,6 @@
 "use strict";
 
-const snapshots = `${process.env.INSTANCE_FILES_DIR}/snapshots`;
+const snapshots = `${process.env.REACT_APP_INSTANCE_FILES_DIR}/snapshots`;
 const root = process.env.CIRCLECI ? "/root/project/src" : "/app/src";
 
 const testPathForConsistencyCheck =

@@ -24,7 +24,7 @@ const {
   PD,
   CITY,
   ORGANIZATION
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const removeDragCover = () => {
   const callback = mutationsList => {

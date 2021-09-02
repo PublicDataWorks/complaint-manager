@@ -18,7 +18,7 @@ import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreat
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const Accused = props => {
   const {

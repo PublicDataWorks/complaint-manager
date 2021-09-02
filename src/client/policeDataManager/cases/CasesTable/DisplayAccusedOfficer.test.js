@@ -3,7 +3,9 @@ import React from "react";
 import { mount } from "enzyme";
 import { containsText } from "../../../testHelpers";
 
-const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("DisplayAccusedOfficer", () => {
   const noAccusedDisplayText = "No Accused";

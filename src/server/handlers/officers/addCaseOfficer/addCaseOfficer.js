@@ -5,7 +5,7 @@ import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChan
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const {
   buildOfficerAttributesForNewOfficer,
@@ -63,10 +63,11 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      retrievedCase.id,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        retrievedCase.id,
+        transaction
+      );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

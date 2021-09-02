@@ -5,7 +5,9 @@ import DisplayComplainant from "./DisplayComplainant";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 
-const { PERSON_TYPE } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 test("displays the complainant when complainant is civilian", () => {
   const firstName = "Sal";

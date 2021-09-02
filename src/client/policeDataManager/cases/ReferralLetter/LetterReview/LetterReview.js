@@ -30,7 +30,7 @@ import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/
 const {
   EMPLOYEE_TYPE,
   CIVILIAN_WITHIN_PD_TITLE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {

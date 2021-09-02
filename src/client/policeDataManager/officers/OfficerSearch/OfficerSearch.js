@@ -9,7 +9,7 @@ import {
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;

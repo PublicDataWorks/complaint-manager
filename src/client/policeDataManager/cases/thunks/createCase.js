@@ -17,7 +17,7 @@ import { closeCreateDialog } from "../../../common/actionCreators/createDialogAc
 
 const {
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const createCase = creationDetails => async dispatch => {
   dispatch(startSubmit(CREATE_CASE_FORM_NAME));

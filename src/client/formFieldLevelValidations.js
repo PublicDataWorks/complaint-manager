@@ -1,7 +1,7 @@
 import validator from "validator";
 const {
   BUREAU_ACRONYM
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const isRequired = text => value => {
   return value ? undefined : `Please enter ${text}`;

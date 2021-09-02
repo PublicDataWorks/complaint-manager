@@ -14,7 +14,7 @@ import _ from "lodash";
 const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const removePerson = personDetails => async dispatch => {
   const { personType, id, caseId } = personDetails;

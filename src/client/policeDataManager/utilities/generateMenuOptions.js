@@ -7,7 +7,7 @@ import {
   WITNESS
 } from "../../../sharedUtilities/constants";
 
-const { PD } = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const generateMenuOptions = (contents, extraMenuOption = null) => {
   let menuOptionsArray = contents.map(content => {

@@ -74,14 +74,14 @@ jobs:
           environment:
             NEW_RELIC_ENABLED: false
             NEW_RELIC_NO_CONFIG_FILE: true
-            INSTANCE_FILES_DIR: /root/project/src/instance-files
+            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
 
   test-server-handlers-ci:
     docker:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
-          INSTANCE_FILES_DIR: /root/project/src/instance-files
+          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -101,7 +101,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
-          INSTANCE_FILES_DIR: /root/project/src/instance-files
+          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -121,7 +121,7 @@ jobs:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
-          INSTANCE_FILES_DIR: /root/project/src/instance-files
+          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
       - image: postgres:10.9-alpine
     steps:
       - checkout
@@ -207,7 +207,7 @@ jobs:
             -e DATABASE_HOST=$PLAYGROUND_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-            -e INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-playground:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -286,7 +286,7 @@ jobs:
             -e DATABASE_HOST=$CI_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-            -e INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-ci:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -341,7 +341,7 @@ jobs:
             -e DATABASE_HOST=$STAGING_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
-            -e INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-staging:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
@@ -414,7 +414,7 @@ jobs:
             -e DATABASE_HOST=$PRODUCTION_DATABASE_HOST \
             -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
-            -e INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             noipm/police-data-manager-production:$CIRCLE_SHA1 yarn setup:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
       - run: docker tag noipm/police-data-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
@@ -443,6 +443,7 @@ jobs:
             echo 'export DATABASE_PASS=$CI_DATABASE_PASS' >> $BASH_ENV \
             echo 'export DATABASE_NAME=$CI_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$CI_DATABASE_HOST' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
             source $BASH_ENV
       # - run:
       #     name: Install Git
@@ -469,6 +470,7 @@ jobs:
             echo 'export DATABASE_PASS=$STAGING_DATABASE_PASS' >> $BASH_ENV \
             echo 'export DATABASE_NAME=$STAGING_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$STAGING_DATABASE_HOST' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:
@@ -492,6 +494,7 @@ jobs:
             echo 'export DATABASE_PASS=$PRODUCTION_DATABASE_PASS' >> $BASH_ENV \
             echo 'export DATABASE_NAME=$PRODUCTION_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$PRODUCTION_DATABASE_HOST' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:

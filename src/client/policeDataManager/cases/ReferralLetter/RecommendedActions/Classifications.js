@@ -12,7 +12,7 @@ import _ from "lodash";
 
 const {
   CLASSIFICATIONS_INFORMATIONAL_TEXT
-} = require(`${process.env.INSTANCE_FILES_DIR}/referralLetterDefaults`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 class Classifications extends Component {
   constructor(props) {
     super(props);

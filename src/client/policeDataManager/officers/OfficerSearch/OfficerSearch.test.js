@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 const {
   CIVILIAN_WITHIN_PD_TITLE,
   EMPLOYEE_TYPE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("OfficerSearch test", () => {
   let store, mockPath;

@@ -16,7 +16,7 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 const {
   EMPLOYEE_TYPE,
   CIVILIAN_WITHIN_PD_TITLE
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",

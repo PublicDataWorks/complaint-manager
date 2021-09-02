@@ -22,7 +22,7 @@ import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 const {
   CIVILIAN_WITHIN_PD_INITIATED,
   PD
-} = require(`${process.env.INSTANCE_FILES_DIR}/constants`);
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
