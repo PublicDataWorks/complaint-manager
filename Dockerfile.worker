@@ -9,6 +9,7 @@ RUN apt-get install bash
 WORKDIR /app
 COPY package.json yarn.lock /app/
 RUN yarn install --pure-lockfile
+ARG REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 
 COPY --from=instance /instance-files /app/src/instance-files
 COPY --from=instance /instance-files/public /app/public
