@@ -4,7 +4,7 @@ FROM noipm/instance-files:$INSTANCE_VERSION AS instance
 
 FROM ubuntu:16.04
 
-ARG REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
+ENV REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \

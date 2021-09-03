@@ -23,7 +23,7 @@ COPY . /app/
 RUN yarn install
 ARG REACT_APP_ENV
 ARG REACT_APP_GOOGLE_API_KEY
-ARG REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
+ENV REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 
 RUN yarn build
 
