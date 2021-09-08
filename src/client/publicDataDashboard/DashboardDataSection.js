@@ -90,8 +90,8 @@ const DashboardDataSection = props => {
         style={{
           padding: 0,
           height: "550px",
-          maxWidth: "800px",
-          overflow: "auto"
+          maxWidth: "810px",
+          overflow: "hidden"
         }}
       >
         <Visualization
