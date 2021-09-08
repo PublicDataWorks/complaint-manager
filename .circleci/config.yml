@@ -1,9 +1,9 @@
 version: 2.1
 parameters:
-  prod-branch:
+  prod-indexing-branch:
     type: string
-    default: "release_v3.39.1"
-  stage-branch:
+    default: "master"
+  release-branch:
     type: string
     default: "release_v3.40.0"
   instance-files-image-name:
@@ -493,7 +493,7 @@ workflows:
           filters:
             branches:
               only:
-                - << pipeline.parameters.stage-branch >>
+                - << pipeline.parameters.release-branch >>
     jobs:
       - get-instance-files-latest
       - update-search-indices-staging:
@@ -507,7 +507,7 @@ workflows:
           filters:
             branches:
               only:
-                - << pipeline.parameters.prod-branch >>
+                - << pipeline.parameters.prod-indexing-branch >>
     jobs:
       - get-instance-files-latest
       - update-search-indices-production:
@@ -560,7 +560,7 @@ workflows:
           filters:
             branches:
               only:
-                - << pipeline.parameters.stage-branch >>
+                - << pipeline.parameters.release-branch >>
       - get-instance-files-release:
           requires:
             - security-check
