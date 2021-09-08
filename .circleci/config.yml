@@ -3,6 +3,9 @@ parameters:
   prod-indexing-branch:
     type: string
     default: "master"
+  stage-indexing-branch:
+    type: string
+    default: "master"
   release-branch:
     type: string
     default: "release_v3.40.0"
@@ -529,7 +532,7 @@ workflows:
           filters:
             branches:
               only:
-                - << pipeline.parameters.release-branch >>
+                - << pipeline.parameters.stage-indexing-branch >>
     jobs:
       - get-instance-files-latest
       - update-search-indices-staging:
