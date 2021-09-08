@@ -75,7 +75,8 @@ const DashboardDataSection = props => {
       id={getIdFromDataSectionType(dataSectionType)}
       style={{
         padding: theme.dashboard.dataSection.padding,
-        paddingTop: "18px"
+        paddingTop: "18px",
+        display: "block"
       }}
     >
       <Grid item xs={12} sm={8}>
