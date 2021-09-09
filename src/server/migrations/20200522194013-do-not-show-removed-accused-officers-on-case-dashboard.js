@@ -1,6 +1,6 @@
 "use strict";
 
-import { EMPLOYEE_TYPE, PERSON_TYPE } from "../../instance-files/constants";
+import { PERSON_TYPE } from "../../instance-files/constants";
 
 const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_view AS
           (SELECT id,
@@ -25,10 +25,10 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
-                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                        ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                        WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
+                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                        ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                     END AS accused_person_type,
                     officer_id AS accused_officer_id,
                     first_name AS accused_first_name,
@@ -57,7 +57,7 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
                        middle_initial AS middle_name,
                        last_name,
                        suffix,
-                       '${PERSON_TYPE.CIVILIAN}' AS complainant_person_type,
+                       '${PERSON_TYPE.CIVILIAN.description}' AS complainant_person_type,
                        is_anonymous,
                        created_at
                 FROM civilians c
@@ -69,11 +69,11 @@ const sortableCasesViewWithRemovedAccusedOfficer = `CREATE VIEW sortable_cases_v
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
+                                     WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
                                      WHEN officer_id IS NULL
-                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                                  END AS complainant_person_type,
                                  is_anonymous,
                                  created_at
@@ -119,10 +119,10 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
-                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                        ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                        WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
+                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                        ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                     END AS accused_person_type,
                     officer_id AS accused_officer_id,
                     first_name AS accused_first_name,
@@ -151,7 +151,7 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
                        middle_initial AS middle_name,
                        last_name,
                        suffix,
-                       '${PERSON_TYPE.CIVILIAN}' AS complainant_person_type,
+                       '${PERSON_TYPE.CIVILIAN.description}' AS complainant_person_type,
                        is_anonymous,
                        created_at
                 FROM civilians c
@@ -163,11 +163,11 @@ const sortableCasesViewWithoutRemovedAccusedOfficer = `CREATE VIEW sortable_case
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
+                                     WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
                                      WHEN officer_id IS NULL
-                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                                  END AS complainant_person_type,
                                  is_anonymous,
                                  created_at

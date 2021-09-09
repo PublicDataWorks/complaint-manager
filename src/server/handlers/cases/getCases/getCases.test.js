@@ -850,7 +850,7 @@ describe("getCases", () => {
             complainantLastName: "Zebra"
           }),
           expect.objectContaining({
-            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
+            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null
@@ -873,7 +873,7 @@ describe("getCases", () => {
             complainantPersonType: null
           }),
           expect.objectContaining({
-            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
+            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null

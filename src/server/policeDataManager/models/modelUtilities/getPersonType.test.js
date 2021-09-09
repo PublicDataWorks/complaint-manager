@@ -1,9 +1,6 @@
 import models from "../index";
 import { getPersonType } from "./getPersonType";
-import {
-  EMPLOYEE_TYPE,
-  PERSON_TYPE
-} from "../../../../instance-files/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 describe("getPersonType", () => {
   test("should return Civilian based on civilian primaryComplainant", () => {
@@ -11,13 +8,13 @@ describe("getPersonType", () => {
       fullName: "Pleading Eyes"
     };
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.CIVILIAN);
+    expect(result).toEqual(PERSON_TYPE.CIVILIAN.description);
   });
 
   test("should return Civilian when no primaryComplainant is defined", () => {
     const primaryComplainant = undefined;
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.CIVILIAN);
+    expect(result).toEqual(PERSON_TYPE.CIVILIAN.description);
   });
 
   test("should return Unknown Officer based on anonymous officer primaryComplainant", () => {
@@ -25,26 +22,26 @@ describe("getPersonType", () => {
       isUnknownOfficer: true
     };
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.UNKNOWN_OFFICER);
+    expect(result).toEqual(PERSON_TYPE.UNKNOWN_OFFICER.description);
   });
 
   test("should return Known Officer based on officer primaryComplainant", () => {
     const primaryComplainant = {
       officerId: "123ABC",
-      caseEmployeeType: EMPLOYEE_TYPE.OFFICER,
+      caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
       isUnknownOfficer: false
     };
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER);
+    expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.description);
   });
 
   test("should return Civilian (PD) based on civilian within pd primaryComplainant", () => {
     const primaryComplainant = {
       officerId: "123ABC",
-      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
+      caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
       isUnknownOfficer: false
     };
     const result = getPersonType(primaryComplainant);
-    expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_PD);
+    expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_PD.description);
   });
 });

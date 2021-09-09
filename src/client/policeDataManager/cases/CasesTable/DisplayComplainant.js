@@ -13,9 +13,12 @@ export default ({ complainant }) =>
   );
 
 const complainantName = ({ fullName, personType, isAnonymous }) => {
-  if (personType === PERSON_TYPE.KNOWN_OFFICER && isAnonymous === true) {
+  if (
+    personType === PERSON_TYPE.KNOWN_OFFICER.description &&
+    isAnonymous === true
+  ) {
     return `(AC) Officer ${fullName}`;
-  } else if (personType === PERSON_TYPE.KNOWN_OFFICER) {
+  } else if (personType === PERSON_TYPE.KNOWN_OFFICER.description) {
     return `Officer ${fullName}`;
   } else if (isAnonymous === true) {
     return `(AC) ${fullName}`;

@@ -1,6 +1,6 @@
 "use strict";
 
-import { EMPLOYEE_TYPE, PERSON_TYPE } from "../../instance-files/constants";
+import { PERSON_TYPE } from "../../instance-files/constants";
 
 const sortableCasesViewWithoutCaseReference = `CREATE VIEW sortable_cases_view AS
           (SELECT id,
@@ -24,10 +24,10 @@ const sortableCasesViewWithoutCaseReference = `CREATE VIEW sortable_cases_view A
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
-                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                        ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                        WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
+                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                        ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                     END AS accused_person_type,
                     officer_id AS accused_officer_id,
                     first_name AS accused_first_name,
@@ -55,7 +55,7 @@ const sortableCasesViewWithoutCaseReference = `CREATE VIEW sortable_cases_view A
                        middle_initial AS middle_name,
                        last_name,
                        suffix,
-                       '${PERSON_TYPE.CIVILIAN}' AS complainant_person_type,
+                       '${PERSON_TYPE.CIVILIAN.description}' AS complainant_person_type,
                        created_at
                 FROM civilians c
                 WHERE role_on_case = 'Complainant'
@@ -66,11 +66,11 @@ const sortableCasesViewWithoutCaseReference = `CREATE VIEW sortable_cases_view A
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
+                                     WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
                                      WHEN officer_id IS NULL
-                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                                  END AS complainant_person_type,
                                  created_at
                 FROM cases_officers co
@@ -115,10 +115,10 @@ const sortableCasesViewWithCaseReference = `CREATE VIEW sortable_cases_view AS
           LEFT JOIN
             (SELECT case_id,
                     CASE
-                        WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
-                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                        ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                        WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                        THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
+                        WHEN officer_id IS NULL THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                        ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                     END AS accused_person_type,
                     officer_id AS accused_officer_id,
                     first_name AS accused_first_name,
@@ -146,7 +146,7 @@ const sortableCasesViewWithCaseReference = `CREATE VIEW sortable_cases_view AS
                        middle_initial AS middle_name,
                        last_name,
                        suffix,
-                       '${PERSON_TYPE.CIVILIAN}' AS complainant_person_type,
+                       '${PERSON_TYPE.CIVILIAN.description}' AS complainant_person_type,
                        created_at
                 FROM civilians c
                 WHERE role_on_case = 'Complainant'
@@ -157,11 +157,11 @@ const sortableCasesViewWithCaseReference = `CREATE VIEW sortable_cases_view AS
                                  last_name,
                                  NULL AS suffix,
                                  CASE
-                                     WHEN case_employee_type = '${EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}'
-                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD}'
+                                     WHEN case_employee_type = '${PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription}'
+                                     THEN '${PERSON_TYPE.CIVILIAN_WITHIN_PD.description}'
                                      WHEN officer_id IS NULL
-                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER}'
-                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER}'
+                                     THEN '${PERSON_TYPE.UNKNOWN_OFFICER.description}'
+                                     ELSE '${PERSON_TYPE.KNOWN_OFFICER.description}'
                                  END AS complainant_person_type,
                                  created_at
                 FROM cases_officers co

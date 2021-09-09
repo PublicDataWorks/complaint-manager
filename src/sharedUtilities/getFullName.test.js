@@ -15,7 +15,7 @@ describe("getFullName", () => {
       const middleName = "M";
       const lastName = "Last";
       const suffix = null;
-      const personType = PERSON_TYPE.KNOWN_OFFICER;
+      const personType = PERSON_TYPE.KNOWN_OFFICER.description;
 
       expect(
         getPersonFullName(firstName, middleName, lastName, suffix, personType)
@@ -23,7 +23,7 @@ describe("getFullName", () => {
     });
 
     test("should get unknown officer for unknown officer", () => {
-      const personType = PERSON_TYPE.UNKNOWN_OFFICER;
+      const personType = PERSON_TYPE.UNKNOWN_OFFICER.description;
 
       expect(getPersonFullName(null, null, null, null, personType)).toEqual(
         "Unknown Officer"

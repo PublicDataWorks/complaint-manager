@@ -19,10 +19,8 @@ export const generateComplainantLetterAndUploadToS3 = async (
 ) => {
   const caseId = existingCase.id;
 
-  const {
-    primaryComplainant,
-    primaryComplainantType
-  } = getPrimaryComplainantTuple(existingCase);
+  const { primaryComplainant, primaryComplainantType } =
+    getPrimaryComplainantTuple(existingCase);
 
   const finalPdfFilename = constructFilename(existingCase, COMPLAINANT_LETTER);
   let createdComplainantLetter = await models.complainant_letter.create(
@@ -30,11 +28,11 @@ export const generateComplainantLetterAndUploadToS3 = async (
       caseId: caseId,
       finalPdfFilename: finalPdfFilename,
       complainantCivilianId:
-        primaryComplainantType === PERSON_TYPE.CIVILIAN
+        primaryComplainantType === PERSON_TYPE.CIVILIAN.description
           ? primaryComplainant.id
           : null,
       complainantOfficerId:
-        primaryComplainantType === PERSON_TYPE.KNOWN_OFFICER
+        primaryComplainantType === PERSON_TYPE.KNOWN_OFFICER.description
           ? primaryComplainant.id
           : null
     },
