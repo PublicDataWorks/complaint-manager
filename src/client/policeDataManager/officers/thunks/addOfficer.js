@@ -14,14 +14,14 @@ import {
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const addOfficer =
   (caseId, officerId, caseEmployeeType, values) => async dispatch => {
     const payload = { officerId, caseEmployeeType, ...values };
     const isCivilianWithinPd =
-      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const caseEmployeeTitle = isCivilianWithinPd
       ? CIVILIAN_WITHIN_PD_TITLE
       : OFFICER_TITLE;

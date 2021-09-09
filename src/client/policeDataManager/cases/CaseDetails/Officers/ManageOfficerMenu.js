@@ -17,7 +17,7 @@ import {
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class ManageOfficerMenu extends React.Component {
@@ -37,7 +37,8 @@ class ManageOfficerMenu extends React.Component {
     const { caseOfficer } = this.props;
 
     const isCivilianWithinPd =
-      caseOfficer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      caseOfficer.caseEmployeeType ===
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
 
     const caseEmployeeTitle = isCivilianWithinPd
       ? CIVILIAN_WITHIN_PD_TITLE

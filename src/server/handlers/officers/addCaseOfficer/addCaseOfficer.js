@@ -4,7 +4,7 @@ import canBeAnonymous from "../helpers/canBeAnonymous";
 import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
 
 const {
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const {
@@ -24,7 +24,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     officerId,
     notes,
     roleOnCase,
-    caseEmployeeType = EMPLOYEE_TYPE.OFFICER,
+    caseEmployeeType = PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
     phoneNumber,
     email
   } = request.body;

@@ -6,7 +6,7 @@ import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const editCaseOfficer =
@@ -15,7 +15,7 @@ const editCaseOfficer =
     try {
       const payload = { ...values, officerId };
       const caseEmployeeTitle =
-        caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+        caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
           ? CIVILIAN_WITHIN_PD_TITLE
           : OFFICER_TITLE;
       await axios.put(

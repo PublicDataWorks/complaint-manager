@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("OfficerSearch test", () => {
@@ -24,7 +24,7 @@ describe("OfficerSearch test", () => {
         <Router>
           <OfficerSearch
             employeeSearchTitle={OFFICER_TITLE}
-            caseEmployeeType={EMPLOYEE_TYPE.OFFICER}
+            caseEmployeeType={PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription}
             path={mockPath}
           />
         </Router>
@@ -51,7 +51,9 @@ describe("OfficerSearch test", () => {
         <Router>
           <OfficerSearch
             employeeSearchTitle={CIVILIAN_WITHIN_PD_TITLE}
-            caseEmployeeType={EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD}
+            caseEmployeeType={
+              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+            }
             path={mockPath}
           />
         </Router>

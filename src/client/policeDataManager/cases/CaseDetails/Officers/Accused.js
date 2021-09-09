@@ -6,19 +6,8 @@ import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
-import {
-  ACCUSED,
-  OFFICER_DETAILS_FORM_NAME
-} from "../../../../../sharedUtilities/constants";
+import { ACCUSED } from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
-import LinkButton from "../../../shared/components/LinkButton";
-import { initialize } from "redux-form";
-import { push } from "connected-react-router";
-import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
-
-const {
-  EMPLOYEE_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const Accused = props => {
   const {

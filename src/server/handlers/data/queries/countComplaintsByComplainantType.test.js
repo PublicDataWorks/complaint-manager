@@ -16,7 +16,7 @@ import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 
 const {
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("executeQuery", () => {
@@ -55,7 +55,7 @@ describe("executeQuery", () => {
       .withId(3);
 
     complainantOfficerPO = (
-      await createCaseOfficer(EMPLOYEE_TYPE.OFFICER)
+      await createCaseOfficer(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
     ).withId(4);
 
     caseAttributes = createCaseAttributesBasedOnComplainants(

@@ -16,7 +16,7 @@ import {
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 
 const {
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
@@ -42,7 +42,7 @@ describe("addOfficer", () => {
     };
     const payload = {
       officerId: officer.id,
-      caseEmployeeType: EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
+      caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
       ...formValues
     };
 
@@ -58,7 +58,7 @@ describe("addOfficer", () => {
     await addOfficer(
       defaultCase.id,
       officer.id,
-      EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD,
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
       formValues
     )(dispatch);
 

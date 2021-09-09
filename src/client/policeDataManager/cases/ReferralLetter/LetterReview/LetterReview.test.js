@@ -14,7 +14,7 @@ import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 const {
-  EMPLOYEE_TYPE,
+  PERSON_TYPE,
   CIVILIAN_WITHIN_PD_TITLE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -80,7 +80,9 @@ describe("LetterReview", () => {
         .withAccusedOfficers([
           new CaseOfficer.Builder()
             .defaultCaseOfficer()
-            .withCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD)
+            .withCaseEmployeeType(
+              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+            )
             .build()
         ])
         .build();
