@@ -1,8 +1,5 @@
 import { getPersonType } from "./getPersonType";
-import {
-  EMPLOYEE_TYPE,
-  PERSON_TYPE
-} from "../../../../instance-files/constants";
+import { PERSON_TYPE } from "../../../../instance-files/constants";
 
 export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
   const paddedCaseId = `${caseNumber}`.padStart(4, "0");

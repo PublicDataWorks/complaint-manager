@@ -8,7 +8,7 @@ import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class AddOfficerDetails extends React.Component {
@@ -34,7 +34,8 @@ class AddOfficerDetails extends React.Component {
     if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
     const isCivilianWithinPd =
-      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      this.props.caseEmployeeType ===
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const submitButtonText = isCivilianWithinPd
       ? `Add ${CIVILIAN_WITHIN_PD_TITLE} to Case`
       : `Add ${OFFICER_TITLE} to Case`;

@@ -9,7 +9,7 @@ import { authEnabledTest } from "../../../testHelpers";
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
@@ -38,7 +38,7 @@ describe("editCaseOfficer thunk", () => {
     const caseId = 100;
     const caseOfficerId = 100;
     const officerId = 200;
-    const caseEmployeeType = EMPLOYEE_TYPE.OFFICER;
+    const caseEmployeeType = PERSON_TYPE.KNOWN_OFFICER.employeeDescription;
 
     const values = {
       payload: "test edit",
@@ -75,7 +75,7 @@ describe("editCaseOfficer thunk", () => {
     const caseId = 100;
     const caseOfficerId = 100;
     const officerId = 200;
-    const caseEmployeeType = EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+    const caseEmployeeType = PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
 
     const values = { payload: "test edit" };
     const payload = { ...values, officerId };

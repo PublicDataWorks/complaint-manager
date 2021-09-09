@@ -16,7 +16,7 @@ import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 
 const {
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const createCase = creationDetails => async dispatch => {
@@ -38,8 +38,8 @@ const createCase = creationDetails => async dispatch => {
         dispatch(
           addCaseEmployeeType(
             complaintType === RANK_INITIATED
-              ? EMPLOYEE_TYPE.OFFICER
-              : EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+              ? PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+              : PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
           )
         );
         dispatch(

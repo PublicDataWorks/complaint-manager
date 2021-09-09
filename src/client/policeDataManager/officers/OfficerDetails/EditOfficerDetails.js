@@ -8,7 +8,7 @@ import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class EditOfficerDetails extends React.Component {
@@ -35,7 +35,8 @@ class EditOfficerDetails extends React.Component {
     const caseId = this.props.match.params.id;
     const caseOfficerId = this.props.match.params.caseOfficerId;
     const isCivilianWithinPd =
-      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      this.props.caseEmployeeType ===
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const submitButtonText = isCivilianWithinPd
       ? `Save ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Save ${OFFICER_TITLE}`;

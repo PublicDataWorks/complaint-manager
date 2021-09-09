@@ -6,7 +6,7 @@ import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber"
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 
 const {
-  EMPLOYEE_TYPE,
+  PERSON_TYPE,
   FIRST_CONTACTED_ORGANIZATION,
   CIVILIAN_WITHIN_PD_TITLE,
   BUREAU_ACRONYM
@@ -78,7 +78,8 @@ export const getComplainantData = caseDetail => {
         return { "Officer Name": "Unknown" };
       } else {
         const nameTitle =
-          complainant.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+          complainant.caseEmployeeType ===
+          PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
             ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
             : "Officer Name";
 
@@ -110,7 +111,8 @@ export const getWitnessData = caseDetail => {
       return { "Officer Name": "Unknown" };
     } else {
       const nameTitle =
-        witness.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+        witness.caseEmployeeType ===
+        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
           ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
           : "Officer Name";
       const witnessData = {
@@ -134,7 +136,8 @@ export const getAccusedOfficerData = officer => {
     officerData = [{ "Officer Name": "Unknown" }];
   } else {
     const nameTitle =
-      officer.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+      officer.caseEmployeeType ===
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
         ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
         : "Officer Name";
     officerData = [

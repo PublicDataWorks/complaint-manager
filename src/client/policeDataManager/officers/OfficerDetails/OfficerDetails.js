@@ -27,7 +27,7 @@ import { renderTextField } from "../../cases/sharedFormComponents/renderFunction
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
@@ -52,7 +52,8 @@ class OfficerDetails extends React.Component {
 
   render() {
     const isCivilianWithinPd =
-      this.props.caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      this.props.caseEmployeeType ===
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const additionalInformationText = isCivilianWithinPd
       ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
           CIVILIAN_WITHIN_PD_TITLE

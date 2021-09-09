@@ -15,7 +15,7 @@ import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/pol
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class OfficerDetailsContainer extends Component {
   componentDidMount() {
@@ -47,7 +47,7 @@ export class OfficerDetailsContainer extends Component {
     };
 
     const caseEmployeeTitle =
-      caseEmployeeType === EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD
+      caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
         ? CIVILIAN_WITHIN_PD_TITLE
         : OFFICER_TITLE;
 

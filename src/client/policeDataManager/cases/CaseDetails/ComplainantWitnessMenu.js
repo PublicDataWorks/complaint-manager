@@ -14,7 +14,7 @@ import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const ComplainantWitnessMenu = props => {
@@ -62,7 +62,9 @@ const ComplainantWitnessMenu = props => {
                 roleOnCase: props.civilianType
               })
             );
-            props.dispatch(addCaseEmployeeType(EMPLOYEE_TYPE.OFFICER));
+            props.dispatch(
+              addCaseEmployeeType(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
+            );
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)
             );
@@ -79,7 +81,9 @@ const ComplainantWitnessMenu = props => {
               })
             );
             props.dispatch(
-              addCaseEmployeeType(EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD)
+              addCaseEmployeeType(
+                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+              )
             );
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)

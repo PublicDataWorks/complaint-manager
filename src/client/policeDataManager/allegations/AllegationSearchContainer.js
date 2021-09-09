@@ -15,7 +15,7 @@ import { policeDataManagerMenuOptions } from "../shared/components/NavBar/police
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
-  EMPLOYEE_TYPE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class AllegationSearchContainer extends Component {
   caseDetailsNotYetLoaded = () => {
@@ -58,7 +58,7 @@ export class AllegationSearchContainer extends Component {
 
     const isCivilianWithinPd =
       currentCaseOfficerData.caseEmployeeType ===
-      EMPLOYEE_TYPE.CIVILIAN_WITHIN_PD;
+      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const titleText = isCivilianWithinPd
       ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
       : `Accused ${OFFICER_TITLE}`;

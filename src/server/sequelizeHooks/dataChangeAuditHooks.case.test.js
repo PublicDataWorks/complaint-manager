@@ -10,7 +10,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
-import { EMPLOYEE_TYPE } from "../../instance-files/constants";
+import { PERSON_TYPE } from "../../instance-files/constants";
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {
@@ -46,7 +46,7 @@ describe("dataChangeAuditHooks", () => {
         .withYear("2017")
         .withPrimaryComplainant({
           officerId: "1234",
-          caseEmployeeType: EMPLOYEE_TYPE.OFFICER
+          caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription
         })
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");
@@ -57,12 +57,14 @@ describe("dataChangeAuditHooks", () => {
       emailIntakeSource = await models.intake_source.create(
         emailIntakeSourceAttributes
       );
-      const friendHowDidYouHearAboutUsSourceAttributes = new HowDidYouHearAboutUsSource.Builder()
-        .defaultHowDidYouHearAboutUsSource()
-        .withName("Friend");
-      friendHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
-        friendHowDidYouHearAboutUsSourceAttributes
-      );
+      const friendHowDidYouHearAboutUsSourceAttributes =
+        new HowDidYouHearAboutUsSource.Builder()
+          .defaultHowDidYouHearAboutUsSource()
+          .withName("Friend");
+      friendHowDidYouHearAboutUsSource =
+        await models.how_did_you_hear_about_us_source.create(
+          friendHowDidYouHearAboutUsSourceAttributes
+        );
     });
 
     test("it creates an audit entry for the case creation with the basic attributes", async () => {
