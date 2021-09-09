@@ -83,7 +83,7 @@ describe("sortableCasesView", () => {
           accusedFirstName: accusedOfficer.firstName,
           accusedMiddleName: accusedOfficer.middleName,
           accusedLastName: accusedOfficer.lastName,
-          accusedPersonType: PERSON_TYPE.KNOWN_OFFICER,
+          accusedPersonType: PERSON_TYPE.KNOWN_OFFICER.description,
           id: existingCase.id
         })
       );
@@ -208,7 +208,7 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase).toEqual(
         expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.CIVILIAN,
+          complainantPersonType: PERSON_TYPE.CIVILIAN.description,
           complainantFirstName: complainantCivilian.firstName,
           complainantMiddleName: complainantCivilian.middleInitial,
           complainantLastName: complainantCivilian.lastName,
@@ -271,7 +271,7 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase).toEqual(
         expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.KNOWN_OFFICER,
+          complainantPersonType: PERSON_TYPE.KNOWN_OFFICER.description,
           complainantFirstName: complainantCaseOfficer.firstName,
           complainantMiddleName: complainantCaseOfficer.middleName,
           complainantLastName: complainantCaseOfficer.lastName,
@@ -366,7 +366,7 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase).toEqual(
         expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER,
+          complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
           complainantFirstName: null,
           complainantMiddleName: null,
           complainantLastName: null,

@@ -79,13 +79,13 @@ describe("cases table", () => {
     accusedOfficer = {
       firstName: "Jeff",
       lastName: "Wallace",
-      personType: PERSON_TYPE.KNOWN_OFFICER
+      personType: PERSON_TYPE.KNOWN_OFFICER.description
     };
 
     let accusedOfficer2 = {
       firstName: "William",
       lastName: "Wallace",
-      personType: PERSON_TYPE.KNOWN_OFFICER
+      personType: PERSON_TYPE.KNOWN_OFFICER.description
     };
 
     tagOne = new Tag.Builder().defaultTag().build();

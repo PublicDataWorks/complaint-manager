@@ -13,7 +13,7 @@ describe("DisplayAccusedOfficer", () => {
   test("should display an accused officer", () => {
     const accusedOfficer = {
       fullName: "fullName",
-      personType: PERSON_TYPE.KNOWN_OFFICER
+      personType: PERSON_TYPE.KNOWN_OFFICER.description
     };
 
     const wrapper = mount(

@@ -38,7 +38,7 @@ export const getPersonFullName = (
   suffix,
   personType
 ) => {
-  if (personType === PERSON_TYPE.CIVILIAN) {
+  if (personType === PERSON_TYPE.CIVILIAN.description) {
     return getCivilianFullName(
       firstName,
       middleName ? middleName.substr(0, 1).toUpperCase() : null,
@@ -50,7 +50,7 @@ export const getPersonFullName = (
       firstName,
       middleName,
       lastName,
-      personType === PERSON_TYPE.UNKNOWN_OFFICER
+      personType === PERSON_TYPE.UNKNOWN_OFFICER.description
     );
   }
 };
