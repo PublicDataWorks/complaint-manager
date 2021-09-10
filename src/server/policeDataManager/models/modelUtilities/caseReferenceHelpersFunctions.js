@@ -10,7 +10,9 @@ const getPrefix = personType => {
   const typeObject = Object.values(PERSON_TYPE).find(
     type => type.description === personType
   );
-  return typeObject ? typeObject.abbreviation : "CC";
+  return typeObject
+    ? typeObject.abbreviation
+    : PERSON_TYPE.CIVILIAN.abbreviation;
 };
 
 export const getCaseReferencePrefix = (isAnonymous, personType) => {

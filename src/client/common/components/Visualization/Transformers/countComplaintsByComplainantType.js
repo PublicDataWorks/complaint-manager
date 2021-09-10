@@ -2,7 +2,10 @@ import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
 
-const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const {
+  PD,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export function transformData(rawData) {
   let labels = [];
@@ -10,9 +13,12 @@ export function transformData(rawData) {
   let count = 0;
 
   const caseReferenceToName = {
-    CC: "Civilian (CC)",
-    PO: "Police Officer (PO)",
-    CN: `Civilian ${PD} Employee (CN)`,
+    [PERSON_TYPE.CIVILIAN
+      .abbreviation]: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`,
+    [PERSON_TYPE.KNOWN_OFFICER
+      .abbreviation]: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`,
+    [PERSON_TYPE.CIVILIAN_WITHIN_PD
+      .abbreviation]: `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
     AC: "Anonymous (AC)"
   };
 

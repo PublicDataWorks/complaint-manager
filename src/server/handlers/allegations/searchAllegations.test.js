@@ -7,6 +7,9 @@ import { DEFAULT_PAGINATION_LIMIT } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import CaseOfficer from "../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../sharedTestHelpers/Officer";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("searchAllegations handler", function () {
   let existingCase, caseOfficer;
@@ -191,7 +194,7 @@ describe("searchAllegations handler", function () {
       .withId(undefined)
       .withRule("Test Rule B")
       .withParagraph("Test Paragraph A")
-      .withDirective("CC")
+      .withDirective(PERSON_TYPE.CIVILIAN.abbreviation)
       .build();
 
     const allegation4 = new Allegation.Builder()
@@ -237,7 +240,7 @@ describe("searchAllegations handler", function () {
       expect.objectContaining({
         rule: "Test Rule B",
         paragraph: "Test Paragraph A",
-        directive: "CC"
+        directive: PERSON_TYPE.CIVILIAN.abbreviation
       }),
       expect.objectContaining({
         rule: "Test Rule B",

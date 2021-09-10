@@ -30,9 +30,9 @@ describe("executeQuery", () => {
   const token = buildTokenWithPermissions("", "tuser");
 
   const expectedData = {
-    CC: 1,
-    PO: 1,
-    CN: 0,
+    [PERSON_TYPE.CIVILIAN.abbreviation]: 1,
+    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 1,
+    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
     AC: 1
   };
 

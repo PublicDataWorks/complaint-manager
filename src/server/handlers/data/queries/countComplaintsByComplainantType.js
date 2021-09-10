@@ -5,6 +5,7 @@ import {
   DATE_RANGE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { getDateRangeStart } from "./queryHelperFunctions";
+const { PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const executeQuery = async (nickname, dateRangeType) => {
   const dateRangeStart = getDateRangeStart(dateRangeType);
@@ -43,9 +44,9 @@ export const executeQuery = async (nickname, dateRangeType) => {
   });
 
   let totalComplaints = {
-    CC: 0,
-    PO: 0,
-    CN: 0,
+    [PERSON_TYPE.CIVILIAN.abbreviation]: 0,
+    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 0,
+    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
     AC: 0
   };
 

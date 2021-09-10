@@ -14,6 +14,9 @@ const promisifiedStringify = util.promisify(stringify);
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
@@ -62,7 +65,10 @@ const transformCaseData = casesData => {
       .tz(caseData.created_at, TIMEZONE)
       .format(TIMESTAMP_FORMAT);
 
-    const prefix = caseData.complaint_type === CIVILIAN_INITIATED ? "CC" : "PO";
+    const prefix =
+      caseData.complaint_type === CIVILIAN_INITIATED
+        ? PERSON_TYPE.CIVILIAN.abbreviation
+        : PERSON_TYPE.KNOWN_OFFICER.abbreviation;
     const paddedNumber = `${caseData.case_number}`.padStart(4, "0");
     caseData.caseReference = `${prefix}${caseData.year}-${paddedNumber}`;
   }

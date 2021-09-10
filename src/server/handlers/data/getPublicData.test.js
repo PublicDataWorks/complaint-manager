@@ -4,8 +4,12 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import Boom from "boom";
 import * as httpMocks from "node-mocks-http";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
-import * as countComplaintsByIntakeSource from './queries/countComplaintsByIntakeSource';
-import * as countComplaintsByComplainantType from './queries/countComplaintsByComplainantType';
+import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
+import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
+
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -16,26 +20,30 @@ const MOCK_INTAKE_SOURCE_DATA_VALUES = [
 const MOCK_TOTAL_DATA_VALUES = [{ ytd: 10, previousYear: 20 }];
 
 const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
-  { complainantType: "Civilian (CC)" },
-  { complainantType: "Police Officer (PO)" },
+  { complainantType: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})` },
+  {
+    complainantType: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`
+  },
   { complainantType: "Anonymous (AC)" },
-  { complainantType: "Civilian Within NOPD (CN)" }
+  {
+    complainantType: `Civilian Within NOPD (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`
+  }
 ];
 
 const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_DATA_VALUES = {
-  CC: [
+  [PERSON_TYPE.CIVILIAN.abbreviation]: [
     {
       date: "Jun 19",
       count: 1
     }
   ],
-  PO: [
+  [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: [
     {
       date: "Jun 19",
       count: 8
     }
   ],
-  CN: [
+  [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: [
     {
       date: "Jun 19",
       count: 3
@@ -119,15 +127,18 @@ describe("getPublicData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-          queryType: "countComplaintsByIntakeSource",
-          dateRangeType: "YTD"
+        queryType: "countComplaintsByIntakeSource",
+        dateRangeType: "YTD"
       },
       nickname: "tuser"
     });
 
     await getPublicData(request, response, next);
 
-      expect(countComplaintsByIntakeSource.executeQuery).toHaveBeenCalledWith("tuser", "YTD");
+    expect(countComplaintsByIntakeSource.executeQuery).toHaveBeenCalledWith(
+      "tuser",
+      "YTD"
+    );
     expect(response._getData()).toEqual(MOCK_INTAKE_SOURCE_DATA_VALUES);
   });
 
@@ -149,15 +160,18 @@ describe("getPublicData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-          queryType: "countComplaintsByComplainantType",
-          dateRangeType: "YTD"
+        queryType: "countComplaintsByComplainantType",
+        dateRangeType: "YTD"
       },
       nickname: "tuser"
     });
 
     await getPublicData(request, response, next);
 
-      expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith("tuser", "YTD");
+    expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith(
+      "tuser",
+      "YTD"
+    );
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
 

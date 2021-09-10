@@ -11,7 +11,7 @@ describe("case reference helper functions", () => {
   test("getCaseReference should format case prefix, year, and case number", () => {
     const year = "2019";
     const caseNumber = "0001";
-    const caseReferencePrefix = "CC";
+    const caseReferencePrefix = PERSON_TYPE.CIVILIAN.abbreviation;
     const result = getCaseReference(caseReferencePrefix, caseNumber, year);
     expect(result).toEqual("CC2019-0001");
   });
@@ -19,32 +19,32 @@ describe("case reference helper functions", () => {
   describe("getCaseReferencePrefix", () => {
     let isAnonymous = false;
 
-    test("should return CC prefix based on civilian person type", () => {
+    test("should return appropriate prefix based on civilian person type", () => {
       const personType = PERSON_TYPE.CIVILIAN.description;
       const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("CC");
+      expect(result).toEqual(PERSON_TYPE.CIVILIAN.abbreviation);
     });
-    test("should return PO prefix based on known officer person type", () => {
+    test("should return appropriate prefix based on known officer person type", () => {
       const personType = PERSON_TYPE.KNOWN_OFFICER.description;
       const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("PO");
+      expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.abbreviation);
     });
-    test("should return PO prefix based on unknown officer person type", () => {
+    test("should return appropriate prefix based on unknown officer person type", () => {
       const personType = PERSON_TYPE.KNOWN_OFFICER.description;
       const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("PO");
+      expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.abbreviation);
     });
 
-    test("should return CN prefix based on civilian within pd person type", () => {
+    test("should return appropriate prefix based on civilian within pd person type", () => {
       const personType = PERSON_TYPE.CIVILIAN_WITHIN_PD.description;
       const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("CN");
+      expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation);
     });
 
-    test("should return CC prefix given default person type", () => {
+    test("should return appropriate prefix given default person type", () => {
       const personType = PERSON_TYPE.CIVILIAN.description;
       const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("CC");
+      expect(result).toEqual(PERSON_TYPE.CIVILIAN.abbreviation);
     });
 
     test("should return AC prefix given anonymized primary complainant", () => {
