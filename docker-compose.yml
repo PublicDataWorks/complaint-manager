@@ -152,10 +152,12 @@ services:
       - "./e2e/tests:/e2e/tests"
       - "./e2e/pageObjectModels:/e2e/pageObjectModels"
       - "./wait-for-it.sh:/wait-for-it.sh"
+      - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
     entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "300", "--"]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}
+      - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
   redis:
     image: redis
     ports:

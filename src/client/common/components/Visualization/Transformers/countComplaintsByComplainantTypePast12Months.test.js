@@ -3,10 +3,13 @@ import {
   enableDateHighlight,
   transformData
 } from "./countComplaintsByComplainantTypePast12Months";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("helper functions in Complainant Type Past 12 Months", () => {
   let rawData = {
-    CC: [
+    [PERSON_TYPE.CIVILIAN.abbreviation]: [
       {
         date: "Jun 19",
         count: 1
@@ -16,7 +19,7 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
         count: 4
       }
     ],
-    PO: [
+    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: [
       {
         date: "Jun 19",
         count: 8
@@ -26,7 +29,7 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
         count: 10
       }
     ],
-    CN: [
+    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: [
       {
         date: "Jun 19",
         count: 3
@@ -55,14 +58,19 @@ describe("helper functions in Complainant Type Past 12 Months", () => {
   });
 
   test("should highlight within the date range", () => {
-    const ccDateHighlight = enableDateHighlight(rawData["CC"]);
+    const ccDateHighlight = enableDateHighlight(
+      rawData[PERSON_TYPE.CIVILIAN.abbreviation]
+    );
 
     expect(ccDateHighlight).toEqual(["Jun 19", "Jul 19", "Jul 19", "Jun 19"]);
   });
 
   test("should highlight within the count range", () => {
     const maximum = 12;
-    const poCountHighlight = enableCountHighlight(rawData["PO"], maximum);
+    const poCountHighlight = enableCountHighlight(
+      rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation],
+      maximum
+    );
 
     expect(poCountHighlight).toEqual([8.3, 10.3, 9.7, 7.7]);
   });

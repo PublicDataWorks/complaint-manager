@@ -5,6 +5,10 @@ import {
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import moment from "moment";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 export const updateCaseStatus = async (caseToUpdate, status) => {
   const caseStatusList = [
     CASE_STATUS.ACTIVE,
@@ -34,13 +38,13 @@ export const getComplainantType = caseReference => {
     complainantType = "Anonymous (AC)";
   } else {
     switch (prefix) {
-      case "CC":
+      case PERSON_TYPE.CIVILIAN.abbreviation:
         complainantType = "Civilian (CC)";
         break;
-      case "PO":
+      case PERSON_TYPE.KNOWN_OFFICER.abbreviation:
         complainantType = "Police Officer (PO)";
         break;
-      case "CN":
+      case PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation:
         complainantType = "Civilian Within NOPD (CN)";
         break;
       default:
@@ -50,7 +54,10 @@ export const getComplainantType = caseReference => {
   return complainantType;
 };
 
-export const getDateRangeStart = (dateRangeType = DATE_RANGE_TYPE.YTD, currentDate = new Date()) => {
+export const getDateRangeStart = (
+  dateRangeType = DATE_RANGE_TYPE.YTD,
+  currentDate = new Date()
+) => {
   let dateRangeStart;
   if (dateRangeType === DATE_RANGE_TYPE.YTD) {
     dateRangeStart = moment(currentDate).startOf("year");

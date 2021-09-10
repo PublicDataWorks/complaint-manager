@@ -1,6 +1,6 @@
 import { COLORS } from "../dataVizStyling";
 
-const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const { PD, PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
@@ -54,36 +54,36 @@ export const transformData = rawData => {
   };
 
   let ccTrace = {
-    x: insertDateValues(rawData["CC"]),
-    y: insertCountValues(rawData["CC"]),
-    name: "Civilian (CC)",
+    x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
+    y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
+    name: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`,
     marker: {
       color: COLORS[0]
     },
     hoverinfo: "y+name",
-    legendgroup: "groupCC"
+    legendgroup: "group" + PERSON_TYPE.CIVILIAN.abbreviation
   };
 
   let poTrace = {
-    x: insertDateValues(rawData["PO"]),
-    y: insertCountValues(rawData["PO"]),
-    name: "Police Officer (PO)",
+    x: insertDateValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
+    y: insertCountValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
+    name: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`,
     marker: {
       color: COLORS[1]
     },
     hoverinfo: "y+name",
-    legendgroup: "groupPO"
+    legendgroup: "group" + PERSON_TYPE.KNOWN_OFFICER.abbreviation
   };
 
   let cnTrace = {
-    x: insertDateValues(rawData["CN"]),
-    y: insertCountValues(rawData["CN"]),
-    name: `Civilian ${PD} Employee (CN)`,
+    x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
+    y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
+    name: `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
     marker: {
       color: COLORS[2]
     },
     hoverinfo: "y+name",
-    legendgroup: "groupCN"
+    legendgroup: "group" + PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
   };
 
   let acTrace = {
@@ -98,24 +98,24 @@ export const transformData = rawData => {
   };
 
   let ccHighlight = {
-    x: enableDateHighlight(rawData["CC"]),
-    y: enableCountHighlight(rawData["CC"], maximum),
+    x: enableDateHighlight(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
+    y: enableCountHighlight(rawData[PERSON_TYPE.CIVILIAN.abbreviation], maximum),
     fillcolor: "rgba(0,33,113,0.2)",
-    ...highlightOptions("CC")
+    ...highlightOptions(PERSON_TYPE.CIVILIAN.abbreviation)
   };
 
   let poHighlight = {
-    x: enableDateHighlight(rawData["PO"]),
-    y: enableCountHighlight(rawData["PO"], maximum),
+    x: enableDateHighlight(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
+    y: enableCountHighlight(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation], maximum),
     fillcolor: "rgba(95,173,86,0.3)",
-    ...highlightOptions("PO")
+    ...highlightOptions(PERSON_TYPE.KNOWN_OFFICER.abbreviation)
   };
 
   let cnHighlight = {
-    x: enableDateHighlight(rawData["CN"]),
-    y: enableCountHighlight(rawData["CN"], maximum),
+    x: enableDateHighlight(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
+    y: enableCountHighlight(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation], maximum),
     fillcolor: "rgba(157,93,155,0.3)",
-    ...highlightOptions("CN")
+    ...highlightOptions(PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation)
   };
 
   let acHighlight = {

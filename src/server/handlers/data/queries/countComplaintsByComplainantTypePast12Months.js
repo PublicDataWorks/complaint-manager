@@ -3,6 +3,8 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../../../policeDataManager/models";
 import moment from "moment";
 import _ from "lodash";
+const { PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 
 export const dateRange = start => {
   let startDate = moment(start).format("YYYY-MM-DD");
@@ -72,9 +74,9 @@ export const executeQuery = async nickname => {
   let { counts, dateToIndex } = dateRange(startDate);
 
   let totalComplaints = {
-    CC: _.cloneDeep(counts),
-    PO: _.cloneDeep(counts),
-    CN: _.cloneDeep(counts),
+    [PERSON_TYPE.CIVILIAN.abbreviation]: _.cloneDeep(counts),
+    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: _.cloneDeep(counts),
+    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: _.cloneDeep(counts),
     AC: _.cloneDeep(counts)
   };
 
