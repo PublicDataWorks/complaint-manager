@@ -37,19 +37,9 @@ export const getComplainantType = caseReference => {
   if (prefix === "AC") {
     complainantType = "Anonymous (AC)";
   } else {
-    switch (prefix) {
-      case PERSON_TYPE.CIVILIAN.abbreviation:
-        complainantType = "Civilian (CC)";
-        break;
-      case PERSON_TYPE.KNOWN_OFFICER.abbreviation:
-        complainantType = "Police Officer (PO)";
-        break;
-      case PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation:
-        complainantType = "Civilian Within NOPD (CN)";
-        break;
-      default:
-        complainantType = "Civilian (CC)";
-    }
+    complainantType =
+      Object.values(PERSON_TYPE).find(type => type.abbreviation === prefix)
+        ?.complainantLegendValue || PERSON_TYPE.CIVILIAN.complainantLegendValue;
   }
   return complainantType;
 };
