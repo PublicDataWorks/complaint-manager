@@ -31,8 +31,12 @@ export const updateCaseStatus = async (caseToUpdate, status) => {
 };
 
 export const getComplainantType = caseReference => {
-  let prefix = caseReference.substring(0, 2);
+  let prefix = caseReference.substring(0, 3);
   let complainantType;
+
+  while (prefix.charAt(prefix.length - 1).match(/\d/)) {
+    prefix = prefix.substring(0, prefix.length - 1);
+  }
 
   if (prefix === "AC") {
     complainantType = "Anonymous (AC)";
