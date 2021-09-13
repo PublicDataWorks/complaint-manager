@@ -13,16 +13,14 @@ describe("queryHelperFunctions", () => {
       const caseReference = "CC2019-0001";
       const result = getComplainantType(caseReference);
 
-      expect(result).toEqual(`Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`);
+      expect(result).toEqual(PERSON_TYPE.CIVILIAN.complainantLegendValue);
     });
 
     test("should return appropriate prefix based on known/unknown officer person type case reference", () => {
       const caseReference = "PO2019-0001";
       const result = getComplainantType(caseReference);
 
-      expect(result).toEqual(
-        `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`
-      );
+      expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue);
     });
 
     test("should return appropriate prefix based on civilian within pd personType case reference", () => {
@@ -30,7 +28,7 @@ describe("queryHelperFunctions", () => {
       const result = getComplainantType(caseReference);
 
       expect(result).toEqual(
-        `Civilian Within ${PD} (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`
+        PERSON_TYPE.CIVILIAN_WITHIN_PD.complainantLegendValue
       );
     });
 

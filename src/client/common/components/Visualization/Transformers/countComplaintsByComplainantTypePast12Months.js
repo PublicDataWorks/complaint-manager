@@ -1,6 +1,9 @@
 import { COLORS } from "../dataVizStyling";
 
-const { PD, PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const {
+  PD,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const enableDateHighlight = complainantTypeData => {
   const reversedComplainantType = [...complainantTypeData].reverse();
@@ -56,7 +59,7 @@ export const transformData = rawData => {
   let ccTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-    name: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`,
+    name: PERSON_TYPE.CIVILIAN.complainantLegendValue,
     marker: {
       color: COLORS[0]
     },
@@ -67,7 +70,7 @@ export const transformData = rawData => {
   let poTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-    name: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`,
+    name: PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue,
     marker: {
       color: COLORS[1]
     },
@@ -99,21 +102,32 @@ export const transformData = rawData => {
 
   let ccHighlight = {
     x: enableDateHighlight(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-    y: enableCountHighlight(rawData[PERSON_TYPE.CIVILIAN.abbreviation], maximum),
+    y: enableCountHighlight(
+      rawData[PERSON_TYPE.CIVILIAN.abbreviation],
+      maximum
+    ),
     fillcolor: "rgba(0,33,113,0.2)",
     ...highlightOptions(PERSON_TYPE.CIVILIAN.abbreviation)
   };
 
   let poHighlight = {
     x: enableDateHighlight(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-    y: enableCountHighlight(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation], maximum),
+    y: enableCountHighlight(
+      rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation],
+      maximum
+    ),
     fillcolor: "rgba(95,173,86,0.3)",
     ...highlightOptions(PERSON_TYPE.KNOWN_OFFICER.abbreviation)
   };
 
   let cnHighlight = {
-    x: enableDateHighlight(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
-    y: enableCountHighlight(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation], maximum),
+    x: enableDateHighlight(
+      rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]
+    ),
+    y: enableCountHighlight(
+      rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation],
+      maximum
+    ),
     fillcolor: "rgba(157,93,155,0.3)",
     ...highlightOptions(PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation)
   };

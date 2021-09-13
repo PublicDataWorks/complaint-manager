@@ -20,13 +20,13 @@ const MOCK_INTAKE_SOURCE_DATA_VALUES = [
 const MOCK_TOTAL_DATA_VALUES = [{ ytd: 10, previousYear: 20 }];
 
 const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
-  { complainantType: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})` },
+  { complainantType: PERSON_TYPE.CIVILIAN.complainantLegendValue },
   {
-    complainantType: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`
+    complainantType: PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue
   },
   { complainantType: "Anonymous (AC)" },
   {
-    complainantType: `Civilian Within NOPD (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`
+    complainantType: PERSON_TYPE.CIVILIAN_WITHIN_PD.complainantLegendValue
   }
 ];
 
