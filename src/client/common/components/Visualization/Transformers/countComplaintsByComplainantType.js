@@ -13,10 +13,10 @@ export function transformData(rawData) {
   let count = 0;
 
   const caseReferenceToName = {
-    [PERSON_TYPE.CIVILIAN
-      .abbreviation]: `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`,
-    [PERSON_TYPE.KNOWN_OFFICER
-      .abbreviation]: `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`,
+    [PERSON_TYPE.CIVILIAN.abbreviation]:
+      PERSON_TYPE.CIVILIAN.complainantLegendValue,
+    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]:
+      PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue,
     [PERSON_TYPE.CIVILIAN_WITHIN_PD
       .abbreviation]: `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
     AC: "Anonymous (AC)"

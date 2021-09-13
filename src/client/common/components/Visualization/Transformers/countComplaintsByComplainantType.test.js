@@ -6,7 +6,10 @@ import {
   TITLE_FONT
 } from "../dataVizStyling";
 
-const { PD, PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const {
+  PD,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("countComplaintsByComplainantType data transformer", () => {
   test("should transform the rawData from the handler for the visualization component", () => {
@@ -25,8 +28,8 @@ describe("countComplaintsByComplainantType data transformer", () => {
         {
           type: "pie",
           labels: [
-            `Civilian (${PERSON_TYPE.CIVILIAN.abbreviation})`,
-            `Police Officer (${PERSON_TYPE.KNOWN_OFFICER.abbreviation})`,
+            PERSON_TYPE.CIVILIAN.complainantLegendValue,
+            PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue,
             `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
             "Anonymous (AC)"
           ],
