@@ -289,10 +289,10 @@ describe("executeQuery", () => {
         ).length;
         expect(numOfAC).toEqual(12);
 
-        const numOfCN = response.body[
+        const numOfCPD = response.body[
           PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
         ].filter(month => month["count"] === 0).length;
-        expect(numOfCN).toEqual(13);
+        expect(numOfCPD).toEqual(13);
       });
     });
   });
