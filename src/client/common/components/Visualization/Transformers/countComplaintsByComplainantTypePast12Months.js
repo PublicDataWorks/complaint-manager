@@ -78,7 +78,7 @@ export const transformData = rawData => {
     legendgroup: "group" + PERSON_TYPE.KNOWN_OFFICER.abbreviation
   };
 
-  let cnTrace = {
+  let cpdTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
     name: `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
@@ -120,7 +120,7 @@ export const transformData = rawData => {
     ...highlightOptions(PERSON_TYPE.KNOWN_OFFICER.abbreviation)
   };
 
-  let cnHighlight = {
+  let cpdHighlight = {
     x: enableDateHighlight(
       rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]
     ),
@@ -144,8 +144,8 @@ export const transformData = rawData => {
     ccHighlight,
     poTrace,
     poHighlight,
-    cnTrace,
-    cnHighlight,
+    cpdTrace,
+    cpdHighlight,
     acTrace,
     acHighlight,
     {

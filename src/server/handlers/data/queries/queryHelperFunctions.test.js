@@ -10,21 +10,21 @@ const {
 describe("queryHelperFunctions", () => {
   describe("getComplainantType", () => {
     test("should return Civilian (CC) based on civilian/default person type case reference", () => {
-      const caseReference = "CC2019-0001";
+      const caseReference = `${PERSON_TYPE.CIVILIAN.abbreviation}2019-0001`;
       const result = getComplainantType(caseReference);
 
       expect(result).toEqual(PERSON_TYPE.CIVILIAN.complainantLegendValue);
     });
 
     test("should return appropriate prefix based on known/unknown officer person type case reference", () => {
-      const caseReference = "PO2019-0001";
+      const caseReference = `${PERSON_TYPE.KNOWN_OFFICER.abbreviation}2019-0001`;
       const result = getComplainantType(caseReference);
 
       expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue);
     });
 
     test("should return appropriate prefix based on civilian within pd personType case reference", () => {
-      const caseReference = "CN2019-0001";
+      const caseReference = `${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation}2019-0001`;
       const result = getComplainantType(caseReference);
 
       expect(result).toEqual(
