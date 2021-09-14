@@ -194,7 +194,7 @@ describe("searchAllegations handler", function () {
       .withId(undefined)
       .withRule("Test Rule B")
       .withParagraph("Test Paragraph A")
-      .withDirective(PERSON_TYPE.CIVILIAN.abbreviation)
+      .withDirective("CC")
       .build();
 
     const allegation4 = new Allegation.Builder()
@@ -240,7 +240,7 @@ describe("searchAllegations handler", function () {
       expect.objectContaining({
         rule: "Test Rule B",
         paragraph: "Test Paragraph A",
-        directive: PERSON_TYPE.CIVILIAN.abbreviation
+        directive: "CC"
       }),
       expect.objectContaining({
         rule: "Test Rule B",
