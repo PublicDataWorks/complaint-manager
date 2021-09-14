@@ -28,9 +28,9 @@ describe("countComplaintsByComplainantType data transformer", () => {
         {
           type: "pie",
           labels: [
-            PERSON_TYPE.CIVILIAN.complainantLegendValue,
-            PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue,
-            `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
+            PERSON_TYPE.CIVILIAN.publicLegendValue,
+            PERSON_TYPE.KNOWN_OFFICER.publicLegendValue,
+            PERSON_TYPE.CIVILIAN_WITHIN_PD.publicLegendValue,
             "Anonymous (AC)"
           ],
           values: [3, 2, 2, 1],

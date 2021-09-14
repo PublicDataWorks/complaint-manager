@@ -59,7 +59,7 @@ export const transformData = rawData => {
   let ccTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-    name: PERSON_TYPE.CIVILIAN.complainantLegendValue,
+    name: PERSON_TYPE.CIVILIAN.publicLegendValue,
     marker: {
       color: COLORS[0]
     },
@@ -70,7 +70,7 @@ export const transformData = rawData => {
   let poTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-    name: PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue,
+    name: PERSON_TYPE.KNOWN_OFFICER.publicLegendValue,
     marker: {
       color: COLORS[1]
     },
@@ -81,7 +81,7 @@ export const transformData = rawData => {
   let cpdTrace = {
     x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
     y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
-    name: `Civilian ${PD} Employee (${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation})`,
+    name: PERSON_TYPE.CIVILIAN_WITHIN_PD.publicLegendValue,
     marker: {
       color: COLORS[2]
     },
