@@ -319,7 +319,7 @@ jobs:
           command: |
             echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
             echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files' >> $BASH_ENV
             source $BASH_ENV
             nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
       - store_artifacts:
