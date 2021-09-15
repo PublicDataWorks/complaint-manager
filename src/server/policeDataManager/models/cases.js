@@ -11,18 +11,20 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
-import { getCaseReference } from "./modelUtilities/caseReferenceHelpersFunctions";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import {
+  getCaseReference,
+  getCaseReferencePrefix,
+  getPrefix
+} from "./modelUtilities/caseReferenceHelpersFunctions";
+import { getPersonType } from "./modelUtilities/getPersonType";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
-const RANK_INITIATED =
-  require("../../../sharedUtilities/constants").RANK_INITIATED;
-const CIVILIAN_INITIATED =
-  require("../../../sharedUtilities/constants").CIVILIAN_INITIATED;
+const RANK_INITIATED = require("../../../sharedUtilities/constants")
+  .RANK_INITIATED;
+const CIVILIAN_INITIATED = require("../../../sharedUtilities/constants")
+  .CIVILIAN_INITIATED;
 
 const {
   ACCUSED,
@@ -100,26 +102,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       caseReferencePrefix: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "complaintType",
-          "primaryComplainant"
-        ]),
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["primaryComplainant"]),
         get: function () {
           const primaryComplainant = this.get("primaryComplainant");
-          if (primaryComplainant && primaryComplainant.isAnonymous) {
-            return "AC";
-          }
-
-          switch (this.get("complaintType")) {
-            case RANK_INITIATED:
-              return PERSON_TYPE.KNOWN_OFFICER.abbreviation;
-            case CIVILIAN_INITIATED:
-              return PERSON_TYPE.CIVILIAN.abbreviation;
-            case CIVILIAN_WITHIN_PD_INITIATED:
-              return PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
-            default:
-              return PERSON_TYPE.CIVILIAN.abbreviation;
-          }
+          return getCaseReferencePrefix(
+            primaryComplainant && primaryComplainant.isAnonymous,
+            getPersonType(this.get("primaryComplainant"))
+          );
         }
       },
       caseReference: {
