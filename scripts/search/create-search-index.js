@@ -119,12 +119,18 @@ const updateSearchIndex = async () => {
   const operation = { index: { _index: index } };
   const mapPerson = person => {
     let results = {
-      full_name: parseSearchTerm(`${person.firstName} ${person.lastName}`)
+      full_name: parseSearchTerm(
+        `${person.firstName} ${person.lastName}${
+          person.suffix ? ` ${person.suffix}` : ""
+        }`
+      )
     };
     let middle = person.middleName || person.middleInitial;
     if (middle) {
       results.full_name_with_initial = parseSearchTerm(
-        `${person.firstName} ${middle} ${person.lastName}`
+        `${person.firstName} ${middle} ${person.lastName}${
+          person.suffix ? ` ${person.suffix}` : ""
+        }`
       );
     }
     return results;
