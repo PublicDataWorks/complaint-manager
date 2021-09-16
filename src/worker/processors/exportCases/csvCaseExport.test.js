@@ -25,7 +25,9 @@ import Address from "../../../sharedTestHelpers/Address";
 import Attachment from "../../../sharedTestHelpers/attachment";
 import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
-import { BUREAU_ACRONYM } from "../../../instance-files/constants";
+const {
+  BUREAU_ACRONYM
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../fileUpload/uploadFileToS3");
 
@@ -256,7 +258,8 @@ describe("csvCaseExport request", () => {
         .defaultAddress()
         .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN)
         .withId(undefined);
-      const raceAndEthnicityAttributes = new RaceEthnicity.Builder().defaultRaceEthnicity();
+      const raceAndEthnicityAttributes =
+        new RaceEthnicity.Builder().defaultRaceEthnicity();
       raceEthnicity = await models.race_ethnicity.create(
         raceAndEthnicityAttributes,
         { auditUser: "tuser" }
@@ -330,10 +333,11 @@ describe("csvCaseExport request", () => {
         { auditUser: "Wanchenlearn" }
       );
 
-      const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
-        .defaultReferralLetterCaseClassification()
-        .withCaseId(caseToExport.id)
-        .withClassificationId(classification.id);
+      const caseClassificationAttributes =
+        new ReferralLetterCaseClassification.Builder()
+          .defaultReferralLetterCaseClassification()
+          .withCaseId(caseToExport.id)
+          .withClassificationId(classification.id);
       await models.case_classification.create(caseClassificationAttributes, {
         auditUser: "tuser"
       });

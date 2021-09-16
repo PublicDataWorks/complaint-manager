@@ -14,7 +14,9 @@ import generateReferralLetterPdfBuffer, {
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-import { SENDER_NAME } from "../../../../../instance-files/referralLetterDefaults";
+const {
+  SENDER_NAME
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");

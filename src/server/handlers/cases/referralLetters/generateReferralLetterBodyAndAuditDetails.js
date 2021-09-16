@@ -130,7 +130,7 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
   return { caseData: caseData, auditDetails: auditDetails };
 };
 
-const referralLetterBodyPath = "src/instance-files/letterBody.tpl";
+const referralLetterBodyPath = `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`;
 
 export const generateReferralLetterBodyAndAuditDetails = async (
   caseId,
@@ -138,10 +138,8 @@ export const generateReferralLetterBodyAndAuditDetails = async (
 ) => {
   let caseData;
 
-  const caseDataAndAuditDetails = await getReferralLetterCaseDataAndAuditDetails(
-    caseId,
-    transaction
-  );
+  const caseDataAndAuditDetails =
+    await getReferralLetterCaseDataAndAuditDetails(caseId, transaction);
 
   caseData = caseDataAndAuditDetails.caseData.toJSON();
   caseData.accusedOfficers.sort((officerA, officerB) => {

@@ -6,7 +6,7 @@ import {
   revertTransformCaseNoteActionToId,
   transformCaseNoteActionToId
 } from "./transformCaseNoteActionToId";
-import { PD } from "../../instance-files/constants";
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("transform case note action to ID", () => {
   const caseNoteActionProperties = {

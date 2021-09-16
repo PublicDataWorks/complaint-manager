@@ -1,4 +1,6 @@
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getPersonType = primaryComplainant => {
   if (primaryComplainant && primaryComplainant.officerId) {

@@ -3,7 +3,7 @@ import Case from "../../sharedTestHelpers/case";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import constants from "../../instance-files/referralLetterDefaults";
+const constants = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 describe("dataChangeAuditHooks for referral letter", () => {
   const { RECIPIENT, RECIPIENT_ADDRESS, SENDER } = constants || {};

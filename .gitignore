@@ -53,3 +53,5 @@ chromedriver.log
 
 data/
 .cert/
+
+newrelic_agent.log

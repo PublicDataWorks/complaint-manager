@@ -10,7 +10,9 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
-import { PERSON_TYPE } from "../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("dataChangeAuditHooks", () => {
   afterEach(async () => {

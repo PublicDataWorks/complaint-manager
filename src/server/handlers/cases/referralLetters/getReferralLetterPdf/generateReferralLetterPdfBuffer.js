@@ -27,10 +27,8 @@ const generateReferralLetterPdfBuffer = async (
       models.referral_letter.name
     );
   } else {
-    const letterBodyAndAuditDetails = await generateReferralLetterBodyAndAuditDetails(
-      caseId,
-      transaction
-    );
+    const letterBodyAndAuditDetails =
+      await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
     letterBody = letterBodyAndAuditDetails.referralLetterBody;
     letterBodyAuditDetails = letterBodyAndAuditDetails.auditDetails;
   }
@@ -118,7 +116,7 @@ export const generateLetterPdfHtml = (
   };
 
   const rawTemplate = fs.readFileSync(
-    "src/instance-files/referralLetterPdf.tpl"
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);

@@ -1,5 +1,6 @@
-import { getPersonType } from "./getPersonType";
-import { PERSON_TYPE } from "../../../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
   const paddedCaseId = `${caseNumber}`.padStart(4, "0");

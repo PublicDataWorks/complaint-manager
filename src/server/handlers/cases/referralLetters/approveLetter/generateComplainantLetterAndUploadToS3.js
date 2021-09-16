@@ -10,7 +10,9 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
-import { PERSON_TYPE } from "../../../../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const generateComplainantLetterAndUploadToS3 = async (
   existingCase,

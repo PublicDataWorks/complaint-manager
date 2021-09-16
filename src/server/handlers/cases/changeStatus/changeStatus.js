@@ -1,4 +1,4 @@
-import constants from "../../../../instance-files/referralLetterDefaults";
+const constants = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import {
   ACCUSED,
   USER_PERMISSIONS
@@ -62,10 +62,11 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      caseToUpdate.id,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        caseToUpdate.id,
+        transaction
+      );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
