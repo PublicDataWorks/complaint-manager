@@ -2,7 +2,9 @@ import {
   ADDRESSABLE_TYPE,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
+const {
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import moment from "moment";
 import { head, isEmpty, sortBy } from "lodash";
 import models from "./index";
@@ -21,10 +23,10 @@ import { getPersonType } from "./modelUtilities/getPersonType";
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
-const RANK_INITIATED = require("../../../sharedUtilities/constants")
-  .RANK_INITIATED;
-const CIVILIAN_INITIATED = require("../../../sharedUtilities/constants")
-  .CIVILIAN_INITIATED;
+const RANK_INITIATED =
+  require("../../../sharedUtilities/constants").RANK_INITIATED;
+const CIVILIAN_INITIATED =
+  require("../../../sharedUtilities/constants").CIVILIAN_INITIATED;
 
 const {
   ACCUSED,

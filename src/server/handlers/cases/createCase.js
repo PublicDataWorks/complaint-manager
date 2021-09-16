@@ -12,7 +12,9 @@ import {
   CIVILIAN_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
+const {
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import { get } from "lodash";
 
 const {

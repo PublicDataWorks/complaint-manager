@@ -26,7 +26,9 @@ import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
 import { authEnabledTest } from "./testHelpers/authEnabledTest";
 import { isAuthDisabled } from "./isAuthDisabled";
-import { CITY } from "../instance-files/constants";
+const {
+  CITY
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()

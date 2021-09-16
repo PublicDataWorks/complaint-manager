@@ -8,7 +8,9 @@ import {
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import { DECLINES_OPTION } from "../sharedUtilities/constants";
 import { findFirstSender } from "../sharedUtilities/findFirstSender";
-import { generateSubjectLine } from "../instance-files/helpers";
+const {
+  generateSubjectLine
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
 
 const caseReferenceLength = 4;
 

@@ -11,7 +11,9 @@ import {
   getCaseReference,
   getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
-import { PERSON_TYPE } from "../../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 module.exports = (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(

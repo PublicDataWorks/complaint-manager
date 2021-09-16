@@ -1,7 +1,9 @@
 "use strict";
 
 import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
-import { PERSON_TYPE } from "../../../instance-files/constants";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const {
   ACCUSED,

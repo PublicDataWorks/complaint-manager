@@ -6,7 +6,9 @@ import {
   MANAGER_TYPE,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import { CIVILIAN_WITHIN_PD_INITIATED } from "../../../instance-files/constants";
+const {
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../sharedTestHelpers/case";

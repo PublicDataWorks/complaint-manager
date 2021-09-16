@@ -13,9 +13,17 @@ import {
   isEqual,
   isCivilianComplainant
 } from "./handlebarHelpers";
-import { generateSubjectLine } from "../instance-files/helpers";
-import { ORGANIZATION, BUREAU_ACRONYM } from "../instance-files/constants";
-import { SENDER_NAME, SENDER_SIGNATURE } from "../instance-files/referralLetterDefaults";
+const {
+  generateSubjectLine
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
+const {
+  ORGANIZATION,
+  BUREAU_ACRONYM
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const {
+  SENDER_NAME,
+  SENDER_SIGNATURE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {
@@ -392,10 +400,8 @@ describe("handlebarHelpers", function () {
 describe("generate subject line", function () {
   const caseReference = "CC2019-0027";
   const pibCaseNumber = "2019-0027-R";
-  const supplementalSubjectLine =
-    `Supplemental Referral; ${ORGANIZATION} Complaint CC2019-0027; ${BUREAU_ACRONYM} Case 2019-0027-R`;
-  const subjectLineWithoutPibCaseNumber =
-    `Complaint Referral; ${ORGANIZATION} Complaint CC2019-0027`;
+  const supplementalSubjectLine = `Supplemental Referral; ${ORGANIZATION} Complaint CC2019-0027; ${BUREAU_ACRONYM} Case 2019-0027-R`;
+  const subjectLineWithoutPibCaseNumber = `Complaint Referral; ${ORGANIZATION} Complaint CC2019-0027`;
 
   test("returns supplemental subject line when case number present", () => {
     expect(generateSubjectLine(caseReference, pibCaseNumber)).toEqual(

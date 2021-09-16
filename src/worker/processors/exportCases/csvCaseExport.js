@@ -4,7 +4,9 @@ import {
   CIVILIAN_WITHIN_PD_INITIATED,
   TIMEZONE
 } from "../../../sharedUtilities/constants";
-import { BUREAU_ACRONYM } from "../../../instance-files/constants";
+const {
+  BUREAU_ACRONYM
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import timezone from "moment-timezone";
 import _ from "lodash";
 
