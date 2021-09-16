@@ -1,9 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
-import createConfiguredStore from "../../../createConfiguredStore";
 import ConfirmationDialog from "./ConfirmationDialog";
 
 describe("ConfirmationDialog", () => {
@@ -11,24 +8,16 @@ describe("ConfirmationDialog", () => {
   let onCancel = jest.fn();
   beforeEach(() => {
     render(
-      <Provider store={createConfiguredStore()}>
-        <Router>
-          <table>
-            <tbody>
-              <ConfirmationDialog
-                cancelText="Cancel this right now, are you crazy?"
-                confirmText="Do it, bro"
-                onConfirm={onConfirm}
-                onCancel={onCancel}
-                open={true}
-                title="DELETE ALL THE THINGS!"
-              >
-                Hello, confirm that you want to delete the internet.
-              </ConfirmationDialog>
-            </tbody>
-          </table>
-        </Router>
-      </Provider>
+      <ConfirmationDialog
+        cancelText="Cancel this right now, are you crazy?"
+        confirmText="Do it, bro"
+        onConfirm={onConfirm}
+        onCancel={onCancel}
+        open={true}
+        title="DELETE ALL THE THINGS!"
+      >
+        Hello, confirm that you want to delete the internet.
+      </ConfirmationDialog>
     );
   });
 
