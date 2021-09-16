@@ -93,11 +93,16 @@ const ActivityDisplay = ({
           style={{
             minWidth: 10,
             backgroundColor: "#D32F2F",
+            width: "100%",
             padding: 0
           }}
         />
       ) : null}
-      <CardContent>
+      <CardContent
+        style={{
+          width: "100%"
+        }}
+      >
         <div
           style={{
             display: "flex",

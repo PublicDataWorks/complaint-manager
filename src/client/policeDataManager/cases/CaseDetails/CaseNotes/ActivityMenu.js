@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
@@ -8,6 +9,13 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";
+
+const styles = () => ({
+  iconBtn: {
+    alignItems: "flex-start",
+    height: "50px"
+  }
+});
 
 class ActivityMenu extends React.Component {
   state = {
@@ -51,6 +59,7 @@ class ActivityMenu extends React.Component {
           <IconButton
             data-testid="activityMenuButton"
             onClick={this.handleMenuOpen}
+            className={this.props.classes.iconBtn}
           >
             <MoreVertIcon />
           </IconButton>
@@ -92,4 +101,6 @@ const mapStateToProps = state => ({
   nickname: state.users.current.userInfo.nickname
 });
 
-export default connect(mapStateToProps)(ActivityMenu);
+export default connect(mapStateToProps)(
+  withStyles(styles, { withTheme: false })(ActivityMenu)
+);
