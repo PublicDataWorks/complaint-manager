@@ -9,6 +9,9 @@ then
   docker-compose stop app
 fi
 
+echo "Deleting all existing failed e2e images older than 90 minutes..."
+source scripts/remove_e2e_images.sh
+
 # In case you want to test a single test case
 # nightwatch --config /instance-files/tests/e2e/nightwatch.conf.js --env local --test /e2e/tests/policeDataManager/policeDataManagerUserJourney.js --testcase "should navigate to all exports page and export all cases"
 
