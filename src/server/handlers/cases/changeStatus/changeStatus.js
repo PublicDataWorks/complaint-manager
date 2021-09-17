@@ -1,4 +1,4 @@
-const constants = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const constants = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 import {
   ACCUSED,
   USER_PERMISSIONS

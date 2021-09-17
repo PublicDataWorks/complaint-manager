@@ -94,6 +94,7 @@ describe("changeStatus", () => {
       where: { caseId: initialCase.id }
     });
     expect(letterCreated).not.toBeNull();
+    expect(letterCreated.sender).not.toBeNull();
 
     await initialCase.reload();
     expect(initialCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
