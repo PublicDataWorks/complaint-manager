@@ -21,6 +21,7 @@ class SearchCasesForm extends Component {
   submit = async ({ queryString }, dispatch) => {
     const formattedQueryString = (queryString || "").trim();
     if (formattedQueryString.length < 1) return;
+    this.setState({ tooltipVisible: false });
     dispatch(push(`/search?queryString=${formattedQueryString}`));
   };
 
