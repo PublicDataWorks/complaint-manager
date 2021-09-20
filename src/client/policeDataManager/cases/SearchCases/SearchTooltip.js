@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  ClickAwayListener
-} from "@material-ui/core";
+import { Card, CardHeader, CardContent } from "@material-ui/core";
 import { withStyles } from "@material-ui/styles";
 import { ArrowDropUp } from "@material-ui/icons";
 
@@ -33,7 +28,6 @@ const SearchTooltip = ({
   top,
   left,
   maxWidth,
-  hideTooltip,
   classes
 }) => {
   const tooltipHeaderClasses = {
@@ -53,75 +47,73 @@ const SearchTooltip = ({
           color: "rgb(84, 114, 172)"
         }}
       />
-      <ClickAwayListener onClickAway={hideTooltip}>
-        <Card
-          data-testid="search-tooltip"
-          className={classes.card}
-          style={{
-            position: "absolute",
-            top,
-            left,
-            maxWidth
-          }}
-        >
-          <CardHeader title="Advanced Search" classes={tooltipHeaderClasses} />
-          <CardContent>
-            <section aria-label="search-terms">
-              <h2 className={classes.sectionHeader}>Search Terms</h2>
-              <section className="explanation">
-                Search terms must be followed by a colon and use quotes for
-                search terms containing spaces, dashes, etc.
-              </section>
-              <section className={classes.examples}>
-                <div className="example">
-                  <strong>complainant:</strong>Smith
-                </div>
-                <div className="example">
-                  <strong>accused:</strong>"Adam Smith"
-                </div>
-                <div className="example">
-                  <strong>tag:</strong>"Crime Lab"
-                </div>
-              </section>
+      <Card
+        data-testid="search-tooltip"
+        className={classes.card}
+        style={{
+          position: "absolute",
+          top,
+          left,
+          maxWidth
+        }}
+      >
+        <CardHeader title="Advanced Search" classes={tooltipHeaderClasses} />
+        <CardContent>
+          <section aria-label="search-terms">
+            <h2 className={classes.sectionHeader}>Search Terms</h2>
+            <section className="explanation">
+              Search terms must be followed by a colon and use quotes for search
+              terms containing spaces, dashes, etc.
             </section>
-            <hr />
-            <section aria-label="search-operators">
-              <h2 className={classes.sectionHeader}>Search Operators</h2>
-              <section className="explanation">
-                Use the operators <strong>OR</strong>, <strong>AND</strong>, or{" "}
-                <strong>NOT</strong> to refine your search. The default search
-                operator is <strong>AND</strong>.
-              </section>
-              <section className={classes.examples}>
-                <div className="example">
-                  Smith <strong>AND NOT</strong> Jones
-                </div>
-                <div className="example">
-                  <strong>accused:</strong>Smith{" "}
-                  <strong>OR complainant:</strong>Smith
-                </div>
-              </section>
+            <section className={classes.examples}>
+              <div className="example">
+                <strong>complainant:</strong>Smith
+              </div>
+              <div className="example">
+                <strong>accused:</strong>"Adam Smith"
+              </div>
+              <div className="example">
+                <strong>tag:</strong>"Crime Lab"
+              </div>
             </section>
-            <hr />
-            <section aria-label="parentheses-and-quotes">
-              <h2 className={classes.sectionHeader}>Parentheses and Quotes</h2>
-              <section className="explanation">
-                Use parentheses to group your search terms and quotes to search
-                for exact matches.
-              </section>
-              <section className={classes.examples}>
-                <div className="example">
-                  <strong>"</strong>Adam Smith<strong>"</strong>
-                </div>
-                <div className="example">
-                  <strong>(</strong>Smith <strong>AND</strong> Jones{" "}
-                  <strong>) OR (NOT tag:</strong>"Crime Lab"<strong>)</strong>
-                </div>
-              </section>
+          </section>
+          <hr />
+          <section aria-label="search-operators">
+            <h2 className={classes.sectionHeader}>Search Operators</h2>
+            <section className="explanation">
+              Use the operators <strong>OR</strong>, <strong>AND</strong>, or{" "}
+              <strong>NOT</strong> to refine your search. The default search
+              operator is <strong>AND</strong>.
             </section>
-          </CardContent>
-        </Card>
-      </ClickAwayListener>
+            <section className={classes.examples}>
+              <div className="example">
+                Smith <strong>AND NOT</strong> Jones
+              </div>
+              <div className="example">
+                <strong>accused:</strong>Smith <strong>OR complainant:</strong>
+                Smith
+              </div>
+            </section>
+          </section>
+          <hr />
+          <section aria-label="parentheses-and-quotes">
+            <h2 className={classes.sectionHeader}>Parentheses and Quotes</h2>
+            <section className="explanation">
+              Use parentheses to group your search terms and quotes to search
+              for exact matches.
+            </section>
+            <section className={classes.examples}>
+              <div className="example">
+                <strong>"</strong>Adam Smith<strong>"</strong>
+              </div>
+              <div className="example">
+                <strong>(</strong>Smith <strong>AND</strong> Jones{" "}
+                <strong>) OR (NOT tag:</strong>"Crime Lab"<strong>)</strong>
+              </div>
+            </section>
+          </section>
+        </CardContent>
+      </Card>
     </>
   );
 };
