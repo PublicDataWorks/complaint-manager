@@ -7,8 +7,17 @@ import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
 import styles from "../../../common/globalStyling/styles";
 import { renderTextField } from "../sharedFormComponents/renderFunctions";
+import { InputAdornment } from "@material-ui/core";
+import { HelpOutline } from "@material-ui/icons";
+import SearchTooltip from "./SearchTooltip";
 
 class SearchCasesForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { tooltipVisible: false };
+    this.tooltipButtonRef = React.createRef();
+  }
+
   submit = async ({ queryString }, dispatch) => {
     const formattedQueryString = (queryString || "").trim();
     if (formattedQueryString.length < 1) return;
@@ -47,10 +56,53 @@ class SearchCasesForm extends Component {
               ),
               fontWeight: "300",
               fontSize: "16px"
-            }
+            },
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle-search-tooltip"
+                  edge="end"
+                  data-testid="search-tooltip-button"
+                  onClick={() =>
+                    this.setState({
+                      tooltipVisible: !this.state.tooltipVisible
+                    })
+                  }
+                  ref={this.tooltipButtonRef}
+                >
+                  <HelpOutline style={{ color: "white" }} />
+                </IconButton>
+              </InputAdornment>
+            )
           }}
         />
+        {this.state.tooltipVisible ? (
+          <SearchTooltip
+            top={this.calculateTooltipTop()}
+            left={this.calculateTooltipLeft()}
+            maxWidth={650}
+            hideTooltip={() => this.setState({ tooltipVisible: false })}
+            arrowLeft={
+              this.tooltipButtonRef.current.getBoundingClientRect().left
+            }
+            arrowWidth={this.tooltipButtonRef.current.clientWidth}
+          />
+        ) : (
+          ""
+        )}
       </form>
+    );
+  }
+
+  calculateTooltipLeft() {
+    return this.tooltipButtonRef.current.getBoundingClientRect().left - 600;
+  }
+
+  calculateTooltipTop() {
+    return (
+      this.tooltipButtonRef.current.getBoundingClientRect().top +
+      this.tooltipButtonRef.current.clientHeight +
+      20
     );
   }
 }
@@ -60,7 +112,7 @@ const searchCasesForm = reduxForm({
   destroyOnUnmount: false
 })(SearchCasesForm);
 
-export const mapsStateToProps = state => {
+export const mapStateToProps = state => {
   let queryString = state.router.location.search;
   if (queryString) {
     queryString = queryString
@@ -74,4 +126,4 @@ export const mapsStateToProps = state => {
   return { initialValues: { queryString } };
 };
 
-export default connect(mapsStateToProps)(searchCasesForm);
+export default connect(mapStateToProps)(searchCasesForm);

@@ -2,33 +2,36 @@ import React from "react";
 import { push } from "connected-react-router";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitForElementToBeRemoved
+} from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { waitFor } from "@testing-library/dom";
-import SearchCasesForm, {
-  mapsStateToProps,
-  validateQuotes
-} from "./SearchCasesForm";
+import SearchCasesForm, { mapStateToProps } from "./SearchCasesForm";
 import createConfiguredStore from "../../../createConfiguredStore";
 
 describe("SearchCasesForm.mapStateToProps", () => {
   const queryString = "hello";
   test("should map queryString from URL with defined queryString", async () => {
     expect(
-      mapsStateToProps({
+      mapStateToProps({
         router: { location: { search: `?queryString=${queryString}` } }
       })
     ).toEqual({ initialValues: { queryString } });
   });
 
   test("should map no queryString from URL with no queryString", async () => {
-    expect(mapsStateToProps({ router: { location: {} } })).toEqual({
+    expect(mapStateToProps({ router: { location: {} } })).toEqual({
       initialValues: {}
     });
   });
 
   test("should map no queryString from URL with no queryString", async () => {
     expect(
-      mapsStateToProps({
+      mapStateToProps({
         router: {
           location: {
             search: "?queryString=hello%20there"
@@ -54,6 +57,20 @@ describe("SearchCasesForm", () => {
         </Router>
       </Provider>
     );
+  });
+
+  describe("tooltip", () => {
+    test("should display tooltip button", () => {
+      expect(screen.getByTestId("search-tooltip-button")).toBeInTheDocument;
+    });
+
+    test("should display tooltip if tooltip button is clicked and hide it if clicked again", () => {
+      userEvent.click(screen.getByTestId("search-tooltip-button"));
+      expect(screen.getByTestId("search-tooltip")).toBeInTheDocument;
+
+      userEvent.click(screen.getByTestId("search-tooltip-button"));
+      expect(screen.queryByTestId("search-tooltip")).toBeFalsy();
+    });
   });
 
   describe("onSubmit", () => {
@@ -104,7 +121,6 @@ describe("SearchCasesForm", () => {
         </Provider>
       );
 
-      console.log(screen.queryByTestId("searchField"));
       expect(screen.queryByTestId("searchField").value).toEqual(searchQuery);
     });
   });
