@@ -73,6 +73,7 @@ class SearchCasesForm extends Component {
                       })
                     }
                     ref={this.tooltipButtonRef}
+                    style={{ zIndex: 2 }}
                   >
                     <HelpOutline style={{ color: "white" }} />
                   </IconButton>
