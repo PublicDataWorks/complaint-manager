@@ -1,6 +1,7 @@
 ARG INSTANCE_VERSION=latest
+ARG INSTANCE_IMAGE=noipm/instance-files
 
-FROM noipm/instance-files:$INSTANCE_VERSION AS instance
+FROM ${INSTANCE_IMAGE}:${INSTANCE_VERSION} AS instance
 FROM noipm/docker-node-ubuntu:2.0.2
 
 RUN apt-get update

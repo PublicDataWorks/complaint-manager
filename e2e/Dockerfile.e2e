@@ -1,21 +1,22 @@
 ARG INSTANCE_VERSION=latest
+ARG INSTANCE_IMAGE=noipm/instance-files
 
-FROM noipm/instance-files:$INSTANCE_VERSION AS instance
+FROM $INSTANCE_IMAGE:$INSTANCE_VERSION AS instance
 
 FROM ubuntu:16.04
 
 ENV REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates \
-    apt-transport-https \
-    openjdk-8-jre-headless \
-    curl \
-    xz-utils \
-    unzip \
-    bzip2 \
-    wget \
-    && rm -rf /var/lib/apt/lists/*
+  ca-certificates \
+  apt-transport-https \
+  openjdk-8-jre-headless \
+  curl \
+  xz-utils \
+  unzip \
+  bzip2 \
+  wget \
+  && rm -rf /var/lib/apt/lists/*
 
 COPY --from=instance /instance-files /src/instance-files
 
