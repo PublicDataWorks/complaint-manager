@@ -8,6 +8,8 @@ services:
       args:
         - REACT_APP_ENV=static_development
         - REACT_APP_GOOGLE_API_KEY
+        - INSTANCE_IMAGE=${INSTANCE_IMAGE}
+        - INSTANCE_VERSION=${INSTANCE_VERSION}
     environment:
       - NODE_ENV=development
       - REACT_APP_ENV=development
@@ -36,7 +38,7 @@ services:
       #      - ./build:/app/build
       - ./src:/app/src
       #      Mount this volume only if you have NOT set REACT_APP_INSTANCE_FILES_DIR locally
-      #      - /app/src/instance-files/
+      # - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./.cert:/app/.cert
       - ./package.json:/app/package.json
@@ -75,6 +77,8 @@ services:
       args:
         - REACT_APP_ENV=static_development
         - REACT_APP_GOOGLE_API_KEY
+        - INSTANCE_IMAGE=${INSTANCE_IMAGE}
+        - INSTANCE_VERSION=${INSTANCE_VERSION}
     environment:
       - NODE_ENV=development
       - REACT_APP_ENV=development_e2e
@@ -99,7 +103,7 @@ services:
     volumes:
       - ./src:/app/src
       #      Mount this volume only if you have NOT set REACT_APP_INSTANCE_FILES_DIR locally
-      #      - /app/src/instance-files/
+      # - /app/src/instance-files/
       - ./scripts:/app/scripts
       - ./.cert:/app/.cert
       - ./package.json:/app/package.json
@@ -111,6 +115,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.worker
+      args:
+        - INSTANCE_IMAGE=${INSTANCE_IMAGE}
+        - INSTANCE_VERSION=${INSTANCE_VERSION}
     environment:
       - NODE_ENV=development
       - NEW_RELIC_ENABLED=false
@@ -131,7 +138,7 @@ services:
     volumes:
       - ./src:/app/src
       #      Mount this volume only if you have NOT set REACT_APP_INSTANCE_FILES_DIR locally
-      #      - /app/src/instance-files/
+      # - /app/src/instance-files/
       - ./package.json:/app/package.json
       #      Mount this volume only if you have set REACT_APP_INSTANCE_FILES_DIR locally
       - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
@@ -145,7 +152,7 @@ services:
     ports:
       - "5432:5432"
   e2e:
-    image: noipm/e2e:latest
+    image: ${E2E_IMAGE}
     depends_on:
       - app-e2e
     volumes:
