@@ -17,8 +17,8 @@ This README is aimed at getting new users (Core Team and Contributors) set up to
   
   **Note:** You only need this if you are trying to run tests outside of the containers OR if you want to run DB migrations
 
-  * We depend on access to the local db container for running tests in our IDE and also for running up/down migrations locally
-  * We depend on access to the local redis instance for debugging purposes
+  * We depend on access to the local db container for running `server` tests in our IDE and also for running up/down migrations locally
+  * We depend on access to the local redis instance for debugging purposes and for running `worker` tests
   * Using your text editor of choice, edit ```/etc/hosts``` file to add the following lines after the first localhost:
     ```
     127.0.0.1       db
