@@ -152,7 +152,7 @@ services:
     ports:
       - "5432:5432"
   e2e:
-    image: ${E2E_IMAGE}
+    image: ${E2E_IMAGE:-noipm/e2e:latest}
     depends_on:
       - app-e2e
     volumes:
