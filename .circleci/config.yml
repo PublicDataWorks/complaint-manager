@@ -75,8 +75,6 @@ jobs:
           name: Run client unit tests
           command: yarn test:client:ci
           environment:
-            NEW_RELIC_ENABLED: false
-            NEW_RELIC_NO_CONFIG_FILE: true
             REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
 
   test-server-handlers-ci:
@@ -96,9 +94,6 @@ jobs:
       - run:
           name: Run server handler unit tests
           command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
-          environment:
-            NEW_RELIC_ENABLED: false
-            NEW_RELIC_NO_CONFIG_FILE: true
   test-server-handlers-staging:
     docker:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -116,9 +111,6 @@ jobs:
       - run:
           name: Run server handler unit tests
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
-          environment:
-            NEW_RELIC_ENABLED: false
-            NEW_RELIC_NO_CONFIG_FILE: true
   test-server-worker-non-handlers:
     docker:
       - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -136,9 +128,6 @@ jobs:
       - run:
           name: Run server and worker unit tests, excluding handlers
           command: yarn test:server-worker-non-handlers:ci
-          environment:
-            NEW_RELIC_ENABLED: false
-            NEW_RELIC_NO_CONFIG_FILE: true
 
   security-check:
     docker:
