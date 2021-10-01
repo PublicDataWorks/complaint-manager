@@ -76,6 +76,10 @@ describe("editOfficerAllegation", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should edit a case officer allegation", async () => {
     const data = {
       details: "new details",

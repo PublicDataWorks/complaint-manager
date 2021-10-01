@@ -22,6 +22,10 @@ describe("edit referral letter", () => {
       await cleanupDatabase();
     });
 
+    afterAll(async () => {
+      await models.sequelize.close();
+    });
+
     const token = buildTokenWithPermissions("", "some_nickname");
     let existingCase, referralLetter, caseOfficer;
 

@@ -18,6 +18,10 @@ describe("transform nickname to email for production users", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should transform case note with author scziment, lvillasanta, alowe, shutson to their corresponding @nolaipm.gov email", async () => {
     let caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()

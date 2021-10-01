@@ -169,6 +169,10 @@ describe("executeQuery", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("returns count of tags broken down by complaints", async () => {
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);

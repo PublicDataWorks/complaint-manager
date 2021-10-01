@@ -22,10 +22,11 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
       { auditUser: "Wanchenlearn" }
     );
 
-    const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
-      .defaultReferralLetterCaseClassification()
-      .withCaseId(existingCase.id)
-      .withClassificationId(classification.id);
+    const caseClassificationAttributes =
+      new ReferralLetterCaseClassification.Builder()
+        .defaultReferralLetterCaseClassification()
+        .withCaseId(existingCase.id)
+        .withClassificationId(classification.id);
     caseClassification = await models.case_classification.create(
       caseClassificationAttributes,
       {
@@ -36,6 +37,10 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  afterAll(async () => {
+    await models.sequelize.close();
   });
 
   test("creates an audit for creating a case classification", async () => {

@@ -21,6 +21,10 @@ describe("getTransformedAudits", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
   const job = {
     data: { user: testUser }
   };

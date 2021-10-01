@@ -11,7 +11,7 @@ console.log("Running on Worker: ", process.env.JEST_WORKER_ID);
 
 EventEmitter.defaultMaxListeners = 67;
 Enzyme.configure({ adapter: new Adapter() });
-jest.setTimeout(10000);
+jest.setTimeout(30000);
 
 winston.configure({
   transports: [

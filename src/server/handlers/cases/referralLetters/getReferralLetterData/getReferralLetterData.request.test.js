@@ -19,6 +19,10 @@ describe("GET /cases/:id/referral-letter", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   let token, newCase;
 
   beforeEach(async () => {

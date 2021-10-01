@@ -4,18 +4,12 @@ import Tag from "../../testHelpers/tag";
 import CaseTag from "../../testHelpers/caseTag";
 import Case from "../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import {
-  NOT_FOUND_ERRORS
-} from "../../../sharedUtilities/errorMessageConstants";
+import { NOT_FOUND_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 describe("removeTagAndAuditDetails", () => {
   let tag1, tag2, case1;
   beforeEach(async () => {
-
-    const case1Attr = new Case.Builder()
-      .defaultCase()
-      .withId(612)
-      .build();
+    const case1Attr = new Case.Builder().defaultCase().withId(612).build();
 
     const tag1Attr = new Tag.Builder().defaultTag().withName("tag1").withId(37);
 
@@ -41,8 +35,8 @@ describe("removeTagAndAuditDetails", () => {
   test("should throw an exception if the tag id doesn't exist", async () => {
     let error;
     try {
-      await removeTagAndAuditDetails({ nickname: "User" }, 9999999
-      )} catch (e) {
+      await removeTagAndAuditDetails({ nickname: "User" }, 9999999);
+    } catch (e) {
       error = e;
     }
 
@@ -50,7 +44,7 @@ describe("removeTagAndAuditDetails", () => {
   });
 
   test("should remove and update tag on success", async () => {
-    await removeTagAndAuditDetails({ nickname: "User" }, tag2.id)
+    await removeTagAndAuditDetails({ nickname: "User" }, tag2.id);
     let caseTags = await models.case_tag.findAll({
       where: {
         tagId: tag2.id
@@ -61,7 +55,7 @@ describe("removeTagAndAuditDetails", () => {
         id: tag2.id
       }
     });
-    
+
     expect(caseTags).toHaveLength(0);
     expect(tag).toBeFalsy();
   });
@@ -70,5 +64,7 @@ describe("removeTagAndAuditDetails", () => {
     await cleanupDatabase();
   });
 
-
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
 });

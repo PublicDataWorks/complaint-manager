@@ -23,6 +23,10 @@ describe("generate export download url", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
   describe("auditing", () => {
     test("create an audit for all cases export", async () => {
       let fileName = "fileInS3.csv";

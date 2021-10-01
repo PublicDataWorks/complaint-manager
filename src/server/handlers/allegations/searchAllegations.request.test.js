@@ -12,6 +12,10 @@ afterEach(async () => {
   await cleanupDatabase();
 });
 
+afterAll(async () => {
+  await models.sequelize.close();
+});
+
 test("should return an allegation", async () => {
   const allegation = new Allegation.Builder()
     .defaultAllegation()

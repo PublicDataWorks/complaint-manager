@@ -39,6 +39,10 @@ describe("getReferralLetterPreview", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -613,10 +617,11 @@ describe("getReferralLetterPreview", function () {
           description: "This is a description of the recommended action"
         });
 
-        const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id)
-          .withRecommendedActionId(recommendedAction.id);
+        const referralLetterOfficerRecommendedActionAttributes =
+          new ReferralLetterOfficerRecommendedAction.Builder()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id)
+            .withRecommendedActionId(recommendedAction.id);
 
         await models.referral_letter_officer_recommended_action.create(
           referralLetterOfficerRecommendedActionAttributes,
@@ -630,10 +635,11 @@ describe("getReferralLetterPreview", function () {
       });
 
       test("renders correctly with history notes", async () => {
-        const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
-          .defaultReferralLetterOfficerHistoryNote()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id);
+        const referralLetterOfficerHistoryNoteAttributes =
+          new ReferralLetterOfficerHistoryNote.Builder()
+            .defaultReferralLetterOfficerHistoryNote()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id);
 
         await models.referral_letter_officer_history_note.create(
           referralLetterOfficerHistoryNoteAttributes,
@@ -651,10 +657,11 @@ describe("getReferralLetterPreview", function () {
           message: "Wasteful"
         });
 
-        const caseClassificationAttributes = new ReferralLetterCaseClassification.Builder()
-          .defaultReferralLetterCaseClassification()
-          .withCaseId(existingCase.id)
-          .withClassificationId(newClassification.id);
+        const caseClassificationAttributes =
+          new ReferralLetterCaseClassification.Builder()
+            .defaultReferralLetterCaseClassification()
+            .withCaseId(existingCase.id)
+            .withClassificationId(newClassification.id);
         await models.case_classification.create(caseClassificationAttributes, {
           auditUser: "test"
         });
@@ -711,10 +718,11 @@ describe("getReferralLetterPreview", function () {
           { auditUser: "someone" }
         );
 
-        const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id)
-          .withRecommendedActionId(recommendedAction.id);
+        const referralLetterOfficerRecommendedActionAttributes =
+          new ReferralLetterOfficerRecommendedAction.Builder()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id)
+            .withRecommendedActionId(recommendedAction.id);
 
         await models.referral_letter_officer_recommended_action.create(
           referralLetterOfficerRecommendedActionAttributes,
@@ -723,10 +731,11 @@ describe("getReferralLetterPreview", function () {
           }
         );
 
-        const referralLetterOfficerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
-          .defaultReferralLetterOfficerHistoryNote()
-          .withId(undefined)
-          .withReferralLetterOfficerId(letterOfficer.id);
+        const referralLetterOfficerHistoryNoteAttributes =
+          new ReferralLetterOfficerHistoryNote.Builder()
+            .defaultReferralLetterOfficerHistoryNote()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id);
 
         await models.referral_letter_officer_history_note.create(
           referralLetterOfficerHistoryNoteAttributes,

@@ -23,6 +23,10 @@ describe("removeOfficerAllegation", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should reply 404 if officer allegation does not exist", async () => {
     const nonexistentOfficerAllegationId = 12;
 

@@ -40,6 +40,10 @@ describe("generateReferralLetterBodyAndAuditDetails", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("getReferralLetterCaseDataAndAuditDetails", () => {
     test("should return caseData and auditDetails", async () => {
       const referralLetterCaseDataAndAuditDetails =

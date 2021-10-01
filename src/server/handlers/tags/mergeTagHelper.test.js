@@ -12,16 +12,9 @@ import {
 describe("mergeTagAndAuditDetails", () => {
   let tag1, tag2, case1, case2;
   beforeEach(async () => {
+    const case1Attr = new Case.Builder().defaultCase().withId(612).build();
 
-    const case1Attr = new Case.Builder()
-      .defaultCase()
-      .withId(612)
-      .build();
-
-    const case2Attr = new Case.Builder()
-      .defaultCase()
-      .withId(613)
-      .build();
+    const case2Attr = new Case.Builder().defaultCase().withId(613).build();
 
     const tag1Attr = new Tag.Builder().defaultTag().withName("tag1").withId(37);
 
@@ -35,7 +28,6 @@ describe("mergeTagAndAuditDetails", () => {
 
     case1 = await models.cases.create(case1Attr, { auditUser: "Person" });
     case2 = await models.cases.create(case2Attr, { auditUser: "Person" });
-
 
     await models.case_tag.create(
       new CaseTag.Builder()
@@ -65,19 +57,19 @@ describe("mergeTagAndAuditDetails", () => {
   test("should throw an error when delete tag doesn't exist", async () => {
     let error;
     try {
-      await mergeTagAndAuditDetails({ nickname: "User" }, 9999999, tag2.id
-      )} catch (e) {
+      await mergeTagAndAuditDetails({ nickname: "User" }, 9999999, tag2.id);
+    } catch (e) {
       error = e;
     }
     expect(error).not.toBeUndefined();
     expect(error.message).toEqual(NOT_FOUND_ERRORS.RESOURCE_NOT_FOUND);
   });
-  
+
   test("should throw an error when merge tag doesn't exist", async () => {
     let error;
     try {
-      await mergeTagAndAuditDetails({ nickname: "User" }, tag1.id, 9999999
-      )} catch (e) {
+      await mergeTagAndAuditDetails({ nickname: "User" }, tag1.id, 9999999);
+    } catch (e) {
       error = e;
     }
     expect(error).not.toBeUndefined();
@@ -86,29 +78,33 @@ describe("mergeTagAndAuditDetails", () => {
 
   describe("Success Cases", () => {
     beforeEach(async () => {
-      await mergeTagAndAuditDetails({ nickname: "User" }, tag1.id, tag2.id)
+      await mergeTagAndAuditDetails({ nickname: "User" }, tag1.id, tag2.id);
     });
 
-  test("should delete case tags tables rows for deleted tag if merge tag is already associated with case", async () => {
-    let caseTags = await models.case_tag.findAll({where: { caseId: case1.id }});
+    test("should delete case tags tables rows for deleted tag if merge tag is already associated with case", async () => {
+      let caseTags = await models.case_tag.findAll({
+        where: { caseId: case1.id }
+      });
 
-    expect(caseTags).toHaveLength(1);
-    expect(caseTags[0].tagId).toEqual(tag2.id);
+      expect(caseTags).toHaveLength(1);
+      expect(caseTags[0].tagId).toEqual(tag2.id);
+    });
+
+    test("should update all remaining case tag entries to replace that tag id with the new merge tag id", async () => {
+      let caseTags = await models.case_tag.findAll({
+        where: { caseId: case2.id }
+      });
+
+      expect(caseTags).toHaveLength(1);
+      expect(caseTags[0].tagId).toEqual(tag2.id);
+    });
+
+    test("should delete row of deleted tag in tag table", async () => {
+      let remainingTag = await models.tag.findAll({ where: { id: tag1.id } });
+
+      expect(remainingTag).toHaveLength(0);
+    });
   });
-
-  test("should update all remaining case tag entries to replace that tag id with the new merge tag id", async () => {
-    let caseTags = await models.case_tag.findAll({where: { caseId: case2.id }});
-
-    expect(caseTags).toHaveLength(1);
-    expect(caseTags[0].tagId).toEqual(tag2.id);
-  });
-
-  test("should delete row of deleted tag in tag table", async () => {
-    let remainingTag = await models.tag.findAll({where: { id: tag1.id }})
-
-    expect(remainingTag).toHaveLength(0);
-  });
-});
 
   //test("should rollback to previous state if unable to execute merge successfully")
 
@@ -116,4 +112,7 @@ describe("mergeTagAndAuditDetails", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
 });

@@ -9,6 +9,10 @@ describe("caseNote", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should update status when you create a case note", async () => {
     const initialCase = await createTestCaseWithoutCivilian();
 

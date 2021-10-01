@@ -29,6 +29,10 @@ describe("Approve referral letter", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
     const complainantOfficerAttributes = new Officer.Builder()

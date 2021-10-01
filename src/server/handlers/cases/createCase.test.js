@@ -69,6 +69,10 @@ describe("createCase handler", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should create case with civilian address information", async () => {
     await createCase(request, response, next);
 

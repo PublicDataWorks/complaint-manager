@@ -27,25 +27,25 @@ describe("getHowDidYouHearAboutUsSources", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("returns list of how did you hear about us sources to populate dropdown sorted by alphabetical order", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
-    const friendHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
-      {
+    const friendHowDidYouHearAboutUsSource =
+      await models.how_did_you_hear_about_us_source.create({
         name: "Friend"
-      }
-    );
-    const outreachEventHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
-      {
+      });
+    const outreachEventHowDidYouHearAboutUsSource =
+      await models.how_did_you_hear_about_us_source.create({
         name: "Outreach Event"
-      }
-    );
-    const facebookHowDidYouHearAboutUsSource = await models.how_did_you_hear_about_us_source.create(
-      {
+      });
+    const facebookHowDidYouHearAboutUsSource =
+      await models.how_did_you_hear_about_us_source.create({
         name: "Facebook"
-      }
-    )
-
+      });
 
     const expectedOrderedHowDidYouHearAboutUsSourceValues = [
       [

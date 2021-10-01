@@ -43,6 +43,10 @@ describe("addAuthorDetailsToCaseNote", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("when user details are returned from auth0, user should receive case note with email and name", async () => {
     const caseNotes = await addAuthorDetailsToCaseNote(rawCaseNotes);
 

@@ -9,6 +9,10 @@ import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 
 describe("caseOfficer", () => {
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("isUnknownOfficer", () => {
     test("returns true if officerId is null", () => {
       const caseOfficerAttributes = new CaseOfficer.Builder()
@@ -19,7 +23,8 @@ describe("caseOfficer", () => {
     });
 
     test("returns false if there is an officerId", () => {
-      const caseOfficerAttributes = new CaseOfficer.Builder().defaultCaseOfficer();
+      const caseOfficerAttributes =
+        new CaseOfficer.Builder().defaultCaseOfficer();
       const caseOfficer = models.case_officer.build(caseOfficerAttributes);
       expect(caseOfficer.isUnknownOfficer).toEqual(false);
     });
@@ -109,6 +114,7 @@ describe("caseOfficer", () => {
     afterEach(async () => {
       await cleanupDatabase();
     });
+
     test("it should delete associated officer allegations when case officer deleted", async () => {
       const initialCase = await createTestCaseWithoutCivilian();
 
@@ -153,10 +159,11 @@ describe("caseOfficer", () => {
         auditUser: "someone"
       });
 
-      const retrievedOfficerAllegation = await models.officer_allegation.findByPk(
-        officerAllegation.id,
-        { transaction: null, paranoid: false }
-      );
+      const retrievedOfficerAllegation =
+        await models.officer_allegation.findByPk(officerAllegation.id, {
+          transaction: null,
+          paranoid: false
+        });
 
       expect(retrievedOfficerAllegation.deletedAt).not.toEqual(null);
     });

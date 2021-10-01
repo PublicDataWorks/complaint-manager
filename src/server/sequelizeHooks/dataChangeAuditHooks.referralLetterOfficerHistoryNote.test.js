@@ -43,19 +43,25 @@ describe("data change audit hooks for referral letter officer history note", () 
       }
     );
 
-    const officerHistoryNoteAttributes = new ReferralLetterOfficerHistoryNote.Builder()
-      .defaultReferralLetterOfficerHistoryNote()
-      .withReferralLetterOfficerId(letterOfficer.id)
-      .withId(undefined);
+    const officerHistoryNoteAttributes =
+      new ReferralLetterOfficerHistoryNote.Builder()
+        .defaultReferralLetterOfficerHistoryNote()
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withId(undefined);
 
-    officerHistoryNote = await models.referral_letter_officer_history_note.create(
-      officerHistoryNoteAttributes,
-      { auditUser: "someone" }
-    );
+    officerHistoryNote =
+      await models.referral_letter_officer_history_note.create(
+        officerHistoryNoteAttributes,
+        { auditUser: "someone" }
+      );
   });
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  afterAll(async () => {
+    await models.sequelize.close();
   });
 
   test("it creates an audit for creating an officer history note", async () => {

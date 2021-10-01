@@ -17,6 +17,10 @@ describe("DELETE /officers-allegations/:officerAllegationId", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should respond with 200 and updated case when successful", async () => {
     const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 

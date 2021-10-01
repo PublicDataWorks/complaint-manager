@@ -25,6 +25,10 @@ describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should delete a civilian even when they don't have an address", async () => {
     const civilianToCreate = new Civilian.Builder()
       .defaultCivilian()

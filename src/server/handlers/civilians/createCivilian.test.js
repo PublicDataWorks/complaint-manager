@@ -47,6 +47,10 @@ describe("createCivilian handler", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("auditing", () => {
     test("should audit case data access", async () => {
       const createdCase = await createTestCaseWithoutCivilian();

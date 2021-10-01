@@ -19,6 +19,10 @@ describe("Edit referral letter addresses", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("with existing letter", () => {
     let referralLetter, existingCase;
 

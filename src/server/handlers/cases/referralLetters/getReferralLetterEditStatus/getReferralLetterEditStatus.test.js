@@ -20,6 +20,10 @@ describe("getReferralLetterEditStatus", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
 

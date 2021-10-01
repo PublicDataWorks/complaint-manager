@@ -34,6 +34,10 @@ describe("searchAllegations handler", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should return allegations based on rule", async () => {
     const allegationToCreate = new Allegation.Builder()
       .defaultAllegation()

@@ -7,6 +7,10 @@ describe("data access audit", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("does not create audit on audit creation", async () => {
     await models.audit.create({
       auditAction: AUDIT_ACTION.LOGGED_IN,

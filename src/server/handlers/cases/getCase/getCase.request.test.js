@@ -120,6 +120,10 @@ describe("GET /cases/:id", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should get case", async () => {
     const responsePromise = request(app)
       .get(`/api/cases/${caseToRetrieve.id}`)

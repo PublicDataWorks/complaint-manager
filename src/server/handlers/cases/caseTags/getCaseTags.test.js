@@ -51,6 +51,10 @@ describe("getCaseTags", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should return case tags", async () => {
     await getCaseTags(request, response, next);
 

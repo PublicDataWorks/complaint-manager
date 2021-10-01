@@ -63,4 +63,8 @@ describe("editTagAndAuditDetails", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
 });

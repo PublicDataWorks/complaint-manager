@@ -12,6 +12,10 @@ describe("editClassifications", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();

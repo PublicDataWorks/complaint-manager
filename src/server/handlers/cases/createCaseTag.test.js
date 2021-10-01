@@ -24,6 +24,10 @@ describe("createCaseTag", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()

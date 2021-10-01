@@ -13,6 +13,10 @@ describe("executeQuery", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
   const token = buildTokenWithPermissions("", "tuser");
 
   beforeEach(async () => {

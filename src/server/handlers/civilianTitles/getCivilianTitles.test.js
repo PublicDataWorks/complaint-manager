@@ -12,6 +12,10 @@ describe("getCivilianTitles", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("returns a list of civilian titles to populate dropdown with N/A on top", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 

@@ -37,6 +37,10 @@ describe("archiveCase handler", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should archive case if not currently archived", async () => {
     await archiveCase(request, response, next);
 

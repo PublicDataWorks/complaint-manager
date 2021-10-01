@@ -63,6 +63,10 @@ describe("case note helpers", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should not create notifications when there are no mentioned users", async () => {
     await models.sequelize.transaction(async transaction => {
       await handleNotifications(

@@ -12,6 +12,10 @@ describe("getOfficerHistoryOptions", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("it retrieves the officer history options", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 

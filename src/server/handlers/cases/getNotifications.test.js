@@ -88,6 +88,10 @@ describe("getNotifications", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should return notification to user that was mentioned", async () => {
     const notifications = await getNotifications(timestamp, currentNotif.user);
 
