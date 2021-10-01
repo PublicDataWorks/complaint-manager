@@ -50,19 +50,25 @@ describe("dataChangeAuditHooks for referral letter officer recommended action", 
       { auditUser: "someone" }
     );
 
-    const officerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
-      .defaultReferralLetterOfficerRecommendedAction()
-      .withId(undefined)
-      .withReferralLetterOfficerId(letterOfficer.id)
-      .withRecommendedActionId(recommendedAction.id);
-    officerRecommendedAction = await models.referral_letter_officer_recommended_action.create(
-      officerRecommendedActionAttributes,
-      { auditUser: "someone" }
-    );
+    const officerRecommendedActionAttributes =
+      new ReferralLetterOfficerRecommendedAction.Builder()
+        .defaultReferralLetterOfficerRecommendedAction()
+        .withId(undefined)
+        .withReferralLetterOfficerId(letterOfficer.id)
+        .withRecommendedActionId(recommendedAction.id);
+    officerRecommendedAction =
+      await models.referral_letter_officer_recommended_action.create(
+        officerRecommendedActionAttributes,
+        { auditUser: "someone" }
+      );
   });
 
   afterEach(async () => {
     await cleanupDatabase();
+  });
+
+  afterAll(async () => {
+    await models.sequelize.close();
   });
 
   test("it creates an audit for creating an officer recommended action", async () => {

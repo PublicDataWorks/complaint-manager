@@ -119,6 +119,10 @@ describe("approveLetter", () => {
     uploadLetterToS3.mockClear();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("user has permissions", () => {
     beforeEach(async () => {
       request = httpMocks.createRequest({

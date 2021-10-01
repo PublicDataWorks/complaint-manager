@@ -34,6 +34,10 @@ describe("getCaseHistory", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("auditing", () => {
     test("should audit case history access", async () => {
       await getCaseHistory(request, response, next);

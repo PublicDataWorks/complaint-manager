@@ -18,6 +18,10 @@ describe("auditDataAccess", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should create an audit with auditDetails", async () => {
     const auditDetails = {
       associationName: { attributes: ["field1", "field2", "otherField"] },

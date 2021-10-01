@@ -27,6 +27,10 @@ describe("addCaseOfficer", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   let existingCase, response, next;
 
   beforeEach(async () => {

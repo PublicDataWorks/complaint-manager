@@ -20,6 +20,10 @@ describe("POST /cases/:caseId/cases_officers", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should add a known officer to a case", async () => {
     let caseToCreate, officerToCreate, seededCase, seededOfficer;
     caseToCreate = new Case.Builder()

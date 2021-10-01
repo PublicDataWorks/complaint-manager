@@ -10,6 +10,10 @@ describe("dataChangeAuditHooks for caseTag", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("creates audit on caseTag creation", async () => {
     const caseAttributes = new Case.Builder()
       .defaultCase()

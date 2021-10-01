@@ -23,6 +23,10 @@ describe("GET /api/export-audit-log", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test(
     "does not save audit entry in db when error occurs creating csv",
     suppressWinstonLogs(async () => {

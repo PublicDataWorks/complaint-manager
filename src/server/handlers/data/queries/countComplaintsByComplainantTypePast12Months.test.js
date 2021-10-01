@@ -24,6 +24,10 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("executeQuery", () => {
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   let complainantOfficerPO,
     civilianCC,
     civilianAC,

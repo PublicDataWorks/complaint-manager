@@ -46,6 +46,10 @@ describe("exportAuditLog", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should upload audit log csv and return s3 url to done with correct filename", async () => {
     await exportAuditLog(job, jobDone);
 

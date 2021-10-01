@@ -103,6 +103,10 @@ describe("transform case note action to ID", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should correctly get case note action id from [case note] action", async () => {
     await models.sequelize.transaction(async transaction => {
       await transformCaseNoteActionToId(

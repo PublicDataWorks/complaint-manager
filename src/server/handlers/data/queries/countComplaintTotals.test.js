@@ -13,6 +13,10 @@ describe("getCountByDateRange", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
+
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
   const token = buildTokenWithPermissions("", "tuser");
   const expectedData = { ytd: 2, previousYear: 2 };
 

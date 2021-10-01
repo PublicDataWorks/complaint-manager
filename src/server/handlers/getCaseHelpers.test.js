@@ -41,16 +41,19 @@ describe("getCaseHelpers", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("getCaseWithAllAssocationsAndAuditDetails", () => {
     test("adds pdfAvailable to audit", async () => {
-      const caseWithAssociationsAndAuditDetails = await models.sequelize.transaction(
-        async transaction => {
+      const caseWithAssociationsAndAuditDetails =
+        await models.sequelize.transaction(async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
             transaction
           );
-        }
-      );
+        });
 
       expect(caseWithAssociationsAndAuditDetails.auditDetails).toEqual(
         expect.objectContaining({
@@ -62,14 +65,13 @@ describe("getCaseHelpers", () => {
     });
 
     test("adds isArchived to audit and removes deletedAt", async () => {
-      const caseWithAssociationsAndAuditDetails = await models.sequelize.transaction(
-        async transaction => {
+      const caseWithAssociationsAndAuditDetails =
+        await models.sequelize.transaction(async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
             transaction
           );
-        }
-      );
+        });
       const caseAuditDetails = caseWithAssociationsAndAuditDetails.auditDetails;
       expect(
         caseAuditDetails.cases.attributes.includes("isArchived")

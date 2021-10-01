@@ -25,6 +25,10 @@ describe("param handler", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("throws an error when the case doesn't exist", async () => {
     const caseId = 20;
     request.params = { caseId: caseId };

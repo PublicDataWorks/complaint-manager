@@ -50,6 +50,10 @@ describe("dataChangeAuditHooks for letter officer", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("creates audit on creation of letter officer", async () => {
     const audit = await models.audit.findOne({
       where: { auditAction: AUDIT_ACTION.DATA_CREATED },

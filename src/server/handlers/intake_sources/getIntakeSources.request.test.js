@@ -12,6 +12,10 @@ describe("getHowDidYouHearAboutUsSources", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("returns list of intake sources to populate dropdown sorted by alphabetical order", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 

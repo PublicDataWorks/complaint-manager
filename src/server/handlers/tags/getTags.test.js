@@ -12,6 +12,10 @@ describe("getTags", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     request = httpMocks.createRequest({
       method: "GET",

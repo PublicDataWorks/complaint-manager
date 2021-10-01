@@ -12,6 +12,10 @@ describe("officerAllegation", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     createdCase = await createTestCaseWithoutCivilian();
 

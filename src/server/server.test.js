@@ -77,6 +77,10 @@ describe("server", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("GET /health-check", () => {
     test("should show healthy if db connection works", async () => {
       const responsePromise = request(app).get("/health-check");

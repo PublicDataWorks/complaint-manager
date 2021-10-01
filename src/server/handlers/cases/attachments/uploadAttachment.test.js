@@ -88,6 +88,10 @@ describe("uploadAttachment", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should set access-control-allow-origin response header if only in the development env", async () => {
     process.env.NODE_ENV = "development";
 

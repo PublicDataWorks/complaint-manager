@@ -17,6 +17,10 @@ describe("GET /allegations", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should retrieve allegation from database", async () => {
     const allegation1 = {
       rule: "rule1",

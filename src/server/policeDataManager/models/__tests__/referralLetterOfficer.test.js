@@ -13,6 +13,10 @@ describe("letterOfficer model", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   beforeEach(async () => {
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     const existingCase = await models.cases.create(caseAttributes, {
@@ -80,16 +84,18 @@ describe("letterOfficer model", function () {
       { auditUser: "someone" }
     );
 
-    const referralLetterOfficerRecommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
-      .defaultReferralLetterOfficerRecommendedAction()
-      .withId(undefined)
-      .withRecommendedActionId(recommendedAction.id)
-      .withReferralLetterOfficerId(letterOfficer.id);
+    const referralLetterOfficerRecommendedActionAttributes =
+      new ReferralLetterOfficerRecommendedAction.Builder()
+        .defaultReferralLetterOfficerRecommendedAction()
+        .withId(undefined)
+        .withRecommendedActionId(recommendedAction.id)
+        .withReferralLetterOfficerId(letterOfficer.id);
 
-    const referralLetterOfficerRecommendedAction = await models.referral_letter_officer_recommended_action.create(
-      referralLetterOfficerRecommendedActionAttributes,
-      { auditUser: "someone" }
-    );
+    const referralLetterOfficerRecommendedAction =
+      await models.referral_letter_officer_recommended_action.create(
+        referralLetterOfficerRecommendedActionAttributes,
+        { auditUser: "someone" }
+      );
 
     await models.sequelize.transaction(
       async transaction =>

@@ -22,6 +22,10 @@ describe("deleteAttachment", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   AWS.S3.mockImplementation(() => ({
     deleteObject: () => ({
       promise: jest.fn()

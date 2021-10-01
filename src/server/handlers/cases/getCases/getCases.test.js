@@ -31,6 +31,10 @@ describe("getCases", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   describe("pagination", () => {
     test("should get cases on requested page", async () => {
       const numberOfResults = 25;

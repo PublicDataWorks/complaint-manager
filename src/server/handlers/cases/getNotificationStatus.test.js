@@ -52,6 +52,10 @@ describe("getNotificationStatus", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should return false for caseNoteExists and notificationExists when case note does not exist", async () => {
     await models.case_note.destroy({
       where: { id: currentCaseNote.id },

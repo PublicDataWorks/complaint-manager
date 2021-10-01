@@ -130,6 +130,10 @@ describe("searchCases handler", function () {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("should only return case details for resulting caseIds from ES", async () => {
     request = createSearchRequest(
       "Chuck",

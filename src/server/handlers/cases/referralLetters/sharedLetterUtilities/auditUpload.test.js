@@ -20,6 +20,10 @@ describe("auditUpload", () => {
     await cleanupDatabase();
   });
 
+  afterAll(async () => {
+    await models.sequelize.close();
+  });
+
   test("it should populate details correctly after upload to s3", async () => {
     await models.sequelize.transaction(async transaction => {
       await auditUpload(
