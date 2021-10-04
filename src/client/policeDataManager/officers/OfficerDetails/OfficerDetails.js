@@ -150,5 +150,6 @@ class OfficerDetails extends React.Component {
 }
 
 export default reduxForm({
-  form: OFFICER_DETAILS_FORM_NAME
+  form: OFFICER_DETAILS_FORM_NAME,
+  destroyOnUnmount: false
 })(OfficerDetails);
