@@ -1,13 +1,18 @@
 # Police Data Manager
 
-This README is aimed at getting new users (Core Team and Contributors) set up to run Police Data Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully.  
+
+The Police Data Manager is an open source tool meant to aid civilian police oversight agencies in generating complaint data. PDM is designed to be fully integrated into the workflows of these oversight agencies, enabling cities to enhance the capacity of citizens to hold public institutions accountable. [Read more here](https://publicdataworks.github.io/pdm-docs/business-content/introduction-to-police-data-manager.html#introduction-to-police-data-manager)
+
+This README is aimed at getting new users set up to run Police Data Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully. 
+
+If you are a city looking to adopt Police Data Manager as a tool for Complaint Intake, you can check out the guide to [setup a new city instance](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/new-city-setup-instructions.html)
 
 ## Local Development Setup
 
 ### Platform Considerations
 
-  * Mac is the default developer platform for our Core Team
-  * On any other platform (Linux / Windows) the code show compile and run, but this isn't something we've tested
+  * Mac is the default developer platform for our team
+  * On any other platform (Linux / Windows) the code should compile and run, but this isn't something we've tested
 
 ### Install Docker
 
