@@ -642,7 +642,7 @@ workflows:
           filters:
             branches:
               only:
-                - localclient
+                - new-docker
           #requires:
           # - security-check
       - test-client:
