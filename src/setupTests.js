@@ -33,4 +33,6 @@ if (global.document) {
       ownerDocument: document
     }
   });
+
+  global.URL.createObjectURL = jest.fn();
 }
