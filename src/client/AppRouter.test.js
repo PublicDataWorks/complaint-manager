@@ -12,6 +12,14 @@ jest.mock(
 
 describe("AppRouter", () => {
   let appWrapper, store;
+  const URL = global.URL;
+  beforeAll(() => {
+    global.URL.createObjectURL = jest.fn();
+  });
+
+  afterAll(() => {
+    global.URL = URL;
+  });
 
   describe("Internal Data Dashboard Route", () => {
     beforeAll(() => {

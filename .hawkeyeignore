@@ -23,7 +23,10 @@ files-contents-src/server/handlers/getResultsFromES.js-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-quill-1695
+node-yarnaudit-quill-1002690
 node-yarnaudit-postcss-1693
+node-yarnaudit-ansi-html-1002522
+node-yarnaudit-ansi-regex-1002401
 
 # There is currently no patch for these vulnerabilities:
 node-yarnaudit-html-pdf-1095
