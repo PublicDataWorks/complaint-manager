@@ -11,7 +11,7 @@ parameters:
     default: "release_v3.41.0"
   instance-files-image-name:
     type: string
-    default: "noipm/instance-files"
+    default: "publicdataworks/instance-files"
   instance-files-version:
     type: string
     default: "1.0.9"
@@ -25,7 +25,7 @@ jobs:
       - image: docker:stable
     steps:
       - setup_remote_docker
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker login -u $PLAYGROUND_DOCKER_USER -p $PLAYGROUND_DOCKER_PASSWORD
       - run:
           name: Copies instance files from temp container
           command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:latest):/instance-files instance-files/
@@ -55,7 +55,7 @@ jobs:
 
   test-client:
     docker:
-      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
     steps:
@@ -79,7 +79,7 @@ jobs:
 
   test-server-handlers-ci:
     docker:
-      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
           REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
@@ -113,7 +113,7 @@ jobs:
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
   test-server-worker-non-handlers:
     docker:
-      - image: noipm/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
           REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
@@ -173,21 +173,21 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t noipm/police-data-manager-playground:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker -t noipm/police-data-manager-playground-worker:$CIRCLE_SHA1 .
-      - run: docker push noipm/police-data-manager-playground:$CIRCLE_SHA1
-      - run: docker push noipm/police-data-manager-playground-worker:$CIRCLE_SHA1
+      - run: docker login -u $PLAYGOUND_DOCKER_USER -p $PLAYGOUND_DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t publicdataworks/police-data-manager-playground:$CIRCLE_SHA1 .
+      - run: docker build -f Dockerfile.worker -t publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1 .
+      - run: docker push publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
+      - run: docker push publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1
 
   deploy-playground:
     docker:
-      - image: noipm/docker-heroku:7.0.65
+      - image: publicdataworks/docker-heroku:7.0.65
     steps:
       - setup_remote_docker:
           version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull noipm/police-data-manager-playground:$CIRCLE_SHA1
-      - run: docker pull noipm/police-data-manager-playground-worker:$CIRCLE_SHA1
+      - run: docker login -u $PLAYGOUND_DOCKER_USER -p $PLAYGOUND_DOCKER_PASSWORD
+      - run: docker pull publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
+      - run: docker pull publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1
       - run:
           name: Migrate and Seed DB
           command: |
@@ -200,14 +200,14 @@ jobs:
             -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
             -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
-            noipm/police-data-manager-playground:$CIRCLE_SHA1 yarn setup:db
+            publicdataworks/police-data-manager-playground:$CIRCLE_SHA1 yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag noipm/police-data-manager-playground:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/web
+      - run: docker tag publicdataworks/police-data-manager-playground:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/web
       - run: docker push registry.heroku.com/noipm-playground/web
-      - run: docker tag noipm/police-data-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
+      - run: docker tag publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
       - run: docker push registry.heroku.com/noipm-playground/worker
-      - run: heroku container:release web worker --app noipm-playground
+      - run: heroku container:release web worker --app publicdataworks-playground
 
   ensure-playground-deploy-succeeded:
     docker:
@@ -349,7 +349,7 @@ jobs:
 
   e2e-testing-playground:
     docker:
-      - image: noipm/e2e:latest
+      - image: publicdataworks/e2e:latest
     steps:
       # - run:
       #     name: Install Git
@@ -642,7 +642,7 @@ workflows:
           filters:
             branches:
               only:
-                - new-docker
+                - localclient
           #requires:
           # - security-check
       - test-client:
