@@ -27,8 +27,7 @@ const testDescriptions = {
   [DDS_WHO_SUBMITS_COMPLAINTS]:
     "should render correct styling for who submits complaints graph",
   [DDS_EMERGING_THEMES]:
-    "should render correct styling for emerging themes graph",
-  [DDS_LOCATION_DATA]: " should render the map like a map"
+    "should render correct styling for emerging themes graph"
 };
 
 const renderDataSection = dataSectionType => () => {
@@ -42,7 +41,7 @@ const renderDataSection = dataSectionType => () => {
 };
 
 describe("Public Data Dashboard", () => {
-  Object.keys(DATA_SECTIONS).forEach(dataSectionType => {
+  Object.keys(testDescriptions).forEach(dataSectionType => {
     test(testDescriptions[dataSectionType], renderDataSection(dataSectionType));
   });
 });
