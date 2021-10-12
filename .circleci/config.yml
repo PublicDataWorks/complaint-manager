@@ -174,7 +174,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-      - run: docker login -u $PLAYGOUND_DOCKER_USER -p $PLAYGOUND_DOCKER_PASSWORD
+      - run: docker login -u $PLAYGROUND_DOCKER_USER -p $PLAYGROUND_DOCKER_PASSWORD
       - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t publicdataworks/police-data-manager-playground:$CIRCLE_SHA1 .
       - run: docker build -f Dockerfile.worker -t publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1 .
       - run: docker push publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
@@ -186,7 +186,7 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 19.03.13
-      - run: docker login -u $PLAYGOUND_DOCKER_USER -p $PLAYGOUND_DOCKER_PASSWORD
+      - run: docker login -u $PLAYGROUND_DOCKER_USER -p $PLAYGROUND_DOCKER_PASSWORD
       - run: docker pull publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
       - run: docker pull publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1
       - run:
