@@ -36,7 +36,15 @@
   {
     "id": "mapVisualizationFeature",
     "name": "mapVisualizationFeature",
-    "description": "Show maps on the dashboard pages",
+    "description": "Show maps on the private dashboard page",
+    "criteria": {
+      "isPreProd": true
+    }
+  },
+  {
+    "id": "publicMapVisualizationFeature",
+    "name": "publicMapVisualizationFeature",
+    "description": "Show maps on the public dashboard page",
     "criteria": {
       "isPreProd": true
     }
