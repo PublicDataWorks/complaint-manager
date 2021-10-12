@@ -14,10 +14,10 @@ parameters:
     default: "publicdataworks/instance-files"
   instance-files-version:
     type: string
-    default: "1.0.9"
+    default: "1.0.0"
   ubuntu-version:
     type: string
-    default: "2.0.2"
+    default: "1.0.0"
 
 jobs:
   get-instance-files-latest:
