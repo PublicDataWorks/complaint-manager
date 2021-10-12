@@ -166,6 +166,7 @@ jobs:
       - run: docker push noipm/police-data-manager-production:$CIRCLE_SHA1
       - run: docker push noipm/police-data-manager-worker:$CIRCLE_SHA1
 
+  # testing deploying new docker image to new docker account
   build-and-publish-playground:
     docker:
       - image: docker:stable
