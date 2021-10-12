@@ -182,7 +182,7 @@ jobs:
 
   deploy-playground:
     docker:
-      - image: publicdataworks/docker-heroku:7.0.65
+      - image: publicdataworks/docker-heroku:1.0.0
     steps:
       - setup_remote_docker:
           version: 19.03.13
