@@ -14,7 +14,7 @@ parameters:
     default: "publicdataworks/instance-files"
   instance-files-version:
     type: string
-    default: "1.0.0"
+    default: "1.0.1"
   ubuntu-version:
     type: string
     default: "1.0.0"
