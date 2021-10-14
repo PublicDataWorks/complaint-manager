@@ -350,9 +350,9 @@ jobs:
 
   e2e-testing-playground:
     docker:
-      - image: publicdataworks/e2e:latest
-      auth:
-          username: $PLAYGROUND_DOCKER_USER
+      - image: publicdataworks/e2e:latest 
+        auth: 
+          username: $PLAYGROUND_DOCKER_USER 
           password: $PLAYGROUND_DOCKER_PASSWORD
     steps:
       # - run:
