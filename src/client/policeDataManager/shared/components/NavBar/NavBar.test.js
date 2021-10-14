@@ -43,7 +43,9 @@ describe("NavBar", () => {
   test("should not contain a home icon button when showHome is false", () => {
     wrapper.setProps({
       children: (
-        <NavBar menuType={policeDataManagerMenuOptions} showHome={false} />
+        <Router>
+          <NavBar menuType={policeDataManagerMenuOptions} showHome={false} />
+        </Router>
       )
     });
     wrapper.update();

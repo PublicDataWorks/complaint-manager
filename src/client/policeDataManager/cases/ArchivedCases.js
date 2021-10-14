@@ -21,6 +21,8 @@ class ArchivedCases extends Component {
         <CasesTable
           caseType={CASE_TYPE.ARCHIVE}
           currentPage={this.props.currentPage}
+          sortBy={this.props.sortBy}
+          sortDirection={this.props.sortDirection}
           noCasesMessage={"There are no archived cases to view."}
         />
       </div>
@@ -33,8 +35,13 @@ const mapDispatchToProps = {
   resetArchivedCasesLoaded
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  currentPage: state.cases.archived.currentPage
-});
+const mapStateToProps = state => {
+  const { currentPage, sortBy, sortDirection } = state.cases.archived;
+  return {
+    currentPage,
+    sortBy,
+    sortDirection
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArchivedCases);

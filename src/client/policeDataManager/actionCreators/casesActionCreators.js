@@ -47,7 +47,9 @@ import {
   REMOVE_PERSON_DIALOG_OPENED,
   REMOVE_PERSON_SUCCEEDED,
   RESET_ARCHIVED_CASES_LOADED,
+  RESET_ARCHIVED_CASES_PAGING,
   RESET_WORKING_CASES_LOADED,
+  RESET_WORKING_CASES_PAGING,
   RESTORE_ARCHIVED_CASE_DIALOG_CLOSED,
   RESTORE_ARCHIVED_CASE_DIALOG_OPENED,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
@@ -77,6 +79,10 @@ export const resetWorkingCasesLoaded = () => ({
   type: RESET_WORKING_CASES_LOADED
 });
 
+export const resetWorkingCasesPaging = () => ({
+  type: RESET_WORKING_CASES_PAGING
+});
+
 export const getArchivedCasesSuccess = (cases, totalCaseCount, page) => ({
   type: GET_ARCHIVED_CASES_SUCCESS,
   cases,
@@ -86,6 +92,10 @@ export const getArchivedCasesSuccess = (cases, totalCaseCount, page) => ({
 
 export const resetArchivedCasesLoaded = () => ({
   type: RESET_ARCHIVED_CASES_LOADED
+});
+
+export const resetArchivedCasesPaging = () => ({
+  type: RESET_ARCHIVED_CASES_PAGING
 });
 
 export const getCaseDetailsSuccess = caseDetails => ({
@@ -107,9 +117,10 @@ export const getCaseNotesSuccess = caseNotes => ({
   caseNotes
 });
 
-export const updateSort = (sortBy, sortDirection) => {
+export const updateSort = (sortBy, sortDirection, caseType) => {
   return {
     type: UPDATE_CASES_TABLE_SORTING,
+    caseType,
     sortBy,
     sortDirection
   };

@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import formatDate from "../../../../sharedUtilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
@@ -7,11 +8,12 @@ import CaseNotes from "./CaseNotes/CaseNotes";
 import CaseTags from "./CaseTags/CaseTags";
 import ArchiveCaseButton from "./ArchiveCaseButton/ArchiveCaseButton";
 import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchivedCaseButton";
+import { resetWorkingCasesPaging } from "../../actionCreators/casesActionCreators";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
 
-const CaseDrawer = ({ classes, caseDetails }) => {
+const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging }) => {
   const lastDrawerRowClassName = classes.drawerRowEnd;
 
   return (
@@ -28,6 +30,7 @@ const CaseDrawer = ({ classes, caseDetails }) => {
           component={Link}
           to={"/"}
           style={{ margin: "4% 0% 5% 2%" }}
+          onClick={resetWorkingCasesPaging}
         >
           Back to all Cases
         </LinkButton>
@@ -86,4 +89,4 @@ const CaseDrawer = ({ classes, caseDetails }) => {
   );
 };
 
-export default CaseDrawer;
+export default connect(undefined, { resetWorkingCasesPaging })(CaseDrawer);

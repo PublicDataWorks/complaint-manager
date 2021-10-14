@@ -6,6 +6,10 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
 import { searchCasesSuccess } from "../../actionCreators/searchCasesActionCreators";
+import {
+  DESCENDING,
+  SORT_CASES_BY
+} from "../../../../sharedUtilities/constants";
 
 describe("searchCasesReducer", () => {
   test("should default to empty array", () => {
@@ -15,6 +19,8 @@ describe("searchCasesReducer", () => {
       cases: [],
       totalCaseCount: 0,
       currentPage: 1,
+      sortBy: SORT_CASES_BY.CASE_REFERENCE,
+      sortDirection: DESCENDING,
       errorMsg: null
     });
   });

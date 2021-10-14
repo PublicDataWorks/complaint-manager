@@ -18,7 +18,8 @@ import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
   DESCENDING,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  WORKING
 } from "../../../../sharedUtilities/constants";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import Tag from "../../../../server/testHelpers/tag";
@@ -156,21 +157,15 @@ describe("cases table", () => {
       );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.CASE_REFERENCE, ASCENDING)
-      );
-
-      caseReferenceLabel.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
+        updateSort(SORT_CASES_BY.CASE_REFERENCE, ASCENDING, WORKING)
       );
     });
 
     test("should update sort by when status clicked", () => {
-      const caseReferenceLabel = tableWrapper
+      const statusLabel = tableWrapper
         .find('[data-testid="statusSortLabel"]')
         .last();
-      caseReferenceLabel.simulate("click");
+      statusLabel.simulate("click");
 
       expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.STATUS,
@@ -179,21 +174,15 @@ describe("cases table", () => {
       );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.STATUS, ASCENDING)
-      );
-
-      caseReferenceLabel.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.STATUS, DESCENDING)
+        updateSort(SORT_CASES_BY.STATUS, ASCENDING, WORKING)
       );
     });
 
     test("should update sort by when complainant clicked", () => {
-      const caseReferenceLabel = tableWrapper
+      const complainantLabel = tableWrapper
         .find('[data-testid="complainantSortLabel"]')
         .last();
-      caseReferenceLabel.simulate("click");
+      complainantLabel.simulate("click");
 
       expect(getWorkingCases).toHaveBeenCalledWith(
         SORT_CASES_BY.PRIMARY_COMPLAINANT,
@@ -202,13 +191,7 @@ describe("cases table", () => {
       );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, ASCENDING)
-      );
-
-      caseReferenceLabel.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, DESCENDING)
+        updateSort(SORT_CASES_BY.PRIMARY_COMPLAINANT, ASCENDING, WORKING)
       );
     });
 
@@ -225,13 +208,7 @@ describe("cases table", () => {
       );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, ASCENDING)
-      );
-
-      firstContactDateLabel.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, DESCENDING)
+        updateSort(SORT_CASES_BY.FIRST_CONTACT_DATE, ASCENDING, WORKING)
       );
     });
 
@@ -248,13 +225,7 @@ describe("cases table", () => {
       );
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.TAGS, ASCENDING)
-      );
-
-      tagsLabel.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        updateSort(SORT_CASES_BY.TAGS, DESCENDING)
+        updateSort(SORT_CASES_BY.TAGS, ASCENDING, WORKING)
       );
     });
   });
@@ -539,7 +510,12 @@ describe("component mounting", () => {
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CasesTable caseType={CASE_TYPE.WORKING} />
+          <CasesTable
+            caseType={CASE_TYPE.WORKING}
+            sortBy={SORT_CASES_BY.CASE_REFERENCE}
+            sortDirection={DESCENDING}
+            currentPage={1}
+          />
         </Router>
       </Provider>
     );
@@ -556,7 +532,12 @@ describe("component mounting", () => {
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CasesTable caseType={CASE_TYPE.ARCHIVE} />
+          <CasesTable
+            caseType={CASE_TYPE.ARCHIVE}
+            sortBy={SORT_CASES_BY.CASE_REFERENCE}
+            sortDirection={DESCENDING}
+            currentPage={1}
+          />
         </Router>
       </Provider>
     );
@@ -581,7 +562,12 @@ describe("component mounting", () => {
     tableWrapper = mount(
       <Provider store={store}>
         <Router>
-          <CasesTable caseType={CASE_TYPE.SEARCH} />
+          <CasesTable
+            caseType={CASE_TYPE.SEARCH}
+            sortBy={SORT_CASES_BY.CASE_REFERENCE}
+            sortDirection={DESCENDING}
+            currentPage={1}
+          />
         </Router>
       </Provider>
     );
