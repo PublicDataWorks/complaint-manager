@@ -657,7 +657,7 @@ workflows:
             - get-instance-files-latest
       - build-and-publish-playground:
           requires:
-            - test-client
+      #      - test-client
             - test-server-worker-non-handlers
             - test-server-handlers-ci
       - deploy-playground:
