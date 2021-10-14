@@ -3,6 +3,8 @@ import { mount } from "enzyme";
 import MenuNavigator from "./MenuNavigator";
 import { BrowserRouter as Router } from "react-router-dom";
 import { policeDataManagerMenuOptions } from "./policeDataManagerMenuOptions";
+import createConfiguredStore from "../../../../createConfiguredStore";
+import { Provider } from "react-redux";
 
 describe("MenuNavigator", () => {
   describe("police data manager menu options", () => {
@@ -13,9 +15,11 @@ describe("MenuNavigator", () => {
         "menu items should be Archived Cases, Export, Data Dashboard, and Logout",
       () => {
         wrapper = mount(
-          <Router>
-            <MenuNavigator menuType={policeDataManagerMenuOptions} />
-          </Router>
+          <Provider store={createConfiguredStore()}>
+            <Router>
+              <MenuNavigator menuType={policeDataManagerMenuOptions} />
+            </Router>
+          </Provider>
         );
 
         expect(

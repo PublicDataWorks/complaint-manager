@@ -10,6 +10,7 @@ import { renderTextField } from "../sharedFormComponents/renderFunctions";
 import { InputAdornment, ClickAwayListener } from "@material-ui/core";
 import { HelpOutline } from "@material-ui/icons";
 import SearchTooltip from "./SearchTooltip";
+import { searchCasesCleared } from "../../actionCreators/searchCasesActionCreators";
 
 class SearchCasesForm extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class SearchCasesForm extends Component {
     const formattedQueryString = (queryString || "").trim();
     if (formattedQueryString.length < 1) return;
     this.setState({ tooltipVisible: false });
+    dispatch(searchCasesCleared());
     dispatch(push(`/search?queryString=${formattedQueryString}`));
   };
 

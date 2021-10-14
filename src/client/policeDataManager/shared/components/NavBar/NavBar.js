@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MenuNavigator from "./MenuNavigator";
 import standards from "../../../../common/globalStyling/standards";
@@ -21,6 +21,12 @@ import Badge from "@material-ui/core/Badge";
 import { isAuthDisabled } from "../../../../isAuthDisabled";
 import UserAvatar from "../../../cases/UserAvatar";
 import SearchCasesForm from "../../../cases/SearchCases/SearchCasesForm";
+import { resetWorkingCasesPaging } from "../../../actionCreators/casesActionCreators";
+import getWorkingCases from "../../../cases/thunks/getWorkingCases";
+import {
+  SORT_CASES_BY,
+  DESCENDING
+} from "../../../../../sharedUtilities/constants";
 
 class NavBar extends Component {
   state = {
@@ -94,6 +100,16 @@ class NavBar extends Component {
                 color: !this.state.notificationDrawer ? "inherit" : "white"
               }}
               disabled={this.state.notificationDrawer}
+              onClick={() => {
+                this.props.resetWorkingCasesPaging();
+                if (this.props.location.pathname === "/") {
+                  this.props.getWorkingCases(
+                    SORT_CASES_BY.CASE_REFERENCE,
+                    DESCENDING,
+                    1
+                  );
+                }
+              }}
             >
               <HomeIcon />
             </IconButton>
@@ -164,6 +180,7 @@ class NavBar extends Component {
               menuType={menuType}
               handleMenuClose={this.handleMenuClose}
               featureToggles={this.props.featureToggles}
+              location={this.props.location}
             />
           </Menu>
         </Toolbar>
@@ -186,7 +203,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getNotificationsForUser
+  getNotificationsForUser,
+  getWorkingCases,
+  resetWorkingCasesPaging
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));
