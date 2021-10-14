@@ -208,7 +208,7 @@ jobs:
       - run: docker push registry.heroku.com/noipm-playground/web
       - run: docker tag publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-playground/worker
       - run: docker push registry.heroku.com/noipm-playground/worker
-      - run: heroku container:release web worker --app publicdataworks-playground
+      - run: heroku container:release web worker --app noipm-playground
 
   ensure-playground-deploy-succeeded:
     docker:
@@ -646,9 +646,9 @@ workflows:
                 - new-docker
           #requires:
           # - security-check
-      # - test-client:
-      #     requires:
-      #       - get-instance-files-latest
+      - test-client:
+          requires:
+            - get-instance-files-latest
       - test-server-handlers-ci:
           requires:
             - get-instance-files-latest
@@ -657,7 +657,7 @@ workflows:
             - get-instance-files-latest
       - build-and-publish-playground:
           requires:
-      #      - test-client
+            - test-client
             - test-server-worker-non-handlers
             - test-server-handlers-ci
       - deploy-playground:
