@@ -646,9 +646,9 @@ workflows:
                 - new-docker
           #requires:
           # - security-check
-      - test-client:
-          requires:
-            - get-instance-files-latest
+      # - test-client:
+      #     requires:
+      #       - get-instance-files-latest
       - test-server-handlers-ci:
           requires:
             - get-instance-files-latest
