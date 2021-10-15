@@ -188,7 +188,10 @@ class CasesTable extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
+    if (
+      prevProps.searchQuery !== this.props.searchQuery ||
+      !this.props.loaded
+    ) {
       this.getCases(
         this.props.sortBy,
         this.props.sortDirection,
