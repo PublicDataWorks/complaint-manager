@@ -12,9 +12,34 @@ import {
   generateYAxisRange,
   PUBLIC_LABEL_FONT
 } from "./dataVizStyling";
-import districts from "../../../publicDataDashboard/assets/locationData/NOPD_Police_Districts.json";
+import district1 from "./layers/district1.json";
+import district2 from "./layers/district2.json";
+import district3 from "./layers/district3.json";
+import district4 from "./layers/district4.json";
+import district5 from "./layers/district5.json";
+import district6 from "./layers/district6.json";
+import district7 from "./layers/district7.json";
+import district8 from "./layers/district8.json";
+import districts from "./layers/NOPD_Police_Districts.json";
 
 export const FULL_LAYOUT = "FULL_LAYOUT";
+
+const districtArr = [
+  { source: district1, color: "#F00", hovertext: "Police District 1" },
+  { source: district2, color: "#0F0", hovertext: "Police District 2" },
+  { source: district3, color: "#00F", hovertext: "Police District 3" },
+  { source: district4, color: "#FF0", hovertext: "Police District 4" },
+  { source: district5, color: "#F0F", hovertext: "Police District 5" },
+  { source: district6, color: "#0FF", hovertext: "Police District 6" },
+  { source: district7, color: "#000", hovertext: "Police District 7" },
+  { source: district8, color: "#DDD", hovertext: "Police District 8" }
+];
+
+const districtCommon = {
+  sourcetype: "geojson",
+  type: "fill",
+  opacity: 0.2
+};
 
 export const baseLayouts = {
   [QUERY_TYPES.LOCATION_DATA]: {
@@ -24,11 +49,12 @@ export const baseLayouts = {
       center: { lat: 29.947, lon: -90.07 },
       zoom: 10,
       layers: [
-        // {
-        //   sourcetype: "geojson",
-        //   source: districts,
-        //   type: "line"
-        // }
+        {
+          sourcetype: "geojson",
+          source: districts,
+          type: "line"
+        },
+        ...districtArr.map(district => ({ ...district, ...districtCommon }))
       ]
     },
     margin: { r: 0, t: 0, b: 0, l: 0 }
