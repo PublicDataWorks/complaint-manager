@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getVisualizationData } from "../common/components/Visualization/getVisualizationData";
 import { PlotlyWrapper } from "../common/components/Visualization/PlotlyWrapper";
-import districts from "./assets/locationData/NOPD_Police_Districts.json";
+import districts from "../common/components/Visualization/layers/NOPD_Police_Districts.json";
 import { QUERY_TYPES } from "../../sharedUtilities/constants";
 import moment from "moment";
 

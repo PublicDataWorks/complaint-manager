@@ -10,6 +10,7 @@ import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
+import districts from "./layers/NOPD_Police_Districts.json";
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -77,7 +78,13 @@ const baseLayouts = {
         lat: 29.947,
         lon: -90.07
       },
-      layers: [],
+      layers: [
+        {
+          sourcetype: "geojson",
+          source: districts,
+          type: "line"
+        }
+      ],
       style: "open-street-map",
       zoom: 10
     },
