@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid, Link as MUILink, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
-import MapVisualization from "./MapVisualization";
+import MapVisualization from "../common/components/Visualization/MapVisualization";
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -87,7 +87,7 @@ const DashboardDataSection = props => {
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
       {dataSectionType.includes("LOCATION_DATA") ? (
-        <MapVisualization />
+        <MapVisualization isPublic={true} />
       ) : (
         <Grid
           item

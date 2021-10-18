@@ -29,8 +29,6 @@ const {
   CITY,
   ORGANIZATION
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-import { PlotlyWrapper } from "../common/components/Visualization/PlotlyWrapper";
-import MapVisualization from "./MapVisualization";
 
 const removeDragCover = () => {
   const callback = mutationsList => {
