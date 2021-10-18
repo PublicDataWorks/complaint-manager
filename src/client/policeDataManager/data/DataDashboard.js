@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import Visualization from "../../common/components/Visualization/Visualization";
+import MapVisualization from "../../common/components/Visualization/MapVisualization";
 import {
   QUERY_TYPES,
   DATE_RANGE_TYPE
 } from "../../../sharedUtilities/constants";
-import moment from "moment";
 import { connect } from "react-redux";
 
 class DataDashboard extends Component {
@@ -21,39 +21,10 @@ class DataDashboard extends Component {
           }}
         >
           {this.props.mapVisualizationFeature ? (
-            <>
+            <section style={{ margin: "5px" }}>
               <h2>Map of Complaints</h2>
-              <section
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  marginBottom: "15px"
-                }}
-              >
-                <section style={{ minHeight: "500px", minWidth: "70%" }}>
-                  <Visualization
-                    data-testid="complaintLocations"
-                    queryType={QUERY_TYPES.LOCATION_DATA}
-                    queryOptions={{
-                      minDate: moment()
-                        .subtract(12, "months")
-                        .format("YYYY-MM-DD")
-                    }}
-                  />
-                </section>
-                <section
-                  className="mapControls"
-                  style={{
-                    color: "transparent"
-                  }}
-                >
-                  <ul>
-                    <li>Include Districts</li>
-                    <li>Include Public Resources</li>
-                  </ul>
-                </section>
-              </section>
-            </>
+              <MapVisualization isPublic={false} />
+            </section>
           ) : (
             ""
           )}
