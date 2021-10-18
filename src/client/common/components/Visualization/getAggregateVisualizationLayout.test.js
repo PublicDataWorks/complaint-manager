@@ -10,7 +10,6 @@ import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
-import districts from "./layers/NOPD_Police_Districts.json";
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -69,30 +68,6 @@ const baseLayouts = {
     title: {
       text: "Top Tags<br><sub>Past 12 Months",
       font: TITLE_FONT
-    }
-  },
-  [QUERY_TYPES.LOCATION_DATA]: {
-    dragmode: "zoom",
-    mapbox: {
-      center: {
-        lat: 29.947,
-        lon: -90.07
-      },
-      layers: [
-        {
-          sourcetype: "geojson",
-          source: districts,
-          type: "line"
-        }
-      ],
-      style: "open-street-map",
-      zoom: 10
-    },
-    margin: {
-      b: 0,
-      l: 0,
-      r: 0,
-      t: 0
     }
   }
 };
@@ -159,7 +134,11 @@ const extendedLayouts = {
 
 const allTestObjects = Object.values(QUERY_TYPES).reduce(
   (testObjects, queryType) => {
-    if (queryType === QUERY_TYPES.COUNT_COMPLAINT_TOTALS) return testObjects;
+    if (
+      queryType === QUERY_TYPES.COUNT_COMPLAINT_TOTALS ||
+      queryType === QUERY_TYPES.LOCATION_DATA
+    )
+      return testObjects;
 
     const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
     const allProps = get(dynamicLayoutProps, queryType, []);
