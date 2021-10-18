@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Link as MUILink, Typography } from "@material-ui/core";
 import Visualization from "../common/components/Visualization/Visualization";
+import MapVisualization from "./MapVisualization";
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -85,23 +86,27 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      <Grid
-        item
-        xs={12}
-        style={{
-          padding: 0,
-          height: "550px",
-          maxWidth: "810px",
-          overflow: "hidden"
-        }}
-      >
-        <Visualization
-          data-testid={dataTestId}
-          isPublic
-          queryType={queryType}
-          queryOptions={queryOptions}
-        />
-      </Grid>
+      {dataSectionType.includes("LOCATION_DATA") ? (
+        <MapVisualization />
+      ) : (
+        <Grid
+          item
+          xs={12}
+          style={{
+            padding: 0,
+            height: "550px",
+            maxWidth: "810px",
+            overflow: "hidden"
+          }}
+        >
+          <Visualization
+            data-testid={dataTestId}
+            isPublic
+            queryType={queryType}
+            queryOptions={queryOptions}
+          />
+        </Grid>
+      )}
       <Grid item xs={12} sm={8} style={{ paddingBottom: "117px" }}>
         <TextTruncate
           collapsedText={collapsedText}
