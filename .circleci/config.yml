@@ -353,6 +353,9 @@ jobs:
   e2e-testing-playground:
     docker:
       - image: publicdataworks/e2e:latest
+        auth: 
+          username: $DOCKER_USER 
+          password: $DOCKER_PASSWORD
     steps:
       # - run:
       #     name: Install Git
