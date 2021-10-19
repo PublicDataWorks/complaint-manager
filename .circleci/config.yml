@@ -300,7 +300,7 @@ jobs:
 
   e2e-testing-ci-pdm:
     docker:
-      - image: publicdataworks/e2e:latest
+      - image: publicdataworks/e2e-noipm:latest
         auth: 
           username: $DOCKER_USER 
           password: $DOCKER_PASSWORD
@@ -355,7 +355,7 @@ jobs:
 
   e2e-testing-playground:
     docker:
-      - image: publicdataworks/e2e:latest
+      - image: publicdataworks/e2e-noipm:latest
         auth: 
           username: $DOCKER_USER 
           password: $DOCKER_PASSWORD
@@ -386,7 +386,7 @@ jobs:
 
   e2e-testing-staging:
     docker:
-      - image: publicdataworks/e2e:latest
+      - image: publicdataworks/e2e-noipm:latest
         auth: 
           username: $DOCKER_USER 
           password: $DOCKER_PASSWORD

@@ -1,7 +1,7 @@
 #!/bin/bash
 INSTANCE_IMAGE=publicdataworks/instance-files-noipm
 INSTANCE_VERSION=latest
-E2E_IMAGE=publicdataworks/e2e:latest
+E2E_IMAGE=publicdataworks/e2e-noipm:latest
 
 while getopts i:v:e: flag
 do
