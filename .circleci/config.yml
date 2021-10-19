@@ -301,6 +301,9 @@ jobs:
   e2e-testing-ci-pdm:
     docker:
       - image: publicdataworks/e2e:latest
+        auth: 
+          username: $DOCKER_USER 
+          password: $DOCKER_PASSWORD
     steps:
       # - run:
       #     name: Install Git
@@ -384,6 +387,9 @@ jobs:
   e2e-testing-staging:
     docker:
       - image: publicdataworks/e2e:latest
+        auth: 
+          username: $DOCKER_USER 
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
       - attach_workspace:
