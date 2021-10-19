@@ -4,4 +4,5 @@ output "api_gateway_endpoint" {
 
 output "database_connection_details" {
   value = module.webapp.database_connection_details
+  sensitive = true
 }
