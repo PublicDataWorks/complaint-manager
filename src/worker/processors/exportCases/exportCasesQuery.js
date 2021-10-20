@@ -64,7 +64,8 @@ const exportCasesQuery = (dateRange = null) => {
     'incidentLocation.lat AS "incidentLocation.lat", ' +
     'incidentLocation.lng AS "incidentLocation.lng", ' +
     'incidentLocation.street_address2 AS "incidentLocation.street_address2", ' +
-    'complainants.complainant AS "complainants.complainant",' +
+    'complainants.complainant AS "complainants.complainant", ' +
+    'complainants.isAnonymous AS "complainants.isAnonymous", ' +
     'complainants.civilian_full_name as "complainants.civilian_full_name", ' +
     'complainants.civilian_gender_identity AS "complainants.civilian_gender_identity", ' +
     'complainants.civilian_race_ethnicity AS "complainants.civilian_race_ethnicity", ' +
@@ -170,6 +171,7 @@ const exportCasesQuery = (dateRange = null) => {
     '   case_id AS "case_id", ' +
     "   civilians.created_at, " +
     "   'Civilian' AS complainant, " +
+    "   civilians.is_anonymous AS isAnonymous, " +
     "   concat_ws(" +
     "     ' ', " +
     "     first_name, " +
@@ -225,8 +227,9 @@ const exportCasesQuery = (dateRange = null) => {
     " SELECT " +
     '   case_id AS "case_id", ' +
     "   created_at, " +
-    "   'Officer' AS complainant, " +
-    '   NULL  AS "civilian_full_name", ' +
+    "   case_employee_type AS complainant, " +
+    "   is_anonymous AS isAnonymous, " +
+    '   NULL AS "civilian_full_name", ' +
     '   NULL AS "civilian_gender_identity", ' +
     '   NULL AS "civilian_race_ethnicity", ' +
     `   NULL AS "civilian_dob", ` +
