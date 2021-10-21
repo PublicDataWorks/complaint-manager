@@ -58,8 +58,8 @@
     "@testing-library/dom": "8.7.2",
     "@testing-library/jest-dom": "5.14.1",
     "@testing-library/react": "12.1.2",
-    "auth0": "2.36.2",
-    "auth0-js": "9.16.4",
+    "auth0": "2.37.0",
+    "auth0-js": "9.17.0",
     "autosuggest-highlight": "~3.1.1",
     "aws-sdk": "2.722.0",
     "axios": "0.22.0",
@@ -98,7 +98,7 @@
     "node-cache": "^5.1.0",
     "pg": "8.6.0",
     "pg-hstore": "~2.3.2",
-    "plotly.js": "^1.58.4",
+    "plotly.js": "2.5.1",
     "rc-pagination": "^3.1.2",
     "react": "~16.12.0",
     "react-app-rewired": "^2.1.8",
@@ -186,7 +186,8 @@
     "**/static-eval": "^2.0.5",
     "**/tmpl": "1.0.5",
     "**/tree-kill": "^1.2.2",
-    "**/yargs-parser": "^20.2.7"
+    "**/yargs-parser": "^20.2.7",
+    "**/vm2": "^3.9.4"
   },
   "browserslist": {
     "production": [
