@@ -27,9 +27,15 @@ export const executeQuery = async fromDate => {
     ]
   };
 
-  const cases = await models.cases.findAll(queryOptions);
-  return cases.map(c => ({
-    lat: c["incidentLocation.lat"],
-    lon: c["incidentLocation.lng"]
-  }));
+  const result = await models.sequelize.transaction(async transaction => {
+    const cases = await models.cases.findAll(queryOptions);
+    return cases
+      .filter(c => c["incidentLocation.lat"] && c["incidentLocation.lng"])
+      .map(c => ({
+        lat: c["incidentLocation.lat"],
+        lon: c["incidentLocation.lng"]
+      }));
+  });
+
+  return result;
 };
