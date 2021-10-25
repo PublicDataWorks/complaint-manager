@@ -4,11 +4,15 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { getVisualizationData } from "./getVisualizationData";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import districts from "./layers/NOPD_Police_Districts.json";
+import schools from "./layers/Schools.json";
+import parks from "./layers/parks.json";
+import libraries from "./layers/Public_Libraries.json";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 import moment from "moment";
 
 const NOLA_CENTER = { lat: 29.947, lon: -90.07 };
 const DEFAULT_ZOOM = 10;
+
 const DISTRICT_DATA = {
   type: "choroplethmapbox",
   geojson: districts,
@@ -46,15 +50,59 @@ const DISTRICT_DATA = {
     opacity: 0.3
   }
 };
+
 const DISTRICT_OUTLINE = {
   sourcetype: "geojson",
   source: districts,
   type: "line"
 };
 
+const SCHOOLS_DATA = {
+  type: "scattermapbox",
+  lat: schools.features.map(school => school.geometry.coordinates[1]),
+  lon: schools.features.map(school => school.geometry.coordinates[0]),
+  text: schools.features.map(
+    school => `School Name: ${school.properties.NAME}`
+  ),
+  hoverinfo: "text",
+  showlegend: false,
+  marker: {
+    color: "red"
+  }
+};
+
+const PARKS_DATA = {
+  type: "scattermapbox",
+  lat: parks.features.map(school => school.geometry.coordinates[1]),
+  lon: parks.features.map(school => school.geometry.coordinates[0]),
+  text: parks.features.map(school => `Park Name: ${school.properties.name}`),
+  hoverinfo: "text",
+  showlegend: false,
+  marker: {
+    color: "green"
+  }
+};
+
+const LIBRARIES_DATA = {
+  type: "scattermapbox",
+  lat: libraries.features.map(school => school.geometry.coordinates[1]),
+  lon: libraries.features.map(school => school.geometry.coordinates[0]),
+  text: libraries.features.map(
+    school => `Library Name: ${school.properties.FacilityName}`
+  ),
+  hoverinfo: "text",
+  showlegend: false,
+  marker: {
+    color: "#00BFFF"
+  }
+};
+
 const MapVisualization = props => {
   const [location, setLocation] = useState({ lat: [], lon: [], z: [] });
   const [showDistrict, setShowDistrict] = useState(false);
+  const [showSchools, setShowSchools] = useState(false);
+  const [showParks, setShowParks] = useState(false);
+  const [showLibraries, setShowLibraries] = useState(false);
 
   useEffect(() => {
     const load = async () =>
@@ -92,6 +140,18 @@ const MapVisualization = props => {
     layers.push(DISTRICT_OUTLINE);
   }
 
+  if (showSchools) {
+    data.push(SCHOOLS_DATA);
+  }
+
+  if (showParks) {
+    data.push(PARKS_DATA);
+  }
+
+  if (showLibraries) {
+    data.push(LIBRARIES_DATA);
+  }
+
   return (
     <section
       style={{
@@ -124,16 +184,48 @@ const MapVisualization = props => {
       />
       <section>
         <h3>Map Layers</h3>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={showDistrict}
-              onChange={event => setShowDistrict(event.target.checked)}
-              color="default"
-            />
-          }
-          label="NOPD Districts"
-        />
+        <section style={{ display: "flex", flexDirection: "column" }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showDistrict}
+                onChange={event => setShowDistrict(event.target.checked)}
+                color="default"
+              />
+            }
+            label="NOPD Districts"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showSchools}
+                onChange={event => setShowSchools(event.target.checked)}
+                color="default"
+              />
+            }
+            label="Schools"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showParks}
+                onChange={event => setShowParks(event.target.checked)}
+                color="default"
+              />
+            }
+            label="Parks"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={showLibraries}
+                onChange={event => setShowLibraries(event.target.checked)}
+                color="default"
+              />
+            }
+            label="Public Libraries"
+          />
+        </section>
       </section>
     </section>
   );
