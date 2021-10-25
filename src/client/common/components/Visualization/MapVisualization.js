@@ -78,7 +78,8 @@ const MAP_LAYERS = [
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "red"
+          color: "red",
+          size: 9
         }
       }
     ]
@@ -98,7 +99,8 @@ const MAP_LAYERS = [
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "green"
+          color: "green",
+          size: 9
         }
       }
     ]
@@ -118,7 +120,8 @@ const MAP_LAYERS = [
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "#00BFFF"
+          color: "#00BFFF",
+          size: 9
         }
       }
     ]
