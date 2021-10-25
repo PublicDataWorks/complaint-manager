@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { getVisualizationData } from "./getVisualizationData";
@@ -8,7 +9,6 @@ import schools from "./layers/Schools.json";
 import parks from "./layers/parks.json";
 import libraries from "./layers/Public_Libraries.json";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
-import moment from "moment";
 
 // TODO move these three consts to instance-files
 const NOLA_CENTER = { lat: 29.947, lon: -90.07 };
@@ -65,6 +65,7 @@ const MAP_LAYERS = [
   },
   {
     text: "Schools",
+    checkboxColor: "red",
     layers: [],
     data: [
       {
@@ -84,6 +85,7 @@ const MAP_LAYERS = [
   },
   {
     text: "Parks",
+    checkboxColor: "green",
     layers: [],
     data: [
       {
@@ -103,6 +105,7 @@ const MAP_LAYERS = [
   },
   {
     text: "Public Libraries",
+    checkboxColor: "#00BFFF",
     layers: [],
     data: [
       {
@@ -211,6 +214,7 @@ const MapVisualization = props => {
                     setVisibleLayers(newVisibleLayers);
                   }}
                   color="default"
+                  style={{ color: layer.checkboxColor }}
                 />
               }
               label={layer.text}
