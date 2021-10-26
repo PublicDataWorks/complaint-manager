@@ -8,7 +8,7 @@ parameters:
     default: "master"
   release-branch:
     type: string
-    default: "release_v3.42.0"
+    default: "release_v3.42.1"
   instance-files-image-name:
     type: string
     default: "publicdataworks/instance-files-noipm"
