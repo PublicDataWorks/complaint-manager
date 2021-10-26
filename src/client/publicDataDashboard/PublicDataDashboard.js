@@ -80,7 +80,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
   const currentDate = formatShortDate(moment(Date.now()));
 
   return (
-    <div>
+    <main>
       <Grid
         container
         spacing={3}
@@ -398,7 +398,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
       >
         {`Last updated ${currentDate}`}
       </Typography>
-    </div>
+    </main>
   );
 };
 

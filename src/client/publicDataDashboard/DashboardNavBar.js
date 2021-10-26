@@ -15,6 +15,7 @@ const DashboardNavBar = () => {
       <Grid item xs={5} style={{ marginBottom: "22px" }}>
         <img
           src={isMobile ? logoSmall : "/favicon.ico"}
+          alt="Police Monitor Logo"
           style={{
             width: theme.dashboard.navBar.logoWidth,
             height: theme.dashboard.navBar.logoHeight
