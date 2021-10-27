@@ -27,7 +27,7 @@ describe("getTagsHelper", () => {
   beforeEach(async () => {
     const firstTagAttributes = new Tag.Builder()
       .defaultTag()
-      .withName("alabama")
+      .withName("a Zorro movie")
       .withId(1);
     const secondTagAttributes = new Tag.Builder()
       .defaultTag()
