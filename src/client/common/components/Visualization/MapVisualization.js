@@ -6,10 +6,9 @@ import { getVisualizationData } from "./getVisualizationData";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 
-const { MAP_CONFIG
+const {
+  MAP_CONFIG
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
-// TODO move these three consts to instance-files
 
 const MapVisualization = props => {
   const [location, setLocation] = useState({ lat: [], lon: [], z: [] });
