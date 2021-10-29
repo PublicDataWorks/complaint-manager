@@ -11,7 +11,10 @@ const {
   USER_PERMISSIONS
 } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
-const config = require("../../../config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 const Boom = require("boom");
 
 const scheduleExport = asyncMiddleware(async (request, response, next) => {

@@ -9,12 +9,12 @@ import {
 import createCivilian from "./createCivilian";
 import nock from "nock";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
-import config from "../../../common/config/config";
 import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { authEnabledTest } from "../../../testHelpers";
 
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 const hostname = config["test"].hostname;
 
 jest.mock("../../../common/auth/getAccessToken", () =>

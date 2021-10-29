@@ -4,7 +4,10 @@ import path from "path";
 import models from "../policeDataManager/models/index";
 import winston from "winston";
 
-const config = require("../config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 
 export const suppressWinstonLogs = test => async () => {
   winston.configure({

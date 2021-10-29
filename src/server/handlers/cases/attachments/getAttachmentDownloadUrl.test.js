@@ -16,7 +16,7 @@ import { auditFileAction } from "../../audits/auditFileAction";
 const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
 const models = require("../../../policeDataManager/models/index");
-const config = require("../../../config/config");
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 jest.mock("aws-sdk");
 

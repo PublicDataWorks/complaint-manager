@@ -4,7 +4,10 @@ import EventEmitter from "events";
 import winston from "winston/lib/winston";
 import "jest-extended";
 
-const config = require("./server/config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 
 // TODO: Remove when tests are running stably with new workers.
 console.log("Running on Worker: ", process.env.JEST_WORKER_ID);

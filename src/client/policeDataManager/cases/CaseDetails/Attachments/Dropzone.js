@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import DropzoneComponent from "react-dropzone-component";
 import "../../../../../../node_modules/react-dropzone-component/styles/filepicker.css";
 import "../../../../../../node_modules/dropzone/dist/min/dropzone.min.css";
-import config from "../../../../common/config/config";
 import getAccessToken from "../../../../common/auth/getAccessToken";
 import {
   DUPLICATE_FILE_NAME,
@@ -15,6 +14,8 @@ import {
   InputLabel
 } from "@material-ui/core";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
+
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 class Dropzone extends Component {
   componentDidMount() {

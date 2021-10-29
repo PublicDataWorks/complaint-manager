@@ -12,7 +12,10 @@ import {
 import { isAuthDisabled } from "../isAuthDisabled";
 
 const winston = require("winston");
-const config = require("../config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 const key = AUTH0_USERS_CACHE_KEY;
 
 let users;

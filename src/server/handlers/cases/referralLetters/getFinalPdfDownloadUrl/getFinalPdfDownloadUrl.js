@@ -7,12 +7,12 @@ import {
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
-import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const getFinalPdfDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;

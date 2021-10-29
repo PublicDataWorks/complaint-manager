@@ -3,7 +3,6 @@ import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../policeDataManager/models/index";
 import isDuplicateFileName from "./isDuplicateFileName";
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
-import config from "../../../config/config";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
@@ -18,6 +17,7 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import { auditFileAction } from "../../audits/auditFileAction";
 import winston from "winston";
 
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   let managedUpload;
   const caseId = request.params.caseId;
@@ -33,92 +33,92 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
     }
   });
 
-  await busboy.on("file", async function (
-    fieldname,
-    file,
-    fileName,
-    encoding,
-    mimetype
-  ) {
-    const s3 = createConfiguredS3Instance();
+  await busboy.on(
+    "file",
+    async function (fieldname, file, fileName, encoding, mimetype) {
+      const s3 = createConfiguredS3Instance();
 
-    if (request.isArchived) {
-      response.status(400).send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
-    } else if (await isDuplicateFileName(caseId, fileName)) {
-      response.status(409).send(DUPLICATE_FILE_NAME);
-    } else {
-      managedUpload = s3.upload({
-        Bucket: config[process.env.NODE_ENV].s3Bucket,
-        Key: `${caseId}/${fileName}`,
+      if (request.isArchived) {
+        response
+          .status(400)
+          .send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
+      } else if (await isDuplicateFileName(caseId, fileName)) {
+        response.status(409).send(DUPLICATE_FILE_NAME);
+      } else {
+        managedUpload = s3.upload({
+          Bucket: config[process.env.NODE_ENV].s3Bucket,
+          Key: `${caseId}/${fileName}`,
 
-        Body: file,
-        ServerSideEncryption: "AES256"
-      });
+          Body: file,
+          ServerSideEncryption: "AES256"
+        });
 
-      //The AWS S3 JS SDK has a non-standard promise implementation.
-      //The success function and error functions are passed as arguments to then().
-      //This means that we can't use await.
-      //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
-      const promise = managedUpload.promise();
-      await promise.then(
-        async function (data) {
-          const updatedCase = await models.sequelize.transaction(
-            async transaction => {
-              const attachment = await models.attachment.create(
-                {
+        //The AWS S3 JS SDK has a non-standard promise implementation.
+        //The success function and error functions are passed as arguments to then().
+        //This means that we can't use await.
+        //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
+        const promise = managedUpload.promise();
+        await promise.then(
+          async function (data) {
+            const updatedCase = await models.sequelize.transaction(
+              async transaction => {
+                const attachment = await models.attachment.create(
+                  {
+                    fileName,
+                    description: attachmentDescription,
+                    caseId
+                  },
+                  {
+                    transaction,
+                    auditUser: request.nickname
+                  }
+                );
+                const caseDetailsAndAuditDetails =
+                  await getCaseWithAllAssociationsAndAuditDetails(
+                    caseId,
+                    transaction
+                  );
+
+                const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+                const auditDetails = caseDetailsAndAuditDetails.auditDetails;
+
+                await auditFileAction(
+                  request.nickname,
+                  caseId,
+                  AUDIT_ACTION.UPLOADED,
                   fileName,
-                  description: attachmentDescription,
-                  caseId
-                },
-                {
-                  transaction,
-                  auditUser: request.nickname
-                }
-              );
-              const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-                caseId,
-                transaction
-              );
+                  AUDIT_FILE_TYPE.ATTACHMENT,
+                  transaction
+                );
+                await auditDataAccess(
+                  request.nickname,
+                  caseId,
+                  MANAGER_TYPE.COMPLAINT,
+                  AUDIT_SUBJECT.CASE_DETAILS,
+                  auditDetails,
+                  transaction
+                );
 
-              const caseDetails = caseDetailsAndAuditDetails.caseDetails;
-              const auditDetails = caseDetailsAndAuditDetails.auditDetails;
-
-              await auditFileAction(
-                request.nickname,
-                caseId,
-                AUDIT_ACTION.UPLOADED,
-                fileName,
-                AUDIT_FILE_TYPE.ATTACHMENT,
-                transaction
-              );
-              await auditDataAccess(
-                request.nickname,
-                caseId,
-                MANAGER_TYPE.COMPLAINT,
-                AUDIT_SUBJECT.CASE_DETAILS,
-                auditDetails,
-                transaction
-              );
-
-              return caseDetails;
-            }
-          );
-
-          if (process.env.NODE_ENV === "development") {
-            response.setHeader(
-              "Access-Control-Allow-Origin",
-              "https://localhost"
+                return caseDetails;
+              }
             );
+
+            if (process.env.NODE_ENV === "development") {
+              response.setHeader(
+                "Access-Control-Allow-Origin",
+                "https://localhost"
+              );
+            }
+            response.send(updatedCase);
+          },
+          function (error) {
+            winston.error(error);
+            next(Boom.badImplementation(error));
           }
-          response.send(updatedCase);
-        },
-        function (error) {
-          winston.error(error);
-          next(Boom.badImplementation(error));
-        }
-      );
+        );
+      }
     }
-  });
+  );
 
   request.on("close", () => {
     if (managedUpload) managedUpload.abort();
