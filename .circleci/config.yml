@@ -609,9 +609,6 @@ workflows:
             branches:
               only:
                 - << pipeline.parameters.release-branch >>
-      - test-client:
-          requires:
-            - get-instance-files-release
       - test-server-handlers-staging:
           requires:
             - get-instance-files-release
@@ -620,7 +617,6 @@ workflows:
             - get-instance-files-release
       - build-and-publish-release:
           requires:
-            - test-client
             - test-server-handlers-staging
             - test-server-worker-non-handlers
       - deploy-staging:
