@@ -2,7 +2,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 
 const asyncMiddleware = require("../../asyncMiddleware");
-const config = require("../../../config/config");
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const models = require("../../../policeDataManager/models/index");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const {
@@ -29,10 +29,11 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       transaction
     });
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      request.params.caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        request.params.caseId,
+        transaction
+      );
 
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;

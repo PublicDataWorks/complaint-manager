@@ -1,13 +1,17 @@
 const jwt = require("express-jwt");
 const jwks = require("jwks-rsa");
-const config = require(__dirname + "/../config/config.js")[
-  process.env.NODE_ENV
-];
+const path = require("path");
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 const fs = require("fs");
 
 const getSecret = () => {
   if (process.env.NODE_ENV === "test") {
-    return fs.readFileSync(config.authentication.publicKeyPath);
+    return fs.readFileSync(
+      path.join(__dirname, "..", "config", "test", "public.pem")
+    );
   } else {
     return jwks.expressJwtSecret({
       cache: true,

@@ -1,4 +1,4 @@
-const config = require("../config/config");
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 import models from "../policeDataManager/models";
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 

@@ -15,7 +15,10 @@ const enforce = require("express-sslify");
 const path = require("path");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const config = require("./config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 const healthCheck = require("./handlers/healthCheck");
 const errorHandler = require("./handlers/errorHandler");
 const apiRouter = require("./apiRouter");

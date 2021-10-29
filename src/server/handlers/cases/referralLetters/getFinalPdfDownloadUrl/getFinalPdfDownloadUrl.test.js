@@ -12,7 +12,6 @@ import {
 import getFinalPdfDownloadUrl from "./getFinalPdfDownloadUrl";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
-import config from "../../../../config/config";
 import Boom from "boom";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
@@ -21,6 +20,7 @@ import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const httpMocks = require("node-mocks-http");
 
 jest.mock("../../../../createConfiguredS3Instance");

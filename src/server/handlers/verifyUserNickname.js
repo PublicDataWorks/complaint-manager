@@ -1,7 +1,10 @@
 import { UNAUTHORIZED_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../checkFeatureToggleEnabled";
 
-const config = require("../config/config")[process.env.NODE_ENV];
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 const Boom = require("boom");
 
 const verifyUserNickname = (request, response, next) => {
@@ -17,9 +20,8 @@ const verifyUserNickname = (request, response, next) => {
 
   if (nonUserAuthenticationFeature && userInfo["gty"] == "client-credentials") {
     request.nickname = "noipm.infrastructure@gmail.com";
-    request.permissions = "openid profile export:audit-log update:case-status".split(
-      " "
-    );
+    request.permissions =
+      "openid profile export:audit-log update:case-status".split(" ");
     next();
   } else {
     if (!userInfo[config.authentication.nicknameKey]) {

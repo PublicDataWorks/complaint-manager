@@ -8,9 +8,10 @@ import { userAuthSuccess } from "./common/auth/actionCreators";
 import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
 import EventSource from "eventsourcemock";
 import { sources } from "eventsourcemock";
-import config from "./common/config/config";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
+
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 Object.defineProperty(window, "EventSource", {
   value: EventSource
@@ -38,9 +39,7 @@ jest.mock(
   })
 );
 
-jest.mock(
-  "./common/auth/getAccessToken", () => jest.fn(() => "MOCK_TOKEN"
-  ));
+jest.mock("./common/auth/getAccessToken", () => jest.fn(() => "MOCK_TOKEN"));
 
 process.env.REACT_APP_ENV = "test";
 const backendUrl = config[process.env.REACT_APP_ENV].backendUrl;
@@ -50,7 +49,6 @@ describe("App", () => {
   const eventSourceUrl = `${backendUrl}/api/messageStream?token=MOCK_TOKEN`;
 
   beforeEach(() => {
-
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
     wrapper = mount(

@@ -1,11 +1,11 @@
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from "lodash";
 import axios from "axios";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
 import ensureOnlineOnRequestInterceptor from "./ensureOnlineOnRequestInterceptor";
 import responseErrorInterceptor from "./responseErrorInterceptor";
-import allConfigs from "../config/config";
 import { isAuthDisabled } from "../../isAuthDisabled";
 
+const allConfigs = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 const currentConfig = allConfigs[process.env.REACT_APP_ENV] || {};
 
 const baseURL = `${currentConfig.hostname}`;

@@ -4,7 +4,7 @@ const csvParse = require("csv-parse");
 const models = require("../policeDataManager/models");
 const _ = require("lodash");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
-const config = require("../config/config");
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const winston = require("winston");
 
 const promises = [];
