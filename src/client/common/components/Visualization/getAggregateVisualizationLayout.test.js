@@ -10,7 +10,6 @@ import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
-import districts from "./layers/NOPD_Police_Districts.json";
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
