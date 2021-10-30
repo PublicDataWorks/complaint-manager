@@ -159,7 +159,7 @@
     "yarn-run-all": "~3.1.1"
   },
   "resolutions": {
-    "**/set-value": "^4.0.1",
+    "**/set-value": "^2.0.1",
     "**/mixin-deep": "2.0.1",
     "**/extend": "3.0.2",
     "**/eslint-utils": "2.0.0",
