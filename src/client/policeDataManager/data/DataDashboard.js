@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import Visualization from "../../common/components/Visualization/Visualization";
-import MapVisualization from "../../common/components/Visualization/Visualization";
 import {
   QUERY_TYPES,
   DATE_RANGE_TYPE
