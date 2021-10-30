@@ -12,27 +12,10 @@ import {
   generateYAxisRange,
   PUBLIC_LABEL_FONT
 } from "./dataVizStyling";
-import districts from "../../../publicDataDashboard/assets/locationData/NOPD_Police_Districts.json";
 
 export const FULL_LAYOUT = "FULL_LAYOUT";
 
 export const baseLayouts = {
-  [QUERY_TYPES.LOCATION_DATA]: {
-    dragmode: "zoom",
-    mapbox: {
-      style: "open-street-map",
-      center: { lat: 29.947, lon: -90.07 },
-      zoom: 10,
-      layers: [
-        // {
-        //   sourcetype: "geojson",
-        //   source: districts,
-        //   type: "line"
-        // }
-      ]
-    },
-    margin: { r: 0, t: 0, b: 0, l: 0 }
-  },
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
     showlegend: false,
     font: LABEL_FONT,
