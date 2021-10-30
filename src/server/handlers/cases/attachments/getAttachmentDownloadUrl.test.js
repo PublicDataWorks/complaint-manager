@@ -29,10 +29,6 @@ describe("getAttachmentDownloadUrl", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   const SIGNED_TEST_URL = "SIGNED_TEST_URL";
   let existingCase;
   let s3;
@@ -234,8 +230,10 @@ describe("getAttachmentDownloadUrl", function () {
     });
 
     test("should call getSignedUrl with complainant letter bucket and key when complainant letter", async () => {
-      const { complainantLetter, request } =
-        await requestWithComplainantLetter();
+      const {
+        complainantLetter,
+        request
+      } = await requestWithComplainantLetter();
 
       const response = httpMocks.createResponse();
 

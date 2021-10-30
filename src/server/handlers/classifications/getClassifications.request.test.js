@@ -12,10 +12,6 @@ describe("getClassifications", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should return sorted classification options, sorted by alpha with Decline at end", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 

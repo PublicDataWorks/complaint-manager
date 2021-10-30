@@ -17,10 +17,6 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should create officer allegation", async () => {
     const token = buildTokenWithPermissions("", "TEST_NICKNAME");
 

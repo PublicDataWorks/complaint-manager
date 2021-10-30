@@ -49,10 +49,6 @@ describe("getCaseNotes", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should return case notes with case note action", async () => {
     await getCaseNotes(request, response, next);
 

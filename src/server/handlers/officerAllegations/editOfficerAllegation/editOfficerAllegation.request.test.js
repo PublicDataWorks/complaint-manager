@@ -28,10 +28,6 @@ describe("PUT /officers-allegations/:officerAllegationId", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test(
     "should reply a 400 if officer allegation doesnt exist ",
     suppressWinstonLogs(async () => {

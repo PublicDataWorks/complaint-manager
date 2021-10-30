@@ -21,10 +21,6 @@ describe("editRecommendedActions", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   let existingCase, referralLetter, response, next;
 
   beforeEach(async () => {
@@ -247,10 +243,9 @@ describe("editRecommendedActions", function () {
         await editRecommendedActions(request, response, next);
         expect(response.statusCode).toEqual(200);
 
-        const createdRecommendedActions =
-          await models.referral_letter_officer_recommended_action.findAll({
-            where: { referralLetterOfficerId: letterOfficer.id }
-          });
+        const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+          { where: { referralLetterOfficerId: letterOfficer.id } }
+        );
 
         expect(createdRecommendedActions.length).toEqual(2);
         expect(createdRecommendedActions).toEqual(
@@ -293,30 +288,26 @@ describe("editRecommendedActions", function () {
       describe("existing referral letter officer recommended actions", function () {
         let recommendedAction, recommendedAction1;
         beforeEach(async () => {
-          const recommendedActionAttributes =
-            new ReferralLetterOfficerRecommendedAction.Builder()
-              .defaultReferralLetterOfficerRecommendedAction()
-              .withId(undefined)
-              .withReferralLetterOfficerId(letterOfficer.id)
-              .withRecommendedActionId(recommendedActionId1);
+          const recommendedActionAttributes = new ReferralLetterOfficerRecommendedAction.Builder()
+            .defaultReferralLetterOfficerRecommendedAction()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id)
+            .withRecommendedActionId(recommendedActionId1);
 
-          recommendedAction =
-            await models.referral_letter_officer_recommended_action.create(
-              recommendedActionAttributes,
-              { auditUser: "test" }
-            );
-          const recommendedActionAttributes2 =
-            new ReferralLetterOfficerRecommendedAction.Builder()
-              .defaultReferralLetterOfficerRecommendedAction()
-              .withId(undefined)
-              .withReferralLetterOfficerId(letterOfficer.id)
-              .withRecommendedActionId(recommendedActionId2);
+          recommendedAction = await models.referral_letter_officer_recommended_action.create(
+            recommendedActionAttributes,
+            { auditUser: "test" }
+          );
+          const recommendedActionAttributes2 = new ReferralLetterOfficerRecommendedAction.Builder()
+            .defaultReferralLetterOfficerRecommendedAction()
+            .withId(undefined)
+            .withReferralLetterOfficerId(letterOfficer.id)
+            .withRecommendedActionId(recommendedActionId2);
 
-          recommendedAction1 =
-            await models.referral_letter_officer_recommended_action.create(
-              recommendedActionAttributes2,
-              { auditUser: "test" }
-            );
+          recommendedAction1 = await models.referral_letter_officer_recommended_action.create(
+            recommendedActionAttributes2,
+            { auditUser: "test" }
+          );
         });
 
         test("removes existing referral letter officer recommended action for only the correct letter officer", async () => {
@@ -397,13 +388,14 @@ describe("editRecommendedActions", function () {
           await editRecommendedActions(secondRequest, response, next);
           expect(response.statusCode).toEqual(200);
 
-          const createdRecommendedActions =
-            await models.referral_letter_officer_recommended_action.findAll({
+          const createdRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+            {
               where: {
                 recommendedActionId: recommendedActionId1,
                 referralLetterOfficerId: letterOfficer.id
               }
-            });
+            }
+          );
 
           expect(createdRecommendedActions.length).toEqual(1);
 
@@ -416,13 +408,14 @@ describe("editRecommendedActions", function () {
             ])
           );
 
-          const otherCreatedRecommendedActions =
-            await models.referral_letter_officer_recommended_action.findAll({
+          const otherCreatedRecommendedActions = await models.referral_letter_officer_recommended_action.findAll(
+            {
               where: {
                 recommendedActionId: recommendedActionId1,
                 referralLetterOfficerId: otherLetterOfficer.id
               }
-            });
+            }
+          );
 
           expect(otherCreatedRecommendedActions.length).toEqual(1);
 

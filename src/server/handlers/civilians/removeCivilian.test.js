@@ -20,10 +20,6 @@ describe("removeCivilian", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     existingCase = await createTestCaseWithCivilian();
     response = httpMocks.createResponse();

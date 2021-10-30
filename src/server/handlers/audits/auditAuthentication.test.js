@@ -17,10 +17,6 @@ describe("Audit", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should create an audit record", async () => {
     const requestWithValidDataForAudit = httpMocks.createRequest({
       method: "POST",

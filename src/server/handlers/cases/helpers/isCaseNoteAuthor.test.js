@@ -13,10 +13,6 @@ describe("isCaseNoteAuthor", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     caseNoteAction = await models.case_note_action.create(
       { name: "some action" },

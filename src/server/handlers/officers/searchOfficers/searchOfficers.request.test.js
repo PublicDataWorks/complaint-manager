@@ -26,10 +26,6 @@ describe("GET /officers/search", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("match single attribute", () => {
     let bobOfficer, garretOfficer, grantOfficer;
     beforeEach(async () => {

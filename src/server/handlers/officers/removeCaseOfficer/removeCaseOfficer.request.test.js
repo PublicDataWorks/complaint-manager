@@ -25,10 +25,6 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should respond with 200 and updated case when removing officer", async () => {
     const officer1Attributes = new Officer.Builder()
       .defaultOfficer()

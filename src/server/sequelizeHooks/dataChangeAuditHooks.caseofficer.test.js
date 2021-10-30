@@ -41,10 +41,6 @@ describe("dataChangeAudithooks caseofficer", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should audit caseofficer creation", async () => {
     const audit = await models.audit.findOne({
       where: { auditAction: AUDIT_ACTION.DATA_CREATED },

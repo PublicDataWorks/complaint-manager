@@ -62,10 +62,6 @@ describe("send notifications to users mentioned in case", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should send notifications to users only once", async () => {
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()

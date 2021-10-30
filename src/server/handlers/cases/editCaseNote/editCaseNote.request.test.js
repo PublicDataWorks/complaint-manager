@@ -16,10 +16,6 @@ describe("editCaseNote request", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should edit a case note", async () => {
     const token = buildTokenWithPermissions("", NICKNAME);
 

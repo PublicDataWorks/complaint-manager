@@ -26,10 +26,6 @@ describe("editCaseOfficer", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   let existingCase, next, response;
   beforeEach(async () => {
     next = jest.fn();

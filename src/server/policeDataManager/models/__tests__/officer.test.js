@@ -41,15 +41,9 @@ describe("officers", () => {
         name: "1st District"
       });
     });
-
     afterEach(async () => {
       await cleanupDatabase();
     });
-
-    afterAll(async () => {
-      await models.sequelize.close();
-    });
-
     test("district should display in numeric format", async () => {
       await models.officer.create({
         id: null,

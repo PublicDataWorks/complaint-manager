@@ -38,10 +38,6 @@ describe("dataChangeAuditHooks for notification", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("creates audit on notification creation", async () => {
     const notificationAttributes = new Notification.Builder()
       .defaultNotification()

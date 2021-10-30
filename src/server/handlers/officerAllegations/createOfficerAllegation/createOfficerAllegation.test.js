@@ -65,10 +65,6 @@ describe("createOfficerAllegation", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("it calls next with an error if details are missing", async () => {
     const caseOfficer = newCase.accusedOfficers[0];
 

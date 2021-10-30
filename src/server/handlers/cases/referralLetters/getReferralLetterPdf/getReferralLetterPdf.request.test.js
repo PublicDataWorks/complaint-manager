@@ -20,10 +20,6 @@ describe("Generate referral letter pdf", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);

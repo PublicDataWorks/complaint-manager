@@ -13,10 +13,6 @@ describe("dataChangeAuditHooks address", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("incident location", () => {
     let existingCase, incidentLocationCreated;
     beforeEach(async () => {

@@ -7,10 +7,6 @@ describe("loadCsv", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("it creates an officer for each row in the csv", async () => {
     await loadCsv("testOfficers.csv", models.officer);
 

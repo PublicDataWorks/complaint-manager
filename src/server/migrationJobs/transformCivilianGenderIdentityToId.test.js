@@ -114,10 +114,6 @@ describe("transform civilian gender identity to ID", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should correctly get gender identity id from gender identity name", async () => {
     await models.sequelize.transaction(async transaction => {
       await transformCivilianGenderIdentityToId(

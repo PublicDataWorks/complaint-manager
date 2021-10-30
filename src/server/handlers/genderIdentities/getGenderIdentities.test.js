@@ -24,10 +24,6 @@ describe("getGenderIdentities", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("returns list of gender identities to populate dropdown", async () => {
     const transMale = await models.gender_identity.create({
       name: "Trans Male"

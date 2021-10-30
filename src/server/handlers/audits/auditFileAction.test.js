@@ -20,10 +20,6 @@ describe("auditFileAction", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should create fileAudit", async () => {
     await models.sequelize.transaction(async transaction => {
       await auditFileAction(

@@ -47,10 +47,6 @@ describe("searchOfficers", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("auditing", () => {
     test("should audit when retrieving a case", async () => {
       await searchOfficers(request, response, next);

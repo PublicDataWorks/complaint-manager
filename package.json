@@ -22,7 +22,7 @@
     "e2e:pdm": "./scripts/run-e2e-pdm.sh",
     "build": "INLINE_RUNTIME_CHUNK=false react-scripts --max_old_space_size=5120 build && babel src --out-dir dist --copy-files",
     "update:officers": "node -e \"require('./scripts/updateOfficerDataFromS3')\"",
-    "test:server": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=2000 test src/server --logHeapUsage --maxWorkers=2 --forceExit --env=node",
+    "test:server": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=1500 test src/server --logHeapUsage --maxWorkers=2 --forceExit --env=node",
     "test:server:ci": "CI=true yarn test:server --coverage  --collectCoverageFrom='src/server/**/*.{js,jsx}'",
     "test:server-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired --max_old_space_size=1500 test src/server/handlers.* --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage  --collectCoverageFrom='src/server/handlers/**/*.{js,jsx}'",
     "test:server-worker-non-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired test \"(?!.*handlers.*)src/(server|worker).*\" --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage --collectCoverageFrom='src/{server,worker}/!(handlers|migrations|seeders)/**/*.{js,jsx}'",

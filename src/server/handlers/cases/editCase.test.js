@@ -36,10 +36,6 @@ describe("Edit Case", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("case status update", function () {
     test("should set the status to active when you edit a case", async () => {
       valuesToUpdate = {

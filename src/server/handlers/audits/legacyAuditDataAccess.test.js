@@ -21,10 +21,6 @@ describe("legacyAuditDataAccess", () => {
       await cleanupDatabase();
     });
 
-    afterAll(async () => {
-      await models.sequelize.close();
-    });
-
     test("should call legacyFormatAuditDetails with correct audit details", async () => {
       const auditDetails = { fileName: ["cats.jpg"] };
       await models.sequelize.transaction(async transaction => {

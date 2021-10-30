@@ -17,10 +17,6 @@ describe("sortableCasesView", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("check correct accused officer", () => {
     let accusedOfficer, secondAccusedOfficer, existingCase, officer;
 

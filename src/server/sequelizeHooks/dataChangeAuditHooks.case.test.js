@@ -19,10 +19,6 @@ describe("dataChangeAuditHooks", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("audit not implemented", () => {
     test("calling upsert throws an error", () => {
       expect(models.cases.upsert({})).rejects.toEqual(

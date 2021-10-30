@@ -62,10 +62,6 @@ describe("transforming recipient into title/name and address fields", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should return only the first line of text input", async () => {
     expect(
       getTitleAndNameOf(referralLetterWithoutRecipientAddress.recipient)

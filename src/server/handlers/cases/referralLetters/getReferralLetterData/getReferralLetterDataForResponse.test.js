@@ -8,11 +8,6 @@ describe("getReferralLetterDataForResponse", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should return the letter data and audit details", async () => {
     const expectedReferralLetterDataResponseAuditDetails = {
       referralLetter: {
@@ -82,8 +77,10 @@ describe("getReferralLetterDataForResponse", () => {
       auditUser: "test"
     });
     await models.sequelize.transaction(async transaction => {
-      const referralLetterDataAndAuditDetails =
-        await getReferralLetterDataForResponse(existingCase.id, transaction);
+      const referralLetterDataAndAuditDetails = await getReferralLetterDataForResponse(
+        existingCase.id,
+        transaction
+      );
       expect(referralLetterDataAndAuditDetails).toEqual({
         auditDetails: expectedReferralLetterDataResponseAuditDetails,
         referralLetterData: expect.anything()

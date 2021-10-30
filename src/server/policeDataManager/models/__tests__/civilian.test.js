@@ -12,10 +12,6 @@ describe("civilian", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should NOT update case status when creating a civilian through a case association", async () => {
     const initialCase = await createTestCaseWithCivilian();
 

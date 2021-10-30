@@ -32,10 +32,6 @@ describe("changeStatus", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should update case status", async () => {
     const newStatus = CASE_STATUS.ACTIVE;
     const request = httpMocks.createRequest({

@@ -18,10 +18,6 @@ describe("constructFilename", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("complainant is type: civilian initiated", () => {
     let existingCase;
 

@@ -26,10 +26,6 @@ describe("dataChangeAuditHooks for attachment", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("create attachment", () => {
     test("it saves basic attributes", async () => {
       const audit = await models.audit.findOne({

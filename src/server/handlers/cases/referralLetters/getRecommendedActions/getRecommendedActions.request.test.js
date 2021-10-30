@@ -12,10 +12,6 @@ describe("getRecommendedActions", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("it retrieves the recommended actions", async () => {
     const token = buildTokenWithPermissions("", "tuser");
     const reassignedDecription =
@@ -31,7 +27,7 @@ describe("getRecommendedActions", function () {
 
     const expectedResponseBody = [
       { id: reassigned.id, description: reassigned.description },
-      { id: training.id, description: training.description }
+      { id: training.id, description: training.description },
     ];
 
     const responsePromise = request(app)

@@ -20,10 +20,6 @@ describe("updateCaseNarrative handler", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     const caseToCreate = new Case.Builder()
       .defaultCase()

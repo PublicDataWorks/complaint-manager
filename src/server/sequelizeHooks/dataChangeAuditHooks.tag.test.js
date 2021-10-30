@@ -7,10 +7,6 @@ describe("dataChangeAuditHooks for tag", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
   test("creates audit on tag creation", async () => {
     const tagAttributes = new Tag.Builder().defaultTag().withName("Tofu");
     const existingTag = await models.tag.create(tagAttributes, {

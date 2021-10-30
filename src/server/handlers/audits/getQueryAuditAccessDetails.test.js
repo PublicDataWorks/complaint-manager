@@ -14,10 +14,6 @@ describe("audit details", () => {
       await cleanupDatabase();
     });
 
-    afterAll(async () => {
-      await models.sequelize.close();
-    });
-
     test("should add attributes for non-object model in include", () => {
       const detailsToAdd = {
         include: [

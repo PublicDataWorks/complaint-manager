@@ -17,10 +17,6 @@ describe("loadCsvFromS3", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   AWS.S3.mockImplementation(() => ({
     getObject: () => ({
       createReadStream: () => fs.createReadStream(testAllegationsPath)

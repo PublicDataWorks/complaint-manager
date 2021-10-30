@@ -25,10 +25,6 @@ describe("updating database using csv file in S3", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   AWS.S3.mockImplementation(() => ({
     getObject: () => ({
       createReadStream: () => fs.createReadStream(testOfficerCsvPath)

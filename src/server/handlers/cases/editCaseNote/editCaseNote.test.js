@@ -102,10 +102,6 @@ describe("editCaseNote", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("only editing case notes when operations are permitted", () => {
     test("should return bad request response with not allowed message", async () => {
       isCaseNoteAuthor.mockReturnValue(false);

@@ -29,10 +29,6 @@ describe("cases", function () {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("beforeValidate hook (setup generation of case reference info)", () => {
     test("sets the year from the first contact date on create of case", async () => {
       const caseAttributes = new Case.Builder()

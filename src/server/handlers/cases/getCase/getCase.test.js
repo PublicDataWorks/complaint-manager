@@ -38,10 +38,6 @@ describe("getCase", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   describe("auditing", () => {
     let request;
     beforeEach(() => {

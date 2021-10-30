@@ -51,10 +51,6 @@ describe("mark notification as read", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should mark notification as read", async () => {
     const previousUpdatedAt = currentNotif.updatedAt;
     await markNotificationAsRead(request, response, next);

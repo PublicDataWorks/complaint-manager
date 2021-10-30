@@ -46,10 +46,6 @@ describe("executeQuery", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
 

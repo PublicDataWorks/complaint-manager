@@ -16,10 +16,6 @@ describe("removeCaseNote request", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should remove a case note", async () => {
     const token = buildTokenWithPermissions("", NICKNAME);
 

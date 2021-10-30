@@ -132,10 +132,6 @@ describe("transform race ethnicity to ID", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should correctly get race ethnicity id from race ethnicity name", async () => {
     await models.sequelize.transaction(async transaction => {
       await transformRaceEthnicityToId(

@@ -10,10 +10,6 @@ describe("dataChangeAuditHooks for caseNote", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("creates audit on caseNote creation", async () => {
     const caseAttributes = new Case.Builder()
       .defaultCase()

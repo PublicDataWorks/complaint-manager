@@ -8,10 +8,6 @@ describe("attachment", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should update status when adding an attachment to a case", async () => {
     const initialCase = await createTestCaseWithoutCivilian();
     const attachmentValues = {

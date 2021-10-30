@@ -11,6 +11,7 @@ import Case from "../../../sharedTestHelpers/case";
 import CaseTag from "../../testHelpers/caseTag";
 import Tag from "../../testHelpers/tag";
 
+
 jest.mock("../audits/getQueryAuditAccessDetails", () =>
   jest.fn(() => {
     return {
@@ -57,10 +58,6 @@ describe("getTagsHelper", () => {
   });
   afterEach(async () => {
     await cleanupDatabase();
-  });
-
-  afterAll(async () => {
-    await models.sequelize.close();
   });
 
   describe("getTagsAndAuditDetails", () => {

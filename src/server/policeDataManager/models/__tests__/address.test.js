@@ -15,10 +15,6 @@ describe("address", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should update case status when adding an incident location", async () => {
     const initialCase = await createTestCaseWithoutCivilian();
 

@@ -32,10 +32,6 @@ describe("restoreArchivedCase handler", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("test that archived case is restored", async () => {
     await restoreArchivedCase(request, response, next);
 

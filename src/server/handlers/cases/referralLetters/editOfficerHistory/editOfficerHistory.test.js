@@ -16,10 +16,6 @@ describe("edit referral letter", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
-
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
   let existingCase, referralLetter, caseOfficer, response, next;
 
   beforeEach(async () => {

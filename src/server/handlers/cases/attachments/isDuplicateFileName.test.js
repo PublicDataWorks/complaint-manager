@@ -21,10 +21,6 @@ describe("generateFileName", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should return true when file with requested name has been added to case", async () => {
     const requestedFileName = "dog_nose.jpeg";
     await models.attachment.create(

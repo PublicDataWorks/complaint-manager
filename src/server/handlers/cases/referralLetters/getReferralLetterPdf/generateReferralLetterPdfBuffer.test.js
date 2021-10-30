@@ -51,10 +51,6 @@ describe("generateReferralLetterPdfBuffer", function () {
     timekeeper.reset();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   beforeEach(async () => {
     timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfDownload);

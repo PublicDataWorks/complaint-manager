@@ -12,10 +12,6 @@ describe("getDistricts", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("returns a list of districts to populate dropdown", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 

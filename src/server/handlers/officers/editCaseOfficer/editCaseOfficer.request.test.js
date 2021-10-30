@@ -21,10 +21,6 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("it updates the case officer", async () => {
     const existingOfficer = new Officer.Builder()
       .defaultOfficer()

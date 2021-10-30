@@ -61,10 +61,6 @@ describe("generateComplainantLetterAndUploadToS3", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("uploads generated complainant letter to S3", async () => {
     await models.sequelize.transaction(async transaction => {
       await generateComplainantLetterAndUploadToS3(

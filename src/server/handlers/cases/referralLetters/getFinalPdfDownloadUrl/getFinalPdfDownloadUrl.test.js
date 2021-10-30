@@ -123,10 +123,6 @@ describe("getFinalPdfDownloadUrl", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("should retrieve download url for pdf", async () => {
     await existingCase.update(
       { status: CASE_STATUS.FORWARDED_TO_AGENCY },

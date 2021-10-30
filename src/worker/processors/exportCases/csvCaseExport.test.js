@@ -80,10 +80,6 @@ describe("csvCaseExport request", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("sends the resulting aws data to the job result", async () => {
     await csvCaseExport(job, jobDone);
     expect(jobDone).toHaveBeenCalledWith(null, awsResult);

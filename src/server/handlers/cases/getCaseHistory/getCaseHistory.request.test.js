@@ -13,10 +13,6 @@ describe("GET /api/cases/:caseId/case-history", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("it returns the case history ordered by createdAt desc", async () => {
     const token = buildTokenWithPermissions("", "bobNickname");
     const caseAttributes = new Case.Builder()

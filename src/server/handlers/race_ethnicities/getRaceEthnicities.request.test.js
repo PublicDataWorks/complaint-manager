@@ -12,10 +12,6 @@ describe("getRaceEthnicities", () => {
     await cleanupDatabase();
   });
 
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
-
   test("returns list of race & ethnicities to populate dropdown sorted by alphabetical order", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
