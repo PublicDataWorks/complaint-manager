@@ -35,5 +35,4 @@ if (global.document) {
   });
 
   global.URL.createObjectURL = jest.fn();
-  global.XMLHttpRequest = undefined;
 }
