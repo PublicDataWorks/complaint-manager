@@ -26,7 +26,6 @@ module.exports = {
         "https://www.google-analytics.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         `wss://localhost:${LOCAL_DEV_PORT}`
       ]
     },
@@ -67,7 +66,6 @@ module.exports = {
         "https://noipm-ci.auth0.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         "https://www.google-analytics.com",
         `wss://localhost:${LOCAL_DEV_PORT}`
       ]
@@ -109,7 +107,6 @@ module.exports = {
         "https://noipm-ci.auth0.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         "https://www.google-analytics.com",
         "https://rmwftjcbxh.execute-api.us-east-1.amazonaws.com"
       ]
@@ -149,7 +146,6 @@ module.exports = {
         "https://noipm-ci.auth0.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         "https://www.google-analytics.com",
         "https://hggkf95dtf.execute-api.us-east-1.amazonaws.com"
       ]
@@ -189,7 +185,6 @@ module.exports = {
         "https://noipm-staging.auth0.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         "https://www.google-analytics.com",
         "https://49o089njl2.execute-api.us-east-1.amazonaws.com/"
       ]
@@ -229,7 +224,6 @@ module.exports = {
         "https://noipm-production.auth0.com",
         "https://a.tile.openstreetmap.org",
         "https://b.tile.openstreetmap.org",
-        "https://api.mapbox.com",
         "https://www.google-analytics.com",
         "https://eo9e748ns4.execute-api.us-east-1.amazonaws.com"
       ]
