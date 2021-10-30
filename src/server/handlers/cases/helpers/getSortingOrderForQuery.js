@@ -24,7 +24,9 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
             caseInsensitiveSort("complainantMiddleName", model),
             `${ASCENDING} NULLS LAST`
           ],
-          ["complainantPersonType", `${ASCENDING} NULLS LAST`]
+          [
+            "complainantPersonType", `${ASCENDING} NULLS LAST`
+          ]
         ];
       } else {
         return [
@@ -40,7 +42,9 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
             caseInsensitiveSort("complainantMiddleName", model),
             `${DESCENDING} NULLS FIRST`
           ],
-          ["complainantPersonType", `${DESCENDING} NULLS FIRST`]
+          [
+            "complainantPersonType", `${DESCENDING} NULLS FIRST`
+          ]
         ];
       }
     case SORT_CASES_BY.ACCUSED_OFFICERS:
@@ -101,23 +105,10 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
           ]
         ];
       }
-    case SORT_CASES_BY.TAGS: // BTW the z's on the next line are to be used to replace nulls because when we don't replace nulls they show up first instead of last
-      return [
-        [
-          sequelize.fn(
-            "upper",
-            sequelize.fn(
-              "array_to_string",
-              sequelize.col("sortable_cases_view.tag_names"),
-              ",",
-              "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-            )
-          ),
-          sortDirection
-        ]
-      ];
+
     case SORT_CASES_BY.FIRST_CONTACT_DATE:
     case SORT_CASES_BY.STATUS:
+    case SORT_CASES_BY.TAGS:
     case SORT_CASES_BY.ASSIGNED_TO:
       return [[sortBy, sortDirection]];
     case SORT_CASES_BY.CASE_REFERENCE:
