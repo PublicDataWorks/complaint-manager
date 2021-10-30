@@ -55,4 +55,3 @@ data/
 .cert/
 
 newrelic_agent.log
-.vscode/

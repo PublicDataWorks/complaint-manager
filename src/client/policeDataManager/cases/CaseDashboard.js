@@ -31,8 +31,6 @@ class CaseDashboard extends Component {
           currentPage={this.props.currentPage}
           caseType={CASE_TYPE.WORKING}
           noCasesMessage={"There are no cases to view."}
-          sortBy={this.props.sortBy}
-          sortDirection={this.props.sortDirection}
         />
       </div>
     );
@@ -45,13 +43,8 @@ const mapDispatchToProps = {
   closeCreateDialog
 };
 
-const mapStateToProps = state => {
-  const { currentPage, sortBy, sortDirection } = state.cases.working;
-  return {
-    currentPage,
-    sortBy,
-    sortDirection
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  currentPage: state.cases.working.currentPage
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(CaseDashboard);

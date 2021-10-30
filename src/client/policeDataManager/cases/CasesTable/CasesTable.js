@@ -118,6 +118,7 @@ export const areSearchOperatorsValid = queryString => {
 class CasesTable extends React.Component {
   constructor(props) {
     super(props);
+    this.currentPage = this.props.currentPage || 1;
     this.onChange = this.onChange.bind(this);
   }
 
@@ -126,7 +127,7 @@ class CasesTable extends React.Component {
   }
 
   updateSort(sortBy, sortDirection) {
-    this.props.dispatch(updateSort(sortBy, sortDirection, this.props.caseType));
+    this.props.dispatch(updateSort(sortBy, sortDirection));
   }
 
   getQueryString() {
@@ -175,16 +176,14 @@ class CasesTable extends React.Component {
       onChange: this.onChange,
       totalMessage: total => `${total} results found`,
       count: this.props.totalCaseCount,
-      currentPage: this.props.currentPage
+      currentPage: this.currentPage
     };
   }
 
   componentDidMount() {
-    this.getCases(
-      this.props.sortBy,
-      this.props.sortDirection,
-      this.props.currentPage
-    );
+    this.currentPage = 1;
+    this.getCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING, 1);
+    this.updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -192,7 +191,7 @@ class CasesTable extends React.Component {
       this.getCases(
         this.props.sortBy,
         this.props.sortDirection,
-        this.props.currentPage
+        this.currentPage
       );
     }
   }
@@ -227,7 +226,12 @@ class CasesTable extends React.Component {
   }
 
   onChange(currentPage) {
-    this.getCases(this.props.sortBy, this.props.sortDirection, currentPage);
+    this.currentPage = currentPage;
+    this.getCases(
+      this.props.sortBy,
+      this.props.sortDirection,
+      this.currentPage
+    );
   }
 
   render() {
@@ -355,6 +359,7 @@ class CasesTable extends React.Component {
 
 const mapStateToProps = (state, { caseType }) => {
   let currentUser = state.users.current.userInfo;
+  let { sortBy, sortDirection } = state.ui.casesTable;
   let { cases, totalCaseCount, loaded, errorMsg } = state.cases[caseType];
   let searchQuery = state.router.location.search
     .substring(1)
@@ -367,6 +372,8 @@ const mapStateToProps = (state, { caseType }) => {
     totalCaseCount,
     loaded,
     currentUser,
+    sortBy,
+    sortDirection,
     searchQuery
   };
 };

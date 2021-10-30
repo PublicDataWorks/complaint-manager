@@ -2,13 +2,9 @@ import workingCasesReducer from "./workingCasesReducer";
 import {
   createCaseSuccess,
   getWorkingCasesSuccess,
-  resetWorkingCasesLoaded
+  resetWorkingCasesLoaded,
 } from "../../actionCreators/casesActionCreators";
 import { searchSuccess } from "../../actionCreators/searchActionCreators";
-import {
-  DESCENDING,
-  SORT_CASES_BY
-} from "../../../../sharedUtilities/constants";
 
 describe("workingCasesReducer", () => {
   test("should default to empty array", () => {
@@ -17,9 +13,7 @@ describe("workingCasesReducer", () => {
       loaded: false,
       cases: [],
       totalCaseCount: 0,
-      currentPage: 1,
-      sortBy: SORT_CASES_BY.CASE_REFERENCE,
-      sortDirection: DESCENDING
+      currentPage: 1
     });
   });
 
@@ -71,7 +65,7 @@ describe("workingCasesReducer", () => {
       });
     });
   });
-
+  
   describe("GET_WORKING_CASES_SUCCESS", () => {
     test("should replace all cases in state", () => {
       const oldState = {

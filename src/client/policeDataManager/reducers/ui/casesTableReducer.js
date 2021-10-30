@@ -1,8 +1,5 @@
 import {
   DESCENDING,
-  RESET_ARCHIVED_CASES_PAGING,
-  RESET_WORKING_CASES_PAGING,
-  SEARCH_CASES_CLEARED,
   SORT_CASES_BY,
   UPDATE_CASES_TABLE_SORTING
 } from "../../../../sharedUtilities/constants";
@@ -18,10 +15,6 @@ const casesTableReducer = (state = initialState, action) => {
         sortBy: action.sortBy,
         sortDirection: action.sortDirection
       };
-    case RESET_ARCHIVED_CASES_PAGING:
-    case RESET_WORKING_CASES_PAGING:
-    case SEARCH_CASES_CLEARED:
-      return initialState;
     default:
       return state;
   }

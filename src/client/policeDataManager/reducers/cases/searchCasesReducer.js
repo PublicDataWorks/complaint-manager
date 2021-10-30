@@ -1,11 +1,10 @@
 import {
-  SEARCH,
-  SEARCH_CASES_CLEARED,
+  CASE_CREATED_SUCCESS,
+  GET_WORKING_CASES_SUCCESS,
+  RESET_WORKING_CASES_LOADED,
   SEARCH_CASES_SUCCESS,
   SEARCH_FAILED,
-  UPDATE_CASES_TABLE_SORTING,
-  SORT_CASES_BY,
-  DESCENDING
+  SEARCH_SUCCESS
 } from "../../../../sharedUtilities/constants";
 
 const initialState = {
@@ -13,23 +12,19 @@ const initialState = {
   cases: [],
   totalCaseCount: 0,
   currentPage: 1,
-  errorMsg: null,
-  sortBy: SORT_CASES_BY.CASE_REFERENCE,
-  sortDirection: DESCENDING
+  errorMsg: null
 };
 const searchCasesReducer = (state = initialState, action) => {
   switch (action.type) {
     case SEARCH_CASES_SUCCESS:
       const { rows: cases, totalRecords: totalCaseCount } =
         action.searchResults || {};
-      const currentPage = action.newPage;
 
       return {
-        ...state,
         loaded: true,
         cases,
         totalCaseCount,
-        currentPage
+        currentPage: 1
       };
     case SEARCH_FAILED:
       return {
@@ -37,22 +32,6 @@ const searchCasesReducer = (state = initialState, action) => {
         loaded: true,
         errorMsg: action.payload
       };
-    case SEARCH_CASES_CLEARED:
-      return {
-        ...state,
-        loaded: false,
-        currentPage: 1,
-        sortBy: SORT_CASES_BY.CASE_REFERENCE,
-        sortDirection: DESCENDING
-      };
-    case UPDATE_CASES_TABLE_SORTING:
-      return action.caseType === SEARCH
-        ? {
-            ...state,
-            sortBy: action.sortBy,
-            sortDirection: action.sortDirection
-          }
-        : state;
     default:
       return state;
   }

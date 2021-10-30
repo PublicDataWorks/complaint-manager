@@ -1,10 +1,6 @@
 import nock from "nock";
 import { getWorkingCasesSuccess } from "../../actionCreators/casesActionCreators";
-import {
-  searchCasesInitiated,
-  searchCasesSuccess,
-  searchCasesFailed
-} from "../../actionCreators/searchCasesActionCreators";
+import { searchCasesInitiated, searchCasesSuccess, searchCasesFailed } from "../../actionCreators/searchCasesActionCreators";
 import getSearchCases from "./getSearchCases";
 import getAccessToken from "../../../common/auth/getAccessToken";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
@@ -15,10 +11,11 @@ jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
 
+
 describe("getSearchCases", () => {
   describe("GET /cases/search", () => {
     const dispatch = jest.fn();
-    const responseBody = {
+    const responseBody = {   
       rows: [
         {
           id: "a case"
@@ -38,25 +35,19 @@ describe("getSearchCases", () => {
 
     test("should dispatch success when cases retrieved", async () => {
       nock("http://localhost")
-        .get(
-          `/api/cases/search?queryString=${queryString}&sortBy=${sortBy}&sortDirection=${sortDirection}&currentPage=1`
-        )
+        .get(`/api/cases/search?queryString=${queryString}&sortBy=${sortBy}&sortDirection=${sortDirection}&currentPage=1`)
         .reply(200, responseBody);
 
       await getSearchCases(queryString, sortBy, sortDirection)(dispatch);
 
-      expect(dispatch).toHaveBeenCalledWith(
-        searchCasesSuccess(responseBody, 1)
-      );
+      expect(dispatch).toHaveBeenCalledWith(searchCasesSuccess(responseBody));
     });
 
     test("should dispatch failure when the backend errors out", async () => {
       console.error = jest.fn(() => true);
 
       nock("http://localhost")
-        .get(
-          `/api/cases/search?queryString=${queryString}&sortBy=${sortBy}&sortDirection=${sortDirection}&currentPage=1`
-        )
+        .get(`/api/cases/search?queryString=${queryString}&sortBy=${sortBy}&sortDirection=${sortDirection}&currentPage=1`)
         .reply(500, null);
 
       await getSearchCases(queryString, sortBy, sortDirection)(dispatch);
@@ -65,3 +56,4 @@ describe("getSearchCases", () => {
     });
   });
 });
+

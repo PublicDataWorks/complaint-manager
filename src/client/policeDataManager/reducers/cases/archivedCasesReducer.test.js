@@ -1,12 +1,10 @@
 import {
   getArchivedCasesSuccess,
-  resetArchivedCasesLoaded
+  resetArchivedCasesLoaded,
+  resetWorkingCasesLoaded
 } from "../../actionCreators/casesActionCreators";
 import archivedCasesReducer from "./archivedCasesReducer";
-import {
-  DESCENDING,
-  SORT_CASES_BY
-} from "../../../../sharedUtilities/constants";
+import workingCasesReducer from "./workingCasesReducer";
 
 describe("archivedCasesReducer", () => {
   test("should default to empty array", () => {
@@ -17,9 +15,7 @@ describe("archivedCasesReducer", () => {
       loaded: false,
       cases: [],
       totalCaseCount: 0,
-      currentPage: 1,
-      sortBy: SORT_CASES_BY.CASE_REFERENCE,
-      sortDirection: DESCENDING
+      currentPage: 1
     });
   });
 
