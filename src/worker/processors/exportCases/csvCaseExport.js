@@ -70,20 +70,19 @@ const transformCaseData = casesData => {
       .format(TIMESTAMP_FORMAT);
 
     let prefix;
-    if (caseData["complainants.isAnonymous"]) {
-      prefix = "AC";
-    } else {
-      switch (caseData["complainants.complainant"]) {
-        case PERSON_TYPE.KNOWN_OFFICER.employeeDescription:
-          prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
-          break;
-        case PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription:
-          prefix = PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
-          break;
-        default:
-          prefix = PERSON_TYPE.CIVILIAN.abbreviation;
-          break;
-      }
+    switch (caseData.complaint_type) {
+      case CIVILIAN_INITIATED:
+        prefix = PERSON_TYPE.CIVILIAN.abbreviation;
+        break;
+      case RANK_INITIATED:
+        prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
+        break;
+      case CIVILIAN_WITHIN_PD_INITIATED:
+        prefix = PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
+        break;
+      default:
+        prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
+        break;
     }
     const paddedNumber = `${caseData.case_number}`.padStart(4, "0");
     caseData.caseReference = `${prefix}${caseData.year}-${paddedNumber}`;
