@@ -99,8 +99,7 @@ app.use(
         "https://cdn.quilljs.com",
         "'unsafe-inline'"
       ],
-      workerSrc: ["'self'", "blob:"],
-      childSrc: ["'self'", "blob:"]
+      workerSrc: ["'self'", "blob:"]
     }
   })
 );
