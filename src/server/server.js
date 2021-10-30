@@ -98,8 +98,7 @@ app.use(
         "https://fonts.googleapis.com",
         "https://cdn.quilljs.com",
         "'unsafe-inline'"
-      ],
-      workerSrc: ["'self'", "blob:"]
+      ]
     }
   })
 );
