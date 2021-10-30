@@ -21,7 +21,10 @@ describe("editReferralLetterContent" + "", () => {
         "Content-Type": "application/json"
       }
     })
-      .put(`/api/cases/${caseId}/referral-letter/content`, referralLetterHtml)
+      .put(
+        `/api/cases/${caseId}/referral-letter/content`,
+        new RegExp(`.*${referralLetterHtml}.*`)
+      )
       .reply(200);
     await editReferralLetterContent(
       caseId,

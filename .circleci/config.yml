@@ -593,14 +593,11 @@ workflows:
 
   build_and_deploy_release:
     jobs:
-      - security-check:
+      - get-instance-files-release:
           filters:
             branches:
               only:
                 - << pipeline.parameters.release-branch >>
-      - get-instance-files-release:
-          requires:
-            - security-check
       - test-client:
           requires:
             - get-instance-files-release

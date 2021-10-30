@@ -126,7 +126,7 @@ describe("Form Validations", () => {
   });
 
   test("notFutureDate should return an error when date is a future date", () => {
-    const today = moment(Date.now()).add(1, "days").format("YYYY-MM-DD");
+    const today = moment(Date.now()).add(2, "days").format("YYYY-MM-DD");
     expect(notFutureDate(today)).toEqual("Date cannot be in the future");
   });
 
