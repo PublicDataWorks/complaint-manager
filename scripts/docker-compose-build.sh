@@ -1,7 +1,7 @@
 # Build script to build app and keep yarn.lock up to date
 INSTANCE_IMAGE=publicdataworks/instance-files-noipm
 INSTANCE_VERSION=latest
-E2E_IMAGE=publicdataworks/e2e-noipm:latest
+E2E_IMAGE=publicdataworks/e2e:latest
 
 while getopts i:v:e: flag
 do
