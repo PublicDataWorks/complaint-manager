@@ -65,13 +65,6 @@ Run these commands to install a signing certificate authority and certificates o
   
   # generates the local certificates signed by local CA
   mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
-
-  # local certificiates for exporting audits 
-  mkcert -cert-file data/server.test.pem.crt -key-file data/server.test.pem.key localhost
-
-    - Navigate into the data folder and replace the contents in the server.test.pem file with the contents of the newly generated .key and .crt files. The .key should be at the top and the .crt on the bottom
-    - Do a docker-compose down then a docker-compose up app for changes to take effect
-  
   ```
 
 If you want to run using certs on Firefox also run `brew install nss`
