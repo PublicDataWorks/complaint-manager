@@ -4,7 +4,7 @@ ARG INSTANCE_IMAGE=noipm/instance-files
 FROM ${INSTANCE_IMAGE}:${INSTANCE_VERSION} AS instance
 FROM noipm/docker-node-ubuntu:2.0.2
 
-RUN apt-get update; apt-get install libgnutls30
+RUN apt-get update
 RUN apt-get install bash
 
 WORKDIR /app
