@@ -4,6 +4,7 @@ const fflipExpress = new FFlipExpressIntegration(fflip);
 const express = require("express");
 const router = express.Router();
 const asyncMiddleware = require("./handlers/asyncMiddleware");
+const cors = require("cors");
 
 const features = require("./config/features");
 const criteria = [
@@ -36,6 +37,7 @@ if (process.env.NODE_ENV !== "production") {
 // allow production environment application to have access to feature toggle values
 router.get(
   "/features/",
+  cors(),
   asyncMiddleware((request, response) => {
     response.status(200).send(request.fflip.features);
   })
