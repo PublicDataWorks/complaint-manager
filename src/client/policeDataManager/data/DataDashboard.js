@@ -26,8 +26,7 @@ class DataDashboard extends Component {
               <section
                 style={{
                   display: "flex",
-                  flexDirection: "row",
-                  marginBottom: "15px"
+                  flexDirection: "row"
                 }}
               >
                 <section style={{ minHeight: "500px", minWidth: "70%" }}>

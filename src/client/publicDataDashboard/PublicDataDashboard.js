@@ -75,7 +75,7 @@ const PublicDataDashboardWrapper = () => {
   );
 };
 
-const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
+const PublicDataDashboard = ({ mapVisualizationFeature }) => {
   useEffect(removeDragCover);
 
   const theme = useTheme();
@@ -178,7 +178,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
             >
               What are we looking for?
             </Typography>
-            {publicMapVisualizationFeature ? (
+            {mapVisualizationFeature ? (
               <Container
                 onClick={scrollIntoViewById("#location-data")}
                 style={{
@@ -340,9 +340,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
         </Grid>
 
         {Object.keys(DATA_SECTIONS)
-          .filter(
-            key => publicMapVisualizationFeature || key !== DDS_LOCATION_DATA
-          )
+          .filter(key => mapVisualizationFeature || key !== DDS_LOCATION_DATA)
           .map((dataSectionType, index) => {
             return (
               <DashboardDataSection
@@ -405,8 +403,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
 };
 
 const PublicDataDashboardContainer = connect(state => ({
-  publicMapVisualizationFeature:
-    state.featureToggles.publicMapVisualizationFeature
+  mapVisualizationFeature: state.featureToggles.mapVisualizationFeature
 }))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;
