@@ -13,13 +13,12 @@ import Auth from "./common/auth/Auth";
 import { connect } from "react-redux";
 import { userAuthSuccess } from "./common/auth/actionCreators";
 import getFeatureToggles from "./policeDataManager/featureToggles/thunks/getFeatureToggles";
+import config from "./common/config/config";
 import { onMessage } from "./onMessage";
 import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
-
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 const App = props => {
   let [eventSource, setEventSource] = useState(undefined);

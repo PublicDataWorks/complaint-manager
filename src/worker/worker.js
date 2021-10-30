@@ -11,10 +11,7 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const config =
-  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
-    process.env.NODE_ENV
-  ];
+const config = require("../server/config/config")[process.env.NODE_ENV];
 const healthCheck = require("../server/handlers/healthCheck");
 const errorHandler = require("../server/handlers/errorHandler");
 const apiRouter = require("./apiRouter");
@@ -25,6 +22,7 @@ const { JOB_OPERATION } = require("../sharedUtilities/constants");
 
 const csvCaseExport = require("./processors/exportCases/csvCaseExport");
 const exportAuditLog = require("./processors/auditLogs/exportAuditLog");
+
 
 winston.configure({
   transports: [
@@ -38,7 +36,7 @@ winston.configure({
 });
 
 const app = express();
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.header("X-powered-by", "<3");
   next();
 });
@@ -89,7 +87,7 @@ app.use(
 
 app.use("/api", apiRouter);
 
-app.get("*", function (req, res) {
+app.get("*", function(req, res) {
   res.sendFile(path.join(buildDirectory, "index.html"));
 });
 

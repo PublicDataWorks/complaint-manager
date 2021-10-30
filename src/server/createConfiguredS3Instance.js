@@ -1,13 +1,14 @@
 const set = require("lodash/set");
 const AWS = require("aws-sdk");
+const config = require("./config/config");
 const path = require("path");
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 const createConfiguredS3Instance = () => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
   const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
-  const areCloudServicesDisabled = process.env.USE_CLOUD_SERVICES == "false";
+  const areCloudServicesDisabled =
+    process.env.USE_CLOUD_SERVICES == "false";
 
   let credentials = { accessKeyId, secretAccessKey };
 

@@ -3,7 +3,7 @@ import { AUDIT_FILE_TYPE } from "../../../../sharedUtilities/constants";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
+const config = require("../../../config/config");
 const {
   AUDIT_ACTION,
   S3_GET_OBJECT,

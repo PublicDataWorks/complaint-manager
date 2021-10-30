@@ -1,8 +1,5 @@
 import { server } from "./worker/worker";
-const config =
-  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
-    process.env.NODE_ENV
-  ];
+const config = require("./server/config/config")[process.env.NODE_ENV];
 
 // TODO Can we use any other UI for monitoring Bull Queue Jobs?
 // kue.app.set("title", "Background Worker");

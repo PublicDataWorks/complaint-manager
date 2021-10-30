@@ -1,7 +1,6 @@
 import uploadLetterToS3 from "./uploadLetterToS3";
+import config from "../../../../config/config";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
-
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 jest.mock("../../../../createConfiguredS3Instance", () => jest.fn());
 
 describe("uploadLetterToS3", () => {

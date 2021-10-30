@@ -15,9 +15,9 @@ import Boom from "boom";
 import constructFilename from "../constructFilename";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLetterAndUploadToS3";
+import config from "../../../../config/config";
 import { auditFileAction } from "../../../audits/auditFileAction";
 
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const approveLetter = asyncMiddleware(async (request, response, next) => {
   validateUserPermissions(request);
 

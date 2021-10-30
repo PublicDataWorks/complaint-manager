@@ -1,6 +1,6 @@
 import { isEqual, omit, pullAllWith } from "lodash";
 const csvParse = require("csv-parse");
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
+const config = require("../config/config");
 const createConfiguredS3Instance = require("../createConfiguredS3Instance");
 const winston = require("winston");
 

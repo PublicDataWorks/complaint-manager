@@ -2,10 +2,7 @@ import { QUEUE_NAME } from "../../../../sharedUtilities/constants";
 
 const { QUEUE_PREFIX } = require("../../../../sharedUtilities/constants");
 
-const config =
-  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
-    process.env.NODE_ENV
-  ];
+const config = require("../../../config/config")[process.env.NODE_ENV];
 const winston = require("winston");
 import Queue from "bull";
 
