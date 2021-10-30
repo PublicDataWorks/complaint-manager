@@ -4,11 +4,8 @@ ARG INSTANCE_IMAGE=noipm/instance-files
 FROM ${INSTANCE_IMAGE}:${INSTANCE_VERSION} AS instance
 FROM noipm/docker-node-ubuntu:2.0.2
 
-# Temporary fix from thread: https://github.com/nodesource/distributions/issues/1266
-RUN apt-get update ; apt-get install ca-certificates \
-    && apt-get update \
-    && apt-get install -y \
-RUN apt-get install bash; apt-get install libgnutls30
+RUN apt-get update; apt-get install libgnutls30
+RUN apt-get install bash
 
 WORKDIR /app
 COPY package.json yarn.lock /app/
