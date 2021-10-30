@@ -55,20 +55,16 @@ const DISTRICT_OUTLINE = {
 const MapVisualization = props => {
   const [location, setLocation] = useState({ lat: [], lon: [], z: [] });
   const [showDistrict, setShowDistrict] = useState(false);
-
-  useEffect(() => {
-    const load = async () =>
-      setLocation(
-        await getVisualizationData({
-          queryType: QUERY_TYPES.LOCATION_DATA,
-          isPublic: props.isPublic,
-          queryOptions: {
-            minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
-          }
-        })
-      );
-
-    load();
+  useEffect(async () => {
+    setLocation(
+      await getVisualizationData({
+        queryType: QUERY_TYPES.LOCATION_DATA,
+        isPublic: props.isPublic,
+        queryOptions: {
+          minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        }
+      })
+    );
   }, []);
   let data = [
     {

@@ -9,6 +9,9 @@ import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import LinkButton from "../policeDataManager/shared/components/LinkButton";
 import { Link } from "react-router-dom";
+import ReactGA from "react-ga";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const tagGlossary = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/tag-glossary.json`);
 
