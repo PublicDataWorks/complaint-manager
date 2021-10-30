@@ -12,6 +12,7 @@ import {
   generateYAxisRange,
   PUBLIC_LABEL_FONT
 } from "./dataVizStyling";
+import districts from "./layers/NOPD_Police_Districts.json";
 
 export const FULL_LAYOUT = "FULL_LAYOUT";
 

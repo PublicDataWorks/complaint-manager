@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { getVisualizationData } from "./getVisualizationData";
-import { PlotlyWrapper } from "./PlotlyWrapper";
-import districts from "./layers/NOPD_Police_Districts.json";
-import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
+import { getVisualizationData } from "../common/components/Visualization/getVisualizationData";
+import { PlotlyWrapper } from "../common/components/Visualization/PlotlyWrapper";
+import districts from "../common/components/Visualization/layers/NOPD_Police_Districts.json";
+import { QUERY_TYPES } from "../../sharedUtilities/constants";
 import moment from "moment";
 
 const NOLA_CENTER = { lat: 29.947, lon: -90.07 };
@@ -59,7 +59,7 @@ const MapVisualization = props => {
     setLocation(
       await getVisualizationData({
         queryType: QUERY_TYPES.LOCATION_DATA,
-        isPublic: props.isPublic,
+        isPublic: true,
         queryOptions: {
           minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
         }
