@@ -113,7 +113,6 @@ const MapVisualization = props => {
             <Checkbox
               checked={showDistrict}
               onChange={event => setShowDistrict(event.target.checked)}
-              color="default"
             />
           }
           label="NOPD Districts"
