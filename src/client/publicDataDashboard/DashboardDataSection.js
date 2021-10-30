@@ -96,8 +96,7 @@ const DashboardDataSection = props => {
             padding: 0,
             height: "550px",
             maxWidth: "810px",
-            overflowX: "scroll",
-            overflowY: "hidden"
+            overflow: "hidden"
           }}
         >
           <Visualization

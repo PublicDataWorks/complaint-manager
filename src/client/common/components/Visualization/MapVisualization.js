@@ -89,22 +89,10 @@ const MapVisualization = props => {
   }
 
   return (
-    <section
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        minHeight: "500px",
-        width: "100%",
-        gap: "15px"
-      }}
-    >
+    <section style={{ display: "flex", minHeight: "500px", width: "100%" }}>
       <PlotlyWrapper
-        style={{ flexBasis: "70%", flexGrow: 1, height: "500px" }}
+        style={{ width: "70%" }}
         data={data}
-        config={{
-          responsive: true,
-          useResizeHandler: true
-        }}
         layout={{
           dragmode: "zoom",
           mapbox: {
@@ -118,7 +106,7 @@ const MapVisualization = props => {
           margin: { r: 0, t: 0, b: 0, l: 0 }
         }}
       />
-      <section>
+      <section style={{ marginLeft: "10px" }}>
         <h3>Map Layers</h3>
         <FormControlLabel
           control={
