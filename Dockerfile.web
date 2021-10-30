@@ -1,9 +1,9 @@
 ARG INSTANCE_VERSION=latest
-ARG INSTANCE_IMAGE=publicdataworks/instance-files
+ARG INSTANCE_IMAGE=noipm/instance-files
 
 FROM $INSTANCE_IMAGE:$INSTANCE_VERSION AS instance
 
-FROM publicdataworks/docker-node-ubuntu:1.0.0
+FROM noipm/docker-node-ubuntu:2.0.2
 
 # Temporary fix from thread: https://github.com/nodesource/distributions/issues/1266
 RUN apt-get install ca-certificates
