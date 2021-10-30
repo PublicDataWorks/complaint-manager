@@ -18,13 +18,10 @@ describe("editReferralLetterContent" + "", () => {
     getAccessToken.mockImplementation(() => "token");
     nock("http://localhost", {
       reqheaders: {
-        "content-type": "application/json"
+        "Content-Type": "application/json"
       }
     })
-      .put(
-        `/api/cases/${caseId}/referral-letter/content`,
-        `"${referralLetterHtml}"`
-      )
+      .put(`/api/cases/${caseId}/referral-letter/content`, referralLetterHtml)
       .reply(200);
     await editReferralLetterContent(
       caseId,
