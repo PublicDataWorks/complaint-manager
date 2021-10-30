@@ -1,5 +1,5 @@
 ARG INSTANCE_VERSION=latest
-ARG INSTANCE_IMAGE=publicdataworks/instance-files-noipm
+ARG INSTANCE_IMAGE=publicdataworks/instance-files
 
 FROM $INSTANCE_IMAGE:$INSTANCE_VERSION AS instance
 

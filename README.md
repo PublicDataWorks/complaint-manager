@@ -178,13 +178,13 @@ docker-compose up app runs the app container (which includes the client and serv
 ![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/pdm-docs/main/docs/technical-content/plantuml/docker-compose-up.puml)
 
 ### Instance Files
-By default, local builds will pull publicdataworks/instance-files-noipm:latest.
+By default, local builds will pull noipm/instance-files:latest.
 
-To create a new versioned instance-files-noipm image (i.e. publicdataworks/instance-files-noipm:1.0.0), execute the following commands from your private instance files repository (i.e. instance_files_noipm):
+To create a new versioned instance-files image (i.e. noipm/instance-files:1.0.0), execute the following commands from your private instance files repository (i.e. instance_files_noipm):
 ```
 docker login $DOCKER_USERNAME $DOCKER_PASSWORD
-docker build -t publicdataworks/instance-files-noipm:your-tag .
-docker push publicdataworks/instance-files-noipm:your-tag
+docker build -t noipm/instance-files:your-tag .
+docker push noipm/instance-files:your-tag
 ```
 
 ## The following need to be performed before pushing:

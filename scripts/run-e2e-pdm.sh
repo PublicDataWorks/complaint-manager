@@ -1,5 +1,5 @@
 #!/bin/bash
-INSTANCE_IMAGE=publicdataworks/instance-files-noipm
+INSTANCE_IMAGE=publicdataworks/instance-files
 INSTANCE_VERSION=latest
 E2E_IMAGE=publicdataworks/e2e:latest
 
