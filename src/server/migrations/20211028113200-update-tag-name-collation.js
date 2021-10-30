@@ -161,15 +161,16 @@ module.exports = {
 
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${viewName}`, {
+        await queryInterface.sequelize.query(`DROP VIEW ${viewName}`, {
           transaction
         });
-        await queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${viewName2}`)
+        await queryInterface.sequelize.query(`DROP VIEW ${viewName2}`)
         await queryInterface.sequelize.query(collationQuery, { transaction });
         await queryInterface.sequelize.query(
           sortableCasesViewWithMultipleAccused,
           { transaction }
         );
+        await queryInterface.sequelize.query(sortableCasesViewWithMultipleAccused.replace(viewName, viewName2), { transaction });
       });
     } catch (error) {
       throw new Error(
@@ -184,15 +185,16 @@ module.exports = {
 
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${viewName}`, {
+        await queryInterface.sequelize.query(`DROP VIEW ${viewName}`, {
           transaction
         });
-        await queryInterface.sequelize.query(`DROP VIEW IF EXISTS ${viewName2}`)
+        await queryInterface.sequelize.query(`DROP VIEW ${viewName2}`)
         await queryInterface.sequelize.query(reverseCollationQuery, { transaction });
         await queryInterface.sequelize.query(
           sortableCasesViewWithMultipleAccused,
           { transaction }
         );
+        await queryInterface.sequelize.query(sortableCasesViewWithMultipleAccused.replace(viewName, viewName2), { transaction });
       });
     } catch (error) {
       throw new Error(
