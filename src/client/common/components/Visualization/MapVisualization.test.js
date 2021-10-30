@@ -101,8 +101,7 @@ describe("MapVisualization", () => {
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "red",
-          size: 9
+          color: "red"
         }
       })
     );
@@ -134,8 +133,7 @@ describe("MapVisualization", () => {
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "green",
-          size: 9
+          color: "green"
         }
       })
     );
@@ -167,8 +165,7 @@ describe("MapVisualization", () => {
         hoverinfo: "text",
         showlegend: false,
         marker: {
-          color: "#00BFFF",
-          size: 9
+          color: "#00BFFF"
         }
       })
     );
