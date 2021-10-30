@@ -83,34 +83,30 @@ const MapVisualization = props => {
           },
           margin: { r: 0, t: 0, b: 0, l: 0 }
         }}
-      />{" "}
-      {MAP_CONFIG.LAYERS.length ? (
-        <section>
-          <h3>Map Layers</h3>
-          <section style={{ display: "flex", flexDirection: "column" }}>
-            {MAP_CONFIG.LAYERS.map((layer, idx) => (
-              <FormControlLabel
-                key={layer.text}
-                control={
-                  <Checkbox
-                    checked={visibleLayers[idx]}
-                    onChange={event => {
-                      let newVisibleLayers = [...visibleLayers];
-                      newVisibleLayers[idx] = event.target.checked;
-                      setVisibleLayers(newVisibleLayers);
-                    }}
-                    color="default"
-                    style={{ color: layer.checkboxColor }}
-                  />
-                }
-                label={layer.text}
-              />
-            ))}
-          </section>
+      />
+      <section>
+        <h3>Map Layers</h3>
+        <section style={{ display: "flex", flexDirection: "column" }}>
+          {MAP_CONFIG.LAYERS.map((layer, idx) => (
+            <FormControlLabel
+              key={layer.text}
+              control={
+                <Checkbox
+                  checked={visibleLayers[idx]}
+                  onChange={event => {
+                    let newVisibleLayers = [...visibleLayers];
+                    newVisibleLayers[idx] = event.target.checked;
+                    setVisibleLayers(newVisibleLayers);
+                  }}
+                  color="default"
+                  style={{ color: layer.checkboxColor }}
+                />
+              }
+              label={layer.text}
+            />
+          ))}
         </section>
-      ) : (
-        ""
-      )}
+      </section>
     </section>
   );
 };
