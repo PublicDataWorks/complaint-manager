@@ -29,21 +29,19 @@ export class SearchResults extends Component {
     return (
       <div>
         <Paper elevation={0}>
-          {this.props.spinnerVisible ? (
-            this.renderSpinner()
-          ) : (
-            <>
-              {this.renderSearchResultsMessage(paginating)}
-              {this.renderSearchResults()}
-            </>
-          )}
+          {this.renderSearchResultsMessage(paginating)}
+          {this.renderSearchResults()}
+          {this.renderSpinner()}
         </Paper>
-        {paginating && !this.props.spinnerVisible && this.pagination()}
+        {paginating && this.pagination()}
       </div>
     );
   }
 
   renderSpinner = () => {
+    if (!this.props.spinnerVisible) {
+      return null;
+    }
     return (
       <div style={{ textAlign: "center" }}>
         <CircularProgress
@@ -73,7 +71,7 @@ export class SearchResults extends Component {
         const amountOfResults = paginating
           ? pagination.count
           : searchResultsLength;
-        message = `${amountOfResults || 0} results found`;
+        message = `${amountOfResults} results found`;
       }
     }
 
