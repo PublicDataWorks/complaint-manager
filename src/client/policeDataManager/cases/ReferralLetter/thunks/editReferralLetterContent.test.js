@@ -21,7 +21,10 @@ describe("editReferralLetterContent" + "", () => {
         "content-type": "application/json"
       }
     })
-      .put(`/api/cases/${caseId}/referral-letter/content`, referralLetterHtml)
+      .put(
+        `/api/cases/${caseId}/referral-letter/content`,
+        `"${referralLetterHtml}"`
+      )
       .reply(200);
     await editReferralLetterContent(
       caseId,
