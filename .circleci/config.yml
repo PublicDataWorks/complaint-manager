@@ -62,7 +62,6 @@ jobs:
       - checkout
       - attach_workspace:
           at: src/
-      - run: cat src/client/policeDataManager/data/DataDashboard.js
       - run:
           name: Shows current Directory
           command: pwd
