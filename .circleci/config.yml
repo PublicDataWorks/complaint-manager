@@ -8,13 +8,13 @@ parameters:
     default: "master"
   release-branch:
     type: string
-    default: "release_v3.42.0"
+    default: "release_v3.41.0"
   instance-files-image-name:
     type: string
     default: "publicdataworks/instance-files-noipm"
   instance-files-version:
     type: string
-    default: "1.0.1"
+    default: "1.0.0"
   ubuntu-version:
     type: string
     default: "1.0.0"
