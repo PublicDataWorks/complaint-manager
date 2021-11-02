@@ -444,6 +444,17 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
+  tag-instance-files:
+    docker:
+      - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - attach_workspace:
+          at: src/
+      - run: docker build -t publicdataworks/instance-files-noipm:0.0.0-test src/
+      - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
+
   update-search-indices-ci:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -680,3 +691,11 @@ workflows:
       - e2e-testing-playground:
           requires:
             - ensure-playground-deploy-succeeded
+
+  pipeline-test:
+    jobs:
+      - get-instance-files-latest:
+          filters:
+            branches:
+              only:
+                - pipeline
