@@ -452,10 +452,10 @@ jobs:
           version: 19.03.13
       - attach_workspace:
           at: src/
+      - run: echo "FROM alpine:latest\n\nCOPY ./instance-files instance-files" >> src/Dockerfile
+      - run: cat src/Dockerfile
       # - run: docker build -t publicdataworks/instance-files-noipm:0.0.0-test src/
       # - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
-      - run: ls
-      - run: ls src/
 
   update-search-indices-ci:
     docker:
