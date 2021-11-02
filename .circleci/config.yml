@@ -469,17 +469,17 @@ jobs:
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
       - run: npm version patch -m "cut release version %s"
-      - run: apt-get install --assume-yes jq
-      - run: apt-get install --assume-yes docker
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-staging:$(jq .version package.json) .
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-production:$(jq .version package.json) .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-worker:$(jq .version package.json) .
-      - run: docker push publicdataworks/police-data-manager-staging:$(jq .version package.json)
-      - run: docker push publicdataworks/police-data-manager-production:$(jq .version package.json)
-      - run: docker push publicdataworks/police-data-manager-worker:$(jq .version package.json)
+      # - run: apt-get install --assume-yes jq
+      # - run: apt-get install --assume-yes docker
+      # - setup_remote_docker:
+      #     version: 19.03.13
+      # - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      # - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-staging:$(jq .version package.json) .
+      # - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-production:$(jq .version package.json) .
+      # - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-worker:$(jq .version package.json) .
+      # - run: docker push publicdataworks/police-data-manager-staging:$(jq .version package.json)
+      # - run: docker push publicdataworks/police-data-manager-production:$(jq .version package.json)
+      # - run: docker push publicdataworks/police-data-manager-worker:$(jq .version package.json)
       - run: git push --no-verify
 
   update-search-indices-ci:
