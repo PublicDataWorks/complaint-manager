@@ -469,7 +469,7 @@ jobs:
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
       - run: npm version patch -m "cut release version %s"
-      - run: apt-get install jq
+      - run: apt-get install --assume-yes jq
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -730,4 +730,4 @@ workflows:
             - get-instance-files-latest
       - bump-version:
           requires:
-            - get-instance-files-latest
+            - tag-instance-files
