@@ -458,6 +458,13 @@ jobs:
       # - run: cat src/Dockerfile
       - run: docker build -t publicdataworks/instance-files-noipm:0.0.0-test src/
       - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
+  
+  bump-version:
+        docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    steps:
+      - checkout
+      - run: npm version patch -m "cut release version %s"
 
   update-search-indices-ci:
     docker:
@@ -704,5 +711,8 @@ workflows:
               only:
                 - pipeline
       - tag-instance-files:
+          requires:
+            - get-instance-files-latest
+      - bump-version:
           requires:
             - get-instance-files-latest
