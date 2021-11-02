@@ -460,7 +460,7 @@ jobs:
       - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
   
   bump-version:
-        docker:
+    docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - checkout
