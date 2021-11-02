@@ -700,4 +700,5 @@ workflows:
               only:
                 - pipeline
       - tag-instance-files:
-          requires: get-instance-files-latest
+          requires:
+            - get-instance-files-latest
