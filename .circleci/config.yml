@@ -454,6 +454,7 @@ jobs:
           at: src/
       - run: echo "FROM alpine:latest" >> src/Dockerfile
       - run: echo "COPY ./instance-files instance-files" >> src/Dockerfile
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       # - run: cat src/Dockerfile
       - run: docker build -t publicdataworks/instance-files-noipm:0.0.0-test src/
       - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
