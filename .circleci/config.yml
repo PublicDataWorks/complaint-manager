@@ -463,8 +463,12 @@ jobs:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
+      - run:
+          name: Install Git
+          command: apt-get update && apt-get install --assume-yes git
       - checkout
       - run: npm version patch -m "cut release version %s"
+      - run: git log
 
   update-search-indices-ci:
     docker:
