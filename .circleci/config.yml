@@ -460,7 +460,7 @@ jobs:
   
   bump-version:
     docker:
-      - image: docker:stable
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - run:
           name: Install Git
@@ -468,9 +468,9 @@ jobs:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
-      - run: apt-get install --assume-yes npm
       - run: npm version patch -m "cut release version %s"
       - run: apt-get install --assume-yes jq
+      - run: apt-get install --assume-yes docker
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
