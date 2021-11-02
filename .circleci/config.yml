@@ -480,7 +480,7 @@ jobs:
       # - run: docker push publicdataworks/police-data-manager-staging:$(jq .version package.json)
       # - run: docker push publicdataworks/police-data-manager-production:$(jq .version package.json)
       # - run: docker push publicdataworks/police-data-manager-worker:$(jq .version package.json)
-      - run: git push --no-verify
+      - run: git push origin pipeline --no-verify
 
   update-search-indices-ci:
     docker:
