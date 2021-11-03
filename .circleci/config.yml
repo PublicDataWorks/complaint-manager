@@ -479,7 +479,7 @@ jobs:
         
   build-tagged-version:
     docker:
-      image: docker:stable
+      - image: docker:stable
     steps:
       - setup_remote_docker:
           version: 19.03.13
