@@ -470,7 +470,7 @@ jobs:
       - checkout
       - run: npm version patch -m "cut release version %s"
       - run: apt-get install --assume-yes jq
-      - run: jq .version package.json >> version.txt
+      - run: jq .version package.json | tr -d '"' >> version.txt
       - persist_to_workspace:
           root: .
           paths:
