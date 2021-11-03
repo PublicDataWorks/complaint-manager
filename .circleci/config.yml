@@ -469,17 +469,41 @@ jobs:
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
       - run: npm version patch -m "cut release version %s"
-      # - run: apt-get install --assume-yes jq
-      # - run: apt-get install --assume-yes docker
-      # - setup_remote_docker:
-      #     version: 19.03.13
-      # - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      # - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-staging:$(jq .version package.json) .
-      # - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-production:$(jq .version package.json) .
-      # - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-worker:$(jq .version package.json) .
-      # - run: docker push publicdataworks/police-data-manager-staging:$(jq .version package.json)
-      # - run: docker push publicdataworks/police-data-manager-production:$(jq .version package.json)
-      # - run: docker push publicdataworks/police-data-manager-worker:$(jq .version package.json)
+      - run: apt-get install --assume-yes jq
+      - run: jq .version package.json >> version.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .git/*
+            - version.txt
+        
+  build-tagged-version:
+    docker:
+      image: docker:stable
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - attach_workspace:
+          at: .
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-staging:$(cat version.txt) .
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-production:$(cat version.txt) .
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=0.0.0-test -t publicdataworks/police-data-manager-worker:$(cat version.txt) .
+      - run: docker push publicdataworks/police-data-manager-staging:$(cat version.txt)
+      - run: docker push publicdataworks/police-data-manager-production:$(cat version.txt)
+      - run: docker push publicdataworks/police-data-manager-worker:$(cat version.txt)
+
+  push-tag:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    steps:
+      - run:
+          name: Install Git
+          command: apt-get update && apt-get install --assume-yes git
+      - attach_workspace:
+          at: .
+      - run: git config --global user.email "noipm.infrastructure@gmail.com"
+      - run: git config --global user.name "Police Data Manager Pipeline"
       - run: git push origin pipeline --no-verify
 
   update-search-indices-ci:
@@ -731,4 +755,11 @@ workflows:
             - get-instance-files-latest
       - bump-version:
           requires:
+            - get-instance-files-latest
+      - build-tagged-version:
+          requires:
             - tag-instance-files
+            - bump-version
+      - push-tag:
+          requires:
+            - build-tagged-version
