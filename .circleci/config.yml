@@ -474,7 +474,8 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - *
+            - .git/*
+            - version.txt
         
   build-tagged-version:
     docker:
