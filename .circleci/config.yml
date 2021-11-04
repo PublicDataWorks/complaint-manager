@@ -814,3 +814,45 @@ workflows:
           requires:
             # - build-patch-tagged-version
             - tag-instance-files-patch
+      # Minor Release
+      - create-minor-release:
+          type: approval
+          requires:
+            - get-instance-files-latest
+      - bump-minor-version:
+          requires:
+            - create-minor-release
+      - tag-instance-files:
+          name: tag-instance-files-minor
+          requires:
+            - bump-minor-version
+      # - build-tagged-version:
+      #     name: build-minor-tagged-version
+      #     requires:
+      #       - tag-instance-files-minor
+      - push-tag:
+          name: push-minor-tag
+          requires:
+            # - build-minor-tagged-version
+            - tag-instance-files-minor
+      # Major Release
+      - create-major-release:
+          type: approval
+          requires:
+            - get-instance-files-latest
+      - bump-major-version:
+          requires:
+            - create-major-release
+      - tag-instance-files:
+          name: tag-instance-files-major
+          requires:
+            - bump-major-version
+      # - build-tagged-version:
+      #     name: build-major-tagged-version
+      #     requires:
+      #       - tag-instance-files-major
+      - push-tag:
+          name: push-major-tag
+          requires:
+            # - build-major-tagged-version
+            - tag-instance-files-major
