@@ -35,7 +35,7 @@ commands:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
-      - run: npm version <<parameters.version-type>> -m "[ci skip] cut release version %s"
+      - run: npm version <<parameters.version-type>> -m "cut release version %s"
       - run: apt-get install --assume-yes jq
       - run: jq .version package.json | tr -d '"' >> version.txt
       - persist_to_workspace:
@@ -532,7 +532,11 @@ jobs:
             - a7:54:eb:c7:7a:af:c6:c2:fc:a8:76:ad:1b:b7:aa:20
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
+      - run: git checkout -b release_$(version.txt)
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - run: git push origin release_$(version.txt) --no-verify
+      - run: git checkout pipeline
+      - run: git pull -r origin pipeline
       - run: git push origin pipeline --no-verify
 
   update-search-indices-ci:
