@@ -760,10 +760,12 @@ workflows:
       - bump-version:
           requires:
             - get-instance-files-latest
-      - build-tagged-version:
-          requires:
-            - tag-instance-files
-            - bump-version
+      # - build-tagged-version:
+      #     requires:
+      #       - tag-instance-files
+      #       - bump-version
       - push-tag:
           requires:
-            - build-tagged-version
+            # - build-tagged-version
+            - tag-instance-files
+            - bump-version
