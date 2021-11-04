@@ -1,6 +1,6 @@
 {
   "name": "police-data-manager",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "private": true,
   "proxy": "https://localhost:1234",
   "scripts": {
