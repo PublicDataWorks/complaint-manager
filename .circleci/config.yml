@@ -806,50 +806,47 @@ workflows:
           requires:
             - get-instance-files-latest
       - tag-instance-files:
-          name: tag-instance-files-patch
           requires:
             - create-patch-release
       - bump-patch-version:
           requires:
             - create-patch-release
       - tag-instance-files:
-          name: tag-instance-files-minor
           requires:
             - create-minor-release
       - bump-minor-version:
           requires:
             - create-minor-release
       - tag-instance-files:
-          name: tag-instance-files-major
           requires:
             - create-major-release
       - bump-major-version:
           requires:
             - create-major-release
-      # - build-patch-tagged-version:
+      # - build-tagged-version:
       #     requires:
-      #       - tag-instance-files-patch
+      #       - tag-instance-files
       #       - bump-patch-version
       - push-tag:
           requires:
-            # - build-patch-tagged-version
-            - tag-instance-files-patch
+            # - build-tagged-version
+            - tag-instance-files
             - bump-patch-version
-      # - build-minor-tagged-version:
+      # - build-tagged-version:
       #     requires:
-      #       - tag-instance-files-minor
+      #       - tag-instance-files
       #       - bump-minor-version
       - push-tag:
           requires:
-            # - build-minor-tagged-version
-            - tag-instance-files-minor
+            # - build-tagged-version
+            - tag-instance-files
             - bump-minor-version
-      # - build-major-tagged-version:
+      # - build-tagged-version:
       #     requires:
-      #       - tag-instance-files-major
+      #       - tag-instance-files
       #       - bump-major-version
       - push-tag:
           requires:
-            # - build-major-tagged-version
-            - tag-instance-files-major
+            # - build-tagged-version
+            - tag-instance-files
             - bump-major-version
