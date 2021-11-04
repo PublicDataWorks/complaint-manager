@@ -536,6 +536,7 @@ jobs:
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git push origin release_$(version.txt) --no-verify
       - run: git checkout pipeline
+      - run: git reset --hard
       - run: git pull -r origin pipeline
       - run: git push origin pipeline --no-verify
 
