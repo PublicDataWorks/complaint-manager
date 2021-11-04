@@ -510,7 +510,7 @@ jobs:
       - run: git config --global user.name "Police Data Manager Pipeline"
       - run: ssh-keyscan github.com # just to see the output
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run: git push origin pipeline --no-verify
+      - run: git push origin pipeline --tags --no-verify
 
   update-search-indices-ci:
     docker:
