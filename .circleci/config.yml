@@ -443,25 +443,6 @@ jobs:
     steps:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
-  
-  bump-patch-version:
-    docker:
-      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
-    steps:
-      - run:
-          name: Install Git
-          command: apt-get update && apt-get install --assume-yes git
-      - run: git config --global user.email "noipm.infrastructure@gmail.com"
-      - run: git config --global user.name "Police Data Manager Pipeline"
-      - checkout
-      - run: npm version patch -m "cut release version %s" --git-tag-version false
-      - run: apt-get install --assume-yes jq
-      - run: jq .version package.json | tr -d '"' >> version.txt
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .git/*
-            - version.txt
 
   tag-instance-files:
     docker:
@@ -474,10 +455,10 @@ jobs:
       - run: echo "FROM alpine:latest" >> src/Dockerfile
       - run: echo "COPY ./instance-files instance-files" >> src/Dockerfile
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -t publicdataworks/instance-files-noipm:$(cat src/version.txt) src/
-      - run: docker push publicdataworks/instance-files-noipm:$(cat src/version.txt)
-        
-  bump-minor-version:
+      - run: docker build -t publicdataworks/instance-files-noipm:0.0.0-test src/
+      - run: docker push publicdataworks/instance-files-noipm:0.0.0-test
+  
+  bump-version:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
@@ -487,26 +468,7 @@ jobs:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
-      - run: npm version minor -m "cut release version %s" --git-tag-version false
-      - run: apt-get install --assume-yes jq
-      - run: jq .version package.json | tr -d '"' >> version.txt
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .git/*
-            - version.txt
-        
-  bump-major-version:
-    docker:
-      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
-    steps:
-      - run:
-          name: Install Git
-          command: apt-get update && apt-get install --assume-yes git
-      - run: git config --global user.email "noipm.infrastructure@gmail.com"
-      - run: git config --global user.name "Police Data Manager Pipeline"
-      - checkout
-      - run: npm version major -m "cut release version %s" --git-tag-version false
+      - run: npm version patch -m "[ci skip] cut release version %s"
       - run: apt-get install --assume-yes jq
       - run: jq .version package.json | tr -d '"' >> version.txt
       - persist_to_workspace:
@@ -547,7 +509,7 @@ jobs:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
-      - run: git push origin pipeline --no-verify
+      - run: git push origin pipeline --tags --no-verify
 
   update-search-indices-ci:
     docker:
@@ -793,60 +755,18 @@ workflows:
             branches:
               only:
                 - pipeline
-      - create-patch-release:
-          type: approval
-          requires:
-            - get-instance-files-latest
-      - create-minor-release:
-          type: approval
-          requires:
-            - get-instance-files-latest
-      - create-major-release:
-          type: approval
-          requires:
-            - get-instance-files-latest
       - tag-instance-files:
           requires:
-            - create-patch-release
-      - bump-patch-version:
+            - get-instance-files-latest
+      - bump-version:
           requires:
-            - create-patch-release
-      - tag-instance-files:
-          requires:
-            - create-minor-release
-      - bump-minor-version:
-          requires:
-            - create-minor-release
-      - tag-instance-files:
-          requires:
-            - create-major-release
-      - bump-major-version:
-          requires:
-            - create-major-release
+            - get-instance-files-latest
       # - build-tagged-version:
       #     requires:
       #       - tag-instance-files
-      #       - bump-patch-version
+      #       - bump-version
       - push-tag:
           requires:
             # - build-tagged-version
             - tag-instance-files
-            - bump-patch-version
-      # - build-tagged-version:
-      #     requires:
-      #       - tag-instance-files
-      #       - bump-minor-version
-      - push-tag:
-          requires:
-            # - build-tagged-version
-            - tag-instance-files
-            - bump-minor-version
-      # - build-tagged-version:
-      #     requires:
-      #       - tag-instance-files
-      #       - bump-major-version
-      - push-tag:
-          requires:
-            # - build-tagged-version
-            - tag-instance-files
-            - bump-major-version
+            - bump-version
