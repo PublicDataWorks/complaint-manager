@@ -508,6 +508,8 @@ jobs:
             - a7:54:eb:c7:7a:af:c6:c2:fc:a8:76:ad:1b:b7:aa:20
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
+      - run: ssh-keyscan github.com # just to see the output
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git push origin pipeline --no-verify
 
   update-search-indices-ci:
