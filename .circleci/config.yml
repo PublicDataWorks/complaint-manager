@@ -423,7 +423,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: src/
-      - run: cat release.version
+      - run: cat src/release.version
       - run:
           name: Run E2E tests
           command: |
