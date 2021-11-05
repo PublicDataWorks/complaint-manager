@@ -857,8 +857,8 @@ workflows:
           requires:
             # - build-major-tagged-version
             - tag-instance-files-major
-
- release_pipeline:
+  
+  release_pipeline:
     jobs:
       - get-instance-files-release:
           filters:
