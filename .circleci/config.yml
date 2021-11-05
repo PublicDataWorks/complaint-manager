@@ -873,7 +873,7 @@ workflows:
       #       - deploy-staging
       - e2e-testing-staging:
           requires:
-            - ensure-staging-deploy-succeeded
+            - get-instance-files-release
       # - hold-for-production:
       #     type: approval
       #     requires:
