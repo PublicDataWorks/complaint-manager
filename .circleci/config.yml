@@ -66,17 +66,22 @@ jobs:
       - image: docker:stable
     steps:
       - setup_remote_docker
+      - checkout
+      - run: apk add jq
+      - run: jq .version package.json | tr -d '"' > release.version
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull << pipeline.parameters.instance-files-image-name >>:<< pipeline.parameters.instance-files-version >>
+      - run: docker pull << pipeline.parameters.instance-files-image-name >>:$(cat release.version)
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:<< pipeline.parameters.instance-files-version >>):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:$(cat release.version)):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
       - persist_to_workspace:
           root: .
-          paths: instance-files/*
+          paths: 
+            - instance-files/*
+            - release.version
 
   test-client:
     docker:
@@ -349,9 +354,11 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 19.03.13
+      - attach_workspace:
+          at: .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull publicdataworks/police-data-manager-staging:$CIRCLE_SHA1
-      - run: docker pull publicdataworks/police-data-manager-worker:$CIRCLE_SHA1
+      - run: docker pull publicdataworks/police-data-manager-staging:$(cat release.version)
+      - run: docker pull publicdataworks/police-data-manager-worker:$(cat release.version)
       - run: heroku maintenance:on --app noipm-staging
       - run:
           name: Migrate and Seed DB
@@ -365,11 +372,11 @@ jobs:
             -e AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY \
             -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
-            publicdataworks/police-data-manager-staging:$CIRCLE_SHA1 yarn setup:db
+            publicdataworks/police-data-manager-staging:$(cat release.version) yarn setup:db
 
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag publicdataworks/police-data-manager-staging:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/web
-      - run: docker tag publicdataworks/police-data-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-staging/worker
+      - run: docker tag publicdataworks/police-data-manager-staging:$(cat release.version) registry.heroku.com/noipm-staging/web
+      - run: docker tag publicdataworks/police-data-manager-worker:$(cat release.version) registry.heroku.com/noipm-staging/worker
       - run: docker push registry.heroku.com/noipm-staging/web
       - run: docker push registry.heroku.com/noipm-staging/worker
       - run: heroku container:release web worker --app noipm-staging
@@ -416,6 +423,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: src/
+      - run: cat release.version
       - run:
           name: Run E2E tests
           command: |
@@ -434,9 +442,11 @@ jobs:
     steps:
       - setup_remote_docker:
           version: 19.03.13
+      - attach_workspace:
+          at: .
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull publicdataworks/police-data-manager-production:$CIRCLE_SHA1
-      - run: docker pull publicdataworks/police-data-manager-worker:$CIRCLE_SHA1
+      - run: docker pull publicdataworks/police-data-manager-production:$(cat release.version)
+      - run: docker pull publicdataworks/police-data-manager-worker:$(cat release.version)
       - run: heroku maintenance:on --app noipm-production
       - run:
           name: Migrate production database
@@ -450,10 +460,10 @@ jobs:
             -e AWS_ACCESS_KEY_ID=$PRODUCTION_AWS_ACCESS_KEY_ID \
             -e AWS_SECRET_ACCESS_KEY=$PRODUCTION_AWS_SECRET_ACCESS_KEY \
             -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
-            publicdataworks/police-data-manager-production:$CIRCLE_SHA1 yarn setup:db
+            publicdataworks/police-data-manager-production:$(cat release.version) yarn setup:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag publicdataworks/police-data-manager-production:$CIRCLE_SHA1 registry.heroku.com/noipm-production/web
-      - run: docker tag publicdataworks/police-data-manager-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-production/worker
+      - run: docker tag publicdataworks/police-data-manager-production:$(cat release.version) registry.heroku.com/noipm-production/web
+      - run: docker tag publicdataworks/police-data-manager-worker:$(cat release.version) registry.heroku.com/noipm-production/worker
       - run: docker push registry.heroku.com/noipm-production/web
       - run: docker push registry.heroku.com/noipm-production/worker
       - run: heroku container:release web worker --app noipm-production
@@ -847,3 +857,30 @@ workflows:
           requires:
             # - build-major-tagged-version
             - tag-instance-files-major
+
+ release_pipeline:
+    jobs:
+      - get-instance-files-release:
+          filters:
+              branches:
+                only:
+                  - /release_v.*/
+      # - deploy-staging:
+      #     requires:
+      #       - get-instance-files-release
+      # - ensure-staging-deploy-succeeded:
+      #     requires:
+      #       - deploy-staging
+      - e2e-testing-staging:
+          requires:
+            - ensure-staging-deploy-succeeded
+      # - hold-for-production:
+      #     type: approval
+      #     requires:
+      #       - e2e-testing-staging
+      # - deploy-production:
+      #     requires:
+      #       - hold-for-production
+      # - ensure-production-deploy-succeeded:
+      #     requires:
+      #       - deploy-production
