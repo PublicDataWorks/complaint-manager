@@ -123,7 +123,7 @@
     "shortid": "~2.2.14",
     "striptags": "~3.2.0",
     "timekeeper": "~2.2.0",
-    "validator": "13.6.0",
+    "validator": "13.7.0",
     "winston": "3.3.1",
     "winston-transport": "^4.4.0"
   },
