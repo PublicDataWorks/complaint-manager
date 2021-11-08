@@ -187,6 +187,7 @@
     "**/tmpl": "1.0.5",
     "**/tree-kill": "^1.2.2",
     "**/yargs-parser": "^20.2.7",
+    "**/validator": "^13.7.0",
     "**/vm2": "^3.9.4"
   },
   "browserslist": {
