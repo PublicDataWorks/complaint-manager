@@ -524,10 +524,10 @@ jobs:
       - run: git checkout -b release_v$(cat version.txt)
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git push origin release_v$(cat version.txt) --no-verify
-      - run: git checkout pipeline
+      - run: git checkout master
       - run: git reset --hard
-      - run: git pull -r origin pipeline
-      - run: git push origin pipeline --no-verify
+      - run: git pull -r origin master
+      - run: git push origin master --no-verify
 
   update-search-indices-ci:
     docker:
