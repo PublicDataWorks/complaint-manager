@@ -30,3 +30,6 @@ node-yarnaudit-ansi-regex-1002401
 
 # There is currently no patch for these vulnerabilities:
 node-yarnaudit-html-pdf-1095
+
+# The patch for this vulnerability currently alters pdf formatting
+html-pdf
