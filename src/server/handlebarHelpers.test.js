@@ -25,6 +25,10 @@ const {
   SENDER_SIGNATURE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 
+jest.mock("fs", () => ({
+  readFileSync: (file, format) => file
+}));
+
 describe("handlebarHelpers", function () {
   describe("formatAddress", function () {
     test("there is no address", () => {
@@ -391,7 +395,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(sender, true);
 
       expect(signature).toEqual(
-        `<img style="max-height: 55px" src=file:/app/src/instance-files/images/${SENDER_SIGNATURE} />`
+        `<img style="max-height: 55px" src="data:image/png;base64,/app/src/instance-files/images/${SENDER_SIGNATURE}" />`
       );
     });
   });
