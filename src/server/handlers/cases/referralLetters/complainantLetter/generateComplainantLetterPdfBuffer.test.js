@@ -24,6 +24,20 @@ jest.mock("html-pdf", () => ({
 
 jest.mock("../generateReferralLetterBodyAndAuditDetails");
 
+jest.mock("fs", () => {
+  const realFs = jest.requireActual("fs");
+  return {
+    ...realFs,
+    readFileSync: (file, format) => {
+      if (format === "base64") {
+        return "<<base64 encoded image>>";
+      } else {
+        return realFs.readFileSync(file, format);
+      }
+    }
+  };
+});
+
 afterEach(async () => {
   await cleanupDatabase();
   generateReferralLetterBodyAndAuditDetails.mockReset();

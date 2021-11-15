@@ -29,6 +29,20 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
+jest.mock("fs", () => {
+  const realFs = jest.requireActual("fs");
+  return {
+    ...realFs,
+    readFileSync: (file, format) => {
+      if (format === "base64") {
+        return "<<base64 encoded image>>";
+      } else {
+        return realFs.readFileSync(file, format);
+      }
+    }
+  };
+});
+
 jest.mock("../generateReferralLetterBodyAndAuditDetails", () => {
   return {
     generateReferralLetterBodyAndAuditDetails: jest.fn(
