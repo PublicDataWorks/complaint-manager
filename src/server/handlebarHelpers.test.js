@@ -1,5 +1,6 @@
 import {
   formatAddress,
+  generateImage,
   generateSignature,
   isPresent,
   newLineToLineBreak,
@@ -376,6 +377,20 @@ describe("handlebarHelpers", function () {
       const expectedHtml = "many<br>new<br>lines<br>here!!";
       const resultString = newLineToLineBreak(stringWithMultipleNewLines);
       expect(resultString).toEqual(expectedHtml);
+    });
+  });
+
+  describe("generateImage", () => {
+    test("should generate an image tag with the given image and style", () => {
+      expect(generateImage("name", "style")).toEqual(
+        `<img style="style" src="data:image/png;base64,${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/name" />`
+      );
+    });
+
+    test("should deal gracefully with missing style", () => {
+      expect(generateImage("name")).toEqual(
+        `<img style="" src="data:image/png;base64,${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/name" />`
+      );
     });
   });
 

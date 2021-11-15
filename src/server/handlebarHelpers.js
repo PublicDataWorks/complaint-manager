@@ -127,15 +127,19 @@ export const newLineToLineBreak = text => {
 };
 Handlebars.registerHelper("newLineToLineBreak", newLineToLineBreak);
 
+export const generateImage = (fileName, style) =>
+  `<img style="${style || ""}" src="data:image/png;base64,${fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/${fileName}`,
+    "base64"
+  )}" />`;
+Handlebars.registerHelper("generateImage", generateImage);
+
 export const generateSignature = (sender, includeSignature) => {
   if (includeSignature) {
     let firstSender = findFirstSender(sender);
 
     return firstSender
-      ? `<img style="max-height: 55px" src="data:image/png;base64,${fs.readFileSync(
-          firstSender,
-          "base64"
-        )}" />`
+      ? generateImage(firstSender, "max-height: 55px")
       : "<p><br></p>";
   }
 

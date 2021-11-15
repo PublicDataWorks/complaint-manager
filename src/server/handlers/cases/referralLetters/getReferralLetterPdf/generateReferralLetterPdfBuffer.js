@@ -112,15 +112,7 @@ export const generateLetterPdfHtml = (
     caseReference: pdfData.caseReference,
     pibCaseNumber: pdfData.pibCaseNumber,
     includeSignature,
-    currentDate,
-    headerTextImage: fs.readFileSync(
-      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/header_text.png`,
-      "base64"
-    ),
-    logoImage: fs.readFileSync(
-      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/icon.ico`,
-      "base64"
-    )
+    currentDate
   };
 
   const rawTemplate = fs.readFileSync(
