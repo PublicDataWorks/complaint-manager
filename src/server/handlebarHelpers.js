@@ -5,6 +5,7 @@ import {
   formatLongDate,
   formatShortDate
 } from "../sharedUtilities/formatDate";
+import fs from "fs";
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import { DECLINES_OPTION } from "../sharedUtilities/constants";
 import { findFirstSender } from "../sharedUtilities/findFirstSender";
@@ -131,7 +132,10 @@ export const generateSignature = (sender, includeSignature) => {
     let firstSender = findFirstSender(sender);
 
     return firstSender
-      ? `<img style="max-height: 55px" src=${firstSender} />`
+      ? `<img style="max-height: 55px" src="data:image/png;base64,${fs.readFileSync(
+          firstSender,
+          "base64"
+        )}" />`
       : "<p><br></p>";
   }
 
