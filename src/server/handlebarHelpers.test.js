@@ -410,7 +410,7 @@ describe("handlebarHelpers", function () {
       const signature = generateSignature(sender, true);
 
       expect(signature).toEqual(
-        `<img style="max-height: 55px" src="data:image/png;base64,/app/src/instance-files/images/${SENDER_SIGNATURE}" />`
+        `<img style="max-height: 55px" src="data:image/png;base64,${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/${SENDER_SIGNATURE}" />`
       );
     });
   });
