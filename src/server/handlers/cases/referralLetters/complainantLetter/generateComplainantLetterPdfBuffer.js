@@ -54,19 +54,7 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
     complainantEmail: complainant.email ? complainant.email : null,
     firstContactDate: existingCase.firstContactDate,
     title: revisedTitle,
-    complainantPersonType: getPersonType(complainant),
-    headerTextImage: fs.readFileSync(
-      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/header_text.png`,
-      "base64"
-    ),
-    logoImage: fs.readFileSync(
-      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/icon.ico`,
-      "base64"
-    ),
-    intakeSpecialistSignature: fs.readFileSync(
-      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/abe_lowe_iv.png`,
-      "base64"
-    )
+    complainantPersonType: getPersonType(complainant)
   };
 };
 
