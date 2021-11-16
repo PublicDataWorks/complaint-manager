@@ -535,7 +535,7 @@ jobs:
       - bump-version:
           version-type: major
 
-  build-and-publish-staging-app:
+  build-and-publish-app-staging:
     docker:
       - image: docker:stable
     steps:
@@ -545,7 +545,7 @@ jobs:
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
 
-  build-and-publish-production-app:
+  build-and-publish-app-production:
     docker:
       - image: docker:stable
     steps:
