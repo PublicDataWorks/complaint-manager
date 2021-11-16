@@ -37,6 +37,45 @@ commands:
           paths:
             - .git/*
             - version.txt
+  build-and-publish-app-image:
+    parameters:
+      env:
+        default: "ci"
+        type: string
+      version:
+        default: $CIRCLE_SHA1
+        type: string
+      instance-version:
+        default: "latest"
+        type: string
+      google-api-key:
+        default: $REACT_APP_GOOGLE_API_KEY_PREPROD
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>> .
+      - run: docker push publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>>
+  build-and-publish-worker-image:
+    parameters:
+      env-suffix:
+        default: "-ci"
+        type: string
+      version:
+        default: $CIRCLE_SHA1
+        type: string
+      instance-version:
+        default: "latest"
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env>>-worker:<<parameters.version>> .
+      - run: docker push publicdataworks/police-data-manager<<parameters.env>>-worker:<<parameters.version>>
 
 jobs:
   get-instance-files-latest:
@@ -162,18 +201,24 @@ jobs:
       - store_artifacts:
           path: hawkeye_report.json
 
-  build-and-publish-master:
+  build-and-publish-app-master:
     docker:
       - image: docker:stable
     steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=ci --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=latest --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-ci:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=latest --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-ci-worker:$CIRCLE_SHA1 .
-      - run: docker push publicdataworks/police-data-manager-ci:$CIRCLE_SHA1
-      - run: docker push publicdataworks/police-data-manager-ci-worker:$CIRCLE_SHA1
+      - build-and-publish-app-image:
+          env: "ci"
+          version: $CIRCLE_SHA1
+          instance-version: "latest"
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+
+  build-and-publish-worker-master:
+    docker:
+      - image: docker:stable
+    steps:
+      - build-and-publish-worker-image:
+          env-suffix: "-ci"
+          version: $CIRCLE_SHA1
+          instance-version: "latest"
 
   build-and-publish-playground:
     docker:
@@ -490,22 +535,34 @@ jobs:
       - bump-version:
           version-type: major
 
-  build-tagged-version:
+  build-and-publish-staging-app:
     docker:
       - image: docker:stable
     steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-      - attach_workspace:
-          at: .
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=staging --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD --build-arg INSTANCE_VERSION=$(cat version.txt) -t publicdataworks/police-data-manager-staging:$(cat version.txt) .
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=production --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PRODUCTION --build-arg INSTANCE_VERSION=$(cat version.txt) -t publicdataworks/police-data-manager-production:$(cat version.txt) .
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=$(cat version.txt) -t publicdataworks/police-data-manager-worker:$(cat version.txt) .
-      - run: docker push publicdataworks/police-data-manager-staging:$(cat version.txt)
-      - run: docker push publicdataworks/police-data-manager-production:$(cat version.txt)
-      - run: docker push publicdataworks/police-data-manager-worker:$(cat version.txt)
+      - build-and-publish-app-image:
+          env: staging
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+
+  build-and-publish-production-app:
+    docker:
+      - image: docker:stable
+    steps:
+      - build-and-publish-app-image:
+          env: production
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PROD
+  
+  build-and-publish-worker-production:
+    docker:
+      - image: docker:stable
+    steps:
+      - build-and-publish-worker-image:
+          env-suffix: ""
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
 
   push-tag:
     docker:
@@ -667,14 +724,20 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - get-instance-files-latest
-      - build-and-publish-master:
+      - build-and-publish-app-master:
+          requires:
+            - test-client
+            - test-server-handlers-ci
+            - test-server-worker-non-handlers
+      - build-and-publish-worker-master:
           requires:
             - test-client
             - test-server-handlers-ci
             - test-server-worker-non-handlers
       - deploy-ci:
           requires:
-            - build-and-publish-master
+            - build-and-publish-app-master
+            - build-and-publish-worker-master
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
@@ -699,14 +762,24 @@ workflows:
           name: tag-instance-files-patch
           requires:
             - bump-patch-version
-      - build-tagged-version:
-          name: build-patch-tagged-version
+      - build-and-publish-app-staging:
+          name: build-and-publish-app-staging-patch
+          requires:
+            - tag-instance-files-patch
+      - build-and-publish-app-production:
+          name: build-and-publish-app-production-patch
+          requires:
+            - tag-instance-files-patch
+      - build-and-publish-worker-production:
+          name: build-and-publish-worker-production-patch
           requires:
             - tag-instance-files-patch
       - push-tag:
           name: push-patch-tag
           requires:
-            - build-patch-tagged-version
+            - build-and-publish-app-staging-patch
+            - build-and-publish-app-production-patch
+            - build-and-publish-worker-production-patch
       # Minor Release
       - create-minor-release:
           type: approval
@@ -719,14 +792,24 @@ workflows:
           name: tag-instance-files-minor
           requires:
             - bump-minor-version
-      - build-tagged-version:
-          name: build-minor-tagged-version
+      - build-and-publish-app-staging:
+          name: build-and-publish-app-staging-minor
+          requires:
+            - tag-instance-files-minor
+      - build-and-publish-app-production:
+          name: build-and-publish-app-production-minor
+          requires:
+            - tag-instance-files-minor
+      - build-and-publish-worker-production:
+          name: build-and-publish-worker-production-minor
           requires:
             - tag-instance-files-minor
       - push-tag:
           name: push-minor-tag
           requires:
-            - build-minor-tagged-version
+            - build-and-publish-app-staging-minor
+            - build-and-publish-app-production-minor
+            - build-and-publish-worker-production-minor
       # Major Release
       - create-major-release:
           type: approval
@@ -739,14 +822,24 @@ workflows:
           name: tag-instance-files-major
           requires:
             - bump-major-version
-      - build-tagged-version:
-          name: build-major-tagged-version
+      - build-and-publish-app-staging:
+          name: build-and-publish-app-staging-major
+          requires:
+            - tag-instance-files-major
+      - build-and-publish-app-production:
+          name: build-and-publish-app-production-major
+          requires:
+            - tag-instance-files-major
+      - build-and-publish-worker-production:
+          name: build-and-publish-worker-production-major
           requires:
             - tag-instance-files-major
       - push-tag:
           name: push-major-tag
           requires:
-            - build-major-tagged-version
+            - build-and-publish-app-staging-major
+            - build-and-publish-app-production-major
+            - build-and-publish-worker-production-major
 
   build_and_deploy_playground:
     jobs:
