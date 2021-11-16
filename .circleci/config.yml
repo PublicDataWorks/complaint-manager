@@ -74,8 +74,8 @@ commands:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env>>-worker:<<parameters.version>> .
-      - run: docker push publicdataworks/police-data-manager<<parameters.env>>-worker:<<parameters.version>>
+      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>> .
+      - run: docker push publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>>
 
 jobs:
   get-instance-files-latest:
