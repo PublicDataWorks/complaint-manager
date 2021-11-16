@@ -52,7 +52,6 @@ commands:
         default: $REACT_APP_GOOGLE_API_KEY_PREPROD
         type: string
     steps:
-      - checkout
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -70,7 +69,6 @@ commands:
         default: "latest"
         type: string
     steps:
-      - checkout
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -205,6 +203,7 @@ jobs:
     docker:
       - image: docker:stable
     steps:
+      - checkout
       - build-and-publish-app-image:
           env: "ci"
           version: $CIRCLE_SHA1
@@ -215,23 +214,32 @@ jobs:
     docker:
       - image: docker:stable
     steps:
+      - checkout
       - build-and-publish-worker-image:
           env-suffix: "-ci"
           version: $CIRCLE_SHA1
           instance-version: "latest"
 
-  build-and-publish-playground:
+  build-and-publish-app-playground:
     docker:
       - image: docker:stable
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=playground --build-arg REACT_APP_GOOGLE_API_KEY=$REACT_APP_GOOGLE_API_KEY_PREPROD -t publicdataworks/police-data-manager-playground:$CIRCLE_SHA1 .
-      - run: docker build -f Dockerfile.worker -t publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1 .
-      - run: docker push publicdataworks/police-data-manager-playground:$CIRCLE_SHA1
-      - run: docker push publicdataworks/police-data-manager-playground-worker:$CIRCLE_SHA1
+      - build-and-publish-app-image:
+          env: "playground"
+          version: $CIRCLE_SHA1
+          instance-version: latest
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+
+  build-and-publish-worker-playground:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - build-and-publish-worker-image:
+          env-suffix: "-playground"
+          version: $CIRCLE_SHA1
+          instance-version: "latest"
 
   deploy-playground:
     docker:
@@ -539,6 +547,7 @@ jobs:
     docker:
       - image: docker:stable
     steps:
+      - checkout
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
@@ -549,6 +558,7 @@ jobs:
     docker:
       - image: docker:stable
     steps:
+      - checkout
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
@@ -559,6 +569,7 @@ jobs:
     docker:
       - image: docker:stable
     steps:
+      - checkout
       - build-and-publish-worker-image:
           env-suffix: ""
           version: $(cat version.txt)
@@ -860,14 +871,20 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - get-instance-files-latest
-      - build-and-publish-playground:
+      - build-and-publish-app-playground:
+          requires:
+            - test-client
+            - test-server-worker-non-handlers
+            - test-server-handlers-ci
+      - build-and-publish-worker-playground:
           requires:
             - test-client
             - test-server-worker-non-handlers
             - test-server-handlers-ci
       - deploy-playground:
           requires:
-            - build-and-publish-playground
+            - build-and-publish-app-playground
+            - build-and-publish-worker-playground
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground
