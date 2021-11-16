@@ -548,6 +548,8 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
@@ -559,6 +561,8 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
@@ -570,6 +574,8 @@ jobs:
       - image: docker:stable
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - build-and-publish-worker-image:
           env-suffix: ""
           version: $(cat version.txt)
