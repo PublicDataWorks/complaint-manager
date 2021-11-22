@@ -7,6 +7,8 @@ This README is aimed at getting new users set up to run Police Data Manager on t
 
 If you are a city looking to adopt Police Data Manager as a tool for Complaint Intake, you can check out the guide to [setup a new city instance](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/new-city-setup-instructions.html)
 
+If you are looking to contribute to this repo, take a look at [our contributor guidelines](https://publicdataworks.github.io/pdm-docs/technical-content/contributing.html).
+
 ## Local Development Setup
 
 ### Platform Considerations
