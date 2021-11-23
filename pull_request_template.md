@@ -11,9 +11,9 @@ _Put an `x` in the boxes that apply_
 - [ ] New feature 
 - [ ] Maintenance / Documentation Update 
 
-## Instace-files
+## Instance-files
 - [ ] Do your changes require changes to instance-files?
-  - if so please include a link to pull request for instance-files demo 
+  - if so please include a link to pull request for [instance-files demo](https://github.com/PublicDataWorks/instance_files_pm)
 
 ## Checklist
 
