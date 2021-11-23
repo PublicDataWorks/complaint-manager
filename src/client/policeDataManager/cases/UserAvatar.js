@@ -4,7 +4,7 @@ import React from "react";
 
 const useStyles = makeStyles({
   avatar: {
-    color: "#8E8E8E",
+    color: "#474747",
     backgroundColor: "#E1E1E1",
     width: "45px",
     height: "45px",
