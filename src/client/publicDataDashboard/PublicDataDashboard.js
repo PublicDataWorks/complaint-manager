@@ -143,7 +143,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
             <Icon
               style={{
                 transform: "rotate(90deg)",
-                color: styles.colors.iconGray
+                color: styles.colors.blue
               }}
               onClick={scrollIntoViewById("#blue-box")}
             >
@@ -160,7 +160,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
           item
           xs={12}
           style={{
-            backgroundColor: "#216DA1",
+            backgroundColor: styles.colors.blue,
             padding: 0,
             marginBottom: "98px"
           }}
@@ -190,7 +190,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                   style={{
                     transform: "rotate(90deg)",
                     color: styles.colors.white,
-                    opacity: "0.5"
+                    opacity: "0.8"
                   }}
                 >
                   double_arrow
@@ -224,7 +224,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                 style={{
                   transform: "rotate(90deg)",
                   color: styles.colors.white,
-                  opacity: "0.5"
+                  opacity: "0.8"
                 }}
               >
                 double_arrow
@@ -255,7 +255,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                 style={{
                   transform: "rotate(90deg)",
                   color: styles.colors.white,
-                  opacity: "0.5"
+                  opacity: "0.8"
                 }}
               >
                 double_arrow
@@ -286,7 +286,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                 style={{
                   transform: "rotate(90deg)",
                   color: styles.colors.white,
-                  opacity: "0.5"
+                  opacity: "0.8"
                 }}
               >
                 double_arrow
@@ -316,7 +316,7 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                 style={{
                   transform: "rotate(90deg)",
                   color: styles.colors.white,
-                  opacity: "0.5"
+                  opacity: "0.8"
                 }}
               >
                 double_arrow

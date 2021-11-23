@@ -1,6 +1,6 @@
 const colors = {
   primary: {
-    light: "#5472d3",
+    light: "#5465d3",
     main: "#0d47a1",
     dark: "#002171"
   },
@@ -11,7 +11,7 @@ const colors = {
     main: "#62757f",
     dark: "#000a12"
   },
-  blue: "#5472d3",
+  blue: "#5465d3",
   yellow: "#fbc02d",
   error: {
     main: "#d32f2f"
