@@ -14,6 +14,8 @@ class DataDashboard extends Component {
     return (
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>Data Dashboard</NavBar>
+        <main role="main">
+          <h1></h1>
         <div
           style={{
             display: "flex",
@@ -90,6 +92,7 @@ class DataDashboard extends Component {
             />
           </div>
         </div>
+        </main>
       </div>
     );
   }

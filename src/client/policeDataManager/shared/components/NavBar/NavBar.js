@@ -85,6 +85,7 @@ class NavBar extends Component {
     const dataTestTitle = dataTest ? dataTest : "pageTitle";
     const theme = createMuiTheme();
     return (
+      <nav role="navigation">
       <AppBar
         position="static"
         style={{ ...appBarStyle, ...{ zIndex: theme.zIndex.drawer + 1000 } }}
@@ -93,6 +94,7 @@ class NavBar extends Component {
         <Toolbar>
           {showHome ? (
             <IconButton
+              title="Home Button"
               component={Link}
               to="/"
               data-testid="homeButton"
@@ -185,6 +187,7 @@ class NavBar extends Component {
           </Menu>
         </Toolbar>
       </AppBar>
+      </nav>
     );
   }
 }
