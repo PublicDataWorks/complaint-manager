@@ -1,6 +1,26 @@
 require("@babel/register");
 
 module.exports = {
+  demo: {
+    host: process.env.DATABASE_HOST,
+    username: process.env.DATABASE_USERNAME,
+    password: process.env.DATABASE_PASS,
+    database: process.env.DATABASE_NAME,
+    dialectOptions: {
+      ssl: { rejectUnauthorized: false }
+    },
+    dialect: "postgres",
+    operatorsAliases: "0",
+    migrationStorageTableName: "sequelize_meta",
+    seederStorage: "sequelize",
+    seederStorageTableName: "sequelize_data",
+    pool: {
+      max: 10,
+      min: 0,
+      idle: 10000,
+      acquire: 20000
+    }
+  },
   development: {
     host: "db",
     username: "postgres",
@@ -10,7 +30,7 @@ module.exports = {
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     logging: false,
     pool: {
       max: 10,
@@ -29,7 +49,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     pool: {
       max: 10,
       min: 0,
@@ -47,7 +67,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     pool: {
       max: 10,
       min: 0,
@@ -64,7 +84,7 @@ module.exports = {
       ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -84,7 +104,7 @@ module.exports = {
       ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -104,7 +124,7 @@ module.exports = {
       ssl: { rejectUnauthorized: false }
     },
     dialect: "postgres",
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     migrationStorageTableName: "sequelize_meta",
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
@@ -128,7 +148,7 @@ module.exports = {
     seederStorage: "sequelize",
     seederStorageTableName: "sequelize_data",
     logging: false,
-    operatorsAliases: '0',
+    operatorsAliases: "0",
     pool: {
       max: 100,
       min: 0,
