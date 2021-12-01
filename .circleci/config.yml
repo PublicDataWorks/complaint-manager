@@ -17,26 +17,6 @@ parameters:
     default: "1.0.0"
 
 commands:
-  bump-version:
-    parameters:
-      version-type:
-        default: "minor"
-        type: string
-    steps:
-      - run:
-          name: Install Git
-          command: apt-get update && apt-get install --assume-yes git
-      - run: git config --global user.email "noipm.infrastructure@gmail.com"
-      - run: git config --global user.name "Police Data Manager Pipeline"
-      - checkout
-      - run: npm version <<parameters.version-type>> -m "cut release version %s"
-      - run: apt-get install --assume-yes jq
-      - run: jq .version package.json | tr -d '"' >> version.txt
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .git/*
-            - version.txt
   build-and-publish-app-image:
     parameters:
       env:
@@ -522,26 +502,24 @@ jobs:
       - run: docker build -t publicdataworks/instance-files-noipm:$(cat src/version.txt) src/
       - run: docker push publicdataworks/instance-files-noipm:$(cat src/version.txt)
   
-  bump-patch-version:
+  bump-version:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
-      - bump-version:
-          version-type: patch
-
-  bump-minor-version:
-    docker:
-      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
-    steps:
-      - bump-version:
-          version-type: minor
-
-  bump-major-version:
-    docker:
-      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
-    steps:
-      - bump-version:
-          version-type: major
+      - run:
+          name: Install Git
+          command: apt-get update && apt-get install --assume-yes git
+      - run: git config --global user.email "noipm.infrastructure@gmail.com"
+      - run: git config --global user.name "Police Data Manager Pipeline"
+      - checkout
+      - run: yarn release
+      - run: apt-get install --assume-yes jq
+      - run: jq .version package.json | tr -d '"' >> version.txt
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .git/*
+            - version.txt
 
   build-and-publish-app-staging:
     docker:
@@ -767,96 +745,30 @@ workflows:
       - e2e-testing-ci-pdm:
           requires:
             - letter-generation-testing-ci
-      # Patch Release
-      - create-patch-release:
+      - create-release:
           type: approval
           requires:
             - e2e-testing-ci-pdm
-      - bump-patch-version:
+      - bump-version:
           requires:
-            - create-patch-release
+            - create-release
       - tag-instance-files:
-          name: tag-instance-files-patch
           requires:
-            - bump-patch-version
+            - bump-version
       - build-and-publish-app-staging:
-          name: build-and-publish-app-staging-patch
           requires:
-            - tag-instance-files-patch
+            - tag-instance-files
       - build-and-publish-app-production:
-          name: build-and-publish-app-production-patch
           requires:
-            - tag-instance-files-patch
+            - tag-instance-files
       - build-and-publish-worker-production:
-          name: build-and-publish-worker-production-patch
           requires:
-            - tag-instance-files-patch
+            - tag-instance-files
       - push-tag:
-          name: push-patch-tag
           requires:
-            - build-and-publish-app-staging-patch
-            - build-and-publish-app-production-patch
-            - build-and-publish-worker-production-patch
-      # Minor Release
-      - create-minor-release:
-          type: approval
-          requires:
-            - e2e-testing-ci-pdm
-      - bump-minor-version:
-          requires:
-            - create-minor-release
-      - tag-instance-files:
-          name: tag-instance-files-minor
-          requires:
-            - bump-minor-version
-      - build-and-publish-app-staging:
-          name: build-and-publish-app-staging-minor
-          requires:
-            - tag-instance-files-minor
-      - build-and-publish-app-production:
-          name: build-and-publish-app-production-minor
-          requires:
-            - tag-instance-files-minor
-      - build-and-publish-worker-production:
-          name: build-and-publish-worker-production-minor
-          requires:
-            - tag-instance-files-minor
-      - push-tag:
-          name: push-minor-tag
-          requires:
-            - build-and-publish-app-staging-minor
-            - build-and-publish-app-production-minor
-            - build-and-publish-worker-production-minor
-      # Major Release
-      - create-major-release:
-          type: approval
-          requires:
-            - e2e-testing-ci-pdm
-      - bump-major-version:
-          requires:
-            - create-major-release
-      - tag-instance-files:
-          name: tag-instance-files-major
-          requires:
-            - bump-major-version
-      - build-and-publish-app-staging:
-          name: build-and-publish-app-staging-major
-          requires:
-            - tag-instance-files-major
-      - build-and-publish-app-production:
-          name: build-and-publish-app-production-major
-          requires:
-            - tag-instance-files-major
-      - build-and-publish-worker-production:
-          name: build-and-publish-worker-production-major
-          requires:
-            - tag-instance-files-major
-      - push-tag:
-          name: push-major-tag
-          requires:
-            - build-and-publish-app-staging-major
-            - build-and-publish-app-production-major
-            - build-and-publish-worker-production-major
+            - build-and-publish-app-staging
+            - build-and-publish-app-production
+            - build-and-publish-worker-production
 
   build_and_deploy_playground:
     jobs:
