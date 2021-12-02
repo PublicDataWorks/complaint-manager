@@ -512,6 +512,7 @@ jobs:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Police Data Manager Pipeline"
       - checkout
+      - run: yarn install
       - run: yarn release
       - run: apt-get install --assume-yes jq
       - run: jq .version package.json | tr -d '"' >> version.txt
