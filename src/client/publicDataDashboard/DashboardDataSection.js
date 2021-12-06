@@ -1,7 +1,11 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Grid, Link as MUILink, Typography } from "@material-ui/core";
-import Visualization from "../common/components/Visualization/Visualization";
-import MapVisualization from "../common/components/Visualization/MapVisualization";
+const Visualization = lazy(() =>
+  import("../common/components/Visualization/Visualization")
+);
+const MapVisualization = lazy(() =>
+  import("../common/components/Visualization/MapVisualization")
+);
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -86,28 +90,30 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      {dataSectionType.includes("LOCATION_DATA") ? (
-        <MapVisualization isPublic={true} />
-      ) : (
-        <Grid
-          item
-          xs={12}
-          style={{
-            padding: 0,
-            height: "550px",
-            maxWidth: "810px",
-            overflowX: "scroll",
-            overflowY: "hidden"
-          }}
-        >
-          <Visualization
-            data-testid={dataTestId}
-            isPublic
-            queryType={queryType}
-            queryOptions={queryOptions}
-          />
-        </Grid>
-      )}
+      <Suspense fallback={() => {}}>
+        {dataSectionType.includes("LOCATION_DATA") ? (
+          <MapVisualization isPublic={true} />
+        ) : (
+          <Grid
+            item
+            xs={12}
+            style={{
+              padding: 0,
+              height: "550px",
+              maxWidth: "810px",
+              overflowX: "scroll",
+              overflowY: "hidden"
+            }}
+          >
+            <Visualization
+              data-testid={dataTestId}
+              isPublic
+              queryType={queryType}
+              queryOptions={queryOptions}
+            />
+          </Grid>
+        )}
+      </Suspense>
       <Grid item xs={12} sm={8} style={{ paddingBottom: "117px" }}>
         <TextTruncate
           collapsedText={collapsedText}
