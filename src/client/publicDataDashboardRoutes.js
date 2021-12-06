@@ -1,7 +1,13 @@
-import React from "react";
-import PublicDataDashboardWrapper from "./publicDataDashboard/PublicDataDashboard";
-import DashboardAboutWrapper from "./publicDataDashboard/DashboardAbout";
-import DashboardGlossaryWrapper from "./publicDataDashboard/DashboardGlossary";
+import { lazy } from "react";
+const PublicDataDashboardWrapper = lazy(() =>
+  import("./publicDataDashboard/PublicDataDashboard")
+);
+const DashboardAboutWrapper = lazy(() =>
+  import("./publicDataDashboard/DashboardAbout")
+);
+const DashboardGlossaryWrapper = lazy(() =>
+  import("./publicDataDashboard/DashboardGlossary")
+);
 
 const publicDataDashboardRoutes = [
   {

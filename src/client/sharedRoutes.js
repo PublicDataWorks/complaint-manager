@@ -1,8 +1,8 @@
-import React from "react";
-import Login from "./Login";
-import Logout from "./Logout";
-import Callback from "./Callback";
-import StyleGuide from "./common/globalStyling/StyleGuide";
+import { lazy } from "react";
+const Login = lazy(() => import("./Login"));
+const Logout = lazy(() => import("./Logout"));
+const Callback = lazy(() => import("./Callback"));
+const StyleGuide = lazy(() => import("./common/globalStyling/StyleGuide"));
 
 const sharedRoutes = [
   {
