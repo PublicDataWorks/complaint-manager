@@ -90,7 +90,9 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      <Suspense fallback={() => {}}>
+      <Suspense
+        fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+      >
         {dataSectionType.includes("LOCATION_DATA") ? (
           <MapVisualization isPublic={true} />
         ) : (

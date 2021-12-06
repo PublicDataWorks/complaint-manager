@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import {
   CASE_STATUS,
   EDIT_STATUS,
@@ -25,20 +25,30 @@ import {
   startLetterDownload,
   stopLetterDownload
 } from "../../../actionCreators/letterActionCreators";
-import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
-import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../../common/globalStyling/styles";
 import getReferralLetterData from "../thunks/getReferralLetterData";
-import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
-import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
-import MissingComplainantDialog from "../../sharedFormComponents/MissingComplainantDialog";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+const EditLetterConfirmationDialog = lazy(() =>
+  import("./EditLetterConfirmationDialog")
+);
+const UpdateCaseStatusDialog = lazy(() =>
+  import("../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog")
+);
+const IncompleteClassificationsDialog = lazy(() =>
+  import("../../sharedFormComponents/IncompleteClassificationsDialog")
+);
+const IncompleteOfficerHistoryDialog = lazy(() =>
+  import("../../sharedFormComponents/IncompleteOfficerHistoryDialog")
+);
+const MissingComplainantDialog = lazy(() =>
+  import("../../sharedFormComponents/MissingComplainantDialog")
+);
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -117,21 +127,19 @@ class LetterPreview extends Component {
     );
   };
 
-  submitForm = (
-    redirectUrl,
-    alternativeSuccessCallback,
-    alternativeFailureCallback
-  ) => (values, dispatch) => {
-    dispatch(
-      editReferralLetterAddresses(
-        this.state.caseId,
-        values,
-        redirectUrl,
-        alternativeSuccessCallback,
-        alternativeFailureCallback
-      )
-    );
-  };
+  submitForm =
+    (redirectUrl, alternativeSuccessCallback, alternativeFailureCallback) =>
+    (values, dispatch) => {
+      dispatch(
+        editReferralLetterAddresses(
+          this.state.caseId,
+          values,
+          redirectUrl,
+          alternativeSuccessCallback,
+          alternativeFailureCallback
+        )
+      );
+    };
 
   confirmSubmitForReview = async values => {
     values.preventDefault();
@@ -289,10 +297,14 @@ class LetterPreview extends Component {
             />
           </CardContent>
         </Card>
-        <EditLetterConfirmationDialog
-          caseId={this.state.caseId}
-          saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
-        />
+        <Suspense
+          fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+        >
+          <EditLetterConfirmationDialog
+            caseId={this.state.caseId}
+            saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
+          />
+        </Suspense>
         <LinkButton
           data-testid="download-letter-as-pdf"
           onClick={this.saveAndDownloadPdf}
@@ -407,12 +419,16 @@ class LetterPreview extends Component {
             </div>
           </div>
         </form>
-        <MissingComplainantDialog caseId={this.state.caseId} />
-        <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
-        <IncompleteClassificationsDialog caseId={this.state.caseId} />
-        <UpdateCaseStatusDialog
-          alternativeAction={this.saveAndSubmitForReview}
-        />
+        <Suspense
+          fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+        >
+          <MissingComplainantDialog caseId={this.state.caseId} />
+          <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
+          <IncompleteClassificationsDialog caseId={this.state.caseId} />
+          <UpdateCaseStatusDialog
+            alternativeAction={this.saveAndSubmitForReview}
+          />
+        </Suspense>
       </div>
     );
   }
