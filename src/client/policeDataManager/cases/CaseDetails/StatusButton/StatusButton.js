@@ -3,7 +3,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
-import React, { Component, Fragment, lazy, Suspense } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import {
@@ -11,18 +11,12 @@ import {
   openIncompleteOfficerHistoryDialog,
   openMissingComplainantDialog
 } from "../../../actionCreators/letterActionCreators";
+import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import getReferralLetterData from "../../ReferralLetter/thunks/getReferralLetterData";
+import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
 import history from "../../../../history";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
-const IncompleteClassificationsDialog = lazy(() =>
-  import("../../sharedFormComponents/IncompleteClassificationsDialog")
-);
-const IncompleteOfficerHistoryDialog = lazy(() =>
-  import("../../sharedFormComponents/IncompleteOfficerHistoryDialog")
-);
-const MissingComplainantDialog = lazy(() =>
-  import("../../sharedFormComponents/MissingComplainantDialog")
-);
+import MissingComplainantDialog from "../../sharedFormComponents/MissingComplainantDialog";
 
 class StatusButton extends Component {
   componentDidMount() {
@@ -98,15 +92,9 @@ class StatusButton extends Component {
           >
             Review and Approve Letter
           </PrimaryButton>
-          <Suspense
-            fallback={() => (
-              <CircularProgress data-testid="spinner" size={30} />
-            )}
-          >
-            <MissingComplainantDialog caseId={this.props.caseId} />
-            <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
-            <IncompleteClassificationsDialog caseId={this.props.caseId} />
-          </Suspense>
+          <MissingComplainantDialog caseId={this.props.caseId} />
+          <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+          <IncompleteClassificationsDialog caseId={this.props.caseId} />
         </Fragment>
       );
     } else {
@@ -122,15 +110,9 @@ class StatusButton extends Component {
               ? `Begin Letter`
               : `Mark as ${nextStatus}`}
           </PrimaryButton>
-          <Suspense
-            fallback={() => (
-              <CircularProgress data-testid="spinner" size={30} />
-            )}
-          >
-            <MissingComplainantDialog caseId={this.props.caseId} />
-            <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
-            <IncompleteClassificationsDialog caseId={this.props.caseId} />
-          </Suspense>
+          <MissingComplainantDialog caseId={this.props.caseId} />
+          <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+          <IncompleteClassificationsDialog caseId={this.props.caseId} />
         </Fragment>
       );
     }
