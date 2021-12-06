@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Suspense } from "react";
 import policeDataManagerRoutes from "./policeDataManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
@@ -8,23 +8,33 @@ import { connect } from "react-redux";
 class AppRouter extends Component {
   render() {
     return (
-      <Switch>
-        {sharedRoutes.map(
-          route =>
-            this.shouldCreateRoute(route.toggleName) &&
-            this.createRoute(route.path, route.component)
+      <Suspense
+        fallback={() => (
+          <CircularProgress
+            data-testid="spinner"
+            style={{ marginTop: "100px", marginBottom: "32px" }}
+            size={80}
+          />
         )}
-        {policeDataManagerRoutes.map(
-          route =>
-            this.shouldCreateRoute(route.toggleName) &&
-            this.createRoute(route.path, route.component)
-        )}
-        {publicDataDashboardRoutes.map(
-          route =>
-            this.shouldCreateRoute(route.toggleName) &&
-            this.createRoute(route.path, route.component, route.title)
-        )}
-      </Switch>
+      >
+        <Switch>
+          {sharedRoutes.map(
+            route =>
+              this.shouldCreateRoute(route.toggleName) &&
+              this.createRoute(route.path, route.component)
+          )}
+          {policeDataManagerRoutes.map(
+            route =>
+              this.shouldCreateRoute(route.toggleName) &&
+              this.createRoute(route.path, route.component)
+          )}
+          {publicDataDashboardRoutes.map(
+            route =>
+              this.shouldCreateRoute(route.toggleName) &&
+              this.createRoute(route.path, route.component, route.title)
+          )}
+        </Switch>
+      </Suspense>
     );
   }
 

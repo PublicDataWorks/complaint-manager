@@ -1,24 +1,68 @@
-import React from "react";
-import AllegationSearchContainer from "./policeDataManager/allegations/AllegationSearchContainer";
-import OfficerHistories from "./policeDataManager/cases/ReferralLetter/OfficerHistories/OfficerHistories";
-import ArchivedCases from "./policeDataManager/cases/ArchivedCases";
-import EditOfficerSearch from "./policeDataManager/officers/OfficerSearch/EditOfficerSearch";
-import CaseDashboard from "./policeDataManager/cases/CaseDashboard";
-import AddOfficerSearch from "./policeDataManager/officers/OfficerSearch/AddOfficerSearch";
-import CaseDetails from "./policeDataManager/cases/CaseDetails/CaseDetails";
-import CaseHistory from "./policeDataManager/cases/CaseDetails/CaseHistory/CaseHistory";
-import EditLetter from "./policeDataManager/cases/ReferralLetter/EditLetter/EditLetter";
-import AddOfficerDetails from "./policeDataManager/officers/OfficerDetails/AddOfficerDetails";
-import RecommendedActions from "./policeDataManager/cases/ReferralLetter/RecommendedActions/RecommendedActions";
-import RedirectToCaseDashboard from "./RedirectToCaseDashboard";
-import LetterReview from "./policeDataManager/cases/ReferralLetter/LetterReview/LetterReview";
-import JobDashboard from "./policeDataManager/export/JobDashboard";
-import EditOfficerDetails from "./policeDataManager/officers/OfficerDetails/EditOfficerDetails";
-import LetterPreview from "./policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview";
-import ReviewAndApproveLetter from "./policeDataManager/cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter";
-import DataDashboard from "./policeDataManager/data/DataDashboard";
-import SearchCasesPage from "./policeDataManager/cases/SearchCases/SearchCasesPage";
-import TagManagementPage from "./policeDataManager/tags/TagManagementPage";
+import { lazy } from "react";
+const AllegationSearchContainer = lazy(() =>
+  import("./policeDataManager/allegations/AllegationSearchContainer")
+);
+const OfficerHistories = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/OfficerHistories/OfficerHistories"
+  )
+);
+const ArchivedCases = lazy(() =>
+  import("./policeDataManager/cases/ArchivedCases")
+);
+const EditOfficerSearch = lazy(() =>
+  import("./policeDataManager/officers/OfficerSearch/EditOfficerSearch")
+);
+const CaseDashboard = lazy(() =>
+  import("./policeDataManager/cases/CaseDashboard")
+);
+const AddOfficerSearch = lazy(() =>
+  import("./policeDataManager/officers/OfficerSearch/AddOfficerSearch")
+);
+const CaseDetails = lazy(() =>
+  import("./policeDataManager/cases/CaseDetails/CaseDetails")
+);
+const CaseHistory = lazy(() =>
+  import("./policeDataManager/cases/CaseDetails/CaseHistory/CaseHistory")
+);
+const EditLetter = lazy(() =>
+  import("./policeDataManager/cases/ReferralLetter/EditLetter/EditLetter")
+);
+const AddOfficerDetails = lazy(() =>
+  import("./policeDataManager/officers/OfficerDetails/AddOfficerDetails")
+);
+const RecommendedActions = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/RecommendedActions/RecommendedActions"
+  )
+);
+const RedirectToCaseDashboard = lazy(() => import("./RedirectToCaseDashboard"));
+const LetterReview = lazy(() =>
+  import("./policeDataManager/cases/ReferralLetter/LetterReview/LetterReview")
+);
+const JobDashboard = lazy(() =>
+  import("./policeDataManager/export/JobDashboard")
+);
+const EditOfficerDetails = lazy(() =>
+  import("./policeDataManager/officers/OfficerDetails/EditOfficerDetails")
+);
+const LetterPreview = lazy(() =>
+  import("./policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview")
+);
+const ReviewAndApproveLetter = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/ReviewAndApproveLetter/ReviewAndApproveLetter"
+  )
+);
+const DataDashboard = lazy(() =>
+  import("./policeDataManager/data/DataDashboard")
+);
+const SearchCasesPage = lazy(() =>
+  import("./policeDataManager/cases/SearchCases/SearchCasesPage")
+);
+const TagManagementPage = lazy(() =>
+  import("./policeDataManager/tags/TagManagementPage")
+);
 
 const policeDataManagerRoutes = [
   {

@@ -31,12 +31,12 @@ const Visualization = ({ queryType, isPublic, queryOptions }) => {
 
     fetchData();
   }, [queryType, isPublic, queryOptions]);
-  
+
   useEffect(() => {
     const createConfig = () => {
       const config = { ...getVisualizationConfig(queryType) };
       setConfig({ ...config });
-    }
+    };
 
     const createLayout = () => {
       const newLayout =
@@ -55,11 +55,12 @@ const Visualization = ({ queryType, isPublic, queryOptions }) => {
   }, [data, queryType, queryOptions, isPublic, isMobile]);
 
   return (
-      <PlotlyWrapper
-         style={{ height: "100%", width: "100%" }}
-         data={isEmpty(data.data) ? [] : data.data}
-         layout={layout}
-         config={config} />
+    <PlotlyWrapper
+      style={{ height: "100%", width: "100%" }}
+      data={isEmpty(data.data) ? [] : data.data}
+      layout={layout}
+      config={config}
+    />
   );
 };
 
