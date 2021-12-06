@@ -1,10 +1,8 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { openArchiveCaseDialog } from "../../../actionCreators/casesActionCreators";
 import LinkButton from "../../../shared/components/LinkButton";
-const ArchiveCaseDialog = lazy(() =>
-  import("../ArchiveCaseDialog/ArchiveCaseDialog")
-);
+import ArchiveCaseDialog from "../ArchiveCaseDialog/ArchiveCaseDialog";
 
 const ArchiveCaseButton = ({ openArchiveCaseDialog }) => {
   return (
@@ -16,11 +14,7 @@ const ArchiveCaseButton = ({ openArchiveCaseDialog }) => {
       >
         Archive Case
       </LinkButton>
-      <Suspense
-        fallback={() => <CircularProgress data-testid="spinner" size={30} />}
-      >
-        <ArchiveCaseDialog />
-      </Suspense>
+      <ArchiveCaseDialog />
     </div>
   );
 };

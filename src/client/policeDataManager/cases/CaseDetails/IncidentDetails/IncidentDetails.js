@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {
@@ -6,6 +6,7 @@ import formatDate, {
   format12HourTime
 } from "../../../../../sharedUtilities/formatDate";
 import LinkButton from "../../../shared/components/LinkButton";
+import IncidentDetailsDialog from "./IncidentDetailsDialog";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import { initialize, reset } from "redux-form";
 import { CardContent } from "@material-ui/core";
@@ -16,7 +17,6 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 
-const IncidentDetailsDialog = lazy(() => import("./IncidentDetailsDialog"));
 const {
   FIRST_CONTACTED_ORGANIZATION,
   BUREAU_ACRONYM
@@ -163,15 +163,11 @@ class IncidentDetails extends React.Component {
             </div>
           </div>
         </CardContent>
-        <Suspense
-          fallback={() => <CircularProgress data-testid="spinner" size={30} />}
-        >
-          <IncidentDetailsDialog
-            dialogOpen={this.props.open}
-            handleDialogClose={this.handleDialogClose}
-            caseId={caseId}
-          />
-        </Suspense>
+        <IncidentDetailsDialog
+          dialogOpen={this.props.open}
+          handleDialogClose={this.handleDialogClose}
+          caseId={caseId}
+        />
       </BaseCaseDetailsCard>
     );
   }
