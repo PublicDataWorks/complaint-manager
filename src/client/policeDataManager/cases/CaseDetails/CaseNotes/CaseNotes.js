@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import ActivityDisplay from "./ActivityDisplay";
 import * as _ from "lodash";
 import getCaseNotes from "../../thunks/getCaseNotes";
 import { Typography } from "@material-ui/core";
-import RemoveCaseNoteDialog from "../RemoveCaseNoteDialog/RemoveCaseNoteDialog";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
 import {
@@ -15,6 +14,9 @@ import { TIMEZONE } from "../../../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
 import { connect } from "react-redux";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+const RemoveCaseNoteDialog = lazy(() =>
+  import("../RemoveCaseNoteDialog/RemoveCaseNoteDialog")
+);
 
 class CaseNotes extends Component {
   componentDidMount() {
@@ -76,7 +78,13 @@ class CaseNotes extends Component {
               })
             )}
           </div>
-          <RemoveCaseNoteDialog />
+          <Suspense
+            fallback={() => (
+              <CircularProgress data-testid="spinner" size={30} />
+            )}
+          >
+            <RemoveCaseNoteDialog />
+          </Suspense>
         </div>
         <LinkButton
           onClick={() => {

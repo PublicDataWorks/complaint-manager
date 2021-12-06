@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { Chip, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
 import {
@@ -6,10 +6,13 @@ import {
   openRemoveCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
-import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
-import RemoveCaseTagDialog from "../RemoveCaseTagDialog/RemoveCaseTagDialog";
 import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
+
+const CaseTagDialog = lazy(() => import("./CaseTagDialog"));
+const RemoveCaseTagDialog = lazy(() =>
+  import("../RemoveCaseTagDialog/RemoveCaseTagDialog")
+);
 
 class CaseTags extends Component {
   componentDidMount() {
@@ -60,7 +63,13 @@ class CaseTags extends Component {
               })
             )}
           </div>
-          <RemoveCaseTagDialog />
+          <Suspense
+            fallback={() => (
+              <CircularProgress data-testid="spinner" size={30} />
+            )}
+          >
+            <RemoveCaseTagDialog />
+          </Suspense>
         </div>
         <div>
           {this.props.isArchived ? (
@@ -75,7 +84,11 @@ class CaseTags extends Component {
             </LinkButton>
           )}
         </div>
-        <CaseTagDialog />
+        <Suspense
+          fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+        >
+          <CaseTagDialog />
+        </Suspense>
       </div>
     );
   }

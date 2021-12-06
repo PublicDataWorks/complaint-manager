@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { connect } from "react-redux";
 import { openRestoreArchivedCaseDialog } from "../../../actionCreators/casesActionCreators";
 import LinkButton from "../../../shared/components/LinkButton";
-import RestoreArchivedCaseDialog from "../RestoreArchivedCaseDialog/RestoreArchivedCaseDialog";
+const RestoreArchivedCaseDialog = lazy(() =>
+  import("../RestoreArchivedCaseDialog/RestoreArchivedCaseDialog")
+);
 
 class RestoreArchivedCaseButton extends Component {
   render() {
@@ -15,7 +17,11 @@ class RestoreArchivedCaseButton extends Component {
         >
           Restore Case
         </LinkButton>
-        <RestoreArchivedCaseDialog />
+        <Suspense
+          fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+        >
+          <RestoreArchivedCaseDialog />
+        </Suspense>
       </div>
     );
   }

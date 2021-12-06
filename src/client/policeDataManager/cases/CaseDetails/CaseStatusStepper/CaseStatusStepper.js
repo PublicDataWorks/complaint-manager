@@ -1,12 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, lazy, Suspense } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
 import { CASE_STATUS_MAP } from "../../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
-import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
 import getActiveStep from "./getActiveStep";
+const UpdateCaseStatusDialog = lazy(() =>
+  import("../UpdateCaseStatusDialog/UpdateCaseStatusDialog")
+);
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -55,7 +57,11 @@ const CaseStatusStepper = ({ caseId, status, isArchived }) => {
         {generateSteps(CASE_STATUS_MAP)}
       </Stepper>
       {renderButtons()}
-      <UpdateCaseStatusDialog />
+      <Suspense
+        fallback={() => <CircularProgress data-testid="spinner" size={30} />}
+      >
+        <UpdateCaseStatusDialog />
+      </Suspense>
     </Fragment>
   );
 };

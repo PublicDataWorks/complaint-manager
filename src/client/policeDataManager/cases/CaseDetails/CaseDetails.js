@@ -1,4 +1,4 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -6,7 +6,6 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
 import Complainants from "./ComplainantWitnesses/Complainants";
-import CivilianDialog from "./CivilianDialog/CivilianDialog";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
@@ -31,8 +30,6 @@ import {
   NARRATIVE_FORM
 } from "../../../../sharedUtilities/constants";
 import Accused from "./Officers/Accused";
-import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
-import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
@@ -46,6 +43,11 @@ import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/pol
 import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
 import history from "../../../history";
 
+const CaseNoteDialog = lazy(() => import("./CaseNoteDialog/CaseNoteDialog"));
+const RemoveCivilianDialog = lazy(() =>
+  import("../RemovePersonDialog/RemovePersonDialog")
+);
+const CivilianDialog = lazy(() => import("./CivilianDialog/CivilianDialog"));
 const drawerWidthPercentage = "30%";
 const appBar = {
   position: "absolute",
@@ -226,9 +228,15 @@ class CaseDetails extends React.Component {
             />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
-          <CivilianDialog />
-          <RemoveCivilianDialog data-testid="removeCivilianDialog" />
-          <CaseNoteDialog />
+          <Suspense
+            fallback={() => (
+              <CircularProgress data-testid="spinner" size={30} />
+            )}
+          >
+            <CivilianDialog />
+            <RemoveCivilianDialog data-testid="removeCivilianDialog" />
+            <CaseNoteDialog />
+          </Suspense>
         </div>
       </div>
     );
