@@ -4,6 +4,8 @@ import { DEFAULT_PAGINATION_LIMIT } from "../../../../sharedUtilities/constants"
 import PropTypes from "prop-types";
 import localeInfo from "rc-pagination/lib/locale/en_US";
 import Pagination from "rc-pagination";
+import "rc-pagination/assets/index.css";
+import "../../../common/globalStyling/pagination.css";
 
 export class SearchResults extends Component {
   pagination() {
