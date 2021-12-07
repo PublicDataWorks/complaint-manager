@@ -28,12 +28,13 @@
 Given
 When
 Then
-.
+
+
 2. Scenario: 
 Given
 When
 Then
-.
+
 
 ### Mockups
 
