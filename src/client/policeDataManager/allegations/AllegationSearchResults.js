@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { Table, TableBody } from "@material-ui/core";
-import "rc-pagination/assets/index.css";
-import "../../common/globalStyling/pagination.css";
 import AllegationSearchTableHeader from "./AllegationSearchTableHeader";
 import AllegationSearchResultsRow from "./AllegationSearchResultsRow";
 import SearchResults from "../shared/components/SearchResults";

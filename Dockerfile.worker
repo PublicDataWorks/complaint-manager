@@ -7,7 +7,7 @@ FROM publicdataworks/docker-node-ubuntu:1.0.0
 # Temporary fix from thread: https://github.com/nodesource/distributions/issues/1266
 RUN apt-get update ; apt-get install ca-certificates \
     && apt-get update \
-    && apt-get install -y \
+    && apt-get install -y
 RUN apt-get install bash; apt-get install libgnutls30
 
 WORKDIR /app
@@ -18,6 +18,10 @@ ENV REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 COPY --from=instance /instance-files /app/src/instance-files
 COPY --from=instance /instance-files/public /app/public
 COPY . /app/
+
+# Dockerfile.web and Dockerfile.worker are identical up to here, which has build performance benefits
+# Please endeavor to keep that this way by adding common steps above this line and uncommon ones below this line
+# or if necessary move this line so that it still indicates the point of divergence
 
 RUN yarn build
 
