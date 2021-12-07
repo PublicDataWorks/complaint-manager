@@ -2,10 +2,8 @@
 
 
 **As a**
-
 **I want**
-
-**Son that** text
+**So that** 
 
 ### In Scope
 1.
