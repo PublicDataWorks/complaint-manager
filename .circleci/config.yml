@@ -17,7 +17,7 @@ parameters:
     default: "1.0.0"
 
 commands:
-  build-and-publish-app-image:
+  build-base-image:
     parameters:
       env:
         default: "ci"
@@ -35,7 +35,17 @@ commands:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>> .
+      - run: docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/base-app:latest .
+  build-and-publish-app-image:
+    parameters:
+      env:
+        default: "ci"
+        type: string
+      version:
+        default: $CIRCLE_SHA1
+        type: string
+    steps:
+      - run: docker build -f Dockerfile.web --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>> .
       - run: docker push publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>>
   build-and-publish-worker-image:
     parameters:
@@ -45,14 +55,8 @@ commands:
       version:
         default: $CIRCLE_SHA1
         type: string
-      instance-version:
-        default: "latest"
-        type: string
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.worker --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>> .
+      - run: docker build -f Dockerfile.worker --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>> .
       - run: docker push publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>>
 
 jobs:
@@ -179,47 +183,29 @@ jobs:
       - store_artifacts:
           path: hawkeye_report.json
 
-  build-and-publish-app-master:
+  build-and-publish-master:
     docker:
       - image: docker:stable
     steps:
       - checkout
+      - build-base-image:
+          env: "ci"
       - build-and-publish-app-image:
           env: "ci"
-          version: $CIRCLE_SHA1
-          instance-version: "latest"
-          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
-
-  build-and-publish-worker-master:
-    docker:
-      - image: docker:stable
-    steps:
-      - checkout
       - build-and-publish-worker-image:
           env-suffix: "-ci"
-          version: $CIRCLE_SHA1
-          instance-version: "latest"
 
-  build-and-publish-app-playground:
+  build-and-publish-playground:
     docker:
       - image: docker:stable
     steps:
       - checkout
+      - build-base-image:
+          env: playground
       - build-and-publish-app-image:
-          env: "playground"
-          version: $CIRCLE_SHA1
-          instance-version: latest
-          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
-
-  build-and-publish-worker-playground:
-    docker:
-      - image: docker:stable
-    steps:
-      - checkout
+          env: playground
       - build-and-publish-worker-image:
-          env-suffix: "-playground"
-          version: $CIRCLE_SHA1
-          instance-version: "latest"
+          env-suffix: -playground
 
   deploy-playground:
     docker:
@@ -529,36 +515,33 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - build-and-publish-app-image:
+      - build-base-image:
           env: staging
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+      - build-and-publish-app-image:
+          env: staging
+          version: $(cat version.txt)
 
-  build-and-publish-app-production:
+  build-and-publish-production:
     docker:
       - image: docker:stable
     steps:
       - checkout
       - attach_workspace:
           at: .
-      - build-and-publish-app-image:
+      - build-base-image:
           env: production
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PROD
-  
-  build-and-publish-worker-production:
-    docker:
-      - image: docker:stable
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
+      - build-and-publish-app-image:
+          env: production
+          version: $(cat version.txt)
       - build-and-publish-worker-image:
           env-suffix: ""
           version: $(cat version.txt)
-          instance-version: $(cat version.txt)
 
   push-tag:
     docker:
@@ -720,20 +703,14 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - get-instance-files-latest
-      - build-and-publish-app-master:
-          requires:
-            - test-client
-            - test-server-handlers-ci
-            - test-server-worker-non-handlers
-      - build-and-publish-worker-master:
+      - build-and-publish-master:
           requires:
             - test-client
             - test-server-handlers-ci
             - test-server-worker-non-handlers
       - deploy-ci:
           requires:
-            - build-and-publish-app-master
-            - build-and-publish-worker-master
+            - build-and-publish-master
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
@@ -759,28 +736,24 @@ workflows:
       - build-and-publish-app-staging:
           requires:
             - tag-instance-files
-      - build-and-publish-app-production:
-          requires:
-            - tag-instance-files
-      - build-and-publish-worker-production:
+      - build-and-publish-production:
           requires:
             - tag-instance-files
       - push-tag:
           requires:
             - build-and-publish-app-staging
-            - build-and-publish-app-production
-            - build-and-publish-worker-production
+            - build-and-publish-production
 
   build_and_deploy_playground:
     jobs:
-      # - security-check:
-      - get-instance-files-latest:
+      - security-check:
           filters:
             branches:
               only:
-                - localclient
-          #requires:
-          # - security-check
+                - base
+      - get-instance-files-latest:
+          requires:
+          - security-check
       - test-client:
           requires:
             - get-instance-files-latest
@@ -790,20 +763,14 @@ workflows:
       - test-server-worker-non-handlers:
           requires:
             - get-instance-files-latest
-      - build-and-publish-app-playground:
-          requires:
-            - test-client
-            - test-server-worker-non-handlers
-            - test-server-handlers-ci
-      - build-and-publish-worker-playground:
+      - build-and-publish-playground:
           requires:
             - test-client
             - test-server-worker-non-handlers
             - test-server-handlers-ci
       - deploy-playground:
           requires:
-            - build-and-publish-app-playground
-            - build-and-publish-worker-playground
+            - build-and-publish-playground
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground

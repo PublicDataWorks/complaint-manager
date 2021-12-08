@@ -16,6 +16,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 cd ..
 
+echo "Building base..."
+docker build -f Dockerfile.base --build-arg INSTANCE_IMAGE=${INSTANCE_IMAGE} --build-arg INSTANCE_VERSION=${INSTANCE_VERSION} --build-arg E2E_IMAGE=${E2E_IMAGE} -t publicdataworks/base-app:latest .
+
 echo "Building..."
 INSTANCE_IMAGE=${INSTANCE_IMAGE} INSTANCE_VERSION=${INSTANCE_VERSION} E2E_IMAGE=${E2E_IMAGE} docker-compose build
 
