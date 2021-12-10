@@ -31,8 +31,8 @@ services:
       - "4000:4000"
     #      Expose this port if using Node inspect flag for debugging purposes
     #     - "9229:9229"
-    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
-    command: ["yarn", "start:dev"]
+    entrypoint: [ "./wait-for-it.sh", "db:5432", "--" ]
+    command: [ "yarn", "start:dev" ]
     volumes:
       #      Mount this volume if you want to run a static front end on localhost:1234
       #      - ./build:/app/build
@@ -68,8 +68,10 @@ services:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
       - USE_SSL=false
+      - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
     volumes:
       - ./data:/tmp/localstack
+      - ${CERT_DIR}:/caroot
   app-e2e:
     build:
       context: .
@@ -98,8 +100,8 @@ services:
       - "1234:1234"
       - "443:443"
       - "4000:4000"
-    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
-    command: ["yarn", "start:dev"]
+    entrypoint: [ "./wait-for-it.sh", "db:5432", "--" ]
+    command: [ "yarn", "start:dev" ]
     volumes:
       - ./src:/app/src
       #      Mount this volume only if you have NOT set REACT_APP_INSTANCE_FILES_DIR locally
@@ -127,14 +129,15 @@ services:
       - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
+      - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
     depends_on:
       - db
       - redis
     ports:
       - "4567:4567"
       - "5000:5000"
-    entrypoint: ["./wait-for-it.sh", "db:5432", "--"]
-    command: ["yarn", "start:worker:dev"]
+    entrypoint: [ "./wait-for-it.sh", "db:5432", "--" ]
+    command: [ "yarn", "start:worker:dev" ]
     volumes:
       - ./src:/app/src
       #      Mount this volume only if you have NOT set REACT_APP_INSTANCE_FILES_DIR locally
@@ -143,6 +146,7 @@ services:
       #      Mount this volume only if you have set REACT_APP_INSTANCE_FILES_DIR locally
       - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${REACT_APP_INSTANCE_FILES_DIR}/public:/app/public
+      - ${CERT_DIR}:/caroot
   db:
     image: postgres:10.9-alpine
     depends_on:
@@ -160,7 +164,7 @@ services:
       - "./e2e/pageObjectModels:/e2e/pageObjectModels"
       - "./wait-for-it.sh:/wait-for-it.sh"
       - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
-    entrypoint: ["./wait-for-it.sh", "app-e2e:443", "-t", "300", "--"]
+    entrypoint: [ "./wait-for-it.sh", "app-e2e:443", "-t", "300", "--" ]
     environment:
       - TEST_USER=${TEST_USER}
       - TEST_PASS=${TEST_PASS}
@@ -181,5 +185,5 @@ services:
     volumes:
       - ".:/target"
     working_dir: "/target"
-    entrypoint: ["/bin/sh"]
-    command: ["./scripts/security-checks.sh"]
+    entrypoint: [ "/bin/sh" ]
+    command: [ "./scripts/security-checks.sh" ]
