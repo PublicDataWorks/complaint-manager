@@ -57,3 +57,5 @@ data/
 
 newrelic_agent.log
 .vscode/
+
+src/testPDFs/
