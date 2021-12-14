@@ -57,7 +57,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       new ReferralLetter.Builder()
         .defaultReferralLetter()
         .withCaseId(letterCase.id)
-        .withSender("Blobby Loblaw")
+        .withSender("Bob Loblaw")
         .withRecipient("Barry Zuckercorn")
         .withRecipientAddress("123 Main St."),
       { auditUser: "user" }
