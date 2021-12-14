@@ -1,3 +1,6 @@
+#!/bin/bash
+set -e
+
 # Build script to build app and keep yarn.lock up to date
 INSTANCE_IMAGE=publicdataworks/instance-files-noipm
 INSTANCE_VERSION=latest
