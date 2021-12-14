@@ -139,6 +139,11 @@ jobs:
       - run:
           name: Run server handler unit tests
           command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server-handlers:ci
+      - store_artifacts:
+          name: Upload PNG diffs in case the PDF compare job(s) failed
+          path: /root/project/src/testPDFs/basePNGs/*
+          destination: .
+          when: on_fail
   test-server-handlers-staging:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
