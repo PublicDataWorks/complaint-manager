@@ -18,6 +18,12 @@ import _ from "lodash";
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 require("../../../../handlebarHelpers");
+const {
+  signatureKeys
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
+const {
+  generateSender
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers.js`);
 
 const getReferralLetterPreview = asyncMiddleware(
   async (request, response, next) => {
@@ -25,10 +31,22 @@ const getReferralLetterPreview = asyncMiddleware(
     await throwErrorIfLetterFlowUnavailable(caseId);
 
     await models.sequelize.transaction(async transaction => {
-      const referralLetterAndAuditDetails = await getReferralLetterAndAuditDetails(
-        caseId,
-        transaction
+      // update sender to the logged in user if the logged in user is an authorized sender
+      let sender = Object.values(signatureKeys).find(
+        key => key.nickname === request.nickname
       );
+      if (sender) {
+        await models.referral_letter.update(
+          { sender: generateSender(sender) },
+          {
+            where: { caseId },
+            auditUser: request.nickname
+          }
+        );
+      }
+
+      const referralLetterAndAuditDetails =
+        await getReferralLetterAndAuditDetails(caseId, transaction);
       const referralLetter = referralLetterAndAuditDetails.referralLetter;
       const referralLetterAuditDetails =
         referralLetterAndAuditDetails.auditDetails;
@@ -44,10 +62,8 @@ const getReferralLetterPreview = asyncMiddleware(
       const html = htmlAndAuditDetails.html;
       const referralLetterBodyAuditDetails = htmlAndAuditDetails.auditDetails;
 
-      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-        caseId,
-        transaction
-      );
+      const caseDetailsAndAuditDetails =
+        await getCaseWithAllAssociationsAndAuditDetails(caseId, transaction);
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 
@@ -111,10 +127,8 @@ const getHtmlAndAuditDetails = async (
     html = referralLetter.editedLetterHtml;
     referralLetterBodyAuditDetails = {};
   } else {
-    const referralLetterBodyAndAuditDetails = await generateReferralLetterBodyAndAuditDetails(
-      caseId,
-      transaction
-    );
+    const referralLetterBodyAndAuditDetails =
+      await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
     html = referralLetterBodyAndAuditDetails.referralLetterBody;
     referralLetterBodyAuditDetails =
       referralLetterBodyAndAuditDetails.auditDetails;

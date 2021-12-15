@@ -21,6 +21,7 @@ services:
       - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
+      - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
     depends_on:
       - db
       - worker
@@ -47,6 +48,7 @@ services:
       #      Mount this volume only if you have set REACT_APP_INSTANCE_FILES_DIR locally
       - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${REACT_APP_INSTANCE_FILES_DIR}/public:/app/public
+      - ${CERT_DIR}:/caroot
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.11.0
     container_name: elasticsearch

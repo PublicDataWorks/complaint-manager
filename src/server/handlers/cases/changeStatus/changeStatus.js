@@ -3,11 +3,16 @@ import {
   ACCUSED,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
-import checkFeatureToggleEnabled from "../../../checkFeatureToggleEnabled";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
-import { get, isEmpty } from "lodash";
+import { isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
+const {
+  signatureKeys
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
+const {
+  generateSender
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers.js`);
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -122,14 +127,17 @@ const createReferralLetterAndLetterOfficers = async (
   nickname,
   transaction
 ) => {
-  const { RECIPIENT, RECIPIENT_ADDRESS, SENDER } = constants || {};
+  const { RECIPIENT, RECIPIENT_ADDRESS, SENDER, SENDER_NAME } = constants || {};
+  const currentSender = Object.values(signatureKeys).find(
+    key => key.nickname === nickname
+  );
 
   await models.referral_letter.create(
     {
       caseId: caseToUpdate.id,
       recipient: RECIPIENT,
       recipientAddress: RECIPIENT_ADDRESS,
-      sender: SENDER
+      sender: currentSender ? generateSender(currentSender) : SENDER
     },
     { auditUser: nickname, transaction }
   );
