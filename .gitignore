@@ -47,10 +47,6 @@ reports/*
 bin/reports/*
 selenium-debug.log
 chromedriver.log
-.terraform
-*.tfstate
-*.tfstate.backup
-.terraform.*
 
 data/
 .cert/
