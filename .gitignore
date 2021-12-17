@@ -56,3 +56,5 @@ newrelic_agent.log
 
 src/testPDFs/*.pdf
 src/testPDFs/**/*.png
+
+scripts/deploy-*.config
