@@ -1,8 +1,11 @@
 #!/usr/bin/env sh
 
+set -e
+
 #Parameters
 URL=$1
 
+# This script needs to run inside an Alpine container
 apk --no-cache add curl
 
 for i in `seq 1 10`; do
