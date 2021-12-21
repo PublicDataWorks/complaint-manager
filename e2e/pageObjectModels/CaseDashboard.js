@@ -80,10 +80,10 @@ module.exports = {
       selector: "[data-testid='caseReferenceSortLabel']"
     },
     sortIconDescending: {
-      selector: "svg.MuiTableSortLabel-IconDirectionDesc"
+      selector: "svg.MuiTableSortLabel-iconDirectionDesc"
     },
     sortIconAscending: {
-      selector: "svg.MuiTableSortLabel-IconDirectionAsc"
+      selector: "svg.MuiTableSortLabel-iconDirectionAsc"
     },
     newCaseButton: {
       selector: "[data-testid='createCaseButton'] > span"
