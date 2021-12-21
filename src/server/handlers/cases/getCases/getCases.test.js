@@ -187,11 +187,28 @@ describe("getCases", () => {
   });
 
   describe("sorting", () => {
-    const createCaseInStatus = async finalStatus => {
-      const createdCase = await models.cases.create(
-        new Case.Builder().defaultCase().withId(undefined),
-        { auditUser: "user" }
-      );
+    const createCaseInStatus = async (finalStatus, params) => {
+      let builder = new Case.Builder().defaultCase();
+      if (params) {
+        if (params.id) {
+          builder.withId(params.id);
+        } else {
+          builder.withId(undefined);
+        }
+
+        if (params.year) {
+          builder.withYear(params.year);
+        }
+
+        if (params.caseNumber) {
+          builder.withCaseNumber(params.caseNumber);
+        }
+      } else {
+        builder.withId(undefined);
+      }
+      const createdCase = await models.cases.create(builder, {
+        auditUser: "user"
+      });
 
       while (createdCase.nextStatus !== null) {
         if (finalStatus === createdCase.status) {
@@ -1293,6 +1310,49 @@ describe("getCases", () => {
           expect.objectContaining({ id: case2.id }),
           expect.objectContaining({ id: case3.id })
         ]);
+      });
+    });
+
+    describe("by default", () => {
+      let case1, case2, case3, case4;
+
+      beforeEach(async () => {
+        case1 = await createCaseInStatus(CASE_STATUS.INITIAL, {
+          year: "2020",
+          caseNumber: "0001",
+          id: 1
+        });
+
+        case2 = await createCaseInStatus(CASE_STATUS.READY_FOR_REVIEW, {
+          year: "2021",
+          caseNumber: "0005",
+          id: 2
+        });
+
+        case3 = await createCaseInStatus(CASE_STATUS.FORWARDED_TO_AGENCY, {
+          year: "2021",
+          caseNumber: "0007",
+          id: 3
+        });
+
+        case4 = await createCaseInStatus(CASE_STATUS.READY_FOR_REVIEW, {
+          year: "2021",
+          caseNumber: "0010",
+          id: 4
+        });
+      });
+
+      test("should return Ready for Review then everything else sorted by case reference", async () => {
+        const cases = await getCases(CASES_TYPE.WORKING);
+        expect(cases).toEqual({
+          count: 4,
+          rows: [
+            expect.objectContaining({ id: 4 }),
+            expect.objectContaining({ id: 2 }),
+            expect.objectContaining({ id: 3 }),
+            expect.objectContaining({ id: 1 })
+          ]
+        });
       });
     });
   });
