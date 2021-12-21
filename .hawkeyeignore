@@ -20,6 +20,7 @@ files-contents-scripts/init-localstack.sh-14
 files-contents-scripts/search/create-search-index.js-1
 files-contents-scripts/search/query-index.js-1
 files-contents-src/server/handlers/getResultsFromES.js-1
+files-contents-scripts/build-and-deploy.sh-1
 files-contents-scripts/build-and-deploy.sh-13
 files-contents-scripts/build-and-deploy.sh-14
 
