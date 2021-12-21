@@ -19,6 +19,20 @@ const caseDashboardCommands = {
       .waitForElementVisible(c2x(customSelector), e2e.roundtripWait)
       .useCss();
   },
+  sortByCaseReference: function (order) {
+    this.waitForElementVisible("@caseReferenceSortLabel", e2e.rerenderWait)
+      .click("@caseReferenceSortLabel", e2e.logOnClick)
+      .waitForElementVisible("@sortIconAscending", e2e.rerenderWait);
+
+    if (order === "desc") {
+      this.click(
+        "@caseReferenceSortLabel",
+        e2e.logOnClick
+      ).waitForElementVisible("@sortIconDescending");
+    }
+
+    return this;
+  },
   goToACCase: function () {
     const customSelector = util.format(
       this.elements.caseReference.selector,
@@ -61,6 +75,15 @@ module.exports = {
     pageTitle: { selector: "[data-testid='pageTitle']" },
     caseReference: {
       selector: "[data-testid='caseReference']:contains('%s')"
+    },
+    caseReferenceSortLabel: {
+      selector: "[data-testid='caseReferenceSortLabel']"
+    },
+    sortIconDescending: {
+      selector: "svg.MuiTableSortLabel-IconDirectionDesc"
+    },
+    sortIconAscending: {
+      selector: "svg.MuiTableSortLabel-IconDirectionAsc"
     },
     newCaseButton: {
       selector: "[data-testid='createCaseButton'] > span"

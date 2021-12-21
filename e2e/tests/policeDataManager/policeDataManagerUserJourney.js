@@ -182,6 +182,7 @@ module.exports = {
 
       caseDetailsPage.returnToCaseDashboard();
 
+      caseDashboard.sortByCaseReference("desc");
       caseDashboard.isOnPage().hasCaseWithAC();
     },
 
