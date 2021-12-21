@@ -26,6 +26,7 @@ echo "Step: Migrate and Seed Database"
 docker run -e NODE_ENV=$ENV_NAME -e DATABASE_USERNAME=$DATABASE_USERNAME -e DATABASE_PASS=$DATABASE_PASS -e DATABASE_NAME=$DATABASE_NAME -e DATABASE_HOST=$DATABASE_HOST -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files registry.heroku.com/$HEROKU_APP_NAME/web:latest yarn setup:db
 
 echo "Step: Deploy Web and Worker containers to Heroku"
+docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
 docker push registry.heroku.com/$HEROKU_APP_NAME/web
 docker push registry.heroku.com/$HEROKU_APP_NAME/worker
 heroku container:release -a $HEROKU_APP_NAME web worker
