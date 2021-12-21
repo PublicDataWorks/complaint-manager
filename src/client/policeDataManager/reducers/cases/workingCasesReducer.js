@@ -14,9 +14,7 @@ const initialState = {
   loaded: false,
   cases: [],
   totalCaseCount: 0,
-  currentPage: 1,
-  sortBy: SORT_CASES_BY.CASE_REFERENCE,
-  sortDirection: DESCENDING
+  currentPage: 1
 };
 const workingCasesReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -45,8 +43,8 @@ const workingCasesReducer = (state = initialState, action) => {
       return {
         ...state,
         currentPage: 1,
-        sortBy: SORT_CASES_BY.CASE_REFERENCE,
-        sortDirection: DESCENDING,
+        sortBy: undefined,
+        sortDirection: undefined,
         loaded: false
       };
     case UPDATE_CASES_TABLE_SORTING:

@@ -17,9 +17,7 @@ describe("workingCasesReducer", () => {
       loaded: false,
       cases: [],
       totalCaseCount: 0,
-      currentPage: 1,
-      sortBy: SORT_CASES_BY.CASE_REFERENCE,
-      sortDirection: DESCENDING
+      currentPage: 1
     });
   });
 
