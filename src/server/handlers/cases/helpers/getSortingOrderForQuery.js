@@ -6,8 +6,22 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../../sequelizeHelpers";
 
+const READY_FOR_REVIEW_FIRST_ORDER = [
+  [
+    sequelize.literal(
+      "CASE WHEN status = 'Ready for Review' THEN '0' ELSE '1' END"
+    ),
+    ASCENDING
+  ]
+];
+
 export const getSortingOrderForQuery = (sortBy, sortDirection) => {
   const model = models.sortable_cases_view;
+
+  if (!sortBy) {
+    return READY_FOR_REVIEW_FIRST_ORDER;
+  }
+
   switch (sortBy) {
     case SORT_CASES_BY.PRIMARY_COMPLAINANT:
       if (sortDirection === ASCENDING) {

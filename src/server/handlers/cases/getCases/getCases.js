@@ -4,8 +4,7 @@ import getSortingOrderForQuery from "../helpers/getSortingOrderForQuery";
 import {
   ASCENDING,
   DEFAULT_PAGINATION_LIMIT,
-  DESCENDING,
-  SORT_CASES_BY
+  DESCENDING
 } from "../../../../sharedUtilities/constants";
 
 const Op = sequelize.Op;
@@ -65,11 +64,11 @@ const getCases = async (
   }
 
   const queryOptions = {
-    where: where,
+    where,
     transaction,
-    order: order,
-    limit: limit,
-    offset: offset
+    order,
+    limit,
+    offset
   };
 
   return await models.sortable_cases_view.findAndCountAll(queryOptions);
