@@ -69,7 +69,15 @@ export const areSearchOperatorsValid = queryString => {
   } else {
     const OPERATORS = ["AND", "OR", "NOT"];
     const CONJUNCTIONS = ["AND", "OR"];
-    const FIELDS = ["tag", "accused", "complainant", "case_id"];
+    const FIELDS = [
+      "tag",
+      "accused",
+      "complainant",
+      "case_id",
+      "narrative",
+      "narrative.summary",
+      "narrative.details"
+    ];
     let words = queryString.split(" ");
     if (
       CONJUNCTIONS.includes(words[0]) ||
