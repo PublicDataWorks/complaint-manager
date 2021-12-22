@@ -18,7 +18,8 @@ const tooltipStyles = () => ({
   examples: {
     display: "flex",
     justifyContent: "space-between",
-    margin: "10px 0px"
+    margin: "10px 0px",
+    flexWrap: "wrap"
   }
 });
 
@@ -74,6 +75,16 @@ const SearchTooltip = ({
               </div>
               <div className="example">
                 <strong>tag:</strong>"Crime Lab"
+              </div>
+              <div className="example">
+                <strong>narrative:</strong>Brutality
+              </div>
+              <div className="example">
+                <strong>narrative.summary:</strong>"Escaped Dog"
+              </div>
+              <div className="example">
+                <strong>narrative.details:</strong>"Walked into oncoming
+                traffic"
               </div>
             </section>
           </section>
