@@ -60,7 +60,7 @@ const NotificationDrawer = props => {
             fontSize="large"
             color="secondary"
           />
-          <div style={{ textAlign: "center", width: "100%", color: "#62757f" }}>
+          <div style={{ textAlign: "center", width: "100%", color: "#586972" }}>
             {DEFAULT_NOTIFICATION_TEXT}
           </div>
         </div>

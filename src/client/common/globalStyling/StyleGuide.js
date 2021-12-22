@@ -102,7 +102,7 @@ const StyleGuide = props => (
           <GridListTile style={getBoxStyle(props.theme.palette.secondary.main)}>
             <GridListTileBar
               title="Secondary"
-              subtitle="#62757f"
+              subtitle="#586972"
               style={{ background: "transparent" }}
             />
           </GridListTile>
@@ -170,7 +170,7 @@ const StyleGuide = props => (
           <GridListTile style={getBoxStyle(props.theme.palette.green)}>
             <GridListTileBar
               title="Green"
-              subtitle="#388e3c"
+              subtitle="#328736"
               style={{ backgroundColor: "transparent" }}
             />
           </GridListTile>

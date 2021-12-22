@@ -6,7 +6,7 @@ const colors = {
   buttonGray: "#F5F4F4",
   iconGray: "#C7C7CC",
   white: "#FFFFFF",
-  green: "#388e3c",
+  green: "#328736",
   red: "#d32f2f",
   error: {
     main: "#d32f2f"

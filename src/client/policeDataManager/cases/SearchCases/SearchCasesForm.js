@@ -42,9 +42,10 @@ class SearchCasesForm extends Component {
             color="inherit"
             data-testid="searchButton"
             onClick={this.props.handleSubmit(this.submit)}
+            title="Search Button"
           >
             <SearchIcon color="inherit" />
-          </IconButton>
+          </IconButton >
           <Field
             name="queryString"
             component={renderTextField}
