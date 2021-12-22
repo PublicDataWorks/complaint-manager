@@ -182,8 +182,7 @@ module.exports = {
 
       caseDetailsPage.returnToCaseDashboard();
 
-      caseDashboard.sortByCaseReference("desc");
-      caseDashboard.isOnPage().hasCaseWithAC();
+      caseDashboard.isOnPage().sortByCaseReference("desc").hasCaseWithAC();
     },
 
   "should return to AC case details and un-anonymize the primary complainant":
@@ -193,7 +192,7 @@ module.exports = {
       const civilianDialog = browser.page.CivilianDialog();
       const snackbar = browser.page.SnackbarPOM();
 
-      caseDashboard.isOnPage().goToACCase();
+      caseDashboard.isOnPage().sortByCaseReference("desc").goToACCase();
 
       caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
 
