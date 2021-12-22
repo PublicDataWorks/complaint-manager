@@ -7,11 +7,13 @@ const ExportDateRange = props => {
     <div>
       <DateField
         required
+        aria-label="From Date Field"
         name={`${props.formLabel}From`}
         label="From"
         data-testid={`${props.formLabel}FromField`}
         inputProps={{
           "data-testid": `${props.formLabel}FromInput`,
+          "aria-label": "Date Field",
           type: "date",
           max: moment(Date.now()).format("YYYY-MM-DD")
         }}
@@ -29,6 +31,7 @@ const ExportDateRange = props => {
         data-testid={`${props.formLabel}ToField`}
         inputProps={{
           "data-testid": `${props.formLabel}ToInput`,
+          "aria-label": "Date Field",
           type: "date",
           max: moment(Date.now()).format("YYYY-MM-DD")
         }}
