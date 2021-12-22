@@ -16,6 +16,9 @@ If you are looking to contribute to this repo, take a look at [our contributor g
   * Mac is the default developer platform for our team
   * On any other platform (Linux / Windows) the code should compile and run, but this isn't something we've tested
 
+### Install Heroku CLI (Optional)
+If you plan to manually (or by local script) perform administrative tasks on Heroku deployments (including deploy them), you will need to install [the Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
+
 ### Install Docker
 
   * On Mac, you may [download it here](https://www.docker.com/products/docker)
