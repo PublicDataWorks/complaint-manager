@@ -34,9 +34,10 @@ const constructFilename = (existingCase, pdfLetterType, editStatus) => {
 const getComplainantLastName = complainant => {
   if (!complainant) {
     return "";
-  }
-  if (complainant.isUnknownOfficer) {
+  } else if (complainant.isUnknownOfficer) {
     return "_Unknown_Officer";
+  } else if (!complainant.lastName) {
+    return "";
   }
   return sanitizeName(complainant.lastName);
 };

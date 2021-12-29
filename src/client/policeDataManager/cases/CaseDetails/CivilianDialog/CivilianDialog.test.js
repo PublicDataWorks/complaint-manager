@@ -376,10 +376,13 @@ describe("civilian dialog", () => {
       );
 
       save.simulate("click");
-      expect(submitAction).toHaveBeenCalledWith({
-        ...civilianToSubmit,
-        genderIdentityId: unknownGenderIdentity[1]
-      });
+      expect(submitAction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          ...civilianToSubmit,
+          genderIdentityId: unknownGenderIdentity[1],
+          isAnonymous: undefined
+        })
+      );
     });
   });
 });
