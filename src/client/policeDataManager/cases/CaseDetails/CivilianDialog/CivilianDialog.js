@@ -4,7 +4,8 @@ import {
   Field,
   formValueSelector,
   reduxForm,
-  SubmissionError
+  SubmissionError,
+  change
 } from "redux-form";
 import {
   Dialog,
@@ -74,19 +75,22 @@ class CivilianDialog extends Component {
   }
 
   handleCivilian = (values, dispatch) => {
-    const errors = addressMustBeValid(this.props.addressValid);
+    if (!values.isUnknown) {
+      const errors = addressMustBeValid(this.props.addressValid);
 
-    if (errors.autoSuggestValue) {
-      throw new SubmissionError(errors);
-    }
-    const contactErrors = validate(values);
-    if (!_.isEmpty(contactErrors)) {
-      throw new SubmissionError(contactErrors);
+      if (errors.autoSuggestValue) {
+        throw new SubmissionError(errors);
+      }
+      const contactErrors = validate(values);
+      if (!_.isEmpty(contactErrors)) {
+        throw new SubmissionError(contactErrors);
+      }
     }
 
     dispatch(
       this.props.submitAction({
         ...values,
+        isAnonymous: values.isAnonymous || values.isUnknown,
         birthDate: nullifyFieldUnlessValid(values.birthDate),
         address: normalizeAddress(values.address)
       })
@@ -128,103 +132,9 @@ class CivilianDialog extends Component {
                 label={WITNESS}
               />
             </Field>
-
-            <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
-              Personal Information
-            </Typography>
-            <div>
-              <Field
-                required
-                name="civilianTitleId"
-                component={Dropdown}
-                label="Title"
-                hinttext="Title"
-                data-testid="titleDropdown"
-                style={{
-                  width: "95px",
-                  marginBottom: "3%"
-                }}
-                inputProps={{ "data-testid": "titleInput" }}
-                validate={[titleIsRequired]}
-              >
-                {generateMenuOptions(this.props.civilianTitles)}
-              </Field>
-            </div>
-            <div>
-              <FirstNameField name="firstName" />
-              <MiddleInitialField
-                name="middleInitial"
-                style={{
-                  width: "40px",
-                  marginRight: "5%"
-                }}
-              />
-              <LastNameField name="lastName" />
-              <SuffixField
-                name="suffix"
-                style={{
-                  width: "120px"
-                }}
-              />
-            </div>
-            <div
-              style={{
-                display: "inline-flex",
-                justifyPosition: "flex-start",
-                marginBottom: "3%"
-              }}
-            >
-              <div>
-                <DateField
-                  name="birthDate"
-                  data-testid="birthDateField"
-                  inputProps={{
-                    "data-testid": "birthDateInput",
-                    type: "date",
-                    max: moment(Date.now()).format("YYYY-MM-DD")
-                  }}
-                  label="Date of Birth"
-                  clearable={true}
-                  style={{
-                    minWidth: "140px",
-                    marginRight: "5%"
-                  }}
-                />
-              </div>
-              <Field
-                required
-                name="genderIdentityId"
-                component={Dropdown}
-                label="Gender Identity"
-                hinttext="Gender Identity"
-                data-testid="genderDropdown"
-                validate={[genderIdentityIsRequired]}
-                style={{
-                  minWidth: "166px",
-                  marginBottom: "3%",
-                  marginLeft: "28px"
-                }}
-                inputProps={{ "data-testid": "genderInput" }}
-              >
-                {generateMenuOptions(this.props.genderIdentities)}
-              </Field>
-            </div>
-            <Field
-              required
-              name="raceEthnicityId"
-              component={Dropdown}
-              label="Race/Ethnicity"
-              hinttext="Race/Ethnicity"
-              data-testid="raceDropdown"
-              style={{ width: "75%" }}
-              inputProps={{ "data-testid": "raceEthnicityInput" }}
-              validate={[raceEthnicityIsRequired]}
-            >
-              {generateMenuOptions(this.props.raceEthnicities)}
-            </Field>
             <FormControlLabel
               key="isAnonymous"
-              label="Anonymize complainant in referral letter"
+              label={`Anonymize ${this.props.roleOnCase?.toLowerCase()} in referral letter`}
               control={
                 <Field
                   data-testid="isAnonymous"
@@ -232,86 +142,206 @@ class CivilianDialog extends Component {
                   component={PrimaryCheckBox}
                 />
               }
-            />
-            <Typography
-              variant="subtitle2"
-              style={{ marginTop: "24px", marginBottom: "8px" }}
-            >
-              Contact Information
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "100%"
+              onChange={e => {
+                if (e.target.checked) {
+                  this.props.change("isUnknown", false);
+                }
               }}
-            >
-              <PhoneNumberField name="phoneNumber" />
-              <Typography
-                variant="button"
-                style={{
-                  marginLeft: "22px",
-                  marginTop: "22px",
-                  marginRight: "22px"
-                }}
-              >
-                OR
-              </Typography>
-              <EmailField name="email" autoComplete="disabled" />
-
-              <Typography
-                variant="button"
-                style={{
-                  marginLeft: "22px",
-                  marginTop: "22px",
-                  marginRight: "22px"
-                }}
-              >
-                OR
-              </Typography>
-            </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ marginBottom: "16px", width: "100%" }}>
-                <AddressInput
-                  name={"autoSuggestValue"}
-                  formName={CIVILIAN_FORM_NAME}
-                  fieldName={"address"}
-                  addressLabel={"Address"}
-                  formattedAddress={this.props.formattedAddress}
+            />
+            <FormControlLabel
+              key="isUnknown"
+              label={`Unknown ${this.props.roleOnCase}`}
+              control={
+                <Field
+                  data-testid="isUnknown"
+                  name="isUnknown"
+                  component={PrimaryCheckBox}
                 />
-              </div>
-              <AddressSecondLine
-                label={"Address Line 2"}
-                fieldName={"address"}
-                style={{
-                  marginBottom: "24px",
-                  width: "50%"
-                }}
-              />
-            </div>
-
-            <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
-              Notes
-            </Typography>
-            <Field
-              name="additionalInfo"
-              component={renderTextField}
-              style={{ marginBottom: "16px" }}
-              fullWidth
-              multiline
-              rowsMax={5}
-              placeholder="Enter any additional details about the complainant here"
-              inputProps={{
-                "data-testid": "additionalInfoInput",
-                autoComplete: "off"
+              }
+              onChange={e => {
+                if (e.target.checked) {
+                  this.props.change("isAnonymous", false);
+                }
               }}
-              data-testid="additionalInfoField"
             />
-            <Field
-              type={"hidden"}
-              name={"caseId"}
-              component={renderTextField}
-            />
+            {this.props.isUnknown ? (
+              ""
+            ) : (
+              <>
+                <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+                  Personal Information
+                </Typography>
+                <div>
+                  <Field
+                    required
+                    name="civilianTitleId"
+                    component={Dropdown}
+                    label="Title"
+                    hinttext="Title"
+                    data-testid="titleDropdown"
+                    style={{
+                      width: "95px",
+                      marginBottom: "3%"
+                    }}
+                    inputProps={{ "data-testid": "titleInput" }}
+                    validate={[titleIsRequired]}
+                  >
+                    {generateMenuOptions(this.props.civilianTitles)}
+                  </Field>
+                </div>
+                <div>
+                  <FirstNameField name="firstName" />
+                  <MiddleInitialField
+                    name="middleInitial"
+                    style={{
+                      width: "40px",
+                      marginRight: "5%"
+                    }}
+                  />
+                  <LastNameField name="lastName" />
+                  <SuffixField
+                    name="suffix"
+                    style={{
+                      width: "120px"
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    display: "inline-flex",
+                    justifyPosition: "flex-start",
+                    marginBottom: "3%"
+                  }}
+                >
+                  <div>
+                    <DateField
+                      name="birthDate"
+                      data-testid="birthDateField"
+                      inputProps={{
+                        "data-testid": "birthDateInput",
+                        type: "date",
+                        max: moment(Date.now()).format("YYYY-MM-DD")
+                      }}
+                      label="Date of Birth"
+                      clearable={true}
+                      style={{
+                        minWidth: "140px",
+                        marginRight: "5%"
+                      }}
+                    />
+                  </div>
+                  <Field
+                    required
+                    name="genderIdentityId"
+                    component={Dropdown}
+                    label="Gender Identity"
+                    hinttext="Gender Identity"
+                    data-testid="genderDropdown"
+                    validate={[genderIdentityIsRequired]}
+                    style={{
+                      minWidth: "166px",
+                      marginBottom: "3%",
+                      marginLeft: "28px"
+                    }}
+                    inputProps={{ "data-testid": "genderInput" }}
+                  >
+                    {generateMenuOptions(this.props.genderIdentities)}
+                  </Field>
+                </div>
+                <Field
+                  required
+                  name="raceEthnicityId"
+                  component={Dropdown}
+                  label="Race/Ethnicity"
+                  hinttext="Race/Ethnicity"
+                  data-testid="raceDropdown"
+                  style={{ width: "75%" }}
+                  inputProps={{ "data-testid": "raceEthnicityInput" }}
+                  validate={[raceEthnicityIsRequired]}
+                >
+                  {generateMenuOptions(this.props.raceEthnicities)}
+                </Field>
+                <Typography
+                  variant="subtitle2"
+                  style={{ marginTop: "24px", marginBottom: "8px" }}
+                >
+                  Contact Information
+                </Typography>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "100%"
+                  }}
+                >
+                  <PhoneNumberField name="phoneNumber" />
+                  <Typography
+                    variant="button"
+                    style={{
+                      marginLeft: "22px",
+                      marginTop: "22px",
+                      marginRight: "22px"
+                    }}
+                  >
+                    OR
+                  </Typography>
+                  <EmailField name="email" autoComplete="disabled" />
+
+                  <Typography
+                    variant="button"
+                    style={{
+                      marginLeft: "22px",
+                      marginTop: "22px",
+                      marginRight: "22px"
+                    }}
+                  >
+                    OR
+                  </Typography>
+                </div>
+                <div style={{ display: "flex" }}>
+                  <div style={{ marginBottom: "16px", width: "100%" }}>
+                    <AddressInput
+                      name={"autoSuggestValue"}
+                      formName={CIVILIAN_FORM_NAME}
+                      fieldName={"address"}
+                      addressLabel={"Address"}
+                      formattedAddress={this.props.formattedAddress}
+                    />
+                  </div>
+                  <AddressSecondLine
+                    label={"Address Line 2"}
+                    fieldName={"address"}
+                    style={{
+                      marginBottom: "24px",
+                      width: "50%"
+                    }}
+                  />
+                </div>
+
+                <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+                  Notes
+                </Typography>
+                <Field
+                  name="additionalInfo"
+                  component={renderTextField}
+                  style={{ marginBottom: "16px" }}
+                  fullWidth
+                  multiline
+                  rowsMax={5}
+                  placeholder="Enter any additional details about the complainant here"
+                  inputProps={{
+                    "data-testid": "additionalInfoInput",
+                    autoComplete: "off"
+                  }}
+                  data-testid="additionalInfoField"
+                />
+                <Field
+                  type={"hidden"}
+                  name={"caseId"}
+                  component={renderTextField}
+                />
+              </>
+            )}
           </form>
         </DialogContent>
         <DialogActions
@@ -358,7 +388,9 @@ const mapStateToProps = state => {
     "address.country",
     "address.lat",
     "address.lng",
-    "address.placeId"
+    "address.placeId",
+    "isUnknown",
+    "roleOnCase"
   );
 
   return {
@@ -370,14 +402,17 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     raceEthnicities: state.ui.raceEthnicities,
     genderIdentities: state.ui.genderIdentities,
-    civilianTitles: state.ui.civilianTitles
+    civilianTitles: state.ui.civilianTitles,
+    isUnknown: values.isUnknown,
+    roleOnCase: values.roleOnCase
   };
 };
 
 const mapDispatchToProps = {
   getRaceEthnicityDropdownValues,
   getGenderIdentityDropdownValues,
-  getCivilianTitleDropdownValues
+  getCivilianTitleDropdownValues,
+  change
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

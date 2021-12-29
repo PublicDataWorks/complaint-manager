@@ -20,6 +20,8 @@ const complainantName = ({ fullName, personType, isAnonymous }) => {
     return `(AC) Officer ${fullName}`;
   } else if (personType === PERSON_TYPE.KNOWN_OFFICER.description) {
     return `Officer ${fullName}`;
+  } else if (!fullName) {
+    return "Unknown";
   } else if (isAnonymous === true) {
     return `(AC) ${fullName}`;
   } else {

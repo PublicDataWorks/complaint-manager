@@ -85,8 +85,8 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       hooks: {
         beforeSave: (civilian, options) => {
-          civilian.firstName = civilian.firstName.trim();
-          civilian.lastName = civilian.lastName.trim();
+          civilian.firstName = civilian.firstName?.trim();
+          civilian.lastName = civilian.lastName?.trim();
         }
       }
     }

@@ -30,9 +30,14 @@ const CivilianPanel = ({
 }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
-  const fullNameIsAnonymous = civilian.isAnonymous
-    ? `(AC) ${civilian.fullName}`
-    : civilian.fullName;
+  let fullName;
+  if (!civilian.fullName) {
+    fullName = "Unknown";
+  } else if (civilian.isAnonymous) {
+    fullName = `(AC) ${civilian.fullName}`;
+  } else {
+    fullName = civilian.fullName;
+  }
 
   return (
     <div>
@@ -62,7 +67,7 @@ const CivilianPanel = ({
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel={"Civilian"}
-                    value={fullNameIsAnonymous}
+                    value={fullName}
                     isAnonymous={civilian.isAnonymous}
                     testLabel="complainantWitness"
                   />
@@ -138,7 +143,13 @@ const CivilianPanel = ({
                 data-testid="editComplainantLink"
                 onClick={event => {
                   event.stopPropagation();
-                  dispatch(initialize(CIVILIAN_FORM_NAME, civilian));
+                  dispatch(
+                    initialize(CIVILIAN_FORM_NAME, {
+                      ...civilian,
+                      isUnknown: civilian.isAnonymous && !civilian.lastName,
+                      isAnonymous: civilian.isAnonymous && !!civilian.lastName
+                    })
+                  );
                   dispatch(
                     openCivilianDialog("Edit Civilian", "Save", editCivilian)
                   );

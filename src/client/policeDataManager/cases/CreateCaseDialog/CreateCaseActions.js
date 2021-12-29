@@ -71,8 +71,9 @@ export class CreateCaseActions extends React.Component {
   prepareCivilian = civilian => {
     const civilianData = {
       ...civilian,
-      firstName: civilian.firstName.trim(),
-      lastName: civilian.lastName.trim(),
+      isAnonymous: civilian.isAnonymous || civilian.isUnknown,
+      firstName: civilian.firstName?.trim(),
+      lastName: civilian.lastName?.trim(),
       address: normalizeAddress(civilian.address)
     };
     return {
@@ -81,11 +82,16 @@ export class CreateCaseActions extends React.Component {
   };
 
   isValid = civilian => {
-    const errors = validate(civilian);
-    addressMustBeValid(this.props.addressValid, errors);
-    if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
-    return true;
+    if (civilian.isUnknown) {
+      return true;
+    } else {
+      const errors = validate(civilian);
+      addressMustBeValid(this.props.addressValid, errors);
+      if (!isEmpty(errors)) throw new SubmissionError({ civilian: errors });
+      return true;
+    }
   };
+
   render() {
     const { theme, handleSubmit, disabled } = this.props;
     return (

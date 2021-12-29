@@ -209,6 +209,23 @@ describe("createCase handler", () => {
     });
   });
 
+  test("should respond with 400 when complaint is CIVILIAN_INITIATED and civilian is null", async () => {
+    request = httpMocks.createRequest({
+      method: "POST",
+      body: {
+        case: {
+          complaintType: CIVILIAN_INITIATED
+        }
+      },
+      nickname: user
+    });
+
+    await createCase(request, response, next);
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME)
+    );
+  });
+
   test("should respond with 400 when civilian names are empty", async () => {
     request = httpMocks.createRequest({
       method: "POST",

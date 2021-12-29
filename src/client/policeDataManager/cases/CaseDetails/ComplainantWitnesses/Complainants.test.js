@@ -170,7 +170,10 @@ describe("Complainants", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Edit Civilian", "Save", editCivilian)
       );
-      expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, complainant);
+      expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, {
+        ...complainant,
+        isUnknown: false
+      });
     });
   });
 

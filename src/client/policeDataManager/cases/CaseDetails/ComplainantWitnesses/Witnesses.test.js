@@ -160,7 +160,10 @@ describe("Witnesses", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Edit Civilian", "Save", editCivilian)
       );
-      expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, witness);
+      expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, {
+        ...witness,
+        isUnknown: false
+      });
     });
   });
 

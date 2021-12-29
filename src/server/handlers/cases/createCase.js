@@ -45,10 +45,11 @@ const createCase = asyncMiddleware(async (request, response, next) => {
 });
 
 const validateCivilianName = civilian => {
-  const first = civilian.firstName;
-  const last = civilian.lastName;
-
-  if (invalidName(first) || invalidName(last)) {
+  if (
+    !civilian ||
+    (!civilian.isUnknown &&
+      (invalidName(civilian.firstName) || invalidName(civilian.lastName)))
+  ) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CIVILIAN_NAME);
   }
 };

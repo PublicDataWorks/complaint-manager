@@ -24,6 +24,7 @@ import CreateCaseActions from "./CreateCaseActions";
 import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeSourceDropdownValues";
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
+import AnonymousFields from "./AnonymousFields";
 
 const {
   FIRST_CONTACTED_ORGANIZATION
@@ -41,8 +42,14 @@ class CreateCaseDialog extends React.Component {
   }
 
   render() {
-    const { handleSubmit, complaintType, open, submitting, classes } =
-      this.props;
+    const {
+      handleSubmit,
+      complaintType,
+      open,
+      submitting,
+      isUnknown,
+      classes
+    } = this.props;
     const civilianComplainant = complaintType === CIVILIAN_INITIATED;
 
     return (
@@ -75,10 +82,17 @@ class CreateCaseDialog extends React.Component {
             />
             <br />
             {civilianComplainant && (
-              <CivilianComplainantFields
-                formattedAddress={this.props.formattedAddress}
-                formName={CREATE_CASE_FORM_NAME}
-              />
+              <>
+                <AnonymousFields />
+                {isUnknown ? (
+                  ""
+                ) : (
+                  <CivilianComplainantFields
+                    formattedAddress={this.props.formattedAddress}
+                    formName={CREATE_CASE_FORM_NAME}
+                  />
+                )}
+              </>
             )}
           </form>
         </DialogContent>
@@ -152,13 +166,15 @@ const mapStateToProps = state => {
     "address.placeId"
   );
   const complaintTypeValues = selector(state, "case.complaintType");
+  const isUnknown = selector(state, "civilian.isUnknown");
 
   return {
     open: state.ui.createDialog.case.open,
     complaintType: complaintTypeValues,
     intakeSources: state.ui.intakeSources,
     formattedAddress: formatAddressAsString(addressValues.address),
-    addressValid: state.ui.addressInput.addressValid
+    addressValid: state.ui.addressInput.addressValid,
+    isUnknown
   };
 };
 
