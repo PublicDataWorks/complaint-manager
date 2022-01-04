@@ -13,6 +13,7 @@ import getWorkingCases from "./thunks/getWorkingCases";
 import { containsText } from "../../testHelpers";
 import { DESCENDING, SORT_CASES_BY } from "../../../sharedUtilities/constants";
 import { getFeaturesSuccess } from "../actionCreators/featureTogglesActionCreators";
+import moment from "moment";
 
 jest.mock("./thunks/getWorkingCases", () => () => ({
   type: "MOCK_GET_CASES_THUNK"
@@ -81,7 +82,9 @@ describe("CaseDashboard", () => {
       containsText(
         caseDashboardWrapper,
         '[data-testid="complaintTotals"]',
-        "Complaints YTD: Complaints 2020: "
+        `Complaints YTD: Complaints ${moment()
+          .subtract(1, "y")
+          .format("YYYY")}: `
       )
     );
   });

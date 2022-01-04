@@ -7,6 +7,7 @@ import axios from "axios";
 import { waitFor } from "@testing-library/dom";
 import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 import createConfiguredStore from "../../createConfiguredStore";
+import moment from "moment";
 import "@testing-library/jest-dom";
 import MutationObserver from "@sheerun/mutationobserver-shim";
 window.MutationObserver = MutationObserver;
@@ -44,7 +45,9 @@ describe("ComplaintTotals", () => {
     });
 
     await waitFor(() => {
-      expect(queryByText("Complaints 2020:")).toBeInTheDocument();
+      expect(
+        queryByText(`Complaints ${moment().subtract(1, "y").format("YYYY")}:`)
+      ).toBeInTheDocument();
     });
   });
 
@@ -67,7 +70,9 @@ describe("ComplaintTotals", () => {
     });
 
     await waitFor(() => {
-      expect(queryByText("Complaints 2020: 3")).toBeInTheDocument();
+      expect(
+        queryByText(`Complaints ${moment().subtract(1, "y").format("YYYY")}: 3`)
+      ).toBeInTheDocument();
     });
   });
 });
