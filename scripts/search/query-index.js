@@ -4,6 +4,8 @@ const {
   buildQueryString
 } = require("../../src/sharedUtilities/searchUtilities");
 
+const util = require("util");
+
 (async () => {
   const environment = process.env.NODE_ENV || "development";
   const {
