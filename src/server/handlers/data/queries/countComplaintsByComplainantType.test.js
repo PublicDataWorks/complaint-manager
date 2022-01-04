@@ -14,6 +14,7 @@ import {
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
+import moment from "moment";
 
 const {
   PERSON_TYPE
@@ -62,10 +63,12 @@ describe("executeQuery", () => {
       await createCaseOfficer(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
     ).withId(4);
 
+    const todaysDate = moment().format("YYYY-MM-DD");
+
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianCC],
       [],
-      "2021-01-05",
+      todaysDate,
       22
     );
     complainantCaseCC = await createCase(caseAttributes);
@@ -74,7 +77,7 @@ describe("executeQuery", () => {
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianAC],
       [],
-      "2021-01-05",
+      todaysDate,
       33
     );
     complainantCaseAC = await createCase(caseAttributes);
@@ -83,7 +86,7 @@ describe("executeQuery", () => {
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [],
       [complainantOfficerPO],
-      "2021-01-05",
+      todaysDate,
       44
     );
     complainantCasePO = await createCase(caseAttributes);
@@ -151,7 +154,7 @@ describe("executeQuery", () => {
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate("2020-12-31")
+        .withFirstContactDate(moment().subtract(364, "d").format("YYYY-MM-DD"))
         .withId(undefined),
       {
         auditUser: "someone"
