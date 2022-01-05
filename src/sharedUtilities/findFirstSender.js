@@ -2,6 +2,10 @@ const signatureKeys =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content`).signatureKeys;
 
 export const findFirstSender = sender => {
+  if (!sender) {
+    return null;
+  }
+
   const includedSenders = [];
 
   Object.keys(signatureKeys).forEach(key => {
