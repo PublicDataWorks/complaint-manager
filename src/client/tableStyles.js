@@ -11,7 +11,7 @@ const tableStyles = theme => ({
   },
   header: {
     row: {
-      backgroundColor: theme.palette.secondary.lighter,
+      backgroundColor: theme.palette.background.default,
       width: "100%",
       overflowX: "scroll"
     },
@@ -23,8 +23,8 @@ const tableStyles = theme => ({
   body: {
     row: {
       backgroundColor: "white",
-      borderTop: `8px solid ${theme.palette.secondary.lighter}`,
-      borderBottom: `8px solid ${theme.palette.secondary.lighter}`,
+      borderTop: `8px solid ${theme.palette.background.default}`,
+      borderBottom: `8px solid ${theme.palette.background.default}`,
       width: "100%",
       overflowX: "scroll"
     },
