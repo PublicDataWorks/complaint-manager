@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo "Waiting for ElasticSearch to become available..."
 ./wait-for-it.sh elasticsearch:9200
 

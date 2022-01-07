@@ -14,7 +14,7 @@
     "postbuild": "node scripts/postbuild.js",
     "setup:db": "sequelize db:create; node scripts/checkEmptySchema.js && node scripts/loadSchema.js; sequelize db:migrate && sequelize db:seed:all",
     "release": "standard-version",
-    "setup:elasticsearch": "./scripts/init-elasticsearch.sh",
+    "setup:elasticsearch": "node scripts/search/is-search-disabled.js || ./scripts/init-elasticsearch.sh",
     "setup:localstack": "./scripts/init-localstack.sh",
     "setup:test:db": "./scripts/setup-test-db.sh",
     "start": "yarn setup:db && concurrently 'yarn start:client' 'yarn start:server'",
