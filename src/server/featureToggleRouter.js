@@ -5,7 +5,7 @@ const express = require("express");
 const router = express.Router();
 const asyncMiddleware = require("./handlers/asyncMiddleware");
 
-const features = require("./config/features");
+const features = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features`);
 const criteria = [
   {
     id: "isPreProd",
