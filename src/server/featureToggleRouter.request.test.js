@@ -5,7 +5,7 @@ import {
 import request from "supertest";
 import app from "./server";
 
-jest.mock("./config/features.json", () => [
+jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features.json`, () => [
   {
     id: "TEST_FEATURE",
     enabled: true
@@ -16,13 +16,13 @@ jest.mock("./config/features.json", () => [
   }
 ]);
 
-describe("featureToggleRouter", function() {
+describe("featureToggleRouter", function () {
   let token;
   beforeEach(() => {
     token = buildTokenWithPermissions("", "someone");
   });
 
-  describe("GET /features", function() {
+  describe("GET /features", function () {
     test("should return toggles", async () => {
       const responsePromise = request(app)
         .get("/features")

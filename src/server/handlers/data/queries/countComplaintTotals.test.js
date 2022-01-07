@@ -12,7 +12,7 @@ import moment from "moment";
 
 describe("getCountByDateRange", () => {
   const fiveDaysAgo = moment().subtract(5, "d").format("YYYY-MM-DD");
-  const fiveMonthsAgo = moment().subtract(5, "m").format("YYYY-MM-DD");
+  const oneYearAgo = moment().subtract(1, "y").format("YYYY-MM-DD");
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -49,7 +49,7 @@ describe("getCountByDateRange", () => {
     const thirdCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -61,7 +61,7 @@ describe("getCountByDateRange", () => {
     const fourthCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -107,7 +107,7 @@ describe("getCountByDateRange", () => {
     await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -117,7 +117,7 @@ describe("getCountByDateRange", () => {
     const activeCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -129,7 +129,7 @@ describe("getCountByDateRange", () => {
     const letterInProgressCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -144,7 +144,7 @@ describe("getCountByDateRange", () => {
     const readyForReviewCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -167,7 +167,7 @@ describe("getCountByDateRange", () => {
     const archivedCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveMonthsAgo)
+        .withFirstContactDate(oneYearAgo)
         .withId(undefined),
       {
         auditUser: "someone"
