@@ -37,7 +37,7 @@ parent: Technical Content
 **Q**. Which environment variables will I need?
 
 **A**. `REACT_APP_GOOGLE_API_KEY`: This key should be located in your `.profile`, `.zshrc`, or comparable local machine environment. It allows you to access address data from Google Maps. Some additional variables may be needed for cloud servics,
-see [Conditionally Run Tests](https://publicdataworks.github.io/police-data-manager/technical-content/development-resources.html#testing) section for more information. 
+see [Conditionally Run Tests](https://publicdataworks.github.io/police_data_manager/technical-content/development-resources.html#testing) section for more information. 
 
 **Q**. Which environment variables will I need to use instance-files within my local file system?
 
@@ -103,7 +103,7 @@ The reason that you need to edit this file is so that your computer knows what a
 
 **Q**. Help! My E2E test suite has failed. What do I do?
 
-**A**. Run it again. End-to-end tests can be flaky, especially if you have just run `docker-compose up app`. If the same test repeatedly fails, then look for a snapshot (see above), and investigate. If you've enabled cloud services, you may also want to check that your local machine's variables are correctly set (see section on [Local Environment](https://publicdataworks.github.io/police-data-manager/technical-content/faq.html#local-environment)). If your environment variables are correctly set, then you may want to check that user priveleges are correctly set in Auth0 (i.e. DPM).
+**A**. Run it again. End-to-end tests can be flaky, especially if you have just run `docker-compose up app`. If the same test repeatedly fails, then look for a snapshot (see above), and investigate. If you've enabled cloud services, you may also want to check that your local machine's variables are correctly set (see section on [Local Environment](https://publicdataworks.github.io/police_data_manager/technical-content/faq.html#local-environment)). If your environment variables are correctly set, then you may want to check that user priveleges are correctly set in Auth0 (i.e. DPM).
 
 
 ## Database Setup

@@ -51,8 +51,8 @@ General testing practices and expectations:
 *  Provide Helpful [Feedback](https://forms.gle/MS9LFTWG6tuaqSTD8)
   
 ## Helpful Resources 
-* [Development Resources](https://publicdataworks.github.io/police-data-manager/technical-content/development-resources.html)
-* [FAQs and Troubleshooting](https://publicdataworks.github.io/police-data-manager/technical-content/faq.html)
+* [Development Resources](https://publicdataworks.github.io/police_data_manager/technical-content/development-resources.html)
+* [FAQs and Troubleshooting](https://publicdataworks.github.io/police_data_manager/technical-content/faq.html)
 
 
 
