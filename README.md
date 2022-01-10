@@ -178,12 +178,12 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 #### ./scripts/docker-compose-build.sh
 docker-compose-build.sh builds the docker containers worker, app-e2e, and app so that they can then be spun up to run locally.  The diagram below will show you the steps and indicate where those steps are configured
 
-![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police-data-manager/main/docs/technical-content/plantuml/docker-compose-build.puml)
+![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police_data_manager/main/docs/technical-content/plantuml/docker-compose-build.puml)
 
 #### docker-compose up app
 docker-compose up app runs the app container (which includes the client and server and pulls in the database, worker, and elasticsearch) so that you can use it locally.  The diagram below will show you the steps it takes and indicate where those steps are configured
 
-![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police-data-manager/main/docs/technical-content/plantuml/docker-compose-up.puml)
+![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police_data_manager/main/docs/technical-content/plantuml/docker-compose-up.puml)
 
 ### Instance Files
 By default, local builds will pull publicdataworks/instance-files-noipm:latest.
