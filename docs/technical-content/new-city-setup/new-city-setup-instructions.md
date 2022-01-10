@@ -15,7 +15,7 @@ We’re so glad you have decided to use our Police Data Manager tool! This guide
 
 ### Introduction
 
-Follow this [link](https://publicdataworks.github.io/pdm-docs/business-content/introduction-to-police-data-manager.html) to view the introduction to the Police Data Manager tool.
+Follow this [link](https://publicdataworks.github.io/police-data-manager/business-content/introduction-to-police-data-manager.html) to view the introduction to the Police Data Manager tool.
 ### Clone Police Data Manager Repository
 
 Follow this [link](https://github.com/PublicDataWorks/police_data_manager.git) to view and clone the **police_data_manager** Repository in Github.
@@ -267,12 +267,12 @@ Located in **instance-files/tag-glossary.json**
 
 ### Contact App Maintainers
 
-Follow this [link](https://publicdataworks.github.io/pdm-docs/common-content/communications.html) to get in contact with the maintainers of the application.
+Follow this [link](https://publicdataworks.github.io/police-data-manager/common-content/communications.html) to get in contact with the maintainers of the application.
 
 
 ### FAQ
 
-Follow this [link](https://publicdataworks.github.io/pdm-docs/technical-content/faq.html) to view the useful technical tools and FAQ.
+Follow this [link](https://publicdataworks.github.io/police-data-manager/technical-content/faq.html) to view the useful technical tools and FAQ.
 
 ## Known Limitations & Production Setup 
 
@@ -281,5 +281,5 @@ As you bring up the application with this local setup, you will be missing some 
   2. Authentication using Auth0
   3. Storage of generated letters and attachment using AWS S3
 
-If you would like to have your own fully functioning deployable version, follow this [link](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/new-city-production-setup.html) to get started.
+If you would like to have your own fully functioning deployable version, follow this [link](https://publicdataworks.github.io/police-data-manager/technical-content/new-city-setup/new-city-production-setup.html) to get started.
 

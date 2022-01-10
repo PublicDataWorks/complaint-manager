@@ -1,13 +1,13 @@
 # Police Data Manager
 
 
-The Police Data Manager is an open source tool meant to aid civilian police oversight agencies in generating complaint data. PDM is designed to be fully integrated into the workflows of these oversight agencies, enabling cities to enhance the capacity of citizens to hold public institutions accountable. [Read more here](https://publicdataworks.github.io/pdm-docs/business-content/introduction-to-police-data-manager.html#introduction-to-police-data-manager)
+The Police Data Manager is an open source tool meant to aid civilian police oversight agencies in generating complaint data. PDM is designed to be fully integrated into the workflows of these oversight agencies, enabling cities to enhance the capacity of citizens to hold public institutions accountable. [Read more here](https://publicdataworks.github.io/police-data-manager/business-content/introduction-to-police-data-manager.html#introduction-to-police-data-manager)
 
 This README is aimed at getting new users set up to run Police Data Manager on their local machines. You will need the appropriate permissions for the app and its tests to run successfully. 
 
-If you are a city looking to adopt Police Data Manager as a tool for Complaint Intake, you can check out the guide to [setup a new city instance](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/new-city-setup-instructions.html)
+If you are a city looking to adopt Police Data Manager as a tool for Complaint Intake, you can check out the guide to [setup a new city instance](https://publicdataworks.github.io/police-data-manager/technical-content/new-city-setup/new-city-setup-instructions.html)
 
-If you are looking to contribute to this repo, take a look at [our contributor guidelines](https://publicdataworks.github.io/pdm-docs/technical-content/contributing.html).
+If you are looking to contribute to this repo, take a look at [our contributor guidelines](https://publicdataworks.github.io/police-data-manager/technical-content/contributing.html).
 
 ## Local Development Setup
 
@@ -178,12 +178,12 @@ It's all well and good to run these commands and watch Docker spin up with a lot
 #### ./scripts/docker-compose-build.sh
 docker-compose-build.sh builds the docker containers worker, app-e2e, and app so that they can then be spun up to run locally.  The diagram below will show you the steps and indicate where those steps are configured
 
-![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/pdm-docs/main/docs/technical-content/plantuml/docker-compose-build.puml)
+![docker-compose-build diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police-data-manager/main/docs/technical-content/plantuml/docker-compose-build.puml)
 
 #### docker-compose up app
 docker-compose up app runs the app container (which includes the client and server and pulls in the database, worker, and elasticsearch) so that you can use it locally.  The diagram below will show you the steps it takes and indicate where those steps are configured
 
-![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/pdm-docs/main/docs/technical-content/plantuml/docker-compose-up.puml)
+![docker-compose up app diagram](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/PublicDataWorks/police-data-manager/main/docs/technical-content/plantuml/docker-compose-up.puml)
 
 ### Instance Files
 By default, local builds will pull publicdataworks/instance-files-noipm:latest.

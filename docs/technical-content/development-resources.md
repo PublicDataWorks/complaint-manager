@@ -108,7 +108,7 @@ End-to-end tests are meant to test the application from the end user's perspecti
 
 An integration test verifies that all modules within a codebase work together as expected.
 * Our integration test suite is defined as a [Collection Runner](https://learning.postman.com/docs/running-collections/intro-to-collection-runs/) 
-in Postman (see [API Documentation](https://publicdataworks.github.io/pdm-docs/technical-context/development-resources.html#api-documentation)).
+in Postman (see [API Documentation](https://publicdataworks.github.io/police-data-manager/technical-context/development-resources.html#api-documentation)).
 
 **Health Check**
 

@@ -29,7 +29,7 @@ This documentation will walk you through how to set up and deploy the Police Dat
 
 ### Setup Local Environment
 
-Please make sure you have set up the local version of the app before proceeding. To do this, you may refer to [Local Setup Instruction](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/new-city-setup-instructions.html).
+Please make sure you have set up the local version of the app before proceeding. To do this, you may refer to [Local Setup Instruction](https://publicdataworks.github.io/police-data-manager/technical-content/new-city-setup/new-city-setup-instructions.html).
 
 **Tip:** In the above documentation, we are assuming no changes are being made to the police-data-manager repository. However, in order to deploy a new city instance, we must make changes to police-data-manager and push them to a new github repository. Please follow the extra steps highlighted under the **Github** section to complete this step.
 ### Heroku account 
@@ -92,7 +92,7 @@ Please make sure you have set up the local version of the app before proceeding.
 
 ### Infrastructure Setup
 
-Follow this [link](https://publicdataworks.github.io/pdm-docs/technical-content/new-city-setup/infrastructure-setup.html) to set up the infrastructure needed to run the application.
+Follow this [link](https://publicdataworks.github.io/police-data-manager/technical-content/new-city-setup/infrastructure-setup.html) to set up the infrastructure needed to run the application.
 
 ### [Optional] Dockerhub setup
 - Follow this [link](https://docs.docker.com/get-docker/) and follow the steps to get Docker that fits your machine specs. 
@@ -111,5 +111,5 @@ Follow this [link](https://publicdataworks.github.io/pdm-docs/technical-content/
 
 ### Development Resources
 
-Follow this [link](https://publicdataworks.github.io/pdm-docs/technical-content/development-resources.html) to view the development resources for the application.
+Follow this [link](https://publicdataworks.github.io/police-data-manager/technical-content/development-resources.html) to view the development resources for the application.
 
