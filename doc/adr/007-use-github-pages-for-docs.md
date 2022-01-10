@@ -16,4 +16,4 @@ We evaluated multiple different technologies, but found that using Github Pages 
 
 ## Consequences
 
-We are unable to view logs for deployments and Github Pages is only available on paid plans. We have created a [temporary](https://github.com/PublicDataWorks/pdm-docs) repo for our documentation to live until we are ready to merge into the [police_data_manager](https://github.com/PublicDataWorks/police_data_manager) repo.
+We are unable to view logs for deployments and Github Pages is only available on paid plans.
