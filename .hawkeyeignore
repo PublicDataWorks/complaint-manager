@@ -23,6 +23,7 @@ files-contents-src/server/handlers/getResultsFromES.js-1
 files-contents-scripts/build-and-deploy.sh-1
 files-contents-scripts/build-and-deploy.sh-13
 files-contents-scripts/build-and-deploy.sh-14
+files-contents-doc/os/technical-content/faq.md-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
 node-yarnaudit-quill-1695
