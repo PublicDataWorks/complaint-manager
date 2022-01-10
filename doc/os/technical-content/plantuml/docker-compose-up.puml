@@ -1,0 +1,60 @@
+@startuml
+start
+:docker-compose up app;
+note left: app container defined in docker-compose.yml services.app
+:pull in dependent docker images defined in docker-compose.yml services.app.depends_on;
+split
+  :pull in db;
+  note left: defined in docker-compose.yml services.db
+  :pull in dependent docker images defined in docker-compose.yml services.db.depends_on;
+  :pull in localstack;
+  note left: defined in docker-compose.yml services.localstack
+split again
+  :pull in worker;
+  note right: defined in docker-compose.yml services.worker
+  :pull in dependent docker images defined in docker-compose.yml services.worker.depends_on
+  :pull in redis;
+  note right: defined in docker-compose.yml services.redis
+split again
+  :pull in elasticsearch;
+  note right: defined in docker-compose.yml services.elasticsearch
+end split
+:wait for db container to start (wait-for-it.sh);
+note left: defined in docker-compose.yml services.app.entrypoint
+:yarn start:dev;
+note left: called in docker-compose.yml services.app.command
+note right: defined in package.json scripts
+group yarn setup:localstack
+:./scripts/init-localstack.sh;
+note left: defined in package.json scripts
+:wait for localstack (wait-for-it.sh);
+:load local seed files into AWS s3 buckets;
+end group
+group yarn setup:db
+:create local db;
+if (db is empty [scripts/checkEmptySchema.js]) then (empty)
+  :load schema (node scripts/loadSchema.js);
+endif
+:migrate db;
+note left: run all the migration scripts in the src/server/migrations folder
+:seed the db;
+end group
+group yarn setup:elasticsearch
+:./scripts/init-elasticsearch.sh;
+note right: defined in package.json scripts
+:wait for elastic search to start (wait-for-it.sh);
+:Create the dev search index;
+note left: npx babel-node ./scripts/search/create-search-index.js)
+end group
+group concurrently yarn start:client yarn start:server:dev
+split
+:yarn start:client;
+:start the react app locally;
+note left: react-scripts start
+split again
+:yarn start:server:dev;
+:start node server in watch mode;
+note right: nodemon --watch ... src/startServer.js
+end split
+end group
+@enduml

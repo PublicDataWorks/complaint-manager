@@ -1,0 +1,37 @@
+@startuml
+start
+:./scripts/docker-compose-build.sh;
+split
+:build worker;
+note left: definition in Dockerfile.worker
+:pull latest version of instance-files;
+:pull docker-node-ubuntu;
+:run linux install commands;
+:yarn install --pure-lockfile;
+:copy instance files to /app/src/instance-files;
+:copy app into container;
+:yarn build;
+split again
+:build app-e2e;
+:pull latest version of instance-files;
+:pull docker-node-ubuntu;
+:run linux setup commands;
+:install AWS CLI;
+:copy instance files to /app/src/instance-files;
+:copy app into container;
+:yarn install;
+:yarn build;
+split again
+:build app;
+note right: definition for app and app-e2e in Dockerfile.web
+:pull latest version of instance-files;
+:pull docker-node-ubuntu;
+:run linux setup commands;
+:install AWS CLI;
+:copy instance files to /app/src/instance-files;
+note right: this is why everything needs to run in docker\nbecause otherwise you will have missing\ndependencies on /app/src/instance-files
+:copy app into container;
+:yarn install;
+:yarn build;
+end split
+@enduml
