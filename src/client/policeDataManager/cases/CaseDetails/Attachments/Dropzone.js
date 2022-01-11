@@ -149,7 +149,7 @@ class Dropzone extends Component {
               Description of File
             </InputLabel>
             <Input
-              id="attachmentDescription"
+              id="fileAttachmentDescription"
               value={this.state.attachmentDescription}
               multiline
               rowsMax={3}

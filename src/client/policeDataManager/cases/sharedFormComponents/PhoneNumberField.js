@@ -46,7 +46,8 @@ const PhoneNumberField = props => {
       label="Phone Number"
       inputProps={{
         "data-testid": "phoneNumberInput",
-        autoComplete: "off"
+        autoComplete: "off",
+        "aria-label": "Phone Number Field"
       }}
       data-testid="phoneNumberField"
       validate={[isPhoneNumber]}

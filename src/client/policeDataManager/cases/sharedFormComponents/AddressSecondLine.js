@@ -12,7 +12,8 @@ const AddressSecondLine = ({ label, fieldName, style }) => {
       inputProps={{
         "data-testid": "streetAddress2Input",
         autoComplete: "disabled", // "off" does not work on chrome
-        maxLength: 25
+        maxLength: 25,
+        "aria-label": "Second Address Line Field"
       }}
       InputLabelProps={{
         shrink: true

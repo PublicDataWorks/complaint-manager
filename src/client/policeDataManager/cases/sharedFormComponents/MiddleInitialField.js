@@ -10,7 +10,8 @@ const MiddleInitialField = props => (
     inputProps={{
       "data-testid": "middleInitialInput",
       autoComplete: "off",
-      maxLength: 1
+      maxLength: 1,
+      "aria-label": "Middle Initial Field"
     }}
     normalize={(value, previousValue) =>
       value === "" || /^[a-zA-Z]?$/.test(value) ? value : previousValue
