@@ -50,7 +50,8 @@ class OfficerSearchForm extends Component {
               component={renderTextField}
               inputProps={{
                 "data-testid": "firstNameField",
-                autoComplete: "off"
+                autoComplete: "off",
+                "aria-label": "First Name Field"
               }}
               style={{ flex: "1", marginRight: "24px" }}
             />
@@ -61,7 +62,8 @@ class OfficerSearchForm extends Component {
               component={renderTextField}
               inputProps={{
                 "data-testid": "lastNameField",
-                autoComplete: "off"
+                autoComplete: "off",
+                "aria-label": "Last Name Field"
               }}
               style={{ flex: "1", marginRight: "24px" }}
             />
@@ -72,7 +74,10 @@ class OfficerSearchForm extends Component {
               component={Dropdown}
               data-testid="districtField"
               style={{ flex: "1", marginRight: "24px", padding: "5px" }}
-              inputProps={{ "data-testid": "districtInput" }}
+              inputProps={{ 
+                "data-testid": "districtInput",
+                "aria-label": "District Field"
+              }}
             >
               {generateMenuOptions(props.districts, "Any District")}
             </Field>

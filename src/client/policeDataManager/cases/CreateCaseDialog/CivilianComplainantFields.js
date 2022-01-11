@@ -56,7 +56,6 @@ const CivilianComplainantFields = ({ formattedAddress, formName }) => {
         <div style={{ marginBottom: "16px", width: "100%" }}>
           <AddressInput
             name={"civilian.autoSuggestValue"}
-            ariaLabel="address field"
             formName={formName}
             fieldName={"civilian.address"}
             addressLabel={"Address"}

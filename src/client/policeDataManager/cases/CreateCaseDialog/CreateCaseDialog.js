@@ -121,7 +121,8 @@ const Timeline = () => (
         "data-testid": "firstContactDateInput",
         type: "date",
         max: moment(Date.now()).format("YYYY-MM-DD"),
-        autoComplete: "off"
+        autoComplete: "off",
+        "aria-label": "First Contact Date Field"
       }}
       style={{
         marginRight: "5%",
@@ -143,7 +144,11 @@ const IntakeSource = props => {
       hinttext="Intake Source"
       data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ "data-testid": "intakeSourceInput", autoComplete: "off" }}
+      inputProps={{ 
+        "data-testid": "intakeSourceInput", 
+        autoComplete: "off",
+        "aria-label": "Intake Source Field"
+      }}
       validate={[intakeSourceIsRequired]}
     >
       {generateMenuOptions(props.intakeSources)}

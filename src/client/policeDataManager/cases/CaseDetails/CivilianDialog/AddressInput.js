@@ -63,6 +63,7 @@ class AddressInput extends Component {
             onClick={this.fillConfirmedAddress}
             style={{ fontSize: "0.75rem", cursor: "pointer" }}
             data-testid="fillAddressToConfirm"
+            aria-label= "fill Address To Confirm"
           >
             Fill Address
           </StyledLink>
@@ -157,10 +158,12 @@ class AddressInput extends Component {
             mapService: this.mapService,
             defaultText: this.props.formattedAddress,
             "data-testid": "addressSuggestionField",
-            setFormValues: this.setFormValues
+            setFormValues: this.setFormValues,
+            "aria-label": "address field"
           }}
           inputProps={{
-              name: this.props.name
+              name: this.props.name,
+              "aria-label": "address Suggestion Field"
           }}
         />
         {this.renderValidMessage()}
@@ -169,7 +172,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.streetAddress`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "streetAddressInput"
+            "data-testid": "streetAddressInput",
+            "aria-label": "street Address Input"
           }}
           style={{ display: "none" }}
         />
@@ -178,7 +182,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.intersection`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "intersectionInput"
+            "data-testid": "intersectionInput",
+            "aria-label": "intersection Input"
           }}
           style={{ display: "none" }}
         />
@@ -187,7 +192,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.city`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "cityInput"
+            "data-testid": "cityInput",
+            "aria-label": "city Input"
           }}
           style={{ display: "none" }}
         />
@@ -196,7 +202,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.state`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "stateInput"
+            "data-testid": "stateInput",
+            "aria-label": "state Input"
           }}
           style={{ display: "none" }}
         />
@@ -205,7 +212,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.zipCode`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "zipCodeInput"
+            "data-testid": "zipCodeInput",
+            "aria-label": "zip code Input"
           }}
           style={{ display: "none" }}
         />
@@ -214,7 +222,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.country`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "countryInput"
+            "data-testid": "countryInput",
+            "aria-label": "country Input"
           }}
           style={{ display: "none" }}
         />
@@ -223,7 +232,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.lat`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "latInput"
+            "data-testid": "latInput",
+            "aria-label": "latitude Input"
           }}
           style={{ display: "none" }}
         />
@@ -232,7 +242,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.lng`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "lngInput"
+            "data-testid": "lngInput",
+            "aria-label": "longitude Input"
           }}
           style={{ display: "none" }}
         />
@@ -241,7 +252,8 @@ class AddressInput extends Component {
           name={`${this.props.fieldName}.placeId`}
           component={renderTextField}
           inputProps={{
-            "data-testid": "placeIdInput"
+            "data-testid": "placeIdInput",
+            "aria-label": "place id Input"
           }}
           style={{ display: "none" }}
         />

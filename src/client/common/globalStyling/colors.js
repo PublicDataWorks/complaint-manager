@@ -12,7 +12,7 @@ const colors = {
     dark: "#000a12"
   },
   blue: "#376BBB",
-  yellow: "#fbc02d",
+  yellow: "#8C7300",
   error: {
     main: "#d32f2f"
   },
