@@ -63,7 +63,8 @@ import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 
 const styles = {
   dialogPaper: {
-    minWidth: "40%"
+    minWidth: "40%",
+    maxHeight: "calc(100% - 150px)"
   }
 };
 
