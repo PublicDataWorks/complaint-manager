@@ -2,10 +2,10 @@ version: 2.1
 parameters:
   prod-indexing-branch:
     type: string
-    default: "release_v3.42.4"
+    default: "master"
   stage-indexing-branch:
     type: string
-    default: "release_v3.42.4"
+    default: "master"
   instance-files-image-name:
     type: string
     default: "publicdataworks/instance-files-noipm"
