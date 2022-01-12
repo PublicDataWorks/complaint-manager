@@ -19,7 +19,7 @@ const AnonymousFields = props => (
       }}
     />
     <FormControlLabel
-      label="Unknown Anonymous"
+      label="Unknown"
       control={<Field name="civilian.isUnknown" component={PrimaryCheckBox} />}
       onChange={e => {
         if (e.target.checked) {
