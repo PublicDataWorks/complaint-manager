@@ -104,7 +104,7 @@ class AddressAutoSuggest extends Component {
           },
           inputProps: { "data-testid": dataTest },
           ...other,
-          autoComplete: "disabled" // "off" does not work on chrome
+          autoComplete: "off" // "off" does not work on chrome
         }}
         error={shouldRenderError}
         helperText={reduxFormMeta.error}
@@ -126,6 +126,7 @@ class AddressAutoSuggest extends Component {
         elevation={2}
         {...containerProps}
         data-testid="suggestion-container"
+        aria-label="suggestion"
         square
       >
         {children}

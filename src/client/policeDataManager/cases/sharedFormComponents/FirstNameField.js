@@ -15,7 +15,7 @@ const FirstNameField = props => (
     component={renderTextField}
     inputProps={{
       maxLength: 25,
-      autoComplete: "disabled",
+      autoComplete: "off",
       "data-testid": "firstNameInput",
       "aria-label": "First Name Field"
     }}

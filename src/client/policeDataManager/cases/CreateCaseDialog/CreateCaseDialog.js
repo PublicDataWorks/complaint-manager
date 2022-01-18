@@ -55,7 +55,9 @@ class CreateCaseDialog extends React.Component {
     return (
       <Dialog
         data-testid="createCaseDialog"
-        classes={{ paper: classes.dialogPaper }}
+        classes={{
+          paper: classes.dialogPaper
+        }}
         open={open}
         fullWidth
       >
@@ -144,8 +146,8 @@ const IntakeSource = props => {
       hinttext="Intake Source"
       data-testid="intakeSourceDropdown"
       style={{ width: "50%" }}
-      inputProps={{ 
-        "data-testid": "intakeSourceInput", 
+      inputProps={{
+        "data-testid": "intakeSourceInput",
         autoComplete: "off",
         "aria-label": "Intake Source Field"
       }}

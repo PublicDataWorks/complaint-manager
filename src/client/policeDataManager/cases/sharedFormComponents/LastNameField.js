@@ -14,7 +14,7 @@ const LastNameField = props => (
     label="Last Name"
     inputProps={{
       maxLength: 25,
-      autoComplete: "disabled",
+      autoComplete: "off",
       "data-testid": "lastNameInput",
       "aria-label": "Last Name Field"
     }}

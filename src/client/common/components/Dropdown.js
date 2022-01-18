@@ -53,7 +53,7 @@ class Dropdown extends React.Component {
             params.inputProps = {
               ...params.inputProps,
               ...parentProps.inputProps,
-              autoComplete: "disabled"
+              autoComplete: "off"
             };
             return (
               <TextField
