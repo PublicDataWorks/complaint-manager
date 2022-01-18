@@ -12,6 +12,7 @@ const EmailField = props => (
       "data-testid": "emailInput", 
       autoComplete: "off",
       "aria-label": "Email Field"
+
     }}
     data-testid="emailField"
     validate={[isEmail]}
