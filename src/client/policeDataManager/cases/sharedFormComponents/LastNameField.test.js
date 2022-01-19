@@ -31,7 +31,7 @@ describe("Last Name field", () => {
 
   test("last name should not use autoComplete", () => {
     const lastName = lastNameField.find('input[data-testid="lastNameInput"]');
-    expect(lastName.props().autoComplete).toEqual("disabled");
+    expect(lastName.props().autoComplete).toEqual("off");
   });
 
   test("should not be an empty string", () => {

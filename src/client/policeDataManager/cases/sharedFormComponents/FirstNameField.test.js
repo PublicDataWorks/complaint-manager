@@ -51,6 +51,6 @@ describe("First name field", () => {
     const firstName = firstNameField.find(
       'input[data-testid="firstNameInput"]'
     );
-    expect(firstName.props().autoComplete).toEqual("disabled");
+    expect(firstName.props().autoComplete).toEqual("off");
   });
 });
