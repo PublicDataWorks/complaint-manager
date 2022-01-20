@@ -16,82 +16,85 @@ class DataDashboard extends Component {
         <NavBar menuType={policeDataManagerMenuOptions}>Data Dashboard</NavBar>
         <main role="main">
           <h1></h1>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column"
-          }}
-        >
-          {this.props.mapVisualizationFeature ? (
-            <section style={{ margin: "5px" }}>
-              <h2>Map of Complaints</h2>
-              <MapVisualization isPublic={false} />
-            </section>
-          ) : (
-            ""
-          )}
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between"
+              flexDirection: "column"
             }}
           >
-            <Visualization
-              data-testid={"intakeSourceGraphYTD"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
-            />
-            <Visualization
-              data-testid={"intakeSourceGraphPast12"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-            />
+            {this.props.mapVisualizationFeature ? (
+              <section style={{ margin: "5px" }}>
+                <h2>Map of Complaints</h2>
+                <MapVisualization isPublic={false} />
+              </section>
+            ) : (
+              ""
+            )}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Visualization
+                data-testid={"intakeSourceGraphYTD"}
+                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
+                hasDropdown={true}
+              />
+              <Visualization
+                data-testid={"intakeSourceGraphPast12"}
+                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              />
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Visualization
+                data-testid={"complainantTypeGraphYTD"}
+                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
+                hasDropdown={true}
+              />
+              <Visualization
+                data-testid={"complainantTypeGraphPast12"}
+                queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              />
+            </div>
+            <br />
+            <div>
+              <Visualization
+                data-testid={"complainantTypePast12MonthsGraph"}
+                queryType={
+                  // FIXME This query has the date range hard coded!!!
+                  QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
+                }
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              />
+            </div>
+            <br />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between"
+              }}
+            >
+              <Visualization
+                data-testid={"top10TagsGraph"}
+                queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              />
+            </div>
           </div>
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
-          >
-            <Visualization
-              data-testid={"complainantTypeGraphYTD"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
-            />
-            <Visualization
-              data-testid={"complainantTypeGraphPast12"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-            />
-          </div>
-          <br />
-          <div>
-            <Visualization
-              data-testid={"complainantTypePast12MonthsGraph"}
-              queryType={
-                QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
-              }
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-            />
-          </div>
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between"
-            }}
-          >
-            <Visualization
-              data-testid={"top10TagsGraph"}
-              queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-            />
-          </div>
-        </div>
         </main>
       </div>
     );

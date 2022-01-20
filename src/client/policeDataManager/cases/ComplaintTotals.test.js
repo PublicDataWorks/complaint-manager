@@ -46,7 +46,9 @@ describe("ComplaintTotals", () => {
 
     await waitFor(() => {
       expect(
-        queryByText(`Complaints ${moment().subtract(1, "y").format("YYYY")}:`)
+        queryByText(
+          `Complaints ${moment().subtract(1, "years").format("YYYY")}:`
+        )
       ).toBeInTheDocument();
     });
   });
@@ -71,7 +73,9 @@ describe("ComplaintTotals", () => {
 
     await waitFor(() => {
       expect(
-        queryByText(`Complaints ${moment().subtract(1, "y").format("YYYY")}: 3`)
+        queryByText(
+          `Complaints ${moment().subtract(1, "years").format("YYYY")}: 3`
+        )
       ).toBeInTheDocument();
     });
   });

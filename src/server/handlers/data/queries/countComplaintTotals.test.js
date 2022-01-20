@@ -11,8 +11,8 @@ import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
 
 describe("getCountByDateRange", () => {
-  const fiveDaysAgo = moment().subtract(5, "d").format("YYYY-MM-DD");
-  const oneYearAgo = moment().subtract(1, "y").format("YYYY-MM-DD");
+  const fiveDaysAgo = moment().subtract(5, "days").format("YYYY-MM-DD");
+  const oneYearAgo = moment().subtract(1, "years").format("YYYY-MM-DD");
 
   afterEach(async () => {
     await cleanupDatabase();
