@@ -36,7 +36,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
   const [config, setConfig] = useState({});
-  const [dateRange, setDateRange] = useState(queryOptions.dateRangeType);
+  const [dateRange, setDateRange] = useState(queryOptions?.dateRangeType);
   const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
