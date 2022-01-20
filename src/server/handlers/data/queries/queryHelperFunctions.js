@@ -4,6 +4,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import moment from "moment";
+import sequelize from "sequelize";
 
 const {
   PERSON_TYPE
@@ -63,4 +64,18 @@ export const getDateRangeStart = (
     );
   }
   return dateRangeStart;
+};
+
+export const calculateFirstContactDateCriteria = dateRange => {
+  let firstContactDate = {};
+  if (dateRange?.minDate) {
+    firstContactDate[sequelize.Op.gte] = moment(dateRange.minDate);
+  } else {
+    firstContactDate[sequelize.Op.gte] = moment().dayOfYear(1); // default to YTD
+  }
+
+  if (dateRange?.maxDate) {
+    firstContactDate[sequelize.Op.lte] = moment(dateRange.maxDate);
+  }
+  return firstContactDate;
 };

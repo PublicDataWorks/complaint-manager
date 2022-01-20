@@ -1,23 +1,19 @@
 import models from "../../../policeDataManager/models";
-import sequelize from "sequelize";
-import {
-  CASE_STATUS,
-  DATE_RANGE_TYPE
-} from "../../../../sharedUtilities/constants";
-import { getDateRangeStart } from "./queryHelperFunctions";
-const { PERSON_TYPE } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-export const executeQuery = async (nickname, dateRangeType) => {
-  const dateRangeStart = getDateRangeStart(dateRangeType);
-
+export const executeQuery = async (nickname, dateRange) => {
   const where = {
     deletedAt: null,
-    firstContactDate: { [sequelize.Op.gte]: dateRangeStart },
+    firstContactDate: calculateFirstContactDateCriteria(dateRange),
     status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
   };
 
   const queryOptions = {
-    attributes: ["caseReferencePrefix"],
+    attributes: ["caseReferencePrefix", "firstContactDate"],
     include: [
       {
         model: models.civilian,

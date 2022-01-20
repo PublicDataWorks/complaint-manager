@@ -4,11 +4,12 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import React from "react";
-import { act, render } from "@testing-library/react";
-import Visualization from "./Visualization";
+import { act, render, screen, fireEvent } from "@testing-library/react";
+import Visualization, { generateDateRange } from "./Visualization";
 import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 import mediaQuery from "css-mediaquery";
+import moment from "moment";
 
 function createMatchMedia(width) {
   return query => ({
@@ -56,6 +57,11 @@ describe("Visualization", () => {
   beforeEach(() => {
     window.matchMedia = createMatchMedia(1000);
   });
+
+  afterEach(() => {
+    getVisualizationData.mockClear();
+  });
+
   test("should not fetch data on viewport updates", async () => {
     // Arrange
     const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
@@ -80,6 +86,7 @@ describe("Visualization", () => {
     });
 
     expect(getVisualizationData).toHaveBeenCalledTimes(1);
+    expect(screen.queryAllByTestId("visualizationDateControl")).toHaveLength(0);
 
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
     expect(PlotlyWrapper.mock.calls[lastCall][0]).toEqual({
@@ -89,6 +96,31 @@ describe("Visualization", () => {
       layout: MOCK_MOBILE_LAYOUT
     });
   });
+
+  test("should fetch new data when dropdown changed", async () => {
+    // Arrange
+    const queryOptions = { dateRangeType: DATE_RANGE_TYPE.YTD };
+    // Act
+    let visualization;
+    await act(async () => {
+      visualization = render(
+        <Visualization
+          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+          queryOptions={queryOptions}
+          hasDropdown={true}
+        />
+      );
+    });
+
+    await act(async () => {
+      fireEvent.change(screen.getByTestId("visualizationDateControl"), {
+        target: { value: "2021" }
+      });
+    });
+
+    expect(getVisualizationData).toHaveBeenCalledTimes(2);
+  });
+
   test("should pass correct data and layout options to PlotlyWrapper", async () => {
     const queryOptions = { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS };
     // Act
@@ -105,7 +137,9 @@ describe("Visualization", () => {
     expect(getVisualizationData).toHaveBeenCalledWith(
       expect.objectContaining({
         queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
-        queryOptions
+        queryOptions: {
+          minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        }
       })
     );
     expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
@@ -121,6 +155,33 @@ describe("Visualization", () => {
       config: MOCK_CONFIG,
       data: MOCK_DATA,
       layout: MOCK_LAYOUT
+    });
+  });
+
+  describe("generateDateRange", () => {
+    test("should return min date as 12 months ago if date range is PAST_12_MONTHS", () => {
+      expect(generateDateRange(DATE_RANGE_TYPE.PAST_12_MONTHS)).toEqual({
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      });
+    });
+
+    test("should return min date as January 1 if date range is YTD", () => {
+      expect(generateDateRange(DATE_RANGE_TYPE.YTD)).toEqual({
+        minDate: `${moment().format("YYYY")}-01-01`
+      });
+    });
+
+    test("should return max date as Dec 31 of that year and min date as Jan 1 of that year if date range is a year", () => {
+      expect(generateDateRange("2018")).toEqual({
+        minDate: "2018-01-01",
+        maxDate: "2018-12-31"
+      });
+    });
+
+    test("should return past 12 months if undefined or unanticipated input is given", () => {
+      expect(generateDateRange("I'm not following directions")).toEqual({
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      });
     });
   });
 });

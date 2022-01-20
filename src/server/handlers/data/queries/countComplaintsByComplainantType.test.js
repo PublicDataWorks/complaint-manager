@@ -142,25 +142,28 @@ describe("executeQuery", () => {
   });
 
   test("should return only complaints within the past 12 months", async () => {
-    const getComplaintsPast12Months = request(app)
-      .get("/api/public-data")
-      .set("Content-Header", "application/json")
-      .set("Authorization", `Bearer ${token}`)
-      .query({
-        queryType: "countComplaintsByComplainantType",
-        dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS
-      });
-
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(moment().subtract(364, "d").format("YYYY-MM-DD"))
+        .withFirstContactDate(
+          moment().subtract(364, "days").format("YYYY-MM-DD")
+        )
+        .withComplainantCivilians([civilianCC])
         .withId(undefined),
       {
         auditUser: "someone"
       }
     );
     await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+
+    const getComplaintsPast12Months = request(app)
+      .get("/api/public-data")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .query({
+        queryType: "countComplaintsByComplainantType",
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      });
 
     const expectedDataPast12Months = { ...expectedData, ...{ CC: 2 } };
 

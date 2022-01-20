@@ -1,3 +1,4 @@
+import moment from "moment";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getData from "./getData";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
@@ -92,7 +93,7 @@ describe("getData", () => {
       method: "GET",
       query: {
         queryType: "countComplaintsByIntakeSource",
-        dateRangeType: "YTD"
+        minDate: `${moment().format("YYYY")}-01-01`
       },
       nickname: "tuser"
     });
@@ -101,7 +102,7 @@ describe("getData", () => {
 
     expect(countComplaintsByIntakeSource.executeQuery).toHaveBeenCalledWith(
       "tuser",
-      "YTD"
+      { minDate: `${moment().format("YYYY")}-01-01` }
     );
     expect(response._getData()).toEqual(MOCK_INTAKE_SOURCE_DATA_VALUES);
   });
@@ -125,7 +126,7 @@ describe("getData", () => {
       method: "GET",
       query: {
         queryType: "countComplaintsByComplainantType",
-        dateRangeType: "YTD"
+        minDate: `${moment().format("YYYY")}-01-01`
       },
       nickname: "tuser"
     });
@@ -134,7 +135,7 @@ describe("getData", () => {
 
     expect(countComplaintsByComplainantType.executeQuery).toHaveBeenCalledWith(
       "tuser",
-      "YTD"
+      { minDate: `${moment().format("YYYY")}-01-01` }
     );
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });

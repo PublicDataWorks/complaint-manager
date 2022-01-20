@@ -12,13 +12,16 @@ import * as locationDataQuery from "./queries/locationData";
 const getData = asyncMiddleware(async (request, response, next) => {
   let data;
   const queryType = request.query.queryType;
-  const dateRangeType = request.query.dateRangeType;
+  const dateRange = {
+    minDate: request.query.minDate,
+    maxDate: request.query.maxDate
+  };
 
   switch (queryType) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
       data = await countComplaintsByIntakeSource.executeQuery(
         request.nickname,
-        dateRangeType
+        dateRange
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINT_TOTALS:
@@ -27,7 +30,7 @@ const getData = asyncMiddleware(async (request, response, next) => {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
       data = await countComplaintsByComplainantType.executeQuery(
         request.nickname,
-        dateRangeType
+        dateRange
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:

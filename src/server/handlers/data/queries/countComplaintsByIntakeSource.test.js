@@ -11,8 +11,8 @@ import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
 
 describe("executeQuery", () => {
-  const oneDayAgo = moment().subtract(1, "d").format("YYYY-MM-DD");
-  const fiveMonthsAgo = moment().subtract(5, "m").format("YYYY-MM-DD");
+  const oneDayAgo = moment().subtract(1, "days").format("YYYY-MM-DD");
+  const fiveMonthsAgo = moment().subtract(5, "months").format("YYYY-MM-DD");
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -133,7 +133,7 @@ describe("executeQuery", () => {
       .set("Authorization", `Bearer ${token}`)
       .query({
         queryType: "countComplaintsByIntakeSource",
-        dateRangeType: "PAST_12_MONTHS"
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
       });
 
     expect(response.statusCode).toEqual(200);
@@ -170,7 +170,7 @@ describe("executeQuery", () => {
       .set("Authorization", `Bearer ${token}`)
       .query({
         queryType: "countComplaintsByIntakeSource",
-        dateRangeType: "YTD"
+        minDate: `${moment().format("YYYY")}-01-01`
       });
 
     expect(response.statusCode).toEqual(200);

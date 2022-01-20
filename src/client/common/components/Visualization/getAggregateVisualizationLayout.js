@@ -229,7 +229,9 @@ export const getAggregateVisualizationLayout = ({
 
   if (queryOptions.dateRangeType) {
     const currentTitle = get(aggregateLayout, ["title", "text"], "");
-    const currentSubtitle = subtitles[queryOptions.dateRangeType] || "";
+    const currentSubtitle = isNaN(queryOptions.dateRangeType)
+      ? subtitles[queryOptions.dateRangeType] || ""
+      : queryOptions.dateRangeType;
     const newSubtitle = [currentTitle, currentSubtitle].join("<br><sub>");
 
     if (currentTitle) {
