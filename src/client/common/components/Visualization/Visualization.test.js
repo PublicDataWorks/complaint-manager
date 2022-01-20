@@ -114,7 +114,7 @@ describe("Visualization", () => {
 
     await act(async () => {
       fireEvent.change(screen.getByTestId("visualizationDateControl"), {
-        target: { value: "2021" }
+        target: { value: DATE_RANGE_TYPE.PAST_12_MONTHS }
       });
     });
 
