@@ -60,9 +60,13 @@ class CreateCaseDialog extends React.Component {
         }}
         open={open}
         fullWidth
+        PaperProps={{
+          title: "createCaseDialogTitle"
+        }}
       >
         <DialogTitle
           data-testid="createCaseDialogTitle"
+          aria-label="createCaseDialogTitle"
           style={{ paddingBottom: "1%" }}
         >
           Create New Case
