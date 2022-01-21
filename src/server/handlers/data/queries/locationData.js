@@ -1,15 +1,12 @@
 import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
+import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 
-export const executeQuery = async fromDate => {
-  const where = fromDate
-    ? {
-        deletedAt: null,
-        firstContactDate: {
-          [sequelize.Op.gte]: fromDate
-        }
-      }
-    : { deletedAt: null };
+export const executeQuery = async dateRange => {
+  const where = {
+    deletedAt: null,
+    firstContactDate: calculateFirstContactDateCriteria(dateRange)
+  };
 
   const queryOptions = {
     raw: true,

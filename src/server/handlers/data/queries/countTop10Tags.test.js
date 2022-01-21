@@ -26,7 +26,10 @@ describe("executeQuery", () => {
     .get("/api/public-data")
     .set("Content-Header", "application/json")
     .set("Authorization", `Bearer ${token}`)
-    .query({ queryType: "countTop10Tags" });
+    .query({
+      queryType: "countTop10Tags",
+      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+    });
 
   const todaysDate = new Date();
 

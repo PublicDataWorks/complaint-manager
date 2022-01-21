@@ -5,7 +5,7 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import Boom from "boom";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
-import * as countComplaintsByComplainantTypePast12Months from "./queries/countComplaintsByComplainantTypePast12Months";
+import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
 import * as locationDataQuery from "./queries/locationData";
 
@@ -33,16 +33,17 @@ const getData = asyncMiddleware(async (request, response, next) => {
         dateRange
       );
       break;
-    case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-      data = await countComplaintsByComplainantTypePast12Months.executeQuery(
-        request.nickname
+    case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS: // TODO change constant name
+      data = await countMonthlyComplaintsByComplainantType.executeQuery(
+        request.nickname,
+        dateRange
       );
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
-      data = await countTop10Tags.executeQuery(request.nickname);
+      data = await countTop10Tags.executeQuery(request.nickname, dateRange);
       break;
     case QUERY_TYPES.LOCATION_DATA:
-      data = await locationDataQuery.executeQuery(request.query.minDate);
+      data = await locationDataQuery.executeQuery(dateRange);
       break;
     default:
       return next(

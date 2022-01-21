@@ -84,26 +84,29 @@ describe("locationDataQuery", () => {
     );
   });
 
-  test("should return lat/lon of all cases when no from date is passed", async () => {
-    expect(await executeQuery()).toEqual([
+  test("should return lat/lon of first two cases when minDate is 01-01 and maxDate is 04-01", async () => {
+    expect(
+      await executeQuery({ minDate: "2021-01-01", maxDate: "2021-04-01" })
+    ).toEqual([
       { lat: 21, lon: -91 },
-      { lat: 22, lon: -92 },
-      { lat: 23, lon: -93 }
+      { lat: 22, lon: -92 }
     ]);
   });
 
   test("should return lat/lon of case2 and case3 when 2021-02-05 is passed", async () => {
-    expect(await executeQuery("2021-02-05")).toEqual([
+    expect(await executeQuery({ minDate: "2021-02-05" })).toEqual([
       { lat: 22, lon: -92 },
       { lat: 23, lon: -93 }
     ]);
   });
 
   test("should return lat/lon of case3 when 2021-04-05 is passed", async () => {
-    expect(await executeQuery("2021-04-05")).toEqual([{ lat: 23, lon: -93 }]);
+    expect(await executeQuery({ minDate: "2021-04-05" })).toEqual([
+      { lat: 23, lon: -93 }
+    ]);
   });
 
   test("should return an empty array when 2021-06-05 is passed", async () => {
-    expect(await executeQuery("2021-06-05")).toEqual([]);
+    expect(await executeQuery({ minDate: "2021-06-05" })).toEqual([]);
   });
 });

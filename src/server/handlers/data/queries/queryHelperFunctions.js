@@ -66,12 +66,17 @@ export const getDateRangeStart = (
   return dateRangeStart;
 };
 
-export const calculateFirstContactDateCriteria = dateRange => {
+export const calculateFirstContactDateCriteria = (
+  dateRange,
+  defaultMinDate
+) => {
   let firstContactDate = {};
   if (dateRange?.minDate) {
     firstContactDate[sequelize.Op.gte] = moment(dateRange.minDate);
   } else {
-    firstContactDate[sequelize.Op.gte] = moment().dayOfYear(1); // default to YTD
+    firstContactDate[sequelize.Op.gte] = defaultMinDate
+      ? defaultMinDate
+      : moment().dayOfYear(1); // default to YTD
   }
 
   if (dateRange?.maxDate) {
