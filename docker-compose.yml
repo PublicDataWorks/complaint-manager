@@ -137,7 +137,7 @@ services:
       - redis
     ports:
       - "4567:4567"
-      - "5000:5000"
+      - "5001:5000"
     entrypoint: [ "./wait-for-it.sh", "db:5432", "--" ]
     command: [ "yarn", "start:worker:dev" ]
     volumes:
