@@ -40,6 +40,7 @@ class DataDashboard extends Component {
               data-testid={"intakeSourceGraphPast12"}
               queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              hasDropdown={true}
             />
           </div>
           <div
@@ -59,6 +60,7 @@ class DataDashboard extends Component {
               data-testid={"complainantTypeGraphPast12"}
               queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              hasDropdown={true}
             />
           </div>
           <div>
@@ -69,6 +71,7 @@ class DataDashboard extends Component {
                 QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
               }
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              hasDropdown={true}
             />
           </div>
           <div style={{ maxWidth: "1000px" }}>
@@ -76,6 +79,7 @@ class DataDashboard extends Component {
               data-testid={"top10TagsGraph"}
               queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+              hasDropdown={true}
             />
           </div>
         </main>

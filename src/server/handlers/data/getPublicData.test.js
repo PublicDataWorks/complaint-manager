@@ -4,9 +4,9 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import Boom from "boom";
 import moment from "moment";
 import * as httpMocks from "node-mocks-http";
-import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
+import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 
 const {
   PERSON_TYPE
@@ -105,7 +105,7 @@ jest.mock("../../handlers/data/queries/countTop10Tags", () => ({
 }));
 
 jest.mock(
-  "../../handlers/data/queries/countComplaintsByComplainantTypePast12Months",
+  "../../handlers/data/queries/countMonthlyComplaintsByComplainantType",
   () => ({
     executeQuery: jest.fn(() => {
       return MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_DATA_VALUES;
@@ -176,11 +176,13 @@ describe("getPublicData", () => {
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
 
-  test("should call getPublicData when countComplaintsByComplainantTypePast12Months query called", async () => {
+  test("should call getPublicData when countMonthlyComplaintsByComplainantType query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType: "countComplaintsByComplainantTypePast12Months"
+        queryType:
+          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
       },
       nickname: "tuser"
     });

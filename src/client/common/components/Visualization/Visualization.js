@@ -7,7 +7,10 @@ import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayo
 import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
-import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import {
+  DATE_RANGE_TYPE,
+  QUERY_TYPES
+} from "../../../../sharedUtilities/constants";
 import moment from "moment";
 const {
   FIRST_YEAR_DATA_IS_AVAILABLE
@@ -19,7 +22,7 @@ export const generateDateRange = range => {
   if (isAYear(range)) {
     return {
       minDate: `${range}-01-01`,
-      maxDate: `${range}-12-31`
+      maxDate: `${parseInt(range) + 1}-01-01`
     };
   } else if (range === DATE_RANGE_TYPE.YTD) {
     return {
@@ -80,10 +83,15 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
     createConfig();
   }, [data, queryType, queryOptions, isPublic, isMobile]);
 
-  let dateRangeDropdownOptions = [
-    { key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" },
-    { key: DATE_RANGE_TYPE.YTD, value: "Year-to-date" }
-  ];
+  let dateRangeDropdownOptions =
+    queryType ===
+      QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS &&
+    moment().format("MM") === "01"
+      ? [{ key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" }]
+      : [
+          { key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" },
+          { key: DATE_RANGE_TYPE.YTD, value: "Year-to-date" }
+        ];
 
   for (
     let i = parseInt(moment().format("YYYY")) - 1;

@@ -5,24 +5,12 @@ import {
   CASE_STATUS,
   DESCENDING
 } from "../../../../sharedUtilities/constants";
+import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 
-export const executeQuery = async nickname => {
-  const date = new Date();
-
-  const endDate = date.setFullYear(date.getFullYear(), date.getMonth(), 0);
-
-  const startDate = date.setFullYear(
-    date.getFullYear() - 1,
-    date.getMonth(),
-    1
-  );
-
+export const executeQuery = async (nickname, dateRange) => {
   const where = {
     deletedAt: null,
-    firstContactDate: {
-      [sequelize.Op.gte]: startDate,
-      [sequelize.Op.lte]: endDate
-    },
+    firstContactDate: calculateFirstContactDateCriteria(dateRange),
     status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
   };
 

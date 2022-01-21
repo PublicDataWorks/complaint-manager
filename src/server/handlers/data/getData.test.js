@@ -7,8 +7,9 @@ import * as httpMocks from "node-mocks-http";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
-import * as countComplaintsByComplainantTypePast12Months from "./queries/countComplaintsByComplainantTypePast12Months";
+import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
+import { QUERY_TYPES } from "../../../sharedUtilities/constants";
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -63,7 +64,7 @@ jest.mock(
 );
 
 jest.mock(
-  "../../handlers/data/queries/countComplaintsByComplainantTypePast12Months",
+  "../../handlers/data/queries/countMonthlyComplaintsByComplainantType",
   () => ({
     executeQuery: jest.fn(() => {
       return MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES;
@@ -140,11 +141,13 @@ describe("getData", () => {
     expect(response._getData()).toEqual(MOCK_COMPLAINANT_TYPE_DATA_VALUES);
   });
 
-  test("should call getData when countComplaintsByComplainantTypePast12Months query called", async () => {
+  test("should call getData when countMonthlyComplaintsByComplainantType query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType: "countComplaintsByComplainantTypePast12Months"
+        queryType:
+          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
       },
       nickname: "tuser"
     });
@@ -152,8 +155,10 @@ describe("getData", () => {
     await getData(request, response, next);
 
     expect(
-      countComplaintsByComplainantTypePast12Months.executeQuery
-    ).toHaveBeenCalledWith("tuser");
+      countMonthlyComplaintsByComplainantType.executeQuery
+    ).toHaveBeenCalledWith("tuser", {
+      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+    });
     expect(response._getData()).toEqual(
       MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES
     );
@@ -163,14 +168,17 @@ describe("getData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType: "countTop10Tags"
+        queryType: "countTop10Tags",
+        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
       },
       nickname: "tuser"
     });
 
     await getData(request, response, next);
 
-    expect(countTop10Tags.executeQuery).toHaveBeenCalledWith("tuser");
+    expect(countTop10Tags.executeQuery).toHaveBeenCalledWith("tuser", {
+      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+    });
     expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
   });
 
