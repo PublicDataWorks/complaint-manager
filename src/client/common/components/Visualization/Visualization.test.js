@@ -174,7 +174,7 @@ describe("Visualization", () => {
     test("should return max date as Dec 31 of that year and min date as Jan 1 of that year if date range is a year", () => {
       expect(generateDateRange("2018")).toEqual({
         minDate: "2018-01-01",
-        maxDate: "2018-12-31"
+        maxDate: "2019-01-01"
       });
     });
 
