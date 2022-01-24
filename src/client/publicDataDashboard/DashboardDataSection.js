@@ -110,6 +110,7 @@ const DashboardDataSection = props => {
               isPublic
               queryType={queryType}
               queryOptions={queryOptions}
+              hasDropdown={true}
             />
           </Grid>
         )}
