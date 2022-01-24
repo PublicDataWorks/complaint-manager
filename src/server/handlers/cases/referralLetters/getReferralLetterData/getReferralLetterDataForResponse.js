@@ -1,5 +1,5 @@
 import models from "../../../../policeDataManager/models";
-import shortid from "shortid";
+import { nanoid } from "nanoid";
 import { ACCUSED, ASCENDING } from "../../../../../sharedUtilities/constants";
 import getQueryAuditAccessDetails, {
   combineAuditDetails,
@@ -16,19 +16,18 @@ const getReferralLetterDataForResponse = async (caseId, transaction) => {
   letterData = letterData.toJSON();
   const letterDataAuditDetails = letterDataAndAuditDetails.auditDetails;
 
-  const transformedLetterOfficerDataAndAuditDetails = transformLetterOfficerDataAndAuditDetails(
-    letterData,
-    letterDataAuditDetails
-  );
+  const transformedLetterOfficerDataAndAuditDetails =
+    transformLetterOfficerDataAndAuditDetails(
+      letterData,
+      letterDataAuditDetails
+    );
   const letterAndLetterOfficerAuditDetails =
     transformedLetterOfficerDataAndAuditDetails.auditDetails;
   const transformedLetterOfficerData =
     transformedLetterOfficerDataAndAuditDetails.letterOfficerData;
 
-  const classificationDataAndAuditDetails = await getClassificationAndAuditDetails(
-    caseId,
-    transaction
-  );
+  const classificationDataAndAuditDetails =
+    await getClassificationAndAuditDetails(caseId, transaction);
 
   const auditDetails = combineAuditDetails(
     letterAndLetterOfficerAuditDetails,
@@ -53,13 +52,16 @@ const letterOfficerAttributes = caseOfficer => {
     !letterOfficerAttributes.referralLetterOfficerHistoryNotes ||
     letterOfficerAttributes.referralLetterOfficerHistoryNotes.length === 0
   ) {
-    letterOfficerAttributes.referralLetterOfficerHistoryNotes = buildEmptyNotes();
+    letterOfficerAttributes.referralLetterOfficerHistoryNotes =
+      buildEmptyNotes();
   }
-  letterOfficerAttributes.referralLetterOfficerRecommendedActions = buildRecommendedActions(
-    letterOfficerAttributes.referralLetterOfficerRecommendedActions
-  );
+  letterOfficerAttributes.referralLetterOfficerRecommendedActions =
+    buildRecommendedActions(
+      letterOfficerAttributes.referralLetterOfficerRecommendedActions
+    );
   if (letterOfficerAttributes.officerHistoryOptionId) {
-    letterOfficerAttributes.officerHistoryOptionId = letterOfficerAttributes.officerHistoryOptionId.toString();
+    letterOfficerAttributes.officerHistoryOptionId =
+      letterOfficerAttributes.officerHistoryOptionId.toString();
   }
 
   return letterOfficerAttributes;
@@ -97,7 +99,7 @@ const buildRecommendedActions = recommendedActions => {
   return recommendedActions.map(action => action.recommendedActionId);
 };
 
-const emptyObject = () => ({ tempId: shortid.generate() });
+const emptyObject = () => ({ tempId: nanoid() });
 
 const buildEmptyNotes = () => {
   return [emptyObject()];
