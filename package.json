@@ -182,7 +182,7 @@
     "**/mixin-deep": "2.0.1",
     "**/nanoid": "^3.2.0",
     "**/netmask": "2.0.1",
-    "**/node-fetch": "3.2.0",
+    "**/node-fetch": "2.6.1",
     "**/node-forge": "1.2.0",
     "**/normalize-url": "4.5.1",
     "**/nth-check": "2.0.1",
