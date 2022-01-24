@@ -30,7 +30,10 @@ import getIntakeSourceDropdownValues from "../../../intakeSources/thunks/getInta
 import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocationInfo";
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
-import { INCIDENT_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
+import {
+  INCIDENT_DETAILS_FORM_NAME,
+  ISO_DATE
+} from "../../../../../sharedUtilities/constants";
 import getHowDidYouHearAboutUsSourceDropdownValues from "../../../howDidYouHearAboutUsSources/thunks/getHowDidYouHearAboutUsSourceDropdownValues";
 import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
@@ -107,7 +110,7 @@ class IncidentDetailsDialog extends Component {
                   "data-testid": "editFirstContactDateInput",
                   type: "date",
                   autoComplete: "off",
-                  max: moment(Date.now()).format("YYYY-MM-DD")
+                  max: moment(Date.now()).format(ISO_DATE)
                 }}
                 style={{ display: "inherit" }}
               />
@@ -126,7 +129,7 @@ class IncidentDetailsDialog extends Component {
                 inputProps={{
                   "data-testid": "editIncidentDateInput",
                   type: "date",
-                  max: moment(Date.now()).format("YYYY-MM-DD"),
+                  max: moment(Date.now()).format(ISO_DATE),
                   autoComplete: "off"
                 }}
                 style={{

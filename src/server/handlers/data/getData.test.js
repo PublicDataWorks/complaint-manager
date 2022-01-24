@@ -9,7 +9,7 @@ import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntak
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
-import { QUERY_TYPES } from "../../../sharedUtilities/constants";
+import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -145,9 +145,8 @@ describe("getData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType:
-          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE,
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
       nickname: "tuser"
     });
@@ -157,7 +156,7 @@ describe("getData", () => {
     expect(
       countMonthlyComplaintsByComplainantType.executeQuery
     ).toHaveBeenCalledWith("tuser", {
-      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
     expect(response._getData()).toEqual(
       MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES
@@ -169,7 +168,7 @@ describe("getData", () => {
       method: "GET",
       query: {
         queryType: "countTop10Tags",
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
       nickname: "tuser"
     });
@@ -177,7 +176,7 @@ describe("getData", () => {
     await getData(request, response, next);
 
     expect(countTop10Tags.executeQuery).toHaveBeenCalledWith("tuser", {
-      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
     expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
   });

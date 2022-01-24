@@ -1,6 +1,7 @@
 import {
   AUDIT_ACTION,
   AUDIT_TYPE,
+  ISO_DATE,
   JOB_OPERATION,
   TIMEZONE
 } from "../../../sharedUtilities/constants";
@@ -69,10 +70,10 @@ describe("exportAuditLog", () => {
 
     const startDateString = moment(
       jobWithDateRange.data.dateRange.exportStartDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
     const endDateString = moment(
       jobWithDateRange.data.dateRange.exportEndDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,

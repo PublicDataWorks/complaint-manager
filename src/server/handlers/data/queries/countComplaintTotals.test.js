@@ -6,13 +6,13 @@ import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
 import app from "../../../server";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { ISO_DATE, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
 
 describe("getCountByDateRange", () => {
-  const fiveDaysAgo = moment().subtract(5, "days").format("YYYY-MM-DD");
-  const oneYearAgo = moment().subtract(1, "years").format("YYYY-MM-DD");
+  const fiveDaysAgo = moment().subtract(5, "days").format(ISO_DATE);
+  const oneYearAgo = moment().subtract(1, "years").format(ISO_DATE);
 
   afterEach(async () => {
     await cleanupDatabase();

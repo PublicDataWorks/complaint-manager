@@ -6,13 +6,13 @@ import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
 import app from "../../../server";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
 
 describe("executeQuery", () => {
-  const oneDayAgo = moment().subtract(1, "days").format("YYYY-MM-DD");
-  const fiveMonthsAgo = moment().subtract(5, "months").format("YYYY-MM-DD");
+  const oneDayAgo = moment().subtract(1, "days").format(ISO_DATE);
+  const fiveMonthsAgo = moment().subtract(5, "months").format(ISO_DATE);
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -133,7 +133,7 @@ describe("executeQuery", () => {
       .set("Authorization", `Bearer ${token}`)
       .query({
         queryType: "countComplaintsByIntakeSource",
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       });
 
     expect(response.statusCode).toEqual(200);

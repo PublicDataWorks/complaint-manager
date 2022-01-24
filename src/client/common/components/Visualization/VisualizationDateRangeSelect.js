@@ -13,7 +13,7 @@ const {
 const VisualizationDateRangeSelect = props => {
   let dateRangeDropdownOptions =
     props.queryType ===
-      QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS &&
+      QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE &&
     moment().format("MM") === "01"
       ? [{ key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" }]
       : [

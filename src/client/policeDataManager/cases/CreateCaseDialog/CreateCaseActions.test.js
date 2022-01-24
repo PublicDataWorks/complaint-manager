@@ -6,6 +6,7 @@ import { CreateCaseActions } from "./CreateCaseActions";
 import {
   CIVILIAN_INITIATED,
   DESCENDING,
+  ISO_DATE,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import CreateCaseButton from "../CreateCaseButton";
@@ -86,7 +87,7 @@ describe("CreateCaseActions", () => {
     caseDetails = {
       case: {
         complaintType: CIVILIAN_INITIATED,
-        firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+        firstContactDate: moment(Date.now()).format(ISO_DATE),
         intakeSourceId: 1
       },
       civilian: {

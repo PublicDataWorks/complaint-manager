@@ -44,6 +44,7 @@ import AddressInput from "./AddressInput";
 import {
   CIVILIAN_FORM_NAME,
   COMPLAINANT,
+  ISO_DATE,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
@@ -221,7 +222,7 @@ class CivilianDialog extends Component {
                       inputProps={{
                         "data-testid": "birthDateInput",
                         type: "date",
-                        max: moment(Date.now()).format("YYYY-MM-DD")
+                        max: moment(Date.now()).format(ISO_DATE)
                       }}
                       label="Date of Birth"
                       clearable={true}

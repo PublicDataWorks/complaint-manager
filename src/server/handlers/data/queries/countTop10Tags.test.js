@@ -7,7 +7,7 @@ import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import CaseTag from "../../../testHelpers/caseTag";
 import Tag from "../../../testHelpers/tag";
 import moment from "moment";
@@ -28,7 +28,7 @@ describe("executeQuery", () => {
     .set("Authorization", `Bearer ${token}`)
     .query({
       queryType: "countTop10Tags",
-      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
 
   const todaysDate = new Date();

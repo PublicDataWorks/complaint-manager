@@ -9,7 +9,8 @@ import app from "../../../server";
 import {
   CASE_STATUS,
   COMPLAINANT,
-  DATE_RANGE_TYPE
+  DATE_RANGE_TYPE,
+  ISO_DATE
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
@@ -63,7 +64,7 @@ describe("executeQuery", () => {
       await createCaseOfficer(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
     ).withId(4);
 
-    const todaysDate = moment().format("YYYY-MM-DD");
+    const todaysDate = moment().format(ISO_DATE);
 
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianCC],
@@ -145,9 +146,7 @@ describe("executeQuery", () => {
     const oldCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(
-          moment().subtract(364, "days").format("YYYY-MM-DD")
-        )
+        .withFirstContactDate(moment().subtract(364, "days").format(ISO_DATE))
         .withComplainantCivilians([civilianCC])
         .withId(undefined),
       {
@@ -162,7 +161,7 @@ describe("executeQuery", () => {
       .set("Authorization", `Bearer ${token}`)
       .query({
         queryType: "countComplaintsByComplainantType",
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       });
 
     const expectedDataPast12Months = { ...expectedData, ...{ CC: 2 } };

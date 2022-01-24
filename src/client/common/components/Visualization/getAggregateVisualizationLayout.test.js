@@ -38,7 +38,7 @@ const baseLayouts = {
       t: 160
     }
   },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
+  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     barmode: "group",
     dragmode: false,
     font: LABEL_FONT,
@@ -101,7 +101,7 @@ const extendedLayouts = {
     paper_bgcolor: "#F5F4F4",
     plot_bgcolor: "#F5F4F4"
   },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS]: {
+  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
     width: 800,
     title: null,
     font: PUBLIC_LABEL_FONT,
