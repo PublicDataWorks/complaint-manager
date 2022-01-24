@@ -6,7 +6,7 @@ import moment from "moment";
 import * as httpMocks from "node-mocks-http";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
-import { QUERY_TYPES } from "../../../sharedUtilities/constants";
+import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
 
 const {
   PERSON_TYPE
@@ -180,9 +180,8 @@ describe("getPublicData", () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
-        queryType:
-          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE,
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       },
       nickname: "tuser"
     });

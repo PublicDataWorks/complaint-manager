@@ -36,7 +36,7 @@ const getPublicData = asyncMiddleware(async (request, response, next) => {
         dateRange
       );
       break;
-    case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
+    case QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:
       data = await countMonthlyComplaintsByComplainantType.executeQuery(
         request.nickname,
         dateRange

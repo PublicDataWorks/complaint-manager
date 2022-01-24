@@ -16,6 +16,7 @@ import {
   ALLEGATION_SEVERITY,
   CASE_EXPORT_TYPE,
   COMPLAINANT,
+  ISO_DATE,
   JOB_OPERATION,
   TIMEZONE,
   WITNESS
@@ -183,10 +184,10 @@ describe("csvCaseExport request", () => {
 
     const startDateString = moment(
       jobWithDateRangeByFirstContactDate.data.dateRange.exportStartDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
     const endDateString = moment(
       jobWithDateRangeByFirstContactDate.data.dateRange.exportEndDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,
@@ -201,10 +202,10 @@ describe("csvCaseExport request", () => {
 
     const startDateString = moment(
       jobWithDateRangeByIncidentDate.data.dateRange.exportStartDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
     const endDateString = moment(
       jobWithDateRangeByIncidentDate.data.dateRange.exportEndDate
-    ).format("YYYY-MM-DD");
+    ).format(ISO_DATE);
 
     expect(uploadFileToS3).toHaveBeenCalledWith(
       job.id,

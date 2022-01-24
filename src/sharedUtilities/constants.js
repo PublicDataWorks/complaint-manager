@@ -10,6 +10,7 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
+export const ISO_DATE = "YYYY-MM-DD";
 // ----------------------------------------
 //          Action Types
 // ----------------------------------------
@@ -445,8 +446,8 @@ export const QUERY_TYPES = {
   COUNT_COMPLAINTS_BY_INTAKE_SOURCE: "countComplaintsByIntakeSource",
   COUNT_COMPLAINT_TOTALS: "countComplaintTotals",
   COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE: "countComplaintsByComplainantType",
-  COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS:
-    "countComplaintsByComplainantTypePast12Months",
+  COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:
+    "countMonthlyComplaintsByComplainantType",
   COUNT_TOP_10_TAGS: "countTop10Tags",
   LOCATION_DATA: "locationData"
 };
@@ -471,7 +472,7 @@ export const DATA_SECTIONS = {
     dataTestId: "complaintLocations",
     queryType: QUERY_TYPES.LOCATION_DATA,
     queryOptions: {
-      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
     },
     // TODO replace placeholder
     collapsedText: `With this map, the ${ORGANIZATION} seeks to capture if there are any patterns around where police misconduct is being reported. This map tracks the density of complaints referred to the ${ORGANIZATION} over the course of the last twelve months in a given location.`,
@@ -481,7 +482,7 @@ export const DATA_SECTIONS = {
     title: "Who is submitting complaints over time?",
     subtitle: "Complainant Type over Past 12 Months",
     dataTestId: "complainantTypePast12MonthsGraph",
-    queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS,
+    queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText: `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months`,
     fullMessage: `With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year. This table tracks the type of complainant who filed a complaint referral with the ${ORGANIZATION} over the course of the last twelve months.\n\nAs the year progresses, the table will show the last twelve (12) months from the current month (this is a rolling twelve months table).  With this chart, the ${ORGANIZATION} seeks to capture if there are any patterns around complainants and complaint types during the year.  For example, there was a peak of complaints from the community – Civilian Complaints – in June during the interactions that occurred around the protests of police misconduct and the protest on the Crescent City Connection bridge.  ${ORGANIZATION} tracks to see if there are other concentrations of complainants or complaint types during other points of the year including festival season, Mardi Gras, Essence, Voodoo Festival, hurricane season, sporting events, and the holidays.`

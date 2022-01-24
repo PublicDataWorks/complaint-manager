@@ -1,5 +1,8 @@
 import axios from "axios";
-import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import {
+  DATE_RANGE_TYPE,
+  QUERY_TYPES
+} from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import * as countTop10Tags from "./Transformers/countTop10Tags";
 import * as countComplaintsByIntakeSource from "./Transformers/countComplaintsByIntakeSource";
@@ -70,7 +73,9 @@ describe("getVisualizationData", () => {
     axios.get.mockResolvedValue({});
 
     // Act
-    await getVisualizationData({ queryType: "countComplaintsByComplainantTypePast12Months" });
+    await getVisualizationData({
+      queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE
+    });
 
     // Assert
     expect(
@@ -90,8 +95,8 @@ describe("getVisualizationData", () => {
 
   test("should throw error if query type is unsupported", async () => {
     // Act
-    await expect(getVisualizationData({ queryType: "unsupportedQueryType" })).rejects.toThrow(
-      BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED
-    );
+    await expect(
+      getVisualizationData({ queryType: "unsupportedQueryType" })
+    ).rejects.toThrow(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
   });
 });

@@ -5,6 +5,7 @@ import { mount } from "enzyme";
 import { reduxForm } from "redux-form";
 import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
+import { ISO_DATE } from "../../../../sharedUtilities/constants";
 
 describe("DateField", () => {
   let ReduxDateField, form, datePicker, datePickerField;
@@ -42,9 +43,7 @@ describe("DateField", () => {
   });
 
   test("should show validation error when input is a future date", () => {
-    const tomorrow = moment(Date.now())
-      .add(2, "days")
-      .format("YYYY-MM-DD");
+    const tomorrow = moment(Date.now()).add(2, "days").format(ISO_DATE);
     datePicker.simulate("change", { target: { value: tomorrow } });
     datePicker.simulate("blur");
 
@@ -52,9 +51,7 @@ describe("DateField", () => {
   });
 
   test("should allow past date as input", () => {
-    const yesterday = moment(Date.now())
-      .subtract(1, "days")
-      .format("YYYY-MM-DD");
+    const yesterday = moment(Date.now()).subtract(1, "days").format(ISO_DATE);
     datePicker.simulate("change", { target: { value: yesterday } });
     datePicker.simulate("blur");
 

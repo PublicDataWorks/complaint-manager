@@ -1,6 +1,7 @@
 import React from "react";
 import DateField from "../../cases/sharedFormComponents/DateField";
 import moment from "moment-timezone";
+import { ISO_DATE } from "../../../../sharedUtilities/constants";
 
 const ExportDateRange = props => {
   return (
@@ -15,7 +16,7 @@ const ExportDateRange = props => {
           "data-testid": `${props.formLabel}FromInput`,
           "aria-label": "Date Field",
           type: "date",
-          max: moment(Date.now()).format("YYYY-MM-DD")
+          max: moment(Date.now()).format(ISO_DATE)
         }}
         clearable={true}
         style={{
@@ -33,7 +34,7 @@ const ExportDateRange = props => {
           "data-testid": `${props.formLabel}ToInput`,
           "aria-label": "Date Field",
           type: "date",
-          max: moment(Date.now()).format("YYYY-MM-DD")
+          max: moment(Date.now()).format(ISO_DATE)
         }}
         clearable={true}
         style={{

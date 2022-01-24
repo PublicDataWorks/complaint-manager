@@ -15,7 +15,8 @@ import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
 import {
   CIVILIAN_INITIATED,
-  CREATE_CASE_FORM_NAME
+  CREATE_CASE_FORM_NAME,
+  ISO_DATE
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
@@ -126,7 +127,7 @@ const Timeline = () => (
       inputProps={{
         "data-testid": "firstContactDateInput",
         type: "date",
-        max: moment(Date.now()).format("YYYY-MM-DD"),
+        max: moment(Date.now()).format(ISO_DATE),
         autoComplete: "off",
         "aria-label": "First Contact Date Field"
       }}
@@ -199,7 +200,7 @@ export default reduxForm({
   initialValues: {
     case: {
       complaintType: CIVILIAN_INITIATED,
-      firstContactDate: moment(Date.now()).format("YYYY-MM-DD")
+      firstContactDate: moment(Date.now()).format(ISO_DATE)
     }
   }
 })(ConnectedDialog);

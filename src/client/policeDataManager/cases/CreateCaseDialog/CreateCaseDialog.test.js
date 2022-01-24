@@ -16,6 +16,7 @@ import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDa
 import {
   CIVILIAN_INITIATED,
   DESCENDING,
+  ISO_DATE,
   RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
@@ -93,7 +94,7 @@ describe("CreateCaseDialog component", () => {
       caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1
         },
         civilian: {
@@ -193,7 +194,7 @@ describe("CreateCaseDialog component", () => {
           .find('[data-testid="firstContactDateInput"]')
           .last();
         expect(datePicker.instance().value).toEqual(
-          moment(Date.now()).format("YYYY-MM-DD")
+          moment(Date.now()).format(ISO_DATE)
         );
       });
 
@@ -356,7 +357,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1,
           incidentDate: undefined
         },
@@ -420,7 +421,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format("YYYY-MM-DD"),
+          firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 2,
           incidentDate: undefined
         },

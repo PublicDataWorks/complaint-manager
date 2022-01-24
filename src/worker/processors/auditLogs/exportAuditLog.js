@@ -4,6 +4,7 @@ import getTransformedAudits from "./transformAudits/getTransformedAudits";
 
 const {
   TIMEZONE,
+  ISO_DATE,
   JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
@@ -99,9 +100,9 @@ const generateFilename = (jobOperation, dateRange) => {
 
 const formatDateRangeForFilename = dateRange => {
   if (dateRange) {
-    return `_${moment(dateRange.exportStartDate).format(
-      "YYYY-MM-DD"
-    )}_to_${moment(dateRange.exportEndDate).format("YYYY-MM-DD")}`;
+    return `_${moment(dateRange.exportStartDate).format(ISO_DATE)}_to_${moment(
+      dateRange.exportEndDate
+    ).format(ISO_DATE)}`;
   } else {
     return "";
   }

@@ -17,6 +17,7 @@ import {
   validDate
 } from "./formFieldLevelValidations";
 import moment from "moment";
+import { ISO_DATE } from "../sharedUtilities/constants";
 const {
   BUREAU_ACRONYM
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -126,7 +127,7 @@ describe("Form Validations", () => {
   });
 
   test("notFutureDate should return an error when date is a future date", () => {
-    const today = moment(Date.now()).add(1, "days").format("YYYY-MM-DD");
+    const today = moment(Date.now()).add(1, "days").format(ISO_DATE);
     expect(notFutureDate(today)).toEqual("Date cannot be in the future");
   });
 

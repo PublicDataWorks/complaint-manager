@@ -67,8 +67,7 @@ class DataDashboard extends Component {
             <Visualization
               data-testid={"complainantTypePast12MonthsGraph"}
               queryType={
-                // FIXME This query has the date range hard coded!!!
-                QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE_PAST_12_MONTHS
+                QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE
               }
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
               hasDropdown={true}

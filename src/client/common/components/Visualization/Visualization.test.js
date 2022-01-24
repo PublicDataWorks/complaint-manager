@@ -1,6 +1,7 @@
 import {
   QUERY_TYPES,
-  DATE_RANGE_TYPE
+  DATE_RANGE_TYPE,
+  ISO_DATE
 } from "../../../../sharedUtilities/constants";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import React from "react";
@@ -138,7 +139,7 @@ describe("Visualization", () => {
       expect.objectContaining({
         queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
         queryOptions: {
-          minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+          minDate: moment().subtract(12, "months").format(ISO_DATE)
         }
       })
     );
@@ -161,7 +162,7 @@ describe("Visualization", () => {
   describe("generateDateRange", () => {
     test("should return min date as 12 months ago if date range is PAST_12_MONTHS", () => {
       expect(generateDateRange(DATE_RANGE_TYPE.PAST_12_MONTHS)).toEqual({
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       });
     });
 
@@ -180,7 +181,7 @@ describe("Visualization", () => {
 
     test("should return past 12 months if undefined or unanticipated input is given", () => {
       expect(generateDateRange("I'm not following directions")).toEqual({
-        minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
       });
     });
   });

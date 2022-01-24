@@ -6,7 +6,10 @@ import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import {
+  DATE_RANGE_TYPE,
+  ISO_DATE
+} from "../../../../sharedUtilities/constants";
 import moment from "moment";
 import VisualizationDateRangeSelect from "./VisualizationDateRangeSelect";
 
@@ -24,7 +27,7 @@ export const generateDateRange = range => {
     };
   } else {
     return {
-      minDate: moment().subtract(12, "months").format("YYYY-MM-DD")
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
     };
   }
 };
