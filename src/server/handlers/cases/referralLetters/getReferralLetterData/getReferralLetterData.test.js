@@ -18,7 +18,7 @@ import Case from "../../../../../sharedTestHelpers/case";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 
-jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
+jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterData", () => {

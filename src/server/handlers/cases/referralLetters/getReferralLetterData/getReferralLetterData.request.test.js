@@ -12,7 +12,7 @@ import {
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("shortid", () => ({ generate: () => "uniqueTempId" }));
+jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
 describe("GET /cases/:id/referral-letter", function () {
   afterEach(async () => {

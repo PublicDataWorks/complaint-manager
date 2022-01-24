@@ -5,7 +5,7 @@ import { Field, FieldArray, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import OfficerHistoryNote from "./OfficerHistoryNote";
 import LinkButton from "../../../shared/components/LinkButton";
-import shortid from "shortid";
+import { nanoid } from "nanoid";
 import OfficerAllegationHistory from "./OfficerAllegationHistory";
 import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
 import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
@@ -29,8 +29,7 @@ class OfficerHistoryTabContent extends React.Component {
     this.props.dispatch(getOfficerHistoryOptionsRadioButtonValues());
   }
 
-  addNewOfficerNote = fields => () =>
-    fields.push({ tempId: shortid.generate() });
+  addNewOfficerNote = fields => () => fields.push({ tempId: nanoid() });
 
   renderNoteFields = ({ fields }) => (
     <Fragment>
