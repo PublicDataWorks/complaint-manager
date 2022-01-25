@@ -573,7 +573,7 @@ jobs:
       - run: git checkout master
       - run: git reset --hard
       - run: git pull -r origin master
-      - run: git push origin master --no-verify
+      - run: git push origin master --follow-tags --no-verify
 
   update-search-indices-ci:
     docker:
