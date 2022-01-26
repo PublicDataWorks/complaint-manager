@@ -94,7 +94,12 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
         )}
       </section>
       <PlotlyWrapper
-        style={{ height: "100%", width: "100%" }}
+        style={{
+          height: "100%",
+          width: "100%",
+          marginLeft: "10px",
+          marginRight: "10px"
+        }}
         data={isEmpty(data.data) ? [] : data.data}
         layout={layout}
         config={config}

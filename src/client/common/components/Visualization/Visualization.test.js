@@ -15,8 +15,8 @@ import moment from "moment";
 function createMatchMedia(width) {
   return query => ({
     matches: mediaQuery.match(query, { width }),
-    addListener: () => {},
-    removeListener: () => {}
+    addListener: () => { },
+    removeListener: () => { }
   });
 }
 
@@ -42,7 +42,9 @@ const MOCK_CONFIG = {
 
 const MOCK_STYLE = {
   height: "100%",
-  width: "100%"
+  width: "100%",
+  marginLeft: "10px",
+  marginRight: "10px"
 };
 
 const MOCK_LAYOUT = {};
