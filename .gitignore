@@ -48,7 +48,8 @@ bin/reports/*
 selenium-debug.log
 chromedriver.log
 
-data/
+data/data/
+data/*.pem*
 .cert/
 
 newrelic_agent.log
