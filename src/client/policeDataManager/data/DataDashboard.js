@@ -73,13 +73,36 @@ class DataDashboard extends Component {
               hasDropdown={true}
             />
           </div>
-          <div style={{ maxWidth: "1000px" }}>
-            <Visualization
-              data-testid={"top10TagsGraph"}
-              queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
-              queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-              hasDropdown={true}
-            />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between"
+            }}
+          >
+            <div style={{ flexBasis: "47%" }}>
+              <Visualization
+                data-testid={"top10TagsGraph"}
+                queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+                hasDropdown={true}
+              />
+            </div>
+            {this.props.countByDistrictVisualizationFeature ? (
+              <div style={{ flexBasis: "47%" }}>
+                <Visualization
+                  data-testid={"countByDistrictGraph"}
+                  queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT}
+                  queryOptions={{
+                    dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS
+                  }}
+                  hasDropdown={true}
+                />
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </main>
       </div>
@@ -88,5 +111,7 @@ class DataDashboard extends Component {
 }
 
 export default connect(state => ({
-  mapVisualizationFeature: state.featureToggles.mapVisualizationFeature
+  mapVisualizationFeature: state.featureToggles.mapVisualizationFeature,
+  countByDistrictVisualizationFeature:
+    state.featureToggles.countByDistrictVisualizationFeature
 }))(DataDashboard);

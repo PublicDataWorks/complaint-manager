@@ -465,6 +465,7 @@ export const DDS_COMPLAINANTS_SUBMIT_COMPLAINTS =
   "DDS_COMPLAINANTS_SUBMIT_COMPLAINTS";
 export const DDS_WHO_SUBMITS_COMPLAINTS = "DDS_WHO_SUBMITS_COMPLAINTS";
 export const DDS_EMERGING_THEMES = "DDS_EMERGING_THEMES";
+export const DDS_COMPLAINTS_BY_DISTRICT = "DDS_COMPLAINTS_BY_DISTRICT";
 
 export const DATA_SECTIONS = {
   [DDS_LOCATION_DATA]: {
@@ -514,6 +515,15 @@ export const DATA_SECTIONS = {
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText: `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information`,
     fullMessage: `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.\n\nTags is a term created within the ${ORGANIZATION_TITLE} and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the ${ORGANIZATION} wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the ${ORGANIZATION} will continue to develop and implement new tags.  This chart captures tag use on a rolling twelve month basis.`
+  },
+  [DDS_COMPLAINTS_BY_DISTRICT]: {
+    title: "Where are complaints being submitted from?",
+    subtitle: "Complaints by District",
+    dataTestId: "countByDistrictGraph",
+    queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT,
+    queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
+    collapsedText: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know`,
+    fullMessage: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know.  Personally I think the 4th district is the worst, but I'm biased, because I live in the 2nd district, and I have made pride in my district.  district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district`
   }
 };
 

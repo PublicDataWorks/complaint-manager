@@ -69,6 +69,29 @@ const baseLayouts = {
       text: "Top Tags<br><sub>Past 12 Months",
       font: TITLE_FONT
     }
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
+    barmode: "group",
+    hovermode: "closest",
+    dragmode: false,
+    xaxis: {
+      showgrid: false,
+      zeroline: false,
+      automargin: true,
+      showticklabels: false
+    },
+    margin: {
+      l: 145,
+      r: 0,
+      b: 70,
+      t: 130,
+      pad: 10
+    },
+    font: LABEL_FONT,
+    title: {
+      text: "District<br><sub>Past 12 Months",
+      font: TITLE_FONT
+    }
   }
 };
 
@@ -118,6 +141,19 @@ const extendedLayouts = {
     }
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
+    title: null,
+    font: PUBLIC_LABEL_FONT,
+    margin: {
+      b: 24,
+      t: 24,
+      l: 145,
+      r: 15,
+      pad: 10
+    },
+    paper_bgcolor: "#F5F4F4",
+    plot_bgcolor: "#F5F4F4"
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
     title: null,
     font: PUBLIC_LABEL_FONT,
     margin: {

@@ -95,12 +95,6 @@ export const executeQuery = async (nickname, dateRange) => {
     const formattedFirstContactDate = moment(complaint.firstContactDate).format(
       "YYYY-MM"
     );
-    console.log(
-      complainantType,
-      complaint.firstContactDate,
-      formattedFirstContactDate,
-      dateToIndex[formattedFirstContactDate]
-    );
     totalComplaints[complainantType][dateToIndex[formattedFirstContactDate]][
       "count"
     ] += 1;

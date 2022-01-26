@@ -12,7 +12,6 @@ describe("ActivityDisplay", () => {
     actionTakenAtDateTime = new Date(
       "December 17, 1995 03:24:00"
     ).toISOString();
-    console.log(actionTakenAtDateTime);
 
     caseNote = {
       id: 1,

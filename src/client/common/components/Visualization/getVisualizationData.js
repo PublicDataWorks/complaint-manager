@@ -6,6 +6,7 @@ import { transformData as countComplaintsByIntakeSourceTransformer } from "./Tra
 import { transformData as countComplaintsByComplainantTypeTransformer } from "./Transformers/countComplaintsByComplainantType";
 import { transformData as countComplaintsByComplainantTypePast12MonthsTransformer } from "./Transformers/countComplaintsByComplainantTypePast12Months";
 import { transformData as locationDataTransformer } from "./Transformers/locationDataTransformer";
+import { transformData as countByDistrictTransformer } from "./Transformers/countComplaintsByDistrict";
 
 const transformers = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]:
@@ -15,7 +16,8 @@ const transformers = {
   [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]:
     countComplaintsByComplainantTypePast12MonthsTransformer,
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: countTop10TagsTransformer,
-  [QUERY_TYPES.LOCATION_DATA]: locationDataTransformer
+  [QUERY_TYPES.LOCATION_DATA]: locationDataTransformer,
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: countByDistrictTransformer
 };
 
 export const getVisualizationData = async ({
