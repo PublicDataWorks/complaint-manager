@@ -73,6 +73,29 @@ export const baseLayouts = {
       text: "Top Tags",
       font: TITLE_FONT
     }
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
+    barmode: "group",
+    hovermode: "closest",
+    dragmode: false,
+    xaxis: {
+      showgrid: false,
+      zeroline: false,
+      automargin: true,
+      showticklabels: false
+    },
+    margin: {
+      l: 145,
+      r: 0,
+      b: 70,
+      t: 130,
+      pad: 10
+    },
+    font: LABEL_FONT,
+    title: {
+      text: "District",
+      font: TITLE_FONT
+    }
   }
 };
 
@@ -133,6 +156,19 @@ export const extendedLayouts = {
     },
     paper_bgcolor: "#F5F4F4",
     plot_bgcolor: "#F5F4F4"
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
+    title: null,
+    font: PUBLIC_LABEL_FONT,
+    margin: {
+      b: 24,
+      t: 24,
+      l: 145,
+      r: 15,
+      pad: 10
+    },
+    paper_bgcolor: "#F5F4F4",
+    plot_bgcolor: "#F5F4F4"
   }
 };
 
@@ -161,6 +197,9 @@ export const mobileLayouts = {
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
     font: { ...PUBLIC_LABEL_FONT, size: 10 }
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
+    font: { ...PUBLIC_LABEL_FONT, size: 10 }
   }
 };
 
@@ -172,6 +211,9 @@ export const dynamicLayoutProps = {
     annotations: [generateDonutCenterAnnotations, "data.0.count"]
   },
   [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
+    [FULL_LAYOUT]: [generateNoTagsLayout, "data.0.x.length", "data.0.y.length"]
+  },
+  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
     [FULL_LAYOUT]: [generateNoTagsLayout, "data.0.x.length", "data.0.y.length"]
   },
   [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {

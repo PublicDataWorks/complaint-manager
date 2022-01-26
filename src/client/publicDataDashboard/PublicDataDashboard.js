@@ -14,7 +14,8 @@ import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop"
 import styles from "./dashboardStyling/styles";
 import {
   DATA_SECTIONS,
-  DDS_LOCATION_DATA
+  DDS_LOCATION_DATA,
+  DDS_COMPLAINTS_BY_DISTRICT
 } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
@@ -73,7 +74,10 @@ const PublicDataDashboardWrapper = () => {
   );
 };
 
-const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
+const PublicDataDashboard = ({
+  publicMapVisualizationFeature,
+  countByDistrictVisualizationFeature
+}) => {
   useEffect(removeDragCover);
 
   const theme = useTheme();
@@ -309,7 +313,8 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
               style={{
                 display: "flex",
                 padding: "24px 0px",
-                alignItems: "center"
+                alignItems: "center",
+                borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
               }}
             >
               <Icon
@@ -334,12 +339,50 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
                 What themes are emerging from the data?
               </Typography>
             </Container>
+            {countByDistrictVisualizationFeature ? (
+              <Container
+                onClick={scrollIntoViewById("#complaints-by-district")}
+                style={{
+                  display: "flex",
+                  padding: "24px 0px",
+                  alignItems: "center"
+                }}
+              >
+                <Icon
+                  style={{
+                    transform: "rotate(90deg)",
+                    color: styles.colors.white,
+                    opacity: "0.8"
+                  }}
+                >
+                  double_arrow
+                </Icon>
+                <Typography
+                  variant="body1"
+                  style={{
+                    cursor: "pointer",
+                    letterSpacing: "1px",
+                    color: styles.colors.white,
+                    paddingLeft: "12px",
+                    opacity: 0.9
+                  }}
+                >
+                  Where are complaints being submitted from?
+                </Typography>
+              </Container>
+            ) : (
+              ""
+            )}
           </Container>
         </Grid>
 
         {Object.keys(DATA_SECTIONS)
           .filter(
-            key => publicMapVisualizationFeature || key !== DDS_LOCATION_DATA
+            (key =>
+              publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
+              (key =>
+                countByDistrictVisualizationFeature ||
+                key !== DDS_COMPLAINTS_BY_DISTRICT)
           )
           .map((dataSectionType, index) => {
             return (
@@ -404,7 +447,9 @@ const PublicDataDashboard = ({ publicMapVisualizationFeature }) => {
 
 const PublicDataDashboardContainer = connect(state => ({
   publicMapVisualizationFeature:
-    state.featureToggles.publicMapVisualizationFeature
+    state.featureToggles.publicMapVisualizationFeature,
+  countByDistrictVisualizationFeature:
+    state.featureToggles.countByDistrictVisualizationFeature
 }))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;
