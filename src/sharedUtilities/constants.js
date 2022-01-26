@@ -449,7 +449,8 @@ export const QUERY_TYPES = {
   COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:
     "countMonthlyComplaintsByComplainantType",
   COUNT_TOP_10_TAGS: "countTop10Tags",
-  LOCATION_DATA: "locationData"
+  LOCATION_DATA: "locationData",
+  COUNT_COMPLAINTS_BY_DISTRICT: "countComplaintsByDistrict"
 };
 
 export const QUERY_TYPE_FILE_MAP = {
