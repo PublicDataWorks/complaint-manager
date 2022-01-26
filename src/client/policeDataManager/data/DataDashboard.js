@@ -27,7 +27,7 @@ class DataDashboard extends Component {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between"
+              justifyContent: "start"
             }}
           >
             <Visualization
@@ -47,7 +47,7 @@ class DataDashboard extends Component {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-between"
+              justifyContent: "start"
             }}
           >
             <Visualization
