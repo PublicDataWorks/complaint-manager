@@ -1,10 +1,6 @@
 import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
-import {
-  ASCENDING,
-  CASE_STATUS,
-  DESCENDING
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, DESCENDING } from "../../../../sharedUtilities/constants";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 
 export const executeQuery = async (nickname, dateRange) => {
