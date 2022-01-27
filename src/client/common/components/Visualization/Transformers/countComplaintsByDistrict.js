@@ -2,6 +2,7 @@ import { COLORS } from "../dataVizStyling";
 import { TAG_LABEL_CHAR_LIMIT } from "../../../../../sharedUtilities/constants";
 
 export const truncateYValues = values => {
+  // TODO extract to parent class
   return values.map(value => {
     if (value.length > TAG_LABEL_CHAR_LIMIT) {
       return value.substring(0, TAG_LABEL_CHAR_LIMIT).concat("...");

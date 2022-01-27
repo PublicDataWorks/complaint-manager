@@ -3,9 +3,11 @@ import {
   LABEL_FONT,
   TITLE_FONT,
   generateNoTagsLayout,
-  PUBLIC_LABEL_FONT
+  PUBLIC_LABEL_FONT,
+  COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
+import { truncateYValues } from "./countComplaintsByDistrict.model";
 
 export default class CountTop10Tags extends Visualization {
   get queryType() {
@@ -67,6 +69,40 @@ export default class CountTop10Tags extends Visualization {
         "data.0.x.length",
         "data.0.y.length"
       ]
+    };
+  }
+
+  transformData(rawData) {
+    let xValues = [];
+    let yValues = [];
+
+    rawData.reverse();
+
+    rawData.forEach(({ count, name }) => {
+      xValues.push(count);
+      yValues.push(name);
+    });
+
+    let truncatedYValues = truncateYValues(yValues);
+
+    let caseTagTrace = {
+      x: xValues,
+      y: truncatedYValues,
+      type: "bar",
+      width: 0.75,
+      orientation: "h",
+      marker: {
+        color: COLORS[0]
+      },
+      text: xValues,
+      textposition: "auto",
+      textangle: 0,
+      hovertext: yValues,
+      hoverinfo: "text"
+    };
+
+    return {
+      data: [caseTagTrace]
     };
   }
 }

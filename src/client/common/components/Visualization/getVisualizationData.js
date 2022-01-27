@@ -1,24 +1,6 @@
 import axios from "axios";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
-import { transformData as countTop10TagsTransformer } from "./Transformers/countTop10Tags";
-import { transformData as countComplaintsByIntakeSourceTransformer } from "./Transformers/countComplaintsByIntakeSource";
-import { transformData as countComplaintsByComplainantTypeTransformer } from "./Transformers/countComplaintsByComplainantType";
-import { transformData as countComplaintsByComplainantTypePast12MonthsTransformer } from "./Transformers/countComplaintsByComplainantTypePast12Months";
-import { transformData as locationDataTransformer } from "./Transformers/locationDataTransformer";
-import { transformData as countByDistrictTransformer } from "./Transformers/countComplaintsByDistrict";
-
-const transformers = {
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]:
-    countComplaintsByIntakeSourceTransformer,
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]:
-    countComplaintsByComplainantTypeTransformer,
-  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]:
-    countComplaintsByComplainantTypePast12MonthsTransformer,
-  [QUERY_TYPES.COUNT_TOP_10_TAGS]: countTop10TagsTransformer,
-  [QUERY_TYPES.LOCATION_DATA]: locationDataTransformer,
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: countByDistrictTransformer
-};
+import { getQueryModelByQueryType } from "./models/queryModelFactory";
 
 export const getVisualizationData = async ({
   queryType,
@@ -35,7 +17,8 @@ export const getVisualizationData = async ({
     }data?queryType=${queryType}${queryOptionParams}`
   );
 
-  const currentTransformer = transformers[queryType] || null;
+  const currentTransformer =
+    getQueryModelByQueryType(queryType)?.transformData || null;
 
   if (!currentTransformer) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
