@@ -1,10 +1,5 @@
-import Visualization from "./visualization.model";
-import {
-  LABEL_FONT,
-  TITLE_FONT,
-  generateDonutCenterAnnotations,
-  PUBLIC_LABEL_FONT
-} from "../dataVizStyling";
+import DonutVisualization from "./donutVisualization.model";
+import { LABEL_FONT, TITLE_FONT, PUBLIC_LABEL_FONT } from "../dataVizStyling";
 import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
@@ -13,7 +8,7 @@ const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-export default class CountComplaintsByComplainantType extends Visualization {
+export default class CountComplaintsByComplainantType extends DonutVisualization {
   get queryType() {
     return QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE;
   }
@@ -67,7 +62,7 @@ export default class CountComplaintsByComplainantType extends Visualization {
 
   get layoutProps() {
     return {
-      annotations: [generateDonutCenterAnnotations, "data.0.count"]
+      annotations: [this.generateCenterAnnotations, "data.0.count"]
     };
   }
 

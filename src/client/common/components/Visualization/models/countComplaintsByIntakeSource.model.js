@@ -1,8 +1,7 @@
-import Visualization from "./visualization.model";
+import DonutVisualization from "./donutVisualization.model";
 import {
   LABEL_FONT,
   TITLE_FONT,
-  generateDonutCenterAnnotations,
   PUBLIC_LABEL_FONT,
   COLORS
 } from "../dataVizStyling";
@@ -10,7 +9,7 @@ import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
 import { sum } from "lodash";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 
-export default class CountComplaintsByIntakeSource extends Visualization {
+export default class CountComplaintsByIntakeSource extends DonutVisualization {
   get queryType() {
     return QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE;
   }
@@ -64,7 +63,7 @@ export default class CountComplaintsByIntakeSource extends Visualization {
 
   get layoutProps() {
     return {
-      annotations: [generateDonutCenterAnnotations, "data.0.count"]
+      annotations: [this.generateCenterAnnotations, "data.0.count"]
     };
   }
 

@@ -31,29 +31,6 @@ export const PUBLIC_LABEL_FONT = {
   color: "#777777"
 };
 
-export const generateDonutCenterAnnotations = (count = 0) => {
-  return [
-    {
-      font: {
-        size: 40
-      },
-      showarrow: false,
-      text: count,
-      x: 0.5,
-      y: 0.55
-    },
-    {
-      font: {
-        size: 20
-      },
-      showarrow: false,
-      text: "Complaints",
-      x: 0.5,
-      y: 0.45
-    }
-  ];
-};
-
 export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
   const layout = {};
 
@@ -61,37 +38,6 @@ export const generateNoTagsLayout = (numberOfXValues, numberOfYValues) => {
     layout.annotations = [
       {
         text: "No Tags to display",
-        y: 1,
-        showarrow: false,
-        font: LABEL_FONT
-      }
-    ];
-
-    layout.dragmode = false;
-
-    layout.yaxis = {
-      zeroline: false,
-      showgrid: false,
-      showticklabels: false
-    };
-
-    layout.xaxis = {
-      zeroline: true,
-      showgrid: false,
-      showticklabels: false
-    };
-  }
-
-  return layout;
-};
-
-export const generateNoDistrictsLayout = (numberOfXValues, numberOfYValues) => {
-  const layout = {};
-
-  if (numberOfXValues + numberOfYValues === 0) {
-    layout.annotations = [
-      {
-        text: "No Complaints to display",
         y: 1,
         showarrow: false,
         font: LABEL_FONT
