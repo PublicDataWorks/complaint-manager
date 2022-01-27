@@ -22,7 +22,6 @@ import getGenderIdentityDropdownValues from "../../../genderIdentities/thunks/ge
 import getRaceEthnicityDropdownValues from "../../../raceEthnicities/thunks/getRaceEthnicityDropdownValues";
 import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCivilianTitleDropdownValues";
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
-import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import { getCivilianTitlesSuccess } from "../../../actionCreators/civilianTitleActionCreators";
 
 jest.mock("../../thunks/editCivilian", () =>

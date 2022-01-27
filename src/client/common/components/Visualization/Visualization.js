@@ -12,6 +12,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import moment from "moment";
 import VisualizationDateRangeSelect from "./VisualizationDateRangeSelect";
+import { getQueryModelByQueryType } from "./models/queryModelFactory";
 
 const isAYear = input => (input ? /^\d{4}$/.test(input) : false);
 
@@ -68,7 +69,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
       const newLayout =
         getAggregateVisualizationLayout({
           newData: data,
-          queryType,
+          queryModel: getQueryModelByQueryType(queryType),
           queryOptions: { dateRangeType: dateRange },
           isPublic,
           isMobile

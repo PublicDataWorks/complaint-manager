@@ -1,5 +1,4 @@
 import { get, set } from "lodash";
-
 import { LABEL_FONT, PUBLIC_LABEL_FONT, TITLE_FONT } from "./dataVizStyling";
 import {
   dynamicLayoutProps,
@@ -10,6 +9,8 @@ import {
   DATE_RANGE_TYPE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
+import { getQueryModelByQueryType } from "./models/queryModelFactory";
+import CountComplaintsByIntakeSource from "./models/countComplaintsByIntakeSource.model";
 
 const baseLayouts = {
   [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
@@ -203,8 +204,9 @@ const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
     isPublic ? "is" : "is not"
   } public`;
   test(testDescription, () => {
+    const queryModel = getQueryModelByQueryType(queryType);
     const proposedLayout = getAggregateVisualizationLayout({
-      queryType,
+      queryModel,
       isPublic,
       queryOptions,
       newData
@@ -216,7 +218,7 @@ const runTestWithObject = ({ queryType, isPublic, queryOptions, newData }) => {
       expectedLayout = { ...expectedLayout, ...extendedLayouts[queryType] };
     }
 
-    const currentDynamicProps = get(dynamicLayoutProps, queryType, []);
+    const currentDynamicProps = queryModel.layoutProps;
     expectedLayout = {
       ...expectedLayout,
       ...evaluateDynamicProps(currentDynamicProps, newData)
@@ -233,7 +235,7 @@ describe("getAggregateVisualizationLayout", () => {
 describe("getAggregateVisualizationLayout functionality", () => {
   test("should adjust intake source pie chart layout when viewing on a mobile screen", () => {
     const mobileLayout = getAggregateVisualizationLayout({
-      queryType: "countComplaintsByIntakeSource",
+      queryModel: new CountComplaintsByIntakeSource(),
       isMobile: true,
       isPublic: true
     });
