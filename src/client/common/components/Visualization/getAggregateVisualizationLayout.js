@@ -1,225 +1,9 @@
 import { get, isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import {
-  DATE_RANGE_TYPE,
-  QUERY_TYPES
-} from "../../../../sharedUtilities/constants";
-import {
-  LABEL_FONT,
-  TITLE_FONT,
-  generateDonutCenterAnnotations,
-  generateNoTagsLayout,
-  generateYAxisRange,
-  PUBLIC_LABEL_FONT
-} from "./dataVizStyling";
+import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import { TITLE_FONT } from "./dataVizStyling";
 
 export const FULL_LAYOUT = "FULL_LAYOUT";
-
-export const baseLayouts = {
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    showlegend: false,
-    font: LABEL_FONT,
-    height: 600,
-    width: 800,
-    title: {
-      text: "Intake Source",
-      font: TITLE_FONT
-    },
-    margin: {
-      t: 160
-    }
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    showlegend: false,
-    font: LABEL_FONT,
-    height: 600,
-    width: 800,
-    title: {
-      text: "Complainant Type",
-      font: TITLE_FONT
-    },
-    margin: {
-      t: 160
-    }
-  },
-  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    barmode: "group",
-    dragmode: false,
-    font: LABEL_FONT,
-    title: {
-      text: "Complainant Type",
-      font: TITLE_FONT
-    }
-  },
-  [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    barmode: "group",
-    hovermode: "closest",
-    dragmode: false,
-    xaxis: {
-      showgrid: false,
-      zeroline: false,
-      automargin: true,
-      showticklabels: false
-    },
-    margin: {
-      l: 145,
-      r: 0,
-      b: 70,
-      t: 130,
-      pad: 10
-    },
-    font: LABEL_FONT,
-    title: {
-      text: "Top Tags",
-      font: TITLE_FONT
-    }
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
-    barmode: "group",
-    hovermode: "closest",
-    dragmode: false,
-    xaxis: {
-      showgrid: false,
-      zeroline: false,
-      automargin: true,
-      showticklabels: false
-    },
-    margin: {
-      l: 145,
-      r: 0,
-      b: 70,
-      t: 130,
-      pad: 10
-    },
-    font: LABEL_FONT,
-    title: {
-      text: "District",
-      font: TITLE_FONT
-    }
-  }
-};
-
-export const extendedLayouts = {
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    height: 536,
-    width: 806,
-    title: null,
-    font: PUBLIC_LABEL_FONT,
-    margin: {
-      b: 100,
-      t: 100,
-      l: 8,
-      r: 8
-    },
-    paper_bgcolor: "#F5F4F4",
-    plot_bgcolor: "#F5F4F4"
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    height: 536,
-    width: 806,
-    title: null,
-    font: PUBLIC_LABEL_FONT,
-    margin: {
-      b: 100,
-      t: 100,
-      l: 8,
-      r: 8
-    },
-    paper_bgcolor: "#F5F4F4",
-    plot_bgcolor: "#F5F4F4"
-  },
-  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    width: 800,
-    title: null,
-    font: PUBLIC_LABEL_FONT,
-    plot_bgcolor: "#F5F4F4",
-    legend: {
-      x: 0,
-      y: -0.5
-    },
-    margin: {
-      l: 24,
-      r: 0,
-      t: 8,
-      b: 0
-    }
-  },
-  [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    title: null,
-    font: PUBLIC_LABEL_FONT,
-    margin: {
-      b: 24,
-      t: 24,
-      l: 145,
-      r: 15,
-      pad: 10
-    },
-    paper_bgcolor: "#F5F4F4",
-    plot_bgcolor: "#F5F4F4"
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
-    title: null,
-    font: PUBLIC_LABEL_FONT,
-    margin: {
-      b: 24,
-      t: 24,
-      l: 145,
-      r: 15,
-      pad: 10
-    },
-    paper_bgcolor: "#F5F4F4",
-    plot_bgcolor: "#F5F4F4"
-  }
-};
-
-export const mobileLayouts = {
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    height: 500,
-    width: 600,
-    margin: {
-      b: 125,
-      t: 125,
-      l: 20,
-      r: 20
-    },
-    font: { ...PUBLIC_LABEL_FONT, size: 12 }
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    height: 500,
-    width: 600,
-    margin: {
-      b: 125,
-      t: 125,
-      l: 20,
-      r: 20
-    },
-    font: { ...PUBLIC_LABEL_FONT, size: 12 }
-  },
-  [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    font: { ...PUBLIC_LABEL_FONT, size: 10 }
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
-    font: { ...PUBLIC_LABEL_FONT, size: 10 }
-  }
-};
-
-export const dynamicLayoutProps = {
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE]: {
-    annotations: [generateDonutCenterAnnotations, "data.0.count"]
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    annotations: [generateDonutCenterAnnotations, "data.0.count"]
-  },
-  [QUERY_TYPES.COUNT_TOP_10_TAGS]: {
-    [FULL_LAYOUT]: [generateNoTagsLayout, "data.0.x.length", "data.0.y.length"]
-  },
-  [QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT]: {
-    [FULL_LAYOUT]: [generateNoTagsLayout, "data.0.x.length", "data.0.y.length"]
-  },
-  [QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE]: {
-    yaxis: [generateYAxisRange, "data.8.maximum"]
-  }
-};
 
 export const subtitles = {
   [DATE_RANGE_TYPE.PAST_12_MONTHS]: "Past 12 Months",
@@ -246,20 +30,20 @@ export const evaluateDynamicProps = (currentDynamicProps, newData) => {
 };
 
 export const getAggregateVisualizationLayout = ({
-  queryType = null,
+  queryModel = null,
   queryOptions = {},
   isPublic = false,
   isMobile = false,
   newData = {}
 }) => {
-  let aggregateLayout = get(baseLayouts, queryType, {});
+  let aggregateLayout = queryModel.baseLayout;
 
   if (isEmpty(aggregateLayout)) {
     throw new Error(BAD_REQUEST_ERRORS.DATA_QUERY_TYPE_NOT_SUPPORTED);
   }
 
-  const currentExtendedLayout = get(extendedLayouts, queryType, {});
-  const currentMobileLayout = get(mobileLayouts, queryType, {});
+  const currentExtendedLayout = queryModel.extendedLayout;
+  const currentMobileLayout = queryModel.mobileLayout;
 
   if (isPublic) {
     aggregateLayout = { ...aggregateLayout, ...currentExtendedLayout };
@@ -289,7 +73,7 @@ export const getAggregateVisualizationLayout = ({
     }
   }
 
-  const currentDynamicProps = get(dynamicLayoutProps, queryType, {});
+  const currentDynamicProps = queryModel.layoutProps;
   return {
     ...aggregateLayout,
     ...evaluateDynamicProps(currentDynamicProps, newData)

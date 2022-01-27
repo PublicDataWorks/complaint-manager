@@ -11,6 +11,7 @@ import { getVisualizationData } from "./getVisualizationData";
 import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 import mediaQuery from "css-mediaquery";
 import moment from "moment";
+import { getQueryModelByQueryType } from "./models/queryModelFactory";
 
 function createMatchMedia(width) {
   return query => ({
@@ -147,7 +148,9 @@ describe("Visualization", () => {
     );
     expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
       expect.objectContaining({
-        queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
+        queryModel: getQueryModelByQueryType(
+          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE
+        ),
         queryOptions,
         newData: expect.objectContaining({ data: MOCK_DATA })
       })
