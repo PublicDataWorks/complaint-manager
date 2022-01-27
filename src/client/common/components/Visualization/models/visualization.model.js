@@ -23,6 +23,10 @@ class Visualization {
   get layoutProps() {
     return {};
   }
+
+  transformData(rawData) {
+    return rawData;
+  }
 }
 
 export default Visualization;

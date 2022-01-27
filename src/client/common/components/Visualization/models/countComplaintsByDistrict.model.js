@@ -3,9 +3,13 @@ import {
   LABEL_FONT,
   TITLE_FONT,
   generateNoTagsLayout,
-  PUBLIC_LABEL_FONT
+  PUBLIC_LABEL_FONT,
+  COLORS
 } from "../dataVizStyling";
-import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
+import {
+  QUERY_TYPES,
+  TAG_LABEL_CHAR_LIMIT
+} from "../../../../../sharedUtilities/constants";
 
 export default class CountComplaintsByDistrict extends Visualization {
   get queryType() {
@@ -69,4 +73,47 @@ export default class CountComplaintsByDistrict extends Visualization {
       ]
     };
   }
+
+  transformData(rawData) {
+    let xValues = [];
+    let yValues = [];
+
+    rawData.reverse();
+
+    rawData.forEach(({ count, district }) => {
+      xValues.push(count);
+      yValues.push(district);
+    });
+
+    let truncatedYValues = truncateYValues(yValues);
+
+    let districtTrace = {
+      x: xValues,
+      y: truncatedYValues,
+      type: "bar",
+      width: 0.75,
+      orientation: "h",
+      marker: {
+        color: COLORS[0]
+      },
+      text: xValues,
+      textposition: "auto",
+      textangle: 0,
+      hovertext: yValues,
+      hoverinfo: "text"
+    };
+
+    return {
+      data: [districtTrace]
+    };
+  }
 }
+
+export const truncateYValues = values => {
+  return values.map(value => {
+    if (value.length > TAG_LABEL_CHAR_LIMIT) {
+      return value.substring(0, TAG_LABEL_CHAR_LIMIT).concat("...");
+    }
+    return value;
+  });
+};
