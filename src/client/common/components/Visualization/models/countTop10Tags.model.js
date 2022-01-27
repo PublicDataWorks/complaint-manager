@@ -1,15 +1,14 @@
-import Visualization from "./visualization.model";
+import BarGraphVisualization from "./barGraphVisualization.model";
 import {
   LABEL_FONT,
   TITLE_FONT,
-  generateNoTagsLayout,
   PUBLIC_LABEL_FONT,
   COLORS
 } from "../dataVizStyling";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
 import { truncateYValues } from "./countComplaintsByDistrict.model";
 
-export default class CountTop10Tags extends Visualization {
+export default class CountTop10Tags extends BarGraphVisualization {
   get queryType() {
     return QUERY_TYPES.COUNT_TOP_10_TAGS;
   }
@@ -65,7 +64,7 @@ export default class CountTop10Tags extends Visualization {
   get layoutProps() {
     return {
       ["FULL_LAYOUT"]: [
-        generateNoTagsLayout,
+        this.generateEmptyLayout,
         "data.0.x.length",
         "data.0.y.length"
       ]

@@ -1,8 +1,7 @@
-import Visualization from "./visualization.model";
+import BarGraphVisualization from "./barGraphVisualization.model";
 import {
   LABEL_FONT,
   TITLE_FONT,
-  generateNoTagsLayout,
   PUBLIC_LABEL_FONT,
   COLORS
 } from "../dataVizStyling";
@@ -11,7 +10,7 @@ import {
   TAG_LABEL_CHAR_LIMIT
 } from "../../../../../sharedUtilities/constants";
 
-export default class CountComplaintsByDistrict extends Visualization {
+export default class CountComplaintsByDistrict extends BarGraphVisualization {
   get queryType() {
     return QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT;
   }
@@ -67,7 +66,8 @@ export default class CountComplaintsByDistrict extends Visualization {
   get layoutProps() {
     return {
       ["FULL_LAYOUT"]: [
-        generateNoTagsLayout,
+        (xValues, yValues) =>
+          this.generateEmptyLayout(xValues, yValues, "Districts"),
         "data.0.x.length",
         "data.0.y.length"
       ]
