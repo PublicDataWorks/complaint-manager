@@ -4,6 +4,7 @@ import {
   getPersonFullName
 } from "./getFullName";
 
+
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -20,6 +21,18 @@ describe("getFullName", () => {
       expect(
         getPersonFullName(firstName, middleName, lastName, suffix, personType)
       ).toEqual("First M Last");
+    });
+
+    test("should escape HTML tags and discard HTML attributes in full name for known officer", () => {
+      const firstName = "<h1>First</h1>";
+      const middleName = `<a href="www.google.com">M</a>`;
+      const lastName = "<strong>Last</strong>";
+      const suffix = null;
+      const personType = PERSON_TYPE.KNOWN_OFFICER.description;
+
+      expect(
+        getPersonFullName(firstName, middleName, lastName, suffix, personType)
+      ).toEqual("&lt;h1&gt;First&lt;/h1&gt; &lt;a&gt;M&lt;/a&gt; &lt;strong&gt;Last&lt;/strong&gt;");
     });
 
     test("should get unknown officer for unknown officer", () => {
@@ -43,6 +56,18 @@ describe("getFullName", () => {
       );
     });
 
+    test("should escape HTML tags and discard HTML attributes when getting full name for officer", () => {
+      const firstName = "<h1>Gideon</h1>";
+      const middleName = `<a href="www.google.com">B</a>`;
+      const lastName = "<strong>Abshire</strong>";
+      const suffix = null;
+      const personType = PERSON_TYPE.KNOWN_OFFICER.description;
+
+      expect(
+        getOfficerFullName(firstName, middleName, lastName, suffix, personType)
+      ).toEqual("&lt;h1&gt;Gideon&lt;/h1&gt; &lt;a&gt;B&lt;/a&gt; &lt;strong&gt;Abshire&lt;/strong&gt;");
+    });
+
     test("gets unknown officer for unknown officer", () => {
       const first = null;
       const middle = null;
@@ -64,6 +89,18 @@ describe("getFullName", () => {
       expect(getCivilianFullName(first, middle, last, suffix)).toEqual(
         "First B. Last Suf"
       );
+    });
+
+    test("should escape HTML tags and discard HTML attributes when getting full name for civilian", () => {
+      const firstName = "<h1>First</h1>";
+      const middleName = `<a href="www.google.com">B</a>`;
+      const lastName = "<strong>Last</strong>";
+      const suffix = `<script src="doStuff.js">Suf</script>`;
+      const personType = PERSON_TYPE.KNOWN_OFFICER.description;
+
+      expect(
+        getCivilianFullName(firstName, middleName, lastName, suffix, personType)
+      ).toEqual("&lt;h1&gt;First&lt;/h1&gt; &lt;a&gt;B&lt;/a&gt;. &lt;strong&gt;Last&lt;/strong&gt; &lt;script&gt;Suf&lt;/script&gt;");
     });
 
     test("does not add period if middle initial is missing", () => {
