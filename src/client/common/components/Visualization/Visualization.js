@@ -3,7 +3,6 @@ import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import { getVisualizationData } from "./getVisualizationData";
-import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -67,10 +66,10 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
 
     const createLayout = () => {
       const newLayout =
-        getAggregateVisualizationLayout({
+        getQueryModelByQueryType(queryType).getVisualizationLayout({
           newData: data,
           queryModel: getQueryModelByQueryType(queryType),
-          queryOptions: { dateRangeType: dateRange },
+          options: { dateRangeType: dateRange },
           isPublic,
           isMobile
         }) || {};

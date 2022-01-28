@@ -8,7 +8,6 @@ import React from "react";
 import { act, render, screen, fireEvent } from "@testing-library/react";
 import Visualization, { generateDateRange } from "./Visualization";
 import { getVisualizationData } from "./getVisualizationData";
-import { getAggregateVisualizationLayout } from "./getAggregateVisualizationLayout";
 import mediaQuery from "css-mediaquery";
 import moment from "moment";
 import { getQueryModelByQueryType } from "./models/queryModelFactory";
@@ -16,8 +15,8 @@ import { getQueryModelByQueryType } from "./models/queryModelFactory";
 function createMatchMedia(width) {
   return query => ({
     matches: mediaQuery.match(query, { width }),
-    addListener: () => { },
-    removeListener: () => { }
+    addListener: () => {},
+    removeListener: () => {}
   });
 }
 
@@ -51,9 +50,15 @@ const MOCK_STYLE = {
 const MOCK_LAYOUT = {};
 const MOCK_MOBILE_LAYOUT = { mobileLayout: true };
 
-jest.mock("./getAggregateVisualizationLayout", () => ({
-  getAggregateVisualizationLayout: jest.fn(options => {
-    return options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT;
+const MOCK_MODEL = {
+  getVisualizationLayout: jest.fn(options =>
+    options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT
+  )
+};
+
+jest.mock("./models/queryModelFactory", () => ({
+  getQueryModelByQueryType: jest.fn(query => {
+    return MOCK_MODEL;
   })
 }));
 
@@ -146,12 +151,9 @@ describe("Visualization", () => {
         }
       })
     );
-    expect(getAggregateVisualizationLayout).toHaveBeenCalledWith(
+    expect(MOCK_MODEL.getVisualizationLayout).toHaveBeenCalledWith(
       expect.objectContaining({
-        queryModel: getQueryModelByQueryType(
-          QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE
-        ),
-        queryOptions,
+        options: queryOptions,
         newData: expect.objectContaining({ data: MOCK_DATA })
       })
     );
