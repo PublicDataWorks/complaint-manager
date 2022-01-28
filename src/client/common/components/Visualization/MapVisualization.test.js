@@ -2,16 +2,15 @@ import React from "react";
 import { shallow } from "enzyme";
 import MapVisualization from "./MapVisualization";
 import { PlotlyWrapper } from "./PlotlyWrapper";
-import { getVisualizationData } from "./getVisualizationData";
-import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
+import { rest } from "msw";
+import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 
 const MOCK_DATA = { lat: [], lon: [], z: [] };
 
-jest.mock("./getVisualizationData", () => ({
-  getVisualizationData: jest.fn(queryType => ({
-    data: MOCK_DATA
-  }))
-}));
+rest.get(
+  `/api/public-data?queryType=${QUERY_TYPES.LOCATION_DATA}`,
+  (req, res, ctx) => res(ctx.json(MOCK_DATA))
+);
 
 describe("MapVisualization", () => {
   let wrapper;

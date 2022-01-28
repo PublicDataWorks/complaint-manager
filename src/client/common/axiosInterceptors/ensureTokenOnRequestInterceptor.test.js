@@ -6,9 +6,9 @@ import { push } from "connected-react-router";
 import configureInterceptors from "./interceptors";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import ensureTokenOnRequestInterceptor from "./ensureTokenOnRequestInterceptor";
-import { getVisualizationData } from "../components/Visualization/getVisualizationData";
 import { isAuthDisabled } from "../../isAuthDisabled";
 import { authEnabledTest } from "../../testHelpers";
+import CountComplaintsByIntakeSource from "../components/Visualization/models/countComplaintsByIntakeSource.model";
 
 jest.mock("../auth/getAccessToken", () => jest.fn(() => "TEST_TOKEN"));
 
@@ -44,7 +44,9 @@ describe("ensureTokenOnRequestInterceptor", () => {
           throw new Error("Error: Authorization header present on request");
         });
 
-      await getVisualizationData({ queryType, isPublic: true });
+      await new CountComplaintsByIntakeSource().getVisualizationData({
+        isPublic: true
+      });
     });
 
     test("should add access token to request headers on non-public routes", async () => {

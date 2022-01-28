@@ -1,3 +1,4 @@
+import axios from "axios";
 import { get, isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { DATE_RANGE_TYPE } from "../../../../../sharedUtilities/constants";
@@ -29,6 +30,20 @@ export default class Visualization {
 
   transformData(rawData) {
     return rawData;
+  }
+
+  async getVisualizationData({ isPublic = false, queryOptions = {} }) {
+    const queryOptionParams = Object.keys(queryOptions)
+      .map(key => `&${key}=${queryOptions[key]}`)
+      .join("");
+
+    const { data } = await axios.get(
+      `/api/${isPublic ? "public-" : ""}data?queryType=${
+        this.queryType
+      }${queryOptionParams}`
+    );
+
+    return this.transformData(data);
   }
 
   getVisualizationLayout({
