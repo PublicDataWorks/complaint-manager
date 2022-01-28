@@ -47,7 +47,8 @@ const MOCK_MODEL = {
   getVisualizationLayout: jest.fn(options =>
     options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT
   ),
-  getVisualizationData: jest.fn(options => ({ data: MOCK_DATA }))
+  getVisualizationData: jest.fn(options => ({ data: MOCK_DATA })),
+  visualizationConfig: MOCK_CONFIG
 };
 
 jest.mock("./models/queryModelFactory", () => ({

@@ -28,6 +28,10 @@ export default class Visualization {
     return {};
   }
 
+  get visualizationConfig() {
+    return {};
+  }
+
   transformData(rawData) {
     return rawData;
   }

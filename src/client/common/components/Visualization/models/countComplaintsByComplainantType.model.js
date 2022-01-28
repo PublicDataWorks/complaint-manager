@@ -66,6 +66,13 @@ export default class CountComplaintsByComplainantType extends DonutVisualization
     };
   }
 
+  get visualizationConfig() {
+    return {
+      responsive: false,
+      useResizeHandler: false
+    };
+  }
+
   transformData(rawData) {
     let labels = [];
     let values = [];
