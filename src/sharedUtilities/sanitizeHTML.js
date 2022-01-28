@@ -5,5 +5,3 @@ export const sanitize = input => sanitizeHtml(input, {
     allowedAttributes: {},
     disallowedTagsMode: 'escape'
 });
-
-//todo - Write Test

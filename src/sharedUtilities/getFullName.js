@@ -1,3 +1,5 @@
+import { sanitize } from "./sanitizeHTML";
+
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -8,10 +10,10 @@ export const getCivilianFullName = (
   givenLast,
   givenSuffix
 ) => {
-  let firstName = givenFirst;
-  let middleInitial = givenMiddleInitial;
-  let lastName = givenLast;
-  let suffix = givenSuffix;
+  let firstName = sanitize(givenFirst);
+  let middleInitial = sanitize(givenMiddleInitial);
+  let lastName = sanitize(givenLast);
+  let suffix = sanitize(givenSuffix);
   middleInitial = middleInitial ? middleInitial + "." : "";
 
   const allNames = [firstName, middleInitial, lastName, suffix];
@@ -64,9 +66,9 @@ export const getOfficerFullName = (
   if (isUnknownOfficer) {
     return "Unknown Officer";
   } else {
-    const editedFirstName = firstName ? firstName : "";
-    const editedMiddleName = middleName ? middleName : "";
-    const editedLastName = lastName ? lastName : "";
+    const editedFirstName = firstName ? sanitize(firstName) : "";
+    const editedMiddleName = middleName ? sanitize(middleName) : "";
+    const editedLastName = lastName ? sanitize(lastName) : "";
 
     return `${editedFirstName} ${editedMiddleName} ${editedLastName}`.replace(
       "  ",
