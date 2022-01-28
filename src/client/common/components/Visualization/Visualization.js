@@ -2,7 +2,6 @@ import React from "react";
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
-import { getVisualizationData } from "./getVisualizationData";
 import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
@@ -38,12 +37,12 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
   const [config, setConfig] = useState({});
   const [dateRange, setDateRange] = useState(queryOptions?.dateRangeType);
   const isMobile = useMediaQuery("(max-width:768px)");
+  const queryModel = getQueryModelByQueryType(queryType);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newData = await getVisualizationData({
-          queryType,
+        const newData = await queryModel.getVisualizationData({
           isPublic,
           queryOptions: generateDateRange(dateRange)
         });
@@ -66,7 +65,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
 
     const createLayout = () => {
       const newLayout =
-        getQueryModelByQueryType(queryType).getVisualizationLayout({
+        queryModel.getVisualizationLayout({
           newData: data,
           queryModel: getQueryModelByQueryType(queryType),
           options: { dateRangeType: dateRange },

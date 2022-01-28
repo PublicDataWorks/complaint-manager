@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { getVisualizationData } from "./getVisualizationData";
+import LocationData from "./models/locationData.model";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import {
   DATE_RANGE_TYPE,
@@ -24,8 +24,7 @@ const MapVisualization = props => {
   useEffect(() => {
     const load = async () =>
       setLocation(
-        await getVisualizationData({
-          queryType: QUERY_TYPES.LOCATION_DATA,
+        await new LocationData().getVisualizationData({
           isPublic: props.isPublic,
           queryOptions: generateDateRange(dateRange)
         })

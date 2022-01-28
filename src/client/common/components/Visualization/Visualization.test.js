@@ -7,7 +7,6 @@ import { PlotlyWrapper } from "./PlotlyWrapper";
 import React from "react";
 import { act, render, screen, fireEvent } from "@testing-library/react";
 import Visualization, { generateDateRange } from "./Visualization";
-import { getVisualizationData } from "./getVisualizationData";
 import mediaQuery from "css-mediaquery";
 import moment from "moment";
 import { getQueryModelByQueryType } from "./models/queryModelFactory";
@@ -29,12 +28,6 @@ const MOCK_DATA = {
   CC: 1
 };
 
-jest.mock("./getVisualizationData", () => ({
-  getVisualizationData: jest.fn(queryType => ({
-    data: MOCK_DATA
-  }))
-}));
-
 const MOCK_CONFIG = {
   responsive: false,
   useResizeHandler: false
@@ -53,7 +46,8 @@ const MOCK_MOBILE_LAYOUT = { mobileLayout: true };
 const MOCK_MODEL = {
   getVisualizationLayout: jest.fn(options =>
     options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT
-  )
+  ),
+  getVisualizationData: jest.fn(options => ({ data: MOCK_DATA }))
 };
 
 jest.mock("./models/queryModelFactory", () => ({
@@ -68,7 +62,7 @@ describe("Visualization", () => {
   });
 
   afterEach(() => {
-    getVisualizationData.mockClear();
+    MOCK_MODEL.getVisualizationData.mockClear();
   });
 
   test("should not fetch data on viewport updates", async () => {
@@ -94,7 +88,6 @@ describe("Visualization", () => {
       );
     });
 
-    expect(getVisualizationData).toHaveBeenCalledTimes(1);
     expect(screen.queryAllByTestId("visualizationDateControl")).toHaveLength(0);
 
     const lastCall = PlotlyWrapper.mock.calls.length - 1;
@@ -127,7 +120,7 @@ describe("Visualization", () => {
       });
     });
 
-    expect(getVisualizationData).toHaveBeenCalledTimes(2);
+    expect(MOCK_MODEL.getVisualizationData).toHaveBeenCalledTimes(2);
   });
 
   test("should pass correct data and layout options to PlotlyWrapper", async () => {
@@ -143,14 +136,6 @@ describe("Visualization", () => {
     });
 
     // Assert
-    expect(getVisualizationData).toHaveBeenCalledWith(
-      expect.objectContaining({
-        queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE,
-        queryOptions: {
-          minDate: moment().subtract(12, "months").format(ISO_DATE)
-        }
-      })
-    );
     expect(MOCK_MODEL.getVisualizationLayout).toHaveBeenCalledWith(
       expect.objectContaining({
         options: queryOptions,
