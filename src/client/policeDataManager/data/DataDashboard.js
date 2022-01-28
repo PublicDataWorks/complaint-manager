@@ -8,6 +8,11 @@ import {
   DATE_RANGE_TYPE
 } from "../../../sharedUtilities/constants";
 import { connect } from "react-redux";
+import CountComplaintsByIntakeSource from "../../common/components/Visualization/models/countComplaintsByIntakeSource.model";
+import CountComplaintsByComplainantType from "../../common/components/Visualization/models/countComplaintsByComplainantType.model";
+import CountMonthlyComplaintsByComplainantType from "../../common/components/Visualization/models/countMonthlyComplaintsByComplainantType.model";
+import CountTop10Tags from "../../common/components/Visualization/models/countTop10Tags.model";
+import CountComplaintsByDistrict from "../../common/components/Visualization/models/countComplaintsByDistrict.model";
 
 class DataDashboard extends Component {
   render() {
@@ -32,13 +37,13 @@ class DataDashboard extends Component {
           >
             <Visualization
               data-testid={"intakeSourceGraphYTD"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+              queryModel={new CountComplaintsByIntakeSource()}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
               hasDropdown={true}
             />
             <Visualization
               data-testid={"intakeSourceGraphPast12"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE}
+              queryModel={new CountComplaintsByIntakeSource()}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
               hasDropdown={true}
             />
@@ -52,13 +57,13 @@ class DataDashboard extends Component {
           >
             <Visualization
               data-testid={"complainantTypeGraphYTD"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+              queryModel={new CountComplaintsByComplainantType()}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.YTD }}
               hasDropdown={true}
             />
             <Visualization
               data-testid={"complainantTypeGraphPast12"}
-              queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+              queryModel={new CountComplaintsByComplainantType()}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
               hasDropdown={true}
             />
@@ -66,9 +71,7 @@ class DataDashboard extends Component {
           <div>
             <Visualization
               data-testid={"complainantTypePast12MonthsGraph"}
-              queryType={
-                QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE
-              }
+              queryModel={new CountMonthlyComplaintsByComplainantType()}
               queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
               hasDropdown={true}
             />
@@ -83,7 +86,7 @@ class DataDashboard extends Component {
             <div style={{ minWidth: "800px", marginRight: "5px" }}>
               <Visualization
                 data-testid={"top10TagsGraph"}
-                queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
+                queryModel={new CountTop10Tags()}
                 queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
                 hasDropdown={true}
               />
@@ -92,7 +95,7 @@ class DataDashboard extends Component {
               <div style={{ minWidth: "800px", marginLeft: "5px" }}>
                 <Visualization
                   data-testid={"countByDistrictGraph"}
-                  queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT}
+                  queryModel={new CountComplaintsByDistrict()}
                   queryOptions={{
                     dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS
                   }}

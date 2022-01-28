@@ -9,7 +9,6 @@ import { act, render, screen, fireEvent } from "@testing-library/react";
 import Visualization, { generateDateRange } from "./Visualization";
 import mediaQuery from "css-mediaquery";
 import moment from "moment";
-import { getQueryModelByQueryType } from "./models/queryModelFactory";
 
 function createMatchMedia(width) {
   return query => ({
@@ -48,14 +47,9 @@ const MOCK_MODEL = {
     options.isMobile ? MOCK_MOBILE_LAYOUT : MOCK_LAYOUT
   ),
   getVisualizationData: jest.fn(options => ({ data: MOCK_DATA })),
-  visualizationConfig: MOCK_CONFIG
+  visualizationConfig: MOCK_CONFIG,
+  queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE
 };
-
-jest.mock("./models/queryModelFactory", () => ({
-  getQueryModelByQueryType: jest.fn(query => {
-    return MOCK_MODEL;
-  })
-}));
 
 describe("Visualization", () => {
   beforeEach(() => {
@@ -73,19 +67,13 @@ describe("Visualization", () => {
     let visualization;
     await act(async () => {
       visualization = render(
-        <Visualization
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-          queryOptions={queryOptions}
-        />
+        <Visualization queryModel={MOCK_MODEL} queryOptions={queryOptions} />
       );
     });
     window.matchMedia = createMatchMedia(500);
     await act(async () => {
       visualization.rerender(
-        <Visualization
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-          queryOptions={queryOptions}
-        />
+        <Visualization queryModel={MOCK_MODEL} queryOptions={queryOptions} />
       );
     });
 
@@ -108,7 +96,7 @@ describe("Visualization", () => {
     await act(async () => {
       visualization = render(
         <Visualization
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
+          queryModel={MOCK_MODEL}
           queryOptions={queryOptions}
           hasDropdown={true}
         />
@@ -129,10 +117,7 @@ describe("Visualization", () => {
     // Act
     await act(async () => {
       render(
-        <Visualization
-          queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE}
-          queryOptions={queryOptions}
-        />
+        <Visualization queryModel={MOCK_MODEL} queryOptions={queryOptions} />
       );
     });
 

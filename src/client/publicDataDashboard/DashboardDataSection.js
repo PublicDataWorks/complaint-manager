@@ -9,6 +9,7 @@ const MapVisualization = lazy(() =>
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
 import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import useTheme from "@material-ui/core/styles/useTheme";
+import { getQueryModelByQueryType } from "../common/components/Visualization/models/queryModelFactory";
 
 const getIdFromDataSectionType = dataSectionType => {
   if (!dataSectionType || typeof dataSectionType !== "string")
@@ -108,7 +109,7 @@ const DashboardDataSection = props => {
             <Visualization
               data-testid={dataTestId}
               isPublic
-              queryType={queryType}
+              queryModel={getQueryModelByQueryType(queryType)}
               queryOptions={queryOptions}
               hasDropdown={true}
             />

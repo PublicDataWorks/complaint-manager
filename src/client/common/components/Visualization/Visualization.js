@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
@@ -30,13 +31,12 @@ export const generateDateRange = range => {
   }
 };
 
-const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
+const Visualization = ({ queryModel, isPublic, queryOptions, hasDropdown }) => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
   const [config, setConfig] = useState({});
   const [dateRange, setDateRange] = useState(queryOptions?.dateRangeType);
   const isMobile = useMediaQuery("(max-width:768px)");
-  const queryModel = getQueryModelByQueryType(queryType);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +54,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
     };
 
     fetchData();
-  }, [queryType, isPublic, dateRange]);
+  }, [queryModel, isPublic, dateRange]);
 
   useEffect(() => {
     const createConfig = () => {
@@ -66,7 +66,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
       const newLayout =
         queryModel.getVisualizationLayout({
           newData: data,
-          queryModel: getQueryModelByQueryType(queryType),
+          queryModel,
           options: { dateRangeType: dateRange },
           isPublic,
           isMobile
@@ -76,7 +76,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
 
     createLayout();
     createConfig();
-  }, [data, queryType, queryOptions, isPublic, isMobile]);
+  }, [data, queryModel, queryOptions, isPublic, isMobile]);
 
   return (
     <section>
@@ -85,7 +85,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
           <VisualizationDateRangeSelect
             dateRange={dateRange}
             setDateRange={setDateRange}
-            queryType={queryType}
+            queryType={queryModel.queryType}
           />
         ) : (
           ""
@@ -104,6 +104,15 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
       />
     </section>
   );
+};
+
+Visualization.propTypes = {
+  queryModel: PropTypes.object,
+  isPublic: PropTypes.bool,
+  queryOptions: PropTypes.shape({
+    dateRangeType: PropTypes.string
+  }),
+  hasDropdown: PropTypes.bool
 };
 
 export default Visualization;
