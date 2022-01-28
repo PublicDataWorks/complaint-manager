@@ -14,7 +14,7 @@ class DataDashboard extends Component {
     return (
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>Data Dashboard</NavBar>
-        <main role="main">
+        <main role="main" style={{ overflow: "scroll" }}>
           {this.props.mapVisualizationFeature ? (
             <section style={{ margin: "5px" }}>
               <h2>Map of Complaints</h2>
@@ -77,11 +77,10 @@ class DataDashboard extends Component {
             style={{
               display: "flex",
               flexDirection: "row",
-              width: "100%",
-              justifyContent: "space-between"
+              justifyContent: "start"
             }}
           >
-            <div style={{ flexBasis: "47%" }}>
+            <div style={{ minWidth: "800px", marginRight: "5px" }}>
               <Visualization
                 data-testid={"top10TagsGraph"}
                 queryType={QUERY_TYPES.COUNT_TOP_10_TAGS}
@@ -90,7 +89,7 @@ class DataDashboard extends Component {
               />
             </div>
             {this.props.countByDistrictVisualizationFeature ? (
-              <div style={{ flexBasis: "47%" }}>
+              <div style={{ minWidth: "800px", marginLeft: "5px" }}>
                 <Visualization
                   data-testid={"countByDistrictGraph"}
                   queryType={QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT}
