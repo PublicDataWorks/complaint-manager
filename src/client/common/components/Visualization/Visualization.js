@@ -2,7 +2,6 @@ import React from "react";
 import { isEmpty } from "lodash";
 import { useEffect, useState } from "react";
 import { PlotlyWrapper } from "./PlotlyWrapper";
-import { getVisualizationConfig } from "./getVisualizationConfig";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
   DATE_RANGE_TYPE,
@@ -59,7 +58,7 @@ const Visualization = ({ queryType, isPublic, queryOptions, hasDropdown }) => {
 
   useEffect(() => {
     const createConfig = () => {
-      const config = { ...getVisualizationConfig(queryType) };
+      const config = { ...queryModel.visualizationConfig };
       setConfig({ ...config });
     };
 

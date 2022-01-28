@@ -71,6 +71,13 @@ export default class CountTop10Tags extends BarGraphVisualization {
     };
   }
 
+  get visualizationConfig() {
+    return {
+      responsive: true,
+      useResizeHandler: true
+    };
+  }
+
   transformData(rawData) {
     let xValues = [];
     let yValues = [];

@@ -67,6 +67,13 @@ export default class CountComplaintsByIntakeSource extends DonutVisualization {
     };
   }
 
+  get visualizationConfig() {
+    return {
+      responsive: false,
+      useResizeHandler: false
+    };
+  }
+
   transformData(rawData) {
     const labels = [];
     const values = [];
