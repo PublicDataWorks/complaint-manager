@@ -1,3 +1,5 @@
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
+
 const models = "./";
 
 module.exports = (sequelize, DataTypes) => {
@@ -21,10 +23,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       pibCaseNumber: {
         type: DataTypes.STRING,
-        field: "pib_case_number"
+        field: "pib_case_number",
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("pibCaseNumber", sanitize(value));
+          }
+        }
       },
       details: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
       },
       createdAt: {
         allowNull: false,
@@ -44,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: "referral_letter_officer_history_notes", paranoid: true }
   );
 
-  ReferralLetterOfficerHistoryNotes.prototype.getCaseId = async function(
+  ReferralLetterOfficerHistoryNotes.prototype.getCaseId = async function (
     transaction
   ) {
     const letterOfficer = await sequelize
@@ -61,13 +68,13 @@ module.exports = (sequelize, DataTypes) => {
     return letterOfficer.caseOfficer.caseId;
   };
 
-  ReferralLetterOfficerHistoryNotes.prototype.getManagerType = async function(
+  ReferralLetterOfficerHistoryNotes.prototype.getManagerType = async function (
     transaction
   ) {
     return "complaint";
   };
 
-  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function(
+  ReferralLetterOfficerHistoryNotes.prototype.modelDescription = async function (
     transaction
   ) {
     const letterOfficer = await sequelize

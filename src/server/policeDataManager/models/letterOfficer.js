@@ -1,4 +1,5 @@
 const models = require("./index");
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 module.exports = (sequelize, DataTypes) => {
   const LetterOfficer = sequelize.define(
@@ -37,7 +38,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       recommendedActionNotes: {
         type: DataTypes.TEXT,
-        field: "recommended_action_notes"
+        field: "recommended_action_notes",
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("recommendedActionNotes", sanitize(value));
+          }
+        }
       },
       officerHistoryOptionId: {
         type: DataTypes.INTEGER,
@@ -85,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     }
   );
-  LetterOfficer.associate = function(models) {
+  LetterOfficer.associate = function (models) {
     LetterOfficer.hasMany(models.referral_letter_officer_history_note, {
       as: "referralLetterOfficerHistoryNotes",
       foreignKey: {
@@ -112,18 +118,18 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  LetterOfficer.prototype.getCaseId = async function(transaction) {
+  LetterOfficer.prototype.getCaseId = async function (transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, { transaction: transaction });
     return caseOfficer.caseId;
   };
 
-  LetterOfficer.prototype.getManagerType = async function(transaction) {
+  LetterOfficer.prototype.getManagerType = async function (transaction) {
     return "complaint";
   };
 
-  LetterOfficer.prototype.modelDescription = async function(transaction) {
+  LetterOfficer.prototype.modelDescription = async function (transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, { transaction: transaction });

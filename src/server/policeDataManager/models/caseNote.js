@@ -1,6 +1,7 @@
 const timezone = require("moment-timezone");
 const { TIMEZONE } = require("../../../sharedUtilities/constants");
 const globalModels = require("./index");
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 module.exports = (sequelize, DataTypes) => {
   const CaseNote = sequelize.define(
@@ -22,7 +23,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       notes: {
-        type: DataTypes.STRING(255)
+        type: DataTypes.STRING(255),
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("notes", sanitize(value));
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -52,6 +58,9 @@ module.exports = (sequelize, DataTypes) => {
     const action = await sequelize.query(
       `SELECT name FROM case_note_actions WHERE id=${this.actionId}`
     );
+    const formattedActionTakenAt = timezone
+      .tz(this.actionTakenAt, TIMEZONE)
+      .format("MMM DD, YYYY h:mm:ss A z");
 
     if (action && action.length && action[0].length && action[0][0].name) {
       return [{ Action: action[0][0].name }];

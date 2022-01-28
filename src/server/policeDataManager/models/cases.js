@@ -19,6 +19,7 @@ import {
   getPrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 import { getPersonType } from "./modelUtilities/getPersonType";
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -161,15 +162,25 @@ module.exports = (sequelize, DataTypes) => {
       },
       narrativeSummary: {
         field: "narrative_summary",
-        type: DataTypes.STRING(500)
+        type: DataTypes.STRING(500),
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("narrativeSummary", sanitize(value));
+          }
+        }
       },
       narrativeDetails: {
         field: "narrative_details",
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
       },
       pibCaseNumber: {
         field: "pib_case_number",
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("pibCaseNumber", sanitize(value));
+          }
+        }
       },
       createdBy: {
         field: "created_by",
