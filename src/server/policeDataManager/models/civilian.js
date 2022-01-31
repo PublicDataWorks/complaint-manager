@@ -74,7 +74,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       additionalInfo: {
         field: "additional_info",
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        set: function (value) {
+          this.setDataValue("additionalInfo", sanitize(value));
+        }
       },
       isAnonymous: {
         field: "is_anonymous",

@@ -19,6 +19,7 @@ import {
   getPrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 import { getPersonType } from "./modelUtilities/getPersonType";
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
@@ -169,7 +170,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       pibCaseNumber: {
         field: "pib_case_number",
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        set: function (value) {
+          this.setDataValue("pibCaseNumber", sanitize(value));
+        }
       },
       createdBy: {
         field: "created_by",

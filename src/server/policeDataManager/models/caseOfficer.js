@@ -1,5 +1,5 @@
 "use strict";
-
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
 const {
   PERSON_TYPE
@@ -197,7 +197,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       },
       notes: {
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
+        set: function (value) {
+          this.setDataValue("notes", sanitize(value));
+        }
       },
       roleOnCase: {
         field: "role_on_case",
