@@ -4,6 +4,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 import { getCivilianFullName } from "../../../sharedUtilities/getFullName";
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,15 +13,24 @@ module.exports = (sequelize, DataTypes) => {
     {
       firstName: {
         field: "first_name",
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        set: function (value) {
+          this.setDataValue("firstName", sanitize(value));
+        }
       },
       middleInitial: {
         field: "middle_initial",
-        type: DataTypes.STRING(1)
+        type: DataTypes.STRING(1),
+        set: function (value) {
+          this.setDataValue("middleInitial", sanitize(value));
+        }
       },
       lastName: {
         field: "last_name",
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        set: function (value) {
+          this.setDataValue("lastName", sanitize(value));
+        }
       },
       suffix: {
         field: "suffix",
@@ -57,7 +67,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         field: "email",
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        set: function (value) {
+          this.setDataValue("email", sanitize(value));
+        }
       },
       additionalInfo: {
         field: "additional_info",
