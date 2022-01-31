@@ -1,5 +1,6 @@
 const timezone = require("moment-timezone");
 const { TIMEZONE } = require("../../../sharedUtilities/constants");
+const globalModels = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
   const CaseNote = sequelize.define(
@@ -36,6 +37,10 @@ module.exports = (sequelize, DataTypes) => {
       deletedAt: {
         field: "deleted_at",
         type: DataTypes.DATE
+      },
+      actionId: {
+        field: "case_note_action_id",
+        type: DataTypes.INTEGER
       }
     },
     {
@@ -43,22 +48,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CaseNote.prototype.modelDescription = async function(transaction) {
-    const formattedActionTakenAt = timezone
-      .tz(this.actionTakenAt, TIMEZONE)
-      .format("MMM DD, YYYY h:mm:ss A z");
+  CaseNote.prototype.modelDescription = async function (transaction) {
+    const action = await sequelize.query(
+      `SELECT name FROM case_note_actions WHERE id=${this.actionId}`
+    );
 
-    return [
-      { Action: this.action },
-      { "Action Taken At": formattedActionTakenAt }
-    ];
+    if (action && action.length && action[0].length && action[0][0].name) {
+      return [{ Action: action[0][0].name }];
+    } else {
+      return [];
+    }
   };
 
-  CaseNote.prototype.getCaseId = async function(transaction) {
+  CaseNote.prototype.getCaseId = async function (transaction) {
     return this.caseId;
   };
 
-  CaseNote.prototype.getManagerType = async function(transaction) {
+  CaseNote.prototype.getManagerType = async function (transaction) {
     return "complaint";
   };
 
