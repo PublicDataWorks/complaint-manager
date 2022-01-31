@@ -4,6 +4,7 @@ import models from "../policeDataManager/models";
 import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
+import CaseNoteAction from "../testHelpers/caseNoteAction";
 
 describe("dataChangeAuditHooks for caseNote", () => {
   afterEach(async () => {
@@ -22,10 +23,16 @@ describe("dataChangeAuditHooks for caseNote", () => {
     const existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"
     });
+
+    const caseNoteAction = await models.case_note_action.create(
+      new CaseNoteAction.Builder().defaultCaseNoteAction()
+    );
+
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withId(undefined)
-      .withCaseId(existingCase.id);
+      .withCaseId(existingCase.id)
+      .withCaseNoteActionId(caseNoteAction.id);
     const caseNote = await models.case_note.create(caseNoteAttributes, {
       auditUser: "someone"
     });
@@ -43,19 +50,12 @@ describe("dataChangeAuditHooks for caseNote", () => {
       ]
     });
 
-    const formattedActionTakenAt = timezone
-      .tz(caseNote.actionTakenAt, TIMEZONE)
-      .format("MMM DD, YYYY h:mm:ss A z");
-
     expect(audit.referenceId).toEqual(existingCase.id);
     expect(audit.dataChangeAudit.modelId).toEqual(caseNote.id);
     expect(audit.user).toEqual("someone");
     expect(audit.dataChangeAudit.modelDescription).toEqual([
       {
-        Action: caseNote.action
-      },
-      {
-        "Action Taken At": formattedActionTakenAt
+        Action: caseNoteAction.name
       }
     ]);
     expect(audit.managerType).toEqual("complaint");
