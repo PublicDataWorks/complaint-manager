@@ -1,5 +1,7 @@
 const models = require("./index");
 const { ALLEGATION_SEVERITY } = require("../../../sharedUtilities/constants");
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
+
 
 module.exports = (sequelize, DataTypes) => {
   const OfficerAllegation = sequelize.define(
@@ -12,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       details: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        set: function (value) {
+          this.setDataValue("details", sanitize(value));
+        }
       },
       caseOfficerId: {
         type: DataTypes.INTEGER,
@@ -46,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  OfficerAllegation.prototype.getCaseId = async function(transaction) {
+  OfficerAllegation.prototype.getCaseId = async function (transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, {
@@ -56,11 +61,11 @@ module.exports = (sequelize, DataTypes) => {
     return caseOfficer.caseId;
   };
 
-  OfficerAllegation.prototype.getManagerType = async function(transaction) {
+  OfficerAllegation.prototype.getManagerType = async function (transaction) {
     return "complaint";
   };
 
-  OfficerAllegation.prototype.modelDescription = async function(transaction) {
+  OfficerAllegation.prototype.modelDescription = async function (transaction) {
     const caseOfficer = await sequelize
       .model("case_officer")
       .findByPk(this.caseOfficerId, {
