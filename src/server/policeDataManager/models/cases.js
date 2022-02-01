@@ -172,7 +172,9 @@ module.exports = (sequelize, DataTypes) => {
         field: "pib_case_number",
         type: DataTypes.STRING(25),
         set: function (value) {
-          this.setDataValue("pibCaseNumber", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("pibCaseNumber", sanitize(value));
+          }
         }
       },
       createdBy: {

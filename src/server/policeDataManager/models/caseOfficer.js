@@ -199,7 +199,9 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: DataTypes.TEXT,
         set: function (value) {
-          this.setDataValue("notes", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("notes", sanitize(value));
+          }
         }
       },
       roleOnCase: {

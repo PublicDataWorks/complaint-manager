@@ -15,21 +15,27 @@ module.exports = (sequelize, DataTypes) => {
         field: "first_name",
         type: DataTypes.STRING(25),
         set: function (value) {
-          this.setDataValue("firstName", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("firstName", sanitize(value));
+          }
         }
       },
       middleInitial: {
         field: "middle_initial",
         type: DataTypes.STRING(1),
         set: function (value) {
-          this.setDataValue("middleInitial", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("middleInitial", sanitize(value));
+          }
         }
       },
       lastName: {
         field: "last_name",
         type: DataTypes.STRING(25),
         set: function (value) {
-          this.setDataValue("lastName", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("lastName", sanitize(value));
+          }
         }
       },
       suffix: {
@@ -69,14 +75,18 @@ module.exports = (sequelize, DataTypes) => {
         field: "email",
         type: DataTypes.STRING,
         set: function (value) {
-          this.setDataValue("email", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("email", sanitize(value));
+          }
         }
       },
       additionalInfo: {
         field: "additional_info",
         type: DataTypes.TEXT,
         set: function (value) {
-          this.setDataValue("additionalInfo", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("additionalInfo", sanitize(value));
+          }
         }
       },
       isAnonymous: {
