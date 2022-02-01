@@ -1,6 +1,7 @@
 "use strict";
 
 import { ADDRESSABLE_TYPE } from "../../../sharedUtilities/constants";
+import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 module.exports = (sequelize, DataTypes) => {
   var Address = sequelize.define(
@@ -67,7 +68,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       additionalLocationInfo: {
         type: DataTypes.STRING,
-        field: "additional_location_info"
+        field: "additional_location_info",
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("additionalLocationInfo", sanitize(value));
+          }
+        }
       },
       createdAt: {
         field: "created_at",
@@ -99,7 +105,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  Address.prototype.modelDescription = async function(transaction) {
+  Address.prototype.modelDescription = async function (transaction) {
     if (this.addressableType === ADDRESSABLE_TYPE.CASES) {
       return [{ "Address Type": "Incident Location" }];
     }
@@ -114,7 +120,7 @@ module.exports = (sequelize, DataTypes) => {
     ];
   };
 
-  Address.prototype.getCaseId = async function(transaction) {
+  Address.prototype.getCaseId = async function (transaction) {
     if (this.addressableType === ADDRESSABLE_TYPE.CASES) {
       return this.addressableId;
     }
@@ -127,7 +133,7 @@ module.exports = (sequelize, DataTypes) => {
     return civilian.caseId;
   };
 
-  Address.prototype.getManagerType = async function(transcation) {
+  Address.prototype.getManagerType = async function (transcation) {
     return "complaint";
   };
 
