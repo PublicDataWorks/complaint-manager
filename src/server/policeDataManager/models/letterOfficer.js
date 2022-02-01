@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         field: "recommended_action_notes",
         set: function (value) {
-          this.setDataValue("recommendedActionNotes", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("recommendedActionNotes", sanitize(value));
+          }
         }
       },
       officerHistoryOptionId: {

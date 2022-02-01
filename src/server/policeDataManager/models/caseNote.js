@@ -25,7 +25,9 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: DataTypes.STRING(255),
         set: function (value) {
-          this.setDataValue("notes", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("notes", sanitize(value));
+          }
         }
       },
       createdAt: {

@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT,
         allowNull: false,
         set: function (value) {
-          this.setDataValue("details", sanitize(value));
+          if (value !== null) {
+            this.setDataValue("details", sanitize(value));
+          }
         }
       },
       caseOfficerId: {
