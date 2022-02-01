@@ -58,9 +58,6 @@ module.exports = (sequelize, DataTypes) => {
     const action = await sequelize.query(
       `SELECT name FROM case_note_actions WHERE id=${this.actionId}`
     );
-    const formattedActionTakenAt = timezone
-      .tz(this.actionTakenAt, TIMEZONE)
-      .format("MMM DD, YYYY h:mm:ss A z");
 
     if (action && action.length && action[0].length && action[0][0].name) {
       return [{ Action: action[0][0].name }];
