@@ -23,8 +23,6 @@ describe("getFullName", () => {
       ).toEqual("First M Last");
     });
 
-
-
     test("should get unknown officer for unknown officer", () => {
       const personType = PERSON_TYPE.UNKNOWN_OFFICER.description;
 
@@ -46,7 +44,6 @@ describe("getFullName", () => {
       );
     });
 
-
     test("gets unknown officer for unknown officer", () => {
       const first = null;
       const middle = null;
@@ -58,6 +55,7 @@ describe("getFullName", () => {
       );
     });
   });
+
   describe("getCivilianFullName", () => {
     test("gets civilian full name with all fields", () => {
       const first = "First";
@@ -69,7 +67,6 @@ describe("getFullName", () => {
         "First B. Last Suf"
       );
     });
-
 
     test("does not add period if middle initial is missing", () => {
       const first = "First";
