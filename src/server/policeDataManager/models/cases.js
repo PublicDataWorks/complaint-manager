@@ -162,11 +162,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       narrativeSummary: {
         field: "narrative_summary",
-        type: DataTypes.STRING(500)
+        type: DataTypes.STRING(500),
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("narrativeSummary", sanitize(value));
+          }
+        }
       },
       narrativeDetails: {
         field: "narrative_details",
-        type: DataTypes.TEXT
+        type: DataTypes.TEXT,
       },
       pibCaseNumber: {
         field: "pib_case_number",

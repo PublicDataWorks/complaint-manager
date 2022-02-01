@@ -40,7 +40,12 @@ module.exports = (sequelize, DataTypes) => {
       },
       suffix: {
         field: "suffix",
-        type: DataTypes.STRING(25)
+        type: DataTypes.STRING(25),
+        set: function (value) {
+          if (value !== null) {
+            this.setDataValue("suffix", sanitize(value));
+          }
+        }
       },
       fullName: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, [
