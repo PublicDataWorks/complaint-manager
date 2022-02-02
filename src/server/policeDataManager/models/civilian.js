@@ -4,7 +4,7 @@ import {
   COMPLAINANT,
   WITNESS
 } from "../../../sharedUtilities/constants";
-import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
+import { discardTags, sanitize } from "../../../sharedUtilities/sanitizeHTML";
 import { getCivilianFullName } from "../../../sharedUtilities/getFullName";
 
 module.exports = (sequelize, DataTypes) => {
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(25),
         set: function (value) {
           if (value !== null) {
-            this.setDataValue("firstName", sanitize(value));
+            this.setDataValue("firstName", discardTags(value));
           }
         }
       },
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(1),
         set: function (value) {
           if (value !== null) {
-            this.setDataValue("middleInitial", sanitize(value));
+            this.setDataValue("middleInitial", discardTags(value));
           }
         }
       },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(25),
         set: function (value) {
           if (value !== null) {
-            this.setDataValue("lastName", sanitize(value));
+            this.setDataValue("lastName", discardTags(value));
           }
         }
       },
