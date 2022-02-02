@@ -100,6 +100,7 @@ We have created a [Terraform module](https://www.terraform.io/docs/language/modu
 | team_name   | Team name on Heroku account (if you are using teams)        |
 | app_name   | App name on Heroku account (this will form your URL like `app_name.herokuapp.com`)        |
 | env_name   | Name the env (e.g. dev or prod)        |
+| env_usergroup_name   | User group to add in the environment user        |
 | bucket_names   | Names of buckets to create on AWS S3        |
 | api_target   | URL for your Heroku application (or Custom domain if you are using one)        |
 | public_domain   | URL for your Custom domain if you are using one (otherwise just point to Heroku app URL)        |
