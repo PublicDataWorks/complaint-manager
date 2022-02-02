@@ -140,8 +140,8 @@ However, if you want to, for whatever reason, use authentication or AWS locally,
 3. Additionally, with these services enabled, the application will now expect you to have the following local environment variables:
     * `TEST_USER`
     * `TEST_PASS`
-    * `AWS_ACCESS_KEY_ID`
-    * `AWS_SECRET_ACCESS_KEY`
+    * `AWS_ACCESS_KEY_ID` (this account should have access to services PDM requires like S3 and SecretsManager)
+    * `AWS_SECRET_ACCESS_KEY` (this account should have access to services PDM requires like S3 and SecretsManager)
 
 4. Repeat steps 1 and 2 but now for the `worker` and `app-e2e`  services (within the same file, below the app service). 
     * For E2E tests, you must also change variable `disableAuthentication` in the `nightwatch.conf.js` file in your `instance-files` repository from true to false.

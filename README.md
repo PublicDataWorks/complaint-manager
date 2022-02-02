@@ -106,33 +106,12 @@ sudo chown <username> /Users/<username>/Library/Application\ Support/mkcert/root
     * Make sure your credentials were given DPM access.
     * Contributors should receive these from a Core Team member.
 
-### Set up Local Configuration for AWS S3
+### Set up Local environment to point to AWS Cloud
 
-Note: You only need to setup the AWS keys if you are using Authentication locally
-
-#### Core Team:
-  * Log into AWS from Okta
-  * Create a new user for yourself in the developer group in IAM
-    * You will need only programmatic access
-    * No tags are required
-    * Be sure to add yourself to the developer group
-
-#### Contributor:
-  * Ask a Core Team member to setup AWS credentials for you.
-
-#### Everyone:
-  * Save your login, access key ID and secret access key in your personal password manager
-  * if you need aws locally
-  Create a file named `awsConfig.json` in the the `src/server/` directory with your credentials:
-
-    ```json
-    {
-      "accessKeyId": "YOUR_ACCESS_KEY_ID",
-      "secretAccessKey": "YOUR_SECRET_ACCESS_KEY",
-      "region": "us-east-1"
-    }
-    ```
-
+  * You only need this if you want to bypass LocalStack and test things using real AWS services like S3 and SecretsManager. 
+  
+  1. You must change `USE_CLOUD_SERVICES` and `REACT_APP_USE_CLOUD_SERVICES` from false to true in `docker-compose.yml`
+  2. You will need to setup `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in your environment variables so PDM can connect to the AWS
 ### Install Local Dependencies
   * Run ```yarn install``` to install dependencies on your machine (as opposed to in the docker container; you will need these for running unit tests outside the container e.g. your IDE, also Security Checks will run against your locally installed dependencies)
 
