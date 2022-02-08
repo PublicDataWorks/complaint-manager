@@ -1,6 +1,6 @@
 import * as httpMocks from "node-mocks-http";
 import verifyUserNickname from "./verifyUserNickname";
-import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import { USER_PERMISSIONS, NICKNAME } from "../../sharedUtilities/constants";
 import mockFflipObject from "../testHelpers/mockFflipObject";
 
 describe("verifyUserNickname", () => {
@@ -88,7 +88,7 @@ describe("verifyUserNickname", () => {
 
     await verifyUserNickname(request, response, next);
 
-    expect(request.nickname).toEqual("noipm.infrastructure@gmail.com");
+    expect(request.nickname).toEqual(NICKNAME);
     expect(
       request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
     ).toBeTruthy();

@@ -1,3 +1,4 @@
+import { NICKNAME } from "../../sharedUtilities/constants";
 import { UNAUTHORIZED_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../checkFeatureToggleEnabled";
 
@@ -19,7 +20,7 @@ const verifyUserNickname = (request, response, next) => {
   }
 
   if (nonUserAuthenticationFeature && userInfo["gty"] == "client-credentials") {
-    request.nickname = "noipm.infrastructure@gmail.com";
+    request.nickname = NICKNAME;
     request.permissions =
       "openid profile export:audit-log update:case-status".split(" ");
     next();
