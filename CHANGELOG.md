@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.47.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.46.0...v3.47.0) (2022-02-08)
+
+
+### Features
+
+* Andrew [[#84](https://www.pivotaltracker.com/story/show/84)] added query to getData and getPublicData to get a count of complaints by district ([ae2446e](https://github.com/PublicDataWorks/police_data_manager/commit/ae2446ef799126902f339840294d191268f2f447))
+
+
+### Bug Fixes
+
+* Andrew [[#93](https://www.pivotaltracker.com/story/show/93)] fixed missing case note action in case history ([0e69113](https://github.com/PublicDataWorks/police_data_manager/commit/0e691136a35108370da62b85a519bb783558a263))
+
 ## 3.46.0 (2022-01-25)
 
 
