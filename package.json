@@ -172,7 +172,7 @@
     "**/elliptic": "6.5.4",
     "**/eslint-utils": "2.0.0",
     "**/extend": "3.0.2",
-    "**/follow-redirects": "^1.14.7",
+    "**/follow-redirects": "^1.14.9",
     "**/glob-parent": "5.1.2",
     "**/http-proxy": "^1.18.1",
     "**/immer": "9.0.6",
@@ -196,9 +196,10 @@
     "**/static-eval": "^2.0.5",
     "**/tmpl": "1.0.5",
     "**/tree-kill": "^1.2.2",
+    "**/url-parse": "^1.5.10",
     "**/yargs-parser": "^20.2.7",
     "**/validator": "^13.7.0",
-    "**/vm2": "^3.9.4"
+    "**/vm2": "^3.9.6"
   },
   "browserslist": {
     "production": [
