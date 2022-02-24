@@ -378,10 +378,9 @@ const PublicDataDashboard = ({
 
         {Object.keys(DATA_SECTIONS)
           .filter(
-            (key =>
-              publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
-              (key =>
-                countByDistrictVisualizationFeature ||
+            key =>
+              (publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
+              (countByDistrictVisualizationFeature ||
                 key !== DDS_COMPLAINTS_BY_DISTRICT)
           )
           .map((dataSectionType, index) => {
