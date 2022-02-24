@@ -1,11 +1,13 @@
 import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 export const executeQuery = async dateRange => {
   const where = {
     deletedAt: null,
-    firstContactDate: calculateFirstContactDateCriteria(dateRange)
+    firstContactDate: calculateFirstContactDateCriteria(dateRange),
+    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
   };
 
   const queryOptions = {

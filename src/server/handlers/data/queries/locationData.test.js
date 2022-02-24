@@ -1,8 +1,10 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import models from "../../../policeDataManager/models";
+import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
 import Address from "../../../../sharedTestHelpers/Address";
 import { executeQuery } from "./locationData";
+import { updateCaseStatus } from "./queryHelperFunctions";
 
 describe("locationDataQuery", () => {
   afterEach(async () => {
@@ -24,6 +26,8 @@ describe("locationDataQuery", () => {
       }
     );
 
+    await updateCaseStatus(case1, CASE_STATUS.CLOSED);
+
     const case2 = await models.cases.create(
       new Case.Builder()
         .defaultCase()
@@ -34,6 +38,8 @@ describe("locationDataQuery", () => {
       }
     );
 
+    await updateCaseStatus(case2, CASE_STATUS.CLOSED);
+
     const case3 = await models.cases.create(
       new Case.Builder()
         .defaultCase()
@@ -43,6 +49,8 @@ describe("locationDataQuery", () => {
         auditUser: "someone"
       }
     );
+
+    await updateCaseStatus(case3, CASE_STATUS.CLOSED);
 
     await models.address.create(
       new Address.Builder()

@@ -9,11 +9,27 @@ import District from "../../../../sharedTestHelpers/District";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import {
+  ADDRESSABLE_TYPE,
   CASE_STATUS,
   ISO_DATE,
   QUERY_TYPES
 } from "../../../../sharedUtilities/constants";
 import moment from "moment";
+import Address from "../../../../sharedTestHelpers/Address";
+
+const {
+  DISTRICTS_GEOJSON
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`);
+
+const findCenter = coordinates => {
+  let latSorted = coordinates.map(coord => coord[1]).sort();
+  let longSorted = coordinates.map(coord => coord[0]).sort();
+
+  return {
+    lat: latSorted[0] + (latSorted.pop() - latSorted[0]) / 2,
+    lon: longSorted[0] + (longSorted.pop() - longSorted[0]) / 2
+  };
+};
 
 describe("executeQuery", () => {
   const token = buildTokenWithPermissions("", "tuser");
@@ -27,26 +43,58 @@ describe("executeQuery", () => {
       minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
 
+  let districtNames = DISTRICTS_GEOJSON
+    ? DISTRICTS_GEOJSON.features.map(feature => feature.properties.name)
+    : [
+        "1st District",
+        "2nd District",
+        "3rd District",
+        "4th District",
+        "5th District"
+      ];
+
+  const expectedOutput = [
+    { district: districtNames[0], count: DISTRICTS_GEOJSON ? 2 : 1 },
+    { district: districtNames[1], count: 1 },
+    { district: districtNames[4], count: 1 },
+    { district: districtNames[6], count: 1 }
+  ];
+
   let firstDistrict, secondDistrict, fifthDistrict;
   beforeEach(async () => {
     firstDistrict = await models.district.create(
-      new District.Builder().withName("1st District")
+      new District.Builder().withName(districtNames[0])
     );
 
     secondDistrict = await models.district.create(
-      new District.Builder().withName("2nd District")
+      new District.Builder().withName(districtNames[1])
     );
 
     await models.district.create(
-      new District.Builder().withName("3rd District")
+      new District.Builder().withName(districtNames[2])
     );
 
     await models.district.create(
-      new District.Builder().withName("4th District")
+      new District.Builder().withName(districtNames[3])
     );
 
     fifthDistrict = await models.district.create(
-      new District.Builder().withName("5th District")
+      new District.Builder().withName(districtNames[4])
+    );
+
+    const firstCaseGeo = findCenter(
+      DISTRICTS_GEOJSON.features[3].geometry.coordinates[0]
+    );
+    const firstCaseAddress = await models.address.create(
+      new Address.Builder()
+        .defaultAddress()
+        .withLat(firstCaseGeo.lat)
+        .withLng(firstCaseGeo.lon)
+        .withAddressableId(77546624)
+        .withAddressableType(ADDRESSABLE_TYPE.CASES),
+      {
+        auditUser: "someone"
+      }
     );
 
     const firstCase = await models.cases.create(
@@ -55,7 +103,8 @@ describe("executeQuery", () => {
         .withFirstContactDate(moment().subtract(3, "months"))
         .withCaseDistrict(firstDistrict)
         .withDistrictId(firstDistrict.id)
-        .withId(undefined),
+        .withIncidentLocation(firstCaseAddress)
+        .withId(77546624),
       {
         auditUser: "someone"
       }
@@ -68,7 +117,8 @@ describe("executeQuery", () => {
         .defaultCase()
         .withFirstContactDate(moment().subtract(5, "months"))
         .withCaseDistrict(secondDistrict)
-        .withDistrictId(secondDistrict.id),
+        .withDistrictId(secondDistrict.id)
+        .withId(208934098),
       {
         auditUser: "someone"
       }
@@ -82,13 +132,71 @@ describe("executeQuery", () => {
         .withFirstContactDate(moment().subtract(12, "months"))
         .withCaseDistrict(fifthDistrict)
         .withDistrictId(fifthDistrict.id)
-        .withId(undefined),
+        .withId(333334),
       {
         auditUser: "someone"
       }
     );
 
     await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
+
+    const fourthCaseGeo = findCenter(
+      DISTRICTS_GEOJSON.features[0].geometry.coordinates[0]
+    );
+    const fourthCaseAddress = await models.address.create(
+      new Address.Builder()
+        .defaultAddress()
+        .withLat(fourthCaseGeo.lat)
+        .withLng(fourthCaseGeo.lon)
+        .withAddressableId(23425)
+        .withAddressableType(ADDRESSABLE_TYPE.CASES)
+        .withId(39338),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    const fourthCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate(moment().subtract(12, "months"))
+        .withId(23425)
+        .withIncidentLocation(fourthCaseAddress),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
+
+    const fifthCaseGeo = findCenter(
+      DISTRICTS_GEOJSON.features[6].geometry.coordinates[0]
+    );
+    const fifthCaseAddress = await models.address.create(
+      new Address.Builder()
+        .defaultAddress()
+        .withLat(fifthCaseGeo.lat)
+        .withLng(fifthCaseGeo.lon)
+        .withAddressableId(334)
+        .withAddressableType(ADDRESSABLE_TYPE.CASES)
+        .withId(11233),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    const fifthCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate(moment().subtract(12, "months"))
+        .withId(334)
+        .withIncidentLocation(fifthCaseAddress),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED);
   });
 
   afterEach(async () => {
@@ -102,12 +210,8 @@ describe("executeQuery", () => {
   test("returns count of complaints broken down by district", async () => {
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual([
-        { district: "1st District", count: 1 },
-        { district: "2nd District", count: 1 },
-        { district: "5th District", count: 1 }
-      ]);
+      expect(response.body).toHaveLength(4);
+      expect(response.body).toEqual(expectedOutput);
     });
   });
 
@@ -126,12 +230,8 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual([
-        { district: "1st District", count: 1 },
-        { district: "2nd District", count: 1 },
-        { district: "5th District", count: 1 }
-      ]);
+      expect(response.body).toHaveLength(4);
+      expect(response.body).toEqual(expectedOutput);
     });
   });
 
@@ -152,12 +252,8 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual([
-        { district: "1st District", count: 1 },
-        { district: "2nd District", count: 1 },
-        { district: "5th District", count: 1 }
-      ]);
+      expect(response.body).toHaveLength(4);
+      expect(response.body).toEqual(expectedOutput);
     });
   });
 
@@ -180,12 +276,8 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(3);
-      expect(response.body).toEqual([
-        { district: "1st District", count: 1 },
-        { district: "2nd District", count: 1 },
-        { district: "5th District", count: 1 }
-      ]);
+      expect(response.body).toHaveLength(4);
+      expect(response.body).toEqual(expectedOutput);
     });
   });
 });
