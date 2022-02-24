@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.48.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.47.0...v3.48.0) (2022-02-24)
+
+
+### Bug Fixes
+
+* Andrew [[#000](https://www.pivotaltracker.com/story/show/000)] fixed public map showing while the feature flag is off ([f48ed25](https://github.com/PublicDataWorks/police_data_manager/commit/f48ed256bcf253049982dd78993ba7461c9af1ad))
+
 ## [3.47.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.46.0...v3.47.0) (2022-02-08)
 
 
