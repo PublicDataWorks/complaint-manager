@@ -17,7 +17,7 @@ const {
 const MapVisualization = props => {
   const [location, setLocation] = useState({ lat: [], lon: [], z: [] });
   const [visibleLayers, setVisibleLayers] = useState(
-    MAP_CONFIG.LAYERS.map(() => false)
+    MAP_CONFIG.FEATURES.map(() => false)
   );
   const [dateRange, setDateRange] = useState(DATE_RANGE_TYPE.PAST_12_MONTHS);
 
@@ -49,10 +49,10 @@ const MapVisualization = props => {
     }
   ];
   let layers = [];
-  for (let i in MAP_CONFIG.LAYERS) {
+  for (let i in MAP_CONFIG.FEATURES) {
     if (visibleLayers[i]) {
-      data.push(...MAP_CONFIG.LAYERS[i].data);
-      layers.push(...MAP_CONFIG.LAYERS[i].layers);
+      data.push(...MAP_CONFIG.FEATURES[i].data);
+      layers.push(...MAP_CONFIG.FEATURES[i].layers);
     }
   }
 
@@ -92,11 +92,11 @@ const MapVisualization = props => {
             margin: { r: 0, t: 0, b: 0, l: 0 }
           }}
         />{" "}
-        {MAP_CONFIG.LAYERS.length ? (
+        {MAP_CONFIG.FEATURES.length ? (
           <section>
             <h3>Map Layers</h3>
             <section style={{ display: "flex", flexDirection: "column" }}>
-              {MAP_CONFIG.LAYERS.map((layer, idx) => (
+              {MAP_CONFIG.FEATURES.map((layer, idx) => (
                 <FormControlLabel
                   key={layer.text}
                   control={
