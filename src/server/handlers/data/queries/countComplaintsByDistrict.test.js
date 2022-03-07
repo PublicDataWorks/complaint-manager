@@ -50,15 +50,20 @@ describe("executeQuery", () => {
         "2nd District",
         "3rd District",
         "4th District",
-        "5th District"
+        "5th District",
+        "6th District",
+        "7th District"
       ];
 
   const expectedOutput = [
     { district: districtNames[0], count: DISTRICTS_GEOJSON ? 2 : 1 },
     { district: districtNames[1], count: 1 },
-    { district: districtNames[4], count: 1 },
-    { district: districtNames[6], count: 1 }
+    { district: districtNames[4], count: 1 }
   ];
+
+  if (DISTRICTS_GEOJSON) {
+    expectedOutput.push({ district: districtNames[6], count: 1 });
+  }
 
   let firstDistrict, secondDistrict, fifthDistrict;
   beforeEach(async () => {
@@ -82,9 +87,9 @@ describe("executeQuery", () => {
       new District.Builder().withName(districtNames[4])
     );
 
-    const firstCaseGeo = findCenter(
-      DISTRICTS_GEOJSON.features[3].geometry.coordinates[0]
-    );
+    const firstCaseGeo = DISTRICTS_GEOJSON
+      ? findCenter(DISTRICTS_GEOJSON.features[3].geometry.coordinates[0])
+      : {};
     const firstCaseAddress = await models.address.create(
       new Address.Builder()
         .defaultAddress()
@@ -140,9 +145,9 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
 
-    const fourthCaseGeo = findCenter(
-      DISTRICTS_GEOJSON.features[0].geometry.coordinates[0]
-    );
+    const fourthCaseGeo = DISTRICTS_GEOJSON
+      ? findCenter(DISTRICTS_GEOJSON.features[0].geometry.coordinates[0])
+      : {};
     const fourthCaseAddress = await models.address.create(
       new Address.Builder()
         .defaultAddress()
@@ -169,9 +174,9 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
 
-    const fifthCaseGeo = findCenter(
-      DISTRICTS_GEOJSON.features[6].geometry.coordinates[0]
-    );
+    const fifthCaseGeo = DISTRICTS_GEOJSON
+      ? findCenter(DISTRICTS_GEOJSON.features[6].geometry.coordinates[0])
+      : {};
     const fifthCaseAddress = await models.address.create(
       new Address.Builder()
         .defaultAddress()
@@ -210,7 +215,7 @@ describe("executeQuery", () => {
   test("returns count of complaints broken down by district", async () => {
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(4);
+      expect(response.body).toHaveLength(DISTRICTS_GEOJSON ? 4 : 3);
       expect(response.body).toEqual(expectedOutput);
     });
   });
@@ -230,7 +235,7 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(4);
+      expect(response.body).toHaveLength(DISTRICTS_GEOJSON ? 4 : 3);
       expect(response.body).toEqual(expectedOutput);
     });
   });
@@ -252,7 +257,7 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(4);
+      expect(response.body).toHaveLength(DISTRICTS_GEOJSON ? 4 : 3);
       expect(response.body).toEqual(expectedOutput);
     });
   });
@@ -276,7 +281,7 @@ describe("executeQuery", () => {
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
-      expect(response.body).toHaveLength(4);
+      expect(response.body).toHaveLength(DISTRICTS_GEOJSON ? 4 : 3);
       expect(response.body).toEqual(expectedOutput);
     });
   });
