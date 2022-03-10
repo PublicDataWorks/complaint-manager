@@ -29,7 +29,8 @@ const searchCasesReducer = (state = initialState, action) => {
         loaded: true,
         cases,
         totalCaseCount,
-        currentPage
+        currentPage,
+        errorMsg: undefined
       };
     case SEARCH_FAILED:
       return {
@@ -43,7 +44,8 @@ const searchCasesReducer = (state = initialState, action) => {
         loaded: false,
         currentPage: 1,
         sortBy: SORT_CASES_BY.CASE_REFERENCE,
-        sortDirection: DESCENDING
+        sortDirection: DESCENDING,
+        errorMsg: undefined
       };
     case UPDATE_CASES_TABLE_SORTING:
       return action.caseType === SEARCH

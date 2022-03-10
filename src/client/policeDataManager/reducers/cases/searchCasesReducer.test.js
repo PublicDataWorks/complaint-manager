@@ -48,7 +48,8 @@ describe("searchCasesReducer", () => {
         loaded: true,
         cases: action.searchResults.rows,
         totalCaseCount: action.searchResults.totalRecords,
-        currentPage: 1
+        currentPage: 1,
+        errorMsg: undefined
       });
     });
   });
