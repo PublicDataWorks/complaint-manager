@@ -69,13 +69,18 @@ export class CreateCaseActions extends React.Component {
   });
 
   prepareCivilian = civilian => {
-    const civilianData = {
-      ...civilian,
-      isAnonymous: civilian.isAnonymous || civilian.isUnknown,
-      firstName: civilian.firstName?.trim(),
-      lastName: civilian.lastName?.trim(),
-      address: normalizeAddress(civilian.address)
-    };
+    const civilianData = civilian.isUnknown
+      ? {
+          isAnonymous: true,
+          isUnknown: true
+        }
+      : {
+          ...civilian,
+          isAnonymous: civilian.isAnonymous || civilian.isUnknown,
+          firstName: civilian.firstName?.trim(),
+          lastName: civilian.lastName?.trim(),
+          address: normalizeAddress(civilian.address)
+        };
     return {
       civilian: civilianData
     };

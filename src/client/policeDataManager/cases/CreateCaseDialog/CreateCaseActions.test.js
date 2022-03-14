@@ -124,6 +124,7 @@ describe("CreateCaseActions", () => {
       "NOIPM Website"
     );
   });
+
   describe("creating a case", () => {
     let addressSuggestionField, submitButton;
 
@@ -176,6 +177,7 @@ describe("CreateCaseActions", () => {
         })
       );
     });
+
     describe("adding address onto civilian object", () => {
       test("should call addressMustBeValid when address provided on civilian", async () => {
         changeInput(
@@ -206,6 +208,7 @@ describe("CreateCaseActions", () => {
 
         expect(addressMustBeValid).toHaveBeenCalledWith(dummyAddressValid, {});
       });
+
       test("should return error if address not valid", async () => {
         addressMustBeValid.mockClear();
         addressMustBeValid.mockImplementationOnce((addressValid, errors) => {
@@ -242,6 +245,7 @@ describe("CreateCaseActions", () => {
           expect.objectContaining({ error: true })
         );
       });
+
       test("should call normalizeAddress when address provided on civilian", async () => {
         changeInput(
           dialog,
@@ -277,6 +281,45 @@ describe("CreateCaseActions", () => {
           streetAddress2: "Number 2",
           zipCode: "60601"
         });
+      });
+
+      test("should remove address and name when choosing unknown", async () => {
+        changeInput(
+          dialog,
+          '[data-testid="addressSuggestionField"]',
+          caseDetails.civilian.address.streetAddress
+        );
+        addressSuggestionField.simulate("blur");
+
+        const fillAddressToConfirmButton = dialog
+          .find('[data-testid="fillAddressToConfirm"]')
+          .last();
+        changeInput(
+          dialog,
+          '[data-testid="streetAddress2Input"]',
+          caseDetails.civilian.address.streetAddress2
+        );
+        await expectEventuallyToExist(
+          dialog,
+          '[data-testid="fillAddressToConfirm"]'
+        );
+        fillAddressToConfirmButton.simulate("click");
+
+        changeInput(dialog, '[name="civilian.isUnknown"]', true);
+        submitButton.simulate("click");
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            creationDetails: expect.objectContaining({
+              caseDetails: expect.objectContaining({
+                civilian: {
+                  isAnonymous: true,
+                  isUnknown: true
+                }
+              })
+            })
+          })
+        );
       });
     });
   });
