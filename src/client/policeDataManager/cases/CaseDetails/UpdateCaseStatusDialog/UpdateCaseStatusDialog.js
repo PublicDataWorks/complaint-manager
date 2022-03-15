@@ -19,15 +19,23 @@ import {
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
-const STATUS_DESCRIPTION = {
-  [CASE_STATUS.LETTER_IN_PROGRESS]:
-    "This status signifies that all available information has been entered and the letter generation process has started.",
-  [CASE_STATUS.READY_FOR_REVIEW]:
-    "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
-  [CASE_STATUS.FORWARDED_TO_AGENCY]:
-    "This status signifies that the case has been sent to the investigation agency.",
-  [CASE_STATUS.CLOSED]:
-    "This status signifies that an outcome has been reached and this case is available for public records."
+const STATUSES = {
+  [CASE_STATUS.LETTER_IN_PROGRESS]: {
+    description:
+      "This status signifies that all available information has been entered and the letter generation process has started."
+  },
+  [CASE_STATUS.READY_FOR_REVIEW]: {
+    description:
+      "This status signifies, to the Deputy Police Monitor, that all available information has been entered."
+  },
+  [CASE_STATUS.FORWARDED_TO_AGENCY]: {
+    description:
+      "This status signifies that the case has been sent to the investigation agency."
+  },
+  [CASE_STATUS.CLOSED]: {
+    description:
+      "This status signifies that an outcome has been reached and this case is available for public records."
+  }
 };
 
 const UpdateCaseStatusDialog = ({
@@ -75,7 +83,7 @@ const UpdateCaseStatusDialog = ({
           data-testid="dialogText"
         >
           {actionText} will mark the case as <strong>{nextStatus}</strong>
-          .&nbsp;{STATUS_DESCRIPTION[nextStatus]}
+          .&nbsp;{STATUSES[nextStatus].description}
         </Typography>
         <Typography>
           Are you sure you want to mark this case as{" "}
