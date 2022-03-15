@@ -49,27 +49,31 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
         request.params.civilianId
       );
       if (civilianValues.isUnknown) {
-        civilian.firstName = "";
-        civilian.middleInitial = null;
-        civilian.lastName = "";
-        civilian.suffix = null;
-        civilian.birthDate = null;
-        civilian.phoneNumber = null;
-        civilian.email = null;
-        civilian.additionalInfo = null;
-        civilian.isAnonymous = true;
-        console.log(civilian);
-        civilian.save([
-          "first_name",
-          "middle_initial",
-          "last_name",
-          "suffix",
-          "birthDate",
-          "phone_number",
-          "email",
-          "additional_info",
-          "is_anonymous"
-        ]);
+        models.sequelize.query(
+          `UPDATE civilians 
+            SET first_name = '', 
+              middle_initial = NULL, 
+              last_name = '', 
+              suffix = NULL, 
+              birth_date = NULL, 
+              phone_number = NULL, 
+              email = NULL, 
+              additional_info = NULL, 
+              is_anonymous = true, 
+              race_ethnicity_id = NULL, 
+              gender_identity_id = NULL, 
+              civilian_title_id = NULL 
+            WHERE id = ${request.params.civilianId}`,
+          { transaction, auditUser: request.nickname }
+        );
+
+        models.sequelize.query(
+          `DELETE 
+            FROM addresses 
+            WHERE addressable_type = 'civilian' 
+              AND addressable_id = ${request.params.civilianId}`,
+          { transaction, auditUser: request.nickname }
+        );
       } else {
         await civilian.update(civilianValues, {
           transaction,
