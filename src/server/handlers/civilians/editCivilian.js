@@ -48,15 +48,40 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
       const civilian = await models.civilian.findByPk(
         request.params.civilianId
       );
-      await civilian.update(civilianValues, {
-        transaction,
-        auditUser: request.nickname
-      });
+      if (civilianValues.isUnknown) {
+        civilian.firstName = "";
+        civilian.middleInitial = null;
+        civilian.lastName = "";
+        civilian.suffix = null;
+        civilian.birthDate = null;
+        civilian.phoneNumber = null;
+        civilian.email = null;
+        civilian.additionalInfo = null;
+        civilian.isAnonymous = true;
+        console.log(civilian);
+        civilian.save([
+          "first_name",
+          "middle_initial",
+          "last_name",
+          "suffix",
+          "birthDate",
+          "phone_number",
+          "email",
+          "additional_info",
+          "is_anonymous"
+        ]);
+      } else {
+        await civilian.update(civilianValues, {
+          transaction,
+          auditUser: request.nickname
+        });
+      }
 
-      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-        civilian.caseId,
-        transaction
-      );
+      const caseDetailsAndAuditDetails =
+        await getCaseWithAllAssociationsAndAuditDetails(
+          civilian.caseId,
+          transaction
+        );
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 
