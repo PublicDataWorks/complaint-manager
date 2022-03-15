@@ -19,7 +19,7 @@ import {
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
-const STATUSES = {
+export const STATUSES = {
   [CASE_STATUS.LETTER_IN_PROGRESS]: {
     description:
       "This status signifies that all available information has been entered and the letter generation process has started.",
