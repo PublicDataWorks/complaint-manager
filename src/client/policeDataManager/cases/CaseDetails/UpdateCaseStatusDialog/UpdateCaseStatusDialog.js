@@ -22,19 +22,23 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 const STATUSES = {
   [CASE_STATUS.LETTER_IN_PROGRESS]: {
     description:
-      "This status signifies that all available information has been entered and the letter generation process has started."
+      "This status signifies that all available information has been entered and the letter generation process has started.",
+    confirmButtonText: "Begin Letter"
   },
   [CASE_STATUS.READY_FOR_REVIEW]: {
     description:
-      "This status signifies, to the Deputy Police Monitor, that all available information has been entered."
+      "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
+    confirmButtonText: `Mark as ${CASE_STATUS.READY_FOR_REVIEW}`
   },
   [CASE_STATUS.FORWARDED_TO_AGENCY]: {
     description:
-      "This status signifies that the case has been sent to the investigation agency."
+      "This status signifies that the case has been sent to the investigation agency.",
+    confirmButtonText: `Mark as ${CASE_STATUS.FORWARDED_TO_AGENCY}`
   },
   [CASE_STATUS.CLOSED]: {
     description:
-      "This status signifies that an outcome has been reached and this case is available for public records."
+      "This status signifies that an outcome has been reached and this case is available for public records.",
+    confirmButtonText: `Mark as ${CASE_STATUS.CLOSED}`
   }
 };
 
@@ -83,7 +87,7 @@ const UpdateCaseStatusDialog = ({
           data-testid="dialogText"
         >
           {actionText} will mark the case as <strong>{nextStatus}</strong>
-          .&nbsp;{STATUSES[nextStatus].description}
+          .&nbsp;{STATUSES[nextStatus]?.description}
         </Typography>
         <Typography>
           Are you sure you want to mark this case as{" "}
@@ -110,9 +114,7 @@ const UpdateCaseStatusDialog = ({
           onClick={updateCaseStatusAction}
           disabled={!submittable}
         >
-          {nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
-            ? `Begin Letter`
-            : `Mark as ${nextStatus}`}
+          {STATUSES[nextStatus]?.confirmButtonText}
         </PrimaryButton>
       </DialogActions>
     </Dialog>
