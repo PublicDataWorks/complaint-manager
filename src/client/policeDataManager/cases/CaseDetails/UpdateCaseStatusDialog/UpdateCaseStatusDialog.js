@@ -21,24 +21,28 @@ import CircularProgress from "@material-ui/core/CircularProgress/CircularProgres
 
 export const STATUSES = {
   [CASE_STATUS.LETTER_IN_PROGRESS]: {
+    actionText: "Choosing to Generate a Letter",
+    confirmButtonText: "Begin Letter",
     description:
-      "This status signifies that all available information has been entered and the letter generation process has started.",
-    confirmButtonText: "Begin Letter"
+      "This status signifies that all available information has been entered and the letter generation process has started."
   },
   [CASE_STATUS.READY_FOR_REVIEW]: {
+    actionText: "This action",
+    confirmButtonText: `Mark as ${CASE_STATUS.READY_FOR_REVIEW}`,
     description:
-      "This status signifies, to the Deputy Police Monitor, that all available information has been entered.",
-    confirmButtonText: `Mark as ${CASE_STATUS.READY_FOR_REVIEW}`
+      "This status signifies, to the Deputy Police Monitor, that all available information has been entered."
   },
   [CASE_STATUS.FORWARDED_TO_AGENCY]: {
+    actionText: "This action",
+    confirmButtonText: `Mark as ${CASE_STATUS.FORWARDED_TO_AGENCY}`,
     description:
-      "This status signifies that the case has been sent to the investigation agency.",
-    confirmButtonText: `Mark as ${CASE_STATUS.FORWARDED_TO_AGENCY}`
+      "This status signifies that the case has been sent to the investigation agency."
   },
   [CASE_STATUS.CLOSED]: {
+    actionText: "This action",
+    confirmButtonText: `Mark as ${CASE_STATUS.CLOSED}`,
     description:
-      "This status signifies that an outcome has been reached and this case is available for public records.",
-    confirmButtonText: `Mark as ${CASE_STATUS.CLOSED}`
+      "This status signifies that an outcome has been reached and this case is available for public records."
   }
 };
 
@@ -54,11 +58,6 @@ const UpdateCaseStatusDialog = ({
   submitCaseStatusUpdateDialog,
   doNotCallUpdateStatusCallback = false
 }) => {
-  const actionText =
-    nextStatus === CASE_STATUS.LETTER_IN_PROGRESS
-      ? "Choosing to Generate a Letter"
-      : "This action";
-
   const updateCaseStatusAction = () => {
     submitCaseStatusUpdateDialog();
     if (alternativeAction && doNotCallUpdateStatusCallback) {
@@ -86,7 +85,8 @@ const UpdateCaseStatusDialog = ({
           }}
           data-testid="dialogText"
         >
-          {actionText} will mark the case as <strong>{nextStatus}</strong>
+          {STATUSES[nextStatus]?.actionText} will mark the case as{" "}
+          <strong>{nextStatus}</strong>
           .&nbsp;{STATUSES[nextStatus]?.description}
         </Typography>
         <Typography>
