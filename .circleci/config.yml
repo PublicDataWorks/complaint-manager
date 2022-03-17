@@ -806,9 +806,6 @@ workflows:
       - lighthouse:
           requires:
             - ensure-playground-deploy-succeeded
-        filters:
-          branches:
-            ignore: /develop|master/
       - e2e-testing-playground:
           requires:
             - ensure-playground-deploy-succeeded
