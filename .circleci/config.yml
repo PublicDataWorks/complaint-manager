@@ -184,6 +184,25 @@ jobs:
           name: Run server and worker unit tests, excluding handlers
           command: yarn test:server-worker-non-handlers:ci
 
+  lighthouse:
+    docker:  
+          # make sure you use an image that has browsers installed
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+        at: ~/repo
+      - restore_cache:
+    keys:
+      - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+      - dependencies-{{ .Environment.CACHE_VERSION }}
+      - run: 
+          command: sudo npm install -g @lhci/cli@0.3.x
+      - run:
+        name: lhci autorun
+        command: |
+        lhci autorun
+
   security-check:
     docker:
       - image: hawkeyesec/scanner-cli:latest
@@ -760,7 +779,7 @@ workflows:
           filters:
             branches:
               only:
-                - base
+                - lighthouse
       - get-instance-files-latest:
           requires:
           - security-check
@@ -784,6 +803,12 @@ workflows:
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground
+      - lighthouse:
+          requires:
+            - ensure-playground-deploy-succeeded
+        filters:
+          branches:
+            ignore: /develop|master/
       - e2e-testing-playground:
           requires:
             - ensure-playground-deploy-succeeded
