@@ -193,9 +193,9 @@ jobs:
       - attach_workspace:
         at: ~/repo
       - restore_cache:
-    keys:
-      - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
-      - dependencies-{{ .Environment.CACHE_VERSION }}
+        keys:
+          - dependencies-{{ checksum "package.json" }}-{{ .Environment.CACHE_VERSION }}
+          - dependencies-{{ .Environment.CACHE_VERSION }}
       - run: 
           command: sudo npm install -g @lhci/cli@0.3.x
       - run:
