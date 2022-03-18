@@ -193,7 +193,7 @@ jobs:
           keys:
             - dependencies-{{ .Environment.CACHE_VERSION }}
       - run:
-          command: sudo npm install -g @lhci/cli@0.3.x
+          command: npm install -g @lhci/cli@0.3.x
       - run:
           name: lhci autorun
           command: |
