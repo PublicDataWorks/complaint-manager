@@ -783,6 +783,9 @@ workflows:
       - get-instance-files-latest:
           requires:
           - security-check
+      - lighthouse:
+          requires:
+            - security-check
       - test-client:
           requires:
             - get-instance-files-latest
@@ -803,9 +806,6 @@ workflows:
       - ensure-playground-deploy-succeeded:
           requires:
             - deploy-playground
-      - lighthouse:
-          requires:
-            - ensure-playground-deploy-succeeded
       - e2e-testing-playground:
           requires:
             - ensure-playground-deploy-succeeded
