@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.4
 parameters:
   prod-indexing-branch:
     type: string
@@ -189,17 +191,17 @@ jobs:
       # make sure you use an image that has browsers installed
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - restore_cache:
           keys:
             - dependencies-{{ .Environment.CACHE_VERSION }}
       - run:
           command: npm install -g @lhci/cli@0.3.x
       - run:
-          command: npm install puppeteer
-      - run:
           name: lhci autorun
           command: |
-            lhci autorun --failOnUploadFailure=true 
+            lhci autorun --failOnUploadFailure=true
 
   security-check:
     docker:
