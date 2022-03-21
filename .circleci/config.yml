@@ -200,7 +200,7 @@ jobs:
       - run:
           name: lhci autorun
           command: |
-            lhci autorun --failOnUploadFailure=true
+            lhci autorun assert --config=./lighthouserc.json
 
   security-check:
     docker:
