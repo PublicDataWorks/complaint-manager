@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { withRouter } from "react-router";
 
 class ScrollToTop extends Component {
   componentDidUpdate() {
@@ -17,4 +16,4 @@ export const scrollToTop = () => {
   }
 };
 
-export default withRouter(ScrollToTop);
+export default ScrollToTop;
