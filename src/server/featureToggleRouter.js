@@ -9,7 +9,9 @@ const features = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features`)
 const criteria = [
   {
     id: "isPreProd",
-    check: user => process.env.NODE_ENV !== "production"
+    check: user =>
+      process.env.NODE_ENV !== "production" &&
+      process.env.NODE_ENV !== "staging"
   },
   {
     id: "off",
