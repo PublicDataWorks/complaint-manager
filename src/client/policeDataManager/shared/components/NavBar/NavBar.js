@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography
 } from "@material-ui/core";
-import { Link, useLocation } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import MenuNavigator from "./MenuNavigator";
 import standards from "../../../../common/globalStyling/standards";
@@ -27,10 +27,6 @@ import {
   SORT_CASES_BY,
   DESCENDING
 } from "../../../../../sharedUtilities/constants";
-
-const withLocation = (Component) => {
-  return props => <Component {...props} location={useLocation()} />
-}
 
 class NavBar extends Component {
   state = {
@@ -215,4 +211,4 @@ const mapDispatchToProps = {
   resetWorkingCasesPaging
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (withLocation(NavBar));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(NavBar));
