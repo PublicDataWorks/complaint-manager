@@ -6,7 +6,7 @@ FROM publicdataworks/docker-node-ubuntu:1.0.1
 
 WORKDIR /app
 COPY package.json yarn.lock /app/
-RUN yarn install --pure-lockfile --network-timeout 100000
+RUN yarn install --pure-lockfile
 ENV REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
 
 COPY --from=instance /instance-files /app/src/instance-files
