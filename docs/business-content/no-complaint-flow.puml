@@ -1,0 +1,13 @@
+@startuml
+start
+:Intake Specialist inputs complaint lodged in one of many sources;
+:Intake Specialist adds all necessary data for the complaint;
+:Intake Specialist generates referral letter;
+:Police Monitor or Deputy Police Monitor reviews referral letter;
+if (Monitor Approves?) then 
+    :Referral letter and letter to complainant are generated as PDFs;
+else
+    :Archive case;
+endif
+stop
+@enduml
