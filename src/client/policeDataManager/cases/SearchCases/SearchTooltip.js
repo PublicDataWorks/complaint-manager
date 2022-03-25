@@ -86,6 +86,9 @@ const SearchTooltip = ({
                 <strong>narrative.details:</strong>"Walked into oncoming
                 traffic"
               </div>
+              <div className="example">
+                <strong>case_number:</strong>CC2021-0023
+              </div>
             </section>
           </section>
           <hr />

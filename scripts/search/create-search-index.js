@@ -157,8 +157,14 @@ const updateSearchIndex = async () => {
       summary: parseSearchTerm(removeTags(result.narrativeSummary)),
       details: parseSearchTerm(removeTags(result.narrativeDetails))
     };
+    let case_number = [result.caseReference];
+    if (result.pibCaseNumber) {
+      case_number.push(result.pibCaseNumber);
+    }
+
     const document = {
       case_id,
+      case_number,
       tag,
       accused,
       complainant: complainantOfficers.concat(civilians),

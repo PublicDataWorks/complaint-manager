@@ -76,7 +76,8 @@ export const areSearchOperatorsValid = queryString => {
       "case_id",
       "narrative",
       "narrative.summary",
-      "narrative.details"
+      "narrative.details",
+      "case_number"
     ];
     let words = queryString.split(" ");
     if (
