@@ -192,6 +192,7 @@ jobs:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
     steps:
       - browser-tools/install-chrome
+      - checkout
       - attach_workspace:
           at: src/
       - restore_cache:
@@ -199,6 +200,10 @@ jobs:
             - dependencies-{{ .Environment.CACHE_VERSION }}
       - run:
           command: npm install -g @lhci/cli@0.3.x
+      - run:
+          command: ls
+      - run:
+          command: ls src/
       - run:
           name: lhci autorun
           command: |
