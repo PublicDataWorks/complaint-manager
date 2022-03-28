@@ -19,7 +19,7 @@ describe("SearchTooltip", () => {
     expect(screen.getByText("Search Terms")).toBeInTheDocument;
     expect(
       screen.getByText(
-        "Search terms must be followed by a colon and use quotes for search terms containing spaces, dashes, etc."
+        "Search terms must be followed by a colon and use quotes for search terms containing spaces."
       )
     ).toBeInTheDocument;
     expect(screen.getByText("Search Operators")).toBeInTheDocument;
