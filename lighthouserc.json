@@ -2,8 +2,30 @@
     "ci": {
       "collect": {
         "url": [
-        "https://police-data-manager-demo.herokuapp.com/",
-        "https://police-data-manager-demo.herokuapp.com/cases/4"
+        "https://police-data-manager-ci.herokuapp.com/",
+        "https://police-data-manager-ci.herokuapp.com/cases/4",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/cases-officers/4/allegations/search",
+        "https://police-data-manager-ci.herokuapp.com/archived-cases",
+        "https://police-data-manager-ci.herokuapp.com/search",
+        "https://police-data-manager-ci.herokuapp.com/dashboard",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/officers/search",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/officers/details",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/officers/:caseOfficerId",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/officers/:caseOfficerId/search",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/history",
+        "https://police-data-manager-ci.herokuapp.com/cases/4",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/review",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/officer-history",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/recommended-actions",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/letter-preview",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/edit-letter",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/letter/review-and-approve",
+        "https://police-data-manager-ci.herokuapp.com/export/all",
+        "https://police-data-manager-ci.herokuapp.com/cases/4/cases-officers/:caseOfficerId/allegations/search",
+        "https://police-data-manager-ci.herokuapp.com/manage-tags",
+        "https://police-data-manager-ci.herokuapp.com/data/glossary",
+        "https://police-data-manager-ci.herokuapp.com/data/about",
+        "https://police-data-manager-ci.herokuapp.com/data"
         ],
         "numberOfRuns": 1
       },
