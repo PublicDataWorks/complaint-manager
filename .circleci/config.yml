@@ -207,7 +207,7 @@ jobs:
       - run:
           name: lhci autorun
           command: |
-            lhci autorun --collect.no-lighthouserc --collect.url=https://police-data-manager-demo.herokuapp.com/cases/4
+            lhci autorun
 
   security-check:
     docker:
