@@ -64,7 +64,7 @@ const SearchTooltip = ({
             <h2 className={classes.sectionHeader}>Search Terms</h2>
             <section className="explanation">
               Search terms must be followed by a colon and use quotes for search
-              terms containing spaces, dashes, etc.
+              terms containing spaces.
             </section>
             <section className={classes.examples}>
               <div className="example">
