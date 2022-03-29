@@ -32,7 +32,7 @@
       "assert": {
         "assertions": {
             "categories:performance": ["warn", {"minScore": 0.022222}],
-            "categories:accessibility": ["warn", {"minScore": 0.033333}]
+            "categories:accessibility": ["warn", {"minScore": 0.7}]
         }
       },
       "upload": {
