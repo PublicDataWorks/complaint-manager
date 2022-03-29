@@ -10,8 +10,8 @@
         "https://noipm-ci.herokuapp.com/dashboard",
         "https://noipm-ci.herokuapp.com/cases/4/officers/search",
         "https://noipm-ci.herokuapp.com/cases/4/officers/details",
-        "https://noipm-ci.herokuapp.com/cases/4/officers/:caseOfficerId",
-        "https://noipm-ci.herokuapp.com/cases/4/officers/:caseOfficerId/search",
+        "https://noipm-ci.herokuapp.com/cases/4/officers/7",
+        "https://noipm-ci.herokuapp.com/cases/4/officers/7/search",
         "https://noipm-ci.herokuapp.com/cases/4/history",
         "https://noipm-ci.herokuapp.com/cases/4",
         "https://noipm-ci.herokuapp.com/cases/4/letter/review",
@@ -21,7 +21,7 @@
         "https://noipm-ci.herokuapp.com/cases/4/letter/edit-letter",
         "https://noipm-ci.herokuapp.com/cases/4/letter/review-and-approve",
         "https://noipm-ci.herokuapp.com/export/all",
-        "https://noipm-ci.herokuapp.com/cases/4/cases-officers/:caseOfficerId/allegations/search",
+        "https://noipm-ci.herokuapp.com/cases/4/cases-officers/7/allegations/search",
         "https://noipm-ci.herokuapp.com/manage-tags",
         "https://noipm-ci.herokuapp.com/data/glossary",
         "https://noipm-ci.herokuapp.com/data/about",
@@ -31,8 +31,7 @@
       },
       "assert": {
         "assertions": {
-            "categories:accessibility": ["warn", {"minScore": 0.7}], 
-            "categories:accessibility": ["error", {"minScore": 0.3}]
+            "categories:accessibility": ["warn", {"minScore": 0.7}]
         }
       },
       "upload": {
