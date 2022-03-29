@@ -31,7 +31,7 @@
       },
       "assert": {
         "assertions": {
-            "categories:accessibility": ["warn", {"minScore": 0.7}, "error", {"minScore": 0.3}]
+            "categories:accessibility": ["warn", {"minScore": 0.8}, "error", {"minScore": 0.6}]
         }
       },
       "upload": {
