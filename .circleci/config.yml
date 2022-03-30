@@ -726,6 +726,9 @@ workflows:
             branches:
               only:
                 - master
+      - lighthouse:
+          requires:
+            - security-check
       - get-instance-files-latest:
           requires:
             - security-check
