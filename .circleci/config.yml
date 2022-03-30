@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.2.4
 parameters:
   prod-indexing-branch:
     type: string
@@ -94,7 +96,7 @@ jobs:
           command: docker rm temp-container
       - persist_to_workspace:
           root: .
-          paths: 
+          paths:
             - instance-files/*
             - release.version
 
@@ -183,6 +185,29 @@ jobs:
       - run:
           name: Run server and worker unit tests, excluding handlers
           command: yarn test:server-worker-non-handlers:ci
+
+  lighthouse:
+    docker:
+      # make sure you use an image that has browsers installed
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+    steps:
+      - browser-tools/install-chrome
+      - checkout
+      - attach_workspace:
+          at: src/
+      - restore_cache:
+          keys:
+            - dependencies-{{ .Environment.CACHE_VERSION }}
+      - run:
+          command: npm install -g @lhci/cli@0.3.x
+      - run:
+          command: ls
+      - run:
+          command: ls src/
+      - run:
+          name: lhci autorun
+          command: |
+            lhci autorun
 
   security-check:
     docker:
@@ -336,8 +361,8 @@ jobs:
   e2e-testing-ci-pdm:
     docker:
       - image: publicdataworks/e2e-noipm:latest
-        auth: 
-          username: $DOCKER_USER 
+        auth:
+          username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
       # - run:
@@ -394,8 +419,8 @@ jobs:
   e2e-testing-playground:
     docker:
       - image: publicdataworks/e2e-noipm:latest
-        auth: 
-          username: $DOCKER_USER 
+        auth:
+          username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
       # - run:
@@ -425,8 +450,8 @@ jobs:
   e2e-testing-staging:
     docker:
       - image: publicdataworks/e2e-noipm:latest
-        auth: 
-          username: $DOCKER_USER 
+        auth:
+          username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
       - checkout
@@ -497,7 +522,7 @@ jobs:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker build -t publicdataworks/instance-files-noipm:$(cat src/version.txt) src/
       - run: docker push publicdataworks/instance-files-noipm:$(cat src/version.txt)
-  
+
   bump-version:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -760,10 +785,13 @@ workflows:
           filters:
             branches:
               only:
-                - base
+                - lighthouse
       - get-instance-files-latest:
           requires:
-          - security-check
+            - security-check
+      - lighthouse:
+          requires:
+            - security-check
       - test-client:
           requires:
             - get-instance-files-latest
@@ -787,14 +815,14 @@ workflows:
       - e2e-testing-playground:
           requires:
             - ensure-playground-deploy-succeeded
-  
+
   deploy_release:
     jobs:
       - get-instance-files-release:
           filters:
-              branches:
-                only:
-                  - /release_v.*/
+            branches:
+              only:
+                - /release_v.*/
       - deploy-staging:
           requires:
             - get-instance-files-release

@@ -26,33 +26,11 @@ files-contents-scripts/build-and-deploy.sh-14
 files-contents-docs/technical-content/faq.md-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
-node-yarnaudit-quill-1695
-node-yarnaudit-quill-1002690
-node-yarnaudit-quill-1005208
-node-yarnaudit-quill-1039000
-node-yarnaudit-quill-1059923
-node-yarnaudit-quill-1065167
-node-yarnaudit-postcss-1693
-node-yarnaudit-postcss-1006846
-node-yarnaudit-ansi-html-1002522
-node-yarnaudit-ansi-html-1005059
-node-yarnaudit-ansi-html-1038792
-node-yarnaudit-ansi-html-1059337
-node-yarnaudit-ansi-html-1064582
-node-yarnaudit-ansi-regex-1002401
-node-yarnaudit-ansi-regex-1004946
-node-yarnaudit-ansi-regex-1038674
-node-yarnaudit-ansi-regex-1059599
-node-yarnaudit-ansi-regex-1064843
+node-yarnaudit-quill-*
+node-yarnaudit-postcss-*
+node-yarnaudit-ansi-html-*
 node-yarnaudit-ansi-regex-*
-node-yarnaudit-node-fetch-1006899
-node-yarnaudit-node-fetch-1038477
-node-yarnaudit-node-fetch-1059402
-node-yarnaudit-node-fetch-1064646
+node-yarnaudit-node-fetch-*
+node-yarnaudit-minimist-*
+node-yarnaudit-node-forge-*
 
-node-yarnaudit-node-forge-1067278
-node-yarnaudit-quill-1067272
-node-yarnaudit-node-forge-1067279
-node-yarnaudit-node-forge-1067280
-node-yarnaudit-minimist-1067259
-node-yarnaudit-minimist-1067285
