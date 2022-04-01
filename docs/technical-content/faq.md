@@ -90,6 +90,19 @@ The reason that you need to edit this file is so that your computer knows what a
 
 **A**. Auth0 is a third-party service that provides authentication for the different environments in Police Data Manager.
 
+## Lighthouse
+
+**Q**. What is Lighthouse and why do I need it?
+
+**A**. Lighthouse is a performance monitoring tool that provides a report of Police Data Manager page's performance at the time that it is ran. This can be used to identify the impact of particular code changes or ensure that performance thresholds are met during continuous integration processes.
+
+**Q**. How do I access reports created by Lighthouse?
+
+**A**. Navigate to the lighthouse job in the pipeline. Expand the "lhci autorun" tab. View the reports via html link for the corresponding page. 
+
+**Q**. How do I configure Lighthouse?
+
+**A**. Configurations can be made in `lighthouserc.json`. 
 
 ## End-To-End Testing with Nightwatch
 
