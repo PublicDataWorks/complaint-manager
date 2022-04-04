@@ -1,7 +1,7 @@
 {
-    "ci": {
-      "collect": {
-        "url": [
+  "ci": {
+    "collect": {
+      "url": [
         "https://police-data-manager-demo.herokuapp.com/",
         "https://police-data-manager-demo.herokuapp.com/cases/4",
         "https://police-data-manager-demo.herokuapp.com/cases/2/cases-officers/3/allegations/search",
@@ -12,31 +12,40 @@
         "https://police-data-manager-demo.herokuapp.com/cases/4/officers/details",
         "https://police-data-manager-demo.herokuapp.com/cases/4/officers/7",
         "https://police-data-manager-demo.herokuapp.com/cases/4/officers/7/search",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/history",
-        "https://police-data-manager-demo.herokuapp.com/cases/3",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/review",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/officer-history",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/recommended-actions",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/letter-preview",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/edit-letter",
-        "https://police-data-manager-demo.herokuapp.com/cases/3/letter/review-and-approve",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/history",
+        "https://police-data-manager-demo.herokuapp.com/cases/4",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/review",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/officer-history",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/recommended-actions",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/letter-preview",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/edit-letter",
+        "https://police-data-manager-demo.herokuapp.com/cases/4/letter/review-and-approve",
         "https://police-data-manager-demo.herokuapp.com/export/all",
         "https://police-data-manager-demo.herokuapp.com/manage-tags",
         "https://police-data-manager-demo.herokuapp.com/data/glossary",
         "https://police-data-manager-demo.herokuapp.com/data/about",
         "https://police-data-manager-demo.herokuapp.com/data"
+      ],
+      "numberOfRuns": 1
+    },
+    "assert": {
+      "assertions": {
+        "categories:accessibility": [
+          "error",
+          {
+            "minScore": 0.7
+          }
         ],
-        "numberOfRuns": 1
-      },
-      "assert": {
-        "assertions": {
-            "categories:accessibility": ["error", {"minScore": 0.7}],
-            "categories:performance": ["warn", {"minScore": 0.5}]
-
-        }
-      },
-      "upload": {
-        "target": "temporary-public-storage"
+        "categories:performance": [
+          "warn",
+          {
+            "minScore": 0.5
+          }
+        ]
       }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
     }
   }
+}

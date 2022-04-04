@@ -38,7 +38,9 @@ const RichTextEditorComponent = props => {
     />
   );
 };
+
 let shouldBlockRoutingRedirects;
+
 export class EditLetter extends Component {
   constructor(props) {
     super(props);

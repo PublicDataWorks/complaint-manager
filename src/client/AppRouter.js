@@ -1,21 +1,22 @@
 import React, { Component, Suspense } from "react";
+import { Route, Switch } from "react-router";
+import { connect } from "react-redux";
+import { CircularProgress } from "@material-ui/core";
 import policeDataManagerRoutes from "./policeDataManagerRoutes";
 import sharedRoutes from "./sharedRoutes";
 import publicDataDashboardRoutes from "./publicDataDashboardRoutes";
-import { Route, Switch } from "react-router";
-import { connect } from "react-redux";
 
 class AppRouter extends Component {
   render() {
     return (
       <Suspense
-        fallback={() => (
+        fallback={
           <CircularProgress
             data-testid="spinner"
             style={{ marginTop: "100px", marginBottom: "32px" }}
             size={80}
           />
-        )}
+        }
       >
         <Switch>
           {sharedRoutes.map(

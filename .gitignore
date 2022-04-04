@@ -27,6 +27,9 @@ selenium-server.log
 # local data
 postgres-data/
 
+# pact
+pact/*
+
 # misc
 .DS_Store
 .env.local
