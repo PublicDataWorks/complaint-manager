@@ -11,7 +11,7 @@ const criteria = [
     id: "isPreProd",
     check: user =>
       process.env.NODE_ENV !== "production" &&
-      process.env.NODE_ENV !== "development"
+      process.env.NODE_ENV !== "staging"
   },
   {
     id: "off",
