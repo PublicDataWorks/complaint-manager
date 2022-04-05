@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.49.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.48.0...v3.49.0) (2022-04-05)
+
+
+### Bug Fixes
+
+* Andrew [[#114](https://www.pivotaltracker.com/story/show/114)] fixes dirty field data being saved when switching to Unknown ([f88cb77](https://github.com/PublicDataWorks/police_data_manager/commit/f88cb774b4c68ccb9a999696ab382f3bf92c2eb7))
+* Andrew [[#114](https://www.pivotaltracker.com/story/show/114)] fixes dirty field data being saved when switching to Unknown ([3482adc](https://github.com/PublicDataWorks/police_data_manager/commit/3482adc49afa4deaa33d016a3e5a08c7eab5c093))
+* Andrew [[#114](https://www.pivotaltracker.com/story/show/114)] fixes Unknown issues on Civilian Dialog on case details page ([e19eb6e](https://github.com/PublicDataWorks/police_data_manager/commit/e19eb6ec3de68d36588cc3d7f982aefe573192e8))
+* Andrew [[#114](https://www.pivotaltracker.com/story/show/114)] fixes Unknown issues on Civilian Dialog on case details page ([fd51879](https://github.com/PublicDataWorks/police_data_manager/commit/fd51879d96494364a5624b28730f15a26573cd5b))
+* Andrew [[#117](https://www.pivotaltracker.com/story/show/117)] fixes search bug that doesn't unset the error message ([e9428c7](https://github.com/PublicDataWorks/police_data_manager/commit/e9428c70c48358efe3e8962f7c9cf4a35e941986))
+* Andrew [[#117](https://www.pivotaltracker.com/story/show/117)] fixes search bug that doesn't unset the error message ([9afe92e](https://github.com/PublicDataWorks/police_data_manager/commit/9afe92eede816979ce786f6735e8b97d8e01b1cd))
+
 ## [3.48.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.47.0...v3.48.0) (2022-02-24)
 
 
