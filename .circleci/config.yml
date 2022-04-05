@@ -570,7 +570,7 @@ jobs:
           env: production
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
-          google-api-key: $REACT_APP_GOOGLE_API_KEY_PROD
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
