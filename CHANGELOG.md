@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.49.1](https://github.com/PublicDataWorks/police_data_manager/compare/v3.49.0...v3.49.1) (2022-04-05)
+
+
+### Bug Fixes
+
+* Andrew [[#000](https://www.pivotaltracker.com/story/show/000)] fixed feature toggle preProd flag ([a907aa8](https://github.com/PublicDataWorks/police_data_manager/commit/a907aa81f73e79bdb2ef7e1df33ae1441e8f7279))
+* Andrew [[#000](https://www.pivotaltracker.com/story/show/000)] fixed typo in config.yml so that Google Maps API will work in Production again ([eab14d2](https://github.com/PublicDataWorks/police_data_manager/commit/eab14d2d0a4119dbb97486a51be0b3d2c6fd1495))
+
 ## [3.49.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.48.0...v3.49.0) (2022-04-05)
 
 
