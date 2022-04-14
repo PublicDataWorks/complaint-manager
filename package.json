@@ -94,7 +94,7 @@
     "jsonwebtoken": "~8.5.0",
     "jwks-rsa": "1.6.0",
     "lodash": "4.17.21",
-    "moment": "2.29.1",
+    "moment": "2.29.2",
     "moment-timezone": "~0.5.23",
     "nanoid": "^3.2.0",
     "newrelic": "7.5.0",
@@ -166,6 +166,7 @@
   },
   "resolutions": {
     "**/acorn": "^6.4.1",
+    "**/async": "^3.2.2",
     "**/axios": "0.22.0",
     "**/bl": "2.2.1",
     "**/browserslist": "4.16.6",
