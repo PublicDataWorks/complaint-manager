@@ -1,5 +1,5 @@
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-const asyncMiddleWare = require("../asyncMiddleware");
+const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../policeDataManager/models/index");
 import sequelize from "sequelize";
 import {
@@ -149,7 +149,7 @@ const getNotifications = async (date, userEmail) => {
   return notifications;
 };
 
-const extractNotifications = asyncMiddleWare(
+const extractNotifications = asyncMiddleware(
   async (request, response, next) => {
     const notifications = await getNotifications(
       request.query.timestamp,

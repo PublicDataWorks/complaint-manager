@@ -19,6 +19,8 @@ describe("MergeTagDialog", () => {
   let closeDialog = jest.fn();
   let store = createConfiguredStore();
   beforeEach(() => {
+    jest.useFakeTimers();
+
     render(
       <Provider store={store}>
         <Router>
@@ -55,16 +57,15 @@ describe("MergeTagDialog", () => {
     expect(screen.getByTestId("mergeTagSubmitButton").disabled).toBeFalse();
   });
 
-  test("should make axios call when save button is clicked and call getTagsWithCount and dialog closed on success", () => {
+  test("should make axios call when save button is clicked and call getTagsWithCount and dialog closed on success", async () => {
     let promise = Promise.resolve();
     mockPatch.mockReturnValue(promise);
     userEvent.type(screen.getByTestId("select-merge-tag-dropdown"), "Tof");
     userEvent.click(screen.getByText("Tofu"));
     userEvent.click(screen.getByTestId("mergeTagSubmitButton"));
     expect(mockPatch).toHaveBeenCalledWith("api/tags/2", { mergeTagId: 1 });
-    promise.then(() => {
-      expect(mockGetTagsWithCount).toBeCalledTimes(1);
-      expect(closeDialog).toBeCalledTimes(1);
-    });
+    await promise;
+    expect(mockGetTagsWithCount).toBeCalledTimes(1);
+    expect(closeDialog).toBeCalledTimes(1);
   });
 });

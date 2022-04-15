@@ -1,6 +1,5 @@
 import { BAD_REQUEST_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-
-const Boom = require("boom");
+import Boom from "boom";
 
 const asyncMiddleware = fn => async (request, response, next) => {
   try {

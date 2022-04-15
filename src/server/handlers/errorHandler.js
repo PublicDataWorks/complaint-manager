@@ -1,4 +1,4 @@
-import {API_ROUTES, PUBLIC_ROUTES} from "../apiRoutes";
+import { API_ROUTES, PUBLIC_ROUTES } from "../apiRoutes";
 
 const newRelic = require("newrelic");
 const Boom = require("boom");
@@ -30,17 +30,16 @@ const requestSpecifiesRouteMethod = request => {
 };
 
 const getErrorMessageForRouteAndMethod = request => {
-    let ROUTES;
-    const routePath = request.route.path;
+  let ROUTES;
+  const routePath = request.route.path;
 
-    if(API_ROUTES[routePath]) {
-        ROUTES=API_ROUTES;
-    } else if(PUBLIC_ROUTES[routePath]) {
-        ROUTES=PUBLIC_ROUTES;
-    }
+  if (API_ROUTES[routePath]) {
+    ROUTES = API_ROUTES;
+  } else if (PUBLIC_ROUTES[routePath]) {
+    ROUTES = PUBLIC_ROUTES;
+  }
 
-  return ROUTES[routePath][request.method.toLowerCase()]
-    .errorMessage;
+  return ROUTES[routePath][request.method.toLowerCase()].errorMessage;
 };
 
 const get500ErrorMessage = request => {
@@ -51,7 +50,7 @@ const get500ErrorMessage = request => {
 };
 
 const getErrorMessage = (boomError, request) => {
-  if (boomError.isServer && boomError.status === 401){
+  if (boomError.isServer && boomError.status === 401) {
     return "No authorization token was found";
   }
 

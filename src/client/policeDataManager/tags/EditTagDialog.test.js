@@ -16,6 +16,10 @@ let mockGetTagsWithCount = jest.fn();
 jest.mock("./thunks/getTagsWithCount", () => () => mockGetTagsWithCount);
 
 describe("EditTagDialog", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
   test("should render a textbox with an already populated tag name", () => {
     render(
       <Provider store={createConfiguredStore()}>
@@ -166,7 +170,7 @@ describe("EditTagDialog", () => {
     expect(exitFunction).toBeCalledTimes(1);
   });
 
-  test("should make axios call when save button is clicked and call getTagsWithCount and dialog closed on success", () => {
+  test("should make axios call when save button is clicked and call getTagsWithCount and dialog closed on success", async () => {
     let exitFunction = jest.fn();
     render(
       <Provider store={createConfiguredStore()}>
@@ -190,9 +194,8 @@ describe("EditTagDialog", () => {
       id: 2,
       name: "Mr. Taghello"
     });
-    promise.then(() => {
-      expect(mockGetTagsWithCount).toBeCalledTimes(1);
-      expect(exitFunction).toBeCalledTimes(1);
-    });
+    await promise;
+    expect(mockGetTagsWithCount).toBeCalledTimes(1);
+    expect(exitFunction).toBeCalledTimes(1);
   });
 });

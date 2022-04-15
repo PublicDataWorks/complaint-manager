@@ -8,7 +8,7 @@
 # Pull base image.
 FROM ubuntu:18.04
 
-LABEL version="1.0.1"
+LABEL version="1.1.0"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
@@ -16,7 +16,7 @@ RUN apt-get install --yes curl
 RUN apt-get install --yes build-essential
 
 # Install Node.js
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 # Install Yarn

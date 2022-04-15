@@ -2,7 +2,7 @@ ARG INSTANCE_VERSION=latest
 ARG INSTANCE_IMAGE=publicdataworks/instance-files-noipm
 
 FROM ${INSTANCE_IMAGE}:${INSTANCE_VERSION} AS instance
-FROM publicdataworks/docker-node-ubuntu:1.0.1
+FROM publicdataworks/docker-node-ubuntu:1.1.0
 
 WORKDIR /app
 COPY package.json yarn.lock /app/
