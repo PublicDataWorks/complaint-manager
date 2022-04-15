@@ -13,7 +13,7 @@ parameters:
     default: "publicdataworks/instance-files-noipm"
   ubuntu-version:
     type: string
-    default: "1.0.0"
+    default: "1.1.0"
   docker-heroku-version:
     type: string
     default: "1.0.0"
