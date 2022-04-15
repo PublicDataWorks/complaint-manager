@@ -13,7 +13,7 @@ jest.mock("axios", () => ({
 }));
 
 let mockGetTagsWithCount = jest.fn();
-jest.mock("./thunks/getTagsWithCount", () => () => mockGetTagsWithCount());
+jest.mock("./thunks/getTagsWithCount", () => () => mockGetTagsWithCount);
 
 describe("MergeTagDialog", () => {
   let closeDialog = jest.fn();
