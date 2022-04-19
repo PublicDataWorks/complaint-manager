@@ -606,6 +606,7 @@ jobs:
         environment:
           NODE_ENV: test
           REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+          USE_CLOUD_SERVICES: false
       - image: postgres:10.9-alpine
     steps:
       - checkout
