@@ -600,7 +600,7 @@ jobs:
       - run: git pull -r origin master
       - run: git push origin master --follow-tags --no-verify
 
-  test-ci:
+  test-pact:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
