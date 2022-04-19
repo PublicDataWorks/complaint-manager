@@ -600,6 +600,34 @@ jobs:
       - run: git pull -r origin master
       - run: git push origin master --follow-tags --no-verify
 
+  test-pact:
+        docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+        environment:
+          NODE_ENV: test
+          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+      - image: postgres:10.9-alpine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: src/
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run integration tests against client
+          command: yarn test:pact:client:ci
+          environment:
+            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+      - run:
+          name: Verify Pact contract against server
+          command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
+      - store_artifacts:
+          name: Upload pact logs
+          path: /root/project/pact/logs
+          destination: .
+          when: on_fail
+
   update-search-indices-ci:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -739,6 +767,9 @@ workflows:
           requires:
             - get-instance-files-latest
       - test-server-worker-non-handlers:
+          requires:
+            - get-instance-files-latest
+      - test-pact:
           requires:
             - get-instance-files-latest
       - build-and-publish-master:
