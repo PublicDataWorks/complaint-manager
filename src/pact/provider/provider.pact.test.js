@@ -4,7 +4,7 @@ import path from "path";
 import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
-import Officer from "../../sharedTestHelpers/officer";
+import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import { CASE_STATUS, COMPLAINANT } from "../../sharedUtilities/constants";
 import IntakeSource from "../../server/testHelpers/intakeSource";
