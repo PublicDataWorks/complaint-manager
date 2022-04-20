@@ -3,8 +3,11 @@
 BUCKETS=(noipm-local noipm-referral-letters-local noipm-complainant-letters-local noipm-exports-local nopd-officers-local noipm-seed-files)
 SEED_BUCKET_NAME=noipm-seed-files
 OFFICER_DATA_BUCKET=nopd-officers-local
+BASE_BUCKET_NAME=noipm-local
 SEED_FILE_SRC_DIR="/app/src/instance-files/localstack-seed-files"
+SIGNATURE_FILE_SRC_DIR="${REACT_APP_INSTANCE_FILES_DIR}/images"
 FILES=($(ls $SEED_FILE_SRC_DIR))
+SIGNATURE_FILES=($(ls $SIGNATURE_FILE_SRC_DIR | grep .png | grep -v header_text))
 
 if [ "$USE_CLOUD_SERVICES" = "true" ]; then
     echo "Cloud services are enabled. Skipping Localstack setup."
@@ -34,6 +37,13 @@ for BUCKET in "${BUCKETS[@]}"; do
                 # Place DB seeder files into the noipm-seed-files bucket
                 for FILE in "${FILES[@]}"; do
                     aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SEED_FILE_SRC_DIR/$FILE" "s3://$SEED_BUCKET_NAME"
+                done
+                ;;
+
+            $BASE_BUCKET_NAME)
+                # Place signatures into the noipm-local bucket
+                for FILE in "${SIGNATURE_FILES[@]}"; do
+                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SIGNATURE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures"
                 done
                 ;;
 
