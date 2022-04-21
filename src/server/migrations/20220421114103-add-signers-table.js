@@ -8,13 +8,17 @@ const CREATE_SIGNERS_QUERY = `CREATE TABLE IF NOT EXISTS ${SIGNERS_TABLE} (
   signature_file VARCHAR ( 50 ) NOT NULL,
   nickname VARCHAR ( 75 ) NOT NULL,
   title VARCHAR ( 100 ),
-  phone CHAR ( 12 )
+  phone CHAR ( 12 ),
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ
 )`;
 
 const CREATE_LETTER_TYPE_QUERY = `CREATE TABLE IF NOT EXISTS ${LETTER_TYPE_TABLE} (
   id serial PRIMARY KEY,
   type VARCHAR ( 100 ) UNIQUE NOT NULL,
   default_sender INT NOT NULL,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
   FOREIGN KEY (default_sender) REFERENCES ${SIGNERS_TABLE} (id)
 )`;
 

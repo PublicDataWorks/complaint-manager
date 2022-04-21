@@ -8,7 +8,6 @@ import {
 import fs from "fs";
 import formatPhoneNumber from "../sharedUtilities/formatPhoneNumber";
 import { DECLINES_OPTION } from "../sharedUtilities/constants";
-import { findFirstSender } from "../sharedUtilities/findFirstSender";
 const {
   generateSubjectLine
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
@@ -133,19 +132,6 @@ export const generateImage = (fileName, style) =>
     "base64"
   )}" />`;
 Handlebars.registerHelper("generateImage", generateImage);
-
-export const generateSignature = (sender, includeSignature) => {
-  if (includeSignature) {
-    let firstSender = findFirstSender(sender);
-
-    return firstSender
-      ? generateImage(firstSender, "max-height: 55px")
-      : "<p><br></p>";
-  }
-
-  return "<p><br></p>";
-};
-Handlebars.registerHelper("generateSignature", generateSignature);
 
 Handlebars.registerHelper("generateSubjectLine", generateSubjectLine);
 

@@ -1,9 +1,8 @@
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
-import { findFirstSender } from "../../../../sharedUtilities/findFirstSender";
-
+import models from "../../../policeDataManager/models"
 export const retrieveSignatureImage = async sender => {
   const s3 = createConfiguredS3Instance();
-  let fileName = findFirstSender(sender);
+  let fileName = await getFileNameBySigner(sender);
   if (fileName) {
     const data = await new Promise((resolve, reject) => {
       s3.getObject(
@@ -27,3 +26,12 @@ export const retrieveSignatureImage = async sender => {
     return "<p><br></p>";
   }
 };
+const getFileNameBySigner = async sender => {
+  if(!sender){
+    return undefined;
+  }
+  let arr = sender.split('\n');
+  let name = arr[0];
+  const signer = await models.signers.findOne({ where: { name } });
+  return signer.signatureFile;
+}
