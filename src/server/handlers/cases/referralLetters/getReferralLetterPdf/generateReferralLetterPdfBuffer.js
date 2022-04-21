@@ -6,6 +6,7 @@ import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
+import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,
@@ -96,12 +97,17 @@ const getReferralLetterPdfData = async (caseId, transaction) => {
   return { pdfData: caseData, auditDetails: auditDetails };
 };
 
-export const generateLetterPdfHtml = (
+export const generateLetterPdfHtml = async (
   letterBody,
   pdfData,
   includeSignature
 ) => {
   const currentDate = Date.now();
+
+  let signature = "<p><br></p>";
+  if (includeSignature) {
+    signature = await retrieveSignatureImage(pdfData.referralLetter.sender);
+  }
 
   const letterPdfData = {
     letterBody: letterBody,
@@ -111,7 +117,7 @@ export const generateLetterPdfHtml = (
     transcribedBy: pdfData.referralLetter.transcribedBy,
     caseReference: pdfData.caseReference,
     pibCaseNumber: pdfData.pibCaseNumber,
-    includeSignature,
+    signature,
     currentDate
   };
 

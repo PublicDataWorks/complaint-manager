@@ -43,7 +43,7 @@ for BUCKET in "${BUCKETS[@]}"; do
             $BASE_BUCKET_NAME)
                 # Place signatures into the noipm-local bucket
                 for FILE in "${SIGNATURE_FILES[@]}"; do
-                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SIGNATURE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures"
+                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$SIGNATURE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures/$FILE"
                 done
                 ;;
 
