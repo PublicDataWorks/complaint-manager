@@ -4,7 +4,6 @@ import Handlebars from "handlebars";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 import models from "../../../../policeDataManager/models";
-import { includes } from "lodash";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
 require("../../../../handlebarHelpers");
@@ -48,14 +47,16 @@ const getComplainantLetterPdfData = async (existingCase, complainant) => {
     revisedTitle = OFFICER_COMPLAINANT_TITLE;
   }
 
-  const defaultSigner = await models.letter_types.findOne({
+  const complainantLetterType = await models.letter_types.findOne({
     where: { type: "COMPLAINANT" },
     include: [
       {
         model: models.signers,
-        as: "defaultSender",
-      }]
+        as: "defaultSender"
+      }
+    ]
   });
+
   return {
     caseReference: existingCase.caseReference,
     recipientFirstName: complainant.firstName,
@@ -66,8 +67,16 @@ const getComplainantLetterPdfData = async (existingCase, complainant) => {
     firstContactDate: existingCase.firstContactDate,
     title: revisedTitle,
     complainantPersonType: getPersonType(complainant),
-    signature: await retrieveSignatureImage(defaultSigner ? defaultSigner.fileName : undefined),
-    sender: defaultSigner ? defaultSigner.name + "\n" + defaultSigner.title : ""
+    signature: await retrieveSignatureImage(
+      complainantLetterType
+        ? complainantLetterType.defaultSender.signatureFile
+        : undefined
+    ),
+    sender: complainantLetterType
+      ? complainantLetterType.defaultSender.name +
+        "\n" +
+        complainantLetterType.defaultSender.title
+      : ""
   };
 };
 
