@@ -6,7 +6,7 @@ import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
-import { retrieveSignatureImage } from "../retrieveSignatureImage";
+import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 const generateReferralLetterPdfBuffer = async (
   caseId,
@@ -106,7 +106,7 @@ export const generateLetterPdfHtml = async (
 
   let signature = "<p><br></p>";
   if (includeSignature) {
-    signature = await retrieveSignatureImage(pdfData.referralLetter.sender);
+    signature = await retrieveSignatureImageBySigner(pdfData.referralLetter.sender);
   }
 
   const letterPdfData = {

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const LetterType = sequelize.define("letter_type", {
+    const LetterType = sequelize.define("letter_types", {
       id: {
         allowNull: false,
         autoIncrement: true,

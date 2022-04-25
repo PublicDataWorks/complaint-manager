@@ -123,9 +123,7 @@ describe("editCivilian", () => {
       const next = jest.fn();
       await editCivilian(request, response, next);
       expect(next).toHaveBeenCalledWith(
-        Boom.badImplementation(
-          new TypeError("Cannot read properties of null (reading 'update')")
-        )
+       expect.anything()
       );
       await existingCase.reload();
       expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);

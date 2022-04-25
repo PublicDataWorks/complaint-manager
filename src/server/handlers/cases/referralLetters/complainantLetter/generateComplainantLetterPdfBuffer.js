@@ -3,6 +3,9 @@ import fs from "fs";
 import Handlebars from "handlebars";
 import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
+import models from "../../../../policeDataManager/models";
+import { includes } from "lodash";
+import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
 require("../../../../handlebarHelpers");
 
@@ -21,7 +24,7 @@ export const generateComplainantLetterHtml = async (
   existingCase,
   complainant
 ) => {
-  const pdfData = getComplainantLetterPdfData(existingCase, complainant);
+  const pdfData = await getComplainantLetterPdfData(existingCase, complainant);
 
   const rawTemplate = fs.readFileSync(
     `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
@@ -30,7 +33,7 @@ export const generateComplainantLetterHtml = async (
   return compiledTemplate(pdfData);
 };
 
-const getComplainantLetterPdfData = (existingCase, complainant) => {
+const getComplainantLetterPdfData = async (existingCase, complainant) => {
   const currentDate = Date.now();
 
   let revisedTitle;
@@ -45,6 +48,14 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
     revisedTitle = OFFICER_COMPLAINANT_TITLE;
   }
 
+  const defaultSigner = await models.letter_types.findOne({
+    where: { type: "COMPLAINANT" },
+    include: [
+      {
+        model: models.signers,
+        as: "defaultSender",
+      }]
+  });
   return {
     caseReference: existingCase.caseReference,
     recipientFirstName: complainant.firstName,
@@ -54,7 +65,8 @@ const getComplainantLetterPdfData = (existingCase, complainant) => {
     complainantEmail: complainant.email ? complainant.email : null,
     firstContactDate: existingCase.firstContactDate,
     title: revisedTitle,
-    complainantPersonType: getPersonType(complainant)
+    complainantPersonType: getPersonType(complainant),
+    signature: await retrieveSignatureImage(defaultSigner ? defaultSigner.fileName : undefined)
   };
 };
 

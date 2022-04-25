@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { retrieveSignatureImage } from "./retrieveSignatureImage";
+import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
 import models from "../../../policeDataManager/models";
 import Signer from "../../../../sharedTestHelpers/signer";
 
@@ -35,13 +35,13 @@ describe("generateSignature", function () {
   const sender = `${NAME}\nDPM`;
 
   test("returns an blank line without signature when no signature for given name", async () => {
-    expect(await retrieveSignatureImage("someone not sender")).toEqual(
+    expect(await retrieveSignatureImageBySigner("someone not sender")).toEqual(
       blankLine
     );
   });
 
   test("returns official signature when they are the sender", async () => {
-    const signature = await retrieveSignatureImage(sender);
+    const signature = await retrieveSignatureImageBySigner(sender);
 
     expect(signature).toEqual(
       `<img style="max-height: 55px" src="data:image/bytes;base64,bytesbytesbytes" />`
