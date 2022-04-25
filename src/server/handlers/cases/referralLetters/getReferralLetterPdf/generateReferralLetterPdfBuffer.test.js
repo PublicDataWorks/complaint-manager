@@ -14,9 +14,8 @@ import generateReferralLetterPdfBuffer, {
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-const {
-  SENDER_NAME
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
+import Signer from "../../../../../sharedTestHelpers/signer";
+const SENDER_NAME = "Bobby!";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
@@ -70,6 +69,7 @@ describe("generateReferralLetterPdfBuffer", function () {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
 
@@ -77,7 +77,15 @@ describe("generateReferralLetterPdfBuffer", function () {
       config: {
         loadFromPath: jest.fn(),
         update: jest.fn()
-      }
+      },
+      getObject: jest.fn((opts, callback) =>
+        callback(undefined, {
+          ContentType: "image/bytes",
+          Body: {
+            toString: () => "bytesbytesbytes"
+          }
+        })
+      )
     }));
 
     const officerAttributes = new Officer.Builder()
@@ -120,6 +128,14 @@ describe("generateReferralLetterPdfBuffer", function () {
       { status: CASE_STATUS.LETTER_IN_PROGRESS },
       { auditUser: "test" }
     );
+
+    const signer = new Signer.Builder()
+      .defaultSigner()
+      .withName(SENDER_NAME)
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      await models.signers.create(signer, { auditUser: "user", transaction });
+    });
   });
 
   describe("sender is 'sender address'", () => {

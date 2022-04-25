@@ -1,5 +1,6 @@
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
-import models from "../../../policeDataManager/models"
+import models from "../../../policeDataManager/models";
+
 export const retrieveSignatureImage = async sender => {
   const s3 = createConfiguredS3Instance();
   let fileName = await getFileNameBySigner(sender);
@@ -18,7 +19,6 @@ export const retrieveSignatureImage = async sender => {
       );
     });
 
-    console.log(data);
     return `<img style="max-height: 55px" src="data:${
       data.ContentType
     };base64,${data.Body.toString("base64")}" />`;
@@ -26,12 +26,14 @@ export const retrieveSignatureImage = async sender => {
     return "<p><br></p>";
   }
 };
+
 const getFileNameBySigner = async sender => {
-  if(!sender){
+  if (!sender) {
     return undefined;
   }
-  let arr = sender.split('\n');
-  let name = arr[0];
-  const signer = await models.signers.findOne({ where: { name } });
-  return signer.signatureFile;
-}
+
+  const signer = await models.signers.findOne({
+    where: { name: sender.split("\n")[0] }
+  });
+  return signer ? signer.signatureFile : undefined;
+};

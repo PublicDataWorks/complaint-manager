@@ -393,27 +393,6 @@ describe("handlebarHelpers", function () {
       );
     });
   });
-
-  describe("generateSignature", function () {
-    const blankLine = "<p><br></p>";
-    const sender = `${SENDER_NAME}\nDPM`;
-
-    test("returns an blank line without signature when includeSignature is false", () => {
-      expect(generateSignature(sender, false)).toEqual(blankLine);
-    });
-
-    test("returns an blank line without signature when no signature for given name", () => {
-      expect(generateSignature("someone not sender", true)).toEqual(blankLine);
-    });
-
-    test("returns official signature when they are the sender", () => {
-      const signature = generateSignature(sender, true);
-
-      expect(signature).toEqual(
-        `<img style="max-height: 55px" src="data:image/png;base64,${process.env.REACT_APP_INSTANCE_FILES_DIR}/images/${SENDER_SIGNATURE}" />`
-      );
-    });
-  });
 });
 
 describe("generate subject line", function () {
