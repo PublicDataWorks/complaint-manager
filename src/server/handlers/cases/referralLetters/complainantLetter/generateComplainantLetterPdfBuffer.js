@@ -66,7 +66,8 @@ const getComplainantLetterPdfData = async (existingCase, complainant) => {
     firstContactDate: existingCase.firstContactDate,
     title: revisedTitle,
     complainantPersonType: getPersonType(complainant),
-    signature: await retrieveSignatureImage(defaultSigner ? defaultSigner.fileName : undefined)
+    signature: await retrieveSignatureImage(defaultSigner ? defaultSigner.fileName : undefined),
+    sender: defaultSigner ? defaultSigner.name + "\n" + defaultSigner.title : ""
   };
 };
 
