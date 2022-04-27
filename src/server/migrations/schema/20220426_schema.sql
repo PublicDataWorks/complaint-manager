@@ -3,7 +3,7 @@
 --
 
 -- Dumped from database version 10.9
--- Dumped by pg_dump version 10.9
+-- Dumped by pg_dump version 14.2
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -17,18 +17,26 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: noipm-db; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+-- CREATE DATABASE "noipm-db" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'en_US.utf8';
 
 
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
+-- ALTER DATABASE "noipm-db" OWNER TO postgres;
 
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+-- \connect -reuse-previous=on "dbname='noipm-db'"
 
+-- SET statement_timeout = 0;
+-- SET lock_timeout = 0;
+-- SET idle_in_transaction_session_timeout = 0;
+-- SET client_encoding = 'UTF8';
+-- SET standard_conforming_strings = on;
+-- SELECT pg_catalog.set_config('search_path', '', false);
+-- SET check_function_bodies = false;
+-- SET xmloption = content;
+-- SET client_min_messages = warning;
+-- SET row_security = off;
 
 --
 -- Name: enum_addresses_addressable_type; Type: TYPE; Schema: public; Owner: postgres
@@ -139,8 +147,6 @@ CREATE TYPE public.enum_officers_employee_type AS ENUM (
 ALTER TYPE public.enum_officers_employee_type OWNER TO postgres;
 
 SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: action_audits; Type: TABLE; Schema: public; Owner: postgres
@@ -314,11 +320,12 @@ ALTER SEQUENCE public.audit_logs_id_seq OWNED BY public.action_audits.id;
 
 CREATE TABLE public.audits (
     id integer NOT NULL,
-    case_id integer,
+    reference_id integer,
     audit_action character varying(255) NOT NULL,
     "user" character varying(255) NOT NULL,
     created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL
+    updated_at timestamp with time zone NOT NULL,
+    manager_type character varying(255) DEFAULT NULL::character varying NOT NULL
 );
 
 
@@ -344,6 +351,44 @@ ALTER TABLE public.audits_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.audits_id_seq OWNED BY public.audits.id;
+
+
+--
+-- Name: case_classifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.case_classifications (
+    id integer NOT NULL,
+    case_id integer NOT NULL,
+    classification_id integer NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone
+);
+
+
+ALTER TABLE public.case_classifications OWNER TO postgres;
+
+--
+-- Name: case_classifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.case_classifications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.case_classifications_id_seq OWNER TO postgres;
+
+--
+-- Name: case_classifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.case_classifications_id_seq OWNED BY public.case_classifications.id;
 
 
 --
@@ -457,15 +502,13 @@ CREATE TABLE public.cases (
     incident_time time without time zone,
     district character varying(255),
     complaint_type text DEFAULT 'Civilian Initiated'::text NOT NULL,
-    classification_id integer,
     intake_source_id integer,
     deleted_at timestamp with time zone,
     year integer NOT NULL,
     case_number integer NOT NULL,
     pib_case_number character varying(25),
     how_did_you_hear_about_us_source_id integer,
-    district_id integer,
-    case_reference character varying(255) NOT NULL
+    district_id integer
 );
 
 
@@ -651,36 +694,14 @@ ALTER SEQUENCE public.civilians_id_seq OWNED BY public.civilians.id;
 
 CREATE TABLE public.classifications (
     id integer NOT NULL,
-    initialism character varying(255) NOT NULL,
     name character varying(255) NOT NULL,
+    message text NOT NULL,
     "createdAt" timestamp with time zone NOT NULL,
     "updatedAt" timestamp with time zone NOT NULL
 );
 
 
 ALTER TABLE public.classifications OWNER TO postgres;
-
---
--- Name: classifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.classifications_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.classifications_id_seq OWNER TO postgres;
-
---
--- Name: classifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.classifications_id_seq OWNED BY public.classifications.id;
-
 
 --
 -- Name: complainant_letters; Type: TABLE; Schema: public; Owner: postgres
@@ -1150,21 +1171,6 @@ CREATE TABLE public.letter_officers (
 ALTER TABLE public.letter_officers OWNER TO postgres;
 
 --
--- Name: new_classifications; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.new_classifications (
-    id integer NOT NULL,
-    name character varying(255) NOT NULL,
-    message text NOT NULL,
-    "createdAt" timestamp with time zone NOT NULL,
-    "updatedAt" timestamp with time zone NOT NULL
-);
-
-
-ALTER TABLE public.new_classifications OWNER TO postgres;
-
---
 -- Name: new_classifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1183,7 +1189,46 @@ ALTER TABLE public.new_classifications_id_seq OWNER TO postgres;
 -- Name: new_classifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.new_classifications_id_seq OWNED BY public.new_classifications.id;
+ALTER SEQUENCE public.new_classifications_id_seq OWNED BY public.classifications.id;
+
+
+--
+-- Name: notifications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.notifications (
+    id integer NOT NULL,
+    case_note_id integer NOT NULL,
+    "user" character varying(255) NOT NULL,
+    has_been_read boolean NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    deleted_at timestamp with time zone
+);
+
+
+ALTER TABLE public.notifications OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.notifications_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.notifications_id_seq OWNER TO postgres;
+
+--
+-- Name: notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.notifications_id_seq OWNED BY public.notifications.id;
 
 
 --
@@ -1387,44 +1432,6 @@ ALTER SEQUENCE public.recommended_actions_id_seq OWNED BY public.recommended_act
 
 
 --
--- Name: referral_letter_iapro_corrections; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.referral_letter_iapro_corrections (
-    id integer NOT NULL,
-    referral_letter_id integer NOT NULL,
-    details text,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
-    deleted_at timestamp with time zone
-);
-
-
-ALTER TABLE public.referral_letter_iapro_corrections OWNER TO postgres;
-
---
--- Name: referral_letter_iapro_corrections_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.referral_letter_iapro_corrections_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.referral_letter_iapro_corrections_id_seq OWNER TO postgres;
-
---
--- Name: referral_letter_iapro_corrections_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.referral_letter_iapro_corrections_id_seq OWNED BY public.referral_letter_iapro_corrections.id;
-
-
---
 -- Name: referral_letter_officer_history_notes; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1537,7 +1544,8 @@ CREATE TABLE public.referral_letters (
     sender text,
     transcribed_by character varying(255),
     edited_letter_html text,
-    final_pdf_filename character varying(255)
+    final_pdf_filename character varying(255),
+    recipient_address text
 );
 
 
@@ -1592,79 +1600,23 @@ ALTER TABLE public.sequelize_meta OWNER TO postgres;
 --
 
 CREATE VIEW public.sortable_cases_view AS
- SELECT cases.id,
-    cases.complaint_type,
-    cases.case_number,
-    cases.case_reference,
-    cases.year,
-    cases.status,
-    cases.first_contact_date,
-    cases.assigned_to,
-    cases.deleted_at,
-    accused_officers.accused_first_name,
-    accused_officers.accused_middle_name,
-    accused_officers.accused_last_name,
-    accused_officers.accused_person_type,
-    primary_complainant.complainant_first_name,
-    primary_complainant.complainant_middle_name,
-    primary_complainant.complainant_last_name,
-    primary_complainant.complainant_suffix,
-    primary_complainant.complainant_person_type
-   FROM ((public.cases
-     LEFT JOIN ( SELECT officers.case_id,
-                CASE
-                    WHEN ((officers.case_employee_type)::text = 'Civilian Within NOPD'::text) THEN 'Civilian (NOPD)'::text
-                    WHEN (officers.officer_id IS NULL) THEN 'Unknown Officer'::text
-                    ELSE 'Known Officer'::text
-                END AS accused_person_type,
-            officers.officer_id AS accused_officer_id,
-            officers.first_name AS accused_first_name,
-            officers.middle_name AS accused_middle_name,
-            officers.last_name AS accused_last_name
-           FROM public.cases_officers officers
-          WHERE ((officers.role_on_case = 'Accused'::public.enum_cases_officers_role_on_case) AND (officers.created_at = ( SELECT min(earliest_officer.created_at) AS min
-                   FROM public.cases_officers earliest_officer
-                  WHERE ((earliest_officer.role_on_case = 'Accused'::public.enum_cases_officers_role_on_case) AND (officers.case_id = earliest_officer.case_id) AND (earliest_officer.deleted_at IS NULL)))))) accused_officers ON ((cases.id = accused_officers.case_id)))
-     LEFT JOIN ( SELECT c.case_id,
-            c.first_name AS complainant_first_name,
-            c.middle_name AS complainant_middle_name,
-            c.last_name AS complainant_last_name,
-            c.suffix AS complainant_suffix,
-            c.complainant_person_type
-           FROM ( SELECT c_1.case_id,
-                    c_1.first_name,
-                    c_1.middle_initial AS middle_name,
-                    c_1.last_name,
-                    c_1.suffix,
-                    'Civilian'::text AS complainant_person_type,
-                    c_1.created_at
-                   FROM public.civilians c_1
-                  WHERE ((c_1.role_on_case = 'Complainant'::public.enum_civilians_role_on_case) AND (c_1.deleted_at IS NULL))
-                UNION ALL
-                 SELECT co.case_id,
-                    co.first_name,
-                    co.middle_name,
-                    co.last_name,
-                    NULL::character varying AS suffix,
-                        CASE
-                            WHEN ((co.case_employee_type)::text = 'Civilian Within NOPD'::text) THEN 'Civilian (NOPD)'::text
-                            WHEN (co.officer_id IS NULL) THEN 'Unknown Officer'::text
-                            ELSE 'Known Officer'::text
-                        END AS complainant_person_type,
-                    co.created_at
-                   FROM public.cases_officers co
-                  WHERE ((co.role_on_case = 'Complainant'::public.enum_cases_officers_role_on_case) AND (co.deleted_at IS NULL))) c
-          WHERE (c.created_at = ( SELECT min(cc.created_at) AS created_at
-                   FROM ( SELECT c_1.case_id,
-                            c_1.created_at
-                           FROM public.civilians c_1
-                          WHERE ((c_1.role_on_case = 'Complainant'::public.enum_civilians_role_on_case) AND (c_1.deleted_at IS NULL))
-                        UNION ALL
-                         SELECT co.case_id,
-                            co.created_at
-                           FROM public.cases_officers co
-                          WHERE ((co.role_on_case = 'Complainant'::public.enum_cases_officers_role_on_case) AND (co.deleted_at IS NULL))) cc
-                  WHERE (cc.case_id = c.case_id)))) primary_complainant ON ((cases.id = primary_complainant.case_id)));
+SELECT
+    NULL::integer AS id,
+    NULL::text[] COLLATE pg_catalog."C" AS tag_names,
+    NULL::text AS complaint_type,
+    NULL::integer AS case_number,
+    NULL::integer AS year,
+    NULL::public.enum_cases_status AS status,
+    NULL::date AS first_contact_date,
+    NULL::character varying(255) AS assigned_to,
+    NULL::timestamp with time zone AS deleted_at,
+    NULL::json AS accused_officers,
+    NULL::character varying AS complainant_first_name,
+    NULL::character varying AS complainant_middle_name,
+    NULL::character varying AS complainant_last_name,
+    NULL::character varying AS complainant_suffix,
+    NULL::text AS complainant_person_type,
+    NULL::boolean AS complainant_is_anonymous;
 
 
 ALTER TABLE public.sortable_cases_view OWNER TO postgres;
@@ -1675,7 +1627,7 @@ ALTER TABLE public.sortable_cases_view OWNER TO postgres;
 
 CREATE TABLE public.tags (
     id integer NOT NULL,
-    name character varying(255) NOT NULL,
+    name character varying(255) NOT NULL COLLATE pg_catalog."C",
     created_at timestamp with time zone NOT NULL,
     updated_at timestamp with time zone NOT NULL
 );
@@ -1704,17 +1656,6 @@ ALTER TABLE public.tags_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.tags_id_seq OWNED BY public.tags.id;
 
-
---
--- Name: task_migrations; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.task_migrations (
-    name character varying(255) NOT NULL
-);
-
-
-ALTER TABLE public.task_migrations OWNER TO postgres;
 
 --
 -- Name: user_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -1774,6 +1715,13 @@ ALTER TABLE ONLY public.audits ALTER COLUMN id SET DEFAULT nextval('public.audit
 
 
 --
+-- Name: case_classifications id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.case_classifications ALTER COLUMN id SET DEFAULT nextval('public.case_classifications_id_seq'::regclass);
+
+
+--
 -- Name: case_note_actions id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1826,7 +1774,7 @@ ALTER TABLE ONLY public.civilians ALTER COLUMN id SET DEFAULT nextval('public.ci
 -- Name: classifications id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.classifications ALTER COLUMN id SET DEFAULT nextval('public.classifications_id_seq'::regclass);
+ALTER TABLE ONLY public.classifications ALTER COLUMN id SET DEFAULT nextval('public.new_classifications_id_seq'::regclass);
 
 
 --
@@ -1921,10 +1869,10 @@ ALTER TABLE ONLY public.letter_officers ALTER COLUMN id SET DEFAULT nextval('pub
 
 
 --
--- Name: new_classifications id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: notifications id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.new_classifications ALTER COLUMN id SET DEFAULT nextval('public.new_classifications_id_seq'::regclass);
+ALTER TABLE ONLY public.notifications ALTER COLUMN id SET DEFAULT nextval('public.notifications_id_seq'::regclass);
 
 
 --
@@ -1960,13 +1908,6 @@ ALTER TABLE ONLY public.race_ethnicities ALTER COLUMN id SET DEFAULT nextval('pu
 --
 
 ALTER TABLE ONLY public.recommended_actions ALTER COLUMN id SET DEFAULT nextval('public.recommended_actions_id_seq'::regclass);
-
-
---
--- Name: referral_letter_iapro_corrections id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.referral_letter_iapro_corrections ALTER COLUMN id SET DEFAULT nextval('public.referral_letter_iapro_corrections_id_seq'::regclass);
 
 
 --
@@ -2038,6 +1979,14 @@ ALTER TABLE ONLY public.audits
 
 
 --
+-- Name: case_classifications case_classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.case_classifications
+    ADD CONSTRAINT case_classifications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: case_note_actions case_note_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2091,14 +2040,6 @@ ALTER TABLE ONLY public.civilian_titles
 
 ALTER TABLE ONLY public.civilians
     ADD CONSTRAINT civilians_pkey PRIMARY KEY (id);
-
-
---
--- Name: classifications classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.classifications
-    ADD CONSTRAINT classifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -2198,11 +2139,19 @@ ALTER TABLE ONLY public.legacy_data_access_audits
 
 
 --
--- Name: new_classifications new_classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: classifications new_classifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.new_classifications
+ALTER TABLE ONLY public.classifications
     ADD CONSTRAINT new_classifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: notifications notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.notifications
+    ADD CONSTRAINT notifications_pkey PRIMARY KEY (id);
 
 
 --
@@ -2243,14 +2192,6 @@ ALTER TABLE ONLY public.race_ethnicities
 
 ALTER TABLE ONLY public.recommended_actions
     ADD CONSTRAINT recommended_actions_pkey PRIMARY KEY (id);
-
-
---
--- Name: referral_letter_iapro_corrections referral_letter_iapro_corrections_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.referral_letter_iapro_corrections
-    ADD CONSTRAINT referral_letter_iapro_corrections_pkey PRIMARY KEY (id);
 
 
 --
@@ -2318,14 +2259,6 @@ ALTER TABLE ONLY public.tags
 
 
 --
--- Name: task_migrations task_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.task_migrations
-    ADD CONSTRAINT task_migrations_pkey PRIMARY KEY (name);
-
-
---
 -- Name: cases_officers unique-case-officer-pair; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2350,6 +2283,93 @@ ALTER TABLE ONLY public.case_notes
 
 
 --
+-- Name: sortable_cases_view _RETURN; Type: RULE; Schema: public; Owner: postgres
+--
+
+CREATE OR REPLACE VIEW public.sortable_cases_view AS
+ SELECT cases.id,
+    array_agg((tagdetails.name)::text ORDER BY (upper((tagdetails.name)::text))) AS tag_names,
+    cases.complaint_type,
+    cases.case_number,
+    cases.year,
+    cases.status,
+    cases.first_contact_date,
+    cases.assigned_to,
+    cases.deleted_at,
+    json_agg(accused_officers.* ORDER BY accused_officers.accused_last_name, accused_officers.accused_first_name, accused_officers.accused_middle_name) AS accused_officers,
+    primary_complainant.complainant_first_name,
+    primary_complainant.complainant_middle_name,
+    primary_complainant.complainant_last_name,
+    primary_complainant.complainant_suffix,
+    primary_complainant.complainant_person_type,
+    primary_complainant.complainant_is_anonymous
+   FROM ((((public.cases
+     LEFT JOIN ( SELECT officers.case_id,
+            officers.id AS case_officer_id,
+                CASE
+                    WHEN ((officers.case_employee_type)::text = 'Civilian Within NOPD'::text) THEN 'Civilian (NOPD)'::text
+                    WHEN (officers.officer_id IS NULL) THEN 'Unknown Officer'::text
+                    ELSE 'Known Officer'::text
+                END AS accused_person_type,
+            officers.officer_id AS accused_officer_id,
+            officers.first_name AS accused_first_name,
+            officers.middle_name AS accused_middle_name,
+            officers.last_name AS accused_last_name
+           FROM public.cases_officers officers
+          WHERE ((officers.role_on_case = 'Accused'::public.enum_cases_officers_role_on_case) AND (officers.deleted_at IS NULL))) accused_officers ON ((cases.id = accused_officers.case_id)))
+     LEFT JOIN ( SELECT c.case_id,
+            c.first_name AS complainant_first_name,
+            c.middle_name AS complainant_middle_name,
+            c.last_name AS complainant_last_name,
+            c.suffix AS complainant_suffix,
+            c.complainant_person_type,
+            c.is_anonymous AS complainant_is_anonymous
+           FROM ( SELECT c_1.case_id,
+                    c_1.first_name,
+                    c_1.middle_initial AS middle_name,
+                    c_1.last_name,
+                    c_1.suffix,
+                    'Civilian'::text AS complainant_person_type,
+                    c_1.is_anonymous,
+                    c_1.created_at
+                   FROM public.civilians c_1
+                  WHERE ((c_1.role_on_case = 'Complainant'::public.enum_civilians_role_on_case) AND (c_1.deleted_at IS NULL))
+                UNION ALL
+                 SELECT co.case_id,
+                    co.first_name,
+                    co.middle_name,
+                    co.last_name,
+                    NULL::character varying AS suffix,
+                        CASE
+                            WHEN ((co.case_employee_type)::text = 'Civilian Within NOPD'::text) THEN 'Civilian (NOPD)'::text
+                            WHEN (co.officer_id IS NULL) THEN 'Unknown Officer'::text
+                            ELSE 'Known Officer'::text
+                        END AS complainant_person_type,
+                    co.is_anonymous,
+                    co.created_at
+                   FROM public.cases_officers co
+                  WHERE ((co.role_on_case = 'Complainant'::public.enum_cases_officers_role_on_case) AND (co.deleted_at IS NULL))) c
+          WHERE (c.created_at = ( SELECT min(cc.created_at) AS created_at
+                   FROM ( SELECT c_1.case_id,
+                            c_1.created_at
+                           FROM public.civilians c_1
+                          WHERE ((c_1.role_on_case = 'Complainant'::public.enum_civilians_role_on_case) AND (c_1.deleted_at IS NULL))
+                        UNION ALL
+                         SELECT co.case_id,
+                            co.created_at
+                           FROM public.cases_officers co
+                          WHERE ((co.role_on_case = 'Complainant'::public.enum_cases_officers_role_on_case) AND (co.deleted_at IS NULL))) cc
+                  WHERE (cc.case_id = c.case_id)))) primary_complainant ON ((cases.id = primary_complainant.case_id)))
+     LEFT JOIN ( SELECT case_tags.case_id,
+            case_tags.tag_id
+           FROM public.case_tags) casetags ON ((cases.id = casetags.case_id)))
+     LEFT JOIN ( SELECT tags.id,
+            tags.name
+           FROM public.tags) tagdetails ON ((tagdetails.id = casetags.tag_id)))
+  GROUP BY cases.id, primary_complainant.complainant_first_name, primary_complainant.complainant_middle_name, primary_complainant.complainant_last_name, primary_complainant.complainant_suffix, primary_complainant.complainant_person_type, primary_complainant.complainant_is_anonymous;
+
+
+--
 -- Name: attachments attachments_case_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2363,14 +2383,6 @@ ALTER TABLE ONLY public.attachments
 
 ALTER TABLE ONLY public.action_audits
     ADD CONSTRAINT audit_logs_case_id_fkey FOREIGN KEY (case_id) REFERENCES public.cases(id);
-
-
---
--- Name: audits audits_case_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.audits
-    ADD CONSTRAINT audits_case_id_fkey FOREIGN KEY (case_id) REFERENCES public.cases(id);
 
 
 --
@@ -2395,14 +2407,6 @@ ALTER TABLE ONLY public.case_tags
 
 ALTER TABLE ONLY public.case_tags
     ADD CONSTRAINT case_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id);
-
-
---
--- Name: cases cases_classification_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.cases
-    ADD CONSTRAINT cases_classification_id_fkey FOREIGN KEY (classification_id) REFERENCES public.classifications(id);
 
 
 --
@@ -2587,14 +2591,6 @@ ALTER TABLE ONLY public.officers
 
 ALTER TABLE ONLY public.officers
     ADD CONSTRAINT officers_supervisor_officer_number_fkey FOREIGN KEY (supervisor_officer_number) REFERENCES public.officers(officer_number);
-
-
---
--- Name: referral_letter_iapro_corrections referral_letter_iapro_corrections_referral_letter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.referral_letter_iapro_corrections
-    ADD CONSTRAINT referral_letter_iapro_corrections_referral_letter_id_fkey FOREIGN KEY (referral_letter_id) REFERENCES public.referral_letters(id);
 
 
 --
