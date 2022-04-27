@@ -1,7 +1,7 @@
 import Case from "../../sharedTestHelpers/case";
 import CaseNote from "../testHelpers/caseNote";
 import models from "../policeDataManager/models";
-import { AUDIT_ACTION, TIMEZONE } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseNoteAction from "../testHelpers/caseNoteAction";

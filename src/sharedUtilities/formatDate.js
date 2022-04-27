@@ -1,4 +1,5 @@
 import timezone from "moment-timezone";
+import moment from "moment";
 import { TIMEZONE } from "./constants";
 
 const formatDate = dateString => {
@@ -42,8 +43,11 @@ export const applyCentralTimeZoneOffset = dateString => {
 };
 
 export const computeTimeZone = (date, time) => {
+  console.log('>>>date: ', date, '>>>time: ', time)
   if (!time) return time;
   let timeZone = "CT";
+  let timeZone2 = moment.tz.zone(TIMEZONE).abbrs[0];
+  console.log('>>>timeZone2: ', timeZone2)
 
   if (date) {
     const offset = timezone(date)
@@ -55,7 +59,7 @@ export const computeTimeZone = (date, time) => {
       timeZone = "CDT";
     }
   }
-  return timeZone;
+  return timeZone2;
 };
 
 export function format12HourTime(time) {
