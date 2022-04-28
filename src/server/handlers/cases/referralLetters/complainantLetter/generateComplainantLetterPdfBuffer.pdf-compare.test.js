@@ -1,6 +1,10 @@
 import generateComplainantLetterPdfBuffer from "./generateComplainantLetterPdfBuffer";
 import fs from "fs";
 import { compareLetter } from "../sharedLetterUtilities/compareLetterPDFTestUtil";
+import models from "../../../../policeDataManager/models";
+import Signer from "../../../../../sharedTestHelpers/signer";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
+import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
 const {
   PERSON_TYPE
@@ -8,8 +12,32 @@ const {
 
 describe("Compare Generated Complainant Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
-  beforeEach(() => {
+  beforeEach(async () => {
+    await cleanupDatabase();
+
     global.Date.now = jest.fn(() => 1530118207007);
+    const signerAttr = new Signer.Builder()
+      .defaultSigner()
+      .withName("Stella Cziment")
+      .withTitle("Acting Police Monitor")
+      .withSignatureFile("stella_cziment.png")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      const signer = await models.signers.create(signerAttr, {
+        auditUser: "user",
+        transaction
+      });
+      const letterAttr = new LetterType.Builder()
+        .defaultLetterType()
+        .withType("COMPLAINANT")
+        .withDefaultSender(signer)
+        .build();
+      console.log(letterAttr);
+      await models.letter_types.create(letterAttr, {
+        auditUser: "user",
+        transaction
+      });
+    });
   });
 
   test("src/testPDFs/complainantLetter.pdf should match baseline (instance-files/tests/basePDFs/complainantLetter.pdf); pngs saved in src/testPDFs", async () => {
@@ -41,7 +69,8 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
     expect(result.status).toEqual("passed");
   });
 
-  afterEach(() => {
+  afterEach(async () => {
     global.Date.now = actualDateNow;
+    await cleanupDatabase();
   });
 });

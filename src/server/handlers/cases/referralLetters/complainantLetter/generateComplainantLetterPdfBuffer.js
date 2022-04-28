@@ -52,10 +52,12 @@ const getComplainantLetterPdfData = async (existingCase, complainant) => {
     include: [
       {
         model: models.signers,
-        as: "defaultSender"
+        as: "defaultSender",
+        attributes: ["signatureFile", "name", "title"]
       }
     ]
   });
+  console.log(complainantLetterType);
 
   return {
     caseReference: existingCase.caseReference,

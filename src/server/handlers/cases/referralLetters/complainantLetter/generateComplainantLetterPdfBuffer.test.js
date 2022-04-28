@@ -8,9 +8,12 @@ import Civilian from "../../../../../sharedTestHelpers/civilian";
 import generateComplainantLetterPdfBuffer, {
   generateComplainantLetterHtml
 } from "./generateComplainantLetterPdfBuffer";
+import Signer from "../../../../../sharedTestHelpers/signer";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
 
 let existingCase, timeOfDownload, complainant;
 
+const SENDER_NAME = "Bobby!";
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
@@ -56,7 +59,15 @@ beforeEach(async () => {
     config: {
       loadFromPath: jest.fn(),
       update: jest.fn()
-    }
+    },
+    getObject: jest.fn((opts, callback) =>
+      callback(undefined, {
+        ContentType: "image/bytes",
+        Body: {
+          toString: () => "bytesbytesbytes"
+        }
+      })
+    )
   }));
 
   complainant = new Civilian.Builder()
@@ -91,6 +102,24 @@ beforeEach(async () => {
     { status: CASE_STATUS.LETTER_IN_PROGRESS },
     { auditUser: "test" }
   );
+
+  const signer = new Signer.Builder()
+    .defaultSigner()
+    .withName(SENDER_NAME)
+    .withTitle("Chiefest Bobby!")
+    .withSignatureFile("bobby.jpeg")
+    .build();
+  await models.sequelize.transaction(async transaction => {
+    await models.signers.create(signer, { auditUser: "user", transaction });
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withType("COMPLAINANT")
+        .withDefaultSender(signer)
+        .build(),
+      { auditUser: "user", transaction }
+    );
+  });
 });
 
 describe("generateComplainantLetterPdfBuffer", function () {

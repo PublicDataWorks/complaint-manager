@@ -32,8 +32,11 @@ export const retrieveSignatureImageBySigner = async sender => {
   }
 
   const signer = await models.signers.findOne({
-    where: { name: sender.split("\n")[0] }
+    where: { name: sender.split("\n")[0] },
+    attributes: ["signatureFile"]
   });
 
-  return signer ? await retrieveSignatureImage(signer.signatureFile) : "<p><br></p>";
+  return signer
+    ? await retrieveSignatureImage(signer.signatureFile)
+    : "<p><br></p>";
 };
