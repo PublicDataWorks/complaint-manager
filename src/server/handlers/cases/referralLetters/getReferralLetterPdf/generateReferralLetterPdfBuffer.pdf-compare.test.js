@@ -8,15 +8,51 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import { ACCUSED, COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
+import Signer from "../../../../../sharedTestHelpers/signer";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-describe("Compare Generated Complainant Letter to Baseline", () => {
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
+describe("Compare Generated Referral Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
-  beforeEach(() => {
+  beforeEach(async () => {
     global.Date.now = jest.fn(() => 1530118207007);
+
+    const signerAttr = new Signer.Builder()
+      .defaultSigner()
+      .withName("Nina Ambroise")
+      .withTitle("Acting Police Monitor")
+      .withSignatureFile("nina_ambroise.png")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      const signer = await models.signers.create(signerAttr, {
+        auditUser: "user",
+        transaction
+      });
+    });
+
+    let s3 = AWS.S3.mockImplementation(() => ({
+      config: {
+        loadFromPath: jest.fn(),
+        update: jest.fn()
+      },
+      getObject: jest.fn((opts, callback) =>
+        callback(undefined, {
+          ContentType: "image/png",
+          Body: {
+            toString: () =>
+              fs.readFileSync(
+                process.cwd() + "/localstack-seed-files/nina_s_ambroise.png",
+                "base64"
+              )
+          }
+        })
+      )
+    }));
   });
 
   test("src/testPDFs/referralLetter.pdf should match baseline (instance-files/tests/basePDFs/referralLetter.pdf); pngs saved in src/testPDFs", async () => {
@@ -57,7 +93,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       new ReferralLetter.Builder()
         .defaultReferralLetter()
         .withCaseId(letterCase.id)
-        .withSender("Bob Loblaw")
+        .withSender("Nina Ambroise")
         .withRecipient("Barry Zuckercorn")
         .withRecipientAddress("123 Main St."),
       { auditUser: "user" }

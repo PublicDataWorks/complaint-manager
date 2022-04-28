@@ -10,6 +10,9 @@ const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
 describe("Compare Generated Complainant Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
   beforeEach(async () => {
@@ -18,9 +21,9 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
     global.Date.now = jest.fn(() => 1530118207007);
     const signerAttr = new Signer.Builder()
       .defaultSigner()
-      .withName("Stella Cziment")
+      .withName("Nina Ambroise")
       .withTitle("Acting Police Monitor")
-      .withSignatureFile("stella_cziment.png")
+      .withSignatureFile("nina_ambroise.png")
       .build();
     await models.sequelize.transaction(async transaction => {
       const signer = await models.signers.create(signerAttr, {
@@ -37,6 +40,25 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         transaction
       });
     });
+
+    let s3 = AWS.S3.mockImplementation(() => ({
+      config: {
+        loadFromPath: jest.fn(),
+        update: jest.fn()
+      },
+      getObject: jest.fn((opts, callback) =>
+        callback(undefined, {
+          ContentType: "image/png",
+          Body: {
+            toString: () =>
+              fs.readFileSync(
+                process.cwd() + "/localstack-seed-files/nina_s_ambroise.png",
+                "base64"
+              )
+          }
+        })
+      )
+    }));
   });
 
   test("src/testPDFs/complainantLetter.pdf should match baseline (instance-files/tests/basePDFs/complainantLetter.pdf); pngs saved in src/testPDFs", async () => {
