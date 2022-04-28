@@ -104,19 +104,20 @@ export const generateLetterPdfHtml = async (
 ) => {
   const currentDate = Date.now();
 
-  let signature = "<p><br></p>";
-  if (includeSignature) {
-    signature = await retrieveSignatureImageBySigner(pdfData.referralLetter.sender);
-  }
+  let { referralLetter, caseReference, pibCaseNumber } = pdfData;
+  let { recipient, recipientAddress, sender, transcribedBy } = referralLetter;
+  let signature = includeSignature
+    ? await retrieveSignatureImageBySigner(sender)
+    : "<p><br></p>";
 
   const letterPdfData = {
-    letterBody: letterBody,
-    recipient: pdfData.referralLetter.recipient,
-    recipientAddress: pdfData.referralLetter.recipientAddress,
-    sender: pdfData.referralLetter.sender,
-    transcribedBy: pdfData.referralLetter.transcribedBy,
-    caseReference: pdfData.caseReference,
-    pibCaseNumber: pdfData.pibCaseNumber,
+    letterBody,
+    recipient,
+    recipientAddress,
+    sender,
+    transcribedBy,
+    caseReference,
+    pibCaseNumber,
     signature,
     currentDate
   };

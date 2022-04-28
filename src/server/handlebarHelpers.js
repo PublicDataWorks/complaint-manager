@@ -12,8 +12,6 @@ const {
   generateSubjectLine
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
 
-const caseReferenceLength = 4;
-
 export const formatAddress = address => {
   if (!address) return "";
   const addressArray = [

@@ -32,7 +32,6 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         .withType("COMPLAINANT")
         .withDefaultSender(signer)
         .build();
-      console.log(letterAttr);
       await models.letter_types.create(letterAttr, {
         auditUser: "user",
         transaction

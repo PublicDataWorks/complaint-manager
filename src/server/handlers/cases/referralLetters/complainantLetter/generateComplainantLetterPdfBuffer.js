@@ -57,7 +57,6 @@ const getComplainantLetterPdfData = async (existingCase, complainant) => {
       }
     ]
   });
-  console.log(complainantLetterType);
 
   return {
     caseReference: existingCase.caseReference,
