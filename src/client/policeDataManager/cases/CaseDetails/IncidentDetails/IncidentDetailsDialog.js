@@ -56,6 +56,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
     incidentLocation: normalizeAddress(values.incidentLocation),
     incidentDate: nullifyFieldUnlessValid(values.incidentDate),
     incidentTime: nullifyFieldUnlessValid(values.incidentTime),
+    incidentTimezone: nullifyFieldUnlessValid(values.incidentTimezone),
     intakeSourceId: nullifyFieldUnlessValid(values.intakeSourceId),
     howDidYouHearAboutUsSourceId: nullifyFieldUnlessValid(
       values.howDidYouHearAboutUsSourceId
@@ -63,6 +64,12 @@ const submitIncidentDetails = (values, dispatch, props) => {
     districtId: nullifyFieldUnlessValid(values.districtId),
     id: props.caseId
   };
+  
+  let timezone;
+  if(normalizedValuesWithId.incidentDate && !normalizedValuesWithId.incidentTimezone){
+      timezone = moment.tz(normalizedValuesWithId.incidentDate, moment.tz.guess()).zoneAbbr();
+      normalizedValuesWithId.incidentTimezone = timezone;
+  }
 
   return dispatch(
     editIncidentDetails(normalizedValuesWithId, props.handleDialogClose)
@@ -74,6 +81,9 @@ const styles = {
     maxWidth: "500px"
   }
 };
+
+const timezones = ["AST","ADT","CST", "CDT", "EST", "EDT", "MST", "MDT", "PST", "PDT"];
+
 
 class IncidentDetailsDialog extends Component {
   componentDidMount() {
@@ -151,6 +161,19 @@ class IncidentDetailsDialog extends Component {
                   shrink: true
                 }}
               />
+              <Field
+                name="incidentTimezone"
+                component={Dropdown}
+                label="Incident Timezone"
+                hinttext="Incident Timezone"
+                data-testid="timezones"
+                inputProps={{
+                  "data-testid": "timezones"
+                }}
+                style={{ width: "60%" }}
+              >
+                {generateMenuOptions(timezones)}
+              </Field>
             </div>
             <div style={{ marginBottom: "16px" }}>
               <AddressInput

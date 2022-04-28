@@ -24,14 +24,15 @@ const {
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
     if (!time) return time;
-    return format12HourTime(time) + " " + computeTimeZone(date, time);
+    return format12HourTime(time);
   };
-
+  
   handleDialogOpen = () => {
     const formValues = {
       firstContactDate: this.props.firstContactDate,
       incidentDate: this.props.incidentDate,
       incidentTime: this.props.incidentTime,
+      incidentTimezone: this.props.incidentTimezone,
       incidentLocation: this.props.incidentLocation,
       districtId: this.props.districtId,
       intakeSourceId: this.props.intakeSourceId,
@@ -53,6 +54,7 @@ class IncidentDetails extends React.Component {
       firstContactDate,
       incidentDate,
       incidentTime,
+      incidentTimezone,
       caseId,
       incidentLocation,
       district,
@@ -61,6 +63,7 @@ class IncidentDetails extends React.Component {
       classes,
       pibCaseNumber
     } = this.props;
+    console.log(this.props);
     const intakeSourceName = intakeSource ? intakeSource.name : "";
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
@@ -100,7 +103,7 @@ class IncidentDetails extends React.Component {
                     value={this.formatTimeForDisplay(
                       incidentDate,
                       incidentTime
-                    )}
+                    ) + " " + incidentTimezone}
                     testLabel="incidentTime"
                   />
                 </StyledInfoDisplay>
@@ -177,6 +180,7 @@ const mapStateToProps = state => ({
   firstContactDate: state.currentCase.details.firstContactDate,
   incidentDate: state.currentCase.details.incidentDate,
   incidentTime: state.currentCase.details.incidentTime,
+  incidentTimezone: state.currentCase.details.incidentTimezone,
   incidentLocation: state.currentCase.details.incidentLocation,
   districtId: state.currentCase.details.districtId,
   district: state.currentCase.details.caseDistrict,

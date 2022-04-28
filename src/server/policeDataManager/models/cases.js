@@ -160,6 +160,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "incident_time",
         type: DataTypes.TIME
       },
+      incidentTimezone: {
+        field: "incident_timezone",
+        type: DataTypes.STRING
+      },
       narrativeSummary: {
         field: "narrative_summary",
         type: DataTypes.STRING(500),
