@@ -122,9 +122,11 @@ describe("editCivilian", () => {
 
       const next = jest.fn();
       await editCivilian(request, response, next);
+
       expect(next).toHaveBeenCalledWith(
        expect.anything()
       );
+
       await existingCase.reload();
       expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
     });
