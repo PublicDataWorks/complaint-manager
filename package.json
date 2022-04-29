@@ -40,7 +40,8 @@
     "test:pact:client": "NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test react-app-rewired test src/pact/consumer --logHeapUsage --env=jsdom --testTimeout 500000 --runInBand",
     "test:pact:client:ci": "NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test CI=true react-app-rewired test src/pact/consumer --logHeapUsage --runInBand --env=jsdom --coverage --collectCoverageFrom='src/client/**/*.{js,jsx}'",
     "test:pact:server": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=2000 test src/pact/provider --logHeapUsage --forceExit --env=jsdom --testTimeout 100000 --runInBand",
-    "test:pact:server:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired --max_old_space_size=1500 test src/pact/provider --logHeapUsage --runInBand --forceExit --env=jsdom  --coverage  --collectCoverageFrom='src/server/!(migrations|seeders|migrationJobs|seeder_jobs)/**/*.{js,jsx}' --testTimeout 100000"
+    "test:pact:server:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired --max_old_space_size=1500 test src/pact/provider --logHeapUsage --runInBand --forceExit --env=jsdom  --coverage  --collectCoverageFrom='src/server/!(migrations|seeders|migrationJobs|seeder_jobs)/**/*.{js,jsx}' --testTimeout 100000",
+    "generate-notice": "license-checker --csv --out NOTICE.csv"
   },
   "jest": {
     "snapshotResolver": "./snapshotResolver.js",
@@ -157,6 +158,7 @@
     "enzyme-to-json": "3.6.2",
     "jest-extended": "^0.11.1",
     "jest-pact": "^0.9.3",
+    "license-checker": "^25.0.1",
     "msw": "^0.36.7",
     "nightwatch": "1.7.12",
     "nock": "13.1.0",
