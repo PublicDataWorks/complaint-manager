@@ -29,6 +29,7 @@ class Case {
     this.attachments = build.attachments;
     this.incidentDate = build.incidentDate;
     this.incidentTime = build.incidentTime;
+    this.incidentTimezone = build.incidentTimezone;
     this.incidentLocation = build.incidentLocation;
     this.district = build.district;
     this.districtId = build.districtId;
@@ -125,6 +126,7 @@ class Case {
         this.firstContactDate = "2017-12-24";
         this.incidentDate = "2017-01-01";
         this.incidentTime = "16:00:00";
+        this.incidentTimezone = "CST";
         this.incidentLocation = incidentLocation;
         this.district = null;
         this.districtId = null;
@@ -197,11 +199,17 @@ class Case {
         this.incidentDate = incidentDate;
         return this;
       }
+
       withIncidentTime(incidentTime) {
         this.incidentTime = incidentTime;
         return this;
       }
 
+      withIncidentTimezone(incidentTimezone) {
+        this.incidentTimezone = incidentTimezone;
+        return this;
+      }
+      
       withIncidentLocation(incidentLocation) {
         this.incidentLocation = incidentLocation;
         return this;

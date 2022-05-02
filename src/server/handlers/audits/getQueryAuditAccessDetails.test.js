@@ -48,6 +48,7 @@ describe("audit details", () => {
           ["id", "caseId"],
           "incidentDate",
           "incidentTime",
+          "incidentTimezone",
           "narrativeDetails",
           "firstContactDate",
           "complaintType",
@@ -131,6 +132,7 @@ describe("audit details", () => {
             attributes: expect.arrayContaining([
               "incidentDate",
               "incidentTime",
+              "incidentTimezone",
               "narrativeDetails",
               "firstContactDate",
               "complaintType",

@@ -17,6 +17,7 @@ export const expectedCaseAuditDetails = {
       "id",
       "incidentDate",
       "incidentTime",
+      "incidentTimezone",
       "intakeSourceId",
       "isArchived",
       "narrativeDetails",
