@@ -1,8 +1,8 @@
-module.exports.rerenderWait = 5000;
-module.exports.roundtripWait = 25000;
-module.exports.pause = 2000;
-module.exports.dataLoadWait = 3000;
-module.exports.animationPause = 1000;
+module.exports.rerenderWait = 6000;
+module.exports.roundtripWait = 50000;
+module.exports.pause = 4000;
+module.exports.dataLoadWait = 5000;
+module.exports.animationPause = 2000;
 
 module.exports.waitMoveAndClick = (context, cssSelector) => {
   return context
