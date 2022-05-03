@@ -212,7 +212,6 @@ const mapStateToProps = state => ({
   editStatus: state.referralLetter.editStatus,
   lastEdited: state.referralLetter.lastEdited,
   letterPdf: state.referralLetter.letterPdf,
-  downloadInProgress: state.ui.letterDownload.downloadInProgress,
   caseReference: state.currentCase.details.caseReference,
   status: state.currentCase.details.status,
   nextStatus: state.currentCase.details.nextStatus,

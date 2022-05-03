@@ -17,7 +17,6 @@ note right: Update officer history in letter_officers and referral_letter_office
 Required state - state.RecommendedActions (loaded on mount; static data)
   state.referralLetter.letterDetails (loaded on mount)
   state.currentCase.details.caseReference (loaded on mount)
-  state.classifications (loaded on mount of child *weird*; static data);
 note left: Update Recommended Actions in letter_officers and referral_letter_officer_recommended_actions tables
 note right: Update case classification in case_classifications table
 :LetterPreview.js (see preview of letter)
@@ -53,7 +52,6 @@ note left: update case status to "Ready for Review"
 :Click "Review and Approve Letter" button;
 :ReviewAndApproveLetter.js (shows letter preview)
 Required state - state.referralLetter (loaded on mount)
-  state.ui.letterDownload.downloadInProgress (pulled in for no reason!!!)
   state.currentCase.details (assumed from previous pages?) 
     setup on case details page, except status/nextStatus that gets rotated regularly
   state.ui.pdfPreview.loadingPdfPreview (totally controlled from this component...);
