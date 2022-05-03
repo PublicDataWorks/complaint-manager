@@ -53,6 +53,7 @@ describe("incident details", () => {
     firstContactDate,
     incidentDate,
     incidentTime,
+    incidentTimezone,
     wrapper,
     dispatchSpy,
     formattedIncidentTime;
@@ -62,6 +63,7 @@ describe("incident details", () => {
     firstContactDate = "1994-05-01";
     incidentDate = "1994-04-24";
     incidentTime = "14:00:00";
+    incidentTimezone = "CDT";
     formattedIncidentTime = "02:00 PM CDT";
 
     currentCase = new Case.Builder()
@@ -69,6 +71,7 @@ describe("incident details", () => {
       .withFirstContactDate(firstContactDate)
       .withIncidentDate(incidentDate)
       .withIncidentTime(incidentTime)
+      .withIncidentTimezone(incidentTimezone)
       .withIncidentLocation(undefined)
       .withDistrictId(2)
       .withIntakeSourceId(2)

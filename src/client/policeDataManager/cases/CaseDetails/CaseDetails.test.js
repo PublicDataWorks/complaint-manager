@@ -34,6 +34,7 @@ import { initialize, reset } from "redux-form";
 import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
+import moment from "moment";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -251,7 +252,7 @@ describe("Case Details Component", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         initialize("CaseNotes", {
           actionTakenAt: timezone
-            .tz(new Date(Date.now()), TIMEZONE)
+            .tz(new Date(Date.now()), moment.tz.guess())
             .format("YYYY-MM-DDTHH:mm")
         })
       );
