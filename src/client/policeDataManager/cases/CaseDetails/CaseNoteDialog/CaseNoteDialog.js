@@ -66,7 +66,7 @@ class CaseNoteDialog extends Component {
         }
       : {
           ...values,
-          actionTakenAt: timezone.tz(values.actionTakenAt, TIMEZONE).format(),
+          actionTakenAt: timezone.tz(values.actionTakenAt, moment.tz.guess()).format(),
           caseId,
           mentionedUsers: this.state.mentionedUsers
         };

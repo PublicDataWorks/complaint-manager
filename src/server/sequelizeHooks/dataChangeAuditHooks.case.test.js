@@ -47,6 +47,7 @@ describe("dataChangeAuditHooks", () => {
         .withFirstContactDate("2017-12-24")
         .withIncidentDate(null)
         .withIncidentTime(null)
+        .withIncidentTimezone(null)
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails(null)
         .withYear("2017")
@@ -118,6 +119,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
         incidentTime: { new: null },
+        incidentTimezone: { new: null },
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
@@ -156,6 +158,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
         incidentTime: { new: null },
+        incidentTimezone: { new: null },
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
@@ -196,6 +199,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: { new: "original narrative summary" },
         narrativeDetails: { new: null },
         incidentTime: { new: null },
+        incidentTimezone: { new: null },
         incidentDate: { new: null },
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
@@ -236,6 +240,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: "original narrative summary",
         narrativeDetails: null,
         incidentTime: null,
+        incidentTimezone: null,
         incidentDate: null,
         firstContactDate: "2017-12-24",
         howDidYouHearAboutUsSourceId: null,
@@ -400,6 +405,7 @@ describe("dataChangeAuditHooks", () => {
         .withFirstContactDate("2017-12-24")
         .withIncidentDate("2017-12-01")
         .withIncidentTime("01:01:01")
+        .withIncidentTimezone("CDT")
         .withNarrativeSummary("original narrative summary")
         .withNarrativeDetails("original narrative details")
         .withAssignedTo("originalAssignedToPerson")
@@ -484,6 +490,7 @@ describe("dataChangeAuditHooks", () => {
           firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
+          incidentTimezone: "CDT",
           narrativeSummary: "updated narrative summary",
           narrativeDetails: "updated narrative details",
           assignedTo: "updatedAssignedPerson"
@@ -512,6 +519,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
         incidentTime: { previous: "01:01:01", new: "12:59:59" },
+        incidentTimezone: { previous: null, new: "CDT"},
         narrativeSummary: {
           previous: "original narrative summary",
           new: "updated narrative summary"
@@ -541,6 +549,7 @@ describe("dataChangeAuditHooks", () => {
           firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
+          incidentTimezone: "CDT",
           narrativeSummary: "updated narrative summary",
           narrativeDetails: "updated narrative details",
           assignedTo: "updatedAssignedPerson"
@@ -565,6 +574,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: "updated narrative summary",
         narrativeDetails: "updated narrative details",
         incidentTime: "12:59:59",
+        incidentTimezone: "CDT",
         incidentDate: "2017-12-05",
         firstContactDate: "2018-01-01",
         howDidYouHearAboutUsSourceId: null,
@@ -813,6 +823,7 @@ describe("dataChangeAuditHooks", () => {
         id: { new: existingCase.id },
         incidentDate: { new: "2017-01-01" },
         incidentTime: { new: "16:00:00" },
+        incidentTimezone: { new: "CDT" },
         narrativeDetails: { new: "<p> test details </p>" },
         narrativeSummary: { new: "test summary" },
         status: { new: "Initial" },
@@ -854,6 +865,7 @@ describe("dataChangeAuditHooks", () => {
         id: { previous: existingCase.id },
         incidentDate: { previous: "2017-01-01" },
         incidentTime: { previous: "16:00:00" },
+        incidentTimezone: { new: "CDT" },
         narrativeDetails: { previous: "<p> test details </p>" },
         narrativeSummary: { previous: "test summary" },
         status: { previous: "Initial" },

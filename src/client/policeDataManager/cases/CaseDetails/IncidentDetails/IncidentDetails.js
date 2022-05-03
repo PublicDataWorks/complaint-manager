@@ -2,7 +2,6 @@ import React from "react";
 import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
 import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {
-  computeTimeZone,
   format12HourTime
 } from "../../../../../sharedUtilities/formatDate";
 import LinkButton from "../../../shared/components/LinkButton";
@@ -21,6 +20,7 @@ const {
   FIRST_CONTACTED_ORGANIZATION,
   BUREAU_ACRONYM
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
     if (!time) return time;
@@ -63,7 +63,6 @@ class IncidentDetails extends React.Component {
       classes,
       pibCaseNumber
     } = this.props;
-    console.log(this.props);
     const intakeSourceName = intakeSource ? intakeSource.name : "";
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
@@ -97,6 +96,17 @@ class IncidentDetails extends React.Component {
                     testLabel="incidentDate"
                   />
                 </StyledInfoDisplay>
+                {!incidentTime && 
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Incident Time"
+                    value={this.formatTimeForDisplay(
+                      incidentDate, incidentTime)}
+                    testLabel="incidentTime"
+                  />
+                </StyledInfoDisplay>
+                }
+                {incidentTime && 
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Incident Time"
@@ -107,6 +117,7 @@ class IncidentDetails extends React.Component {
                     testLabel="incidentTime"
                   />
                 </StyledInfoDisplay>
+                }
               </div>
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>

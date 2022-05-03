@@ -128,8 +128,10 @@ class IncidentDetailsDialog extends Component {
 
             <div
               style={{
-                display: "inline-flex",
-                marginBottom: "16px"
+                // display: "inline-flex",
+                display: "flex",
+                marginBottom: "16px",
+                width: "100%",
               }}
             >
               <DateField
@@ -160,19 +162,27 @@ class IncidentDetailsDialog extends Component {
                 InputLabelProps={{
                   shrink: true
                 }}
+                style={{
+                  marginRight: "16px"
+                }}
               />
               <Field
                 name="incidentTimezone"
                 component={Dropdown}
                 label="Incident Timezone"
-                hinttext="Incident Timezone"
-                data-testid="timezones"
+                data-testid="editIncidentTimezone"
                 inputProps={{
-                  "data-testid": "timezones"
+                  "data-testid": "editIncidentTimezone",
+                  type: "string",
+                  autoComplete: "off"
                 }}
-                style={{ width: "60%" }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                // style={{ width: "40%" }}
               >
-                {generateMenuOptions(timezones)}
+                {generateMenuOptions(timezones, moment.tz(Date.now(), moment.tz.guess()).zoneAbbr())}
+                {/* {generateMenuOptions(timezones, " ")} */}
               </Field>
             </div>
             <div style={{ marginBottom: "16px" }}>
