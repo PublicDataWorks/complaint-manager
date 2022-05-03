@@ -1,0 +1,63 @@
+@startuml
+start
+:click "Begin Letter";
+:confirm on dialog;
+note left: Update case status to "Letter in Progress"
+:LetterReview.js (review data from case details page)
+Required state - state.currentCase.details (loaded on mount)
+    populated on case details page;
+:OfficerHistories.js (Radio button choose state of officers' history)
+Required state - state.referralLetter.letterDetails (loaded on mount)
+  state.referralLetter.letterDetails.letterOfficers (loaded on mount)
+    populated at the start of the letter flow
+  state.currentCase.details.caseReference (loaded on mount) 
+    populated when case is created;
+note right: Update officer history in letter_officers and referral_letter_officer_history_notes tables
+:RecommendedActions.js (Checkboxes to indicate recommendations)
+Required state - state.RecommendedActions (loaded on mount; static data)
+  state.referralLetter.letterDetails (loaded on mount)
+  state.currentCase.details.caseReference (loaded on mount)
+  state.classifications (loaded on mount of child *weird*; static data);
+note left: Update Recommended Actions in letter_officers and referral_letter_officer_recommended_actions tables
+note right: Update case classification in case_classifications table
+:LetterPreview.js (see preview of letter)
+Required state - state.referralLetter.letterHtml
+  state.referralLetter.addresses (loaded on mount)
+  state.referralLetter.editStatus (loaded on mount)
+  state.referralLetter.lastEdited (loaded on mount)
+  state.referralLetter.draftFilename (loaded on mount)
+  state.referralLetter.letterDetails (loaded on mount)
+    generated on flow load
+  state.currentCase.details (assumed from previous pages?)
+    setup on case details page, except status/nextStatus that gets rotated regularly
+  state.ui.letterDownload.downloadInProgress (totally controlled from this component...)
+  state.users.current.userInfo (loaded at login)
+  state.featureToggles.classificationFeature (loaded on startup);
+split
+:Click Edit Button;
+:Confirm on Dialog;
+:EditLetter.js (WYSIWYG editor for letter)
+Required state - state.referralLetter.letterHtml (assumed from previous pages?)
+    generated for parent page
+  state.currentCase.details (assumed from previous pages?)
+    setup on case details page, except status/nextStatus that gets rotated regularly;
+:save edited letter;
+note left: update editedLetterHtml field on referral_letters table
+split again
+:No changes necessary;
+end split
+:Click "Submit for Review" button;
+:Confirm on Dialog;
+note right: update recipient and sender in referral_letters table
+note left: update case status to "Ready for Review"
+:Click "Review and Approve Letter" button;
+:ReviewAndApproveLetter.js (shows letter preview)
+Required state - state.referralLetter (loaded on mount)
+  state.ui.letterDownload.downloadInProgress (pulled in for no reason!!!)
+  state.currentCase.details (assumed from previous pages?) 
+    setup on case details page, except status/nextStatus that gets rotated regularly
+  state.ui.pdfPreview.loadingPdfPreview (totally controlled from this component...);
+:Click "Approve Letter" button;
+note right: create letters as attachments
+note left: update case status to "Forwarded to Agency"
+@enduml
