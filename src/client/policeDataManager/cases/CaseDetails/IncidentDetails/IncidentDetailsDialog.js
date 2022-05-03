@@ -182,9 +182,9 @@ class IncidentDetailsDialog extends Component {
                 name="incidentTimezone"
                 component={Dropdown}
                 label="Incident Timezone"
-                data-testid="editIncidentTimezone"
+                data-testid="editIncidentTimezoneDropdown"
                 inputProps={{
-                  "data-testid": "editIncidentTimezone",
+                  "data-testid": "editIncidentTimezoneInput",
                   type: "string",
                   autoComplete: "off"
                 }}

@@ -94,7 +94,7 @@ describe("CaseNoteDialog", () => {
 
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: "2018-05-16T18:47:00-05:00",
+      actionTakenAt: moment.tz(dateWithOutTimeZone, moment.tz.guess()).format(),
       caseNoteActionId: caseNoteActions.memoToFile[1],
       mentionedUsers: []
     };
@@ -110,6 +110,7 @@ describe("CaseNoteDialog", () => {
       '[data-testid="actionsDropdown"]',
       caseNoteActions.memoToFile[0]
     );
+
     submitButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(editCaseNote(submittedValues));
@@ -157,7 +158,7 @@ describe("CaseNoteDialog", () => {
 
     const submittedValues = {
       caseId: caseId,
-      actionTakenAt: "2018-05-16T18:47:00-05:00",
+      actionTakenAt: moment.tz(dateWithOutTimeZone, moment.tz.guess()).format(),
       caseNoteActionId: caseNoteActions.memoToFile[1],
 
       notes: "these are notes @Test",

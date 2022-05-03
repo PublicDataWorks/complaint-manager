@@ -195,6 +195,11 @@ describe("incident details", () => {
       '[data-testid="districtDropdown"]',
       "1st District"
     );
+    selectDropdownOption(
+      wrapper,
+      '[data-testid="editIncidentTimezoneDropdown"]',
+      "CDT"
+    );
 
     const saveButton = wrapper.find(
       'button[data-testid="saveIncidentDetailsButton"]'
@@ -207,6 +212,7 @@ describe("incident details", () => {
         firstContactDate: "1994-05-03",
         incidentDate: "1994-05-02",
         incidentTime: "13:00",
+        incidentTimezone: "CDT",
         districtId: 1,
         intakeSourceId: 2
       })
