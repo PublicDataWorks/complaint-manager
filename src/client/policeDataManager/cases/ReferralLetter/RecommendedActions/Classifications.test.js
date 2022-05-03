@@ -19,7 +19,10 @@ describe("Classifications", () => {
 
     wrapper = mount(
       <Provider store={store}>
-        <Classifications initialDisabled={false} />
+        <Classifications
+          initialDisabled={false}
+          classifications={classifications}
+        />
       </Provider>
     );
   });
@@ -41,22 +44,16 @@ describe("Classifications", () => {
     wrapper.update();
 
     expect(
-      wrapper
-        .find('[label="Use of Force"]')
-        .last()
-        .props().control.props.disabled
+      wrapper.find('[label="Use of Force"]').last().props().control.props
+        .disabled
     ).toBeTrue();
     expect(
-      wrapper
-        .find('[label="Criminal Misconduct"]')
-        .last()
-        .props().control.props.disabled
+      wrapper.find('[label="Criminal Misconduct"]').last().props().control.props
+        .disabled
     ).toBeTrue();
     expect(
-      wrapper
-        .find('[label="Serious Misconduct"]')
-        .last()
-        .props().control.props.disabled
+      wrapper.find('[label="Serious Misconduct"]').last().props().control.props
+        .disabled
     ).toBeTrue();
   });
 });

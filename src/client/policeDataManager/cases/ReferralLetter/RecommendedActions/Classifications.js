@@ -2,8 +2,6 @@ import { Card, CardContent, Typography } from "@material-ui/core";
 import React, { Component, Fragment } from "react";
 import { reduxForm } from "redux-form";
 import FormGroup from "@material-ui/core/FormGroup";
-import { connect } from "react-redux";
-import getClassificationOptions from "../thunks/getClassificationOptions";
 import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBoxFormControlLabel";
 import standards from "../../../../common/globalStyling/standards";
 import styles from "../../../../common/globalStyling/styles";
@@ -19,12 +17,8 @@ class Classifications extends Component {
     this.state = { classificationsDisabled: props.initialDisabled };
   }
 
-  componentDidMount() {
-    this.props.getClassificationOptions();
-  }
-
   uncheckClassificationsIfDeclinesToClassifyIsChecked() {
-    this.props.classifications.map(classification => {
+    (this.props.classifications || []).map(classification => {
       if (classification.name !== DECLINES_OPTION) {
         this.props.change(`csfn-${classification.id}`, false);
       }
@@ -84,15 +78,4 @@ class Classifications extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  classifications: state.classifications
-});
-
-const mapDispatchToProps = {
-  getClassificationOptions
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(reduxForm({ form: "RecommendedActions" })(Classifications));
+export default reduxForm({ form: "RecommendedActions" })(Classifications);

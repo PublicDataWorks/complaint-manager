@@ -23,6 +23,7 @@ import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import getClassificationOptions from "../thunks/getClassificationOptions";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import Classifications from "./Classifications";
 import editClassifications from "../thunks/editClassifications";
@@ -45,6 +46,7 @@ class RecommendedActions extends Component {
     this.props.getMinimumCaseDetails(this.state.caseId);
     this.props.getReferralLetterEditStatus(this.state.caseId);
     this.props.getRecommendedActions();
+    this.props.getClassificationOptions();
   }
 
   referralLetterNotYetLoaded = () => {
@@ -239,6 +241,7 @@ class RecommendedActions extends Component {
               </Card>
               <Classifications
                 initialDisabled={this.props.initialValues["csfn-4"]}
+                classifications={this.props.classifications}
               />
               <FieldArray
                 name="letterOfficers"
@@ -285,10 +288,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  getReferralLetterData,
+  getClassificationOptions,
   getMinimumCaseDetails,
-  getReferralLetterEditStatus,
-  getRecommendedActions
+  getRecommendedActions,
+  getReferralLetterData,
+  getReferralLetterEditStatus
 };
 
 export default connect(
