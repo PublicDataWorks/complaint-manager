@@ -69,8 +69,7 @@ describe("generateReferralLetterPdfBuffer", function () {
   });
 
   beforeEach(async () => {
-    await cleanupDatabase();
-    timeOfDownload = new Date("2018-07-01 19:00:22 CDT");
+    timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
 
     let s3 = AWS.S3.mockImplementation(() => ({

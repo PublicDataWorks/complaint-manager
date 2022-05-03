@@ -490,7 +490,7 @@ describe("dataChangeAuditHooks", () => {
           firstContactDate: "2018-01-01",
           incidentDate: "2017-12-05",
           incidentTime: "12:59:59",
-          incidentTimezone: "CST",
+          incidentTimezone: "EST",
           narrativeSummary: "updated narrative summary",
           narrativeDetails: "updated narrative details",
           assignedTo: "updatedAssignedPerson"
@@ -519,7 +519,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
         incidentTime: { previous: "01:01:01", new: "12:59:59" },
-        incidentTimezone: { previous: "CST", new: "CST"},
+        incidentTimezone: { previous: "CST", new: "EST"},
         narrativeSummary: {
           previous: "original narrative summary",
           new: "updated narrative summary"
