@@ -495,197 +495,197 @@ module.exports = {
       incompleteHistoryDialog.clickReturn();
     },
 
-  "should select multiple classifications that are not declines to classify":
-    browser => {
-      const recommendedActions = browser.page.RecommendedActions();
-      const snackbar = browser.page.SnackbarPOM();
+  // "should select multiple classifications that are not declines to classify":
+  //   browser => {
+  //     const recommendedActions = browser.page.RecommendedActions();
+  //     const snackbar = browser.page.SnackbarPOM();
 
-      recommendedActions.isOnPage();
+  //     recommendedActions.isOnPage();
 
-      recommendedActions
-        .selectClassification("use-of-force")
-        .selectClassification("criminal-misconduct")
-        .selectClassification("declines-to-classify")
-        .classificationsAreDisabled()
-        .clickNext();
+  //     recommendedActions
+  //       .selectClassification("use-of-force")
+  //       .selectClassification("criminal-misconduct")
+  //       .selectClassification("declines-to-classify")
+  //       .classificationsAreDisabled()
+  //       .clickNext();
 
-      snackbar
-        .presentWithRegex(
-          "(Classifications were successfully updated)|(Recommended actions were successfully updated)"
-        )
-        .close();
-    },
+  //     snackbar
+  //       .presentWithRegex(
+  //         "(Classifications were successfully updated)|(Recommended actions were successfully updated)"
+  //       )
+  //       .close();
+  //   },
 
-  "should check letter preview contents": browser => {
-    const letterPreview = browser.page.LetterPreview();
+  // "should check letter preview contents": browser => {
+  //   const letterPreview = browser.page.LetterPreview();
 
-    letterPreview
-      .isOnPage()
-      .letterContains("Name: Night Watch")
-      .letterContains("Name: Ansel W Rice")
-      .letterContains(browser.globals.pd_address)
-      .letterContains(
-        "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
-      )
-      .letterContains("Retaliation Concerns and Request for Notice to Accused")
-      .letterContains(
-        "Be temporarily or permanently reassigned from his/her current assignment"
-      )
-      .letterContains(browser.globals.decline_complaint_letter_section);
-  },
+  //   letterPreview
+  //     .isOnPage()
+  //     .letterContains("Name: Night Watch")
+  //     .letterContains("Name: Ansel W Rice")
+  //     .letterContains(browser.globals.pd_address)
+  //     .letterContains(
+  //       "10 total complaints including 2 HIGH RISK allegations, 3 MEDIUM RISK allegations, 5 LOW RISK allegations"
+  //     )
+  //     .letterContains("Retaliation Concerns and Request for Notice to Accused")
+  //     .letterContains(
+  //       "Be temporarily or permanently reassigned from his/her current assignment"
+  //     )
+  //     .letterContains(browser.globals.decline_complaint_letter_section);
+  // },
 
-  "should edit letter": browser => {
-    const letterPreview = browser.page.LetterPreview();
-    const editLetter = browser.page.EditLetter();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should edit letter": browser => {
+  //   const letterPreview = browser.page.LetterPreview();
+  //   const editLetter = browser.page.EditLetter();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    letterPreview.clickEditLetter().confirmEditLetterOnDialog();
-    editLetter.isOnPage();
-    snackbar.presentWithMessage("Letter was successfully updated").close();
+  //   letterPreview.clickEditLetter().confirmEditLetterOnDialog();
+  //   editLetter.isOnPage();
+  //   snackbar.presentWithMessage("Letter was successfully updated").close();
 
-    editLetter
-      .makeEditsWithText("Susie and Phoebe and Sarah are the G.O.A.T.s")
-      .saveEdits();
+  //   editLetter
+  //     .makeEditsWithText("Susie and Phoebe and Sarah are the G.O.A.T.s")
+  //     .saveEdits();
 
-    letterPreview
-      .isOnPage()
-      .waitForData()
-      .letterContains("Susie and Phoebe and Sarah are the G.O.A.T.s");
+  //   letterPreview
+  //     .isOnPage()
+  //     .waitForData()
+  //     .letterContains("Susie and Phoebe and Sarah are the G.O.A.T.s");
 
-    snackbar.presentWithMessage("Letter was successfully updated").close();
-  },
+  //   snackbar.presentWithMessage("Letter was successfully updated").close();
+  // },
 
-  "should submit for review": browser => {
-    const letterPreview = browser.page.LetterPreview();
-    const caseDetails = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should submit for review": browser => {
+  //   const letterPreview = browser.page.LetterPreview();
+  //   const caseDetails = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    letterPreview.clickSubmit();
+  //   letterPreview.clickSubmit();
 
-    letterPreview.confirmSubmit();
+  //   letterPreview.confirmSubmit();
 
-    caseDetails.isOnPage();
+  //   caseDetails.isOnPage();
 
-    snackbar.presentWithMessage("Status was successfully updated").close();
-  },
+  //   snackbar.presentWithMessage("Status was successfully updated").close();
+  // },
 
-  "should redirect to review-and-approve page and approve letter": browser => {
-    const caseDetails = browser.page.CaseDetails();
-    const reviewAndApprove = browser.page.ReviewAndApproveLetter();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should redirect to review-and-approve page and approve letter": browser => {
+  //   const caseDetails = browser.page.CaseDetails();
+  //   const reviewAndApprove = browser.page.ReviewAndApproveLetter();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetails.clickReviewAndApproveButton();
+  //   caseDetails.clickReviewAndApproveButton();
 
-    reviewAndApprove
-      .isOnPage()
-      .clickApproveLetter()
-      .clickApproveLetterOnDialog();
+  //   reviewAndApprove
+  //     .isOnPage()
+  //     .clickApproveLetter()
+  //     .clickApproveLetterOnDialog();
 
-    caseDetails.isOnPage();
+  //   caseDetails.isOnPage();
 
-    snackbar.presentWithMessage("Status was successfully updated").close();
-  },
+  //   snackbar.presentWithMessage("Status was successfully updated").close();
+  // },
 
-  "should update status to closed": browser => {
-    const caseDetails = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should update status to closed": browser => {
+  //   const caseDetails = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetails.closeCase().confirmUpdateStatusInDialog();
+  //   caseDetails.closeCase().confirmUpdateStatusInDialog();
 
-    snackbar.presentWithMessage("Status was successfully updated").close();
-  },
-  "should archive case": browser => {
-    const caseDetails = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
-    const caseDashboard = browser.page.CaseDashboard();
+  //   snackbar.presentWithMessage("Status was successfully updated").close();
+  // },
+  // "should archive case": browser => {
+  //   const caseDetails = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
+  //   const caseDashboard = browser.page.CaseDashboard();
 
-    caseDetails.archiveCase().confirmArchiveInDialog();
+  //   caseDetails.archiveCase().confirmArchiveInDialog();
 
-    snackbar.presentWithMessage("Case was successfully archived").close();
+  //   snackbar.presentWithMessage("Case was successfully archived").close();
 
-    caseDashboard.isOnPage();
-  },
-  "should go to archived cases page and open archived case": browser => {
-    const navBar = browser.page.NavBar();
-    const archivedCasesPage = browser.page.ArchivedCases();
+  //   caseDashboard.isOnPage();
+  // },
+  // "should go to archived cases page and open archived case": browser => {
+  //   const navBar = browser.page.NavBar();
+  //   const archivedCasesPage = browser.page.ArchivedCases();
 
-    navBar.goToArchivedCases();
+  //   navBar.goToArchivedCases();
 
-    archivedCasesPage.isOnPage().openArchivedCase();
-  },
-  "should restore archived case": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const caseDashboardPage = browser.page.CaseDashboard();
-    const snackbar = browser.page.SnackbarPOM();
+  //   archivedCasesPage.isOnPage().openArchivedCase();
+  // },
+  // "should restore archived case": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const caseDashboardPage = browser.page.CaseDashboard();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetailsPage.isOnPage().restoreCase().confirmRestoreInDialog();
-    snackbar.presentWithMessage("Case was successfully restored").close();
-    caseDetailsPage.goBackToAllCases();
+  //   caseDetailsPage.isOnPage().restoreCase().confirmRestoreInDialog();
+  //   snackbar.presentWithMessage("Case was successfully restored").close();
+  //   caseDetailsPage.goBackToAllCases();
 
-    caseDashboardPage.isOnPage();
-  },
-  "should navigate to all exports page and export all cases": browser => {
-    const navBar = browser.page.NavBar();
-    const allExportsPage = browser.page.AllExports();
+  //   caseDashboardPage.isOnPage();
+  // },
+  // "should navigate to all exports page and export all cases": browser => {
+  //   const navBar = browser.page.NavBar();
+  //   const allExportsPage = browser.page.AllExports();
 
-    navBar.goToAllExports();
+  //   navBar.goToAllExports();
 
-    allExportsPage
-      .isOnPage()
-      .exportAllCases()
-      .confirmExportInDialog()
-      .waitForJobCompletion();
-  },
-  "should navigate to tag management and locate existing tag": browser => {
-    const navBar = browser.page.NavBar();
-    const tagManagementPage = browser.page.TagManagementPage();
+  //   allExportsPage
+  //     .isOnPage()
+  //     .exportAllCases()
+  //     .confirmExportInDialog()
+  //     .waitForJobCompletion();
+  // },
+  // "should navigate to tag management and locate existing tag": browser => {
+  //   const navBar = browser.page.NavBar();
+  //   const tagManagementPage = browser.page.TagManagementPage();
 
-    navBar.goToTagManagement();
+  //   navBar.goToTagManagement();
 
-    tagManagementPage.isOnPage().tagExists("Tofu");
-  },
-  "should attempt to edit tag to same name, but get a validation error":
-    browser => {
-      const tagManagementPage = browser.page.TagManagementPage();
-      const editTagDialog = browser.page.EditTagDialog();
+  //   tagManagementPage.isOnPage().tagExists("Tofu");
+  // },
+  // "should attempt to edit tag to same name, but get a validation error":
+  //   browser => {
+  //     const tagManagementPage = browser.page.TagManagementPage();
+  //     const editTagDialog = browser.page.EditTagDialog();
 
-      tagManagementPage.editTag("Tofu");
-      editTagDialog
-        .isDialogVisible()
-        .enterText("")
-        .tab()
-        .saveDisabled()
-        .hasValidationError();
-    },
-  "should edit tag to read TOFU!!!": browser => {
-    const tagManagementPage = browser.page.TagManagementPage();
-    const editTagDialog = browser.page.EditTagDialog();
+  //     tagManagementPage.editTag("Tofu");
+  //     editTagDialog
+  //       .isDialogVisible()
+  //       .enterText("")
+  //       .tab()
+  //       .saveDisabled()
+  //       .hasValidationError();
+  //   },
+  // "should edit tag to read TOFU!!!": browser => {
+  //   const tagManagementPage = browser.page.TagManagementPage();
+  //   const editTagDialog = browser.page.EditTagDialog();
 
-    editTagDialog.clear().enterText("TOFU!!!").save();
+  //   editTagDialog.clear().enterText("TOFU!!!").save();
 
-    tagManagementPage.isOnPage().tagExists("TOFU!!!");
-  },
-  "should edit tag back to original name": browser => {
-    const tagManagementPage = browser.page.TagManagementPage();
-    const editTagDialog = browser.page.EditTagDialog();
+  //   tagManagementPage.isOnPage().tagExists("TOFU!!!");
+  // },
+  // "should edit tag back to original name": browser => {
+  //   const tagManagementPage = browser.page.TagManagementPage();
+  //   const editTagDialog = browser.page.EditTagDialog();
 
-    tagManagementPage.editTag("TOFU!!!");
-    editTagDialog.isDialogVisible().clear().enterText("Tofu").save();
+  //   tagManagementPage.editTag("TOFU!!!");
+  //   editTagDialog.isDialogVisible().clear().enterText("Tofu").save();
 
-    tagManagementPage.isOnPage().tagExists("Tofu");
-  },
-  "should log out of the system": browser => {
-    if (browser.globals.disableAuthentication) {
-      console.log("Authentication is disabled. Skipping test.");
-      return;
-    }
-    const navBar = browser.page.NavBar();
-    const loginPage = browser.page.Login();
+  //   tagManagementPage.isOnPage().tagExists("Tofu");
+  // },
+  // "should log out of the system": browser => {
+  //   if (browser.globals.disableAuthentication) {
+  //     console.log("Authentication is disabled. Skipping test.");
+  //     return;
+  //   }
+  //   const navBar = browser.page.NavBar();
+  //   const loginPage = browser.page.Login();
 
-    navBar.clickHamburgerButton().clickLogout();
+  //   navBar.clickHamburgerButton().clickLogout();
 
-    loginPage.isOnPage();
-  },
+  //   loginPage.isOnPage();
+  // },
   "end user journey ;)": browser => {
     browser.end();
   }
