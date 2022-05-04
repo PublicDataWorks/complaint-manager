@@ -96,17 +96,8 @@ class IncidentDetails extends React.Component {
                     testLabel="incidentDate"
                   />
                 </StyledInfoDisplay>
-                {!incidentTime && 
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Incident Time"
-                    value={this.formatTimeForDisplay(
-                      incidentDate, incidentTime)}
-                    testLabel="incidentTime"
-                  />
-                </StyledInfoDisplay>
-                }
-                {incidentTime && 
+                {incidentTime 
+                ? 
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
                     displayLabel="Incident Time"
@@ -114,6 +105,15 @@ class IncidentDetails extends React.Component {
                       incidentDate,
                       incidentTime
                     ) + " " + incidentTimezone}
+                    testLabel="incidentTime"
+                  />
+                </StyledInfoDisplay>
+                :
+                <StyledInfoDisplay>
+                  <CivilianInfoDisplay
+                    displayLabel="Incident Time"
+                    value={this.formatTimeForDisplay(
+                      incidentDate, incidentTime)}
                     testLabel="incidentTime"
                   />
                 </StyledInfoDisplay>

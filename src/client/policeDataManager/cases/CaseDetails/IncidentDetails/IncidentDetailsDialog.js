@@ -85,18 +85,6 @@ const styles = {
 const timezoneGuess = moment.tz(Date.now(), moment.tz.guess()).zoneAbbr();
 const timezones = ["AST","ADT","CST", "CDT", "EST", "EDT", "MST", "MDT", "PST", "PDT"];
 
-const getTimezones = () => {
-  let firstHalf = timezones.slice(0, timezones.indexOf(timezoneGuess));
-  
-  if (timezones.indexOf(timezoneGuess) === timezones.length -1) {
-    return firstHalf;
-  }
-
-  let secondHalf = timezones.slice(timezones.indexOf(timezoneGuess) + 1);
-  return firstHalf.concat(secondHalf);
-}
-
-
 class IncidentDetailsDialog extends Component {
   componentDidMount() {
     this.props.getIntakeSourceDropdownValues();
@@ -140,7 +128,6 @@ class IncidentDetailsDialog extends Component {
 
             <div
               style={{
-                // display: "inline-flex",
                 display: "flex",
                 marginBottom: "16px",
                 width: "100%",
@@ -186,14 +173,14 @@ class IncidentDetailsDialog extends Component {
                 inputProps={{
                   "data-testid": "editIncidentTimezoneInput",
                   type: "string",
-                  autoComplete: "off"
+                  autoComplete: "off"                
                 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 style={{ width: "33.5%" }}
               >
-                {generateMenuOptions(getTimezones(), timezoneGuess)}
+                {generateMenuOptions(timezones, timezoneGuess)}
               </Field>
             </div>
             <div style={{ marginBottom: "16px" }}>

@@ -18,7 +18,7 @@ export const getFormattedDate = date => {
 
 const formatTimeForDisplay = (date, time) => {
   if (!time) return time;
-  return format12HourTime(time) + " " + computeTimeZone(date, time);
+  return format12HourTime(time) + " " + computeTimeZone();
 };
 
 const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;

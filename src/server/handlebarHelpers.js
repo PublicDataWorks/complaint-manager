@@ -84,7 +84,7 @@ Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
 
 Handlebars.registerHelper("formatTime", (date, time) => {
   if (!time) return time;
-  return format12HourTime(time) + " " + computeTimeZone(date, time);
+  return format12HourTime(time) + " " + computeTimeZone();
 });
 
 Handlebars.registerHelper("formatShortDate", date => {
