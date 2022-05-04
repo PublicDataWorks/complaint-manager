@@ -94,6 +94,7 @@ const updateSearchIndex = async () => {
   const models = require("../../src/server/policeDataManager/models/index");
 
   const results = await models.cases.findAll({
+    attributes: ["id", "caseReference", "pibCaseNumber"],
     include: [
       {
         model: models.case_tag,
