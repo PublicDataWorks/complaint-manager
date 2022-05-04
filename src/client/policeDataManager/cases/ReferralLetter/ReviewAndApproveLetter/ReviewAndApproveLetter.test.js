@@ -151,23 +151,6 @@ describe("ReviewAndApproveLetter", () => {
     );
   });
 
-  test("displays progress indicator while loading pdf", () => {
-    store.dispatch(startLoadingPdfPreview());
-    const progressIndicator = wrapper
-      .find('[data-testid="download-letter-progress"]')
-      .first();
-    expect(progressIndicator.props().style.display).toEqual("");
-  });
-
-  test("hides progress indicator while not downloading letter", () => {
-    store.dispatch(finishLoadingPdfPreview());
-    wrapper.update();
-    const progressIndicator = wrapper
-      .find('[data-testid="download-letter-progress"]')
-      .first();
-    expect(progressIndicator.props().style.display).toEqual("none");
-  });
-
   test("displays modal when approve letter button clicked", () => {
     const approveLetterButton = wrapper
       .find('[data-testid="approve-letter-button"]')

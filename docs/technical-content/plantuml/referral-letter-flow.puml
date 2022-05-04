@@ -16,7 +16,7 @@ note right: Update officer history in letter_officers and referral_letter_office
 :RecommendedActions.js (Checkboxes to indicate recommendations)
 Required state - state.RecommendedActions (loaded on mount; static data)
   state.referralLetter.letterDetails (loaded on mount)
-  state.currentCase.details.caseReference (loaded on mount)
+  state.currentCase.details.caseReference (loaded on mount);
 note left: Update Recommended Actions in letter_officers and referral_letter_officer_recommended_actions tables
 note right: Update case classification in case_classifications table
 :LetterPreview.js (see preview of letter)

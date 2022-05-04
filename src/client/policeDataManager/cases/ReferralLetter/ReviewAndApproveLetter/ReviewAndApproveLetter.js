@@ -9,11 +9,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { withStyles } from "@material-ui/core/styles";
 
-import {
-  finishLoadingPdfPreview,
-  getReferralLetterPdfSuccess,
-  startLoadingPdfPreview
-} from "../../../actionCreators/letterActionCreators";
+import { getReferralLetterPdfSuccess } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
@@ -41,7 +37,8 @@ class ReviewAndApproveLetter extends Component {
     super(props);
     this.state = {
       caseId: this.props.match.params.id,
-      numPages: null
+      numPages: null,
+      loadingPdfPreview: false
     };
   }
 
@@ -51,7 +48,7 @@ class ReviewAndApproveLetter extends Component {
 
   componentDidMount() {
     this.props.getReferralLetterPreview(this.state.caseId);
-    this.props.startLoadingPdfPreview();
+    this.setState({ loadingPdfPreview: true });
     this.props.getReferralLetterPdf(this.state.caseId);
   }
 
@@ -61,9 +58,9 @@ class ReviewAndApproveLetter extends Component {
     }
     if (
       this.state.loadedPages === this.state.numPages &&
-      this.props.loadingPdfPreview
+      this.state.loadingPdfPreview
     ) {
-      this.props.finishLoadingPdfPreview();
+      this.setState({ loadingPdfPreview: false });
     }
   }
 
@@ -168,7 +165,7 @@ class ReviewAndApproveLetter extends Component {
             <CardContent>
               <div
                 style={{
-                  display: this.props.loadingPdfPreview ? "none" : ""
+                  display: this.state.loadingPdfPreview ? "none" : ""
                 }}
               >
                 <Document
@@ -184,7 +181,7 @@ class ReviewAndApproveLetter extends Component {
                   data-testid={"download-letter-progress"}
                   size={25}
                   style={{
-                    display: this.props.loadingPdfPreview ? "" : "none"
+                    display: this.state.loadingPdfPreview ? "" : "none"
                   }}
                 />
               </div>
@@ -214,15 +211,12 @@ const mapStateToProps = state => ({
   letterPdf: state.referralLetter.letterPdf,
   caseReference: state.currentCase.details.caseReference,
   status: state.currentCase.details.status,
-  nextStatus: state.currentCase.details.nextStatus,
-  loadingPdfPreview: state.ui.pdfPreview.loadingPdfPreview
+  nextStatus: state.currentCase.details.nextStatus
 });
 
 const mapDispatchToProps = {
   getReferralLetterPreview,
   getReferralLetterPdf,
-  startLoadingPdfPreview,
-  finishLoadingPdfPreview,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
   getReferralLetterPdfSuccess,
