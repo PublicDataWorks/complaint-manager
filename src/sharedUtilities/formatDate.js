@@ -23,9 +23,9 @@ export const formatLongDate = dateString => {
   return dateString;
 };
 
-export const dateTimeFromString = dateTimeString => {
+export const dateTimeFromString = (dateTimeString, userTimezone) => {
   return dateTimeString
-    ? timezone.tz(dateTimeString, TIMEZONE).format("MMM D, YYYY h:mm A z")
+    ? timezone.tz(dateTimeString, userTimezone).format("MMM D, YYYY h:mm A z")
     : null;
 };
 
@@ -42,22 +42,8 @@ export const applyCentralTimeZoneOffset = dateString => {
   return timezone.tz(dateString, TIMEZONE).format();
 };
 
-export const computeTimeZone = (date, time) => {
-  if (!time) return time;
-  let timeZone = "CT";
-  let timeZone2 = moment.tz.zone(TIMEZONE).abbrs[0];
-
-  if (date) {
-    const offset = timezone(date)
-      .tz(TIMEZONE)
-      .format("ZZ");
-    if (offset === "-0600") {
-      timeZone = "CST";
-    } else if (offset === "-0500") {
-      timeZone = "CDT";
-    }
-  }
-  return timeZone2;
+export const computeTimeZone = () => {
+  return moment.tz.zone(TIMEZONE).abbrs[0];
 };
 
 export function format12HourTime(time) {

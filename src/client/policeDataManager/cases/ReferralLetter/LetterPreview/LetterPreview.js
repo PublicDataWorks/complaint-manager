@@ -39,6 +39,7 @@ import IncompleteClassificationsDialog from "../../sharedFormComponents/Incomple
 import MissingComplainantDialog from "../../sharedFormComponents/MissingComplainantDialog";
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import { userTimezone } from "../../../../common/helpers/userTimezone";
 
 class LetterPreview extends Component {
   constructor(props) {
@@ -337,7 +338,7 @@ class LetterPreview extends Component {
     if (this.props.editStatus === EDIT_STATUS.EDITED) {
       return (
         <i style={styles.body1}>
-          (Last edited {dateTimeFromString(this.props.lastEdited)})
+          (Last edited {dateTimeFromString(this.props.lastEdited, userTimezone)})
         </i>
       );
     }

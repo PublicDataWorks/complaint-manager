@@ -6,6 +6,7 @@ import formatDate, {
   formatShortDate,
   timeFromDateString
 } from "./formatDate";
+import { TIMEZONE } from "../sharedUtilities/constants";
 
 describe("format date", () => {
   test("should format date appropriately when in YYYY-MM-DD format", () => {
@@ -55,7 +56,7 @@ describe("dateTimeFromString", () => {
   test("should format date time in cst", () => {
     const givenDateTime = "2018-09-17T19:56:06.401Z";
     const expectedTime = "Sep 17, 2018 2:56 PM CDT";
-    expect(dateTimeFromString(givenDateTime)).toEqual(expectedTime);
+    expect(dateTimeFromString(givenDateTime, TIMEZONE)).toEqual(expectedTime);
   });
 
   test("should format date time in cdt", () => {

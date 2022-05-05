@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import tableStyleGenerator from "../../../../tableStyles";
 import CaseHistoryDetails from "./CaseHistoryDetails";
+import { userTimezone } from "./../../../../common/helpers/userTimezone";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -22,7 +23,7 @@ const CaseHistoryRow = ({ classes, history }) => {
         />
       </TableCell>
       <TableCell className={classes.topAlignCell}>
-        {dateTimeFromString(history.timestamp)}
+        {dateTimeFromString(history.timestamp, userTimezone)}
       </TableCell>
     </TableRow>
   );
