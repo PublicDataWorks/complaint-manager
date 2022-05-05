@@ -10,12 +10,11 @@ import {
   getCaseNotesSuccess,
   openCaseNoteDialog
 } from "../../../actionCreators/casesActionCreators";
-import moment from "moment";
 import timezone from "moment-timezone";
-// import { TIMEZONE } from "../../../../../sharedUtilities/constants";
 import { initialize } from "redux-form";
 import { connect } from "react-redux";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
+import { userTimezone } from "../../../../common/helpers/userTimezone";
 
 class CaseNotes extends Component {
   componentDidMount() {
@@ -84,7 +83,7 @@ class CaseNotes extends Component {
             this.props.dispatch(
               initialize("CaseNotes", {
                 actionTakenAt: timezone
-                  .tz(new Date(Date.now()), moment.tz.guess())
+                  .tz(new Date(Date.now()), userTimezone)
                   .format("YYYY-MM-DDTHH:mm")
               })
             );

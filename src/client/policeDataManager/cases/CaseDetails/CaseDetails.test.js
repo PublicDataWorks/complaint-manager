@@ -26,15 +26,14 @@ import {
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import {
-  NARRATIVE_FORM,
-  TIMEZONE
+  NARRATIVE_FORM
 } from "../../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize, reset } from "redux-form";
 import { scrollToTop } from "../../../ScrollToTop";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import { clearHighlightedCaseNote } from "../../actionCreators/highlightCaseNoteActionCreators";
-import moment from "moment";
+import { userTimezone } from "../../../common/helpers/userTimezone";
 
 require("../../testUtilities/MockMutationObserver");
 
@@ -252,7 +251,7 @@ describe("Case Details Component", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         initialize("CaseNotes", {
           actionTakenAt: timezone
-            .tz(new Date(Date.now()), moment.tz.guess())
+            .tz(new Date(Date.now()), userTimezone)
             .format("YYYY-MM-DDTHH:mm")
         })
       );

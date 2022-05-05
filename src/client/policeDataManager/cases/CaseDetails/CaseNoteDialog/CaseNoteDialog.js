@@ -22,8 +22,7 @@ import timezone from "moment-timezone";
 import moment from "moment";
 import _ from "lodash";
 import {
-  CASE_NOTE_FORM_NAME,
-  TIMEZONE
+  CASE_NOTE_FORM_NAME
 } from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
@@ -32,6 +31,7 @@ import getUsers from "../../../../common/thunks/getUsers";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import { filterAfterTrigger, keyDownEvent } from "./userMentionHelperFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
+import { userTimezone } from "../../../../common/helpers/userTimezone";
 
 class CaseNoteDialog extends Component {
   constructor(props) {
@@ -66,7 +66,7 @@ class CaseNoteDialog extends Component {
         }
       : {
           ...values,
-          actionTakenAt: timezone.tz(values.actionTakenAt, moment.tz.guess()).format(),
+          actionTakenAt: timezone.tz(values.actionTakenAt, userTimezone).format(),
           caseId,
           mentionedUsers: this.state.mentionedUsers
         };

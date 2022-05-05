@@ -39,6 +39,7 @@ import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDrop
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
+import { userTimezone } from "../../../../common/helpers/userTimezone";
 
 const {
   FIRST_CONTACTED_ORGANIZATION,
@@ -67,7 +68,7 @@ const submitIncidentDetails = (values, dispatch, props) => {
   
   let timezone;
   if(normalizedValuesWithId.incidentDate && !normalizedValuesWithId.incidentTimezone){
-      timezone = moment.tz(normalizedValuesWithId.incidentDate, moment.tz.guess()).zoneAbbr();
+      timezone = moment.tz(normalizedValuesWithId.incidentDate, userTimezone).zoneAbbr();
       normalizedValuesWithId.incidentTimezone = timezone;
   }
 
@@ -82,7 +83,7 @@ const styles = {
   }
 };
 
-const timezoneGuess = moment.tz(Date.now(), moment.tz.guess()).zoneAbbr();
+const timezoneGuess = moment.tz(Date.now(), userTimezone).zoneAbbr();
 const timezones = ["AST","ADT","CST", "CDT", "EST", "EDT", "MST", "MDT", "PST", "PDT"];
 
 class IncidentDetailsDialog extends Component {
