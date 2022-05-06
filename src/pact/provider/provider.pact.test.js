@@ -108,10 +108,6 @@ describe("Pact Verification", () => {
           await cleanupDatabase();
           const letterCase = await setupCase();
           await setupLetter(letterCase);
-        },
-        "edit letter": async () => {
-          const letterCase = await setupCase();
-          await setupLetter(letterCase);
         }
       }
     };
