@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Card, CardContent, Typography } from "@material-ui/core";
 import NavBar from "../../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
@@ -203,7 +204,7 @@ export class EditLetter extends Component {
               }}
             >
               <CardContent>
-                <form>
+                <form data-testid="editLetterForm">
                   <Field
                     name="editedLetterHtml"
                     data-testid="editLetterHtml"
@@ -228,6 +229,25 @@ export class EditLetter extends Component {
     );
   }
 }
+
+EditLetter.propTypes = {
+  caseReference: PropTypes.string,
+  caseStatus: PropTypes.string,
+  dirty: PropTypes.bool,
+  dispatch: PropTypes.func,
+  handleSubmit: PropTypes.func,
+  initialValues: PropTypes.shape({
+    editedLetterHtml: PropTypes.string
+  }),
+  invalidCaseStatusRedirect: PropTypes.func,
+  letterHtml: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.number
+    })
+  }),
+  pristine: PropTypes.bool
+};
 
 const mapStateToProps = state => ({
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
