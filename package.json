@@ -1,7 +1,7 @@
 {
   "name": "police-data-manager",
   "version": "3.50.0",
-  "private": true,
+  "license": "Apache 2.0",
   "proxy": "https://localhost:1234",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
