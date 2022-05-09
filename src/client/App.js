@@ -18,12 +18,14 @@ import getNotifications from "./policeDataManager/shared/thunks/getNotifications
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
+import redirectToAuth from "./common/auth/redirectToAuth";
+
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 const App = props => {
   let [eventSource, setEventSource] = useState(undefined);
-
+  
   useEffect(() => {
     props.getFeatureToggles();
 
@@ -33,9 +35,11 @@ const App = props => {
     if (isAuthDisabled()) {
       auth.setDummyUserInfoInStore(props.userAuthSuccess);
     }
-
-    if (accessToken && !isAuthDisabled()) {
+    else if (accessToken) {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
+    }
+    else if (!window.location.pathname.includes("/data")){
+      redirectToAuth(props.dispatch);
     }
   }, []);
   useEffect(() => {
@@ -107,7 +111,8 @@ const mapDispatchToProps = {
   userAuthSuccess,
   getFeatureToggles,
   getNotifications,
-  snackbarError
+  snackbarError,
+  dispatch: arg => dispatch => dispatch(arg)
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

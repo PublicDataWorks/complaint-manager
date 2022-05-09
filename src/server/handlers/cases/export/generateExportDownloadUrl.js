@@ -80,7 +80,7 @@ const generateExportDownloadUrl = async (
     });
   });
 
-  if (process.env.USE_CLOUD_SERVICES == "false") {
+  if (process.env.REACT_APP_USE_CLOUD_SERVICES == "false") {
     return signedUrl.replace("host.docker.internal", "localhost");
   }
 

@@ -19,7 +19,6 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - REACT_APP_GOOGLE_API_KEY
-      - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
@@ -94,7 +93,6 @@ services:
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
       - REACT_APP_GOOGLE_API_KEY
-      - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
     depends_on:
@@ -131,7 +129,6 @@ services:
       - NEW_RELIC_NO_CONFIG_FILE=true
       - AWS_ACCESS_KEY_ID
       - AWS_SECRET_ACCESS_KEY
-      - USE_CLOUD_SERVICES=false
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem

@@ -9,7 +9,7 @@ SIGNATURE_FILE_SRC_DIR="${REACT_APP_INSTANCE_FILES_DIR}/images"
 FILES=($(ls $SEED_FILE_SRC_DIR))
 SIGNATURE_FILES=($(ls $SIGNATURE_FILE_SRC_DIR | grep .png | grep -v header_text))
 
-if [ "$USE_CLOUD_SERVICES" = "true" ]; then
+if [ "$REACT_APP_USE_CLOUD_SERVICES" = "true" ]; then
     echo "Cloud services are enabled. Skipping Localstack setup."
     exit 0
 fi

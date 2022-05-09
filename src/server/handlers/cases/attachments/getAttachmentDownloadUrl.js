@@ -87,7 +87,7 @@ const getS3SignedUrl = (s3, bucket, key) => {
     Key: key,
     Expires: S3_URL_EXPIRATION
   });
-  if (process.env.USE_CLOUD_SERVICES == "false") {
+  if (process.env.REACT_APP_USE_CLOUD_SERVICES == "false") {
     return rawSignedUrl.replace("host.docker.internal", "localhost");
   }
   return rawSignedUrl;

@@ -7,7 +7,7 @@ const createConfiguredS3Instance = () => {
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
   const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
-  const areCloudServicesDisabled = process.env.USE_CLOUD_SERVICES == "false";
+  const areCloudServicesDisabled = process.env.REACT_APP_USE_CLOUD_SERVICES == "false";
 
   let credentials = { accessKeyId, secretAccessKey };
 

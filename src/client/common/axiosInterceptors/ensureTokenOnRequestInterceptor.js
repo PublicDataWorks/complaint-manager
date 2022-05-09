@@ -1,5 +1,5 @@
 import getAccessToken from "../auth/getAccessToken";
-import { push } from "connected-react-router";
+import redirectToAuth from "../auth/redirectToAuth";
 
 const publicAPIs = ["/api/public-data", "features"];
 
@@ -26,13 +26,7 @@ const ensureTokenOnRequestInterceptor = (
   const token = getAccessToken();
 
   if (!token && !isAuthDisabled && !isPublicAPI) {
-    if (
-      window.location.pathname !== "/login" &&
-      window.location.pathname !== "/callback"
-    ) {
-      localStorage.setItem("redirectUri", window.location.pathname);
-    }
-    dispatch(push("/login"));
+    redirectToAuth(dispatch);
     throw new Error("No access token found");
   }
   return {
