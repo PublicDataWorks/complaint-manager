@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.50.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.49.1...v3.50.0) (2022-05-09)
+
 ### [3.49.1](https://github.com/PublicDataWorks/police_data_manager/compare/v3.49.0...v3.49.1) (2022-04-05)
 
 
