@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.50.1](https://github.com/PublicDataWorks/police_data_manager/compare/v3.50.0...v3.50.1) (2022-05-10)
+
+
+### Bug Fixes
+
+* Isabel/Andrew [[#129](https://www.pivotaltracker.com/story/show/129)] unhardcoded the bucket name when retrieving signatures ([c70094e](https://github.com/PublicDataWorks/police_data_manager/commit/c70094edef61a09fcd9689c1db35ffbd5dfb6120))
+
 ## [3.50.0](https://github.com/PublicDataWorks/police_data_manager/compare/v3.49.1...v3.50.0) (2022-05-09)
 
 ### [3.49.1](https://github.com/PublicDataWorks/police_data_manager/compare/v3.49.0...v3.49.1) (2022-04-05)
