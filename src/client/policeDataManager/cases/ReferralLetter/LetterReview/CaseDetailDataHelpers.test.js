@@ -25,6 +25,7 @@ describe("caseDetailDataHelpers", function () {
         incidentDate: incidentDate,
         firstContactDate: firstContactDate,
         incidentTime: "10:00:00",
+        incidentTimezone: "CST",
         incidentLocation: {
           streetAddress: "100 Small Lake Road",
           city: "Skokie",
@@ -63,6 +64,7 @@ describe("caseDetailDataHelpers", function () {
         incidentDate: incidentDate,
         firstContactDate: firstContactDate,
         incidentTime: "10:00:00",
+        incidentTimezone: "CST",
         incidentLocation: {
           streetAddress: "",
           city: "",
@@ -101,6 +103,7 @@ describe("caseDetailDataHelpers", function () {
         incidentDate: incidentDate,
         firstContactDate: firstContactDate,
         incidentTime: "10:00:00",
+        incidentTimezone: "CST",
         incidentLocation: {
           streetAddress: "100 Small Lake Road",
           city: "Skokie",

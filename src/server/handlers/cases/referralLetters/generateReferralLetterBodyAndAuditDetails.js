@@ -13,6 +13,7 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
       "id",
       "incidentDate",
       "incidentTime",
+      "incidentTimezone",
       "narrativeDetails",
       "firstContactDate",
       "complaintType",

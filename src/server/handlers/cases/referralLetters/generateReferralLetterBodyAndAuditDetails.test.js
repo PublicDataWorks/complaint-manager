@@ -202,6 +202,7 @@ const expectedReferralLetterCaseAuditDetails = {
       "id",
       "incidentDate",
       "incidentTime",
+      "incidentTimezone",
       "narrativeDetails",
       "firstContactDate",
       "complaintType",

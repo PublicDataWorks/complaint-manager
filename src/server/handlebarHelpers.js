@@ -1,6 +1,5 @@
 import Handlebars from "handlebars";
 import {
-  computeTimeZone,
   format12HourTime,
   formatLongDate,
   formatShortDate
@@ -82,9 +81,9 @@ export const showOfficerHistoryHeader = accusedOfficers => {
 };
 Handlebars.registerHelper("showOfficerHistoryHeader", showOfficerHistoryHeader);
 
-Handlebars.registerHelper("formatTime", (date, time) => {
+Handlebars.registerHelper("formatTime", (date, time, timezone) => {
   if (!time) return time;
-  return format12HourTime(time) + " " + computeTimeZone();
+  return format12HourTime(time) + " " + timezone;
 });
 
 Handlebars.registerHelper("formatShortDate", date => {

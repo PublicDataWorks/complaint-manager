@@ -1,5 +1,4 @@
 import formatDate, {
-  computeTimeZone,
   format12HourTime
 } from "../../../../../sharedUtilities/formatDate";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
@@ -16,9 +15,9 @@ export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
 };
 
-const formatTimeForDisplay = (date, time) => {
+const formatTimeForDisplay = (date, time, timezone) => {
   if (!time) return time;
-  return format12HourTime(time) + " " + computeTimeZone();
+  return format12HourTime(time) + " " + timezone;
 };
 
 const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
@@ -30,7 +29,8 @@ export const getIncidentInfoData = caseDetail => {
     : null;
   const incidentTime = formatTimeForDisplay(
     caseDetail.incidentDate,
-    caseDetail.incidentTime
+    caseDetail.incidentTime,
+    caseDetail.incidentTimezone
   );
 
   return [
