@@ -20,12 +20,11 @@ import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
 import redirectToAuth from "./common/auth/redirectToAuth";
 
-
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 const App = props => {
   let [eventSource, setEventSource] = useState(undefined);
-  
+
   useEffect(() => {
     props.getFeatureToggles();
 
@@ -34,11 +33,12 @@ const App = props => {
 
     if (isAuthDisabled()) {
       auth.setDummyUserInfoInStore(props.userAuthSuccess);
-    }
-    else if (accessToken) {
+    } else if (accessToken) {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
-    }
-    else if (!window.location.pathname.includes("/data")){
+    } else if (
+      !window.location.pathname.includes("/data") &&
+      window.location.pathname !== "/callback"
+    ) {
       redirectToAuth(props.dispatch);
     }
   }, []);
