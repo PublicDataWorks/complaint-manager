@@ -1,12 +1,16 @@
 import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 import models from "../../../policeDataManager/models";
+const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 export const retrieveSignatureImage = async fileName => {
   const s3 = createConfiguredS3Instance();
   if (fileName) {
     const data = await new Promise((resolve, reject) => {
       s3.getObject(
-        { Bucket: "noipm-local", Key: `signatures/${fileName}` },
+        {
+          Bucket: config[process.env.NODE_ENV].s3Bucket,
+          Key: `signatures/${fileName}`
+        },
         (err, response) => {
           if (err) {
             console.error(err);
