@@ -144,10 +144,6 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
-      district: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
       districtId: {
         type: DataTypes.INTEGER,
         field: "district_id",

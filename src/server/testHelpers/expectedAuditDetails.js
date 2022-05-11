@@ -10,7 +10,6 @@ export const expectedCaseAuditDetails = {
       "complaintType",
       "createdAt",
       "createdBy",
-      "district",
       "districtId",
       "firstContactDate",
       "howDidYouHearAboutUsSourceId",

@@ -1,3 +1,5 @@
+// this no longer works as we have removed the action column
+
 import _ from "lodash";
 import models from "../policeDataManager/models";
 
