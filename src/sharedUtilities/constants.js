@@ -232,7 +232,16 @@ export const SEARCH_CASES_FORM_NAME = "SearchCasesForm";
 
 export const USER_PERMISSIONS = {
   EXPORT_AUDIT_LOG: "export:audit-log",
-  UPDATE_ALL_CASE_STATUSES: "update:case-status"
+  UPDATE_ALL_CASE_STATUSES: "update:case-status",
+  CREATE_CASE: "case:create",
+  VIEW_CASE_HISTORY: "case-history:view",
+  ARCHIVE_CASE: "case:archive",
+  CREATE_CASE_NOTE: "case-notes:create",
+  ADD_TAG_TO_CASE: "case:add-tag",
+  EDIT_CASE: "case:edit", // edit incident details, add/edit/remove witness/complainant/accused, edit narrative, upload attachments
+  SETUP_LETTER: "letter:setup", // start/continue referral letter flow, edit letter
+  MANAGE_TAGS: "tags:manage", // specific to TagManagementPage
+  VIEW_ANONYMOUS_DATA: "anonymous:view"
 };
 export const OPENID = "openid";
 export const PROFILE = "profile";
@@ -696,7 +705,15 @@ export const PERMISSIONS = [
   "openid",
   "profile",
   "export:audit-log",
-  "update:case-status"
+  "update:case-status",
+  "case:create",
+  "case-history:view",
+  "case:archive",
+  "case-notes:create",
+  "case:add-tag",
+  "case:edit",
+  "letter:setup",
+  "anonymous:view"
 ];
 
 export const FAKE_USERS = [

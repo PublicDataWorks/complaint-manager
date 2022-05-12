@@ -1,5 +1,6 @@
 import gracefulExit from "../sharedUtilities/gracefulExit";
 import { server } from "./server";
+import Boom from "boom";
 
 export const handleSigterm = app => {
   if (app.locals.shuttingDown) return;
@@ -7,12 +8,15 @@ export const handleSigterm = app => {
   gracefulExit(server);
 };
 
-export const refuseNewConnectionDuringShutdown = app => (
-  request,
-  response,
-  next
-) => {
-  if (!app.locals.shuttingDown) return next();
-  response.set("Connection", "close");
-  response.status(503).send("Server is in the process of restarting.");
+export const refuseNewConnectionDuringShutdown =
+  app => (request, response, next) => {
+    if (!app.locals.shuttingDown) return next();
+    response.set("Connection", "close");
+    response.status(503).send("Server is in the process of restarting.");
+  };
+
+export const checkPermissions = (request, permission) => {
+  if (!request.permissions.includes(permission)) {
+    throw Boom.forbidden("You are not authorized to perform this action");
+  }
 };

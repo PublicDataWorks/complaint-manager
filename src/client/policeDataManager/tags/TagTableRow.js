@@ -10,6 +10,7 @@ import ConfirmationDialog from "../shared/components/ConfirmationDialog";
 import getTagsWithCount from "./thunks/getTagsWithCount";
 import tableStyleGenerator from "../../tableStyles";
 import MergeTagDialog from "./MergeTagDialog";
+import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -79,41 +80,48 @@ export const TagTableRow = props => {
       >
         {props.tag.count}
       </TableCell>
-      <TableCell
-        className={props.classes.cell}
-        style={{ paddingRight: "24px" }}
-      >
-        <LinkButton
-          data-testid="editTagButton"
-          onClick={() => setDialog("edit")}
-        >
-          Rename
-        </LinkButton>
-      </TableCell>
-      <TableCell
-        className={props.classes.cell}
-        style={{ paddingRight: "24px" }}
-      >
-        <LinkButton
-          data-testid="mergeTagButton"
-          onClick={() => setDialog("merge")}
-        >
-          Merge
-        </LinkButton>
-      </TableCell>
-      <TableCell
-        className={props.classes.cell}
-        style={{ paddingRight: "24px" }}
-      >
-        <LinkButton
-          style={{ color: "#d32f2f" }}
-          data-testid="removeTagButton"
-          onClick={() => setDialog("remove")}
-        >
-          Remove
-        </LinkButton>
-      </TableCell>
-      {renderDialog()}
+      {props.permissions &&
+      props.permissions.includes(USER_PERMISSIONS.MANAGE_TAGS) ? (
+        <>
+          <TableCell
+            className={props.classes.cell}
+            style={{ paddingRight: "24px" }}
+          >
+            <LinkButton
+              data-testid="editTagButton"
+              onClick={() => setDialog("edit")}
+            >
+              Rename
+            </LinkButton>
+          </TableCell>
+          <TableCell
+            className={props.classes.cell}
+            style={{ paddingRight: "24px" }}
+          >
+            <LinkButton
+              data-testid="mergeTagButton"
+              onClick={() => setDialog("merge")}
+            >
+              Merge
+            </LinkButton>
+          </TableCell>
+          <TableCell
+            className={props.classes.cell}
+            style={{ paddingRight: "24px" }}
+          >
+            <LinkButton
+              style={{ color: "#d32f2f" }}
+              data-testid="removeTagButton"
+              onClick={() => setDialog("remove")}
+            >
+              Remove
+            </LinkButton>
+          </TableCell>
+          {renderDialog()}
+        </>
+      ) : (
+        ""
+      )}
     </TableRow>
   );
 };
@@ -124,9 +132,15 @@ TagTableRow.propTypes = {
     count: PropTypes.string,
     id: PropTypes.number,
     name: PropTypes.string
-  })
+  }),
+  permissions: PropTypes.arrayOf(PropTypes.string)
 };
 
 export default withStyles(styles, { withTheme: true })(
-  connect(undefined, { getTagsWithCount })(TagTableRow)
+  connect(
+    state => ({ permissions: state?.users?.current?.userInfo?.permissions }),
+    {
+      getTagsWithCount
+    }
+  )(TagTableRow)
 );
