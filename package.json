@@ -24,7 +24,7 @@
     "start:server:dev": "nodemon --watch src/server --watch src/sharedUtilities src/startServer.js --exec babel-node",
     "start:worker": "node dist/startWorker.js",
     "start:worker:dev": "nodemon --watch src/worker --watch src/sharedUtilities src/startWorker.js --exec babel-node",
-    "test:client": "NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test react-app-rewired test src/client --logHeapUsage --env=jsdom --coverage --coverageThreshold='{\"global\":{\"statements\":\"95\",\"branches\":\"90\"}}'",
+    "test:client": "NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test react-app-rewired test src/client --logHeapUsage --env=jsdom",
     "test:client:ci": "NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test CI=true react-app-rewired test src/client --logHeapUsage --maxWorkers=2 --env=jsdom --coverage --collectCoverageFrom='src/client/**/*.{js,jsx}'",
     "test:debug": "NODE_ENV=test yarn setup:test:db && CI=true && react-app-rewired --max_old_space_size=1024 --inspect-brk=0.0.0.0 test src/server --logHeapUsage --runInBand --env=node",
     "test:once": "run-p -c test:server:worker:ci test:client:ci",

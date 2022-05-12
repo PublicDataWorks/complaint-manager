@@ -15,12 +15,13 @@ jest.mock("../../thunks/removeCaseNote", () => (caseId, caseNoteId) => ({
   caseNoteId
 }));
 
-describe("RemoveCaseNoteDialog", function() {
-  test("should call removeCaseNote thunk with correct values", () => {
+describe("RemoveCaseNoteDialog", function () {
+  test("should show author email if there is no author name", () => {
     const store = createConfiguredStore();
     const activity = {
       id: 1,
-      caseId: 2
+      caseId: 2,
+      author: { email: "wineguy@yahoo.com" }
     };
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -32,6 +33,40 @@ describe("RemoveCaseNoteDialog", function() {
       </Provider>
     );
 
+    const button = wrapper.findWhere(node => {
+      return (
+        node.type() &&
+        node.name() &&
+        node.text().includes("[wineguy@yahoo.com]")
+      );
+    });
+
+    expect(button).not.toBeNull();
+  });
+
+  test("should call removeCaseNote thunk with correct values", () => {
+    const store = createConfiguredStore();
+    const activity = {
+      id: 1,
+      caseId: 2,
+      author: { name: "Jordan Ng", email: "wineguy@yahoo.com" }
+    };
+    const dispatchSpy = jest.spyOn(store, "dispatch");
+
+    store.dispatch(openRemoveCaseNoteDialog(activity));
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <RemoveCaseNoteDialog />
+      </Provider>
+    );
+
+    const button = wrapper.findWhere(node => {
+      return node.type() && node.name() && node.text().includes("Jordan Ng");
+    });
+
+    expect(button).not.toBeNull();
+
     const removeCaseNoteButton = wrapper
       .find('[data-testid="removeCaseNote"]')
       .first();
@@ -42,7 +77,7 @@ describe("RemoveCaseNoteDialog", function() {
     );
   });
 
-  test("should close dialog when cancel button clicked", function() {
+  test("should close dialog when cancel button clicked", function () {
     const store = createConfiguredStore();
     store.dispatch(openRemoveCaseNoteDialog());
     const dispatchSpy = jest.spyOn(store, "dispatch");
