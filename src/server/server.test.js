@@ -11,7 +11,8 @@ import {
   AUDIT_ACTION,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  NICKNAME
+  NICKNAME,
+  USER_PERMISSIONS
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -144,21 +145,22 @@ describe("server", () => {
   });
 
   describe("requiredPermission", () => {
-    test("should return 403 status when missing required permission", async () => {
-      token = buildTokenWithPermissions([], NICKNAME);
-      await expectResponse(
-        request(app)
-          .put("/api/tags/1")
-          .set("Content-Header", "application/json")
-          .set("Authorization", `Bearer ${token}`),
-        403,
-        {
-          error: "Forbidden",
-          message: "You are not authorized to perform this action",
-          statusCode: 403
-        }
-      );
-    });
+    if (!isAuthDisabled()) {
+      test("should return 403 status when missing required permission", async () => {
+        await expectResponse(
+          request(app)
+            .put("/api/tags/1")
+            .set("Content-Header", "application/json")
+            .set("Authorization", `Bearer ${token}`),
+          403,
+          {
+            error: "Forbidden",
+            message: "You are not authorized to perform this action",
+            statusCode: 403
+          }
+        );
+      });
+    }
   });
 
   describe("POST /audit", () => {

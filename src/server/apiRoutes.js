@@ -574,7 +574,6 @@ const addToRouter = (router, method, path, handler, requiredPermission) => {
   if (handler) {
     if (requiredPermission) {
       router[method](path, async (request, response, next) => {
-        console.log(requiredPermission, request?.permissions);
         if (request?.permissions?.includes(requiredPermission)) {
           await handler(request, response, next);
         } else {
