@@ -713,6 +713,7 @@ export const PERMISSIONS = [
   "case:add-tag",
   "case:edit",
   "letter:setup",
+  "tags:manage",
   "anonymous:view"
 ];
 

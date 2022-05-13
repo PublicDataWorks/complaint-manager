@@ -143,6 +143,24 @@ describe("server", () => {
     });
   });
 
+  describe("requiredPermission", () => {
+    test("should return 403 status when missing required permission", async () => {
+      token = buildTokenWithPermissions([], NICKNAME);
+      await expectResponse(
+        request(app)
+          .put("/api/tags/1")
+          .set("Content-Header", "application/json")
+          .set("Authorization", `Bearer ${token}`),
+        403,
+        {
+          error: "Forbidden",
+          message: "You are not authorized to perform this action",
+          statusCode: 403
+        }
+      );
+    });
+  });
+
   describe("POST /audit", () => {
     const mockLog = AUDIT_ACTION.LOGGED_OUT;
     test("should audit log out", async () => {

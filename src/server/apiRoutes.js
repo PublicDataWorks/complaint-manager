@@ -68,6 +68,8 @@ import editClassifications from "./handlers/cases/referralLetters/editRecommende
 import { getMessageStream } from "./handlers/cases/getMessageStream";
 import markNotificationAsRead from "./handlers/cases/markNotificationAsRead";
 import logHandler from "./handlers/logHandler";
+import { USER_PERMISSIONS } from "../sharedUtilities/constants";
+import Boom from "boom";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -427,18 +429,21 @@ export const API_ROUTES = {
   "/tags/:id": {
     put: {
       handler: editTag,
+      requiredPermission: USER_PERMISSIONS.MANAGE_TAGS,
       errorMessage:
         "Something went wrong and the tag could not be updated. Please try again."
     },
     delete: {
       handler: removeTag,
+      requiredPermission: USER_PERMISSIONS.MANAGE_TAGS,
       errorMessage:
-      "Something went wrong and the tag could not be deleted. Please try again."
+        "Something went wrong and the tag could not be deleted. Please try again."
     },
     patch: {
       handler: mergeTag,
+      requiredPermission: USER_PERMISSIONS.MANAGE_TAGS,
       errorMessage:
-      "Something went wrong and the tag could not be merged. Please try again."
+        "Something went wrong and the tag could not be merged. Please try again."
     }
   },
   "/intake-sources": {
@@ -555,13 +560,30 @@ export const addRoutesToRouter = (router, routes) => {
 
 const addMethodsForRoute = (path, router, routes) => {
   Object.keys(routes[path]).map(method => {
-    addToRouter(router, method, path, routes[path][method].handler);
+    addToRouter(
+      router,
+      method,
+      path,
+      routes[path][method].handler,
+      routes[path][method].requiredPermission
+    );
   });
 };
 
-const addToRouter = (router, method, path, handler) => {
+const addToRouter = (router, method, path, handler, requiredPermission) => {
   if (handler) {
-    router[method](path, handler);
+    if (requiredPermission) {
+      router[method](path, async (request, response, next) => {
+        console.log(requiredPermission, request?.permissions);
+        if (request?.permissions?.includes(requiredPermission)) {
+          await handler(request, response, next);
+        } else {
+          next(Boom.forbidden("You are not authorized to perform this action"));
+        }
+      });
+    } else {
+      router[method](path, handler);
+    }
   }
 };
 
