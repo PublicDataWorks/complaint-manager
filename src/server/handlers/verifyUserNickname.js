@@ -1,4 +1,4 @@
-import { NICKNAME } from "../../sharedUtilities/constants";
+import { NICKNAME, PERMISSIONS } from "../../sharedUtilities/constants";
 import { UNAUTHORIZED_ERRORS } from "../../sharedUtilities/errorMessageConstants";
 import checkFeatureToggleEnabled from "../checkFeatureToggleEnabled";
 
@@ -21,8 +21,7 @@ const verifyUserNickname = (request, response, next) => {
 
   if (nonUserAuthenticationFeature && userInfo["gty"] == "client-credentials") {
     request.nickname = NICKNAME;
-    request.permissions =
-      "openid profile export:audit-log update:case-status".split(" ");
+    request.permissions = PERMISSIONS.split(" ");
     next();
   } else {
     if (!userInfo[config.authentication.nicknameKey]) {
