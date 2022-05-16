@@ -11,7 +11,10 @@ import { policeDataManagerMenuOptions } from "../shared/components/NavBar/police
 import ComplaintTotals from "./ComplaintTotals";
 import { closeCreateDialog } from "../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../common/actionCreators/dialogTypes";
-import { CASE_TYPE } from "../../../sharedUtilities/constants";
+import {
+  CASE_TYPE,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 
 class CaseDashboard extends Component {
   componentWillUnmount() {
@@ -26,7 +29,11 @@ class CaseDashboard extends Component {
           View All Cases
         </NavBar>
         <ComplaintTotals />
-        <CreateCaseButton />
+        {this.props?.permissions?.includes(USER_PERMISSIONS.CREATE_CASE) ? (
+          <CreateCaseButton />
+        ) : (
+          ""
+        )}
         <CasesTable
           currentPage={this.props.currentPage}
           caseType={CASE_TYPE.WORKING}
@@ -50,7 +57,8 @@ const mapStateToProps = state => {
   return {
     currentPage,
     sortBy,
-    sortDirection
+    sortDirection,
+    permissions: state?.users?.current?.userInfo?.permissions
   };
 };
 

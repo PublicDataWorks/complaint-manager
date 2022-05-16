@@ -106,6 +106,7 @@ export const API_ROUTES = {
   "/cases": {
     post: {
       handler: createCase,
+      requiredPermission: USER_PERMISSIONS.CREATE_CASE,
       errorMessage:
         "Something went wrong and the case was not created. Please try again."
     },

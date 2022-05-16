@@ -11,7 +11,12 @@ import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
 import Case from "../../../sharedTestHelpers/case";
 import getWorkingCases from "./thunks/getWorkingCases";
 import { containsText } from "../../testHelpers";
-import { DESCENDING, SORT_CASES_BY } from "../../../sharedUtilities/constants";
+import {
+  DESCENDING,
+  SORT_CASES_BY,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
+import CreateCaseButton from "./CreateCaseButton";
 import { getFeaturesSuccess } from "../actionCreators/featureTogglesActionCreators";
 import moment from "moment";
 
@@ -39,53 +44,86 @@ describe("CaseDashboard", () => {
     store.dispatch(openSnackbar());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
-
-    caseDashboardWrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <CaseDashboard />
-        </Router>
-      </Provider>
-    );
   });
 
-  test("should display no cases message", () => {
-    store.dispatch(getWorkingCasesSuccess([]));
-    caseDashboardWrapper.update();
+  describe("with no create case permission", () => {
+    beforeEach(() => {
+      store.dispatch({
+        type: "AUTH_SUCCESS",
+        userInfo: { permissions: [USER_PERMISSIONS.EXPORT_AUDIT_LOG] }
+      });
+      caseDashboardWrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseDashboard />
+          </Router>
+        </Provider>
+      );
+    });
 
-    expect(
-      containsText(
-        caseDashboardWrapper,
-        '[data-testid="searchResultsMessage"]',
-        "There are no cases to view"
-      )
-    );
+    test("should not display create case button", () => {
+      expect(caseDashboardWrapper.find(CreateCaseButton)).toHaveLength(0);
+    });
   });
 
-  test("should display navbar with title", () => {
-    const navBar = caseDashboardWrapper.find(NavBar);
-    expect(navBar.contains("View All Cases")).toEqual(true);
-  });
+  describe("with create case permission", () => {
+    beforeEach(() => {
+      store.dispatch({
+        type: "AUTH_SUCCESS",
+        userInfo: { permissions: [USER_PERMISSIONS.CREATE_CASE] }
+      });
 
-  test("should load all cases when mounted", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
-    );
-  });
+      caseDashboardWrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseDashboard />
+          </Router>
+        </Provider>
+      );
+    });
 
-  test("should close snackbar when mounted", () => {
-    expect(store.getState()).toHaveProperty("ui.snackbar.open", false);
-  });
+    test("should display create case button", () => {
+      expect(caseDashboardWrapper.find(CreateCaseButton)).toHaveLength(1);
+    });
 
-  test("should display complaint totals", () => {
-    expect(
-      containsText(
-        caseDashboardWrapper,
-        '[data-testid="complaintTotals"]',
-        `Complaints YTD: Complaints ${moment()
-          .subtract(1, "y")
-          .format("YYYY")}: `
-      )
-    );
+    test("should display no cases message", () => {
+      store.dispatch(getWorkingCasesSuccess([]));
+      caseDashboardWrapper.update();
+
+      expect(
+        containsText(
+          caseDashboardWrapper,
+          '[data-testid="searchResultsMessage"]',
+          "There are no cases to view"
+        )
+      );
+    });
+
+    test("should display navbar with title", () => {
+      const navBar = caseDashboardWrapper.find(NavBar);
+      expect(navBar.contains("View All Cases")).toEqual(true);
+    });
+
+    test("should load all cases when mounted", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        getWorkingCases(SORT_CASES_BY.CASE_REFERENCE, DESCENDING)
+      );
+    });
+
+    test("should close snackbar when mounted", () => {
+      expect(store.getState()).toHaveProperty("ui.snackbar.open", false);
+    });
+
+    test("should display complaint totals", () => {
+      expect(
+        containsText(
+          caseDashboardWrapper,
+          '[data-testid="complaintTotals"]',
+          `Complaints YTD: Complaints ${moment()
+            .subtract(1, "y")
+            .format("YYYY")}: `
+        )
+      );
+    });
   });
 });
