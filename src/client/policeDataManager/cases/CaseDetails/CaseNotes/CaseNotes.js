@@ -15,6 +15,7 @@ import { initialize } from "redux-form";
 import { connect } from "react-redux";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 class CaseNotes extends Component {
   componentDidMount() {
@@ -44,13 +45,16 @@ class CaseNotes extends Component {
             >
               Case Notes
             </Typography>
-            <LinkButton
-              component={Link}
-              to={`/cases/${this.props.caseId}/history`}
-              style={{ textAlign: "right", marginBottom: "16px" }}
-            >
-              View Case History
-            </LinkButton>
+            {this.props.permissions.includes(USER_PERMISSIONS.VIEW_CASE_HISTORY) ? 
+              <LinkButton
+                className="view-case-history-button"
+                component={Link}
+                to={`/cases/${this.props.caseId}/history`}
+                style={{ textAlign: "right", marginBottom: "16px" }}
+              >
+                View Case History
+              </LinkButton> 
+            : ""}
           </div>
           <div
             data-testid="caseNotesContainer"
@@ -105,7 +109,8 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   fetchingCaseNotes: state.currentCase.fetchingCaseNotes,
   highlightedCaseNote: state.ui.highlightedCaseNote,
-  allUsers: state.users.all
+  allUsers: state.users.all,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 export default connect(mapStateToProps)(CaseNotes);

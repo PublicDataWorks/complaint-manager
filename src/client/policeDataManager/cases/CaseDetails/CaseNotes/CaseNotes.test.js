@@ -10,6 +10,7 @@ import {
   fetchingCaseNotes,
   getCaseNotesSuccess
 } from "../../../actionCreators/casesActionCreators";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 describe("Case Notes", () => {
   let store;
@@ -21,6 +22,38 @@ describe("Case Notes", () => {
 
   beforeEach(() => {
     store = createConfiguredStore();
+  });
+
+  test("view case history button is displayed", () => {
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.VIEW_CASE_HISTORY] }
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseNotes caseId={1} dispatch={jest.fn()} />
+        </Router>
+      </Provider>
+    );
+
+    expect(wrapper.text().includes("View Case History")).toBeTrue()
+  });
+
+  test("view case history button is not displayed", () => {
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.ARCHIVE_CASE] }
+    });
+    const wrapper = mount(
+      <Provider store={store}>
+        <Router>
+          <CaseNotes caseId={1} dispatch={jest.fn()} />
+        </Router>
+      </Provider>
+    );
+
+    expect(wrapper.text().includes("View Case History")).toBeFalse()
   });
 
   test("should display placeholder text when no case notes", () => {

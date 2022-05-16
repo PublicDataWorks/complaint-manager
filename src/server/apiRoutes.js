@@ -171,6 +171,7 @@ export const API_ROUTES = {
   "/cases/:caseId/case-history": {
     get: {
       handler: getCaseHistory,
+      requiredPermission: USER_PERMISSIONS.VIEW_CASE_HISTORY, 
       errorMessage:
         "Something went wrong and the case history was not loaded. Please try again."
     }

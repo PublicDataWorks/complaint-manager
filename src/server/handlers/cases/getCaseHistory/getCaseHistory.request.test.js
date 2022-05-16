@@ -7,6 +7,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
+import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {
@@ -18,7 +19,7 @@ describe("GET /api/cases/:caseId/case-history", () => {
   });
 
   test("it returns the case history ordered by createdAt desc", async () => {
-    const token = buildTokenWithPermissions("", "bobNickname");
+    const token = buildTokenWithPermissions(USER_PERMISSIONS.VIEW_CASE_HISTORY, "bobNickname");
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
