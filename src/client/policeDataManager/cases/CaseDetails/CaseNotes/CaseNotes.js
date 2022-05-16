@@ -45,7 +45,7 @@ class CaseNotes extends Component {
             >
               Case Notes
             </Typography>
-            {this.props.permissions.includes(USER_PERMISSIONS.VIEW_CASE_HISTORY) ? 
+            {this.props.permissions?.includes(USER_PERMISSIONS.VIEW_CASE_HISTORY) ? 
               <LinkButton
                 className="view-case-history-button"
                 component={Link}

@@ -143,6 +143,7 @@ export const API_ROUTES = {
     },
     delete: {
       handler: archiveCase,
+      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE, 
       errorMessage:
         "Something went wrong and the case was not archived. Please try again."
     }
@@ -150,6 +151,7 @@ export const API_ROUTES = {
   "/cases/:caseId/restore": {
     put: {
       handler: restoreArchivedCase,
+      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE, 
       errorMessage:
         "Something went wrong and the case was not restored. Please try again."
     }

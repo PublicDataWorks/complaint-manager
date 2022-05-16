@@ -80,8 +80,7 @@ export const TagTableRow = props => {
       >
         {props.tag.count}
       </TableCell>
-      {props.permissions &&
-      props.permissions.includes(USER_PERMISSIONS.MANAGE_TAGS) ? (
+      {props.permissions && props.permissions?.includes(USER_PERMISSIONS.MANAGE_TAGS) ? (
         <>
           <TableCell
             className={props.classes.cell}
