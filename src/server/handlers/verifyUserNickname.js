@@ -21,7 +21,7 @@ const verifyUserNickname = (request, response, next) => {
 
   if (nonUserAuthenticationFeature && userInfo["gty"] == "client-credentials") {
     request.nickname = NICKNAME;
-    request.permissions = PERMISSIONS.split(" ");
+    request.permissions = PERMISSIONS;
     next();
   } else {
     if (!userInfo[config.authentication.nicknameKey]) {
