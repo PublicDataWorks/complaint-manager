@@ -46,9 +46,12 @@ for BUCKET in "${BUCKETS[@]}"; do
                 for FILE in "${SIGNATURE_FILES[@]}"; do
                     aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures/$FILE"
                 done
+                ;;
+
+            $BASE_BUCKET_NAME)
                 # Place letter head image and icon into the noipm-local bucket
                 for FILE in "${LETTER_HEAD_FILES[@]}"; do
-                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/letter-images/$FILE"
+                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/letter-images"
                 done
                 ;;
 
