@@ -80,7 +80,12 @@ describe("Case Details Component", () => {
     store.dispatch(getCaseDetailsSuccess(expectedCase));
     store.dispatch({
       type: "AUTH_SUCCESS",
-      userInfo: { permissions: [USER_PERMISSIONS.CREATE_CASE_NOTE] }
+      userInfo: {
+        permissions: [
+          USER_PERMISSIONS.CREATE_CASE_NOTE,
+          USER_PERMISSIONS.EDIT_CASE
+        ]
+      }
     });
 
     caseDetails = mount(

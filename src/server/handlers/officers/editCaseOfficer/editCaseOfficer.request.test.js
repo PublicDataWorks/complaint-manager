@@ -14,7 +14,7 @@ import {
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
   beforeEach(() => {
-    token = buildTokenWithPermissions("", "tuser");
+    token = buildTokenWithPermissions("case:edit", "tuser");
   });
 
   afterEach(async () => {

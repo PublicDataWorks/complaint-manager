@@ -61,7 +61,7 @@ describe("server", () => {
   beforeEach(async () => {
     user = NICKNAME;
     token = buildTokenWithPermissions(
-      "case:create case-notes:create case:add-tag",
+      "case:create case-notes:create case:add-tag case:edit",
       NICKNAME
     );
 

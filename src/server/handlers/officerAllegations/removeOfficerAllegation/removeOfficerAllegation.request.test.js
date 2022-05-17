@@ -22,7 +22,7 @@ describe("DELETE /officers-allegations/:officerAllegationId", () => {
   });
 
   test("should respond with 200 and updated case when successful", async () => {
-    const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+    const token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
 
     const createdCase = await createTestCaseWithoutCivilian();
     const anAllegation = new Allegation.Builder()

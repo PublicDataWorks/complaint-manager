@@ -138,6 +138,7 @@ export const API_ROUTES = {
     },
     put: {
       handler: editCase,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the case details were not updated. Please try again."
     },
@@ -181,6 +182,7 @@ export const API_ROUTES = {
   "/cases/:caseId/narrative": {
     put: {
       handler: updateCaseNarrative,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the case narrative was not updated. Please try again."
     }
@@ -234,6 +236,7 @@ export const API_ROUTES = {
   "/cases/:caseId/cases-officers": {
     post: {
       handler: addCaseOfficer,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the officer was not added. Please try again."
     }
@@ -241,11 +244,13 @@ export const API_ROUTES = {
   "/cases/:caseId/cases-officers/:caseOfficerId": {
     put: {
       handler: editCaseOfficer,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the officer was not updated. Please try again."
     },
     delete: {
       handler: removeCaseOfficer,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the officer was not removed. Please try again."
     }
@@ -253,6 +258,7 @@ export const API_ROUTES = {
   "/cases/:caseId/cases-officers/:caseOfficerId/officers-allegations": {
     post: {
       handler: createOfficerAllegation,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the allegation was not added. Please try again."
     }
@@ -260,11 +266,13 @@ export const API_ROUTES = {
   "/cases/:caseId/officers-allegations/:officerAllegationId": {
     put: {
       handler: editOfficerAllegation,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the allegation was not updated. Please try again."
     },
     delete: {
       handler: removeOfficerAllegation,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the allegation was not removed. Please try again."
     }
@@ -272,11 +280,13 @@ export const API_ROUTES = {
   "/cases/:caseId/attachments": {
     post: {
       handler: uploadAttachment,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the attachment was not uploaded. Please try again."
     },
     delete: {
       handler: deleteAttachment,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the attachment was not removed. Please try again."
     }
@@ -368,6 +378,7 @@ export const API_ROUTES = {
   "/cases/:caseId/civilians": {
     post: {
       handler: createCivilian,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the civilian was not created. Please try again."
     }
@@ -375,11 +386,13 @@ export const API_ROUTES = {
   "/cases/:caseId/civilians/:civilianId": {
     put: {
       handler: editCivilian,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the civilian was not updated. Please try again."
     },
     delete: {
       handler: removeCivilian,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the civilian was not removed from the case. Please try again."
     }

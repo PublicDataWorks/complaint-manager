@@ -13,7 +13,7 @@ import {
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
   beforeAll(() => {
-    token = buildTokenWithPermissions("", "TEST_NICKNAME");
+    token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
   });
 
   afterEach(async () => {

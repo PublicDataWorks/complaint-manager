@@ -18,7 +18,7 @@ describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
 
   beforeEach(async () => {
-    token = buildTokenWithPermissions("", "some_nickname");
+    token = buildTokenWithPermissions("case:edit", "some_nickname");
   });
 
   afterEach(async () => {

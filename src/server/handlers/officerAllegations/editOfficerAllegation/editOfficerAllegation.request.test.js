@@ -35,7 +35,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function () {
   test(
     "should reply a 400 if officer allegation doesnt exist ",
     suppressWinstonLogs(async () => {
-      const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+      const token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
       const nonExistantAllegationId = 9;
       const responsePromise = request(app)
         .put(
@@ -55,7 +55,7 @@ describe("PUT /officers-allegations/:officerAllegationId", function () {
   );
 
   test("should update officer allegation details", async () => {
-    const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+    const token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
 
     const anAllegation = new Allegation.Builder()
       .defaultAllegation()

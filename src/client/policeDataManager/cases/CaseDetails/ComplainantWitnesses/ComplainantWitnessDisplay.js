@@ -5,6 +5,8 @@ import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
 import CivilianPanel from "./CivilianPanel";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
+import { connect } from "react-redux";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 const ComplainantWitnessDisplay = ({
   civiliansAndOfficers,
@@ -12,7 +14,8 @@ const ComplainantWitnessDisplay = ({
   dispatch,
   incidentDate,
   isArchived,
-  classes
+  classes,
+  permissions
 }) => {
   return (
     <div>
@@ -37,7 +40,8 @@ const ComplainantWitnessDisplay = ({
                   key={index}
                   caseOfficer={civilianOrOfficer}
                 >
-                  {isArchived ? null : (
+                  {isArchived ||
+                  !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
                     <OfficerActions caseOfficer={civilianOrOfficer} />
                   )}
                 </UnknownOfficerPanel>
@@ -52,7 +56,8 @@ const ComplainantWitnessDisplay = ({
                     incidentDate
                   )}
                 >
-                  {isArchived ? null : (
+                  {isArchived ||
+                  !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
                     <OfficerActions caseOfficer={civilianOrOfficer} />
                   )}
                 </OfficerPanel>
@@ -79,4 +84,6 @@ const ComplainantWitnessDisplay = ({
   );
 };
 
-export default ComplainantWitnessDisplay;
+export default connect(state => ({
+  permissions: state?.users?.current?.userInfo?.permissions
+}))(ComplainantWitnessDisplay);

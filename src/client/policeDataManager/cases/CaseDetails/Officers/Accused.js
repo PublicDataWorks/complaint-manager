@@ -6,8 +6,12 @@ import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
-import { ACCUSED } from "../../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
+import { connect } from "react-redux";
 
 const Accused = props => {
   const {
@@ -17,7 +21,8 @@ const Accused = props => {
     caseId,
     isArchived,
     menuOpen,
-    anchorEl
+    anchorEl,
+    permissions
   } = props;
   const titleText = "Accused";
 
@@ -32,7 +37,10 @@ const Accused = props => {
                   key={caseOfficer.id}
                   caseOfficer={caseOfficer}
                 >
-                  {renderManageOfficerMenu(caseOfficer, isArchived)}
+                  {isArchived ||
+                  !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
+                    <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  )}
                 </UnknownOfficerPanel>
               ) : (
                 <AccusedOfficerPanel
@@ -43,11 +51,14 @@ const Accused = props => {
                     incidentDate
                   )}
                 >
-                  {renderManageOfficerMenu(caseOfficer, isArchived)}
+                  {isArchived ||
+                  !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
+                    <ManageOfficerMenu caseOfficer={caseOfficer} />
+                  )}
                 </AccusedOfficerPanel>
               )
             )}
-        {isArchived
+        {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
           ? null
           : renderAddAccused(
               menuOpen,
@@ -103,10 +114,6 @@ const renderNoOfficers = () => {
   );
 };
 
-const renderManageOfficerMenu = (caseOfficer, isArchived) => (
-  <Fragment>
-    {isArchived ? null : <ManageOfficerMenu caseOfficer={caseOfficer} />}
-  </Fragment>
-);
-
-export default Accused;
+export default connect(state => ({
+  permissions: state?.users?.current?.userInfo?.permissions
+}))(Accused);

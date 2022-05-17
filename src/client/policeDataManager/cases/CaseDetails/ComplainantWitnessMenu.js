@@ -1,7 +1,8 @@
 import {
   CIVILIAN_FORM_NAME,
   OFFICER_DETAILS_FORM_NAME,
-  OFFICER_TITLE
+  OFFICER_TITLE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import createCivilian from "../thunks/createCivilian";
@@ -11,6 +12,7 @@ import { Menu, MenuItem } from "@material-ui/core";
 import React from "react";
 import LinkButton from "../../shared/components/LinkButton";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
+import { connect } from "react-redux";
 
 const {
   CIVILIAN_WITHIN_PD_TITLE,
@@ -20,17 +22,21 @@ const {
 const ComplainantWitnessMenu = props => {
   return (
     <div>
-      <LinkButton
-        style={{
-          marginLeft: "8px",
-          marginTop: "8px",
-          marginBottom: "8px"
-        }}
-        onClick={props.handleMenuOpen}
-        data-testid="addComplainantWitness"
-      >
-        + Add {props.civilianType}
-      </LinkButton>
+      {props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+        <LinkButton
+          style={{
+            marginLeft: "8px",
+            marginTop: "8px",
+            marginBottom: "8px"
+          }}
+          onClick={props.handleMenuOpen}
+          data-testid="addComplainantWitness"
+        >
+          + Add {props.civilianType}
+        </LinkButton>
+      ) : (
+        ""
+      )}
       <Menu
         open={props.menuOpen}
         onClose={props.handleMenuClose}
@@ -97,4 +103,6 @@ const ComplainantWitnessMenu = props => {
   );
 };
 
-export default ComplainantWitnessMenu;
+export default connect(state => ({
+  permissions: state?.users?.current?.userInfo?.permissions
+}))(ComplainantWitnessMenu);

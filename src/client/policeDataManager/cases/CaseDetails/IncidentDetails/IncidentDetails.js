@@ -15,6 +15,7 @@ import {
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 const {
   FIRST_CONTACTED_ORGANIZATION,
@@ -26,7 +27,7 @@ class IncidentDetails extends React.Component {
     if (!time) return time;
     return format12HourTime(time);
   };
-  
+
   handleDialogOpen = () => {
     const formValues = {
       firstContactDate: this.props.firstContactDate,
@@ -96,28 +97,30 @@ class IncidentDetails extends React.Component {
                     testLabel="incidentDate"
                   />
                 </StyledInfoDisplay>
-                {incidentTime 
-                ? 
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Incident Time"
-                    value={this.formatTimeForDisplay(
-                      incidentDate,
-                      incidentTime
-                    ) + " " + incidentTimezone}
-                    testLabel="incidentTime"
-                  />
-                </StyledInfoDisplay>
-                :
-                <StyledInfoDisplay>
-                  <CivilianInfoDisplay
-                    displayLabel="Incident Time"
-                    value={this.formatTimeForDisplay(
-                      incidentDate, incidentTime)}
-                    testLabel="incidentTime"
-                  />
-                </StyledInfoDisplay>
-                }
+                {incidentTime ? (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="Incident Time"
+                      value={
+                        this.formatTimeForDisplay(incidentDate, incidentTime) +
+                        " " +
+                        incidentTimezone
+                      }
+                      testLabel="incidentTime"
+                    />
+                  </StyledInfoDisplay>
+                ) : (
+                  <StyledInfoDisplay>
+                    <CivilianInfoDisplay
+                      displayLabel="Incident Time"
+                      value={this.formatTimeForDisplay(
+                        incidentDate,
+                        incidentTime
+                      )}
+                      testLabel="incidentTime"
+                    />
+                  </StyledInfoDisplay>
+                )}
               </div>
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
@@ -164,7 +167,8 @@ class IncidentDetails extends React.Component {
               </div>
             </div>
             <div className={classes.detailsPaneButtons}>
-              {this.props.isArchived ? (
+              {this.props.isArchived ||
+              !this.props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
                 <div />
               ) : (
                 <LinkButton
@@ -204,7 +208,8 @@ const mapStateToProps = state => ({
     state.currentCase.details.howDidYouHearAboutUsSource,
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
-  pibCaseNumber: state.currentCase.details.pibCaseNumber
+  pibCaseNumber: state.currentCase.details.pibCaseNumber,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

@@ -4,7 +4,10 @@ import {
   openCivilianDialog,
   openRemovePersonDialog
 } from "../../../actionCreators/casesActionCreators";
-import { CIVILIAN_FORM_NAME } from "../../../../../sharedUtilities/constants";
+import {
+  CIVILIAN_FORM_NAME,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../shared/components/LinkButton";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
@@ -20,13 +23,15 @@ import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
+import { connect } from "react-redux";
 
 const CivilianPanel = ({
   civilian,
   civilianAge,
   dispatch,
   isArchived,
-  classes
+  classes,
+  permissions
 }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
@@ -139,33 +144,44 @@ const CivilianPanel = ({
         <div style={{ margin: "12px 24px" }}>
           {isArchived ? null : (
             <div style={{ display: "flex" }}>
-              <LinkButton
-                data-testid="editComplainantLink"
-                onClick={event => {
-                  event.stopPropagation();
-                  dispatch(
-                    initialize(CIVILIAN_FORM_NAME, {
-                      ...civilian,
-                      isUnknown: civilian.isAnonymous && !civilian.lastName,
-                      isAnonymous: civilian.isAnonymous && !!civilian.lastName
-                    })
-                  );
-                  dispatch(
-                    openCivilianDialog("Edit Civilian", "Save", editCivilian)
-                  );
-                }}
-              >
-                Edit
-              </LinkButton>
-              <LinkButton
-                data-testid="removeCivilianLink"
-                onClick={event => {
-                  event.stopPropagation();
-                  dispatch(openRemovePersonDialog(civilian, "civilians"));
-                }}
-              >
-                Remove
-              </LinkButton>
+              {permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+                <>
+                  <LinkButton
+                    data-testid="editComplainantLink"
+                    onClick={event => {
+                      event.stopPropagation();
+                      dispatch(
+                        initialize(CIVILIAN_FORM_NAME, {
+                          ...civilian,
+                          isUnknown: civilian.isAnonymous && !civilian.lastName,
+                          isAnonymous:
+                            civilian.isAnonymous && !!civilian.lastName
+                        })
+                      );
+                      dispatch(
+                        openCivilianDialog(
+                          "Edit Civilian",
+                          "Save",
+                          editCivilian
+                        )
+                      );
+                    }}
+                  >
+                    Edit
+                  </LinkButton>
+                  <LinkButton
+                    data-testid="removeCivilianLink"
+                    onClick={event => {
+                      event.stopPropagation();
+                      dispatch(openRemovePersonDialog(civilian, "civilians"));
+                    }}
+                  >
+                    Remove
+                  </LinkButton>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           )}
         </div>
@@ -175,4 +191,6 @@ const CivilianPanel = ({
   );
 };
 
-export default CivilianPanel;
+export default connect(state => ({
+  permissions: state?.users?.current?.userInfo?.permissions
+}))(CivilianPanel);

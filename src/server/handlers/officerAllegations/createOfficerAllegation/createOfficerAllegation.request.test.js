@@ -22,7 +22,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
   });
 
   test("should create officer allegation", async () => {
-    const token = buildTokenWithPermissions("", "TEST_NICKNAME");
+    const token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
