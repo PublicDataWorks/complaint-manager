@@ -10,6 +10,7 @@ import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
 import RemoveCaseTagDialog from "../RemoveCaseTagDialog/RemoveCaseTagDialog";
 import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 class CaseTags extends Component {
   componentDidMount() {
@@ -45,8 +46,10 @@ class CaseTags extends Component {
               0 ? (
               <Typography variant="body2">No tags have been added</Typography>
             ) : (
-              caseTags.map(caseTag => {
-                return (
+              caseTags.map(caseTag =>
+                this.props.permissions?.includes(
+                  USER_PERMISSIONS.ADD_TAG_TO_CASE
+                ) ? (
                   <Chip
                     style={{ margin: "5px" }}
                     key={caseTag.id}
@@ -56,14 +59,24 @@ class CaseTags extends Component {
                       this.props.dispatch(openRemoveCaseTagDialog(caseTag))
                     }
                   />
-                );
-              })
+                ) : (
+                  <Chip
+                    style={{ margin: "5px" }}
+                    key={caseTag.id}
+                    label={caseTag && caseTag.tag.name}
+                    data-testid="caseTagChip"
+                  />
+                )
+              )
             )}
           </div>
           <RemoveCaseTagDialog />
         </div>
         <div>
-          {this.props.isArchived ? (
+          {this.props.isArchived ||
+          !this.props.permissions?.includes(
+            USER_PERMISSIONS.ADD_TAG_TO_CASE
+          ) ? (
             <div />
           ) : (
             <LinkButton
@@ -85,7 +98,8 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   caseTags: state.currentCase.caseTags,
   fetchingCaseTags: state.currentCase.fetchingCaseTags,
-  isArchived: state.currentCase.details.isArchived
+  isArchived: state.currentCase.details.isArchived,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 export default connect(mapStateToProps)(CaseTags);

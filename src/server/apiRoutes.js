@@ -213,6 +213,7 @@ export const API_ROUTES = {
   "/cases/:caseId/case-tags": {
     post: {
       handler: createCaseTag,
+      requiredPermission: USER_PERMISSIONS.ADD_TAG_TO_CASE,
       errorMessage:
         "Something went wrong and the case tag was not created. Please try again."
     },
@@ -225,6 +226,7 @@ export const API_ROUTES = {
   "/cases/:caseId/case-tags/:caseTagId": {
     delete: {
       handler: removeCaseTag,
+      requiredPermission: USER_PERMISSIONS.ADD_TAG_TO_CASE,
       errorMessage:
         "Something went wrong and the case tag was not removed. Please try again."
     }
