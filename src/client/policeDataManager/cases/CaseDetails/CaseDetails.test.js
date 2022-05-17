@@ -26,7 +26,8 @@ import {
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import {
-  NARRATIVE_FORM
+  NARRATIVE_FORM,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import timezone from "moment-timezone";
 import { initialize, reset } from "redux-form";
@@ -77,6 +78,10 @@ describe("Case Details Component", () => {
       .build();
 
     store.dispatch(getCaseDetailsSuccess(expectedCase));
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.CREATE_CASE_NOTE] }
+    });
 
     caseDetails = mount(
       <Provider store={store}>

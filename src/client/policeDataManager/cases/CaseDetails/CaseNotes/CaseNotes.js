@@ -45,7 +45,9 @@ class CaseNotes extends Component {
             >
               Case Notes
             </Typography>
-            {this.props.permissions?.includes(USER_PERMISSIONS.VIEW_CASE_HISTORY) ? 
+            {this.props.permissions?.includes(
+              USER_PERMISSIONS.VIEW_CASE_HISTORY
+            ) ? (
               <LinkButton
                 className="view-case-history-button"
                 component={Link}
@@ -53,8 +55,10 @@ class CaseNotes extends Component {
                 style={{ textAlign: "right", marginBottom: "16px" }}
               >
                 View Case History
-              </LinkButton> 
-            : ""}
+              </LinkButton>
+            ) : (
+              ""
+            )}
           </div>
           <div
             data-testid="caseNotesContainer"
@@ -82,22 +86,26 @@ class CaseNotes extends Component {
           </div>
           <RemoveCaseNoteDialog />
         </div>
-        <LinkButton
-          onClick={() => {
-            this.props.dispatch(
-              initialize("CaseNotes", {
-                actionTakenAt: timezone
-                  .tz(new Date(Date.now()), userTimezone)
-                  .format("YYYY-MM-DDTHH:mm")
-              })
-            );
-            this.props.dispatch(openCaseNoteDialog("Add", {}));
-          }}
-          style={{ margin: "0% 0% 5% 2%" }}
-          data-testid="addCaseNoteButton"
-        >
-          + Add Case Note
-        </LinkButton>
+        {this.props.permissions?.includes(USER_PERMISSIONS.CREATE_CASE_NOTE) ? (
+          <LinkButton
+            onClick={() => {
+              this.props.dispatch(
+                initialize("CaseNotes", {
+                  actionTakenAt: timezone
+                    .tz(new Date(Date.now()), userTimezone)
+                    .format("YYYY-MM-DDTHH:mm")
+                })
+              );
+              this.props.dispatch(openCaseNoteDialog("Add", {}));
+            }}
+            style={{ margin: "0% 0% 5% 2%" }}
+            data-testid="addCaseNoteButton"
+          >
+            + Add Case Note
+          </LinkButton>
+        ) : (
+          ""
+        )}
       </div>
     );
   }

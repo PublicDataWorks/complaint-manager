@@ -60,7 +60,10 @@ describe("server", () => {
 
   beforeEach(async () => {
     user = NICKNAME;
-    token = buildTokenWithPermissions("case:create", NICKNAME);
+    token = buildTokenWithPermissions(
+      "case:create case-notes:create",
+      NICKNAME
+    );
 
     const raceEthnicityAttributes = {
       name: "Samoan",

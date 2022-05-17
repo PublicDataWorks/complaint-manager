@@ -24,36 +24,49 @@ describe("Case Notes", () => {
     store = createConfiguredStore();
   });
 
-  test("view case history button is displayed", () => {
-    store.dispatch({
-      type: "AUTH_SUCCESS",
-      userInfo: { permissions: [USER_PERMISSIONS.VIEW_CASE_HISTORY] }
+  [
+    {
+      name: "view case history",
+      permission: USER_PERMISSIONS.VIEW_CASE_HISTORY,
+      text: "View Case History"
+    },
+    {
+      name: "add case note",
+      permission: USER_PERMISSIONS.CREATE_CASE_NOTE,
+      text: "+ Add Case Note"
+    }
+  ].forEach(perm => {
+    test(`${perm.name} button is displayed`, () => {
+      store.dispatch({
+        type: "AUTH_SUCCESS",
+        userInfo: { permissions: [perm.permission] }
+      });
+      const wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseNotes caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
+      );
+
+      expect(wrapper.text().includes(perm.text)).toBeTrue();
     });
-    const wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <CaseNotes caseId={1} dispatch={jest.fn()} />
-        </Router>
-      </Provider>
-    );
 
-    expect(wrapper.text().includes("View Case History")).toBeTrue()
-  });
+    test(`${perm.name} button is not displayed`, () => {
+      store.dispatch({
+        type: "AUTH_SUCCESS",
+        userInfo: { permissions: [USER_PERMISSIONS.EXPORT_AUDIT_LOG] }
+      });
+      const wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <CaseNotes caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
+      );
 
-  test("view case history button is not displayed", () => {
-    store.dispatch({
-      type: "AUTH_SUCCESS",
-      userInfo: { permissions: [USER_PERMISSIONS.ARCHIVE_CASE] }
+      expect(wrapper.text().includes(perm.text)).toBeFalse();
     });
-    const wrapper = mount(
-      <Provider store={store}>
-        <Router>
-          <CaseNotes caseId={1} dispatch={jest.fn()} />
-        </Router>
-      </Provider>
-    );
-
-    expect(wrapper.text().includes("View Case History")).toBeFalse()
   });
 
   test("should display placeholder text when no case notes", () => {

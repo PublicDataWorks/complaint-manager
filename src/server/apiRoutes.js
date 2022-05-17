@@ -143,7 +143,7 @@ export const API_ROUTES = {
     },
     delete: {
       handler: archiveCase,
-      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE, 
+      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE,
       errorMessage:
         "Something went wrong and the case was not archived. Please try again."
     }
@@ -151,7 +151,7 @@ export const API_ROUTES = {
   "/cases/:caseId/restore": {
     put: {
       handler: restoreArchivedCase,
-      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE, 
+      requiredPermission: USER_PERMISSIONS.ARCHIVE_CASE,
       errorMessage:
         "Something went wrong and the case was not restored. Please try again."
     }
@@ -173,7 +173,7 @@ export const API_ROUTES = {
   "/cases/:caseId/case-history": {
     get: {
       handler: getCaseHistory,
-      requiredPermission: USER_PERMISSIONS.VIEW_CASE_HISTORY, 
+      requiredPermission: USER_PERMISSIONS.VIEW_CASE_HISTORY,
       errorMessage:
         "Something went wrong and the case history was not loaded. Please try again."
     }
@@ -193,6 +193,7 @@ export const API_ROUTES = {
     },
     post: {
       handler: createCaseNote,
+      requiredPermission: USER_PERMISSIONS.CREATE_CASE_NOTE,
       errorMessage:
         "Something went wrong and the case note was not created. Please try again."
     }
