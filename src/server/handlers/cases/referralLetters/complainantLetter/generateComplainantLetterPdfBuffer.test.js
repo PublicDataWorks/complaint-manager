@@ -5,9 +5,7 @@ import Case from "../../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
-import generateComplainantLetterPdfBuffer, {
-  generateComplainantLetterHtml
-} from "./generateComplainantLetterPdfBuffer";
+import generateComplainantLetterPdfBuffer from "./generateComplainantLetterPdfBuffer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 
@@ -123,15 +121,6 @@ beforeEach(async () => {
 });
 
 describe("generateComplainantLetterPdfBuffer", function () {
-  test("generates complainant letter pdf html correctly", async () => {
-    const letterHtml = await generateComplainantLetterHtml(
-      existingCase,
-      complainant
-    );
-
-    expect(letterHtml).toMatchSnapshot();
-  });
-
   test("pdf buffer is created for complainant letter", async () => {
     const pdfResults = await generateComplainantLetterPdfBuffer(
       existingCase,

@@ -5,6 +5,7 @@ import models from "../../../../policeDataManager/models";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
+import Case from "../../../../../sharedTestHelpers/case";
 
 const {
   PERSON_TYPE
@@ -62,10 +63,14 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
   });
 
   test("src/testPDFs/complainantLetter.pdf should match baseline (instance-files/tests/basePDFs/complainantLetter.pdf); pngs saved in src/testPDFs", async () => {
-    const existingCase = {
-      caseReference: "CN-202393",
-      firstContactDate: "2020-01-01"
-    };
+    const existingCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withId(1)
+        .withFirstContactDate("2020-01-01")
+        .build(),
+      { auditUser: "nickname" }
+    );
 
     const complainant = {
       civilianTitle: {

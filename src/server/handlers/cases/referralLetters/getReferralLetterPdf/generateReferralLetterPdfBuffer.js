@@ -35,10 +35,12 @@ const LETTER_SETTINGS = {
 const generateReferralLetterPdfBuffer = async (
   caseId,
   includeSignature,
-  transaction
+  transaction,
+  letterSettings = LETTER_SETTINGS,
+  getDataArgs
 ) => {
   let letterBody, auditDetails;
-  if (LETTER_SETTINGS.hasEditPage) {
+  if (letterSettings.hasEditPage) {
     const queryOptions = {
       where: { caseId },
       attributes: ["editedLetterHtml"],
@@ -46,10 +48,9 @@ const generateReferralLetterPdfBuffer = async (
     };
     let letterData = await models.referral_letter.findOne(queryOptions);
     letterBody = letterData.editedLetterHtml;
-    let letterBodyAuditDetails;
 
     if (letterBody) {
-      letterBodyAuditDetails = getQueryAuditAccessDetails(
+      auditDetails = getQueryAuditAccessDetails(
         queryOptions,
         models.referral_letter.name
       );
@@ -61,8 +62,8 @@ const generateReferralLetterPdfBuffer = async (
     }
   }
 
-  const pdfDataAndAuditDetails = await LETTER_SETTINGS.getData(
-    { caseId },
+  const pdfDataAndAuditDetails = await letterSettings.getData(
+    getDataArgs || { caseId },
     transaction
   );
   const pdfData = pdfDataAndAuditDetails.data;
@@ -71,7 +72,8 @@ const generateReferralLetterPdfBuffer = async (
   const fullLetterHtml = await generateLetterPdfHtml(
     letterBody,
     pdfData,
-    includeSignature
+    includeSignature,
+    letterSettings
   );
 
   auditDetails = auditDetails
@@ -126,12 +128,13 @@ const getReferralLetterPdfData = async ({ caseId }, transaction) => {
 export const generateLetterPdfHtml = async (
   letterBody,
   pdfData,
-  includeSignature
+  includeSignature,
+  letterSettings
 ) => {
   const currentDate = Date.now();
 
   let signature = includeSignature
-    ? await LETTER_SETTINGS.getSignature({ sender: pdfData.sender })
+    ? await letterSettings.getSignature({ sender: pdfData.sender })
     : "<p><br></p>";
 
   const letterPdfData = {
@@ -142,7 +145,7 @@ export const generateLetterPdfHtml = async (
   };
 
   const rawTemplate = fs.readFileSync(
-    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/${LETTER_SETTINGS.templateFile}`
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/${letterSettings.templateFile}`
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);

@@ -169,7 +169,13 @@ describe("generateReferralLetterPdfBuffer", function () {
       const letterPdfHtml = await generateLetterPdfHtml(
         letterBody,
         pdfData,
-        false
+        false,
+        {
+          getSignature: async args => {
+            return await retrieveSignatureImageBySigner(args.sender);
+          },
+          templateFile: "referralLetterPdf.tpl"
+        }
       );
       expect(letterPdfHtml).toMatchSnapshot();
     });
