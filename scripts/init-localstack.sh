@@ -8,7 +8,7 @@ SEED_FILE_SRC_DIR="/app/src/instance-files/localstack-seed-files"
 IMAGE_FILE_SRC_DIR="${REACT_APP_INSTANCE_FILES_DIR}/images"
 FILES=($(ls $SEED_FILE_SRC_DIR))
 SIGNATURE_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep .png | grep -v header_text))
-LETTER_HEAD_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep $SIGNATURE_FILES))
+LETTER_HEAD_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep '.ico\|header_text'))
 
 if [ "$REACT_APP_USE_CLOUD_SERVICES" = "true" ]; then
     echo "Cloud services are enabled. Skipping Localstack setup."
@@ -44,14 +44,12 @@ for BUCKET in "${BUCKETS[@]}"; do
             $BASE_BUCKET_NAME)
                 # Place signatures into the noipm-local bucket
                 for FILE in "${SIGNATURE_FILES[@]}"; do
-                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures/$FILE"
+                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/signatures/$FILE"
                 done
-                ;;
                 
-            $BASE_BUCKET_NAME)
                 # Place letter head image and icon into the noipm-local bucket
                 for FILE in "${LETTER_HEAD_FILES[@]}"; do
-                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/letter-images/$FILE"
+                    aws --endpoint-url=http://host.docker.internal:4566 s3 cp "$IMAGE_FILE_SRC_DIR/$FILE" "s3://$BASE_BUCKET_NAME/letter-images/$FILE"
                 done
                 ;;
 
