@@ -3,10 +3,14 @@ import { Field, reduxForm, submit } from "redux-form";
 import updateNarrative from "../thunks/updateNarrative";
 import { CardActions, CardContent, Typography } from "@material-ui/core";
 import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
-import { NARRATIVE_FORM } from "../../../../sharedUtilities/constants";
+import {
+  NARRATIVE_FORM,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
 import { renderTextField } from "../sharedFormComponents/renderFunctions";
 import RichTextEditor from "../../shared/components/RichTextEditor/RichTextEditor";
 import standards from "../../../common/globalStyling/standards";
+import { connect } from "react-redux";
 
 const RichTextEditorComponent = props => {
   return (
@@ -44,7 +48,10 @@ const Narrative = props => {
             name="narrativeSummary"
             label="Narrative Summary"
             onBlur={onBlur}
-            disabled={props.isArchived}
+            disabled={
+              props.isArchived ||
+              !props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
+            }
             component={renderTextField}
             fullWidth
             multiline
@@ -81,7 +88,10 @@ const Narrative = props => {
           <Field
             name="narrativeDetails"
             label="Narrative Details"
-            disabled={props.isArchived}
+            disabled={
+              props.isArchived ||
+              !props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
+            }
             component={RichTextEditorComponent}
             handleBlur={onBlur}
             placeholder={
@@ -113,6 +123,7 @@ const Narrative = props => {
     </BaseCaseDetailsCard>
   );
 };
+
 const dispatchUpdateNarrative = (values, dispatch, props) => {
   const updateDetails = {
     ...values,
@@ -120,8 +131,13 @@ const dispatchUpdateNarrative = (values, dispatch, props) => {
   };
   dispatch(updateNarrative(updateDetails));
 };
+
 export default reduxForm({
   form: NARRATIVE_FORM,
   onSubmit: dispatchUpdateNarrative,
   enableReinitialize: true
-})(Narrative);
+})(
+  connect(state => ({
+    permissions: state?.users?.current?.userInfo?.permissions
+  }))(Narrative)
+);
