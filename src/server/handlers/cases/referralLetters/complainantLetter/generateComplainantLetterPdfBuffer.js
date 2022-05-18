@@ -1,11 +1,8 @@
 import { OFFICER_COMPLAINANT_TITLE } from "../../../../../sharedUtilities/constants";
-import fs from "fs";
-import Handlebars from "handlebars";
-import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 import models from "../../../../policeDataManager/models";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-import generateReferralLetterPdfBuffer from "../getReferralLetterPdf/generateReferralLetterPdfBuffer";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 
 require("../../../../handlebarHelpers");
 
@@ -30,7 +27,7 @@ const generateComplainantLetterPdfBuffer = async (
   complainant
 ) => {
   return await models.sequelize.transaction(async transaction => {
-    let result = await generateReferralLetterPdfBuffer(
+    let result = await generateLetterPdfBuffer(
       existingCase.id,
       true,
       transaction,

@@ -7,6 +7,7 @@ import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 
 const LETTER_SETTINGS = {
   hasEditPage: true,
@@ -35,55 +36,14 @@ const LETTER_SETTINGS = {
 const generateReferralLetterPdfBuffer = async (
   caseId,
   includeSignature,
-  transaction,
-  letterSettings = LETTER_SETTINGS,
-  getDataArgs
+  transaction
 ) => {
-  let letterBody, auditDetails;
-  if (letterSettings.hasEditPage) {
-    const queryOptions = {
-      where: { caseId },
-      attributes: ["editedLetterHtml"],
-      transaction
-    };
-    let letterData = await models.referral_letter.findOne(queryOptions);
-    letterBody = letterData.editedLetterHtml;
-
-    if (letterBody) {
-      auditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.referral_letter.name
-      );
-    } else {
-      const letterBodyAndAuditDetails =
-        await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
-      letterBody = letterBodyAndAuditDetails.referralLetterBody;
-      auditDetails = letterBodyAndAuditDetails.auditDetails;
-    }
-  }
-
-  const pdfDataAndAuditDetails = await letterSettings.getData(
-    getDataArgs || { caseId },
-    transaction
-  );
-  const pdfData = pdfDataAndAuditDetails.data;
-  const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
-
-  const fullLetterHtml = await generateLetterPdfHtml(
-    letterBody,
-    pdfData,
+  return await generateLetterPdfBuffer(
+    caseId,
     includeSignature,
-    letterSettings
+    transaction,
+    LETTER_SETTINGS
   );
-
-  auditDetails = auditDetails
-    ? combineAuditDetails(auditDetails, pdfDataAuditDetails)
-    : pdfDataAuditDetails;
-
-  return {
-    pdfBuffer: await generatePdfBuffer(fullLetterHtml),
-    auditDetails: auditDetails
-  };
 };
 
 const getReferralLetterPdfData = async ({ caseId }, transaction) => {
@@ -123,32 +83,6 @@ const getReferralLetterPdfData = async ({ caseId }, transaction) => {
   );
 
   return { pdfData: caseData, auditDetails: auditDetails };
-};
-
-export const generateLetterPdfHtml = async (
-  letterBody,
-  pdfData,
-  includeSignature,
-  letterSettings
-) => {
-  const currentDate = Date.now();
-
-  let signature = includeSignature
-    ? await letterSettings.getSignature({ sender: pdfData.sender })
-    : "<p><br></p>";
-
-  const letterPdfData = {
-    ...pdfData,
-    letterBody,
-    signature,
-    currentDate
-  };
-
-  const rawTemplate = fs.readFileSync(
-    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/${letterSettings.templateFile}`
-  );
-  const compiledTemplate = Handlebars.compile(rawTemplate.toString());
-  return compiledTemplate(letterPdfData);
 };
 
 export default generateReferralLetterPdfBuffer;
