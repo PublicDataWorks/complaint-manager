@@ -49,46 +49,13 @@ describe("narrative", () => {
     });
 
     test("should not be able to update text in the summary field", () => {
-      // const updateDetails = {
-      //   narrativeSummary: "sample narrative with a summary",
-      //   id: expectedCase.id
-      // };
-
-      // changeInput(
-      //   narrative,
-      //   'textarea[data-testid="narrativeSummaryInput"]',
-      //   updateDetails.narrativeSummary
-      // );
-
-      // narrative.find('textarea[data-testid="narrativeDetailsInput"]');
-      // .simulate("blur");
-
-      // expect(dispatchSpy).toHaveBeenCalledWith(expectedCase);
-      // expect(updateNarrative).not.toHaveBeenCalledWith(updateDetails);
-      expect(narrative.text().includes("MOCK NARRATIVE SUMMARY"));
+      narrative.find('[data-testid="narrativeDetailsInput"].Mui-disabled');
+      expect(narrative).toHaveLength(1);
     });
 
     test("should not be able to update narrative details", () => {
-      const updateDetails = {
-        narrativeDetails: "sample narrative with a summary",
-        id: expectedCase.id
-      };
-
-      // changeInput(
-      //   narrative,
-      //   'textarea[data-testid="narrativeDetailsInput"]',
-      //   updateDetails.narrativeDetails
-      // );
-
-      // narrative
-      //   .find('textarea[data-testid="narrativeDetailsInput"]')
-      //   .simulate("blur");
-
-      // expect(dispatchSpy).not.toHaveBeenCalledWith(
-      //   updateNarrative(updateDetails)
-      // );
-      // expect(updateNarrative).not.toHaveBeenCalledWith(updateDetails);
-      expect(narrative.text().includes(expectedCase.narrativeDetails));
+      narrative.find('[data-testid="narrativeSummaryInput"].Mui-disabled');
+      expect(narrative).toHaveLength(1);
     });
   });
 

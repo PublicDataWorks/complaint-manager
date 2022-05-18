@@ -8,7 +8,8 @@ import { mount } from "enzyme";
 import {
   CASE_STATUS,
   COMPLAINANT_LETTER,
-  REFERRAL_LETTER
+  REFERRAL_LETTER,
+  USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 
@@ -38,6 +39,10 @@ describe("AttachmentsRow", () => {
     store = createConfiguredStore();
     const caseDetail = { isArchived: false };
     store.dispatch(getCaseDetailsSuccess(caseDetail));
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
+    });
   });
 
   test("should not have remove button when referral letter", () => {
@@ -73,7 +78,7 @@ describe("AttachmentsRow", () => {
     expect(removeButton.exists()).toEqual(false);
   });
 
-  test("should have remove button when not archived or auto-generated", () => {
+  test("should have remove button when not archived", () => {
     const wrapper = mount(
       <Provider store={store}>
         <AttachmentsRow attachment={attachment} />
@@ -81,5 +86,22 @@ describe("AttachmentsRow", () => {
     );
     const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
     expect(removeButton.exists()).toEqual(true);
+  });
+
+  test("should not have remove button without permission", () => {
+    let store = createConfiguredStore();
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.MANAGE_TAGS] }
+    });
+
+    const wrapper = mount(
+      <Provider store={store}>
+        <AttachmentsRow attachment={attachment} />
+      </Provider>
+    );
+    const removeButton = wrapper.find('[data-testid="removeAttachmentButton"]');
+    // expect(removeButton.exists()).toEqual(false);
+    expect(removeButton).toHaveLength(0);
   });
 });

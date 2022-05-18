@@ -6,6 +6,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { openRemoveAttachmentConfirmationDialog } from "../../../actionCreators/casesActionCreators";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 describe("AttachmentsList", () => {
   const attachment1 = new Attachment.Builder()
@@ -52,6 +53,10 @@ describe("AttachmentsList", () => {
     const attachmentsToDisplay = [attachment1];
     const caseDetail = { attachments: attachmentsToDisplay };
     store.dispatch(getCaseDetailsSuccess(caseDetail));
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
+    });
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
