@@ -28,7 +28,8 @@ const LETTER_SETTINGS = {
       },
       auditDetails: data.auditDetails
     };
-  }
+  },
+  templateFile: "referralLetterPdf.tpl"
 };
 
 const generateReferralLetterPdfBuffer = async (
@@ -141,7 +142,7 @@ export const generateLetterPdfHtml = async (
   };
 
   const rawTemplate = fs.readFileSync(
-    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/${LETTER_SETTINGS.templateFile}`
   );
   const compiledTemplate = Handlebars.compile(rawTemplate.toString());
   return compiledTemplate(letterPdfData);
