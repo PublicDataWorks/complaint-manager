@@ -8,30 +8,37 @@ import getQueryAuditAccessDetails, {
 } from "../../../audits/getQueryAuditAccessDetails";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
+const LETTER_SETTINGS = {
+  hasEditPage: true
+};
+
 const generateReferralLetterPdfBuffer = async (
   caseId,
   includeSignature,
   transaction
 ) => {
-  const queryOptions = {
-    where: { caseId: caseId },
-    attributes: ["editedLetterHtml"],
-    transaction
-  };
-  let letterData = await models.referral_letter.findOne(queryOptions);
-  let letterBody = letterData.editedLetterHtml;
-  let letterBodyAuditDetails;
+  let letterBody, auditDetails;
+  if (LETTER_SETTINGS.hasEditPage) {
+    const queryOptions = {
+      where: { caseId: caseId },
+      attributes: ["editedLetterHtml"],
+      transaction
+    };
+    let letterData = await models.referral_letter.findOne(queryOptions);
+    letterBody = letterData.editedLetterHtml;
+    let letterBodyAuditDetails;
 
-  if (letterBody) {
-    letterBodyAuditDetails = getQueryAuditAccessDetails(
-      queryOptions,
-      models.referral_letter.name
-    );
-  } else {
-    const letterBodyAndAuditDetails =
-      await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
-    letterBody = letterBodyAndAuditDetails.referralLetterBody;
-    letterBodyAuditDetails = letterBodyAndAuditDetails.auditDetails;
+    if (letterBody) {
+      letterBodyAuditDetails = getQueryAuditAccessDetails(
+        queryOptions,
+        models.referral_letter.name
+      );
+    } else {
+      const letterBodyAndAuditDetails =
+        await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
+      letterBody = letterBodyAndAuditDetails.referralLetterBody;
+      auditDetails = letterBodyAndAuditDetails.auditDetails;
+    }
   }
 
   const pdfDataAndAuditDetails = await getReferralLetterPdfData(
@@ -47,10 +54,9 @@ const generateReferralLetterPdfBuffer = async (
     includeSignature
   );
 
-  const auditDetails = combineAuditDetails(
-    letterBodyAuditDetails,
-    pdfDataAuditDetails
-  );
+  auditDetails = auditDetails
+    ? combineAuditDetails(auditDetails, pdfDataAuditDetails)
+    : pdfDataAuditDetails;
 
   return {
     pdfBuffer: await generatePdfBuffer(fullLetterHtml),
