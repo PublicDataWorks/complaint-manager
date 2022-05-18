@@ -9,7 +9,26 @@ import getQueryAuditAccessDetails, {
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 const LETTER_SETTINGS = {
-  hasEditPage: true
+  hasEditPage: true,
+  getSignature: async args => {
+    return await retrieveSignatureImageBySigner(args.sender);
+  },
+  getData: async (args, transaction) => {
+    let data = await getReferralLetterPdfData(args, transaction);
+    let { referralLetter, caseReference, pibCaseNumber } = data.pdfData;
+    let { recipient, recipientAddress, sender, transcribedBy } = referralLetter;
+    return {
+      data: {
+        recipient,
+        recipientAddress,
+        sender,
+        transcribedBy,
+        caseReference,
+        pibCaseNumber
+      },
+      auditDetails: data.auditDetails
+    };
+  }
 };
 
 const generateReferralLetterPdfBuffer = async (
@@ -20,7 +39,7 @@ const generateReferralLetterPdfBuffer = async (
   let letterBody, auditDetails;
   if (LETTER_SETTINGS.hasEditPage) {
     const queryOptions = {
-      where: { caseId: caseId },
+      where: { caseId },
       attributes: ["editedLetterHtml"],
       transaction
     };
@@ -41,11 +60,11 @@ const generateReferralLetterPdfBuffer = async (
     }
   }
 
-  const pdfDataAndAuditDetails = await getReferralLetterPdfData(
-    caseId,
+  const pdfDataAndAuditDetails = await LETTER_SETTINGS.getData(
+    { caseId },
     transaction
   );
-  const pdfData = pdfDataAndAuditDetails.pdfData;
+  const pdfData = pdfDataAndAuditDetails.data;
   const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
 
   const fullLetterHtml = await generateLetterPdfHtml(
@@ -64,7 +83,7 @@ const generateReferralLetterPdfBuffer = async (
   };
 };
 
-const getReferralLetterPdfData = async (caseId, transaction) => {
+const getReferralLetterPdfData = async ({ caseId }, transaction) => {
   const queryOptions = {
     attributes: [
       "primaryComplainant",
@@ -110,20 +129,13 @@ export const generateLetterPdfHtml = async (
 ) => {
   const currentDate = Date.now();
 
-  let { referralLetter, caseReference, pibCaseNumber } = pdfData;
-  let { recipient, recipientAddress, sender, transcribedBy } = referralLetter;
   let signature = includeSignature
-    ? await retrieveSignatureImageBySigner(sender)
+    ? await LETTER_SETTINGS.getSignature({ sender: pdfData.sender })
     : "<p><br></p>";
 
   const letterPdfData = {
+    ...pdfData,
     letterBody,
-    recipient,
-    recipientAddress,
-    sender,
-    transcribedBy,
-    caseReference,
-    pibCaseNumber,
     signature,
     currentDate
   };

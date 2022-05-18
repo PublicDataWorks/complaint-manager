@@ -159,12 +159,10 @@ describe("generateReferralLetterPdfBuffer", function () {
     test("generates letter pdf html correctly", async () => {
       const letterBody = "<p> Letter Body </p>";
       const pdfData = {
-        referralLetter: {
-          recipient: "Recipient Title and Name",
-          recipientAddress: "Recipient Address",
-          sender: "Sender Address\n Sender Address Second Line",
-          transcribedBy: "Transcriber"
-        },
+        recipient: "Recipient Title and Name",
+        recipientAddress: "Recipient Address",
+        sender: "Sender Address\n Sender Address Second Line",
+        transcribedBy: "Transcriber",
         caseReference: "CC-2011-0099"
       };
 
