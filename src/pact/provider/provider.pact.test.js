@@ -17,6 +17,24 @@ jest.mock(
   () => jest.fn()
 );
 
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
+let s3 = AWS.S3.mockImplementation(() => ({
+  config: {
+    loadFromPath: jest.fn(),
+    update: jest.fn()
+  },
+  getObject: jest.fn((opts, callback) =>
+    callback(undefined, {
+      ContentType: "image/bytes",
+      Body: {
+        toString: () => "bytesbytesbytes"
+      }
+    })
+  )
+}));
+
 const setupCase = async () => {
   try {
     models.cases.destroy({ where: {}, truncate: true, auditUser: "user" });
