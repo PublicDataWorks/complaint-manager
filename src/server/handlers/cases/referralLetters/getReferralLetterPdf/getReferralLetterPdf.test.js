@@ -13,7 +13,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 import auditDataAccess from "../../../audits/auditDataAccess";
 
 jest.mock(
-  "./generateReferralLetterPdfBuffer",
+  "../generateLetterPdfBuffer",
   () => (caseId, includeSignature, transaction) => {
     return {
       pdfBuffer: `pdf for case ${caseId}`,

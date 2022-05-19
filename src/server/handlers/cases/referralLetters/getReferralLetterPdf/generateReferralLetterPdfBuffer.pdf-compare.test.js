@@ -1,5 +1,4 @@
 import fs from "fs";
-import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
 import models from "../../../../policeDataManager/models";
 import { compareLetter } from "../sharedLetterUtilities/compareLetterPDFTestUtil";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
@@ -9,6 +8,9 @@ import { ACCUSED, COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Signer from "../../../../../sharedTestHelpers/signer";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
+import getReferralLetterPdfData from "./getReferralLetterPdfData";
 
 const {
   PERSON_TYPE
@@ -101,7 +103,30 @@ describe("Compare Generated Referral Letter to Baseline", () => {
 
     let { pdfBuffer } = await models.sequelize.transaction(
       async transaction =>
-        await generateReferralLetterPdfBuffer(letterCase.id, true, transaction)
+        await generateLetterPdfBuffer(letterCase.id, true, transaction, {
+          hasEditPage: true,
+          getSignature: async args => {
+            return await retrieveSignatureImageBySigner(args.sender);
+          },
+          getData: async (args, transaction) => {
+            let data = await getReferralLetterPdfData(args, transaction);
+            let { referralLetter, caseReference, pibCaseNumber } = data.pdfData;
+            let { recipient, recipientAddress, sender, transcribedBy } =
+              referralLetter;
+            return {
+              data: {
+                recipient,
+                recipientAddress,
+                sender,
+                transcribedBy,
+                caseReference,
+                pibCaseNumber
+              },
+              auditDetails: data.auditDetails
+            };
+          },
+          templateFile: "referralLetterPdf.tpl"
+        })
     );
     let file = process.cwd() + "/src/testPDFs/referralLetter.pdf";
     fs.writeFileSync(file, pdfBuffer);

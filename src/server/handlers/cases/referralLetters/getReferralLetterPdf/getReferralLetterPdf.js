@@ -1,22 +1,25 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../policeDataManager/models";
-import generateReferralLetterPdfBuffer from "./generateReferralLetterPdfBuffer";
+import { REFERRAL_LETTER_OPTIONS } from "./getReferralLetterPdfData";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
   AUDIT_FILE_TYPE,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 const getReferralLetterPdf = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
     await throwErrorIfLetterFlowUnavailable(caseId);
     await models.sequelize.transaction(async transaction => {
-      const pdfBufferAndAuditDetails = await generateReferralLetterPdfBuffer(
+      const pdfBufferAndAuditDetails = await generateLetterPdfBuffer(
         caseId,
         false,
-        transaction
+        transaction,
+        REFERRAL_LETTER_OPTIONS
       );
 
       const pdfBuffer = pdfBufferAndAuditDetails.pdfBuffer;

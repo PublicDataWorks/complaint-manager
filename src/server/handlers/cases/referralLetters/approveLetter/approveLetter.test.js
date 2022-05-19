@@ -31,12 +31,9 @@ const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
 
 jest.mock("../../../audits/auditFileAction");
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
-jest.mock(
-  "../getReferralLetterPdf/generateReferralLetterPdfBuffer",
-  () => caseId => {
-    return { pdfBuffer: `Generated pdf for ${caseId}`, auditDetails: {} };
-  }
-);
+jest.mock("../generateLetterPdfBuffer", () => caseId => {
+  return { pdfBuffer: `Generated pdf for ${caseId}`, auditDetails: {} };
+});
 jest.mock("../sharedLetterUtilities/auditUpload", () => jest.fn());
 jest.mock("./generateComplainantLetterAndUploadToS3", () => ({
   generateComplainantLetterAndUploadToS3: jest.fn((existingCase, nickname) => {

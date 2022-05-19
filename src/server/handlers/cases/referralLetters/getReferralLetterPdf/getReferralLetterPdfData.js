@@ -1,9 +1,8 @@
 import models from "../../../../policeDataManager/models";
 import getQueryAuditAccessDetails from "../../../audits/getQueryAuditAccessDetails";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
-import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 
-const LETTER_SETTINGS = {
+export const REFERRAL_LETTER_OPTIONS = {
   hasEditPage: true,
   getSignature: async args => {
     return await retrieveSignatureImageBySigner(args.sender);
@@ -25,19 +24,6 @@ const LETTER_SETTINGS = {
     };
   },
   templateFile: "referralLetterPdf.tpl"
-};
-
-const generateReferralLetterPdfBuffer = async (
-  caseId,
-  includeSignature,
-  transaction
-) => {
-  return await generateLetterPdfBuffer(
-    caseId,
-    includeSignature,
-    transaction,
-    LETTER_SETTINGS
-  );
 };
 
 const getReferralLetterPdfData = async ({ caseId }, transaction) => {
@@ -79,4 +65,4 @@ const getReferralLetterPdfData = async ({ caseId }, transaction) => {
   return { pdfData: caseData, auditDetails: auditDetails };
 };
 
-export default generateReferralLetterPdfBuffer;
+export default getReferralLetterPdfData;
