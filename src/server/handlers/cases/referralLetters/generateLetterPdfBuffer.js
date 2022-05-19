@@ -6,8 +6,8 @@ import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../audits/getQueryAuditAccessDetails";
-
 require("../../../handlebarHelpers");
+import { retrieveLetterImage } from "./retrieveLetterImage"
 
 const generateLetterPdfBuffer = async (
   caseId,
@@ -74,12 +74,18 @@ export const generateLetterPdfHtml = async (
   let signature = includeSignature
     ? await letterSettings.getSignature({ sender: pdfData.sender })
     : "<p><br></p>";
+  let header = await retrieveLetterImage("header_text.png", "max-width: 223px");
+  let smallIcon = await retrieveLetterImage("icon.ico", "max-width: 30px");
+  let largeIcon = await retrieveLetterImage("icon.ico", "max-width: 42px");
 
   const letterPdfData = {
     ...pdfData,
     letterBody,
     signature,
-    currentDate
+    currentDate,
+    header,
+    smallIcon,
+    largeIcon
   };
 
   const rawTemplate = fs.readFileSync(

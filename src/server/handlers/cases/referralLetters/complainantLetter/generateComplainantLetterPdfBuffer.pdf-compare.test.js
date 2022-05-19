@@ -55,7 +55,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
           Body: {
             toString: () =>
               fs.readFileSync(
-                process.cwd() + "/localstack-seed-files/nina_s_ambroise.png",
+                process.cwd() + `/localstack-seed-files/${opts.Key}`,
                 "base64"
               )
           }
