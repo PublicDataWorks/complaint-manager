@@ -80,42 +80,44 @@ class StatusButton extends Component {
     ) {
       return "";
     }
-
-    if (status === CASE_STATUS.READY_FOR_REVIEW) {
-      return (
-        <Fragment>
-          <PrimaryButton
-            data-testid={"review-and-approve-letter-button"}
-            onClick={this.saveAndGoToReviewAndApprove}
-            style={{ marginLeft: "16px" }}
-            disabled={this.props.isArchived}
-          >
-            Review and Approve Letter
-          </PrimaryButton>
-          <MissingComplainantDialog caseId={this.props.caseId} />
-          <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
-          <IncompleteClassificationsDialog caseId={this.props.caseId} />
-        </Fragment>
-      );
-    } else {
-      return (
-        <Fragment>
-          <PrimaryButton
-            data-testid="update-status-button"
-            onClick={this.openUpdateCaseStatusDialog}
-            style={{ marginLeft: "16px" }}
-            disabled={this.props.isArchived}
-          >
-            {status === CASE_STATUS.ACTIVE
-              ? `Begin Letter`
-              : `Mark as ${nextStatus}`}
-          </PrimaryButton>
-          <MissingComplainantDialog caseId={this.props.caseId} />
-          <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
-          <IncompleteClassificationsDialog caseId={this.props.caseId} />
-        </Fragment>
-      );
+    if (this.props.permissions?.includes(USER_PERMISSIONS.SETUP_LETTER)) {
+      if (status === CASE_STATUS.READY_FOR_REVIEW) {
+        return (
+          <Fragment>
+            <PrimaryButton
+              data-testid={"review-and-approve-letter-button"}
+              onClick={this.saveAndGoToReviewAndApprove}
+              style={{ marginLeft: "16px" }}
+              disabled={this.props.isArchived}
+            >
+              Review and Approve Letter
+            </PrimaryButton>
+            <MissingComplainantDialog caseId={this.props.caseId} />
+            <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+            <IncompleteClassificationsDialog caseId={this.props.caseId} />
+          </Fragment>
+        );
+      } else {
+        return (
+          <Fragment>
+            <PrimaryButton
+              data-testid="update-status-button"
+              onClick={this.openUpdateCaseStatusDialog}
+              style={{ marginLeft: "16px" }}
+              disabled={this.props.isArchived}
+            >
+              {status === CASE_STATUS.ACTIVE
+                ? `Begin Letter`
+                : `Mark as ${nextStatus}`}
+            </PrimaryButton>
+            <MissingComplainantDialog caseId={this.props.caseId} />
+            <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+            <IncompleteClassificationsDialog caseId={this.props.caseId} />
+          </Fragment>
+        );
+      }
     }
+    return "";
   }
 }
 
@@ -127,7 +129,8 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   userInfo: state.users.current.userInfo,
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-  classifications: state.referralLetter.letterDetails.classifications
+  classifications: state.referralLetter.letterDetails.classifications,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 const mapDispatchToProps = {

@@ -113,6 +113,10 @@ describe("LetterPreview", function () {
         nextStatus: CASE_STATUS.READY_FOR_REVIEW
       })
     );
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.SETUP_LETTER] }
+    });
 
     wrapper = mount(
       <Provider store={store}>
@@ -1003,6 +1007,39 @@ describe("LetterPreview", function () {
       expect(dispatchSpy).toHaveBeenCalledWith(
         openIncompleteClassificationsDialog(expect.anything())
       );
+    });
+  });
+
+  describe("without permissions", () => {
+    let store, dispatchSpy, wrapper, caseId;
+    beforeEach(() => {
+      store = createConfiguredStore();
+      dispatchSpy = jest.spyOn(store, "dispatch");
+      store.dispatch({
+        type: "AUTH_SUCCESS",
+        userInfo: { permissions: [USER_PERMISSIONS.MANAGE_TAGS] }
+      });
+
+      wrapper = mount(
+        <Provider store={store}>
+          <Router>
+            <LetterPreview match={{ params: { id: caseId } }} />
+          </Router>
+        </Provider>
+      );
+      dispatchSpy.mockClear();
+    });
+
+    test("should not be able to view Edit Letter button", () => {
+      expect(
+        wrapper.find('[data-testid="edit-confirmation-dialog-button"]')
+      ).toHaveLength(0);
+    });
+
+    test("should not be able to view Submit for Review button", () => {
+      expect(
+        wrapper.find('[data-testid="submit-for-review-button"]')
+      ).toHaveLength(0);
     });
   });
 });

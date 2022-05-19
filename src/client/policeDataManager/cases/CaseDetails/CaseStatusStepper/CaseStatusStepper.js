@@ -1,6 +1,9 @@
 import React, { Fragment } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
-import { CASE_STATUS_MAP } from "../../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS_MAP,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
@@ -18,7 +21,7 @@ const generateSteps = map => {
   });
 };
 
-const CaseStatusStepper = ({ caseId, status, isArchived }) => {
+const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
   const renderButtons = () => {
     return (
       <div
@@ -34,12 +37,15 @@ const CaseStatusStepper = ({ caseId, status, isArchived }) => {
         <div>
           <DownloadFinalLetterButton />
         </div>
-        <div>
-          {isArchived ? null : (
-            <EditLetterButton status={status} caseId={caseId} />
-          )}
-          <StatusButton />
-        </div>
+        {!permissions?.includes(USER_PERMISSIONS.SETUP_LETTER) ? null : (
+          <div>
+            {isArchived ||
+            !permissions?.includes(USER_PERMISSIONS.SETUP_LETTER) ? null : (
+              <EditLetterButton status={status} caseId={caseId} />
+            )}
+            <StatusButton />
+          </div>
+        )}
       </div>
     );
   };
@@ -63,7 +69,8 @@ const CaseStatusStepper = ({ caseId, status, isArchived }) => {
 const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   status: state.currentCase.details.status,
-  isArchived: state.currentCase.details.isArchived
+  isArchived: state.currentCase.details.isArchived,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 export default connect(mapStateToProps)(CaseStatusStepper);

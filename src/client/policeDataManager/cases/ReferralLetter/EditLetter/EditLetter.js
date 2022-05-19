@@ -12,7 +12,8 @@ import {
 import {
   CASE_STATUS,
   EDIT_LETTER_HTML_FORM,
-  LETTER_PROGRESS
+  LETTER_PROGRESS,
+  USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, initialize, reduxForm, reset } from "redux-form";
@@ -252,7 +253,8 @@ EditLetter.propTypes = {
 const mapStateToProps = state => ({
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
   caseReference: state.currentCase.details.caseReference,
-  caseStatus: state.currentCase.details.status
+  caseStatus: state.currentCase.details.status,
+  permissions: state?.users?.current?.userInfo?.permissions
 });
 
 const mapDispatchToProps = {

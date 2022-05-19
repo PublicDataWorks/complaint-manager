@@ -118,21 +118,19 @@ class LetterPreview extends Component {
     );
   };
 
-  submitForm = (
-    redirectUrl,
-    alternativeSuccessCallback,
-    alternativeFailureCallback
-  ) => (values, dispatch) => {
-    dispatch(
-      editReferralLetterAddresses(
-        this.state.caseId,
-        values,
-        redirectUrl,
-        alternativeSuccessCallback,
-        alternativeFailureCallback
-      )
-    );
-  };
+  submitForm =
+    (redirectUrl, alternativeSuccessCallback, alternativeFailureCallback) =>
+    (values, dispatch) => {
+      dispatch(
+        editReferralLetterAddresses(
+          this.state.caseId,
+          values,
+          redirectUrl,
+          alternativeSuccessCallback,
+          alternativeFailureCallback
+        )
+      );
+    };
 
   confirmSubmitForReview = async values => {
     values.preventDefault();
@@ -156,7 +154,10 @@ class LetterPreview extends Component {
   };
 
   renderEditLetterButton = () => {
-    if (this.letterAlreadyApproved()) {
+    if (
+      this.letterAlreadyApproved() ||
+      !this.props.permissions?.includes(USER_PERMISSIONS.SETUP_LETTER)
+    ) {
       return null;
     }
     return (
@@ -174,7 +175,10 @@ class LetterPreview extends Component {
   };
 
   renderSubmitForReviewButton = () => {
-    if (this.props.caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS) {
+    if (
+      this.props.caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS &&
+      this.props.permissions?.includes(USER_PERMISSIONS.SETUP_LETTER)
+    ) {
       return (
         <PrimaryButton
           style={{ marginLeft: "16px" }}
@@ -338,7 +342,8 @@ class LetterPreview extends Component {
     if (this.props.editStatus === EDIT_STATUS.EDITED) {
       return (
         <i style={styles.body1}>
-          (Last edited {dateTimeFromString(this.props.lastEdited, userTimezone)})
+          (Last edited {dateTimeFromString(this.props.lastEdited, userTimezone)}
+          )
         </i>
       );
     }
@@ -430,7 +435,8 @@ const mapStateToProps = state => ({
   userInfo: state.users.current.userInfo,
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
   classifications: state.referralLetter.letterDetails.classifications,
-  classificationFeature: state.featureToggles.classificationFeature
+  classificationFeature: state.featureToggles.classificationFeature,
+  permissions: state.users?.current?.userInfo?.permissions
 });
 
 const mapDispatchToProps = {

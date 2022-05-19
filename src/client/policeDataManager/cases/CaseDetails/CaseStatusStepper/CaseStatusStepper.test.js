@@ -1,4 +1,4 @@
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import React from "react";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
@@ -13,6 +13,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import CaseStatusStepper from "./CaseStatusStepper";
+import StatusButton from "../StatusButton/StatusButton";
 import { BrowserRouter as Router } from "react-router-dom";
 import getActiveStep from "./getActiveStep";
 
@@ -71,6 +72,10 @@ describe("CaseStatusStepper", () => {
         nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
       })
     );
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.SETUP_LETTER] }
+    });
 
     const wrapper = mount(
       <Provider store={store}>
@@ -92,14 +97,18 @@ describe("CaseStatusStepper", () => {
     );
   });
 
-  describe("user has permissions", () => {
+  describe("with permissions", () => {
     beforeEach(() => {
       store.dispatch(
         userAuthSuccess({
-          permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
+          permissions: [
+            USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
+            USER_PERMISSIONS.SETUP_LETTER
+          ]
         })
       );
     });
+
     test("should NOT show a button when a case is initial", () => {
       store.dispatch(
         getCaseDetailsSuccess({
@@ -296,6 +305,7 @@ describe("CaseStatusStepper", () => {
 
       expect(updateStatusButton.text()).toEqual(`Edit Letter Details`);
     });
+
     test("should not render Closed if already closed", () => {
       store.dispatch(
         getCaseDetailsSuccess({
@@ -320,23 +330,16 @@ describe("CaseStatusStepper", () => {
     });
   });
 
-  describe("user does not have special permissions", () => {
+  describe("without permissions", () => {
     beforeEach(() => {
       store.dispatch(
         userAuthSuccess({
-          permissions: []
+          permissions: [USER_PERMISSIONS.MANAGE_TAGS]
         })
       );
     });
-    test("should show `Begin Letter` button when case is active", () => {
-      store.dispatch(
-        getCaseDetailsSuccess({
-          id: 1,
-          status: CASE_STATUS.ACTIVE,
-          nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
-        })
-      );
 
+    test("should not show Begin Letter button", () => {
       const wrapper = mount(
         <Provider store={store}>
           <Router>
@@ -345,23 +348,12 @@ describe("CaseStatusStepper", () => {
         </Provider>
       );
 
-      const updateStatusButton = wrapper
-        .find('[data-testid="update-status-button"]')
-        .first();
-
-      expect(updateStatusButton.exists()).toBeTruthy();
-      expect(updateStatusButton.text()).toEqual(`Begin Letter`);
+      expect(wrapper.find('[data-testid="update-status-button"]')).toHaveLength(
+        0
+      );
     });
 
-    test("should show resume letter button when case is in letter in progress status", () => {
-      store.dispatch(
-        getCaseDetailsSuccess({
-          id: 1,
-          status: CASE_STATUS.LETTER_IN_PROGRESS,
-          nextStatus: CASE_STATUS.READY_FOR_REVIEW
-        })
-      );
-
+    test("should not show Resume/Edit Letter button", () => {
       const wrapper = mount(
         <Provider store={store}>
           <Router>
@@ -370,48 +362,12 @@ describe("CaseStatusStepper", () => {
         </Provider>
       );
 
-      const updateStatusButton = wrapper
-        .find('[data-testid="edit-letter-button"]')
-        .first();
-
-      expect(updateStatusButton.text()).toEqual(`Resume Letter`);
+      expect(wrapper.find('[data-testid="edit-letter-button"]')).toHaveLength(
+        0
+      );
     });
 
-    test("should show edit letter button when case is in ready for review status", () => {
-      store.dispatch(
-        getCaseDetailsSuccess({
-          id: 1,
-          status: CASE_STATUS.READY_FOR_REVIEW,
-          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
-        })
-      );
-
-      const wrapper = mount(
-        <Provider store={store}>
-          <Router>
-            <CaseStatusStepper />
-          </Router>
-        </Provider>
-      );
-
-      const updateStatusButton = wrapper
-        .find('[data-testid="edit-letter-button"]')
-        .first();
-
-      expect(updateStatusButton.text()).toEqual(`Edit Letter`);
-    });
-
-    test("should not render Review and Approve button if not authorized to forward and currently in Ready for Review", () => {
-      store.dispatch(
-        getCaseDetailsSuccess({
-          id: 1,
-          status: CASE_STATUS.READY_FOR_REVIEW,
-          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
-        })
-      );
-
-      store.dispatch(userAuthSuccess({ permissions: [] }));
-
+    test("should not show Review and Approve button", () => {
       const wrapper = mount(
         <Provider store={store}>
           <Router>

@@ -167,6 +167,7 @@ export const API_ROUTES = {
   "/cases/:caseId/status": {
     put: {
       handler: changeStatus,
+      requiredPermission: USER_PERMISSIONS.SETUP_LETTER,
       errorMessage:
         "Something went wrong and the case status was not updated. Please try again."
     }
@@ -322,6 +323,7 @@ export const API_ROUTES = {
   "/cases/:caseId/referral-letter/officer-history": {
     put: {
       handler: editOfficerHistory,
+      requiredPermission: USER_PERMISSIONS.SETUP_LETTER,
       errorMessage:
         "Something went wrong and the officer history was not updated. Please try again."
     }
@@ -329,6 +331,7 @@ export const API_ROUTES = {
   "/cases/:caseId/referral-letter/recommended-actions": {
     put: {
       handler: editRecommendedActions,
+      requiredPermission: USER_PERMISSIONS.SETUP_LETTER,
       errorMessage:
         "Something went wrong and the recommended actions were not updated. Please try again."
     }
@@ -343,6 +346,7 @@ export const API_ROUTES = {
   "/cases/:caseId/referral-letter/addresses": {
     put: {
       handler: editReferralLetterAddresses,
+      requiredPermission: USER_PERMISSIONS.SETUP_LETTER,
       errorMessage:
         "Something went wrong and the letter was not updated. Please try again."
     }
@@ -371,6 +375,7 @@ export const API_ROUTES = {
   "/cases/:caseId/referral-letter/approve-letter": {
     put: {
       handler: approveLetter,
+      requiredPermission: USER_PERMISSIONS.SETUP_LETTER,
       errorMessage:
         "Something went wrong and the case status was not updated. Please try again."
     }
