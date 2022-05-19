@@ -1,11 +1,5 @@
 import models from "../../../../policeDataManager/models";
-import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
-import generatePdfBuffer from "../sharedLetterUtilities/generatePdfBuffer";
-import fs from "fs";
-import Handlebars from "handlebars";
-import getQueryAuditAccessDetails, {
-  combineAuditDetails
-} from "../../../audits/getQueryAuditAccessDetails";
+import getQueryAuditAccessDetails from "../../../audits/getQueryAuditAccessDetails";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 

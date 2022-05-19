@@ -4,11 +4,13 @@ import {
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import constructFilename from "../constructFilename";
-import generateComplainantLetterPdfBuffer from "../complainantLetter/generateComplainantLetterPdfBuffer";
+import getComplainantLetterPdfData from "../complainantLetter/getComplainantLetterPdfData";
 import models from "../../../../policeDataManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import { retrieveSignatureImage } from "../retrieveSignatureImage";
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -41,10 +43,32 @@ export const generateComplainantLetterAndUploadToS3 = async (
     { auditUser: nickname, transaction }
   );
 
-  const pdfBuffer = await generateComplainantLetterPdfBuffer(
-    existingCase,
-    primaryComplainant
-  );
+  console.log(primaryComplainant);
+  const pdfBuffer = await models.sequelize.transaction(async transaction => {
+    let result = await generateLetterPdfBuffer(
+      existingCase.id,
+      true,
+      transaction,
+      {
+        hasEditPage: false,
+        getSignature: async ({ sender }) => {
+          return await retrieveSignatureImage(
+            sender ? sender.signatureFile : undefined
+          );
+        },
+        getData: async args => {
+          console.log(args);
+          return {
+            data: await getComplainantLetterPdfData(args),
+            auditDetails: {}
+          };
+        },
+        templateFile: "complainantLetterPdf.tpl"
+      },
+      { caseId: existingCase.id, complainant: primaryComplainant }
+    );
+    return result.pdfBuffer;
+  });
 
   const fullFilenameWithKey = `${existingCase.id}/${finalPdfFilename}`;
   uploadLetterToS3(

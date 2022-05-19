@@ -1,4 +1,4 @@
-import generateComplainantLetterPdfBuffer from "./generateComplainantLetterPdfBuffer";
+import getComplainantLetterPdfData from "./getComplainantLetterPdfData";
 import fs from "fs";
 import { compareLetter } from "../sharedLetterUtilities/compareLetterPDFTestUtil";
 import models from "../../../../policeDataManager/models";
@@ -6,6 +6,8 @@ import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
 const {
   PERSON_TYPE
@@ -84,10 +86,30 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
     };
 
-    let buffer = await generateComplainantLetterPdfBuffer(
-      existingCase,
-      complainant
-    );
+    let buffer = await models.sequelize.transaction(async transaction => {
+      let result = await generateLetterPdfBuffer(
+        existingCase.id,
+        true,
+        transaction,
+        {
+          hasEditPage: false,
+          getSignature: async ({ sender }) => {
+            return await retrieveSignatureImage(
+              sender ? sender.signatureFile : undefined
+            );
+          },
+          getData: async args => {
+            return {
+              data: await getComplainantLetterPdfData(args),
+              auditDetails: {}
+            };
+          },
+          templateFile: "complainantLetterPdf.tpl"
+        },
+        { caseId: existingCase.id, complainant }
+      );
+      return result.pdfBuffer;
+    });
     let file = process.cwd() + "/src/testPDFs/complainantLetter.pdf";
     fs.writeFileSync(file, buffer);
 

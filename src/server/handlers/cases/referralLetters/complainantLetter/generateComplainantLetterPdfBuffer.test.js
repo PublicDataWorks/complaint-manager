@@ -5,9 +5,11 @@ import Case from "../../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
-import generateComplainantLetterPdfBuffer from "./generateComplainantLetterPdfBuffer";
+import getComplainantLetterPdfData from "./getComplainantLetterPdfData";
+import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
+import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
 let existingCase, timeOfDownload, complainant;
 
@@ -122,10 +124,30 @@ beforeEach(async () => {
 
 describe("generateComplainantLetterPdfBuffer", function () {
   test("pdf buffer is created for complainant letter", async () => {
-    const pdfResults = await generateComplainantLetterPdfBuffer(
-      existingCase,
-      complainant
-    );
+    const pdfResults = await models.sequelize.transaction(async transaction => {
+      let result = await generateLetterPdfBuffer(
+        existingCase.id,
+        true,
+        transaction,
+        {
+          hasEditPage: false,
+          getSignature: async ({ sender }) => {
+            return await retrieveSignatureImage(
+              sender ? sender.signatureFile : undefined
+            );
+          },
+          getData: async args => {
+            return {
+              data: await getComplainantLetterPdfData(args),
+              auditDetails: {}
+            };
+          },
+          templateFile: "complainantLetterPdf.tpl"
+        },
+        { caseId: existingCase.id, complainant }
+      );
+      return result.pdfBuffer;
+    });
 
     expect(pdfResults).toMatchSnapshot();
   });

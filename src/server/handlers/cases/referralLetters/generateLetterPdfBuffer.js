@@ -6,7 +6,8 @@ import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../audits/getQueryAuditAccessDetails";
-import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
+
+require("../../../handlebarHelpers");
 
 const generateLetterPdfBuffer = async (
   caseId,
