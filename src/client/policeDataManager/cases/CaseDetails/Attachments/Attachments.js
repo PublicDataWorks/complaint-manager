@@ -4,6 +4,9 @@ import { CardContent, Typography } from "@material-ui/core";
 import styles from "../../../../common/globalStyling/styles";
 import DropzoneContainer from "./DropzoneContainer";
 import AttachmentsList from "./AttachmentsList";
+import { connect } from "react-redux";
+import { property } from "lodash";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 const Attachments = props => {
   return (
@@ -25,8 +28,12 @@ const Attachments = props => {
           <div style={{ flex: 2 }} />
         </div>
         <AttachmentsList />
-        {props.isArchived ? null : (
-          <div style={{ marginTop: "48px" }}>
+        {props.isArchived ||
+        !props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
+          <div
+            style={{ marginTop: "48px" }}
+            data-testid="file-upload-container"
+          >
             <div style={{ marginBottom: "8px" }}>
               <Typography style={styles.section}>UPLOAD A FILE</Typography>
             </div>
@@ -41,4 +48,6 @@ const Attachments = props => {
   );
 };
 
-export default Attachments;
+export default connect(state => ({
+  permissions: state?.users?.current?.userInfo?.permissions
+}))(Attachments);
