@@ -43,7 +43,6 @@ export const generateComplainantLetterAndUploadToS3 = async (
     { auditUser: nickname, transaction }
   );
 
-  console.log(primaryComplainant);
   const pdfBuffer = await models.sequelize.transaction(async transaction => {
     let result = await generateLetterPdfBuffer(
       existingCase.id,
@@ -57,7 +56,6 @@ export const generateComplainantLetterAndUploadToS3 = async (
           );
         },
         getData: async args => {
-          console.log(args);
           return {
             data: await getComplainantLetterPdfData(args),
             auditDetails: {}
