@@ -34,7 +34,7 @@ describe("Approve referral letter", () => {
   });
 
   beforeEach(async () => {
-    token = buildTokenWithPermissions("", "some_nickname");
+    token = buildTokenWithPermissions("letter:setup", "some_nickname");
     const complainantOfficerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
@@ -99,7 +99,10 @@ describe("Approve referral letter", () => {
   describe("user has permissions", () => {
     beforeEach(() => {
       token = buildTokenWithPermissions(
-        `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`,
+        [
+          `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`,
+          USER_PERMISSIONS.SETUP_LETTER
+        ],
         "some_nickname"
       );
     });

@@ -13,7 +13,7 @@ describe("changeStatus request", () => {
   let initialCase, token;
   beforeEach(async () => {
     initialCase = await createTestCaseWithoutCivilian();
-    token = buildTokenWithPermissions("", "someone");
+    token = buildTokenWithPermissions("letter:setup", "someone");
   });
 
   afterEach(async () => {

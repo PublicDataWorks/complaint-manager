@@ -26,7 +26,7 @@ describe("edit referral letter", () => {
       await models.sequelize.close();
     });
 
-    const token = buildTokenWithPermissions("", "some_nickname");
+    const token = buildTokenWithPermissions("letter:setup", "some_nickname");
     let existingCase, referralLetter, caseOfficer;
 
     beforeEach(async () => {
