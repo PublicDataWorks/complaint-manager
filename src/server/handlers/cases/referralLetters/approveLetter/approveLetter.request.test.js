@@ -96,16 +96,15 @@ describe("Approve referral letter", () => {
       auditUser: "test"
     });
   });
+
   describe("user has permissions", () => {
     beforeEach(() => {
       token = buildTokenWithPermissions(
-        [
-          `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`,
-          USER_PERMISSIONS.SETUP_LETTER
-        ],
+        "update:case-status letter:setup",
         "some_nickname"
       );
     });
+
     test("returns 200 when api endpoint hit", async () => {
       const responsePromise = request(app)
         .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
@@ -121,15 +120,16 @@ describe("Approve referral letter", () => {
     beforeEach(() => {
       token = buildTokenWithPermissions("", "some_nickname");
     });
+
     test(
-      "returns 400 when api endpoint hit without permissions",
+      "returns 403 when api endpoint hit without permissions",
       suppressWinstonLogs(async () => {
         const responsePromise = request(app)
           .put(`/api/cases/${existingCase.id}/referral-letter/approve-letter`)
           .set("Content-Header", "application/json")
           .set("Authorization", `Bearer ${token}`);
 
-        await expectResponse(responsePromise, 400);
+        await expectResponse(responsePromise, 403);
       })
     );
   });
