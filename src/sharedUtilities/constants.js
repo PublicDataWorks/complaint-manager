@@ -649,6 +649,18 @@ export const OPEN_INCOMPLETE_OFFICER_HISTORY_DIALOG =
 export const CLOSE_INCOMPLETE_OFFICER_HISTORY_DIALOG =
   "CLOSE_INCOMPLETE_OFFICER_HISTORY_DIALOG";
 
+// ----------------------------------------------
+//           Configs Table Fields
+export const CONFIGS = {
+  ORGANIZATION: "ORG_ACRONYM",
+  ORGANIZATION_TITLE: "ORG_NAME",
+  CITY: "CITY",
+  PD: "POLICE_ACRONYM",
+  BUREAU: "IA_BUREAU",
+  BUREAU_ACRONYM: "IA_ACRONYM",
+  FIRST_YEAR_DATA_IS_AVAILABLE: "FIRST_YEAR_DATA_IS_AVAILABLE"
+};
+
 // ------------------------------------------
 //           Feature Toggles
 // ------------------------------------------

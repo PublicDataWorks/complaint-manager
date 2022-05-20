@@ -16,6 +16,7 @@ import {
   ALLEGATION_SEVERITY,
   CASE_EXPORT_TYPE,
   COMPLAINANT,
+  CONFIGS,
   ISO_DATE,
   JOB_OPERATION,
   TIMEZONE,
@@ -26,13 +27,12 @@ import Address from "../../../sharedTestHelpers/Address";
 import Attachment from "../../../sharedTestHelpers/attachment";
 import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
-const {
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import Config from "../../../sharedTestHelpers/config";
 
 jest.mock("../fileUpload/uploadFileToS3");
 
 describe("csvCaseExport request", () => {
+  const BUREAU_ACRONYM = "IAB";
   let records = [];
   const awsResult = "awsResult";
   const job = {
@@ -64,10 +64,15 @@ describe("csvCaseExport request", () => {
   };
 
   beforeEach(async () => {
-    await models.district.create({
-      id: 1,
-      name: "1st District"
-    });
+    await cleanupDatabase();
+    await models.district.create(
+      {
+        id: 1,
+        name: "1st District"
+      },
+      { auditUser: "Nick Name" }
+    );
+
     records = [];
     uploadFileToS3.mockImplementation(
       (jobId, dataToUpload, filename, fileType) => {
@@ -75,6 +80,15 @@ describe("csvCaseExport request", () => {
         return awsResult;
       }
     );
+
+    const config = new Config.Builder()
+      .defaultConfig()
+      .withName(CONFIGS.BUREAU_ACRONYM)
+      .withValue(BUREAU_ACRONYM)
+      .build();
+    await models.config.create(config, {
+      auditUser: "Nick Name"
+    });
   });
 
   afterEach(async () => {
@@ -1330,6 +1344,7 @@ describe("csvCaseExport request", () => {
 
       expect(records.length).toEqual(1);
       const record1 = records[0];
+      console.log(record1);
       expect(record1[`${BUREAU_ACRONYM} Case Number`]).toEqual(pibCaseNumber);
     });
   });

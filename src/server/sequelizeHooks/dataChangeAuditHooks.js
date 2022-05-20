@@ -145,14 +145,19 @@ exports.init = (sequelize, model) => {
     options,
     thisReference
   ) {
-    if (options.transaction) {
-      return await originalFunction.bind(thisReference)(values, options);
-    }
+    try {
+      if (options.transaction) {
+        return await originalFunction.bind(thisReference)(values, options);
+      }
 
-    return await sequelize.transaction(async t => {
-      options.transaction = t;
-      return await originalFunction.bind(thisReference)(values, options);
-    });
+      return await sequelize.transaction(async t => {
+        options.transaction = t;
+        return await originalFunction.bind(thisReference)(values, options);
+      });
+    } catch (e) {
+      console.log("error while calling query", originalFunction, e);
+      throw e;
+    }
   };
 
   const addTransactionToFunctionWithoutValues = async function (
