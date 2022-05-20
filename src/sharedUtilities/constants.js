@@ -666,6 +666,8 @@ export const CONFIGS = {
 // ------------------------------------------
 export const GET_FEATURES_SUCCEEDED = "GET_FEATURES_SUCCEEDED";
 
+export const GET_CONFIGS_SUCCEEDED = "GET_CONFIGS_SUCCEEDED";
+
 // ------------------------------------------
 //           S3 operations
 // ------------------------------------------

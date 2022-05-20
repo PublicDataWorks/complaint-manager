@@ -66,6 +66,7 @@ import classificationsReducer from "./policeDataManager/reducers/cases/classific
 import getNotificationsReducer from "./policeDataManager/reducers/notifications/getNotificationsReducer";
 import highlightCaseNoteReducer from "./policeDataManager/reducers/ui/highlightCaseNoteReducer";
 import missingComplainantDialogReducer from "./policeDataManager/reducers/ui/missingComplainantDialogReducer";
+import configReducer from "./policeDataManager/reducers/ui/configReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -90,6 +91,7 @@ const rootReducer = combineReducers({
     current: loggedInUserReducer,
     all: usersReducer
   }),
+  configs: configReducer,
   ui: combineReducers({
     snackbar: snackbarReducer,
     casesTable: casesTableReducer,

@@ -12,7 +12,8 @@ import getAccessToken from "./common/auth/getAccessToken";
 import Auth from "./common/auth/Auth";
 import { connect } from "react-redux";
 import { userAuthSuccess } from "./common/auth/actionCreators";
-import getFeatureToggles from "./policeDataManager/featureToggles/thunks/getFeatureToggles";
+import getFeatureToggles from "./policeDataManager/globalData/thunks/getFeatureToggles";
+import getConfigs from "./policeDataManager/globalData/thunks/getConfigs";
 import { onMessage } from "./onMessage";
 import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
@@ -27,6 +28,7 @@ const App = props => {
 
   useEffect(() => {
     props.getFeatureToggles();
+    props.getConfigs();
 
     const accessToken = getAccessToken();
     const auth = new Auth();
@@ -110,6 +112,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   userAuthSuccess,
   getFeatureToggles,
+  getConfigs,
   getNotifications,
   snackbarError,
   dispatch: arg => dispatch => dispatch(arg)

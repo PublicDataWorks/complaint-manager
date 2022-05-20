@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Auth from "./common/auth/Auth";
 import { userAuthSuccess } from "./common/auth/actionCreators";
-import getFeatureToggles from "./policeDataManager/featureToggles/thunks/getFeatureToggles";
+import getFeatureToggles from "./policeDataManager/globalData/thunks/getFeatureToggles";
 
 class Callback extends React.Component {
   componentDidMount() {

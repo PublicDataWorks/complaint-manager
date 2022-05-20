@@ -67,6 +67,7 @@ import getData from "./handlers/data/getData";
 import editClassifications from "./handlers/cases/referralLetters/editRecommendedActions/editClassifications";
 import { getMessageStream } from "./handlers/cases/getMessageStream";
 import markNotificationAsRead from "./handlers/cases/markNotificationAsRead";
+import getConfigs from "./handlers/configs/getConfigs";
 import logHandler from "./handlers/logHandler";
 import { USER_PERMISSIONS } from "../sharedUtilities/constants";
 import Boom from "boom";
@@ -567,6 +568,13 @@ export const API_ROUTES = {
       handler: getNotificationStatus,
       errorMessage:
         "Something went wrong and notifications could not be verified. Please try again."
+    }
+  },
+  "/configs": {
+    get: {
+      handler: getConfigs,
+      errorMessage:
+        "Something went wrong while getting configs.  Please try again."
     }
   },
   "/logs": {
