@@ -8,12 +8,11 @@ import LinkButton from "../../../shared/components/LinkButton";
 import { nanoid } from "nanoid";
 import OfficerAllegationHistory from "./OfficerAllegationHistory";
 import getOfficerHistoryOptionsRadioButtonValues from "../thunks/getOfficerHistoryOptionsRadioButtonValues";
-import { UNKNOWN_OFFICER_NAME } from "../../../../../sharedUtilities/constants";
+import {
+  CONFIGS,
+  UNKNOWN_OFFICER_NAME
+} from "../../../../../sharedUtilities/constants";
 import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
-
-const {
-  ORGANIZATION
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class OfficerHistoryTabContent extends React.Component {
   constructor(props) {
@@ -115,8 +114,9 @@ class OfficerHistoryTabContent extends React.Component {
           </div>
         ) : (
           <p>
-            The {ORGANIZATION} is unable to review this officer’s disciplinary
-            history as they are unable to be identified at this time.
+            The {this.props.organization} is unable to review this officer’s
+            disciplinary history as they are unable to be identified at this
+            time.
           </p>
         )}
       </div>
@@ -154,7 +154,8 @@ class OfficerHistoryTabContent extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-  officerHistoryOptions: state.ui.officerHistoryOptions
+  officerHistoryOptions: state.ui.officerHistoryOptions,
+  organization: state.configs[CONFIGS.ORGANIZATION]
 });
 
 const ConnectedForm = connect(mapStateToProps)(OfficerHistoryTabContent);
