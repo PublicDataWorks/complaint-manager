@@ -31,6 +31,7 @@ import AdditionalLocationInfo from "../../sharedFormComponents/AdditionalLocatio
 import normalizeAddress from "../../../utilities/normalizeAddress";
 import { intakeSourceIsRequired } from "../../../../formFieldLevelValidations";
 import {
+  CONFIGS,
   INCIDENT_DETAILS_FORM_NAME,
   ISO_DATE
 } from "../../../../../sharedUtilities/constants";
@@ -40,11 +41,6 @@ import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import Dropdown from "../../../../common/components/Dropdown";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
-
-const {
-  FIRST_CONTACTED_ORGANIZATION,
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const submitIncidentDetails = (values, dispatch, props) => {
   const errors = addressMustBeValid(props.addressValid);
@@ -65,11 +61,16 @@ const submitIncidentDetails = (values, dispatch, props) => {
     districtId: nullifyFieldUnlessValid(values.districtId),
     id: props.caseId
   };
-  
+
   let timezone;
-  if(normalizedValuesWithId.incidentDate && !normalizedValuesWithId.incidentTimezone){
-      timezone = moment.tz(normalizedValuesWithId.incidentDate, userTimezone).zoneAbbr();
-      normalizedValuesWithId.incidentTimezone = timezone;
+  if (
+    normalizedValuesWithId.incidentDate &&
+    !normalizedValuesWithId.incidentTimezone
+  ) {
+    timezone = moment
+      .tz(normalizedValuesWithId.incidentDate, userTimezone)
+      .zoneAbbr();
+    normalizedValuesWithId.incidentTimezone = timezone;
   }
 
   return dispatch(
@@ -84,7 +85,18 @@ const styles = {
 };
 
 const timezoneGuess = moment.tz(Date.now(), userTimezone).zoneAbbr();
-const timezones = ["AST","ADT","CST", "CDT", "EST", "EDT", "MST", "MDT", "PST", "PDT"];
+const timezones = [
+  "AST",
+  "ADT",
+  "CST",
+  "CDT",
+  "EST",
+  "EDT",
+  "MST",
+  "MDT",
+  "PST",
+  "PDT"
+];
 
 class IncidentDetailsDialog extends Component {
   componentDidMount() {
@@ -95,7 +107,9 @@ class IncidentDetailsDialog extends Component {
 
   render() {
     const props = this.props;
-    const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
+    const pbCaseNumberText = `${
+      props.configs[CONFIGS.BUREAU_ACRONYM]
+    } Case Number`;
     const enterPbCaseNumberText = `Enter ${pbCaseNumberText}`;
 
     return (
@@ -115,7 +129,7 @@ class IncidentDetailsDialog extends Component {
               <DateField
                 required
                 name="firstContactDate"
-                label={FIRST_CONTACTED_ORGANIZATION}
+                label={`First Contacted ${props.configs[CONFIGS.ORGANIZATION]}`}
                 data-testid="editFirstContactDateField"
                 inputProps={{
                   "data-testid": "editFirstContactDateInput",
@@ -131,7 +145,7 @@ class IncidentDetailsDialog extends Component {
               style={{
                 display: "flex",
                 marginBottom: "16px",
-                width: "100%",
+                width: "100%"
               }}
             >
               <DateField
@@ -174,10 +188,10 @@ class IncidentDetailsDialog extends Component {
                 inputProps={{
                   "data-testid": "editIncidentTimezoneInput",
                   type: "string",
-                  autoComplete: "off"                
+                  autoComplete: "off"
                 }}
                 InputLabelProps={{
-                  shrink: true,
+                  shrink: true
                 }}
                 style={{ width: "33.5%" }}
               >
@@ -327,11 +341,12 @@ const mapStateToProps = state => {
   );
 
   return {
-    formattedAddress: formatAddressAsString(values.incidentLocation),
     addressValid: state.ui.addressInput.addressValid,
-    intakeSources: state.ui.intakeSources,
+    configs: state.configs,
+    districts: state.ui.districts,
+    formattedAddress: formatAddressAsString(values.incidentLocation),
     howDidYouHearAboutUsSources: state.ui.howDidYouHearAboutUsSources,
-    districts: state.ui.districts
+    intakeSources: state.ui.intakeSources
   };
 };
 

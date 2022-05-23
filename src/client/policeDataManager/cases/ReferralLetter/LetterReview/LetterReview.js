@@ -19,6 +19,7 @@ import TextTruncate from "../../../shared/components/TextTruncate";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import {
   CASE_STATUSES_ALLOWED_TO_EDIT_LETTER,
+  CONFIGS,
   LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
@@ -66,7 +67,7 @@ export class LetterReview extends Component {
   };
 
   render() {
-    const { caseDetails } = this.props;
+    const { caseDetails, organization } = this.props;
     const caseId = this.props.match.params.id;
 
     if (this.caseDetailsNotYetLoaded() || !this.statusIsAllowed()) {
@@ -125,7 +126,7 @@ export class LetterReview extends Component {
 
           <CaseDetailCard
             cardTitle={"Incident Info"}
-            cardData={getIncidentInfoData(caseDetails)}
+            cardData={getIncidentInfoData(caseDetails, organization)}
           />
 
           <CaseDetailCard
@@ -188,7 +189,8 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details
+  caseDetails: state.currentCase.details,
+  organization: state.configs[CONFIGS.ORGANIZATION]
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LetterReview);

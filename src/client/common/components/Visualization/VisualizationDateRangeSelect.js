@@ -1,14 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
 import moment from "moment";
 import PropTypes from "prop-types";
 import { FormControl, MenuItem, Select } from "@material-ui/core";
 import {
   DATE_RANGE_TYPE,
-  QUERY_TYPES
+  QUERY_TYPES,
+  CONFIGS
 } from "../../../../sharedUtilities/constants";
-const {
-  FIRST_YEAR_DATA_IS_AVAILABLE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const VisualizationDateRangeSelect = props => {
   let dateRangeDropdownOptions =
@@ -23,7 +22,7 @@ const VisualizationDateRangeSelect = props => {
 
   for (
     let i = parseInt(moment().format("YYYY")) - 1;
-    i >= FIRST_YEAR_DATA_IS_AVAILABLE;
+    i >= props.firstYearDataIsAvailable;
     i--
   ) {
     dateRangeDropdownOptions.push({ key: i + "", value: i + "" });
@@ -50,8 +49,15 @@ const VisualizationDateRangeSelect = props => {
 
 VisualizationDateRangeSelect.propTypes = {
   dateRange: PropTypes.string,
-  setDateRange: PropTypes.func,
-  queryType: PropTypes.string
+  firstYearDataIsAvailable: PropTypes.number,
+  queryType: PropTypes.string,
+  setDateRange: PropTypes.func
 };
 
-export default VisualizationDateRangeSelect;
+export default connect(state => ({
+  firstYearDataIsAvailable:
+    state.configs[CONFIGS.FIRST_YEAR_DATA_IS_AVAILABLE] &&
+    !isNaN(state.configs[CONFIGS.FIRST_YEAR_DATA_IS_AVAILABLE])
+      ? parseInt(state.configs[CONFIGS.FIRST_YEAR_DATA_IS_AVAILABLE])
+      : undefined
+}))(VisualizationDateRangeSelect);

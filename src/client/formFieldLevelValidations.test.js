@@ -6,12 +6,12 @@ import {
   isEmail,
   isIntegerString,
   isPhoneNumber,
-  isPIBControlNumber,
+  // isPIBControlNumber,
   lastNameNotBlank,
   lastNameRequired,
   notFutureDate,
-  pibControlNumberNotBlank,
-  pibControlNumberRequired,
+  // pibControlNumberNotBlank,
+  // pibControlNumberRequired,
   secondReviewerRequired,
   reviewersShouldBeDifferent,
   validDate
@@ -84,27 +84,27 @@ describe("Form Validations", () => {
     expect(isPhoneNumber(undefined)).toBeUndefined();
   });
 
-  test("isPIBControlNumber should not return an error message when is valid", () => {
-    expect(isPIBControlNumber("2019-0001-P")).toBeUndefined();
-  });
+  // test("isPIBControlNumber should not return an error message when is valid", () => {
+  //   expect(isPIBControlNumber("2019-0001-P")).toBeUndefined();
+  // });
 
-  test("isPIBControlNumber should not run on empty falsy values", () => {
-    expect(isPIBControlNumber(null)).toBeUndefined();
-    expect(isPIBControlNumber("")).toBeUndefined();
-    expect(isPIBControlNumber(undefined)).toBeUndefined();
-  });
+  // test("isPIBControlNumber should not run on empty falsy values", () => {
+  //   expect(isPIBControlNumber(null)).toBeUndefined();
+  //   expect(isPIBControlNumber("")).toBeUndefined();
+  //   expect(isPIBControlNumber(undefined)).toBeUndefined();
+  // });
 
-  test("pibControlNumberRequired should return an error when the control number is not provided", () => {
-    expect(pibControlNumberRequired()).toEqual(
-      `Please enter a ${BUREAU_ACRONYM} Control #`
-    );
-  });
+  // test("pibControlNumberRequired should return an error when the control number is not provided", () => {
+  //   expect(pibControlNumberRequired()).toEqual(
+  //     `Please enter a ${BUREAU_ACRONYM} Control #`
+  //   );
+  // });
 
-  test("pibControlNumberNotBlank should return an error when the control number is empty", () => {
-    expect(pibControlNumberNotBlank("   ")).toEqual(
-      `Please enter a ${BUREAU_ACRONYM} Control #`
-    );
-  });
+  // test("pibControlNumberNotBlank should return an error when the control number is empty", () => {
+  //   expect(pibControlNumberNotBlank("   ")).toEqual(
+  //     `Please enter a ${BUREAU_ACRONYM} Control #`
+  //   );
+  // });
   test("emailRequired should return an error when email is not provided", () => {
     expect(emailIsRequired()).toEqual("Please enter Email Address");
   });

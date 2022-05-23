@@ -1,6 +1,6 @@
 import { GET_CONFIGS_SUCCEEDED } from "../../../../sharedUtilities/constants";
 
-const initialState = [];
+const initialState = {};
 
 const configReducer = (state = initialState, action) => {
   switch (action.type) {

@@ -6,9 +6,7 @@ import { formatAddressAsString } from "../../../utilities/formatAddress";
 
 const {
   PERSON_TYPE,
-  FIRST_CONTACTED_ORGANIZATION,
-  CIVILIAN_WITHIN_PD_TITLE,
-  BUREAU_ACRONYM
+  CIVILIAN_WITHIN_PD_TITLE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getFormattedDate = date => {
@@ -20,9 +18,7 @@ const formatTimeForDisplay = (date, time, timezone) => {
   return format12HourTime(time) + " " + timezone;
 };
 
-const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
-
-export const getIncidentInfoData = caseDetail => {
+export const getIncidentInfoData = (caseDetail, organization) => {
   const incidentDate = getFormattedDate(caseDetail.incidentDate);
   const incidentLocation = caseDetail.incidentLocation
     ? formatAddressAsString(caseDetail.incidentLocation)
@@ -35,7 +31,9 @@ export const getIncidentInfoData = caseDetail => {
 
   return [
     {
-      [FIRST_CONTACTED_ORGANIZATION]: formatDate(caseDetail.firstContactDate),
+      [`First Contacted ${organization}`]: formatDate(
+        caseDetail.firstContactDate
+      ),
       "Incident Date": incidentDate,
       "Incident Time": incidentTime,
       "Incident Location": incidentLocation ? incidentLocation : null,

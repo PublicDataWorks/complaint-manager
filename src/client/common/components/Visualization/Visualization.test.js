@@ -3,12 +3,14 @@ import {
   DATE_RANGE_TYPE,
   ISO_DATE
 } from "../../../../sharedUtilities/constants";
+import createConfiguredStore from "../../../createConfiguredStore";
 import { PlotlyWrapper } from "./PlotlyWrapper";
 import React from "react";
 import { act, render, screen, fireEvent } from "@testing-library/react";
 import Visualization, { generateDateRange } from "./Visualization";
 import mediaQuery from "css-mediaquery";
 import moment from "moment";
+import { Provider } from "react-redux";
 
 function createMatchMedia(width) {
   return query => ({
@@ -95,11 +97,13 @@ describe("Visualization", () => {
     let visualization;
     await act(async () => {
       visualization = render(
-        <Visualization
-          queryModel={MOCK_MODEL}
-          queryOptions={queryOptions}
-          hasDropdown={true}
-        />
+        <Provider store={createConfiguredStore()}>
+          <Visualization
+            queryModel={MOCK_MODEL}
+            queryOptions={queryOptions}
+            hasDropdown={true}
+          />
+        </Provider>
       );
     });
 

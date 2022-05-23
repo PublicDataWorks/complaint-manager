@@ -15,6 +15,7 @@ import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
 import {
   CIVILIAN_INITIATED,
+  CONFIGS,
   CREATE_CASE_FORM_NAME,
   ISO_DATE
 } from "../../../../sharedUtilities/constants";
@@ -26,10 +27,6 @@ import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeS
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 import AnonymousFields from "./AnonymousFields";
-
-const {
-  FIRST_CONTACTED_ORGANIZATION
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const styles = {
   dialogPaper: {
@@ -44,12 +41,13 @@ class CreateCaseDialog extends React.Component {
 
   render() {
     const {
-      handleSubmit,
+      classes,
       complaintType,
-      open,
-      submitting,
+      handleSubmit,
       isUnknown,
-      classes
+      open,
+      organization,
+      submitting
     } = this.props;
     const civilianComplainant = complaintType === CIVILIAN_INITIATED;
 
@@ -80,7 +78,7 @@ class CreateCaseDialog extends React.Component {
             </Typography>
           </DialogContentText>
           <form data-testid="createCaseForm">
-            <Timeline />
+            <Timeline organization={organization} />
             <IntakeSource intakeSources={this.props.intakeSources} />
             <br />
             <Field
@@ -114,7 +112,7 @@ class CreateCaseDialog extends React.Component {
   }
 }
 
-const Timeline = () => (
+const Timeline = props => (
   <>
     <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
       Timeline
@@ -122,7 +120,7 @@ const Timeline = () => (
     <DateField
       required
       name="case.firstContactDate"
-      label={FIRST_CONTACTED_ORGANIZATION}
+      label={`First Contacted ${props.organization}`}
       data-testid="firstContactDateField"
       inputProps={{
         "data-testid": "firstContactDateInput",
@@ -181,12 +179,13 @@ const mapStateToProps = state => {
   const isUnknown = selector(state, "civilian.isUnknown");
 
   return {
-    open: state.ui.createDialog.case.open,
-    complaintType: complaintTypeValues,
-    intakeSources: state.ui.intakeSources,
-    formattedAddress: formatAddressAsString(addressValues.address),
     addressValid: state.ui.addressInput.addressValid,
-    isUnknown
+    complaintType: complaintTypeValues,
+    formattedAddress: formatAddressAsString(addressValues.address),
+    intakeSources: state.ui.intakeSources,
+    isUnknown,
+    open: state.ui.createDialog.case.open,
+    organization: state.configs[CONFIGS.ORGANIZATION]
   };
 };
 

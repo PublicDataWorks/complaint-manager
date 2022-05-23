@@ -1,7 +1,7 @@
 import validator from "validator";
-const {
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+// const {
+//   BUREAU_ACRONYM
+// } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const isRequired = text => value => {
   return value ? undefined : `Please enter ${text}`;
@@ -30,17 +30,17 @@ export const isPhoneNumber = value => {
   return missingOrValid ? undefined : "Please enter a numeric 10 digit value";
 };
 
-export const isPIBControlNumber = value => {
-  if (!value) {
-    return undefined;
-  }
-  const formattedVal = value.replace(/[- ]/g, "");
-  const missingOrValid =
-    !Boolean(formattedVal) || /^[0-9]{8}[A-Za-z]$/.test(formattedVal);
-  return missingOrValid
-    ? undefined
-    : `Please enter a valid ${BUREAU_ACRONYM} control number`;
-};
+// export const isPIBControlNumber = value => {
+//   if (!value) {
+//     return undefined;
+//   }
+//   const formattedVal = value.replace(/[- ]/g, "");
+//   const missingOrValid =
+//     !Boolean(formattedVal) || /^[0-9]{8}[A-Za-z]$/.test(formattedVal);
+//   return missingOrValid
+//     ? undefined
+//     : `Please enter a valid ${BUREAU_ACRONYM} control number`;
+// };
 
 export const isEmail = value => {
   const missingOrValid = !Boolean(value) || validator.isEmail(value);
@@ -79,11 +79,11 @@ export const officerRoleRequired = selectRequired("Role on Case");
 export const titleIsRequired = isRequired("Title");
 export const intakeSourceIsRequired = isRequired("Intake Source");
 export const caseTagRequired = isRequired("a tag name");
-export const pibControlNumberRequired = isRequired(
-  `a ${BUREAU_ACRONYM} Control #`
-);
-export const pibControlNumberNotBlank = notBlank(
-  `a ${BUREAU_ACRONYM} Control #`
-);
+// export const pibControlNumberRequired = isRequired(
+//   `a ${BUREAU_ACRONYM} Control #`
+// );
+// export const pibControlNumberNotBlank = notBlank(
+//   `a ${BUREAU_ACRONYM} Control #`
+// );
 export const firstReviewerRequired = selectRequired("a First Reviewer");
 export const secondReviewerRequired = selectRequired("a Second Reviewer");

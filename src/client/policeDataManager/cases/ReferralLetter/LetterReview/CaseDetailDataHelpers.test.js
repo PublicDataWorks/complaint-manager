@@ -9,12 +9,8 @@ import {
 
 const {
   PERSON_TYPE,
-  FIRST_CONTACTED_ORGANIZATION,
-  CIVILIAN_WITHIN_PD_NAME,
-  BUREAU_ACRONYM
+  CIVILIAN_WITHIN_PD_NAME
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
-const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
 
 describe("caseDetailDataHelpers", function () {
   describe("incident info", function () {
@@ -39,7 +35,10 @@ describe("caseDetailDataHelpers", function () {
         pibCaseNumber: "2018-0002-CC"
       };
 
-      const incidentInfoData = getIncidentInfoData(caseDetail);
+      const incidentInfoData = getIncidentInfoData(
+        caseDetail,
+        "Oz, the great and powerful"
+      );
       const formattedIncidentDate = getFormattedDate(incidentDate);
       const formattedFirstContactDate = getFormattedDate(firstContactDate);
 
@@ -47,7 +46,8 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
+            "First Contacted Oz, the great and powerful":
+              formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: "some district",
@@ -78,7 +78,10 @@ describe("caseDetailDataHelpers", function () {
         pibCaseNumber: "2013-0004-CC"
       };
 
-      const incidentInfoData = getIncidentInfoData(caseDetail);
+      const incidentInfoData = getIncidentInfoData(
+        caseDetail,
+        "The Justice League"
+      );
       const formattedIncidentDate = getFormattedDate(incidentDate);
       const formattedFirstContactDate = getFormattedDate(firstContactDate);
 
@@ -86,7 +89,7 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
+            "First Contacted The Justice League": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": null,
             District: "some district",
@@ -114,7 +117,7 @@ describe("caseDetailDataHelpers", function () {
         pibCaseNumber: "2013-0004-CC"
       };
 
-      const incidentInfoData = getIncidentInfoData(caseDetail);
+      const incidentInfoData = getIncidentInfoData(caseDetail, "SGC");
       const formattedIncidentDate = getFormattedDate(incidentDate);
       const formattedFirstContactDate = getFormattedDate(firstContactDate);
 
@@ -122,7 +125,7 @@ describe("caseDetailDataHelpers", function () {
         expect.arrayContaining([
           expect.objectContaining({
             "Incident Date": formattedIncidentDate,
-            [FIRST_CONTACTED_ORGANIZATION]: formattedFirstContactDate,
+            "First Contacted SGC": formattedFirstContactDate,
             "Incident Time": "10:00 AM CST",
             "Incident Location": "100 Small Lake Road, Skokie, IL, 10000",
             District: null,

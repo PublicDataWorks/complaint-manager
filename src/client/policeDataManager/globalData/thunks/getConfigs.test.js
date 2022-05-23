@@ -10,7 +10,7 @@ describe("getFeatureToggles thunk", function () {
     const mockDispatch = jest.fn();
     configureInterceptors({ dispatch: mockDispatch });
     const configs = { testConfig: true };
-    nock("http://localhost").get(`/configs`).reply(200, configs);
+    nock("http://localhost").get(`/api/configs`).reply(200, configs);
 
     await getConfigs()(mockDispatch);
 

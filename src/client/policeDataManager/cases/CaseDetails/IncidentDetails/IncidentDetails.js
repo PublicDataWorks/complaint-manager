@@ -15,12 +15,10 @@ import {
   openEditIncidentDetailsDialog
 } from "../../../actionCreators/casesActionCreators";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
-
-const {
-  FIRST_CONTACTED_ORGANIZATION,
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import {
+  CONFIGS,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 
 class IncidentDetails extends React.Component {
   formatTimeForDisplay = (date, time) => {
@@ -62,14 +60,15 @@ class IncidentDetails extends React.Component {
       intakeSource,
       howDidYouHearAboutUsSource,
       classes,
-      pibCaseNumber
+      pibCaseNumber,
+      configs
     } = this.props;
     const intakeSourceName = intakeSource ? intakeSource.name : "";
     const howDidYouHearAboutUsSourceName = howDidYouHearAboutUsSource
       ? howDidYouHearAboutUsSource.name
       : "";
     const districtName = district ? district.name : "";
-    const pbCaseNumberText = `${BUREAU_ACRONYM} Case Number`;
+    const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
 
     return (
       <BaseCaseDetailsCard title="Incident Details">
@@ -85,7 +84,9 @@ class IncidentDetails extends React.Component {
               <div className={classes.detailsRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel={FIRST_CONTACTED_ORGANIZATION}
+                    displayLabel={`First Contacted ${
+                      configs[CONFIGS.ORGANIZATION]
+                    }`}
                     value={formatDate(firstContactDate)}
                     testLabel="firstContactDate"
                   />
@@ -192,24 +193,25 @@ class IncidentDetails extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  firstContactDate: state.currentCase.details.firstContactDate,
-  incidentDate: state.currentCase.details.incidentDate,
-  incidentTime: state.currentCase.details.incidentTime,
-  incidentTimezone: state.currentCase.details.incidentTimezone,
-  incidentLocation: state.currentCase.details.incidentLocation,
-  districtId: state.currentCase.details.districtId,
-  district: state.currentCase.details.caseDistrict,
   caseId: state.currentCase.details.id,
-  intakeSourceId: state.currentCase.details.intakeSourceId,
-  intakeSource: state.currentCase.details.intakeSource,
-  howDidYouHearAboutUsSourceId:
-    state.currentCase.details.howDidYouHearAboutUsSourceId,
+  configs: state.configs,
+  district: state.currentCase.details.caseDistrict,
+  districtId: state.currentCase.details.districtId,
+  firstContactDate: state.currentCase.details.firstContactDate,
   howDidYouHearAboutUsSource:
     state.currentCase.details.howDidYouHearAboutUsSource,
+  howDidYouHearAboutUsSourceId:
+    state.currentCase.details.howDidYouHearAboutUsSourceId,
+  incidentDate: state.currentCase.details.incidentDate,
+  incidentLocation: state.currentCase.details.incidentLocation,
+  incidentTime: state.currentCase.details.incidentTime,
+  incidentTimezone: state.currentCase.details.incidentTimezone,
+  intakeSource: state.currentCase.details.intakeSource,
+  intakeSourceId: state.currentCase.details.intakeSourceId,
   isArchived: state.currentCase.details.isArchived,
   open: state.ui.editIncidentDetailsDialog.open,
-  pibCaseNumber: state.currentCase.details.pibCaseNumber,
-  permissions: state?.users?.current?.userInfo?.permissions
+  permissions: state?.users?.current?.userInfo?.permissions,
+  pibCaseNumber: state.currentCase.details.pibCaseNumber
 });
 
 export default connect(mapStateToProps)(IncidentDetails);

@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import LinkButton from "../shared/components/LinkButton";
 import {
   CASE_EXPORT_TYPE,
+  CONFIGS,
   EXPORT_CASES_FORM_NAME
 } from "../../../sharedUtilities/constants";
 import { openExportCasesConfirmationDialog } from "../actionCreators/exportActionCreators";
@@ -20,10 +20,6 @@ import {
 import ExportDateRange from "./ExportDateRange/ExportDateRange";
 import { validateDateRangeFields } from "./ExportDateRange/validateDateRangeFields";
 import RadioGroup from "@material-ui/core/RadioGroup";
-
-const {
-  FIRST_CONTACTED_ORGANIZATION
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const formLabel = "exportCases";
 
@@ -53,7 +49,7 @@ const ExportCasesTypeRadioGroup = props => (
         data-testid={`dateRangeTypeRadioButton.${CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}`}
         value={CASE_EXPORT_TYPE.FIRST_CONTACT_DATE}
         control={<Radio color="primary" />}
-        label={`${FIRST_CONTACTED_ORGANIZATION} date`}
+        label={`First Contacted ${props.organization} date`}
         onClick={() =>
           props.input.onChange(CASE_EXPORT_TYPE.FIRST_CONTACT_DATE)
         }
@@ -116,7 +112,8 @@ const connectedForm = reduxForm({
 })(ExportCasesForm);
 
 const mapStateToProps = state => ({
-  buttonsDisabled: state.ui.allExports.buttonsDisabled
+  buttonsDisabled: state.ui.allExports.buttonsDisabled,
+  organization: state.configs[CONFIGS.ORGANIZATION]
 });
 
 const mapDispatchToProps = {
