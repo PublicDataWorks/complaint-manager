@@ -18,9 +18,9 @@ import {
 } from "./formFieldLevelValidations";
 import moment from "moment";
 import { ISO_DATE } from "../sharedUtilities/constants";
-const {
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+// const {
+//   BUREAU_ACRONYM
+// } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("Form Validations", () => {
   test("firstNameRequired should return an error message when undefined", () => {

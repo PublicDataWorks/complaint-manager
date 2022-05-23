@@ -15,7 +15,8 @@ import styles from "./dashboardStyling/styles";
 import {
   DATA_SECTIONS,
   DDS_LOCATION_DATA,
-  DDS_COMPLAINTS_BY_DISTRICT
+  DDS_COMPLAINTS_BY_DISTRICT,
+  CONFIGS
 } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
@@ -24,12 +25,6 @@ import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
 import { connect } from "react-redux";
-
-const {
-  PD,
-  CITY,
-  ORGANIZATION
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const removeDragCover = () => {
   const callback = mutationsList => {
@@ -75,8 +70,9 @@ const PublicDataDashboardWrapper = () => {
 };
 
 const PublicDataDashboard = ({
-  publicMapVisualizationFeature,
-  countByDistrictVisualizationFeature
+  configs,
+  countByDistrictVisualizationFeature,
+  publicMapVisualizationFeature
 }) => {
   useEffect(removeDragCover);
 
@@ -98,24 +94,25 @@ const PublicDataDashboard = ({
           <Typography variant="h3" data-testid="introText">
             The{" "}
             <Link href="https://nolaipm.gov/" style={styles.link}>
-              Office of the Independent Police Monitor
+              {configs[CONFIGS.ORGANIZATION_TITLE]}
             </Link>{" "}
-            ({ORGANIZATION}) is sharing data with the public to increase
-            transparency to inform and empower the {CITY} community.
+            ({configs[CONFIGS.ORGANIZATION]}) is sharing data with the public to
+            increase transparency to inform and empower the
+            {configs[CONFIGS.CITY]} community.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8}>
           <Typography variant="body1">
-            The Office of the Independent Police Monitor receives commendations
-            and complaints, monitors and reviews misconduct complaint
-            investigations and disciplinary proceedings, and keeps data on
-            relevant trends and patterns to communicate back to the {PD} through
-            policy and practice recommendations.
+            The {configs[CONFIGS.ORGANIZATION_TITLE]} receives commendations and
+            complaints, monitors and reviews misconduct complaint investigations
+            and disciplinary proceedings, and keeps data on relevant trends and
+            patterns to communicate back to the
+            {configs[CONFIGS.PD]} through policy and practice recommendations.
           </Typography>
           <br />
           <Typography variant="body2">
             This dashboard showcases data visualizations regarding the complaint
-            process and complaints the Office of the Independent Police Monitor
+            process and complaints the {configs[CONFIGS.ORGANIZATION_TITLE]}
             received directly.
           </Typography>
         </Grid>
@@ -411,7 +408,7 @@ const PublicDataDashboard = ({
                 maxWidth: theme.dashboard.box.titleMaxWidth
               }}
             >
-              Have you had an encounter with police in {CITY}?
+              Have you had an encounter with police in {configs[CONFIGS.CITY]}?
             </Typography>
             <Button
               variant="contained"
@@ -445,10 +442,11 @@ const PublicDataDashboard = ({
 };
 
 const PublicDataDashboardContainer = connect(state => ({
-  publicMapVisualizationFeature:
-    state.featureToggles.publicMapVisualizationFeature,
+  configs: state.configs,
   countByDistrictVisualizationFeature:
-    state.featureToggles.countByDistrictVisualizationFeature
+    state.featureToggles.countByDistrictVisualizationFeature,
+  publicMapVisualizationFeature:
+    state.featureToggles.publicMapVisualizationFeature
 }))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;
