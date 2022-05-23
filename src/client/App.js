@@ -28,7 +28,6 @@ const App = props => {
 
   useEffect(() => {
     props.getFeatureToggles();
-    props.getConfigs();
 
     const accessToken = getAccessToken();
     const auth = new Auth();
@@ -44,6 +43,13 @@ const App = props => {
       redirectToAuth(props.dispatch);
     }
   }, []);
+
+  useEffect(() => {
+    if (props.currentUser?.nickname !== "") {
+      props.getConfigs();
+    }
+  }, [props.currentUser]);
+
   useEffect(() => {
     return function cleanup() {
       if (eventSource) {
