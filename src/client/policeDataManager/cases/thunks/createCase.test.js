@@ -20,8 +20,7 @@ import { closeCreateDialog } from "../../../common/actionCreators/createDialogAc
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 
 const {
-  CIVILIAN_WITHIN_PD_INITIATED,
-  PD
+  CIVILIAN_WITHIN_PD_INITIATED
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../../common/auth/getAccessToken", () =>
@@ -178,7 +177,7 @@ describe("createCase", () => {
       caseDetails: {
         case: {
           firstName: "Civilian",
-          lastName: `Within ${PD}`,
+          lastName: `Within SBPD`,
           complaintType: CIVILIAN_WITHIN_PD_INITIATED
         }
       },
@@ -188,7 +187,7 @@ describe("createCase", () => {
     const responseBody = {
       id: caseId,
       firstName: "Civilian",
-      lastName: `Within ${PD}`,
+      lastName: `Within SBPD`,
       status: CASE_STATUS.INITIAL
     };
 

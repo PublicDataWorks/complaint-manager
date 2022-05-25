@@ -1,7 +1,6 @@
 import {
   formatAddress,
   generateImage,
-  generateSignature,
   isPresent,
   newLineToLineBreak,
   renderHtml,
@@ -17,14 +16,9 @@ import {
 const {
   generateSubjectLine
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
-const {
-  ORGANIZATION,
-  BUREAU_ACRONYM
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-const {
-  SENDER_NAME,
-  SENDER_SIGNATURE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
+
+const ORGANIZATION = "OIPM";
+const BUREAU_ACRONYM = "PIB";
 
 jest.mock("fs", () => ({
   readFileSync: (file, format) => file

@@ -27,9 +27,6 @@ import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
 import { authEnabledTest } from "./testHelpers/authEnabledTest";
 import { isAuthDisabled } from "./isAuthDisabled";
-const {
-  CITY
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -512,7 +509,7 @@ describe("server", () => {
           id: civilianToUpdate.id,
           address: {
             id: civilianToUpdate.address.id,
-            city: CITY
+            city: "Sheboygan"
           }
         });
 
@@ -523,7 +520,7 @@ describe("server", () => {
           complainantCivilians: expect.arrayContaining([
             expect.objectContaining({
               address: expect.objectContaining({
-                city: CITY
+                city: "Sheboygan"
               })
             })
           ])
