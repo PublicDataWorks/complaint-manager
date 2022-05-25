@@ -8,8 +8,7 @@ import {
 } from "./CaseDetailDataHelpers";
 
 const {
-  PERSON_TYPE,
-  CIVILIAN_WITHIN_PD_NAME
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("caseDetailDataHelpers", function () {
@@ -447,7 +446,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            [CIVILIAN_WITHIN_PD_NAME]: "complainant joe",
+            "Civilian (NOPD) Name": "complainant joe",
             ID: "#12345",
             District: "some district"
           })
@@ -475,7 +474,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            [CIVILIAN_WITHIN_PD_NAME]: "(AC) complainant joe",
+            "Civilian (NOPD) Name": "(AC) complainant joe",
             ID: "#12345",
             District: "some district"
           })
@@ -777,7 +776,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              [CIVILIAN_WITHIN_PD_NAME]: "witness joe",
+              "Civilian (NOPD) Name": "witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -806,7 +805,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              [CIVILIAN_WITHIN_PD_NAME]: "(AC) witness joe",
+              "Civilian (NOPD) Name": "(AC) witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -955,7 +954,7 @@ describe("caseDetailDataHelpers", function () {
         expect(accusedOfficerData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              [CIVILIAN_WITHIN_PD_NAME]: "some name",
+              "Civilian (NOPD) Name": "some name",
               ID: "#some id",
               District: "some district"
             })

@@ -26,7 +26,7 @@ describe("removePersonDialogReducer", () => {
 
     const actualState = removePersonDialogReducer(
       oldState,
-      openRemovePersonDialog(personDetails, "civilians")
+      openRemovePersonDialog(personDetails, "civilians", "NOPD")
     );
 
     const expectedState = {

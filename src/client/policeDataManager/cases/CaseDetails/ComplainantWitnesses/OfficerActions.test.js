@@ -11,6 +11,7 @@ import {
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
+import { GET_CONFIGS_SUCCEEDED } from "../../../../../sharedUtilities/constants";
 
 describe("OfficerActions", () => {
   test("should select caseOfficer & navigate to edit page when Edit Known Officer is clicked", () => {
@@ -65,6 +66,11 @@ describe("OfficerActions", () => {
     const caseOfficer = new CaseOfficer.Builder().defaultCaseOfficer().build();
 
     const store = createConfiguredStore();
+    store.dispatch({
+      type: GET_CONFIGS_SUCCEEDED,
+      payload: { pd: "VPD" }
+    });
+
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
@@ -81,7 +87,7 @@ describe("OfficerActions", () => {
     removeOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemovePersonDialog(caseOfficer, "cases-officers")
+      openRemovePersonDialog(caseOfficer, "cases-officers", "VPD")
     );
   });
 });

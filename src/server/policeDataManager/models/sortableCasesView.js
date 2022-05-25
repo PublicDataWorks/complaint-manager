@@ -3,10 +3,7 @@ import {
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
-import {
-  getOfficerFullName,
-  getPersonFullName
-} from "../../../sharedUtilities/getFullName";
+import { getPersonFullName } from "../../../sharedUtilities/getFullName";
 import {
   getCaseReference,
   getCaseReferencePrefix

@@ -403,7 +403,6 @@ export const COMPLAINANT = "Complainant";
 // ----------------------------------------
 export const CIVILIAN_INITIATED = "Civilian Initiated";
 export const RANK_INITIATED = "Rank Initiated";
-export const CIVILIAN_WITHIN_PD_INITIATED = `Civilian Within ${PD} Initiated`;
 
 // ----------------------------------------
 //          Edit Status Options

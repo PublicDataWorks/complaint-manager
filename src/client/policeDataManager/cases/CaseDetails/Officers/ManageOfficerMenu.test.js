@@ -11,6 +11,7 @@ import {
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import ManageOfficerMenu from "./ManageOfficerMenu";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
+import { GET_CONFIGS_SUCCEEDED } from "../../../../../sharedUtilities/constants";
 
 describe("ManageOfficerMenu", () => {
   let caseOfficer, dispatchSpy, wrapper;
@@ -48,6 +49,11 @@ describe("ManageOfficerMenu", () => {
       .build();
 
     const store = createConfiguredStore();
+    store.dispatch({
+      type: GET_CONFIGS_SUCCEEDED,
+      payload: { pd: "LVPD" }
+    });
+
     const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
@@ -79,7 +85,7 @@ describe("ManageOfficerMenu", () => {
     removeOfficer.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemovePersonDialog(caseOfficer, "cases-officers")
+      openRemovePersonDialog(caseOfficer, "cases-officers", "LVPD")
     );
   });
 });

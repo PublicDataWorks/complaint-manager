@@ -9,10 +9,13 @@ import {
 } from "../../../actionCreators/officersActionCreators";
 import { initialize } from "redux-form";
 
-import { OFFICER_DETAILS_FORM_NAME } from "../../../../../sharedUtilities/constants";
+import {
+  CONFIGS,
+  OFFICER_DETAILS_FORM_NAME
+} from "../../../../../sharedUtilities/constants";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 
-const OfficerActions = ({ caseOfficer, dispatch }) => (
+const OfficerActions = ({ caseOfficer, dispatch, pd }) => (
   <div style={{ display: "flex" }}>
     <LinkButton
       data-testid="editOfficerLink"
@@ -46,7 +49,7 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
       data-testid="removeOfficerLink"
       onClick={event => {
         event.stopPropagation();
-        dispatch(openRemovePersonDialog(caseOfficer, "cases-officers"));
+        dispatch(openRemovePersonDialog(caseOfficer, "cases-officers", pd));
       }}
     >
       Remove
@@ -54,4 +57,6 @@ const OfficerActions = ({ caseOfficer, dispatch }) => (
   </div>
 );
 
-export default connect()(OfficerActions);
+export default connect(state => ({ pd: state.configs[CONFIGS.PD] }))(
+  OfficerActions
+);

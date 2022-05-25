@@ -26,6 +26,7 @@ import {
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import {
+  GET_CONFIGS_SUCCEEDED,
   NARRATIVE_FORM,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
@@ -86,6 +87,10 @@ describe("Case Details Component", () => {
           USER_PERMISSIONS.EDIT_CASE
         ]
       }
+    });
+    store.dispatch({
+      type: GET_CONFIGS_SUCCEEDED,
+      payload: { pd: "LAPD" }
     });
 
     caseDetails = mount(
@@ -247,7 +252,8 @@ describe("Case Details Component", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(
         openRemovePersonDialog(
           expectedCase.complainantCivilians[0],
-          "civilians"
+          "civilians",
+          "LAPD"
         )
       );
     });

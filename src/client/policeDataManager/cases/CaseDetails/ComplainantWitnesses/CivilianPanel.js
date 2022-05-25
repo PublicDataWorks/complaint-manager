@@ -6,6 +6,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import {
   CIVILIAN_FORM_NAME,
+  CONFIGS,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import editCivilian from "../../thunks/editCivilian";
@@ -28,9 +29,10 @@ import { connect } from "react-redux";
 const CivilianPanel = ({
   civilian,
   civilianAge,
+  classes,
   dispatch,
   isArchived,
-  classes,
+  pd,
   permissions
 }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
@@ -173,7 +175,9 @@ const CivilianPanel = ({
                     data-testid="removeCivilianLink"
                     onClick={event => {
                       event.stopPropagation();
-                      dispatch(openRemovePersonDialog(civilian, "civilians"));
+                      dispatch(
+                        openRemovePersonDialog(civilian, "civilians", pd)
+                      );
                     }}
                   >
                     Remove
@@ -192,5 +196,6 @@ const CivilianPanel = ({
 };
 
 export default connect(state => ({
+  pd: state.configs[CONFIGS.PD],
   permissions: state?.users?.current?.userInfo?.permissions
 }))(CivilianPanel);

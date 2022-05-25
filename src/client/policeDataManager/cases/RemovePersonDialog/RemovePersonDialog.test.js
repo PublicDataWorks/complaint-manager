@@ -28,7 +28,9 @@ describe("removePersonDialog", () => {
       fullName: "John D. Doe III"
     };
 
-    store.dispatch(openRemovePersonDialog(civilianDetails, "civilians"));
+    store.dispatch(
+      openRemovePersonDialog(civilianDetails, "civilians", "NOPD")
+    );
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     wrapper = mount(

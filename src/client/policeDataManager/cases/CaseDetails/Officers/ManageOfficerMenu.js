@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import {
+  CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
@@ -34,7 +35,7 @@ class ManageOfficerMenu extends React.Component {
   };
 
   render() {
-    const { caseOfficer } = this.props;
+    const { caseOfficer, pd } = this.props;
 
     const isCivilianWithinPd =
       caseOfficer.caseEmployeeType ===
@@ -102,7 +103,7 @@ class ManageOfficerMenu extends React.Component {
             onClick={event => {
               this.handleMenuClose(event);
               return this.props.dispatch(
-                openRemovePersonDialog(caseOfficer, "cases-officers")
+                openRemovePersonDialog(caseOfficer, "cases-officers", pd)
               );
             }}
           >
@@ -114,4 +115,6 @@ class ManageOfficerMenu extends React.Component {
   }
 }
 
-export default connect()(ManageOfficerMenu);
+export default connect(state => ({ pd: state.configs[CONFIGS.PD] }))(
+  ManageOfficerMenu
+);
