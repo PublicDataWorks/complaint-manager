@@ -156,34 +156,19 @@ const getCaseDetailsAndAuditDetails = async (
   const caseDetails = await models.cases.findByPk(caseId, queryOptions);
 
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
-    caseDetails.dataValues.complainantCivilians.forEach(civilian => {
-      if (civilian.dataValues.isAnonymous) {
-        civilian.anonymizeCivilian();
-      }
-    });
-
-    caseDetails.dataValues.witnessCivilians.forEach(civilian => {
-      if (civilian.dataValues.isAnonymous) {
-        civilian.anonymizeCivilian();
-      }
-    });
-
-    caseDetails.dataValues.complainantOfficers.forEach(officer => {
-      if (officer.dataValues.isAnonymous) {
-        officer.anonymizeOfficer();
-      }
-    });
-
-    caseDetails.dataValues.witnessOfficers.forEach(officer => {
-      if (officer.dataValues.isAnonymous) {
-        officer.anonymizeOfficer();
-      }
-    });
+    caseDetails.dataValues.complainantCivilians.forEach(civilian =>
+      civilian.anonymizeCivilian()
+    );
+    caseDetails.dataValues.witnessCivilians.forEach(civilian =>
+      civilian.anonymizeCivilian()
+    );
+    caseDetails.dataValues.complainantOfficers.forEach(officer =>
+      officer.anonymizeOfficer()
+    );
+    caseDetails.dataValues.witnessOfficers.forEach(officer =>
+      officer.anonymizeOfficer()
+    );
   }
-
-  // loop through caseDetails if(!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA))
-  // loop through complainant civilians, witnesses
-  // & look at officer
 
   const caseAuditDetails = getQueryAuditAccessDetails(
     queryOptions,
