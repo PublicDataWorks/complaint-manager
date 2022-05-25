@@ -292,8 +292,30 @@ module.exports = (sequelize, DataTypes) => {
       this.firstName = "";
       this.middleName = "";
       this.lastName = "";
+      this.fullName = "";
       this.phoneNumber = "";
       this.email = "";
+      this.windowsUsername = "";
+      this.supervisorFirstName = "";
+      this.supervisorMiddleName = "";
+      this.supervisorLastName = "";
+      this.supervisorFullName = "";
+      this.supervisorWindowsUsername = "";
+      this.supervisorOfficerNumber = "";
+      this.employeeType = "";
+      this.caseEmployeeType = "";
+      this.district = "";
+      this.bureau = "";
+      this.rank = "";
+      this.dob = "";
+      this.age = "";
+      this.endDate = "";
+      this.hireDate = "";
+      this.sex = "";
+      this.race = "";
+      this.workStatus = "";
+      this.notes = "";
+      this.roleOnCase = "";
     }
   };
 

@@ -141,8 +141,12 @@ module.exports = (sequelize, DataTypes) => {
       this.middleInitial = "";
       this.lastName = "";
       this.suffix = "";
+      this.fullName = "";
+      this.birthDate = "";
+      this.roleOnCase = "";
       this.phoneNumber = "";
       this.email = "";
+      this.additionalInfo = "";
       this.address = "";
     }
   };
