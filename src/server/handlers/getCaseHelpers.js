@@ -153,25 +153,30 @@ const getCaseDetailsAndAuditDetails = async (
     ]
   };
 
-  // if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
-  //   queryOptions.include = queryOptions.include.filter(
-  //     detail => detail.model !== models.civilian
-  //   );
-  // }
-
   const caseDetails = await models.cases.findByPk(caseId, queryOptions);
-  // console.log(caseDetails.dataValues);
 
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
-    caseDetails.dataValues.complainantCivilians.forEach(c => {
-      if (c.dataValues.isAnonymous) {
-        c.anonymizeCivilian();
+    caseDetails.dataValues.complainantCivilians.forEach(civilian => {
+      if (civilian.dataValues.isAnonymous) {
+        civilian.anonymizeCivilian();
       }
     });
 
-    caseDetails.dataValues.witnessCivilians.forEach(c => {
-      if (c.dataValues.isAnonymous) {
-        c.anonymizeCivilian();
+    caseDetails.dataValues.witnessCivilians.forEach(civilian => {
+      if (civilian.dataValues.isAnonymous) {
+        civilian.anonymizeCivilian();
+      }
+    });
+
+    caseDetails.dataValues.complainantOfficers.forEach(officer => {
+      if (officer.dataValues.isAnonymous) {
+        officer.anonymizeOfficer();
+      }
+    });
+
+    caseDetails.dataValues.witnessOfficers.forEach(officer => {
+      if (officer.dataValues.isAnonymous) {
+        officer.anonymizeOfficer();
       }
     });
   }

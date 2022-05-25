@@ -286,6 +286,17 @@ module.exports = (sequelize, DataTypes) => {
     };
   };
 
+  CaseOfficer.prototype.anonymizeOfficer = function () {
+    if (this.isAnonymous) {
+      this.officerId = "";
+      this.firstName = "";
+      this.middleName = "";
+      this.lastName = "";
+      this.phoneNumber = "";
+      this.email = "";
+    }
+  };
+
   CaseOfficer.associate = models => {
     CaseOfficer.hasMany(models.officer_allegation, {
       as: "allegations",
