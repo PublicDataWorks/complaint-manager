@@ -6,7 +6,8 @@ import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
@@ -37,7 +38,8 @@ describe("createCivilian handler", () => {
         authorization: "Bearer SOME_MOCK_TOKEN"
       },
       body: civilianValues,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
     });
 
     next = jest.fn();

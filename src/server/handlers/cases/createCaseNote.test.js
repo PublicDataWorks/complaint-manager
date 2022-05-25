@@ -4,7 +4,8 @@ import models from "../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
@@ -66,7 +67,8 @@ describe("createCaseNote", function () {
       params: {
         caseId: createdCase.id
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
     });
   });
 

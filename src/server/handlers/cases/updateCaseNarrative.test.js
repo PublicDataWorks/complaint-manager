@@ -2,7 +2,8 @@ import Case from "../../../sharedTestHelpers/case";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
@@ -49,7 +50,8 @@ describe("updateCaseNarrative handler", () => {
         narrativeSummary: "So much summary",
         narrativeDetails: "So much narrative"
       },
-      nickname: userNickname
+      nickname: userNickname,
+      permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
     });
   });
 

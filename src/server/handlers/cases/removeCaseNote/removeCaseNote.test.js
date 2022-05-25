@@ -7,7 +7,8 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -75,7 +76,8 @@ describe("RemoveCaseNote unit", () => {
         caseId: createdCase.id,
         caseNoteId: createdCaseNote.id
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.CREATE_CASE_NOTE
     });
 
     isCaseNoteAuthor.mockReturnValue(true);

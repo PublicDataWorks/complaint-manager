@@ -38,10 +38,12 @@ const editOfficerAllegation = asyncMiddleware(
           transaction
         });
 
-        const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-          caseOfficer.caseId,
-          transaction
-        );
+        const caseDetailsAndAuditDetails =
+          await getCaseWithAllAssociationsAndAuditDetails(
+            caseOfficer.caseId,
+            transaction,
+            request.permissions
+          );
         const caseDetails = caseDetailsAndAuditDetails.caseDetails;
         const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

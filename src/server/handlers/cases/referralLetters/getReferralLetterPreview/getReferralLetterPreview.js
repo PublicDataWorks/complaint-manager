@@ -63,7 +63,11 @@ const getReferralLetterPreview = asyncMiddleware(
       const referralLetterBodyAuditDetails = htmlAndAuditDetails.auditDetails;
 
       const caseDetailsAndAuditDetails =
-        await getCaseWithAllAssociationsAndAuditDetails(caseId, transaction);
+        await getCaseWithAllAssociationsAndAuditDetails(
+          caseId,
+          transaction,
+          request.permissions
+        );
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 

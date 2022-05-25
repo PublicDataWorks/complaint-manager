@@ -9,6 +9,7 @@ import {
   AUDIT_SUBJECT,
   COMPLAINANT,
   MANAGER_TYPE,
+  USER_PERMISSIONS,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
@@ -100,7 +101,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
       await editCaseOfficer(request, response, next);
 
@@ -140,7 +142,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -170,7 +173,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -201,7 +205,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -237,7 +242,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -269,7 +275,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -325,7 +332,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -386,7 +394,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -425,7 +434,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await existingOfficer.update(
@@ -479,7 +489,8 @@ describe("editCaseOfficer", () => {
         caseId: existingCase.id,
         caseOfficerId: existingCaseOfficer.id
       },
-      nickname: "test user"
+      nickname: "test user",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await editCaseOfficer(request, response, next);
@@ -616,7 +627,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -658,7 +670,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -684,7 +697,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -717,7 +731,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -744,7 +759,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -781,7 +797,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -806,7 +823,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -843,7 +861,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -867,7 +886,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingComplainantCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -893,7 +913,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingWitnessCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -920,7 +941,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingWitnessCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -947,7 +969,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingComplainantCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -1000,7 +1023,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingComplainantCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await editCaseOfficer(request, response, next);
@@ -1045,7 +1069,8 @@ describe("editCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "test user"
+        nickname: "test user",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
       await editCaseOfficer(request, response, next);
 

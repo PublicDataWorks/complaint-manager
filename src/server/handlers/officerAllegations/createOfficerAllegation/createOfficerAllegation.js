@@ -29,10 +29,12 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
-      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-        request.params.caseId,
-        transaction
-      );
+      const caseDetailsAndAuditDetails =
+        await getCaseWithAllAssociationsAndAuditDetails(
+          request.params.caseId,
+          transaction,
+          request.permissions
+        );
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

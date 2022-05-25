@@ -66,7 +66,8 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
         retrievedCase.id,
-        transaction
+        transaction,
+        request.permissions
       );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;

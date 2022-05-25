@@ -10,6 +10,7 @@ import {
   EDIT_STATUS,
   MANAGER_TYPE,
   REFERRAL_LETTER_VERSION,
+  USER_PERMISSIONS,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../sharedTestHelpers/case";
@@ -75,7 +76,8 @@ describe("getReferralLetterPreview", function () {
         authorization: "Bearer token"
       },
       params: { caseId: existingCase.id },
-      nickname: "bobjo"
+      nickname: "bobjo",
+      permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
     });
 
     const referralLetterAttributes = new ReferralLetter.Builder()

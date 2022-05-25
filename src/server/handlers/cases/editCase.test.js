@@ -6,7 +6,8 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
   CASE_STATUS,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
@@ -55,7 +56,8 @@ describe("Edit Case", () => {
         },
         params: { caseId: existingCase.id },
         body: valuesToUpdate,
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
       response = httpMocks.createResponse();
 
@@ -144,7 +146,8 @@ describe("Edit Case", () => {
           },
           params: { caseId: existingCase.id },
           body: valuesToUpdate,
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
       });
 
@@ -171,7 +174,8 @@ describe("Edit Case", () => {
           },
           params: { caseId: existingCase.id },
           body: valuesToUpdate,
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         await editCase(request, response, next);
@@ -192,7 +196,8 @@ describe("Edit Case", () => {
             incidentLocation: { city: "New City" },
             incidentDateNew: "2018-03-16"
           },
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         await editCase(requestWithoutFirstContactDate, response, next);
@@ -226,7 +231,8 @@ describe("Edit Case", () => {
             incidentLocation: { city: "New City" },
             incidentDateNew: "2018-03-16"
           },
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         await editCase(requestWithoutFirstContactDate, response, next);
@@ -266,7 +272,8 @@ describe("Edit Case", () => {
             createdBy: "Ihackedyou",
             assignedTo: "Ihackedyou"
           },
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         await editCase(requestWithCreatedBy, response, next);
@@ -293,7 +300,8 @@ describe("Edit Case", () => {
           },
           params: { caseId: existingCase.id },
           body: valuesToUpdate,
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         await editCase(request, response, next);

@@ -32,7 +32,8 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
         request.params.caseId,
-        transaction
+        transaction,
+        request.permissions
       );
 
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;

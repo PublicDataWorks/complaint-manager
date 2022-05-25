@@ -5,7 +5,8 @@ import Allegation from "../../../../sharedTestHelpers/Allegation";
 import {
   ACCUSED,
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import httpMocks from "node-mocks-http";
@@ -38,7 +39,8 @@ describe("removeOfficerAllegation", () => {
       params: {
         officerAllegationId: nonexistentOfficerAllegationId
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     const response = httpMocks.createResponse();
@@ -104,7 +106,8 @@ describe("removeOfficerAllegation", () => {
         params: {
           officerAllegationId: officerAllegationToRemove.id
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       const response = httpMocks.createResponse();
@@ -126,7 +129,8 @@ describe("removeOfficerAllegation", () => {
           params: {
             officerAllegationId: officerAllegationToRemove.id
           },
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
         });
 
         const response = httpMocks.createResponse();

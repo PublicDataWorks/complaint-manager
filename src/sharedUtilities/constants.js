@@ -726,8 +726,8 @@ export const PERMISSIONS = [
   "case:add-tag",
   "case:edit",
   "letter:setup",
-  "tags:manage",
-  "anonymous:view"
+  "tags:manage"
+  // "anonymous:view"
 ];
 
 export const FAKE_USERS = [

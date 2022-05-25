@@ -54,10 +54,12 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        caseId,
+        transaction,
+        request.permissions
+      );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 

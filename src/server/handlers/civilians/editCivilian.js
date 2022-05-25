@@ -84,7 +84,8 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
           civilian.caseId,
-          transaction
+          transaction,
+          request.permissions
         );
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;

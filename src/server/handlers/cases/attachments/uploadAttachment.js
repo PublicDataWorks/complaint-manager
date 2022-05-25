@@ -76,7 +76,8 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
                 const caseDetailsAndAuditDetails =
                   await getCaseWithAllAssociationsAndAuditDetails(
                     caseId,
-                    transaction
+                    transaction,
+                    request.permissions
                   );
 
                 const caseDetails = caseDetailsAndAuditDetails.caseDetails;

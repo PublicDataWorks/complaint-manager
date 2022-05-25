@@ -6,6 +6,7 @@ import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE,
+  USER_PERMISSIONS,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -71,7 +72,8 @@ describe("removeCaseOfficer", () => {
         caseId: existingCase.id,
         caseOfficerId: existingCaseOfficer.id
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await removeCaseOfficer(request, response, next);
@@ -97,7 +99,8 @@ describe("removeCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await removeCaseOfficer(request, response, next);
@@ -120,7 +123,8 @@ describe("removeCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: null
+        nickname: null,
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       await removeCaseOfficer(request, response, next);
@@ -160,7 +164,8 @@ describe("removeCaseOfficer", () => {
           caseId: existingCase.id,
           caseOfficerId: existingCaseOfficer.id
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
     });
 

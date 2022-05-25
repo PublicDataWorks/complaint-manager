@@ -8,10 +8,12 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 
 const getCase = asyncMiddleware(async (request, response) => {
   const singleCase = await models.sequelize.transaction(async transaction => {
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      request.params.caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        request.params.caseId,
+        transaction,
+        request.permissions
+      );
     const caseWithAssociations = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

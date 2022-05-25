@@ -9,6 +9,7 @@ import {
   CASE_STATUS,
   COMPLAINANT,
   MANAGER_TYPE,
+  USER_PERMISSIONS,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -63,7 +64,8 @@ describe("addCaseOfficer", () => {
         roleOnCase: ACCUSED,
         notes: "these are notes"
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -98,7 +100,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id
       },
       body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -140,7 +143,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id
       },
       body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -182,7 +186,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id
       },
       body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -217,7 +222,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id
       },
       body: officerAttributes,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -261,7 +267,8 @@ describe("addCaseOfficer", () => {
         caseId: existingCase.id
       },
       body: additionalOfficerAttributes,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -322,7 +329,8 @@ describe("addCaseOfficer", () => {
         caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
         notes: "these are notes"
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -360,7 +368,8 @@ describe("addCaseOfficer", () => {
         roleOnCase: ACCUSED,
         notes: "these are notes"
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -399,7 +408,8 @@ describe("addCaseOfficer", () => {
         caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
         notes: "these are notes"
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -439,7 +449,8 @@ describe("addCaseOfficer", () => {
         phoneNumber: "8005882300",
         email: "notAnOfficer@gmail.com"
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await addCaseOfficer(request, response, next);
@@ -483,7 +494,8 @@ describe("addCaseOfficer", () => {
           caseId: existingCase.id
         },
         body: officerAttributes,
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
     });
     test("should audit case details access", async () => {

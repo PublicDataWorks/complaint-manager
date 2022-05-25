@@ -4,15 +4,17 @@ import models from "../policeDataManager/models";
 import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
 } from "./audits/getQueryAuditAccessDetails";
-import { ASCENDING } from "../../sharedUtilities/constants";
+import { ASCENDING, USER_PERMISSIONS } from "../../sharedUtilities/constants";
 
 export const getCaseWithAllAssociationsAndAuditDetails = async (
   caseId,
-  transaction
+  transaction,
+  permissions
 ) => {
   const caseDetailsAndAuditDetails = await getCaseDetailsAndAuditDetails(
     caseId,
-    transaction
+    transaction,
+    permissions
   );
 
   const caseDetails = caseDetailsAndAuditDetails.caseDetails;
@@ -42,8 +44,12 @@ export const getCaseWithoutAssociations = async (
   return addFieldsToCaseDetails(caseData.toJSON()).caseDetails;
 };
 
-const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
-  const queryOptions = {
+const getCaseDetailsAndAuditDetails = async (
+  caseId,
+  transaction,
+  permissions
+) => {
+  let queryOptions = {
     paranoid: false,
     include: [
       {
@@ -147,7 +153,32 @@ const getCaseDetailsAndAuditDetails = async (caseId, transaction) => {
     ]
   };
 
+  // if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
+  //   queryOptions.include = queryOptions.include.filter(
+  //     detail => detail.model !== models.civilian
+  //   );
+  // }
+
   const caseDetails = await models.cases.findByPk(caseId, queryOptions);
+  // console.log(caseDetails.dataValues);
+
+  if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
+    caseDetails.dataValues.complainantCivilians.forEach(c => {
+      if (c.dataValues.isAnonymous) {
+        c.anonymizeCivilian();
+      }
+    });
+
+    caseDetails.dataValues.witnessCivilians.forEach(c => {
+      if (c.dataValues.isAnonymous) {
+        c.anonymizeCivilian();
+      }
+    });
+  }
+
+  // loop through caseDetails if(!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA))
+  // loop through complainant civilians, witnesses
+  // & look at officer
 
   const caseAuditDetails = getQueryAuditAccessDetails(
     queryOptions,

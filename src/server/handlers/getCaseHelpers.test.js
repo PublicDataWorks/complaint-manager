@@ -9,7 +9,12 @@ import ReferralLetter from "../testHelpers/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
-import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  COMPLAINANT,
+  USER_PERMISSIONS,
+  WITNESS
+} from "../../sharedUtilities/constants";
 import Civilian from "../../sharedTestHelpers/civilian";
 
 describe("getCaseHelpers", () => {
@@ -51,7 +56,8 @@ describe("getCaseHelpers", () => {
         await models.sequelize.transaction(async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         });
 
@@ -69,7 +75,8 @@ describe("getCaseHelpers", () => {
         await models.sequelize.transaction(async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         });
       const caseAuditDetails = caseWithAssociationsAndAuditDetails.auditDetails;
@@ -90,7 +97,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );
@@ -102,7 +110,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );
@@ -125,7 +134,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );
@@ -155,7 +165,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );
@@ -190,7 +201,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );
@@ -214,7 +226,8 @@ describe("getCaseHelpers", () => {
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
             existingCase.id,
-            transaction
+            transaction,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
           );
         }
       );

@@ -26,10 +26,12 @@ const removeCaseOfficer = asyncMiddleware(async (request, response, next) => {
       transaction
     });
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      request.params.caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        request.params.caseId,
+        transaction,
+        request.permissions
+      );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

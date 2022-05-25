@@ -6,7 +6,8 @@ import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
   CASE_STATUS,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
@@ -59,7 +60,8 @@ describe("editCivilian", () => {
               city: "Chicago"
             }
           },
-          nickname: "TEST_USER_NICKNAME"
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
         });
 
         await editCivilian(request, response, next);
@@ -95,7 +97,8 @@ describe("editCivilian", () => {
             city: "Chicago"
           }
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
       await editCivilian(request, response, next);
       await existingCivilian.reload();
@@ -123,9 +126,7 @@ describe("editCivilian", () => {
       const next = jest.fn();
       await editCivilian(request, response, next);
 
-      expect(next).toHaveBeenCalledWith(
-       expect.anything()
-      );
+      expect(next).toHaveBeenCalledWith(expect.anything());
 
       await existingCase.reload();
       expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
@@ -159,7 +160,8 @@ describe("editCivilian", () => {
             auditUser: "someone"
           }
         ],
-        auditUser: "someone"
+        auditUser: "someone",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
       existingCivilian = existingCase.dataValues.complainantCivilians[0];
       const address = new Address.Builder()
@@ -190,7 +192,8 @@ describe("editCivilian", () => {
             city: "Chicago"
           }
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
 
       await editCivilian(request, response, next);
@@ -224,7 +227,8 @@ describe("editCivilian", () => {
         body: {
           firstName: "Bob"
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
 
       await editCivilian(request, response, next);
@@ -247,7 +251,8 @@ describe("editCivilian", () => {
           civilianId: existingCivilian.id
         },
         body: fieldsToUpdate,
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
 
       await editCivilian(request, response, next);
@@ -270,7 +275,8 @@ describe("editCivilian", () => {
           firstName: "      Test White-space ",
           lastName: "  O'Hare  "
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
       });
 
       await editCivilian(request, response, next);

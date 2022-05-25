@@ -54,10 +54,12 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
     const caseNotes = await addAuthorDetailsToCaseNote(rawCaseNotes);
     const caseNoteAuditDetails = caseNotesAndAuditDetails.auditDetails;
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      request.params.caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        request.params.caseId,
+        transaction,
+        request.permissions
+      );
     const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
 

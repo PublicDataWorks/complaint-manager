@@ -3,7 +3,8 @@ import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import removeCivilian from "./removeCivilian";
 import {
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
@@ -45,7 +46,8 @@ describe("removeCivilian", function () {
           city: "Chicago"
         }
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
     });
   });
 

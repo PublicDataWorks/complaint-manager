@@ -46,7 +46,8 @@ describe("changeStatus", () => {
       body: {
         status: newStatus
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
     await changeStatus(request, response, next);
@@ -64,7 +65,8 @@ describe("changeStatus", () => {
       body: {
         status: "BLAH"
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
     await changeStatus(request, response, next);
@@ -89,7 +91,8 @@ describe("changeStatus", () => {
       body: {
         status: CASE_STATUS.LETTER_IN_PROGRESS
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
     await changeStatus(request, response, next);
@@ -113,7 +116,8 @@ describe("changeStatus", () => {
       body: {
         status: CASE_STATUS.ACTIVE
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
     await changeStatus(request, response, next);
@@ -136,7 +140,8 @@ describe("changeStatus", () => {
       body: {
         status: CASE_STATUS.LETTER_IN_PROGRESS
       },
-      nickname: "someone"
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
     await changeStatus(request, response, next);
@@ -164,7 +169,8 @@ describe("changeStatus", () => {
         body: {
           status: newStatus
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
       });
 
       await changeStatus(request, response, next);
@@ -240,7 +246,8 @@ describe("changeStatus", () => {
         body: {
           status: CASE_STATUS.LETTER_IN_PROGRESS
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
       });
 
       await changeStatus(request, response, next);
@@ -269,7 +276,8 @@ describe("changeStatus", () => {
         body: {
           status: CASE_STATUS.ACTIVE
         },
-        nickname: "someone"
+        nickname: "someone",
+        permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
       });
 
       await changeStatus(request, response, next);

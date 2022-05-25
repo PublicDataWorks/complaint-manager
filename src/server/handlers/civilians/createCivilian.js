@@ -29,10 +29,12 @@ const createCivilian = asyncMiddleware(async (request, response, next) => {
 
     const caseId = civilianCreated.caseId;
 
-    const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-      caseId,
-      transaction
-    );
+    const caseDetailsAndAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        caseId,
+        transaction,
+        request.permissions
+      );
     const caseDetails = caseDetailsAndAuditDetails.caseDetails;
     const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

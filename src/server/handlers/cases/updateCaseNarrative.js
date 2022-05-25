@@ -30,10 +30,12 @@ const updateCaseNarrative = asyncMiddleware(async function handle(
         transaction
       );
 
-      const caseDetailsAndAuditDetails = await getCaseWithAllAssociationsAndAuditDetails(
-        caseId,
-        transaction
-      );
+      const caseDetailsAndAuditDetails =
+        await getCaseWithAllAssociationsAndAuditDetails(
+          caseId,
+          transaction,
+          request.permissions
+        );
       const caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const auditDetails = caseDetailsAndAuditDetails.auditDetails;
 

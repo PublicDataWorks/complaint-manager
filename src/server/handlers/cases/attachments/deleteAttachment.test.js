@@ -5,7 +5,8 @@ import models from "../../../policeDataManager/models/index";
 import deleteAttachment from "./deleteAttachment";
 import {
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -60,7 +61,8 @@ describe("deleteAttachment", function () {
         query: {
           fileName: attachment.fileName
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       const response = httpMocks.createResponse();

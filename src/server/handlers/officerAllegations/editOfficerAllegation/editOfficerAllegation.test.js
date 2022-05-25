@@ -6,7 +6,8 @@ import {
   ACCUSED,
   ALLEGATION_SEVERITY,
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import httpMocks from "node-mocks-http";
@@ -95,7 +96,8 @@ describe("editOfficerAllegation", () => {
         officerAllegationId: officerAllegationToUpdate.id
       },
       body: data,
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await editOfficerAllegation(request, response, jest.fn());
@@ -122,7 +124,8 @@ describe("editOfficerAllegation", () => {
           officerAllegationId: officerAllegationToUpdate.id
         },
         body: data,
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
       const response = httpMocks.createResponse();
       const next = jest.fn();

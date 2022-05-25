@@ -10,7 +10,8 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   ALLEGATION_SEVERITY,
   AUDIT_SUBJECT,
-  MANAGER_TYPE
+  MANAGER_TYPE,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -86,7 +87,8 @@ describe("createOfficerAllegation", () => {
         details: null,
         severity: ALLEGATION_SEVERITY.LOW
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await createOfficerAllegation(request, response, next);
@@ -116,7 +118,8 @@ describe("createOfficerAllegation", () => {
         details: allegationDetails,
         severity: ALLEGATION_SEVERITY.LOW
       },
-      nickname: "TEST_USER_NICKNAME"
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
     });
 
     await createOfficerAllegation(request, response, next);
@@ -154,7 +157,8 @@ describe("createOfficerAllegation", () => {
           details: allegationDetails,
           severity: ALLEGATION_SEVERITY.MEDIUM
         },
-        nickname: "TEST_USER_NICKNAME"
+        nickname: "TEST_USER_NICKNAME",
+        permissions: USER_PERMISSIONS.EDIT_CASE
       });
 
       response = httpMocks.createResponse();
