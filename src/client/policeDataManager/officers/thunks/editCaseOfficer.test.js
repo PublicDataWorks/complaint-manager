@@ -8,7 +8,6 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { authEnabledTest } from "../../../testHelpers";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -99,7 +98,9 @@ describe("editCaseOfficer thunk", () => {
 
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
     expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess(`${CIVILIAN_WITHIN_PD_TITLE} was successfully updated`)
+      snackbarSuccess(
+        `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} was successfully updated`
+      )
     );
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });

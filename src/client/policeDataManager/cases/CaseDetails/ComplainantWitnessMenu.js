@@ -1,5 +1,6 @@
 import {
   CIVILIAN_FORM_NAME,
+  CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE,
   USER_PERMISSIONS
@@ -15,7 +16,6 @@ import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators
 import { connect } from "react-redux";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -96,7 +96,7 @@ const ComplainantWitnessMenu = props => {
             );
           }}
         >
-          {CIVILIAN_WITHIN_PD_TITLE} {props.civilianType}
+          Civilian ({props.pd}) {props.civilianType}
         </MenuItem>
       </Menu>
     </div>
@@ -104,5 +104,6 @@ const ComplainantWitnessMenu = props => {
 };
 
 export default connect(state => ({
+  pd: state.configs[CONFIGS.PD],
   permissions: state?.users?.current?.userInfo?.permissions
 }))(ComplainantWitnessMenu);

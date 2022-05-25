@@ -14,6 +14,7 @@ import { officerRoleRequired } from "../../../formFieldLevelValidations";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import {
   COMPLAINANT,
+  CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE,
   WITNESS
@@ -24,9 +25,9 @@ import _ from "lodash";
 import EmailField from "../../cases/sharedFormComponents/EmailField";
 import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField";
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
+import { connect } from "react-redux";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 class OfficerDetails extends React.Component {
@@ -51,18 +52,19 @@ class OfficerDetails extends React.Component {
   };
 
   render() {
+    const CIVILIAN_WITHIN_PD = `Civilian (${this.props.pd})`;
     const isCivilianWithinPd =
       this.props.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const additionalInformationText = isCivilianWithinPd
       ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
-          CIVILIAN_WITHIN_PD_TITLE
+          CIVILIAN_WITHIN_PD
         )}.`
       : `Use this section to add notes, a description, or indicate any information about the ${_.toLower(
           OFFICER_TITLE
         )}’s history or risk assessment.`;
     const caseEmployeeTitle = isCivilianWithinPd
-      ? CIVILIAN_WITHIN_PD_TITLE
+      ? CIVILIAN_WITHIN_PD
       : OFFICER_TITLE;
 
     return (
@@ -152,4 +154,8 @@ class OfficerDetails extends React.Component {
 export default reduxForm({
   form: OFFICER_DETAILS_FORM_NAME,
   destroyOnUnmount: false
-})(OfficerDetails);
+})(
+  connect(state => ({
+    pd: state.configs[CONFIGS.PD]
+  }))(OfficerDetails)
+);

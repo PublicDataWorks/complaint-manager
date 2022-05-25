@@ -14,14 +14,18 @@ import {
 import { closeRemovePersonDialog } from "../../actionCreators/casesActionCreators";
 import removePerson from "../thunks/removePerson";
 import { reduxForm } from "redux-form";
-import { REMOVE_PERSON_FORM_NAME } from "../../../../sharedUtilities/constants";
+import {
+  CONFIGS,
+  REMOVE_PERSON_FORM_NAME
+} from "../../../../sharedUtilities/constants";
 
 const RemovePersonDialog = ({
-  open,
-  personDetails,
   dispatch,
-  personTypeTitleDisplay,
+  open,
   optionalText,
+  pd,
+  personDetails,
+  personTypeTitleDisplay,
   submitting
 }) => (
   <Dialog open={open}>
@@ -44,7 +48,7 @@ const RemovePersonDialog = ({
       </SecondaryButton>
       <PrimaryButton
         data-testid="removeButton"
-        onClick={() => dispatch(removePerson(personDetails))}
+        onClick={() => dispatch(removePerson(personDetails, pd))}
         disabled={submitting}
       >
         Remove
@@ -52,11 +56,13 @@ const RemovePersonDialog = ({
     </DialogActions>
   </Dialog>
 );
+
 const mapStateToProps = state => ({
   open: state.ui.removePersonDialog.open,
+  optionalText: state.ui.removePersonDialog.optionalText,
+  pd: state.configs[CONFIGS.PD],
   personDetails: state.ui.removePersonDialog.personDetails,
-  personTypeTitleDisplay: state.ui.removePersonDialog.personTypeTitleDisplay,
-  optionalText: state.ui.removePersonDialog.optionalText
+  personTypeTitleDisplay: state.ui.removePersonDialog.personTypeTitleDisplay
 });
 
 const connectedForm = reduxForm({

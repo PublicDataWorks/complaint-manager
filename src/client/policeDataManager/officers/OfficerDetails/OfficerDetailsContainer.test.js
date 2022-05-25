@@ -1,9 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import { MemoryRouter as Router, Route } from "react-router-dom";
-import ConnectedOfficerDetailsContainer, {
-  OfficerDetailsContainer
-} from "./OfficerDetailsContainer";
+import ConnectedOfficerDetailsContainer from "./OfficerDetailsContainer";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import {
   clearCaseEmployeeType,
@@ -14,11 +12,14 @@ import { Provider } from "react-redux";
 import { getCaseDetailsSuccess } from "../../actionCreators/casesActionCreators";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import { ACCUSED, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
-import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+import {
+  ACCUSED,
+  CONFIGS,
+  GET_CONFIGS_SUCCEEDED,
+  OFFICER_TITLE
+} from "../../../../sharedUtilities/constants";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -128,6 +129,11 @@ describe("OfficerDetailsContainer", () => {
   });
 
   test("should show employee when caseEmployee type is civilian within PD", () => {
+    store.dispatch({
+      type: GET_CONFIGS_SUCCEEDED,
+      payload: { [CONFIGS.PD]: "Lettuce" }
+    });
+
     const officerDashboard = mount(
       <Provider store={store}>
         <Router>
@@ -154,9 +160,7 @@ describe("OfficerDetailsContainer", () => {
       .last()
       .text();
 
-    expect(pageTitle).toEqual(
-      expect.stringContaining(CIVILIAN_WITHIN_PD_TITLE)
-    );
+    expect(pageTitle).toEqual(expect.stringContaining("Civilian (Lettuce)"));
     expect(pageTitle).toEqual(expect.not.stringContaining(OFFICER_TITLE));
   });
 });

@@ -29,8 +29,7 @@ import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 
 const {
-  PERSON_TYPE,
-  CIVILIAN_WITHIN_PD_TITLE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export class LetterReview extends Component {
@@ -67,7 +66,7 @@ export class LetterReview extends Component {
   };
 
   render() {
-    const { caseDetails, organization } = this.props;
+    const { caseDetails, organization, pd } = this.props;
     const caseId = this.props.match.params.id;
 
     if (this.caseDetailsNotYetLoaded() || !this.statusIsAllowed()) {
@@ -153,7 +152,7 @@ export class LetterReview extends Component {
             const cardTitle =
               officer.caseEmployeeType ===
               PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-                ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
+                ? `Accused Civilian (${pd})`
                 : "Accused Officer";
             return (
               <CaseDetailCard
@@ -190,7 +189,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
-  organization: state.configs[CONFIGS.ORGANIZATION]
+  organization: state.configs[CONFIGS.ORGANIZATION],
+  pd: state.configs[CONFIGS.PD]
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LetterReview);

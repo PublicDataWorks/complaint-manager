@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   FormControl,
   FormControlLabel,
@@ -9,15 +10,11 @@ import {
 } from "@material-ui/core";
 import {
   CIVILIAN_INITIATED,
+  CONFIGS,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
 
-const {
-  CIVILIAN_WITHIN_PD_TITLE,
-  CIVILIAN_WITHIN_PD_INITIATED
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
-export default props => (
+const ComplainantTypeRadioGroup = props => (
   <FormControl>
     <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
       Complainant Information
@@ -45,11 +42,17 @@ export default props => (
       />
       <FormControlLabel
         data-testid="civilianWithinPDRadioButton"
-        value={CIVILIAN_WITHIN_PD_INITIATED}
+        value={`Civilian Within ${props.pd} Initiated`}
         control={<Radio color="primary" />}
-        label={CIVILIAN_WITHIN_PD_TITLE}
-        onClick={() => props.input.onChange(CIVILIAN_WITHIN_PD_INITIATED)}
+        label={`Civilian (${props.pd})`}
+        onClick={() =>
+          props.input.onChange(`Civilian Within ${props.pd} Initiated`)
+        }
       />
     </RadioGroup>
   </FormControl>
 );
+
+export default connect(state => ({
+  pd: state.configs[CONFIGS.PD]
+}))(ComplainantTypeRadioGroup);

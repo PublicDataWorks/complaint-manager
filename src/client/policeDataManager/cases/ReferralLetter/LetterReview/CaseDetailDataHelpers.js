@@ -5,8 +5,7 @@ import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber"
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 
 const {
-  PERSON_TYPE,
-  CIVILIAN_WITHIN_PD_TITLE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getFormattedDate = date => {
@@ -78,7 +77,7 @@ export const getComplainantData = caseDetail => {
         const nameTitle =
           complainant.caseEmployeeType ===
           PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
+            ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
             : "Officer Name";
 
         const complainantData = {
@@ -111,7 +110,7 @@ export const getWitnessData = caseDetail => {
       const nameTitle =
         witness.caseEmployeeType ===
         PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-          ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
+          ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
           : "Officer Name";
       const witnessData = {
         [nameTitle]: fullNameIsAnonymous(witness),
@@ -136,7 +135,7 @@ export const getAccusedOfficerData = officer => {
     const nameTitle =
       officer.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? `${CIVILIAN_WITHIN_PD_TITLE} Name`
+        ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
         : "Officer Name";
     officerData = [
       {

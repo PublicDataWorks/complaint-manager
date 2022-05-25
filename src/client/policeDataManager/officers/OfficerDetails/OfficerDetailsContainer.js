@@ -10,11 +10,10 @@ import {
 } from "../../actionCreators/officersActionCreators";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
-import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
+import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class OfficerDetailsContainer extends Component {
@@ -29,16 +28,17 @@ export class OfficerDetailsContainer extends Component {
 
   render() {
     const {
-      selectedOfficerData,
+      caseEmployeeType,
       caseId,
-      titleAction,
-      submitButtonText,
-      submitAction,
-      officerSearchUrl,
-      initialRoleOnCase,
       caseReference,
       dispatch,
-      caseEmployeeType
+      initialRoleOnCase,
+      officerSearchUrl,
+      pd,
+      selectedOfficerData,
+      submitAction,
+      submitButtonText,
+      titleAction
     } = this.props;
 
     const clearOfficersAndEmployeeTypeAction = () => {
@@ -48,7 +48,7 @@ export class OfficerDetailsContainer extends Component {
 
     const caseEmployeeTitle =
       caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? CIVILIAN_WITHIN_PD_TITLE
+        ? `Civilian (${pd})`
         : OFFICER_TITLE;
 
     const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
@@ -90,11 +90,12 @@ const mapStateToProps = state => {
     initialRoleOnCaseProp = state.form.OfficerDetails.initial.roleOnCase;
   }
   return {
-    initialRoleOnCase: initialRoleOnCaseProp,
     caseReference: state.currentCase.details.caseReference,
-    selectedOfficerData: state.officers.searchOfficers.selectedOfficerData,
+    initialRoleOnCase: initialRoleOnCaseProp,
     officerCurrentlySelected:
-      state.officers.searchOfficers.officerCurrentlySelected
+      state.officers.searchOfficers.officerCurrentlySelected,
+    pd: state.configs[CONFIGS.PD],
+    selectedOfficerData: state.officers.searchOfficers.selectedOfficerData
   };
 };
 

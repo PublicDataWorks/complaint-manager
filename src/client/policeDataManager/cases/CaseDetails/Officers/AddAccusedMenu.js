@@ -4,17 +4,15 @@ import { Menu, MenuItem } from "@material-ui/core";
 import { initialize } from "redux-form";
 import {
   ACCUSED,
-  CIVILIAN_FORM_NAME,
+  CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
-import { openCivilianDialog } from "../../../actionCreators/casesActionCreators";
-import createCivilian from "../../thunks/createCivilian";
 import { push } from "connected-react-router";
 import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
+import { connect } from "react-redux";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -73,11 +71,13 @@ const AddAccusedMenu = props => {
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));
           }}
         >
-          Accused {CIVILIAN_WITHIN_PD_TITLE}
+          Accused Civilian ({props.pd})
         </MenuItem>
       </Menu>
     </div>
   );
 };
 
-export default AddAccusedMenu;
+export default connect(state => ({
+  pd: state.configs[CONFIGS.PD]
+}))(AddAccusedMenu);

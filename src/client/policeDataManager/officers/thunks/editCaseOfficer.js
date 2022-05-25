@@ -5,7 +5,6 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -16,7 +15,7 @@ const editCaseOfficer =
       const payload = { ...values, officerId };
       const caseEmployeeTitle =
         caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-          ? CIVILIAN_WITHIN_PD_TITLE
+          ? PERSON_TYPE.CIVILIAN_WITHIN_PD.description
           : OFFICER_TITLE;
       await axios.put(
         `api/cases/${caseId}/cases-officers/${caseOfficerId}`,

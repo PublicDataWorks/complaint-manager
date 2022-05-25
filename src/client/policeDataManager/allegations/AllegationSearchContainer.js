@@ -10,11 +10,10 @@ import OfficerSearchTableHeader from "../officers/OfficerSearch/OfficerSearchTab
 import AllegationSearch from "./AllegationSearch";
 import OfficerAllegations from "./OfficerAllegations";
 import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
-import { OFFICER_TITLE } from "../../../sharedUtilities/constants";
+import { CONFIGS, OFFICER_TITLE } from "../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class AllegationSearchContainer extends Component {
@@ -60,7 +59,7 @@ export class AllegationSearchContainer extends Component {
       currentCaseOfficerData.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const titleText = isCivilianWithinPd
-      ? `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
+      ? `Accused Civilian (${this.props.pd})`
       : `Accused ${OFFICER_TITLE}`;
 
     return (
@@ -100,7 +99,8 @@ export class AllegationSearchContainer extends Component {
 }
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details
+  caseDetails: state.currentCase.details,
+  pd: state.configs[CONFIGS.PD]
 });
 
 const mapDispatchToProps = {

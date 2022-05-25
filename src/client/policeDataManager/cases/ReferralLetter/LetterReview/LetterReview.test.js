@@ -2,7 +2,11 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  CONFIGS,
+  GET_CONFIGS_SUCCEEDED
+} from "../../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import LetterReview from "./LetterReview";
 import { mount } from "enzyme";
@@ -14,8 +18,7 @@ import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
 const {
-  PERSON_TYPE,
-  CIVILIAN_WITHIN_PD_TITLE
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
@@ -88,14 +91,18 @@ describe("LetterReview", () => {
         .build();
 
       store.dispatch(getCaseDetailsSuccess(testCase));
+      store.dispatch({
+        type: GET_CONFIGS_SUCCEEDED,
+        payload: {
+          [CONFIGS.PD]: "PGPD"
+        }
+      });
       wrapper.update();
 
       const accusedCard = wrapper.find(
         '[data-testid="case-detail-card-accused"]'
       );
-      expect(accusedCard.props().cardTitle).toEqual(
-        `Accused ${CIVILIAN_WITHIN_PD_TITLE}`
-      );
+      expect(accusedCard.props().cardTitle).toEqual(`Accused Civilian (PGPD)`);
     });
   });
 

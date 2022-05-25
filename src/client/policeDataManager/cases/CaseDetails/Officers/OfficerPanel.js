@@ -13,6 +13,7 @@ import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import styles from "../../../../common/globalStyling/styles";
 import {
   ACCUSED,
+  CONFIGS,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
@@ -26,16 +27,15 @@ import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
+const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
   const isCivilianWithinPd =
     caseOfficer.caseEmployeeType ===
     PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
   const caseEmployeeTitle = isCivilianWithinPd
-    ? CIVILIAN_WITHIN_PD_TITLE
+    ? `Civilian (${pd})`
     : OFFICER_TITLE;
   const fullNameIsAnonymous = caseOfficer.isAnonymous
     ? `(AC) ${caseOfficer.fullName}`
@@ -231,4 +231,6 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children }) => {
   );
 };
 
-export default connect()(OfficerPanel);
+export default connect(state => ({
+  pd: state.configs[CONFIGS.PD]
+}))(OfficerPanel);

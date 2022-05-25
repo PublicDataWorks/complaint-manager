@@ -4,10 +4,9 @@ import OfficerDetailsContainer from "./OfficerDetailsContainer";
 import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
-import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
+import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -38,7 +37,7 @@ class EditOfficerDetails extends React.Component {
       this.props.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const submitButtonText = isCivilianWithinPd
-      ? `Save ${CIVILIAN_WITHIN_PD_TITLE}`
+      ? `Save Civilian (${this.props.pd})`
       : `Save ${OFFICER_TITLE}`;
 
     return (
@@ -56,7 +55,8 @@ class EditOfficerDetails extends React.Component {
 
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
-  caseEmployeeType: state.officers.addOfficer.caseEmployeeType
+  caseEmployeeType: state.officers.addOfficer.caseEmployeeType,
+  pd: state.configs[CONFIGS.PD]
 });
 
 const mapDispatchToProps = {

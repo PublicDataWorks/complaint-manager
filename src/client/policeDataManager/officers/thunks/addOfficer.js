@@ -13,7 +13,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -23,7 +22,7 @@ const addOfficer =
     const isCivilianWithinPd =
       caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     const caseEmployeeTitle = isCivilianWithinPd
-      ? CIVILIAN_WITHIN_PD_TITLE
+      ? PERSON_TYPE.CIVILIAN_WITHIN_PD.description
       : OFFICER_TITLE;
 
     try {
@@ -40,4 +39,5 @@ const addOfficer =
       dispatch(stopSubmit(OFFICER_DETAILS_FORM_NAME));
     } catch (e) {}
   };
+
 export default addOfficer;

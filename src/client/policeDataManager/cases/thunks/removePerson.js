@@ -12,11 +12,10 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import _ from "lodash";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-const removePerson = personDetails => async dispatch => {
+const removePerson = (personDetails, pd) => async dispatch => {
   const { personType, id, caseId } = personDetails;
   let personTypeForDisplay;
   if (personType === "civilians") {
@@ -26,7 +25,7 @@ const removePerson = personDetails => async dispatch => {
       personDetails.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
     personTypeForDisplay = isCivilianWithinPd
-      ? CIVILIAN_WITHIN_PD_TITLE
+      ? `Civilian (${pd})`
       : OFFICER_TITLE;
   }
 

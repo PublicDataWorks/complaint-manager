@@ -7,7 +7,6 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -50,7 +49,7 @@ describe("OfficerSearch test", () => {
       <Provider store={store}>
         <Router>
           <OfficerSearch
-            employeeSearchTitle={CIVILIAN_WITHIN_PD_TITLE}
+            employeeSearchTitle="Civilian (LMNOPD)"
             caseEmployeeType={
               PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
             }
@@ -68,9 +67,7 @@ describe("OfficerSearch test", () => {
       .find('[data-testid="unknown-officer-link"]')
       .first();
 
-    expect(officerSearchTitle.text()).toEqual(
-      `Search for a ${CIVILIAN_WITHIN_PD_TITLE}`
-    );
+    expect(officerSearchTitle.text()).toEqual(`Search for a Civilian (LMNOPD)`);
     expect(unknownOfficerLink).toEqual({});
   });
 });

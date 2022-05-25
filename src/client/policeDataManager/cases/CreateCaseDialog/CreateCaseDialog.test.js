@@ -15,7 +15,9 @@ import moment from "moment";
 import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDate";
 import {
   CIVILIAN_INITIATED,
+  CONFIGS,
   DESCENDING,
+  GET_CONFIGS_SUCCEEDED,
   ISO_DATE,
   RANK_INITIATED,
   SORT_CASES_BY
@@ -53,7 +55,10 @@ describe("CreateCaseDialog component", () => {
     dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm");
     dateAndTimeTodayWithTimezone = applyCentralTimeZoneOffset(dateAndTimeToday);
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
-
+    store.dispatch({
+      type: GET_CONFIGS_SUCCEEDED,
+      payload: { [CONFIGS.PD]: "NOPD" }
+    });
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     dialog = mount(
@@ -592,6 +597,11 @@ describe("CreateCaseDialog component", () => {
         .last();
       createAndSearch.simulate("click");
 
+      console.log(
+        dispatchSpy.mock.calls.find(
+          call => call[0].type === "MOCK_CREATE_CASE_THUNK"
+        )[0].creationDetails
+      );
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: "MOCK_CREATE_CASE_THUNK",
         creationDetails: expect.objectContaining({

@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
 import OfficerSearch from "./OfficerSearch";
 import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
-import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
+import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
 const {
-  CIVILIAN_WITHIN_PD_TITLE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class OfficerSearchContainer extends Component {
@@ -18,12 +17,12 @@ export class OfficerSearchContainer extends Component {
   }
 
   render() {
-    const { caseId, titleAction, officerDetailsPath, caseEmployeeType } =
+    const { caseEmployeeType, caseId, officerDetailsPath, pd, titleAction } =
       this.props;
 
     const employeeSearchTitle =
       caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? CIVILIAN_WITHIN_PD_TITLE
+        ? `Civilian (${pd})`
         : OFFICER_TITLE;
 
     return (
@@ -57,8 +56,9 @@ export class OfficerSearchContainer extends Component {
 }
 
 const mapStateToProps = state => ({
+  caseEmployeeType: state.officers.addOfficer.caseEmployeeType,
   caseReference: state.currentCase.details.caseReference,
-  caseEmployeeType: state.officers.addOfficer.caseEmployeeType
+  pd: state.configs[CONFIGS.PD]
 });
 
 export default connect(mapStateToProps)(OfficerSearchContainer);
