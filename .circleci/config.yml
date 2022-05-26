@@ -532,7 +532,7 @@ jobs:
           name: Install Git
           command: apt-get update && apt-get install --assume-yes git
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
-      - run: git config --global user.name "Police Data Manager Pipeline"
+      - run: git config --global user.name "Complaint Manager Pipeline"
       - checkout
       - run: yarn install
       - run: yarn release
@@ -592,7 +592,7 @@ jobs:
           fingerprints:
             - a7:54:eb:c7:7a:af:c6:c2:fc:a8:76:ad:1b:b7:aa:20
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
-      - run: git config --global user.name "Police Data Manager Pipeline"
+      - run: git config --global user.name "Complaint Manager Pipeline"
       - run: git checkout -b release_v$(cat version.txt)
       - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git push origin release_v$(cat version.txt) --follow-tags --no-verify

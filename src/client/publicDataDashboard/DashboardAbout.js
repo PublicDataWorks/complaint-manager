@@ -141,9 +141,9 @@ const DashboardAbout = ({ configs }) => {
             complaints or the complainant themselves. The data only captures the
             accounts of officer misconduct submitted directly to the{" "}
             {configs[CONFIGS.ORGANIZATION_TITLE]}. This data is taken directly
-            from our internally designed database: Police Data Manager. <br />
-            <br /> As information is entered into Police Data Manager by our
-            staff and complaint referrals are submitted to the{" "}
+            from our internally designed database: Complaint Manager. <br />
+            <br /> As information is entered into Complaint Manager by our staff
+            and complaint referrals are submitted to the{" "}
             {configs[CONFIGS.BUREAU]}, the data will automatically update once
             daily.
           </Typography>

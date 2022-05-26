@@ -21,9 +21,7 @@ import { actionIsRequired } from "../../../../formFieldLevelValidations";
 import timezone from "moment-timezone";
 import moment from "moment";
 import _ from "lodash";
-import {
-  CASE_NOTE_FORM_NAME
-} from "../../../../../sharedUtilities/constants";
+import { CASE_NOTE_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
 import { TextFieldWithUserMention } from "./TextFieldWithUserMention";
@@ -66,7 +64,9 @@ class CaseNoteDialog extends Component {
         }
       : {
           ...values,
-          actionTakenAt: timezone.tz(values.actionTakenAt, userTimezone).format(),
+          actionTakenAt: timezone
+            .tz(values.actionTakenAt, userTimezone)
+            .format(),
           caseId,
           mentionedUsers: this.state.mentionedUsers
         };
@@ -117,7 +117,7 @@ class CaseNoteDialog extends Component {
             }}
           >
             Use this form to log any external correspondences or actions that
-            take place outside of the Police Data Manager System. Your name will
+            take place outside of the Complaint Manager System. Your name will
             automatically be recorded.
           </Typography>
           <form onSubmit={event => event.preventDefault()}>

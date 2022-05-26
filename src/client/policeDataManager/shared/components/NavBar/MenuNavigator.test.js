@@ -7,7 +7,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 
 describe("MenuNavigator", () => {
-  describe("police data manager menu options", () => {
+  describe("Complaint Manager menu options", () => {
     let wrapper;
 
     test(

@@ -39,9 +39,9 @@ describe("AppRouter", () => {
       expect(disProRoute.exists()).toBeTrue();
     });
 
-    test("should set page title to default 'Police Data Manager' for /dashboard route", () => {
+    test("should set page title to default 'Complaint Manager' for /dashboard route", () => {
       appWrapper.update();
-      expect(document.title).toEqual("Police Data Manager");
+      expect(document.title).toEqual("Complaint Manager");
     });
   });
 

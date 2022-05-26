@@ -109,12 +109,12 @@ describe("Pact Verification", () => {
     const opts = {
       logLevel: "INFO",
       providerBaseUrl: "http://localhost:8989",
-      provider: "police-data-manager.server",
+      provider: "complaint-manager.server",
       providerVersion: "1.0.0",
       pactUrls: [
         path.resolve(
           __dirname,
-          "../../../pact/pacts/police-data-manager.client-police-data-manager.server.json"
+          "../../../pact/pacts/complaint-manager.client-complaint-manager.server.json"
         )
       ],
       stateHandlers: {

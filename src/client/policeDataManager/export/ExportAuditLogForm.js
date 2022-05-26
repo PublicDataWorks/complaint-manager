@@ -48,7 +48,7 @@ const ExportAuditLogForm = props => {
           Export Audit Log
         </Typography>
         <Typography variant="body2" color="inherit">
-          Select a date range to export an audit log of Police Data Manager
+          Select a date range to export an audit log of Complaint Manager
           activities within range or export a full audit log.
         </Typography>
       </div>

@@ -50,7 +50,7 @@ class AppRouter extends Component {
   };
 
   setPageTitle = title => {
-    document.title = title ? title : "Police Data Manager";
+    document.title = title ? title : "Complaint Manager";
   };
 
   createRoute = (path, component, title) => {

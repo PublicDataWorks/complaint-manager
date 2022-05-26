@@ -4,14 +4,15 @@ Describe the big picture of your changes here to communicate to the maintainers 
 
 ## Types of changes
 
-What types of changes does your code introduce to Police Data Manager?
+What types of changes does your code introduce to Complaint Manager?
 _Put an `x` in the boxes that apply_
 
-- [ ] Bugfix 
-- [ ] New feature 
-- [ ] Maintenance / Documentation Update 
+- [ ] Bugfix
+- [ ] New feature
+- [ ] Maintenance / Documentation Update
 
 ## Instance-files
+
 - [ ] Do your changes require changes to instance-files?
   - if so please include a link to pull request for [instance-files demo](https://github.com/PublicDataWorks/instance_files_pm)
 
@@ -19,7 +20,7 @@ _Put an `x` in the boxes that apply_
 
 _Put an `x` in the boxes that apply. You can also fill these out after creating the PR. If you're unsure about any of them, don't hesitate to ask. We're here to help! This is simply a reminder of what we are going to look for before merging your code._
 
-- [ ] I have read the [CONTRIBUTING](https://publicdataworks.github.io/police_data_manager/technical-content/contributing.html) doc
+- [ ] I have read the [CONTRIBUTING](https://publicdataworks.github.io/complaint-manager/technical-content/contributing.html) doc
 - [ ] Unit tests pass locally with my changes
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] I have added necessary documentation (if appropriate)

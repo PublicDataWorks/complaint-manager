@@ -27,7 +27,7 @@ source scripts/remove_e2e_images.sh
 # In case you want to test a single test case
 # nightwatch --config /instance-files/tests/e2e/nightwatch.conf.js --env local --test /e2e/tests/policeDataManager/policeDataManagerUserJourney.js --testcase "should navigate to all exports page and export all cases"
 
-echo "Running E2E test suite for Police Data Manager..."
+echo "Running E2E test suite for Complaint Manager..."
 INSTANCE_IMAGE=${INSTANCE_IMAGE} INSTANCE_VERSION=${INSTANCE_VERSION} E2E_IMAGE=${E2E_IMAGE} docker-compose run --rm e2e nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env local --env /app/src/instance-files /e2e/tests/policeDataManager
 
 echo "Stopping app-e2e container..."

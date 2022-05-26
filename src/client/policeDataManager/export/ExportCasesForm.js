@@ -73,7 +73,7 @@ const ExportCasesForm = props => {
       <Typography variant="body2" color="inherit">
         Select a range of <strong>first contacted dates</strong> or{" "}
         <strong>incident dates</strong> to export cases or export all cases in
-        Police Data Manager.
+        Complaint Manager.
       </Typography>
       <Field name="exportCasesType" component={ExportCasesTypeRadioGroup} />
       <ExportDateRange formLabel={formLabel} />
