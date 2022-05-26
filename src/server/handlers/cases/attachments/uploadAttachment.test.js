@@ -79,7 +79,8 @@ describe("uploadAttachment", () => {
         authorization: "Bearer token"
       },
       params: { caseId: existingCase.id },
-      nickname: testUser
+      nickname: testUser,
+      pipe: jest.fn()
     });
 
     next = jest.fn();
