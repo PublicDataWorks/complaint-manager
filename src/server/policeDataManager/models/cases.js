@@ -171,7 +171,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       narrativeDetails: {
         field: "narrative_details",
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
       },
       pibCaseNumber: {
         field: "pib_case_number",
@@ -303,6 +303,13 @@ module.exports = (sequelize, DataTypes) => {
   Case.prototype.getManagerType = async function (transaction) {
     return MANAGER_TYPE.COMPLAINT;
   };
+
+  // Case.prototype.anonymizeComplainant = function () {
+  //   if (primaryComplainant.isAnonymous) {
+  //     console.log("woot woot");
+  //     this.primaryComplainant = "";
+  //   }
+  // };
 
   Case.associate = models => {
     Case.hasMany(models.audit, {

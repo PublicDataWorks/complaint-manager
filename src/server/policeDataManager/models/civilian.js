@@ -146,7 +146,6 @@ module.exports = (sequelize, DataTypes) => {
       this.phoneNumber = "";
       this.email = "";
       this.additionalInfo = "";
-      this.address = "";
     }
   };
 
