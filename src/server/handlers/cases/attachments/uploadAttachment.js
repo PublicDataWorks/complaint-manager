@@ -21,7 +21,7 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig
 const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   let managedUpload;
   const caseId = request.params.caseId;
-  const busboy = new Busboy({
+  const busboy = Busboy({
     headers: request.headers
   });
 
@@ -35,20 +35,18 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
 
   await busboy.on(
     "file",
-    async function (fieldname, file, fileName, encoding, mimetype) {
+    async function (fieldname, file, {filename} ) {
       const s3 = createConfiguredS3Instance();
-
       if (request.isArchived) {
         response
           .status(400)
           .send(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
-      } else if (await isDuplicateFileName(caseId, fileName)) {
+      } else if (await isDuplicateFileName(caseId, filename)) {
         response.status(409).send(DUPLICATE_FILE_NAME);
       } else {
         managedUpload = s3.upload({
           Bucket: config[process.env.NODE_ENV].s3Bucket,
-          Key: `${caseId}/${fileName}`,
-
+          Key: `${caseId}/${filename}`,
           Body: file,
           ServerSideEncryption: "AES256"
         });
@@ -64,7 +62,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
               async transaction => {
                 const attachment = await models.attachment.create(
                   {
-                    fileName,
+                    fileName: filename,
                     description: attachmentDescription,
                     caseId
                   },
@@ -87,7 +85,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
                   request.nickname,
                   caseId,
                   AUDIT_ACTION.UPLOADED,
-                  fileName,
+                  filename,
                   AUDIT_FILE_TYPE.ATTACHMENT,
                   transaction
                 );
