@@ -38,7 +38,7 @@ Busboy.mockImplementation(() => {
         await func("description", "dummy description");
       }
       if (field === "file") {
-        await func(jest.fn(), jest.fn(), "test_filename", jest.fn(), jest.fn());
+        await func(jest.fn(), jest.fn(), { filename: "test_filename" });
       }
     })
   };
@@ -63,6 +63,7 @@ describe("uploadAttachment", () => {
   const testUser = "Rabbid Penguin";
 
   beforeEach(async () => {
+    await cleanupDatabase();
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

@@ -1,7 +1,7 @@
 const models = require("../../../policeDataManager/models");
 
 const isDuplicateFileName = async (caseId, requestedFileName) => {
-  const attachmentsWithSimilarName = await models.attachment.count({
+  let attachmentsWithSimilarName = await models.attachment.count({
     where: {
       caseId: caseId,
       fileName: requestedFileName
