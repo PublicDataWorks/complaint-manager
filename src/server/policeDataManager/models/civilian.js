@@ -143,7 +143,6 @@ module.exports = (sequelize, DataTypes) => {
       this.suffix = "";
       this.fullName = "";
       this.birthDate = "";
-      this.roleOnCase = "";
       this.phoneNumber = "";
       this.email = "";
       this.additionalInfo = "";
