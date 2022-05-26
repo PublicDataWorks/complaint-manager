@@ -315,7 +315,6 @@ module.exports = (sequelize, DataTypes) => {
       this.race = "";
       this.workStatus = "";
       this.notes = "";
-      this.roleOnCase = "";
     }
   };
 
