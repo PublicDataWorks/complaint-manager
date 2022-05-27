@@ -126,6 +126,12 @@ describe("Pact Verification", () => {
           await cleanupDatabase();
           const letterCase = await setupCase();
           await setupLetter(letterCase);
+        },
+        "letter is ready for review: officer history added": async () => {
+          await cleanupDatabase();
+          const letterCase = await setupCase();
+          await setupLetter(letterCase);
+          // add officer history
         }
       }
     };
