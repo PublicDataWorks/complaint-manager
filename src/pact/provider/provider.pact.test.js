@@ -6,11 +6,14 @@ import models from "../../server/policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
-import { CASE_STATUS, COMPLAINANT } from "../../sharedUtilities/constants";
+import { ACCUSED, CASE_STATUS, COMPLAINANT } from "../../sharedUtilities/constants";
 import IntakeSource from "../../server/testHelpers/intakeSource";
+import ReferralLetterCaseClassification from "../../sharedTestHelpers/ReferralLetterCaseClassification";
 import ReferralLetter from "../../server/testHelpers/ReferralLetter";
+import LetterOfficer from "../../server/testHelpers/LetterOfficer";
 import { updateCaseStatus } from "../../server/handlers/data/queries/queryHelperFunctions";
 import { random } from "lodash";
+import Civilian from "../../sharedTestHelpers/civilian";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -88,10 +91,61 @@ const setupLetter = async letterCase => {
         .withSender("The aggrieved party"),
       { auditUser: "user" }
     );
+    return letter;
   } catch (e) {
     console.log(e);
   }
 };
+
+const addCivilianComplainantToCase = async theCase => {
+  return await models.civilian.create(
+    new Civilian.Builder()
+    .defaultCivilian()
+    .withCaseId(theCase.id)
+    .withRoleOnCase(COMPLAINANT)
+    .build(),
+    {auditUser: "user"}
+    );
+}
+
+const addOfficerHistoryToReferralLetter = async letter => {
+  const officer = await models.officer.create(
+    new Officer.Builder().defaultOfficer().withId(78291).withOfficerNumber(27),
+    { auditUser: "user" }
+  );
+
+  const case_officer = await models.case_officer.create(
+    new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerId(officer.id)
+      .withCaseId(letter.caseId)
+      .withRoleOnCase(ACCUSED)
+      .withId(64),
+    { auditUser: "user" }
+  );
+  //create officer history option
+  const letter_officer = await models.letter_officer.create(
+    new LetterOfficer.Builder()
+    .defaultLetterOfficer()
+    .withCaseOfficerId(case_officer.id)
+    .withOfficerHistoryOptionId(1),
+    {auditUser: "user"}
+  );
+  return letter_officer;
+}
+const addClassificationsToCase = async theCase => {
+    const classification = await models.classification.create(
+     {id: 1, name: "spongebob", message: "i'm ready"},
+     {auditUser: "user"}
+    );
+
+    await models.case_classifications.create(
+      new ReferralLetterCaseClassification.Builder()
+      .defaultReferralLetterCaseClassification()
+      .withCaseId(theCase.id)
+      .withClassificationId(1)
+    )
+}
 
 describe("Pact Verification", () => {
   let server;
@@ -130,10 +184,24 @@ describe("Pact Verification", () => {
         "letter is ready for review: officer history added": async () => {
           await cleanupDatabase();
           const letterCase = await setupCase();
+          const letter = await setupLetter(letterCase);
+          await addOfficerHistoryToReferralLetter(letter);
+        },
+        "letter is ready for review: officer history added: classifications added": async () => {
+          await cleanupDatabase();
+          const letterCase = await setupCase();
+          const letter = await setupLetter(letterCase);
+          await addOfficerHistoryToReferralLetter(letter);
+          await addClassificationsToCase(letterCase);
+        },
+        "letter is ready for review: with civillian complainant": async () => {
+          await cleanupDatabase();
+          const letterCase = await setupCase();
           await setupLetter(letterCase);
-          // add officer history
+          await addCivilianComplainantToCase(letterCase);
         }
       }
+
     };
 
     const output = await new Verifier(opts).verifyProvider();

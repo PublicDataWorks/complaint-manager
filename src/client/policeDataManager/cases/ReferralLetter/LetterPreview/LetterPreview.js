@@ -224,14 +224,13 @@ class LetterPreview extends Component {
         >
           <CardContent>
             <Field
-              style={{ flex: 4 }}
+              style={{ flex: 4, marginBottom: "16px"}}
               name="recipient"
               component={renderTextField}
               label="Title and Name"
               fullWidth
               multiline
               rowsMax={5}
-              style={{ marginBottom: "16px" }}
               inputProps={{ autoComplete: "off" }}
             />
             <Field

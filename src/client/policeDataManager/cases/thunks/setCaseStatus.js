@@ -10,7 +10,7 @@ const setCaseStatus = (caseId, status, redirectUrl) => async dispatch => {
   try {
     const response = await axios.put(
       `api/cases/${caseId}/status`,
-      JSON.stringify({ status })
+      { status }
     );
     dispatch(snackbarSuccess("Status was successfully updated"));
     if (redirectUrl) {
