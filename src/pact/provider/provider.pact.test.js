@@ -63,7 +63,7 @@ const setupCase = async () => {
       { auditUser: "user" }
     );
 
-    const case_officer = await models.case_officer.create(
+    const caseOfficer = await models.case_officer.create(
       new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withOfficerId(officer.id)
@@ -114,7 +114,7 @@ const addOfficerHistoryToReferralLetter = async letter => {
     { auditUser: "user" }
   );
 
-  const case_officer = await models.case_officer.create(
+  const caseOfficer = await models.case_officer.create(
     new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withOfficerId(officer.id)
@@ -123,15 +123,20 @@ const addOfficerHistoryToReferralLetter = async letter => {
       .withId(64),
     { auditUser: "user" }
   );
-  //create officer history option
-  const letter_officer = await models.letter_officer.create(
-    new LetterOfficer.Builder()
-    .defaultLetterOfficer()
-    .withCaseOfficerId(case_officer.id)
-    .withOfficerHistoryOptionId(1),
+  
+  const officerHistory = await models.officer_history_option.create(
+    {name: "yes"},
     {auditUser: "user"}
   );
-  return letter_officer;
+
+  const letterOfficer = await models.letter_officer.create(
+    new LetterOfficer.Builder()
+    .defaultLetterOfficer()
+    .withCaseOfficerId(caseOfficer.id)
+    .withOfficerHistoryOptionId(officerHistory.id),
+    {auditUser: "user"}
+  );
+  return letterOfficer;
 }
 const addClassificationsToCase = async theCase => {
     const classification = await models.classification.create(
@@ -139,12 +144,13 @@ const addClassificationsToCase = async theCase => {
      {auditUser: "user"}
     );
 
-    await models.case_classifications.create(
+    await models.case_classification.create(
       new ReferralLetterCaseClassification.Builder()
       .defaultReferralLetterCaseClassification()
       .withCaseId(theCase.id)
-      .withClassificationId(1)
-    )
+      .withClassificationId(1),
+      {auditUser: "user"}
+    );
 }
 
 describe("Pact Verification", () => {
@@ -191,10 +197,15 @@ describe("Pact Verification", () => {
           await cleanupDatabase();
           const letterCase = await setupCase();
           const letter = await setupLetter(letterCase);
-          await addOfficerHistoryToReferralLetter(letter);
-          await addClassificationsToCase(letterCase);
+          try {
+            await addOfficerHistoryToReferralLetter(letter);
+            await addClassificationsToCase(letterCase);
+          } catch(e) {
+            console.log(e);
+            throw e;
+          }
         },
-        "letter is ready for review: with civillian complainant": async () => {
+        "letter is ready for review: with civilian complainant": async () => {
           await cleanupDatabase();
           const letterCase = await setupCase();
           await setupLetter(letterCase);
