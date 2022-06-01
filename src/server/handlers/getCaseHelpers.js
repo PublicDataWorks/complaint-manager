@@ -158,28 +158,11 @@ const getCaseDetailsAndAuditDetails = async (
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
     caseDetails.dataValues.complainantCivilians.forEach(civilian => {
       civilian.anonymizeCivilian();
-      civilian.address.streetAddress = "";
-      civilian.address.streetAddress2 = "";
-      civilian.address.city = "";
-      civilian.address.state = "";
-      civilian.address.zipCode = "";
-      civilian.address.country = "";
-      civilian.address.lat = null;
-      civilian.address.lng = null;
-      civilian.address.additionalLocationInfo = "";
-      console.log(civilian.address);
+      anonymizeAddress(civilian);
     });
     caseDetails.dataValues.witnessCivilians.forEach(civilian => {
       civilian.anonymizeCivilian();
-      civilian.address.streetAddress = "";
-      civilian.address.streetAddress2 = "";
-      civilian.address.city = "";
-      civilian.address.state = "";
-      civilian.address.zipCode = "";
-      civilian.address.country = "";
-      civilian.address.lat = null;
-      civilian.address.lng = null;
-      civilian.address.additionalLocationInfo = "";
+      anonymizeAddress(civilian);
     });
     caseDetails.dataValues.complainantOfficers.forEach(officer =>
       officer.anonymizeOfficer()
@@ -238,4 +221,18 @@ const pdfIsAvailable = referralLetter => {
     return false;
   }
   return referralLetter.finalPdfFilename !== null;
+};
+
+const anonymizeAddress = civilian => {
+  if (civilian.isAnonymous && civilian.address) {
+    civilian.address.streetAddress = "";
+    civilian.address.streetAddress2 = "";
+    civilian.address.city = "";
+    civilian.address.state = "";
+    civilian.address.zipCode = "";
+    civilian.address.country = "";
+    civilian.address.lat = null;
+    civilian.address.lng = null;
+    civilian.address.additionalLocationInfo = "";
+  }
 };
