@@ -156,12 +156,31 @@ const getCaseDetailsAndAuditDetails = async (
   const caseDetails = await models.cases.findByPk(caseId, queryOptions);
 
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
-    caseDetails.dataValues.complainantCivilians.forEach(civilian =>
-      civilian.anonymizeCivilian()
-    );
-    caseDetails.dataValues.witnessCivilians.forEach(civilian =>
-      civilian.anonymizeCivilian()
-    );
+    caseDetails.dataValues.complainantCivilians.forEach(civilian => {
+      civilian.anonymizeCivilian();
+      civilian.address.streetAddress = "";
+      civilian.address.streetAddress2 = "";
+      civilian.address.city = "";
+      civilian.address.state = "";
+      civilian.address.zipCode = "";
+      civilian.address.country = "";
+      civilian.address.lat = null;
+      civilian.address.lng = null;
+      civilian.address.additionalLocationInfo = "";
+      console.log(civilian.address);
+    });
+    caseDetails.dataValues.witnessCivilians.forEach(civilian => {
+      civilian.anonymizeCivilian();
+      civilian.address.streetAddress = "";
+      civilian.address.streetAddress2 = "";
+      civilian.address.city = "";
+      civilian.address.state = "";
+      civilian.address.zipCode = "";
+      civilian.address.country = "";
+      civilian.address.lat = null;
+      civilian.address.lng = null;
+      civilian.address.additionalLocationInfo = "";
+    });
     caseDetails.dataValues.complainantOfficers.forEach(officer =>
       officer.anonymizeOfficer()
     );
