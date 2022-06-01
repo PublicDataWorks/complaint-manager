@@ -159,10 +159,14 @@ const getCaseDetailsAndAuditDetails = async (
     caseDetails.dataValues.complainantCivilians.forEach(civilian => {
       civilian.anonymizeCivilian();
       anonymizeAddress(civilian);
+      anonymizeRace(civilian);
+      anonymizeGender(civilian);
     });
     caseDetails.dataValues.witnessCivilians.forEach(civilian => {
       civilian.anonymizeCivilian();
       anonymizeAddress(civilian);
+      anonymizeRace(civilian);
+      anonymizeGender(civilian);
     });
     caseDetails.dataValues.complainantOfficers.forEach(officer =>
       officer.anonymizeOfficer()
@@ -234,5 +238,17 @@ const anonymizeAddress = civilian => {
     civilian.address.lat = null;
     civilian.address.lng = null;
     civilian.address.additionalLocationInfo = "";
+  }
+};
+
+const anonymizeRace = civilian => {
+  if (civilian.isAnonymous && civilian.raceEthnicity) {
+    civilian.raceEthnicity.name = "";
+  }
+};
+
+const anonymizeGender = civilian => {
+  if (civilian.isAnonymous && civilian.genderIdentity) {
+    civilian.genderIdentity.name = "";
   }
 };
