@@ -209,15 +209,15 @@ describe("sortableCasesView", () => {
             permissions: USER_PERMISSIONS.MANAGE_TAGS
           }
         );
+      });
 
-        test("cannot view known anonymous complainant", async () => {
-          const sortedCase = await models.sortable_cases_view.findOne({
-            where: { id: existingCase.id }
-          });
-          expect(sortedCase.complainantCivilian[2]).toEqual({
-            fullName: "Unknown",
-            personType: "Unknown"
-          });
+      test("cannot view known anonymous complainant", async () => {
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+        expect(sortedCase.complainantCivilian[2]).toEqual({
+          fullName: "Unknown",
+          personType: "Unknown"
         });
       });
     });

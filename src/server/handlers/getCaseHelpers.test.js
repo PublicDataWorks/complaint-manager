@@ -66,7 +66,7 @@ describe("getCaseHelpers", () => {
           );
         }
       );
-
+      console.log(caseDetails.complainantCivilians[0]);
       expect(caseDetails.complainantCivilians[0].firstName).toEqual("");
       expect(caseDetails.complainantCivilians[0].middleInitial).toEqual("");
       expect(caseDetails.complainantCivilians[0].lastName).toEqual("");
@@ -76,6 +76,9 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].phoneNumber).toEqual("");
       expect(caseDetails.complainantCivilians[0].email).toEqual("");
       expect(caseDetails.complainantCivilians[0].additionalInfo).toEqual("");
+      expect(caseDetails.complainantCivilians[0].address).toEqual(null);
+      expect(caseDetails.complainantCivilians[0].raceEthnicity).toEqual(null);
+      expect(caseDetails.complainantCivilians[0].genderIdentity).toEqual(null);
     });
 
     test("should not see an anonymous officer/'s data", async () => {
