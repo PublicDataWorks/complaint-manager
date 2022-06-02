@@ -146,10 +146,6 @@ module.exports = (sequelize, DataTypes) => {
       this.phoneNumber = "";
       this.email = "";
       this.additionalInfo = "";
-<<<<<<< HEAD
-      this.address = "";
-=======
->>>>>>> anonymous-view
     }
   };
 
