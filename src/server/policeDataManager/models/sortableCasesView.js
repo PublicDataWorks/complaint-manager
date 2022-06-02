@@ -9,7 +9,7 @@ import {
   getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes, permissions) => {
   const SortableCasesView = sequelize.define(
     "sortable_cases_view",
     {
@@ -179,6 +179,12 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false
     }
   );
+
+  // if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
+  //   SortableCasesView.DataTypes.primaryComplainant.forEach(c =>
+  //     c.anonymizeComplainant()
+  //   );
+  // }
 
   return SortableCasesView;
 };

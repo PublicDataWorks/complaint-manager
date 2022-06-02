@@ -50,6 +50,62 @@ describe("getCaseHelpers", () => {
     await models.sequelize.close();
   });
 
+  describe("without permission", () => {
+    test("should not see an anonymous civilian/'s data", async () => {
+      await createAnonymousCivilian(
+        existingCase,
+        COMPLAINANT,
+        new Date("2018-01-01")
+      );
+      const { caseDetails } = await models.sequelize.transaction(
+        async transaction => {
+          return await getCaseWithAllAssociationsAndAuditDetails(
+            existingCase.id,
+            transaction,
+            USER_PERMISSIONS.MANAGE_TAGS
+          );
+        }
+      );
+
+      expect(caseDetails.complainantCivilians[0].firstName).toEqual("");
+      expect(caseDetails.complainantCivilians[0].middleInitial).toEqual("");
+      expect(caseDetails.complainantCivilians[0].lastName).toEqual("");
+      expect(caseDetails.complainantCivilians[0].suffix).toEqual("");
+      expect(caseDetails.complainantCivilians[0].fullName).toEqual("");
+      expect(caseDetails.complainantCivilians[0].birthDate).toEqual("");
+      expect(caseDetails.complainantCivilians[0].phoneNumber).toEqual("");
+      expect(caseDetails.complainantCivilians[0].email).toEqual("");
+      expect(caseDetails.complainantCivilians[0].additionalInfo).toEqual("");
+    });
+
+    test("should not see an anonymous officer/'s data", async () => {
+      await createAnonymousCaseOfficer(
+        existingCase,
+        COMPLAINANT,
+        new Date("2018-01-01")
+      );
+      const { caseDetails } = await models.sequelize.transaction(
+        async transaction => {
+          return await getCaseWithAllAssociationsAndAuditDetails(
+            existingCase.id,
+            transaction,
+            USER_PERMISSIONS.MANAGE_TAGS
+          );
+        }
+      );
+      expect(caseDetails.complainantOfficers[0].officerId).toEqual("");
+      expect(caseDetails.complainantOfficers[0].firstName).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].middleInitial).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].lastName).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].suffix).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].fullName).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].birthDate).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].phoneNumber).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].email).toEqual("");
+      // expect(caseDetails.complainantOfficers[0].additionalInfo).toEqual("");
+    });
+  });
+
   describe("getCaseWithAllAssocationsAndAuditDetails", () => {
     test("adds pdfAvailable to audit", async () => {
       const caseWithAssociationsAndAuditDetails =
@@ -335,6 +391,39 @@ const createCivilian = async (existingCase, role, dateCreated) => {
     .withCreatedAt(dateCreated);
 
   await models.civilian.create(civilianAttributes, {
+    auditUser: "someone"
+  });
+};
+
+const createAnonymousCivilian = async (existingCase, role, dateCreated) => {
+  const civilianAttributes = new Civilian.Builder()
+    .defaultCivilian()
+    .withCaseId(existingCase.id)
+    .withId(undefined)
+    .withRoleOnCase(role)
+    .withCreatedAt(dateCreated)
+    .withIsAnonymous(true);
+
+  await models.civilian.create(civilianAttributes, {
+    auditUser: "someone"
+  });
+};
+
+const createAnonymousCaseOfficer = async (
+  existingCase,
+  role,
+  officerNumber,
+  dateCreated
+) => {
+  const officerAttributes = new Officer.Builder()
+    .defaultOfficer()
+    .withOfficerNumber(officerNumber)
+    .withId(undefined)
+    .withRoleOnCase(role)
+    .withCreatedAt(dateCreated)
+    .withIsAnonymous(true);
+
+  const officer = await models.officer.create(officerAttributes, {
     auditUser: "someone"
   });
 };

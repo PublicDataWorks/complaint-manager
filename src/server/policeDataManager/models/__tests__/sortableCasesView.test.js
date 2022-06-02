@@ -1,7 +1,11 @@
 import models from "../index";
 import RaceEthnicity from "../../../../sharedTestHelpers/raceEthnicity";
 import Civilian from "../../../../sharedTestHelpers/civilian";
-import { ACCUSED, COMPLAINANT } from "../../../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  COMPLAINANT,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
@@ -146,237 +150,312 @@ describe("sortableCasesView", () => {
   describe("check correct primary complainant", () => {
     let complainantCivilian, complainantCaseOfficer, existingCase, officer;
 
-    beforeEach(async () => {
-      const raceEthnicity = await models.race_ethnicity.create(
-        new RaceEthnicity.Builder().defaultRaceEthnicity(),
-        {
-          auditUser: "someone"
-        }
-      );
+    describe("without permissions", () => {
+      beforeEach(async () => {
+        const raceEthnicity = await models.race_ethnicity.create(
+          new RaceEthnicity.Builder().defaultRaceEthnicity(),
+          {
+            auditUser: "someone"
+          }
+        );
 
-      const officerAttributes = new Officer.Builder()
-        .defaultOfficer()
-        .withId(undefined);
+        const officerAttributes = new Officer.Builder()
+          .defaultOfficer()
+          .withId(undefined);
 
-      officer = await models.officer.create(officerAttributes, {
-        auditUser: "user"
+        officer = await models.officer.create(officerAttributes, {
+          auditUser: "user"
+        });
+
+        complainantCivilian = new Civilian.Builder()
+          .defaultCivilian()
+          .withLastName("Shane")
+          .withRaceEthnicityId(raceEthnicity.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withNoAddress()
+          .withCreatedAt(new Date("2018-06-12"))
+          .withId(undefined)
+          .withCaseId(undefined);
+
+        complainantCaseOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(undefined)
+          .withOfficerId(officer.id)
+          .withCreatedAt(new Date("2018-09-22"))
+          .withRoleOnCase(COMPLAINANT);
+
+        existingCase = await models.cases.create(
+          new Case.Builder()
+            .defaultCase()
+            .withId(undefined)
+            .withIncidentDate("2012-12-01")
+            .withFirstContactDate("2012-12-02")
+            .withComplainantCivilians([complainantCivilian])
+            .withComplainantOfficers([complainantCaseOfficer]),
+          {
+            include: [
+              {
+                model: models.civilian,
+                as: "complainantCivilians",
+                auditUser: "someone"
+              },
+              {
+                model: models.case_officer,
+                as: "complainantOfficers",
+                auditUser: "someone"
+              }
+            ],
+            auditUser: "someone",
+            permissions: USER_PERMISSIONS.MANAGE_TAGS
+          }
+        );
+
+        test("cannot view known anonymous complainant", async () => {
+          const sortedCase = await models.sortable_cases_view.findOne({
+            where: { id: existingCase.id }
+          });
+          expect(sortedCase.complainantCivilian[2]).toEqual({
+            fullName: "Unknown",
+            personType: "Unknown"
+          });
+        });
+      });
+    });
+
+    describe("with permissions", () => {
+      beforeEach(async () => {
+        const raceEthnicity = await models.race_ethnicity.create(
+          new RaceEthnicity.Builder().defaultRaceEthnicity(),
+          {
+            auditUser: "someone"
+          }
+        );
+
+        const officerAttributes = new Officer.Builder()
+          .defaultOfficer()
+          .withId(undefined);
+
+        officer = await models.officer.create(officerAttributes, {
+          auditUser: "user"
+        });
+
+        complainantCivilian = new Civilian.Builder()
+          .defaultCivilian()
+          .withLastName("Shane")
+          .withRaceEthnicityId(raceEthnicity.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withNoAddress()
+          .withCreatedAt(new Date("2018-06-12"))
+          .withId(undefined)
+          .withCaseId(undefined);
+
+        complainantCaseOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(undefined)
+          .withOfficerId(officer.id)
+          .withCreatedAt(new Date("2018-09-22"))
+          .withRoleOnCase(COMPLAINANT);
+
+        existingCase = await models.cases.create(
+          new Case.Builder()
+            .defaultCase()
+            .withId(undefined)
+            .withIncidentDate("2012-12-01")
+            .withFirstContactDate("2012-12-02")
+            .withComplainantCivilians([complainantCivilian])
+            .withComplainantOfficers([complainantCaseOfficer]),
+          {
+            include: [
+              {
+                model: models.civilian,
+                as: "complainantCivilians",
+                auditUser: "someone"
+              },
+              {
+                model: models.case_officer,
+                as: "complainantOfficers",
+                auditUser: "someone"
+              }
+            ],
+            auditUser: "someone",
+            permissions: USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
+          }
+        );
       });
 
-      complainantCivilian = new Civilian.Builder()
-        .defaultCivilian()
-        .withLastName("Shane")
-        .withRaceEthnicityId(raceEthnicity.id)
-        .withRoleOnCase(COMPLAINANT)
-        .withNoAddress()
-        .withCreatedAt(new Date("2018-06-12"))
-        .withId(undefined)
-        .withCaseId(undefined);
+      test("returns civilian as primary complainant when added first", async () => {
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
 
-      complainantCaseOfficer = new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withId(undefined)
-        .withOfficerId(officer.id)
-        .withCreatedAt(new Date("2018-09-22"))
-        .withRoleOnCase(COMPLAINANT);
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            complainantPersonType: PERSON_TYPE.CIVILIAN.description,
+            complainantFirstName: complainantCivilian.firstName,
+            complainantMiddleName: complainantCivilian.middleInitial,
+            complainantLastName: complainantCivilian.lastName,
+            id: existingCase.id
+          })
+        );
+      });
 
-      existingCase = await models.cases.create(
-        new Case.Builder()
-          .defaultCase()
-          .withId(undefined)
-          .withIncidentDate("2012-12-01")
-          .withFirstContactDate("2012-12-02")
-          .withComplainantCivilians([complainantCivilian])
-          .withComplainantOfficers([complainantCaseOfficer]),
-        {
-          include: [
-            {
-              model: models.civilian,
-              as: "complainantCivilians",
-              auditUser: "someone"
+      test("returns CC as case reference prefix when civilian primary complainant", async () => {
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: "CC2012-0001"
+          })
+        );
+      });
+
+      test("should return AC prefix in case reference when primary complainant is anonymized", async () => {
+        const caseCivilian = await models.civilian.findOne({
+          where: { caseId: existingCase.id }
+        });
+
+        await models.civilian.update(
+          { isAnonymous: true },
+          {
+            where: { id: caseCivilian.id },
+            auditUser: "test user"
+          }
+        );
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: "AC2012-0001"
+          })
+        );
+      });
+
+      test("returns officer as primary complainant when added first", async () => {
+        await models.case_officer.update(
+          {
+            createdAt: new Date("2016-06-12")
+          },
+          {
+            where: {
+              officerId: officer.id
             },
-            {
-              model: models.case_officer,
-              as: "complainantOfficers",
-              auditUser: "someone"
-            }
-          ],
-          auditUser: "someone"
-        }
-      );
-    });
+            auditUser: "test user"
+          }
+        );
 
-    test("returns civilian as primary complainant when added first", async () => {
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            complainantPersonType: PERSON_TYPE.KNOWN_OFFICER.description,
+            complainantFirstName: complainantCaseOfficer.firstName,
+            complainantMiddleName: complainantCaseOfficer.middleName,
+            complainantLastName: complainantCaseOfficer.lastName,
+            id: existingCase.id
+          })
+        );
       });
 
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.CIVILIAN.description,
-          complainantFirstName: complainantCivilian.firstName,
-          complainantMiddleName: complainantCivilian.middleInitial,
-          complainantLastName: complainantCivilian.lastName,
-          id: existingCase.id
-        })
-      );
-    });
-
-    test("returns CC as case reference prefix when civilian primary complainant", async () => {
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          caseReference: "CC2012-0001"
-        })
-      );
-    });
-
-    test("should return AC prefix in case reference when primary complainant is anonymized", async () => {
-      const caseCivilian = await models.civilian.findOne({
-        where: { caseId: existingCase.id }
-      });
-
-      await models.civilian.update(
-        { isAnonymous: true },
-        {
-          where: { id: caseCivilian.id },
-          auditUser: "test user"
-        }
-      );
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          caseReference: "AC2012-0001"
-        })
-      );
-    });
-
-    test("returns officer as primary complainant when added first", async () => {
-      await models.case_officer.update(
-        {
-          createdAt: new Date("2016-06-12")
-        },
-        {
-          where: {
-            officerId: officer.id
+      test("returns PO as case reference prefix when officer primary complainant", async () => {
+        await models.case_officer.update(
+          {
+            createdAt: new Date("2016-06-12")
           },
+          {
+            where: {
+              officerId: officer.id
+            },
+            auditUser: "test user"
+          }
+        );
+
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: "PO2012-0001"
+          })
+        );
+      });
+
+      test("should return PO as prefix in case reference when primary complainant is deleted", async () => {
+        await models.civilian.destroy({
+          where: { caseId: existingCase.id },
           auditUser: "test user"
-        }
-      );
-
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
+        });
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: "PO2012-0001"
+          })
+        );
       });
 
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.KNOWN_OFFICER.description,
-          complainantFirstName: complainantCaseOfficer.firstName,
-          complainantMiddleName: complainantCaseOfficer.middleName,
-          complainantLastName: complainantCaseOfficer.lastName,
-          id: existingCase.id
-        })
-      );
-    });
+      test("no complainant", async () => {
+        existingCase = await models.cases.create(
+          new Case.Builder()
+            .defaultCase()
+            .withId(undefined)
+            .withIncidentDate("2012-12-01")
+            .withFirstContactDate("2012-12-02"),
+          {
+            auditUser: "someone"
+          }
+        );
 
-    test("returns PO as case reference prefix when officer primary complainant", async () => {
-      await models.case_officer.update(
-        {
-          createdAt: new Date("2016-06-12")
-        },
-        {
-          where: {
-            officerId: officer.id
-          },
-          auditUser: "test user"
-        }
-      );
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
 
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            complainantPersonType: null,
+            complainantFirstName: null,
+            complainantMiddleName: null,
+            complainantLastName: null,
+            id: existingCase.id
+          })
+        );
       });
 
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          caseReference: "PO2012-0001"
-        })
-      );
-    });
-
-    test("should return PO as prefix in case reference when primary complainant is deleted", async () => {
-      await models.civilian.destroy({
-        where: { caseId: existingCase.id },
-        auditUser: "test user"
-      });
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          caseReference: "PO2012-0001"
-        })
-      );
-    });
-
-    test("no complainant", async () => {
-      existingCase = await models.cases.create(
-        new Case.Builder()
-          .defaultCase()
+      test("returns unknown officer as primary complainant when added first", async () => {
+        const unknownOfficerAttributes = new CaseOfficer.Builder()
+          .withCaseId(existingCase.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withCreatedAt(new Date("2010-02-12"))
           .withId(undefined)
-          .withIncidentDate("2012-12-01")
-          .withFirstContactDate("2012-12-02"),
-        {
+          .withFirstName(null)
+          .withLastName(null)
+          .withMiddleName(null)
+          .withOfficerId(null);
+
+        await models.case_officer.create(unknownOfficerAttributes, {
           auditUser: "someone"
-        }
-      );
+        });
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
 
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
+            complainantFirstName: null,
+            complainantMiddleName: null,
+            complainantLastName: null,
+            id: existingCase.id
+          })
+        );
       });
-
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          complainantPersonType: null,
-          complainantFirstName: null,
-          complainantMiddleName: null,
-          complainantLastName: null,
-          id: existingCase.id
-        })
-      );
-    });
-
-    test("returns unknown officer as primary complainant when added first", async () => {
-      const unknownOfficerAttributes = new CaseOfficer.Builder()
-        .withCaseId(existingCase.id)
-        .withRoleOnCase(COMPLAINANT)
-        .withCreatedAt(new Date("2010-02-12"))
-        .withId(undefined)
-        .withFirstName(null)
-        .withLastName(null)
-        .withMiddleName(null)
-        .withOfficerId(null);
-
-      await models.case_officer.create(unknownOfficerAttributes, {
-        auditUser: "someone"
-      });
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-
-      expect(sortedCase).toEqual(
-        expect.objectContaining({
-          complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
-          complainantFirstName: null,
-          complainantMiddleName: null,
-          complainantLastName: null,
-          id: existingCase.id
-        })
-      );
     });
   });
 });
