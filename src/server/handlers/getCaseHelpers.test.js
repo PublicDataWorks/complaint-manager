@@ -81,6 +81,7 @@ describe("getCaseHelpers", () => {
     test("should not see an anonymous officer/'s data", async () => {
       await createAnonymousCaseOfficer(
         existingCase,
+        101,
         COMPLAINANT,
         new Date("2018-01-01")
       );
@@ -93,16 +94,16 @@ describe("getCaseHelpers", () => {
           );
         }
       );
+
       expect(caseDetails.complainantOfficers[0].officerId).toEqual("");
       expect(caseDetails.complainantOfficers[0].firstName).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].middleInitial).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].lastName).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].suffix).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].fullName).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].birthDate).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].phoneNumber).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].email).toEqual("");
-      // expect(caseDetails.complainantOfficers[0].additionalInfo).toEqual("");
+      expect(caseDetails.complainantOfficers[0].middleName).toEqual("");
+      expect(caseDetails.complainantOfficers[0].lastName).toEqual("");
+      expect(caseDetails.complainantOfficers[0].fullName).toEqual(
+        "Unknown Officer"
+      );
+      expect(caseDetails.complainantOfficers[0].phoneNumber).toEqual("");
+      expect(caseDetails.complainantOfficers[0].email).toEqual("");
     });
   });
 
@@ -405,25 +406,35 @@ const createAnonymousCivilian = async (existingCase, role, dateCreated) => {
     .withIsAnonymous(true);
 
   await models.civilian.create(civilianAttributes, {
-    auditUser: "someone"
+    auditUser: "anonymous someone"
   });
 };
 
 const createAnonymousCaseOfficer = async (
   existingCase,
-  role,
   officerNumber,
+  role,
   dateCreated
 ) => {
   const officerAttributes = new Officer.Builder()
     .defaultOfficer()
     .withOfficerNumber(officerNumber)
-    .withId(undefined)
-    .withRoleOnCase(role)
-    .withCreatedAt(dateCreated)
-    .withIsAnonymous(true);
+    .withId(undefined);
 
   const officer = await models.officer.create(officerAttributes, {
     auditUser: "someone"
+  });
+
+  const caseOfficerAttributes = new CaseOfficer.Builder()
+    .defaultCaseOfficer()
+    .withId(undefined)
+    .withOfficerId(officer.id)
+    .withCaseId(existingCase.id)
+    .withCreatedAt(dateCreated)
+    .withRoleOnCase(role)
+    .withIsAnonymous(true);
+
+  await models.case_officer.create(caseOfficerAttributes, {
+    auditUser: "anonymous someone"
   });
 };
