@@ -4,7 +4,8 @@ import getSortingOrderForQuery from "../helpers/getSortingOrderForQuery";
 import {
   ASCENDING,
   DEFAULT_PAGINATION_LIMIT,
-  DESCENDING
+  DESCENDING,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 
 const Op = sequelize.Op;
@@ -41,7 +42,8 @@ const getCases = async (
   sortBy,
   sortDirection,
   transaction = null,
-  page = null
+  page = null,
+  permissions
 ) => {
   const order = [
     ...getSortingOrderForQuery(sortBy, sortDirection),
@@ -71,7 +73,22 @@ const getCases = async (
     offset
   };
 
-  return await models.sortable_cases_view.findAndCountAll(queryOptions);
+  const sortableCases = await models.sortable_cases_view.findAndCountAll(
+    queryOptions
+  );
+
+  sortableCases.rows.forEach(c => {
+    if (c.dataValues.complainantIsAnonymous) {
+      if (c.dataValues.firstName !== "") {
+        c.dataValues.complainantFirstName = "Anonymous";
+      }
+      c.dataValues.complainantLastName = "";
+      c.dataValues.complainantMiddleName = "";
+      c.dataValues.complainantSuffix = "";
+      console.log(c.dataValues);
+    }
+  });
+  return sortableCases;
 };
 
 export default getCases;

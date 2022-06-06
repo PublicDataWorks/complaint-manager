@@ -15,7 +15,8 @@ import {
   COMPLAINANT,
   DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
@@ -663,6 +664,7 @@ describe("getCases", () => {
           .withLastName("Shane")
           .withRaceEthnicityId(raceEthnicity.id)
           .withRoleOnCase(COMPLAINANT)
+          //   .withIsAnonymous(true)
           .withNoAddress()
           .withId(undefined)
           .withCaseId(undefined);
@@ -917,6 +919,22 @@ describe("getCases", () => {
         ]);
       });
     });
+
+    // describe("without permissions", () => {
+    //   test("should not see an anonymous civilian/'s data", async () => {
+    //     const cases = await models.sequelize.transaction(async transaction => {
+    //       return await getCases(
+    //         CASES_TYPE.WORKING,
+    //         transaction,
+    //         ASCENDING,
+    //         null,
+    //         1,
+    //         USER_PERMISSIONS.MANAGE_TAGS
+    //       );
+    //     });
+    //     expect(cases.complainantFirstName).toEqual("");
+    //   });
+    // });
 
     describe("by first contact date", () => {
       let earlierCase, laterCase, middleCase;

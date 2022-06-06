@@ -304,13 +304,6 @@ module.exports = (sequelize, DataTypes) => {
     return MANAGER_TYPE.COMPLAINT;
   };
 
-  // Case.prototype.anonymizeComplainant = function () {
-  //   if (primaryComplainant.isAnonymous) {
-  //     console.log("woot woot");
-  //     this.primaryComplainant = "";
-  //   }
-  // };
-
   Case.associate = models => {
     Case.hasMany(models.audit, {
       foreignKey: { name: "referenceId", field: "reference_id" },
