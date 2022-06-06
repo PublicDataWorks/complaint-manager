@@ -61,7 +61,9 @@ export const getOfficerFullName = (
   lastName,
   isUnknownOfficer
 ) => {
-  if (isUnknownOfficer) {
+  if (firstName === "Anonymous") {
+    return "Anonymous Officer";
+  } else if (isUnknownOfficer) {
     return "Unknown Officer";
   } else {
     const editedFirstName = firstName ? firstName : "";

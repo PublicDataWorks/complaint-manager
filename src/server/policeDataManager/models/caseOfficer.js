@@ -289,10 +289,11 @@ module.exports = (sequelize, DataTypes) => {
   CaseOfficer.prototype.anonymizeOfficer = function () {
     if (this.isAnonymous) {
       this.officerId = "";
-      this.firstName = "";
+      this.firstName = "Anonymous";
       this.middleName = "";
       this.lastName = "";
       this.fullName = "";
+      this.isUnknownOfficer = false;
       this.phoneNumber = "";
       this.email = "";
       this.windowsUsername = "";

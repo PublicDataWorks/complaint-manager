@@ -85,7 +85,6 @@ const getCases = async (
       c.dataValues.complainantLastName = "";
       c.dataValues.complainantMiddleName = "";
       c.dataValues.complainantSuffix = "";
-      console.log(c.dataValues);
     }
   });
   return sortableCases;
