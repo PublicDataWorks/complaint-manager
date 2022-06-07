@@ -150,80 +150,81 @@ describe("sortableCasesView", () => {
   describe("check correct primary complainant", () => {
     let complainantCivilian, complainantCaseOfficer, existingCase, officer;
 
-    //   describe("without permissions", () => {
-    //     beforeEach(async () => {
-    //       const raceEthnicity = await models.race_ethnicity.create(
-    //         new RaceEthnicity.Builder().defaultRaceEthnicity(),
-    //         {
-    //           auditUser: "someone"
-    //         }
-    //       );
+    describe("without permissions", () => {
+      beforeEach(async () => {
+        // const raceEthnicity = await models.race_ethnicity.create(
+        //   new RaceEthnicity.Builder().defaultRaceEthnicity(),
+        //   {
+        //     auditUser: "someone"
+        //   }
+        // );
 
-    //       const officerAttributes = new Officer.Builder()
-    //         .defaultOfficer()
-    //         .withId(undefined);
+        const officerAttributes = new Officer.Builder()
+          .defaultOfficer()
+          .withId(undefined);
 
-    //       officer = await models.officer.create(officerAttributes, {
-    //         auditUser: "user"
-    //       });
+        officer = await models.officer.create(officerAttributes, {
+          auditUser: "user"
+        });
 
-    //       complainantCivilian = new Civilian.Builder()
-    //         .defaultCivilian()
-    //         .withLastName("Shane")
-    //         .withRaceEthnicityId(raceEthnicity.id)
-    //         .withRoleOnCase(COMPLAINANT)
-    //         .withNoAddress()
-    //         //.withIsAnonymous(true)
-    //         .withCreatedAt(new Date("2018-06-12"))
-    //         .withId(undefined)
-    //         .withCaseId(undefined);
+        complainantCivilian = new Civilian.Builder()
+          .defaultCivilian()
+          .withRoleOnCase(COMPLAINANT)
+          .withIsAnonymous(true)
+          .withCreatedAt(new Date("2018-06-12"))
+          .withId(undefined)
+          .withCaseId(existingCase.id);
 
-    //       complainantCaseOfficer = new CaseOfficer.Builder()
-    //         .defaultCaseOfficer()
-    //         .withId(undefined)
-    //         .withOfficerId(officer.id)
-    //         .withCreatedAt(new Date("2018-09-22"))
-    //         .withRoleOnCase(COMPLAINANT);
+        complainantCaseOfficer = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withIsAnonymous(true)
+          .withId(undefined)
+          .withOfficerId(officer.id)
+          .withCreatedAt(new Date("2018-09-22"))
+          .withRoleOnCase(COMPLAINANT)
+          .withCaseId(existingCase.id);
 
-    //       existingCase = await models.cases.create(
-    //         new Case.Builder()
-    //           .defaultCase()
-    //           .withId(undefined)
-    //           .withIncidentDate("2012-12-01")
-    //           .withFirstContactDate("2012-12-02")
-    //           .withComplainantCivilians([complainantCivilian])
-    //           .withComplainantOfficers([complainantCaseOfficer]),
-    //         {
-    //           include: [
-    //             {
-    //               model: models.civilian,
-    //               as: "complainantCivilians",
-    //               auditUser: "someone"
-    //             },
-    //             {
-    //               model: models.case_officer,
-    //               as: "complainantOfficers",
-    //               auditUser: "someone"
-    //             }
-    //           ],
-    //           auditUser: "someone",
-    //           permissions: USER_PERMISSIONS.MANAGE_TAGS
-    //         }
-    //       );
-    //     });
+        existingCase = await models.cases.create(
+          new Case.Builder()
+            .defaultCase()
+            .withId(undefined)
+            .withIncidentDate("2012-12-01")
+            .withFirstContactDate("2012-12-02")
+            .withComplainantCivilians([complainantCivilian])
+            .withComplainantOfficers([complainantCaseOfficer]),
+          {
+            include: [
+              {
+                model: models.civilian,
+                as: "complainantCivilians",
+                auditUser: "someone"
+              },
+              {
+                model: models.case_officer,
+                as: "complainantOfficers",
+                auditUser: "someone"
+              }
+            ],
+            auditUser: "someone",
+            permissions: USER_PERMISSIONS.MANAGE_TAGS
+          }
+        );
+      });
 
-    // test("cannot view known anonymous complainant", async () => {
-    //   const sortedCase = await models.sortable_cases_view.findOne({
-    //     where: { id: existingCase.id }
-    //   });
-    //   console.log(sortedCase);
-    //   expect(sortedCase.complainantFirstName).toEqual("");
-    //   expect(sortedCase.complainantLastName).toEqual("");
-    //   expect(sortedCase.complainantMiddleName).toEqual("");
-    //   expect(sortedCase.complainantSuffix).toEqual("");
-    //   expect(sortedCase.complainantIsAnonymous).toEqual(true);
-    // });
-    // });
+      test("cannot view known anonymous complainant", async () => {
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+
+        expect(sortedCase.dataValues.complainantFirstName).toEqual("Anonymous");
+        // expect(sortedCase.complainantLastName).toEqual("");
+        // expect(sortedCase.complainantMiddleName).toEqual("");
+        // expect(sortedCase.complainantSuffix).toEqual("");
+        expect(sortedCase.complainantIsAnonymous).toEqual(
+          complainantCivilian.isAnonymous
+        );
+      });
+    });
 
     describe("with permissions", () => {
       beforeEach(async () => {

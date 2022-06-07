@@ -42,8 +42,7 @@ const getCases = async (
   sortBy,
   sortDirection,
   transaction = null,
-  page = null,
-  permissions
+  page = null
 ) => {
   const order = [
     ...getSortingOrderForQuery(sortBy, sortDirection),

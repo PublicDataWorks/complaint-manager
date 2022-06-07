@@ -66,7 +66,7 @@ describe("getCaseHelpers", () => {
           );
         }
       );
-      console.log(caseDetails.complainantCivilians[0]);
+
       expect(caseDetails.complainantCivilians[0].firstName).toEqual(
         "Anonymous"
       );
