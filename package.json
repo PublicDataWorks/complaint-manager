@@ -102,7 +102,7 @@
     "moment": "2.29.2",
     "moment-timezone": "~0.5.34",
     "nanoid": "^3.2.0",
-    "newrelic": "7.5.0",
+    "newrelic": "8.14.0",
     "node-cache": "^5.1.0",
     "path": "^0.12.7",
     "pg": "8.6.0",
