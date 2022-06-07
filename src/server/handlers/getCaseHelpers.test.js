@@ -67,11 +67,13 @@ describe("getCaseHelpers", () => {
         }
       );
       console.log(caseDetails.complainantCivilians[0]);
-      expect(caseDetails.complainantCivilians[0].firstName).toEqual("");
+      expect(caseDetails.complainantCivilians[0].firstName).toEqual(
+        "Anonymous"
+      );
       expect(caseDetails.complainantCivilians[0].middleInitial).toEqual("");
       expect(caseDetails.complainantCivilians[0].lastName).toEqual("");
       expect(caseDetails.complainantCivilians[0].suffix).toEqual("");
-      expect(caseDetails.complainantCivilians[0].fullName).toEqual("");
+      expect(caseDetails.complainantCivilians[0].fullName).toEqual("Anonymous");
       expect(caseDetails.complainantCivilians[0].birthDate).toEqual("");
       expect(caseDetails.complainantCivilians[0].phoneNumber).toEqual("");
       expect(caseDetails.complainantCivilians[0].email).toEqual("");
@@ -99,12 +101,10 @@ describe("getCaseHelpers", () => {
       );
 
       expect(caseDetails.complainantOfficers[0].officerId).toEqual("");
-      expect(caseDetails.complainantOfficers[0].firstName).toEqual("");
+      expect(caseDetails.complainantOfficers[0].firstName).toEqual("Anonymous");
       expect(caseDetails.complainantOfficers[0].middleName).toEqual("");
       expect(caseDetails.complainantOfficers[0].lastName).toEqual("");
-      expect(caseDetails.complainantOfficers[0].fullName).toEqual(
-        "Unknown Officer"
-      );
+      expect(caseDetails.complainantOfficers[0].fullName).toEqual("Anonymous");
       expect(caseDetails.complainantOfficers[0].phoneNumber).toEqual("");
       expect(caseDetails.complainantOfficers[0].email).toEqual("");
     });

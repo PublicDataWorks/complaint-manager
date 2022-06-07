@@ -664,7 +664,6 @@ describe("getCases", () => {
           .withLastName("Shane")
           .withRaceEthnicityId(raceEthnicity.id)
           .withRoleOnCase(COMPLAINANT)
-          //   .withIsAnonymous(true)
           .withNoAddress()
           .withId(undefined)
           .withCaseId(undefined);
@@ -918,23 +917,61 @@ describe("getCases", () => {
           })
         ]);
       });
-    });
 
-    // describe("without permissions", () => {
-    //   test("should not see an anonymous civilian/'s data", async () => {
-    //     const cases = await models.sequelize.transaction(async transaction => {
-    //       return await getCases(
-    //         CASES_TYPE.WORKING,
-    //         transaction,
-    //         ASCENDING,
-    //         null,
-    //         1,
-    //         USER_PERMISSIONS.MANAGE_TAGS
-    //       );
-    //     });
-    //     expect(cases.complainantFirstName).toEqual("");
-    //   });
-    // });
+      //   describe("without permissions", () => {
+      //     test("should not see an anonymous civilian/'s data", async () => {
+      //       const anonymousComplainantCivilian = new Civilian.Builder()
+      //         .defaultCivilian()
+      //         // .withFirstName("Shane")
+      //         // .withRaceEthnicityId(raceEthnicity.id)
+      //         .withRoleOnCase(COMPLAINANT)
+      //         .withIsAnonymous(true)
+      //         // .withNoAddress()
+      //         .withId(undefined)
+      //         .withCaseId(undefined);
+
+      //       firstCaseWithCivilian = await models.cases.create(
+      //         new Case.Builder()
+      //           .defaultCase()
+      //           .withId(undefined)
+      //           .withIncidentDate("2012-12-01")
+      //           .withFirstContactDate("2012-12-02")
+      //           .withComplainantCivilians([anonymousComplainantCivilian]),
+      //         {
+      //           include: [
+      //             {
+      //               model: models.civilian,
+      //               as: "complainantCivilians",
+      //               auditUser: "someone"
+      //             }
+      //           ],
+      //           auditUser: "someone",
+      //           permissions: USER_PERMISSIONS.MANAGE_TAGS
+      //         }
+      //       );
+      //       console.log("firstCaseWithCivilian: ", firstCaseWithCivilian);
+
+      //       const cases = await getCases(
+      //         CASES_TYPE.WORKING,
+      //         SORT_CASES_BY.PRIMARY_COMPLAINANT,
+      //         DESCENDING
+      //       );
+      //       console.log("cases: ", cases);
+      //       expect(firstCaseWithCivilian).toEqual(true);
+      //       // const cases = await models.sequelize.transaction(async transaction => {
+      //       //   return await getCases(
+      //       //     CASES_TYPE.WORKING,
+      //       //     transaction,
+      //       //     ASCENDING,
+      //       //     null,
+      //       //     1,
+      //       //     USER_PERMISSIONS.MANAGE_TAGS
+      //       //   );
+      //       // });
+      //       // expect(cases.complainantFirstName).toEqual("Anonymous");
+      //     });
+      //   });
+    });
 
     describe("by first contact date", () => {
       let earlierCase, laterCase, middleCase;

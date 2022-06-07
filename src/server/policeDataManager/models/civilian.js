@@ -137,7 +137,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Civilian.prototype.anonymizeCivilian = function () {
     if (this.isAnonymous) {
-      this.firstName = "";
+      this.firstName = "Anonymous";
       this.middleInitial = "";
       this.lastName = "";
       this.suffix = "";
