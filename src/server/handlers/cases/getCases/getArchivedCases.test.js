@@ -47,7 +47,8 @@ describe("getArchivedCases", () => {
       "by",
       "direction",
       expect.anything(),
-      2
+      2,
+      undefined
     );
   });
   describe("auditing", () => {
