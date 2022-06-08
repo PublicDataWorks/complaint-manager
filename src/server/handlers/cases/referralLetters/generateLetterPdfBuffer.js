@@ -7,7 +7,7 @@ import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../audits/getQueryAuditAccessDetails";
 require("../../../handlebarHelpers");
-import { retrieveLetterImage } from "./retrieveLetterImage"
+import { retrieveLetterImage } from "./retrieveLetterImage";
 
 const generateLetterPdfBuffer = async (
   caseId,
@@ -17,7 +17,12 @@ const generateLetterPdfBuffer = async (
   getDataArgs
 ) => {
   let letterBody, auditDetails;
-  if (letterSettings.hasEditPage) {
+
+  const letterType = await models.letter_types.findOne({
+    where: { type: letterSettings.type }
+  });
+
+  if (letterType.editableTemplate) {
     const queryOptions = {
       where: { caseId },
       attributes: ["editedLetterHtml"],
@@ -26,17 +31,14 @@ const generateLetterPdfBuffer = async (
     let letterData = await models.referral_letter.findOne(queryOptions);
     letterBody = letterData.editedLetterHtml;
 
-    if (letterBody) {
-      auditDetails = getQueryAuditAccessDetails(
-        queryOptions,
-        models.referral_letter.name
-      );
-    } else {
-      const letterBodyAndAuditDetails =
-        await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
-      letterBody = letterBodyAndAuditDetails.referralLetterBody;
-      auditDetails = letterBodyAndAuditDetails.auditDetails;
-    }
+    ({ html: letterBody, auditDetails } = await determineLetterBody(
+      letterBody,
+      () =>
+        getQueryAuditAccessDetails(queryOptions, models.referral_letter.name),
+      letterType,
+      caseId,
+      transaction
+    ));
   }
 
   const pdfDataAndAuditDetails = await letterSettings.getData(
@@ -50,7 +52,8 @@ const generateLetterPdfBuffer = async (
     letterBody,
     pdfData,
     includeSignature,
-    letterSettings
+    letterSettings,
+    letterType.template
   );
 
   auditDetails = auditDetails
@@ -67,7 +70,8 @@ export const generateLetterPdfHtml = async (
   letterBody,
   pdfData,
   includeSignature,
-  letterSettings
+  letterSettings,
+  template
 ) => {
   const currentDate = Date.now();
 
@@ -88,11 +92,32 @@ export const generateLetterPdfHtml = async (
     largeIcon
   };
 
-  const rawTemplate = fs.readFileSync(
-    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/${letterSettings.templateFile}`
-  );
-  const compiledTemplate = Handlebars.compile(rawTemplate.toString());
+  const compiledTemplate = Handlebars.compile(template);
   return compiledTemplate(letterPdfData);
+};
+
+export const determineLetterBody = async (
+  letterBody,
+  auditIfEdited,
+  letterType,
+  caseId,
+  transaction
+) => {
+  let auditDetails, html;
+  if (letterBody) {
+    html = letterBody;
+    auditDetails = auditIfEdited();
+  } else {
+    const letterBodyAndAuditDetails =
+      await generateReferralLetterBodyAndAuditDetails(
+        caseId,
+        letterType.editableTemplate,
+        transaction
+      );
+    html = letterBodyAndAuditDetails.referralLetterBody;
+    auditDetails = letterBodyAndAuditDetails.auditDetails;
+  }
+  return { html, auditDetails };
 };
 
 export default generateLetterPdfBuffer;

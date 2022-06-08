@@ -22,9 +22,9 @@ const getReferralLetterEditStatus = asyncMiddleware(
 
       let editStatus = { editStatus: null };
       if (referralLetter) {
-        editStatus.editStatus = editStatusFromHtml(
-          referralLetter.editedLetterHtml
-        );
+        editStatus.editStatus = referralLetter.editedLetterHtml
+          ? EDIT_STATUS.EDITED
+          : EDIT_STATUS.GENERATED;
       }
 
       const auditDetails = {
@@ -49,12 +49,5 @@ const getReferralLetterEditStatus = asyncMiddleware(
     response.status(200).send(editStatus);
   }
 );
-
-export const editStatusFromHtml = editedLetterHtml => {
-  if (editedLetterHtml != null) {
-    return EDIT_STATUS.EDITED;
-  }
-  return EDIT_STATUS.GENERATED;
-};
 
 export default getReferralLetterEditStatus;

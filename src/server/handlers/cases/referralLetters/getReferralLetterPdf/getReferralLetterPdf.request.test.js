@@ -1,3 +1,4 @@
+import fs from "fs";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -8,6 +9,8 @@ import models from "../../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+import Signer from "../../../../../sharedTestHelpers/signer";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
@@ -30,6 +33,37 @@ describe("Generate referral letter pdf", () => {
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
+
+    const signerAttr = new Signer.Builder()
+      .defaultSigner()
+      .withName("Nina Ambroise")
+      .withTitle("Acting Police Monitor")
+      .withSignatureFile("nina_ambroise.png")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      const signer = await models.signers.create(signerAttr, {
+        auditUser: "user",
+        transaction
+      });
+    });
+
+    const referralLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+    );
+
+    const letterBodyTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+    );
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withEditableTemplate(letterBodyTemplate.toString())
+        .withType("REFERRAL")
+        .withTemplate(referralLetterTemplate.toString())
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

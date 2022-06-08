@@ -49,7 +49,6 @@ export const generateComplainantLetterAndUploadToS3 = async (
       true,
       transaction,
       {
-        hasEditPage: false,
         getSignature: async ({ sender }) => {
           return await retrieveSignatureImage(
             sender ? sender.signatureFile : undefined
@@ -61,7 +60,7 @@ export const generateComplainantLetterAndUploadToS3 = async (
             auditDetails: {}
           };
         },
-        templateFile: "complainantLetterPdf.tpl"
+        type: 'COMPLAINANT'
       },
       { caseId: existingCase.id, complainant: primaryComplainant }
     );

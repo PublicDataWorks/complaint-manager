@@ -4,6 +4,8 @@ class LetterType {
   constructor(build) {
     this.id = build.id;
     this.type = build.type;
+    this.template = build.template;
+    this.editableTemplate = build.editableTemplate;
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
       : build.defaultSender.id;
@@ -14,8 +16,9 @@ class LetterType {
     class Builder {
       defaultLetterType() {
         this.id = 17;
-        this.type = "Referral";
+        this.type = "REFERRAL";
         this.defaultSender = new Signer.Builder().defaultSigner().build();
+        this.template = "";
         return this;
       }
 
@@ -25,7 +28,17 @@ class LetterType {
       }
 
       withType(type) {
-        this.type = type;
+        this.type = type?.toUpperCase();
+        return this;
+      }
+
+      withTemplate(template) {
+        this.template = template;
+        return this;
+      }
+
+      withEditableTemplate(editableTemplate) {
+        this.editableTemplate = editableTemplate;
         return this;
       }
 

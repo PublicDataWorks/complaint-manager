@@ -33,9 +33,15 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         auditUser: "user",
         transaction
       });
+
+      const complainantLetterTemplate = fs.readFileSync(
+        `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+      );
+
       const letterAttr = new LetterType.Builder()
         .defaultLetterType()
         .withType("COMPLAINANT")
+        .withTemplate(complainantLetterTemplate.toString())
         .withDefaultSender(signer)
         .build();
       await models.letter_types.create(letterAttr, {
@@ -92,7 +98,6 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         true,
         transaction,
         {
-          hasEditPage: false,
           getSignature: async ({ sender }) => {
             return await retrieveSignatureImage(
               sender ? sender.signatureFile : undefined
@@ -104,7 +109,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
               auditDetails: {}
             };
           },
-          templateFile: "complainantLetterPdf.tpl"
+          type: 'COMPLAINANT'
         },
         { caseId: existingCase.id, complainant }
       );

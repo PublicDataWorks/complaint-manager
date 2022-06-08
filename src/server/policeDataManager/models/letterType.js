@@ -1,4 +1,4 @@
-module.exports = (sequelize, DataTypes) => {
+module.exports = (sequelize, DataTypes) => { 
     const LetterType = sequelize.define("letter_types", {
       id: {
         allowNull: false,
@@ -9,6 +9,15 @@ module.exports = (sequelize, DataTypes) => {
       type: {
         type: DataTypes.STRING,
         allowNull: false
+      },
+      template: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      editableTemplate: {
+        type: DataTypes.STRING,
+        field: "editable_template",
+        allowNull: true
       },
       createdAt: {
         type: DataTypes.DATE,

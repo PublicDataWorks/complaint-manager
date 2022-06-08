@@ -1,3 +1,4 @@
+import fs from "fs";
 import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLetterAndUploadToS3";
 import {
   AUDIT_ACTION,
@@ -7,6 +8,8 @@ import {
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../sharedTestHelpers/case";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
+import Signer from "../../../../../sharedTestHelpers/signer";
 import models from "../../../../policeDataManager/models";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
@@ -25,6 +28,34 @@ describe("generateComplainantLetterAndUploadToS3", () => {
   let complainant, caseAttributes, existingCase;
 
   beforeEach(async () => {
+    const signerAttr = new Signer.Builder()
+      .defaultSigner()
+      .withName("Nina Ambroise")
+      .withTitle("Acting Police Monitor")
+      .withSignatureFile("stella_cziment.png")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      const signer = await models.signers.create(signerAttr, {
+        auditUser: "user",
+        transaction
+      });
+    });
+
+    const complainantLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(88373)
+        .withType("COMPLAINANT")
+        .withTemplate(complainantLetterTemplate.toString())
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
     complainant = {
       firstName: "firstName",
       lastName: "LastName",

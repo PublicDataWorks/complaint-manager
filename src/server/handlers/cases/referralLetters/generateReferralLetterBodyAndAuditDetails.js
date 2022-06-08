@@ -6,7 +6,7 @@ import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails"
 
 export const getReferralLetterCaseDataAndAuditDetails = async (
   caseId,
-  transaction
+  transaction,
 ) => {
   const queryOptions = {
     attributes: [
@@ -131,11 +131,10 @@ export const getReferralLetterCaseDataAndAuditDetails = async (
   return { caseData: caseData, auditDetails: auditDetails };
 };
 
-const referralLetterBodyPath = `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`;
-
 export const generateReferralLetterBodyAndAuditDetails = async (
   caseId,
-  transaction
+  letterBodyTemplate,
+  transaction,
 ) => {
   let caseData;
 
@@ -147,8 +146,7 @@ export const generateReferralLetterBodyAndAuditDetails = async (
     return officerA.createdAt > officerB.createdAt;
   });
 
-  const rawTemplate = fs.readFileSync(referralLetterBodyPath);
-  const compiledTemplate = Handlebars.compile(rawTemplate.toString());
+  const compiledTemplate = Handlebars.compile(letterBodyTemplate);
   return {
     referralLetterBody: compiledTemplate(caseData),
     auditDetails: caseDataAndAuditDetails.auditDetails

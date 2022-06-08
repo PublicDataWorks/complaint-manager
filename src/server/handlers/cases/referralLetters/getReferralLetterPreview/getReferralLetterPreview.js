@@ -10,12 +10,12 @@ import {
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import constructFilename from "../constructFilename";
-import { editStatusFromHtml } from "../getReferralLetterEditStatus/getReferralLetterEditStatus";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../../audits/getQueryAuditAccessDetails";
 import _ from "lodash";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import { determineLetterBody } from "../generateLetterPdfBuffer";
 
 require("../../../../handlebarHelpers");
 const {
@@ -33,6 +33,7 @@ const getReferralLetterPreview = asyncMiddleware(
     await models.sequelize.transaction(async transaction => {
       // update sender to the logged in user if the logged in user is an authorized sender
       let sender = Object.values(signatureKeys).find(
+        // TODO use signers table for this
         key => key.nickname === request.nickname
       );
       if (sender) {
@@ -51,16 +52,18 @@ const getReferralLetterPreview = asyncMiddleware(
       const referralLetterAuditDetails =
         referralLetterAndAuditDetails.auditDetails;
 
-      const editStatus = editStatusFromHtml(referralLetter.editedLetterHtml);
+      const letterType = await models.letter_types.findOne({
+        where: { type: "REFERRAL" }
+      });
 
-      const htmlAndAuditDetails = await getHtmlAndAuditDetails(
-        editStatus,
-        caseId,
-        referralLetter,
-        transaction
-      );
-      const html = htmlAndAuditDetails.html;
-      const referralLetterBodyAuditDetails = htmlAndAuditDetails.auditDetails;
+      const { html, auditDetails: referralLetterBodyAuditDetails } =
+        await determineLetterBody(
+          referralLetter.editedLetterHtml,
+          () => ({}),
+          letterType,
+          caseId,
+          transaction
+        );
 
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
@@ -93,6 +96,9 @@ const getReferralLetterPreview = asyncMiddleware(
         REFERRAL_LETTER_VERSION.FINAL
       );
 
+      const editStatus = referralLetter.editedLetterHtml
+        ? EDIT_STATUS.EDITED
+        : EDIT_STATUS.GENERATED;
       const draftFilename = constructFilename(
         caseDetails,
         REFERRAL_LETTER_VERSION.DRAFT,
@@ -109,8 +115,8 @@ const getReferralLetterPreview = asyncMiddleware(
       response.send({
         letterHtml: html,
         addresses: letterAddresses,
-        editStatus: editStatus,
-        lastEdited: lastEdited,
+        editStatus,
+        lastEdited,
         caseDetails: caseDetails,
         finalFilename: finalFilename,
         draftFilename: draftFilename
@@ -118,28 +124,6 @@ const getReferralLetterPreview = asyncMiddleware(
     });
   }
 );
-
-const getHtmlAndAuditDetails = async (
-  editStatus,
-  caseId,
-  referralLetter,
-  transaction
-) => {
-  let html, referralLetterBodyAuditDetails;
-
-  if (editStatus === EDIT_STATUS.EDITED) {
-    html = referralLetter.editedLetterHtml;
-    referralLetterBodyAuditDetails = {};
-  } else {
-    const referralLetterBodyAndAuditDetails =
-      await generateReferralLetterBodyAndAuditDetails(caseId, transaction);
-    html = referralLetterBodyAndAuditDetails.referralLetterBody;
-    referralLetterBodyAuditDetails =
-      referralLetterBodyAndAuditDetails.auditDetails;
-  }
-
-  return { html: html, auditDetails: referralLetterBodyAuditDetails };
-};
 
 const getReferralLetterAndAuditDetails = async (caseId, transaction) => {
   const referralLetterQueryOptions = {

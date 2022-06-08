@@ -1,5 +1,6 @@
 import getReferralLetterPreview from "./getReferralLetterPreview";
 import httpMocks from "node-mocks-http";
+import fs from "fs";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
@@ -24,12 +25,14 @@ import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Allegation from "../../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../../sharedTestHelpers/OfficerAllegation";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import constructFilename from "../constructFilename";
 import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
+import Signer from "../../../../../sharedTestHelpers/signer";
 
 jest.mock("../../../audits/auditDataAccess");
 
@@ -45,6 +48,24 @@ describe("getReferralLetterPreview", function () {
   });
 
   beforeEach(async () => {
+    const signer = await models.signers.create(
+      new Signer.Builder().defaultSigner().build(),
+      { auditUser: "user" }
+    );
+
+    const letterBodyTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+    );
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withEditableTemplate(letterBodyTemplate.toString())
+        .withType("REFERRAL")
+        .withDefaultSender(signer)
+        .build(),
+      { auditUser: "test" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)

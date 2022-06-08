@@ -3,7 +3,6 @@ import getQueryAuditAccessDetails from "../../../audits/getQueryAuditAccessDetai
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 export const REFERRAL_LETTER_OPTIONS = {
-  hasEditPage: true,
   getSignature: async args => {
     return await retrieveSignatureImageBySigner(args.sender);
   },
@@ -23,7 +22,7 @@ export const REFERRAL_LETTER_OPTIONS = {
       auditDetails: data.auditDetails
     };
   },
-  templateFile: "referralLetterPdf.tpl"
+  type: 'REFERRAL'
 };
 
 const getReferralLetterPdfData = async ({ caseId }, transaction) => {

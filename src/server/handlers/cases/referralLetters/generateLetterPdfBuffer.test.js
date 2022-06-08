@@ -1,6 +1,8 @@
 import generateLetterPdfBuffer, {
   generateLetterPdfHtml
 } from "./generateLetterPdfBuffer";
+import fs from "fs";
+import LetterType from "../../../../sharedTestHelpers/letterType";
 import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
 import timekeeper from "timekeeper";
 import models from "../../../policeDataManager/models";
@@ -70,7 +72,37 @@ describe("generateLetterPdfBuffer", () => {
     await models.sequelize.close();
   });
 
+  let referralLetterTemplate;
+  let letterBodyTemplate;
+
   beforeEach(async () => {
+
+    const signer = new Signer.Builder()
+      .defaultSigner()
+      .withName(SENDER_NAME)
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      await models.signers.create(signer, { auditUser: "user", transaction });
+    });
+    
+    referralLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+    );
+
+    letterBodyTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+    );
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withEditableTemplate(letterBodyTemplate.toString())
+        .withType("REFERRAL")
+        .withDefaultSender(signer)
+        .withTemplate(referralLetterTemplate.toString())
+        .build(),
+      { auditUser: "test" }
+    );
+
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
 
@@ -129,14 +161,6 @@ describe("generateLetterPdfBuffer", () => {
       { status: CASE_STATUS.LETTER_IN_PROGRESS },
       { auditUser: "test" }
     );
-
-    const signer = new Signer.Builder()
-      .defaultSigner()
-      .withName(SENDER_NAME)
-      .build();
-    await models.sequelize.transaction(async transaction => {
-      await models.signers.create(signer, { auditUser: "user", transaction });
-    });
   });
 
   test("generates letter pdf html correctly", async () => {
@@ -157,8 +181,9 @@ describe("generateLetterPdfBuffer", () => {
         getSignature: async args => {
           return await retrieveSignatureImageBySigner(args.sender);
         },
-        templateFile: "referralLetterPdf.tpl"
-      }
+        type: 'REFERRAL'
+      },
+      referralLetterTemplate.toString()
     );
     expect(letterPdfHtml).toMatchSnapshot();
   });
@@ -262,6 +287,7 @@ describe("generateLetterPdfBuffer", () => {
         );
         expect(generateReferralLetterBodyAndAuditDetails).toHaveBeenCalledWith(
           existingCase.id,
+          letterBodyTemplate.toString(),
           transaction
         );
       });

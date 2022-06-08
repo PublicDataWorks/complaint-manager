@@ -8,6 +8,7 @@ import { ACCUSED, COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Signer from "../../../../../sharedTestHelpers/signer";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 import getReferralLetterPdfData from "./getReferralLetterPdfData";
@@ -36,6 +37,24 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         transaction
       });
     });
+
+    const referralLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+    );
+
+    const letterBodyTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+    );
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withEditableTemplate(letterBodyTemplate.toString())
+        .withType("REFERRAL")
+        .withTemplate(referralLetterTemplate.toString())
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {
@@ -104,7 +123,6 @@ describe("Compare Generated Referral Letter to Baseline", () => {
     let { pdfBuffer } = await models.sequelize.transaction(
       async transaction =>
         await generateLetterPdfBuffer(letterCase.id, true, transaction, {
-          hasEditPage: true,
           getSignature: async args => {
             return await retrieveSignatureImageBySigner(args.sender);
           },
@@ -125,7 +143,7 @@ describe("Compare Generated Referral Letter to Baseline", () => {
               auditDetails: data.auditDetails
             };
           },
-          templateFile: "referralLetterPdf.tpl"
+          type: "REFERRAL"
         })
     );
     let file = process.cwd() + "/src/testPDFs/referralLetter.pdf";

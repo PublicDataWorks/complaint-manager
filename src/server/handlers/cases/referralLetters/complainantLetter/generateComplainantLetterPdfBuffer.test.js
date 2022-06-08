@@ -1,3 +1,4 @@
+import fs from "fs";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import timekeeper from "timekeeper";
@@ -103,6 +104,10 @@ beforeEach(async () => {
     { auditUser: "test" }
   );
 
+  const complainantLetterTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+  );
+
   const signer = new Signer.Builder()
     .defaultSigner()
     .withName(SENDER_NAME)
@@ -116,6 +121,7 @@ beforeEach(async () => {
         .defaultLetterType()
         .withType("COMPLAINANT")
         .withDefaultSender(signer)
+        .withTemplate(complainantLetterTemplate.toString())
         .build(),
       { auditUser: "user", transaction }
     );
@@ -130,7 +136,6 @@ describe("generateComplainantLetterPdfBuffer", function () {
         true,
         transaction,
         {
-          hasEditPage: false,
           getSignature: async ({ sender }) => {
             return await retrieveSignatureImage(
               sender ? sender.signatureFile : undefined
@@ -142,7 +147,7 @@ describe("generateComplainantLetterPdfBuffer", function () {
               auditDetails: {}
             };
           },
-          templateFile: "complainantLetterPdf.tpl"
+          type: "COMPLAINANT"
         },
         { caseId: existingCase.id, complainant }
       );

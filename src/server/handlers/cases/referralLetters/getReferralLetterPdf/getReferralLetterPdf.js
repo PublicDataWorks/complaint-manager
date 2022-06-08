@@ -8,7 +8,6 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
-import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 const getReferralLetterPdf = asyncMiddleware(
   async (request, response, next) => {

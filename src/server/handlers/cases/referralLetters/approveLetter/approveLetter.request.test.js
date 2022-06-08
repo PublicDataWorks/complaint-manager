@@ -1,4 +1,5 @@
 import request from "supertest";
+import fs from "fs";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
 import {
@@ -18,6 +19,8 @@ import {
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+import Signer from "../../../../../sharedTestHelpers/signer";
+import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
@@ -35,6 +38,53 @@ describe("Approve referral letter", () => {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("letter:setup", "some_nickname");
+
+    const signerAttr = new Signer.Builder()
+      .defaultSigner()
+      .withName("Nina Ambroise")
+      .withTitle("Acting Police Monitor")
+      .withSignatureFile("stella_cziment.png")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      const signer = await models.signers.create(signerAttr, {
+        auditUser: "user",
+        transaction
+      });
+    });
+
+    const referralLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+    );
+
+    const letterBodyTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+    );
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withEditableTemplate(letterBodyTemplate.toString())
+        .withType("REFERRAL")
+        .withTemplate(referralLetterTemplate.toString())
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
+    const complainantLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(88373)
+        .withType("COMPLAINANT")
+        .withTemplate(complainantLetterTemplate.toString())
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
     const complainantOfficerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
