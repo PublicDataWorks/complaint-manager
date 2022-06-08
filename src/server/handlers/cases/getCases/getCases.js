@@ -78,7 +78,7 @@ const getCases = async (
   );
 
   if (
-    permissions &&
+    !permissions ||
     !permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)
   ) {
     sortableCases.rows.forEach(c => {
