@@ -77,16 +77,22 @@ const getCases = async (
     queryOptions
   );
 
-  sortableCases.rows.forEach(c => {
-    if (c.dataValues.complainantIsAnonymous) {
-      if (c.dataValues.firstName !== "") {
-        c.dataValues.complainantFirstName = "Anonymous";
+  if (
+    permissions &&
+    !permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)
+  ) {
+    sortableCases.rows.forEach(c => {
+      if (c.dataValues.complainantIsAnonymous) {
+        if (c.dataValues.complainantFirstName !== "") {
+          console.log(c.dataValues.complainantFirstName);
+          c.dataValues.complainantFirstName = "Anonymous";
+        }
+        c.dataValues.complainantLastName = "";
+        c.dataValues.complainantMiddleName = "";
+        c.dataValues.complainantSuffix = "";
       }
-      c.dataValues.complainantLastName = "";
-      c.dataValues.complainantMiddleName = "";
-      c.dataValues.complainantSuffix = "";
-    }
-  });
+    });
+  }
   return sortableCases;
 };
 
