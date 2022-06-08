@@ -83,6 +83,25 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].genderIdentity).toEqual(null);
     });
 
+    test("should see unknown for anonymous unknown civillians", async () => {
+      await createAnonymousUnknownCivilian(
+        existingCase,
+        COMPLAINANT,
+        new Date("2018-01-01")
+      );
+      const { caseDetails } = await models.sequelize.transaction(
+        async transaction => {
+          return await getCaseWithAllAssociationsAndAuditDetails(
+            existingCase.id,
+            transaction,
+            USER_PERMISSIONS.MANAGE_TAGS
+          );
+        }
+      );
+
+      expect(caseDetails.complainantCivilians[0].firstName).toEqual("");
+    });
+
     test("should not see an anonymous officer/'s data", async () => {
       await createAnonymousCaseOfficer(
         existingCase,
@@ -404,6 +423,26 @@ const createAnonymousCivilian = async (existingCase, role, dateCreated) => {
     .defaultCivilian()
     .withCaseId(existingCase.id)
     .withId(undefined)
+    .withRoleOnCase(role)
+    .withCreatedAt(dateCreated)
+    .withIsAnonymous(true);
+
+  await models.civilian.create(civilianAttributes, {
+    auditUser: "anonymous someone"
+  });
+};
+
+const createAnonymousUnknownCivilian = async (
+  existingCase,
+  role,
+  dateCreated
+) => {
+  const civilianAttributes = new Civilian.Builder()
+    .defaultCivilian()
+    .withCaseId(existingCase.id)
+    .withId(undefined)
+    .withFirstName("")
+    .withLastName("")
     .withRoleOnCase(role)
     .withCreatedAt(dateCreated)
     .withIsAnonymous(true);
