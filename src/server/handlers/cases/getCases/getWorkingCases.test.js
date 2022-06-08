@@ -56,7 +56,8 @@ describe("getWorkingCases", () => {
       "by",
       "direction",
       expect.anything(),
-      2
+      2,
+      undefined
     );
   });
 
