@@ -84,7 +84,6 @@ const getCases = async (
     sortableCases.rows.forEach(c => {
       if (c.dataValues.complainantIsAnonymous) {
         if (c.dataValues.complainantFirstName !== "") {
-          console.log(c.dataValues.complainantFirstName);
           c.dataValues.complainantFirstName = "Anonymous";
         }
         c.dataValues.complainantLastName = "";
