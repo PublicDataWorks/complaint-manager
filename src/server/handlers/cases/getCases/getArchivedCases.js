@@ -18,7 +18,8 @@ const getArchivedCases = asyncMiddleware(async (request, response) => {
       sortBy,
       sortDirection,
       transaction,
-      page
+      page,
+      request.permissions
     );
 
     await auditDataAccess(

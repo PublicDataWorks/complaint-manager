@@ -933,7 +933,7 @@ describe("getCases", () => {
               .withId(undefined)
               .withIncidentDate("2012-12-01")
               .withFirstContactDate("2012-12-02")
-              .withComplainantCivilians(anonymousComplainantCivilian),
+              .withComplainantCivilians([anonymousComplainantCivilian]),
             {
               include: [
                 {
@@ -942,37 +942,113 @@ describe("getCases", () => {
                   auditUser: "someone"
                 }
               ],
-              auditUser: "someone",
-              permissions: USER_PERMISSIONS.MANAGE_TAGS
+              auditUser: "someone"
             }
           );
 
           const cases = await getCases(
             CASES_TYPE.WORKING,
             SORT_CASES_BY.PRIMARY_COMPLAINANT,
-            DESCENDING
+            DESCENDING,
+            null,
+            null,
+            USER_PERMISSIONS.ADD_TAG_TO_CASE
           );
 
-          const findCase = await models.cases.findOne({
-            where: { id: firstCaseWithCivilian.id }
-          });
-          // console.log("findCase: ", findCase.dataValues);
+          const theCase = cases.rows.find(
+            c => c.id === firstCaseWithCivilian.id
+          );
 
-          const sortedCase = await models.sortable_cases_view.findOne({
-            where: { id: firstCaseWithCivilian.id }
-          });
-          // console.log("sortedCase: ", sortedCase.dataValues);
+          expect(theCase.complainantFirstName).toEqual("Anonymous");
+        });
+        test("should see unknown for anonymous unkown civillians", async () => {
+          const anonymousComplainantCivilian = new Civilian.Builder()
+            .defaultCivilian()
+            .withRoleOnCase(COMPLAINANT)
+            .withIsAnonymous(true)
+            .withFirstName("")
+            .withLastName("")
+            .withId(undefined)
+            .withCaseId(undefined);
 
-          const findCivilian = await models.civilian.findOne({
-            where: { caseId: firstCaseWithCivilian.id }
-          });
-          console.log("findCivilian: ", findCivilian);
+          firstCaseWithCivilian = await models.cases.create(
+            new Case.Builder()
+              .defaultCase()
+              .withId(undefined)
+              .withIncidentDate("2012-12-01")
+              .withFirstContactDate("2012-12-02")
+              .withComplainantCivilians([anonymousComplainantCivilian]),
+            {
+              include: [
+                {
+                  model: models.civilian,
+                  as: "complainantCivilians",
+                  auditUser: "someone"
+                }
+              ],
+              auditUser: "someone"
+            }
+          );
 
-          expect(
-            firstCaseWithCivilian.dataValues.complainantCivilians[0].dataValues
-              .firstName
-          ).toEqual("Anonymous");
-          expect(anonymousComplainantCivilian).toEqual("Anonymous");
+          const cases = await getCases(
+            CASES_TYPE.WORKING,
+            SORT_CASES_BY.PRIMARY_COMPLAINANT,
+            DESCENDING,
+            null,
+            null,
+            USER_PERMISSIONS.ADD_TAG_TO_CASE
+          );
+
+          const theCase = cases.rows.find(
+            c => c.id === firstCaseWithCivilian.id
+          );
+
+          expect(theCase.complainantFirstName).toEqual("");
+        });
+      });
+
+      describe("with permissions", () => {
+        test("should see an anonymous civilian/'s data", async () => {
+          const anonymousComplainantCivilian = new Civilian.Builder()
+            .defaultCivilian()
+            .withRoleOnCase(COMPLAINANT)
+            .withIsAnonymous(true)
+            .withId(undefined)
+            .withCaseId(undefined);
+
+          firstCaseWithCivilian = await models.cases.create(
+            new Case.Builder()
+              .defaultCase()
+              .withId(undefined)
+              .withIncidentDate("2012-12-01")
+              .withFirstContactDate("2012-12-02")
+              .withComplainantCivilians([anonymousComplainantCivilian]),
+            {
+              include: [
+                {
+                  model: models.civilian,
+                  as: "complainantCivilians",
+                  auditUser: "someone"
+                }
+              ],
+              auditUser: "someone"
+            }
+          );
+
+          const cases = await getCases(
+            CASES_TYPE.WORKING,
+            SORT_CASES_BY.PRIMARY_COMPLAINANT,
+            DESCENDING,
+            null,
+            null,
+            USER_PERMISSIONS.VIEW_ANONYMOUS_DATA
+          );
+
+          const theCase = cases.rows.find(
+            c => c.id === firstCaseWithCivilian.id
+          );
+
+          expect(theCase.complainantFirstName).toEqual("Chuck");
         });
       });
     });
