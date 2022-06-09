@@ -1,4 +1,5 @@
 import app from "../../server/server";
+import fs from "fs";
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
@@ -6,7 +7,11 @@ import models from "../../server/policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
-import { ACCUSED, CASE_STATUS, COMPLAINANT } from "../../sharedUtilities/constants";
+import {
+  ACCUSED,
+  CASE_STATUS,
+  COMPLAINANT
+} from "../../sharedUtilities/constants";
 import IntakeSource from "../../server/testHelpers/intakeSource";
 import ReferralLetterCaseClassification from "../../sharedTestHelpers/ReferralLetterCaseClassification";
 import ReferralLetter from "../../server/testHelpers/ReferralLetter";
@@ -14,6 +19,8 @@ import LetterOfficer from "../../server/testHelpers/LetterOfficer";
 import { updateCaseStatus } from "../../server/handlers/data/queries/queryHelperFunctions";
 import { random } from "lodash";
 import Civilian from "../../sharedTestHelpers/civilian";
+import LetterType from "../../sharedTestHelpers/letterType";
+import Signer from "../../sharedTestHelpers/signer";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -100,13 +107,13 @@ const setupLetter = async letterCase => {
 const addCivilianComplainantToCase = async theCase => {
   return await models.civilian.create(
     new Civilian.Builder()
-    .defaultCivilian()
-    .withCaseId(theCase.id)
-    .withRoleOnCase(COMPLAINANT)
-    .build(),
-    {auditUser: "user"}
-    );
-}
+      .defaultCivilian()
+      .withCaseId(theCase.id)
+      .withRoleOnCase(COMPLAINANT)
+      .build(),
+    { auditUser: "user" }
+  );
+};
 
 const addOfficerHistoryToReferralLetter = async letter => {
   const officer = await models.officer.create(
@@ -123,35 +130,35 @@ const addOfficerHistoryToReferralLetter = async letter => {
       .withId(64),
     { auditUser: "user" }
   );
-  
+
   const officerHistory = await models.officer_history_option.create(
-    {name: "yes"},
-    {auditUser: "user"}
+    { name: "yes" },
+    { auditUser: "user" }
   );
 
   const letterOfficer = await models.letter_officer.create(
     new LetterOfficer.Builder()
-    .defaultLetterOfficer()
-    .withCaseOfficerId(caseOfficer.id)
-    .withOfficerHistoryOptionId(officerHistory.id),
-    {auditUser: "user"}
+      .defaultLetterOfficer()
+      .withCaseOfficerId(caseOfficer.id)
+      .withOfficerHistoryOptionId(officerHistory.id),
+    { auditUser: "user" }
   );
   return letterOfficer;
-}
+};
 const addClassificationsToCase = async theCase => {
-    const classification = await models.classification.create(
-     {id: 1, name: "spongebob", message: "i'm ready"},
-     {auditUser: "user"}
-    );
+  const classification = await models.classification.create(
+    { id: 1, name: "spongebob", message: "i'm ready" },
+    { auditUser: "user" }
+  );
 
-    await models.case_classification.create(
-      new ReferralLetterCaseClassification.Builder()
+  await models.case_classification.create(
+    new ReferralLetterCaseClassification.Builder()
       .defaultReferralLetterCaseClassification()
       .withCaseId(theCase.id)
       .withClassificationId(1),
-      {auditUser: "user"}
-    );
-}
+    { auditUser: "user" }
+  );
+};
 
 describe("Pact Verification", () => {
   let server;
@@ -165,7 +172,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  test("validates the expectations of get case details", async () => {
+  test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
       providerBaseUrl: "http://localhost:8989",
@@ -177,42 +184,86 @@ describe("Pact Verification", () => {
           "../../../pact/pacts/complaint-manager.client-complaint-manager.server.json"
         )
       ],
+      beforeEach: async () => {
+        await cleanupDatabase();
+
+        const signerAttr = new Signer.Builder()
+          .defaultSigner()
+          .withName("Nina Ambroise")
+          .withTitle("Acting Police Monitor")
+          .withSignatureFile("stella_cziment.png")
+          .build();
+        await models.sequelize.transaction(async transaction => {
+          const signer = await models.signers.create(signerAttr, {
+            auditUser: "user",
+            transaction
+          });
+        });
+
+        const referralLetterTemplate = fs.readFileSync(
+          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+        );
+
+        const letterBodyTemplate = fs.readFileSync(
+          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+        );
+        await models.letter_types.create(
+          new LetterType.Builder()
+            .defaultLetterType()
+            .withEditableTemplate(letterBodyTemplate.toString())
+            .withType("REFERRAL")
+            .withTemplate(referralLetterTemplate.toString())
+            .withDefaultSender(signerAttr)
+            .build(),
+          { auditUser: "test" }
+        );
+
+        const complainantLetterTemplate = fs.readFileSync(
+          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+        );
+
+        await models.letter_types.create(
+          new LetterType.Builder()
+            .defaultLetterType()
+            .withId(88373)
+            .withType("COMPLAINANT")
+            .withTemplate(complainantLetterTemplate.toString())
+            .withDefaultSender(signerAttr)
+            .build(),
+          { auditUser: "test" }
+        );
+      },
       stateHandlers: {
         "Case exists": async () => {
-          await cleanupDatabase();
           await setupCase();
         },
         "letter is ready for review": async () => {
-          await cleanupDatabase();
           const letterCase = await setupCase();
           await setupLetter(letterCase);
         },
         "letter is ready for review: officer history added": async () => {
-          await cleanupDatabase();
           const letterCase = await setupCase();
           const letter = await setupLetter(letterCase);
           await addOfficerHistoryToReferralLetter(letter);
         },
-        "letter is ready for review: officer history added: classifications added": async () => {
-          await cleanupDatabase();
-          const letterCase = await setupCase();
-          const letter = await setupLetter(letterCase);
-          try {
-            await addOfficerHistoryToReferralLetter(letter);
-            await addClassificationsToCase(letterCase);
-          } catch(e) {
-            console.log(e);
-            throw e;
-          }
-        },
+        "letter is ready for review: officer history added: classifications added":
+          async () => {
+            const letterCase = await setupCase();
+            const letter = await setupLetter(letterCase);
+            try {
+              await addOfficerHistoryToReferralLetter(letter);
+              await addClassificationsToCase(letterCase);
+            } catch (e) {
+              console.log(e);
+              throw e;
+            }
+          },
         "letter is ready for review: with civilian complainant": async () => {
-          await cleanupDatabase();
           const letterCase = await setupCase();
           await setupLetter(letterCase);
           await addCivilianComplainantToCase(letterCase);
         }
       }
-
     };
 
     const output = await new Verifier(opts).verifyProvider();
