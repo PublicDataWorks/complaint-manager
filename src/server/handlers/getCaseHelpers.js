@@ -162,8 +162,8 @@ const getCaseDetailsAndAuditDetails = async (
       anonymizeRace(civilian);
       anonymizeGender(civilian);
       civilian.civilianTitleId = null;
-      console.log("civilian: ", civilian);
     });
+
     caseDetails.dataValues.witnessCivilians.forEach(civilian => {
       civilian.anonymizeCivilian();
       anonymizeAddress(civilian);
@@ -171,9 +171,11 @@ const getCaseDetailsAndAuditDetails = async (
       anonymizeGender(civilian);
       civilian.civilianTitleId = null;
     });
+
     caseDetails.dataValues.complainantOfficers.forEach(officer =>
       officer.anonymizeOfficer()
     );
+
     caseDetails.dataValues.witnessOfficers.forEach(officer =>
       officer.anonymizeOfficer()
     );
