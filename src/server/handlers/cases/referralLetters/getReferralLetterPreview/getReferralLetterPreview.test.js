@@ -49,7 +49,12 @@ describe("getReferralLetterPreview", function () {
 
   beforeEach(async () => {
     const signer = await models.signers.create(
-      new Signer.Builder().defaultSigner().build(),
+      new Signer.Builder().defaultSigner()
+      .withPhone("555-555-5555")
+      .withName("bob")
+      .withNickname("bobjo")
+      .withTitle("title")
+      .build(),
       { auditUser: "user" }
     );
 
@@ -141,7 +146,7 @@ describe("getReferralLetterPreview", function () {
       expect(responseBody.addresses).toEqual({
         recipient: "recipient title and name",
         recipientAddress: "recipient address",
-        sender: "sender address",
+        sender: "bob\ntitle\n555-555-5555",
         transcribedBy: "transcriber"
       });
     });

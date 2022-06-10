@@ -18,12 +18,6 @@ import auditDataAccess from "../../../audits/auditDataAccess";
 import { determineLetterBody } from "../generateLetterPdfBuffer";
 
 require("../../../../handlebarHelpers");
-const {
-  signatureKeys
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
-const {
-  generateSender
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers.js`);
 
 const getReferralLetterPreview = asyncMiddleware(
   async (request, response, next) => {
@@ -32,13 +26,15 @@ const getReferralLetterPreview = asyncMiddleware(
 
     await models.sequelize.transaction(async transaction => {
       // update sender to the logged in user if the logged in user is an authorized sender
-      let sender = Object.values(signatureKeys).find(
-        // TODO use signers table for this
-        key => key.nickname === request.nickname
+      let sender = await models.signers.findOne(
+        { 
+          where : { nickname: request.nickname }
+        }
       );
+      
       if (sender) {
         await models.referral_letter.update(
-          { sender: generateSender(sender) },
+          { sender: `${sender.name}\n${sender.title}\n${sender.phone}` },
           {
             where: { caseId },
             auditUser: request.nickname

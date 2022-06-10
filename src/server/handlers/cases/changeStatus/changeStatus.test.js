@@ -12,6 +12,7 @@ import httpMocks from "node-mocks-http";
 import Boom from "boom";
 import models from "../../../policeDataManager/models/index";
 import Officer from "../../../../sharedTestHelpers/Officer";
+import Signer from "../../../../sharedTestHelpers/signer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -23,6 +24,16 @@ describe("changeStatus", () => {
   let initialCase, response, next;
 
   beforeEach(async () => {
+    await models.signers.create(
+      new Signer.Builder().defaultSigner()
+      .withPhone("555-555-5555")
+      .withName("bob")
+      .withNickname("someone")
+      .withTitle("title")
+      .build(),
+      { auditUser: "user" }
+    );
+
     initialCase = await createTestCaseWithoutCivilian();
     next = jest.fn();
     response = httpMocks.createResponse();

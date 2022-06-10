@@ -10,9 +10,6 @@ import auditDataAccess from "../../audits/auditDataAccess";
 const {
   signatureKeys
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
-const {
-  generateSender
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers.js`);
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -129,8 +126,10 @@ const createReferralLetterAndLetterOfficers = async (
   transaction
 ) => {
   const { RECIPIENT, RECIPIENT_ADDRESS, SENDER, SENDER_NAME } = constants || {};
-  const currentSender = Object.values(signatureKeys).find(
-    key => key.nickname === nickname
+  const currentSender = await models.signers.findOne(
+    { 
+      where : { nickname }
+    }
   );
 
   await models.referral_letter.create(
@@ -138,7 +137,7 @@ const createReferralLetterAndLetterOfficers = async (
       caseId: caseToUpdate.id,
       recipient: RECIPIENT,
       recipientAddress: RECIPIENT_ADDRESS,
-      sender: currentSender ? generateSender(currentSender) : SENDER
+      sender: currentSender ? `${currentSender.name}\n${currentSender.title}\n${currentSender.phone}` : SENDER
     },
     { auditUser: nickname, transaction }
   );
