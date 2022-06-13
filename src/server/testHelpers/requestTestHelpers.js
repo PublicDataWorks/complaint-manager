@@ -117,6 +117,7 @@ export const cleanupDatabase = async () => {
     "TRUNCATE districts CASCADE;" +
     "TRUNCATE case_classifications CASCADE;" +
     "TRUNCATE notifications CASCADE;" +
+    "TRUNCATE letter_fields CASCADE;" +
     "TRUNCATE letter_types CASCADE;" +
     "TRUNCATE signers CASCADE;" +
     "TRUNCATE configs CASCADE;";

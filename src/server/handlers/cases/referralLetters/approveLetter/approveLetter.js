@@ -9,7 +9,7 @@ import {
   REFERRAL_LETTER_VERSION,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import { REFERRAL_LETTER_OPTIONS } from "../getReferralLetterPdf/getReferralLetterPdfData";
+import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import constructFilename from "../constructFilename";
@@ -108,7 +108,12 @@ const generateReferralLetterAndUploadToS3 = async (
     caseId,
     includeSignature,
     transaction,
-    REFERRAL_LETTER_OPTIONS
+    {
+      getSignature: async args => {
+        return await retrieveSignatureImageBySigner(args.sender);
+      },
+      type: "REFERRAL"
+    }
   );
 
   const filenameWithCaseId = `${caseId}/${filename}`;

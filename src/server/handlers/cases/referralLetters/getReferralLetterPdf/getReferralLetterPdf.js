@@ -1,6 +1,5 @@
 import asyncMiddleware from "../../../asyncMiddleware";
 import models from "../../../../policeDataManager/models";
-import { REFERRAL_LETTER_OPTIONS } from "./getReferralLetterPdfData";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import {
   AUDIT_FILE_TYPE,
@@ -8,6 +7,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
 const getReferralLetterPdf = asyncMiddleware(
   async (request, response, next) => {
@@ -18,7 +18,12 @@ const getReferralLetterPdf = asyncMiddleware(
         caseId,
         false,
         transaction,
-        REFERRAL_LETTER_OPTIONS
+        {
+          getSignature: async args => {
+            return await retrieveSignatureImageBySigner(args.sender);
+          },
+          type: "REFERRAL"
+        }
       );
 
       const pdfBuffer = pdfBufferAndAuditDetails.pdfBuffer;

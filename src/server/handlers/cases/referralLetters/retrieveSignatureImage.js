@@ -32,7 +32,7 @@ export const retrieveSignatureImage = async fileName => {
 
 export const retrieveSignatureImageBySigner = async sender => {
   if (!sender) {
-    return undefined;
+    return "<p><br></p>";
   }
 
   const signer = await models.signers.findOne({

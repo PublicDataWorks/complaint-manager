@@ -54,15 +54,9 @@ export const generateComplainantLetterAndUploadToS3 = async (
             sender ? sender.signatureFile : undefined
           );
         },
-        getData: async args => {
-          return {
-            data: await getComplainantLetterPdfData(args),
-            auditDetails: {}
-          };
-        },
-        type: 'COMPLAINANT'
+        type: "COMPLAINANT"
       },
-      { caseId: existingCase.id, complainant: primaryComplainant }
+      await getComplainantLetterPdfData(primaryComplainant)
     );
     return result.pdfBuffer;
   });

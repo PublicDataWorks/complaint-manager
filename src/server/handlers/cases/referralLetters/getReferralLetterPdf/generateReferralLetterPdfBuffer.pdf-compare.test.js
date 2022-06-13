@@ -11,7 +11,7 @@ import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
-import getReferralLetterPdfData from "./getReferralLetterPdfData";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 const {
   PERSON_TYPE
@@ -55,6 +55,18 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         .build(),
       { auditUser: "test" }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(389784)
+        .withType("COMPLAINANT")
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await up(models);
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {
@@ -125,23 +137,6 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         await generateLetterPdfBuffer(letterCase.id, true, transaction, {
           getSignature: async args => {
             return await retrieveSignatureImageBySigner(args.sender);
-          },
-          getData: async (args, transaction) => {
-            let data = await getReferralLetterPdfData(args, transaction);
-            let { referralLetter, caseReference, pibCaseNumber } = data.pdfData;
-            let { recipient, recipientAddress, sender, transcribedBy } =
-              referralLetter;
-            return {
-              data: {
-                recipient,
-                recipientAddress,
-                sender,
-                transcribedBy,
-                caseReference,
-                pibCaseNumber
-              },
-              auditDetails: data.auditDetails
-            };
           },
           type: "REFERRAL"
         })
