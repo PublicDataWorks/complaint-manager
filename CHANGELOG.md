@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.51.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.50.1...v3.51.0) (2022-06-13)
+
+
+### Bug Fixes
+
+* Andrew/Isabel [[#97](https://www.pivotaltracker.com/story/show/97)] bug fix for login snackbar and refactor cloud services boolean variable name ([2d312a7](https://github.com/PublicDataWorks/complaint-manager/commit/2d312a7f78e212791fae9b2ae7bf47406a2ccd4b))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] add aws envs and update test from 400 to 403 ([c63de56](https://github.com/PublicDataWorks/complaint-manager/commit/c63de5645bdf594094f4c753b89646f9ba905767))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] add more caseOfficer and civilian properties to be anonymized ([de2c54e](https://github.com/PublicDataWorks/complaint-manager/commit/de2c54e91d831bf80626b15af3b813e1b097995c))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] add more caseOfficer and civilian properties to be anonymized ([8f37c2f](https://github.com/PublicDataWorks/complaint-manager/commit/8f37c2f05ae6eccaaa3e2894aca5707f05a8ec26))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] add protobufjs to hawkeyeignore ([480d3e3](https://github.com/PublicDataWorks/complaint-manager/commit/480d3e35f3e32dcf58744108838287cf66025517))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] comment in anonymous:view permission ([397cda6](https://github.com/PublicDataWorks/complaint-manager/commit/397cda6ca12e8bf9553cb7d0992bdf003a7c4547))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] remove console log and add line spacing ([81de559](https://github.com/PublicDataWorks/complaint-manager/commit/81de5599ddffe336d849b175e994edfe19724cd9))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] remove role on case property from anonymize function ([c61cf34](https://github.com/PublicDataWorks/complaint-manager/commit/c61cf34de005327af31a1233c11c5f2b37e7af89))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] remove role on case property from anonymize function ([a603c88](https://github.com/PublicDataWorks/complaint-manager/commit/a603c881796dfa7722cf4ab5cf3308e35ea80a32))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] update conditional to not double check isAnonymous ([b467805](https://github.com/PublicDataWorks/complaint-manager/commit/b4678051351ad3929f962b4d97d105be2a2844ef))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] update tests to look for Anonymous instead of an empty string ([0ce9029](https://github.com/PublicDataWorks/complaint-manager/commit/0ce90299ee2d2e8f958e715956c4241b8eed27e1))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] update token with permission ([1f6cb19](https://github.com/PublicDataWorks/complaint-manager/commit/1f6cb1961b78803253f4883f0f06ceaa7b0ac723))
+* Maria [[#136](https://www.pivotaltracker.com/story/show/136)] upgrade new relic and remove protobufjs from hawkeye ([c778890](https://github.com/PublicDataWorks/complaint-manager/commit/c7788908fbf78ab45000b3fa96431cad1887b768))
+
 ### [3.50.1](https://github.com/PublicDataWorks/police_data_manager/compare/v3.50.0...v3.50.1) (2022-05-10)
 
 
