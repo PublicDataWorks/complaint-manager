@@ -68,7 +68,7 @@
     "auth0-js": "9.19.0",
     "autosuggest-highlight": "~3.1.1",
     "aws-sdk": "2.1033.0",
-    "axios": "0.22.0",
+    "axios": "0.27.2",
     "babel-jest": "26.6.3",
     "body-parser": "~1.19.0",
     "boom": "~7.3.0",
