@@ -61,7 +61,7 @@
     "@material-ui/icons": "4.11.3",
     "@material-ui/lab": "4.0.0-alpha.61",
     "@material-ui/styles": "4.11.5",
-    "@testing-library/dom": "8.7.2",
+    "@testing-library/dom": "8.13.0",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "12.1.2",
     "auth0": "2.42.0",
