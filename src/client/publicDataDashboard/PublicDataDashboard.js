@@ -26,6 +26,13 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
 import { connect } from "react-redux";
 
+const {
+  CITY,
+  ORGANIZATION,
+  ORGANIZATION_TITLE,
+  PD
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const removeDragCover = () => {
   const callback = mutationsList => {
     mutationsList.forEach(mutation => {
@@ -70,7 +77,7 @@ const PublicDataDashboardWrapper = () => {
 };
 
 const PublicDataDashboard = ({
-  configs,
+  // configs,
   countByDistrictVisualizationFeature,
   publicMapVisualizationFeature
 }) => {
@@ -94,26 +101,24 @@ const PublicDataDashboard = ({
           <Typography variant="h3" data-testid="introText">
             The{" "}
             <Link href="https://nolaipm.gov/" style={styles.link}>
-              {configs[CONFIGS.ORGANIZATION_TITLE]}
+              {ORGANIZATION_TITLE}
             </Link>{" "}
-            ({configs[CONFIGS.ORGANIZATION]}) is sharing data with the public to
-            increase transparency to inform and empower the
-            {configs[CONFIGS.CITY]} community.
+            ({ORGANIZATION}) is sharing data with the public to increase
+            transparency to inform and empower the {CITY} community.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8}>
           <Typography variant="body1">
-            The {configs[CONFIGS.ORGANIZATION_TITLE]} receives commendations and
-            complaints, monitors and reviews misconduct complaint investigations
-            and disciplinary proceedings, and keeps data on relevant trends and
-            patterns to communicate back to the
-            {configs[CONFIGS.PD]} through policy and practice recommendations.
+            The {ORGANIZATION_TITLE} receives commendations and complaints,
+            monitors and reviews misconduct complaint investigations and
+            disciplinary proceedings, and keeps data on relevant trends and
+            patterns to communicate back to the {PD} through policy and practice
+            recommendations.
           </Typography>
           <br />
           <Typography variant="body2">
             This dashboard showcases data visualizations regarding the complaint
-            process and complaints the {configs[CONFIGS.ORGANIZATION_TITLE]}
-            received directly.
+            process and complaints the {ORGANIZATION_TITLE} received directly.
           </Typography>
         </Grid>
         <Grid item xs={12} style={{ paddingBottom: "116px" }}>
@@ -408,7 +413,7 @@ const PublicDataDashboard = ({
                 maxWidth: theme.dashboard.box.titleMaxWidth
               }}
             >
-              Have you had an encounter with police in {configs[CONFIGS.CITY]}?
+              Have you had an encounter with police in {CITY}?
             </Typography>
             <Button
               variant="contained"
@@ -442,7 +447,7 @@ const PublicDataDashboard = ({
 };
 
 const PublicDataDashboardContainer = connect(state => ({
-  configs: state.configs,
+  // configs: state.configs,
   countByDistrictVisualizationFeature:
     state.featureToggles.countByDistrictVisualizationFeature,
   publicMapVisualizationFeature:
