@@ -48,7 +48,7 @@ services:
       - ./package.json:/app/package.json
       - ./config-overrides.js:/app/config-overrides.js
       - ./snapshotResolver.js:/app/snapshotResolver.js
-      #      Mount this volume only if you have set REACT_APP_INSTANCE_FILES_DIR locally
+      #      Mount this volume only if you have set REACT_APP_INSTANCE_FILES_DIR local
       - ${REACT_APP_INSTANCE_FILES_DIR}:/app/src/instance-files
       - ${REACT_APP_INSTANCE_FILES_DIR}/public:/app/public
       - ${CERT_DIR}:/caroot
