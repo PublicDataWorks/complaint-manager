@@ -864,13 +864,13 @@ workflows:
       - ensure-staging-deploy-succeeded:
           requires:
             - deploy-staging
-      - e2e-testing-staging:
-          requires:
-            - ensure-staging-deploy-succeeded
+      # - e2e-testing-staging:
+      #     requires:
+      #       - ensure-staging-deploy-succeeded
       - hold-for-production:
           type: approval
           requires:
-            - e2e-testing-staging
+            - ensure-staging-deploy-succeeded
       - deploy-production:
           requires:
             - hold-for-production
