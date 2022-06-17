@@ -11,6 +11,7 @@ import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 let existingCase, timeOfDownload, complainant;
 
@@ -125,7 +126,19 @@ beforeEach(async () => {
         .build(),
       { auditUser: "user", transaction }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(39933)
+        .withType("REFERRAL")
+        .withDefaultSender(signer)
+        .build(),
+      { auditUser: "user", transaction }
+    );
   });
+
+  await up(models);
 });
 
 describe("generateComplainantLetterPdfBuffer", function () {
@@ -141,15 +154,9 @@ describe("generateComplainantLetterPdfBuffer", function () {
               sender ? sender.signatureFile : undefined
             );
           },
-          getData: async args => {
-            return {
-              data: await getComplainantLetterPdfData(args),
-              auditDetails: {}
-            };
-          },
           type: "COMPLAINANT"
         },
-        { caseId: existingCase.id, complainant }
+        await getComplainantLetterPdfData(complainant)
       );
       return result.pdfBuffer;
     });

@@ -6,6 +6,7 @@ class LetterType {
     this.type = build.type;
     this.template = build.template;
     this.editableTemplate = build.editableTemplate;
+    this.fields = build.fields;
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
       : build.defaultSender.id;
@@ -49,6 +50,17 @@ class LetterType {
 
       withDefaultSenderId(defaultSenderId) {
         this.defaultSenderId = defaultSenderId;
+        return this;
+      }
+
+      withFields(fields) {
+        this.fields = fields;
+        return this;
+      }
+
+      withField(field) {
+        this.fields = this.fields || [];
+        this.fields.push(field);
         return this;
       }
 

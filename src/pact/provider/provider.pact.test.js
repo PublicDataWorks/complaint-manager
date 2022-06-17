@@ -21,6 +21,7 @@ import { random } from "lodash";
 import Civilian from "../../sharedTestHelpers/civilian";
 import LetterType from "../../sharedTestHelpers/letterType";
 import Signer from "../../sharedTestHelpers/signer";
+import { up } from "../../server/seeders/202206130000-seed-letter-fields";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -232,6 +233,8 @@ describe("Pact Verification", () => {
             .build(),
           { auditUser: "test" }
         );
+
+        await up(models);
       },
       stateHandlers: {
         "Case exists": async () => {

@@ -15,6 +15,7 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { auditFileAction } from "../../../audits/auditFileAction";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
@@ -55,6 +56,17 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         .build(),
       { auditUser: "test" }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withType("REFERRAL")
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await up(models);
 
     complainant = {
       firstName: "firstName",

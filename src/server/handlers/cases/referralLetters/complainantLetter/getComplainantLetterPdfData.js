@@ -3,11 +3,7 @@ import { getPersonType } from "../../../../policeDataManager/models/modelUtiliti
 import models from "../../../../policeDataManager/models";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
-const getComplainantLetterPdfData = async ({ caseId, complainant }) => {
-  const c4se = await models.cases.findByPk(caseId, {
-    attributes: ["caseReference", "firstContactDate"]
-  });
-
+const getComplainantLetterPdfData = async complainant => {
   let revisedTitle;
   if (complainant.civilianTitle && complainant.civilianTitle.name !== "N/A") {
     revisedTitle = complainant.civilianTitle.name;
@@ -32,19 +28,12 @@ const getComplainantLetterPdfData = async ({ caseId, complainant }) => {
   });
 
   return {
-    caseReference: c4se.caseReference,
     recipientFirstName: complainant.firstName,
     recipientLastName: complainant.lastName,
     complainantAddress: complainant.address ? complainant.address : null,
     complainantEmail: complainant.email ? complainant.email : null,
-    firstContactDate: c4se.firstContactDate,
     title: revisedTitle,
     complainantPersonType: getPersonType(complainant),
-    signature: await retrieveSignatureImage(
-      complainantLetterType
-        ? complainantLetterType.defaultSender.signatureFile
-        : undefined
-    ),
     sender: complainantLetterType
       ? complainantLetterType.defaultSender
       : undefined,

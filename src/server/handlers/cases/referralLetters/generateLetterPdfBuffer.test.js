@@ -1,5 +1,6 @@
 import generateLetterPdfBuffer, {
-  generateLetterPdfHtml
+  generateLetterPdfHtml,
+  getLetterData
 } from "./generateLetterPdfBuffer";
 import fs from "fs";
 import LetterType from "../../../../sharedTestHelpers/letterType";
@@ -7,7 +8,6 @@ import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
 import timekeeper from "timekeeper";
 import models from "../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { REFERRAL_LETTER_OPTIONS } from "./getReferralLetterPdf/getReferralLetterPdfData";
 import { generateReferralLetterBodyAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
@@ -15,10 +15,12 @@ import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import {
+  ASCENDING,
   CASE_STATUS,
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
+import { up } from "../../../seeders/202206130000-seed-letter-fields";
 const SENDER_NAME = "Bobby!";
 
 const AWS = require("aws-sdk");
@@ -76,7 +78,7 @@ describe("generateLetterPdfBuffer", () => {
   let letterBodyTemplate;
 
   beforeEach(async () => {
-
+    await cleanupDatabase();
     const signer = new Signer.Builder()
       .defaultSigner()
       .withName(SENDER_NAME)
@@ -84,7 +86,7 @@ describe("generateLetterPdfBuffer", () => {
     await models.sequelize.transaction(async transaction => {
       await models.signers.create(signer, { auditUser: "user", transaction });
     });
-    
+
     referralLetterTemplate = fs.readFileSync(
       `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
     );
@@ -102,6 +104,19 @@ describe("generateLetterPdfBuffer", () => {
         .build(),
       { auditUser: "test" }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(9999)
+        .withType("COMPLAINANT")
+        .withDefaultSender(signer)
+        .withTemplate("<div></div>")
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await up(models);
 
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
@@ -163,13 +178,198 @@ describe("generateLetterPdfBuffer", () => {
     );
   });
 
+  describe("generateLetterPdfBuffer", () => {
+    const spy = jest.spyOn(models.cases, "findByPk");
+    afterEach(() => {
+      spy.mockClear();
+    });
+
+    test("should form appropriate referral letter query options", async () => {
+      const TYPE = await models.letter_types.findOne({
+        where: { type: "REFERRAL" },
+        include: ["fields"]
+      });
+
+      await getLetterData(
+        12070,
+        TYPE.fields.filter(field => !field.isForBody)
+      );
+
+      expect(spy).toHaveBeenCalledWith(12070, {
+        attributes: [
+          "primaryComplainant",
+          "firstContactDate",
+          "complaintType",
+          "id",
+          "year",
+          "caseNumber",
+          "caseReference",
+          "pibCaseNumber"
+        ],
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians"
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers"
+          },
+          {
+            model: models.referral_letter,
+            as: "referralLetter",
+            attributes: [
+              "recipient",
+              "recipientAddress",
+              "sender",
+              "transcribedBy"
+            ]
+          }
+        ],
+        order: []
+      });
+    });
+
+    test("should form appropriate referral letter body query options", async () => {
+      const spy = jest.spyOn(models.cases, "findByPk");
+      const TYPE = await models.letter_types.findOne({
+        where: { type: "REFERRAL" },
+        include: ["fields"]
+      });
+
+      await getLetterData(
+        12070,
+        TYPE.fields.filter(field => field.isForBody)
+      );
+
+      expect(spy).toHaveBeenCalledWith(12070, {
+        attributes: [
+          "id",
+          "incidentDate",
+          "incidentTime",
+          "incidentTimezone",
+          "narrativeDetails",
+          "firstContactDate",
+          "complaintType",
+          "year",
+          "caseNumber",
+          "pibCaseNumber",
+          "caseReference"
+        ],
+        order: expect.arrayContaining([
+          [
+            { model: models.civilian, as: "complainantCivilians" },
+            "createdAt",
+            ASCENDING
+          ],
+          [
+            { model: models.civilian, as: "witnessCivilians" },
+            "createdAt",
+            ASCENDING
+          ],
+          [
+            { model: models.case_officer, as: "complainantOfficers" },
+            "createdAt",
+            ASCENDING
+          ],
+          [
+            { model: models.case_officer, as: "witnessOfficers" },
+            "createdAt",
+            ASCENDING
+          ]
+        ]),
+        include: expect.arrayContaining([
+          {
+            model: models.referral_letter,
+            as: "referralLetter"
+          },
+          {
+            model: models.case_classification,
+            as: "caseClassifications",
+            include: [
+              {
+                model: models.classification,
+                as: "classification"
+              }
+            ]
+          },
+          {
+            model: models.address,
+            as: "incidentLocation"
+          },
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            include: [
+              { model: models.race_ethnicity, as: "raceEthnicity" },
+              { model: models.gender_identity, as: "genderIdentity" },
+              { model: models.address }
+            ]
+          },
+          {
+            model: models.civilian,
+            as: "witnessCivilians"
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers"
+          },
+          {
+            model: models.case_officer,
+            as: "accusedOfficers",
+            separate: true,
+            include: [
+              {
+                model: models.officer_allegation,
+                as: "allegations",
+                include: [
+                  {
+                    model: models.allegation
+                  }
+                ]
+              },
+              {
+                model: models.letter_officer,
+                as: "letterOfficer",
+                include: [
+                  {
+                    model: models.referral_letter_officer_history_note,
+                    as: "referralLetterOfficerHistoryNotes",
+                    separate: true
+                  },
+                  {
+                    model: models.referral_letter_officer_recommended_action,
+                    as: "referralLetterOfficerRecommendedActions",
+                    separate: true,
+                    include: [
+                      {
+                        model: models.recommended_action,
+                        as: "recommendedAction"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            model: models.case_officer,
+            as: "witnessOfficers"
+          }
+        ])
+      });
+    });
+  });
+
   test("generates letter pdf html correctly", async () => {
     const letterBody = "<p> Letter Body </p>";
     const pdfData = {
-      recipient: "Recipient Title and Name",
-      recipientAddress: "Recipient Address",
-      sender: "Sender Address\n Sender Address Second Line",
-      transcribedBy: "Transcriber",
+      referralLetter: {
+        recipient: "Recipient Title and Name",
+        recipientAddress: "Recipient Address",
+        sender: "Sender Address\n Sender Address Second Line",
+        transcribedBy: "Transcriber"
+      },
       caseReference: "CC-2011-0099"
     };
 
@@ -181,7 +381,7 @@ describe("generateLetterPdfBuffer", () => {
         getSignature: async args => {
           return await retrieveSignatureImageBySigner(args.sender);
         },
-        type: 'REFERRAL'
+        type: "REFERRAL"
       },
       referralLetterTemplate.toString()
     );
@@ -225,7 +425,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           true,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
 
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
@@ -238,7 +443,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           true,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
@@ -255,7 +465,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           true,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
@@ -271,7 +486,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           true,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
@@ -279,12 +499,12 @@ describe("generateLetterPdfBuffer", () => {
 
     test("unedited letter generates pdf from case data", async () => {
       await models.sequelize.transaction(async transaction => {
-        await generateLetterPdfBuffer(
-          existingCase.id,
-          false,
-          transaction,
-          REFERRAL_LETTER_OPTIONS
-        );
+        await generateLetterPdfBuffer(existingCase.id, false, transaction, {
+          getSignature: async args => {
+            return await retrieveSignatureImageBySigner(args.sender);
+          },
+          type: "REFERRAL"
+        });
         expect(generateReferralLetterBodyAndAuditDetails).toHaveBeenCalledWith(
           existingCase.id,
           letterBodyTemplate.toString(),
@@ -301,12 +521,12 @@ describe("generateLetterPdfBuffer", () => {
         { auditUser: "test" }
       );
       await models.sequelize.transaction(async transaction => {
-        await generateLetterPdfBuffer(
-          existingCase.id,
-          false,
-          transaction,
-          REFERRAL_LETTER_OPTIONS
-        );
+        await generateLetterPdfBuffer(existingCase.id, false, transaction, {
+          getSignature: async args => {
+            return await retrieveSignatureImageBySigner(args.sender);
+          },
+          type: "REFERRAL"
+        });
       });
       expect(generateReferralLetterBodyAndAuditDetails).not.toHaveBeenCalled();
     });
@@ -338,7 +558,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           true,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });
@@ -350,7 +575,12 @@ describe("generateLetterPdfBuffer", () => {
           existingCase.id,
           false,
           transaction,
-          REFERRAL_LETTER_OPTIONS
+          {
+            getSignature: async args => {
+              return await retrieveSignatureImageBySigner(args.sender);
+            },
+            type: "REFERRAL"
+          }
         );
         expect(pdfResultsAndAuditDetails.pdfBuffer).toMatchSnapshot();
       });

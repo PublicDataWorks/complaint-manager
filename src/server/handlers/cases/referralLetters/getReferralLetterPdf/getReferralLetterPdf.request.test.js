@@ -15,6 +15,7 @@ import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
 import request from "supertest";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 describe("Generate referral letter pdf", () => {
   let existingCase, referralLetter, letterOfficer, token;
@@ -29,6 +30,7 @@ describe("Generate referral letter pdf", () => {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
@@ -64,6 +66,18 @@ describe("Generate referral letter pdf", () => {
         .build(),
       { auditUser: "test" }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(3939)
+        .withType("COMPLAINANT")
+        .withDefaultSender(signerAttr)
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await up(models);
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

@@ -8,6 +8,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 const {
   PERSON_TYPE
@@ -48,7 +49,20 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         auditUser: "user",
         transaction
       });
+
+      const letterAttr2 = new LetterType.Builder()
+        .defaultLetterType()
+        .withId(783838)
+        .withType("REFERRAL")
+        .withDefaultSender(signer)
+        .build();
+      await models.letter_types.create(letterAttr2, {
+        auditUser: "user",
+        transaction
+      });
     });
+
+    await up(models);
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {
@@ -103,15 +117,9 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
               sender ? sender.signatureFile : undefined
             );
           },
-          getData: async args => {
-            return {
-              data: await getComplainantLetterPdfData(args),
-              auditDetails: {}
-            };
-          },
-          type: 'COMPLAINANT'
+          type: "COMPLAINANT"
         },
-        { caseId: existingCase.id, complainant }
+        await getComplainantLetterPdfData(complainant)
       );
       return result.pdfBuffer;
     });
