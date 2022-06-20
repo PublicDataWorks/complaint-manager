@@ -286,39 +286,6 @@ module.exports = (sequelize, DataTypes) => {
     };
   };
 
-  CaseOfficer.prototype.anonymizeOfficer = function () {
-    if (this.isAnonymous) {
-      this.officerId = "";
-      this.firstName = "Anonymous";
-      this.middleName = "";
-      this.lastName = "";
-      this.fullName = "";
-      this.isUnknownOfficer = false;
-      this.phoneNumber = "";
-      this.email = "";
-      this.windowsUsername = "";
-      this.supervisorFirstName = "";
-      this.supervisorMiddleName = "";
-      this.supervisorLastName = "";
-      this.supervisorFullName = "";
-      this.supervisorWindowsUsername = "";
-      this.supervisorOfficerNumber = "";
-      this.employeeType = "";
-      this.caseEmployeeType = "";
-      this.district = "";
-      this.bureau = "";
-      this.rank = "";
-      this.dob = "";
-      this.age = "";
-      this.endDate = "";
-      this.hireDate = "";
-      this.sex = "";
-      this.race = "";
-      this.workStatus = "";
-      this.notes = "";
-    }
-  };
-
   CaseOfficer.associate = models => {
     CaseOfficer.hasMany(models.officer_allegation, {
       as: "allegations",

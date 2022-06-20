@@ -20,7 +20,7 @@ export const getCaseWithAllAssociationsAndAuditDetails = async (
   const caseDetails = caseDetailsAndAuditDetails.caseDetails;
   const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
   const modifiedCaseDetailsAndAuditDetails = addFieldsToCaseDetails(
-    caseDetails.toJSON(),
+    caseDetails,
     caseAuditDetails
   );
 
@@ -153,32 +153,25 @@ const getCaseDetailsAndAuditDetails = async (
     ]
   };
 
-  const caseDetails = await models.cases.findByPk(caseId, queryOptions);
+  let caseDetails = await models.cases.findByPk(caseId, queryOptions);
+  caseDetails = caseDetails.toJSON();
 
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
-    caseDetails.dataValues.complainantCivilians.forEach(civilian => {
-      civilian.anonymizeCivilian();
-      anonymizeAddress(civilian);
-      anonymizeRace(civilian);
-      anonymizeGender(civilian);
-      civilian.civilianTitleId = null;
-    });
+    if (
+      caseDetails.primaryComplainant &&
+      !caseDetails.primaryComplainant.isUnknownOfficer
+    ) {
+      if (caseDetails.primaryComplainant.officerId) {
+        anonymizeOfficer(caseDetails.primaryComplainant);
+      } else {
+        anonymizeCivilian(caseDetails.primaryComplainant);
+      }
+    }
 
-    caseDetails.dataValues.witnessCivilians.forEach(civilian => {
-      civilian.anonymizeCivilian();
-      anonymizeAddress(civilian);
-      anonymizeRace(civilian);
-      anonymizeGender(civilian);
-      civilian.civilianTitleId = null;
-    });
-
-    caseDetails.dataValues.complainantOfficers.forEach(officer =>
-      officer.anonymizeOfficer()
-    );
-
-    caseDetails.dataValues.witnessOfficers.forEach(officer =>
-      officer.anonymizeOfficer()
-    );
+    caseDetails.complainantCivilians.forEach(anonymizeCivilian);
+    caseDetails.witnessCivilians.forEach(anonymizeCivilian);
+    caseDetails.complainantOfficers.forEach(anonymizeOfficer);
+    caseDetails.witnessOfficers.forEach(anonymizeOfficer);
   }
 
   const caseAuditDetails = getQueryAuditAccessDetails(
@@ -232,6 +225,63 @@ const pdfIsAvailable = referralLetter => {
   return referralLetter.finalPdfFilename !== null;
 };
 
+const anonymizeCivilian = civilian => {
+  anonymizeBasicCivilianDetails(civilian);
+  anonymizeAddress(civilian);
+  anonymizeRace(civilian);
+  anonymizeGender(civilian);
+};
+
+const anonymizeOfficer = officer => {
+  if (officer.isAnonymous) {
+    officer.officerId = "";
+    officer.firstName = "Anonymous";
+    officer.middleName = "";
+    officer.lastName = "";
+    officer.fullName = "Anonymous";
+    officer.isUnknownOfficer = false;
+    officer.phoneNumber = "";
+    officer.email = "";
+    officer.windowsUsername = "";
+    officer.supervisorFirstName = "";
+    officer.supervisorMiddleName = "";
+    officer.supervisorLastName = "";
+    officer.supervisorFullName = "";
+    officer.supervisorWindowsUsername = "";
+    officer.supervisorOfficerNumber = "";
+    officer.employeeType = "";
+    officer.caseEmployeeType = "";
+    officer.district = "";
+    officer.bureau = "";
+    officer.rank = "";
+    officer.dob = "";
+    officer.age = "";
+    officer.endDate = "";
+    officer.hireDate = "";
+    officer.sex = "";
+    officer.race = "";
+    officer.workStatus = "";
+    officer.notes = "";
+  }
+};
+
+const anonymizeBasicCivilianDetails = civilian => {
+  if (civilian.isAnonymous) {
+    if (civilian.firstName !== "") {
+      civilian.firstName = "Anonymous";
+      civilian.fullName = "Anonymous";
+    }
+    civilian.middleInitial = "";
+    civilian.lastName = "";
+    civilian.suffix = "";
+    civilian.birthDate = "";
+    civilian.phoneNumber = "";
+    civilian.email = "";
+    civilian.additionalInfo = "";
+    civilian.civilianTitleId = null;
+  }
+};
+
 const anonymizeAddress = civilian => {
   if (civilian.isAnonymous && civilian.address) {
     civilian.address.streetAddress = "";
@@ -250,6 +300,7 @@ const anonymizeAddress = civilian => {
 const anonymizeRace = civilian => {
   if (civilian.isAnonymous && civilian.raceEthnicity) {
     civilian.raceEthnicity.name = "";
+    civilian.raceEthnicity = null;
     civilian.raceEthnicityId = null;
   }
 };
@@ -257,6 +308,7 @@ const anonymizeRace = civilian => {
 const anonymizeGender = civilian => {
   if (civilian.isAnonymous && civilian.genderIdentity) {
     civilian.genderIdentity.name = "";
+    civilian.genderIdentity = null;
     civilian.genderIdentityId = null;
   }
 };

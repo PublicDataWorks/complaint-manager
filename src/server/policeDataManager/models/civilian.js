@@ -135,22 +135,6 @@ module.exports = (sequelize, DataTypes) => {
     return "complaint";
   };
 
-  Civilian.prototype.anonymizeCivilian = function () {
-    if (this.isAnonymous) {
-      if (this.firstName !== "") {
-        this.firstName = "Anonymous";
-      }
-      this.middleInitial = "";
-      this.lastName = "";
-      this.suffix = "";
-      this.fullName = "";
-      this.birthDate = "";
-      this.phoneNumber = "";
-      this.email = "";
-      this.additionalInfo = "";
-    }
-  };
-
   Civilian.associate = models => {
     Civilian.belongsTo(models.cases, {
       foreignKey: { name: "caseId", field: "case_id", allowNull: false }
