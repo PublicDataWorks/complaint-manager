@@ -8,7 +8,6 @@ import {
   REFERRAL_LETTER_VERSION
 } from "../../../../../sharedUtilities/constants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
-import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import constructFilename from "../constructFilename";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
@@ -26,12 +25,10 @@ const getReferralLetterPreview = asyncMiddleware(
 
     await models.sequelize.transaction(async transaction => {
       // update sender to the logged in user if the logged in user is an authorized sender
-      let sender = await models.signers.findOne(
-        { 
-          where : { nickname: request.nickname }
-        }
-      );
-      
+      let sender = await models.signers.findOne({
+        where: { nickname: request.nickname }
+      });
+
       if (sender) {
         await models.referral_letter.update(
           { sender: `${sender.name}\n${sender.title}\n${sender.phone}` },
@@ -49,7 +46,8 @@ const getReferralLetterPreview = asyncMiddleware(
         referralLetterAndAuditDetails.auditDetails;
 
       const letterType = await models.letter_types.findOne({
-        where: { type: "REFERRAL" }
+        where: { type: "REFERRAL" },
+        include: ["fields"]
       });
 
       const { html, auditDetails: referralLetterBodyAuditDetails } =

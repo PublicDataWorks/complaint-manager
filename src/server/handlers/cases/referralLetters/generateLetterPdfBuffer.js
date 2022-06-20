@@ -1,13 +1,12 @@
 import models from "../../../policeDataManager/models";
-import { generateReferralLetterBodyAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
 import generatePdfBuffer from "./sharedLetterUtilities/generatePdfBuffer";
 import Handlebars from "handlebars";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
 } from "../../audits/getQueryAuditAccessDetails";
-require("../../../handlebarHelpers");
 import { retrieveLetterImage } from "./retrieveLetterImage";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
+require("../../../handlebarHelpers");
 
 const MODEL_MAPPING = {
   complainantOfficers: { model: models.case_officer },
@@ -76,7 +75,6 @@ const generateLetterPdfBuffer = async (
   const pdfData = { ...pdfDataAndAuditDetails.data, ...extraData };
   const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
 
-  console.log("@#$%^&*()", pdfData);
   const fullLetterHtml = await generateLetterPdfHtml(
     letterBody,
     pdfData,
@@ -138,15 +136,15 @@ export const determineLetterBody = async (
     html = letterBody;
     auditDetails = auditIfEdited();
   } else {
-    const letterBodyAndAuditDetails =
-      await generateReferralLetterBodyAndAuditDetails(
-        caseId,
-        letterType.editableTemplate,
-        transaction
-      );
-    html = letterBodyAndAuditDetails.referralLetterBody;
-    auditDetails = letterBodyAndAuditDetails.auditDetails;
+    const letterDataResults = await getLetterData(
+      caseId,
+      letterType.fields.filter(field => field.isForBody)
+    );
+    const compiledTemplate = Handlebars.compile(letterType.editableTemplate);
+    html = compiledTemplate(letterDataResults.data);
+    auditDetails = letterDataResults.auditDetails;
   }
+
   return { html, auditDetails };
 };
 
@@ -159,8 +157,17 @@ export const getLetterData = async (caseId, fields) => {
 
   let letterData = await models.cases.findByPk(caseId, queryOptions);
 
+  letterData = letterData.toJSON();
+  if (letterData?.accusedOfficers) {
+    letterData.accusedOfficers = letterData.accusedOfficers.sort(
+      (officerA, officerB) => {
+        return officerA.createdAt - officerB.createdAt;
+      }
+    );
+  }
+
   return {
-    data: letterData.toJSON(),
+    data: letterData,
     auditDetails: getQueryAuditAccessDetails(queryOptions, models.cases.name)
   };
 };

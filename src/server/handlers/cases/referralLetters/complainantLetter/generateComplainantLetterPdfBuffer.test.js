@@ -1,6 +1,5 @@
 import fs from "fs";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import { generateReferralLetterBodyAndAuditDetails } from "../generateReferralLetterBodyAndAuditDetails";
 import timekeeper from "timekeeper";
 import Case from "../../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
@@ -27,8 +26,6 @@ jest.mock("html-pdf", () => ({
   })
 }));
 
-jest.mock("../generateReferralLetterBodyAndAuditDetails");
-
 jest.mock("fs", () => {
   const realFs = jest.requireActual("fs");
   return {
@@ -45,7 +42,6 @@ jest.mock("fs", () => {
 
 afterEach(async () => {
   await cleanupDatabase();
-  generateReferralLetterBodyAndAuditDetails.mockReset();
   timekeeper.reset();
 });
 

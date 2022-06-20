@@ -33,6 +33,7 @@ import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Signer from "../../../../../sharedTestHelpers/signer";
+import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 jest.mock("../../../audits/auditDataAccess");
 
@@ -49,12 +50,13 @@ describe("getReferralLetterPreview", function () {
 
   beforeEach(async () => {
     const signer = await models.signers.create(
-      new Signer.Builder().defaultSigner()
-      .withPhone("555-555-5555")
-      .withName("bob")
-      .withNickname("bobjo")
-      .withTitle("title")
-      .build(),
+      new Signer.Builder()
+        .defaultSigner()
+        .withPhone("555-555-5555")
+        .withName("bob")
+        .withNickname("bobjo")
+        .withTitle("title")
+        .build(),
       { auditUser: "user" }
     );
 
@@ -70,6 +72,18 @@ describe("getReferralLetterPreview", function () {
         .build(),
       { auditUser: "test" }
     );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(998)
+        .withType("COMPLAINANT")
+        .withDefaultSender(signer)
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await up(models);
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

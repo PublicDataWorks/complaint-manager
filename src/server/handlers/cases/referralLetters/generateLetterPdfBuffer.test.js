@@ -8,7 +8,6 @@ import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
 import timekeeper from "timekeeper";
 import models from "../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { generateReferralLetterBodyAndAuditDetails } from "./generateReferralLetterBodyAndAuditDetails";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
@@ -21,6 +20,7 @@ import {
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
 import { up } from "../../../seeders/202206130000-seed-letter-fields";
+import moment from "moment";
 const SENDER_NAME = "Bobby!";
 
 const AWS = require("aws-sdk");
@@ -48,25 +48,12 @@ jest.mock("fs", () => {
   };
 });
 
-jest.mock("./generateReferralLetterBodyAndAuditDetails", () => {
-  return {
-    generateReferralLetterBodyAndAuditDetails: jest.fn(
-      (caseId, transaction) => {
-        return {
-          referralLetterData: {},
-          auditDetails: {}
-        };
-      }
-    )
-  };
-});
-
 describe("generateLetterPdfBuffer", () => {
-  let timeOfDownload, existingCase, referralLetter, officer;
+  let timeOfDownload, existingCase, referralLetter, officer, findByPkSpy;
 
   afterEach(async () => {
     await cleanupDatabase();
-    generateReferralLetterBodyAndAuditDetails.mockClear();
+    findByPkSpy.mockClear();
     timekeeper.reset();
   });
 
@@ -78,6 +65,7 @@ describe("generateLetterPdfBuffer", () => {
   let letterBodyTemplate;
 
   beforeEach(async () => {
+    findByPkSpy = jest.spyOn(models.cases, "findByPk");
     await cleanupDatabase();
     const signer = new Signer.Builder()
       .defaultSigner()
@@ -178,12 +166,7 @@ describe("generateLetterPdfBuffer", () => {
     );
   });
 
-  describe("generateLetterPdfBuffer", () => {
-    const spy = jest.spyOn(models.cases, "findByPk");
-    afterEach(() => {
-      spy.mockClear();
-    });
-
+  describe("getLetterData", () => {
     test("should form appropriate referral letter query options", async () => {
       const TYPE = await models.letter_types.findOne({
         where: { type: "REFERRAL" },
@@ -195,7 +178,7 @@ describe("generateLetterPdfBuffer", () => {
         TYPE.fields.filter(field => !field.isForBody)
       );
 
-      expect(spy).toHaveBeenCalledWith(12070, {
+      expect(findByPkSpy).toHaveBeenCalledWith(12070, {
         attributes: [
           "primaryComplainant",
           "firstContactDate",
@@ -231,7 +214,6 @@ describe("generateLetterPdfBuffer", () => {
     });
 
     test("should form appropriate referral letter body query options", async () => {
-      const spy = jest.spyOn(models.cases, "findByPk");
       const TYPE = await models.letter_types.findOne({
         where: { type: "REFERRAL" },
         include: ["fields"]
@@ -242,7 +224,7 @@ describe("generateLetterPdfBuffer", () => {
         TYPE.fields.filter(field => field.isForBody)
       );
 
-      expect(spy).toHaveBeenCalledWith(12070, {
+      expect(findByPkSpy).toHaveBeenCalledWith(12070, {
         attributes: [
           "id",
           "incidentDate",
@@ -358,6 +340,74 @@ describe("generateLetterPdfBuffer", () => {
           }
         ])
       });
+    });
+
+    test("should sort accused officers by createdAt date", async () => {
+      const ID = 12070;
+
+      await models.officer.create(
+        new Officer.Builder()
+          .defaultOfficer()
+          .withId(100)
+          .withOfficerNumber(100),
+        { auditUser: "user" }
+      );
+
+      const officer1 = await models.case_officer.create(
+        new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withCaseId(ID)
+          .withId(122)
+          .withOfficerId(100)
+          .withCreatedAt(moment().subtract(3, "days")),
+        { auditUser: "user" }
+      );
+
+      await models.officer.create(
+        new Officer.Builder().defaultOfficer().withId(50).withOfficerNumber(50),
+        { auditUser: "user" }
+      );
+
+      const officer2 = await models.case_officer.create(
+        new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withCaseId(ID)
+          .withId(111)
+          .withOfficerId(50)
+          .withCreatedAt(moment().subtract(2, "days")),
+        { auditUser: "user" }
+      );
+
+      await models.officer.create(
+        new Officer.Builder().defaultOfficer().withId(2).withOfficerNumber(2),
+        { auditUser: "user" }
+      );
+
+      const officer3 = await models.case_officer.create(
+        new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withCaseId(ID)
+          .withId(100)
+          .withOfficerId(2)
+          .withCreatedAt(moment().subtract(1, "days")),
+        { auditUser: "user" }
+      );
+
+      const TYPE = await models.letter_types.findOne({
+        where: { type: "REFERRAL" },
+        include: ["fields"]
+      });
+
+      const result = await getLetterData(
+        ID,
+        TYPE.fields.filter(field => field.isForBody)
+      );
+
+      expect(result.data.accusedOfficers).toEqual([
+        expect.objectContaining({ id: officer1.id }),
+        expect.objectContaining({ id: officer2.id }),
+        expect.objectContaining({ id: officer3.id })
+      ]);
     });
   });
 
@@ -505,11 +555,7 @@ describe("generateLetterPdfBuffer", () => {
           },
           type: "REFERRAL"
         });
-        expect(generateReferralLetterBodyAndAuditDetails).toHaveBeenCalledWith(
-          existingCase.id,
-          letterBodyTemplate.toString(),
-          transaction
-        );
+        expect(findByPkSpy).toHaveBeenCalledTimes(2);
       });
     });
 
@@ -528,7 +574,7 @@ describe("generateLetterPdfBuffer", () => {
           type: "REFERRAL"
         });
       });
-      expect(generateReferralLetterBodyAndAuditDetails).not.toHaveBeenCalled();
+      expect(findByPkSpy).toHaveBeenCalledTimes(1);
     });
   });
 
