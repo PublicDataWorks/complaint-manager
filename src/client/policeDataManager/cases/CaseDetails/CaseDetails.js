@@ -139,7 +139,10 @@ class CaseDetails extends React.Component {
 
   navigateCaseToCase() {
     const caseId = this.props.match.params.id;
-    if (`${this.props.caseDetails.id}` !== caseId) {
+    if (
+      this.props.caseDetails.id &&
+      `${this.props.caseDetails.id}` !== caseId
+    ) {
       this.props.dispatch(getCaseDetails(caseId));
     }
   }
