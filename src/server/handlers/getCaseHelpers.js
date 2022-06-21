@@ -159,7 +159,7 @@ const getCaseDetailsAndAuditDetails = async (
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
     if (
       caseDetails.primaryComplainant &&
-      caseDetails.primaryComplainant.isUnknownOfficer === false
+      !caseDetails.primaryComplainant.isUnknownOfficer
     ) {
       if (caseDetails.primaryComplainant.officerId) {
         anonymizeOfficer(caseDetails.primaryComplainant);
@@ -299,14 +299,16 @@ const anonymizeAddress = civilian => {
 
 const anonymizeRace = civilian => {
   if (civilian.isAnonymous && civilian.raceEthnicity) {
-    civilian.raceEthnicity = null;
+    civilian.raceEthnicity.id = null;
+    civilian.raceEthnicity.name = null;
     civilian.raceEthnicityId = null;
   }
 };
 
 const anonymizeGender = civilian => {
   if (civilian.isAnonymous && civilian.genderIdentity) {
-    civilian.genderIdentity = null;
+    civilian.genderIdentity.id = null;
+    civilian.genderIdentity.name = null;
     civilian.genderIdentityId = null;
   }
 };
