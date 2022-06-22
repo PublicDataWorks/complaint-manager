@@ -33,3 +33,6 @@ node-yarnaudit-ansi-regex-*
 node-yarnaudit-node-fetch-*
 node-yarnaudit-minimist-*
 node-yarnaudit-node-forge-*
+
+# This finding has no workable solution at this time, but we should revisit, since it's used by bull-repl, which is a non-dev dependency
+node-yarnaudit-got-1075647

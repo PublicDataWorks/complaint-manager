@@ -1344,7 +1344,6 @@ describe("csvCaseExport request", () => {
 
       expect(records.length).toEqual(1);
       const record1 = records[0];
-      console.log(record1);
       expect(record1[`${BUREAU_ACRONYM} Case Number`]).toEqual(pibCaseNumber);
     });
   });
