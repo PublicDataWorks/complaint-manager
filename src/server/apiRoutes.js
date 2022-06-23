@@ -71,6 +71,7 @@ import getConfigs from "./handlers/configs/getConfigs";
 import logHandler from "./handlers/logHandler";
 import { USER_PERMISSIONS } from "../sharedUtilities/constants";
 import Boom from "boom";
+import getSigners from "./handlers/signers/getSigners";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -575,6 +576,13 @@ export const API_ROUTES = {
       handler: getConfigs,
       errorMessage:
         "Something went wrong while getting configs.  Please try again."
+    }
+  },
+  "/signers": {
+    get: {
+      handler: getSigners,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while retrieving signers"
     }
   },
   "/logs": {

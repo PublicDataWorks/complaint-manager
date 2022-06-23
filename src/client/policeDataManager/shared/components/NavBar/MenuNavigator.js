@@ -34,13 +34,21 @@ class MenuNavigator extends Component {
     </MenuItem>
   );
 
-  shouldGenerateMenuItem = toggleName => {
-    if (toggleName) {
-      const toggleState = this.props.featureToggles[toggleName];
+  shouldGenerateMenuItem = menuItem => {
+    if (menuItem.toggleName) {
+      const toggleState = this.props.featureToggles[menuItem.toggleName];
       if (toggleState === false) {
         return false;
       }
     }
+
+    if (
+      menuItem.permission &&
+      !this.props.permissions?.includes(menuItem.permission)
+    ) {
+      return false;
+    }
+
     return true;
   };
 
@@ -49,7 +57,7 @@ class MenuNavigator extends Component {
       <div>
         {this.props.menuType.map(
           menuItem =>
-            this.shouldGenerateMenuItem(menuItem.toggleName) &&
+            this.shouldGenerateMenuItem(menuItem) &&
             this.generateMenuItem(menuItem)
         )}
       </div>
@@ -57,7 +65,12 @@ class MenuNavigator extends Component {
   }
 }
 
-export default connect(undefined, {
-  resetArchivedCasesPaging,
-  getArchivedCases
-})(MenuNavigator);
+export default connect(
+  state => ({
+    permissions: state.users?.current?.userInfo?.permissions
+  }),
+  {
+    resetArchivedCasesPaging,
+    getArchivedCases
+  }
+)(MenuNavigator);

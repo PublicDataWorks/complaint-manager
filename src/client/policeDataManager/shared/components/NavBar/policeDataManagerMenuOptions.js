@@ -1,3 +1,5 @@
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+
 export const policeDataManagerMenuOptions = [
   {
     path: "/dashboard",
@@ -18,6 +20,12 @@ export const policeDataManagerMenuOptions = [
     path: "/manage-tags",
     dataTestName: "tagManagement",
     title: "Manage Tags"
+  },
+  {
+    path: "/admin",
+    dataTestName: "admin",
+    title: "Admin Portal",
+    permission: USER_PERMISSIONS.ADMIN_ACCESS
   },
   {
     path: "/logout",

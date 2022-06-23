@@ -241,7 +241,8 @@ export const USER_PERMISSIONS = {
   EDIT_CASE: "case:edit", // edit incident details, add/edit/remove witness/complainant/accused, edit narrative, upload attachments
   SETUP_LETTER: "letter:setup", // start/continue referral letter flow, edit letter
   MANAGE_TAGS: "tags:manage", // specific to TagManagementPage
-  VIEW_ANONYMOUS_DATA: "anonymous:view"
+  VIEW_ANONYMOUS_DATA: "anonymous:view",
+  ADMIN_ACCESS: "admin:access"
 };
 export const OPENID = "openid";
 export const PROFILE = "profile";
@@ -341,7 +342,8 @@ export const AUDIT_SUBJECT = {
     "All Data for Top Ten Case Tags over Past 12 Months",
   COMPLAINT_TOTAL_YTD: "Complaint Count for Complaints Year to Date",
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
-    "Complaint Count for Complaints in the Previous Year"
+    "Complaint Count for Complaints in the Previous Year",
+  SIGNERS: "Personal Information of People Who Can Sign Letters"
 };
 
 export const AUDIT_FILE_TYPE = {
@@ -727,7 +729,8 @@ export const PERMISSIONS = [
   "case:edit",
   "letter:setup",
   "tags:manage",
-  "anonymous:view"
+  "anonymous:view",
+  "admin:access"
 ];
 
 export const FAKE_USERS = [

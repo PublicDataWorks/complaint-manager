@@ -64,6 +64,8 @@ const TagManagementPage = lazy(() =>
   import("./policeDataManager/tags/TagManagementPage")
 );
 
+const AdminPortal = lazy(() => import("./policeDataManager/admin/AdminPortal"));
+
 const policeDataManagerRoutes = [
   {
     path: "/archived-cases",
@@ -144,6 +146,10 @@ const policeDataManagerRoutes = [
   {
     path: "/manage-tags",
     component: TagManagementPage
+  },
+  {
+    path: "/admin",
+    component: AdminPortal
   }
 ];
 
