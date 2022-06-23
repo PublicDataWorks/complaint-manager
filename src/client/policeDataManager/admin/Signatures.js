@@ -10,7 +10,7 @@ import DetailsCard from "../shared/components/DetailsCard";
 import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import TextTruncate from "../shared/components/TextTruncate";
-import DetailsCardDisplay from "./DetailsCardDisplay";
+import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
 
 const Signatures = props => {
   const [signers, setSigners] = useState([]);

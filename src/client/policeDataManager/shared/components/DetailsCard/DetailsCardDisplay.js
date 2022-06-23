@@ -1,7 +1,7 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
-import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
-import TextTruncate from "../shared/components/TextTruncate";
+import StyledInfoDisplay from "../StyledInfoDisplay";
+import TextTruncate from "../TextTruncate";
 
 const DetailsCardDisplay = ({ caption, message }) => (
   <StyledInfoDisplay>
