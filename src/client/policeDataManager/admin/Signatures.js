@@ -10,6 +10,7 @@ import BaseCaseDetailsCard from "../cases/CaseDetails/BaseCaseDetailsCard";
 import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import TextTruncate from "../shared/components/TextTruncate";
+import DetailsCardDisplay from "./DetailsCardDisplay";
 
 const Signatures = props => {
   const [signers, setSigners] = useState([]);
@@ -35,18 +36,12 @@ const Signatures = props => {
                 className={props.classes.detailsLastRow}
                 style={{ padding: "5px 30px" }}
               >
-                <StyledInfoDisplay>
-                  <Typography variant="caption">Name</Typography>
-                  <TextTruncate message={signer.name} />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <Typography variant="caption">Role</Typography>
-                  <TextTruncate message={signer.title} />
-                </StyledInfoDisplay>
-                <StyledInfoDisplay>
-                  <Typography variant="caption">Phone Number</Typography>
-                  <TextTruncate message={signer.phone} />
-                </StyledInfoDisplay>
+                <DetailsCardDisplay caption="Name" message={signer.name} />
+                <DetailsCardDisplay caption="Role" message={signer.title} />
+                <DetailsCardDisplay
+                  caption="Phone Number"
+                  message={signer.phone}
+                />
                 <StyledInfoDisplay>
                   <Typography variant="caption">Signature</Typography>
                   <TextTruncate message="TODO" />
