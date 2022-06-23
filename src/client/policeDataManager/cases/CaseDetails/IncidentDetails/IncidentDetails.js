@@ -1,5 +1,5 @@
 import React from "react";
-import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import DetailsCard from "../../../shared/components/DetailsCard";
 import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
 import formatDate, {
   format12HourTime
@@ -71,7 +71,7 @@ class IncidentDetails extends React.Component {
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
 
     return (
-      <BaseCaseDetailsCard title="Incident Details">
+      <DetailsCard title="Incident Details">
         <CardContent style={{ padding: "24px" }}>
           <div
             style={{
@@ -187,7 +187,7 @@ class IncidentDetails extends React.Component {
           handleDialogClose={this.handleDialogClose}
           caseId={caseId}
         />
-      </BaseCaseDetailsCard>
+      </DetailsCard>
     );
   }
 }

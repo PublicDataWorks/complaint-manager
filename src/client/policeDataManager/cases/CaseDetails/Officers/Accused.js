@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { CardContent, Divider, Typography } from "@material-ui/core";
-import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import DetailsCard from "../../../shared/components/DetailsCard";
 import AccusedOfficerPanel from "./OfficerPanel";
 import UnknownOfficerPanel from "./UnknownOfficerPanel";
 import ManageOfficerMenu from "./ManageOfficerMenu";
@@ -27,7 +27,7 @@ const Accused = props => {
   const titleText = "Accused";
 
   return (
-    <BaseCaseDetailsCard data-testid="officersSection" title={titleText}>
+    <DetailsCard data-testid="officersSection" title={titleText}>
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()
@@ -70,7 +70,7 @@ const Accused = props => {
               ACCUSED
             )}
       </CardContent>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 

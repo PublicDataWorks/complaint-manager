@@ -1,7 +1,7 @@
 import React from "react";
 import { CardContent } from "@material-ui/core";
 import * as _ from "lodash";
-import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import DetailsCard from "../../../shared/components/DetailsCard";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
 import { WITNESS } from "../../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
@@ -16,7 +16,7 @@ const Witnesses = props => {
   const sortedWitnesses = _.orderBy(allWitnesses, [o => o.createdAt], ["asc"]);
 
   return (
-    <BaseCaseDetailsCard data-testid="witnessesSection" title="Witnesses">
+    <DetailsCard data-testid="witnessesSection" title="Witnesses">
       <CardContent style={{ padding: "0" }}>
         <ComplainantWitnessDisplay
           emptyMessage={"No witnesses have been added"}
@@ -38,7 +38,7 @@ const Witnesses = props => {
           />
         )}
       </CardContent>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 

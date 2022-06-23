@@ -2,7 +2,7 @@ import React from "react";
 import { Field, reduxForm, submit } from "redux-form";
 import updateNarrative from "../thunks/updateNarrative";
 import { CardActions, CardContent, Typography } from "@material-ui/core";
-import BaseCaseDetailsCard from "./BaseCaseDetailsCard";
+import DetailsCard from "../../shared/components/DetailsCard";
 import {
   NARRATIVE_FORM,
   USER_PERMISSIONS
@@ -31,7 +31,7 @@ const Narrative = props => {
   };
 
   return (
-    <BaseCaseDetailsCard title="Narrative">
+    <DetailsCard title="Narrative">
       <CardContent>
         <Typography
           data-testid={"narrativePromptDetails"}
@@ -120,7 +120,7 @@ const Narrative = props => {
           padding: "0px 16px 16px 0px"
         }}
       ></CardActions>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 

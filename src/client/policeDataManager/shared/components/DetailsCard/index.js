@@ -8,7 +8,7 @@ const styles = {
   }
 };
 
-const BaseCaseDetailsCard = ({ title, subtitle, classes, children }) => (
+const DetailsCard = ({ title, subtitle, classes, children }) => (
   <Card
     style={{
       backgroundColor: "white",
@@ -29,4 +29,4 @@ const BaseCaseDetailsCard = ({ title, subtitle, classes, children }) => (
   </Card>
 );
 
-export default withStyles(styles)(BaseCaseDetailsCard);
+export default withStyles(styles)(DetailsCard);

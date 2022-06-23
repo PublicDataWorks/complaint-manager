@@ -1,6 +1,6 @@
 import React from "react";
 import { CardContent, Typography } from "@material-ui/core";
-import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import DetailsCard from "../../../shared/components/DetailsCard";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
@@ -21,7 +21,7 @@ const Complainants = props => {
   );
 
   return (
-    <BaseCaseDetailsCard
+    <DetailsCard
       data-testid="complainantWitnessesSection"
       title="Complainants"
       subtitle={getSubtitleText(sortedComplainants)}
@@ -48,7 +48,7 @@ const Complainants = props => {
           />
         )}
       </CardContent>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 

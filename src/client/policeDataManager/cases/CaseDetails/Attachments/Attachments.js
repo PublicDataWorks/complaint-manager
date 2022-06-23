@@ -1,5 +1,5 @@
 import React from "react";
-import BaseCaseDetailsCard from "../BaseCaseDetailsCard";
+import DetailsCard from "../../../shared/components/DetailsCard";
 import { CardContent, Typography } from "@material-ui/core";
 import styles from "../../../../common/globalStyling/styles";
 import DropzoneContainer from "./DropzoneContainer";
@@ -10,7 +10,7 @@ import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 const Attachments = props => {
   return (
-    <BaseCaseDetailsCard title="Attachments">
+    <DetailsCard title="Attachments">
       <CardContent style={{ paddingBottom: "24px" }}>
         <div style={{ display: "flex" }}>
           <div
@@ -44,7 +44,7 @@ const Attachments = props => {
           </div>
         )}
       </CardContent>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 

@@ -6,7 +6,7 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import BaseCaseDetailsCard from "../cases/CaseDetails/BaseCaseDetailsCard";
+import DetailsCard from "../shared/components/DetailsCard";
 import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import TextTruncate from "../shared/components/TextTruncate";
@@ -26,7 +26,7 @@ const Signatures = props => {
   }, []);
 
   return (
-    <BaseCaseDetailsCard title="Signatures">
+    <DetailsCard title="Signatures">
       <CardContent style={{ padding: "0" }}>
         {signers.length ? (
           signers.map(signer => (
@@ -56,7 +56,7 @@ const Signatures = props => {
           </Typography>
         )}
       </CardContent>
-    </BaseCaseDetailsCard>
+    </DetailsCard>
   );
 };
 
