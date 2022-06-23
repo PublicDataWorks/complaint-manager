@@ -39,6 +39,12 @@ describe("Signatures Admin Card", () => {
         }
       ]);
 
+    for (let i = 1; i <= 2; i++) {
+      nock("http://localhost")
+        .get(`/api/signers/${i}/signature`)
+        .reply(200, "bytes");
+    }
+
     render(
       <Provider store={createConfiguredStore()}>
         <Router>
@@ -54,6 +60,8 @@ describe("Signatures Admin Card", () => {
     expect(await screen.findByText("Nina Ambroise")).toBeInTheDocument;
     expect(await screen.findAllByText("888-576-9922")).toBeInTheDocument;
     expect(await screen.findByText("Complaint Intake Specialist"))
+      .toBeInTheDocument;
+    expect(await screen.findByAltText("The signature of Nina Ambroise"))
       .toBeInTheDocument;
   });
 });

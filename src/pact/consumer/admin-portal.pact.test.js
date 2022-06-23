@@ -2,10 +2,9 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { eachLike } from "@pact-foundation/pact/src/dsl/matchers";
+import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import AdminPortal from "../../client/policeDataManager/admin/AdminPortal";
@@ -52,6 +51,22 @@ pactWith(
           }
         });
 
+        await provider.addInteraction({
+          state: "signers have been added to the database",
+          uponReceiving: "get signature",
+          withRequest: {
+            method: "GET",
+            path: "/api/signers/1/signature"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "image/png"
+            },
+            body: like(Buffer.from("bytes", "base64").toString("base64"))
+          }
+        });
+
         render(
           <Provider store={createConfiguredStore()}>
             <Router>
@@ -68,6 +83,8 @@ pactWith(
           screen.findByText("888-576-9922"),
           screen.findByText("Independent Police Monitor")
         ]);
+
+        await screen.findByAltText("The signature of John A Simms");
       });
     });
   }

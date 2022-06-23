@@ -72,6 +72,7 @@ import logHandler from "./handlers/logHandler";
 import { USER_PERMISSIONS } from "../sharedUtilities/constants";
 import Boom from "boom";
 import getSigners from "./handlers/signers/getSigners";
+import getSignature from "./handlers/signers/getSignature";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -583,6 +584,13 @@ export const API_ROUTES = {
       handler: getSigners,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while retrieving signers"
+    }
+  },
+  "/signers/:id/signature": {
+    get: {
+      handler: getSignature,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while retrieving the signature image"
     }
   },
   "/logs": {

@@ -31,17 +31,20 @@ jest.mock(
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
-let s3 = AWS.S3.mockImplementation(() => ({
+AWS.S3.mockImplementation(() => ({
   config: {
     loadFromPath: jest.fn(),
     update: jest.fn()
   },
   getObject: jest.fn((opts, callback) =>
     callback(undefined, {
-      ContentType: "image/bytes",
-      Body: {
-        toString: () => "bytesbytesbytes"
-      }
+      ContentType: "image/png",
+      Body: fs
+        .readFileSync(
+          process.cwd() + `/localstack-seed-files/${opts.Key}`,
+          "base64"
+        )
+        .toString()
     })
   )
 }));
@@ -190,9 +193,10 @@ describe("Pact Verification", () => {
 
         const signerAttr = new Signer.Builder()
           .defaultSigner()
+          .withId(1)
           .withName("Nina Ambroise")
           .withTitle("Acting Police Monitor")
-          .withSignatureFile("stella_cziment.png")
+          .withSignatureFile("nina_ambroise.png")
           .build();
         await models.sequelize.transaction(async transaction => {
           const signer = await models.signers.create(signerAttr, {

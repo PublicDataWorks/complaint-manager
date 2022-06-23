@@ -9,20 +9,41 @@ import {
 import DetailsCard from "../shared/components/DetailsCard";
 import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
-import TextTruncate from "../shared/components/TextTruncate";
 import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
 
 const Signatures = props => {
   const [signers, setSigners] = useState([]);
+  const [signatures, setSignatures] = useState({});
 
   useEffect(() => {
-    try {
-      axios.get("/api/signers").then(result => {
+    axios
+      .get("/api/signers")
+      .then(result => {
         setSigners(result.data);
+        result.data.forEach(signer => {
+          if (signer?.links.length) {
+            const signatureLink = signer.links.find(
+              link => link.rel === "signature"
+            );
+            if (signatureLink) {
+              axios
+                .get(signatureLink.href)
+                .then(result => {
+                  setSignatures(previousSignatures => ({
+                    ...previousSignatures,
+                    [signer.id]: result.data
+                  }));
+                })
+                .catch(error => {
+                  console.error(error);
+                });
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
-    } catch (error) {
-      console.error(error);
-    }
   }, []);
 
   return (
@@ -30,9 +51,8 @@ const Signatures = props => {
       <CardContent style={{ padding: "0" }}>
         {signers.length ? (
           signers.map(signer => (
-            <>
+            <React.Fragment key={signer.id}>
               <div
-                key={signer.id}
                 className={props.classes.detailsLastRow}
                 style={{ padding: "5px 30px" }}
               >
@@ -44,11 +64,19 @@ const Signatures = props => {
                 />
                 <StyledInfoDisplay>
                   <Typography variant="caption">Signature</Typography>
-                  <TextTruncate message="TODO" />
+                  {signatures[signer.id] ? (
+                    <img
+                      alt={`The signature of ${signer.name}`}
+                      src={`data:image/png;base64,${signatures[signer.id]}`}
+                      style={{ height: "4.5em" }}
+                    />
+                  ) : (
+                    ""
+                  )}
                 </StyledInfoDisplay>
               </div>
               <Divider />
-            </>
+            </React.Fragment>
           ))
         ) : (
           <Typography style={{ margin: "16px 24px" }}>

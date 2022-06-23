@@ -2,7 +2,10 @@ import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 import models from "../../../policeDataManager/models";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
-export const retrieveSignatureImage = async fileName => {
+export const retrieveSignatureImage = async (
+  fileName,
+  includeHtmlTag = true
+) => {
   const s3 = createConfiguredS3Instance();
   if (fileName) {
     const data = await new Promise((resolve, reject) => {
@@ -22,11 +25,19 @@ export const retrieveSignatureImage = async fileName => {
       );
     });
 
-    return `<img style="max-height: 55px" src="data:${
-      data.ContentType
-    };base64,${data.Body.toString("base64")}" />`;
+    if (includeHtmlTag) {
+      return `<img style="max-height: 55px" src="data:${
+        data.ContentType
+      };base64,${data.Body.toString("base64")}" />`;
+    } else {
+      return data;
+    }
   } else {
-    return "<p><br></p>";
+    if (includeHtmlTag) {
+      return "<p><br></p>";
+    } else {
+      return undefined;
+    }
   }
 };
 
