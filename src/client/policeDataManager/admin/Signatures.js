@@ -56,7 +56,7 @@ const Signatures = props => {
         {signers.length ? (
           signers.map(signer => (
             <React.Fragment key={signer.id}>
-              <div
+              <section
                 className={props.classes.detailsLastRow}
                 style={{ padding: "5px 30px" }}
               >
@@ -77,7 +77,7 @@ const Signatures = props => {
                     ""
                   )}
                 </DetailsCardDisplay>
-              </div>
+              </section>
               <Divider />
             </React.Fragment>
           ))

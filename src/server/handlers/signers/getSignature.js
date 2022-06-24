@@ -30,7 +30,6 @@ const getSignature = asyncMiddleware(async (request, response, next) => {
   );
 
   const image = await retrieveSignatureImage(signer.signatureFile, false);
-  console.log(image);
   if (!image) {
     throw Boom.notFound(NOT_FOUND_MESSAGE);
   }
