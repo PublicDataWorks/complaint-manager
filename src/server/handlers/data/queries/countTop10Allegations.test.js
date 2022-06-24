@@ -6,7 +6,7 @@ import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../sharedTestHelpers/Case";
-import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer"
+import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import { CASE_STATUS, ISO_DATE, ACCUSED } from "../../../../sharedUtilities/constants";
