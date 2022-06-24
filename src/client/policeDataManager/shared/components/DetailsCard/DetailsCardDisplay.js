@@ -3,10 +3,11 @@ import React from "react";
 import StyledInfoDisplay from "../StyledInfoDisplay";
 import TextTruncate from "../TextTruncate";
 
-const DetailsCardDisplay = ({ caption, message }) => (
+const DetailsCardDisplay = ({ caption, message, children }) => (
   <StyledInfoDisplay>
     <Typography variant="caption">{caption}</Typography>
-    <TextTruncate message={message} />
+    {message ? <TextTruncate message={message} /> : ""}
+    {children ? children : ""}
   </StyledInfoDisplay>
 );
 

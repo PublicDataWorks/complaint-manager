@@ -66,8 +66,7 @@ const Signatures = props => {
                   caption="Phone Number"
                   message={signer.phone}
                 />
-                <StyledInfoDisplay>
-                  <Typography variant="caption">Signature</Typography>
+                <DetailsCardDisplay caption="Signature">
                   {signatures[signer.id] ? (
                     <img
                       alt={`The signature of ${signer.name}`}
@@ -77,7 +76,7 @@ const Signatures = props => {
                   ) : (
                     ""
                   )}
-                </StyledInfoDisplay>
+                </DetailsCardDisplay>
               </div>
               <Divider />
             </React.Fragment>
