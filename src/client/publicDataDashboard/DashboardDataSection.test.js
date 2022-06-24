@@ -6,6 +6,7 @@ import {
   DDS_COMPLAINANTS_SUBMIT_COMPLAINTS,
   DDS_COMPLAINTS_OVER_TIME,
   DDS_EMERGING_THEMES,
+  DDS_TOP_ALLEGATIONS,
   DDS_WHO_SUBMITS_COMPLAINTS,
   DDS_LOCATION_DATA
 } from "../../sharedUtilities/constants";
@@ -27,7 +28,9 @@ const testDescriptions = {
   [DDS_WHO_SUBMITS_COMPLAINTS]:
     "should render correct styling for who submits complaints graph",
   [DDS_EMERGING_THEMES]:
-    "should render correct styling for emerging themes graph"
+    "should render correct styling for emerging themes graph",
+  [DDS_TOP_ALLEGATIONS]:
+    "should render correct styling for emerging allegation graph",
 };
 
 const renderDataSection = dataSectionType => () => {

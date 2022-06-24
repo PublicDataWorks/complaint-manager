@@ -9,6 +9,7 @@ import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntak
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
+import * as countTop10Allegations from "./queries/countTop10Allegations";
 import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
 const {
   PERSON_TYPE
@@ -41,6 +42,8 @@ const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = {
 };
 
 const MOCK_TOP_TAGS_VALUES = [];
+const MOCK_TOP_ALLEGATIONS_VALUES = [];
+
 
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
@@ -75,6 +78,12 @@ jest.mock(
 jest.mock("../../handlers/data/queries/countTop10Tags", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_TOP_TAGS_VALUES;
+  })
+}));
+
+jest.mock("../../handlers/data/queries/countTop10Allegations", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_TOP_ALLEGATIONS_VALUES;
   })
 }));
 
@@ -179,6 +188,24 @@ describe("getData", () => {
       minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
     expect(response._getData()).toEqual(MOCK_TOP_TAGS_VALUES);
+  });
+
+  test("should call getData when countTop10Allegations query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "countTop10Allegations",
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      nickname: "tuser"
+    });
+
+    await getData(request, response, next);
+
+    expect(countTop10Allegations.executeQuery).toHaveBeenCalledWith("tuser", {
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
+    });
+    expect(response._getData()).toEqual(MOCK_TOP_ALLEGATIONS_VALUES);
   });
 
   test("throws an error when query param is not supported", async () => {

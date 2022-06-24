@@ -77,6 +77,33 @@ const MOCK_TOP_10_TAGS = [
   }
 ];
 
+const MOCK_TOP_10_ALLEGATIONS = [
+  {
+    rule: "Rule 1",
+    directive: "Professionalism",
+    paragraph: "description for Professionalism",
+    count: "1"
+  },
+  {
+    rule: "Rule 2",
+    directive: "Unauthorized Force",
+    paragraph: "description for Unauthorized Force",
+    count: "1"
+  },
+  {
+    rule: "Rule 3",
+    directive: "Workplace",
+    paragraph: "description for Workplace",
+    count: "2"
+  },
+  {
+    rule: "Rule 4",
+    directive: "Arrest",
+    paragraph: "description for Arrest",
+    count: "3"
+  }
+];
+
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_INTAKE_SOURCE_DATA_VALUES;
@@ -101,6 +128,12 @@ jest.mock(
 jest.mock("../../handlers/data/queries/countTop10Tags", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_TOP_10_TAGS;
+  })
+}));
+
+jest.mock("../../handlers/data/queries/countTop10Allegations", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_TOP_10_ALLEGATIONS;
   })
 }));
 
@@ -198,6 +231,15 @@ describe("getPublicData", () => {
       method: "GET",
       query: {
         queryType: "countTop10Tags"
+      }
+    });
+  });
+
+  test("should call getPublicData when countTop10Allegations query called", () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "countTop10Allegations"
       }
     });
   });

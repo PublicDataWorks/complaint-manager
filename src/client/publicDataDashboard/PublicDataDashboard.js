@@ -16,7 +16,8 @@ import {
   DATA_SECTIONS,
   DDS_LOCATION_DATA,
   DDS_COMPLAINTS_BY_DISTRICT,
-  CONFIGS
+  CONFIGS,
+  DDS_TOP_ALLEGATIONS
 } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
@@ -79,6 +80,7 @@ const PublicDataDashboardWrapper = () => {
 const PublicDataDashboard = ({
   // configs,
   countByDistrictVisualizationFeature,
+  topAllegationsVisualizationFeature,
   publicMapVisualizationFeature
 }) => {
   useEffect(removeDragCover);
@@ -347,7 +349,8 @@ const PublicDataDashboard = ({
                 style={{
                   display: "flex",
                   padding: "24px 0px",
-                  alignItems: "center"
+                  alignItems: "center",
+                  borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
               >
                 <Icon
@@ -375,6 +378,40 @@ const PublicDataDashboard = ({
             ) : (
               ""
             )}
+            {topAllegationsVisualizationFeature ? (
+            <Container
+            onClick={scrollIntoViewById("#top-allegations")}
+            style={{
+              display: "flex",
+              padding: "24px 0px",
+              alignItems: "center",
+            }}
+          >
+            <Icon
+              style={{
+                transform: "rotate(90deg)",
+                color: styles.colors.white,
+                opacity: "0.8"
+              }}
+            >
+              double_arrow
+            </Icon>
+              <Typography
+                variant="body1"
+                style={{
+                  cursor: "pointer",
+                  letterSpacing: "1px",
+                  color: styles.colors.white,
+                  paddingLeft: "12px",
+                  opacity: 0.9
+                }}
+              >
+                What are the most frequently recommended allegations?
+              </Typography>
+            </Container>
+            ) : (
+              ""
+            )}
           </Container>
         </Grid>
 
@@ -383,7 +420,9 @@ const PublicDataDashboard = ({
             key =>
               (publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
               (countByDistrictVisualizationFeature ||
-                key !== DDS_COMPLAINTS_BY_DISTRICT)
+                key !== DDS_COMPLAINTS_BY_DISTRICT) &&
+              (topAllegationsVisualizationFeature || 
+                key !== DDS_TOP_ALLEGATIONS)
           )
           .map((dataSectionType, index) => {
             return (
@@ -451,7 +490,9 @@ const PublicDataDashboardContainer = connect(state => ({
   countByDistrictVisualizationFeature:
     state.featureToggles.countByDistrictVisualizationFeature,
   publicMapVisualizationFeature:
-    state.featureToggles.publicMapVisualizationFeature
+    state.featureToggles.publicMapVisualizationFeature,
+  topAllegationsVisualizationFeature:
+    state.featureToggles.topAllegationsVisualizationFeature,
 }))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;

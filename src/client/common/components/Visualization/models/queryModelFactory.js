@@ -3,6 +3,7 @@ import CountComplaintsByDistrict from "./countComplaintsByDistrict.model";
 import CountComplaintsByIntakeSource from "./countComplaintsByIntakeSource.model";
 import CountMonthlyComplaintsByComplainantType from "./countMonthlyComplaintsByComplainantType.model";
 import CountTop10Tags from "./countTop10Tags.model";
+import CountTop10Allegations from "./countTop10Allegations.model";
 import LocationData from "./locationData.model";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
 
@@ -18,6 +19,8 @@ export const getQueryModelByQueryType = queryType => {
       return new CountMonthlyComplaintsByComplainantType();
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
       return new CountTop10Tags();
+    case QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS:
+      return new CountTop10Allegations();
     case QUERY_TYPES.LOCATION_DATA:
       return new LocationData();
     default:

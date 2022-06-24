@@ -12,6 +12,7 @@ import CountComplaintsByIntakeSource from "../../common/components/Visualization
 import CountComplaintsByComplainantType from "../../common/components/Visualization/models/countComplaintsByComplainantType.model";
 import CountMonthlyComplaintsByComplainantType from "../../common/components/Visualization/models/countMonthlyComplaintsByComplainantType.model";
 import CountTop10Tags from "../../common/components/Visualization/models/countTop10Tags.model";
+import CountTop10Allegations from "../../common/components/Visualization/models/countTop10Allegations.model";
 import CountComplaintsByDistrict from "../../common/components/Visualization/models/countComplaintsByDistrict.model";
 
 class DataDashboard extends Component {
@@ -106,6 +107,20 @@ class DataDashboard extends Component {
               ""
             )}
           </div>
+          <div>
+            {this.props.topAllegationsVisualizationFeature ? (
+              <div style={{ width: "800px", marginLeft: "5px"}}>
+              <Visualization
+                queryModel={new CountTop10Allegations()}
+                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+                hasDropdown={true}
+              />
+            </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <br/>
         </main>
       </div>
     );
@@ -115,5 +130,7 @@ class DataDashboard extends Component {
 export default connect(state => ({
   mapVisualizationFeature: state.featureToggles.mapVisualizationFeature,
   countByDistrictVisualizationFeature:
-    state.featureToggles.countByDistrictVisualizationFeature
+    state.featureToggles.countByDistrictVisualizationFeature,
+  topAllegationsVisualizationFeature:
+    state.featureToggles.topAllegationsVisualizationFeature
 }))(DataDashboard);

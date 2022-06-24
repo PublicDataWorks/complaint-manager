@@ -6,6 +6,7 @@ const {
   ORGANIZATION,
   ORGANIZATION_TITLE,
   CITY,
+  BUREAU,
   BUREAU_ACRONYM,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -460,6 +461,7 @@ export const QUERY_TYPES = {
   COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE:
     "countMonthlyComplaintsByComplainantType",
   COUNT_TOP_10_TAGS: "countTop10Tags",
+  COUNT_TOP_10_ALLEGATIONS: "countTop10Allegations",
   LOCATION_DATA: "locationData",
   COUNT_COMPLAINTS_BY_DISTRICT: "countComplaintsByDistrict"
 };
@@ -476,6 +478,7 @@ export const DDS_COMPLAINANTS_SUBMIT_COMPLAINTS =
   "DDS_COMPLAINANTS_SUBMIT_COMPLAINTS";
 export const DDS_WHO_SUBMITS_COMPLAINTS = "DDS_WHO_SUBMITS_COMPLAINTS";
 export const DDS_EMERGING_THEMES = "DDS_EMERGING_THEMES";
+export const DDS_TOP_ALLEGATIONS = "DDS_TOP_ALLEGATIONS";
 export const DDS_COMPLAINTS_BY_DISTRICT = "DDS_COMPLAINTS_BY_DISTRICT";
 
 export const DATA_SECTIONS = {
@@ -535,10 +538,19 @@ export const DATA_SECTIONS = {
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know`,
     fullMessage: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know.  Personally I think the 4th district is the worst, but I'm biased, because I live in the 2nd district, and I have made pride in my district.  district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district`
+  },
+  [DDS_TOP_ALLEGATIONS]: {
+    title: "What are the most frequently recommended allegations?",
+    subtitle: "Most Frequently Recommended Allegations of Misconduct",
+    dataTestId: "top10AllegationsGraph",
+    queryType: QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS,
+    queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
+    collapsedText: `This bar chart captures the top allegations of officer misconduct.  This chart is limited to the allegations of misconduct filed with the ${ORGANIZATION_TITLE}.`,
+    fullMessage: `This bar chart captures the top allegations of officer misconduct.  This chart is limited to the allegations of misconduct filed with the ${ORGANIZATION_TITLE}.  These allegations are often identified by the ${ORGANIZATION_TITLE} based on the information provided by the complainant about what he / she believed occurred.  These allegations are recommendations put forth to the ${BUREAU} of the ${PD} and helps them structure the potential misconduct investigation.  These allegations are the top allegations put forth by the ${ORGANIZATION_TITLE}.`
   }
 };
 
-export const TAG_LABEL_CHAR_LIMIT = 20;
+export const TAG_LABEL_CHAR_LIMIT = 15;
 
 // ----------------------------------------
 //          Case Status Map

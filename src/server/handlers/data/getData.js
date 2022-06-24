@@ -7,6 +7,7 @@ import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
+import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationDataQuery from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
 
@@ -42,6 +43,9 @@ const getData = asyncMiddleware(async (request, response, next) => {
       break;
     case QUERY_TYPES.COUNT_TOP_10_TAGS:
       data = await countTop10Tags.executeQuery(request.nickname, dateRange);
+      break;
+    case QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS:
+      data = await countTop10Allegations.executeQuery(request.nickname, dateRange);
       break;
     case QUERY_TYPES.LOCATION_DATA:
       data = await locationDataQuery.executeQuery(dateRange);

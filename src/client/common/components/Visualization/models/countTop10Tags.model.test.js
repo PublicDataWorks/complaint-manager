@@ -30,7 +30,7 @@ describe("CountTop10Tags model", () => {
         data: [
           {
             x: ["3", "2", "1", "1"],
-            y: ["Chicago hot dogs", "Tofu", "sabs", "karancitoooooo"],
+            y: ["Chicago hot dog...", "Tofu", "sabs", "karancitoooooo"],
             type: "bar",
             width: 0.75,
             orientation: "h",
@@ -77,9 +77,9 @@ describe("CountTop10Tags model", () => {
             x: ["3", "2", "1", "1"],
             y: [
               "Cars",
-              "The Museum of Scienc...",
+              "The Museum of S...",
               "Tofu",
-              "Chicago deep dish pi..."
+              "Chicago deep di..."
             ],
             type: "bar",
             width: 0.75,
