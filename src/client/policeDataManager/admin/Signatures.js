@@ -20,31 +20,35 @@ const Signatures = props => {
       .get("/api/signers")
       .then(result => {
         setSigners(result.data);
-        result.data.forEach(signer => {
-          if (signer?.links.length) {
-            const signatureLink = signer.links.find(
-              link => link.rel === "signature"
-            );
-            if (signatureLink) {
-              axios
-                .get(signatureLink.href)
-                .then(result => {
-                  setSignatures(previousSignatures => ({
-                    ...previousSignatures,
-                    [signer.id]: result.data
-                  }));
-                })
-                .catch(error => {
-                  console.error(error);
-                });
-            }
-          }
-        });
+        result.data.forEach(processSigner);
       })
       .catch(error => {
         console.error(error);
       });
   }, []);
+
+  const processSigner = signer => {
+    if (signer?.links.length) {
+      const signatureLink = signer.links.find(link => link.rel === "signature");
+      if (signatureLink) {
+        retrieveSignature(signatureLink, signer.id);
+      }
+    }
+  };
+
+  const retrieveSignature = (signatureLink, signerId) => {
+    axios
+      .get(signatureLink.href)
+      .then(result => {
+        setSignatures(previousSignatures => ({
+          ...previousSignatures,
+          [signerId]: result.data
+        }));
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <DetailsCard title="Signatures">
