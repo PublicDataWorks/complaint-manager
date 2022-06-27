@@ -8,6 +8,7 @@ import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import AdminPortal from "../../client/policeDataManager/admin/AdminPortal";
+import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
 
 pactWith(
   {
@@ -67,8 +68,14 @@ pactWith(
           }
         });
 
+        let store = createConfiguredStore();
+        store.dispatch({
+          type: "AUTH_SUCCESS",
+          userInfo: { permissions: [USER_PERMISSIONS.ADMIN_ACCESS] }
+        });
+
         render(
-          <Provider store={createConfiguredStore()}>
+          <Provider store={store}>
             <Router>
               <AdminPortal />
               <SharedSnackbarContainer />
