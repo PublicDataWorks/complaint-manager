@@ -40,6 +40,11 @@ module.exports = (sequelize, DataTypes) => {
       as: "fields",
       foreignKey: { name: "letterType", field: "letter_type" }
     });
+
+    LetterType.hasOne(models.caseStatus, {
+      as: "required_status",
+      foreignKey: { field: "required_status", allowNull: false }
+    });
   };
   return LetterType;
 };

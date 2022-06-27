@@ -1,6 +1,8 @@
 "use strict";
 
-const INSERT_CASE_STATUSES = `INSERT INTO case_statuses (name, order_key) 
+const TABLE = "case_statuses";
+
+const INSERT_CASE_STATUSES = `INSERT INTO ${TABLE}(name, order_key) 
   VALUES ('Initial', 0), 
   ('Active', 1), 
   ('Letter in Progress', 2), 
@@ -19,14 +21,14 @@ module.exports = {
       });
     } catch (error) {
       throw new Error(
-        `Error while seeding letter type data. Internal Error: ${error}`
+        `Error while seeding letter_type data. Internal Error: ${error}`
       );
     }
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
-      await queryInterface.sequelize.query("TRUNCATE case_statuses CASCADE", {
+      await queryInterface.sequelize.query(`TRUNCATE ${TABLE} CASCADE`, {
         transaction
       });
     });
