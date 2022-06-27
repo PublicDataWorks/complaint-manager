@@ -1,13 +1,17 @@
 # The line below is regex for files to ignore.
-^src/(server/config/(.)*|server/(server.test.js|(models|handlers/users)/(.)*.test.js))$
+
+^src/(server/config/(.)_|server/(server.test.js|(models|handlers/users)/(.)_.test.js))$
 
 # Below are codes from Hawkeye with warnings we wish to ignore.
+
 ############################################################################
+
 # We tried upgrading to react-pdf 4.0.0, but it violates unsafe-eval CSP.
+
 # This issue tracks it: https://github.com/mozilla/pdf.js/issues/10229. It's closed but has not made it into a release yet.
 
-
 # The below listed are password warning, however we are using a config file or local environment variables, so there are no passwords stored in the code.
+
 files-contents-.circleci/config.yml-1
 files-contents-.circleci/config.yml-13
 files-contents-.circleci/config.yml-14
@@ -26,13 +30,16 @@ files-contents-scripts/build-and-deploy.sh-14
 files-contents-docs/technical-content/faq.md-1
 
 # This is a warning about a dependency of react-scripts and jest, but neither are used in production so we can ignore this vulnerability warning.
-node-yarnaudit-quill-*
-node-yarnaudit-postcss-*
-node-yarnaudit-ansi-html-*
-node-yarnaudit-ansi-regex-*
-node-yarnaudit-node-fetch-*
-node-yarnaudit-minimist-*
-node-yarnaudit-node-forge-*
+
+node-yarnaudit-quill-_
+node-yarnaudit-postcss-_
+node-yarnaudit-ansi-html-_
+node-yarnaudit-ansi-regex-_
+node-yarnaudit-node-fetch-_
+node-yarnaudit-minimist-_
+node-yarnaudit-node-forge-\*
 
 # This finding has no workable solution at this time, but we should revisit, since it's used by bull-repl, which is a non-dev dependency
+
 node-yarnaudit-got-1075647
+node-yarnaudit-got-1075701

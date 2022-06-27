@@ -5,7 +5,7 @@ import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import Signatures from "./Signatures";
 
-const AdminPortal = ({ dispatch, permissions }) => {
+const AdminPortal = ({ permissions }) => {
   const checkPermissions = (...children) => {
     if (permissions.includes(USER_PERMISSIONS.ADMIN_ACCESS)) {
       return <article>{children}</article>;
