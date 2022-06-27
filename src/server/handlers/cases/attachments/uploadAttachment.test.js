@@ -11,6 +11,8 @@ import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE
 } from "../../../../sharedUtilities/constants";
+import Attachment from "../../../../sharedTestHelpers/attachment";
+import Boom from "boom";
 
 jest.mock("../referralLetters/sharedLetterUtilities/auditUpload");
 jest.mock("../../getCaseHelpers");
@@ -104,6 +106,40 @@ describe("uploadAttachment", () => {
         "access-control-allow-origin": "https://localhost"
       })
     );
+  });
+
+  test("should return 400 if request is archived", async () => {
+    process.env.NODE_ENV = "development";
+
+    request.isArchived = true;
+    await uploadAttachment(request, response, next);
+
+    expect(response.statusCode).toEqual(400);
+  });
+
+  test("should return 409 if filename exists", async () => {
+    process.env.NODE_ENV = "development";
+
+    await models.attachment.create(
+      new Attachment.Builder()
+        .defaultAttachment()
+        .withFileName("test_filename")
+        .withCaseId(existingCase.id),
+      { auditUser: "user" }
+    );
+
+    await uploadAttachment(request, response, next);
+
+    expect(response.statusCode).toEqual(409);
+  });
+
+  test("should throw bad implementation error if case doesn't exist", async () => {
+    process.env.NODE_ENV = "development";
+
+    request.params.caseId = 9999;
+    await uploadAttachment(request, response, next);
+
+    expect(next).toHaveBeenCalled();
   });
 
   describe("auditing", () => {
