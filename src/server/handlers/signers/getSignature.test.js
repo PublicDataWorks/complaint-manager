@@ -63,4 +63,17 @@ describe("getSignature", () => {
 
     await expectResponse(responsePromise, 200);
   });
+
+  test("throws not found error when signer does not exist", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+    const responsePromise = request(app)
+      .get("/api/signers/2/signature")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 404);
+  });
 });
