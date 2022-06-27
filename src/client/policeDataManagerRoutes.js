@@ -148,7 +148,7 @@ const policeDataManagerRoutes = [
     component: TagManagementPage
   },
   {
-    path: "/admin",
+    path: "/admin-portal",
     component: AdminPortal
   }
 ];

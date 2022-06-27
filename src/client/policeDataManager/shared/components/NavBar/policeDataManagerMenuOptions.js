@@ -22,7 +22,7 @@ export const policeDataManagerMenuOptions = [
     title: "Manage Tags"
   },
   {
-    path: "/admin",
+    path: "/admin-portal",
     dataTestName: "admin",
     title: "Admin Portal",
     permission: USER_PERMISSIONS.ADMIN_ACCESS
