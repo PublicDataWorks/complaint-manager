@@ -35,7 +35,7 @@ const getTagsWithCount = async request => {
     if (term.length >= 2) {
       sortBy = term[1];
       sortDirection = term[0];
-    } else if (term.length) {
+    } else {
       sortBy = term[0];
     }
   }
