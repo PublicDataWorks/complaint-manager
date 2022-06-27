@@ -7,7 +7,6 @@ import {
   withStyles
 } from "@material-ui/core";
 import DetailsCard from "../shared/components/DetailsCard";
-import StyledInfoDisplay from "../shared/components/StyledInfoDisplay";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
 
@@ -51,43 +50,45 @@ const Signatures = props => {
   };
 
   return (
-    <DetailsCard title="Signatures">
-      <CardContent style={{ padding: "0" }}>
-        {signers.length ? (
-          signers.map(signer => (
-            <React.Fragment key={signer.id}>
-              <section
-                className={props.classes.detailsLastRow}
-                style={{ padding: "5px 30px" }}
-              >
-                <DetailsCardDisplay caption="Name" message={signer.name} />
-                <DetailsCardDisplay caption="Role" message={signer.title} />
-                <DetailsCardDisplay
-                  caption="Phone Number"
-                  message={signer.phone}
-                />
-                <DetailsCardDisplay caption="Signature">
-                  {signatures[signer.id] ? (
-                    <img
-                      alt={`The signature of ${signer.name}`}
-                      src={`data:image/png;base64,${signatures[signer.id]}`}
-                      style={{ height: "4.5em" }}
-                    />
-                  ) : (
-                    ""
-                  )}
-                </DetailsCardDisplay>
-              </section>
-              <Divider />
-            </React.Fragment>
-          ))
-        ) : (
-          <Typography style={{ margin: "16px 24px" }}>
-            No Signatures have been added
-          </Typography>
-        )}
-      </CardContent>
-    </DetailsCard>
+    <section style={{ margin: "10px 3px" }}>
+      <DetailsCard title="Signatures">
+        <CardContent style={{ padding: "0" }}>
+          {signers.length ? (
+            signers.map(signer => (
+              <React.Fragment key={signer.id}>
+                <section
+                  className={props.classes.detailsLastRow}
+                  style={{ padding: "5px 30px" }}
+                >
+                  <DetailsCardDisplay caption="Name" message={signer.name} />
+                  <DetailsCardDisplay caption="Role" message={signer.title} />
+                  <DetailsCardDisplay
+                    caption="Phone Number"
+                    message={signer.phone}
+                  />
+                  <DetailsCardDisplay caption="Signature">
+                    {signatures[signer.id] ? (
+                      <img
+                        alt={`The signature of ${signer.name}`}
+                        src={`data:image/png;base64,${signatures[signer.id]}`}
+                        style={{ height: "4.5em" }}
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </DetailsCardDisplay>
+                </section>
+                <Divider />
+              </React.Fragment>
+            ))
+          ) : (
+            <Typography style={{ margin: "16px 24px" }}>
+              No Signatures have been added
+            </Typography>
+          )}
+        </CardContent>
+      </DetailsCard>
+    </section>
   );
 };
 

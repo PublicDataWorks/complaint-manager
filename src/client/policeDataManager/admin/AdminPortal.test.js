@@ -4,11 +4,34 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import AdminPortal from "./AdminPortal";
 import createConfiguredStore from "../../createConfiguredStore";
+import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
 describe("AdminPortal", () => {
-  test("should display the signatures card", () => {
+  let store;
+  beforeEach(() => {
+    store = createConfiguredStore();
+  });
+
+  test("should show loading message when no permissions are set", () => {
     render(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
+        <Router>
+          <AdminPortal />
+        </Router>
+      </Provider>
+    );
+
+    expect(screen.getByText("Loading...")).toBeInTheDocument;
+  });
+
+  test("should display the signatures card when you have permissions", () => {
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: { permissions: [USER_PERMISSIONS.ADMIN_ACCESS] }
+    });
+
+    render(
+      <Provider store={store}>
         <Router>
           <AdminPortal />
         </Router>
