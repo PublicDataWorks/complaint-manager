@@ -19,6 +19,7 @@ describe("legacyAuditDataAccess", () => {
 
     afterEach(async () => {
       await cleanupDatabase();
+      legacyFormatAuditDetails.mockClear();
     });
 
     afterAll(async () => {
@@ -39,6 +40,20 @@ describe("legacyAuditDataAccess", () => {
       });
 
       expect(legacyFormatAuditDetails).toHaveBeenCalledWith(auditDetails);
+    });
+
+    test("should not call legacyFormatAuditDetails when they are undefined", async () => {
+      await models.sequelize.transaction(async transaction => {
+        await legacyAuditDataAccess(
+          "user",
+          caseForAudit.id,
+          AUDIT_FILE_TYPE.ATTACHMENT,
+          transaction,
+          AUDIT_ACTION.DATA_ACCESSED
+        );
+      });
+
+      expect(legacyFormatAuditDetails).toHaveBeenCalledTimes(0);
     });
   });
 });
