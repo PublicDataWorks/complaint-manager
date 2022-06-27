@@ -1,5 +1,8 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { retrieveSignatureImageBySigner } from "./retrieveSignatureImage";
+import {
+  retrieveSignatureImage,
+  retrieveSignatureImageBySigner
+} from "./retrieveSignatureImage";
 import models from "../../../policeDataManager/models";
 import Signer from "../../../../sharedTestHelpers/signer";
 
@@ -16,7 +19,9 @@ jest.mock("../../../createConfiguredS3Instance", () =>
   }))
 );
 
-describe("generateSignature", function () {
+const BLANK_LINE = "<p><br></p>";
+
+describe("retreiveSignatureImageBySigner", function () {
   const NAME = "Billy";
   beforeAll(async () => {
     await cleanupDatabase();
@@ -31,12 +36,11 @@ describe("generateSignature", function () {
     await models.sequelize.close();
   });
 
-  const blankLine = "<p><br></p>";
   const sender = `${NAME}\nDPM`;
 
   test("returns an blank line without signature when no signature for given name", async () => {
     expect(await retrieveSignatureImageBySigner("someone not sender")).toEqual(
-      blankLine
+      BLANK_LINE
     );
   });
 
@@ -46,5 +50,21 @@ describe("generateSignature", function () {
     expect(signature).toEqual(
       `<img style="max-height: 55px" src="data:image/bytes;base64,bytesbytesbytes" />`
     );
+  });
+
+  test("returns blank line when no sender is passed in", async () => {
+    const signature = await retrieveSignatureImageBySigner();
+
+    expect(signature).toEqual(BLANK_LINE);
+  });
+});
+
+describe("retrieveSignatureImage", () => {
+  test("should return blank line if fileName is undefined and includeHtmlTag is true", async () => {
+    expect(await retrieveSignatureImage()).toEqual(BLANK_LINE);
+  });
+
+  test("should return undefined if fileName is undefined and includeHtmlTag is false", async () => {
+    expect(await retrieveSignatureImage(undefined, false)).toBeUndefined();
   });
 });
