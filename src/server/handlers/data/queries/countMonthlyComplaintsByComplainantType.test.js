@@ -86,8 +86,7 @@ describe("executeQuery", () => {
     .set("Content-Header", "application/json")
     .set("Authorization", `Bearer ${token}`)
     .query({
-      queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE,
-      minDate: moment().subtract(12, "months").format(ISO_DATE)
+      queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE
     });
 
   beforeEach(async () => {
@@ -140,7 +139,7 @@ describe("executeQuery", () => {
       await cleanupDatabase();
     });
 
-    test("getDateRange should return list of date, count objects for past 12 months", () => {
+    test("getDateRange should return list of date, count objects for given date range", () => {
       const expectedCounts = [
         { date: "Mar 19", count: 0 },
         { date: "Apr 19", count: 0 },
@@ -179,6 +178,20 @@ describe("executeQuery", () => {
       });
 
       expect(results.counts).toEqual(expectedCounts);
+      expect(results.dateToIndex).toEqual(expectedDateToIndex);
+    });
+
+    test("getDateRange should return list of date, count objects for past 12 months", () => {
+      const expectedDateToIndex = {};
+
+      let date = moment().subtract(12, "months");
+      let currentDate = moment();
+      for (let i = 0; date <= currentDate; i++, date = date.add(1, "months")) {
+        expectedDateToIndex[date.format("YYYY-MM")] = i;
+      }
+
+      const results = getDateRange();
+
       expect(results.dateToIndex).toEqual(expectedDateToIndex);
     });
 
