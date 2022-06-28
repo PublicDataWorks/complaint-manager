@@ -546,7 +546,7 @@ export const DATA_SECTIONS = {
     queryType: QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
     collapsedText: `This bar chart captures the top allegations of officer misconduct.  This chart is limited to the allegations of misconduct filed with the ${ORGANIZATION_TITLE}.`,
-    fullMessage: `This bar chart captures the top allegations of officer misconduct.  This chart is limited to the allegations of misconduct filed with the ${ORGANIZATION_TITLE}.  These allegations are often identified by the ${ORGANIZATION_TITLE} based on the information provided by the complainant about what he / she believed occurred.  These allegations are recommendations put forth to the ${BUREAU} of the ${PD} and helps them structure the potential misconduct investigation.  These allegations are the top allegations put forth by the ${ORGANIZATION_TITLE}.`
+    fullMessage: `This bar chart captures the top allegations of officer misconduct.  This chart is limited to the allegations of misconduct filed with the ${ORGANIZATION_TITLE}.  These allegations are often identified by the ${ORGANIZATION_TITLE} based on the information provided by the complainant about what they believed occurred.  These allegations are recommendations put forth to the ${BUREAU} of the ${PD} and helps them structure the potential misconduct investigation.  These allegations are the top allegations put forth by the ${ORGANIZATION_TITLE}.`
   }
 };
 
