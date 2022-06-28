@@ -4,12 +4,13 @@ import getData from "./getData";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import * as httpMocks from "node-mocks-http";
-import * as countComplaintTotals from "./queries/countComplaintTotals";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import * as countMonthlyComplaintsByComplainantType from "./queries/countMonthlyComplaintsByComplainantType";
 import * as countTop10Tags from "./queries/countTop10Tags";
 import * as countTop10Allegations from "./queries/countTop10Allegations";
+import * as locationData from "./queries/locationData";
+import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
 import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
 const {
   PERSON_TYPE
@@ -43,7 +44,8 @@ const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = {
 
 const MOCK_TOP_TAGS_VALUES = [];
 const MOCK_TOP_ALLEGATIONS_VALUES = [];
-
+const MOCK_LOCATION_DATA = [{ lat: 29, lon: -90 }];
+const MOCK_DISTRICT_DATA = [{ district: "1st District", count: 17 }];
 
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
@@ -84,6 +86,18 @@ jest.mock("../../handlers/data/queries/countTop10Tags", () => ({
 jest.mock("../../handlers/data/queries/countTop10Allegations", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_TOP_ALLEGATIONS_VALUES;
+  })
+}));
+
+jest.mock("../../handlers/data/queries/locationData", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_LOCATION_DATA;
+  })
+}));
+
+jest.mock("../../handlers/data/queries/countComplaintsByDistrict", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_DISTRICT_DATA;
   })
 }));
 
@@ -206,6 +220,45 @@ describe("getData", () => {
       minDate: moment().subtract(12, "months").format(ISO_DATE)
     });
     expect(response._getData()).toEqual(MOCK_TOP_ALLEGATIONS_VALUES);
+  });
+
+  test("should call getData when locationData query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "locationData",
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      nickname: "tuser"
+    });
+
+    await getData(request, response, next);
+
+    expect(locationData.executeQuery).toHaveBeenCalledWith({
+      minDate: moment().subtract(12, "months").format(ISO_DATE)
+    });
+    expect(response._getData()).toEqual(MOCK_LOCATION_DATA);
+  });
+
+  test("should call getData when districts query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "countComplaintsByDistrict",
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      },
+      nickname: "tuser"
+    });
+
+    await getData(request, response, next);
+
+    expect(countComplaintsByDistrict.executeQuery).toHaveBeenCalledWith(
+      "tuser",
+      {
+        minDate: moment().subtract(12, "months").format(ISO_DATE)
+      }
+    );
+    expect(response._getData()).toEqual(MOCK_DISTRICT_DATA);
   });
 
   test("throws an error when query param is not supported", async () => {

@@ -31,6 +31,9 @@ describe("getDistricts", () => {
     const thirdDistrict = await models.district.create({
       name: "3rd District"
     });
+    const otherThirdDistrict = await models.district.create({
+      name: "3rd District"
+    });
     const tenthDistrict = await models.district.create({
       name: "10th District"
     });
@@ -39,6 +42,7 @@ describe("getDistricts", () => {
       [firstDistrict.name, firstDistrict.id],
       [secondDistrict.name, secondDistrict.id],
       [thirdDistrict.name, thirdDistrict.id],
+      [otherThirdDistrict.name, otherThirdDistrict.id],
       [tenthDistrict.name, tenthDistrict.id],
       [hundredthDistrict.name, hundredthDistrict.id]
     ];

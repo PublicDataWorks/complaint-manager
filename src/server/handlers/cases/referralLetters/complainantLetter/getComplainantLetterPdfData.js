@@ -1,4 +1,3 @@
-import { OFFICER_COMPLAINANT_TITLE } from "../../../../../sharedUtilities/constants";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 import models from "../../../../policeDataManager/models";
 
