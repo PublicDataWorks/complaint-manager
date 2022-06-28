@@ -17,7 +17,7 @@ export default class CountTop10Allegations extends BarGraphVisualization {
     return {
       barmode: "group",
       hovermode: "closest",
-      hoverlabel: { bgcolor: "#FFF" },
+      hoverlabel: { bgcolor: "#FFF", align: "left" },
       dragmode: false,
       xaxis: {
         showgrid: false,
@@ -84,14 +84,22 @@ export default class CountTop10Allegations extends BarGraphVisualization {
     let xValues = [];
     let yValues = [];
     let hoverValues = []
+    let CHAR_LIMIT = 115;
 
     rawData.reverse();
 
+    const truncateValue = value => {
+      if (value?.length > CHAR_LIMIT) {
+        return value.substring(0, CHAR_LIMIT).concat("...");
+      }
+      return value;
+    }
+  
     rawData.forEach(({ count, rule, directive, paragraph }) => {
       let directiveVal = directive ? (directive) : "";
       xValues.push(count);
       yValues.push(directive || paragraph);
-      hoverValues.push(rule + "<br>" + paragraph + "<br>" + directiveVal );
+      hoverValues.push(rule + "<br>" + paragraph + "<br>" + truncateValue(directiveVal) );
     });
 
     let truncatedYValues = truncateYValues(yValues);
