@@ -25,7 +25,7 @@ export const updateCaseStatus = async (caseToUpdate, status) => {
       { auditUser: "someone" }
     );
     if (caseStatusList[caseStatus] === status) {
-      return;
+      break;
     }
   }
   caseToUpdate.reload();
