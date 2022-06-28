@@ -6,13 +6,8 @@ const getComplainantLetterPdfData = async complainant => {
   let revisedTitle;
   if (complainant.civilianTitle && complainant.civilianTitle.name !== "N/A") {
     revisedTitle = complainant.civilianTitle.name;
-  } else if (
-    !complainant.civilianTitle ||
-    (complainant.civilianTitle.name && complainant.civilianTitle.name === "N/A")
-  ) {
-    revisedTitle = "";
   } else {
-    revisedTitle = OFFICER_COMPLAINANT_TITLE;
+    revisedTitle = "";
   }
 
   const complainantLetterType = await models.letter_types.findOne({
