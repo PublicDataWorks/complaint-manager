@@ -31,8 +31,6 @@ module.exports = {
         await queryInterface.sequelize.query(ADD_COLUMN_QUERY, {
           transaction
         });
-      });
-      await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(ADD_CONSTRAINT_QUERY, {
           transaction
         });
@@ -50,8 +48,6 @@ module.exports = {
         await queryInterface.sequelize.query(DROP_CONSTRAINT_QUERY, {
           transaction
         });
-      });
-      await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(DROP_COLUMN_QUERY, {
           transaction
         });

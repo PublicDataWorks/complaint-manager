@@ -28,8 +28,6 @@ module.exports = {
         await queryInterface.sequelize.query(INSERT_REFERRAL_FOREIGN_KEY, {
           transaction
         });
-      });
-      await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(INSERT_COMPLAINANT_FOREIGN_KEY, {
           transaction
         });
