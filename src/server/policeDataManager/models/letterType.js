@@ -19,6 +19,16 @@ module.exports = (sequelize, DataTypes) => {
       field: "editable_template",
       allowNull: true
     },
+    requiesApproval: {
+      type: DataTypes.BOOLEAN,
+      field: "requires_approval",
+      allowNull: true
+    },
+    hasEditPage: {
+      type: DataTypes.BOOLEAN,
+      field: "has_edit_page",
+      allowNull: true
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: "created_at",
