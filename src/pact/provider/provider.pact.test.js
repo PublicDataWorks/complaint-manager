@@ -46,7 +46,12 @@ AWS.S3.mockImplementation(() => ({
         )
         .toString()
     })
-  )
+  ),
+  upload: jest.fn(() => ({
+    promise: () => ({
+      then: success => success({})
+    })
+  }))
 }));
 
 const setupCase = async () => {
@@ -176,6 +181,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
+  jest.setTimeout(100000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
@@ -193,13 +199,15 @@ describe("Pact Verification", () => {
 
         const signerAttr = new Signer.Builder()
           .defaultSigner()
-          .withId(1)
           .withName("Nina Ambroise")
+          .withNickname("Amrose@place.com")
+          .withPhone("367-202-3456")
           .withTitle("Acting Police Monitor")
           .withSignatureFile("nina_ambroise.png")
           .build();
+        let signer;
         await models.sequelize.transaction(async transaction => {
-          const signer = await models.signers.create(signerAttr, {
+          signer = await models.signers.create(signerAttr, {
             auditUser: "user",
             transaction
           });
@@ -269,6 +277,16 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           await setupLetter(letterCase);
           await addCivilianComplainantToCase(letterCase);
+        },
+        "signers have been added to the database": async () => {
+          await models.signers.create(
+            new Signer.Builder()
+              .defaultSigner()
+              .withId(1)
+              .withSignatureFile("nina_ambroise.png")
+              .build(),
+            { auditUser: "user" }
+          );
         }
       }
     };

@@ -17,7 +17,7 @@ const AdminPortal = ({ permissions }) => {
   return (
     <main className="admin-portal">
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
-      {checkPermissions(<Signatures />)}
+      {checkPermissions(<Signatures key="signatures" />)}
     </main>
   );
 };

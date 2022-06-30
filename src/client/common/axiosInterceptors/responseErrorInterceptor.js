@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get } from "lodash";
 import { push } from "connected-react-router";
 import { snackbarError } from "../../policeDataManager/actionCreators/snackBarActionCreators";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
@@ -13,11 +13,10 @@ const responseErrorInterceptor = dispatch => {
 };
 
 const interceptError = (error, dispatch) => {
-  let { errorMessage, caseId } = getErrorMessageAndCaseIdFromErrorResponse(
-    error
-  );
+  let { errorMessage, caseId } =
+    getErrorMessageAndCaseIdFromErrorResponse(error);
 
-  let statusCode = get(error, ['response', 'status']);
+  let statusCode = get(error, ["response", "status"]);
 
   errorMessage = transformAndHandleError(
     errorMessage,
@@ -47,7 +46,9 @@ export const transformAndHandleError = (
   }
 
   if (redirectUrl) {
-    reloadCaseDetailsPage(dispatch, caseId);
+    if (caseId) {
+      reloadCaseDetailsPage(dispatch, caseId);
+    }
     dispatch(push(redirectUrl));
   }
 
@@ -96,15 +97,19 @@ const mapCustomErrorToDisplayAndRedirectUrl = (errorMessage, caseId) => {
 };
 
 const getErrorMessageAndCaseIdFromErrorResponse = error => {
-  let errorMessage = get(error, ['response', 'data', 'message'], null);
-  let caseId = get(error, ['response', 'data', 'caseId'], null);
+  let errorMessage = get(error, ["response", "data", "message"], null);
+  let caseId = get(error, ["response", "data", "caseId"], null);
 
-  if (get(error, ['response', 'status'], null) === 401) {
+  if (get(error, ["response", "status"], null) === 401) {
     errorMessage = error.message;
   }
 
-  if (get(error, ['response', 'config', 'responseType'], null) === "arraybuffer") {
-    const jsonData = getJsonDataFromArrayBufferResponse(get(error, ['response', 'data'], {}));
+  if (
+    get(error, ["response", "config", "responseType"], null) === "arraybuffer"
+  ) {
+    const jsonData = getJsonDataFromArrayBufferResponse(
+      get(error, ["response", "data"], {})
+    );
     errorMessage = jsonData.message;
     caseId = jsonData.caseId;
   }

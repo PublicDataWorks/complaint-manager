@@ -7,24 +7,32 @@ import {
   withStyles
 } from "@material-ui/core";
 import DetailsCard from "../shared/components/DetailsCard";
+import LinkButton from "../shared/components/LinkButton";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
+import SignatureDialog from "./SignatureDialog";
 
 const Signatures = props => {
   const [signers, setSigners] = useState([]);
   const [signatures, setSignatures] = useState({});
+  const [signerDialog, setSignerDialog] = useState(); // undefined: dialog dormant, "new": add new signer, {stuff}: edit existing signer
+  const [loadSigners, setLoadSigners] = useState(true);
 
   useEffect(() => {
-    axios
-      .get("/api/signers")
-      .then(result => {
-        setSigners(result.data);
-        result.data.forEach(processSigner);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+    if (loadSigners) {
+      axios
+        .get("/api/signers")
+        .then(result => {
+          setSigners(result.data);
+          result.data.forEach(processSigner);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      setLoadSigners(false);
+    }
+  }, [loadSigners]);
 
   const processSigner = signer => {
     if (signer?.links.length) {
@@ -86,8 +94,33 @@ const Signatures = props => {
               No Signatures have been added
             </Typography>
           )}
+          <LinkButton
+            style={{
+              marginLeft: "8px",
+              marginTop: "8px",
+              marginBottom: "8px"
+            }}
+            onClick={() => setSignerDialog("new")}
+            data-testid="addSignature"
+          >
+            + Add Signature
+          </LinkButton>
         </CardContent>
       </DetailsCard>
+      {signerDialog === "new" ? (
+        <SignatureDialog
+          classes={{}}
+          exit={isThereNewData => {
+            if (isThereNewData) {
+              setLoadSigners(true);
+            }
+            setSignerDialog(undefined);
+          }}
+          signers={signers}
+        />
+      ) : (
+        ""
+      )}
     </section>
   );
 };

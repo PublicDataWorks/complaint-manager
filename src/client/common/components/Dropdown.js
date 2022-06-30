@@ -61,6 +61,7 @@ class Dropdown extends React.Component {
                 {...params}
                 name={parentProps.input.name}
                 label={parentProps.label}
+                placeholder={parentProps.placeholder}
                 InputLabelProps={{ required: parentProps.required }}
                 helperText={hasError && parentProps.meta.error}
                 error={hasError}
