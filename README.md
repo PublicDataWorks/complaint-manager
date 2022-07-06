@@ -80,7 +80,7 @@ mkcert -cert-file data/server.test.pem.crt -key-file data/server.test.pem.key ho
   - Do a docker-compose down then a docker-compose up app for changes to take effect
 
 # set CERT_DIR env variable
-in .zshrc set the CERT_DIR environment variable to the directory in which the root cert lives (/Users/<username>/Library/Application\ Support/mkcert)
+in .zshrc set the CERT_DIR environment variable to the directory in which the root cert lives (You can find this directory by running `mkcert -CAROOT`. Will look something like `/Users/<username>/Library/Application\ Support/mkcert`)
 
 ```
 
