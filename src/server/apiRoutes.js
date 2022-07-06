@@ -76,6 +76,7 @@ import getSignature from "./handlers/signers/getSignature";
 import addSigner from "./handlers/signers/addSigner";
 import editSigner from "./handlers/signers/editSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
+import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -619,6 +620,12 @@ export const API_ROUTES = {
     post: {
       handler: logHandler,
       errorMessage: "Something went wrong while logging. Please try again."
+    }
+  },
+  "/case-statuses": {
+    get: {
+      handler: getCaseStatuses,
+      errorMessage: "Something went wrong while loading the case statuses. Please try again."
     }
   }
 };
