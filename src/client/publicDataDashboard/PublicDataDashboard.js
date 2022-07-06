@@ -213,7 +213,7 @@ const PublicDataDashboard = ({
                     opacity: 0.9
                   }}
                 >
-                  Where are complaints being filed?
+                  Where are the alleged misconduct incidents occurring?
                 </Typography>
               </Container>
             ) : (
@@ -372,7 +372,7 @@ const PublicDataDashboard = ({
                     opacity: 0.9
                   }}
                 >
-                  Where are complaints being submitted from?
+                  Which districts have the most complaints?
                 </Typography>
               </Container>
             ) : (

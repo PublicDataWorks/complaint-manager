@@ -483,20 +483,21 @@ export const DDS_COMPLAINTS_BY_DISTRICT = "DDS_COMPLAINTS_BY_DISTRICT";
 
 export const DATA_SECTIONS = {
   [DDS_LOCATION_DATA]: {
-    title: "Complaints on a Map",
-    subtitle: "Locations of Complaints for the Past 12 Months",
+    title: "Where are the alleged misconduct incidents occurring?",
+    subtitle: "Complaint Density Map of New Orleans",
     dataTestId: "complaintLocations",
     queryType: QUERY_TYPES.LOCATION_DATA,
     queryOptions: {
       minDate: moment().subtract(12, "months").format(ISO_DATE)
     },
     // TODO replace placeholder
-    collapsedText: `With this map, the ${ORGANIZATION} seeks to capture if there are any patterns around where police misconduct is being reported. This map tracks the density of complaints referred to the ${ORGANIZATION} over the course of the last twelve months in a given location.`,
-    fullMessage: `With this map, the ${ORGANIZATION} seeks to capture if there are any patterns around where police misconduct is being reported. This map tracks the density of complaints referred to the ${ORGANIZATION} over the course of the last twelve months in a given location.`
+    collapsedText: `This data visualization is a “density” map showing where in the city the complaints of officer misconduct are concentrated. The purpose of this map is for the community to learn more about where complaints of misconduct are occurring and how it influences the neighborhood and city around them.`,
+    fullMessage: `This data visualization is a “density” map showing where in the city the complaints of officer misconduct are concentrated. The purpose of this map is for the community to learn more about where complaints of misconduct are occurring and how it influences the neighborhood and city around them. The complaints of officer misconduct are limited to what is filed with the ${ORGANIZATION_TITLE}.  Through this map, the viewer can see where the majority of the complaints of officer misconduct are occurring based on the location of the misconduct incident.  This map gives the viewer the option of zooming in or out to see the city as a whole or focus on one neighborhood.  For context, there is the option for the viewer to overlay the locations of public schools, libraries, or public parks on the map.  This will help the viewer conceptualize the location more dimensionally, since it will be in relation to recognizable community landmarks or gathering points for the neighborhood.  The viewer also has the option to overlay police district boundary lines over the map to see the complaint data in context of police districts and to compare district to district.   
+    There are some limitations to this map.  In some cases, the location may be hard to identify if the alleged misconduct occurred on the internet or over the phone, but the ${ORGANIZATION_TITLE} strove to verify locations by identifying the district of the assigned officer who allegedly committed the misconduct.  This map is also limited to complaints received beginning in 2019.`
   },
   [DDS_COMPLAINTS_OVER_TIME]: {
     title: "Who is submitting complaints over time?",
-    subtitle: "Complainant Type over Past 12 Months",
+    subtitle: "Complainant Type Over Time",
     dataTestId: "complainantTypePast12MonthsGraph",
     queryType: QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
@@ -531,13 +532,13 @@ export const DATA_SECTIONS = {
     fullMessage: `The ${ORGANIZATION_TITLE} labels and categorizes groups of complaints based on subject matter or theme through tags. Note: Not every ${ORGANIZATION} case has a tag or associated theme. Visit the #Tag Glossary linkTo /data/glossary# for more information.\n\nTags is a term created within the ${ORGANIZATION_TITLE} and it references a way of labeling and categorizing a group of complaints based on subject matter or a theme.  Some tags were created in response to patterns or situations that naturally arise, such as Covid19, Checkpoints or Protests.  Those three tags were created in the spring and summer to track complaints that came during the police’s response to the pandemic or during the public protests of police shootings.  Other tags capture complaints around basic policing tactics or strategies, such Arrest Warrant which is utilized when there are complaints around how arrest warrants were executed, or Failure to Investigate which is utilized when there are complaints concerning investigatory shortcomings.  Finally, some tags were created in response to partnerships with other community organizations to track a shared concern, such as complaints of misconduct that may result from landlord and tenant issues or misconduct resulting from housing insecurity.  In those situations, the ${ORGANIZATION} wants to ensure those complainants are also connected with advocacy groups that can assist with services.  As future patterns, concerns, or service opportunities arise, the ${ORGANIZATION} will continue to develop and implement new tags.  This chart captures tag use on a rolling twelve month basis.`
   },
   [DDS_COMPLAINTS_BY_DISTRICT]: {
-    title: "Where are complaints being submitted from?",
+    title: "Which districts have the most complaints?",
     subtitle: "Complaints by District",
     dataTestId: "countByDistrictGraph",
     queryType: QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT,
     queryOptions: { dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS },
-    collapsedText: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know`,
-    fullMessage: `Which district is the worst?  The ${ORGANIZATION_TITLE} wants you to know.  Personally I think the 4th district is the worst, but I'm biased, because I live in the 2nd district, and I have made pride in my district.  district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district district`
+    collapsedText: `This bar chart communicates the number of complaints of officer misconduct the ${ORGANIZATION_TITLE} received by district. This chart helps the public, ${PD}, and community organization partners compare and contrast the number of complaints per police district.`,
+    fullMessage: `This bar chart communicates the number of complaints of officer misconduct the ${ORGANIZATION_TITLE} received by district. This chart helps the public, ${PD}, and community organization partners compare and contrast the number of complaints per police district.  There are eight (8) police districts in ${CITY}.  When a complainant provides an account of officer misconduct to the ${ORGANIZATION_TITLE}, the complainant intake specialist will try to identify the district where the misconduct occurred or where the officer who committed the misconduct is assigned (for allegations that occur over the phone or online).`
   },
   [DDS_TOP_ALLEGATIONS]: {
     title: "What are the most frequently recommended allegations?",
