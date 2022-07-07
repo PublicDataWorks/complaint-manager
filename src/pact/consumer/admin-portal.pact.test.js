@@ -116,7 +116,7 @@ pactWith(
               title: "Chief Executive Police Punisher",
               nickname: FAKE_USERS[0].email,
               phone: "777-777-7777",
-              signatureFile: "Candy-2011-10-10T05:20:20-05:00.png"
+              signatureFile: "Candy-1318242020000.png"
             }
           },
           willRespondWith: {

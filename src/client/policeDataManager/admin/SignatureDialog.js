@@ -88,7 +88,7 @@ class SignatureDialog extends Component {
   onUploadSending = (file, xhr, formData) => {
     this.fileName = `${this.props.name.replace(/\s/gi, ".")}-${moment()
       .utc()
-      .format()}.${file.name.split(".").pop()}`;
+      .valueOf()}.${file.name.split(".").pop()}`;
     formData.append("name", this.fileName);
   };
 
