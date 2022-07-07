@@ -12,7 +12,7 @@ import { changeInput, selectDropdownOption } from "../../../../testHelpers";
 import addCaseNote from "../../thunks/addCaseNote";
 import { initialize, reset } from "redux-form";
 import editCaseNote from "../../thunks/editCaseNote";
-import moment from "moment";
+import moment from "moment-timezone";
 import { getCaseNoteActionsSuccess } from "../../../actionCreators/caseNoteActionActionCreators";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import getUsers from "../../../../common/thunks/getUsers";

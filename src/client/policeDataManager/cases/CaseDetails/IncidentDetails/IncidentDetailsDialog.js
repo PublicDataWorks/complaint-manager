@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import moment from "moment/moment";
+import moment from "moment-timezone";
 import {
   Dialog,
   DialogActions,

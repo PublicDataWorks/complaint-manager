@@ -1,3 +1,3 @@
-import moment from "moment";
+import moment from "moment-timezone";
 
 export const userTimezone = moment.tz.guess();

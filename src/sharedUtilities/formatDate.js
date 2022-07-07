@@ -43,7 +43,7 @@ export const applyCentralTimeZoneOffset = dateString => {
 };
 
 export const computeTimeZone = () => {
-  return moment.tz.zone(TIMEZONE).abbrs[0];
+  return timezone.tz.zone(TIMEZONE).abbrs[0];
 };
 
 export function format12HourTime(time) {
