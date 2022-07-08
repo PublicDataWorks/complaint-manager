@@ -16,6 +16,8 @@ Busboy.mockImplementation(() => {
     on: jest.fn(async (field, func) => {
       if (field === "field") {
         await func("name", "file.png");
+        await func("type", "image/gif");
+        await func("random", "stuff");
       }
       if (field === "file") {
         await func(jest.fn(), jest.fn(), { filename: "test_filename" });
