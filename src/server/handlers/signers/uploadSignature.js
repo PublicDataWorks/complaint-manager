@@ -20,11 +20,13 @@ const uploadSignature = asyncMiddleware(async (request, response, next) => {
     headers: request.headers
   });
 
-  let filename;
+  let filename, fileType;
 
   busboy.on("field", function (fieldname, value) {
     if (fieldname === "name") {
       filename = value;
+    } else if (fieldname == "type") {
+      fileType = value;
     }
   });
 
@@ -42,7 +44,8 @@ const uploadSignature = asyncMiddleware(async (request, response, next) => {
     Bucket: config[process.env.NODE_ENV].s3Bucket,
     Key: `signatures/${filename}`,
     Body: file,
-    ServerSideEncryption: "AES256"
+    ServerSideEncryption: "AES256",
+    ContentType: fileType
   });
 
   //The AWS S3 JS SDK has a non-standard promise implementation.

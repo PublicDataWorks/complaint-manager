@@ -12,6 +12,14 @@ import styles from "../cases/CaseDetails/caseDetailsStyles";
 import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
 import SignatureDialog from "./SignatureDialog";
 
+const formatImageString = string => {
+  if (string.length % 4 === 0) {
+    return string;
+  } else {
+    return string.substring(0, string.length - (string.length % 4));
+  }
+};
+
 const Signatures = props => {
   const [signers, setSigners] = useState([]);
   const [signatures, setSignatures] = useState({});
@@ -49,7 +57,10 @@ const Signatures = props => {
       .then(result => {
         setSignatures(previousSignatures => ({
           ...previousSignatures,
-          [signerId]: result.data
+          [signerId]: {
+            image: formatImageString(result.data),
+            type: result.headers["content-type"]
+          }
         }));
       })
       .catch(error => {
@@ -78,8 +89,10 @@ const Signatures = props => {
                     {signatures[signer.id] ? (
                       <img
                         alt={`The signature of ${signer.name}`}
-                        src={`data:image/png;base64,${signatures[signer.id]}`}
-                        style={{ height: "4.5em" }}
+                        src={`data:${signatures[signer.id].type};base64,${
+                          signatures[signer.id].image
+                        }`}
+                        style={{ maxHeight: "4.5em" }}
                       />
                     ) : (
                       ""
