@@ -1,8 +1,6 @@
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
-
 const getActiveStep = (caseStatusMap, caseStatus) => {
-  if (caseStatusMap[caseStatus] === caseStatusMap[CASE_STATUS.CLOSED]) {
-    return caseStatusMap[CASE_STATUS.CLOSED] + 1; // marks closed status with a checkmark
+  if (caseStatusMap[caseStatus] === caseStatusMap["Closed"]) {
+    return caseStatusMap["Closed"] + 1; // marks closed status with a checkmark
   }
   return caseStatusMap[caseStatus];
 };

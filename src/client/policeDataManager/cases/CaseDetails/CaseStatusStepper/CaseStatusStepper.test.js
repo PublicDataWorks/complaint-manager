@@ -6,28 +6,48 @@ import {
   getCaseDetailsSuccess,
   openCaseStatusUpdateDialog
 } from "../../../actionCreators/casesActionCreators";
-import {
-  CASE_STATUS,
-  CASE_STATUS_MAP,
-  USER_PERMISSIONS
-} from "../../../../../sharedUtilities/constants";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import CaseStatusStepper from "./CaseStatusStepper";
 import StatusButton from "../StatusButton/StatusButton";
 import { BrowserRouter as Router } from "react-router-dom";
 import getActiveStep from "./getActiveStep";
+import nock from "nock";
+import "@testing-library/jest-dom";
 
 describe("CaseStatusStepper", () => {
-  let store;
+  let store, responseBody, caseStatusMap;
   beforeEach(() => {
+    jest.useFakeTimers();
     store = createConfiguredStore();
+    
+    responseBody = [
+      {"id":1,"name":"Initial","order_key":0},
+      {"id":2,"name":"Active","order_key":1},
+      {"id":3,"name":"Letter in Progress","order_key":2},
+      {"id":4,"name":"Ready for Review","order_key":3},
+      {"id":5,"name":"Forwarded to Agency","order_key":4},
+      {"id":6,"name":"Closed","order_key":5}
+    ];
+    
+    nock.cleanAll();
+    nock("http://localhost").get(`/api/case-statuses`).reply(200, responseBody);
+
+    caseStatusMap = {
+      ["Initial"]: 0,
+      ["Active"]: 1,
+      ["Letter in Progress"]: 2,
+      ["Ready for Review"]: 3,
+      ["Forwarded to Agency"]: 4,
+      ["Closed"]: 5
+    };
   });
 
-  test("should set status to Initial", () => {
+  test("should set status to Initial", async () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.INITIAL,
+        status: responseBody[0].name,
         nextStatus: "blah"
       })
     );
@@ -37,16 +57,19 @@ describe("CaseStatusStepper", () => {
         <CaseStatusStepper />
       </Provider>
     );
+
     const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
 
-    expect(statusStepper.prop("activeStep")).toEqual(0);
+    setTimeout(() => {
+      expect(statusStepper.prop("activeStep")).toEqual(0);
+    }, 100);
   });
 
   test("should set status to Forwarded To Agency", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.FORWARDED_TO_AGENCY,
+        status: responseBody[4].name,
         nextStatus: "blah"
       })
     );
@@ -60,7 +83,9 @@ describe("CaseStatusStepper", () => {
     );
     const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
 
-    expect(statusStepper.prop("activeStep")).toEqual(4);
+    setTimeout(() => {
+      expect(statusStepper.prop("activeStep")).toEqual(4)
+    }, 100);
   });
 
   test("should open update status dialog with redirect url if next status is letter in progress", () => {
@@ -68,8 +93,8 @@ describe("CaseStatusStepper", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
-        status: CASE_STATUS.ACTIVE,
-        nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
+        status: responseBody[1].name,
+        nextStatus: responseBody[2].name,
       })
     );
     store.dispatch({
@@ -91,7 +116,7 @@ describe("CaseStatusStepper", () => {
 
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(
-        CASE_STATUS.LETTER_IN_PROGRESS,
+        responseBody[2].name,
         `/cases/1/letter/review`
       )
     );
@@ -113,7 +138,7 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.INITIAL,
+          status: responseBody[0].name,
           nextStatus: "blah"
         })
       );
@@ -135,8 +160,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.ACTIVE,
-          nextStatus: CASE_STATUS.LETTER_IN_PROGRESS
+          status: responseBody[1].name,
+          nextStatus: responseBody[2].name
         })
       );
 
@@ -160,8 +185,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.LETTER_IN_PROGRESS,
-          nextStatus: CASE_STATUS.READY_FOR_REVIEW
+          status: responseBody[2].name,
+          nextStatus: responseBody[3].name
         })
       );
 
@@ -184,8 +209,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.READY_FOR_REVIEW,
-          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+          status: responseBody[3].name,
+          nextStatus: responseBody[4].name
         })
       );
 
@@ -208,8 +233,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.FORWARDED_TO_AGENCY,
-          nextStatus: CASE_STATUS.CLOSED
+          status: responseBody[4].name,
+          nextStatus: responseBody[5].name
         })
       );
 
@@ -232,8 +257,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.READY_FOR_REVIEW,
-          nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
+          status: responseBody[3].name,
+          nextStatus: responseBody[4].name
         })
       );
 
@@ -259,8 +284,8 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.FORWARDED_TO_AGENCY,
-          nextStatus: CASE_STATUS.CLOSED
+          status: responseBody[4].name,
+          nextStatus: responseBody[5].name
         })
       );
 
@@ -279,7 +304,7 @@ describe("CaseStatusStepper", () => {
       updateStatusButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        openCaseStatusUpdateDialog(CASE_STATUS.CLOSED)
+        openCaseStatusUpdateDialog(responseBody[5].name)
       );
     });
 
@@ -287,7 +312,7 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.CLOSED
+          status: responseBody[5].name
         })
       );
 
@@ -310,7 +335,7 @@ describe("CaseStatusStepper", () => {
       store.dispatch(
         getCaseDetailsSuccess({
           id: 1,
-          status: CASE_STATUS.CLOSED
+          status: responseBody[5].name
         })
       );
 
@@ -386,12 +411,12 @@ describe("CaseStatusStepper", () => {
 
   describe("getActiveStep", () => {
     test("increments last step value by 1 for map with letter in progress", () => {
-      expect(getActiveStep(CASE_STATUS_MAP, CASE_STATUS.CLOSED)).toEqual(6);
+      expect(getActiveStep(caseStatusMap, responseBody[5].name)).toEqual(6);
     });
 
     test("does not increment for statuses other than closed", () => {
       expect(
-        getActiveStep(CASE_STATUS_MAP, CASE_STATUS.READY_FOR_REVIEW)
+        getActiveStep(caseStatusMap, responseBody[3].name)
       ).toEqual(3);
     });
   });

@@ -1,15 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
-import {
-  CASE_STATUS_MAP,
-  USER_PERMISSIONS
-} from "../../../../../sharedUtilities/constants";
+import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
 import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
 import getActiveStep from "./getActiveStep";
+import axios from "axios";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -22,6 +20,19 @@ const generateSteps = map => {
 };
 
 const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
+  const [caseStatusesMap, setCaseStatusesMap] = useState({});
+
+  useEffect(() => {
+    axios
+    .get("/api/case-statuses")
+    .then(statuses => {
+      setCaseStatusesMap(new Map(statuses.data.map(status => [status.name, status.order_key])))
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  }, []);
+  
   const renderButtons = () => {
     return (
       <div
@@ -54,11 +65,11 @@ const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
     <Fragment>
       <Stepper
         data-testid="statusStepper"
-        activeStep={getActiveStep(CASE_STATUS_MAP, status)}
+        activeStep={getActiveStep(caseStatusesMap, status)}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
-        {generateSteps(CASE_STATUS_MAP)}
+        {generateSteps(caseStatusesMap)}
       </Stepper>
       {renderButtons()}
       <UpdateCaseStatusDialog />
