@@ -199,6 +199,9 @@ jobs:
           keys:
             - dependencies-{{ .Environment.CACHE_VERSION }}
       - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
           command: npm install -g @lhci/cli@0.3.x
       - run:
           command: ls
