@@ -219,6 +219,7 @@ jobs:
             DATABASE_PASS=$DEMO_DATABASE_PASS \
             DATABASE_NAME=$DEMO_DATABASE_NAME \
             DATABASE_HOST=$DEMO_DATABASE_HOST \
+            REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files \
             npx babel-node ./scripts/purge-audits.js
 
   security-check:
