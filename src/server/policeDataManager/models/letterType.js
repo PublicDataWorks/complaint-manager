@@ -51,9 +51,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "letterType", field: "letter_type" }
     });
 
-    LetterType.hasOne(models.caseStatus, {
-      as: "required_status",
-      foreignKey: { field: "required_status", allowNull: false }
+    LetterType.belongsTo(models.caseStatus, {
+      as: "requiredStatus",
+      foreignKey: { name: "requiredStatusId", field: "required_status", allowNull: true }
     });
   };
   return LetterType;
