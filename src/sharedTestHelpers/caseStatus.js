@@ -10,7 +10,7 @@ class CaseStatus {
       defaultCaseStatus() {
         this.id = 1;
         this.name = "Initial";
-        this.orderKey = 1;
+        this.orderKey = 0;
         return this;
       }
 

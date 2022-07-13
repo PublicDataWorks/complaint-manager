@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      order_key: {
+      orderKey: {
+        field: "order_key",
         type: DataTypes.INTEGER,
         allowNull: false
       },
