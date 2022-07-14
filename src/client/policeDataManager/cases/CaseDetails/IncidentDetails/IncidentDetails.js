@@ -71,7 +71,7 @@ class IncidentDetails extends React.Component {
     const pbCaseNumberText = `${configs[CONFIGS.BUREAU_ACRONYM]} Case Number`;
 
     return (
-      <DetailsCard title="Incident Details">
+      <DetailsCard title="Incident Details" maxWidth="850px">
         <CardContent style={{ padding: "24px" }}>
           <div
             style={{

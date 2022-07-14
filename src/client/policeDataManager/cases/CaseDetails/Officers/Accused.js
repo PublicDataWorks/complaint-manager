@@ -27,7 +27,11 @@ const Accused = props => {
   const titleText = "Accused";
 
   return (
-    <DetailsCard data-testid="officersSection" title={titleText}>
+    <DetailsCard
+      data-testid="officersSection"
+      title={titleText}
+      maxWidth="850px"
+    >
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
           ? renderNoOfficers()

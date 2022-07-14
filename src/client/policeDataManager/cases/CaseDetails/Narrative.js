@@ -31,7 +31,7 @@ const Narrative = props => {
   };
 
   return (
-    <DetailsCard title="Narrative">
+    <DetailsCard title="Narrative" maxWidth="850px">
       <CardContent>
         <Typography
           data-testid={"narrativePromptDetails"}

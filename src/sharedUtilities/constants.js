@@ -728,7 +728,7 @@ export const DEFAULT_NOTIFICATION_TEXT = "You have no new notifications.";
 //            Fake User Data
 // ------------------------------------------
 
-export const NICKNAME = "dog.person@gmail.com";
+export const NICKNAME = "noipm.infrastructure@gmail.com";
 export const USERNAME = "NOIPM Infra";
 export const PERMISSIONS = [
   "openid",

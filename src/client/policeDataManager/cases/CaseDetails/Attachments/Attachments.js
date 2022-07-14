@@ -10,7 +10,7 @@ import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 const Attachments = props => {
   return (
-    <DetailsCard title="Attachments">
+    <DetailsCard title="Attachments" maxWidth="850px">
       <CardContent style={{ paddingBottom: "24px" }}>
         <div style={{ display: "flex" }}>
           <div

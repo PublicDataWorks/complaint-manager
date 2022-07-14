@@ -25,6 +25,7 @@ const Complainants = props => {
       data-testid="complainantWitnessesSection"
       title="Complainants"
       subtitle={getSubtitleText(sortedComplainants)}
+      maxWidth="850px"
     >
       <CardContent style={{ padding: "0" }}>
         <ComplainantWitnessDisplay

@@ -71,7 +71,7 @@ const Signatures = props => {
   return (
     <section style={{ margin: "10px 3px" }}>
       <DetailsCard title="Signatures">
-        <CardContent style={{ padding: "0" }}>
+        <CardContent style={{ padding: "0", width: "100%" }}>
           {signers.length ? (
             signers.map(signer => (
               <React.Fragment key={signer.id}>
@@ -79,20 +79,29 @@ const Signatures = props => {
                   className={props.classes.detailsLastRow}
                   style={{ padding: "5px 30px" }}
                 >
-                  <DetailsCardDisplay caption="Name" message={signer.name} />
-                  <DetailsCardDisplay caption="Role" message={signer.title} />
+                  <DetailsCardDisplay
+                    caption="Name"
+                    message={signer.name}
+                    width="200px"
+                  />
+                  <DetailsCardDisplay
+                    caption="Role"
+                    message={signer.title}
+                    width="200px"
+                  />
                   <DetailsCardDisplay
                     caption="Phone Number"
                     message={signer.phone}
+                    width="200px"
                   />
-                  <DetailsCardDisplay caption="Signature">
+                  <DetailsCardDisplay caption="Signature" width="200px">
                     {signatures[signer.id] ? (
                       <img
                         alt={`The signature of ${signer.name}`}
                         src={`data:${signatures[signer.id].type};base64,${
                           signatures[signer.id].image
                         }`}
-                        style={{ maxHeight: "4.5em" }}
+                        style={{ maxHeight: "4.5em", maxWidth: "200px" }}
                       />
                     ) : (
                       ""
