@@ -21,7 +21,7 @@ import { random } from "lodash";
 import Civilian from "../../sharedTestHelpers/civilian";
 import LetterType from "../../sharedTestHelpers/letterType";
 import Signer from "../../sharedTestHelpers/signer";
-import { up } from "../../server/seeders/202206130000-seed-letter-fields";
+import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -120,6 +120,7 @@ const setupCase = async () => {
     return c;
   } catch (e) {
     console.log(e);
+    throw e;
   }
 };
 
@@ -130,6 +131,7 @@ const setupLetter = async letterCase => {
     const letter = await models.referral_letter.create(
       new ReferralLetter.Builder()
         .defaultReferralLetter()
+        .withId(1)
         .withCaseId(letterCase.id)
         .withRecipient("King of all police")
         .withRecipientAddress("100 Main Street, North Pole")
@@ -139,6 +141,7 @@ const setupLetter = async letterCase => {
     return letter;
   } catch (e) {
     console.log(e);
+    throw e;
   }
 };
 
@@ -155,13 +158,14 @@ const addCivilianComplainantToCase = async theCase => {
 
 const addOfficerHistoryToReferralLetter = async letter => {
   const officer = await models.officer.create(
-    new Officer.Builder().defaultOfficer().withId(78291).withOfficerNumber(27),
+    new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
     { auditUser: "user" }
   );
 
   const caseOfficer = await models.case_officer.create(
     new CaseOfficer.Builder()
       .defaultCaseOfficer()
+      .withId(1)
       .withOfficerId(officer.id)
       .withCaseId(letter.caseId)
       .withRoleOnCase(ACCUSED)
@@ -177,12 +181,14 @@ const addOfficerHistoryToReferralLetter = async letter => {
   const letterOfficer = await models.letter_officer.create(
     new LetterOfficer.Builder()
       .defaultLetterOfficer()
+      .withId(1)
       .withCaseOfficerId(caseOfficer.id)
       .withOfficerHistoryOptionId(officerHistory.id),
     { auditUser: "user" }
   );
   return letterOfficer;
 };
+
 const addClassificationsToCase = async theCase => {
   const classification = await models.classification.create(
     { id: 1, name: "spongebob", message: "i'm ready" },
@@ -194,6 +200,83 @@ const addClassificationsToCase = async theCase => {
       .defaultReferralLetterCaseClassification()
       .withCaseId(theCase.id)
       .withClassificationId(1),
+    { auditUser: "user" }
+  );
+};
+
+const addRecommendedActions = async () => {
+  await models.recommended_action.create(
+    {
+      id: 1,
+      description:
+        "Be temporarily or permanently reassigned from his/her current assignment"
+    },
+    { auditUser: "user" }
+  );
+  await models.recommended_action.create(
+    {
+      id: 2,
+      description: "Receive training regarding any issues noted"
+    },
+    { auditUser: "user" }
+  );
+  await models.recommended_action.create(
+    {
+      id: 3,
+      description: "Receive supervisory interventions and monitoring - INSIGHT"
+    },
+    { auditUser: "user" }
+  );
+  await models.recommended_action.create(
+    {
+      id: 4,
+      description: "Be subject to a Fitness for Duty Assessment"
+    },
+    { auditUser: "user" }
+  );
+  await models.recommended_action.create(
+    {
+      id: 5,
+      description: "Be the subject of Integrity Checks"
+    },
+    { auditUser: "user" }
+  );
+};
+
+const addClassifications = async () => {
+  await models.classification.create(
+    {
+      id: 1,
+      name: "Use of Force",
+      message:
+        "Due to the allegation of use of force, the OIPM recommends that this allegation be classified as use of force and be investigated by the Force Investigative Team (FIT)."
+    },
+    { auditUser: "user" }
+  );
+  await models.classification.create(
+    {
+      id: 2,
+      name: "Criminal Misconduct",
+      message:
+        "Due to the allegation of a possible commission of crime, false arrest, domestic violence, an unlawful search, or a civil rights violation, OIPM recommends this complaint be classified as criminal misconduct at this time."
+    },
+    { auditUser: "user" }
+  );
+  await models.classification.create(
+    {
+      id: 3,
+      name: "Serious Misconduct",
+      message:
+        "Due to the allegation of possible discriminatory policing, false arrest, “planting of evidence,” untruthfulness / false statements, unlawful search, retaliation, sexual misconduct, domestic violence, or misconduct implicating the conduct of the supervisory or command leadership of the subject employee, OIPM recommends the complaint be classified as serious misconduct at this time."
+    },
+    { auditUser: "user" }
+  );
+  await models.classification.create(
+    {
+      id: 4,
+      name: "Declines to classify",
+      message: "OIPM declines to classify the complaint at this time."
+    },
     { auditUser: "user" }
   );
 };
@@ -275,7 +358,7 @@ describe("Pact Verification", () => {
           { auditUser: "test" }
         );
 
-        await up(models);
+        await seedLetterFields(models);
       },
       stateHandlers: {
         "Case exists": async () => {
@@ -283,20 +366,30 @@ describe("Pact Verification", () => {
         },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();
-          await setupLetter(letterCase);
+          await Promise.all([
+            setupLetter(letterCase),
+            addClassifications(),
+            addRecommendedActions()
+          ]);
         },
         "letter is ready for review: officer history added": async () => {
           const letterCase = await setupCase();
           const letter = await setupLetter(letterCase);
-          await addOfficerHistoryToReferralLetter(letter);
+          await Promise.all([
+            addOfficerHistoryToReferralLetter(letter),
+            addClassifications(),
+            addRecommendedActions()
+          ]);
         },
         "letter is ready for review: officer history added: classifications added":
           async () => {
             const letterCase = await setupCase();
             const letter = await setupLetter(letterCase);
             try {
-              await addOfficerHistoryToReferralLetter(letter);
-              await addClassificationsToCase(letterCase);
+              await Promise.all([
+                addOfficerHistoryToReferralLetter(letter),
+                addClassificationsToCase(letterCase)
+              ]);
             } catch (e) {
               console.log(e);
               throw e;
@@ -304,8 +397,12 @@ describe("Pact Verification", () => {
           },
         "letter is ready for review: with civilian complainant": async () => {
           const letterCase = await setupCase();
-          await setupLetter(letterCase);
-          await addCivilianComplainantToCase(letterCase);
+          await Promise.all([
+            setupLetter(letterCase),
+            addCivilianComplainantToCase(letterCase),
+            addClassifications(),
+            addRecommendedActions()
+          ]);
         },
         "signers have been added to the database": async () => {
           await models.signers.create(
@@ -316,7 +413,9 @@ describe("Pact Verification", () => {
               .build(),
             { auditUser: "user" }
           );
-        }
+        },
+        "recommended actions are added": addRecommendedActions,
+        "classifications are added": addClassifications
       }
     };
 
