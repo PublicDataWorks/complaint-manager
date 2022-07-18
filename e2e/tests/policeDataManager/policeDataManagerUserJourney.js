@@ -175,325 +175,325 @@ module.exports = {
       caseDetailsPage.caseReferenceIsAC();
     },
 
-  "should show case reference with prefix AC in list of cases on Case Dashboard":
-    browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
-      const caseDashboard = browser.page.CaseDashboard();
-
-      caseDetailsPage.returnToCaseDashboard();
-
-      caseDashboard.isOnPage().sortByCaseReference("desc").hasCaseWithAC();
-    },
-
-  "should return to AC case details and un-anonymize the primary complainant":
-    browser => {
-      const caseDashboard = browser.page.CaseDashboard();
-      const caseDetailsPage = browser.page.CaseDetails();
-      const civilianDialog = browser.page.CivilianDialog();
-      const snackbar = browser.page.SnackbarPOM();
-
-      caseDashboard.isOnPage().sortByCaseReference("desc").goToACCase();
-
-      caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
-
-      civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
-
-      snackbar.presentWithMessage("Civilian was successfully updated").close();
-
-      caseDetailsPage.caseReferenceIsCC();
-    },
-
-  "should not show address in Complainant & Witnesses section of Case Detail":
-    browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
-
-      caseDetailsPage.expandCivilianDetails().civilianAddressIsNotSpecified();
-    },
-
-  "should open incident details and add": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-
-    caseDetailsPage
-      .isOnPage()
-      .setNarrativeSummary()
-      .setNarrativeDetails()
-      .saveNarrative()
-      .openIncidentDetails();
-  },
-
-  "should enter and fill incident details into incident dialog": browser => {
-    const incidentDetailsDialog = browser.page.IncidentDetailsDialog();
-    const snackbar = browser.page.SnackbarPOM();
-
-    incidentDetailsDialog
-      .dialogIsOpen()
-      .typeInAddress("canal st & bourbon st")
-      .saveIncidentDetails()
-      .fillAddress()
-      .setIncidentDate()
-      .setIncidentTime()
-      .setDistrict(2)
-      .saveIncidentDetails();
-
-    snackbar
-      .presentWithMessage("Incident details were successfully updated")
-      .close();
-  },
-
-  "should click add witness civilian within pd": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
+  // "should show case reference with prefix AC in list of cases on Case Dashboard":
+  //   browser => {
+  //     const caseDetailsPage = browser.page.CaseDetails();
+  //     const caseDashboard = browser.page.CaseDashboard();
+
+  //     caseDetailsPage.returnToCaseDashboard();
+
+  //     caseDashboard.isOnPage().sortByCaseReference("desc").hasCaseWithAC();
+  //   },
+
+  // "should return to AC case details and un-anonymize the primary complainant":
+  //   browser => {
+  //     const caseDashboard = browser.page.CaseDashboard();
+  //     const caseDetailsPage = browser.page.CaseDetails();
+  //     const civilianDialog = browser.page.CivilianDialog();
+  //     const snackbar = browser.page.SnackbarPOM();
+
+  //     caseDashboard.isOnPage().sortByCaseReference("desc").goToACCase();
+
+  //     caseDetailsPage.isOnPage().caseReferenceIsAC().editComplainant();
+
+  //     civilianDialog.dialogIsOpen().toggleIsAnonymous().submitCivilianDialog();
+
+  //     snackbar.presentWithMessage("Civilian was successfully updated").close();
+
+  //     caseDetailsPage.caseReferenceIsCC();
+  //   },
+
+  // "should not show address in Complainant & Witnesses section of Case Detail":
+  //   browser => {
+  //     const caseDetailsPage = browser.page.CaseDetails();
+
+  //     caseDetailsPage.expandCivilianDetails().civilianAddressIsNotSpecified();
+  //   },
+
+  // "should open incident details and add": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+
+  //   caseDetailsPage
+  //     .isOnPage()
+  //     .setNarrativeSummary()
+  //     .setNarrativeDetails()
+  //     .saveNarrative()
+  //     .openIncidentDetails();
+  // },
+
+  // "should enter and fill incident details into incident dialog": browser => {
+  //   const incidentDetailsDialog = browser.page.IncidentDetailsDialog();
+  //   const snackbar = browser.page.SnackbarPOM();
+
+  //   incidentDetailsDialog
+  //     .dialogIsOpen()
+  //     .typeInAddress("canal st & bourbon st")
+  //     .saveIncidentDetails()
+  //     .fillAddress()
+  //     .setIncidentDate()
+  //     .setIncidentTime()
+  //     .setDistrict(2)
+  //     .saveIncidentDetails();
+
+  //   snackbar
+  //     .presentWithMessage("Incident details were successfully updated")
+  //     .close();
+  // },
+
+  // "should click add witness civilian within pd": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
 
-    caseDetailsPage.incidentAddressIsSpecified().addWitnessCivilianWithinPd();
-  },
+  //   caseDetailsPage.incidentAddressIsSpecified().addWitnessCivilianWithinPd();
+  // },
 
-  "should see add employee page and add civilian within pd": browser => {
-    const addCivilianWithinPdSearchPage =
-      browser.page.AddCivilianWithinPdSearch();
+  // "should see add employee page and add civilian within pd": browser => {
+  //   const addCivilianWithinPdSearchPage =
+  //     browser.page.AddCivilianWithinPdSearch();
 
-    addCivilianWithinPdSearchPage
-      .isOnPage(browser)
-      .setLastName("Jaskolski")
-      .searchForCivilianWithinPd()
-      .selectNewCivilianWithinPd();
-  },
+  //   addCivilianWithinPdSearchPage
+  //     .isOnPage(browser)
+  //     .setLastName("Jaskolski")
+  //     .searchForCivilianWithinPd()
+  //     .selectNewCivilianWithinPd();
+  // },
 
-  "should return to edit civilian within pd details and save civilian pd":
-    browser => {
-      const addCivilianWithinPdDetailsPage =
-        browser.page.AddCivilianWithinPdDetails();
-      const snackBar = browser.page.SnackbarPOM();
-
-      addCivilianWithinPdDetailsPage
-        .isOnPage()
-        .selectRole(2)
-        .submitCivilianWithinPd();
+  // "should return to edit civilian within pd details and save civilian pd":
+  //   browser => {
+  //     const addCivilianWithinPdDetailsPage =
+  //       browser.page.AddCivilianWithinPdDetails();
+  //     const snackBar = browser.page.SnackbarPOM();
+
+  //     addCivilianWithinPdDetailsPage
+  //       .isOnPage()
+  //       .selectRole(2)
+  //       .submitCivilianWithinPd();
 
-      snackBar
-        .presentWithMessage(browser.globals.added_civilian_success)
-        .close();
-    },
-
-  "should display civilian within pd on case details page": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
+  //     snackBar
+  //       .presentWithMessage(browser.globals.added_civilian_success)
+  //       .close();
+  //   },
+
+  // "should display civilian within pd on case details page": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
 
-    caseDetailsPage.thereIsAKnownCivilianWithinPd("Amira");
-  },
+  //   caseDetailsPage.thereIsAKnownCivilianWithinPd("Amira");
+  // },
 
-  "should display the incident location in the Incident Details section of the Case Detail":
-    browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
+  // "should display the incident location in the Incident Details section of the Case Detail":
+  //   browser => {
+  //     const caseDetailsPage = browser.page.CaseDetails();
 
-      caseDetailsPage.addAccusedOfficer();
-    },
+  //     caseDetailsPage.addAccusedOfficer();
+  //   },
 
-  "should navigate to add officer form for unknown officer and add unknown accused officer":
-    browser => {
-      const addOfficerSearchPage = browser.page.AddOfficerSearch();
-      const addOfficerDetailsPage = browser.page.AddOfficerDetails();
+  // "should navigate to add officer form for unknown officer and add unknown accused officer":
+  //   browser => {
+  //     const addOfficerSearchPage = browser.page.AddOfficerSearch();
+  //     const addOfficerDetailsPage = browser.page.AddOfficerDetails();
 
-      addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
+  //     addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
 
-      addOfficerDetailsPage
-        .isOnPageForUnknownOfficer()
-        .selectRole(0)
-        .submitOfficer();
-    },
+  //     addOfficerDetailsPage
+  //       .isOnPageForUnknownOfficer()
+  //       .selectRole(0)
+  //       .submitOfficer();
+  //   },
 
-  "should see Unknown Officer in Accused section when added": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should see Unknown Officer in Accused section when added": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+  //   caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
 
-    snackbar.presentWithMessage("Officer was successfully added").close();
-  },
+  //   snackbar.presentWithMessage("Officer was successfully added").close();
+  // },
 
-  "should see Edit Officer page when Edit Officer clicked": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const editOfficerDetailsPage = browser.page.EditOfficerDetails();
+  // "should see Edit Officer page when Edit Officer clicked": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const editOfficerDetailsPage = browser.page.EditOfficerDetails();
 
-    caseDetailsPage.clickManageUnknownOfficer().clickEditOfficer();
+  //   caseDetailsPage.clickManageUnknownOfficer().clickEditOfficer();
 
-    editOfficerDetailsPage.isOnPageForUnknownOfficer().changeOfficer();
-  },
+  //   editOfficerDetailsPage.isOnPageForUnknownOfficer().changeOfficer();
+  // },
 
-  "should see Edit Officer search and search for officer to replace unknown":
-    browser => {
-      const editOfficerSearchPage = browser.page.EditOfficerSearch();
+  // "should see Edit Officer search and search for officer to replace unknown":
+  //   browser => {
+  //     const editOfficerSearchPage = browser.page.EditOfficerSearch();
 
-      editOfficerSearchPage
-        .isOnPage()
-        .setLastName("Ri")
-        .searchForOfficer()
-        .selectNewOfficer();
-    },
+  //     editOfficerSearchPage
+  //       .isOnPage()
+  //       .setLastName("Ri")
+  //       .searchForOfficer()
+  //       .selectNewOfficer();
+  //   },
 
-  "should return to Edit Officer Details when new officer selected and save Officer":
-    browser => {
-      const editOfficerDetailsPage = browser.page.EditOfficerDetails();
+  // "should return to Edit Officer Details when new officer selected and save Officer":
+  //   browser => {
+  //     const editOfficerDetailsPage = browser.page.EditOfficerDetails();
 
-      editOfficerDetailsPage.isOnPageForKnownOfficer().saveOfficer();
-    },
+  //     editOfficerDetailsPage.isOnPageForKnownOfficer().saveOfficer();
+  //   },
 
-  "should see that officer is no longer unknown in accused officers":
-    browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
-      const snackbar = browser.page.SnackbarPOM();
+  // "should see that officer is no longer unknown in accused officers":
+  //   browser => {
+  //     const caseDetailsPage = browser.page.CaseDetails();
+  //     const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage.isOnPage();
+  //     caseDetailsPage.isOnPage();
 
-      snackbar.presentWithMessage("Officer was successfully updated").close();
+  //     snackbar.presentWithMessage("Officer was successfully updated").close();
 
-      caseDetailsPage.thereIsAKnownOfficer("Ri");
-    },
+  //     caseDetailsPage.thereIsAKnownOfficer("Ri");
+  //   },
 
-  "should add an allegation to the officer": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const allegationPage = browser.page.Allegations();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should add an allegation to the officer": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const allegationPage = browser.page.Allegations();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetailsPage.clickManageKnownOfficer().clickManageAllegations();
+  //   caseDetailsPage.clickManageKnownOfficer().clickManageAllegations();
 
-    allegationPage
-      .isOnPage()
-      .setRule()
-      .searchForAllegations()
-      .selectAllegation()
-      .setAllegationDetails("Used department property.")
-      .setAllegationSeverity()
-      .addAllegation()
-      .newAllegationExists();
+  //   allegationPage
+  //     .isOnPage()
+  //     .setRule()
+  //     .searchForAllegations()
+  //     .selectAllegation()
+  //     .setAllegationDetails("Used department property.")
+  //     .setAllegationSeverity()
+  //     .addAllegation()
+  //     .newAllegationExists();
 
-    snackbar.presentWithMessage("Allegation was successfully added").close();
+  //   snackbar.presentWithMessage("Allegation was successfully added").close();
 
-    allegationPage.returnToCase();
-  },
+  //   allegationPage.returnToCase();
+  // },
 
-  "should navigate to Add Case Officer Page to add second officer": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const addOfficerSearchPage = browser.page.AddOfficerSearch();
+  // "should navigate to Add Case Officer Page to add second officer": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const addOfficerSearchPage = browser.page.AddOfficerSearch();
 
-    caseDetailsPage.isOnPage().addAccusedOfficer();
+  //   caseDetailsPage.isOnPage().addAccusedOfficer();
 
-    addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
-  },
+  //   addOfficerSearchPage.isOnPage().clickUnknownOfficerLink();
+  // },
 
-  "should navigate to add officer form for unknown second officer": browser => {
-    const addOfficerDetailsPage = browser.page.AddOfficerDetails();
+  // "should navigate to add officer form for unknown second officer": browser => {
+  //   const addOfficerDetailsPage = browser.page.AddOfficerDetails();
 
-    addOfficerDetailsPage
-      .isOnPageForUnknownOfficer()
-      .selectRole(0)
-      .submitOfficer();
-  },
+  //   addOfficerDetailsPage
+  //     .isOnPageForUnknownOfficer()
+  //     .selectRole(0)
+  //     .submitOfficer();
+  // },
 
-  "should see Unknown Second Officer in Accused section when added":
-    browser => {
-      const caseDetailsPage = browser.page.CaseDetails();
-      const snackbar = browser.page.SnackbarPOM();
+  // "should see Unknown Second Officer in Accused section when added":
+  //   browser => {
+  //     const caseDetailsPage = browser.page.CaseDetails();
+  //     const snackbar = browser.page.SnackbarPOM();
 
-      caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
+  //     caseDetailsPage.isOnPage().thereIsAnUnknownOfficer();
 
-      snackbar.presentWithMessage("Officer was successfully added").close();
-    },
+  //     snackbar.presentWithMessage("Officer was successfully added").close();
+  //   },
 
-  "should not see officer on case when removed": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should not see officer on case when removed": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetailsPage
-      .clickManageUnknownOfficer()
-      .clickRemoveOfficer()
-      .confirmRemoveOfficerInDialog();
+  //   caseDetailsPage
+  //     .clickManageUnknownOfficer()
+  //     .clickRemoveOfficer()
+  //     .confirmRemoveOfficerInDialog();
 
-    snackbar.presentWithMessage("Officer was successfully removed").close();
+  //   snackbar.presentWithMessage("Officer was successfully removed").close();
 
-    caseDetailsPage.thereIsNoUnknownOfficer();
-  },
+  //   caseDetailsPage.thereIsNoUnknownOfficer();
+  // },
 
-  "should create a case note and tag someone": browser => {
-    const caseDetailsPage = browser.page.CaseDetails();
-    const snackbar = browser.page.SnackbarPOM();
-    const caseNoteDialog = browser.page.CaseNoteDialog();
+  // "should create a case note and tag someone": browser => {
+  //   const caseDetailsPage = browser.page.CaseDetails();
+  //   const snackbar = browser.page.SnackbarPOM();
+  //   const caseNoteDialog = browser.page.CaseNoteDialog();
 
-    caseDetailsPage.isOnPage().clickAddCaseNoteButton();
+  //   caseDetailsPage.isOnPage().clickAddCaseNoteButton();
 
-    caseNoteDialog
-      .dialogIsOpen()
-      .setActionTaken()
-      .writeCaseNote("Needs another review ")
-      .tagPersonInCaseNote("Syd Botz")
-      .clickSubmitButton();
+  //   caseNoteDialog
+  //     .dialogIsOpen()
+  //     .setActionTaken()
+  //     .writeCaseNote("Needs another review ")
+  //     .tagPersonInCaseNote("Syd Botz")
+  //     .clickSubmitButton();
 
-    snackbar.presentWithMessage("Case note was successfully created").close();
+  //   snackbar.presentWithMessage("Case note was successfully created").close();
 
-    caseDetailsPage.caseNoteIsPresent("Needs another review @Syd Botz");
-  },
+  //   caseDetailsPage.caseNoteIsPresent("Needs another review @Syd Botz");
+  // },
 
-  "should begin letter and navigate to case details review page": browser => {
-    const caseDetails = browser.page.CaseDetails();
-    const caseReview = browser.page.CaseReview();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should begin letter and navigate to case details review page": browser => {
+  //   const caseDetails = browser.page.CaseDetails();
+  //   const caseReview = browser.page.CaseReview();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    caseDetails.isOnPage().beginLetter().confirmUpdateStatusInDialog();
+  //   caseDetails.isOnPage().beginLetter().confirmUpdateStatusInDialog();
 
-    caseReview.isOnPage();
+  //   caseReview.isOnPage();
 
-    snackbar.presentWithMessage("Status was successfully updated").close();
+  //   snackbar.presentWithMessage("Status was successfully updated").close();
 
-    caseReview.clickPreview();
-  },
+  //   caseReview.clickPreview();
+  // },
 
-  "should show missing officer history modal when submitting letter with incomplete history details":
-    browser => {
-      const letterPreview = browser.page.LetterPreview();
-      const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
+  // "should show missing officer history modal when submitting letter with incomplete history details":
+  //   browser => {
+  //     const letterPreview = browser.page.LetterPreview();
+  //     const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
 
-      letterPreview.clickSubmit();
-      incompleteHistoryDialog.incompleteOfficerHistoryDialogIsOpen();
-      incompleteHistoryDialog.clickReturn();
-    },
+  //     letterPreview.clickSubmit();
+  //     incompleteHistoryDialog.incompleteOfficerHistoryDialogIsOpen();
+  //     incompleteHistoryDialog.clickReturn();
+  //   },
 
-  "should add allegations to officer complaint history": browser => {
-    const snackbar = browser.page.SnackbarPOM();
-    const complaintHistory = browser.page.ComplaintHistory();
+  // "should add allegations to officer complaint history": browser => {
+  //   const snackbar = browser.page.SnackbarPOM();
+  //   const complaintHistory = browser.page.ComplaintHistory();
 
-    complaintHistory
-      .isOnPage()
-      .clickFourthOption()
-      .setHighAllegations(2)
-      .setMedAllegations(3)
-      .setLowAllegations(5)
-      .countAllegations(10)
-      .clickNext();
+  //   complaintHistory
+  //     .isOnPage()
+  //     .clickFourthOption()
+  //     .setHighAllegations(2)
+  //     .setMedAllegations(3)
+  //     .setLowAllegations(5)
+  //     .countAllegations(10)
+  //     .clickNext();
 
-    snackbar
-      .presentWithMessage("Officer complaint history was successfully updated")
-      .close();
-  },
+  //   snackbar
+  //     .presentWithMessage("Officer complaint history was successfully updated")
+  //     .close();
+  // },
 
-  "should check retaliation concerns and recommended action": browser => {
-    const recommendedActions = browser.page.RecommendedActions();
-    const snackbar = browser.page.SnackbarPOM();
+  // "should check retaliation concerns and recommended action": browser => {
+  //   const recommendedActions = browser.page.RecommendedActions();
+  //   const snackbar = browser.page.SnackbarPOM();
 
-    recommendedActions.isOnPage();
+  //   recommendedActions.isOnPage();
 
-    recommendedActions
-      .toggleRetaliationConcerns()
-      .toggleNthOfficersNthRecommendedAction(0, 1)
-      .clickNext();
-  },
+  //   recommendedActions
+  //     .toggleRetaliationConcerns()
+  //     .toggleNthOfficersNthRecommendedAction(0, 1)
+  //     .clickNext();
+  // },
 
-  "should show missing classifications modal when submitting letter with incomplete classifications":
-    browser => {
-      const letterPreview = browser.page.LetterPreview();
-      const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
-      const snackbar = browser.page.SnackbarPOM();
+  // "should show missing classifications modal when submitting letter with incomplete classifications":
+  //   browser => {
+  //     const letterPreview = browser.page.LetterPreview();
+  //     const incompleteHistoryDialog = browser.page.IncompleteHistoryDialog();
+  //     const snackbar = browser.page.SnackbarPOM();
 
-      letterPreview.clickSubmit();
-      incompleteHistoryDialog.incompleteClassificationsDialogIsOpen();
-      incompleteHistoryDialog.clickReturn();
-    },
+  //     letterPreview.clickSubmit();
+  //     incompleteHistoryDialog.incompleteClassificationsDialogIsOpen();
+  //     incompleteHistoryDialog.clickReturn();
+  //   },
 
   // "should select multiple classifications that are not declines to classify":
   //   browser => {

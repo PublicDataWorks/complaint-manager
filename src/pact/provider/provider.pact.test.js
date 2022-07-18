@@ -4,24 +4,15 @@ import { Verifier } from "@pact-foundation/pact";
 import path from "path";
 import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
-import Case from "../../sharedTestHelpers/case";
-import Officer from "../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
-import {
-  ACCUSED,
-  CASE_STATUS,
-  COMPLAINANT
-} from "../../sharedUtilities/constants";
-import IntakeSource from "../../server/testHelpers/intakeSource";
-import ReferralLetterCaseClassification from "../../sharedTestHelpers/ReferralLetterCaseClassification";
-import ReferralLetter from "../../server/testHelpers/ReferralLetter";
-import LetterOfficer from "../../server/testHelpers/LetterOfficer";
-import { updateCaseStatus } from "../../server/handlers/data/queries/queryHelperFunctions";
-import { random } from "lodash";
-import Civilian from "../../sharedTestHelpers/civilian";
 import LetterType from "../../sharedTestHelpers/letterType";
 import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
+import { setupCase, addCivilianComplainantToCase } from "./case-helpers";
+import {
+  setupLetter,
+  addOfficerHistoryToReferralLetter,
+  addClassificationsToCase
+} from "./letter-helpers";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -82,127 +73,6 @@ AWS.S3.mockImplementation(() => ({
       MaxKeys: 3
     })
 }));
-
-const setupCase = async () => {
-  try {
-    models.cases.destroy({ where: {}, truncate: true, auditUser: "user" });
-
-    const intakeSource = await models.intake_source.create(
-      new IntakeSource.Builder().defaultIntakeSource().withId(random(5, 99999)),
-      { auditUser: "user" }
-    );
-
-    const c = await models.cases.create(
-      new Case.Builder()
-        .defaultCase()
-        .withId(1)
-        .withComplaintType("Civilian Within NOPD Initiated")
-        .withIntakeSourceId(intakeSource.id),
-      {
-        auditUser: "user"
-      }
-    );
-
-    const officer = await models.officer.create(
-      new Officer.Builder().defaultOfficer(),
-      { auditUser: "user" }
-    );
-
-    const caseOfficer = await models.case_officer.create(
-      new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withOfficerId(officer.id)
-        .withCaseId(c.id)
-        .withRoleOnCase(COMPLAINANT),
-      { auditUser: "user" }
-    );
-
-    return c;
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
-};
-
-const setupLetter = async letterCase => {
-  try {
-    await updateCaseStatus(letterCase, CASE_STATUS.READY_FOR_REVIEW);
-
-    const letter = await models.referral_letter.create(
-      new ReferralLetter.Builder()
-        .defaultReferralLetter()
-        .withId(1)
-        .withCaseId(letterCase.id)
-        .withRecipient("King of all police")
-        .withRecipientAddress("100 Main Street, North Pole")
-        .withSender("The aggrieved party"),
-      { auditUser: "user" }
-    );
-    return letter;
-  } catch (e) {
-    console.log(e);
-    throw e;
-  }
-};
-
-const addCivilianComplainantToCase = async theCase => {
-  return await models.civilian.create(
-    new Civilian.Builder()
-      .defaultCivilian()
-      .withCaseId(theCase.id)
-      .withRoleOnCase(COMPLAINANT)
-      .build(),
-    { auditUser: "user" }
-  );
-};
-
-const addOfficerHistoryToReferralLetter = async letter => {
-  const officer = await models.officer.create(
-    new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
-    { auditUser: "user" }
-  );
-
-  const caseOfficer = await models.case_officer.create(
-    new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(1)
-      .withOfficerId(officer.id)
-      .withCaseId(letter.caseId)
-      .withRoleOnCase(ACCUSED)
-      .withId(64),
-    { auditUser: "user" }
-  );
-
-  const officerHistory = await models.officer_history_option.create(
-    { name: "yes" },
-    { auditUser: "user" }
-  );
-
-  const letterOfficer = await models.letter_officer.create(
-    new LetterOfficer.Builder()
-      .defaultLetterOfficer()
-      .withId(1)
-      .withCaseOfficerId(caseOfficer.id)
-      .withOfficerHistoryOptionId(officerHistory.id),
-    { auditUser: "user" }
-  );
-  return letterOfficer;
-};
-
-const addClassificationsToCase = async theCase => {
-  const classification = await models.classification.create(
-    { id: 1, name: "spongebob", message: "i'm ready" },
-    { auditUser: "user" }
-  );
-
-  await models.case_classification.create(
-    new ReferralLetterCaseClassification.Builder()
-      .defaultReferralLetterCaseClassification()
-      .withCaseId(theCase.id)
-      .withClassificationId(1),
-    { auditUser: "user" }
-  );
-};
 
 const addRecommendedActions = async () => {
   await models.recommended_action.create(
