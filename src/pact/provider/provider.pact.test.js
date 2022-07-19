@@ -38,6 +38,7 @@ AWS.S3.mockImplementation(() => ({
         .toString()
     })
   ),
+  deleteObject: jest.fn(),
   upload: jest.fn(() => ({
     promise: () => ({
       then: success => success({})

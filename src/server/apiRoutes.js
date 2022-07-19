@@ -74,6 +74,7 @@ import Boom from "boom";
 import getSigners from "./handlers/signers/getSigners";
 import getSignature from "./handlers/signers/getSignature";
 import addSigner from "./handlers/signers/addSigner";
+import editSigner from "./handlers/signers/editSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
@@ -591,6 +592,13 @@ export const API_ROUTES = {
       handler: addSigner,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while adding signers"
+    }
+  },
+  "/signers/:id": {
+    put: {
+      handler: editSigner,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while updating signer"
     }
   },
   "/signers/:id/signature": {

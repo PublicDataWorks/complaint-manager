@@ -25,6 +25,33 @@ import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
+const AWS = require("aws-sdk");
+jest.mock("aws-sdk");
+
+AWS.S3.mockImplementation(() => ({
+  config: {
+    loadFromPath: jest.fn(),
+    update: jest.fn()
+  },
+  getObject: jest.fn((opts, callback) =>
+    callback(undefined, {
+      ContentType: "image/png",
+      Body: fs
+        .readFileSync(
+          process.cwd() + "/localstack-seed-files/signatures/nina_ambroise.png",
+          "base64"
+        )
+        .toString()
+    })
+  ),
+  deleteObject: jest.fn(),
+  upload: jest.fn(() => ({
+    promise: () => ({
+      then: success => success({})
+    })
+  }))
+}));
+
 describe("Approve referral letter", () => {
   let existingCase, token;
 

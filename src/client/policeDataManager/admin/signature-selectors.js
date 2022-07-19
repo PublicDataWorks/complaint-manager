@@ -4,16 +4,21 @@ const getSigners = (state, props) => props.signers;
 const getUsers = state => state.users.all;
 
 const getSignerEmails = createSelector(getSigners, signers =>
-  signers.map(signer => signer.nickname)
+  signers?.map(signer => signer.nickname)
 );
 
 const getUserEmails = createSelector(getUsers, users =>
-  users.map(user => user.email)
+  users?.map(user => user.email)
 );
 
 export const getFilteredUserEmails = createSelector(
   getUserEmails,
   getSignerEmails,
-  (userEmails, signerEmails) =>
-    userEmails.filter(user => !signerEmails.includes(user))
+  (userEmails, signerEmails) => {
+    if (userEmails && signerEmails) {
+      return userEmails.filter(user => !signerEmails.includes(user));
+    } else {
+      return [];
+    }
+  }
 );

@@ -10,7 +10,9 @@ import DetailsCard from "../shared/components/DetailsCard";
 import LinkButton from "../shared/components/LinkButton";
 import styles from "../cases/CaseDetails/caseDetailsStyles";
 import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
-import SignatureDialog from "./SignatureDialog";
+import AddSignatureDialog from "./AddSignatureDialog";
+import UpdateSignatureDialog from "./UpdateSignatureDialog";
+import { PrimaryButton } from "../shared/components/StyledButtons";
 
 const formatImageString = string => {
   if (string.length % 4 === 0) {
@@ -107,6 +109,17 @@ const Signatures = props => {
                       ""
                     )}
                   </DetailsCardDisplay>
+                  <section
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-around",
+                      alignItems: "center"
+                    }}
+                  >
+                    <PrimaryButton onClick={() => setSignerDialog(signer)}>
+                      Edit
+                    </PrimaryButton>
+                  </section>
                 </section>
                 <Divider />
               </React.Fragment>
@@ -130,7 +143,7 @@ const Signatures = props => {
         </CardContent>
       </DetailsCard>
       {signerDialog === "new" ? (
-        <SignatureDialog
+        <AddSignatureDialog
           classes={{}}
           exit={isThereNewData => {
             if (isThereNewData) {
@@ -139,6 +152,20 @@ const Signatures = props => {
             setSignerDialog(undefined);
           }}
           signers={signers}
+        />
+      ) : (
+        ""
+      )}
+      {!!signerDialog?.name ? (
+        <UpdateSignatureDialog
+          classes={{}}
+          exit={isThereNewData => {
+            if (isThereNewData) {
+              setLoadSigners(true);
+            }
+            setSignerDialog(undefined);
+          }}
+          signer={signerDialog}
         />
       ) : (
         ""

@@ -126,7 +126,7 @@ describe("Signatures Admin Card", () => {
         .post("/api/signers")
         .reply(200, {
           id: 3,
-          signer: "Candy",
+          name: "Candy",
           title: "Chief Executive Police Punisher",
           nickname: "anna.banana@gmail.com",
           phone: "777-777-7777",
@@ -203,6 +203,99 @@ describe("Signatures Admin Card", () => {
         })
       ]);
       expect(signerPost.isDone()).toBeTrue();
+    });
+  });
+
+  describe("Edit Signer Dialog", () => {
+    let saveButton;
+    beforeEach(async () => {
+      nock("http://localhost").get("/api/users").reply(200, FAKE_USERS);
+      const editButtons = await screen.findAllByText("Edit");
+      userEvent.click(editButtons[0]);
+      saveButton = await screen.findByText("Save");
+    });
+
+    test("should open edit signer dialog when edit signer button is clicked and close on cancel", async () => {
+      userEvent.click(await screen.findByText("Cancel"));
+      expect(screen.queryAllByText("Save")).toHaveLength(0);
+      expect(screen.getAllByText("Edit")).toHaveLength(2);
+    });
+
+    test("should auto-populate fields with previous values", async () => {
+      expect(screen.getByTestId("user").value).toEqual("jsimms@oipm.gov");
+      expect(screen.getByTestId("user").disabled).toBeTrue();
+      expect(screen.getByTestId("signerName").value).toEqual("John A Simms");
+      expect(screen.getByTestId("role").value).toEqual(
+        "Independent Police Monitor"
+      );
+      expect(screen.getByTestId("phoneNumber").value).toEqual("888-576-9922");
+    });
+
+    test("should make service calls and close the dialog when saved correctly", async () => {
+      const signerPut = nock("http://localhost")
+        .put("/api/signers/1")
+        .reply(200, {
+          id: 1,
+          name: "Candy",
+          title: "Chief Executive Police Punisher",
+          nickname: "jsimms@oipm.gov",
+          phone: "777-777-7777",
+          links: [
+            {
+              rel: "signature",
+              href: "/api/signers/1/signature"
+            }
+          ]
+        });
+
+      nock("http://localhost")
+        .get("/api/signers")
+        .reply(200, [
+          {
+            id: 1,
+            name: "Candy",
+            title: "Chief Executive Police Punisher",
+            nickname: FAKE_USERS[0].email,
+            phone: "777-777-7777",
+            links: [
+              {
+                rel: "signature",
+                href: "/api/signers/1/signature"
+              }
+            ]
+          },
+          {
+            id: 2,
+            name: "Nina Ambroise",
+            title: "Complaint Intake Specialist",
+            nickname: "nambroise@oipm.gov",
+            phone: "888-576-9922",
+            links: [
+              {
+                rel: "signature",
+                href: "/api/signers/2/signature"
+              }
+            ]
+          }
+        ]);
+
+      fireEvent.change(screen.getByPlaceholderText("Name"), {
+        target: { value: "Candy" }
+      });
+      fireEvent.change(screen.getByPlaceholderText("Phone number"), {
+        target: { value: "777-777-7777" }
+      });
+      fireEvent.change(screen.getByPlaceholderText("Role/title"), {
+        target: { value: "Chief Executive Police Punisher" }
+      });
+
+      userEvent.click(saveButton);
+      await new Promise(resolve => {
+        signerPut.on("replied", () => {
+          resolve();
+        });
+      });
+      expect(signerPut.isDone()).toBeTrue();
     });
   });
 });

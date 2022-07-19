@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import { reduxForm, Field, SubmissionError } from "redux-form";
-import { connect } from "react-redux";
-import axios from "axios";
-import getUsers from "../../common/thunks/getUsers";
+import { Field } from "redux-form";
 import {
   Dialog,
   DialogActions,
@@ -28,13 +25,7 @@ import {
   usernameNotBlank,
   isPhoneNumber
 } from "../../formFieldLevelValidations";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../actionCreators/snackBarActionCreators";
-import { transformAndHandleError } from "../../common/axiosInterceptors/responseErrorInterceptor";
 import FileUpload from "../shared/components/FileUpload";
-import { getFilteredUserEmails } from "./signature-selectors";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 class SignatureDialog extends Component {
@@ -45,41 +36,6 @@ class SignatureDialog extends Component {
       uploadInProgress: false
     };
   }
-
-  componentDidMount() {
-    if (!this.props.users || !this.props.users.length) {
-      this.props.getUsers();
-    }
-  }
-
-  submit = values => {
-    if (!this.state.attachmentValid) {
-      throw new SubmissionError({ _error: "Signature is required" });
-    }
-
-    this.setState({ attachmentValid: true, uploadInProgress: true });
-    this.submittedValues = values; // will use these values on complete of upload
-    this.dropzone.processQueue();
-  };
-
-  onUploadComplete = () => {
-    axios
-      .post("/api/signers", {
-        name: this.submittedValues.name,
-        title: this.submittedValues.role,
-        nickname: this.submittedValues.signerUsername,
-        phone: this.submittedValues.phoneNumber,
-        signatureFile: this.fileName
-      })
-      .then(() => {
-        this.props.snackbarSuccess("Signer successfully added");
-        this.props.exit(true);
-      })
-      .catch(err => this.props.snackbarError(err.message));
-
-    this.fileName = null;
-    this.submittedValues = null;
-  };
 
   onUploadInit = dropzone => {
     this.dropzone = dropzone;
@@ -119,19 +75,7 @@ class SignatureDialog extends Component {
                 height: "14em"
               }}
             >
-              <Field
-                component={Dropdown}
-                inputProps={{
-                  "data-testid": "user"
-                }}
-                name="signerUsername"
-                placeholder="Select a user"
-                required
-                validate={[usernameRequired, usernameNotBlank]}
-                style={{ width: "100%" }}
-              >
-                {generateMenuOptions(this.props.users)}
-              </Field>
+              {this.renderUsernameField()}
               <Field
                 component={renderTextField}
                 inputProps={{
@@ -188,16 +132,24 @@ class SignatureDialog extends Component {
       </Dialog>
     );
   }
+
+  renderUsernameField() {
+    return (
+      <Field
+        component={Dropdown}
+        inputProps={{
+          "data-testid": "user"
+        }}
+        name="signerUsername"
+        placeholder="Select a user"
+        required
+        validate={[usernameRequired, usernameNotBlank]}
+        style={{ width: "100%" }}
+      >
+        {generateMenuOptions(this.props.users)}
+      </Field>
+    );
+  }
 }
 
-const mapStateToProps = (state, props) => ({
-  users: getFilteredUserEmails(state, props),
-  name: state.form.signerForm?.values?.name
-});
-
-export default connect(mapStateToProps, {
-  getUsers,
-  snackbarSuccess,
-  snackbarError,
-  transformAndHandleError
-})(reduxForm({ form: "signerForm" })(SignatureDialog));
+export default SignatureDialog;
