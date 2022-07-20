@@ -23,16 +23,27 @@ const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
   const [caseStatusesMap, setCaseStatusesMap] = useState({});
 
   useEffect(() => {
-    axios
-    .get("/api/case-statuses")
-    .then(statuses => {
-      setCaseStatusesMap(new Map(statuses.data.map(status => [status.name, status.order_key])))
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      axios
+      .get("/api/case-statuses")
+      .then(statuses => {
+        mapCaseStatuses(statuses.data)
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
-  
+
+  const mapCaseStatuses = (statuses) => {
+    const newObj = statuses.reduce((acc, elem) => {
+      if (!acc[elem.name]) {
+        acc[elem.name] = elem.orderKey
+      }
+      return acc;
+    }, {})
+
+    setCaseStatusesMap(newObj);
+  } 
+
   const renderButtons = () => {
     return (
       <div
