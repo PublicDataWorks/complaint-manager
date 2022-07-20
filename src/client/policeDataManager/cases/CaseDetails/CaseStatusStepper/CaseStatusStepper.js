@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Step, StepLabel, Stepper } from "@material-ui/core";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import { connect } from "react-redux";
@@ -7,7 +7,7 @@ import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFina
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
 import getActiveStep from "./getActiveStep";
-import axios from "axios";
+import getCaseStatuses from "../../thunks/getCaseStatuses";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -19,30 +19,13 @@ const generateSteps = map => {
   });
 };
 
-const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
-  const [caseStatusesMap, setCaseStatusesMap] = useState({});
+const CaseStatusStepper = ({ caseId, status, isArchived, permissions, caseStatuses, getCaseStatuses }) => {
 
   useEffect(() => {
-      axios
-      .get("/api/case-statuses")
-      .then(statuses => {
-        mapCaseStatuses(statuses.data)
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    if (!Object.keys(caseStatuses).length) {
+      getCaseStatuses();
+    }
   }, []);
-
-  const mapCaseStatuses = (statuses) => {
-    const caseStatuses = statuses.reduce((acc, elem) => {
-      if (!acc[elem.name]) {
-        acc[elem.name] = elem.orderKey
-      }
-      return acc;
-    }, {})
-
-    setCaseStatusesMap(caseStatuses);
-  } 
 
   const renderButtons = () => {
     return (
@@ -76,11 +59,11 @@ const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
     <Fragment>
       <Stepper
         data-testid="statusStepper"
-        activeStep={getActiveStep(caseStatusesMap, status)}
+        activeStep={getActiveStep(caseStatuses, status)}
         alternativeLabel
         style={{ marginLeft: "5%", maxWidth: "850px", padding: "24px 0px" }}
       >
-        {generateSteps(caseStatusesMap)}
+        {generateSteps(caseStatuses)}
       </Stepper>
       {renderButtons()}
       <UpdateCaseStatusDialog />
@@ -92,7 +75,8 @@ const mapStateToProps = state => ({
   caseId: state.currentCase.details.id,
   status: state.currentCase.details.status,
   isArchived: state.currentCase.details.isArchived,
-  permissions: state?.users?.current?.userInfo?.permissions
+  permissions: state?.users?.current?.userInfo?.permissions,
+  caseStatuses: state.ui.caseStatuses
 });
 
-export default connect(mapStateToProps)(CaseStatusStepper);
+export default connect(mapStateToProps, { getCaseStatuses })(CaseStatusStepper);

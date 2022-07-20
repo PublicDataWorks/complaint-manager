@@ -67,6 +67,7 @@ import getNotificationsReducer from "./policeDataManager/reducers/notifications/
 import highlightCaseNoteReducer from "./policeDataManager/reducers/ui/highlightCaseNoteReducer";
 import missingComplainantDialogReducer from "./policeDataManager/reducers/ui/missingComplainantDialogReducer";
 import configReducer from "./policeDataManager/reducers/ui/configReducer";
+import caseStatusesReducer from "./policeDataManager/reducers/ui/caseStatusesReducer";
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -98,6 +99,7 @@ const rootReducer = combineReducers({
     updateCaseStatusDialog: updateCaseStatusDialogReducer,
     caseTagDialog: caseTagDialogReducer,
     caseNoteDialog: caseNoteDialogReducer,
+    caseStatuses: caseStatusesReducer,
     civilianDialog: civilianDialogReducer,
     createDialog: createDialogReducer,
     exportDialog: exportDialogReducer,
