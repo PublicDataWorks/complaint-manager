@@ -34,14 +34,14 @@ const CaseStatusStepper = ({ caseId, status, isArchived, permissions }) => {
   }, []);
 
   const mapCaseStatuses = (statuses) => {
-    const newObj = statuses.reduce((acc, elem) => {
+    const caseStatuses = statuses.reduce((acc, elem) => {
       if (!acc[elem.name]) {
         acc[elem.name] = elem.orderKey
       }
       return acc;
     }, {})
 
-    setCaseStatusesMap(newObj);
+    setCaseStatusesMap(caseStatuses);
   } 
 
   const renderButtons = () => {

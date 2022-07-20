@@ -91,12 +91,12 @@ describe("getCaseStatuses", () => {
       .set("Authorization", `Bearer ${token}`);
 
     await expectResponse(responsePromise, 200, [
-      { id: 1, name: "Initial", order_key: 0 },
-      { id: 2, name: "Active", order_key: 1 },
-      { id: 3, name: "Letter in Progress", order_key: 2 },
-      { id: 4, name: "Ready for Review", order_key: 3 },
-      { id: 5, name: "Forwarded to Agency", order_key: 4 },
-      { id: 6, name: "Closed", order_key: 5 }
+      { id: 1, name: "Initial", orderKey: 0 },
+      { id: 2, name: "Active", orderKey: 1 },
+      { id: 3, name: "Letter in Progress", orderKey: 2 },
+      { id: 4, name: "Ready for Review", orderKey: 3 },
+      { id: 5, name: "Forwarded to Agency", orderKey: 4 },
+      { id: 6, name: "Closed", orderKey: 5 }
     ]);
   });
 });

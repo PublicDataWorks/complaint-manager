@@ -1,4 +1,4 @@
-import { mount, shallow } from "enzyme";
+import { mount } from "enzyme";
 import React from "react";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
@@ -9,29 +9,28 @@ import {
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import CaseStatusStepper from "./CaseStatusStepper";
-import StatusButton from "../StatusButton/StatusButton";
 import { BrowserRouter as Router } from "react-router-dom";
 import getActiveStep from "./getActiveStep";
 import nock from "nock";
 import "@testing-library/jest-dom";
+import {render, waitFor, screen} from '@testing-library/react';
 
 describe("CaseStatusStepper", () => {
-  let store, responseBody, caseStatusMap;
+  let store, responseBody, caseStatusMap, getAllCaseStatuses;
   beforeEach(() => {
-    jest.useFakeTimers();
     store = createConfiguredStore();
-    
+
     responseBody = [
-      {"id":1,"name":"Initial","order_key":0},
-      {"id":2,"name":"Active","order_key":1},
-      {"id":3,"name":"Letter in Progress","order_key":2},
-      {"id":4,"name":"Ready for Review","order_key":3},
-      {"id":5,"name":"Forwarded to Agency","order_key":4},
-      {"id":6,"name":"Closed","order_key":5}
+      {"id":1,"name":"Initial","orderKey":0},
+      {"id":2,"name":"Active","orderKey":1},
+      {"id":3,"name":"Letter in Progress","orderKey":2},
+      {"id":4,"name":"Ready for Review","orderKey":3},
+      {"id":5,"name":"Forwarded to Agency","orderKey":4},
+      {"id":6,"name":"Closed","orderKey":5}
     ];
     
     nock.cleanAll();
-    nock("http://localhost").get(`/api/case-statuses`).reply(200, responseBody);
+    getAllCaseStatuses = nock("http://localhost").get(`/api/case-statuses`).reply(200, responseBody);
 
     caseStatusMap = {
       ["Initial"]: 0,
@@ -52,20 +51,24 @@ describe("CaseStatusStepper", () => {
       })
     );
 
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <CaseStatusStepper />
       </Provider>
     );
 
-    const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
+    await waitFor(() => screen.getByTestId("statusStepper"));
+    
+    await new Promise(resolve => {
+      getAllCaseStatuses.on("replied", () => {
+        resolve();
+      })
+    });
 
-    setTimeout(() => {
-      expect(statusStepper.prop("activeStep")).toEqual(0);
-    }, 100);
+    expect(await screen.findByText("Initial")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");
   });
 
-  test("should set status to Forwarded To Agency", () => {
+  test("should set status to Forwarded to Agency", async () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -74,18 +77,23 @@ describe("CaseStatusStepper", () => {
       })
     );
 
-    const wrapper = mount(
+    render(
       <Provider store={store}>
         <Router>
           <CaseStatusStepper />
         </Router>
       </Provider>
     );
-    const statusStepper = wrapper.find('[data-testid="statusStepper"]').first();
 
-    setTimeout(() => {
-      expect(statusStepper.prop("activeStep")).toEqual(4)
-    }, 100);
+    await waitFor(() => screen.getByTestId("statusStepper"));
+    
+    await new Promise(resolve => {
+      getAllCaseStatuses.on("replied", () => {
+        resolve();
+      })
+    });
+
+    expect(await screen.findByText("Forwarded to Agency")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");
   });
 
   test("should open update status dialog with redirect url if next status is letter in progress", () => {
