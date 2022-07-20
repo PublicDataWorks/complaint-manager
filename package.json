@@ -215,7 +215,8 @@
     "**/url-parse": "^1.5.10",
     "**/yargs-parser": "^20.2.7",
     "**/validator": "^13.7.0",
-    "**/vm2": "^3.9.6"
+    "**/vm2": "^3.9.6",
+    "**/terser": "^5.14.2"
   },
   "browserslist": {
     "production": [
