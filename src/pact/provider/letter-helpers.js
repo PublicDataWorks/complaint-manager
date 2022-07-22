@@ -6,6 +6,8 @@ import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import ReferralLetterCaseClassification from "../../sharedTestHelpers/ReferralLetterCaseClassification";
 import LetterOfficer from "../../server/testHelpers/LetterOfficer";
+import Allegation from "../../sharedTestHelpers/Allegation";
+import OfficerAllegation from "../../sharedTestHelpers/OfficerAllegation";
 
 export const setupLetter = async letterCase => {
   try {
@@ -29,6 +31,11 @@ export const setupLetter = async letterCase => {
 };
 
 export const addOfficerHistoryToReferralLetter = async letter => {
+  const allegation = await models.allegation.create(
+    new Allegation.Builder().defaultAllegation().build(),
+    { auditUser: "user" }
+  );
+
   const officer = await models.officer.create(
     new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
     { auditUser: "user" }
@@ -42,6 +49,15 @@ export const addOfficerHistoryToReferralLetter = async letter => {
       .withCaseId(letter.caseId)
       .withRoleOnCase(ACCUSED)
       .withId(64),
+    { auditUser: "user" }
+  );
+
+  const officerAllegation = await models.officer_allegation.create(
+    new OfficerAllegation.Builder()
+      .defaultOfficerAllegation()
+      .withAllegationId(allegation.id)
+      .withCaseOfficerId(caseOfficer.id)
+      .build(),
     { auditUser: "user" }
   );
 

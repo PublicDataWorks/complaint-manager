@@ -22,7 +22,10 @@ const CaseDetailCard = props => {
         {_.isObject(data) ? (
           Object.keys(data).map(key => {
             return (
-              <Typography key={Object.keys(data).indexOf(key)}>
+              <Typography
+                data-testid={key}
+                key={Object.keys(data).indexOf(key)}
+              >
                 {key}:{" "}
                 {data[key] ? (
                   data[key]

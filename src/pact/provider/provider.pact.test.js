@@ -164,10 +164,11 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(100000);
+  jest.setTimeout(200000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
+      timeout: 60000,
       providerBaseUrl: "http://localhost:8989",
       provider: "complaint-manager.server",
       providerVersion: "1.0.0",
@@ -286,7 +287,18 @@ describe("Pact Verification", () => {
           );
         },
         "recommended actions are added": addRecommendedActions,
-        "classifications are added": addClassifications
+        "classifications are added": addClassifications,
+        "letter is ready for review: with civilian complainant with accused officer":
+          async () => {
+            const letterCase = await setupCase();
+            const letter = await setupLetter(letterCase);
+            await Promise.all([
+              addCivilianComplainantToCase(letterCase),
+              addOfficerHistoryToReferralLetter(letter),
+              addClassifications(),
+              addRecommendedActions()
+            ]);
+          }
       }
     };
 
