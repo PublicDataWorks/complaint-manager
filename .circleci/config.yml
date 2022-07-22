@@ -795,6 +795,7 @@ workflows:
       - deploy-ci:
           requires:
             - build-and-publish-master
+            - test-pact
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
