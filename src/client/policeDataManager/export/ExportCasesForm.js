@@ -75,7 +75,11 @@ const ExportCasesForm = props => {
         <strong>incident dates</strong> to export cases or export all cases in
         Complaint Manager.
       </Typography>
-      <Field name="exportCasesType" component={ExportCasesTypeRadioGroup} />
+      <Field
+        name="exportCasesType"
+        organization={props.organization}
+        component={ExportCasesTypeRadioGroup}
+      />
       <ExportDateRange formLabel={formLabel} />
       <PrimaryButton
         disabled={props.buttonsDisabled}
