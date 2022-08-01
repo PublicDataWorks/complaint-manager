@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.52.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.51.0...v3.52.0) (2022-08-01)
+
+
+### Features
+
+* Andrew/Isabel [[#141](https://www.pivotaltracker.com/story/show/141)] adds edit signature functionality to Custom Configuration page ([865a739](https://github.com/PublicDataWorks/complaint-manager/commit/865a7399a45d4e2f242baf47513e0ad7eb561d95))
+* Jean/Andrew/Maria [[#136](https://www.pivotaltracker.com/story/show/136)] Anonymize complainants in search ([2b0c42e](https://github.com/PublicDataWorks/complaint-manager/commit/2b0c42ef8d084c53cb0baedc6cf1562753506680))
+
+
+### Bug Fixes
+
+* Andrew [[#000](https://www.pivotaltracker.com/story/show/000)] going back to instance files for public data dashboard constants ([b7b86e1](https://github.com/PublicDataWorks/complaint-manager/commit/b7b86e14efbeed2291c7cdeb4a019a144a362901))
+* Maria [[#167](https://www.pivotaltracker.com/story/show/167)] rename letter templates seeder to run with comma after complainant name in complainant letter ([3837f6e](https://github.com/PublicDataWorks/complaint-manager/commit/3837f6e031ee7efbb6b17681c81bb649c5770dcf))
+
 ## [3.51.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.50.1...v3.51.0) (2022-06-13)
 
 
