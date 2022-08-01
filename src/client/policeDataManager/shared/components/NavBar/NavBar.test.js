@@ -81,7 +81,7 @@ describe("NavBar", () => {
       expect(menu.props()).toHaveProperty("open", false);
     });
 
-    test("should render export menu option without permissions", () => {
+    test("should not render export menu option without permissions", () => {
       const userInfo = {
         nickname: "whatever",
         permissions: []
@@ -98,7 +98,7 @@ describe("NavBar", () => {
       const exportAuditLogMenuItem = wrapper
         .find('[data-testid="exports"]')
         .last();
-      expect(exportAuditLogMenuItem.exists()).toBeTruthy();
+      expect(exportAuditLogMenuItem.exists()).toBeFalsy();
     });
   });
 
