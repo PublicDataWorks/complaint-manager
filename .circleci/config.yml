@@ -37,7 +37,7 @@ commands:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/base-app:latest .
+      - run: docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg REACT_APP_GITHUB_TOKEN=$REACT_APP_GITHUB_TOKEN --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/base-app:latest .
   build-and-publish-app-image:
     parameters:
       env:
