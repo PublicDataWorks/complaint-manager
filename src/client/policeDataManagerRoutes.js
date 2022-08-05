@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import FeatureRequestPage from "./policeDataManager/requestFeature/featureRequestPage";
 const AllegationSearchContainer = lazy(() =>
   import("./policeDataManager/allegations/AllegationSearchContainer")
 );
@@ -150,6 +151,10 @@ const policeDataManagerRoutes = [
   {
     path: "/admin-portal",
     component: AdminPortal
+  },
+  {
+    path: "/feature-request",
+    component: FeatureRequestPage
   }
 ];
 
