@@ -6,6 +6,7 @@ demo environment, so that the free database could continue to function.
 const purgeAudits = async () => {
   const models = require("../src/server/policeDataManager/models/index");
   await models.sequelize.transaction(async transaction => {
+    await models.sequelize.query("DELETE FROM file_audits WHERE id > 0");
     await models.sequelize.query("DELETE FROM data_access_values WHERE id > 0");
     await models.sequelize.query(
       "DELETE FROM data_access_audits  WHERE id > 0"
