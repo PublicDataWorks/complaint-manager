@@ -603,7 +603,7 @@ jobs:
           at: .
       - add_ssh_keys:
           fingerprints:
-            - a7:54:eb:c7:7a:af:c6:c2:fc:a8:76:ad:1b:b7:aa:20
+            - $GITHUB_READ_WRITE_FINGERPRINT
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Complaint Manager Pipeline"
       - run: git checkout -b release_v$(cat version.txt)
