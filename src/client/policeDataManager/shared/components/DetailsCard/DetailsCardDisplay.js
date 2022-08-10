@@ -7,14 +7,16 @@ const DetailsCardDisplay = ({ caption, message, children, width }) => (
     style={{
       display: "flex",
       flexDirection: "column",
-      marginRight: "10px",
+      //marginLeft: "20px",
       textAlign: "left",
-      width
+      width: "25%",
     }}
   >
+    <div style = {{marginLeft: '20px'}}>
     <Typography variant="caption">{caption}</Typography>
     {message ? <TextTruncate testLabel={caption} message={message} /> : ""}
     {children ? children : ""}
+    </div>
   </section>
 );
 

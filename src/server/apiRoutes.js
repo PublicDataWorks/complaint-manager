@@ -75,6 +75,7 @@ import getSigners from "./handlers/signers/getSigners";
 import getSignature from "./handlers/signers/getSignature";
 import addSigner from "./handlers/signers/addSigner";
 import editSigner from "./handlers/signers/editSigner";
+import deleteSigner from "./handlers/signers/deleteSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
 import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 
@@ -600,6 +601,11 @@ export const API_ROUTES = {
       handler: editSigner,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while updating signer"
+    },
+    delete: {
+      handler: deleteSigner,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while removing signer"
     }
   },
   "/signers/:id/signature": {

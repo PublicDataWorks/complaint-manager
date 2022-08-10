@@ -7,6 +7,7 @@ import Signatures from "./Signatures";
 import createConfiguredStore from "../../createConfiguredStore";
 import userEvent from "@testing-library/user-event";
 import { FAKE_USERS } from "../../../sharedUtilities/constants";
+import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
 jest.mock("../shared/components/FileUpload");
 
@@ -53,7 +54,7 @@ describe("Signatures Admin Card", () => {
     render(
       <Provider store={createConfiguredStore()}>
         <Router>
-          <Signatures />
+          <Signatures /><SharedSnackbarContainer />
         </Router>
       </Provider>
     );
@@ -298,4 +299,55 @@ describe("Signatures Admin Card", () => {
       expect(signerPut.isDone()).toBeTrue();
     });
   });
+
+  describe("Delete Signer Dialog", () => {
+    let saveButton;
+    beforeEach(async () => {
+      nock("http://localhost").get("/api/users").reply(200, FAKE_USERS);
+      const removeButtons = await screen.findAllByText("Remove");
+      userEvent.click(removeButtons[0]);
+      saveButton = await screen.findByText("Delete");
+    });
+
+    test("should open remove signer dialog when remove signer button is clicked and close on cancel", async () => {
+      userEvent.click(await screen.findByText("Cancel"));
+      expect(screen.queryAllByText("Delete")).toHaveLength(0);
+      expect(screen.getAllByText("Remove")).toHaveLength(2);
+    });
+
+    test("should make service calls and close the dialog when deleted correctly and see snackbar message", async () => {
+      const signerDelete = nock("http://localhost")
+        .delete("/api/signers/1")
+        .reply(200, {});
+
+      nock("http://localhost")
+        .get("/api/signers")
+        .reply(200, [
+          {
+            id: 2,
+            name: "Nina Ambroise",
+            title: "Complaint Intake Specialist",
+            nickname: "nambroise@oipm.gov",
+            phone: "888-576-9922",
+            links: [
+              {
+                rel: "signature",
+                href: "/api/signers/2/signature"
+              }
+            ]
+          }
+        ]);
+
+      userEvent.click(saveButton);
+      await new Promise(resolve => {
+        signerDelete.on("replied", () => {
+          resolve();
+        });
+      });
+      expect(signerDelete.isDone()).toBeTrue();
+      expect(await screen.findByText("Signer successfully deleted"))
+      .toBeInTheDocument;     
+    });
+  });
 });
+

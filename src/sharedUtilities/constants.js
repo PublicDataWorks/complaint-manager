@@ -760,5 +760,6 @@ export const FAKE_USERS = [
   { email: NICKNAME, name: USERNAME },
   { email: "ree.c.pieces@gmail.com", name: "Ree C. Pieces" },
   { email: "sameen.shaw@gmail.com", name: "Sameen Shaw" },
-  { email: "seanathon@gmail.com", name: "Seanathon" }
+  { email: "seanathon@gmail.com", name: "Seanathon" },
+  { email: "jsimms@oipm.gov", name: "John A Simms" },
 ];

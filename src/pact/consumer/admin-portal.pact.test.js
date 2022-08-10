@@ -242,7 +242,37 @@ pactWith(
           expect(await screen.findByText("File was successfully uploaded"))
             .toBeInTheDocument;
           expect(await screen.findByText("Signer successfully updated"))
-            .toBeInTheDocument;
+            .toBeInTheDocument; 
+        });
+
+        test("on click of remove signature button, should remove signer and signature", async () => {
+          moment.prototype.utc = jest
+            .fn()
+            .mockReturnValue(moment("2011-10-10T10:20:20Z"));
+            await provider.addInteraction({
+              state: "signers have been added to the database",
+              uponReceiving: "delete signature",
+              withRequest: {
+                method: "DELETE",
+                path: "/api/signers/1"
+              },
+              willRespondWith: {
+                status: 200,
+                headers: {
+                  "Content-Type": "application/json; charset=utf-8"
+                },
+                body: like(Buffer.from("bytes", "base64").toString("base64"))
+              }
+            });
+          
+
+          const removeButtons = await screen.findAllByText("Remove");
+          userEvent.click(removeButtons[0]);
+          const saveButton = await screen.findByText("Delete");
+
+          userEvent.click(saveButton);
+          expect(await screen.findByText("Signer successfully deleted"))
+            .toBeInTheDocument; 
         });
       });
     });
