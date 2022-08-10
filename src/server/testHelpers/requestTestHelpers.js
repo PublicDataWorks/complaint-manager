@@ -25,7 +25,7 @@ export const suppressWinstonLogs = test => async () => {
   try {
     await test();
   } catch (err) {
-    throw err;
+    console.log(err);
   } finally {
     winston.configure({
       transports: [

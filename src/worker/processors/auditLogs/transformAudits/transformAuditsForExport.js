@@ -81,7 +81,6 @@ const fieldNamesToIncludeInChanges = changes => {
 
 const generateChangesForUpdatedDataChangeAudit = audit => {
   const changes = audit.dataChangeAudit.changes;
-  const action = audit.auditAction;
   if (!changes) return "";
 
   return fieldNamesToIncludeInChanges(changes)

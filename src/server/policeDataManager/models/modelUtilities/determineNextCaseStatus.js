@@ -4,7 +4,7 @@ const CASE_STATUS = require("../../../../sharedUtilities/constants").CASE_STATUS
 const _ = require("lodash");
 
 const determineNextCaseStatus = currentStatus => {
-  if (!Boolean(currentStatus)) {
+  if (!currentStatus) {
     return CASE_STATUS.INITIAL;
   }
 

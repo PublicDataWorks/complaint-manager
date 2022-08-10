@@ -50,10 +50,10 @@ const workingCasesReducer = (state = initialState, action) => {
     case UPDATE_CASES_TABLE_SORTING:
       return action.caseType === WORKING
         ? {
-            ...state,
-            sortBy: action.sortBy,
-            sortDirection: action.sortDirection
-          }
+          ...state,
+          sortBy: action.sortBy,
+          sortDirection: action.sortDirection
+        }
         : state;
     case CASE_CREATED_SUCCESS:
       return {

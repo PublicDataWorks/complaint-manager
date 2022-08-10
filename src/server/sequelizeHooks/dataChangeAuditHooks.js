@@ -198,7 +198,7 @@ exports.init = (sequelize, model) => {
     await createDataChangeAudit(instance, options, AUDIT_ACTION.DATA_RESTORED);
   };
 
-  const raiseAuditException = (instance, options) => {
+  const raiseAuditException = () => {
     throw Boom.notImplemented(`Audit is not implemented for this function.`);
   };
 
@@ -276,7 +276,7 @@ exports.init = (sequelize, model) => {
     );
     const snapshot = await snapshotValues(instance);
     if (_.isEmpty(changes)) return;
-    const dataChangeAudit = await sequelize.model("audit").create(
+    await sequelize.model("audit").create(
       {
         user: getUserNickname(options, action, formattedModelName),
         auditAction: action,

@@ -114,7 +114,7 @@ describe("param handler", () => {
 
     test("calls next without error for archived case for case notes in route", async () => {
       request.method = "POST";
-      request.route = { path: `/cases/:caseId/case-notes` };
+      request.route = { path: "/cases/:caseId/case-notes" };
       await handleCaseIdParam(request, response, next, archivedCase.id);
 
       expect(next).not.toHaveBeenCalledWith(expect.any(Error));
@@ -125,7 +125,7 @@ describe("param handler", () => {
 
     test("calls next without error for archived case for restore in route", async () => {
       request.method = "PUT";
-      request.route = { path: `/cases/:caseId/restore` };
+      request.route = { path: "/cases/:caseId/restore" };
       await handleCaseIdParam(request, response, next, archivedCase.id);
 
       expect(next).not.toHaveBeenCalledWith(expect.any(Error));
@@ -146,7 +146,7 @@ describe("param handler", () => {
     });
 
     test("calls next without an error for an archived case", async () => {
-      request.route = { path: `/cases/:caseId` };
+      request.route = { path: "/cases/:caseId" };
       await handleCaseIdParam(request, response, next, archivedCase.id);
 
       expect(next).not.toHaveBeenCalledWith(expect.any(Error));

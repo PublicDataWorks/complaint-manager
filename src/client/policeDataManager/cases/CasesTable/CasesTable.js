@@ -266,13 +266,13 @@ class CasesTable extends React.Component {
               <TableBody>
                 {this.props.cases
                   ? this.props.cases.map(caseDetails => (
-                      <CaseRow
-                        key={caseDetails.id}
-                        caseDetails={caseDetails}
-                        currentUser={this.props.currentUser}
-                        dispatch={this.props.dispatch}
-                      />
-                    ))
+                    <CaseRow
+                      key={caseDetails.id}
+                      caseDetails={caseDetails}
+                      currentUser={this.props.currentUser}
+                      dispatch={this.props.dispatch}
+                    />
+                  ))
                   : ""}
               </TableBody>
             </Table>

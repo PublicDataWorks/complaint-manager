@@ -73,181 +73,181 @@ describe("executeQuery", () => {
 
     existingCase1 = await models.cases.create(
       new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
+        .defaultCase()
+        .withId(undefined)
+        .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
       {
         auditUser: "someone"
-    });
+      });
 
     await updateCaseStatus(existingCase1, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     existingCase2 = await models.cases.create(
       new Case.Builder()
-      .defaultCase()
-      .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
+        .defaultCase()
+        .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
       {
         auditUser: "someone"
-    });
+      });
 
     await updateCaseStatus(existingCase2, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     existingCase3 = await models.cases.create(
       new Case.Builder()
-      .defaultCase()
-      .withId(undefined)
-      .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
+        .defaultCase()
+        .withId(undefined)
+        .withFirstContactDate(moment(todaysDate).subtract(3, "month")), 
       {
         auditUser: "someone"
-    });
+      });
 
     await updateCaseStatus(existingCase3, CASE_STATUS.FORWARDED_TO_AGENCY);
 
     officer1 = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .withOfficerNumber(201)
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(201)
     );
 
     officer2 = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .withOfficerNumber(202)
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(202)
     );
 
     officer3 = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .withOfficerNumber(203)
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(203)
     );
 
     allegation1 = await models.allegation.create(
       new Allegation.Builder()
-      .defaultAllegation()
-      .withRule("Test Rule A")
-      .withParagraph("Test Paragraph A")
-      .withDirective("AA")
-      .withId(undefined)
+        .defaultAllegation()
+        .withRule("Test Rule A")
+        .withParagraph("Test Paragraph A")
+        .withDirective("AA")
+        .withId(undefined)
     );
 
     allegation2 = await models.allegation.create(
       new Allegation.Builder()
-      .defaultAllegation()
-      .withRule("Test Rule B")
-      .withParagraph("Test Paragraph B")
-      .withDirective("BB")
-      .withId(undefined)
+        .defaultAllegation()
+        .withRule("Test Rule B")
+        .withParagraph("Test Paragraph B")
+        .withDirective("BB")
+        .withId(undefined)
     );
 
     allegation3 = await models.allegation.create(
       new Allegation.Builder()
-      .defaultAllegation()
-      .withRule("Test Rule C")
-      .withParagraph("Test Paragraph C")
-      .withDirective("CC")
-      .withId(undefined)
+        .defaultAllegation()
+        .withRule("Test Rule C")
+        .withParagraph("Test Paragraph C")
+        .withDirective("CC")
+        .withId(undefined)
     );
 
     allegation4 = await models.allegation.create(
       new Allegation.Builder()
-      .defaultAllegation()
-      .withRule("Test Rule D")
-      .withParagraph("Test Paragraph D")
-      .withDirective("DD")
-      .withId(undefined)
+        .defaultAllegation()
+        .withRule("Test Rule D")
+        .withParagraph("Test Paragraph D")
+        .withDirective("DD")
+        .withId(undefined)
     );
 
     caseOfficer1 = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(existingCase1.id)
-      .withOfficerId(officer1.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(existingCase1.id)
+        .withOfficerId(officer1.id),
       { auditUser: "someone" }
     );
 
     caseOfficer2 = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(existingCase2.id)
-      .withOfficerId(officer2.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(existingCase2.id)
+        .withOfficerId(officer2.id),
       { auditUser: "someone" }
     );
 
     caseOfficer3 = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(existingCase3.id)
-      .withOfficerId(officer3.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(existingCase3.id)
+        .withOfficerId(officer3.id),
       { auditUser: "someone" }
     );
 
     officerAllegation1 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation1.id)
-      .withCaseOfficerId(caseOfficer1.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation1.id)
+        .withCaseOfficerId(caseOfficer1.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation2 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation2.id)
-      .withCaseOfficerId(caseOfficer1.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation2.id)
+        .withCaseOfficerId(caseOfficer1.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation3 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation3.id)
-      .withCaseOfficerId(caseOfficer1.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation3.id)
+        .withCaseOfficerId(caseOfficer1.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation4 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation4.id)
-      .withCaseOfficerId(caseOfficer1.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation4.id)
+        .withCaseOfficerId(caseOfficer1.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation5 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation3.id)
-      .withCaseOfficerId(caseOfficer2.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation3.id)
+        .withCaseOfficerId(caseOfficer2.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation6 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation4.id)
-      .withCaseOfficerId(caseOfficer2.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation4.id)
+        .withCaseOfficerId(caseOfficer2.id),
+      { auditUser: "someone" }
     );
 
     officerAllegation7 = await models.officer_allegation.create(
       new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withId(undefined)
-      .withAllegationId(allegation4.id)
-      .withCaseOfficerId(caseOfficer3.id),
-    { auditUser: "someone" }
+        .defaultOfficerAllegation()
+        .withId(undefined)
+        .withAllegationId(allegation4.id)
+        .withCaseOfficerId(caseOfficer3.id),
+      { auditUser: "someone" }
     );
   });
 
@@ -277,25 +277,25 @@ describe("executeQuery", () => {
 
     const newOfficer = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
+        .defaultOfficer()
+        .withId(undefined)
     );
 
     const newAllegation = await models.allegation.create(
       new Allegation.Builder()
         .defaultAllegation()
         .withId(undefined),
-        {
-          auditUser: "someone"
-        }
-      );
+      {
+        auditUser: "someone"
+      }
+    );
 
     const newCaseOfficer = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(letterInProgressCase.id)
-      .withOfficerId(newOfficer.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(letterInProgressCase.id)
+        .withOfficerId(newOfficer.id),
       { auditUser: "someone" }
     );
 
@@ -332,26 +332,26 @@ describe("executeQuery", () => {
 
     const newOfficer = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .withOfficerNumber(100)
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(100)
     );
 
     const newAllegation = await models.allegation.create(
       new Allegation.Builder()
         .defaultAllegation()
         .withId(undefined),
-        {
-          auditUser: "someone"
-        }
-      );
+      {
+        auditUser: "someone"
+      }
+    );
 
     const newCaseOfficer = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(case15MonthsAgo.id)
-      .withOfficerId(newOfficer.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(case15MonthsAgo.id)
+        .withOfficerId(newOfficer.id),
       { auditUser: "someone" }
     );
 
@@ -388,26 +388,26 @@ describe("executeQuery", () => {
 
     const newOfficer = await models.officer.create(
       new Officer.Builder()
-      .defaultOfficer()
-      .withId(undefined)
-      .withOfficerNumber(101)
+        .defaultOfficer()
+        .withId(undefined)
+        .withOfficerNumber(101)
     );
 
     const newAllegation = await models.allegation.create(
       new Allegation.Builder()
         .defaultAllegation()
         .withId(undefined),
-        {
-          auditUser: "someone"
-        }
-      );
+      {
+        auditUser: "someone"
+      }
+    );
 
     const newCaseOfficer = await models.case_officer.create(
       new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(undefined)
-      .withCaseId(archivedCase.id)
-      .withOfficerId(newOfficer.id),
+        .defaultCaseOfficer()
+        .withId(undefined)
+        .withCaseId(archivedCase.id)
+        .withOfficerId(newOfficer.id),
       { auditUser: "someone" }
     );
 

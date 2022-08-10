@@ -19,6 +19,6 @@ describe("canBeAnonymous", () => {
   });
 
   test("should return true when officer is not accused", () => {
-      expect(canBeAnonymous(true, WITNESS)).toBeTrue();
-  })
+    expect(canBeAnonymous(true, WITNESS)).toBeTrue();
+  });
 });

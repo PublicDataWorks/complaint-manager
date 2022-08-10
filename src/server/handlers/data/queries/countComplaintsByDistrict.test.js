@@ -46,14 +46,14 @@ describe("executeQuery", () => {
   let districtNames = DISTRICTS_GEOJSON
     ? DISTRICTS_GEOJSON.features.map(feature => feature.properties.name)
     : [
-        "1st District",
-        "2nd District",
-        "3rd District",
-        "4th District",
-        "5th District",
-        "6th District",
-        "7th District"
-      ];
+      "1st District",
+      "2nd District",
+      "3rd District",
+      "4th District",
+      "5th District",
+      "6th District",
+      "7th District"
+    ];
 
   const expectedOutput = [
     { district: districtNames[0], count: DISTRICTS_GEOJSON ? 2 : 1 },

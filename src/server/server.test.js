@@ -11,8 +11,7 @@ import {
   AUDIT_ACTION,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  NICKNAME,
-  USER_PERMISSIONS
+  NICKNAME
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -37,17 +36,17 @@ jest.mock("aws-sdk", () => ({
 }));
 
 jest.mock("./handlers/audits/auditAuthentication", () =>
-  jest.fn((request, response, next) => {
+  jest.fn((request, response) => {
     response.send();
   })
 );
 jest.mock("./handlers/cases/createCaseTag", () =>
-  jest.fn((request, response, next) => {
+  jest.fn((request, response) => {
     response.send();
   })
 );
 jest.mock("./handlers/tags/getTags", () =>
-  jest.fn((request, response, next) => {
+  jest.fn((request, response) => {
     response.send();
   })
 );
@@ -202,7 +201,7 @@ describe("server", () => {
   });
 
   describe("POST and PUT /cases", () => {
-    let requestBody, responseBody;
+    let requestBody;
 
     beforeEach(() => {
       //TODO Restructure this to have the same structure as represented in Redux/Builder.
@@ -848,7 +847,7 @@ describe("server", () => {
 
         AWS.S3.mockImplementation(() => {
           return {
-            upload: (params, options) => ({
+            upload: () => ({
               promise: () => Promise.resolve({ Key: mockKey }),
               abort: () => ({})
             }),
@@ -890,7 +889,7 @@ describe("server", () => {
 
         AWS.S3.mockImplementation(() => {
           return {
-            upload: (params, options) => ({
+            upload: () => ({
               promise: () => Promise.resolve({ Key: mockKey }),
               abort: () => ({})
             }),
@@ -916,7 +915,7 @@ describe("server", () => {
 
         AWS.S3.mockImplementation(() => {
           return {
-            upload: (params, options) => ({
+            upload: () => ({
               promise: () => Promise.resolve({ Key: mockFileName }),
               abort: () => ({})
             }),
@@ -955,7 +954,7 @@ describe("server", () => {
 
         AWS.S3.mockImplementation(() => {
           return {
-            deleteObject: (_params, options) => ({
+            deleteObject: () => ({
               promise: () => Promise.resolve({})
             }),
             config: {

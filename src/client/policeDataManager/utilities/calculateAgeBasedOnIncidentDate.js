@@ -7,8 +7,8 @@ const calculateAgeBasedOnIncidentDate = (person, incidentDate) => {
       ? null
       : moment(incidentDate).diff(person.birthDate, "years", false)
     : !person.dob
-    ? null
-    : moment(incidentDate).diff(person.dob, "years", false);
+      ? null
+      : moment(incidentDate).diff(person.dob, "years", false);
 };
 
 export default calculateAgeBasedOnIncidentDate;

@@ -25,9 +25,9 @@ const openExportAuditLogConfirmationDialogForDateRange = (
   const dateRange =
     values && values[`${formLabel}From`] && values[`${formLabel}To`]
       ? {
-          exportStartDate: values[`${formLabel}From`],
-          exportEndDate: values[`${formLabel}To`]
-        }
+        exportStartDate: values[`${formLabel}From`],
+        exportEndDate: values[`${formLabel}To`]
+      }
       : null;
 
   openExportAuditLogConfirmationDialog(dateRange);

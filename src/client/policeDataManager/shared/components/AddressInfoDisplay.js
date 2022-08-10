@@ -14,7 +14,7 @@ const AddressInfoDisplay = ({
   let formattedAddress = useLineBreaks
     ? formatAddressWithLineBreak(address)
     : formatAddressAsString(address);
-  if (!Boolean(formattedAddress)) {
+  if (!formattedAddress) {
     formattedAddress = "No address specified";
   }
   return (

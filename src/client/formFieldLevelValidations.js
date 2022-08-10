@@ -23,12 +23,12 @@ export const isPhoneNumber = value => {
   }
   const formattedVal = value.replace(/[() -]/g, "");
   const missingOrValid =
-    !Boolean(formattedVal) || /^[0-9]{10}$/.test(formattedVal);
+    !formattedVal || /^[0-9]{10}$/.test(formattedVal);
   return missingOrValid ? undefined : "Please enter a numeric 10 digit value";
 };
 
 export const isEmail = value => {
-  const missingOrValid = !Boolean(value) || validator.isEmail(value);
+  const missingOrValid = !value || validator.isEmail(value);
   return missingOrValid ? undefined : "Please enter a valid email address";
 };
 

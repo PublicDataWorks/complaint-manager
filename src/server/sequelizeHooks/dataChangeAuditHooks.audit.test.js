@@ -1,6 +1,6 @@
 import models from "../policeDataManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
-import { AUDIT_ACTION, AUDIT_TYPE } from "../../sharedUtilities/constants";
+import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
 describe("data access audit", () => {
   afterEach(async () => {

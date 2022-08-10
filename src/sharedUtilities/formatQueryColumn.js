@@ -2,7 +2,7 @@ const formatQueryColumn = (column, columnValue) => {
   if (typeof columnValue === "number") {
     return `${column}=${columnValue}`;
   }
-  if (Boolean(columnValue)) {
+  if (columnValue) {
     return `${column}='${columnValue}'`;
   }
 

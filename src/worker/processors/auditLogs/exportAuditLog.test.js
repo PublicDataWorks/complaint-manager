@@ -25,12 +25,10 @@ describe("exportAuditLog", () => {
 
   beforeEach(async () => {
     records = [];
-    uploadFileToS3.mockImplementation(
-      (jobId, dataToUpload, filename, fileType) => {
-        records = parse(dataToUpload, { columns: true });
-        return awsResult;
-      }
-    );
+    uploadFileToS3.mockImplementation((jobId, dataToUpload) => {
+      records = parse(dataToUpload, { columns: true });
+      return awsResult;
+    });
     job = { data: { user: nickname } };
     jobWithDateRange = {
       data: {

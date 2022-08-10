@@ -1,5 +1,3 @@
-import Signer from "./signer";
-
 class LetterField {
   constructor(build) {
     this.id = build.id;

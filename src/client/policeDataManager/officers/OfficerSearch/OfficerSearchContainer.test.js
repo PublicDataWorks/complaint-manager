@@ -61,7 +61,7 @@ describe("OfficerSearchContainer", () => {
           <ConnectedDashboard
             officerDetailsPath={path}
             submitAction={jest.fn(() => {
-              type: "mock";
+              "mock";
             })}
             titleAction={""}
           />
@@ -96,7 +96,7 @@ describe("OfficerSearchContainer", () => {
           <ConnectedDashboard
             officerDetailsPath={path}
             submitAction={jest.fn(() => {
-              type: "mock";
+              "mock";
             })}
             titleAction={""}
           />
@@ -130,7 +130,7 @@ describe("OfficerSearchContainer", () => {
           <ConnectedDashboard
             officerDetailsPath={path}
             submitAction={jest.fn(() => {
-              type: "mock";
+              "mock";
             })}
             titleAction={""}
             caseId={caseId}
@@ -176,7 +176,7 @@ describe("OfficerSearchContainer", () => {
           <ConnectedDashboard
             officerDetailsPath={path}
             submitAction={jest.fn(() => {
-              type: "mock";
+              "mock";
             })}
             titleAction={""}
           />

@@ -11,7 +11,7 @@ const INSERT_CONFIGS = `INSERT INTO configs (name, value)
 `;
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(INSERT_CONFIGS, { transaction });
@@ -23,7 +23,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query("TRUNCATE configs CASCADE", {
         transaction

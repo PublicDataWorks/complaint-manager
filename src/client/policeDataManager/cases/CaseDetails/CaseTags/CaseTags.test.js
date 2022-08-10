@@ -167,11 +167,11 @@ describe("Case Tags", () => {
       store.dispatch(getCaseDetailsSuccess(caseDetail));
 
       dialog = mount(
-          <Provider store={store}>
-            <Router>
-              <CaseTags caseId={1} dispatch={jest.fn()} />
-            </Router>
-          </Provider>
+        <Provider store={store}>
+          <Router>
+            <CaseTags caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
       );
 
       const noDisplayButton = dialog.find('[data-testid="addTagButton"]').first();

@@ -52,7 +52,7 @@ const INSERT_LETTER_FIELDS = `INSERT INTO letter_fields (field, relation, is_req
 const LETTER_TYPE_QUERY = `SELECT id, type FROM letter_types`;
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize
@@ -77,7 +77,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query("TRUNCATE letter_fields CASCADE", {
         transaction

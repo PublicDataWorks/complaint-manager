@@ -99,7 +99,7 @@ describe("dataChangeAuditHooks", () => {
     });
 
     test("it saves the changes of the new values", async () => {
-      const createdCase = await models.cases.create(initialCaseAttributes, {
+      await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
 
@@ -138,7 +138,7 @@ describe("dataChangeAuditHooks", () => {
       Object.assign(initialCaseAttributes, {
         intakeSourceId: emailIntakeSource.id
       });
-      const createdCase = await models.cases.create(initialCaseAttributes, {
+      await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
 
@@ -179,7 +179,7 @@ describe("dataChangeAuditHooks", () => {
       Object.assign(initialCaseAttributes, {
         howDidYouHearAboutUsSourceId: friendHowDidYouHearAboutUsSource.id
       });
-      const createdCase = await models.cases.create(initialCaseAttributes, {
+      await models.cases.create(initialCaseAttributes, {
         auditUser: "someone"
       });
       const audit = await models.audit.findOne({
@@ -519,7 +519,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
         incidentDate: { previous: "2017-12-01", new: "2017-12-05" },
         incidentTime: { previous: "01:01:01", new: "12:59:59" },
-        incidentTimezone: { previous: "CST", new: "EST"},
+        incidentTimezone: { previous: "CST", new: "EST" },
         narrativeSummary: {
           previous: "original narrative summary",
           new: "updated narrative summary"

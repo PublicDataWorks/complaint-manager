@@ -16,9 +16,9 @@ const VisualizationDateRangeSelect = props => {
     moment().format("MM") === "01"
       ? [{ key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" }]
       : [
-          { key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" },
-          { key: DATE_RANGE_TYPE.YTD, value: "Year-to-date" }
-        ];
+        { key: DATE_RANGE_TYPE.PAST_12_MONTHS, value: "Past 12 Months" },
+        { key: DATE_RANGE_TYPE.YTD, value: "Year-to-date" }
+      ];
 
   for (
     let i = parseInt(moment().format("YYYY")) - 1;

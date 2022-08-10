@@ -9,9 +9,8 @@ const referralLetterEditableTemplate = fs.readFileSync(
 );
 const REFERRAL_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
   SET template = '${referralLetterTemplate.toString().replace(/'/g, "''")}',
-    editable_template = '${referralLetterEditableTemplate
-      .toString()
-      .replace(/'/g, "''")}'
+    editable_template = 
+    '${referralLetterEditableTemplate.toString().replace(/'/g, "''")}'
   WHERE type = 'REFERRAL'`;
 
 const complainantLetterTemplate = fs.readFileSync(
@@ -28,7 +27,7 @@ const REVERSION_QUERY = `UPDATE letter_types
     OR type = 'COMPLAINANT'`;
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize
@@ -49,7 +48,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(REVERSION_QUERY, { transaction });
     });

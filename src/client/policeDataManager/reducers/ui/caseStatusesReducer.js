@@ -7,7 +7,7 @@ const caseStatusesReducer = (state = initialState, action) => {
     case CASE_STATUSES_RETRIEVED:
       return action.payload.reduce((acc, elem) => {
         if (!acc[elem.name]) {
-          acc[elem.name] = elem.orderKey
+          acc[elem.name] = elem.orderKey;
         }
         return acc;
       }, {});

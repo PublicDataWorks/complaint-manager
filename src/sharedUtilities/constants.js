@@ -1,5 +1,4 @@
 import moment from "moment";
-import timezone from "moment-timezone";
 
 const {
   PD,

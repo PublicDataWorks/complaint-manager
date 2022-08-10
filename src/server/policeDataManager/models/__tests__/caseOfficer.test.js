@@ -103,7 +103,9 @@ describe("caseOfficer", () => {
         await models.case_officer.create(caseOfficerToCreate, {
           auditUser: "someone"
         });
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
 
       await initialCase.reload();
       expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);

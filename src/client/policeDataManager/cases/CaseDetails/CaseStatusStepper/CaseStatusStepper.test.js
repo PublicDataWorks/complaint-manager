@@ -62,7 +62,7 @@ describe("CaseStatusStepper", () => {
     await new Promise(resolve => {
       getAllCaseStatuses.on("replied", () => {
         resolve();
-      })
+      });
     });
 
     expect(await screen.findByText("Initial")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");
@@ -90,7 +90,7 @@ describe("CaseStatusStepper", () => {
     await new Promise(resolve => {
       getAllCaseStatuses.on("replied", () => {
         resolve();
-      })
+      });
     });
 
     expect(await screen.findByText("Forwarded to Agency")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");

@@ -1,5 +1,4 @@
 import timezone from "moment-timezone";
-import moment from "moment";
 import { TIMEZONE } from "./constants";
 
 const formatDate = dateString => {

@@ -3,7 +3,6 @@ export const deleteDuplicateRowsByName = async (
   originalRows,
   transaction
 ) => {
-
   for (let i = 0; i < duplicateRows.length; i++) {
     const duplicateRow = duplicateRows[i];
     try {
@@ -16,8 +15,7 @@ export const deleteDuplicateRowsByName = async (
     } catch (error) {
       throw new Error(
         `Error while deleting duplicate row where the id is ${duplicateRow.id}. \nInternal Error: ${error}`
-      )
+      );
     }
   }
-
 };

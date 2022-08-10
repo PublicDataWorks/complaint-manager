@@ -74,12 +74,10 @@ describe("csvCaseExport request", () => {
     );
 
     records = [];
-    uploadFileToS3.mockImplementation(
-      (jobId, dataToUpload, filename, fileType) => {
-        records = parse(dataToUpload, { columns: true });
-        return awsResult;
-      }
-    );
+    uploadFileToS3.mockImplementation((jobId, dataToUpload) => {
+      records = parse(dataToUpload, { columns: true });
+      return awsResult;
+    });
 
     const config = new Config.Builder()
       .defaultConfig()
@@ -755,10 +753,9 @@ describe("csvCaseExport request", () => {
         .withRoleOnCase(WITNESS)
         .withCaseId(caseToExport.id)
         .build();
-      const createdCaseOfficerWitness = await models.case_officer.create(
-        caseOfficerWitnessToCreate,
-        { auditUser: "test user" }
-      );
+      await models.case_officer.create(caseOfficerWitnessToCreate, {
+        auditUser: "test user"
+      });
 
       const civilianWitnessToCreate = new Civilian.Builder()
         .defaultCivilian()
@@ -766,10 +763,9 @@ describe("csvCaseExport request", () => {
         .withCaseId(caseToExport.id)
         .withRoleOnCase(WITNESS)
         .build();
-      const createdCivilianWitness = await models.civilian.create(
-        civilianWitnessToCreate,
-        { auditUser: "test user" }
-      );
+      await models.civilian.create(civilianWitnessToCreate, {
+        auditUser: "test user"
+      });
 
       await csvCaseExport(job, jobDone);
 
@@ -1202,10 +1198,9 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(createdOfficer)
         .build();
 
-      const createdComplainantOfficer = await models.case_officer.create(
-        complainantOfficerToCreate,
-        { auditUser: "test user" }
-      );
+      await models.case_officer.create(complainantOfficerToCreate, {
+        auditUser: "test user"
+      });
 
       await csvCaseExport(job, jobDone);
 
@@ -1396,7 +1391,7 @@ describe("csvCaseExport request", () => {
           .withFirstContactDate(moment("2018-12-31")),
         { auditUser: "test" }
       );
-      const caseBeforeDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1413,7 +1408,7 @@ describe("csvCaseExport request", () => {
         { auditUser: "test" }
       );
 
-      const caseAfterDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1445,7 +1440,7 @@ describe("csvCaseExport request", () => {
           .withIncidentDate(moment("2018-12-31")),
         { auditUser: "test" }
       );
-      const caseRightBeforeDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1462,7 +1457,7 @@ describe("csvCaseExport request", () => {
         { auditUser: "test" }
       );
 
-      const caseAfterDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1534,7 +1529,7 @@ describe("csvCaseExport request", () => {
           .withFirstContactDate(moment("2018-12-31")),
         { auditUser: "test" }
       );
-      const caseBeforeDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1551,7 +1546,7 @@ describe("csvCaseExport request", () => {
         { auditUser: "test" }
       );
 
-      const caseAfterDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1583,7 +1578,7 @@ describe("csvCaseExport request", () => {
           .withIncidentDate(moment("2018-12-31")),
         { auditUser: "test" }
       );
-      const caseRightBeforeDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)
@@ -1600,7 +1595,7 @@ describe("csvCaseExport request", () => {
         { auditUser: "test" }
       );
 
-      const caseAfterDateRange = await models.cases.create(
+      await models.cases.create(
         new Case.Builder()
           .defaultCase()
           .withId(undefined)

@@ -233,19 +233,19 @@ const createCase = async (complaintType, isAnonymous = false) => {
   const civilianComplainants =
     complaintType === CIVILIAN_INITIATED
       ? [
-          {
-            firstName: "SecondCivFirstName",
-            lastName: "Second Civ Complainant",
-            isAnonymous: isAnonymous,
-            createdAt: "2018-02-01"
-          },
-          {
-            firstName: "First",
-            lastName: "Smith",
-            isAnonymous: isAnonymous,
-            createdAt: "2018-01-01"
-          }
-        ]
+        {
+          firstName: "SecondCivFirstName",
+          lastName: "Second Civ Complainant",
+          isAnonymous: isAnonymous,
+          createdAt: "2018-02-01"
+        },
+        {
+          firstName: "First",
+          lastName: "Smith",
+          isAnonymous: isAnonymous,
+          createdAt: "2018-01-01"
+        }
+      ]
       : [];
 
   const firstOfficer = await createOfficer({
@@ -262,23 +262,23 @@ const createCase = async (complaintType, isAnonymous = false) => {
   const officerComplainants =
     complaintType === RANK_INITIATED
       ? [
-          {
-            firstName: "First",
-            lastName: "2nd Off Complainant",
-            roleOnCase: COMPLAINANT,
-            isAnonymous: isAnonymous,
-            createdAt: "2018-02-01",
-            officerId: firstOfficer.id
-          },
-          {
-            firstName: "First",
-            lastName: "Jones",
-            roleOnCase: COMPLAINANT,
-            isAnonymous: isAnonymous,
-            createdAt: "2018-01-01",
-            officerId: secondOfficer.id
-          }
-        ]
+        {
+          firstName: "First",
+          lastName: "2nd Off Complainant",
+          roleOnCase: COMPLAINANT,
+          isAnonymous: isAnonymous,
+          createdAt: "2018-02-01",
+          officerId: firstOfficer.id
+        },
+        {
+          firstName: "First",
+          lastName: "Jones",
+          roleOnCase: COMPLAINANT,
+          isAnonymous: isAnonymous,
+          createdAt: "2018-01-01",
+          officerId: secondOfficer.id
+        }
+      ]
       : [];
 
   const existingCaseAttributes = new Case.Builder()

@@ -1,7 +1,7 @@
 import { OPENID, PROFILE } from "../../../sharedUtilities/constants";
 
 const parsePermissions = auth0Scope => {
-  if (!Boolean(auth0Scope)) {
+  if (!auth0Scope) {
     return [];
   }
 

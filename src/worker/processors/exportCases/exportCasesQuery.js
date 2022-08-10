@@ -44,9 +44,9 @@ const exportCasesQuery = (dateRange = null) => {
     " ' ', " +
     "cases.created_at" +
     ") AS created_at, " +
-    `to_char(cases.first_contact_date, \'${DATE_ONLY_FORMAT}\') AS first_contact_date, ` +
-    `to_char(cases.incident_date, \'${DATE_ONLY_FORMAT}\') AS incident_date, ` +
-    `to_char(cases.incident_time, \'${TIME_ONLY_FORMAT}\') AS incident_time, ` +
+    `to_char(cases.first_contact_date, '${DATE_ONLY_FORMAT}') AS first_contact_date, ` +
+    `to_char(cases.incident_date, '${DATE_ONLY_FORMAT}') AS incident_date, ` +
+    `to_char(cases.incident_time, '${TIME_ONLY_FORMAT}') AS incident_time, ` +
     "cases.complaint_type, " +
     "cases.narrative_summary, " +
     "cases.narrative_details, " +
@@ -97,8 +97,8 @@ const exportCasesQuery = (dateRange = null) => {
     'complainants.officer_district AS "complainants.officer_district", ' +
     'complainants.officer_bureau AS "complainants.officer_bureau", ' +
     'complainants.officer_work_status AS "complainants.officer_work_status", ' +
-    `to_char(complainants.officer_hire_date, \'${DATE_ONLY_FORMAT}\') AS "complainants.officer_hire_date", ` +
-    `to_char(complainants.officer_end_date, \'${DATE_ONLY_FORMAT}\') AS "complainants.officer_end_date", ` +
+    `to_char(complainants.officer_hire_date, '${DATE_ONLY_FORMAT}') AS "complainants.officer_hire_date", ` +
+    `to_char(complainants.officer_end_date, '${DATE_ONLY_FORMAT}') AS "complainants.officer_end_date", ` +
     'complainants.officer_race AS "complainants.officer_race", ' +
     'complainants.officer_sex AS "complainants.officer_sex", ' +
     `CASE WHEN complainants.officer_dob IS NULL OR cases.incident_date IS NULL THEN 'N/A' ` +
@@ -138,8 +138,8 @@ const exportCasesQuery = (dateRange = null) => {
     'accusedOfficers.district AS "accusedOfficers.district", ' +
     'accusedOfficers.bureau AS "accusedOfficers.bureau", ' +
     'accusedOfficers.work_status AS "accusedOfficers.work_status", ' +
-    `to_char(accusedOfficers.hire_date, \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.hire_date", ` +
-    `to_char(accusedOfficers.end_date, \'${DATE_ONLY_FORMAT}\') AS "accusedOfficers.end_date", ` +
+    `to_char(accusedOfficers.hire_date, '${DATE_ONLY_FORMAT}') AS "accusedOfficers.hire_date", ` +
+    `to_char(accusedOfficers.end_date, '${DATE_ONLY_FORMAT}') AS "accusedOfficers.end_date", ` +
     'accusedOfficers.race AS "accusedOfficers.race", ' +
     'accusedOfficers.sex AS "accusedOfficers.sex", ' +
     `CASE WHEN accusedOfficers.dob IS NULL OR cases.incident_date IS NULL THEN 'N/A' ` +
@@ -222,7 +222,7 @@ const exportCasesQuery = (dateRange = null) => {
     " LEFT OUTER JOIN gender_identities " +
     " ON gender_identities.id = civilians.gender_identity_id" +
     " WHERE civilians.deleted_at IS NULL " +
-    ` AND civilians.role_on_case = \'${COMPLAINANT}\'` +
+    ` AND civilians.role_on_case = '${COMPLAINANT}'` +
     " UNION ALL " +
     " SELECT " +
     '   case_id AS "case_id", ' +
@@ -270,7 +270,7 @@ const exportCasesQuery = (dateRange = null) => {
     "   notes AS officer_notes " +
     " FROM cases_officers " +
     " WHERE deleted_at IS NULL " +
-    ` AND role_on_case = \'${COMPLAINANT}\'` +
+    ` AND role_on_case = '${COMPLAINANT}'` +
     ") AS complainants ON cases.id = complainants.case_id " +
     "LEFT OUTER JOIN cases_officers AS accusedOfficers " +
     " ON cases.id = accusedOfficers.case_id " +

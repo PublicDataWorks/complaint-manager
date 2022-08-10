@@ -22,7 +22,7 @@ const INSERT_COMPLAINANT_FOREIGN_KEY = `
 `;
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize.query(INSERT_REFERRAL_FOREIGN_KEY, {
@@ -39,7 +39,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(
         `TRUNCATE ${LETTER_TYPES_TABLE} CASCADE`,

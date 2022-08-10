@@ -92,11 +92,6 @@ class CaseOfficer {
         return this;
       }
 
-      withDistrict(district) {
-        this.district = district;
-        return this;
-      }
-
       withUnknownOfficer() {
         this.firstName = null;
         this.middleName = null;

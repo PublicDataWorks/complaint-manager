@@ -379,36 +379,36 @@ const PublicDataDashboard = ({
               ""
             )}
             {topAllegationsVisualizationFeature ? (
-            <Container
-            onClick={scrollIntoViewById("#top-allegations")}
-            style={{
-              display: "flex",
-              padding: "24px 0px",
-              alignItems: "center",
-            }}
-          >
-            <Icon
-              style={{
-                transform: "rotate(90deg)",
-                color: styles.colors.white,
-                opacity: "0.8"
-              }}
-            >
-              double_arrow
-            </Icon>
-              <Typography
-                variant="body1"
+              <Container
+                onClick={scrollIntoViewById("#top-allegations")}
                 style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
+                  display: "flex",
+                  padding: "24px 0px",
+                  alignItems: "center",
                 }}
               >
+                <Icon
+                  style={{
+                    transform: "rotate(90deg)",
+                    color: styles.colors.white,
+                    opacity: "0.8"
+                  }}
+                >
+              double_arrow
+                </Icon>
+                <Typography
+                  variant="body1"
+                  style={{
+                    cursor: "pointer",
+                    letterSpacing: "1px",
+                    color: styles.colors.white,
+                    paddingLeft: "12px",
+                    opacity: 0.9
+                  }}
+                >
                 What are the most frequently recommended allegations?
-              </Typography>
-            </Container>
+                </Typography>
+              </Container>
             ) : (
               ""
             )}

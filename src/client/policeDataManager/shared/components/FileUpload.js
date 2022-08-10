@@ -68,9 +68,9 @@ const FileUpload = props => {
             {props.allowedFileTypes
               ? `, Accepted file types:
             ${props.allowedFileTypes.reduce((acc, type) => {
-              const formattedType = type.split("/").pop();
-              return acc === "" ? formattedType : `${acc}, ${formattedType}`;
-            }, "")}`
+      const formattedType = type.split("/").pop();
+      return acc === "" ? formattedType : `${acc}, ${formattedType}`;
+    }, "")}`
               : ""}
           </Typography>
         </div>
@@ -94,9 +94,9 @@ const FileUpload = props => {
               timeout: Infinity,
               acceptedFiles: props.allowedFileTypes
                 ? props.allowedFileTypes.reduce(
-                    (acc, type) => (acc ? `${acc}, ${type}` : type),
-                    ""
-                  )
+                  (acc, type) => (acc ? `${acc}, ${type}` : type),
+                  ""
+                )
                 : null
             }}
             eventHandlers={{

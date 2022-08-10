@@ -30,11 +30,11 @@ export const executeQuery = async (nickname, dateRange) => {
         attributes: [],
         include: [
           {
-          model: models.cases,
-          where: where,
-          attributes: []
-        }
-      ]
+            model: models.cases,
+            where: where,
+            attributes: []
+          }
+        ]
       }
     ],
     raw: true,

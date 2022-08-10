@@ -25,9 +25,6 @@ describe("getTransformedAudits", () => {
   afterAll(async () => {
     await models.sequelize.close();
   });
-  const job = {
-    data: { user: testUser }
-  };
 
   test("should include exportAudits", async () => {
     const auditValues = {

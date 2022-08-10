@@ -50,10 +50,10 @@ const searchCasesReducer = (state = initialState, action) => {
     case UPDATE_CASES_TABLE_SORTING:
       return action.caseType === SEARCH
         ? {
-            ...state,
-            sortBy: action.sortBy,
-            sortDirection: action.sortDirection
-          }
+          ...state,
+          sortBy: action.sortBy,
+          sortDirection: action.sortDirection
+        }
         : state;
     default:
       return state;

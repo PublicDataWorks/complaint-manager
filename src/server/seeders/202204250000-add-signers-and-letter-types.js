@@ -10,7 +10,7 @@ const INSERT_LETTER_TYPES = `INSERT INTO letter_types (type, default_sender)
     ('COMPLAINANT', 1)`;
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async queryInterface => {
     let query = Object.values(content).reduce((acc, elem) => {
       return `${acc} ('${elem.name}', '${elem.signature}', '${elem.nickname}', '${elem.title}', '${elem.phone}'),`;
     }, INSERT_SIGNERS);
@@ -32,7 +32,7 @@ module.exports = {
     }
   },
 
-  down: async (queryInterface, Sequelize) => {
+  down: async queryInterface => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize
         .query("TRUNCATE letter_types CASCADE", { transaction })

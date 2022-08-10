@@ -40,10 +40,10 @@ const archivedCasesReducer = (state = initialState, action) => {
     case UPDATE_CASES_TABLE_SORTING:
       return action.caseType === ARCHIVE
         ? {
-            ...state,
-            sortBy: action.sortBy,
-            sortDirection: action.sortDirection
-          }
+          ...state,
+          sortBy: action.sortBy,
+          sortDirection: action.sortDirection
+        }
         : state;
     default:
       return state;

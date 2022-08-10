@@ -1,6 +1,5 @@
 import gracefulExit from "../sharedUtilities/gracefulExit";
 import { server } from "./server";
-import Boom from "boom";
 
 export const handleSigterm = app => {
   if (app.locals.shuttingDown) return;

@@ -1,13 +1,13 @@
 "use strict";
 
-const createSeedOfficerDataFromS3 = require("../seeder_jobs/createSeedOfficerDataFromS3");
+// const createSeedOfficerDataFromS3 = require("../seeder_jobs/createSeedOfficerDataFromS3");
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  up: async () => {
     return Promise.resolve();
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: () => {
     return Promise.resolve();
   }
 };

@@ -1,9 +1,7 @@
 import Boom from "boom";
 import removeTag from "./removeTag";
 import httpMocks from "node-mocks-http";
-import {
-  NOT_FOUND_ERRORS,
-} from "../../../sharedUtilities/errorMessageConstants";
+import { NOT_FOUND_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const mockHelper = jest.fn();
 
@@ -40,6 +38,6 @@ describe("removeTag", () => {
   test("should remove the tag and return a success status < 204", async () => {
     await removeTag(request, response, next);
     expect(response.statusCode).toBeLessThanOrEqual(204);
-    expect(mockHelper).toHaveBeenCalledWith(request, 1)
+    expect(mockHelper).toHaveBeenCalledWith(request, 1);
   });
 });

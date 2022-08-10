@@ -65,13 +65,13 @@ export class AllegationSearchResults extends Component {
             <TableBody>
               {this.props.searchResults
                 ? this.props.searchResults.map(allegation => (
-                    <AllegationSearchResultsRow
-                      key={allegation.id}
-                      allegation={allegation}
-                      caseId={this.props.caseId}
-                      caseOfficerId={this.props.caseOfficerId}
-                    />
-                  ))
+                  <AllegationSearchResultsRow
+                    key={allegation.id}
+                    allegation={allegation}
+                    caseId={this.props.caseId}
+                    caseOfficerId={this.props.caseOfficerId}
+                  />
+                ))
                 : ""}
             </TableBody>
           </Table>

@@ -110,12 +110,12 @@ class DataDashboard extends Component {
           <div>
             {this.props.topAllegationsVisualizationFeature ? (
               <div style={{ width: "800px", marginLeft: "5px"}}>
-              <Visualization
-                queryModel={new CountTop10Allegations()}
-                queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
-                hasDropdown={true}
-              />
-            </div>
+                <Visualization
+                  queryModel={new CountTop10Allegations()}
+                  queryOptions={{ dateRangeType: DATE_RANGE_TYPE.PAST_12_MONTHS }}
+                  hasDropdown={true}
+                />
+              </div>
             ) : (
               ""
             )}

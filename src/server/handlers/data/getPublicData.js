@@ -48,8 +48,8 @@ const getPublicData = asyncMiddleware(async (request, response, next) => {
       data = await countTop10Tags.executeQuery(request.nickname, dateRange);
       break;
     case QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS:
-        data = await countTop10Allegations.executeQuery(request.nickname, dateRange);
-        break;
+      data = await countTop10Allegations.executeQuery(request.nickname, dateRange);
+      break;
     case QUERY_TYPES.LOCATION_DATA:
       data = await locationDataQuery.executeQuery(dateRange);
       break;

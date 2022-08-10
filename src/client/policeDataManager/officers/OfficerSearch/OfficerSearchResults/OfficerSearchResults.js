@@ -68,19 +68,19 @@ export class OfficerSearchResults extends Component {
           <TableBody>
             {this.props.searchResults
               ? this.props.searchResults.map(officer => (
-                  <OfficerSearchResultsRow key={officer.id} officer={officer}>
-                    {this.props.officerIds.includes(officer.id) ? (
-                      <PreviouslyAddedOfficer />
-                    ) : (
-                      <SelectNewOfficer
-                        initialize={this.props.initialize}
-                        dispatch={this.props.dispatch}
-                        officer={officer}
-                        path={this.props.path}
-                      />
-                    )}
-                  </OfficerSearchResultsRow>
-                ))
+                <OfficerSearchResultsRow key={officer.id} officer={officer}>
+                  {this.props.officerIds.includes(officer.id) ? (
+                    <PreviouslyAddedOfficer />
+                  ) : (
+                    <SelectNewOfficer
+                      initialize={this.props.initialize}
+                      dispatch={this.props.dispatch}
+                      officer={officer}
+                      path={this.props.path}
+                    />
+                  )}
+                </OfficerSearchResultsRow>
+              ))
               : ""}
           </TableBody>
         </Table>

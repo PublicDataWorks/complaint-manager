@@ -8,14 +8,12 @@ const {
   JOB_OPERATION
 } = require("../../../sharedUtilities/constants");
 
-const models = require("../../../server/policeDataManager/models/index");
+require("../../../server/policeDataManager/models/index");
 const stringify = require("csv-stringify");
 const util = require("util");
 const promisifiedStringify = util.promisify(stringify);
 const moment = require("moment-timezone");
 const _ = require("lodash");
-const transformLegacyDataChangeAuditForExport = require("./transformAudits/transformLegacyDataChangeAuditForExport");
-const transformActionAuditForExport = require("./transformAudits/transformActionAuditsForExport");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 

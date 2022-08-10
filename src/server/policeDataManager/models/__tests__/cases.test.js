@@ -20,7 +20,6 @@ import {
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
 
 describe("cases", function () {
   let createdCase;
@@ -692,7 +691,9 @@ describe("cases", function () {
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
       try {
         await createdCase.update({ createdBy: null }, { auditUser: "someone" });
-      } catch (error) {}
+      } catch (error) {
+        console.error(error);
+      }
       await createdCase.reload();
       expect(createdCase.createdBy).not.toBeNull();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);

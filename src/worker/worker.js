@@ -5,7 +5,7 @@ import {
 import http from "http";
 import getInstance from "../server/handlers/cases/export/queueFactory";
 
-const newRelic = require("newrelic");
+require("newrelic");
 
 const express = require("express");
 const path = require("path");

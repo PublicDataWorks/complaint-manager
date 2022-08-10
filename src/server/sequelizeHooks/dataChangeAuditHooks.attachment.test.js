@@ -104,7 +104,7 @@ describe("dataChangeAuditHooks for attachment", () => {
   });
 
   describe("update attachment", () => {
-    let audits, audit;
+    let audit;
     beforeEach(async () => {
       await attachment.update(
         {

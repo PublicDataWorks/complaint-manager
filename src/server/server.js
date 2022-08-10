@@ -1,14 +1,14 @@
 import fs from "fs";
 import http from "http";
 import https from "https";
-const AWS = require("aws-sdk");
+require("aws-sdk");
 
 import {
   handleSigterm,
   refuseNewConnectionDuringShutdown
 } from "./serverHelpers";
 
-const newRelic = require("newrelic");
+require("newrelic");
 
 const express = require("express");
 const enforce = require("express-sslify");

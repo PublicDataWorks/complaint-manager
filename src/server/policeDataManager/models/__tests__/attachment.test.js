@@ -41,7 +41,9 @@ describe("attachment", () => {
       await models.attachment.create(attachmentValues, {
         auditUser: "someone"
       });
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
 
     await initialCase.reload({ include: [models.attachment] });
 

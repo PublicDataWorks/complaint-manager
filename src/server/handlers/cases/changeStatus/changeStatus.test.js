@@ -26,11 +26,11 @@ describe("changeStatus", () => {
   beforeEach(async () => {
     await models.signers.create(
       new Signer.Builder().defaultSigner()
-      .withPhone("555-555-5555")
-      .withName("bob")
-      .withNickname("someone")
-      .withTitle("title")
-      .build(),
+        .withPhone("555-555-5555")
+        .withName("bob")
+        .withNickname("someone")
+        .withTitle("title")
+        .build(),
       { auditUser: "user" }
     );
 

@@ -54,11 +54,11 @@ const getCases = async (
   const where =
     casesType === CASES_TYPE.ARCHIVED
       ? {
-          deletedAt: { [Op.ne]: null }
-        }
+        deletedAt: { [Op.ne]: null }
+      }
       : {
-          deletedAt: null
-        };
+        deletedAt: null
+      };
   let limit, offset;
   if (page) {
     offset = (page - 1) * DEFAULT_PAGINATION_LIMIT;

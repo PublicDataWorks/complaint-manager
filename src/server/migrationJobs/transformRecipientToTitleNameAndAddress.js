@@ -2,13 +2,13 @@ import models from "../policeDataManager/models";
 import _ from "lodash";
 
 export const getTitleAndNameOf = recipientInformation => {
-  return !!recipientInformation
+  return recipientInformation
     ? recipientInformation.substring(0, recipientInformation.indexOf("\n"))
     : "";
 };
 
 export const getAddressOf = recipientInformation => {
-  return !!recipientInformation
+  return recipientInformation
     ? recipientInformation.substring(recipientInformation.indexOf("\n") + 1)
     : "";
 };
