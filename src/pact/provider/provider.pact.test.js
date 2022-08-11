@@ -298,7 +298,13 @@ describe("Pact Verification", () => {
               addClassifications(),
               addRecommendedActions()
             ]);
-          }
+          },
+        "officer history options exist": async () => {
+          await models.officer_history_option.create(
+            { name: "lots of history" },
+            { auditUser: "user" }
+          );
+        }
       }
     };
 
