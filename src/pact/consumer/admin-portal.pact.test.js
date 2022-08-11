@@ -243,6 +243,7 @@ pactWith(
             .toBeInTheDocument;
           expect(await screen.findByText("Signer successfully updated"))
             .toBeInTheDocument;
+          expect(await screen.findByText("+ Add Signature"));
         });
 
         test("on click of remove signature button, should remove signer and signature", async () => {
