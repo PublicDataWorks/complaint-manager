@@ -11,8 +11,10 @@ import { setupCase, addCivilianComplainantToCase } from "./case-helpers";
 import {
   setupLetter,
   addOfficerHistoryToReferralLetter,
-  addClassificationsToCase
+  addClassificationsToCase,
+  addAccusedToCase
 } from "./letter-helpers";
+import Allegation from "../../sharedTestHelpers/Allegation";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -148,6 +150,13 @@ const addClassifications = async () => {
       name: "Declines to classify",
       message: "OIPM declines to classify the complaint at this time."
     },
+    { auditUser: "user" }
+  );
+};
+
+const addAllegation = async () => {
+  return await models.allegation.create(
+    new Allegation.Builder().defaultAllegation().withId(1),
     { auditUser: "user" }
   );
 };
@@ -304,6 +313,13 @@ describe("Pact Verification", () => {
             { name: "lots of history" },
             { auditUser: "user" }
           );
+        },
+        "allegations have been added to the database": addAllegation,
+        "case has accused officer with allegations": async () => {
+          const allegationPromise = addAllegation();
+          const c4se = await setupCase();
+          await addAccusedToCase(c4se.id);
+          await allegationPromise;
         }
       }
     };

@@ -631,7 +631,8 @@ export const API_ROUTES = {
   "/case-statuses": {
     get: {
       handler: getCaseStatuses,
-      errorMessage: "Something went wrong while loading the case statuses. Please try again."
+      errorMessage:
+        "Something went wrong while loading the case statuses. Please try again."
     }
   }
 };

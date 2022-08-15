@@ -31,36 +31,7 @@ export const setupLetter = async letterCase => {
 };
 
 export const addOfficerHistoryToReferralLetter = async letter => {
-  const allegation = await models.allegation.create(
-    new Allegation.Builder().defaultAllegation().build(),
-    { auditUser: "user" }
-  );
-
-  const officer = await models.officer.create(
-    new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
-    { auditUser: "user" }
-  );
-
-  const caseOfficer = await models.case_officer.create(
-    new CaseOfficer.Builder()
-      .defaultCaseOfficer()
-      .withId(1)
-      .withOfficerId(officer.id)
-      .withCaseId(letter.caseId)
-      .withRoleOnCase(ACCUSED)
-      .withId(64),
-    { auditUser: "user" }
-  );
-
-  const officerAllegation = await models.officer_allegation.create(
-    new OfficerAllegation.Builder()
-      .defaultOfficerAllegation()
-      .withAllegationId(allegation.id)
-      .withCaseOfficerId(caseOfficer.id)
-      .build(),
-    { auditUser: "user" }
-  );
-
+  const caseOfficer = await addAccusedToCase(letter.caseId, true);
   const officerHistory = await models.officer_history_option.create(
     { name: "yes" },
     { auditUser: "user" }
@@ -90,4 +61,39 @@ export const addClassificationsToCase = async theCase => {
       .withClassificationId(1),
     { auditUser: "user" }
   );
+};
+
+export const addAccusedToCase = async (caseId, withAllegation) => {
+  const officer = await models.officer.create(
+    new Officer.Builder().defaultOfficer().withId(1).withOfficerNumber(27),
+    { auditUser: "user" }
+  );
+
+  const caseOfficer = await models.case_officer.create(
+    new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withId(1)
+      .withOfficerId(officer.id)
+      .withCaseId(caseId)
+      .withRoleOnCase(ACCUSED),
+    { auditUser: "user" }
+  );
+
+  if (withAllegation) {
+    const allegation = await models.allegation.create(
+      new Allegation.Builder().defaultAllegation().build(),
+      { auditUser: "user" }
+    );
+
+    const officerAllegation = await models.officer_allegation.create(
+      new OfficerAllegation.Builder()
+        .defaultOfficerAllegation()
+        .withAllegationId(allegation.id)
+        .withCaseOfficerId(caseOfficer.id)
+        .build(),
+      { auditUser: "user" }
+    );
+  }
+
+  return caseOfficer;
 };

@@ -42,7 +42,4 @@ const mapDispatchToProps = {
   closeRemoveOfficerAllegationDialog
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(OfficerAllegations);
+export default connect(mapStateToProps, mapDispatchToProps)(OfficerAllegations);

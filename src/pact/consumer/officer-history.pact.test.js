@@ -9,7 +9,6 @@ import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
-  CASE_STATUS,
   CONFIGS,
   GET_CONFIGS_SUCCEEDED,
   USER_PERMISSIONS
