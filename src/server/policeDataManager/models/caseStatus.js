@@ -1,3 +1,15 @@
+const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
+const Boom = require("boom");
+
+const nextStatusMap = {
+  INITIAL: "Active",
+  ACTIVE: "Letter in Progress",
+  LETTER_IN_PROGRESS: "Ready for Review",
+  READY_FOR_REVIEW: "Ready for Review",
+  FORWARDED_TO_AGENCY: "Forwarded to Agency",
+  CLOSED: "Closed"
+};
+
 module.exports = (sequelize, DataTypes) => {
   const CaseStatus = sequelize.define(
     "caseStatus",
@@ -9,12 +21,29 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        set(newStatus) {
+          const nextStatus = determineNextCaseStatus(this.name);
+          if (newStatus === nextStatus || newStatus === this.name) {
+            this.setDataValue("name", newStatus);
+          } else {
+            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
+          }
+        }
       },
       orderKey: {
-        field: "order_key",
         type: DataTypes.INTEGER,
+        field: "order_key",
         allowNull: false
+      },
+      nextStatus: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["name"]),
+        get() {
+          return determineNextCaseStatus(this.name);
+        },
+        set() {
+          this.setDataValue("nextStatus", nextStatusMap[this.name]);
+        }
       },
       createdAt: {
         type: DataTypes.DATE,
@@ -32,5 +61,29 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  CaseStatus.prototype.determineCaseStatus = newStatus => {
+    const nextStatus = determineNextCaseStatus(this.name);
+    if (newStatus === nextStatus || newStatus === this.name) {
+      return newStatus;
+    } else {
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
+    }
+  };
+
+  CaseStatus.prototype.associate = models => {
+    CaseStatus.hasMany(models.cases, {
+      as: "currentStatus",
+      foreignKey: {
+        name: "currentStatusId",
+        field: "current_status_id",
+        allowNull: false
+      }
+    });
+  };
+
   return CaseStatus;
 };
+
+// create prototype to find current status ?
+// create prototype to find next status
+// how do I use the params I pass to a prototype?

@@ -116,6 +116,11 @@ const getCaseDetailsAndAuditDetails = async (
         model: models.referral_letter,
         as: "referralLetter",
         attributes: ["finalPdfFilename"]
+      },
+      {
+        model: models.caseStatus,
+        as: "currentStatus",
+        attributes: ["id", "name", "orderKey"]
       }
     ],
     transaction: transaction,
@@ -156,6 +161,7 @@ const getCaseDetailsAndAuditDetails = async (
   let caseDetails = await models.cases.findByPk(caseId, queryOptions);
   caseDetails = caseDetails.toJSON();
 
+  console.log("CASEDETAILS >>>>>", caseDetails);
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
     if (
       caseDetails.primaryComplainant &&

@@ -95,6 +95,16 @@ module.exports = (sequelize, DataTypes) => {
           return determineNextCaseStatus(this.get("status"));
         }
       },
+      currentStatusId: {
+        field: "current_status",
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        references: {
+          model: models.caseStatus,
+          key: "id"
+        }
+      },
       year: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -304,6 +314,18 @@ module.exports = (sequelize, DataTypes) => {
     return MANAGER_TYPE.COMPLAINT;
   };
 
+  Case.prototype.updateCaseStatusId = () => {
+    console.log("this.currentStatus>>>>", this.currentStatus);
+    return this.setDataValue(
+      "currentStatusId",
+      this.caseStatus.determineCaseStatus(this.currentStatus.name)
+    );
+  };
+
+  Case.prototype.getCurrentStatus = () => {
+    return this.caseStatus.determineCaseStatus(this.currentStatus.name);
+  };
+
   Case.associate = models => {
     Case.hasMany(models.audit, {
       foreignKey: { name: "referenceId", field: "reference_id" },
@@ -396,9 +418,16 @@ module.exports = (sequelize, DataTypes) => {
       as: "caseTags",
       foreignKey: { name: "caseId", field: "case_id" }
     });
+    Case.belongsTo(models.caseStatus, {
+      as: "currentStatus",
+      foreignKey: {
+        name: "currentStatusId",
+        field: "current_status",
+        allowNull: false
+      }
+    });
   };
 
   Case.auditDataChange();
-
   return Case;
 };
