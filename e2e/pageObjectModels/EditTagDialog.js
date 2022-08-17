@@ -4,7 +4,6 @@ const c2x = require("css2xpath");
 
 const editTagDialogCommands = {
   isDialogVisible: function () {
-    console.log("is dialog visible?");
     return this.waitForElementVisible("@textBox", e2e.roundtripWait);
   },
   enterText: function (text) {

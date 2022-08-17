@@ -1,4 +1,3 @@
-const models = "./";
 module.exports = (sequelize, DataTypes) => {
   const LetterTypeLetterInputPages = sequelize.define(
     "letter_type_letter_input_pages",
@@ -12,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   LetterTypeLetterInputPages.associate = function (models) {
-    LetterTypeLetterInputPages.belongsTo(models.letter_type, {
+    LetterTypeLetterInputPages.belongsTo(models.letter_types, {
       as: "letterType",
       foreignKey: {
         name: "letterTypeId",

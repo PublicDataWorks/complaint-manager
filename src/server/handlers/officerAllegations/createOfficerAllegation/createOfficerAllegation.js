@@ -8,7 +8,6 @@ const models = require("../../../policeDataManager/models");
 const _ = require("lodash");
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
-  console.log(request.body);
   const allegationAttributes = _.pick(request.body, [
     "allegationId",
     "details",

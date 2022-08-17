@@ -1,14 +1,14 @@
-import auditDataAccess from "../../../handlers/audits/auditDataAccess";
-import models from "../../../policeDataManager/models";
+import auditDataAccess from "../audits/auditDataAccess";
+import models from "../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE,
   FAKE_USERS
-} from "../../../../sharedUtilities/constants";
-import { isAuthDisabled } from "../../../isAuthDisabled";
+} from "../../../sharedUtilities/constants";
+import { isAuthDisabled } from "../../isAuthDisabled";
 
-const auth0UserService = require("../../../services/auth0UserService");
-const asyncMiddleware = require("../../../handlers/asyncMiddleware");
+const auth0UserService = require("../../services/auth0UserService");
+const asyncMiddleware = require("../asyncMiddleware");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
   const transformedUserData = await auth0UserService.getUsers();

@@ -59,7 +59,7 @@ import editTag from "./handlers/tags/editTag";
 import removeTag from "./handlers/tags/removeTag";
 import mergeTag from "./handlers/tags/mergeTag";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
-import getUsers from "./common/handlers/users/getUsers";
+import getUsers from "./handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getPublicData from "./handlers/data/getPublicData";

@@ -29,6 +29,10 @@ import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Config from "../../../sharedTestHelpers/config";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 jest.mock("../fileUpload/uploadFileToS3");
 
 describe("csvCaseExport request", () => {
@@ -515,6 +519,7 @@ describe("csvCaseExport request", () => {
         .withRoleOnCase(COMPLAINANT)
         .withFirstName("La")
         .withLastName("Croix")
+        .withIsAnonymous(true)
         .withCaseId(caseToExport.id);
       const civilian2 = await models.civilian.create(civilianAttributes2, {
         auditUser: "tuser"
@@ -535,7 +540,7 @@ describe("csvCaseExport request", () => {
       expect(secondRecord["Civilian Complainant Name"]).toEqual(
         `${civilian2.firstName} ${civilian2.middleInitial} ${civilian2.lastName} ${civilian2.suffix}`
       );
-      expect(secondRecord["Case #"]).toEqual(caseReference);
+      expect(secondRecord["Case #"]).toEqual(caseReference.replace(/CC/, "AC"));
     });
 
     test("should retrieve civilian complainant + officer complainant data", async () => {
@@ -650,6 +655,9 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(officerComplainant)
         .withNotes("hello")
         .withCaseId(caseToExport.id)
+        .withCaseEmployeeType(
+          PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+        )
         .withRoleOnCase(COMPLAINANT);
       await models.case_officer.create(caseOfficerComplainantAttributes, {
         auditUser: "tuser"
@@ -658,7 +666,9 @@ describe("csvCaseExport request", () => {
       await csvCaseExport(job, jobDone);
 
       const complainantOfficerRow = records[1];
-      expect(complainantOfficerRow["Complainant"]).toEqual("Officer");
+      expect(complainantOfficerRow["Complainant"]).toEqual(
+        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+      );
       expect(
         complainantOfficerRow["Officer Complainant Age on Incident Date"]
       ).toEqual("N/A");

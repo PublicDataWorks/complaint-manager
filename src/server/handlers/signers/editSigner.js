@@ -23,7 +23,9 @@ const editSigner = asyncMiddleware(async (request, response, next) => {
     request.body.signatureFile &&
     request.body.signatureFile !== signer.signatureFile
   ) {
-    removeSignatureFileFromS3(signer.signatureFile);
+    removeSignatureFileFromS3(signer.signatureFile).catch(err =>
+      console.log("removal of the old signature failed; proceeding")
+    );
     signer.signatureFile = request.body.signatureFile;
   }
 
