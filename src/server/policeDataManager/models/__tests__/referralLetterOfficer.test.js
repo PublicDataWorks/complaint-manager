@@ -108,4 +108,12 @@ describe("letterOfficer model", function () {
     await referralLetterOfficerRecommendedAction.reload({ paranoid: false });
     expect(referralLetterOfficerRecommendedAction.deletedAt).not.toEqual(null);
   });
+
+  test("should not be able to set recommendedActionNotes to null", () => {
+    const { recommendedActionNotes } = letterOfficer.toJSON();
+    letterOfficer.recommendedActionNotes = null;
+    expect(letterOfficer.recommendedActionNotes).toEqual(
+      recommendedActionNotes
+    );
+  });
 });

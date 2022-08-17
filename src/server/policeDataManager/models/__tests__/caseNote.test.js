@@ -30,4 +30,19 @@ describe("caseNote", () => {
 
     expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
   });
+
+  test("should not allow notes to be set to null", async () => {
+    const notes = "these are the notes. end of notes";
+    const c4se = await createTestCaseWithoutCivilian();
+    const caseNote = await models.case_note.create(
+      new CaseNote.Builder()
+        .defaultCaseNote()
+        .withNotes(notes)
+        .withCaseId(c4se.id)
+        .build(),
+      { auditUser: "user" }
+    );
+    caseNote.notes = null;
+    expect(caseNote.notes).toEqual(notes);
+  });
 });
