@@ -9,7 +9,7 @@ import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
 const getCaseStatuses = asyncMiddleware(async (request, response, next) => {
   const queryOptions = {
-    attributes: ["id", "name", "orderKey"]
+    attributes: ["id", "name", "orderKey", "nextStatus"]
   };
   let caseStatuses = await models.caseStatus.findAll(queryOptions);
 
