@@ -13,6 +13,7 @@ import Boom from "boom";
 import models from "../../../policeDataManager/models/index";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Signer from "../../../../sharedTestHelpers/signer";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -25,13 +26,21 @@ describe("changeStatus", () => {
 
   beforeEach(async () => {
     await models.signers.create(
-      new Signer.Builder().defaultSigner()
-      .withPhone("555-555-5555")
-      .withName("bob")
-      .withNickname("someone")
-      .withTitle("title")
-      .build(),
+      new Signer.Builder()
+        .defaultSigner()
+        .withPhone("555-555-5555")
+        .withName("bob")
+        .withNickname("someone")
+        .withTitle("title")
+        .build(),
       { auditUser: "user" }
+    );
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      {
+        auditUser: "user"
+      }
     );
 
     initialCase = await createTestCaseWithoutCivilian();
