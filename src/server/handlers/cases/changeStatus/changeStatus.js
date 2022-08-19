@@ -7,6 +7,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import { isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
+import determineNextCaseStatus from "../../../policeDataManager/models/modelUtilities/determineNextCaseStatus";
 const {
   signatureKeys
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
@@ -36,6 +37,12 @@ const catchValidationErrors = e => {
 
 const changeStatus = asyncMiddleware(async (request, response, next) => {
   const newStatus = request.body.status;
+
+  if (newStatus !== determineNextCaseStatus(newStatus)) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
+  }
+
+  console.log("request.body >>>>", request.body);
 
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
@@ -102,7 +109,7 @@ const updateCaseIfValid = async (
 ) => {
   try {
     await caseToUpdate.update(
-      { status: newStatus },
+      { currentStatus: newStatus },
       {
         auditUser: request.nickname,
         transaction
@@ -126,18 +133,18 @@ const createReferralLetterAndLetterOfficers = async (
   transaction
 ) => {
   const { RECIPIENT, RECIPIENT_ADDRESS, SENDER, SENDER_NAME } = constants || {};
-  const currentSender = await models.signers.findOne(
-    { 
-      where : { nickname }
-    }
-  );
+  const currentSender = await models.signers.findOne({
+    where: { nickname }
+  });
 
   await models.referral_letter.create(
     {
       caseId: caseToUpdate.id,
       recipient: RECIPIENT,
       recipientAddress: RECIPIENT_ADDRESS,
-      sender: currentSender ? `${currentSender.name}\n${currentSender.title}\n${currentSender.phone}` : SENDER
+      sender: currentSender
+        ? `${currentSender.name}\n${currentSender.title}\n${currentSender.phone}`
+        : SENDER
     },
     { auditUser: nickname, transaction }
   );
