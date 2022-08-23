@@ -86,57 +86,53 @@ const Signatures = props => {
               <React.Fragment key={signer.id}>
                 <section
                   className={props.classes.detailsLastRow}
-                  style={{ width: "100%"}}
+                  style={{ width: "100%" }}
                 >
                   <section
                     className={props.classes.detailsLastRow}
-                    style={{ width: "50%", margin: "20px"}}
+                    style={{ width: "50%", margin: "20px" }}
                   >
-                  <DetailsCardDisplay
-                    caption="Name"
-                    message={signer.name}
-                  />
-                  <DetailsCardDisplay
-                    caption="Role"
-                    message={signer.title}
-                  />
-                  <DetailsCardDisplay
-                    caption="Phone Number"
-                    message={signer.phone}
-                  />
-                  <DetailsCardDisplay caption="Signature">
-                    {signatures[signer.id] ? (
-                      <img
-                        alt={`The signature of ${signer.name}`}
-                        src={`data:${signatures[signer.id].type};base64,${
-                          signatures[signer.id].image
-                        }`}
-                        style={{ maxHeight: "4.5em", maxWidth: "150px" }}
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </DetailsCardDisplay>
+                    <DetailsCardDisplay caption="Name" message={signer.name} />
+                    <DetailsCardDisplay caption="Role" message={signer.title} />
+                    <DetailsCardDisplay
+                      caption="Phone Number"
+                      message={signer.phone}
+                    />
+                    <DetailsCardDisplay caption="Signature">
+                      {signatures[signer.id] ? (
+                        <img
+                          alt={`The signature of ${signer.name}`}
+                          src={`data:${signatures[signer.id].type};base64,${
+                            signatures[signer.id].image
+                          }`}
+                          style={{ maxHeight: "4.5em", maxWidth: "150px" }}
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </DetailsCardDisplay>
                   </section>
                   <section
                     style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                        width: "50%",
-                        padding: "0 30px 10px 0"
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                      width: "50%",
+                      padding: "0 30px 10px 0"
                     }}
                   >
                     <PrimaryButton onClick={() => setSignerDialog(signer)}>
                       Edit
                     </PrimaryButton>
-                    <PrimaryButton 
-                    onClick={() => setDialog(signer) }
-                    //disabled
-                    style={{ 
-                      marginLeft: 20, 
-                      backgroundColor: '#F6F6F6',
-                      color: '#404040', }}>
+                    <PrimaryButton
+                      onClick={() => setDialog(signer)}
+                      //disabled
+                      style={{
+                        marginLeft: 20,
+                        backgroundColor: "#F6F6F6",
+                        color: "#404040"
+                      }}
+                    >
                       Remove
                     </PrimaryButton>
                   </section>
@@ -190,37 +186,34 @@ const Signatures = props => {
       ) : (
         ""
       )}
-      {signer? (
+      {signer ? (
         <ConfirmationDialog
-        cancelText="Cancel"
-        confirmText="Delete"
-        onConfirm={ async () => {
-          await axios
-          .delete(`api/signers/${signer.id}`)
-          .then(() => {
-            props.snackbarSuccess("Signer successfully deleted");
-          })
-          .catch(err => props.snackbarError(err.message));
-          setDialog(null);
-          setLoadSigners(true);
-        }}
-        onCancel={() => setDialog(null)}
-        title="Remove Signature"
-      >
-        This action will permanently delete this signature. Are you sure you want to continue?
-      </ConfirmationDialog>
+          cancelText="Cancel"
+          confirmText="Delete"
+          onConfirm={async () => {
+            await axios
+              .delete(`api/signers/${signer.id}`)
+              .then(() => {
+                props.snackbarSuccess("Signer successfully deleted");
+              })
+              .catch(err => props.snackbarError(err.message));
+            setDialog(null);
+            setLoadSigners(true);
+          }}
+          onCancel={() => setDialog(null)}
+          title="Remove Signature"
+        >
+          This action will permanently delete this signature. Are you sure you
+          want to continue?
+        </ConfirmationDialog>
       ) : (
         ""
-      )
-      }
+      )}
     </section>
   );
 };
 
-export default connect(
-  undefined, 
-  {
-    snackbarSuccess,
-    snackbarError,
-  }
-  )(withStyles(styles, { withTheme: true })(Signatures));
+export default connect(undefined, {
+  snackbarSuccess,
+  snackbarError
+})(withStyles(styles, { withTheme: true })(Signatures));

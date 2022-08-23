@@ -46,12 +46,10 @@ pactWith(
               title: "Independent Police Monitor",
               nickname: "jsimms@oipm.gov",
               phone: "888-576-9922",
-              links: [
-                {
-                  rel: "signature",
-                  href: "/api/signers/1/signature"
-                }
-              ]
+              links: eachLike({
+                rel: "signature",
+                href: "/api/signers/1/signature"
+              })
             })
           }
         });
@@ -131,12 +129,10 @@ pactWith(
                 title: "Independent Police Monitor",
                 nickname: "jsimms@oipm.gov",
                 phone: "888-576-9922",
-                links: [
-                  {
-                    rel: "signature",
-                    href: "/api/signers/1/signature"
-                  }
-                ]
+                links: eachLike({
+                  rel: "signature",
+                  href: "/api/signers/1/signature"
+                })
               })
             }
           });
@@ -214,12 +210,10 @@ pactWith(
                 title: "Chief Executive Police Punisher",
                 nickname: "jsimms@oipm.gov",
                 phone: "777-777-7777",
-                links: [
-                  {
-                    rel: "signature",
-                    href: "/api/signers/1/signature"
-                  }
-                ]
+                links: eachLike({
+                  rel: "signature",
+                  href: "/api/signers/1/signature"
+                })
               })
             }
           });
