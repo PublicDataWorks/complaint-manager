@@ -14,7 +14,10 @@ import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisp
 import ConfirmationDialog from "../shared/components/ConfirmationDialog";
 import AddSignatureDialog from "./AddSignatureDialog";
 import UpdateSignatureDialog from "./UpdateSignatureDialog";
-import { PrimaryButton } from "../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../shared/components/StyledButtons";
 import {
   snackbarError,
   snackbarSuccess
@@ -33,7 +36,7 @@ const Signatures = props => {
   const [signatures, setSignatures] = useState({});
   const [signerDialog, setSignerDialog] = useState(); // undefined: dialog dormant, "new": add new signer, {stuff}: edit existing signer
   const [loadSigners, setLoadSigners] = useState(true);
-  const [signer, setDialog] = useState(null);
+  const [signerToDelete, setSignerToDelete] = useState(null);
 
   useEffect(() => {
     if (loadSigners) {
@@ -58,6 +61,16 @@ const Signatures = props => {
         retrieveSignature(signatureLink, signer.id);
       }
     }
+  };
+
+  const isSignerRemovable = signer => {
+    if (signer?.links.length) {
+      const deleteLink = signer.links.find(link => link.rel === "delete");
+      if (deleteLink) {
+        return true;
+      }
+    }
+    return false;
   };
 
   const retrieveSignature = (signatureLink, signerId) => {
@@ -124,17 +137,16 @@ const Signatures = props => {
                     <PrimaryButton onClick={() => setSignerDialog(signer)}>
                       Edit
                     </PrimaryButton>
-                    <PrimaryButton
-                      onClick={() => setDialog(signer)}
-                      //disabled
+                    <SecondaryButton
+                      data-testid="remove-button"
+                      onClick={() => setSignerToDelete(signer)}
+                      disabled={!isSignerRemovable(signer)}
                       style={{
-                        marginLeft: 20,
-                        backgroundColor: "#F6F6F6",
-                        color: "#404040"
+                        marginLeft: 20
                       }}
                     >
                       Remove
-                    </PrimaryButton>
+                    </SecondaryButton>
                   </section>
                 </section>
                 <Divider />
@@ -186,21 +198,24 @@ const Signatures = props => {
       ) : (
         ""
       )}
-      {signer ? (
+      {signerToDelete ? (
         <ConfirmationDialog
           cancelText="Cancel"
           confirmText="Delete"
           onConfirm={async () => {
+            const deleteLink = signerToDelete.links.find(
+              link => link.rel === "delete"
+            );
             await axios
-              .delete(`api/signers/${signer.id}`)
+              .delete(deleteLink.href)
               .then(() => {
                 props.snackbarSuccess("Signer successfully deleted");
               })
               .catch(err => props.snackbarError(err.message));
-            setDialog(null);
+            setSignerToDelete(null);
             setLoadSigners(true);
           }}
-          onCancel={() => setDialog(null)}
+          onCancel={() => setSignerToDelete(null)}
           title="Remove Signature"
         >
           This action will permanently delete this signature. Are you sure you

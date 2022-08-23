@@ -27,6 +27,11 @@ describe("Signatures Admin Card", () => {
             {
               rel: "signature",
               href: "/api/signers/1/signature"
+            },
+            {
+              rel: "delete",
+              href: "/api/signers/1",
+              method: "delete"
             }
           ]
         },
@@ -309,6 +314,11 @@ describe("Signatures Admin Card", () => {
       saveButton = await screen.findByText("Delete");
     });
 
+    test("should have disabled 'remove' button if there is no delete link for the given signer", async () => {
+      userEvent.click(await screen.findByText("Cancel"));
+      expect(screen.getAllByTestId("remove-button")[1].disabled).toBeTrue();
+    });
+
     test("should open remove signer dialog when remove signer button is clicked and close on cancel", async () => {
       userEvent.click(await screen.findByText("Cancel"));
       expect(screen.queryAllByText("Delete")).toHaveLength(0);
@@ -349,5 +359,7 @@ describe("Signatures Admin Card", () => {
       .toBeInTheDocument;     
     });
   });
+
+
 });
 
