@@ -1,9 +1,9 @@
 import Boom from "boom";
 import asyncMiddleware from "../asyncMiddleware";
 import models from "../../policeDataManager/models";
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 import { checkIfSignatureFileExists, formatPhoneWithDashes } from "./utils";
 import removeSignatureFileFromS3 from "./removeSignatureFileFromS3";
+import { mapSignerToPayload } from "../../policeDataManager/models/modelUtilities/signerHelpers";
 
 const editSigner = asyncMiddleware(async (request, response, next) => {
   if (request.body.signatureFile) {
@@ -30,8 +30,8 @@ const editSigner = asyncMiddleware(async (request, response, next) => {
   }
 
   await signer.save();
-
-  response.status(200).json(signer.toPayload(signer));
+  const payload = await mapSignerToPayload(signer);
+  response.status(200).json(payload);
 });
 
 export default editSigner;

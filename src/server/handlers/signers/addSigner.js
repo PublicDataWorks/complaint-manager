@@ -1,5 +1,6 @@
 import asyncMiddleware from "../asyncMiddleware";
 import models from "../../policeDataManager/models";
+import { mapSignerToPayload } from "../../policeDataManager/models/modelUtilities/signerHelpers";
 import {
   checkIfNicknameAlreadyHasASigner,
   checkIfSignatureFileExists,
@@ -24,7 +25,8 @@ const addSigner = asyncMiddleware(async (request, response, next) => {
     },
     { auditUser: request.nickname }
   );
-  response.status(200).json(signer.toPayload(signer));
+  const payload = await mapSignerToPayload(signer);
+  response.status(200).json(payload);
 });
 
 export default addSigner;
