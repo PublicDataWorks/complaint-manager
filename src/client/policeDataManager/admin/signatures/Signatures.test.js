@@ -4,12 +4,12 @@ import nock from "nock";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import Signatures from "./Signatures";
-import createConfiguredStore from "../../createConfiguredStore";
+import createConfiguredStore from "../../../createConfiguredStore";
 import userEvent from "@testing-library/user-event";
-import { FAKE_USERS } from "../../../sharedUtilities/constants";
-import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
+import { FAKE_USERS } from "../../../../sharedUtilities/constants";
+import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 
-jest.mock("../shared/components/FileUpload");
+jest.mock("../../shared/components/FileUpload");
 
 describe("Signatures Admin Card", () => {
   beforeEach(() => {
@@ -59,7 +59,8 @@ describe("Signatures Admin Card", () => {
     render(
       <Provider store={createConfiguredStore()}>
         <Router>
-          <Signatures /><SharedSnackbarContainer />
+          <Signatures />
+          <SharedSnackbarContainer />
         </Router>
       </Provider>
     );
@@ -356,10 +357,7 @@ describe("Signatures Admin Card", () => {
       });
       expect(signerDelete.isDone()).toBeTrue();
       expect(await screen.findByText("Signer successfully deleted"))
-      .toBeInTheDocument;     
+        .toBeInTheDocument;
     });
   });
-
-
 });
-

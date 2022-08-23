@@ -7,21 +7,15 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import DetailsCard from "../shared/components/DetailsCard";
-import LinkButton from "../shared/components/LinkButton";
-import styles from "../cases/CaseDetails/caseDetailsStyles";
-import DetailsCardDisplay from "../shared/components/DetailsCard/DetailsCardDisplay";
-import ConfirmationDialog from "../shared/components/ConfirmationDialog";
-import AddSignatureDialog from "./AddSignatureDialog";
-import UpdateSignatureDialog from "./UpdateSignatureDialog";
 import {
   PrimaryButton,
   SecondaryButton
-} from "../shared/components/StyledButtons";
-import {
-  snackbarError,
-  snackbarSuccess
-} from "../actionCreators/snackBarActionCreators";
+} from "../../shared/components/StyledButtons";
+import DetailsCard from "../../shared/components/DetailsCard";
+import LinkButton from "../../shared/components/LinkButton";
+import styles from "../../cases/CaseDetails/caseDetailsStyles";
+import DetailsCardDisplay from "../../shared/components/DetailsCard/DetailsCardDisplay";
+import DialogRenderer from "./DialogRenderer";
 
 const formatImageString = string => {
   if (string.length % 4 === 0) {
@@ -31,12 +25,17 @@ const formatImageString = string => {
   }
 };
 
+/* signer dialog state value schema
+{
+  type: String, (the type of dialog to use)
+  signer: {} (the signer)
+}
+*/
 const Signatures = props => {
   const [signers, setSigners] = useState([]);
   const [signatures, setSignatures] = useState({});
-  const [signerDialog, setSignerDialog] = useState(); // undefined: dialog dormant, "new": add new signer, {stuff}: edit existing signer
+  const [signerDialog, setSignerDialog] = useState({});
   const [loadSigners, setLoadSigners] = useState(true);
-  const [signerToDelete, setSignerToDelete] = useState(null);
 
   useEffect(() => {
     if (loadSigners) {
@@ -134,12 +133,16 @@ const Signatures = props => {
                       padding: "0 30px 10px 0"
                     }}
                   >
-                    <PrimaryButton onClick={() => setSignerDialog(signer)}>
+                    <PrimaryButton
+                      onClick={() => setSignerDialog({ type: "edit", signer })}
+                    >
                       Edit
                     </PrimaryButton>
                     <SecondaryButton
                       data-testid="remove-button"
-                      onClick={() => setSignerToDelete(signer)}
+                      onClick={() =>
+                        setSignerDialog({ type: "delete", signer })
+                      }
                       disabled={!isSignerRemovable(signer)}
                       style={{
                         marginLeft: 20
@@ -163,72 +166,21 @@ const Signatures = props => {
               marginTop: "8px",
               marginBottom: "8px"
             }}
-            onClick={() => setSignerDialog("new")}
+            onClick={() => setSignerDialog({ type: "new" })}
             data-testid="addSignature"
           >
             + Add Signature
           </LinkButton>
         </CardContent>
       </DetailsCard>
-      {signerDialog === "new" ? (
-        <AddSignatureDialog
-          classes={{}}
-          exit={isThereNewData => {
-            if (isThereNewData) {
-              setLoadSigners(true);
-            }
-            setSignerDialog(undefined);
-          }}
-          signers={signers}
-        />
-      ) : (
-        ""
-      )}
-      {!!signerDialog?.name ? (
-        <UpdateSignatureDialog
-          classes={{}}
-          exit={isThereNewData => {
-            if (isThereNewData) {
-              setLoadSigners(true);
-            }
-            setSignerDialog(undefined);
-          }}
-          signer={signerDialog}
-        />
-      ) : (
-        ""
-      )}
-      {signerToDelete ? (
-        <ConfirmationDialog
-          cancelText="Cancel"
-          confirmText="Delete"
-          onConfirm={async () => {
-            const deleteLink = signerToDelete.links.find(
-              link => link.rel === "delete"
-            );
-            await axios
-              .delete(deleteLink.href)
-              .then(() => {
-                props.snackbarSuccess("Signer successfully deleted");
-              })
-              .catch(err => props.snackbarError(err.message));
-            setSignerToDelete(null);
-            setLoadSigners(true);
-          }}
-          onCancel={() => setSignerToDelete(null)}
-          title="Remove Signature"
-        >
-          This action will permanently delete this signature. Are you sure you
-          want to continue?
-        </ConfirmationDialog>
-      ) : (
-        ""
-      )}
+      <DialogRenderer
+        signers={signers}
+        signerDialog={signerDialog}
+        setSignerDialog={setSignerDialog}
+        setLoadSigners={setLoadSigners}
+      />
     </section>
   );
 };
 
-export default connect(undefined, {
-  snackbarSuccess,
-  snackbarError
-})(withStyles(styles, { withTheme: true })(Signatures));
+export default withStyles(styles, { withTheme: true })(Signatures);

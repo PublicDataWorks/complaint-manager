@@ -3,12 +3,12 @@ import axios from "axios";
 import SignatureDialog from "./SignatureDialog";
 import { getFilteredUserEmails } from "./signature-selectors";
 import { reduxForm, SubmissionError } from "redux-form";
-import getUsers from "../../common/thunks/getUsers";
+import getUsers from "../../../common/thunks/getUsers";
 import {
   snackbarError,
   snackbarSuccess
-} from "../actionCreators/snackBarActionCreators";
-import { transformAndHandleError } from "../../common/axiosInterceptors/responseErrorInterceptor";
+} from "../../actionCreators/snackBarActionCreators";
+import { transformAndHandleError } from "../../../common/axiosInterceptors/responseErrorInterceptor";
 
 class AddSignatureDialog extends SignatureDialog {
   componentDidMount() {
