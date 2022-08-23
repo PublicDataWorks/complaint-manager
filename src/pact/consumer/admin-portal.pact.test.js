@@ -46,10 +46,17 @@ pactWith(
               title: "Independent Police Monitor",
               nickname: "jsimms@oipm.gov",
               phone: "888-576-9922",
-              links: eachLike({
-                rel: "signature",
-                href: "/api/signers/1/signature"
-              })
+              links: [
+                {
+                  rel: "signature",
+                  href: "/api/signers/1/signature"
+                },
+                {
+                  rel: "delete",
+                  href: "/api/signers/1",
+                  method: "delete"
+                }
+              ]
             })
           }
         });

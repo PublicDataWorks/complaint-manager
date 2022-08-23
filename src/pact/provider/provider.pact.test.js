@@ -286,6 +286,7 @@ describe("Pact Verification", () => {
           ]);
         },
         "signers have been added to the database": async () => {
+          await cleanupDatabase(); // need to wipe out the signer who is a default signer
           await models.signers.create(
             new Signer.Builder()
               .defaultSigner()
