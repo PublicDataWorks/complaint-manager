@@ -29,7 +29,7 @@ const getUsers = asyncMiddleware(async (request, response, next) => {
       throw err;
     });
 
-  response.send(200, transformedUserData);
+  response.status(200).send(transformedUserData);
 });
 
 export default getUsers;
