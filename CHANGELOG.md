@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.53.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.52.0...v3.53.0) (2022-08-25)
+
+
+### Features
+
+* Andrew [[#158](https://www.pivotaltracker.com/story/show/158)] creates feature request page ([19bd1c2](https://github.com/PublicDataWorks/complaint-manager/commit/19bd1c2e7858f288a91f4fe0085ed245c7e61efc))
+* Andrew/Isabel [[#143](https://www.pivotaltracker.com/story/show/143)] adds delete HATEOAS link to signer payload indicating that the given signer can be deleted ([9f47234](https://github.com/PublicDataWorks/complaint-manager/commit/9f47234fefca5e1e175d8cfe5c50af3241c7f89c))
+
+
+### Bug Fixes
+
+* Andrew [[#000](https://www.pivotaltracker.com/story/show/000)] fixed undefined org acronym on export page ([af402cd](https://github.com/PublicDataWorks/complaint-manager/commit/af402cd74f3539373cdf13206f962d08aab34746))
+
 ## [3.52.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.51.0...v3.52.0) (2022-08-01)
 
 
