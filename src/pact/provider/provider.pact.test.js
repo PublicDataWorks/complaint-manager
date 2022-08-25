@@ -15,6 +15,15 @@ import {
   addAccusedToCase
 } from "./letter-helpers";
 import Allegation from "../../sharedTestHelpers/Allegation";
+import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
+import District from "../../sharedTestHelpers/District";
+import Tag from "../../server/testHelpers/tag";
+import CaseTag from "../../server/testHelpers/caseTag";
+import IntakeSource from "../../server/testHelpers/intakeSource";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
+import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
+import CaseNote from "../../server/testHelpers/caseNote";
+import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -159,6 +168,12 @@ const addAllegation = async () => {
     new Allegation.Builder().defaultAllegation().withId(1),
     { auditUser: "user" }
   );
+};
+
+const createTag = async () => {
+  return await models.tag.create(new Tag.Builder().defaultTag().build(), {
+    auditUser: "user"
+  });
 };
 
 describe("Pact Verification", () => {
@@ -320,11 +335,125 @@ describe("Pact Verification", () => {
           const c4se = await setupCase();
           await addAccusedToCase(c4se.id);
           await allegationPromise;
+        },
+        "race ethnicities exist": async () => {
+          await models.race_ethnicity.create(
+            new RaceEthnicity.Builder()
+              .defaultRaceEthnicity()
+              .withId(2)
+              .build(),
+            { auditUser: "user" }
+          );
+        },
+        "districts exist": async () => {
+          await models.district.create(
+            new District.Builder()
+              .defaultDistrict()
+              .withName("1st District")
+              .build(),
+            { auditUser: "user" }
+          );
+        },
+        "civilian-titles exist": async () => {
+          await models.civilian_title.create(
+            { name: "Miss" },
+            { auditUser: "user" }
+          );
+        },
+        "tags exist": createTag,
+        "case has a case tag": async () => {
+          try {
+            const c4se = await setupCase();
+            const tag = await createTag();
+            await models.case_tag.create(
+              new CaseTag.Builder()
+                .defaultCaseTag()
+                .withCaseId(c4se.id)
+                .withTagId(tag.id)
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseTag", error);
+          }
+        },
+        "intake sources exist": async () => {
+          try {
+            await models.intake_source.create(
+              new IntakeSource.Builder().defaultIntakeSource().build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR IntakeSource", error);
+          }
+        },
+        "case statuses exist": async () => {
+          try {
+            await models.caseStatus.create(
+              new CaseStatus.Builder().defaultCaseStatus().build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseStatus", error);
+          }
+        },
+        "how did you hear about us sources exist": async () => {
+          try {
+            await models.how_did_you_hear_about_us_source.create(
+              new HowDidYouHearAboutUsSource.Builder()
+                .defaultHowDidYouHearAboutUsSource()
+                .withId(1)
+                .withName("Facebook")
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR HowDidYouHearAboutUsSource", error);
+          }
+        },
+        "case note actions exist": async () => {
+          try {
+            await models.case_note_action.create(
+              new CaseNoteAction.Builder()
+                .defaultCaseNoteAction()
+                .withId(1)
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseNoteAction", error);
+          }
+        },
+        "case has a case note": async () => {
+          try {
+            const c4se = await setupCase();
+            await models.case_note.create(
+              new CaseNote.Builder()
+                .defaultCaseNote()
+                .withCaseId(c4se.id)
+                .withId(1)
+                .withCaseNoteActionId(1)
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseNote", error);
+          }
+        },
+        "gender identities exist": async () => {
+          try {
+            await models.gender_identity.create(
+              { name: "Female" },
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR gender identity", error);
+          }
         }
       }
     };
 
     const output = await new Verifier(opts).verifyProvider();
-    console.log(output);
+    // console.log(output);
   });
 });
