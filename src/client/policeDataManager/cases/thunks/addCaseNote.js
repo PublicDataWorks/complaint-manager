@@ -12,7 +12,7 @@ const addCaseNote = values => async dispatch => {
     dispatch(startSubmit(CASE_NOTE_FORM_NAME));
     const response = await axios.post(
       `api/cases/${values.caseId}/case-notes`,
-      JSON.stringify(values)
+      values
     );
     dispatch(
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
