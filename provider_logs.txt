@@ -1,9 +1,0 @@
-yarn run v1.22.18
-$ NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true REACT_APP_ENV=test react-app-rewired test src/pact/consumer --logHeapUsage --env=jsdom --testTimeout 500000 --runInBand
-[2022-08-25 17:09:39.096 +0000] ERROR (98 on 8e555756e984): pact-node@10.17.2: Pact Binary Error: WARN: No content type found, performing text diff on body
-
-[2022-08-25 17:09:39.356 +0000] ERROR (98 on 8e555756e984): pact-node@10.17.2: Pact Binary Error: WARN: No content type found, performing text diff on body
-
-[2022-08-25 17:12:36.421 +0000] ERROR (98 on 8e555756e984): pact-node@10.17.2: Pact Binary Error: WARN: No content type found, performing text diff on body
-
-

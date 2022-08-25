@@ -38,17 +38,6 @@ pactWith(
               "Content-Type": "application/json; charset=utf-8"
             },
             body: like({
-              primaryComplainant: {
-                fullName: "",
-                id: 1,
-                firstName: "",
-                lastName: "",
-                roleOnCase: "Complainant",
-                isAnonymous: true,
-                createdAt: "2022-08-22T15:55:45.923Z",
-                updatedAt: "2022-08-22T15:55:45.923Z",
-                caseId: 1
-              },
               nextStatus: "Forwarded to Agency",
               caseReferencePrefix: "AC",
               caseReference: "AC2022-0001",
@@ -63,72 +52,16 @@ pactWith(
               assignedTo: "noipm.infrastructure@gmail.com",
               createdAt: "2022-08-22T15:55:45.879Z",
               updatedAt: "2022-08-22T15:56:27.641Z",
-              caseClassifications: [
-                {
-                  id: 1,
-                  caseId: 1,
-                  classificationId: 4,
-                  createdAt: "2022-08-22T15:56:22.723Z",
-                  updatedAt: "2022-08-22T15:56:22.723Z"
-                }
-              ],
               intakeSource: {
                 id: 3,
                 name: "In Person",
                 createdAt: "2022-08-19T16:45:01.760Z",
                 updatedAt: "2022-08-19T16:45:01.760Z"
               },
-              howDidYouHearAboutUsSource: {
-                id: 1,
-                name: "Facebook",
-                createdAt: "2022-08-19T16:45:02.448Z",
-                updatedAt: "2022-08-19T16:45:02.448Z"
-              },
-              complainantCivilians: [
-                {
-                  fullName: "",
-                  id: 1,
-                  firstName: "",
-                  lastName: "",
-                  roleOnCase: "Complainant",
-                  isAnonymous: true,
-                  createdAt: "2022-08-22T15:55:45.923Z",
-                  updatedAt: "2022-08-22T15:55:45.923Z",
-                  caseId: 1
-                }
-              ],
+              complainantCivilians: [],
               witnessCivilians: [],
               attachments: [],
-              accusedOfficers: [
-                {
-                  fullName: "Georgiana Y Auer",
-                  isUnknownOfficer: false,
-                  supervisorFullName: "",
-                  id: 1,
-                  officerId: 5619,
-                  firstName: "Georgiana",
-                  middleName: "Y",
-                  lastName: "Auer",
-                  windowsUsername: 14061,
-                  employeeType: "Commissioned",
-                  caseEmployeeType: "Officer",
-                  district: "3rd District",
-                  bureau: "FOB - Field Operations Bureau",
-                  rank: "POLICE OFFICER 1",
-                  endDate: "2006-11-12",
-                  hireDate: "2001-11-18",
-                  sex: "M",
-                  race: "Black / African American",
-                  workStatus: "Terminated",
-                  notes: "",
-                  roleOnCase: "Accused",
-                  isAnonymous: false,
-                  createdAt: "2022-08-22T15:55:59.005Z",
-                  updatedAt: "2022-08-22T15:55:59.005Z",
-                  caseId: 1,
-                  allegations: []
-                }
-              ],
+              accusedOfficers: [],
               complainantOfficers: [],
               witnessOfficers: [],
               pdfAvailable: false,
@@ -410,7 +343,7 @@ pactWith(
       describe("case notes", () => {
         test("should add a case note", async () => {
           await provider.addInteraction({
-            state: "Case exists",
+            state: "Case exists; case note actions exist",
             uponReceiving: "add case note",
             withRequest: {
               method: "POST",
@@ -427,7 +360,7 @@ pactWith(
               })
             },
             willRespondWith: {
-              status: 200,
+              status: 201,
               body: like({
                 caseNotes: eachLike({
                   id: 1,
@@ -450,17 +383,6 @@ pactWith(
                   }
                 }),
                 caseDetails: {
-                  primaryComplainant: {
-                    fullName: "",
-                    id: 1,
-                    firstName: "",
-                    lastName: "",
-                    roleOnCase: "Complainant",
-                    isAnonymous: true,
-                    createdAt: "2022-08-22T15:55:45.923Z",
-                    updatedAt: "2022-08-22T15:55:45.923Z",
-                    caseId: 1
-                  },
                   nextStatus: "Forwarded to Agency",
                   caseReferencePrefix: "AC",
                   caseReference: "AC2022-0001",
@@ -475,66 +397,16 @@ pactWith(
                   assignedTo: "noipm.infrastructure@gmail.com",
                   createdAt: "2022-08-22T15:55:45.879Z",
                   updatedAt: "2022-08-22T15:56:27.641Z",
-                  caseClassifications: [
-                    {
-                      id: 1,
-                      caseId: 1,
-                      classificationId: 4,
-                      createdAt: "2022-08-22T15:56:22.723Z",
-                      updatedAt: "2022-08-22T15:56:22.723Z"
-                    }
-                  ],
                   intakeSource: {
                     id: 3,
                     name: "In Person",
                     createdAt: "2022-08-19T16:45:01.760Z",
                     updatedAt: "2022-08-19T16:45:01.760Z"
                   },
-                  complainantCivilians: [
-                    {
-                      fullName: "",
-                      id: 1,
-                      firstName: "",
-                      lastName: "",
-                      roleOnCase: "Complainant",
-                      isAnonymous: true,
-                      createdAt: "2022-08-22T15:55:45.923Z",
-                      updatedAt: "2022-08-22T15:55:45.923Z",
-                      caseId: 1
-                    }
-                  ],
+                  complainantCivilians: [],
                   witnessCivilians: [],
                   attachments: [],
-                  accusedOfficers: [
-                    {
-                      fullName: "Georgiana Y Auer",
-                      isUnknownOfficer: false,
-                      supervisorFullName: "",
-                      id: 1,
-                      officerId: 5619,
-                      firstName: "Georgiana",
-                      middleName: "Y",
-                      lastName: "Auer",
-                      windowsUsername: 14061,
-                      employeeType: "Commissioned",
-                      caseEmployeeType: "Officer",
-                      district: "3rd District",
-                      bureau: "FOB - Field Operations Bureau",
-                      rank: "POLICE OFFICER 1",
-                      endDate: "2006-11-12",
-                      hireDate: "2001-11-18",
-                      sex: "M",
-                      race: "Black / African American",
-                      workStatus: "Terminated",
-                      notes: "",
-                      roleOnCase: "Accused",
-                      isAnonymous: false,
-                      createdAt: "2022-08-22T15:55:59.005Z",
-                      updatedAt: "2022-08-22T15:55:59.005Z",
-                      caseId: 1,
-                      allegations: []
-                    }
-                  ],
+                  accusedOfficers: [],
                   complainantOfficers: [],
                   witnessOfficers: [],
                   pdfAvailable: false,

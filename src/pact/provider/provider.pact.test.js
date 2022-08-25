@@ -7,7 +7,11 @@ import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
 import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
-import { setupCase, addCivilianComplainantToCase } from "./case-helpers";
+import {
+  setupCase,
+  addCivilianComplainantToCase,
+  addComplainantOfficerToCase
+} from "./case-helpers";
 import {
   setupLetter,
   addOfficerHistoryToReferralLetter,
@@ -176,6 +180,19 @@ const createTag = async () => {
   });
 };
 
+const setupCaseNoteActions = async () => {
+  try {
+    return [
+      await models.case_note_action.create(
+        new CaseNoteAction.Builder().defaultCaseNoteAction().withId(1).build(),
+        { auditUser: "user" }
+      )
+    ];
+  } catch (error) {
+    console.log("ERRRRR CaseNoteAction", error);
+  }
+};
+
 describe("Pact Verification", () => {
   let server;
   beforeAll(() => {
@@ -188,7 +205,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(200000);
+  jest.setTimeout(300000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
@@ -263,6 +280,7 @@ describe("Pact Verification", () => {
         "letter is ready for review": async () => {
           const letterCase = await setupCase();
           await Promise.all([
+            addComplainantOfficerToCase(letterCase),
             setupLetter(letterCase),
             addClassifications(),
             addRecommendedActions()
@@ -272,6 +290,7 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           const letter = await setupLetter(letterCase);
           await Promise.all([
+            addComplainantOfficerToCase(letterCase),
             addOfficerHistoryToReferralLetter(letter),
             addClassifications(),
             addRecommendedActions()
@@ -283,6 +302,7 @@ describe("Pact Verification", () => {
             const letter = await setupLetter(letterCase);
             try {
               await Promise.all([
+                addComplainantOfficerToCase(letterCase),
                 addOfficerHistoryToReferralLetter(letter),
                 addClassificationsToCase(letterCase)
               ]);
@@ -295,6 +315,7 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           await Promise.all([
             setupLetter(letterCase),
+            addComplainantOfficerToCase(letterCase),
             addCivilianComplainantToCase(letterCase),
             addClassifications(),
             addRecommendedActions()
@@ -317,6 +338,7 @@ describe("Pact Verification", () => {
             const letterCase = await setupCase();
             const letter = await setupLetter(letterCase);
             await Promise.all([
+              addComplainantOfficerToCase(letterCase),
               addCivilianComplainantToCase(letterCase),
               addOfficerHistoryToReferralLetter(letter),
               addClassifications(),
@@ -331,10 +353,17 @@ describe("Pact Verification", () => {
         },
         "allegations have been added to the database": addAllegation,
         "case has accused officer with allegations": async () => {
-          const allegationPromise = addAllegation();
-          const c4se = await setupCase();
-          await addAccusedToCase(c4se.id);
-          await allegationPromise;
+          try {
+            const allegationPromise = addAllegation();
+            const c4se = await setupCase();
+            await Promise.all([
+              addComplainantOfficerToCase(c4se),
+              addAccusedToCase(c4se.id),
+              allegationPromise
+            ]);
+          } catch (error) {
+            console.log(error);
+          }
         },
         "race ethnicities exist": async () => {
           await models.race_ethnicity.create(
@@ -411,22 +440,11 @@ describe("Pact Verification", () => {
             console.log("ERRRRR HowDidYouHearAboutUsSource", error);
           }
         },
-        "case note actions exist": async () => {
-          try {
-            await models.case_note_action.create(
-              new CaseNoteAction.Builder()
-                .defaultCaseNoteAction()
-                .withId(1)
-                .build(),
-              { auditUser: "user" }
-            );
-          } catch (error) {
-            console.log("ERRRRR CaseNoteAction", error);
-          }
-        },
+        "case note actions exist": setupCaseNoteActions,
         "case has a case note": async () => {
           try {
             const c4se = await setupCase();
+            await setupCaseNoteActions();
             await models.case_note.create(
               new CaseNote.Builder()
                 .defaultCaseNote()
@@ -449,11 +467,18 @@ describe("Pact Verification", () => {
           } catch (error) {
             console.log("ERRRRR gender identity", error);
           }
+        },
+        "Case exists; case note actions exist": async () => {
+          try {
+            await Promise.all([setupCase(), setupCaseNoteActions()]);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     };
 
     const output = await new Verifier(opts).verifyProvider();
-    // console.log(output);
+    console.log(output);
   });
 });
