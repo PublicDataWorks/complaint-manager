@@ -1,4 +1,5 @@
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import models from "../policeDataManager/models";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
@@ -11,6 +12,11 @@ describe("data change audit hooks for referral letter officer history note", () 
   let officerHistoryNote, existingCase, caseOfficer;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"
@@ -19,6 +25,7 @@ describe("data change audit hooks for referral letter officer history note", () 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
+
     const officer = await models.officer.create(officerAttributes, {
       auditUser: "someone"
     });
@@ -36,6 +43,7 @@ describe("data change audit hooks for referral letter officer history note", () 
       .defaultLetterOfficer()
       .withId(undefined)
       .withCaseOfficerId(caseOfficer.id);
+
     const letterOfficer = await models.letter_officer.create(
       letterOfficerAttributes,
       {

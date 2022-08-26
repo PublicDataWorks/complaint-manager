@@ -10,6 +10,7 @@ import httpMocks from "node-mocks-http";
 import createCaseTag from "./createCaseTag";
 import Tag from "../../testHelpers/tag";
 import CaseTag from "../../testHelpers/caseTag";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import auditDataAccess from "../audits/auditDataAccess";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
@@ -29,6 +30,11 @@ describe("createCaseTag", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withStatus(CASE_STATUS.INITIAL)

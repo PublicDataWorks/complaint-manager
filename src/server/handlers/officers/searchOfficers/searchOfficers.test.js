@@ -1,4 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../policeDataManager/models/index";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -16,7 +17,13 @@ jest.mock("../../audits/auditDataAccess");
 
 describe("searchOfficers", function () {
   let existingCase, response, next, request;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

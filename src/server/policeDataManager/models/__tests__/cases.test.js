@@ -16,14 +16,21 @@ import {
   BAD_DATA_ERRORS,
   BAD_REQUEST_ERRORS
 } from "../../../../sharedUtilities/errorMessageConstants";
-
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
 
 describe("cases", function () {
   let createdCase;
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
 
   afterEach(async () => {
     await cleanupDatabase();

@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import getTags from "./getTags";
 import models from "../../policeDataManager/models";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import CaseTag from "../../testHelpers/caseTag";
 
 const httpMocks = require("node-mocks-http");
@@ -26,6 +27,11 @@ describe("getTags", () => {
       },
       nickname: "nickname"
     });
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const case1 = await models.cases.create(
       new Case.Builder().defaultCase().build(),

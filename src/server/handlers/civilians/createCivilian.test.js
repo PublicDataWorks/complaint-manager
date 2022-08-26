@@ -1,6 +1,7 @@
 import models from "../../policeDataManager/models";
 import createCivilian from "./createCivilian";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import {
@@ -20,6 +21,11 @@ describe("createCivilian handler", () => {
   let createdCase, civilianValues, request, next, response;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().build();
     createdCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"

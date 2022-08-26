@@ -2,6 +2,7 @@ import Case from "../../sharedTestHelpers/case";
 import Civilian from "../../sharedTestHelpers/civilian";
 import CaseNote from "../testHelpers/caseNote";
 import Notification from "../testHelpers/notification";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import { sendNotifsIfComplainantChange } from "./sendNotifsIfComplainantChange";
 import { sendNotification } from "./cases/getMessageStream";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -16,6 +17,11 @@ describe("send notifications to users mentioned in case", () => {
   let currentCase, currentCaseNote, currentNotif;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withComplainantCivilians([

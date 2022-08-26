@@ -5,6 +5,7 @@ import {
 import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import District from "../../../../sharedTestHelpers/District";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
@@ -66,7 +67,13 @@ describe("executeQuery", () => {
   }
 
   let firstDistrict, secondDistrict, fifthDistrict;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     firstDistrict = await models.district.create(
       new District.Builder().withName(districtNames[0])
     );

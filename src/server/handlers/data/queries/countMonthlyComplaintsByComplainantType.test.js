@@ -13,6 +13,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../policeDataManager/models";
 import {
@@ -90,6 +91,11 @@ describe("executeQuery", () => {
     });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
 
     civilianAC = new Civilian.Builder()

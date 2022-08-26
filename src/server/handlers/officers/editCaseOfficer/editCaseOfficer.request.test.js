@@ -4,6 +4,7 @@ import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import {
   buildTokenWithPermissions,
@@ -13,8 +14,14 @@ import {
 
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
+
   beforeEach(() => {
     token = buildTokenWithPermissions("case:edit", "tuser");
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

@@ -2,6 +2,7 @@ import * as httpMocks from "node-mocks-http";
 import CaseNote from "../../../testHelpers/caseNote";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
@@ -51,6 +52,12 @@ describe("editCaseNote", function () {
       { name: "updated action" },
       { auditUser: "a different user" }
     );
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

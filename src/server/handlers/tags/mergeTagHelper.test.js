@@ -3,6 +3,7 @@ import models from "../../policeDataManager/models";
 import Tag from "../../testHelpers/tag";
 import CaseTag from "../../testHelpers/caseTag";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   NOT_FOUND_ERRORS,
@@ -11,13 +12,17 @@ import {
 
 describe("mergeTagAndAuditDetails", () => {
   let tag1, tag2, case1, case2;
-  beforeEach(async () => {
-    const case1Attr = new Case.Builder().defaultCase().withId(612).build();
 
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
+    const case1Attr = new Case.Builder().defaultCase().withId(612).build();
     const case2Attr = new Case.Builder().defaultCase().withId(613).build();
 
     const tag1Attr = new Tag.Builder().defaultTag().withName("tag1").withId(37);
-
     const tag2Attr = new Tag.Builder()
       .defaultTag()
       .withName("tag2")

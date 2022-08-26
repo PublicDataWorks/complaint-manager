@@ -1,5 +1,6 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import getReferralLetterEditStatus from "./getReferralLetterEditStatus";
 import {
@@ -25,6 +26,11 @@ describe("getReferralLetterEditStatus", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
 
     existingCase = await models.cases.create(caseAttributes, {

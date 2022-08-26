@@ -6,6 +6,7 @@ import {
 } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
@@ -17,6 +18,13 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
 describe("edit referral letter", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   describe("officer histories (letter officers with history notes)", () => {
     afterEach(async () => {
       await cleanupDatabase();

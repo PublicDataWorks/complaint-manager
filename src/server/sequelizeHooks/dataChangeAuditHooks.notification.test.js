@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseNote from "../testHelpers/caseNote";
 import Notification from "../testHelpers/notification";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 
@@ -9,17 +10,25 @@ describe("dataChangeAuditHooks for notification", () => {
   let caseNote, existingCase, existingNotification;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(undefined);
+
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"
     });
+
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withId(undefined)
       .withCaseId(existingCase.id);
+
     caseNote = await models.case_note.create(caseNoteAttributes, {
       auditUser: "someone"
     });

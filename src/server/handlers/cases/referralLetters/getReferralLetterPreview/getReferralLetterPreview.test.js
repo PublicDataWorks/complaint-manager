@@ -33,6 +33,7 @@ import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Signer from "../../../../../sharedTestHelpers/signer";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 jest.mock("../../../audits/auditDataAccess");
@@ -42,6 +43,7 @@ describe("getReferralLetterPreview", function () {
 
   afterEach(async () => {
     await cleanupDatabase();
+    auditDataAccess.mockClear();
   });
 
   afterAll(async () => {
@@ -84,6 +86,13 @@ describe("getReferralLetterPreview", function () {
     );
 
     await up(models);
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      {
+        auditUser: "user"
+      }
+    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -844,6 +853,7 @@ describe("getReferralLetterPreview", function () {
             "pdfAvailable",
             "pibCaseNumber",
             "status",
+            "currentStatusId",
             "updatedAt",
             "year"
           ];
@@ -996,7 +1006,16 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.case_officer.rawAttributes)
               ),
               model: models.case_officer.name
-            }
+            },
+            currentStatus: expect.objectContaining({
+              attributes: expect.arrayContaining(
+                Object.keys(models.caseStatus.rawAttributes).filter(
+                  attribute =>
+                    attribute !== "createdAt" && attribute !== "updatedAt"
+                )
+              ),
+              model: models.caseStatus.name
+            })
           };
 
           expect(auditDataAccess).toHaveBeenCalledWith(
@@ -1036,6 +1055,7 @@ describe("getReferralLetterPreview", function () {
             "pdfAvailable",
             "pibCaseNumber",
             "status",
+            "currentStatusId",
             "updatedAt",
             "year"
           ];
@@ -1153,6 +1173,15 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.case_officer.rawAttributes)
               ),
               model: models.case_officer.name
+            }),
+            currentStatus: expect.objectContaining({
+              attributes: expect.arrayContaining(
+                Object.keys(models.caseStatus.rawAttributes).filter(
+                  attribute =>
+                    attribute !== "createdAt" && attribute !== "updatedAt"
+                )
+              ),
+              model: models.caseStatus.name
             })
           };
 

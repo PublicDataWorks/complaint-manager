@@ -1,5 +1,6 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import models from "../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
@@ -44,6 +45,11 @@ describe("createCaseNote", function () {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

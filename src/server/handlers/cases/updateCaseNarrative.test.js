@@ -1,4 +1,5 @@
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
@@ -26,6 +27,11 @@ describe("updateCaseNarrative handler", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

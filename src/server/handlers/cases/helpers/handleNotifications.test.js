@@ -2,6 +2,7 @@ import Case from "../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { handleNotifications } from "./handleNotifications";
 import * as httpMocks from "node-mocks-http";
@@ -16,6 +17,11 @@ describe("case note helpers", function () {
   const actionTaken = moment();
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

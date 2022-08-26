@@ -12,6 +12,7 @@ const {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../audits/auditDataAccess";
 
@@ -63,6 +64,11 @@ describe("createCase handler", () => {
     });
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

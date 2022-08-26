@@ -1,4 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 
@@ -24,6 +25,11 @@ jest.mock("../../getCaseHelpers", () => ({
 describe("getCase", () => {
   let existingCase;
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

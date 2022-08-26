@@ -5,6 +5,7 @@ import {
 import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import { ISO_DATE, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
@@ -25,6 +26,11 @@ describe("getCountByDateRange", () => {
   const expectedData = { ytd: 2, previousYear: 2 };
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()

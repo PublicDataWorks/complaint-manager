@@ -1,4 +1,5 @@
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import CaseNote from "../testHelpers/caseNote";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
@@ -7,6 +8,13 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseNoteAction from "../testHelpers/caseNoteAction";
 
 describe("dataChangeAuditHooks for caseNote", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

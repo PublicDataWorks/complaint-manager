@@ -5,6 +5,7 @@ import {
 import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
@@ -33,6 +34,11 @@ describe("executeQuery", () => {
     const otherIntakeSource = await models.intake_source.create({
       name: "Other"
     });
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const firstCase = await models.cases.create(
       new Case.Builder()

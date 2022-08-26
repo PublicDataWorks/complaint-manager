@@ -1,6 +1,7 @@
 import auditDataAccess from "./auditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import models from "../../policeDataManager/models";
 import { AUDIT_ACTION, MANAGER_TYPE } from "../../../sharedUtilities/constants";
 
@@ -10,6 +11,11 @@ describe("auditDataAccess", () => {
   const auditSubject = "auditSubject";
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const existingCase = await createTestCaseWithoutCivilian(user);
     referenceId = existingCase.id;
   });

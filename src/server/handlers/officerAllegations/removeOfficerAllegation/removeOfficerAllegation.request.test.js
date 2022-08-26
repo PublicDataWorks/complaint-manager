@@ -1,6 +1,7 @@
 import models from "../../../policeDataManager/models";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -13,6 +14,13 @@ import { ACCUSED } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 
 describe("DELETE /officers-allegations/:officerAllegationId", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async function () {
     await cleanupDatabase();
   });

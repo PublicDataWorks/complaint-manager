@@ -9,6 +9,7 @@ import request from "supertest";
 import models from "../../../policeDataManager/models";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -19,6 +20,11 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
 
   beforeEach(() => {
     token = buildTokenWithPermissions("case:edit", "tuser");
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

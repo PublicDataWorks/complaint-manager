@@ -2,6 +2,7 @@ import fs from "fs";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
@@ -73,6 +74,11 @@ beforeEach(async () => {
     .withId(undefined)
     .withCivilianTitle({ name: "Miss", id: 2 })
     .build();
+
+  await models.caseStatus.create(
+    new CaseStatus.Builder().defaultCaseStatus().build(),
+    { auditUser: "user" }
+  );
 
   const caseAttributes = new Case.Builder()
     .defaultCase()

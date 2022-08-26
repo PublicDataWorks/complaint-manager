@@ -8,6 +8,7 @@ import {
   COMPLAINANT_LETTER
 } from "../../../../../sharedUtilities/constants";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import models from "../../../../policeDataManager/models";
@@ -95,11 +96,17 @@ describe("generateComplainantLetterAndUploadToS3", () => {
 
     await up(models);
 
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     complainant = {
       firstName: "firstName",
       lastName: "LastName",
       createdAt: "2017-01-01 12:12:00"
     };
+
     caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
@@ -107,6 +114,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
       .withIncidentDate("2016-01-01")
       .withComplaintType(CIVILIAN_INITIATED)
       .withComplainantCivilians([complainant]);
+
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test",
       include: [

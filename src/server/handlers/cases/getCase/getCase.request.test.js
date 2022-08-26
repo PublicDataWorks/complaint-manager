@@ -7,6 +7,7 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Address from "../../../../sharedTestHelpers/Address";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
@@ -23,6 +24,12 @@ describe("GET /cases/:id", () => {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const supervisor = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
@@ -74,6 +81,7 @@ describe("GET /cases/:id", () => {
       .withAddressableId(undefined)
       .withAddressableType(ADDRESSABLE_TYPE.CASES)
       .build();
+
     let caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

@@ -3,6 +3,7 @@ import {
   AUDIT_FILE_TYPE,
   AUDIT_SUBJECT
 } from "../../../../sharedUtilities/constants";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import getCaseHistory from "./getCaseHistory";
@@ -15,6 +16,11 @@ describe("getCaseHistory", () => {
   const testUser = "Grzegorz";
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     createdCase = await createTestCaseWithoutCivilian();
     caseId = createdCase.id;
 

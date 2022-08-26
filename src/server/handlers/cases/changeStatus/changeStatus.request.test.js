@@ -1,4 +1,5 @@
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -11,7 +12,13 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 
 describe("changeStatus request", () => {
   let initialCase, token;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     initialCase = await createTestCaseWithoutCivilian();
     token = buildTokenWithPermissions("letter:setup", "someone");
   });

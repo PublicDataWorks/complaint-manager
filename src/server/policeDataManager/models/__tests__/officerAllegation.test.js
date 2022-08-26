@@ -3,6 +3,7 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../index";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
@@ -17,6 +18,11 @@ describe("officerAllegation", function () {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     createdCase = await createTestCaseWithoutCivilian();
 
     const officerAttributes = new Officer.Builder()

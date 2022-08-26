@@ -4,6 +4,7 @@ import httpMocks from "node-mocks-http";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import models from "../policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 
 const Boom = require("boom");
 
@@ -19,6 +20,11 @@ describe("param handler", () => {
     });
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

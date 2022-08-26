@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import models from "../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Address from "../../../../sharedTestHelpers/Address";
 import { executeQuery } from "./locationData";
 import { updateCaseStatus } from "./queryHelperFunctions";
@@ -16,6 +17,11 @@ describe("locationDataQuery", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const case1 = await models.cases.create(
       new Case.Builder()
         .defaultCase()

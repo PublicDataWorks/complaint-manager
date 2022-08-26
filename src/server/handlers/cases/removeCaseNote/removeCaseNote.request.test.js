@@ -2,6 +2,7 @@ import models from "../../../policeDataManager/models/index";
 import app from "../../../server";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseNote from "../../../testHelpers/caseNote";
 import {
   buildTokenWithPermissions,
@@ -18,6 +19,13 @@ describe("removeCaseNote request", () => {
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   test("should remove a case note", async () => {

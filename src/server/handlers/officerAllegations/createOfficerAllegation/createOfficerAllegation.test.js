@@ -2,6 +2,7 @@ import models from "../../../policeDataManager/models";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import * as httpMocks from "node-mocks-http";
 import createOfficerAllegation from "./createOfficerAllegation";
@@ -22,12 +23,18 @@ describe("createOfficerAllegation", () => {
   let newCase, allegation, response, next;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
+    response = httpMocks.createResponse();
+    next = jest.fn();
+
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
       .build();
-    response = httpMocks.createResponse();
-    next = jest.fn();
     const officer = await models.officer.create(officerAttributes);
 
     const caseOfficerAttributes = new CaseOfficer.Builder()

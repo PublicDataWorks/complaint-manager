@@ -1,4 +1,5 @@
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import models from "../policeDataManager/models";
@@ -7,17 +8,25 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAudithooks caseofficer", () => {
   let createdCase;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const anOfficer = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
       .build();
+
     const anAccusedOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withId(undefined)
       .withOfficerAttributes(anOfficer)
       .withNoSupervisor()
       .build();
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

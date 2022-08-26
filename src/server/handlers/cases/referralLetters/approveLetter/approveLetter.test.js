@@ -1,6 +1,7 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import approveLetter from "./approveLetter";
 import {
   AUDIT_ACTION,
@@ -75,6 +76,11 @@ describe("approveLetter", () => {
       .withId(undefined)
       .withOfficerId(complainantOfficer.id)
       .withRoleOnCase(COMPLAINANT);
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

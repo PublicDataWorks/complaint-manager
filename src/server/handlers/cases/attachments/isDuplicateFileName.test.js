@@ -1,4 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 const models = require("../../../policeDataManager/models");
 const isDuplicateFileName = require("./isDuplicateFileName");
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -6,6 +7,11 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 describe("generateFileName", () => {
   let newCase;
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const someCase = new Case.Builder()
       .defaultCase()
       .withId(undefined)

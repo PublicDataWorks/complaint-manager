@@ -11,6 +11,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import {
@@ -138,6 +139,11 @@ describe("generateLetterPdfBuffer", () => {
       .withOfficerId(officer.id)
       .withCreatedAt(new Date("2018-09-22"))
       .withRoleOnCase(COMPLAINANT);
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

@@ -1,6 +1,7 @@
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import request from "supertest";
 import app from "../../../server";
 import {
@@ -18,6 +19,13 @@ describe("editCaseNote request", function () {
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   test("should edit a case note", async () => {

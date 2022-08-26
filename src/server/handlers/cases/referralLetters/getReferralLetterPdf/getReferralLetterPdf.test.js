@@ -1,5 +1,6 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
 import {
   AUDIT_FILE_TYPE,
@@ -40,6 +41,11 @@ describe("Generate referral letter pdf", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)

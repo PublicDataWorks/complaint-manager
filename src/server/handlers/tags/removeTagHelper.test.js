@@ -3,25 +3,29 @@ import models from "../../policeDataManager/models";
 import Tag from "../../testHelpers/tag";
 import CaseTag from "../../testHelpers/caseTag";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { NOT_FOUND_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 describe("removeTagAndAuditDetails", () => {
   let tag1, tag2, case1;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const case1Attr = new Case.Builder().defaultCase().withId(612).build();
-
     const tag1Attr = new Tag.Builder().defaultTag().withName("tag1").withId(37);
-
     const tag2Attr = new Tag.Builder()
       .defaultTag()
       .withName("tag2")
       .withId(287866);
 
+    case1 = await models.cases.create(case1Attr, { auditUser: "Person" });
     tag1 = await models.tag.create(tag1Attr, { auditUser: "Person" });
     tag2 = await models.tag.create(tag2Attr, { auditUser: "Person" });
-
-    case1 = await models.cases.create(case1Attr, { auditUser: "Person" });
 
     await models.case_tag.create(
       new CaseTag.Builder()

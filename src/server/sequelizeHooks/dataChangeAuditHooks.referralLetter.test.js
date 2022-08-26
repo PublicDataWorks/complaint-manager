@@ -1,5 +1,6 @@
 import ReferralLetter from "../testHelpers/ReferralLetter";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -10,6 +11,11 @@ describe("dataChangeAuditHooks for referral letter", () => {
   let existingCase, referralLetter;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"

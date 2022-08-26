@@ -1,4 +1,5 @@
 import Allegation from "../../../sharedTestHelpers/Allegation";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import models from "../../policeDataManager/models";
 import * as httpMocks from "node-mocks-http";
 import searchAllegations from "./searchAllegations";
@@ -15,6 +16,11 @@ describe("searchAllegations handler", function () {
   let existingCase, caseOfficer;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithoutCivilian();
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

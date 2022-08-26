@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../policeDataManager/models";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import editOfficerHistory from "./editOfficerHistory";
@@ -25,6 +26,11 @@ describe("edit referral letter", () => {
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {

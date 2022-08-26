@@ -2,6 +2,7 @@ import models from "../index";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -9,6 +10,7 @@ import ReferralLetterOfficerRecommendedAction from "../../../testHelpers/Referra
 
 describe("letterOfficer model", function () {
   let letterOfficer;
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -18,6 +20,11 @@ describe("letterOfficer model", function () {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     const existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"

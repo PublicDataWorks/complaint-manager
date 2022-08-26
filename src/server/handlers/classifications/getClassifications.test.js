@@ -9,6 +9,7 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -24,6 +25,11 @@ describe("getClassifications", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"

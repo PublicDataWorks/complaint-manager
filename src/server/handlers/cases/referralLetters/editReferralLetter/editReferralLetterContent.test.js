@@ -2,6 +2,7 @@ import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import models from "../../../../policeDataManager/models/index";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import editReferralLetterContent from "./editReferralLetterContent";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
@@ -10,9 +11,15 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 
 describe("Edit referral letter addresses", () => {
   let response, next;
+
   beforeEach(() => {
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

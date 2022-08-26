@@ -1,5 +1,6 @@
 import models from "../policeDataManager/models";
 import Civilian from "../../sharedTestHelpers/civilian";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
@@ -44,6 +45,11 @@ describe("transform civilian gender identity to ID", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     await models.gender_identity.bulkCreate(genderIdentityPropertiesArray, {
       auditUser: "test"
     });

@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   ACCUSED,
   ALLEGATION_SEVERITY,
@@ -23,6 +24,11 @@ describe("editOfficerAllegation", () => {
   const next = jest.fn();
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const createdCase = await createTestCaseWithoutCivilian();
     const anAllegation = new Allegation.Builder()
       .defaultAllegation()

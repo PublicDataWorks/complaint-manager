@@ -3,6 +3,7 @@ import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -27,6 +28,12 @@ describe("GET /cases/:id/referral-letter", function () {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     newCase = await models.cases.create(caseAttributes, {
       auditUser: "test"

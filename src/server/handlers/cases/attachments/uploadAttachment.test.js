@@ -2,6 +2,7 @@ import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLet
 import uploadAttachment from "./uploadAttachment";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import Busboy from "busboy";
@@ -66,6 +67,12 @@ describe("uploadAttachment", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

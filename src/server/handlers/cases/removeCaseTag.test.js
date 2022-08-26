@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { removeCaseTag } from "./removeCaseTag";
 import Case from "../../../sharedTestHelpers/case";
 import CaseTag from "../../testHelpers/caseTag";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import tag from "../../testHelpers/tag";
 import models from "../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
@@ -25,6 +26,11 @@ describe("RemoveCaseTag", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

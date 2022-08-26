@@ -1,6 +1,7 @@
 import Case from "../../../sharedTestHelpers/case";
 import CaseNote from "../../testHelpers/caseNote";
 import Notification from "../../testHelpers/notification";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import markNotificationAsRead from "./markNotificationAsRead";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 const models = require("../../policeDataManager/models/index");
@@ -10,6 +11,11 @@ describe("mark notification as read", () => {
   let request, response, next, currentCaseNote, currentNotif, currentCase;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase();
 
     currentCase = await models.cases.create(caseAttributes, {

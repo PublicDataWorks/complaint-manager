@@ -2,6 +2,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   ACCUSED,
   AUDIT_SUBJECT,
@@ -20,6 +21,13 @@ import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDeta
 jest.mock("../../audits/auditDataAccess");
 
 describe("removeOfficerAllegation", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

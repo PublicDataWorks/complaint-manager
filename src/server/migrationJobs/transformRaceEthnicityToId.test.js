@@ -2,6 +2,7 @@ import models from "../policeDataManager/models";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../testHelpers/modelMothers";
 import Civilian from "../../sharedTestHelpers/civilian";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import {
   revertTransformRaceEthnicityToId,
   transformRaceEthnicityToId
@@ -49,6 +50,11 @@ describe("transform race ethnicity to ID", () => {
   );
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     await models.race_ethnicity.bulkCreate(raceEthnicityPropertiesArray, {
       auditUser: "test"
     });

@@ -1,4 +1,5 @@
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
@@ -36,6 +37,11 @@ describe("getFinalPdfDownloadUrl", () => {
     createConfiguredS3Instance.mockImplementation(() => ({
       getSignedUrl: getSignedUrlMock
     }));
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const complainantCivilianAttributes = new Civilian.Builder()
       .defaultCivilian()

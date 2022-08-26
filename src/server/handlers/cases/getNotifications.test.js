@@ -1,6 +1,7 @@
 import moment, { utc } from "moment";
 import Case from "../../../sharedTestHelpers/case";
 import CaseNote from "../../testHelpers/caseNote";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import Notification from "../../testHelpers/notification";
 import { getNotifications, extractNotifications } from "./getNotifications";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -31,6 +32,11 @@ describe("getNotifications", () => {
 
   beforeEach(async () => {
     timestamp = utc().toDate();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

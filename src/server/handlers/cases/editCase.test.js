@@ -1,6 +1,7 @@
 import Case from "../../../sharedTestHelpers/case";
 import Address from "../../../sharedTestHelpers/Address";
 import Civilian from "../../../sharedTestHelpers/civilian";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
@@ -39,6 +40,13 @@ describe("Edit Case", () => {
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   describe("case status update", function () {

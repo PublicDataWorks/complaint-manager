@@ -6,6 +6,7 @@ import Case from "../sharedTestHelpers/case";
 import Attachment from "../sharedTestHelpers/attachment";
 import { civilianWithAddress } from "./testHelpers/ObjectMothers";
 import Address from "../sharedTestHelpers/Address";
+import CaseStatus from "../sharedTestHelpers/caseStatus";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
@@ -71,6 +72,11 @@ describe("server", () => {
       {
         auditUser: "test"
       }
+    );
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
     );
   });
 

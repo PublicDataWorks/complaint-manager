@@ -6,6 +6,7 @@ import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
@@ -21,6 +22,11 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
   beforeEach(async () => {
     await cleanupDatabase();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     global.Date.now = jest.fn(() => 1530118207007);
     const signerAttr = new Signer.Builder()

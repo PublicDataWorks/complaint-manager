@@ -10,6 +10,7 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import Attachment from "../../../../sharedTestHelpers/attachment";
 import ComplainantLetter from "../../../testHelpers/complainantLetter";
 import Civilian from "../../../../sharedTestHelpers/civilian";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import { auditFileAction } from "../../audits/auditFileAction";
 
@@ -39,11 +40,17 @@ describe("getAttachmentDownloadUrl", function () {
   let getSignedUrl;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     auditFileAction.mockClear();
     existingCase = await createTestCaseWithoutCivilian();
     getSignedUrl = jest.fn().mockImplementation(() => {
       return SIGNED_TEST_URL;
     });
+
     s3 = AWS.S3.mockImplementation(() => ({
       getSignedUrl: getSignedUrl,
       config: {

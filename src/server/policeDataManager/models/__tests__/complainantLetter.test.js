@@ -1,9 +1,17 @@
 import models from "../index";
 import ComplainantLetter from "../../../testHelpers/complainantLetter";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 
 describe("complainantLetter", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   test("able to create complainant letter with only minimum requirements", async () => {
     const existingCase = await models.cases.create(
       new Case.Builder().defaultCase().withId(undefined),

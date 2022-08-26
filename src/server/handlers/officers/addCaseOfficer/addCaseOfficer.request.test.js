@@ -2,6 +2,7 @@ import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../policeDataManager/models/index";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import {
@@ -14,6 +15,13 @@ describe("POST /cases/:caseId/cases_officers", () => {
   let token;
   beforeAll(() => {
     token = buildTokenWithPermissions("case:edit", "TEST_NICKNAME");
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {

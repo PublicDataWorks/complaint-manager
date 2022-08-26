@@ -8,6 +8,7 @@ import {
 import { ASCENDING } from "../../../sharedUtilities/constants";
 import { caseInsensitiveSort } from "../sequelizeHelpers";
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import CaseTag from "../../testHelpers/caseTag";
 import Tag from "../../testHelpers/tag";
 
@@ -24,19 +25,28 @@ jest.mock("../audits/getQueryAuditAccessDetails", () =>
 
 describe("getTagsHelper", () => {
   let firstTag, secondTag, thirdTag, fourthTag;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const firstTagAttributes = new Tag.Builder()
       .defaultTag()
       .withName("a Zorro movie")
       .withId(1);
+
     const secondTagAttributes = new Tag.Builder()
       .defaultTag()
       .withName("Aloha")
       .withId(2);
+
     const thirdTagAttributes = new Tag.Builder()
       .defaultTag()
       .withName("Zed")
       .withId(3);
+
     const fourthTagAttributes = new Tag.Builder()
       .defaultTag()
       .withName("zoo")
@@ -45,16 +55,20 @@ describe("getTagsHelper", () => {
     secondTag = await models.tag.create(secondTagAttributes, {
       auditUser: "Person"
     });
+
     firstTag = await models.tag.create(firstTagAttributes, {
       auditUser: "Person"
     });
+
     fourthTag = await models.tag.create(fourthTagAttributes, {
       auditUser: "Person"
     });
+
     thirdTag = await models.tag.create(thirdTagAttributes, {
       auditUser: "Person"
     });
   });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

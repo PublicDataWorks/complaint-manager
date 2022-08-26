@@ -3,6 +3,7 @@ import models from "../../../../policeDataManager/models";
 import { compareLetter } from "../sharedLetterUtilities/compareLetterPDFTestUtil";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import { ACCUSED, COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import Officer from "../../../../../sharedTestHelpers/Officer";
@@ -23,6 +24,11 @@ jest.mock("aws-sdk");
 describe("Compare Generated Referral Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     global.Date.now = jest.fn(() => 1530118207007);
 
     const signerAttr = new Signer.Builder()

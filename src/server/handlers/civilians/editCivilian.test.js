@@ -1,4 +1,5 @@
 import Case from "../../../sharedTestHelpers/case";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import Address from "../../../sharedTestHelpers/Address";
 import Civilian from "../../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -33,7 +34,13 @@ describe("editCivilian", () => {
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
+
   describe("editCivilian handler editing civilian with no address", () => {
     let existingCase;
     beforeEach(async () => {

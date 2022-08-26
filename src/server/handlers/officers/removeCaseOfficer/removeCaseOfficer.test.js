@@ -2,6 +2,7 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
@@ -32,11 +33,17 @@ describe("removeCaseOfficer", () => {
     next = jest.fn();
     response = httpMocks.createResponse();
 
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined)
       .withSupervisorOfficerNumber(undefined)
       .build();
+
     const createdOfficer = await models.officer.create(officerAttributes);
 
     const caseOfficerAttributes = new CaseOfficer.Builder()
@@ -45,6 +52,7 @@ describe("removeCaseOfficer", () => {
       .withOfficerId(createdOfficer.id)
       .withRoleOnCase(WITNESS)
       .build();
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

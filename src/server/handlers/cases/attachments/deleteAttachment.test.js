@@ -1,6 +1,7 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Attachment from "../../../../sharedTestHelpers/attachment";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models/index";
 import deleteAttachment from "./deleteAttachment";
 import {
@@ -19,6 +20,13 @@ jest.mock("aws-sdk");
 jest.mock("../../audits/auditDataAccess");
 
 describe("deleteAttachment", function () {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

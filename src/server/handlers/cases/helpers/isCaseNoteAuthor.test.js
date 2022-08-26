@@ -2,6 +2,7 @@ import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { isCaseNoteAuthor } from "./isCaseNoteAuthor";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
@@ -18,6 +19,11 @@ describe("isCaseNoteAuthor", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     caseNoteAction = await models.case_note_action.create(
       { name: "some action" },
       { auditUser: CASE_NOTE_AUTHOR }

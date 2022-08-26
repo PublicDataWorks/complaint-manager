@@ -1,6 +1,7 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import editClassifications from "./editClassifications";
@@ -19,6 +20,11 @@ describe("editClassifications", () => {
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {

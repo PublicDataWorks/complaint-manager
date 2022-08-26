@@ -2,26 +2,37 @@ import models from "../policeDataManager/models";
 import Attachment from "../../sharedTestHelpers/attachment";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks for attachment", () => {
   let attachment, attachmentOriginalAttributes, existingCase;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withIncidentLocation(null);
+
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "me"
     });
+
     attachmentOriginalAttributes = new Attachment.Builder()
       .defaultAttachment()
       .withId(undefined)
       .withCaseId(existingCase.id);
+
     attachment = await models.attachment.create(attachmentOriginalAttributes, {
       auditUser: "someone"
     });
   });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

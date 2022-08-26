@@ -4,6 +4,7 @@ import {
   createTestCaseWithoutCivilian
 } from "../../../testHelpers/modelMothers";
 import Address from "../../../../sharedTestHelpers/Address";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   ADDRESSABLE_TYPE,
   CASE_STATUS
@@ -11,6 +12,13 @@ import {
 import models from "../index";
 
 describe("address", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

@@ -2,6 +2,7 @@ import request from "supertest";
 import fs from "fs";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
@@ -133,6 +134,11 @@ describe("Approve referral letter", () => {
       .withId(undefined)
       .withOfficerId(complainantOfficer.id)
       .withRoleOnCase(COMPLAINANT);
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

@@ -1,9 +1,11 @@
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import CaseTag from "../testHelpers/caseTag";
 import Tag from "../testHelpers/tag";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 
 describe("dataChangeAuditHooks for caseTag", () => {
   afterEach(async () => {
@@ -12,6 +14,18 @@ describe("dataChangeAuditHooks for caseTag", () => {
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   test("creates audit on caseTag creation", async () => {

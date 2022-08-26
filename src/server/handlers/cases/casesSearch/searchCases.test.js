@@ -5,6 +5,7 @@ import Case from "../../../../sharedTestHelpers/case";
 import CaseTag from "../../../testHelpers/caseTag";
 import Tag from "../../../testHelpers/tag";
 import Civilian from "../../../../sharedTestHelpers/civilian";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import searchCases from "./searchCases";
 import { getResultsFromES } from "../../getResultsFromES";
 import {
@@ -46,6 +47,11 @@ describe("searchCases handler", function () {
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const tag3 = await models.tag.create(
       { name: "tag 3" },

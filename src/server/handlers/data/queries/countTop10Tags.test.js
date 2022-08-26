@@ -5,6 +5,7 @@ import {
 import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
@@ -34,6 +35,11 @@ describe("executeQuery", () => {
   const todaysDate = new Date();
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()

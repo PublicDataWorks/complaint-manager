@@ -1,5 +1,6 @@
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
@@ -19,6 +20,13 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   test("should create officer allegation", async () => {

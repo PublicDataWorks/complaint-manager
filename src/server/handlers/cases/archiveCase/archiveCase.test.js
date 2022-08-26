@@ -1,6 +1,7 @@
 import archiveCase from "./archiveCase";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithoutAssociations } from "../../getCaseHelpers";
 
@@ -11,6 +12,11 @@ describe("archiveCase handler", () => {
   let request, response, next, existingCase;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined);

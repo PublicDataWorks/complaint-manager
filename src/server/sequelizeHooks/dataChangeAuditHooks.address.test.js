@@ -4,11 +4,19 @@ import {
   AUDIT_ACTION
 } from "../../sharedUtilities/constants";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import Address from "../../sharedTestHelpers/Address";
 import Civilian from "../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 
 describe("dataChangeAuditHooks address", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -19,6 +27,7 @@ describe("dataChangeAuditHooks address", () => {
 
   describe("incident location", () => {
     let existingCase, incidentLocationCreated;
+
     beforeEach(async () => {
       const anIncidentLocation = new Address.Builder()
         .defaultAddress()

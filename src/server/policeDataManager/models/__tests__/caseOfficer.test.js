@@ -1,6 +1,7 @@
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../index";
 import Officer from "../../../../sharedTestHelpers/Officer";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
@@ -9,6 +10,13 @@ import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 
 describe("caseOfficer", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterAll(async () => {
     await models.sequelize.close();
   });

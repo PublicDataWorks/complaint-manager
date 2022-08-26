@@ -9,17 +9,23 @@ import ReferralLetter from "../testHelpers/ReferralLetter";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
+import Civilian from "../../sharedTestHelpers/civilian";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import {
   ACCUSED,
   COMPLAINANT,
   USER_PERMISSIONS,
   WITNESS
 } from "../../sharedUtilities/constants";
-import Civilian from "../../sharedTestHelpers/civilian";
 
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter, auditDetails;
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined);

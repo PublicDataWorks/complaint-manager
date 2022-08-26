@@ -7,6 +7,7 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -17,6 +18,13 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("sortableCasesView", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

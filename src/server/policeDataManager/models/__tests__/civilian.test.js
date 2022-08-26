@@ -6,8 +6,16 @@ import {
   createTestCaseWithoutCivilian
 } from "../../../testHelpers/modelMothers";
 import Civilian from "../../../../sharedTestHelpers/civilian";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 
 describe("civilian", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

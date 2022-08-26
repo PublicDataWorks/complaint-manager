@@ -22,12 +22,22 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("getCases", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      {
+        auditUser: "user"
+      }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

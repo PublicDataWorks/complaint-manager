@@ -1,10 +1,18 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../index";
 
 describe("caseNote", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

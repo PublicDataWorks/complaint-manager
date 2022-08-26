@@ -7,13 +7,20 @@ import legacyAuditDataAccess from "./legacyAuditDataAccess";
 import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { legacyFormatAuditDetails } from "./legacyFormatAuditDetails";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 jest.mock("./legacyFormatAuditDetails");
 
 describe("legacyAuditDataAccess", () => {
   describe("audit details", () => {
     let caseForAudit;
+
     beforeEach(async () => {
+      await models.caseStatus.create(
+        new CaseStatus.Builder().defaultCaseStatus().build(),
+        { auditUser: "user" }
+      );
+
       caseForAudit = await createTestCaseWithoutCivilian();
     });
 

@@ -1,5 +1,6 @@
 import * as httpMocks from "node-mocks-http";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
 import removeCaseNote from "./removeCaseNote";
@@ -44,6 +45,11 @@ describe("RemoveCaseNote unit", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseToCreate = new Case.Builder()
       .defaultCase()
       .withId(undefined)

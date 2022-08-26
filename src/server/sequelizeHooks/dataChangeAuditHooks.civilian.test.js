@@ -1,5 +1,6 @@
 import models from "../policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import Civilian from "../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -9,6 +10,11 @@ describe("dataChangeAuditHooks for civilian", () => {
   let existingCase, civilian, raceEthnicity, civilianAttributes;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

@@ -2,6 +2,7 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import httpMocks from "node-mocks-http";
 import editCaseOfficer from "./editCaseOfficer";
 import {
@@ -35,6 +36,12 @@ describe("editCaseOfficer", () => {
   beforeEach(async () => {
     next = jest.fn();
     response = httpMocks.createResponse();
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

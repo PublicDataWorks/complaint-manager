@@ -9,6 +9,7 @@ import {
   REFERRAL_LETTER_VERSION
 } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -20,6 +21,13 @@ describe("constructFilename", function () {
 
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
   });
 
   describe("complainant is type: civilian initiated", () => {

@@ -1,4 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models/index";
 import request from "supertest";
 import app from "../../../server";
@@ -18,8 +19,18 @@ describe("GET /api/cases/:caseId/case-history", () => {
     await models.sequelize.close();
   });
 
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   test("it returns the case history ordered by createdAt desc", async () => {
-    const token = buildTokenWithPermissions(USER_PERMISSIONS.VIEW_CASE_HISTORY, "bobNickname");
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.VIEW_CASE_HISTORY,
+      "bobNickname"
+    );
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

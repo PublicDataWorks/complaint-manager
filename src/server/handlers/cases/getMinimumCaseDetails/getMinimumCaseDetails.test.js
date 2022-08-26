@@ -1,5 +1,6 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   AUDIT_SUBJECT,
   CIVILIAN_INITIATED,
@@ -24,6 +25,11 @@ describe("getMinimumCaseDetails", () => {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(205)

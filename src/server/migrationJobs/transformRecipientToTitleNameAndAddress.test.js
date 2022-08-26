@@ -1,6 +1,7 @@
 import models from "../policeDataManager/models";
 import ReferralLetter from "../testHelpers/ReferralLetter";
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import {
   transformRecipientToTitleNameAndAddress,
@@ -18,6 +19,11 @@ describe("transforming recipient into title/name and address fields", () => {
   const selectReferralLettersQuery = "SELECT * FROM referral_letters;";
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
 
     existingCase = await models.cases.create(caseAttributes, {

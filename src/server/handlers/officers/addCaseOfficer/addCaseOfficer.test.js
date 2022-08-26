@@ -1,4 +1,5 @@
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
@@ -35,6 +36,11 @@ describe("addCaseOfficer", () => {
   let existingCase, response, next;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)

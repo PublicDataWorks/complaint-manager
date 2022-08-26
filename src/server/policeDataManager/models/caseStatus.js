@@ -36,15 +36,6 @@ module.exports = (sequelize, DataTypes) => {
         field: "order_key",
         allowNull: false
       },
-      nextStatus: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["name"]),
-        get() {
-          return determineNextCaseStatus(this.name);
-        },
-        set() {
-          this.setDataValue("nextStatus", nextStatusMap[this.name]);
-        }
-      },
       createdAt: {
         type: DataTypes.DATE,
         field: "created_at",

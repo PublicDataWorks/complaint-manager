@@ -1,6 +1,7 @@
 import models from "../../../policeDataManager/models";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import request from "supertest";
 import {
@@ -21,6 +22,11 @@ describe("PUT /officers-allegations/:officerAllegationId", function () {
   let createdCase;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     createdCase = await createTestCaseWithoutCivilian();
   });
 

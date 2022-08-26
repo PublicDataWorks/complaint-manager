@@ -1,4 +1,5 @@
 import Case from "../../sharedTestHelpers/case";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import models from "../policeDataManager/models";
 import ReferralLetterCaseClassification from "../../sharedTestHelpers/ReferralLetterCaseClassification";
 import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
@@ -8,7 +9,13 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
   let existingCase, classification, caseClassification;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
+
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "someone"
     });
@@ -27,6 +34,7 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
         .defaultReferralLetterCaseClassification()
         .withCaseId(existingCase.id)
         .withClassificationId(classification.id);
+
     caseClassification = await models.case_classification.create(
       caseClassificationAttributes,
       {
