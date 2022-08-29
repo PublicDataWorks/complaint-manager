@@ -224,7 +224,7 @@ class LetterPreview extends Component {
         >
           <CardContent>
             <Field
-              style={{ flex: 4, marginBottom: "16px"}}
+              style={{ flex: 4, marginBottom: "16px" }}
               name="recipient"
               component={renderTextField}
               label="Title and Name"
@@ -424,6 +424,9 @@ class LetterPreview extends Component {
 }
 
 const mapStateToProps = state => ({
+  accused: state.currentCase.details.accusedOfficers,
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   letterHtml: state.referralLetter.letterHtml,
   initialValues: state.referralLetter.addresses,
   editStatus: state.referralLetter.editStatus,

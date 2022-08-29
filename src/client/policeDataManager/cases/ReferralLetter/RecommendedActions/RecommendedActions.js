@@ -22,6 +22,7 @@ import BoldCheckBoxFormControlLabel from "../../../shared/components/BoldCheckBo
 import PrimaryCheckBox from "../../../shared/components/PrimaryCheckBox";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
+import getCaseDetails from "../../thunks/getCaseDetails";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import getClassificationOptions from "../thunks/getClassificationOptions";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
@@ -43,7 +44,7 @@ class RecommendedActions extends Component {
 
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
-    this.props.getMinimumCaseDetails(this.state.caseId);
+    this.props.getCaseDetails(this.state.caseId);
     this.props.getReferralLetterEditStatus(this.state.caseId);
     this.props.getRecommendedActions();
     this.props.getClassificationOptions();
@@ -274,6 +275,9 @@ class RecommendedActions extends Component {
 }
 
 const mapStateToProps = state => ({
+  accused: state.currentCase.details.accusedOfficers,
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   recommendedActions: state.recommendedActions,
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
@@ -288,6 +292,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  getCaseDetails,
   getClassificationOptions,
   getMinimumCaseDetails,
   getRecommendedActions,

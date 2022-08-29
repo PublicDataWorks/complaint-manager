@@ -38,6 +38,12 @@ export const STATUSES = {
     description:
       "This status signifies that the case has been sent to the investigation agency."
   },
+  [CASE_STATUS.ACTIVE]: {
+    actionText: "This action",
+    confirmButtonText: `Mark as ${CASE_STATUS.ACTIVE}`,
+    description:
+      "This status signifies that either an officer has been added to this case or is not needed."
+  },
   [CASE_STATUS.CLOSED]: {
     actionText: "This action",
     confirmButtonText: `Mark as ${CASE_STATUS.CLOSED}`,

@@ -30,9 +30,13 @@ class StatusButton extends Component {
   }
 
   currentStatusDoesNotNeedButton = () => {
-    return [CASE_STATUS.INITIAL, CASE_STATUS.CLOSED].includes(
-      this.props.status
-    );
+    if (this.props.allowAccusedOfficersToBeBlankFeature) {
+      return [CASE_STATUS.CLOSED].includes(this.props.status);
+    } else {
+      return [CASE_STATUS.INITIAL, CASE_STATUS.CLOSED].includes(
+        this.props.status
+      );
+    }
   };
 
   userDoesNotHavePermissionToChangeStatus = () => {
@@ -122,6 +126,9 @@ class StatusButton extends Component {
 }
 
 const mapStateToProps = state => ({
+  accused: state.currentCase.details.accusedOfficers,
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   caseId: state.currentCase.details.id,
   caseDetails: state.currentCase.details,
   status: state.currentCase.details.status,

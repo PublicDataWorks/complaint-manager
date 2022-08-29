@@ -20,6 +20,7 @@ import {
 } from "../../../shared/components/StyledButtons";
 import editOfficerHistory from "../thunks/editOfficerHistory";
 import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterStatusMessage";
+import getCaseDetails from "../../thunks/getCaseDetails";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
 import { push } from "connected-react-router";
@@ -47,7 +48,7 @@ class OfficerHistories extends Component {
   componentDidMount() {
     this.props.getReferralLetterData(this.state.caseId);
     this.props.getReferralLetterEditStatus(this.state.caseId);
-    this.props.getMinimumCaseDetails(this.state.caseId);
+    this.props.getCaseDetails(this.state.caseId);
   }
 
   saveAndReturnToCase = () => {
@@ -238,6 +239,9 @@ class OfficerHistories extends Component {
 }
 
 const mapStateToProps = state => ({
+  accused: state.currentCase.details.accusedOfficers,
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   letterDetails: state.referralLetter.letterDetails,
   initialValues: {
     letterOfficers: state.referralLetter.letterDetails.letterOfficers
@@ -246,6 +250,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
+  getCaseDetails,
   getReferralLetterData,
   getReferralLetterEditStatus,
   getMinimumCaseDetails
