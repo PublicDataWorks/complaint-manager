@@ -1,3 +1,6 @@
+const {
+  BAD_REQUEST_ERRORS
+} = require("../../../sharedUtilities/errorMessageConstants");
 const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 

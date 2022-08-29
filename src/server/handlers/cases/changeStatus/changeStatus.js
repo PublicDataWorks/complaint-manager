@@ -42,8 +42,6 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
   }
 
-  console.log("request.body >>>>", request.body);
-
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
 

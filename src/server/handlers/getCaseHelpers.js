@@ -161,7 +161,6 @@ const getCaseDetailsAndAuditDetails = async (
   let caseDetails = await models.cases.findByPk(caseId, queryOptions);
   caseDetails = caseDetails.toJSON();
 
-  console.log("CASEDETAILS >>>>>", caseDetails);
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {
     if (
       caseDetails.primaryComplainant &&

@@ -1,12 +1,20 @@
 import models from "../index";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import ReferralLetterOfficerHistoryNote from "../../../testHelpers/ReferralLetterOfficerHistoryNote";
 
 describe("Referral Letter Officer History Note", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

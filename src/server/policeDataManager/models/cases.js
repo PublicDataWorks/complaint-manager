@@ -300,7 +300,6 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Case.prototype.updateCaseStatusId = () => {
-    console.log("this.currentStatus>>>>", this.currentStatus);
     return this.setDataValue(
       "currentStatusId",
       this.caseStatus.determineCaseStatus(this.currentStatus.name)

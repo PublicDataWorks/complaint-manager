@@ -21,6 +21,10 @@ describe("caseOfficer", () => {
     );
   });
 
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
   afterAll(async () => {
     await models.sequelize.close();
   });
@@ -79,10 +83,6 @@ describe("caseOfficer", () => {
   });
 
   describe("updating case status", () => {
-    afterEach(async () => {
-      await cleanupDatabase();
-    });
-
     test("should update case status when adding a case officer", async () => {
       const initialCase = await createTestCaseWithoutCivilian();
 

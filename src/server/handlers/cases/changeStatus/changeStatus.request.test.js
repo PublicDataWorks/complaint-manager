@@ -9,6 +9,7 @@ import {
 import request from "supertest";
 import app from "../../../server";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
+import models from "../../../policeDataManager/models";
 
 describe("changeStatus request", () => {
   let initialCase, token;

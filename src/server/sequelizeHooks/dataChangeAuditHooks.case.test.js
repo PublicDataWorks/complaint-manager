@@ -135,6 +135,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
+        currentStatusId: { new: 1 },
         caseNumber: { new: 1 },
         primaryComplainant: {},
         year: { new: 2017 }
@@ -174,6 +175,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
+        currentStatusId: { new: 1 },
         intakeSourceId: { new: emailIntakeSource.id },
         intakeSource: { new: emailIntakeSource.name },
         caseNumber: { new: 1 },
@@ -215,6 +217,7 @@ describe("dataChangeAuditHooks", () => {
         complaintType: { new: RANK_INITIATED },
         assignedTo: { new: "originalAssignedToPerson" },
         status: { new: CASE_STATUS.INITIAL },
+        currentStatusId: { new: 1 },
         howDidYouHearAboutUsSourceId: {
           new: friendHowDidYouHearAboutUsSource.id
         },
@@ -259,6 +262,7 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: "originalAssignedToPerson",
         status: CASE_STATUS.INITIAL,
         nextStatus: createdCase.nextStatus,
+        currentStatusId: 1,
         createdAt: createdCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: createdCase.updatedAt.toJSON(),
@@ -593,6 +597,7 @@ describe("dataChangeAuditHooks", () => {
         assignedTo: "updatedAssignedPerson",
         status: CASE_STATUS.ACTIVE,
         nextStatus: existingCase.nextStatus,
+        currentStatusId: 1,
         createdAt: existingCase.createdAt.toJSON(),
         createdBy: "createdByPerson",
         updatedAt: existingCase.updatedAt.toJSON(),
@@ -835,6 +840,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: { new: "<p> test details </p>" },
         narrativeSummary: { new: "test summary" },
         status: { new: "Initial" },
+        currentStatusId: { new: 1 },
         intakeSourceId: { new: intakeSource.id },
         intakeSource: { new: intakeSource.name },
         pibCaseNumber: {
@@ -877,6 +883,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeDetails: { previous: "<p> test details </p>" },
         narrativeSummary: { previous: "test summary" },
         status: { previous: "Initial" },
+        currentStatusId: { previous: 1 },
         intakeSourceId: { previous: intakeSource.id },
         intakeSource: { previous: intakeSource.name },
         pibCaseNumber: {

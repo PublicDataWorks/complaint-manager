@@ -9,6 +9,7 @@ import {
 import getCases, { CASES_TYPE, GET_CASES_AUDIT_DETAILS } from "./getCases";
 import mockFflipObject from "../../../testHelpers/mockFflipObject";
 import auditDataAccess from "../../audits/auditDataAccess";
+import models from "../../../policeDataManager/models";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("./getCases");
