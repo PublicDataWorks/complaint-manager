@@ -704,7 +704,8 @@ describe("cases", function () {
       expect(createdCase.createdBy).not.toBeNull();
       expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
     });
-    it("has primaryComplainant, the first existing case complainant", async () => {
+
+    test("has primaryComplainant, the first existing case complainant", async () => {
       const complainants = shuffle(
         range(5).map(i => ({
           firstName: `${i}complainant`,
@@ -732,5 +733,16 @@ describe("cases", function () {
         complainants[0].lastName
       );
     });
+  });
+
+  test("should not be able to set a null narrative summary or pibCaseNumber", async () => {
+    const c4se = await models.cases.create(new Case.Builder().defaultCase(), {
+      auditUser: "user"
+    });
+    const { narrativeSummary, pibCaseNumber } = c4se.toJSON();
+    c4se.narrativeSummary = null;
+    c4se.pibCaseNumber = null;
+    expect(c4se.narrativeSummary).toEqual(narrativeSummary);
+    expect(c4se.pibCaseNumber).toEqual(pibCaseNumber);
   });
 });

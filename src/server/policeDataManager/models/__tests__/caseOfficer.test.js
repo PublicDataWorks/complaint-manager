@@ -9,6 +9,10 @@ import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 describe("caseOfficer", () => {
   beforeEach(async () => {
     await models.caseStatus.create(
@@ -37,6 +41,7 @@ describe("caseOfficer", () => {
       expect(caseOfficer.isUnknownOfficer).toEqual(false);
     });
   });
+
   describe("supervisor name", () => {
     test("returns full name when all fields present", () => {
       const officerAttributes = new Officer.Builder()
@@ -50,6 +55,7 @@ describe("caseOfficer", () => {
       const caseOfficer = models.case_officer.build(caseOfficerAttributes);
       expect(caseOfficer.supervisorFullName).toEqual("Monica Jane Jones");
     });
+
     test("returns full name when no middle name present", () => {
       const officerAttributes = new Officer.Builder()
         .defaultOfficer()
@@ -62,6 +68,7 @@ describe("caseOfficer", () => {
       const caseOfficer = models.case_officer.build(caseOfficerAttributes);
       expect(caseOfficer.supervisorFullName).toEqual("Monica Jones");
     });
+
     test("returns full name when no supervisor", () => {
       const caseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
@@ -213,5 +220,57 @@ describe("caseOfficer", () => {
       await letterOfficer.reload({ paranoid: false });
       expect(letterOfficer.deletedAt).not.toEqual(null);
     });
+  });
+
+  test("should not allow notes to be set to null", async () => {
+    const initialCase = await createTestCaseWithoutCivilian();
+
+    const officer = await models.officer.create(
+      new Officer.Builder().defaultOfficer().build(),
+      { auditUser: "user" }
+    );
+
+    const notes = "THESE ARE NOTES!!!!!!!";
+    const caseOfficer = await models.case_officer.create(
+      new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withCaseId(initialCase.id)
+        .withOfficerId(officer.id)
+        .withNotes(notes)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    caseOfficer.notes = null;
+    expect(caseOfficer.notes).toEqual(notes);
+  });
+
+  test("emptyCaseOfficerAttributes should set everything to null except caseEmployeeType", async () => {
+    const caseOfficer = models.case_officer
+      .build()
+      .emptyCaseOfficerAttributes();
+    expect(caseOfficer.officerId).toBeNull();
+    expect(caseOfficer.firstName).toBeNull();
+    expect(caseOfficer.middleName).toBeNull();
+    expect(caseOfficer.lastName).toBeNull();
+    expect(caseOfficer.windowsUsername).toBeNull();
+    expect(caseOfficer.supervisorFirstName).toBeNull();
+    expect(caseOfficer.supervisorMiddleName).toBeNull();
+    expect(caseOfficer.supervisorLastName).toBeNull();
+    expect(caseOfficer.supervisorWindowsUsername).toBeNull();
+    expect(caseOfficer.supervisorOfficerNumber).toBeNull();
+    expect(caseOfficer.employeeType).toBeNull();
+    expect(caseOfficer.district).toBeNull();
+    expect(caseOfficer.bureau).toBeNull();
+    expect(caseOfficer.rank).toBeNull();
+    expect(caseOfficer.dob).toBeNull();
+    expect(caseOfficer.endDate).toBeNull();
+    expect(caseOfficer.hireDate).toBeNull();
+    expect(caseOfficer.sex).toBeNull();
+    expect(caseOfficer.race).toBeNull();
+    expect(caseOfficer.workStatus).toBeNull();
+    expect(caseOfficer.caseEmployeeType).toEqual(
+      PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription
+    );
   });
 });

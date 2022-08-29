@@ -39,19 +39,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   });
 
-  Signer.prototype.toPayload = instance => ({
-    id: instance.id,
-    name: instance.name,
-    nickname: instance.nickname,
-    title: instance.title,
-    phone: instance.phone,
-    links: [
-      {
-        rel: "signature",
-        href: `/api/signers/${instance.id}/signature`
-      }
-    ]
-  });
-
   return Signer;
 };

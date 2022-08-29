@@ -106,9 +106,8 @@ export const generateLetterPdfHtml = async (
   let signature = includeSignature
     ? await letterSettings.getSignature({ sender })
     : "<p><br></p>";
-  let header = await retrieveLetterImage("header_text.png", "max-width: 223px");
-  let smallIcon = await retrieveLetterImage("icon.ico", "max-width: 30px");
-  let largeIcon = await retrieveLetterImage("icon.ico", "max-width: 42px");
+  let header = await retrieveLetterImage("header_text.png", "max-width: 450px");
+  let smallIcon = await retrieveLetterImage("icon.png", "max-width: 60px");
 
   const letterPdfData = {
     ...pdfData,
@@ -116,8 +115,7 @@ export const generateLetterPdfHtml = async (
     signature,
     currentDate,
     header,
-    smallIcon,
-    largeIcon
+    smallIcon
   };
 
   const compiledTemplate = Handlebars.compile(template);

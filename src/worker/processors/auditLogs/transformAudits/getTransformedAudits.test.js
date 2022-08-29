@@ -42,7 +42,7 @@ describe("getTransformedAudits", () => {
       include: [{ model: models.export_audit, as: "exportAudit" }]
     });
 
-    await getTransformedAudits({});
+    await getTransformedAudits();
 
     expect(transformAuditsForExport).toHaveBeenCalledWith([
       expect.objectContaining({

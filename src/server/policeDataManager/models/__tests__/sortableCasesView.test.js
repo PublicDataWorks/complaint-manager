@@ -10,6 +10,8 @@ import Case from "../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
+import Tag from "../../../testHelpers/tag";
+import CaseTag from "../../../testHelpers/caseTag";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import sortableCasesView from "../sortableCasesView";
 
@@ -393,5 +395,95 @@ describe("sortableCasesView", () => {
         );
       });
     });
+  });
+
+  test("should return all associated tags", async () => {
+    const c4se = await models.cases.create(
+      new Case.Builder().defaultCase().build(),
+      {
+        auditUser: "user"
+      }
+    );
+
+    const tag1 = await models.tag.create(
+      new Tag.Builder().defaultTag().withId(1).withName("tag1").build(),
+      { auditUser: "user" }
+    );
+    const tag2 = await models.tag.create(
+      new Tag.Builder().defaultTag().withId(2).withName("tag2").build(),
+      { auditUser: "user" }
+    );
+    const tag3 = await models.tag.create(
+      new Tag.Builder().defaultTag().withId(3).withName("tag3").build(),
+      { auditUser: "user" }
+    );
+    const tag4 = await models.tag.create(
+      new Tag.Builder().defaultTag().withId(4).withName("tag4").build(),
+      { auditUser: "user" }
+    );
+    const tag5 = await models.tag.create(
+      new Tag.Builder().defaultTag().withId(5).withName("tag4").build(),
+      { auditUser: "user" }
+    );
+
+    await models.case_tag.create(
+      new CaseTag.Builder()
+        .defaultCaseTag()
+        .withCaseId(c4se.id)
+        .withTagId(tag1.id)
+        .withId(1),
+      { auditUser: "user" }
+    );
+    await models.case_tag.create(
+      new CaseTag.Builder()
+        .defaultCaseTag()
+        .withCaseId(c4se.id)
+        .withTagId(tag2.id)
+        .withId(2)
+        .build(),
+      { auditUser: "user" }
+    );
+    await models.case_tag.create(
+      new CaseTag.Builder()
+        .defaultCaseTag()
+        .withCaseId(c4se.id)
+        .withTagId(tag3.id)
+        .withId(3)
+        .build(),
+      { auditUser: "user" }
+    );
+    await models.case_tag.create(
+      new CaseTag.Builder()
+        .defaultCaseTag()
+        .withCaseId(c4se.id)
+        .withTagId(tag4.id)
+        .withId(4)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.case_tag.create(
+      new CaseTag.Builder()
+        .defaultCaseTag()
+        .withCaseId(c4se.id)
+        .withTagId(tag5.id)
+        .withId(5)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    const cases = await models.sortable_cases_view.findAll();
+    expect(cases[0].tagNames).toEqual(
+      expect.arrayContaining([tag1.name, tag2.name, tag3.name, tag4.name])
+    );
+  });
+
+  test("should return null without failing when getting primaryComplainant when complainantPersonType is null", async () => {
+    await models.cases.create(new Case.Builder().defaultCase().build(), {
+      auditUser: "user"
+    });
+    const cases = await models.sortable_cases_view.findAll();
+    expect(cases[0].primaryComplainant).toBeNull();
+    expect(cases[0].caseReference).toStartWith("CC");
   });
 });

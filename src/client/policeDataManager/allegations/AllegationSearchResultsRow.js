@@ -18,7 +18,10 @@ export class AllegationSearchResultsRow extends React.Component {
 
   addAllegationSuccess = () => {
     this.setState({ displayForm: false, displaySelectButton: true });
-    if (document.getElementsByTagName("header").length > 0) {
+    if (
+      document.getElementsByTagName("header").length > 0 &&
+      process.env.NODE_ENV !== "test"
+    ) {
       document.getElementsByTagName("header")[0].scrollIntoView(false);
     }
   };

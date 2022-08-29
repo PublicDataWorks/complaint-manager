@@ -5,6 +5,7 @@ import {
 import asyncMiddleware from "../asyncMiddleware";
 import auditDataAccess from "../audits/auditDataAccess";
 import models from "../../policeDataManager/models";
+import { mapSignerToPayload } from "../../policeDataManager/models/modelUtilities/signerHelpers";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
 const getSigners = asyncMiddleware(async (request, response, next) => {
@@ -22,7 +23,11 @@ const getSigners = asyncMiddleware(async (request, response, next) => {
     null
   );
 
-  response.status(200).send(signers.map(signer => signer.toPayload(signer)));
+  const payloadPromises = signers.map(
+    async signer => await mapSignerToPayload(signer)
+  );
+
+  response.status(200).send(await Promise.all(payloadPromises));
 });
 
 export default getSigners;

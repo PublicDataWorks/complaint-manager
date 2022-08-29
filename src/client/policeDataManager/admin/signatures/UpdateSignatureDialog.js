@@ -2,18 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import axios from "axios";
-import Dropdown from "../../common/components/Dropdown";
-import { generateMenuOptions } from "../utilities/generateMenuOptions";
+import Dropdown from "../../../common/components/Dropdown";
+import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import {
   usernameRequired,
   usernameNotBlank
-} from "../../formFieldLevelValidations";
+} from "../../../formFieldLevelValidations";
 import SignatureDialog from "./SignatureDialog";
 import {
   snackbarError,
   snackbarSuccess
-} from "../actionCreators/snackBarActionCreators";
-import { transformAndHandleError } from "../../common/axiosInterceptors/responseErrorInterceptor";
+} from "../../actionCreators/snackBarActionCreators";
+import { transformAndHandleError } from "../../../common/axiosInterceptors/responseErrorInterceptor";
 
 class UpdateSignatureDialog extends SignatureDialog {
   submit = values => {

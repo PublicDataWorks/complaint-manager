@@ -11,6 +11,7 @@ services:
         - REACT_APP_GOOGLE_API_KEY
         - INSTANCE_IMAGE=${INSTANCE_IMAGE}
         - INSTANCE_VERSION=${INSTANCE_VERSION}
+        - REACT_APP_GITHUB_TOKEN=${REACT_APP_GITHUB_TOKEN}
     environment:
       - NODE_ENV=development
       - REACT_APP_ENV=development
@@ -22,6 +23,7 @@ services:
       - REACT_APP_USE_CLOUD_SERVICES=false
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
+      - REACT_APP_GITHUB_TOKEN
     depends_on:
       - db
       - worker

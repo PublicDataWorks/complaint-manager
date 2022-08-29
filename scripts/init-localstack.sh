@@ -7,8 +7,8 @@ BASE_BUCKET_NAME=noipm-local
 SEED_FILE_SRC_DIR="/app/src/instance-files/localstack-seed-files"
 IMAGE_FILE_SRC_DIR="${REACT_APP_INSTANCE_FILES_DIR}/images"
 FILES=($(ls $SEED_FILE_SRC_DIR))
-SIGNATURE_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep .png | grep -v header_text))
-LETTER_HEAD_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep '.ico\|header_text'))
+SIGNATURE_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep .png | grep -v 'icon\|header_text'))
+LETTER_HEAD_FILES=($(ls $IMAGE_FILE_SRC_DIR | grep 'icon\|header_text'))
 
 if [ "$REACT_APP_USE_CLOUD_SERVICES" = "true" ]; then
     echo "Cloud services are enabled. Skipping Localstack setup."

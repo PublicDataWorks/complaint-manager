@@ -9,7 +9,8 @@ export const policeDataManagerMenuOptions = [
   {
     path: "/export/all",
     dataTestName: "exports",
-    title: "Export"
+    title: "Export",
+    permission: USER_PERMISSIONS.EDIT_CASE
   },
   {
     path: "/archived-cases",

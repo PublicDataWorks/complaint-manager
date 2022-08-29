@@ -287,21 +287,6 @@ module.exports = (sequelize, DataTypes) => {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
   };
 
-  Case.prototype.hasValueWhenLetterInProgress = function (field, value) {
-    if (
-      [
-        CASE_STATUS.LETTER_IN_PROGRESS,
-        CASE_STATUS.READY_FOR_REVIEW,
-        CASE_STATUS.FORWARDED_TO_AGENCY,
-        CASE_STATUS.CLOSED
-      ].includes(this.status)
-    ) {
-      if (value === null || isEmpty(value)) {
-        throw { model: "Case", errorMessage: `${field} is required` };
-      }
-    }
-  };
-
   Case.prototype.modelDescription = async function (transaction) {
     return [{ "Case Reference": this.caseReference }];
   };

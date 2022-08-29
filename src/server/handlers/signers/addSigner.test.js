@@ -89,6 +89,10 @@ describe("addSigner", () => {
         links: [
           expect.objectContaining({
             rel: "signature"
+          }),
+          expect.objectContaining({
+            rel: "delete",
+            method: "delete"
           })
         ]
       })

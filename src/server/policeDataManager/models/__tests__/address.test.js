@@ -103,4 +103,17 @@ describe("address", () => {
       "3rd door down"
     );
   });
+
+  test("should not allow additionalLocationInfo to be set to null", async () => {
+    const additionalLocationInfo = "This is more info about the location";
+    const address = await models.address.create(
+      new Address.Builder()
+        .defaultAddress()
+        .withAdditionalLocationInfo(additionalLocationInfo)
+        .build(),
+      { auditUser: "user" }
+    );
+    address.additionalLocationInfo = null;
+    expect(address.additionalLocationInfo).toEqual(additionalLocationInfo);
+  });
 });

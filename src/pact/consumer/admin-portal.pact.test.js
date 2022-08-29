@@ -50,6 +50,11 @@ pactWith(
                 {
                   rel: "signature",
                   href: "/api/signers/1/signature"
+                },
+                {
+                  rel: "delete",
+                  href: "/api/signers/1",
+                  method: "delete"
                 }
               ]
             })
@@ -131,12 +136,10 @@ pactWith(
                 title: "Independent Police Monitor",
                 nickname: "jsimms@oipm.gov",
                 phone: "888-576-9922",
-                links: [
-                  {
-                    rel: "signature",
-                    href: "/api/signers/1/signature"
-                  }
-                ]
+                links: eachLike({
+                  rel: "signature",
+                  href: "/api/signers/1/signature"
+                })
               })
             }
           });
@@ -214,12 +217,10 @@ pactWith(
                 title: "Chief Executive Police Punisher",
                 nickname: "jsimms@oipm.gov",
                 phone: "777-777-7777",
-                links: [
-                  {
-                    rel: "signature",
-                    href: "/api/signers/1/signature"
-                  }
-                ]
+                links: eachLike({
+                  rel: "signature",
+                  href: "/api/signers/1/signature"
+                })
               })
             }
           });
@@ -242,6 +243,32 @@ pactWith(
           expect(await screen.findByText("File was successfully uploaded"))
             .toBeInTheDocument;
           expect(await screen.findByText("Signer successfully updated"))
+            .toBeInTheDocument;
+          expect(await screen.findByText("+ Add Signature"));
+        });
+
+        test("on click of remove signature button, should remove signer and signature", async () => {
+          moment.prototype.utc = jest
+            .fn()
+            .mockReturnValue(moment("2011-10-10T10:20:20Z"));
+          await provider.addInteraction({
+            state: "signers have been added to the database",
+            uponReceiving: "delete signature",
+            withRequest: {
+              method: "DELETE",
+              path: "/api/signers/1"
+            },
+            willRespondWith: {
+              status: 204
+            }
+          });
+
+          const removeButtons = await screen.findAllByText("Remove");
+          userEvent.click(removeButtons[0]);
+          const saveButton = await screen.findByText("Delete");
+
+          userEvent.click(saveButton);
+          expect(await screen.findByText("Signer successfully deleted"))
             .toBeInTheDocument;
         });
       });

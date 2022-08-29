@@ -7,6 +7,7 @@ import {
 } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
+import LetterType from "../../../sharedTestHelpers/letterType";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
 describe("getSigners", () => {
@@ -58,6 +59,14 @@ describe("getSigners", () => {
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withDefaultSenderId(1)
+        .build(),
+      { auditUser: "user" }
+    );
+
     await expectResponse(responsePromise, 200, [
       {
         id: 1,
@@ -82,6 +91,11 @@ describe("getSigners", () => {
           {
             rel: "signature",
             href: "/api/signers/2/signature"
+          },
+          {
+            rel: "delete",
+            href: "/api/signers/2",
+            method: "delete"
           }
         ]
       }

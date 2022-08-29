@@ -86,4 +86,11 @@ describe("officerAllegation", function () {
       }
     ]);
   });
+
+  test("should not be able to change details to null", async () => {
+    const details = "SOOOOO many details";
+    officerAllegation.details = details;
+    officerAllegation.details = null;
+    expect(officerAllegation.details).toEqual(details);
+  });
 });

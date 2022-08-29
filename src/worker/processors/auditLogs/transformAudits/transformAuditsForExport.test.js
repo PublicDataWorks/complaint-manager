@@ -276,6 +276,29 @@ describe("transformAuditsForExport", () => {
     });
   });
 
+  test("transforms default audit correctly", () => {
+    const audit = {
+      auditAction: "Something else entirely",
+      user: user,
+      createdAt: "Timestamp",
+      referenceId: 12,
+      managerType: "complaint",
+      updatedAt: new Date(),
+      id: 1
+    };
+
+    expect(transformAuditsForExport([audit])).toEqual([
+      {
+        audit_type: "",
+        user: user,
+        reference_id: 12,
+        manager_type: "complaint",
+        action: "Something else entirely",
+        created_at: "Timestamp"
+      }
+    ]);
+  });
+
   describe("data change audit", () => {
     const testModelName = "achoo";
     const testModelDescription = [{ naZdrowie: "Pani Krowie" }];

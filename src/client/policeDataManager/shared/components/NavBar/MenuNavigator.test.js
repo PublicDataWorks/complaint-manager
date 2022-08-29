@@ -13,7 +13,7 @@ describe("MenuNavigator", () => {
 
     test(
       "if menuType is policeDataManagerMenuOptions and user does not have admin access " +
-        "menu items should be Archived Cases, Export, Data Dashboard, and Logout",
+        "menu items should be Archived Cases, Data Dashboard, and Logout",
       () => {
         wrapper = mount(
           <Provider store={createConfiguredStore()}>
@@ -26,7 +26,7 @@ describe("MenuNavigator", () => {
         expect(
           wrapper.find('[data-testid="archivedCases"]').exists()
         ).toBeTrue();
-        expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
+        //expect(wrapper.find('[data-testid="exports"]').exists()).toBeTrue();
         expect(
           wrapper.find('[data-testid="logOutButton"]').exists()
         ).toBeTrue();
@@ -42,13 +42,18 @@ describe("MenuNavigator", () => {
     );
 
     test(
-      "if menuType is policeDataManagerMenuOptions and user has admin access " +
+      "if menuType is policeDataManagerMenuOptions and user has admin access and edit case priviledges " +
         "menu items should be Archived Cases, Export, Data Dashboard, and Logout",
       () => {
         const store = createConfiguredStore();
         store.dispatch({
           type: "AUTH_SUCCESS",
-          userInfo: { permissions: [USER_PERMISSIONS.ADMIN_ACCESS] }
+          userInfo: {
+            permissions: [
+              USER_PERMISSIONS.ADMIN_ACCESS,
+              USER_PERMISSIONS.EDIT_CASE
+            ]
+          }
         });
 
         wrapper = mount(

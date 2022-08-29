@@ -10,10 +10,10 @@ import moment from "moment";
 import {
   SecondaryButton,
   PrimaryButton
-} from "../shared/components/StyledButtons";
-import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
-import Dropdown from "../../common/components/Dropdown";
-import { generateMenuOptions } from "../utilities/generateMenuOptions";
+} from "../../shared/components/StyledButtons";
+import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
+import Dropdown from "../../../common/components/Dropdown";
+import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import {
   nameRequired,
   nameNotBlank,
@@ -24,8 +24,8 @@ import {
   usernameRequired,
   usernameNotBlank,
   isPhoneNumber
-} from "../../formFieldLevelValidations";
-import FileUpload from "../shared/components/FileUpload";
+} from "../../../formFieldLevelValidations";
+import FileUpload from "../../shared/components/FileUpload";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
 class SignatureDialog extends Component {

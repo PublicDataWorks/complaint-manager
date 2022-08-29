@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
-import Signatures from "./Signatures";
+import Signatures from "./signatures/Signatures";
 
 const AdminPortal = ({ permissions }) => {
   const checkPermissions = (...children) => {

@@ -7,12 +7,27 @@ import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
 import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
-import { setupCase, addCivilianComplainantToCase } from "./case-helpers";
+import {
+  setupCase,
+  addCivilianComplainantToCase,
+  addComplainantOfficerToCase
+} from "./case-helpers";
 import {
   setupLetter,
   addOfficerHistoryToReferralLetter,
-  addClassificationsToCase
+  addClassificationsToCase,
+  addAccusedToCase
 } from "./letter-helpers";
+import Allegation from "../../sharedTestHelpers/Allegation";
+import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
+import District from "../../sharedTestHelpers/District";
+import Tag from "../../server/testHelpers/tag";
+import CaseTag from "../../server/testHelpers/caseTag";
+import IntakeSource from "../../server/testHelpers/intakeSource";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
+import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
+import CaseNote from "../../server/testHelpers/caseNote";
+import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -152,6 +167,32 @@ const addClassifications = async () => {
   );
 };
 
+const addAllegation = async () => {
+  return await models.allegation.create(
+    new Allegation.Builder().defaultAllegation().withId(1),
+    { auditUser: "user" }
+  );
+};
+
+const createTag = async () => {
+  return await models.tag.create(new Tag.Builder().defaultTag().build(), {
+    auditUser: "user"
+  });
+};
+
+const setupCaseNoteActions = async () => {
+  try {
+    return [
+      await models.case_note_action.create(
+        new CaseNoteAction.Builder().defaultCaseNoteAction().withId(1).build(),
+        { auditUser: "user" }
+      )
+    ];
+  } catch (error) {
+    console.log("ERRRRR CaseNoteAction", error);
+  }
+};
+
 describe("Pact Verification", () => {
   let server;
   beforeAll(() => {
@@ -164,7 +205,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(200000);
+  jest.setTimeout(300000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
@@ -239,6 +280,7 @@ describe("Pact Verification", () => {
         "letter is ready for review": async () => {
           const letterCase = await setupCase();
           await Promise.all([
+            addComplainantOfficerToCase(letterCase),
             setupLetter(letterCase),
             addClassifications(),
             addRecommendedActions()
@@ -248,6 +290,7 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           const letter = await setupLetter(letterCase);
           await Promise.all([
+            addComplainantOfficerToCase(letterCase),
             addOfficerHistoryToReferralLetter(letter),
             addClassifications(),
             addRecommendedActions()
@@ -259,6 +302,7 @@ describe("Pact Verification", () => {
             const letter = await setupLetter(letterCase);
             try {
               await Promise.all([
+                addComplainantOfficerToCase(letterCase),
                 addOfficerHistoryToReferralLetter(letter),
                 addClassificationsToCase(letterCase)
               ]);
@@ -271,12 +315,14 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           await Promise.all([
             setupLetter(letterCase),
+            addComplainantOfficerToCase(letterCase),
             addCivilianComplainantToCase(letterCase),
             addClassifications(),
             addRecommendedActions()
           ]);
         },
         "signers have been added to the database": async () => {
+          await cleanupDatabase(); // need to wipe out the signer who is a default signer
           await models.signers.create(
             new Signer.Builder()
               .defaultSigner()
@@ -293,12 +339,143 @@ describe("Pact Verification", () => {
             const letterCase = await setupCase();
             const letter = await setupLetter(letterCase);
             await Promise.all([
+              addComplainantOfficerToCase(letterCase),
               addCivilianComplainantToCase(letterCase),
               addOfficerHistoryToReferralLetter(letter),
               addClassifications(),
               addRecommendedActions()
             ]);
+          },
+        "officer history options exist": async () => {
+          await models.officer_history_option.create(
+            { name: "lots of history" },
+            { auditUser: "user" }
+          );
+        },
+        "allegations have been added to the database": addAllegation,
+        "case has accused officer with allegations": async () => {
+          try {
+            const allegationPromise = addAllegation();
+            const c4se = await setupCase();
+            await Promise.all([
+              addComplainantOfficerToCase(c4se),
+              addAccusedToCase(c4se.id),
+              allegationPromise
+            ]);
+          } catch (error) {
+            console.log(error);
           }
+        },
+        "race ethnicities exist": async () => {
+          await models.race_ethnicity.create(
+            new RaceEthnicity.Builder()
+              .defaultRaceEthnicity()
+              .withId(2)
+              .build(),
+            { auditUser: "user" }
+          );
+        },
+        "districts exist": async () => {
+          await models.district.create(
+            new District.Builder()
+              .defaultDistrict()
+              .withName("1st District")
+              .build(),
+            { auditUser: "user" }
+          );
+        },
+        "civilian-titles exist": async () => {
+          await models.civilian_title.create(
+            { name: "Miss" },
+            { auditUser: "user" }
+          );
+        },
+        "tags exist": createTag,
+        "case has a case tag": async () => {
+          try {
+            const c4se = await setupCase();
+            const tag = await createTag();
+            await models.case_tag.create(
+              new CaseTag.Builder()
+                .defaultCaseTag()
+                .withCaseId(c4se.id)
+                .withTagId(tag.id)
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseTag", error);
+          }
+        },
+        "intake sources exist": async () => {
+          try {
+            await models.intake_source.create(
+              new IntakeSource.Builder().defaultIntakeSource().build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR IntakeSource", error);
+          }
+        },
+        "case statuses exist": async () => {
+          try {
+            await models.caseStatus.create(
+              new CaseStatus.Builder().defaultCaseStatus().build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseStatus", error);
+          }
+        },
+        "how did you hear about us sources exist": async () => {
+          try {
+            await models.how_did_you_hear_about_us_source.create(
+              new HowDidYouHearAboutUsSource.Builder()
+                .defaultHowDidYouHearAboutUsSource()
+                .withId(1)
+                .withName("Facebook")
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR HowDidYouHearAboutUsSource", error);
+          }
+        },
+        "case note actions exist": setupCaseNoteActions,
+        "case has a case note": async () => {
+          try {
+            const c4se = await setupCase();
+            await setupCaseNoteActions();
+            await models.case_note.create(
+              new CaseNote.Builder()
+                .defaultCaseNote()
+                .withCaseId(c4se.id)
+                .withId(1)
+                .withCaseNoteActionId(1)
+                .build(),
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR CaseNote", error);
+          }
+        },
+        "gender identities exist": async () => {
+          try {
+            await models.gender_identity.create(
+              { name: "Female" },
+              { auditUser: "user" }
+            );
+          } catch (error) {
+            console.log("ERRRRR gender identity", error);
+          }
+        },
+        "Case exists; case note actions exist": async () => {
+          try {
+            await Promise.all([setupCase(), setupCaseNoteActions()]);
+          } catch (error) {
+            console.log(error);
+          }
+        }
       }
     };
 

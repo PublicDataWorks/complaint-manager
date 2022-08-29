@@ -27,6 +27,15 @@ export const setupCase = async () => {
       }
     );
 
+    return c;
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+};
+
+export const addComplainantOfficerToCase = async c4se => {
+  try {
     const officer = await models.officer.create(
       new Officer.Builder().defaultOfficer(),
       { auditUser: "user" }
@@ -36,15 +45,14 @@ export const setupCase = async () => {
       new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withOfficerId(officer.id)
-        .withCaseId(c.id)
+        .withCaseId(c4se.id)
         .withRoleOnCase(COMPLAINANT),
       { auditUser: "user" }
     );
 
-    return c;
-  } catch (e) {
-    console.log(e);
-    throw e;
+    return caseOfficer;
+  } catch (error) {
+    console.log(error);
   }
 };
 

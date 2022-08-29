@@ -59,7 +59,7 @@ import editTag from "./handlers/tags/editTag";
 import removeTag from "./handlers/tags/removeTag";
 import mergeTag from "./handlers/tags/mergeTag";
 import { removeCaseTag } from "./handlers/cases/removeCaseTag";
-import getUsers from "./common/handlers/users/getUsers";
+import getUsers from "./handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
 import getPublicData from "./handlers/data/getPublicData";
@@ -75,6 +75,7 @@ import getSigners from "./handlers/signers/getSigners";
 import getSignature from "./handlers/signers/getSignature";
 import addSigner from "./handlers/signers/addSigner";
 import editSigner from "./handlers/signers/editSigner";
+import deleteSigner from "./handlers/signers/deleteSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
 import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 
@@ -600,6 +601,11 @@ export const API_ROUTES = {
       handler: editSigner,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while updating signer"
+    },
+    delete: {
+      handler: deleteSigner,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while removing signer"
     }
   },
   "/signers/:id/signature": {
@@ -625,7 +631,8 @@ export const API_ROUTES = {
   "/case-statuses": {
     get: {
       handler: getCaseStatuses,
-      errorMessage: "Something went wrong while loading the case statuses. Please try again."
+      errorMessage:
+        "Something went wrong while loading the case statuses. Please try again."
     }
   }
 };

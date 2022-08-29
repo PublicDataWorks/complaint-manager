@@ -54,4 +54,4 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   return response.status(201).send(caseWithAssociations);
 });
 
-module.exports = createOfficerAllegation;
+export default createOfficerAllegation;

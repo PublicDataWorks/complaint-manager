@@ -100,7 +100,8 @@ describe("editSigner", () => {
         links: [
           expect.objectContaining({
             rel: "signature"
-          })
+          }),
+          expect.objectContaining({ rel: "delete", method: "delete" })
         ]
       })
     );
@@ -133,7 +134,8 @@ describe("editSigner", () => {
         links: [
           expect.objectContaining({
             rel: "signature"
-          })
+          }),
+          expect.objectContaining({ rel: "delete", method: "delete" })
         ]
       })
     );

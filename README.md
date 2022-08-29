@@ -8,6 +8,10 @@ If you are a city looking to adopt Complaint Manager as a tool for Complaint Int
 
 If you are looking to contribute to this repo, take a look at [our contributor guidelines](https://publicdataworks.github.io/complaint-manager/technical-content/contributing.html).
 
+## PLEASE NOTE
+
+This is a public repository, so please do not include personally identifiable information for real people in commits to the repository
+
 ## Local Development Setup
 
 ### Platform Considerations

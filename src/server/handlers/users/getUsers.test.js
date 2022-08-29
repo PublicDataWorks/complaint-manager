@@ -2,16 +2,16 @@ import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} from "../../../../sharedUtilities/constants";
-import auditDataAccess from "../../../handlers/audits/auditDataAccess";
+} from "../../../sharedUtilities/constants";
+import auditDataAccess from "../audits/auditDataAccess";
 import getUsers from "./getUsers";
-import { getUsers as auth0GetUsers } from "../../../services/auth0UserService";
-import { suppressWinstonLogs } from "../../../testHelpers/requestTestHelpers";
-import { authEnabledTest } from "../../../testHelpers/authEnabledTest";
+import { getUsers as auth0GetUsers } from "../../services/auth0UserService";
+import { suppressWinstonLogs } from "../../testHelpers/requestTestHelpers";
+import { authEnabledTest } from "../../testHelpers/authEnabledTest";
 
-jest.mock("../../../handlers/audits/auditDataAccess");
+jest.mock("../audits/auditDataAccess");
 
-jest.mock("../../../services/auth0UserService");
+jest.mock("../../services/auth0UserService");
 
 describe("getUsers tests", () => {
   let mockGetUserRequest, mockGetUserResponse, next, auth0Users;

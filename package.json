@@ -1,7 +1,7 @@
 {
   "name": "complaint-manager",
   "license": "Apache-2.0",
-  "version": "3.51.1",
+  "version": "3.53.0",
   "proxy": "https://localhost:1234",
   "scripts": {
     "analyze": "source-map-explorer 'build/static/js/*.js'",
@@ -32,7 +32,7 @@
     "test:server:ci": "CI=true yarn test:server --coverage  --collectCoverageFrom='src/server/**/*.{js,jsx}'",
     "test:server:worker:ci": "NODE_ENV=test yarn test:server:ci && yarn test:worker:ci",
     "test:server-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired --max_old_space_size=1500 test src/server/handlers.* --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage  --collectCoverageFrom='src/server/handlers/**/*.{js,jsx}' --coverageThreshold='{\"global\":{\"statements\":\"95\",\"branches\":\"90\"}}'",
-    "test:server-worker-non-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired test \"(?!.*handlers.*)src/(server|worker).*\" --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage --collectCoverageFrom='src/{server,worker}/!(handlers|migrations|seeders|testHelpers|migrationJobs|seeder_jobs)/**/*.{js,jsx}'",
+    "test:server-worker-non-handlers:ci": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true CI=true react-app-rewired test \"(?!.*handlers.*)src/(server|worker).*\" --logHeapUsage --maxWorkers=2 --forceExit --env=node  --coverage --collectCoverageFrom='src/{server,worker}/!(handlers|migrations|seeders|testHelpers|migrationJobs|seeder_jobs)/**/*.{js,jsx}' --coverageThreshold='{\"global\":{\"statements\":\"95\",\"branches\":\"90\"}}'",
     "test:worker": "yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=1500 test src/worker --logHeapUsage --maxWorkers=2 --env=node",
     "test:worker:ci": "CI=true yarn test:worker",
     "transformOfficerCsvData": "node -e \"require('./scripts/transformOfficerCsvData')\"",
@@ -61,6 +61,7 @@
     "@material-ui/icons": "4.11.3",
     "@material-ui/lab": "4.0.0-alpha.61",
     "@material-ui/styles": "4.11.5",
+    "@octokit/auth-token": "^3.0.0",
     "@testing-library/dom": "8.13.0",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "12.1.2",
@@ -104,6 +105,7 @@
     "nanoid": "^3.2.0",
     "newrelic": "8.14.0",
     "node-cache": "^5.1.0",
+    "octokit": "^2.0.4",
     "path": "^0.12.7",
     "pg": "8.6.0",
     "pg-hstore": "~2.3.2",
