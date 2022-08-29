@@ -11,7 +11,7 @@ import editOfficerHistory from "../thunks/editOfficerHistory";
 import { push } from "connected-react-router";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
-import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import getCaseDetails from "../../thunks/getCaseDetails";
 import { getOfficerHistoryOptionsRadioButtonValuesSuccess } from "../../../actionCreators/officerHistoryOptionsActionCreator";
 
 jest.mock("../../../shared/components/RichTextEditor/RichTextEditor");
@@ -23,8 +23,8 @@ jest.mock("../thunks/getReferralLetterEditStatus", () => caseId => ({
   type: "getReferralLetterEditStatus",
   caseId
 }));
-jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
-  type: "getMinimumCaseDetails",
+jest.mock("../../thunks/getCaseDetails", () => caseId => ({
+  type: "getCaseDetails",
   caseId
 }));
 jest.mock("../thunks/editOfficerHistory", () =>
@@ -99,8 +99,8 @@ describe("OfficerHistories page", function () {
       );
     });
 
-    test("loads minimum case details on mount so case reference can be displayed", () => {
-      expect(dispatchSpy).toHaveBeenCalledWith(getMinimumCaseDetails(caseId));
+    test("loads case details on mount so case reference can be displayed", () => {
+      expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(caseId));
     });
 
     test("it renders a tab header for each officer", () => {
