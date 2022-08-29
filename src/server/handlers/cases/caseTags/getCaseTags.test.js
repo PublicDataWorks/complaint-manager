@@ -1,5 +1,6 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import getCaseTags from "./getCaseTags";
 import models from "../../../policeDataManager/models";
 import {
@@ -13,6 +14,11 @@ describe("getCaseTags", () => {
   let request, response, next, existingCase, existingTag;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
 
     existingTag = await models.tag.create(

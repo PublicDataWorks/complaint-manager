@@ -1,10 +1,18 @@
 import models from "../../../../policeDataManager/models";
 import { createTestCaseWithCivilian } from "../../../../testHelpers/modelMothers";
+import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import getReferralLetterDataForResponse from "./getReferralLetterDataForResponse";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
 describe("getReferralLetterDataForResponse", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

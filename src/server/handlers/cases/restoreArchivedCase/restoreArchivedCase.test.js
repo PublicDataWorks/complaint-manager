@@ -1,4 +1,5 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { getCaseWithoutAssociations } from "../../getCaseHelpers";
@@ -10,6 +11,11 @@ describe("restoreArchivedCase handler", () => {
   let existingCase, request, response, next;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
     await existingCase.destroy({ auditUser: user });
 

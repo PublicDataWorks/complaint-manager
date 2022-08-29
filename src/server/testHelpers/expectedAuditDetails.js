@@ -26,6 +26,7 @@ export const expectedCaseAuditDetails = {
       "pibCaseNumber",
       "primaryComplainant",
       "status",
+      "currentStatusId",
       "updatedAt",
       "year"
     ]),
@@ -126,5 +127,13 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.district.rawAttributes)
     ),
     model: models.district.name
+  },
+  currentStatus: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.caseStatus.rawAttributes).filter(
+        attribute => attribute !== "createdAt" && attribute !== "updatedAt"
+      )
+    ),
+    model: models.caseStatus.name
   }
 };

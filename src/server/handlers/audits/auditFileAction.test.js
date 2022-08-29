@@ -1,5 +1,6 @@
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE
@@ -13,6 +14,11 @@ describe("auditFileAction", () => {
   let existingCase;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
   });
 

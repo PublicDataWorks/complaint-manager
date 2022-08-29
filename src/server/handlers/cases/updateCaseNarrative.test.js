@@ -19,6 +19,7 @@ describe("updateCaseNarrative handler", () => {
   let request, response, existingCase, userNickname, next;
 
   afterEach(async () => {
+    auditDataAccess.mockClear();
     await cleanupDatabase();
   });
 

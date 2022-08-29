@@ -1,6 +1,7 @@
 import { getUsers } from "../../../services/auth0UserService";
 import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../policeDataManager/models");
@@ -18,8 +19,15 @@ jest.mock("../../../services/auth0UserService", () => ({
 
 describe("addAuthorDetailsToCaseNote", () => {
   let rawCaseNotes, existingCase;
+
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
+
     const caseNoteAttributes1 = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(existingCase.id)

@@ -1,5 +1,6 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import getArchivedCases from "./getArchivedCases";
 import {
   AUDIT_SUBJECT,
@@ -19,6 +20,13 @@ getCases.mockImplementation((caseType, sortBy, sortDirection, transaction) => {
 const httpMocks = require("node-mocks-http");
 
 describe("getArchivedCases", () => {
+  beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+  });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

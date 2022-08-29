@@ -6,6 +6,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import getCaseNotes from "./getCaseNotes";
 import CaseNote from "../../testHelpers/caseNote";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
@@ -20,11 +21,17 @@ describe("getCaseNotes", function () {
   let request, response, next, existingCase, caseNoteAction;
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
     caseNoteAction = await models.case_note_action.create(
       { name: "Some Action" },
       { auditUser: "Some User" }
     );
+
     const caseNoteAttributes = new CaseNote.Builder()
       .defaultCaseNote()
       .withCaseId(existingCase.id)

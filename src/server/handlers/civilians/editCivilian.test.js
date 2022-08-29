@@ -23,13 +23,6 @@ jest.mock("../audits/auditDataAccess");
 
 describe("editCivilian", () => {
   let response, next;
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
-
-  afterAll(async () => {
-    await models.sequelize.close();
-  });
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
@@ -39,6 +32,14 @@ describe("editCivilian", () => {
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  afterAll(async () => {
+    await models.sequelize.close();
   });
 
   describe("editCivilian handler editing civilian with no address", () => {

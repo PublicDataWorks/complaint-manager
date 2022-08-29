@@ -1,4 +1,5 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import removeCivilian from "./removeCivilian";
 import {
@@ -26,9 +27,16 @@ describe("removeCivilian", function () {
   });
 
   beforeEach(async () => {
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
     existingCase = await createTestCaseWithCivilian();
+
     response = httpMocks.createResponse();
     next = jest.fn();
+
     const existingCivilians = await existingCase.getComplainantCivilians();
     existingCivilian = existingCivilians[0];
     request = httpMocks.createRequest({
