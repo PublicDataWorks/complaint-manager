@@ -7,7 +7,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import { isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
-import determineNextCaseStatus from "../../../policeDataManager/models/modelUtilities/determineNextCaseStatus";
+import Case from "../../../policeDataManager/payloadObjects/Case";
 const {
   signatureKeys
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
@@ -38,14 +38,12 @@ const catchValidationErrors = e => {
 const changeStatus = asyncMiddleware(async (request, response, next) => {
   const newStatus = request.body.status;
 
-  if (newStatus !== determineNextCaseStatus(newStatus)) {
-    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
-  }
-
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
 
-    const caseToUpdate = await models.cases.findByPk(request.params.caseId);
+    const caseToUpdate = new Case(
+      await models.cases.findByPk(request.params.caseId)
+    );
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
       throw Boom.badRequest(
@@ -62,8 +60,9 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     );
 
     if (newStatus === CASE_STATUS.LETTER_IN_PROGRESS) {
+      // TODO maybe remove or rework since it's hardcoding NOIPM expectations
       await createReferralLetterAndLetterOfficers(
-        caseToUpdate,
+        caseToUpdate.model,
         request.nickname,
         transaction
       );
@@ -106,14 +105,13 @@ const updateCaseIfValid = async (
   transaction
 ) => {
   try {
-    await caseToUpdate.update(
-      { currentStatus: newStatus },
-      {
-        auditUser: request.nickname,
-        transaction
-      }
-    );
+    await caseToUpdate.setStatus(newStatus);
+    await caseToUpdate.model.save({
+      auditUser: request.nickname,
+      transaction
+    });
   } catch (e) {
+    console.error(e);
     if (e.message === BAD_REQUEST_ERRORS.INVALID_CASE_STATUS) {
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE);
     }

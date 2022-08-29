@@ -18,6 +18,7 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -36,12 +37,7 @@ describe("changeStatus", () => {
       { auditUser: "user" }
     );
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      {
-        auditUser: "user"
-      }
-    );
+    await seedStandardCaseStatuses();
 
     initialCase = await createTestCaseWithoutCivilian();
     next = jest.fn();

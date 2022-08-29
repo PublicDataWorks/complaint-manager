@@ -1,9 +1,3 @@
-const {
-  BAD_REQUEST_ERRORS
-} = require("../../../sharedUtilities/errorMessageConstants");
-const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
-const Boom = require("boom");
-
 const nextStatusMap = {
   INITIAL: "Active",
   ACTIVE: "Letter in Progress",
@@ -24,15 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false,
-        set(newStatus) {
-          const nextStatus = determineNextCaseStatus(this.name);
-          if (newStatus === nextStatus || newStatus === this.name) {
-            this.setDataValue("name", newStatus);
-          } else {
-            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
-          }
-        }
+        allowNull: false
       },
       orderKey: {
         type: DataTypes.INTEGER,
@@ -55,15 +41,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CaseStatus.prototype.determineCaseStatus = newStatus => {
-    const nextStatus = determineNextCaseStatus(this.name);
-    if (newStatus === nextStatus || newStatus === this.name) {
-      return newStatus;
-    } else {
-      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
-    }
-  };
-
   CaseStatus.prototype.associate = models => {
     CaseStatus.hasMany(models.cases, {
       as: "currentStatus",
@@ -77,7 +54,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return CaseStatus;
 };
-
-// create prototype to find current status ?
-// create prototype to find next status
-// how do I use the params I pass to a prototype?

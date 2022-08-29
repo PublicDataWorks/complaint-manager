@@ -21,7 +21,6 @@ import {
 import { getPersonType } from "./modelUtilities/getPersonType";
 import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
-const determineNextCaseStatus = require("./modelUtilities/determineNextCaseStatus");
 const Boom = require("boom");
 const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
 const RANK_INITIATED =
@@ -79,20 +78,12 @@ module.exports = (sequelize, DataTypes) => {
           CASE_STATUS.CLOSED
         ]),
         defaultValue: CASE_STATUS.INITIAL,
-        allowNull: false,
-        set(newStatus) {
-          const nextStatus = determineNextCaseStatus(this.status);
-          if (newStatus === nextStatus || newStatus === this.status) {
-            this.setDataValue("status", newStatus);
-          } else {
-            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
-          }
-        }
+        allowNull: false
       },
       nextStatus: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, ["status"]),
         get: function () {
-          return determineNextCaseStatus(this.get("status"));
+          return "NEXT STATUS"; // FIXME
         }
       },
       currentStatusId: {

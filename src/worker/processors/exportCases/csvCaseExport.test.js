@@ -28,6 +28,7 @@ import Attachment from "../../../sharedTestHelpers/attachment";
 import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Config from "../../../sharedTestHelpers/config";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 const {
   PERSON_TYPE
@@ -75,6 +76,11 @@ describe("csvCaseExport request", () => {
         name: "1st District"
       },
       { auditUser: "Nick Name" }
+    );
+
+    await models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
     );
 
     records = [];

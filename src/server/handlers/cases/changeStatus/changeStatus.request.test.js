@@ -10,15 +10,13 @@ import request from "supertest";
 import app from "../../../server";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../../../policeDataManager/models";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("changeStatus request", () => {
   let initialCase, token;
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    await seedStandardCaseStatuses();
 
     initialCase = await createTestCaseWithoutCivilian();
     token = buildTokenWithPermissions("letter:setup", "someone");
