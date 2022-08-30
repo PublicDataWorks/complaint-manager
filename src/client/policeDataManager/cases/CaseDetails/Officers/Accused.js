@@ -22,7 +22,8 @@ const Accused = props => {
     isArchived,
     menuOpen,
     anchorEl,
-    permissions
+    permissions,
+    allowAccusedOfficersToBeBlankFeature
   } = props;
   const titleText = "Accused";
 
@@ -34,7 +35,7 @@ const Accused = props => {
     >
       <CardContent style={{ padding: "0" }}>
         {!accusedOfficers || accusedOfficers.length === 0
-          ? renderNoOfficers()
+          ? renderNoOfficers(props)
           : accusedOfficers.map(caseOfficer =>
               caseOfficer.isUnknownOfficer ? (
                 <UnknownOfficerPanel
@@ -101,23 +102,31 @@ const renderAddAccused = (
   );
 };
 
-const renderNoOfficers = () => {
+const renderNoOfficers = props => {
   const noAccusedEmployeesMessage = "No accused employees have been added";
 
   return (
     <Fragment>
       <CardContent>
-        <WarningMessage>
-          <Typography data-testid="noAccusedOfficersMessage" variant="body2">
-            {noAccusedEmployeesMessage}
-          </Typography>
-        </WarningMessage>
+        {props.allowAccusedOfficersToBeBlankFeature ? (
+          ""
+        ) : (
+          <WarningMessage>
+            <Typography data-testid="noAccusedOfficersMessage" variant="body2">
+              {noAccusedEmployeesMessage}
+            </Typography>
+          </WarningMessage>
+        )}
       </CardContent>
       <Divider />
     </Fragment>
   );
 };
 
-export default connect(state => ({
+const mapStateToProps = state => ({
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   permissions: state?.users?.current?.userInfo?.permissions
-}))(Accused);
+});
+
+export default connect(mapStateToProps)(Accused);

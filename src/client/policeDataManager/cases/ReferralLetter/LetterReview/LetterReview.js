@@ -88,6 +88,16 @@ export class LetterReview extends Component {
       />
     );
 
+    let nextPath;
+    if (
+      this.props.allowAccusedOfficersToBeBlankFeature &&
+      this.props.accused.length < 1
+    ) {
+      nextPath = `/cases/${caseId}/letter/letter-preview`;
+    } else {
+      nextPath = `/cases/${caseId}/letter/officer-history`;
+    }
+
     return (
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>
@@ -169,7 +179,7 @@ export class LetterReview extends Component {
             <PrimaryButton
               data-testid="next-button"
               component={Link}
-              to={`/cases/${caseId}/letter/officer-history`}
+              to={nextPath}
             >
               Next
             </PrimaryButton>
@@ -190,7 +200,10 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   caseDetails: state.currentCase.details,
   organization: state.configs[CONFIGS.ORGANIZATION],
-  pd: state.configs[CONFIGS.PD]
+  pd: state.configs[CONFIGS.PD],
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
+  accused: state.currentCase.details.accusedOfficers
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LetterReview);

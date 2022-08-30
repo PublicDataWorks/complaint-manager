@@ -11,7 +11,7 @@ import React from "react";
 import editRecommendedActions from "../thunks/editRecommendedActions";
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import getReferralLetterData from "../thunks/getReferralLetterData";
-import getMinimumCaseDetails from "../../thunks/getMinimumCaseDetails";
+import getCaseDetails from "../../thunks/getCaseDetails";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 
 jest.mock("../thunks/getReferralLetterData", () => caseId => ({
@@ -22,8 +22,8 @@ jest.mock("../thunks/getReferralLetterEditStatus", () => caseId => ({
   type: "getReferralLetterEditStatus",
   caseId
 }));
-jest.mock("../../thunks/getMinimumCaseDetails", () => caseId => ({
-  type: "getMinimumCaseDetails",
+jest.mock("../../thunks/getCaseDetails", () => caseId => ({
+  type: "getCaseDetails",
   caseId
 }));
 jest.mock(
@@ -85,8 +85,8 @@ describe("recommendedActions", function () {
     );
   });
 
-  test("loads minimum case detail on mount so case reference can be displayed", () => {
-    expect(dispatchSpy).toHaveBeenCalledWith(getMinimumCaseDetails(caseId));
+  test("loads case detail on mount so case reference can be displayed", () => {
+    expect(dispatchSpy).toHaveBeenCalledWith(getCaseDetails(caseId));
   });
 
   test("calls editRecommendedActions with case id, form values, and redirect url when click back to case", () => {

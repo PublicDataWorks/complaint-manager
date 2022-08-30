@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
 import LetterPreview from "./LetterPreview";
+import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import {
   getReferralLetterPreviewSuccess,
   getReferralLetterSuccess,
@@ -800,7 +801,10 @@ describe("LetterPreview", function () {
     store.dispatch(
       getCaseDetailsSuccess({
         complainantCivilians: [{ fullName: "someone" }],
-        complainantOfficers: []
+        complainantOfficers: [],
+        accusedOfficers: [
+          { fullName: "somebody", officerHistoryOptionId: null }
+        ]
       })
     );
 
@@ -814,6 +818,13 @@ describe("LetterPreview", function () {
         ]
       })
     );
+
+    store.dispatch(
+      getFeaturesSuccess({
+        allowAccusedOfficersToBeBlankFeature: true
+      })
+    );
+
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
@@ -824,12 +835,44 @@ describe("LetterPreview", function () {
     );
   });
 
+  test("shouldn't call incomplete officer history dialog with allowAccusedOfficerToBeBlank feature flag and no accused selected", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: [],
+        accusedOfficers: []
+      })
+    );
+
+    store.dispatch(
+      getFeaturesSuccess({
+        allowAccusedOfficersToBeBlankFeature: true
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-testid='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect("Update Case Status").toBeInTheDocument;
+  });
+
   test("should call missing classifications dialog when no classifications are selected", () => {
     dispatchSpy.mockClear();
     store.dispatch(
       getCaseDetailsSuccess({
         complainantCivilians: [{ fullName: "someone" }],
-        complainantOfficers: []
+        complainantOfficers: [],
+        accusedOfficers: [
+          { fullName: "somebody", officerHistoryOptionId: null }
+        ]
+      })
+    );
+
+    store.dispatch(
+      getFeaturesSuccess({
+        allowAccusedOfficersToBeBlankFeature: true
       })
     );
 
@@ -852,6 +895,29 @@ describe("LetterPreview", function () {
     expect(dispatchSpy).toHaveBeenCalledWith(
       openIncompleteClassificationsDialog(expect.anything())
     );
+  });
+
+  test("shouldn't call missing classifications dialog when no classifications are selected with allowAccusedOfficerToBeBlank feature flag and no accused selected", () => {
+    dispatchSpy.mockClear();
+    store.dispatch(
+      getCaseDetailsSuccess({
+        complainantCivilians: [{ fullName: "someone" }],
+        complainantOfficers: [],
+        accusedOfficers: []
+      })
+    );
+
+    store.dispatch(
+      getFeaturesSuccess({
+        allowAccusedOfficersToBeBlankFeature: true
+      })
+    );
+    const openSubmitForReviewButton = wrapper
+      .find("[data-testid='submit-for-review-button']")
+      .first();
+    openSubmitForReviewButton.simulate("click");
+
+    expect("Update Case Status").toBeInTheDocument;
   });
 
   test("should call incomplete officer history dialog if both classifications and officer history are missing", () => {

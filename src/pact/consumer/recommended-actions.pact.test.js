@@ -26,10 +26,10 @@ pactWith(
       beforeEach(async () => {
         await provider.addInteraction({
           state: "letter is ready for review",
-          uponReceiving: "get minimum case details",
+          uponReceiving: "get case details",
           withRequest: {
             method: "GET",
-            path: "/api/cases/1/minimum-case-details"
+            path: "/api/cases/1"
           },
           willRespondWith: {
             status: 200,
@@ -37,8 +37,23 @@ pactWith(
               "Content-Type": "application/json; charset=utf-8"
             },
             body: like({
+              id: 1,
               caseReference: "CC2022-0003",
-              status: "Letter in Progress"
+              status: "Letter in Progress",
+              complainantCivilians: eachLike({
+                fullName: "Martha Stewart"
+              }),
+              complainantOfficers: eachLike({
+                id: 1,
+                caseEmployeeType: "Officer",
+                isUnknownOfficer: false,
+                fullName: "Karen Tuti",
+                windowsUsername: 345,
+                district: "5th District"
+              }),
+              accusedOfficers: [],
+              witnessCivilians: [],
+              witnessOfficers: []
             })
           }
         });

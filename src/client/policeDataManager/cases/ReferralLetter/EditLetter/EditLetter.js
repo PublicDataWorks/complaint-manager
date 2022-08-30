@@ -251,6 +251,9 @@ EditLetter.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  accused: state.currentCase.details.accusedOfficers,
+  allowAccusedOfficersToBeBlankFeature:
+    state.featureToggles.allowAccusedOfficersToBeBlankFeature,
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
   caseReference: state.currentCase.details.caseReference,
   caseStatus: state.currentCase.details.status,
