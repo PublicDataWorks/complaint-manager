@@ -850,6 +850,7 @@ describe("LetterPreview", function () {
         allowAccusedOfficersToBeBlankFeature: true
       })
     );
+
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
@@ -912,6 +913,7 @@ describe("LetterPreview", function () {
         allowAccusedOfficersToBeBlankFeature: true
       })
     );
+
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();

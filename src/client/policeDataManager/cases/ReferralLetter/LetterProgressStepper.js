@@ -10,7 +10,10 @@ const LetterProgressStepper = props => {
   const { currentLetterStatus, pageChangeCallback, caseId } = props;
   let LETTER_REDIRECT_URL_MAP;
   let DYNAMIC_LETTER_PROGRESS_MAP;
-  if (props.allowAccusedOfficersToBeBlankFeature && props.accused.length < 1) {
+  if (
+    props.allowAccusedOfficersToBeBlankFeature &&
+    props.accused.length === 0
+  ) {
     DYNAMIC_LETTER_PROGRESS_MAP = {
       [LETTER_PROGRESS.REVIEW_CASE_DETAILS]: 0,
       [LETTER_PROGRESS.PREVIEW]: 1

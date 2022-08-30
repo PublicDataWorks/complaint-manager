@@ -14,6 +14,7 @@ const validateLetterDetails = props => {
     props.openMissingComplainantDialog();
     return false;
   }
+
   if (!props.allowAccusedOfficersToBeBlankFeature || props.accused.length > 0) {
     if (!props.letterOfficers || _.isEmpty(props.letterOfficers)) {
       props.openIncompleteOfficerHistoryDialog();

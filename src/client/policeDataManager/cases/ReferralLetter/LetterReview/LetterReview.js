@@ -91,7 +91,7 @@ export class LetterReview extends Component {
     let nextPath;
     if (
       this.props.allowAccusedOfficersToBeBlankFeature &&
-      this.props.accused.length < 1
+      this.props.accused.length === 0
     ) {
       nextPath = `/cases/${caseId}/letter/letter-preview`;
     } else {
