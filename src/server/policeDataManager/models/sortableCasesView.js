@@ -87,14 +87,7 @@ module.exports = (sequelize, DataTypes) => {
         }
       },
       status: {
-        type: DataTypes.ENUM([
-          CASE_STATUS.INITIAL,
-          CASE_STATUS.ACTIVE,
-          CASE_STATUS.LETTER_IN_PROGRESS,
-          CASE_STATUS.READY_FOR_REVIEW,
-          CASE_STATUS.FORWARDED_TO_AGENCY,
-          CASE_STATUS.CLOSED
-        ])
+        type: DataTypes.STRING
       },
       year: {
         type: DataTypes.INTEGER

@@ -85,7 +85,7 @@ describe("getMinimumCaseDetails", () => {
         AUDIT_SUBJECT.CASE_DETAILS,
         {
           cases: {
-            attributes: ["caseReference", "status"],
+            attributes: ["caseReference", "currentStatusId"],
             model: models.cases.name
           }
         },

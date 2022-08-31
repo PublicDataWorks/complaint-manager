@@ -1,6 +1,7 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import Case from "../../../policeDataManager/payloadObjects/Case";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../policeDataManager/models");
@@ -29,7 +30,7 @@ const getCase = asyncMiddleware(async (request, response) => {
     return caseWithAssociations;
   });
 
-  response.send(singleCase);
+  response.send(await singleCase.toJSON());
 });
 
 module.exports = getCase;

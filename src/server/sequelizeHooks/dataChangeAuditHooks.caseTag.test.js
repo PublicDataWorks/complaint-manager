@@ -5,7 +5,6 @@ import models from "../policeDataManager/models";
 import { AUDIT_ACTION } from "../../sharedUtilities/constants";
 import CaseTag from "../testHelpers/caseTag";
 import Tag from "../testHelpers/tag";
-import CaseStatus from "../../sharedTestHelpers/caseStatus";
 
 describe("dataChangeAuditHooks for caseTag", () => {
   afterEach(async () => {
@@ -17,11 +16,6 @@ describe("dataChangeAuditHooks for caseTag", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
-
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

@@ -290,6 +290,7 @@ module.exports = (sequelize, DataTypes) => {
     return MANAGER_TYPE.COMPLAINT;
   };
 
+  // TODO check if these are needed
   Case.prototype.updateCaseStatusId = () => {
     return this.setDataValue(
       "currentStatusId",

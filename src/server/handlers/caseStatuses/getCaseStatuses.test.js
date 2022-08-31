@@ -6,7 +6,7 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
-import { seedStandardCaseStatuses } from "../../testHelpers";
+import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 
 describe("getCaseStatuses", () => {
   afterEach(async () => {

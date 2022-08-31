@@ -15,7 +15,7 @@ import {
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     token = buildTokenWithPermissions("case:edit", "tuser");
 
     await models.caseStatus.create(

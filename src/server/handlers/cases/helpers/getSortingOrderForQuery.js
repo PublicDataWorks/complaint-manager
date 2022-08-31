@@ -131,9 +131,10 @@ export const getSortingOrderForQuery = (sortBy, sortDirection) => {
         ]
       ];
     case SORT_CASES_BY.FIRST_CONTACT_DATE:
-    case SORT_CASES_BY.STATUS:
     case SORT_CASES_BY.ASSIGNED_TO:
       return [[sortBy, sortDirection]];
+    case SORT_CASES_BY.STATUS:
+      return [["status_order_key", sortDirection]];
     case SORT_CASES_BY.CASE_REFERENCE:
       return [
         ["year", sortDirection],

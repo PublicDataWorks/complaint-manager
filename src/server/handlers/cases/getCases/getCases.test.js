@@ -22,20 +22,16 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("getCases", () => {
+  let statuses;
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      {
-        auditUser: "user"
-      }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -221,17 +217,15 @@ describe("getCases", () => {
         auditUser: "user"
       });
 
-      while (createdCase.nextStatus !== null) {
-        if (finalStatus === createdCase.status) {
-          return createdCase;
+      await createdCase.update(
+        {
+          currentStatusId: statuses.find(status => status.name === finalStatus)
+            .id
+        },
+        {
+          auditUser: "test"
         }
-        await createdCase.update(
-          { status: createdCase.nextStatus },
-          {
-            auditUser: "test"
-          }
-        );
-      }
+      );
       return createdCase;
     };
 

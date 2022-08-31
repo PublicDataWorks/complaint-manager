@@ -5,6 +5,7 @@ import getQueryAuditAccessDetails, {
   removeFromExistingAuditDetails
 } from "./audits/getQueryAuditAccessDetails";
 import { ASCENDING, USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import Case from "../policeDataManager/payloadObjects/Case";
 
 export const getCaseWithAllAssociationsAndAuditDetails = async (
   caseId,
@@ -25,7 +26,7 @@ export const getCaseWithAllAssociationsAndAuditDetails = async (
   );
 
   return {
-    caseDetails: modifiedCaseDetailsAndAuditDetails.caseDetails,
+    caseDetails: new Case(modifiedCaseDetailsAndAuditDetails.caseDetails),
     auditDetails: modifiedCaseDetailsAndAuditDetails.auditDetails
   };
 };
@@ -41,7 +42,7 @@ export const getCaseWithoutAssociations = async (
   if (!caseData) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.CASE_DOES_NOT_EXIST);
   }
-  return addFieldsToCaseDetails(caseData.toJSON()).caseDetails;
+  return new Case(addFieldsToCaseDetails(caseData.toJSON()).caseDetails);
 };
 
 const getCaseDetailsAndAuditDetails = async (

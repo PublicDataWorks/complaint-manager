@@ -13,7 +13,6 @@ import Boom from "boom";
 import models from "../../../policeDataManager/models/index";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Signer from "../../../../sharedTestHelpers/signer";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -23,7 +22,7 @@ import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 jest.mock("../../audits/auditDataAccess");
 
 describe("changeStatus", () => {
-  let initialCase, response, next;
+  let initialCase, response, next, statuses;
 
   beforeEach(async () => {
     await models.signers.create(
@@ -37,7 +36,7 @@ describe("changeStatus", () => {
       { auditUser: "user" }
     );
 
-    await seedStandardCaseStatuses();
+    statuses = await seedStandardCaseStatuses();
 
     initialCase = await createTestCaseWithoutCivilian();
     next = jest.fn();
@@ -96,7 +95,7 @@ describe("changeStatus", () => {
 
   test("creates empty letter if status changes to LETTER_IN_PROGRESS", async () => {
     await initialCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "someone" }
     );
     const request = httpMocks.createRequest({
@@ -120,7 +119,9 @@ describe("changeStatus", () => {
     expect(letterCreated.sender).not.toBeNull();
 
     await initialCase.reload();
-    expect(initialCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+    expect(initialCase.currentStatusId).toEqual(
+      statuses.find(status => status.name === "Letter in Progress").id
+    );
   });
 
   test("does not create letter if status changing to something other than LETTER_IN_PROGRESS", async () => {
@@ -251,7 +252,9 @@ describe("changeStatus", () => {
 
     test("creates a letter officer for each accused officer if changes to LETTER_IN_PROGRESS", async () => {
       await initialCase.update(
-        { status: CASE_STATUS.ACTIVE },
+        {
+          currentStatusId: statuses.find(status => status.name === "Active").id
+        },
         { auditUser: "someone" }
       );
       const request = httpMocks.createRequest({
@@ -280,7 +283,9 @@ describe("changeStatus", () => {
       expect(letterOfficer2).not.toBeNull();
 
       await initialCase.reload();
-      expect(initialCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+      expect(initialCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Letter in Progress").id
+      );
     });
 
     test("does not create letter officers if status changing to something other than LETTER_IN_PROGRESS", async () => {
@@ -310,22 +315,20 @@ describe("changeStatus", () => {
       expect(letterOfficer2).toBeNull();
 
       await initialCase.reload();
-      expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(initialCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
   });
 
   describe("user has permission to update case status", () => {
     test("should update case status from letter in progress to ready for review to forwarded to agency", async () => {
       await initialCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Ready for Review"
+          ).id
+        },
         { auditUser: "someone" }
       );
 
@@ -345,24 +348,18 @@ describe("changeStatus", () => {
 
       await initialCase.reload();
 
-      expect(initialCase.status).toEqual(CASE_STATUS.FORWARDED_TO_AGENCY);
+      expect(initialCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Forwarded to Agency").id
+      );
     });
 
     test("should update case status from forwarded to agency to closed", async () => {
       await initialCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "someone" }
       );
 
@@ -380,7 +377,9 @@ describe("changeStatus", () => {
 
       await changeStatus(request, response, next);
       await initialCase.reload();
-      expect(initialCase.status).toEqual(CASE_STATUS.CLOSED);
+      expect(initialCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Closed").id
+      );
     });
   });
 

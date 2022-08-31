@@ -12,7 +12,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 describe("Edit referral letter addresses", () => {
   let response, next;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 

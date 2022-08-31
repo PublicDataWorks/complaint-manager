@@ -18,7 +18,7 @@ describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
   const nickname = "tuser";
 
-  beforeEach(() => {
+  beforeEach(async () => {
     token = buildTokenWithPermissions("case:edit", "tuser");
 
     await models.caseStatus.create(

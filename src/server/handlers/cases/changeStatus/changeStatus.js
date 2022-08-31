@@ -42,7 +42,9 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
     let validationErrors = [];
 
     const caseToUpdate = new Case(
-      await models.cases.findByPk(request.params.caseId)
+      await models.cases.findByPk(request.params.caseId, {
+        include: "currentStatus"
+      })
     );
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {

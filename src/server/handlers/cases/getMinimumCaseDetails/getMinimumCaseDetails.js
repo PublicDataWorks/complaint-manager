@@ -1,5 +1,6 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../policeDataManager/models";
+import Case from "../../../policeDataManager/payloadObjects/Case";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
@@ -11,26 +12,28 @@ const getMinimumCaseDetails = asyncMiddleware(
     const caseId = request.params.caseId;
     const minimumCaseDetails = await models.sequelize.transaction(
       async transaction => {
-        const singleCase = await models.cases.findByPk(caseId, {
-          attributes: [
-            "year",
-            "caseNumber",
-            "complaintType",
-            "status",
-            "caseReference"
-          ],
-          paranoid: false,
-          transaction
-        });
+        const singleCase = new Case(
+          await models.cases.findByPk(caseId, {
+            attributes: [
+              "year",
+              "caseNumber",
+              "complaintType",
+              "caseReference"
+            ],
+            include: ["currentStatus"],
+            paranoid: false,
+            transaction
+          })
+        );
 
         const responseData = {
           caseReference: singleCase.caseReference,
-          status: singleCase.status
+          status: await singleCase.getStatus()
         };
 
         const auditDetails = {
           [models.cases.name]: {
-            attributes: ["caseReference", "status"],
+            attributes: ["caseReference", "currentStatusId"],
             model: models.cases.name
           }
         };
