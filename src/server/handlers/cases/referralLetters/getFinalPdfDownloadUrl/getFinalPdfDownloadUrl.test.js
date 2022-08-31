@@ -1,10 +1,8 @@
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
   S3_GET_OBJECT,
@@ -20,6 +18,7 @@ import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../../audits/auditFileAction";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const httpMocks = require("node-mocks-http");
@@ -29,7 +28,13 @@ jest.mock("../../../../createConfiguredS3Instance");
 jest.mock("../../../audits/auditFileAction");
 
 describe("getFinalPdfDownloadUrl", () => {
-  let request, response, next, existingCase, getSignedUrlMock, referralLetter;
+  let request,
+    response,
+    next,
+    existingCase,
+    getSignedUrlMock,
+    referralLetter,
+    statuses;
   const testUser = "Bob the Builder";
 
   beforeEach(async () => {
@@ -38,10 +43,7 @@ describe("getFinalPdfDownloadUrl", () => {
       getSignedUrl: getSignedUrlMock
     }));
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const complainantCivilianAttributes = new Civilian.Builder()
       .defaultCivilian()
@@ -87,16 +89,13 @@ describe("getFinalPdfDownloadUrl", () => {
       ],
       auditUser: "test"
     });
+
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "someone" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "someone" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.READY_FOR_REVIEW },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Ready for Review"
+        ).id
+      },
       { auditUser: "someone" }
     );
 
@@ -135,7 +134,11 @@ describe("getFinalPdfDownloadUrl", () => {
 
   test("should retrieve download url for pdf", async () => {
     await existingCase.update(
-      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Forwarded to Agency"
+        ).id
+      },
       { auditUser: "someone" }
     );
     const getSignedUrlMock = jest.fn(() => "url");
@@ -157,7 +160,11 @@ describe("getFinalPdfDownloadUrl", () => {
 
   test("should retrieve download url for pdf when archived", async () => {
     await existingCase.update(
-      { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Forwarded to Agency"
+        ).id
+      },
       { auditUser: "someone" }
     );
 
@@ -189,7 +196,11 @@ describe("getFinalPdfDownloadUrl", () => {
   describe("auditing", () => {
     test("access to pdf letter is audited", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "someone" }
       );
       await getFinalPdfDownloadUrl(request, response, next);

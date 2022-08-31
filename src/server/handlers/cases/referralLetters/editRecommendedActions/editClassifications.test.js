@@ -1,13 +1,12 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import editClassifications from "./editClassifications";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("editClassifications", () => {
-  let response, request, next, existingCase;
+  let response, request, next, existingCase, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -21,17 +20,14 @@ describe("editClassifications", () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -57,7 +53,11 @@ describe("editClassifications", () => {
       nickname: "nickname"
     });
     await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
   });

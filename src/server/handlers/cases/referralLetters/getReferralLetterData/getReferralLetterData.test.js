@@ -9,21 +9,26 @@ import getReferralLetterData from "./getReferralLetterData";
 import httpMocks from "node-mocks-http";
 import {
   AUDIT_SUBJECT,
-  CASE_STATUS,
   COMPLAINANT,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterData", () => {
-  let existingCase, referralLetter, request, response, next, emptyObject;
+  let existingCase,
+    referralLetter,
+    request,
+    response,
+    next,
+    emptyObject,
+    statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -36,10 +41,7 @@ describe("getReferralLetterData", () => {
   beforeEach(async () => {
     emptyObject = { tempId: "uniqueTempId" };
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
@@ -47,12 +49,11 @@ describe("getReferralLetterData", () => {
     });
 
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "test" }
-    );
-
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
 
@@ -313,12 +314,11 @@ describe("getReferralLetterData", () => {
 
     test("it returns letter data when status is after approved", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "test" }
-      );
-
-      await existingCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "test" }
       );
 

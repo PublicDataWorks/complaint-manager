@@ -21,6 +21,7 @@ import {
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
 import { up } from "../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 import moment from "moment";
 const SENDER_NAME = "Bobby!";
 
@@ -50,7 +51,12 @@ jest.mock("fs", () => {
 });
 
 describe("generateLetterPdfBuffer", () => {
-  let timeOfDownload, existingCase, referralLetter, officer, findByPkSpy;
+  let timeOfDownload,
+    existingCase,
+    referralLetter,
+    officer,
+    findByPkSpy,
+    statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -125,6 +131,8 @@ describe("generateLetterPdfBuffer", () => {
       )
     }));
 
+    statuses = await seedStandardCaseStatuses();
+
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()
       .withId(undefined);
@@ -139,11 +147,6 @@ describe("generateLetterPdfBuffer", () => {
       .withOfficerId(officer.id)
       .withCreatedAt(new Date("2018-09-22"))
       .withRoleOnCase(COMPLAINANT);
-
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -162,12 +165,13 @@ describe("generateLetterPdfBuffer", () => {
       ],
       auditUser: "someone"
     });
+
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "test" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
   });

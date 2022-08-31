@@ -1,10 +1,8 @@
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
 import {
   AUDIT_FILE_TYPE,
-  CASE_STATUS,
   MANAGER_TYPE
 } from "../../../../../sharedUtilities/constants";
 import httpMocks from "node-mocks-http";
@@ -12,6 +10,7 @@ import getReferralLetterPdf from "./getReferralLetterPdf";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../../audits/auditDataAccess";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock(
   "../generateLetterPdfBuffer",
@@ -30,7 +29,7 @@ jest.mock(
 jest.mock("../../../audits/auditDataAccess");
 
 describe("Generate referral letter pdf", () => {
-  let existingCase, request, response, next;
+  let existingCase, request, response, next, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -41,10 +40,7 @@ describe("Generate referral letter pdf", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -54,7 +50,7 @@ describe("Generate referral letter pdf", () => {
       auditUser: "test"
     });
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -74,7 +70,11 @@ describe("Generate referral letter pdf", () => {
   describe("case in valid status", () => {
     beforeEach(async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
     });

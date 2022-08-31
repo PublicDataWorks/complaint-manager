@@ -8,18 +8,16 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("Edit referral letter addresses", () => {
-  let response, next;
+  let response, next, statuses;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -41,7 +39,9 @@ describe("Edit referral letter addresses", () => {
         auditUser: "test"
       });
       await existingCase.update(
-        { status: CASE_STATUS.ACTIVE },
+        {
+          currentStatusId: statuses.find(status => status.name === "Active").id
+        },
         { auditUser: "test" }
       );
       const referralLetterAttributes = new ReferralLetter.Builder()
@@ -56,7 +56,11 @@ describe("Edit referral letter addresses", () => {
 
     test("save edited letter html content", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
 
@@ -79,17 +83,14 @@ describe("Edit referral letter addresses", () => {
 
     test("throws exception when case status is invalid (after ready for review)", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "test" }
       );
-      await existingCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "test" }
-      );
-      await existingCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
-        { auditUser: "test" }
-      );
+
       const request = requestWithUpdatedLetterContent();
       await editReferralLetterContent(request, response, next);
 
@@ -104,11 +105,11 @@ describe("Edit referral letter addresses", () => {
         auditUser: "test"
       });
       await existingCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "test" }
-      );
-      await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
 

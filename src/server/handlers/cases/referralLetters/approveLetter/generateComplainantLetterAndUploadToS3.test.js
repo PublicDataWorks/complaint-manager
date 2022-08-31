@@ -17,6 +17,7 @@ import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
@@ -54,7 +55,7 @@ AWS.S3.mockImplementation(() => ({
 }));
 
 describe("generateComplainantLetterAndUploadToS3", () => {
-  let complainant, caseAttributes, existingCase;
+  let complainant, caseAttributes, existingCase, statuses;
 
   beforeEach(async () => {
     const signerAttr = new Signer.Builder()
@@ -96,10 +97,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
 
     await up(models);
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     complainant = {
       firstName: "firstName",
@@ -125,12 +123,13 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         }
       ]
     });
+
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "test" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
   });
@@ -203,12 +202,13 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         }
       ]
     });
+
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "test" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
 

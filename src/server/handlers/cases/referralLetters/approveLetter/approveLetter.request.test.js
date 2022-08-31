@@ -2,9 +2,7 @@ import request from "supertest";
 import fs from "fs";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import {
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT
 } from "../../../../../sharedUtilities/constants";
@@ -23,6 +21,7 @@ import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
@@ -54,7 +53,7 @@ AWS.S3.mockImplementation(() => ({
 }));
 
 describe("Approve referral letter", () => {
-  let existingCase, token;
+  let existingCase, token, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -66,6 +65,8 @@ describe("Approve referral letter", () => {
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("letter:setup", "some_nickname");
+
+    statuses = await seedStandardCaseStatuses();
 
     const signerAttr = new Signer.Builder()
       .defaultSigner()
@@ -134,11 +135,6 @@ describe("Approve referral letter", () => {
       .withId(undefined)
       .withOfficerId(complainantOfficer.id)
       .withRoleOnCase(COMPLAINANT);
-
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -221,15 +217,11 @@ describe("Approve referral letter", () => {
 
   const elevateCaseStatusToReadyForReview = async existingCase => {
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "nickname" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: "nickname" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.READY_FOR_REVIEW },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Ready for Review"
+        ).id
+      },
       { auditUser: "nickname" }
     );
   };

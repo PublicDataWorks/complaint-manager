@@ -6,23 +6,20 @@ import {
 } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
 describe("edit referral letter", () => {
+  let statuses;
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   describe("officer histories (letter officers with history notes)", () => {
@@ -44,7 +41,9 @@ describe("edit referral letter", () => {
       });
 
       await existingCase.update(
-        { status: CASE_STATUS.ACTIVE },
+        {
+          currentStatusId: statuses.find(status => status.name === "Active").id
+        },
         { auditUser: "test" }
       );
 
@@ -80,7 +79,11 @@ describe("edit referral letter", () => {
 
     test("saves the letter officers if they do not exist yet", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
 
@@ -122,13 +125,14 @@ describe("edit referral letter", () => {
 
     test("it returns 200 if case status is ready for review", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Ready for Review"
+          ).id
+        },
         { auditUser: "test" }
       );
-      await existingCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "test" }
-      );
+
       const requestBody = {
         letterOfficers: []
       };
@@ -146,11 +150,11 @@ describe("edit referral letter", () => {
       "return 400 cannot edit archived case when updating officer history of archived case",
       suppressWinstonLogs(async () => {
         await existingCase.update(
-          { status: CASE_STATUS.LETTER_IN_PROGRESS },
-          { auditUser: "test" }
-        );
-        await existingCase.update(
-          { status: CASE_STATUS.READY_FOR_REVIEW },
+          {
+            currentStatusId: statuses.find(
+              status => status.name === "Ready for Review"
+            ).id
+          },
           { auditUser: "test" }
         );
 
@@ -175,15 +179,11 @@ describe("edit referral letter", () => {
       "it returns 200 if case status is is after ready for review",
       suppressWinstonLogs(async () => {
         await existingCase.update(
-          { status: CASE_STATUS.LETTER_IN_PROGRESS },
-          { auditUser: "test" }
-        );
-        await existingCase.update(
-          { status: CASE_STATUS.READY_FOR_REVIEW },
-          { auditUser: "test" }
-        );
-        await existingCase.update(
-          { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+          {
+            currentStatusId: statuses.find(
+              status => status.name === "Forwarded to Agency"
+            ).id
+          },
           { auditUser: "test" }
         );
 

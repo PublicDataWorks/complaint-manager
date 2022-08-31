@@ -1,5 +1,4 @@
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models/index";
 import addCaseOfficer from "./addCaseOfficer";
 import * as httpMocks from "node-mocks-http";
@@ -7,7 +6,6 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import {
   ACCUSED,
   AUDIT_SUBJECT,
-  CASE_STATUS,
   COMPLAINANT,
   MANAGER_TYPE,
   USER_PERMISSIONS,
@@ -17,6 +15,7 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 const {
   PERSON_TYPE
@@ -33,18 +32,14 @@ describe("addCaseOfficer", () => {
     await models.sequelize.close();
   });
 
-  let existingCase, response, next;
+  let existingCase, response, next, statuses;
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withStatus(CASE_STATUS.INITIAL)
       .withIncidentLocation(undefined);
 
     existingCase = await models.cases.create(existingCaseAttributes, {
@@ -79,7 +74,7 @@ describe("addCaseOfficer", () => {
     const caseOfInterest = await models.cases.findByPk(existingCase.id);
     expect(caseOfInterest).toEqual(
       expect.objectContaining({
-        status: CASE_STATUS.ACTIVE
+        currentStatusId: statuses.find(status => status.name === "Active").id
       })
     );
   });
@@ -293,7 +288,7 @@ describe("addCaseOfficer", () => {
 
   test("should create letter officer if letter exists", async () => {
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "someone" }
     );
 
@@ -307,7 +302,11 @@ describe("addCaseOfficer", () => {
     });
 
     await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "someone" }
     );
 

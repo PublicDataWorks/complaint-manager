@@ -8,7 +8,10 @@ const throwErrorIfLetterFlowUnavailable = async (
   statuses = CASE_STATUSES_ALLOWED_TO_EDIT_LETTER
 ) => {
   const existingCase = await getCaseWithoutAssociations(caseId);
-  if (!statuses.includes(existingCase.status) || existingCase.isArchived) {
+  if (
+    !statuses.includes(await existingCase.getStatus()) ||
+    existingCase.isArchived
+  ) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
   }
 };

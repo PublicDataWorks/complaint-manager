@@ -115,6 +115,58 @@ export default class Case {
     return this._model.assignedTo;
   }
 
+  get complainantOfficers() {
+    return this._model.complainantOfficers;
+  }
+
+  get complainantCivilians() {
+    return this._model.complainantCivilians;
+  }
+
+  get witnessOfficers() {
+    return this._model.witnessOfficers;
+  }
+
+  get witnessCivilians() {
+    return this._model.witnessCivilians;
+  }
+
+  get accusedOfficers() {
+    return this._model.accusedOfficers;
+  }
+
+  get incidentLocation() {
+    return this._model.incidentLocation;
+  }
+
+  get caseClassifications() {
+    return this._model.caseClassifications;
+  }
+
+  get howDidYouHearAboutUsSource() {
+    return this._model.howDidYouHearAboutUsSource;
+  }
+
+  get caseDistrict() {
+    return this._model.caseDistrict;
+  }
+
+  get intakeSource() {
+    return this._model.intakeSource;
+  }
+
+  get referralLetter() {
+    return this._model.referralLetter;
+  }
+
+  get caseTags() {
+    return this._model.caseTags;
+  }
+
+  get isArchived() {
+    return this._model.isArchived;
+  }
+
   toJSON = async () => {
     let json = this._model.toJSON();
     json.status = await this.getStatus();

@@ -12,6 +12,7 @@ import editRecommendedActions from "./editRecommendedActions";
 import ReferralLetterOfficerRecommendedAction from "../../../../testHelpers/ReferralLetterOfficerRecommendedAction";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("editRecommendedActions", function () {
   const recommendedActionId1 = 1;
@@ -26,23 +27,20 @@ describe("editRecommendedActions", function () {
     await models.sequelize.close();
   });
 
-  let existingCase, referralLetter, response, next;
+  let existingCase, referralLetter, response, next, statuses;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -85,7 +83,11 @@ describe("editRecommendedActions", function () {
   describe("letter in progress", () => {
     beforeEach(async () => {
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
     });

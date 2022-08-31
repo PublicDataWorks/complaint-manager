@@ -3,23 +3,20 @@ import models from "../../../../policeDataManager/models/index";
 import editReferralLetterAddresses from "./editReferralLetterAddresses";
 import httpMocks from "node-mocks-http";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import getCaseStatuses from "../../../caseStatuses/getCaseStatuses";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("Edit referral letter addresses", () => {
-  let response, next;
+  let response, next, statuses;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -66,11 +63,11 @@ describe("Edit referral letter addresses", () => {
 
     test("update existing referral letter recipient, sender and transcribed by", async () => {
       await existingCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "test" }
-      );
-      await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
       const requestBody = {
