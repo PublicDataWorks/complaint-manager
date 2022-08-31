@@ -3,15 +3,14 @@ import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import request from "supertest";
 import app from "../../../../server";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
   suppressWinstonLogs,
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
@@ -24,29 +23,33 @@ describe("GET /cases/:id/referral-letter", function () {
     await models.sequelize.close();
   });
 
-  let token, newCase;
+  let token, newCase, statuses;
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     newCase = await models.cases.create(caseAttributes, {
       auditUser: "test"
     });
 
-    await newCase.update({ status: CASE_STATUS.ACTIVE }, { auditUser: "test" });
+    await newCase.update(
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { auditUser: "test" }
+    );
   });
 
   describe("case is letter in progress", () => {
     let referralLetter;
     beforeEach(async () => {
       await newCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
 
@@ -79,7 +82,11 @@ describe("GET /cases/:id/referral-letter", function () {
 
     test("it returns 200 if case status is ready for review", async () => {
       await newCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Ready for Review"
+          ).id
+        },
         { auditUser: "test" }
       );
       const responsePromise = request(app)
@@ -92,15 +99,11 @@ describe("GET /cases/:id/referral-letter", function () {
 
     test("it returns 200 if case status is forwarded to agency", async () => {
       await newCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "test" }
-      );
-      await newCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "test" }
-      );
-      await newCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "test" }
       );
 
@@ -114,19 +117,9 @@ describe("GET /cases/:id/referral-letter", function () {
 
     test("it returns 200 if case status is forwarded to agency", async () => {
       await newCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "test" }
-      );
-      await newCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "test" }
-      );
-      await newCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
-        { auditUser: "test" }
-      );
-      await newCase.update(
-        { status: CASE_STATUS.CLOSED },
+        {
+          currentStatusId: statuses.find(status => status.name === "Closed").id
+        },
         { auditUser: "test" }
       );
 

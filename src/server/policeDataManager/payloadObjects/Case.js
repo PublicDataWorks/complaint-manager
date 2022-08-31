@@ -1,4 +1,5 @@
 import Boom from "boom";
+import models from "../models";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import determineNextCaseStatus from "../../handlers/cases/helpers/determineNextCaseStatus";
 
@@ -168,7 +169,7 @@ export default class Case {
   }
 
   toJSON = async () => {
-    let json = this._model.toJSON();
+    let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
     return json;
   };

@@ -2,7 +2,6 @@ import models from "../index";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import {
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT
 } from "../../../../sharedUtilities/constants";
@@ -19,17 +18,13 @@ import {
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
-import { getCaseReference } from "../modelUtilities/caseReferenceHelpersFunctions";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("cases", function () {
-  let createdCase;
+  let createdCase, statuses;
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -518,20 +513,28 @@ describe("cases", function () {
 
     test("sets status to given status when allowed", async () => {
       await createdCase.update(
-        { status: CASE_STATUS.ACTIVE },
+        {
+          currentStatusId: statuses.find(status => status.name === "Active").id
+        },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("allows status to stay the same", async () => {
       await createdCase.update(
-        { status: CASE_STATUS.INITIAL },
+        {
+          currentStatusId: statuses.find(status => status.name === "Initial").id
+        },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
     });
   });
 
@@ -544,7 +547,9 @@ describe("cases", function () {
       await createdCase.update({}, { auditUser: "Someone" });
 
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
     });
 
     test("should change status from initial to active when updating something", async () => {
@@ -554,7 +559,9 @@ describe("cases", function () {
       );
 
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("should changes status when updating through class update", async () => {
@@ -564,7 +571,9 @@ describe("cases", function () {
       );
 
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("should NOT update case status to Active when not Initial", async () => {
@@ -584,30 +593,44 @@ describe("cases", function () {
         auditUser: "someone"
       });
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
 
       await createdCase.update(
-        { status: "Letter in Progress" },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Letter in Progress").id
+      );
 
       await createdCase.createWitnessCivilian(anotherCivilianToAdd, {
         auditUser: "someone"
       });
       await createdCase.reload();
-      expect(createdCase.status).toEqual(CASE_STATUS.LETTER_IN_PROGRESS);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Letter in Progress").id
+      );
     });
 
     test("should not update case status to active when main update fails", async () => {
-      expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
       try {
         await createdCase.update({ createdBy: null }, { auditUser: "someone" });
       } catch (error) {}
       await createdCase.reload();
       expect(createdCase.createdBy).not.toBeNull();
-      expect(createdCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(createdCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
     });
 
     test("has primaryComplainant, the first existing case complainant", async () => {

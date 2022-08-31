@@ -33,13 +33,13 @@ import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Signer from "../../../../../sharedTestHelpers/signer";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../../../audits/auditDataAccess");
 
 describe("getReferralLetterPreview", function () {
-  let existingCase, request, response, next, referralLetter;
+  let existingCase, request, response, next, referralLetter, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -51,6 +51,7 @@ describe("getReferralLetterPreview", function () {
   });
 
   beforeEach(async () => {
+    statuses = await seedStandardCaseStatuses();
     const signer = await models.signers.create(
       new Signer.Builder()
         .defaultSigner()
@@ -87,13 +88,6 @@ describe("getReferralLetterPreview", function () {
 
     await up(models);
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      {
-        auditUser: "user"
-      }
-    );
-
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
@@ -111,7 +105,7 @@ describe("getReferralLetterPreview", function () {
       auditUser: "test"
     });
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
+      { currentStatusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
     await models.civilian_title.create({
@@ -153,7 +147,11 @@ describe("getReferralLetterPreview", function () {
       });
 
       await existingCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Letter in Progress"
+          ).id
+        },
         { auditUser: "test" }
       );
 
@@ -183,7 +181,11 @@ describe("getReferralLetterPreview", function () {
     describe("in letter in progress status", () => {
       beforeEach(async () => {
         await existingCase.update(
-          { status: CASE_STATUS.LETTER_IN_PROGRESS },
+          {
+            currentStatusId: statuses.find(
+              status => status.name === "Letter in Progress"
+            ).id
+          },
           { auditUser: "test" }
         );
       });

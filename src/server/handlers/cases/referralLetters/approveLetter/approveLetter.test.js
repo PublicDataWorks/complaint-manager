@@ -1,12 +1,10 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../../policeDataManager/models";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import approveLetter from "./approveLetter";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
   COMPLAINANT_LETTER,
@@ -26,6 +24,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 import auditDataAccess from "../../../audits/auditDataAccess";
 import _ from "lodash";
 import { auditFileAction } from "../../../audits/auditFileAction";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 const SAMPLE_FINAL_PDF_FILENAME = "some_filename.pdf";
 const SAMPLE_REFERRAL_PDF_FILENAME = "referral_letter_filename.pdf";
@@ -50,12 +49,14 @@ jest.mock("../constructFilename", () => (existingCase, pdfLetterType) => {
 jest.mock("../../../audits/auditDataAccess");
 
 describe("approveLetter", () => {
-  let existingCase, request, response, next, referralLetter;
+  let existingCase, request, response, next, referralLetter, statuses;
 
   const testUser = "Kyle Katarn";
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
+
+    statuses = await seedStandardCaseStatuses();
 
     const complainantCivilianAttributes = new Civilian.Builder()
       .defaultCivilian()
@@ -76,11 +77,6 @@ describe("approveLetter", () => {
       .withId(undefined)
       .withOfficerId(complainantOfficer.id)
       .withRoleOnCase(COMPLAINANT);
-
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
 
     const caseAttributes = new Case.Builder()
       .defaultCase()
@@ -152,14 +148,18 @@ describe("approveLetter", () => {
       await approveLetter(request, response, next);
       expect(response.statusCode).toEqual(200);
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.FORWARDED_TO_AGENCY);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Forwarded to Agency").id
+      );
     });
 
     test("does not update status or upload file if not in the right previous status", async () => {
       uploadLetterToS3.mockClear();
       await approveLetter(request, response, next);
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
       expect(uploadLetterToS3).not.toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(
         Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
@@ -263,7 +263,9 @@ describe("approveLetter", () => {
       await approveLetter(request, response, next);
 
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.READY_FOR_REVIEW);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Ready for Review").id
+      );
       expect(uploadLetterToS3).not.toHaveBeenCalled();
       expect(next).toHaveBeenCalledWith(
         Boom.badRequest(
@@ -275,15 +277,11 @@ describe("approveLetter", () => {
 
   const elevateCaseStatusToReadyForReview = async existingCase => {
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: testUser }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
-      { auditUser: testUser }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.READY_FOR_REVIEW },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Ready for Review"
+        ).id
+      },
       { auditUser: testUser }
     );
   };

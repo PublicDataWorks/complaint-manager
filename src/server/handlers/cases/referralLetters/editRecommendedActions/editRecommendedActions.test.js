@@ -1,8 +1,6 @@
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import httpMocks from "node-mocks-http";
 import Officer from "../../../../../sharedTestHelpers/Officer";

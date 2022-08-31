@@ -398,15 +398,11 @@ describe("changeStatus", () => {
       });
 
       await initialCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Ready for Review"
+          ).id
+        },
         { auditUser: "someone" }
       );
 
@@ -421,19 +417,11 @@ describe("changeStatus", () => {
 
     test("should not update case status for closed status and should call error when only update_case_status permission is not present", async () => {
       await initialCase.update(
-        { status: CASE_STATUS.ACTIVE },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.LETTER_IN_PROGRESS },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.READY_FOR_REVIEW },
-        { auditUser: "someone" }
-      );
-      await initialCase.update(
-        { status: CASE_STATUS.FORWARDED_TO_AGENCY },
+        {
+          currentStatusId: statuses.find(
+            status => status.name === "Forwarded to Agency"
+          ).id
+        },
         { auditUser: "someone" }
       );
 

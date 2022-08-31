@@ -105,11 +105,11 @@ describe("Generate referral letter pdf", () => {
     );
 
     await existingCase.update(
-      { status: CASE_STATUS.ACTIVE },
-      { auditUser: "test" }
-    );
-    await existingCase.update(
-      { status: CASE_STATUS.LETTER_IN_PROGRESS },
+      {
+        currentStatusId: statuses.find(
+          status => status.name === "Letter in Progress"
+        ).id
+      },
       { auditUser: "test" }
     );
 

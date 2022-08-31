@@ -103,7 +103,7 @@ const editCivilian = asyncMiddleware(async (request, response, next) => {
     }
   );
 
-  response.status(200).send(updatedCaseDetails);
+  response.status(200).send(updatedCaseDetails.toJSON());
 
   await sendNotifsIfComplainantChange(updatedCaseDetails.id);
 });
