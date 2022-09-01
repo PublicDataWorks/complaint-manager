@@ -2,6 +2,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -32,6 +33,12 @@ const removeOfficerAllegation = asyncMiddleware(
           transaction
         });
 
+        await updateCaseToActiveIfInitial(
+          caseOfficer.caseId,
+          request.nickname,
+          transaction
+        );
+
         const caseDetailsAndAuditDetails =
           await getCaseWithAllAssociationsAndAuditDetails(
             caseOfficer.caseId,
@@ -54,7 +61,7 @@ const removeOfficerAllegation = asyncMiddleware(
       }
     );
 
-    response.status(200).send(updatedCase);
+    response.status(200).send(await updatedCase.toJSON());
   }
 );
 

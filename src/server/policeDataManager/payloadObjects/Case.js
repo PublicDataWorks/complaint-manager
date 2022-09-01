@@ -168,9 +168,14 @@ export default class Case {
     return this._model.isArchived;
   }
 
+  get pdfAvailable() {
+    return this._model.pdfAvailable;
+  }
+
   toJSON = async () => {
     let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
+    json.nextStatus = await this.getNextStatus();
     return json;
   };
 }

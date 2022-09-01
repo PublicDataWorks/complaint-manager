@@ -1,5 +1,6 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
+import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
 
 const models = require("../../policeDataManager/models/index");
 const asyncMiddleware = require("../asyncMiddleware");
@@ -30,6 +31,8 @@ const updateCaseNarrative = asyncMiddleware(async function handle(
         transaction
       );
 
+      await updateCaseToActiveIfInitial(caseId, request.nickname);
+
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
           caseId,
@@ -51,7 +54,7 @@ const updateCaseNarrative = asyncMiddleware(async function handle(
       return caseDetails;
     }
   );
-  response.send(updatedCase);
+  response.send(await updatedCase.toJSON());
 });
 
 module.exports = updateCaseNarrative;

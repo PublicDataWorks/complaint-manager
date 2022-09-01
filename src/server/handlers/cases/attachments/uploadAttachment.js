@@ -16,6 +16,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import auditDataAccess from "../../audits/auditDataAccess";
 import { auditFileAction } from "../../audits/auditFileAction";
 import winston from "winston";
+import { updateCaseToActiveIfInitial } from "../helpers/caseStatusHelpers";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const uploadAttachment = asyncMiddleware(async (request, response, next) => {
@@ -79,6 +80,11 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
                 auditUser: request.nickname
               }
             );
+            await updateCaseToActiveIfInitial(
+              caseId,
+              request.nickname,
+              transaction
+            );
             const caseDetailsAndAuditDetails =
               await getCaseWithAllAssociationsAndAuditDetails(
                 caseId,
@@ -110,7 +116,7 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
           }
         );
 
-        response.send(updatedCase);
+        response.send(await updatedCase.toJSON());
       },
       function (error) {
         winston.error(error);

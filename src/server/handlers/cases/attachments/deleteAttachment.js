@@ -49,7 +49,7 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
     return caseDetails;
   });
 
-  response.status(200).send(caseDetails);
+  response.status(200).send(await caseDetails.toJSON());
 });
 
 module.exports = deleteAttachment;

@@ -5,9 +5,7 @@ import {
   expectResponse
 } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import models from "../../../../policeDataManager/models";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Signer from "../../../../../sharedTestHelpers/signer";
@@ -17,9 +15,10 @@ import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
 import request from "supertest";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("Generate referral letter pdf", () => {
-  let existingCase, referralLetter, letterOfficer, token;
+  let existingCase, referralLetter, letterOfficer, token, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -32,10 +31,7 @@ describe("Generate referral letter pdf", () => {
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {

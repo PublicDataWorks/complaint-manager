@@ -7,6 +7,7 @@ import { handleNotifications } from "../helpers/handleNotifications";
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "../getMessageStream";
+import { updateCaseToActiveIfInitial } from "../helpers/caseStatusHelpers";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -60,6 +61,12 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
     const caseNoteAuditDetails = getQueryAuditAccessDetails(
       accessQueryOptions,
       models.case_note.name
+    );
+
+    await updateCaseToActiveIfInitial(
+      request.params.caseId,
+      request.nickname,
+      transaction
     );
 
     await auditDataAccess(

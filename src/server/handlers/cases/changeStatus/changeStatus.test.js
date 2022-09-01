@@ -68,7 +68,9 @@ describe("changeStatus", () => {
     await changeStatus(request, response, next);
     await initialCase.reload();
 
-    expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    expect(initialCase.currentStatusId).toEqual(
+      statuses.find(status => status.name === "Active").id
+    );
   });
 
   test("should call next with error if given unknown status", async () => {
@@ -145,7 +147,9 @@ describe("changeStatus", () => {
     expect(letterCreated).toBeNull();
 
     await initialCase.reload();
-    expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
+    expect(initialCase.currentStatusId).toEqual(
+      statuses.find(status => status.name === "Active").id
+    );
   });
 
   test("does not create letter if status change fails (from initial to letter gen is invalid)", async () => {

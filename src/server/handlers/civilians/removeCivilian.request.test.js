@@ -1,6 +1,5 @@
 import app from "../../server";
 import Case from "../../../sharedTestHelpers/case";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import request from "supertest";
 import Civilian from "../../../sharedTestHelpers/civilian";
 import models from "../../policeDataManager/models";
@@ -14,6 +13,7 @@ import {
   ADDRESSABLE_TYPE,
   CASE_STATUS
 } from "../../../sharedUtilities/constants";
+import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 
 describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
@@ -21,10 +21,7 @@ describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   beforeEach(async () => {
     token = buildTokenWithPermissions("case:edit", "some_nickname");
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {

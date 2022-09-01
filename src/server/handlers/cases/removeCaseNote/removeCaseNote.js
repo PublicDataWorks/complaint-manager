@@ -6,6 +6,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "../getMessageStream";
+import { updateCaseToActiveIfInitial } from "../helpers/caseStatusHelpers";
 
 const {
   AUDIT_SUBJECT,
@@ -22,8 +23,10 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
     request.nickname,
     caseNoteId
   );
-  if (!operationsPermitted)
+
+  if (!operationsPermitted) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.ACTION_NOT_ALLOWED);
+  }
 
   const currentCase = await models.sequelize.transaction(async transaction => {
     const notifs = await models.notification.findAll({
@@ -53,6 +56,8 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
       transaction,
       auditUser: request.nickname
     });
+
+    await updateCaseToActiveIfInitial(caseId, request.nickname, transaction);
 
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
@@ -118,7 +123,7 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
 
   response.status(200).send({
     caseNotes: currentCase.caseNotes,
-    caseDetails: currentCase.caseDetails
+    caseDetails: await currentCase.caseDetails.toJSON()
   });
 
   for (const user in currentCase.usersWithNotifs) {

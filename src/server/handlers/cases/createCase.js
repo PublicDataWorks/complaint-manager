@@ -2,7 +2,6 @@ import {
   BAD_REQUEST_ERRORS,
   INTERNAL_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
-import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import auditDataAccess from "../audits/auditDataAccess";
 import getQueryAuditAccessDetails, {
   combineAuditDetails
@@ -16,6 +15,7 @@ const {
   CIVILIAN_WITHIN_PD_INITIATED
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import { get } from "lodash";
+import Case from "../../policeDataManager/payloadObjects/Case";
 
 const {
   AUDIT_SUBJECT,
@@ -41,7 +41,7 @@ const createCase = asyncMiddleware(async (request, response, next) => {
     newCase = await createCaseWithCivilian(request);
   }
 
-  response.status(201).send(newCase);
+  response.status(201).send(await new Case(newCase).toJSON());
 });
 
 const validateCivilianName = civilian => {

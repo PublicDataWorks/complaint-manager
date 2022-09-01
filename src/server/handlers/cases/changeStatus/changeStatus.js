@@ -96,7 +96,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
 
     return caseDetails;
   });
-  response.send(currentCase);
+  response.send(await currentCase.toJSON());
 });
 
 const updateCaseIfValid = async (

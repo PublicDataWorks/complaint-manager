@@ -6,6 +6,7 @@ import {
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
 import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
+import { updateCaseToActiveIfInitial } from "../cases/helpers/caseStatusHelpers";
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../policeDataManager/models");
@@ -28,6 +29,7 @@ const createCivilian = asyncMiddleware(async (request, response, next) => {
     });
 
     const caseId = civilianCreated.caseId;
+    await updateCaseToActiveIfInitial(caseId, request.nickname, transaction);
 
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
@@ -49,7 +51,7 @@ const createCivilian = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
-  response.status(201).send(caseDetails);
+  response.status(201).send(await caseDetails.toJSON());
 
   await sendNotifsIfComplainantChange(caseDetails.id);
 });

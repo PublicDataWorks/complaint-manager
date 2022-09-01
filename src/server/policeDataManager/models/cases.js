@@ -78,7 +78,7 @@ module.exports = (sequelize, DataTypes) => {
           CASE_STATUS.CLOSED
         ]),
         defaultValue: CASE_STATUS.INITIAL,
-        allowNull: false
+        allowNull: true
       },
       nextStatus: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, ["status"]),
@@ -218,11 +218,6 @@ module.exports = (sequelize, DataTypes) => {
         },
         beforeUpdate: (instance, options) => {
           restrictEditingOfCaseReferenceNumber(instance, options);
-          if (!instance.changed() || instance.changed().includes("status"))
-            return;
-          if (instance.status === CASE_STATUS.INITIAL) {
-            instance.status = CASE_STATUS.ACTIVE;
-          }
         },
         beforeCreate: async (instance, options) => {
           if (options.validate === false) {

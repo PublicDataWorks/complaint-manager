@@ -17,6 +17,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageC
 import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLetterAndUploadToS3";
 import { auditFileAction } from "../../../audits/auditFileAction";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
+import Case from "../../../../policeDataManager/payloadObjects/Case";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const approveLetter = asyncMiddleware(async (request, response, next) => {
@@ -25,7 +26,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   const nickname = request.nickname;
   const existingCase = await getCase(caseId);
-  validateCaseStatus(existingCase);
+  await validateCaseStatus(existingCase);
 
   const filename = constructFilename(
     existingCase,
@@ -91,8 +92,8 @@ const createLetterAttachment = async (
   );
 };
 
-const validateCaseStatus = existingCase => {
-  if (existingCase.status !== CASE_STATUS.READY_FOR_REVIEW) {
+const validateCaseStatus = async existingCase => {
+  if ((await existingCase.getStatus()) !== CASE_STATUS.READY_FOR_REVIEW) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE);
   }
 };
@@ -130,10 +131,8 @@ const transitionCaseToForwardedToAgency = async (
   request,
   transaction
 ) => {
-  await existingCase.update(
-    { status: CASE_STATUS.FORWARDED_TO_AGENCY },
-    { auditUser: request.nickname, transaction }
-  );
+  await existingCase.setStatus(CASE_STATUS.FORWARDED_TO_AGENCY);
+  await existingCase.model.save({ auditUser: request.nickname, transaction });
 };
 
 const saveFilename = async (filename, caseId, auditUser, transaction) => {
@@ -157,22 +156,28 @@ const validateUserPermissions = request => {
 };
 
 const getCase = async caseId => {
-  return await models.cases.findByPk(caseId, {
-    include: [
-      {
-        model: models.case_officer,
-        as: "complainantOfficers"
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        include: [
-          models.address,
-          { model: models.civilian_title, as: "civilianTitle" }
-        ]
-      }
-    ]
-  });
+  return new Case(
+    await models.cases.findByPk(caseId, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: [
+            models.address,
+            { model: models.civilian_title, as: "civilianTitle" }
+          ]
+        },
+        {
+          model: models.caseStatus,
+          as: "currentStatus"
+        }
+      ]
+    })
+  );
 };
 
 export default approveLetter;

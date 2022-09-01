@@ -82,49 +82,6 @@ describe("caseOfficer", () => {
     });
   });
 
-  describe("updating case status", () => {
-    test("should update case status when adding a case officer", async () => {
-      const initialCase = await createTestCaseWithoutCivilian();
-
-      const caseOfficerToCreate = new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withId(undefined)
-        .withCaseId(initialCase.id)
-        .withUnknownOfficer()
-        .build();
-
-      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
-      await models.case_officer.create(caseOfficerToCreate, {
-        auditUser: "someone"
-      });
-
-      await initialCase.reload();
-      expect(initialCase.status).toEqual(CASE_STATUS.ACTIVE);
-    });
-
-    test("should NOT update case status when adding a case officer is unsuccessful", async () => {
-      const initialCase = await createTestCaseWithoutCivilian();
-
-      const caseOfficerToCreate = new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withId(undefined)
-        .withCaseId(initialCase.id)
-        .withRoleOnCase(null)
-        .withUnknownOfficer()
-        .build();
-
-      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
-      try {
-        await models.case_officer.create(caseOfficerToCreate, {
-          auditUser: "someone"
-        });
-      } catch (error) {}
-
-      await initialCase.reload();
-      expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
-    });
-  });
-
   describe("deleting officer allegations", function () {
     afterEach(async () => {
       await cleanupDatabase();

@@ -11,6 +11,7 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { CASE_STATUS, NICKNAME } from "../../../../sharedUtilities/constants";
 import { isAuthDisabled } from "../../../isAuthDisabled";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("removeCaseNote request", () => {
   afterEach(async () => {
@@ -22,10 +23,7 @@ describe("removeCaseNote request", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    await seedStandardCaseStatuses();
   });
 
   test("should remove a case note", async () => {

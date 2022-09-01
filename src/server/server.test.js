@@ -6,14 +6,12 @@ import Case from "../sharedTestHelpers/case";
 import Attachment from "../sharedTestHelpers/attachment";
 import { civilianWithAddress } from "./testHelpers/ObjectMothers";
 import Address from "../sharedTestHelpers/Address";
-import CaseStatus from "../sharedTestHelpers/caseStatus";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_ACTION,
   CASE_STATUS,
   CIVILIAN_INITIATED,
-  NICKNAME,
-  USER_PERMISSIONS
+  NICKNAME
 } from "../sharedUtilities/constants";
 import AWS from "aws-sdk";
 import {
@@ -28,6 +26,7 @@ import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
 import { authEnabledTest } from "./testHelpers/authEnabledTest";
 import { isAuthDisabled } from "./isAuthDisabled";
+import { seedStandardCaseStatuses } from "./testHelpers/testSeeding";
 
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
@@ -74,10 +73,7 @@ describe("server", () => {
       }
     );
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -737,12 +733,16 @@ describe("server", () => {
         }
       });
 
-      const updatedCase = await models.cases.findByPk(createdCase.id);
+      const updatedCase = await models.cases.findByPk(createdCase.id, {
+        include: ["currentStatus"]
+      });
 
       expect(numberOfCaseNotesAfterRequest).toEqual(
         numberOfCaseNotesBeforeRequest + 1
       );
-      expect(updatedCase.dataValues.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(updatedCase.dataValues.currentStatus.name).toEqual(
+        CASE_STATUS.ACTIVE
+      );
     });
   });
 

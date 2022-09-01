@@ -1,6 +1,5 @@
 import * as httpMocks from "node-mocks-http";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
 import removeCaseNote from "./removeCaseNote";
@@ -19,6 +18,7 @@ import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "../getMessageStream";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
@@ -44,11 +44,10 @@ describe("RemoveCaseNote unit", () => {
     await models.sequelize.close();
   });
 
+  let statuses;
+
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseToCreate = new Case.Builder()
       .defaultCase()
@@ -126,7 +125,7 @@ describe("RemoveCaseNote unit", () => {
 
     expect(updatedCase).toEqual(
       expect.objectContaining({
-        status: CASE_STATUS.ACTIVE
+        currentStatusId: statuses.find(status => status.name === "Active").id
       })
     );
 

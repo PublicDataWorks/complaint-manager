@@ -7,6 +7,7 @@ import checkFeatureToggleEnabled from "../../checkFeatureToggleEnabled";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
 import auditDataAccess from "../audits/auditDataAccess";
+import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
 
 const moment = require("moment");
 const models = require("../../policeDataManager/models");
@@ -63,6 +64,12 @@ const editCase = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     });
 
+    await updateCaseToActiveIfInitial(
+      request.params.caseId,
+      request.nickname,
+      transaction
+    );
+
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
         request.params.caseId,
@@ -83,7 +90,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
 
     return caseDetails;
   });
-  response.status(200).send(updatedCase);
+  response.status(200).send(await updatedCase.toJSON());
 });
 
 module.exports = editCase;

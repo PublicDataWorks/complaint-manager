@@ -1,6 +1,7 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -29,6 +30,12 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         { transaction }
       );
 
+      await updateCaseToActiveIfInitial(
+        request.params.caseId,
+        request.nickname,
+        transaction
+      );
+
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
           request.params.caseId,
@@ -51,7 +58,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
     }
   );
 
-  return response.status(201).send(caseWithAssociations);
+  return response.status(201).send(await caseWithAssociations.toJSON());
 });
 
 export default createOfficerAllegation;

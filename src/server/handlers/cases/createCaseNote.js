@@ -7,6 +7,7 @@ import { handleNotifications } from "./helpers/handleNotifications";
 import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "./getMessageStream";
 import moment from "moment";
+import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
 
 const {
   AUDIT_SUBJECT,
@@ -36,6 +37,12 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
       .then(data => {
         caseNoteId = data.dataValues.id;
       });
+
+    await updateCaseToActiveIfInitial(
+      request.params.caseId,
+      request.nickname,
+      transaction
+    );
 
     const usersWithNotifs = await handleNotifications(
       transaction,
@@ -101,7 +108,7 @@ const createCaseNote = asyncMiddleware(async (request, response, next) => {
 
   response.status(201).send({
     caseNotes: currentCase.caseNotes,
-    caseDetails: currentCase.caseDetails
+    caseDetails: await currentCase.caseDetails.toJSON()
   });
 
   for (const user in currentCase.usersWithNotifs) {

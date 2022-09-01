@@ -111,7 +111,7 @@ const getReferralLetterPreview = asyncMiddleware(
         addresses: letterAddresses,
         editStatus,
         lastEdited,
-        caseDetails: caseDetails,
+        caseDetails: await caseDetails.toJSON(),
         finalFilename: finalFilename,
         draftFilename: draftFilename
       });

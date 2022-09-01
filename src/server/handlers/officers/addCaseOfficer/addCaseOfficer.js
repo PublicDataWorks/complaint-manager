@@ -2,6 +2,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
+import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 
 const {
   PERSON_TYPE
@@ -63,6 +64,12 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
       );
     }
 
+    await updateCaseToActiveIfInitial(
+      retrievedCase.id,
+      request.nickname,
+      transaction
+    );
+
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
         retrievedCase.id,
@@ -84,7 +91,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
-  response.status(200).send(updatedCase);
+  response.status(200).send(await updatedCase.toJSON());
 
   await sendNotifsIfComplainantChange(updatedCase.id);
 });

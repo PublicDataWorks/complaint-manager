@@ -2,7 +2,6 @@ import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import models from "../../../policeDataManager/models/index";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import app from "../../../server";
 import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import {
@@ -10,6 +9,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
@@ -18,10 +18,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {

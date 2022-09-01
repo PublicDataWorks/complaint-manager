@@ -12,8 +12,9 @@ import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
-let existingCase, timeOfDownload, complainant;
+let existingCase, timeOfDownload, complainant, statuses;
 
 const SENDER_NAME = "Bobby!";
 const AWS = require("aws-sdk");
@@ -75,10 +76,7 @@ beforeEach(async () => {
     .withCivilianTitle({ name: "Miss", id: 2 })
     .build();
 
-  await models.caseStatus.create(
-    new CaseStatus.Builder().defaultCaseStatus().build(),
-    { auditUser: "user" }
-  );
+  statuses = await seedStandardCaseStatuses();
 
   const caseAttributes = new Case.Builder()
     .defaultCase()

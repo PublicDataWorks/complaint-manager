@@ -483,8 +483,7 @@ describe("dataChangeAuditHooks", () => {
         narrativeSummary: {
           previous: "original narrative summary",
           new: "updated narrative summary"
-        },
-        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE }
+        }
       };
       expect(audit.dataChangeAudit.changes).toEqual(expectedChanges);
     });
@@ -524,7 +523,6 @@ describe("dataChangeAuditHooks", () => {
       });
 
       const expectedChanges = {
-        status: { previous: CASE_STATUS.INITIAL, new: CASE_STATUS.ACTIVE },
         complaintType: { previous: RANK_INITIATED, new: CIVILIAN_INITIATED },
         district: { previous: "1st District", new: "2nd District" },
         districtId: { previous: 1, new: 2 },
@@ -595,7 +593,6 @@ describe("dataChangeAuditHooks", () => {
         districtId: 2,
         complaintType: CIVILIAN_INITIATED,
         assignedTo: "updatedAssignedPerson",
-        status: CASE_STATUS.ACTIVE,
         nextStatus: existingCase.nextStatus,
         currentStatusId: 1,
         createdAt: existingCase.createdAt.toJSON(),
@@ -611,7 +608,9 @@ describe("dataChangeAuditHooks", () => {
         year: 2017,
         pibCaseNumber: null
       };
-      expect(audit.dataChangeAudit.snapshot).toEqual(expectedSnapshot);
+      expect(audit.dataChangeAudit.snapshot).toEqual(
+        expect.objectContaining(expectedSnapshot)
+      );
     });
 
     test("does not record audit when nothing changes", async () => {

@@ -11,6 +11,7 @@ import {
 import auditDataAccess from "../../audits/auditDataAccess";
 import canBeAnonymous from "../helpers/canBeAnonymous";
 import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChange";
+import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 
 const models = require("../../../policeDataManager/models");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -74,6 +75,12 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
       }
     );
 
+    await updateCaseToActiveIfInitial(
+      request.params.caseId,
+      request.nickname,
+      transaction
+    );
+
     const caseDetailsAndAuditDetails =
       await getCaseWithAllAssociationsAndAuditDetails(
         request.params.caseId,
@@ -94,7 +101,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
     return caseDetails;
   });
 
-  response.status(200).send(updatedCase);
+  response.status(200).send(await updatedCase.toJSON());
 
   await sendNotifsIfComplainantChange(updatedCase.id);
 });

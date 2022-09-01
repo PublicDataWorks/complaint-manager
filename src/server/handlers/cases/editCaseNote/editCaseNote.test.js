@@ -2,12 +2,12 @@ import * as httpMocks from "node-mocks-http";
 import CaseNote from "../../../testHelpers/caseNote";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import editCaseNote from "./editCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
+  CASE_STATUSES_AFTER_LETTER_APPROVAL,
   MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
@@ -16,6 +16,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import { isCaseNoteAuthor } from "../helpers/isCaseNoteAuthor";
 import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 import { sendNotification } from "../getMessageStream";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock("../../audits/auditDataAccess");
 jest.mock("../helpers/isCaseNoteAuthor");
@@ -38,7 +39,8 @@ describe("editCaseNote", function () {
     newCaseNoteAction,
     request,
     response,
-    next;
+    next,
+    statuses;
 
   response = httpMocks.createResponse();
   next = jest.fn();
@@ -53,10 +55,7 @@ describe("editCaseNote", function () {
       { auditUser: "a different user" }
     );
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseToCreate = new Case.Builder()
       .defaultCase()
@@ -139,7 +138,7 @@ describe("editCaseNote", function () {
 
       expect(updatedCase).toEqual(
         expect.objectContaining({
-          status: CASE_STATUS.ACTIVE
+          currentStatusId: statuses.find(status => status.name === "Active").id
         })
       );
 
@@ -181,7 +180,7 @@ describe("editCaseNote", function () {
 
       expect(updatedCase).toEqual(
         expect.objectContaining({
-          status: CASE_STATUS.ACTIVE
+          currentStatusId: statuses.find(status => status.name === "Active").id
         })
       );
 

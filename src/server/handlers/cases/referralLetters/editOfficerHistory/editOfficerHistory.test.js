@@ -2,7 +2,6 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import models from "../../../../policeDataManager/models";
 import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import editOfficerHistory from "./editOfficerHistory";
@@ -10,8 +9,8 @@ import httpMocks from "node-mocks-http";
 import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import ReferralLetterOfficerHistoryNote from "../../../../testHelpers/ReferralLetterOfficerHistoryNote";
 import Boom from "boom";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("edit referral letter", () => {
   afterEach(async () => {
@@ -21,16 +20,13 @@ describe("edit referral letter", () => {
   afterAll(async () => {
     await models.sequelize.close();
   });
-  let existingCase, referralLetter, caseOfficer, response, next;
+  let existingCase, referralLetter, caseOfficer, response, next, statuses;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder().defaultCase().withId(undefined);
     existingCase = await models.cases.create(caseAttributes, {

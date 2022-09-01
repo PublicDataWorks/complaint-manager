@@ -7,6 +7,7 @@ import {
   S3_URL_EXPIRATION
 } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
+import Case from "../../../../policeDataManager/payloadObjects/Case";
 import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
@@ -16,23 +17,25 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig
 const getFinalPdfDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
-    const existingCase = await models.cases.findByPk(caseId, {
-      include: [
-        {
-          model: models.case_officer,
-          as: "complainantOfficers",
-          auditUser: "test"
-        },
-        {
-          model: models.civilian,
-          as: "complainantCivilians",
-          auditUser: "test"
-        }
-      ],
-      paranoid: false
-    });
+    const existingCase = new Case(
+      await models.cases.findByPk(caseId, {
+        include: [
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            auditUser: "test"
+          },
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "test"
+          }
+        ],
+        paranoid: false
+      })
+    );
 
-    validateCaseStatus(existingCase.status);
+    validateCaseStatus(await existingCase.getStatus());
 
     const referralLetter = await models.referral_letter.findOne({
       where: { caseId: existingCase.id }

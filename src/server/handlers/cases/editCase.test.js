@@ -1,7 +1,6 @@
 import Case from "../../../sharedTestHelpers/case";
 import Address from "../../../sharedTestHelpers/Address";
 import Civilian from "../../../sharedTestHelpers/civilian";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
@@ -14,6 +13,7 @@ import { createTestCaseWithoutCivilian } from "../../testHelpers/modelMothers";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
+import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 
 const httpMocks = require("node-mocks-http");
 const models = require("../../policeDataManager/models");
@@ -30,7 +30,8 @@ describe("Edit Case", () => {
     valuesToUpdate,
     initialCaseAttributes,
     addressAttributes,
-    civilianAttributes;
+    civilianAttributes,
+    statuses;
 
   const initialCityValue = "Old City";
 
@@ -43,10 +44,7 @@ describe("Edit Case", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   describe("case status update", function () {
@@ -77,7 +75,9 @@ describe("Edit Case", () => {
       expect(existingCase.narrativeSummary).toEqual(
         valuesToUpdate.narrativeSummary
       );
-      expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
   });
 

@@ -1,5 +1,4 @@
 import Case from "../../../sharedTestHelpers/case";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import Address from "../../../sharedTestHelpers/Address";
 import Civilian from "../../../sharedTestHelpers/civilian";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
@@ -10,10 +9,10 @@ import {
   MANAGER_TYPE,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
-import Boom from "boom";
 import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
+import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 
 const editCivilian = require("./editCivilian");
 const models = require("../../policeDataManager/models/index");
@@ -22,16 +21,13 @@ const httpMocks = require("node-mocks-http");
 jest.mock("../audits/auditDataAccess");
 
 describe("editCivilian", () => {
-  let response, next;
+  let response, next, statuses;
 
   beforeEach(async () => {
     response = httpMocks.createResponse();
     next = jest.fn();
 
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -121,7 +117,9 @@ describe("editCivilian", () => {
       );
       expect(updatedAddressCount).toEqual(initialAddressCount + 1);
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("should call next when missing civilian id", async () => {
@@ -220,7 +218,9 @@ describe("editCivilian", () => {
       );
       expect(updatedAddressCount).toEqual(initialAddressCount);
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("should update civilian with correct properties", async () => {
@@ -244,7 +244,9 @@ describe("editCivilian", () => {
       await existingCivilian.reload();
       expect(existingCivilian.firstName).toEqual("Bob");
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.ACTIVE);
+      expect(existingCase.currentStatusId).toEqual(
+        statuses.find(status => status.name === "Active").id
+      );
     });
 
     test("should not update civilian address or case status if civilian update fails", async () => {

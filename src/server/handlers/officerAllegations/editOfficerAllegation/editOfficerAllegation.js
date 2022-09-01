@@ -7,6 +7,7 @@ const Boom = require("boom");
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(
@@ -38,6 +39,12 @@ const editOfficerAllegation = asyncMiddleware(
           transaction
         });
 
+        await updateCaseToActiveIfInitial(
+          caseOfficer.caseId,
+          request.nickname,
+          transaction
+        );
+
         const caseDetailsAndAuditDetails =
           await getCaseWithAllAssociationsAndAuditDetails(
             caseOfficer.caseId,
@@ -60,7 +67,7 @@ const editOfficerAllegation = asyncMiddleware(
       }
     );
 
-    response.status(200).send(updatedCase);
+    response.status(200).send(await updatedCase.toJSON());
   }
 );
 
