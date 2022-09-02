@@ -237,8 +237,11 @@ pactWith(
           withRequest: {
             method: "PUT",
             path: "/api/cases/1/status",
+            headers: {
+              "Content-Type": "application/json"
+            },
             body: like({
-              status: "Ready For Review"
+              status: "Ready for Review"
             })
           },
           willRespondWith: {

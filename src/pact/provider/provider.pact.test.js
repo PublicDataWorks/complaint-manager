@@ -24,10 +24,11 @@ import District from "../../sharedTestHelpers/District";
 import Tag from "../../server/testHelpers/tag";
 import CaseTag from "../../server/testHelpers/caseTag";
 import IntakeSource from "../../server/testHelpers/intakeSource";
-import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
+import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
+import { CASE_STATUSES_WITH_ACTIVE_LETTER } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -194,7 +195,7 @@ const setupCaseNoteActions = async () => {
 };
 
 describe("Pact Verification", () => {
-  let server;
+  let server, statuses;
   beforeAll(() => {
     server = app.listen(8989);
   });
@@ -221,6 +222,8 @@ describe("Pact Verification", () => {
       ],
       beforeEach: async () => {
         await cleanupDatabase();
+
+        statuses = await seedStandardCaseStatuses();
 
         const signerAttr = new Signer.Builder()
           .defaultSigner()
@@ -281,14 +284,14 @@ describe("Pact Verification", () => {
           const letterCase = await setupCase();
           await Promise.all([
             addComplainantOfficerToCase(letterCase),
-            setupLetter(letterCase),
+            setupLetter(letterCase, statuses),
             addClassifications(),
             addRecommendedActions()
           ]);
         },
         "letter is ready for review: officer history added": async () => {
           const letterCase = await setupCase();
-          const letter = await setupLetter(letterCase);
+          const letter = await setupLetter(letterCase, statuses);
           await Promise.all([
             addComplainantOfficerToCase(letterCase),
             addOfficerHistoryToReferralLetter(letter),
@@ -299,7 +302,7 @@ describe("Pact Verification", () => {
         "letter is ready for review: officer history added: classifications added":
           async () => {
             const letterCase = await setupCase();
-            const letter = await setupLetter(letterCase);
+            const letter = await setupLetter(letterCase, statuses);
             try {
               await Promise.all([
                 addComplainantOfficerToCase(letterCase),
@@ -314,7 +317,7 @@ describe("Pact Verification", () => {
         "letter is ready for review: with civilian complainant": async () => {
           const letterCase = await setupCase();
           await Promise.all([
-            setupLetter(letterCase),
+            setupLetter(letterCase, statuses),
             addComplainantOfficerToCase(letterCase),
             addCivilianComplainantToCase(letterCase),
             addClassifications(),
@@ -337,7 +340,7 @@ describe("Pact Verification", () => {
         "letter is ready for review: with civilian complainant with accused officer":
           async () => {
             const letterCase = await setupCase();
-            const letter = await setupLetter(letterCase);
+            const letter = await setupLetter(letterCase, statuses);
             await Promise.all([
               addComplainantOfficerToCase(letterCase),
               addCivilianComplainantToCase(letterCase),
@@ -415,16 +418,6 @@ describe("Pact Verification", () => {
             );
           } catch (error) {
             console.log("ERRRRR IntakeSource", error);
-          }
-        },
-        "case statuses exist": async () => {
-          try {
-            await models.caseStatus.create(
-              new CaseStatus.Builder().defaultCaseStatus().build(),
-              { auditUser: "user" }
-            );
-          } catch (error) {
-            console.log("ERRRRR CaseStatus", error);
           }
         },
         "how did you hear about us sources exist": async () => {

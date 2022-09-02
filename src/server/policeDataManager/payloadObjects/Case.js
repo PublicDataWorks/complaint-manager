@@ -48,6 +48,7 @@ export default class Case {
       this._model.currentStatusId = nextStatus.id;
       this._status = nextStatus.name;
     } else if (status !== (await this.getStatus())) {
+      console.log(status, await this.getStatus());
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
     }
   };
@@ -175,7 +176,7 @@ export default class Case {
   toJSON = async () => {
     let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
-    json.nextStatus = await this.getNextStatus();
+    json.nextStatus = (await this.getNextStatus()).name;
     return json;
   };
 }

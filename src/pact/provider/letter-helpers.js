@@ -9,9 +9,9 @@ import LetterOfficer from "../../server/testHelpers/LetterOfficer";
 import Allegation from "../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../sharedTestHelpers/OfficerAllegation";
 
-export const setupLetter = async letterCase => {
+export const setupLetter = async (letterCase, statuses) => {
   try {
-    await updateCaseStatus(letterCase, CASE_STATUS.READY_FOR_REVIEW);
+    await updateCaseStatus(letterCase, CASE_STATUS.READY_FOR_REVIEW, statuses);
 
     const letter = await models.referral_letter.create(
       new ReferralLetter.Builder()

@@ -3,6 +3,7 @@ import models from "../../../../policeDataManager/models";
 import Boom from "boom";
 import throwErrorIfLetterFlowUnavailable from "../throwErrorIfLetterFlowUnavailable";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
+import { updateCaseToActiveIfInitial } from "../../helpers/caseStatusHelpers";
 
 const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
   await throwErrorIfLetterFlowUnavailable(request.params.caseId);
@@ -14,7 +15,14 @@ const editOfficerHistory = asyncMiddleware(async (request, response, next) => {
         transaction
       );
     }
+
+    await updateCaseToActiveIfInitial(
+      request.params.caseId,
+      request.nickname,
+      transaction
+    );
   });
+
   return response.status(200).send();
 });
 
@@ -111,9 +119,10 @@ const deleteUnsubmittedExistingOfficerHistoryNotes = async (
   userNickname,
   transaction
 ) => {
-  const existingNotesIds = await getExistingOfficerHistoryNoteIdsForReferralOfficer(
-    referralLetterOfficerId
-  );
+  const existingNotesIds =
+    await getExistingOfficerHistoryNoteIdsForReferralOfficer(
+      referralLetterOfficerId
+    );
   if (existingNotesIds.length === 0) {
     return;
   }
@@ -130,19 +139,19 @@ const deleteUnsubmittedExistingOfficerHistoryNotes = async (
   });
 };
 
-const getExistingOfficerHistoryNoteIdsForReferralOfficer = async referralLetterOfficerId => {
-  const officerHistoryNotes = await models.referral_letter_officer_history_note.findAll(
-    {
-      where: {
-        referralLetterOfficerId: referralLetterOfficerId
-      },
-      attributes: ["id"],
-      raw: true
-    }
-  );
+const getExistingOfficerHistoryNoteIdsForReferralOfficer =
+  async referralLetterOfficerId => {
+    const officerHistoryNotes =
+      await models.referral_letter_officer_history_note.findAll({
+        where: {
+          referralLetterOfficerId: referralLetterOfficerId
+        },
+        attributes: ["id"],
+        raw: true
+      });
 
-  return officerHistoryNotes.map(note => note.id);
-};
+    return officerHistoryNotes.map(note => note.id);
+  };
 
 const updateExistingOfficerHistoryNote = async (
   noteData,
