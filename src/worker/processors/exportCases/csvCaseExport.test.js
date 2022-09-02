@@ -380,6 +380,11 @@ describe("csvCaseExport request", () => {
             as: "complainantCivilians",
             include: [models.address]
           },
+          {
+            model: models.caseStatus,
+            as: "status",
+            attributes: ["name"]
+          },
           { model: models.address, as: "incidentLocation" },
           { model: models.district, as: "caseDistrict" }
         ]
@@ -389,7 +394,7 @@ describe("csvCaseExport request", () => {
 
       expect(records.length).toEqual(1);
       expect(records[0]["Case #"]).toEqual(caseReference);
-      expect(records[0]["Case Status"]).toEqual(caseToExport.status);
+      expect(records[0]["Case Status"]).toEqual(caseToExport.status.name);
       expect(records[0]["Created by"]).toEqual(caseToExport.createdBy);
       expect(records[0]["Created on"]).toEqual(
         timezone

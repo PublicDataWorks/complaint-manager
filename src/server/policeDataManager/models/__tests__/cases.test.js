@@ -514,12 +514,12 @@ describe("cases", function () {
     test("sets status to given status when allowed", async () => {
       await createdCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.currentStatusId).toEqual(
+      expect(createdCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });
@@ -527,12 +527,12 @@ describe("cases", function () {
     test("allows status to stay the same", async () => {
       await createdCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Initial").id
+          statusId: statuses.find(status => status.name === "Initial").id
         },
         { auditUser: "someone" }
       );
       await createdCase.reload();
-      expect(createdCase.currentStatusId).toEqual(
+      expect(createdCase.statusId).toEqual(
         statuses.find(status => status.name === "Initial").id
       );
     });
@@ -547,7 +547,7 @@ describe("cases", function () {
       await createdCase.update({}, { auditUser: "Someone" });
 
       await createdCase.reload();
-      expect(createdCase.currentStatusId).toEqual(
+      expect(createdCase.statusId).toEqual(
         statuses.find(status => status.name === "Initial").id
       );
     });

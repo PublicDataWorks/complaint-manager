@@ -7,7 +7,7 @@ export default class Case {
   constructor(caseModel) {
     // TODO maybe allow the constructor to get the model by id from DB (if needed)
     this._model = caseModel;
-    this._status = caseModel.currentStatus?.name;
+    this._status = caseModel.status?.name;
   }
 
   get model() {
@@ -34,9 +34,7 @@ export default class Case {
    */
   getStatus = async () => {
     if (!this._status) {
-      const status = await models.caseStatus.findByPk(
-        this._model.currentStatusId
-      );
+      const status = await models.caseStatus.findByPk(this._model.statusId);
       this._status = status.name;
     }
     return this._status;
@@ -45,7 +43,7 @@ export default class Case {
   setStatus = async status => {
     const nextStatus = await determineNextCaseStatus(await this.getStatus());
     if (status === nextStatus.name) {
-      this._model.currentStatusId = nextStatus.id;
+      this._model.statusId = nextStatus.id;
       this._status = nextStatus.name;
     } else if (status !== (await this.getStatus())) {
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
@@ -175,7 +173,7 @@ export default class Case {
   toJSON = async () => {
     let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
-    json.nextStatus = (await this.getNextStatus()).name;
+    json.nextStatus = (await this.getNextStatus())?.name;
     return json;
   };
 }

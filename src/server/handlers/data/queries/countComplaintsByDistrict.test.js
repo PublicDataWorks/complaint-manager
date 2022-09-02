@@ -17,6 +17,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import moment from "moment";
 import Address from "../../../../sharedTestHelpers/Address";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 const {
   DISTRICTS_GEOJSON
@@ -66,13 +67,10 @@ describe("executeQuery", () => {
     expectedOutput.push({ district: districtNames[6], count: 1 });
   }
 
-  let firstDistrict, secondDistrict, fifthDistrict;
+  let firstDistrict, secondDistrict, fifthDistrict, statuses;
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     firstDistrict = await models.district.create(
       new District.Builder().withName(districtNames[0])
@@ -122,7 +120,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      firstCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const secondCase = await models.cases.create(
       new Case.Builder()
@@ -136,7 +138,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(secondCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      secondCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const thirdCase = await models.cases.create(
       new Case.Builder()
@@ -150,7 +156,7 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED, statuses);
 
     const fourthCaseGeo = DISTRICTS_GEOJSON
       ? findCenter(DISTRICTS_GEOJSON.features[0].geometry.coordinates[0])
@@ -179,7 +185,7 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED, statuses);
 
     const fifthCaseGeo = DISTRICTS_GEOJSON
       ? findCenter(DISTRICTS_GEOJSON.features[6].geometry.coordinates[0])
@@ -208,7 +214,7 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED, statuses);
   });
 
   afterEach(async () => {
@@ -260,7 +266,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(case15MonthsAgo, CASE_STATUS.LETTER_IN_PROGRESS);
+    await updateCaseStatus(
+      case15MonthsAgo,
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
+    );
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
@@ -282,7 +292,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     await archivedCase.destroy({ auditUser: "someone" });
 

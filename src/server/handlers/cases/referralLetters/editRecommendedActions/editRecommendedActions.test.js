@@ -38,7 +38,7 @@ describe("editRecommendedActions", function () {
       auditUser: "test"
     });
     await existingCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -82,7 +82,7 @@ describe("editRecommendedActions", function () {
     beforeEach(async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },

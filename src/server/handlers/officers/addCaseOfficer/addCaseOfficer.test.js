@@ -74,7 +74,7 @@ describe("addCaseOfficer", () => {
     const caseOfInterest = await models.cases.findByPk(existingCase.id);
     expect(caseOfInterest).toEqual(
       expect.objectContaining({
-        currentStatusId: statuses.find(status => status.name === "Active").id
+        statusId: statuses.find(status => status.name === "Active").id
       })
     );
   });
@@ -288,7 +288,7 @@ describe("addCaseOfficer", () => {
 
   test("should create letter officer if letter exists", async () => {
     await existingCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "someone" }
     );
 
@@ -303,9 +303,8 @@ describe("addCaseOfficer", () => {
 
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Letter in Progress"
-        ).id
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
       },
       { auditUser: "someone" }
     );

@@ -20,7 +20,7 @@ const getMinimumCaseDetails = asyncMiddleware(
               "complaintType",
               "caseReference"
             ],
-            include: ["currentStatus"],
+            include: ["status"],
             paranoid: false,
             transaction
           })
@@ -33,7 +33,7 @@ const getMinimumCaseDetails = asyncMiddleware(
 
         const auditDetails = {
           [models.cases.name]: {
-            attributes: ["caseReference", "currentStatusId"],
+            attributes: ["caseReference", "statusId"],
             model: models.cases.name
           }
         };

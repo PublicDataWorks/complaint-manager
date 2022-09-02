@@ -43,7 +43,7 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
 
     const caseToUpdate = new Case(
       await models.cases.findByPk(request.params.caseId, {
-        include: "currentStatus"
+        include: "status"
       })
     );
 

@@ -9,12 +9,19 @@ export const executeQuery = async nickname => {
       firstContactDate: {
         [sequelize.Op.gte]: startDate,
         [sequelize.Op.lte]: endDate
-      },
-      status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+      }
     };
 
     const queryOptions = {
       where: where,
+      include: [
+        {
+          model: models.caseStatus,
+          as: "status",
+          attributes: [],
+          where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
+        }
+      ],
       attributes: ["id"]
     };
 

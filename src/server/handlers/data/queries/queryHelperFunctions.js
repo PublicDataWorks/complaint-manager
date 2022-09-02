@@ -17,7 +17,7 @@ export const updateCaseStatus = async (
 ) => {
   await caseToUpdate.update(
     {
-      currentStatusId: statuses.find(status => status.name === desiredStatus).id
+      statusId: statuses.find(status => status.name === desiredStatus).id
     },
     { auditUser: "someone" }
   );

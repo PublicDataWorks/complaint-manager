@@ -7,7 +7,7 @@ describe("exportCasesQuery", () => {
     const fromCount = queryString.match(/from/gi).length;
     const joinCount = queryString.match(/join/gi).length;
     const deletedAtCount = queryString.match(/deleted_at/g).length;
-    const expectedExtraJoinFromCount = 14;
+    const expectedExtraJoinFromCount = 15;
     // Expected from/join occurrences that don't have matching deleted_at occurrences:
     // (1) attachments are hard deleted as of now, so they don't have deleted_at column
     // (1) allegations are not deleted so they don't have deleted_at column
@@ -19,6 +19,7 @@ describe("exportCasesQuery", () => {
     // (1) gender_identity does not have a deleted at column
     // (1) how_did_you_hear_about_us_sources does not have a deleted at column
     // (1) districts does not have a deleted at column
+    // (1) cast_statuses does not have a deleted at column
     const fromJoinDeletedAtBalance =
       fromCount + joinCount - deletedAtCount - expectedExtraJoinFromCount;
     expect(fromJoinDeletedAtBalance).toEqual(0);

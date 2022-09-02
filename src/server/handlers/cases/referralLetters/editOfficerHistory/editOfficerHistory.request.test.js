@@ -42,7 +42,7 @@ describe("edit referral letter", () => {
 
       await existingCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         },
         { auditUser: "test" }
       );
@@ -80,7 +80,7 @@ describe("edit referral letter", () => {
     test("saves the letter officers if they do not exist yet", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },
@@ -126,9 +126,8 @@ describe("edit referral letter", () => {
     test("it returns 200 if case status is ready for review", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
-            status => status.name === "Ready for Review"
-          ).id
+          statusId: statuses.find(status => status.name === "Ready for Review")
+            .id
         },
         { auditUser: "test" }
       );
@@ -151,7 +150,7 @@ describe("edit referral letter", () => {
       suppressWinstonLogs(async () => {
         await existingCase.update(
           {
-            currentStatusId: statuses.find(
+            statusId: statuses.find(
               status => status.name === "Ready for Review"
             ).id
           },
@@ -180,7 +179,7 @@ describe("edit referral letter", () => {
       suppressWinstonLogs(async () => {
         await existingCase.update(
           {
-            currentStatusId: statuses.find(
+            statusId: statuses.find(
               status => status.name === "Forwarded to Agency"
             ).id
           },

@@ -16,8 +16,7 @@ export const executeQuery = async (nickname, dateRange) => {
   const geoPromise = getGeoData(dateRange);
   const districtIdWhere = {
     deletedAt: null,
-    firstContactDate: calculateFirstContactDateCriteria(dateRange),
-    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    firstContactDate: calculateFirstContactDateCriteria(dateRange)
   };
 
   const districtIdQueryOptions = {
@@ -28,6 +27,12 @@ export const executeQuery = async (nickname, dateRange) => {
         as: "caseDistrict",
         attributes: ["name"],
         required: true
+      },
+      {
+        model: models.caseStatus,
+        as: "status",
+        attributes: [],
+        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
       }
     ],
     raw: true,
@@ -72,7 +77,6 @@ const getGeoData = async dateRange => {
   const geoWhere = {
     deletedAt: null,
     firstContactDate: calculateFirstContactDateCriteria(dateRange),
-    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED],
     district_id: null
   };
 
@@ -84,6 +88,12 @@ const getGeoData = async dateRange => {
         as: "incidentLocation",
         attributes: ["lat", "lng"],
         required: true
+      },
+      {
+        model: models.caseStatus,
+        as: "status",
+        attributes: [],
+        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
       }
     ],
     raw: true,

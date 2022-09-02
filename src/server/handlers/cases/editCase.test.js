@@ -75,7 +75,7 @@ describe("Edit Case", () => {
       expect(existingCase.narrativeSummary).toEqual(
         valuesToUpdate.narrativeSummary
       );
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });

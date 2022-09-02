@@ -21,12 +21,10 @@ export const expectedCaseAuditDetails = {
       "isArchived",
       "narrativeDetails",
       "narrativeSummary",
-      "nextStatus",
       "pdfAvailable",
       "pibCaseNumber",
       "primaryComplainant",
-      "status",
-      "currentStatusId",
+      "statusId",
       "updatedAt",
       "year"
     ]),
@@ -128,7 +126,7 @@ export const expectedCaseAuditDetails = {
     ),
     model: models.district.name
   },
-  currentStatus: {
+  status: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.caseStatus.rawAttributes).filter(
         attribute => attribute !== "createdAt" && attribute !== "updatedAt"

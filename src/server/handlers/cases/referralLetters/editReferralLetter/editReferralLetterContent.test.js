@@ -40,7 +40,7 @@ describe("Edit referral letter addresses", () => {
       });
       await existingCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         },
         { auditUser: "test" }
       );
@@ -57,7 +57,7 @@ describe("Edit referral letter addresses", () => {
     test("save edited letter html content", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },
@@ -84,7 +84,7 @@ describe("Edit referral letter addresses", () => {
     test("throws exception when case status is invalid (after ready for review)", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },
@@ -106,7 +106,7 @@ describe("Edit referral letter addresses", () => {
       });
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },

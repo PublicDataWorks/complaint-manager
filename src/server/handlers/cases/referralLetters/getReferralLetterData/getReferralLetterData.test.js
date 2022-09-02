@@ -50,9 +50,8 @@ describe("getReferralLetterData", () => {
 
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Letter in Progress"
-        ).id
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
       },
       { auditUser: "test" }
     );
@@ -315,7 +314,7 @@ describe("getReferralLetterData", () => {
     test("it returns letter data when status is after approved", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },

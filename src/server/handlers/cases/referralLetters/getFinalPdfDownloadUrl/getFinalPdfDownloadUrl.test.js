@@ -92,9 +92,7 @@ describe("getFinalPdfDownloadUrl", () => {
 
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Ready for Review"
-        ).id
+        statusId: statuses.find(status => status.name === "Ready for Review").id
       },
       { auditUser: "someone" }
     );
@@ -135,9 +133,8 @@ describe("getFinalPdfDownloadUrl", () => {
   test("should retrieve download url for pdf", async () => {
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Forwarded to Agency"
-        ).id
+        statusId: statuses.find(status => status.name === "Forwarded to Agency")
+          .id
       },
       { auditUser: "someone" }
     );
@@ -161,9 +158,8 @@ describe("getFinalPdfDownloadUrl", () => {
   test("should retrieve download url for pdf when archived", async () => {
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Forwarded to Agency"
-        ).id
+        statusId: statuses.find(status => status.name === "Forwarded to Agency")
+          .id
       },
       { auditUser: "someone" }
     );
@@ -197,7 +193,7 @@ describe("getFinalPdfDownloadUrl", () => {
     test("access to pdf letter is audited", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },

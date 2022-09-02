@@ -120,7 +120,7 @@ const getCaseDetailsAndAuditDetails = async (
       },
       {
         model: models.caseStatus,
-        as: "currentStatus",
+        as: "status",
         attributes: ["id", "name", "orderKey"]
       }
     ],

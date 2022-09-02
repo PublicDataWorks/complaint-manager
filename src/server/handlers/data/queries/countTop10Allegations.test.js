@@ -6,31 +6,30 @@ import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";
-import {
-  CASE_STATUS,
-  ISO_DATE,
-  ACCUSED
-} from "../../../../sharedUtilities/constants";
+import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import moment from "moment";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("executeQuery", () => {
-  let caseOfficer1, caseOfficer2, caseOfficer3;
-  let officer1, officer2, officer3;
-  let existingCase1, existingCase2, existingCase3;
-  let officerAllegation1,
-    officerAllegation2,
-    officerAllegation3,
-    officerAllegation4,
-    officerAllegation5,
-    officerAllegation6,
-    officerAllegation7;
-  let allegation1, allegation2, allegation3, allegation4;
+  let caseOfficer1,
+    caseOfficer2,
+    caseOfficer3,
+    officer1,
+    officer2,
+    officer3,
+    existingCase1,
+    existingCase2,
+    existingCase3,
+    allegation1,
+    allegation2,
+    allegation3,
+    allegation4,
+    statuses;
 
   const todaysDate = new Date();
 
@@ -81,10 +80,7 @@ describe("executeQuery", () => {
     });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     existingCase1 = await models.cases.create(
       new Case.Builder()
@@ -96,7 +92,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(existingCase1, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      existingCase1,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     existingCase2 = await models.cases.create(
       new Case.Builder()
@@ -107,7 +107,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(existingCase2, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      existingCase2,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     existingCase3 = await models.cases.create(
       new Case.Builder()
@@ -119,7 +123,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(existingCase3, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      existingCase3,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     officer1 = await models.officer.create(
       new Officer.Builder()
@@ -205,7 +213,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation1 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -214,7 +222,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation2 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -223,7 +231,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation3 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -232,7 +240,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation4 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -241,7 +249,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation5 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -250,7 +258,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation6 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -259,7 +267,7 @@ describe("executeQuery", () => {
       { auditUser: "someone" }
     );
 
-    officerAllegation7 = await models.officer_allegation.create(
+    await models.officer_allegation.create(
       new OfficerAllegation.Builder()
         .defaultOfficerAllegation()
         .withId(undefined)
@@ -290,7 +298,8 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(
       letterInProgressCase,
-      CASE_STATUS.LETTER_IN_PROGRESS
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
     );
 
     const newOfficer = await models.officer.create(
@@ -342,7 +351,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(case15MonthsAgo, CASE_STATUS.LETTER_IN_PROGRESS);
+    await updateCaseStatus(
+      case15MonthsAgo,
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
+    );
 
     const newOfficer = await models.officer.create(
       new Officer.Builder()
@@ -396,7 +409,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const newOfficer = await models.officer.create(
       new Officer.Builder()

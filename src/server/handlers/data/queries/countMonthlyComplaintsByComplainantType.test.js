@@ -21,6 +21,7 @@ import {
   getAllComplaints
 } from "./countMonthlyComplaintsByComplainantType";
 import moment from "moment";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 const {
   PERSON_TYPE
@@ -37,7 +38,8 @@ describe("executeQuery", () => {
     caseAttributes,
     complainantCaseCC,
     complainantCaseAC,
-    complainantCasePO;
+    complainantCasePO,
+    statuses;
 
   const token = buildTokenWithPermissions("", "tuser");
 
@@ -91,10 +93,7 @@ describe("executeQuery", () => {
     });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
 
@@ -119,7 +118,8 @@ describe("executeQuery", () => {
       complainantCaseCC = await createCase(caseAttributes);
       await updateCaseStatus(
         complainantCaseCC,
-        CASE_STATUS.FORWARDED_TO_AGENCY
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        statuses
       );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
@@ -129,7 +129,11 @@ describe("executeQuery", () => {
         33
       );
       complainantCaseAC = await createCase(caseAttributes);
-      await updateCaseStatus(complainantCaseAC, CASE_STATUS.LETTER_IN_PROGRESS);
+      await updateCaseStatus(
+        complainantCaseAC,
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        statuses
+      );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
         [],
@@ -138,7 +142,7 @@ describe("executeQuery", () => {
         44
       );
       complainantCasePO = await createCase(caseAttributes);
-      await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED);
+      await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
     });
 
     afterEach(async () => {
@@ -224,7 +228,8 @@ describe("executeQuery", () => {
       complainantCaseCC = await createCase(caseAttributes);
       await updateCaseStatus(
         complainantCaseCC,
-        CASE_STATUS.FORWARDED_TO_AGENCY
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        statuses
       );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
@@ -236,7 +241,8 @@ describe("executeQuery", () => {
       complainantCaseCC = await createCase(caseAttributes);
       await updateCaseStatus(
         complainantCaseCC,
-        CASE_STATUS.FORWARDED_TO_AGENCY
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        statuses
       );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
@@ -248,7 +254,8 @@ describe("executeQuery", () => {
       complainantCaseCC = await createCase(caseAttributes);
       await updateCaseStatus(
         complainantCaseCC,
-        CASE_STATUS.FORWARDED_TO_AGENCY
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        statuses
       );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
@@ -260,7 +267,8 @@ describe("executeQuery", () => {
       complainantCaseAC = await createCase(caseAttributes);
       await updateCaseStatus(
         complainantCaseAC,
-        CASE_STATUS.FORWARDED_TO_AGENCY
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        statuses
       );
 
       caseAttributes = createCaseAttributesBasedOnComplainants(
@@ -270,7 +278,7 @@ describe("executeQuery", () => {
         44
       );
       complainantCasePO = await createCase(caseAttributes);
-      await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED);
+      await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
     });
 
     afterEach(async () => {

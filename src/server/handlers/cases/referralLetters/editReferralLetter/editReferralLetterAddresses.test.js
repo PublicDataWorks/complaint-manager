@@ -64,7 +64,7 @@ describe("Edit referral letter addresses", () => {
     test("update existing referral letter recipient, sender and transcribed by", async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },

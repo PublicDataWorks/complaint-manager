@@ -148,7 +148,7 @@ describe("approveLetter", () => {
       await approveLetter(request, response, next);
       expect(response.statusCode).toEqual(200);
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Forwarded to Agency").id
       );
     });
@@ -157,7 +157,7 @@ describe("approveLetter", () => {
       uploadLetterToS3.mockClear();
       await approveLetter(request, response, next);
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Initial").id
       );
       expect(uploadLetterToS3).not.toHaveBeenCalled();
@@ -263,7 +263,7 @@ describe("approveLetter", () => {
       await approveLetter(request, response, next);
 
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Ready for Review").id
       );
       expect(uploadLetterToS3).not.toHaveBeenCalled();
@@ -278,9 +278,7 @@ describe("approveLetter", () => {
   const elevateCaseStatusToReadyForReview = async existingCase => {
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Ready for Review"
-        ).id
+        statusId: statuses.find(status => status.name === "Ready for Review").id
       },
       { auditUser: testUser }
     );

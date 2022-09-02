@@ -27,7 +27,7 @@ describe("editClassifications", () => {
       auditUser: "test"
     });
     await existingCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -54,9 +54,8 @@ describe("editClassifications", () => {
     });
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Letter in Progress"
-        ).id
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
       },
       { auditUser: "test" }
     );

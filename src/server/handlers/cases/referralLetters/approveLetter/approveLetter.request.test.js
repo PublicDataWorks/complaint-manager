@@ -218,9 +218,7 @@ describe("Approve referral letter", () => {
   const elevateCaseStatusToReadyForReview = async existingCase => {
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Ready for Review"
-        ).id
+        statusId: statuses.find(status => status.name === "Ready for Review").id
       },
       { auditUser: "nickname" }
     );

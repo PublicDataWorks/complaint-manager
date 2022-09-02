@@ -10,10 +10,12 @@ import app from "../../../server";
 import { ISO_DATE, CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("getCountByDateRange", () => {
   const fiveDaysAgo = moment().subtract(5, "days").format(ISO_DATE);
   const oneYearAgo = moment().subtract(1, "years").format(ISO_DATE);
+  let statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -26,10 +28,7 @@ describe("getCountByDateRange", () => {
   const expectedData = { ytd: 2, previousYear: 2 };
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const firstCase = await models.cases.create(
       new Case.Builder()
@@ -41,7 +40,11 @@ describe("getCountByDateRange", () => {
       }
     );
 
-    await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      firstCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const secondCase = await models.cases.create(
       new Case.Builder().defaultCase().withFirstContactDate(fiveDaysAgo),
@@ -50,7 +53,11 @@ describe("getCountByDateRange", () => {
       }
     );
 
-    await updateCaseStatus(secondCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      secondCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const thirdCase = await models.cases.create(
       new Case.Builder()
@@ -62,7 +69,7 @@ describe("getCountByDateRange", () => {
       }
     );
 
-    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED, statuses);
 
     const fourthCase = await models.cases.create(
       new Case.Builder()
@@ -73,7 +80,7 @@ describe("getCountByDateRange", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED, statuses);
   });
 
   test("returns count of complaints broken down by year to date and previous year", async () => {
@@ -97,7 +104,7 @@ describe("getCountByDateRange", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY, statuses);
 
     const response = await request(app)
       .get("/api/public-data")
@@ -130,7 +137,7 @@ describe("getCountByDateRange", () => {
       }
     );
 
-    await updateCaseStatus(activeCase, CASE_STATUS.ACTIVE);
+    await updateCaseStatus(activeCase, CASE_STATUS.ACTIVE, statuses);
 
     const letterInProgressCase = await models.cases.create(
       new Case.Builder()
@@ -144,7 +151,8 @@ describe("getCountByDateRange", () => {
 
     await updateCaseStatus(
       letterInProgressCase,
-      CASE_STATUS.LETTER_IN_PROGRESS
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
     );
 
     const readyForReviewCase = await models.cases.create(
@@ -157,7 +165,11 @@ describe("getCountByDateRange", () => {
       }
     );
 
-    await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
+    await updateCaseStatus(
+      readyForReviewCase,
+      CASE_STATUS.READY_FOR_REVIEW,
+      statuses
+    );
 
     const response = await request(app)
       .get("/api/public-data")
@@ -179,7 +191,11 @@ describe("getCountByDateRange", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     await archivedCase.destroy({ auditUser: "someone" });
 

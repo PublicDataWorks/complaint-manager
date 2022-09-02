@@ -6,8 +6,10 @@ import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Address from "../../../../sharedTestHelpers/Address";
 import { executeQuery } from "./locationData";
 import { updateCaseStatus } from "./queryHelperFunctions";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("locationDataQuery", () => {
+  let statuses;
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -17,10 +19,7 @@ describe("locationDataQuery", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     const case1 = await models.cases.create(
       new Case.Builder()
@@ -32,7 +31,7 @@ describe("locationDataQuery", () => {
       }
     );
 
-    await updateCaseStatus(case1, CASE_STATUS.CLOSED);
+    await updateCaseStatus(case1, CASE_STATUS.CLOSED, statuses);
 
     const case2 = await models.cases.create(
       new Case.Builder()
@@ -44,7 +43,7 @@ describe("locationDataQuery", () => {
       }
     );
 
-    await updateCaseStatus(case2, CASE_STATUS.CLOSED);
+    await updateCaseStatus(case2, CASE_STATUS.CLOSED, statuses);
 
     const case3 = await models.cases.create(
       new Case.Builder()
@@ -56,7 +55,7 @@ describe("locationDataQuery", () => {
       }
     );
 
-    await updateCaseStatus(case3, CASE_STATUS.CLOSED);
+    await updateCaseStatus(case3, CASE_STATUS.CLOSED, statuses);
 
     await models.address.create(
       new Address.Builder()

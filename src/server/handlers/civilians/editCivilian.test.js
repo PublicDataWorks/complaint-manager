@@ -117,7 +117,7 @@ describe("editCivilian", () => {
       );
       expect(updatedAddressCount).toEqual(initialAddressCount + 1);
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });
@@ -135,7 +135,9 @@ describe("editCivilian", () => {
       expect(next).toHaveBeenCalledWith(expect.anything());
 
       await existingCase.reload();
-      expect(existingCase.status).toEqual(CASE_STATUS.INITIAL);
+      expect(existingCase.statusId).toEqual(
+        statuses.find(status => status.name === "Initial").id
+      );
     });
   });
 
@@ -218,7 +220,7 @@ describe("editCivilian", () => {
       );
       expect(updatedAddressCount).toEqual(initialAddressCount);
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });
@@ -244,7 +246,7 @@ describe("editCivilian", () => {
       await existingCivilian.reload();
       expect(existingCivilian.firstName).toEqual("Bob");
       await existingCase.reload();
-      expect(existingCase.currentStatusId).toEqual(
+      expect(existingCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });

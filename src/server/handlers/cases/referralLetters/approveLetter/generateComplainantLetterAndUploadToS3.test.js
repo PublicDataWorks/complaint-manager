@@ -126,9 +126,8 @@ describe("generateComplainantLetterAndUploadToS3", () => {
 
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Letter in Progress"
-        ).id
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
       },
       { auditUser: "test" }
     );
@@ -205,9 +204,8 @@ describe("generateComplainantLetterAndUploadToS3", () => {
 
     await existingCase.update(
       {
-        currentStatusId: statuses.find(
-          status => status.name === "Letter in Progress"
-        ).id
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
       },
       { auditUser: "test" }
     );

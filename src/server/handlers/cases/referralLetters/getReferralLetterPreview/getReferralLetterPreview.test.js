@@ -105,7 +105,7 @@ describe("getReferralLetterPreview", function () {
       auditUser: "test"
     });
     await existingCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
     await models.civilian_title.create({
@@ -148,7 +148,7 @@ describe("getReferralLetterPreview", function () {
 
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },
@@ -182,7 +182,7 @@ describe("getReferralLetterPreview", function () {
       beforeEach(async () => {
         await existingCase.update(
           {
-            currentStatusId: statuses.find(
+            statusId: statuses.find(
               status => status.name === "Letter in Progress"
             ).id
           },
@@ -854,8 +854,7 @@ describe("getReferralLetterPreview", function () {
             "narrativeSummary",
             "pdfAvailable",
             "pibCaseNumber",
-            "status",
-            "currentStatusId",
+            "statusId",
             "updatedAt",
             "year"
           ];
@@ -1009,7 +1008,7 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.case_officer.name
             },
-            currentStatus: expect.objectContaining({
+            status: expect.objectContaining({
               attributes: expect.arrayContaining(
                 Object.keys(models.caseStatus.rawAttributes).filter(
                   attribute =>
@@ -1056,8 +1055,7 @@ describe("getReferralLetterPreview", function () {
             "narrativeSummary",
             "pdfAvailable",
             "pibCaseNumber",
-            "status",
-            "currentStatusId",
+            "statusId",
             "updatedAt",
             "year"
           ];
@@ -1176,7 +1174,7 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.case_officer.name
             }),
-            currentStatus: expect.objectContaining({
+            status: expect.objectContaining({
               attributes: expect.arrayContaining(
                 Object.keys(models.caseStatus.rawAttributes).filter(
                   attribute =>

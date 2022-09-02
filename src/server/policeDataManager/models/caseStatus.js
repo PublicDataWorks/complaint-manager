@@ -43,9 +43,9 @@ module.exports = (sequelize, DataTypes) => {
 
   CaseStatus.prototype.associate = models => {
     CaseStatus.hasMany(models.cases, {
-      as: "currentStatus",
+      as: "status",
       foreignKey: {
-        name: "currentStatusId",
+        name: "statusId",
         field: "current_status_id",
         allowNull: false
       }

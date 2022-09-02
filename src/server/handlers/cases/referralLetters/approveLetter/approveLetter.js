@@ -173,7 +173,7 @@ const getCase = async caseId => {
         },
         {
           model: models.caseStatus,
-          as: "currentStatus"
+          as: "status"
         }
       ]
     })

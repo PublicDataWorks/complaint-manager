@@ -37,7 +37,7 @@ const exportCasesQuery = (dateRange = null) => {
     "cases.id, " +
     "cases.year, " +
     "cases.case_number, " +
-    "cases.status, " +
+    "status.name AS status, " +
     "cases.created_by, " +
     "cases.pib_case_number, " +
     "concat_ws(" +
@@ -154,6 +154,7 @@ const exportCasesQuery = (dateRange = null) => {
     'officerAllegations.severity as "officerAllegations.severity", ' +
     'attachments.attachment_types as "attachments.attachment_types" ' +
     "FROM cases AS cases " +
+    "LEFT OUTER JOIN case_statuses status ON cases.status = status.id " +
     "LEFT OUTER JOIN case_classifications ON case_classifications.case_id = cases.id " +
     "LEFT OUTER JOIN classifications ON classifications.id = case_classifications.classification_id " +
     "LEFT OUTER JOIN intake_sources " +

@@ -734,15 +734,13 @@ describe("server", () => {
       });
 
       const updatedCase = await models.cases.findByPk(createdCase.id, {
-        include: ["currentStatus"]
+        include: ["status"]
       });
 
       expect(numberOfCaseNotesAfterRequest).toEqual(
         numberOfCaseNotesBeforeRequest + 1
       );
-      expect(updatedCase.dataValues.currentStatus.name).toEqual(
-        CASE_STATUS.ACTIVE
-      );
+      expect(updatedCase.dataValues.status.name).toEqual(CASE_STATUS.ACTIVE);
     });
   });
 

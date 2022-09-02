@@ -32,8 +32,7 @@ export const getAllComplaints = async (dateRange, nickname) => {
     firstContactDate: calculateFirstContactDateCriteria(
       dateRange,
       moment().subtract(12, "months")
-    ),
-    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    )
   };
 
   const queryOptions = {
@@ -53,6 +52,12 @@ export const getAllComplaints = async (dateRange, nickname) => {
           "createdAt",
           "officerId"
         ]
+      },
+      {
+        model: models.caseStatus,
+        as: "status",
+        attributes: [],
+        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
       }
     ],
     paranoid: false,

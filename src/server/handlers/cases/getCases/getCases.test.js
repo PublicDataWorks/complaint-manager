@@ -219,8 +219,7 @@ describe("getCases", () => {
 
       await createdCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === finalStatus)
-            .id
+          statusId: statuses.find(status => status.name === finalStatus).id
         },
         {
           auditUser: "test"

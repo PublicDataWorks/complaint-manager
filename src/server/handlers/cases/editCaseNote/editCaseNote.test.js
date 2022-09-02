@@ -138,7 +138,7 @@ describe("editCaseNote", function () {
 
       expect(updatedCase).toEqual(
         expect.objectContaining({
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         })
       );
 
@@ -180,7 +180,7 @@ describe("editCaseNote", function () {
 
       expect(updatedCase).toEqual(
         expect.objectContaining({
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         })
       );
 

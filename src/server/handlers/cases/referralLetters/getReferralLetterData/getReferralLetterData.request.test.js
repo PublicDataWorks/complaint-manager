@@ -36,7 +36,7 @@ describe("GET /cases/:id/referral-letter", function () {
     });
 
     await newCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
   });
@@ -46,7 +46,7 @@ describe("GET /cases/:id/referral-letter", function () {
     beforeEach(async () => {
       await newCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },
@@ -83,9 +83,8 @@ describe("GET /cases/:id/referral-letter", function () {
     test("it returns 200 if case status is ready for review", async () => {
       await newCase.update(
         {
-          currentStatusId: statuses.find(
-            status => status.name === "Ready for Review"
-          ).id
+          statusId: statuses.find(status => status.name === "Ready for Review")
+            .id
         },
         { auditUser: "test" }
       );
@@ -100,7 +99,7 @@ describe("GET /cases/:id/referral-letter", function () {
     test("it returns 200 if case status is forwarded to agency", async () => {
       await newCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },
@@ -118,7 +117,7 @@ describe("GET /cases/:id/referral-letter", function () {
     test("it returns 200 if case status is forwarded to agency", async () => {
       await newCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Closed").id
+          statusId: statuses.find(status => status.name === "Closed").id
         },
         { auditUser: "test" }
       );

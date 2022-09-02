@@ -8,13 +8,12 @@ import {
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Case from "../../../../sharedTestHelpers/case";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("civilian", () => {
+  let statuses;
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
   });
 
   afterEach(async () => {
@@ -30,7 +29,9 @@ describe("civilian", () => {
 
     const createdCivilians = await models.civilian.findAll();
     expect(createdCivilians.length).toEqual(1);
-    expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+    expect(initialCase.statusId).toEqual(
+      statuses.find(status => status.name === "Initial").id
+    );
   });
 
   test("should not update values to null", async () => {

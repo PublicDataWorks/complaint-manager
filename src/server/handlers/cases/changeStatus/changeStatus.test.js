@@ -68,7 +68,7 @@ describe("changeStatus", () => {
     await changeStatus(request, response, next);
     await initialCase.reload();
 
-    expect(initialCase.currentStatusId).toEqual(
+    expect(initialCase.statusId).toEqual(
       statuses.find(status => status.name === "Active").id
     );
   });
@@ -92,12 +92,14 @@ describe("changeStatus", () => {
     expect(next).toBeCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
     );
-    expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+    expect(initialCase.statusId).toEqual(
+      statuses.find(status => status.name === "Initial").id
+    );
   });
 
   test("creates empty letter if status changes to LETTER_IN_PROGRESS", async () => {
     await initialCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "someone" }
     );
     const request = httpMocks.createRequest({
@@ -121,7 +123,7 @@ describe("changeStatus", () => {
     expect(letterCreated.sender).not.toBeNull();
 
     await initialCase.reload();
-    expect(initialCase.currentStatusId).toEqual(
+    expect(initialCase.statusId).toEqual(
       statuses.find(status => status.name === "Letter in Progress").id
     );
   });
@@ -147,7 +149,7 @@ describe("changeStatus", () => {
     expect(letterCreated).toBeNull();
 
     await initialCase.reload();
-    expect(initialCase.currentStatusId).toEqual(
+    expect(initialCase.statusId).toEqual(
       statuses.find(status => status.name === "Active").id
     );
   });
@@ -173,7 +175,9 @@ describe("changeStatus", () => {
     expect(letterCreated).toBeNull();
 
     await initialCase.reload();
-    expect(initialCase.status).toEqual(CASE_STATUS.INITIAL);
+    expect(initialCase.statusId).toEqual(
+      statuses.find(status => status.name === "Initial").id
+    );
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS_FOR_UPDATE)
     );
@@ -257,7 +261,7 @@ describe("changeStatus", () => {
     test("creates a letter officer for each accused officer if changes to LETTER_IN_PROGRESS", async () => {
       await initialCase.update(
         {
-          currentStatusId: statuses.find(status => status.name === "Active").id
+          statusId: statuses.find(status => status.name === "Active").id
         },
         { auditUser: "someone" }
       );
@@ -287,7 +291,7 @@ describe("changeStatus", () => {
       expect(letterOfficer2).not.toBeNull();
 
       await initialCase.reload();
-      expect(initialCase.currentStatusId).toEqual(
+      expect(initialCase.statusId).toEqual(
         statuses.find(status => status.name === "Letter in Progress").id
       );
     });
@@ -319,7 +323,7 @@ describe("changeStatus", () => {
       expect(letterOfficer2).toBeNull();
 
       await initialCase.reload();
-      expect(initialCase.currentStatusId).toEqual(
+      expect(initialCase.statusId).toEqual(
         statuses.find(status => status.name === "Active").id
       );
     });
@@ -329,9 +333,8 @@ describe("changeStatus", () => {
     test("should update case status from letter in progress to ready for review to forwarded to agency", async () => {
       await initialCase.update(
         {
-          currentStatusId: statuses.find(
-            status => status.name === "Ready for Review"
-          ).id
+          statusId: statuses.find(status => status.name === "Ready for Review")
+            .id
         },
         { auditUser: "someone" }
       );
@@ -352,7 +355,7 @@ describe("changeStatus", () => {
 
       await initialCase.reload();
 
-      expect(initialCase.currentStatusId).toEqual(
+      expect(initialCase.statusId).toEqual(
         statuses.find(status => status.name === "Forwarded to Agency").id
       );
     });
@@ -360,7 +363,7 @@ describe("changeStatus", () => {
     test("should update case status from forwarded to agency to closed", async () => {
       await initialCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },
@@ -381,7 +384,7 @@ describe("changeStatus", () => {
 
       await changeStatus(request, response, next);
       await initialCase.reload();
-      expect(initialCase.currentStatusId).toEqual(
+      expect(initialCase.statusId).toEqual(
         statuses.find(status => status.name === "Closed").id
       );
     });
@@ -403,9 +406,8 @@ describe("changeStatus", () => {
 
       await initialCase.update(
         {
-          currentStatusId: statuses.find(
-            status => status.name === "Ready for Review"
-          ).id
+          statusId: statuses.find(status => status.name === "Ready for Review")
+            .id
         },
         { auditUser: "someone" }
       );
@@ -422,7 +424,7 @@ describe("changeStatus", () => {
     test("should not update case status for closed status and should call error when only update_case_status permission is not present", async () => {
       await initialCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Forwarded to Agency"
           ).id
         },

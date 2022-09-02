@@ -12,6 +12,7 @@ import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import CaseTag from "../../../testHelpers/caseTag";
 import Tag from "../../../testHelpers/tag";
 import moment from "moment";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 describe("executeQuery", () => {
   const token = buildTokenWithPermissions("", "tuser");
@@ -33,13 +34,10 @@ describe("executeQuery", () => {
     });
 
   const todaysDate = new Date();
+  let statuses;
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
-
+    statuses = await seedStandardCaseStatuses();
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
@@ -50,7 +48,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      firstCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const secondCase = await models.cases.create(
       new Case.Builder()
@@ -61,7 +63,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(secondCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      secondCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const thirdCase = await models.cases.create(
       new Case.Builder()
@@ -73,7 +79,7 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED, statuses);
 
     const hotDogTag = await models.tag.create(
       new Tag.Builder().defaultTag().withName("Chicago hot dogs"),
@@ -203,7 +209,8 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(
       letterInProgressCase,
-      CASE_STATUS.LETTER_IN_PROGRESS
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
     );
 
     const newTag = await models.tag.create(
@@ -241,7 +248,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(case15MonthsAgo, CASE_STATUS.LETTER_IN_PROGRESS);
+    await updateCaseStatus(
+      case15MonthsAgo,
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
+    );
 
     const newTag = await models.tag.create(
       new Tag.Builder().defaultTag().withName("new"),
@@ -295,7 +306,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     await archivedCase.destroy({ auditUser: "someone" });
 

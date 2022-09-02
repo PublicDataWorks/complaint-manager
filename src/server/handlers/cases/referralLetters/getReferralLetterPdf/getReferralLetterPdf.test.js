@@ -50,7 +50,7 @@ describe("Generate referral letter pdf", () => {
       auditUser: "test"
     });
     await existingCase.update(
-      { currentStatusId: statuses.find(status => status.name === "Active").id },
+      { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
 
@@ -71,7 +71,7 @@ describe("Generate referral letter pdf", () => {
     beforeEach(async () => {
       await existingCase.update(
         {
-          currentStatusId: statuses.find(
+          statusId: statuses.find(
             status => status.name === "Letter in Progress"
           ).id
         },

@@ -144,7 +144,7 @@ describe("GET /cases/:id", () => {
       expect.objectContaining({
         id: caseToRetrieve.id,
         complaintType: caseToRetrieve.complaintType,
-        status: caseToRetrieve.status,
+        status: "Initial",
         complainantCivilians: expect.arrayContaining([
           expect.objectContaining({
             firstName: caseToRetrieve.complainantCivilians[0].firstName,

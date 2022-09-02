@@ -6,11 +6,11 @@ export const updateCaseToActiveIfInitial = async (
   transaction
 ) => {
   const c4se = await models.cases.findByPk(caseId, {
-    include: ["currentStatus"],
+    include: ["status"],
     transaction
   });
 
-  if (c4se && c4se.currentStatus.name === "Initial") {
+  if (c4se && c4se.status.name === "Initial") {
     const activeStatus = await models.caseStatus.findOne({
       where: { name: "Active" },
       transaction
@@ -18,7 +18,7 @@ export const updateCaseToActiveIfInitial = async (
 
     if (activeStatus) {
       await c4se.update(
-        { currentStatusId: activeStatus.id },
+        { statusId: activeStatus.id },
         { auditUser: nickname, transaction }
       );
     }

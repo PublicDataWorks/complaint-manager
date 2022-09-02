@@ -7,7 +7,6 @@ import CaseStatus from "./caseStatus";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   COMPLAINANT,
   WITNESS
@@ -20,9 +19,8 @@ class Case {
     this.complainantCivilians = build.complainantCivilians;
     this.witnessCivilians = build.witnessCivilians;
     this.complaintType = build.complaintType;
+    this.statusId = build.statusId;
     this.status = build.status;
-    this.currentStatusId = build.currentStatusId;
-    this.currentStatus = build.currentStatus;
     this.createdAt = build.createdAt;
     this.firstContactDate = build.firstContactDate;
     this.createdBy = build.createdBy;
@@ -120,16 +118,13 @@ class Case {
           .withAddressableType(ADDRESSABLE_TYPE.CASES)
           .withAddressableId(id)
           .build();
-        const currentStatus = new CaseStatus.Builder()
-          .defaultCaseStatus()
-          .build();
+        const status = new CaseStatus.Builder().defaultCaseStatus().build();
 
         this.id = id;
         this.complainantCivilians = [complainantCivilian];
         this.witnessCivilians = [witnessCivilian];
-        this.status = CASE_STATUS.INITIAL;
-        this.currentStatusId = 1;
-        this.currentStatus = currentStatus;
+        this.statusId = 1;
+        this.status = status;
         this.createdAt = "2015-09-13T05:00:00.000Z";
         this.firstContactDate = "2017-12-24";
         this.incidentDate = "2017-01-01";
@@ -198,13 +193,8 @@ class Case {
         return this;
       }
 
-      withCurrentStatusId(statusId) {
-        this.currentStatusId = statusId;
-        return this;
-      }
-
-      withCurrentStatus(status) {
-        this.currentStatus = status;
+      withStatusId(statusId) {
+        this.statusId = statusId;
         return this;
       }
 

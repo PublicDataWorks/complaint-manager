@@ -17,18 +17,21 @@ import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import moment from "moment";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("executeQuery", () => {
-  let complainantOfficerPO;
-  let civilianCC, civilianAC;
-
-  let caseAttributes;
-
-  let complainantCaseCC, complainantCaseAC, complainantCasePO;
+  let complainantOfficerPO,
+    civilianCC,
+    civilianAC,
+    caseAttributes,
+    complainantCaseCC,
+    complainantCaseAC,
+    complainantCasePO,
+    statuses;
 
   const token = buildTokenWithPermissions("", "tuser");
 
@@ -54,10 +57,7 @@ describe("executeQuery", () => {
   });
 
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
 
@@ -79,7 +79,11 @@ describe("executeQuery", () => {
       22
     );
     complainantCaseCC = await createCase(caseAttributes);
-    await updateCaseStatus(complainantCaseCC, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      complainantCaseCC,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [civilianAC],
@@ -88,7 +92,11 @@ describe("executeQuery", () => {
       33
     );
     complainantCaseAC = await createCase(caseAttributes);
-    await updateCaseStatus(complainantCaseAC, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      complainantCaseAC,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     caseAttributes = createCaseAttributesBasedOnComplainants(
       [],
@@ -97,7 +105,7 @@ describe("executeQuery", () => {
       44
     );
     complainantCasePO = await createCase(caseAttributes);
-    await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED);
+    await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
   });
 
   const createCaseAttributesBasedOnComplainants = (
@@ -159,7 +167,7 @@ describe("executeQuery", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY, statuses);
 
     const getComplaintsPast12Months = request(app)
       .get("/api/public-data")
@@ -196,7 +204,7 @@ describe("executeQuery", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(oldCase, CASE_STATUS.FORWARDED_TO_AGENCY, statuses);
 
     await getComplaintsYTD.then(response => {
       expect(response.statusCode).toEqual(200);
@@ -225,7 +233,7 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(activeCase, CASE_STATUS.ACTIVE);
+    await updateCaseStatus(activeCase, CASE_STATUS.ACTIVE, statuses);
 
     const letterInProgressCase = await models.cases.create(
       new Case.Builder()
@@ -239,7 +247,8 @@ describe("executeQuery", () => {
 
     await updateCaseStatus(
       letterInProgressCase,
-      CASE_STATUS.LETTER_IN_PROGRESS
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
     );
 
     const readyForReviewCase = await models.cases.create(
@@ -252,7 +261,11 @@ describe("executeQuery", () => {
       }
     );
 
-    await updateCaseStatus(readyForReviewCase, CASE_STATUS.READY_FOR_REVIEW);
+    await updateCaseStatus(
+      readyForReviewCase,
+      CASE_STATUS.READY_FOR_REVIEW,
+      statuses
+    );
 
     await getResponsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
@@ -270,7 +283,11 @@ describe("executeQuery", () => {
         auditUser: "someone"
       }
     );
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     await archivedCase.destroy({ auditUser: "someone" });
 

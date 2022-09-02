@@ -18,8 +18,8 @@ describe("Case", () => {
   });
 
   describe("constructor", () => {
-    test("should save _status if currentStatus.name exists on model", () => {
-      const fakeModel = { currentStatus: { name: "THE STATUS" } };
+    test("should save _status if status.name exists on model", () => {
+      const fakeModel = { status: { name: "THE STATUS" } };
       const c4se = new Case(fakeModel);
       expect(c4se.model).toEqual(fakeModel);
       expect(c4se._status).toEqual("THE STATUS");
@@ -30,12 +30,12 @@ describe("Case", () => {
     let fakeModel, c4se;
 
     beforeEach(() => {
-      fakeModel = { currentStatusId: statuses[2].id };
+      fakeModel = { statusId: statuses[2].id };
       c4se = new Case(fakeModel);
     });
 
     test("should return status if already stored", async () => {
-      const fakeModel = { currentStatus: { name: "THE STATUS" } };
+      const fakeModel = { status: { name: "THE STATUS" } };
       const c4se = new Case(fakeModel);
       expect(await c4se.getStatus()).toEqual("THE STATUS");
     });
@@ -49,7 +49,7 @@ describe("Case", () => {
       expect(c4se._status).toEqual(statuses[3].name);
     });
 
-    test("should error if given status does not equal currentStatus or nextStatus", async () => {
+    test("should error if given status does not equal status or nextStatus", async () => {
       await expect(
         async () => await c4se.setStatus(statuses[0].name)
       ).rejects.toThrow(
@@ -57,7 +57,7 @@ describe("Case", () => {
       );
     });
 
-    test("should leave status as is if given status equals currentStatus", async () => {
+    test("should leave status as is if given status equals status", async () => {
       await c4se.setStatus(statuses[2].name);
       expect(c4se._status).toEqual(statuses[2].name);
     });
@@ -72,7 +72,7 @@ describe("Case", () => {
   });
 
   describe("toJSON", () => {
-    test("", async () => {
+    test("should map toJSON", async () => {
       const model = await models.cases.create(
         new CaseHelper.Builder().defaultCase().build(),
         { auditUser: "user" }
@@ -86,6 +86,20 @@ describe("Case", () => {
           complaintType: model.complaintType
         })
       );
+    });
+
+    test("should return undefined nextStatus when status is Closed", async () => {
+      const model = await models.cases.create(
+        new CaseHelper.Builder()
+          .defaultCase()
+          .withStatusId(statuses.find(status => status.name === "Closed").id)
+          .build(),
+        { auditUser: "user" }
+      );
+      const c4se = new Case(model);
+      const json = await c4se.toJSON();
+      expect(json.status).toEqual("Closed");
+      expect(json.nextStatus).toBeUndefined();
     });
   });
 });

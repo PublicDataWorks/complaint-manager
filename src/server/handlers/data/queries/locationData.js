@@ -6,8 +6,7 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 export const executeQuery = async dateRange => {
   const where = {
     deletedAt: null,
-    firstContactDate: calculateFirstContactDateCriteria(dateRange),
-    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    firstContactDate: calculateFirstContactDateCriteria(dateRange)
   };
 
   const queryOptions = {
@@ -22,6 +21,12 @@ export const executeQuery = async dateRange => {
         model: models.address,
         attributes: ["lat", "lng"],
         as: "incidentLocation"
+      },
+      {
+        model: models.caseStatus,
+        as: "status",
+        attributes: [],
+        where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
       }
     ]
   };

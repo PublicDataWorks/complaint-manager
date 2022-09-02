@@ -68,26 +68,8 @@ module.exports = (sequelize, DataTypes) => {
         field: "complaint_type",
         allowNull: false
       },
-      status: {
-        type: DataTypes.ENUM([
-          CASE_STATUS.INITIAL,
-          CASE_STATUS.ACTIVE,
-          CASE_STATUS.LETTER_IN_PROGRESS,
-          CASE_STATUS.READY_FOR_REVIEW,
-          CASE_STATUS.FORWARDED_TO_AGENCY,
-          CASE_STATUS.CLOSED
-        ]),
-        defaultValue: CASE_STATUS.INITIAL,
-        allowNull: true
-      },
-      nextStatus: {
-        type: new DataTypes.VIRTUAL(DataTypes.STRING, ["status"]),
-        get: function () {
-          return "NEXT STATUS"; // FIXME
-        }
-      },
-      currentStatusId: {
-        field: "current_status",
+      statusId: {
+        field: "status",
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 1,
@@ -288,13 +270,13 @@ module.exports = (sequelize, DataTypes) => {
   // TODO check if these are needed
   Case.prototype.updateCaseStatusId = () => {
     return this.setDataValue(
-      "currentStatusId",
-      this.caseStatus.determineCaseStatus(this.currentStatus.name)
+      "statusId",
+      this.caseStatus.determineCaseStatus(this.status.name)
     );
   };
 
   Case.prototype.getCurrentStatus = () => {
-    return this.caseStatus.determineCaseStatus(this.currentStatus.name);
+    return this.caseStatus.determineCaseStatus(this.status.name);
   };
 
   Case.associate = models => {
@@ -390,10 +372,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id" }
     });
     Case.belongsTo(models.caseStatus, {
-      as: "currentStatus",
+      as: "status",
       foreignKey: {
-        name: "currentStatusId",
-        field: "current_status",
+        name: "statusId",
+        field: "status",
         allowNull: false
       }
     });

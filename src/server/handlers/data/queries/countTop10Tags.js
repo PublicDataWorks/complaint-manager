@@ -6,8 +6,7 @@ import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
 export const executeQuery = async (nickname, dateRange) => {
   const where = {
     deletedAt: null,
-    firstContactDate: calculateFirstContactDateCriteria(dateRange),
-    status: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+    firstContactDate: calculateFirstContactDateCriteria(dateRange)
   };
 
   const queryOptions = {
@@ -24,7 +23,17 @@ export const executeQuery = async (nickname, dateRange) => {
       {
         model: models.cases,
         where: where,
-        attributes: []
+        attributes: [],
+        include: [
+          {
+            model: models.caseStatus,
+            as: "status",
+            attributes: [],
+            where: {
+              name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED]
+            }
+          }
+        ]
       }
     ],
     raw: true,

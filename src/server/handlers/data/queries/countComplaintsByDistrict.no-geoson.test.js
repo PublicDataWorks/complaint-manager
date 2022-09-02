@@ -17,6 +17,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import moment from "moment";
 import Address from "../../../../sharedTestHelpers/Address";
+import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`, () => ({
   DISTRICTS_GEOJSON: undefined,
@@ -56,12 +57,9 @@ describe("executeQuery without GEOJSON", () => {
     { district: districtNames[4], count: 1 }
   ];
 
-  let firstDistrict, secondDistrict, fifthDistrict;
+  let firstDistrict, secondDistrict, fifthDistrict, statuses;
   beforeEach(async () => {
-    await models.caseStatus.create(
-      new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
+    statuses = await seedStandardCaseStatuses();
 
     firstDistrict = await models.district.create(
       new District.Builder().withName(districtNames[0])
@@ -109,7 +107,11 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(firstCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      firstCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const secondCase = await models.cases.create(
       new Case.Builder()
@@ -123,7 +125,11 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(secondCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      secondCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     const thirdCase = await models.cases.create(
       new Case.Builder()
@@ -137,7 +143,7 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(thirdCase, CASE_STATUS.CLOSED, statuses);
 
     const fourthCaseGeo = {};
     const fourthCaseAddress = await models.address.create(
@@ -164,7 +170,7 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(fourthCase, CASE_STATUS.CLOSED, statuses);
 
     const fifthCaseGeo = {};
     const fifthCaseAddress = await models.address.create(
@@ -191,7 +197,7 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED);
+    await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED, statuses);
   });
 
   afterEach(async () => {
@@ -243,7 +249,11 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(case15MonthsAgo, CASE_STATUS.LETTER_IN_PROGRESS);
+    await updateCaseStatus(
+      case15MonthsAgo,
+      CASE_STATUS.LETTER_IN_PROGRESS,
+      statuses
+    );
 
     await responsePromise.then(response => {
       expect(response.statusCode).toEqual(200);
@@ -265,7 +275,11 @@ describe("executeQuery without GEOJSON", () => {
       }
     );
 
-    await updateCaseStatus(archivedCase, CASE_STATUS.FORWARDED_TO_AGENCY);
+    await updateCaseStatus(
+      archivedCase,
+      CASE_STATUS.FORWARDED_TO_AGENCY,
+      statuses
+    );
 
     await archivedCase.destroy({ auditUser: "someone" });
 
