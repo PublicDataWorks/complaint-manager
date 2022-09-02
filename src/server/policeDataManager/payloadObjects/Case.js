@@ -48,7 +48,6 @@ export default class Case {
       this._model.currentStatusId = nextStatus.id;
       this._status = nextStatus.name;
     } else if (status !== (await this.getStatus())) {
-      console.log(status, await this.getStatus());
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
     }
   };
