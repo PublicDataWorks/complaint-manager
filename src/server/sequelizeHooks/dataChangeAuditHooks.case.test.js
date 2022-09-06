@@ -3,7 +3,6 @@ import Case from "../../sharedTestHelpers/case";
 import CaseStatus from "../../sharedTestHelpers/caseStatus";
 import {
   AUDIT_ACTION,
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../sharedUtilities/constants";
