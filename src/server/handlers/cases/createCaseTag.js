@@ -8,6 +8,7 @@ import {
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import { getTagsAndAuditDetails } from "../tags/getTagsHelper";
+import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
 
 const asyncMiddleware = require("../asyncMiddleware");
 
@@ -40,6 +41,12 @@ const createCaseTag = asyncMiddleware(async (request, response, next) => {
           auditUser: request.nickname,
           transaction
         }
+      );
+
+      await updateCaseToActiveIfInitial(
+        request.params.caseId,
+        request.nickname,
+        transaction
       );
 
       const caseTagsAndAuditDetails = await getCaseTagsAndAuditDetails(
