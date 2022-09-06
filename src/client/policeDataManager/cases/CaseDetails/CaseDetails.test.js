@@ -26,6 +26,7 @@ import {
   openRemovePersonDialog
 } from "../../actionCreators/casesActionCreators";
 import {
+  CASE_STATUS,
   GET_CONFIGS_SUCCEEDED,
   NARRATIVE_FORM,
   USER_PERMISSIONS
@@ -78,6 +79,9 @@ describe("Case Details Component", () => {
       .withIncidentDate(incidentDateInUTC)
       .build();
 
+    expectedCase.status = CASE_STATUS.INITIAL;
+    expectedCase.nextStatus = CASE_STATUS.ACTIVE;
+
     store.dispatch(getCaseDetailsSuccess(expectedCase));
     store.dispatch({
       type: "AUTH_SUCCESS",
@@ -110,6 +114,8 @@ describe("Case Details Component", () => {
 
   test("should dispatch get case details action when navigating from case to case", () => {
     const previousCase = new Case.Builder().defaultCase().withId(500).build();
+    previousCase.status = CASE_STATUS.INITIAL;
+    previousCase.nextStatus = CASE_STATUS.ACTIVE;
 
     store.dispatch(getCaseDetailsSuccess(previousCase));
 

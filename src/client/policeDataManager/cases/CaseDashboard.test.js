@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { mount, render } from "enzyme";
+import React from "react";
+import { mount } from "enzyme";
 import CaseDashboard from "./CaseDashboard";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { Provider } from "react-redux";
@@ -8,16 +8,16 @@ import createConfiguredStore from "../../createConfiguredStore";
 import { openSnackbar } from "../actionCreators/snackBarActionCreators";
 import { mockLocalStorage } from "../../../mockLocalStorage";
 import { getWorkingCasesSuccess } from "../actionCreators/casesActionCreators";
-import Case from "../../../sharedTestHelpers/case";
+import CaseModel from "../../../sharedTestHelpers/case";
 import getWorkingCases from "./thunks/getWorkingCases";
 import { containsText } from "../../testHelpers";
 import {
+  CASE_STATUS,
   DESCENDING,
   SORT_CASES_BY,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import CreateCaseButton from "./CreateCaseButton";
-import { getFeaturesSuccess } from "../actionCreators/featureTogglesActionCreators";
 import moment from "moment";
 
 jest.mock("./thunks/getWorkingCases", () => () => ({
@@ -32,11 +32,13 @@ jest.mock("../../common/components/Visualization/PlotlyWrapper", () => {
 describe("CaseDashboard", () => {
   let caseDashboardWrapper, store, dispatchSpy, cases;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockLocalStorage();
 
-    const newCase = new Case.Builder().defaultCase().build();
-    const newCase2 = new Case.Builder().defaultCase().withId(1).build();
+    const newCase = new CaseModel.Builder().defaultCase().build();
+    newCase.status = CASE_STATUS.INITIAL;
+    const newCase2 = new CaseModel.Builder().defaultCase().withId(1).build();
+    newCase2.status = CASE_STATUS.INITIAL;
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();

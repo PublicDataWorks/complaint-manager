@@ -11,7 +11,11 @@ import Case from "../../../sharedTestHelpers/case";
 import ArchivedCases from "./ArchivedCases";
 import getArchivedCases from "./thunks/getArchivedCases";
 import { containsText } from "../../testHelpers";
-import { DESCENDING, SORT_CASES_BY } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  DESCENDING,
+  SORT_CASES_BY
+} from "../../../sharedUtilities/constants";
 
 jest.mock("./thunks/getArchivedCases");
 getArchivedCases.mockImplementation((sortBy, sortDirection, page) => ({
@@ -26,7 +30,9 @@ describe("ArchivedCases", () => {
     mockLocalStorage();
 
     const newCase = new Case.Builder().defaultCase().build();
+    newCase.status = CASE_STATUS.INITIAL;
     const newCase2 = new Case.Builder().defaultCase().withId(1).build();
+    newCase2.status = CASE_STATUS.INITIAL;
     cases = [newCase, newCase2];
 
     store = createConfiguredStore();
