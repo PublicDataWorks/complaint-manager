@@ -1,6 +1,9 @@
 class District {
   constructor(build) {
     this.name = build.name;
+    if (build.id) {
+      this.id = build.id;
+    }
   }
 
   static get Builder() {
@@ -12,6 +15,11 @@ class District {
 
       withName(name) {
         this.name = name;
+        return this;
+      }
+
+      withId(id) {
+        this.id = id;
         return this;
       }
 

@@ -326,6 +326,8 @@ exports.init = (sequelize, model) => {
         const associationInstance = await instance.sequelize.models[
           association.modelName
         ].findByPk(instance.dataValues[association.foreignKey]);
+        console.log(association.identifyingAttribute);
+        console.log("key", snapshotKey);
         snapshotValues[snapshotKey] =
           associationInstance[association.identifyingAttribute];
       } else {

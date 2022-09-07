@@ -201,6 +201,7 @@ class IncidentDetailsDialog extends Component {
             <div style={{ marginBottom: "16px" }}>
               <AddressInput
                 name={"autoSuggestValue"}
+                data-testid="editAddressInput"
                 formName={"IncidentDetails"}
                 fieldName={"incidentLocation"}
                 addressLabel={"Incident Location"}
@@ -209,6 +210,7 @@ class IncidentDetailsDialog extends Component {
             </div>
             <div style={{ display: "flex", marginBottom: "16px" }}>
               <AddressSecondLine
+                data-testid="editAddressSecondLineInput"
                 label={"Address Line 2"}
                 fieldName={`incidentLocation`}
                 style={{
@@ -234,6 +236,7 @@ class IncidentDetailsDialog extends Component {
             </div>
             <div style={{ display: "flex" }}>
               <AdditionalLocationInfo
+                data-testid="editAdditionalLocationInfo"
                 label={"Additional Location Info"}
                 fieldName={`incidentLocation`}
                 style={{

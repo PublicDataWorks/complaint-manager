@@ -194,6 +194,45 @@ const setupCaseNoteActions = async () => {
   }
 };
 
+const setupDistricts = async () => {
+  try {
+    return [
+      await models.district.create(
+        new District.Builder().defaultDistrict().withId(1).build(),
+        { auditUser: "user" }
+      )
+    ];
+  } catch (error) {
+    console.log("ERROR District", error);
+  }
+};
+
+const setupHowDidYouHearAboutUsSources = async () => {
+  try {
+    await models.how_did_you_hear_about_us_source.create(
+      new HowDidYouHearAboutUsSource.Builder()
+        .defaultHowDidYouHearAboutUsSource()
+        .withId(1)
+        .withName("Facebook")
+        .build(),
+      { auditUser: "user" }
+    );
+  } catch (error) {
+    console.log("ERRRRR HowDidYouHearAboutUsSource", error);
+  }
+};
+
+const setupIntakeSources = async () => {
+  try {
+    await models.intake_source.create(
+      new IntakeSource.Builder().defaultIntakeSource().withId(1).build(),
+      { auditUser: "user" }
+    );
+  } catch (error) {
+    console.log("ERRRRR IntakeSource", error);
+  }
+};
+
 describe("Pact Verification", () => {
   let server, statuses;
   beforeAll(() => {
@@ -410,30 +449,9 @@ describe("Pact Verification", () => {
             console.log("ERRRRR CaseTag", error);
           }
         },
-        "intake sources exist": async () => {
-          try {
-            await models.intake_source.create(
-              new IntakeSource.Builder().defaultIntakeSource().build(),
-              { auditUser: "user" }
-            );
-          } catch (error) {
-            console.log("ERRRRR IntakeSource", error);
-          }
-        },
-        "how did you hear about us sources exist": async () => {
-          try {
-            await models.how_did_you_hear_about_us_source.create(
-              new HowDidYouHearAboutUsSource.Builder()
-                .defaultHowDidYouHearAboutUsSource()
-                .withId(1)
-                .withName("Facebook")
-                .build(),
-              { auditUser: "user" }
-            );
-          } catch (error) {
-            console.log("ERRRRR HowDidYouHearAboutUsSource", error);
-          }
-        },
+        "intake sources exist": setupIntakeSources,
+        "how did you hear about us sources exist":
+          setupHowDidYouHearAboutUsSources,
         "case note actions exist": setupCaseNoteActions,
         "case has a case note": async () => {
           try {
@@ -468,7 +486,20 @@ describe("Pact Verification", () => {
           } catch (error) {
             console.log(error);
           }
-        }
+        },
+        "Case exists; districts exist; intake sources exsist; how did you hear about us sources exist":
+          async () => {
+            try {
+              await Promise.all([
+                setupCase(),
+                setupDistricts(),
+                setupIntakeSources(),
+                setupHowDidYouHearAboutUsSources()
+              ]);
+            } catch (error) {
+              console.log(error);
+            }
+          }
       }
     };
 
