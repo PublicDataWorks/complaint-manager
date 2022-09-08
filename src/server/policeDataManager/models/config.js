@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Signer = sequelize.define(
+  const Config = sequelize.define(
     "config",
     {
       name: {
@@ -27,5 +27,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  return Signer;
+  return Config;
 };

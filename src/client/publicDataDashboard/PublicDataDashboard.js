@@ -16,7 +16,6 @@ import {
   DATA_SECTIONS,
   DDS_LOCATION_DATA,
   DDS_COMPLAINTS_BY_DISTRICT,
-  CONFIGS,
   DDS_TOP_ALLEGATIONS
 } from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
@@ -379,36 +378,36 @@ const PublicDataDashboard = ({
               ""
             )}
             {topAllegationsVisualizationFeature ? (
-            <Container
-            onClick={scrollIntoViewById("#top-allegations")}
-            style={{
-              display: "flex",
-              padding: "24px 0px",
-              alignItems: "center",
-            }}
-          >
-            <Icon
-              style={{
-                transform: "rotate(90deg)",
-                color: styles.colors.white,
-                opacity: "0.8"
-              }}
-            >
-              double_arrow
-            </Icon>
-              <Typography
-                variant="body1"
+              <Container
+                onClick={scrollIntoViewById("#top-allegations")}
                 style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
+                  display: "flex",
+                  padding: "24px 0px",
+                  alignItems: "center"
                 }}
               >
-                What are the most frequently recommended allegations?
-              </Typography>
-            </Container>
+                <Icon
+                  style={{
+                    transform: "rotate(90deg)",
+                    color: styles.colors.white,
+                    opacity: "0.8"
+                  }}
+                >
+                  double_arrow
+                </Icon>
+                <Typography
+                  variant="body1"
+                  style={{
+                    cursor: "pointer",
+                    letterSpacing: "1px",
+                    color: styles.colors.white,
+                    paddingLeft: "12px",
+                    opacity: 0.9
+                  }}
+                >
+                  What are the most frequently recommended allegations?
+                </Typography>
+              </Container>
             ) : (
               ""
             )}
@@ -421,7 +420,7 @@ const PublicDataDashboard = ({
               (publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
               (countByDistrictVisualizationFeature ||
                 key !== DDS_COMPLAINTS_BY_DISTRICT) &&
-              (topAllegationsVisualizationFeature || 
+              (topAllegationsVisualizationFeature ||
                 key !== DDS_TOP_ALLEGATIONS)
           )
           .map((dataSectionType, index) => {
@@ -492,7 +491,7 @@ const PublicDataDashboardContainer = connect(state => ({
   publicMapVisualizationFeature:
     state.featureToggles.publicMapVisualizationFeature,
   topAllegationsVisualizationFeature:
-    state.featureToggles.topAllegationsVisualizationFeature,
+    state.featureToggles.topAllegationsVisualizationFeature
 }))(PublicDataDashboard);
 
 export default PublicDataDashboardWrapper;

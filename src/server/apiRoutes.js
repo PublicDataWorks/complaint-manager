@@ -78,6 +78,7 @@ import editSigner from "./handlers/signers/editSigner";
 import deleteSigner from "./handlers/signers/deleteSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
 import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
+import getVisualizationConfigs from "./handlers/visualizationConfigs/getVisualizationConfigs";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -92,6 +93,13 @@ export const PUBLIC_ROUTES = {
       handler: getPublicData,
       errorMessage:
         "Dashboard is not updating at this time, please check back later."
+    }
+  },
+  "/visualizations": {
+    get: {
+      handler: getVisualizationConfigs,
+      errorMessage:
+        "Something went wrong getting the visualization configurations"
     }
   }
 };
