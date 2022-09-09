@@ -7,30 +7,16 @@ const MapVisualization = lazy(() =>
   import("../common/components/Visualization/MapVisualization")
 );
 import TextTruncate from "../policeDataManager/shared/components/TextTruncate";
-import { DATA_SECTIONS } from "../../sharedUtilities/constants";
 import useTheme from "@material-ui/core/styles/useTheme";
 import { getQueryModelByQueryType } from "../common/components/Visualization/models/queryModelFactory";
-
-const getIdFromDataSectionType = dataSectionType => {
-  if (!dataSectionType || typeof dataSectionType !== "string")
-    return "cannot-convert-id";
-  const [_, rawId = ""] = dataSectionType.split("DDS_") || [];
-  return rawId.toLowerCase().replace(/_/g, "-");
-};
+import { getIdFromDataSectionType } from "./dataDashboardHelper";
 
 const DashboardDataSection = props => {
   const theme = useTheme();
 
   const { dataSectionType } = props;
-  const {
-    title,
-    subtitle,
-    dataTestId,
-    queryType,
-    queryOptions,
-    collapsedText,
-    fullMessage
-  } = DATA_SECTIONS[dataSectionType] || {};
+  const { title, subtitle, queryType, collapsedText, fullMessage } =
+    dataSectionType || {};
 
   const getTextWithLink = text => {
     let linkSection = text.match(/#(.*.linkTo.*)#/).pop();
@@ -91,8 +77,8 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      <Suspense fallback={() => {}}>
-        {dataSectionType.includes("LOCATION_DATA") ? (
+      <Suspense fallback={() => <div></div>}>
+        {queryType === "LOCATION_DATA" ? (
           <MapVisualization isPublic={true} />
         ) : (
           <Grid
@@ -107,10 +93,8 @@ const DashboardDataSection = props => {
             }}
           >
             <Visualization
-              data-testid={dataTestId}
               isPublic
               queryModel={getQueryModelByQueryType(queryType)}
-              queryOptions={queryOptions}
               hasDropdown={true}
             />
           </Grid>

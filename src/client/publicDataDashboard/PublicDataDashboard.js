@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Grid,
@@ -13,7 +13,6 @@ import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import styles from "./dashboardStyling/styles";
 import {
-  DATA_SECTIONS,
   DDS_LOCATION_DATA,
   DDS_COMPLAINTS_BY_DISTRICT,
   DDS_TOP_ALLEGATIONS
@@ -25,6 +24,8 @@ import { formatShortDate } from "../../sharedUtilities/formatDate";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import useTheme from "@material-ui/core/styles/useTheme";
 import { connect } from "react-redux";
+import axios from "axios";
+import { getIdFromDataSectionType } from "./dataDashboardHelper";
 
 const {
   CITY,
@@ -82,7 +83,13 @@ const PublicDataDashboard = ({
   topAllegationsVisualizationFeature,
   publicMapVisualizationFeature
 }) => {
+  const [dataSections, setDataSections] = useState([]);
   useEffect(removeDragCover);
+  useEffect(() => {
+    axios.get("/api/visualizations").then(response => {
+      setDataSections(response.data);
+    });
+  }, []);
 
   const theme = useTheme();
   const currentDate = formatShortDate(moment(Date.now()));
@@ -183,15 +190,18 @@ const PublicDataDashboard = ({
             >
               What are we looking for?
             </Typography>
-            {publicMapVisualizationFeature ? (
+            {dataSections.map(section => (
               <Container
-                onClick={scrollIntoViewById("#location-data")}
+                onClick={scrollIntoViewById(
+                  `#${getIdFromDataSectionType(section)}`
+                )}
                 style={{
                   display: "flex",
                   padding: "24px 0px",
                   alignItems: "center",
                   borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
                 }}
+                key={getIdFromDataSectionType(section)}
               >
                 <Icon
                   style={{
@@ -212,225 +222,21 @@ const PublicDataDashboard = ({
                     opacity: 0.9
                   }}
                 >
-                  Where are the alleged misconduct incidents occurring?
+                  {section.title}
                 </Typography>
               </Container>
-            ) : (
-              ""
-            )}
-            <Container
-              onClick={scrollIntoViewById("#complaints-over-time")}
-              style={{
-                display: "flex",
-                padding: "24px 0px",
-                alignItems: "center",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
-              }}
-            >
-              <Icon
-                style={{
-                  transform: "rotate(90deg)",
-                  color: styles.colors.white,
-                  opacity: "0.8"
-                }}
-              >
-                double_arrow
-              </Icon>
-              <Typography
-                variant="body1"
-                style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
-                }}
-              >
-                Who is submitting complaints over time?
-              </Typography>
-            </Container>
-            <Container
-              onClick={scrollIntoViewById("#complainants-submit-complaints")}
-              style={{
-                display: "flex",
-                padding: "24px 0px",
-                alignItems: "center",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
-              }}
-            >
-              <Icon
-                style={{
-                  transform: "rotate(90deg)",
-                  color: styles.colors.white,
-                  opacity: "0.8"
-                }}
-              >
-                double_arrow
-              </Icon>
-              <Typography
-                variant="body1"
-                style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
-                }}
-              >
-                How do complainants submit complaints?
-              </Typography>
-            </Container>
-            <Container
-              onClick={scrollIntoViewById("#who-submits-complaints")}
-              style={{
-                display: "flex",
-                padding: "24px 0px",
-                alignItems: "center",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
-              }}
-            >
-              <Icon
-                style={{
-                  transform: "rotate(90deg)",
-                  color: styles.colors.white,
-                  opacity: "0.8"
-                }}
-              >
-                double_arrow
-              </Icon>
-              <Typography
-                variant="body1"
-                style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
-                }}
-              >
-                Who submits complaints?
-              </Typography>
-            </Container>
-            <Container
-              onClick={scrollIntoViewById("#emerging-themes")}
-              style={{
-                display: "flex",
-                padding: "24px 0px",
-                alignItems: "center",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
-              }}
-            >
-              <Icon
-                style={{
-                  transform: "rotate(90deg)",
-                  color: styles.colors.white,
-                  opacity: "0.8"
-                }}
-              >
-                double_arrow
-              </Icon>
-              <Typography
-                variant="body1"
-                style={{
-                  cursor: "pointer",
-                  letterSpacing: "1px",
-                  color: styles.colors.white,
-                  paddingLeft: "12px",
-                  opacity: 0.9
-                }}
-              >
-                What themes are emerging from the data?
-              </Typography>
-            </Container>
-            {countByDistrictVisualizationFeature ? (
-              <Container
-                onClick={scrollIntoViewById("#complaints-by-district")}
-                style={{
-                  display: "flex",
-                  padding: "24px 0px",
-                  alignItems: "center",
-                  borderBottom: "1px solid rgba(255, 255, 255, 0.2)"
-                }}
-              >
-                <Icon
-                  style={{
-                    transform: "rotate(90deg)",
-                    color: styles.colors.white,
-                    opacity: "0.8"
-                  }}
-                >
-                  double_arrow
-                </Icon>
-                <Typography
-                  variant="body1"
-                  style={{
-                    cursor: "pointer",
-                    letterSpacing: "1px",
-                    color: styles.colors.white,
-                    paddingLeft: "12px",
-                    opacity: 0.9
-                  }}
-                >
-                  Which districts have the most complaints?
-                </Typography>
-              </Container>
-            ) : (
-              ""
-            )}
-            {topAllegationsVisualizationFeature ? (
-              <Container
-                onClick={scrollIntoViewById("#top-allegations")}
-                style={{
-                  display: "flex",
-                  padding: "24px 0px",
-                  alignItems: "center"
-                }}
-              >
-                <Icon
-                  style={{
-                    transform: "rotate(90deg)",
-                    color: styles.colors.white,
-                    opacity: "0.8"
-                  }}
-                >
-                  double_arrow
-                </Icon>
-                <Typography
-                  variant="body1"
-                  style={{
-                    cursor: "pointer",
-                    letterSpacing: "1px",
-                    color: styles.colors.white,
-                    paddingLeft: "12px",
-                    opacity: 0.9
-                  }}
-                >
-                  What are the most frequently recommended allegations?
-                </Typography>
-              </Container>
-            ) : (
-              ""
-            )}
+            ))}
           </Container>
         </Grid>
 
-        {Object.keys(DATA_SECTIONS)
-          .filter(
-            key =>
-              (publicMapVisualizationFeature || key !== DDS_LOCATION_DATA) &&
-              (countByDistrictVisualizationFeature ||
-                key !== DDS_COMPLAINTS_BY_DISTRICT) &&
-              (topAllegationsVisualizationFeature ||
-                key !== DDS_TOP_ALLEGATIONS)
-          )
-          .map((dataSectionType, index) => {
-            return (
-              <DashboardDataSection
-                key={index}
-                dataSectionType={dataSectionType}
-              />
-            );
-          })}
+        {dataSections.map(dataSectionType => {
+          return (
+            <DashboardDataSection
+              key={dataSectionType.title}
+              dataSectionType={dataSectionType}
+            />
+          );
+        })}
 
         <Grid
           item

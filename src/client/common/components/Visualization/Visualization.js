@@ -31,11 +31,11 @@ export const generateDateRange = range => {
   }
 };
 
-const Visualization = ({ queryModel, isPublic, queryOptions, hasDropdown }) => {
+const Visualization = ({ queryModel, isPublic, hasDropdown }) => {
   const [data, setData] = useState({ data: [], isFetching: true });
   const [layout, setLayout] = useState({});
   const [config, setConfig] = useState({});
-  const [dateRange, setDateRange] = useState(queryOptions?.dateRangeType);
+  const [dateRange, setDateRange] = useState(DATE_RANGE_TYPE.PAST_12_MONTHS);
   const isMobile = useMediaQuery("(max-width:768px)");
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Visualization = ({ queryModel, isPublic, queryOptions, hasDropdown }) => {
 
     createLayout();
     createConfig();
-  }, [data, queryModel, queryOptions, isPublic, isMobile]);
+  }, [data, queryModel, isPublic, isMobile]);
 
   return (
     <section>
@@ -109,9 +109,6 @@ const Visualization = ({ queryModel, isPublic, queryOptions, hasDropdown }) => {
 Visualization.propTypes = {
   queryModel: PropTypes.object,
   isPublic: PropTypes.bool,
-  queryOptions: PropTypes.shape({
-    dateRangeType: PropTypes.string
-  }),
   hasDropdown: PropTypes.bool
 };
 

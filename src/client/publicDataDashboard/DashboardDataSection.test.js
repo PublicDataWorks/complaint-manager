@@ -8,7 +8,8 @@ import {
   DDS_EMERGING_THEMES,
   DDS_TOP_ALLEGATIONS,
   DDS_WHO_SUBMITS_COMPLAINTS,
-  DDS_LOCATION_DATA
+  DDS_LOCATION_DATA,
+  QUERY_TYPES
 } from "../../sharedUtilities/constants";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
@@ -30,21 +31,31 @@ const testDescriptions = {
   [DDS_EMERGING_THEMES]:
     "should render correct styling for emerging themes graph",
   [DDS_TOP_ALLEGATIONS]:
-    "should render correct styling for emerging allegation graph",
+    "should render correct styling for emerging allegation graph"
 };
 
 const renderDataSection = dataSectionType => () => {
   const wrapper = mount(
     <MuiThemeProvider theme={dashboardStylingDesktop}>
-      <DashboardDataSection dataSectionType={dataSectionType} />
+      <DashboardDataSection
+        dataSectionType={{
+          ...dataSectionType,
+          queryType: Object.keys(QUERY_TYPES).find(
+            type => QUERY_TYPES[type] === dataSectionType.queryType
+          )
+        }}
+      />
     </MuiThemeProvider>
   );
 
   expect(wrapper).toMatchSnapshot();
 };
 
-describe("Public Data Dashboard", () => {
+describe("Dashboard Data Section", () => {
   Object.keys(testDescriptions).forEach(dataSectionType => {
-    test(testDescriptions[dataSectionType], renderDataSection(dataSectionType));
+    test(
+      testDescriptions[dataSectionType],
+      renderDataSection(DATA_SECTIONS[dataSectionType])
+    );
   });
 });

@@ -91,25 +91,19 @@ describe("Visualization", () => {
   });
 
   test("should fetch new data when dropdown changed", async () => {
-    // Arrange
-    const queryOptions = { dateRangeType: DATE_RANGE_TYPE.YTD };
     // Act
     let visualization;
     await act(async () => {
       visualization = render(
         <Provider store={createConfiguredStore()}>
-          <Visualization
-            queryModel={MOCK_MODEL}
-            queryOptions={queryOptions}
-            hasDropdown={true}
-          />
+          <Visualization queryModel={MOCK_MODEL} hasDropdown={true} />
         </Provider>
       );
     });
 
     await act(async () => {
       fireEvent.change(screen.getByTestId("visualizationDateControl"), {
-        target: { value: DATE_RANGE_TYPE.PAST_12_MONTHS }
+        target: { value: DATE_RANGE_TYPE.YTD }
       });
     });
 

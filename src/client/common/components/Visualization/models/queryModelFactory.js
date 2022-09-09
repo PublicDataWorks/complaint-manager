@@ -8,7 +8,7 @@ import LocationData from "./locationData.model";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
 
 export const getQueryModelByQueryType = queryType => {
-  switch (queryType) {
+  switch (QUERY_TYPES[queryType]) {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_COMPLAINANT_TYPE:
       return new CountComplaintsByComplainantType();
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_DISTRICT:
