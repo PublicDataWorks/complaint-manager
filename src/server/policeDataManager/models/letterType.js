@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       field: "editable_template",
       allowNull: true
     },
-    requiesApproval: {
+    requiresApproval: {
       type: DataTypes.BOOLEAN,
       field: "requires_approval",
       allowNull: true
@@ -53,7 +53,11 @@ module.exports = (sequelize, DataTypes) => {
 
     LetterType.belongsTo(models.caseStatus, {
       as: "requiredStatus",
-      foreignKey: { name: "requiredStatusId", field: "required_status", allowNull: true }
+      foreignKey: {
+        name: "requiredStatusId",
+        field: "required_status",
+        allowNull: true
+      }
     });
   };
   return LetterType;

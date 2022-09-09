@@ -78,6 +78,7 @@ import editSigner from "./handlers/signers/editSigner";
 import deleteSigner from "./handlers/signers/deleteSigner";
 import uploadSignature from "./handlers/signers/uploadSignature";
 import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
+import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -582,6 +583,12 @@ export const API_ROUTES = {
       handler: getConfigs,
       errorMessage:
         "Something went wrong while getting configs.  Please try again."
+    }
+  },
+  "/letter-types": {
+    get: {
+      handler: getLetterTypes,
+      errorMessage: "Something went wrong while retrieving letter types"
     }
   },
   "/signers": {

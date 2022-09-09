@@ -1,0 +1,47 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import styles from "../../cases/CaseDetails/caseDetailsStyles";
+import {
+  CardContent,
+  Divider,
+  Typography,
+  withStyles
+} from "@material-ui/core";
+import LetterTypeDisplay from "./LetterTypeDisplay";
+import DetailsCard from "../../shared/components/DetailsCard";
+
+const LetterTypes = props => {
+  const [letterTypes, setLetterTypes] = useState([]);
+  const [loadLetterTypes, setLoadLetterTypes] = useState(true);
+
+  useEffect(() => {
+    if (loadLetterTypes) {
+      axios
+        .get("/api/letter-types")
+        .then(result => {
+          setLetterTypes(result.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      setLoadLetterTypes(false);
+    }
+  }, [loadLetterTypes]);
+
+  return (
+    <section style={{ minWidth: "50em", padding: "5px" }}>
+      <DetailsCard title="Letter Types" data-testid="letterTypesSection">
+        <CardContent style={{ padding: "0" }}>
+          {letterTypes.length
+            ? letterTypes.map(letterType => (
+                <LetterTypeDisplay title={letterType.type} />
+              ))
+            : "There are no Letter Types"}
+        </CardContent>
+      </DetailsCard>
+    </section>
+  );
+};
+
+export default withStyles(styles, { withTheme: true })(LetterTypes);

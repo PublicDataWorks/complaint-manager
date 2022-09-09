@@ -29,6 +29,12 @@ export const policeDataManagerMenuOptions = [
     permission: USER_PERMISSIONS.ADMIN_ACCESS
   },
   {
+    path: "/custom-config-page",
+    dataTestName: "customConfigPage",
+    title: "Custom Configuration Page",
+    permission: USER_PERMISSIONS.ADMIN_ACCESS
+  },
+  {
     path: "/logout",
     dataTestName: "logOutButton",
     title: "Log Out"

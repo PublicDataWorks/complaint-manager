@@ -346,7 +346,8 @@ export const AUDIT_SUBJECT = {
   COMPLAINT_TOTAL_PREVIOUS_YEAR:
     "Complaint Count for Complaints in the Previous Year",
   SIGNERS: "Personal Information of People Who Can Sign Letters",
-  CASE_STATUSES: "Case Status"
+  CASE_STATUSES: "Case Status",
+  LETTER_TYPES: "Letter Types"
 };
 
 export const AUDIT_FILE_TYPE = {
