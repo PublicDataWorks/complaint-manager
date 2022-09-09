@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import nock from "nock";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -19,7 +19,7 @@ describe("Letter Types Card", () => {
           template: "",
           editableTemplate: "",
           hasEditPage: null,
-          requiresApproval: null
+          requiresApproval: true
         },
         {
           id: 2,
@@ -45,5 +45,11 @@ describe("Letter Types Card", () => {
     expect(screen.getByText("Letter Types")).toBeInTheDocument;
     expect(await screen.findByText("REFERRAL")).toBeInTheDocument;
     expect(await screen.findByText("COMPLAINANT")).toBeInTheDocument;
+  });
+
+  test("should render Requires Approval column", async () => {
+    expect(
+      await screen.findAllByTestId("requires-approval-label")
+    ).toBeTruthy();
   });
 });

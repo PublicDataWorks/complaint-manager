@@ -10,7 +10,7 @@ import {
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
 
-const LetterTypes = props => {
+const LetterTypes = () => {
   const [letterTypes, setLetterTypes] = useState([]);
   const [loadLetterTypes, setLoadLetterTypes] = useState(true);
 
@@ -35,7 +35,7 @@ const LetterTypes = props => {
         <CardContent style={{ padding: "0" }}>
           {letterTypes.length
             ? letterTypes.map(letterType => (
-                <LetterTypeDisplay title={letterType.type} />
+                <LetterTypeDisplay letterType={letterType} />
               ))
             : "There are no Letter Types"}
         </CardContent>

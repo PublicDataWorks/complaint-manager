@@ -7,8 +7,9 @@ import {
 } from "@material-ui/core";
 import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
+import LetterTypeInfoDisplay from "../letterTypes/LetterTypeInfoDisplay";
 
-const LetterTypeDisplay = ({ title }) => {
+const LetterTypeDisplay = ({ letterType }) => {
   return (
     <div>
       <div
@@ -35,7 +36,18 @@ const LetterTypeDisplay = ({ title }) => {
               <ExpansionPanelIconButton />
               <div>
                 <StyledInfoDisplay>
-                  <div>{title}</div>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Type"
+                    value={letterType.type}
+                    testLabel="letter-type"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Requires Approval"
+                    value={letterType.requiresApproval}
+                    testLabel="requires-approval"
+                  />
                 </StyledInfoDisplay>
               </div>
             </div>
