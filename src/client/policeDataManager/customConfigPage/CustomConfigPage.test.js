@@ -38,6 +38,6 @@ describe("CustomConfigPage", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Letter Types")).toBeInTheDocument;
+    expect(screen.getByText("Letters")).toBeInTheDocument;
   });
 });

@@ -31,13 +31,13 @@ const LetterTypes = () => {
 
   return (
     <section style={{ minWidth: "50em", padding: "5px" }}>
-      <DetailsCard title="Letter Types" data-testid="letterTypesSection">
+      <DetailsCard title="Letters" data-testid="letterTypesSection">
         <CardContent style={{ padding: "0" }}>
           {letterTypes.length
             ? letterTypes.map(letterType => (
                 <LetterTypeDisplay letterType={letterType} />
               ))
-            : "There are no Letter Types"}
+            : "There are no Letters"}
         </CardContent>
       </DetailsCard>
     </section>

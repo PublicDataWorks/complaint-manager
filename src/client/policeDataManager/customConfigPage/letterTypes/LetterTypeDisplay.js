@@ -3,10 +3,12 @@ import { connect } from "react-redux";
 import {
   Divider,
   ExpansionPanel,
-  ExpansionPanelSummary
+  ExpansionPanelSummary,
+  Checkbox
 } from "@material-ui/core";
 import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
+import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
 import LetterTypeInfoDisplay from "../letterTypes/LetterTypeInfoDisplay";
 
 const LetterTypeDisplay = ({ letterType }) => {
@@ -34,7 +36,12 @@ const LetterTypeDisplay = ({ letterType }) => {
               }}
             >
               <ExpansionPanelIconButton />
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%"
+                }}
+              >
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Type"
@@ -49,9 +56,58 @@ const LetterTypeDisplay = ({ letterType }) => {
                     testLabel="requires-approval"
                   />
                 </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Is Editable"
+                    value={letterType.hasEditPage}
+                    testLabel="is-editable"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Default Sender"
+                    value={letterType.defaultSender.name}
+                    testLabel="default-sender"
+                  />
+                </StyledInfoDisplay>
+                <StyledInfoDisplay>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Required Status"
+                    value={letterType.requiredStatus.name}
+                    testLabel="required-status"
+                  />
+                </StyledInfoDisplay>
               </div>
             </div>
           </ExpansionPanelSummary>
+          <StyledExpansionPanelDetails>
+            <div
+              style={{
+                width: "100%",
+                marginBottom: 4
+              }}
+            >
+              <StyledInfoDisplay>
+                <LetterTypeInfoDisplay
+                  displayLabel="Template"
+                  value={letterType.template}
+                  testLabel="template"
+                />
+              </StyledInfoDisplay>
+              <br />
+              {letterType.hasEditPage ? (
+                <StyledInfoDisplay>
+                  <LetterTypeInfoDisplay
+                    displayLabel="Body Template"
+                    value={letterType.editableTemplate}
+                    testLabel="body-template"
+                  />
+                </StyledInfoDisplay>
+              ) : (
+                ""
+              )}
+            </div>
+          </StyledExpansionPanelDetails>
         </ExpansionPanel>
       </div>
       <Divider />

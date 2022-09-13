@@ -16,6 +16,21 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
       "editableTemplate",
       "requiresApproval",
       "hasEditPage"
+    ],
+    include: [
+      {
+        model: models.signers,
+        as: "defaultSender",
+        foreignKey: { field: "default_sender", allowNull: false }
+      },
+      {
+        model: models.caseStatus,
+        as: "requiredStatus",
+        foreignKey: {
+          field: "required_status",
+          allowNull: true
+        }
+      }
     ]
   };
   const letterTypes = await models.letter_types.findAll(queryOptions);

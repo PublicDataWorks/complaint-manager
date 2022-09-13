@@ -38,20 +38,7 @@ describe("getLetterTypes", () => {
       new LetterType.Builder()
         .defaultLetterType()
         .withId(1)
-        .withEditableTemplate("")
-        .withDefaultSenderId(1)
-        .build(),
-      {
-        auditUser: "user"
-      }
-    );
-
-    await models.letter_types.create(
-      new LetterType.Builder()
-        .defaultLetterType()
-        .withId(2)
-        .withType("COMPLAINANT")
-        .withEditableTemplate("editable template")
+        .withType("REFERRAL")
         .withDefaultSenderId(1)
         .build(),
       {
@@ -75,17 +62,18 @@ describe("getLetterTypes", () => {
         id: 1,
         type: "REFERRAL",
         template: "",
-        editableTemplate: "",
+        editableTemplate: null,
         hasEditPage: null,
-        requiresApproval: null
-      },
-      {
-        id: 2,
-        type: "COMPLAINANT",
-        template: "",
-        editableTemplate: "editable template",
-        hasEditPage: null,
-        requiresApproval: null
+        requiresApproval: null,
+        requiredStatus: null,
+        defaultSender: expect.objectContaining({
+          id: 1,
+          name: "John A Simms",
+          nickname: "jsimms@oipm.gov",
+          phone: "888-576-9922",
+          signatureFile: "bobby.png",
+          title: "Independent Police Monitor"
+        })
       }
     ]);
   });
