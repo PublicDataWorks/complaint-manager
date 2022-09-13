@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import FeatureRequestPage from "./policeDataManager/requestFeature/featureRequestPage";
+
 const AllegationSearchContainer = lazy(() =>
   import("./policeDataManager/allegations/AllegationSearchContainer")
 );
@@ -66,6 +67,10 @@ const TagManagementPage = lazy(() =>
 );
 
 const AdminPortal = lazy(() => import("./policeDataManager/admin/AdminPortal"));
+
+const CustomConfigPage = lazy(() =>
+  import("./policeDataManager/customConfigPage/CustomConfigPage")
+);
 
 const policeDataManagerRoutes = [
   {
@@ -151,6 +156,10 @@ const policeDataManagerRoutes = [
   {
     path: "/admin-portal",
     component: AdminPortal
+  },
+  {
+    path: "/custom-config-page",
+    component: CustomConfigPage
   },
   {
     path: "/feature-request",
