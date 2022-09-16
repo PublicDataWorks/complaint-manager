@@ -28,8 +28,6 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
-import { CASE_STATUSES_WITH_ACTIVE_LETTER } from "../../sharedUtilities/constants";
-import CaseStatus from "../../sharedTestHelpers/caseStatus";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",

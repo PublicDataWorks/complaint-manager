@@ -8,7 +8,7 @@ class LetterType {
     this.template = build.template;
     this.editableTemplate = build.editableTemplate;
     this.fields = build.fields;
-    this.requiredStatus = build.requiredStatus;
+    this.requiredStatusId = build.requiredStatus?.id;
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
       : build.defaultSender.id;
