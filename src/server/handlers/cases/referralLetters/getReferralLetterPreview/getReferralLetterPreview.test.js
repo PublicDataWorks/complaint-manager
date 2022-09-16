@@ -72,6 +72,7 @@ describe("getReferralLetterPreview", function () {
         .withEditableTemplate(letterBodyTemplate.toString())
         .withType("REFERRAL")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );
@@ -82,6 +83,7 @@ describe("getReferralLetterPreview", function () {
         .withId(998)
         .withType("COMPLAINANT")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );

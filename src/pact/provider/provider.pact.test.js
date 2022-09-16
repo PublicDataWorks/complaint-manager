@@ -29,6 +29,7 @@ import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
 import { CASE_STATUSES_WITH_ACTIVE_LETTER } from "../../sharedUtilities/constants";
+import CaseStatus from "../../sharedTestHelpers/caseStatus";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -294,6 +295,7 @@ describe("Pact Verification", () => {
             .withType("REFERRAL")
             .withTemplate(referralLetterTemplate.toString())
             .withDefaultSender(signerAttr)
+            .withRequiredStatus(statuses[0])
             .build(),
           { auditUser: "test" }
         );
@@ -309,6 +311,7 @@ describe("Pact Verification", () => {
             .withType("COMPLAINANT")
             .withTemplate(complainantLetterTemplate.toString())
             .withDefaultSender(signerAttr)
+            .withRequiredStatus(statuses[0])
             .build(),
           { auditUser: "test" }
         );

@@ -1,4 +1,5 @@
 import Signer from "./signer";
+import CaseStatus from "./caseStatus";
 
 class LetterType {
   constructor(build) {
@@ -7,6 +8,7 @@ class LetterType {
     this.template = build.template;
     this.editableTemplate = build.editableTemplate;
     this.fields = build.fields;
+    this.requiredStatus = build.requiredStatus;
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
       : build.defaultSender.id;
@@ -20,6 +22,9 @@ class LetterType {
         this.type = "REFERRAL";
         this.defaultSender = new Signer.Builder().defaultSigner().build();
         this.template = "";
+        this.requiredStatus = new CaseStatus.Builder()
+          .defaultCaseStatus()
+          .build();
         return this;
       }
 
@@ -48,8 +53,8 @@ class LetterType {
         return this;
       }
 
-      withDefaultSenderId(defaultSenderId) {
-        this.defaultSenderId = defaultSenderId;
+      withRequiredStatus(requiredStatus) {
+        this.requiredStatus = requiredStatus;
         return this;
       }
 

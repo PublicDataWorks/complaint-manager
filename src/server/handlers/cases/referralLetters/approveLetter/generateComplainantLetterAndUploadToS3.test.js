@@ -75,6 +75,8 @@ describe("generateComplainantLetterAndUploadToS3", () => {
       `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
     );
 
+    statuses = await seedStandardCaseStatuses();
+
     await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
@@ -82,6 +84,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         .withType("COMPLAINANT")
         .withTemplate(complainantLetterTemplate.toString())
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );
@@ -91,13 +94,12 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         .defaultLetterType()
         .withType("REFERRAL")
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );
 
     await up(models);
-
-    statuses = await seedStandardCaseStatuses();
 
     complainant = {
       firstName: "firstName",

@@ -9,6 +9,7 @@ import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 describe("getSigners", () => {
   afterEach(async () => {
@@ -59,10 +60,15 @@ describe("getSigners", () => {
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 
+    const status = new CaseStatus.Builder().defaultCaseStatus().build();
+
+    const signer = new Signer.Builder().defaultSigner().withId(1).build();
+
     await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
-        .withDefaultSenderId(1)
+        .withDefaultSender(signer)
+        .withRequiredStatus(status)
         .build(),
       { auditUser: "user" }
     );

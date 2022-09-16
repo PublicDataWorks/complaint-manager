@@ -95,6 +95,7 @@ describe("Approve referral letter", () => {
         .withType("REFERRAL")
         .withTemplate(referralLetterTemplate.toString())
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );
@@ -110,6 +111,7 @@ describe("Approve referral letter", () => {
         .withType("COMPLAINANT")
         .withTemplate(complainantLetterTemplate.toString())
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );

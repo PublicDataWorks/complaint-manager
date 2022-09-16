@@ -42,13 +42,13 @@ pactWith(
               id: 1,
               type: "REFERRAL",
               template: "TEMPLATE",
-              hasEditPage: false,
-              requiresApproval: true,
+              hasEditPage: null,
+              requiresApproval: null,
+              requiredStatus: {
+                name: "Initial"
+              },
               defaultSender: {
                 name: "Billy"
-              },
-              requiredStatus: {
-                name: "Active"
               }
             })
           }
@@ -75,7 +75,7 @@ pactWith(
           await Promise.all([
             screen.findByText("REFERRAL"),
             screen.findByText("Billy"),
-            screen.findByText("Active")
+            screen.findByText("Initial")
           ]);
           userEvent.click(screen.getByTestId("letter-type-label"));
           await Promise.all([screen.findByText("TEMPLATE")]);

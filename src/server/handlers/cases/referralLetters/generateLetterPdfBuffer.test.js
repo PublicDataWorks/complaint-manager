@@ -82,6 +82,8 @@ describe("generateLetterPdfBuffer", () => {
       await models.signers.create(signer, { auditUser: "user", transaction });
     });
 
+    statuses = await seedStandardCaseStatuses();
+
     referralLetterTemplate = fs.readFileSync(
       `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
     );
@@ -95,6 +97,7 @@ describe("generateLetterPdfBuffer", () => {
         .withEditableTemplate(letterBodyTemplate.toString())
         .withType("REFERRAL")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .withTemplate(referralLetterTemplate.toString())
         .build(),
       { auditUser: "test" }
@@ -106,6 +109,7 @@ describe("generateLetterPdfBuffer", () => {
         .withId(9999)
         .withType("COMPLAINANT")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .withTemplate("<div></div>")
         .build(),
       { auditUser: "test" }
@@ -130,8 +134,6 @@ describe("generateLetterPdfBuffer", () => {
         })
       )
     }));
-
-    statuses = await seedStandardCaseStatuses();
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

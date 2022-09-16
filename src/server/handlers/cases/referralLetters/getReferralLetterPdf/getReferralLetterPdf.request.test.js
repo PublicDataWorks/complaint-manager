@@ -65,6 +65,7 @@ describe("Generate referral letter pdf", () => {
         .withType("REFERRAL")
         .withTemplate(referralLetterTemplate.toString())
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );
@@ -75,6 +76,7 @@ describe("Generate referral letter pdf", () => {
         .withId(3939)
         .withType("COMPLAINANT")
         .withDefaultSender(signerAttr)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "test" }
     );

@@ -120,6 +120,7 @@ beforeEach(async () => {
         .defaultLetterType()
         .withType("COMPLAINANT")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .withTemplate(complainantLetterTemplate.toString())
         .build(),
       { auditUser: "user", transaction }
@@ -131,6 +132,7 @@ beforeEach(async () => {
         .withId(39933)
         .withType("REFERRAL")
         .withDefaultSender(signer)
+        .withRequiredStatus(statuses[0])
         .build(),
       { auditUser: "user", transaction }
     );

@@ -9,8 +9,11 @@ import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 describe("getLetterTypes", () => {
+  let status;
+
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -20,6 +23,10 @@ describe("getLetterTypes", () => {
   });
 
   beforeEach(async () => {
+    status = new CaseStatus.Builder().defaultCaseStatus().build();
+
+    const signer = new Signer.Builder().defaultSigner().withId(1).build();
+
     await models.signers.create(
       new Signer.Builder()
         .defaultSigner()
@@ -39,7 +46,8 @@ describe("getLetterTypes", () => {
         .defaultLetterType()
         .withId(1)
         .withType("REFERRAL")
-        .withDefaultSenderId(1)
+        .withDefaultSender(signer)
+        .withRequiredStatus(status)
         .build(),
       {
         auditUser: "user"
