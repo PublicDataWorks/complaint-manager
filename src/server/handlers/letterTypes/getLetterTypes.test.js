@@ -23,7 +23,10 @@ describe("getLetterTypes", () => {
   });
 
   beforeEach(async () => {
-    status = new CaseStatus.Builder().defaultCaseStatus().build();
+    status = models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const signer = new Signer.Builder().defaultSigner().withId(1).build();
 

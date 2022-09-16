@@ -60,7 +60,10 @@ describe("getSigners", () => {
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 
-    const status = new CaseStatus.Builder().defaultCaseStatus().build();
+    const status = models.caseStatus.create(
+      new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
 
     const signer = new Signer.Builder().defaultSigner().withId(1).build();
 
