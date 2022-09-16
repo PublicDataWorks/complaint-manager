@@ -29,6 +29,34 @@ pactWith(
     describe("Admin Portal", () => {
       beforeEach(async () => {
         await provider.addInteraction({
+          state: "letter types have been added to the database",
+          uponReceiving: "get letter types",
+          withRequest: {
+            method: "GET",
+            path: "/api/letter-types"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({
+              id: 1,
+              type: "REFERRAL",
+              template: "TEMPLATE",
+              hasEditPage: null,
+              requiresApproval: null,
+              requiredStatus: {
+                name: "Initial"
+              },
+              defaultSender: {
+                name: "Billy"
+              }
+            })
+          }
+        });
+
+        await provider.addInteraction({
           state: "signers have been added to the database",
           uponReceiving: "get signers",
           withRequest: {
@@ -270,6 +298,18 @@ pactWith(
           userEvent.click(saveButton);
           expect(await screen.findByText("Signer successfully deleted"))
             .toBeInTheDocument;
+        });
+
+        describe("letter types", () => {
+          test("should show letter types saved in the database", async () => {
+            await Promise.all([
+              screen.findByText("REFERRAL"),
+              screen.findByText("Billy"),
+              screen.findByText("Initial")
+            ]);
+            userEvent.click(await screen.findByText("REFERRAL"));
+            await Promise.all([screen.findByText("Template")]);
+          });
         });
       });
     });

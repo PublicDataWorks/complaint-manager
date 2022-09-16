@@ -68,10 +68,6 @@ const TagManagementPage = lazy(() =>
 
 const AdminPortal = lazy(() => import("./policeDataManager/admin/AdminPortal"));
 
-const CustomConfigPage = lazy(() =>
-  import("./policeDataManager/customConfigPage/CustomConfigPage")
-);
-
 const policeDataManagerRoutes = [
   {
     path: "/archived-cases",
@@ -156,10 +152,6 @@ const policeDataManagerRoutes = [
   {
     path: "/admin-portal",
     component: AdminPortal
-  },
-  {
-    path: "/custom-config-page",
-    component: CustomConfigPage
   },
   {
     path: "/feature-request",

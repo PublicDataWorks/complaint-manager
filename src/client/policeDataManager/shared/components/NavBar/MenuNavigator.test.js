@@ -79,9 +79,6 @@ describe("MenuNavigator", () => {
           wrapper.find('[data-testid="tagManagement"]').exists()
         ).toBeTrue();
         expect(wrapper.find('[data-testid="admin"]').exists()).toBeTrue();
-        expect(
-          wrapper.find('[data-testid="customConfigPage"]').exists()
-        ).toBeTrue();
       }
     );
   });

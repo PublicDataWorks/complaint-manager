@@ -4,6 +4,7 @@ import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import NavBar from "../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import Signatures from "./signatures/Signatures";
+import LetterTypes from "./letterTypes/LetterTypes";
 
 const AdminPortal = ({ permissions }) => {
   const checkPermissions = (...children) => {
@@ -18,6 +19,7 @@ const AdminPortal = ({ permissions }) => {
     <main className="admin-portal">
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
       {checkPermissions(<Signatures key="signatures" />)}
+      {checkPermissions(<LetterTypes key="letterTypes" />)}
     </main>
   );
 };

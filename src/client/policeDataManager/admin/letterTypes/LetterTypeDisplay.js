@@ -4,12 +4,20 @@ import {
   Divider,
   ExpansionPanel,
   ExpansionPanelSummary,
-  Checkbox
+  Typography
 } from "@material-ui/core";
 import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
 import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
-import LetterTypeInfoDisplay from "../letterTypes/LetterTypeInfoDisplay";
+import LetterTypeInfoDisplay from "./LetterTypeInfoDisplay";
+
+const templateStyle = {
+  maxHeight: "25em",
+  overflow: "scroll",
+  margin: "1em 0 1em 0",
+  border: "1px solid grey",
+  padding: "1em 0 1em 1em"
+};
 
 const LetterTypeDisplay = ({ letterType }) => {
   return (
@@ -88,19 +96,28 @@ const LetterTypeDisplay = ({ letterType }) => {
               }}
             >
               <StyledInfoDisplay>
-                <LetterTypeInfoDisplay
-                  displayLabel="Template"
-                  value={letterType.template}
-                  testLabel="template"
+                <Typography variant="caption" data-testid={`template-label`}>
+                  Template
+                </Typography>
+                <div
+                  style={templateStyle}
+                  dangerouslySetInnerHTML={{ __html: getHeadlessTemplate() }}
                 />
               </StyledInfoDisplay>
               <br />
               {letterType.hasEditPage ? (
                 <StyledInfoDisplay>
-                  <LetterTypeInfoDisplay
-                    displayLabel="Body Template"
-                    value={letterType.editableTemplate}
-                    testLabel="body-template"
+                  <Typography
+                    variant="caption"
+                    data-testid={`body-template-label`}
+                  >
+                    Body Template
+                  </Typography>
+                  <div
+                    style={templateStyle}
+                    dangerouslySetInnerHTML={{
+                      __html: `${letterType.editableTemplate}`
+                    }}
                   />
                 </StyledInfoDisplay>
               ) : (
@@ -113,6 +130,12 @@ const LetterTypeDisplay = ({ letterType }) => {
       <Divider />
     </div>
   );
+
+  function getHeadlessTemplate() {
+    const frontTemplate = letterType.template.split("<head>");
+    const backTemplate = letterType.template.split("</head>");
+    return frontTemplate[0] + backTemplate[1];
+  }
 };
 
 export default connect(state => ({

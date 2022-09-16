@@ -21,10 +21,10 @@ describe("AdminPortal", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument;
+    expect(screen.findAllByText("Loading...")[0]).toBeInTheDocument;
   });
 
-  test("should display the signatures card when you have permissions", () => {
+  test("should display the signatures card and letter types card when you have permissions", () => {
     store.dispatch({
       type: "AUTH_SUCCESS",
       userInfo: { permissions: [USER_PERMISSIONS.ADMIN_ACCESS] }
@@ -39,5 +39,6 @@ describe("AdminPortal", () => {
     );
 
     expect(screen.getByText("Signatures")).toBeInTheDocument;
+    expect(screen.getByText("Letters")).toBeInTheDocument;
   });
 });
