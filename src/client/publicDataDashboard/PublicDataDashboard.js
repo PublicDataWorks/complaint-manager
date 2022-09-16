@@ -12,11 +12,6 @@ import dashboardStyling from "./dashboardStyling/dashboardStyling";
 import dashboardStylingMobile from "./dashboardStyling/dashboardStylingMobile";
 import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
 import styles from "./dashboardStyling/styles";
-import {
-  DDS_LOCATION_DATA,
-  DDS_COMPLAINTS_BY_DISTRICT,
-  DDS_TOP_ALLEGATIONS
-} from "../../sharedUtilities/constants";
 import DashboardNavBar from "./DashboardNavBar";
 import DashboardDataSection from "./DashboardDataSection";
 import moment from "moment";
@@ -77,12 +72,7 @@ const PublicDataDashboardWrapper = () => {
   );
 };
 
-const PublicDataDashboard = ({
-  // configs,
-  countByDistrictVisualizationFeature,
-  topAllegationsVisualizationFeature,
-  publicMapVisualizationFeature
-}) => {
+const PublicDataDashboard = () => {
   const [dataSections, setDataSections] = useState([]);
   useEffect(removeDragCover);
   useEffect(() => {

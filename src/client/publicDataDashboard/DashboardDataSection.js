@@ -77,7 +77,7 @@ const DashboardDataSection = props => {
       <Grid item xs={12} sm={8}>
         <Typography variant="subtitle1">{subtitle}</Typography>
       </Grid>
-      <Suspense fallback={() => <div></div>}>
+      <Suspense fallback={<div></div>}>
         {queryType === "LOCATION_DATA" ? (
           <MapVisualization isPublic={true} />
         ) : (

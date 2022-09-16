@@ -1,7 +1,12 @@
 import getAccessToken from "../auth/getAccessToken";
 import redirectToAuth from "../auth/redirectToAuth";
 
-const publicAPIs = ["/api/public-data", "features", "/api/configs"];
+const publicAPIs = [
+  "/api/public-data",
+  "features",
+  "/api/configs",
+  "/api/visualizations"
+];
 
 const ensureTokenOnRequestInterceptor =
   (dispatch, isAuthDisabled) => config => {
