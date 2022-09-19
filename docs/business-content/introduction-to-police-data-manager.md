@@ -45,7 +45,3 @@ The tagging feature allows Complaint Intake Specialists to add an additional att
 ### Auditing
 
 The auditing feature captures information around varying user actions within the application. Auditing aids civilian police oversight agencies by generating an automated record of all data changes, data accesses, and logins/logouts for every user. Additionally, these records are easily exported from the application as .csv files. The export of cases and the audits themselves are also recorded in the audit logs. The CM application bundles information for a particular complaint within the _Case History_ section of a complaint's _Case Details_ page. The information there will relate only to the complaint a user is currently viewing.
-
-## Product Demo
-
-## Testimonials / Social Proof
