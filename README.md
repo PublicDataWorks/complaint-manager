@@ -239,7 +239,7 @@ docker push publicdataworks/instance-files-noipm:your-tag
   - Then start typing the filename where the desired test suite lives and once selected, press "Enter"
   - The test suite will rerun every time you make a change to the test file and any corresponding files
 
-### Running pace tests locally:
+### Running pact tests locally:
 
 - Run client tests (must come before server pact tests):
 
@@ -248,9 +248,12 @@ docker push publicdataworks/instance-files-noipm:your-tag
   ```
 
 - Run server tests (must come after client pact tests):
+
   ```bash
   docker compose run --rm app yarn test:pact:server
   ```
+
+- For more information on pact visit http://pact.io
 
 ### Known Warnings
 
@@ -282,3 +285,7 @@ docker push publicdataworks/instance-files-noipm:your-tag
   ```
 
 - You may ignore this warning; the tests will still pass.
+
+### Setup Prettier
+
+This project has a prettierrc.js file that dictates formatting. To set this up to work automatically in VSCode first add the prettier extension, then go to Code > Preferences > Settings and turn on the setting "Format on Save" (you can do Format on Paste too if you want) and set the "Default Formatter" to prettier.
