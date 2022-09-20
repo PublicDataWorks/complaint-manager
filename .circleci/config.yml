@@ -772,9 +772,6 @@ workflows:
       - get-instance-files-latest:
           requires:
             - security-check
-      - lighthouse:
-          requires:
-            - get-instance-files-latest
       - test-client:
           requires:
             - get-instance-files-latest

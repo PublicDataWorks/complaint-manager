@@ -59,6 +59,7 @@ describe("executeQuery without GEOJSON", () => {
 
   let firstDistrict, secondDistrict, fifthDistrict, statuses;
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     firstDistrict = await models.district.create(
