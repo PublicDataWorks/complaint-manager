@@ -44,7 +44,6 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
     null
   );
 
-  console.log(letterTypes);
   response.status(200).send(letterTypes);
 });
 
