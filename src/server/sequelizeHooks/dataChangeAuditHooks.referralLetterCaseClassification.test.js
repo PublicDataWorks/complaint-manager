@@ -9,6 +9,7 @@ describe("dataChangeAuditHooks creates referral letter case classification", () 
   let existingCase, classification, caseClassification;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

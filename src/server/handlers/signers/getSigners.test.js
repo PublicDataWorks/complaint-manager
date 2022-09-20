@@ -21,6 +21,7 @@ describe("getSigners", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.signers.create(
       new Signer.Builder()
         .defaultSigner()

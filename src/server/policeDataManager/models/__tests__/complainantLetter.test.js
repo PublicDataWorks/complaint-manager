@@ -3,6 +3,7 @@ import ComplainantLetter from "../../../testHelpers/complainantLetter";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Civilian from "../../../../sharedTestHelpers/civilian";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
 describe("complainantLetter", () => {
   beforeEach(async () => {
@@ -10,6 +11,10 @@ describe("complainantLetter", () => {
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
   });
 
   test("able to create complainant letter with only minimum requirements", async () => {

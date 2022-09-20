@@ -23,6 +23,7 @@ describe("getLetterTypes", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     status = models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

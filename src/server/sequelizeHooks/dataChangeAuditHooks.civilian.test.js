@@ -40,6 +40,7 @@ describe("dataChangeAuditHooks for civilian", () => {
       auditUser: "someone"
     });
   });
+
   afterEach(async () => {
     await cleanupDatabase();
   });

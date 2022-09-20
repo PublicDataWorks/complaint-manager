@@ -18,7 +18,7 @@ import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("Generate referral letter pdf", () => {
-  let existingCase, referralLetter, letterOfficer, token, statuses;
+  let existingCase, token, statuses;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -114,12 +114,9 @@ describe("Generate referral letter pdf", () => {
       .defaultLetterOfficer()
       .withId(undefined)
       .withCaseOfficerId(caseOfficer.id);
-    letterOfficer = await models.letter_officer.create(
-      letterOfficerAttributes,
-      {
-        auditUser: "test"
-      }
-    );
+    await models.letter_officer.create(letterOfficerAttributes, {
+      auditUser: "test"
+    });
 
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
@@ -131,12 +128,9 @@ describe("Generate referral letter pdf", () => {
       .withTranscribedBy("transcriber")
       .withIncludeRetaliationConcerns(true);
 
-    referralLetter = await models.referral_letter.create(
-      referralLetterAttributes,
-      {
-        auditUser: "test"
-      }
-    );
+    await models.referral_letter.create(referralLetterAttributes, {
+      auditUser: "test"
+    });
   });
 
   test("returns letter pdf blob", async () => {

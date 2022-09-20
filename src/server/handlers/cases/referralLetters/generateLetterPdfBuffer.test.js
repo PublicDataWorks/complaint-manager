@@ -11,12 +11,10 @@ import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import {
   ASCENDING,
-  CASE_STATUS,
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";

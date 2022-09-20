@@ -11,6 +11,7 @@ describe("officers", () => {
         middleName: "Sebastian",
         lastName: "Bach"
       });
+
       expect(officer.fullName).toEqual("Johann Sebastian Bach");
     });
 
@@ -20,9 +21,11 @@ describe("officers", () => {
         middleName: "",
         lastName: "Bach"
       });
+
       expect(officer.fullName).toEqual("Johann Bach");
     });
   });
+
   describe("age", () => {
     test("age should be calculated as today minus dob, without fractions", () => {
       const dob = moment().subtract(45, "years").subtract(9, "months");
@@ -34,6 +37,7 @@ describe("officers", () => {
       expect(officer.age).toEqual(null);
     });
   });
+
   describe("district", () => {
     beforeEach(async () => {
       await models.district.create({
@@ -59,19 +63,23 @@ describe("officers", () => {
         lastName: "Bach",
         officerNumber: 1
       });
+
       const officer = await models.officer.findOne({
         where: {
           firstName: "Johann"
         },
         include: [{ model: models.district, as: "officerDistrict" }]
       });
+
       expect(officer.officerDistrict.name).toEqual("1st District");
     });
+
     test("district should be blank if blank", () => {
       const officer = new Officer.Builder()
         .defaultOfficer()
         .withId(undefined)
         .withDistrictId(null);
+
       expect(officer.officerDistrict).toEqual(null);
     });
   });

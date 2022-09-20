@@ -5,7 +5,6 @@ import {
 import models from "../../../policeDataManager/models";
 import request from "supertest";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import District from "../../../../sharedTestHelpers/District";
 import app from "../../../server";
 import { updateCaseStatus } from "./queryHelperFunctions";

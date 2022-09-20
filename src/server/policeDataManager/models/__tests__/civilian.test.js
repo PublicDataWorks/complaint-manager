@@ -1,12 +1,7 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import models from "../index";
-import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import {
-  createTestCaseWithCivilian,
-  createTestCaseWithoutCivilian
-} from "../../../testHelpers/modelMothers";
+import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import Civilian from "../../../../sharedTestHelpers/civilian";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import Case from "../../../../sharedTestHelpers/case";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 

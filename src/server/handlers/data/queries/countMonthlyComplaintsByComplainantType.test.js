@@ -13,7 +13,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 import { updateCaseStatus } from "./queryHelperFunctions";
 import Case from "../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import models from "../../../policeDataManager/models";
 import {
@@ -30,6 +29,10 @@ const {
 describe("executeQuery", () => {
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
   });
 
   let complainantOfficerPO,
@@ -143,10 +146,6 @@ describe("executeQuery", () => {
       );
       complainantCasePO = await createCase(caseAttributes);
       await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
-    });
-
-    afterEach(async () => {
-      await cleanupDatabase();
     });
 
     test("getDateRange should return list of date, count objects for given date range", () => {
@@ -279,10 +278,6 @@ describe("executeQuery", () => {
       );
       complainantCasePO = await createCase(caseAttributes);
       await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
-    });
-
-    afterEach(async () => {
-      await cleanupDatabase();
     });
 
     test("should return complainant types for past 12 months", async () => {

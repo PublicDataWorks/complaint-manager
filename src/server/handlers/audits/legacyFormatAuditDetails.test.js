@@ -1,9 +1,4 @@
 import models from "../../policeDataManager/models";
-import legacyAuditDataAccess from "./legacyAuditDataAccess";
-import {
-  AUDIT_ACTION,
-  AUDIT_SUBJECT
-} from "../../../sharedUtilities/constants";
 import { legacyFormatAuditDetails } from "./legacyFormatAuditDetails";
 
 describe("legacyFormatAuditDetails", () => {

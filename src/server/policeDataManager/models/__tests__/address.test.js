@@ -5,10 +5,6 @@ import {
 } from "../../../testHelpers/modelMothers";
 import Address from "../../../../sharedTestHelpers/Address";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
-import {
-  ADDRESSABLE_TYPE,
-  CASE_STATUS
-} from "../../../../sharedUtilities/constants";
 import models from "../index";
 
 describe("address", () => {

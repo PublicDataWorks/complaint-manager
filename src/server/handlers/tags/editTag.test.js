@@ -1,11 +1,7 @@
 import Boom from "boom";
-import editTagAndAuditDetails from "./editTagHelper";
 import editTag from "./editTag";
 import httpMocks from "node-mocks-http";
-import {
-  BAD_REQUEST_ERRORS,
-  NOT_FOUND_ERRORS
-} from "../../../sharedUtilities/errorMessageConstants";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 const mockHelper = jest.fn();
 

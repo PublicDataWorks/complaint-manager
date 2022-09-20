@@ -51,6 +51,7 @@ describe("createCivilian handler", () => {
     next = jest.fn();
     response = httpMocks.createResponse();
   });
+
   afterEach(async () => {
     await cleanupDatabase();
   });
