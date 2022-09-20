@@ -1,15 +1,8 @@
 import request from "supertest";
 import workerApp from "./worker";
-import {
-  cleanupDatabase,
-  expectResponse
-} from "../server/testHelpers/requestTestHelpers";
+import { expectResponse } from "../server/testHelpers/requestTestHelpers";
 
 describe("worker", () => {
-  afterEach(async () => {
-    await cleanupDatabase();
-  });
-
   test("should respond with 503 when app is shutting down", async () => {
     workerApp.locals.shuttingDown = true;
 
