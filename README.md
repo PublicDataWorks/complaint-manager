@@ -210,8 +210,10 @@ docker push publicdataworks/instance-files-noipm:your-tag
 - Run all tests in `src/client` in parallel:
 
   ```bash
-  docker-compose run --rm app yarn test:client
+  yarn test:client
   ```
+
+  (client tests can be run in docker like the others, but since it doesn't require the test database it can be run outside of docker which is faster)
 
 #### Running server side tests in watch mode:
 
@@ -231,36 +233,24 @@ docker push publicdataworks/instance-files-noipm:your-tag
 
 #### Hints for unit tests
 
-- For running server, client, and worker tests all together (no watch mode)
-  ```bash
-  docker-compose run --rm app yarn test:once
-  ```
 - For when you want to run a specific test suite in the terminal for either client, server, or worker tests
   - Run the command for either client, worker, or server tests depending on the type of test you are working on
   - Once the database is prepared and the tests begin to run, press the "Enter" key and then the "p" key
   - Then start typing the filename where the desired test suite lives and once selected, press "Enter"
   - The test suite will rerun every time you make a change to the test file and any corresponding files
 
-### Running end-to-end tests locally:
+### Running pace tests locally:
 
-- Run nightwatch tests:
+- Run client tests (must come before server pact tests):
 
   ```bash
-  yarn e2e
+  yarn test:pact:client
   ```
 
-- Troubleshooting e2e issues
-
-  - If Test User/Pass or the Google Maps API key environment variables are not available to the e2e container
-
-    - Remove the app-e2e container (so that it can be recreated)
-
-    ```
-    docker compose kill app-e2e
-    docker compose rm app-e2e
-    ```
-
-    - Rerun e2e tests
+- Run server tests (must come after client pact tests):
+  ```bash
+  docker compose run --rm app yarn test:pact:server
+  ```
 
 ### Known Warnings
 
