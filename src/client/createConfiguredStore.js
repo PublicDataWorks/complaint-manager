@@ -68,6 +68,7 @@ import highlightCaseNoteReducer from "./policeDataManager/reducers/ui/highlightC
 import missingComplainantDialogReducer from "./policeDataManager/reducers/ui/missingComplainantDialogReducer";
 import configReducer from "./policeDataManager/reducers/ui/configReducer";
 import caseStatusesReducer from "./policeDataManager/reducers/ui/caseStatusesReducer";
+import signersReducer from "./policeDataManager/reducers/signersReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -99,6 +100,7 @@ const rootReducer = combineReducers({
   recommendedActions: recommendedActionsReducer,
   referralLetter: referralLetterReducer,
   router: connectRouter(history),
+  signers: signersReducer,
   ui: combineReducers({
     accusedOfficerPanels: accusedOfficerPanelsReducer,
     addressInput: addressInputReducer,

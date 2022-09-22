@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import Signatures from "./Signatures";
 import createConfiguredStore from "../../../createConfiguredStore";
 import userEvent from "@testing-library/user-event";
-import { FAKE_USERS } from "../../../../sharedUtilities/constants";
+import { FAKE_USERS, GET_SIGNERS } from "../../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 
 jest.mock("../../shared/components/FileUpload");
@@ -14,9 +14,16 @@ jest.mock("../../shared/components/FileUpload");
 describe("Signatures Admin Card", () => {
   beforeEach(() => {
     nock.cleanAll();
-    nock("http://localhost")
-      .get("/api/signers")
-      .reply(200, [
+    for (let i = 1; i <= 2; i++) {
+      nock("http://localhost")
+        .get(`/api/signers/${i}/signature`)
+        .reply(200, "bytes");
+    }
+
+    const store = createConfiguredStore();
+    store.dispatch({
+      type: GET_SIGNERS,
+      payload: [
         {
           id: 1,
           name: "John A Simms",
@@ -48,16 +55,10 @@ describe("Signatures Admin Card", () => {
             }
           ]
         }
-      ]);
-
-    for (let i = 1; i <= 2; i++) {
-      nock("http://localhost")
-        .get(`/api/signers/${i}/signature`)
-        .reply(200, "bytes");
-    }
-
+      ]
+    });
     render(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
           <Signatures />
           <SharedSnackbarContainer />

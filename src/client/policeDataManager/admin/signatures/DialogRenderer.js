@@ -8,18 +8,19 @@ import {
 import AddSignatureDialog from "./AddSignatureDialog";
 import UpdateSignatureDialog from "./UpdateSignatureDialog";
 import ConfirmationDialog from "../../shared/components/ConfirmationDialog";
+import getSigners from "../thunks/getSigners";
 
 const DialogRenderer = ({
+  getSigners,
   signers,
   signerDialog,
   setSignerDialog,
-  setLoadSigners,
   snackbarSuccess,
   snackbarError
 }) => {
   const closeDialog = isThereNewData => {
     if (isThereNewData) {
-      setLoadSigners(true);
+      getSigners();
     }
     setSignerDialog({});
   };
@@ -66,6 +67,8 @@ const DialogRenderer = ({
   }
 };
 
-export default connect(undefined, { snackbarSuccess, snackbarError })(
-  DialogRenderer
-);
+export default connect(undefined, {
+  getSigners,
+  snackbarSuccess,
+  snackbarError
+})(DialogRenderer);

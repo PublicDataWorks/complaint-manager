@@ -185,6 +185,9 @@ export const GET_NOTIFICATIONS_SUCCESS = "GET_NOTIFICATIONS_SUCCESS";
 export const HIGHLIGHT_CASE_NOTE = "HIGHLIGHT_CASE_NOTE";
 export const CLEAR_HIGHLIGHTED_CASE_NOTE = "UNHIGHLIGHT_CASE_NOTE";
 
+export const GET_SIGNERS = "GET_SIGNERS";
+export const GET_STATUSES = "GET_STATUSES";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------

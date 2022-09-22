@@ -32,26 +32,12 @@ const formatImageString = string => {
 }
 */
 const Signatures = props => {
-  const [signers, setSigners] = useState([]);
   const [signatures, setSignatures] = useState({});
   const [signerDialog, setSignerDialog] = useState({});
-  const [loadSigners, setLoadSigners] = useState(true);
 
   useEffect(() => {
-    if (loadSigners) {
-      axios
-        .get("/api/signers")
-        .then(result => {
-          setSigners(result.data);
-          result.data.forEach(processSigner);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-      setLoadSigners(false);
-    }
-  }, [loadSigners]);
+    props.signers.forEach(processSigner);
+  }, [props.signers]);
 
   const processSigner = signer => {
     if (signer?.links.length) {
@@ -93,8 +79,8 @@ const Signatures = props => {
     <section style={{ minWidth: "50em", padding: "5px" }}>
       <DetailsCard title="Signatures">
         <CardContent>
-          {signers.length ? (
-            signers.map(signer => (
+          {props.signers.length ? (
+            props.signers.map(signer => (
               <React.Fragment key={signer.id}>
                 <section
                   className={props.classes.detailsLastRow}
@@ -174,13 +160,14 @@ const Signatures = props => {
         </CardContent>
       </DetailsCard>
       <DialogRenderer
-        signers={signers}
+        signers={props.signers}
         signerDialog={signerDialog}
         setSignerDialog={setSignerDialog}
-        setLoadSigners={setLoadSigners}
       />
     </section>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(Signatures);
+export default connect(state => ({ signers: state.signers }))(
+  withStyles(styles, { withTheme: true })(Signatures)
+);
