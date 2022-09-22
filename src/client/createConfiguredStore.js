@@ -70,86 +70,86 @@ import configReducer from "./policeDataManager/reducers/ui/configReducer";
 import caseStatusesReducer from "./policeDataManager/reducers/ui/caseStatusesReducer";
 
 const rootReducer = combineReducers({
-  form: formReducer,
-  router: connectRouter(history),
   cases: combineReducers({
-    working: workingCasesReducer,
+    archived: archivedCasesReducer,
     search: searchCasesReducer,
-    archived: archivedCasesReducer
+    working: workingCasesReducer
   }),
+  classifications: classificationsReducer,
   currentCase: combineReducers({
-    details: caseDetailsReducer,
-    caseNotes: caseNotesReducer,
-    fetchingCaseNotes: fetchingCaseNotesReducer,
     caseHistory: caseHistoryReducer,
+    caseNotes: caseNotesReducer,
     caseTags: caseTagReducer,
+    details: caseDetailsReducer,
+    fetchingCaseNotes: fetchingCaseNotesReducer,
     fetchingCaseTags: fetchingCaseTagsReducer
   }),
-  referralLetter: referralLetterReducer,
-  recommendedActions: recommendedActionsReducer,
-  classifications: classificationsReducer,
-  users: combineReducers({
-    current: loggedInUserReducer,
-    all: usersReducer
-  }),
   configs: configReducer,
-  ui: combineReducers({
-    snackbar: snackbarReducer,
-    casesTable: casesTableReducer,
-    updateCaseStatusDialog: updateCaseStatusDialogReducer,
-    caseTagDialog: caseTagDialogReducer,
-    caseNoteDialog: caseNoteDialogReducer,
-    caseStatuses: caseStatusesReducer,
-    civilianDialog: civilianDialogReducer,
-    createDialog: createDialogReducer,
-    exportDialog: exportDialogReducer,
-    allExports: allExportsReducer,
-    removePersonDialog: removePersonDialogReducer,
-    removeCaseNoteDialog: removeCaseNoteDialogReducer,
-    removeCaseTagDialog: removeCaseTagDialogReducer,
-    editLetterConfirmationDialog: editReferralLetterReducer,
-    cancelEditLetterConfirmationDialog:
-      cancelEditLetterConfirmationDialogReducer,
-    attachments: attachmentsReducer,
-    search: searchReducer,
-    caseNoteActions: caseNoteActionReducer,
-    allegations: allegationMenuDisplay,
-    intakeSources: intakeSourceReducer,
-    howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
-    raceEthnicities: raceEthnicityReducer,
-    civilianTitles: civilianTitleReducer,
-    districts: districtReducer,
-    tags: tagReducer,
-    tagManagement: tagManagementReducer,
-    genderIdentities: genderIdentityReducer,
-    officerHistoryOptions: officerHistoryOptionsReducer,
-    incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
-    openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,
-    openMissingComplainantDialog: missingComplainantDialogReducer,
-    editAllegationForms: editAllegationFormsReducer,
-    removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
-    accusedOfficerPanels: accusedOfficerPanelsReducer,
-    addressInput: addressInputReducer,
-    officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
-    letterDownload: letterDownloadReducer,
-    pdfPreview: loadPdfPreviewReducer,
-    archiveCaseDialog: archiveCaseDialogReducer,
-    restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
-    editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
-    removeAttachmentConfirmationDialog:
-      removeAttachmentConfirmationDialogReducer,
-    highlightedCaseNote: highlightCaseNoteReducer
-  }),
-  officers: combineReducers({
-    searchOfficers: searchOfficersReducer,
-    addOfficer: addOfficerReducer
-  }),
-  featureToggles: featureTogglesReducer,
   export: combineReducers({
     downloadUrl: exportJobDownloadUrlReducer,
     generateJob: generateJobReducer
   }),
-  notifications: getNotificationsReducer
+  featureToggles: featureTogglesReducer,
+  form: formReducer,
+  notifications: getNotificationsReducer,
+  officers: combineReducers({
+    addOfficer: addOfficerReducer,
+    searchOfficers: searchOfficersReducer
+  }),
+  recommendedActions: recommendedActionsReducer,
+  referralLetter: referralLetterReducer,
+  router: connectRouter(history),
+  ui: combineReducers({
+    accusedOfficerPanels: accusedOfficerPanelsReducer,
+    addressInput: addressInputReducer,
+    allegations: allegationMenuDisplay,
+    allExports: allExportsReducer,
+    archiveCaseDialog: archiveCaseDialogReducer,
+    attachments: attachmentsReducer,
+    cancelEditLetterConfirmationDialog:
+      cancelEditLetterConfirmationDialogReducer,
+    caseNoteActions: caseNoteActionReducer,
+    caseNoteDialog: caseNoteDialogReducer,
+    casesTable: casesTableReducer,
+    caseStatuses: caseStatusesReducer,
+    caseTagDialog: caseTagDialogReducer,
+    civilianDialog: civilianDialogReducer,
+    civilianTitles: civilianTitleReducer,
+    createDialog: createDialogReducer,
+    districts: districtReducer,
+    editAllegationForms: editAllegationFormsReducer,
+    editIncidentDetailsDialog: editIncidentDetailsDialogReducer,
+    editLetterConfirmationDialog: editReferralLetterReducer,
+    exportDialog: exportDialogReducer,
+    genderIdentities: genderIdentityReducer,
+    highlightedCaseNote: highlightCaseNoteReducer,
+    howDidYouHearAboutUsSources: howDidYouHearAboutUsSourceReducer,
+    incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
+    intakeSources: intakeSourceReducer,
+    letterDownload: letterDownloadReducer,
+    officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
+    officerHistoryOptions: officerHistoryOptionsReducer,
+    openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,
+    openMissingComplainantDialog: missingComplainantDialogReducer,
+    pdfPreview: loadPdfPreviewReducer,
+    raceEthnicities: raceEthnicityReducer,
+    removeAttachmentConfirmationDialog:
+      removeAttachmentConfirmationDialogReducer,
+    removeCaseNoteDialog: removeCaseNoteDialogReducer,
+    removeCaseTagDialog: removeCaseTagDialogReducer,
+    removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
+    removePersonDialog: removePersonDialogReducer,
+    restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
+    search: searchReducer,
+    snackbar: snackbarReducer,
+    tagManagement: tagManagementReducer,
+    tags: tagReducer,
+    updateCaseStatusDialog: updateCaseStatusDialogReducer
+  }),
+  users: combineReducers({
+    current: loggedInUserReducer,
+    all: usersReducer
+  })
 });
 
 const routingMiddleware = routerMiddleware(history);
