@@ -137,10 +137,19 @@ const LetterTypeDialog = props => {
                 ]) /* TODO get from server */
               }
             </Field>
-            {/* TODO add label for template fields */}
+            <label
+              style={{
+                margin: "10px 0px"
+              }}
+              htmlFor="template-field"
+            >
+              Template
+            </label>
+
             <Field
               name="template"
               label="Template"
+              id="template-field"
               component={RichTextEditorComponent}
               placeholder="Enter Letter Template"
               fullWidth
@@ -152,19 +161,30 @@ const LetterTypeDialog = props => {
               }}
             />
             {props.editable ? (
-              <Field
-                name="editableTemplate"
-                label="Editable Template"
-                component={RichTextEditorComponent}
-                placeholder="Enter Letter Editable Template"
-                fullWidth
-                multiline
-                rowsMax={20}
-                rows={5}
-                style={{
-                  color: "black"
-                }}
-              />
+              <>
+                <label
+                  style={{
+                    margin: "10px 0px"
+                  }}
+                  htmlFor="body-template-field"
+                >
+                  Body Template
+                </label>
+                <Field
+                  name="editableTemplate"
+                  label="Editable Template"
+                  id="body-template-field"
+                  component={RichTextEditorComponent}
+                  placeholder="Enter Letter Editable Template"
+                  fullWidth
+                  multiline
+                  rowsMax={20}
+                  rows={5}
+                  style={{
+                    color: "black"
+                  }}
+                />
+              </>
             ) : (
               ""
             )}
