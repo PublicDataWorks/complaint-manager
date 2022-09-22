@@ -8,20 +8,9 @@ import {
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { renderTextField } from "../sharedFormComponents/renderFunctions";
-import RichTextEditor from "../../shared/components/RichTextEditor/RichTextEditor";
+import { RichTextEditorComponent } from "../../shared/components/RichTextEditor/RichTextEditor";
 import standards from "../../../common/globalStyling/standards";
 import { connect } from "react-redux";
-
-const RichTextEditorComponent = props => {
-  return (
-    <RichTextEditor
-      {...props}
-      initialValue={props.input.value}
-      onChange={newValue => props.input.onChange(newValue)}
-      onBlur={props.input.onBlur}
-    />
-  );
-};
 
 const Narrative = props => {
   const onBlur = () => {

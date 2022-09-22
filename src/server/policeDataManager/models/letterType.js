@@ -40,10 +40,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   });
+
   LetterType.associate = models => {
     LetterType.belongsTo(models.signers, {
       as: "defaultSender",
-      foreignKey: { field: "default_sender", allowNull: false }
+      foreignKey: {
+        field: "default_sender",
+        name: "defaultSenderId",
+        allowNull: false
+      }
     });
 
     LetterType.hasMany(models.letterField, {
@@ -60,5 +65,24 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
   };
+
+  LetterType.prototype.toPayload = letterType => {
+    let result = letterType.toJSON();
+    delete result.requiredStatusId;
+    delete result.defaultSenderId;
+    delete result.updatedAt;
+    delete result.createdAt;
+    if (result.requiredStatus) {
+      result.requiredStatus = result.requiredStatus.name;
+    }
+
+    if (result.defaultSender) {
+      delete result.defaultSender.createdAt;
+      delete result.defaultSender.updatedAt;
+    }
+
+    return result;
+  };
+
   return LetterType;
 };

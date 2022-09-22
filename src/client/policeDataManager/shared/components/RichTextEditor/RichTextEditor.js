@@ -71,4 +71,17 @@ class RichTextEditor extends React.Component {
   }
 }
 
-export default connect()(RichTextEditor);
+const RichTextEditorContainer = connect()(RichTextEditor);
+
+export const RichTextEditorComponent = props => {
+  return (
+    <RichTextEditorContainer
+      {...props}
+      initialValue={props.input.value}
+      onChange={newValue => props.input.onChange(newValue)}
+      onBlur={props.input.onBlur}
+    />
+  );
+};
+
+export default RichTextEditorContainer;

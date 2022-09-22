@@ -14,7 +14,15 @@ div#root {
 
 .ql-editor {
   min-height: 100px;
+}
+
+.ql-container {
   max-height: 600px;
+  overflow: scroll;
+}
+
+.MuiDialog-paper .ql-container {
+  max-height: 175px;
 }
 
 .letter-preview p,

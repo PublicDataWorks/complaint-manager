@@ -80,6 +80,7 @@ import uploadSignature from "./handlers/signers/uploadSignature";
 import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 import getVisualizationConfigs from "./handlers/visualizationConfigs/getVisualizationConfigs";
 import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
+import editLetterType from "./handlers/letterTypes/editLetterType";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -597,6 +598,13 @@ export const API_ROUTES = {
     get: {
       handler: getLetterTypes,
       errorMessage: "Something went wrong while retrieving letter types"
+    }
+  },
+  "/letter-types/:typeId": {
+    put: {
+      handler: editLetterType,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while editing letter type"
     }
   },
   "/signers": {

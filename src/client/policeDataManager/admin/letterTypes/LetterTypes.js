@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "../../cases/CaseDetails/caseDetailsStyles";
-import {
-  CardContent,
-  Divider,
-  Typography,
-  withStyles
-} from "@material-ui/core";
+import { CardContent, withStyles } from "@material-ui/core";
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
 

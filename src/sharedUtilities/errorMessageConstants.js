@@ -27,6 +27,7 @@ export const BAD_REQUEST_ERRORS = {
     "The letter officer does not match with the expected case officer",
   INVALID_OFFICER_HISTORY_NOTE: "The officer's history note does not exist",
   INVALID_JOB: "Could not find specified job",
+  INVALID_SENDER: "The requested sender could not be found",
   OPERATION_NOT_PERMITTED: "Operation not permitted",
   OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
   PIB_CONTROL_NUMBER_ALREADY_EXISTS: "Bureau Control # is already in use",

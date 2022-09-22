@@ -29,6 +29,7 @@ import { push } from "connected-react-router";
 const RichTextEditorComponent = props => {
   return (
     <RichTextEditor
+      {...props}
       initialValue={props.input.value}
       onChange={newValue => props.input.onChange(newValue)}
       data-testid={"editLetterInput"}
@@ -212,7 +213,9 @@ export class EditLetter extends Component {
                     component={RichTextEditorComponent}
                     fullWidth
                     multiline
-                    style={{ marginBottom: "16px" }}
+                    style={{
+                      marginBottom: "16px"
+                    }}
                   />
                 </form>
               </CardContent>

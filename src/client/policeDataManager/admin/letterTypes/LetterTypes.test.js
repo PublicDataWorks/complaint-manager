@@ -17,13 +17,15 @@ describe("Letter Types Card", () => {
         {
           id: 1,
           type: "REFERRAL",
-          template: "",
-          hasEditPage: false,
+          template: "<section>Hello World</section>",
+          hasEditPage: true,
           requiresApproval: true,
           defaultSender: {
-            name: "Billy"
+            name: "Billy",
+            nickname: "bill@billy.bil"
           },
           requiredStatus: {
+            // TODO refactor
             name: "Active"
           }
         },
@@ -35,7 +37,8 @@ describe("Letter Types Card", () => {
           hasEditPage: true,
           requiresApproval: null,
           defaultSender: {
-            name: "Kate"
+            name: "Kate",
+            nickname: "Kate@k.com"
           },
           requiredStatus: {
             name: "Initial"
@@ -78,16 +81,77 @@ describe("Letter Types Card", () => {
     expect(await screen.findByText("Initial")).toBeInTheDocument;
   });
 
-  test("should render temmplate when click on dropdown", async () => {
+  test("should render template when click on dropdown", async () => {
     const letterTypeRow = await screen.findAllByTestId("letter-type-label");
     userEvent.click(letterTypeRow[0]);
     expect(await screen.findAllByTestId("template-label")).toBeTruthy();
   });
 
-  test("should display editable temmplate when hasEditPage is true", async () => {
+  test("should display editable template when hasEditPage is true", async () => {
     const letterTypeRow = await screen.findAllByTestId("letter-type-label");
     userEvent.click(letterTypeRow[1]);
     expect(await screen.findAllByTestId("body-template-label")).toBeTruthy();
     expect(await screen.findByText("editable template")).toBeInTheDocument;
+  });
+
+  describe("edit letter type", () => {
+    beforeEach(async () => {
+      const editBtns = await screen.findAllByTestId("edit-letter-type-btn");
+      userEvent.click(editBtns[0]);
+      await screen.findByText("Edit Letter Type");
+    });
+
+    test("should display existing data on dialog inputs", () => {
+      expect(screen.getByTestId("letter-type-input").value).toEqual("REFERRAL");
+      expect(
+        screen.getByTestId("requires-approval-checkbox").checked
+      ).toBeTrue();
+      expect(screen.getByTestId("edit-page-checkbox").checked).toBeTrue();
+      expect(screen.getByTestId("default-sender-dropdown").value).toEqual(
+        "Billy"
+      );
+      expect(screen.getByTestId("required-status-dropdown").value).toEqual(
+        "Active"
+      );
+    });
+
+    test("should close dialog when cancel is clicked", () => {
+      userEvent.click(screen.getByText("Cancel"));
+      expect(screen.queryAllByText("Cancel")).toHaveLength(0);
+    });
+
+    test("should call edit letter type endpoint when save is clicked", async () => {
+      const editCall = nock("http://localhost")
+        .put("/api/letter-types/1")
+        .reply(200, {
+          id: 1,
+          type: "NEW TYPE",
+          template: "<section>Hello World</section>",
+          hasEditPage: false,
+          requiresApproval: false,
+          defaultSender: "abcpestandlawn@gmail.com",
+          requiredStatus: "Closed"
+        });
+
+      userEvent.click(screen.getByTestId("letter-type-input"));
+      userEvent.clear(screen.getByTestId("letter-type-input"));
+      userEvent.type(screen.getByTestId("letter-type-input"), "NEW TYPE");
+
+      userEvent.click(screen.getByTestId("requires-approval-checkbox"));
+      userEvent.click(screen.getByTestId("edit-page-checkbox"));
+
+      userEvent.click(screen.getByTestId("default-sender-dropdown"));
+      userEvent.click(screen.getByText("ABC Pest and Lawn"));
+
+      userEvent.click(screen.getByTestId("required-status-dropdown"));
+      userEvent.click(screen.getByText("Closed"));
+
+      userEvent.click(screen.getByText("Save"));
+
+      expect(await screen.findByText("Successfully edited letter type"))
+        .toBeInTheDocument;
+      expect(editCall.isDone()).toBeTrue();
+      expect(screen.queryAllByText("Cancel")).toHaveLength(0);
+    });
   });
 });

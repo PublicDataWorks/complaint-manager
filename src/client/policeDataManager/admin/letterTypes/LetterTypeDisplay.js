@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import {
   Divider,
@@ -10,6 +10,8 @@ import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIcon
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
 import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
 import LetterTypeInfoDisplay from "./LetterTypeInfoDisplay";
+import { PrimaryButton } from "../../shared/components/StyledButtons";
+import LetterTypeDialog from "./LetterTypeDialog";
 
 const templateStyle = {
   maxHeight: "25em",
@@ -20,6 +22,10 @@ const templateStyle = {
 };
 
 const LetterTypeDisplay = ({ letterType }) => {
+  // format: undefined for no dialog, otherwise
+  // { type: add/edit, data: {<existing letter type data>} }
+  const [dialog, setDialog] = useState();
+
   return (
     <div>
       <div
@@ -126,8 +132,33 @@ const LetterTypeDisplay = ({ letterType }) => {
             </div>
           </StyledExpansionPanelDetails>
         </ExpansionPanel>
+        <section
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "flex-end",
+            padding: "0 30px 10px 0",
+            marginTop: "25px"
+          }}
+        >
+          <PrimaryButton
+            data-testid="edit-letter-type-btn"
+            onClick={() => setDialog({ type: "edit", data: letterType })}
+          >
+            Edit
+          </PrimaryButton>
+        </section>
       </div>
       <Divider />
+      {dialog ? (
+        <LetterTypeDialog
+          letterType={dialog.data}
+          type={dialog.type}
+          exit={() => setDialog()}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 
