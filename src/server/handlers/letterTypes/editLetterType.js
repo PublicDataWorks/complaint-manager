@@ -49,7 +49,10 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
           throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
         }
         letterType.requiredStatusId = status.id;
-      } else if (request.body[key]) {
+      } else if (
+        request.body[key] !== null &&
+        typeof request.body[key] !== "undefined"
+      ) {
         letterType[key] = request.body[key];
       }
     })

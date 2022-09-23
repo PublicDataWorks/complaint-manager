@@ -7,6 +7,7 @@ import userEvent from "@testing-library/user-event";
 import createConfiguredStore from "../../../createConfiguredStore";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 import LetterTypes from "./LetterTypes";
+import { GET_SIGNERS } from "../../../../sharedUtilities/constants";
 
 describe("Letter Types Card", () => {
   beforeEach(() => {
@@ -46,8 +47,17 @@ describe("Letter Types Card", () => {
         }
       ]);
 
+    const store = createConfiguredStore();
+    store.dispatch({
+      type: GET_SIGNERS,
+      payload: [
+        { name: "Billy", nickname: "bill@billy.bil" },
+        { name: "ABC Pest and Lawn", nickname: "abcpestandlawn@gmail.com" }
+      ]
+    });
+
     render(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
           <LetterTypes />
           <SharedSnackbarContainer />

@@ -53,7 +53,7 @@ const LetterTypeDialog = props => {
       .then(result => {
         props.snackbarSuccess("Successfully edited letter type");
         props.setLetterType(result.data);
-        props.exit(); // TODO get admin page to show changes
+        props.exit();
       })
       .catch(error => {
         props.snackbarError("Failed to edit letter type");
@@ -115,12 +115,9 @@ const LetterTypeDialog = props => {
               validate={[defaultSenderRequired, defaultSenderNotBlank]}
               style={{ width: "100%" }}
             >
-              {
-                generateMenuOptions([
-                  ["Billy", "bill@billy.bil"],
-                  ["ABC Pest and Lawn", "abcpestandlawn@gmail.com"]
-                ]) /* TODO get from server */
-              }
+              {generateMenuOptions(
+                props.signers.map(signer => [signer.name, signer.nickname])
+              )}
             </Field>
             <Field
               component={Dropdown}
@@ -212,7 +209,8 @@ export default connect(
         requiredStatus: props.letterType.requiredStatus.name,
         template: props.letterType.template,
         editableTemplate: props.letterType.editableTemplate
-      }
+      },
+      signers: state.signers
     };
   },
   { snackbarSuccess, snackbarError }
