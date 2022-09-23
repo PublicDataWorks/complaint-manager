@@ -12,6 +12,7 @@ import AdminPortal from "../../client/policeDataManager/admin/AdminPortal";
 import { USER_PERMISSIONS, FAKE_USERS } from "../../sharedUtilities/constants";
 import moment from "moment";
 
+jest.setTimeout(500000);
 jest.mock("../../client/policeDataManager/shared/components/FileUpload");
 
 pactWith(
@@ -23,7 +24,6 @@ pactWith(
   },
   provider => {
     beforeAll(async () => {
-      jest.setTimeout(500000);
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
 
