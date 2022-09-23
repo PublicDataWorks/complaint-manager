@@ -23,6 +23,7 @@ pactWith(
   },
   provider => {
     beforeAll(async () => {
+      jest.setTimeout(500000);
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
 
@@ -317,17 +318,17 @@ pactWith(
           expect(await screen.findByText("Signer successfully deleted"))
             .toBeInTheDocument;
         });
+      });
 
-        describe("letter types", () => {
-          test("should show letter types saved in the database", async () => {
-            await Promise.all([
-              screen.findByText("REFERRAL"),
-              screen.findByText("Billy"),
-              screen.findByText("Initial")
-            ]);
-            userEvent.click(await screen.findByText("REFERRAL"));
-            await Promise.all([screen.findByText("Template")]);
-          });
+      describe("letter types", () => {
+        test("should show letter types saved in the database", async () => {
+          await Promise.all([
+            screen.findByText("REFERRAL"),
+            screen.findByText("Billy"),
+            screen.findByText("Initial")
+          ]);
+          userEvent.click(await screen.findByText("REFERRAL"));
+          await Promise.all([screen.findByText("Template")]);
         });
       });
     });
