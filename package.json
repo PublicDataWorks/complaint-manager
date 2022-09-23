@@ -215,6 +215,7 @@
     "**/static-eval": "^2.0.5",
     "**/tmpl": "1.0.5",
     "**/tree-kill": "^1.2.2",
+    "**/underscore": "1.13.4",
     "**/url-parse": "^1.5.10",
     "**/yargs-parser": "^20.2.7",
     "**/validator": "^13.7.0",
