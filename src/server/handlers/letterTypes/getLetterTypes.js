@@ -44,7 +44,9 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
     null
   );
 
-  response.status(200).send(letterTypes);
+  response
+    .status(200)
+    .send(letterTypes.map(letterType => letterType.toPayload(letterType)));
 });
 
 export default getLetterTypes;

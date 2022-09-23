@@ -25,10 +25,7 @@ describe("Letter Types Card", () => {
             name: "Billy",
             nickname: "bill@billy.bil"
           },
-          requiredStatus: {
-            // TODO refactor
-            name: "Active"
-          }
+          requiredStatus: "Active"
         },
         {
           id: 2,
@@ -41,9 +38,7 @@ describe("Letter Types Card", () => {
             name: "Kate",
             nickname: "Kate@k.com"
           },
-          requiredStatus: {
-            name: "Initial"
-          }
+          requiredStatus: "Initial"
         }
       ]);
 

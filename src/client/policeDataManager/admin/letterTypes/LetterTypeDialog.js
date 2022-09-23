@@ -206,7 +206,7 @@ export default connect(
         requiresApproval: props.letterType.requiresApproval,
         hasEditPage: props.letterType.hasEditPage,
         defaultSender: props.letterType.defaultSender.nickname,
-        requiredStatus: props.letterType.requiredStatus.name,
+        requiredStatus: props.letterType.requiredStatus,
         template: props.letterType.template,
         editableTemplate: props.letterType.editableTemplate
       },

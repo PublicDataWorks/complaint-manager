@@ -24,7 +24,7 @@ describe("getLetterTypes", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
-    status = models.caseStatus.create(
+    status = await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
@@ -45,7 +45,7 @@ describe("getLetterTypes", () => {
       }
     );
 
-    await models.letter_types.create(
+    let letterType = await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
         .withId(1)
@@ -77,7 +77,7 @@ describe("getLetterTypes", () => {
         editableTemplate: null,
         hasEditPage: null,
         requiresApproval: null,
-        requiredStatus: null,
+        requiredStatus: "Initial",
         defaultSender: expect.objectContaining({
           id: 1,
           name: "John A Simms",

@@ -88,7 +88,7 @@ const LetterTypeDisplay = props => {
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Required Status"
-                    value={letterType.requiredStatus.name}
+                    value={letterType.requiredStatus}
                     testLabel="required-status"
                   />
                 </StyledInfoDisplay>
