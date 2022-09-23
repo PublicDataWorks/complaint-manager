@@ -52,6 +52,7 @@ const LetterTypeDialog = props => {
       })
       .then(result => {
         props.snackbarSuccess("Successfully edited letter type");
+        props.setLetterType(result.data);
         props.exit(); // TODO get admin page to show changes
       })
       .catch(error => {

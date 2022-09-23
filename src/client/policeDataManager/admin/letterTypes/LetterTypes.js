@@ -30,7 +30,10 @@ const LetterTypes = () => {
         <CardContent style={{ padding: "0" }}>
           {letterTypes.length
             ? letterTypes.map(letterType => (
-                <LetterTypeDisplay letterType={letterType} />
+                <LetterTypeDisplay
+                  key={letterType.id}
+                  letterType={letterType}
+                />
               ))
             : "There are no Letters"}
         </CardContent>

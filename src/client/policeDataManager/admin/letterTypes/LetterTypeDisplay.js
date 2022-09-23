@@ -21,10 +21,11 @@ const templateStyle = {
   padding: "1em 0 1em 1em"
 };
 
-const LetterTypeDisplay = ({ letterType }) => {
+const LetterTypeDisplay = props => {
   // format: undefined for no dialog, otherwise
   // { type: add/edit, data: {<existing letter type data>} }
   const [dialog, setDialog] = useState();
+  const [letterType, setLetterType] = useState(props.letterType);
 
   return (
     <div>
@@ -155,6 +156,7 @@ const LetterTypeDisplay = ({ letterType }) => {
           letterType={dialog.data}
           type={dialog.type}
           exit={() => setDialog()}
+          setLetterType={setLetterType}
         />
       ) : (
         ""
