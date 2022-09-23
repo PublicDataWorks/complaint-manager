@@ -12,7 +12,7 @@ import AdminPortal from "../../client/policeDataManager/admin/AdminPortal";
 import { USER_PERMISSIONS, FAKE_USERS } from "../../sharedUtilities/constants";
 import moment from "moment";
 
-jest.setTimeout(500000);
+jest.useRealTimers();
 jest.mock("../../client/policeDataManager/shared/components/FileUpload");
 
 pactWith(
@@ -149,7 +149,7 @@ pactWith(
           ]);
 
           await screen.findByAltText("The signature of John A Simms");
-        });
+        }, 100000);
 
         test("on click of add signature save button, should add new signer and signature", async () => {
           moment.prototype.utc = jest
@@ -230,7 +230,7 @@ pactWith(
             .toBeInTheDocument;
           expect(await screen.findByText("Signer successfully added"))
             .toBeInTheDocument;
-        });
+        }, 100000);
 
         test("on click of edit signature save button, should edit signer and signature", async () => {
           moment.prototype.utc = jest
@@ -292,7 +292,7 @@ pactWith(
           expect(await screen.findByText("Signer successfully updated"))
             .toBeInTheDocument;
           expect(await screen.findByText("+ Add Signature"));
-        });
+        }, 100000);
 
         test("on click of remove signature button, should remove signer and signature", async () => {
           moment.prototype.utc = jest
@@ -317,7 +317,7 @@ pactWith(
           userEvent.click(saveButton);
           expect(await screen.findByText("Signer successfully deleted"))
             .toBeInTheDocument;
-        });
+        }, 100000);
       });
 
       describe("letter types", () => {
@@ -329,7 +329,7 @@ pactWith(
           ]);
           userEvent.click(await screen.findByText("REFERRAL"));
           await Promise.all([screen.findByText("Template")]);
-        });
+        }, 100000);
       });
     });
   }
