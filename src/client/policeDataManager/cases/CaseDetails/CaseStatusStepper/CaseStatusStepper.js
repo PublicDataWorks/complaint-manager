@@ -8,6 +8,7 @@ import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
 import getActiveStep from "./getActiveStep";
 import getCaseStatuses from "../../thunks/getCaseStatuses";
+import { mapCaseStatuses } from "./case-status-selector";
 
 const generateSteps = map => {
   return Object.keys(map).map(key => {
@@ -19,8 +20,14 @@ const generateSteps = map => {
   });
 };
 
-const CaseStatusStepper = ({ caseId, status, isArchived, permissions, caseStatuses, getCaseStatuses }) => {
-
+const CaseStatusStepper = ({
+  caseId,
+  status,
+  isArchived,
+  permissions,
+  caseStatuses,
+  getCaseStatuses
+}) => {
   useEffect(() => {
     if (!Object.keys(caseStatuses).length) {
       getCaseStatuses();
@@ -76,7 +83,7 @@ const mapStateToProps = state => ({
   status: state.currentCase.details.status,
   isArchived: state.currentCase.details.isArchived,
   permissions: state?.users?.current?.userInfo?.permissions,
-  caseStatuses: state.ui.caseStatuses
+  caseStatuses: mapCaseStatuses(state)
 });
 
 export default connect(mapStateToProps, { getCaseStatuses })(CaseStatusStepper);

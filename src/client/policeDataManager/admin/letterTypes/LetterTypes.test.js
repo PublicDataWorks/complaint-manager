@@ -7,7 +7,10 @@ import userEvent from "@testing-library/user-event";
 import createConfiguredStore from "../../../createConfiguredStore";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 import LetterTypes from "./LetterTypes";
-import { GET_SIGNERS } from "../../../../sharedUtilities/constants";
+import {
+  CASE_STATUSES_RETRIEVED,
+  GET_SIGNERS
+} from "../../../../sharedUtilities/constants";
 
 describe("Letter Types Card", () => {
   beforeEach(() => {
@@ -49,6 +52,11 @@ describe("Letter Types Card", () => {
         { name: "Billy", nickname: "bill@billy.bil" },
         { name: "ABC Pest and Lawn", nickname: "abcpestandlawn@gmail.com" }
       ]
+    });
+
+    store.dispatch({
+      type: CASE_STATUSES_RETRIEVED,
+      payload: [{ name: "Active" }, { name: "Closed" }]
     });
 
     render(

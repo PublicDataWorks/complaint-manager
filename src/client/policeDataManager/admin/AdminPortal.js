@@ -6,10 +6,12 @@ import { policeDataManagerMenuOptions } from "../shared/components/NavBar/police
 import Signatures from "./signatures/Signatures";
 import LetterTypes from "./letterTypes/LetterTypes";
 import getSigners from "./thunks/getSigners";
+import getCaseStatuses from "../cases/thunks/getCaseStatuses";
 
-const AdminPortal = ({ permissions, getSigners }) => {
+const AdminPortal = ({ permissions, getCaseStatuses, getSigners }) => {
   useEffect(() => {
     getSigners();
+    getCaseStatuses();
   }, []);
 
   const checkPermissions = (...children) => {
@@ -33,5 +35,5 @@ export default connect(
   state => ({
     permissions: state?.users?.current?.userInfo?.permissions
   }),
-  { getSigners }
+  { getSigners, getCaseStatuses }
 )(AdminPortal);

@@ -128,12 +128,7 @@ const LetterTypeDialog = props => {
               validate={[statusRequired, statusNotBlank]}
               style={{ width: "100%" }}
             >
-              {
-                generateMenuOptions([
-                  "Active",
-                  "Closed"
-                ]) /* TODO get from server */
-              }
+              {generateMenuOptions(props.statuses.map(status => status.name))}
             </Field>
             <label
               style={{
@@ -210,7 +205,8 @@ export default connect(
         template: props.letterType.template,
         editableTemplate: props.letterType.editableTemplate
       },
-      signers: state.signers
+      signers: state.signers,
+      statuses: state.ui.caseStatuses
     };
   },
   { snackbarSuccess, snackbarError }
