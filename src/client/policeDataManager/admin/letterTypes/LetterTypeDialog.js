@@ -33,7 +33,7 @@ import {
 import axios from "axios";
 
 const styles = {
-  paper: { height: "80%" }
+  paper: { height: "85%" }
 };
 
 const LetterTypeDialog = props => {
@@ -76,7 +76,7 @@ const LetterTypeDialog = props => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
-              height: "14em"
+              height: "45em"
             }}
           >
             <Field
@@ -130,39 +130,34 @@ const LetterTypeDialog = props => {
             >
               {generateMenuOptions(props.statuses.map(status => status.name))}
             </Field>
-            <label
+            <section
               style={{
-                margin: "10px 0px"
+                padding: "10px 0px"
               }}
-              htmlFor="template-field"
             >
-              Template
-            </label>
-
-            <Field
-              name="template"
-              label="Template"
-              id="template-field"
-              component={RichTextEditorComponent}
-              placeholder="Enter Letter Template"
-              fullWidth
-              multiline
-              rowsMax={20}
-              rows={5}
-              style={{
-                color: "black"
-              }}
-            />
+              <label htmlFor="template-field">Template</label>
+              <Field
+                name="template"
+                label="Template"
+                id="template-field"
+                component={RichTextEditorComponent}
+                placeholder="Enter Letter Template"
+                fullWidth
+                multiline
+                rowsMax={20}
+                rows={5}
+                style={{
+                  color: "black"
+                }}
+              />
+            </section>
             {props.editable ? (
-              <>
-                <label
-                  style={{
-                    margin: "10px 0px"
-                  }}
-                  htmlFor="body-template-field"
-                >
-                  Body Template
-                </label>
+              <section
+                style={{
+                  padding: "10px 0px"
+                }}
+              >
+                <label htmlFor="body-template-field">Body Template</label>
                 <Field
                   name="editableTemplate"
                   label="Editable Template"
@@ -177,7 +172,7 @@ const LetterTypeDialog = props => {
                     color: "black"
                   }}
                 />
-              </>
+              </section>
             ) : (
               ""
             )}
