@@ -29,6 +29,26 @@ pactWith(
     describe("Admin Portal", () => {
       beforeEach(async () => {
         await provider.addInteraction({
+          state: "case statuses exist",
+          uponReceiving: "get case statuses",
+          withRequest: {
+            method: "GET",
+            path: "/api/case-statuses"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({
+              id: 1,
+              name: "Initial",
+              orderKey: 0
+            })
+          }
+        });
+
+        await provider.addInteraction({
           state: "letter types have been added to the database",
           uponReceiving: "get letter types",
           withRequest: {
@@ -46,9 +66,7 @@ pactWith(
               template: "TEMPLATE",
               hasEditPage: null,
               requiresApproval: null,
-              requiredStatus: {
-                name: "Initial"
-              },
+              requiredStatus: "Initial",
               defaultSender: {
                 name: "Billy"
               }

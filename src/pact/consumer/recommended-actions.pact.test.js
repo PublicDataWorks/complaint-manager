@@ -25,7 +25,7 @@ pactWith(
     describe("recommended actions page", () => {
       beforeEach(async () => {
         await provider.addInteraction({
-          state: "letter is ready for review",
+          state: "letter is ready for review: with civilian complainant",
           uponReceiving: "get case details",
           withRequest: {
             method: "GET",
