@@ -11,7 +11,8 @@ import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
 import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
 import LetterTypeInfoDisplay from "./LetterTypeInfoDisplay";
 import { PrimaryButton } from "../../shared/components/StyledButtons";
-import LetterTypeDialog from "./LetterTypeDialog";
+import { SET_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
+import { withRouter } from "react-router";
 
 const templateStyle = {
   maxHeight: "25em",
@@ -22,11 +23,6 @@ const templateStyle = {
 };
 
 const LetterTypeDisplay = props => {
-  // format: undefined for no dialog, otherwise
-  // { type: add/edit, data: {<existing letter type data>} }
-  const [dialog, setDialog] = useState();
-  const [letterType, setLetterType] = useState(props.letterType);
-
   return (
     <div>
       <div
@@ -60,35 +56,35 @@ const LetterTypeDisplay = props => {
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Type"
-                    value={letterType.type}
+                    value={props.letterType.type}
                     testLabel="letter-type"
                   />
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Requires Approval"
-                    value={letterType.requiresApproval}
+                    value={props.letterType.requiresApproval}
                     testLabel="requires-approval"
                   />
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Is Editable"
-                    value={letterType.hasEditPage}
+                    value={props.letterType.hasEditPage}
                     testLabel="is-editable"
                   />
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Default Sender"
-                    value={letterType.defaultSender.name}
+                    value={props.letterType.defaultSender.name}
                     testLabel="default-sender"
                   />
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>
                   <LetterTypeInfoDisplay
                     displayLabel="Required Status"
-                    value={letterType.requiredStatus}
+                    value={props.letterType.requiredStatus}
                     testLabel="required-status"
                   />
                 </StyledInfoDisplay>
@@ -112,7 +108,7 @@ const LetterTypeDisplay = props => {
                 />
               </StyledInfoDisplay>
               <br />
-              {letterType.hasEditPage ? (
+              {props.letterType.hasEditPage ? (
                 <StyledInfoDisplay>
                   <Typography
                     variant="caption"
@@ -123,7 +119,7 @@ const LetterTypeDisplay = props => {
                   <div
                     style={templateStyle}
                     dangerouslySetInnerHTML={{
-                      __html: `${letterType.editableTemplate}`
+                      __html: `${props.letterType.editableTemplate}`
                     }}
                   />
                 </StyledInfoDisplay>
@@ -144,33 +140,29 @@ const LetterTypeDisplay = props => {
         >
           <PrimaryButton
             data-testid="edit-letter-type-btn"
-            onClick={() => setDialog({ type: "edit", data: letterType })}
+            onClick={() => {
+              props.dispatch({
+                type: SET_LETTER_TYPE_TO_EDIT,
+                payload: props.letterType
+              });
+              props.history.push("/admin-portal/letter-type");
+            }}
           >
             Edit
           </PrimaryButton>
         </section>
       </div>
       <Divider />
-      {dialog ? (
-        <LetterTypeDialog
-          letterType={dialog.data}
-          type={dialog.type}
-          exit={() => setDialog()}
-          setLetterType={setLetterType}
-        />
-      ) : (
-        ""
-      )}
     </div>
   );
 
   function getHeadlessTemplate() {
-    const frontTemplate = letterType.template.split("<head>");
-    const backTemplate = letterType.template.split("</head>");
+    const frontTemplate = props.letterType.template.split("<head>");
+    const backTemplate = props.letterType.template.split("</head>");
     return frontTemplate[0] + backTemplate[1];
   }
 };
 
 export default connect(state => ({
   permissions: state?.users?.current?.userInfo?.permissions
-}))(LetterTypeDisplay);
+}))(withRouter(LetterTypeDisplay));

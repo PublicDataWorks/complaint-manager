@@ -68,6 +68,10 @@ const TagManagementPage = lazy(() =>
 
 const AdminPortal = lazy(() => import("./policeDataManager/admin/AdminPortal"));
 
+const LetterTypePage = lazy(() =>
+  import("./policeDataManager/admin/letterTypes/LetterTypePage")
+);
+
 const policeDataManagerRoutes = [
   {
     path: "/archived-cases",
@@ -152,6 +156,10 @@ const policeDataManagerRoutes = [
   {
     path: "/admin-portal",
     component: AdminPortal
+  },
+  {
+    path: "/admin-portal/letter-type",
+    component: LetterTypePage
   },
   {
     path: "/feature-request",
