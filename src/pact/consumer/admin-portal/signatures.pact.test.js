@@ -1,19 +1,14 @@
-import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Provider } from "react-redux";
+import { screen, fireEvent } from "@testing-library/react";
 import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
-import createConfiguredStore from "../../client/createConfiguredStore";
-import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import userEvent from "@testing-library/user-event";
-import AdminPortal from "../../client/policeDataManager/admin/AdminPortal";
-import { USER_PERMISSIONS, FAKE_USERS } from "../../sharedUtilities/constants";
+import { FAKE_USERS } from "../../../sharedUtilities/constants";
 import moment from "moment";
+import { setupAdminPortal } from "./admin-portal-helper";
 
 jest.useRealTimers();
-jest.mock("../../client/policeDataManager/shared/components/FileUpload");
+jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
 
 pactWith(
   {
@@ -29,115 +24,7 @@ pactWith(
 
     describe("Admin Portal", () => {
       beforeEach(async () => {
-        await provider.addInteraction({
-          state: "case statuses exist",
-          uponReceiving: "get case statuses",
-          withRequest: {
-            method: "GET",
-            path: "/api/case-statuses"
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8"
-            },
-            body: eachLike({
-              id: 1,
-              name: "Initial",
-              orderKey: 0
-            })
-          }
-        });
-
-        await provider.addInteraction({
-          state: "letter types have been added to the database",
-          uponReceiving: "get letter types",
-          withRequest: {
-            method: "GET",
-            path: "/api/letter-types"
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8"
-            },
-            body: eachLike({
-              id: 1,
-              type: "REFERRAL",
-              template: "TEMPLATE",
-              hasEditPage: null,
-              requiresApproval: null,
-              requiredStatus: "Initial",
-              defaultSender: {
-                name: "Billy"
-              }
-            })
-          }
-        });
-
-        await provider.addInteraction({
-          state: "signers have been added to the database",
-          uponReceiving: "get signers",
-          withRequest: {
-            method: "GET",
-            path: "/api/signers"
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8"
-            },
-            body: eachLike({
-              id: 1,
-              name: "John A Simms",
-              title: "Independent Police Monitor",
-              nickname: "jsimms@oipm.gov",
-              phone: "888-576-9922",
-              links: [
-                {
-                  rel: "signature",
-                  href: "/api/signers/1/signature"
-                },
-                {
-                  rel: "delete",
-                  href: "/api/signers/1",
-                  method: "delete"
-                }
-              ]
-            })
-          }
-        });
-
-        await provider.addInteraction({
-          state: "signers have been added to the database",
-          uponReceiving: "get signature",
-          withRequest: {
-            method: "GET",
-            path: "/api/signers/1/signature"
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              "Content-Type": "image/png"
-            },
-            body: like(Buffer.from("bytes", "base64").toString("base64"))
-          }
-        });
-
-        let store = createConfiguredStore();
-        store.dispatch({
-          type: "AUTH_SUCCESS",
-          userInfo: { permissions: [USER_PERMISSIONS.ADMIN_ACCESS] }
-        });
-
-        render(
-          <Provider store={store}>
-            <Router>
-              <AdminPortal />
-              <SharedSnackbarContainer />
-            </Router>
-          </Provider>
-        );
+        await setupAdminPortal(provider);
       });
 
       describe("Signatures", () => {
@@ -317,18 +204,6 @@ pactWith(
           userEvent.click(saveButton);
           expect(await screen.findByText("Signer successfully deleted"))
             .toBeInTheDocument;
-        }, 100000);
-      });
-
-      describe("letter types", () => {
-        test("should show letter types saved in the database", async () => {
-          await Promise.all([
-            screen.findByText("REFERRAL"),
-            screen.findByText("Billy"),
-            screen.findByText("Initial")
-          ]);
-          userEvent.click(await screen.findByText("REFERRAL"));
-          await Promise.all([screen.findByText("Template")]);
         }, 100000);
       });
     });
