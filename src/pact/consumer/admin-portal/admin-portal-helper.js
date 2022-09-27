@@ -45,11 +45,12 @@ export const setupAdminPortal = async provider => {
         id: 1,
         type: "REFERRAL",
         template: "TEMPLATE",
-        hasEditPage: null,
-        requiresApproval: null,
+        hasEditPage: false,
+        requiresApproval: false,
         requiredStatus: "Initial",
         defaultSender: {
-          name: "Billy"
+          name: "Nina Ambroise",
+          nickname: "Amrose@place.com"
         }
       })
     }

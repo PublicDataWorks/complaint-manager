@@ -72,6 +72,14 @@ module.exports = (sequelize, DataTypes) => {
     delete result.defaultSenderId;
     delete result.updatedAt;
     delete result.createdAt;
+    if (!result.requiresApproval) {
+      result.requiresApproval = false;
+    }
+
+    if (!result.hasEditPage) {
+      result.hasEditPage = false;
+    }
+
     if (result.requiredStatus) {
       result.requiredStatus = result.requiredStatus.name;
     }

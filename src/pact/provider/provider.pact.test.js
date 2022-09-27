@@ -289,6 +289,7 @@ describe("Pact Verification", () => {
         await models.letter_types.create(
           new LetterType.Builder()
             .defaultLetterType()
+            .withId(1)
             .withEditableTemplate(letterBodyTemplate.toString())
             .withType("REFERRAL")
             .withTemplate(referralLetterTemplate.toString())
