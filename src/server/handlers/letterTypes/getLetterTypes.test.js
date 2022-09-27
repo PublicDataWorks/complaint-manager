@@ -75,8 +75,8 @@ describe("getLetterTypes", () => {
         type: "REFERRAL",
         template: "",
         editableTemplate: null,
-        hasEditPage: true,
-        requiresApproval: true,
+        hasEditPage: false,
+        requiresApproval: false,
         requiredStatus: "Initial",
         defaultSender: expect.objectContaining({
           id: 1,
