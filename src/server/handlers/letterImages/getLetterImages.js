@@ -22,7 +22,6 @@ const getLetterImages = asyncMiddleware(async (request, response, next) => {
     null
   );
 
-  console.log("letterImages>>>>", letterImages);
   response.status(200).send(letterImages);
 });
 

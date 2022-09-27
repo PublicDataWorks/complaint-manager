@@ -21,6 +21,8 @@ const MODEL_MAPPING = {
   allegations: { model: models.officer_allegation },
   allegation: { model: models.allegation },
   letterOfficer: { model: models.letter_officer },
+  letterImage: { model: models.letterImage },
+  letterTypeLetterImage: { model: models.letterTypeLetterImage },
   referralLetterOfficerHistoryNotes: {
     model: models.referral_letter_officer_history_note,
     separate: true

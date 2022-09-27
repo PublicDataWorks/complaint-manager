@@ -10,7 +10,7 @@ import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 const getLetterTypesLetterImages = asyncMiddleware(
   async (request, response, next) => {
     const queryOptions = {
-      attributes: ["id", "imageId", "LetterId", "maxWidth", "name"]
+      attributes: ["id", "imageId", "letterId", "maxWidth", "name"]
     };
     let letterTypesLetterImages = await models.letterTypeLetterImage.findAll(
       queryOptions
