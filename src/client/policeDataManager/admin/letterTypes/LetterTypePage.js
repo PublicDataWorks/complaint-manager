@@ -30,7 +30,16 @@ import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants
 import { withRouter } from "react-router";
 
 const styles = {
-  paper: { height: "85%" }
+  labelStart: {
+    justifyContent: "flex-end",
+    marginLeft: "0px",
+    whiteSpace: "nowrap"
+  },
+  inputColumn: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around"
+  }
 };
 
 const LetterTypePage = props => {
@@ -65,7 +74,7 @@ const LetterTypePage = props => {
   return (
     <>
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
-      <main classes={props.classes} style={{ margin: "5px 30px" }}>
+      <main style={{ margin: "5px 30px" }}>
         <form onSubmit={props.handleSubmit(submit)} role="form">
           <Typography variant="h6">Edit Letter Type</Typography>
           <section
@@ -76,23 +85,36 @@ const LetterTypePage = props => {
               height: "45em"
             }}
           >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <FormControlLabel
-                  label="Letter Type"
-                  labelPlacement="start"
-                  style={{ justifyContent: "flex-end", marginLeft: "0px" }}
-                  control={
-                    <Field
-                      component={renderTextField}
-                      inputProps={{ "data-testid": "letter-type-input" }}
-                      name="letterTypeInput"
-                      placeholder="Letter Type"
-                      style={{ marginLeft: "10px" }}
-                      validate={[letterTypeRequired, letterTypeNotBlank]}
-                    />
-                  }
+            <FormControlLabel
+              label="Letter Type"
+              labelPlacement="start"
+              className={props.classes.labelStart}
+              control={
+                <Field
+                  component={renderTextField}
+                  inputProps={{ "data-testid": "letter-type-input" }}
+                  name="letterTypeInput"
+                  placeholder="Letter Type"
+                  style={{ marginLeft: "10px" }}
+                  validate={[letterTypeRequired, letterTypeNotBlank]}
                 />
+              }
+            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                columnGap: "20px",
+                flexWrap: "wrap"
+              }}
+            >
+              <div
+                className={props.classes.inputColumn}
+                style={{
+                  flexGrow: 1,
+                  minWidth: "200px"
+                }}
+              >
                 <FormControlLabel
                   label="Requires Approval"
                   control={
@@ -116,11 +138,17 @@ const LetterTypePage = props => {
                   }
                 />
               </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
+              <div
+                className={props.classes.inputColumn}
+                style={{
+                  flexGrow: 4,
+                  minWidth: "400px"
+                }}
+              >
                 <FormControlLabel
                   label="Default Sender"
                   labelPlacement="start"
-                  style={{ justifyContent: "flex-end", marginLeft: "0px" }}
+                  className={props.classes.labelStart}
                   control={
                     <Field
                       component={Dropdown}
@@ -129,7 +157,7 @@ const LetterTypePage = props => {
                       placeholder="Default Sender"
                       required
                       validate={[defaultSenderRequired, defaultSenderNotBlank]}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", marginLeft: "10px" }}
                     >
                       {generateMenuOptions(
                         props.signers.map(signer => [
@@ -143,7 +171,7 @@ const LetterTypePage = props => {
                 <FormControlLabel
                   label="Required Status"
                   labelPlacement="start"
-                  style={{ justifyContent: "flex-end", marginLeft: "0px" }}
+                  className={props.classes.labelStart}
                   control={
                     <Field
                       component={Dropdown}
@@ -152,7 +180,7 @@ const LetterTypePage = props => {
                       placeholder="Required Status"
                       required
                       validate={[statusRequired, statusNotBlank]}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", marginLeft: "10px" }}
                     >
                       {generateMenuOptions(
                         props.statuses.map(status => status.name)
