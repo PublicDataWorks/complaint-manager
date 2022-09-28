@@ -104,17 +104,11 @@ const LetterTypePage = props => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                columnGap: "20px",
+                columnGap: "125px",
                 flexWrap: "wrap"
               }}
             >
-              <div
-                className={props.classes.inputColumn}
-                style={{
-                  flexGrow: 1,
-                  minWidth: "200px"
-                }}
-              >
+              <div className={props.classes.inputColumn}>
                 <FormControlLabel
                   label="Requires Approval"
                   control={
