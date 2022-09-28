@@ -1,38 +1,58 @@
-import {
-  buildTokenWithPermissions,
-  expectResponse
-} from "./testHelpers/requestTestHelpers";
-import request from "supertest";
-import app from "./server";
-
-jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features.json`, () => [
-  {
-    id: "TEST_FEATURE",
-    enabled: true
-  },
-  {
-    id: "TEST_DISABLED_FEATURE",
-    enabled: false
-  }
-]);
+import Feature from "./testHelpers/feature";
+import { cleanupDatabase } from "./testHelpers/requestTestHelpers";
+import models from "./policeDataManager/models";
+import { getFeaturesAsync } from "./featureToggleRouter";
 
 describe("featureToggleRouter", function () {
-  let token;
-  beforeEach(() => {
-    token = buildTokenWithPermissions("", "someone");
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+  let feature, secondFeature;
+
+  beforeEach(async () => {
+    await cleanupDatabase();
+    feature = new Feature.Builder()
+      .defaultFeature()
+      .withName("TEST_FEATURE")
+      .withEnabled(true)
+      .withIsDev(false)
+      .build();
+    let createdFeature = await models.feature_toggles.create(feature, {
+      auditUser: "user"
+    });
+    secondFeature = new Feature.Builder()
+      .defaultFeature()
+      .withName("TEST_DISABLED_FEATURE")
+      .withEnabled(false)
+      .withIsDev(false)
+      .build();
+    await models.feature_toggles.create(secondFeature, {
+      auditUser: "user"
+    });
   });
 
-  describe("GET /features", function () {
-    test("should return toggles", async () => {
-      const responsePromise = request(app)
-        .get("/features")
-        .set("Content-Header", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-
-      await expectResponse(responsePromise, 200, {
-        TEST_FEATURE: true,
-        TEST_DISABLED_FEATURE: false
-      });
+  describe("getFeaturesAsync", function () {
+    test("should return toggles", done => {
+      const callback = features => {
+        expect(features).toEqual(
+          expect.arrayContaining([
+            {
+              id: feature.name,
+              name: feature.name,
+              description: feature.description,
+              enabled: feature.enabled
+            },
+            {
+              id: secondFeature.name,
+              name: secondFeature.name,
+              description: secondFeature.description,
+              enabled: secondFeature.enabled
+            }
+          ])
+        );
+        done();
+      };
+      getFeaturesAsync(callback);
     });
   });
 });

@@ -1,18 +1,28 @@
+import models from "./policeDataManager/models";
+const asyncMiddleware = require("./handlers/asyncMiddleware");
 const fflip = require("fflip");
 const FFlipExpressIntegration = require("fflip-express");
 const fflipExpress = new FFlipExpressIntegration(fflip);
 const express = require("express");
 const router = express.Router();
-const asyncMiddleware = require("./handlers/asyncMiddleware");
 
-const features = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features`);
+const getFeaturesAsync = callback => {
+  const queryOptions = {
+    attributes: ["name", "description", "enabled"]
+  };
+  models.feature_toggles.findAll(queryOptions).then(features => {
+    callback(
+      features.map(feature => ({
+        id: feature.name,
+        name: feature.name,
+        description: feature.description,
+        enabled: feature.enabled
+      }))
+    );
+  });
+};
+
 const criteria = [
-  {
-    id: "isPreProd",
-    check: user =>
-      process.env.NODE_ENV !== "production" &&
-      process.env.NODE_ENV !== "staging"
-  },
   {
     id: "off",
     check: false
@@ -20,8 +30,9 @@ const criteria = [
 ];
 
 fflip.config({
-  features,
-  criteria
+  features: getFeaturesAsync,
+  criteria,
+  reload: 120
 });
 
 router.use(fflipExpress.middleware);
@@ -44,3 +55,4 @@ router.get(
 );
 
 module.exports = router;
+module.exports.getFeaturesAsync = getFeaturesAsync;
