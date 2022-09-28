@@ -10,6 +10,19 @@ import LetterType from "../../../sharedTestHelpers/letterType";
 import Signer from "../../../sharedTestHelpers/signer";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getLetterImages", () => {
   beforeEach(async () => {
     await cleanupDatabase();

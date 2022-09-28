@@ -28,6 +28,19 @@ import { authEnabledTest } from "./testHelpers/authEnabledTest";
 import { isAuthDisabled } from "./isAuthDisabled";
 import { seedStandardCaseStatuses } from "./testHelpers/testSeeding";
 
+jest.mock(
+  "./getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
 }));

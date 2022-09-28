@@ -23,6 +23,19 @@ const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("executeQuery", () => {
   let complainantOfficerPO,
     civilianCC,

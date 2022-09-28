@@ -12,6 +12,19 @@ import {
   expectResponse
 } from "../../../testHelpers/requestTestHelpers";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
 

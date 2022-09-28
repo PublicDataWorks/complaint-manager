@@ -17,6 +17,19 @@ import request from "supertest";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("Generate referral letter pdf", () => {
   let existingCase, token, statuses;
 

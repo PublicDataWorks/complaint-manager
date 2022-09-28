@@ -14,6 +14,19 @@ const httpMocks = require("node-mocks-http");
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 AWS.S3.mockImplementation(() => ({
   config: {
     loadFromPath: jest.fn(),

@@ -8,6 +8,19 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 afterEach(async () => {
   await cleanupDatabase();
 });

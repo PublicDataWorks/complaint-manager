@@ -7,6 +7,19 @@ import app from "../../../../server";
 import models from "../../../../policeDataManager/models";
 import request from "supertest";
 
+jest.mock(
+  "../../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getOfficerHistoryOptions", function () {
   afterEach(async () => {
     await cleanupDatabase();

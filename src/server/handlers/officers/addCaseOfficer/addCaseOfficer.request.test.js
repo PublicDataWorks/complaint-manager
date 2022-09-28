@@ -11,6 +11,19 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("POST /cases/:caseId/cases_officers", () => {
   let token;
   beforeAll(() => {

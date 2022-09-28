@@ -16,6 +16,19 @@ jest.mock("./getCivilianTitles", () =>
   })
 );
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getCivilianTitles", () => {
   test("hits endpoint calling getCivilianTitles", async () => {
     const token = buildTokenWithPermissions("", "user");

@@ -10,6 +10,19 @@ const MOCK_GENDER_IDENTITY_VALUES = [
   ["gender_identity_name", "gender_identity_id"]
 ];
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 jest.mock("./getGenderIdentities", () =>
   jest.fn((request, response, next) => {
     response.status(200).send(MOCK_GENDER_IDENTITY_VALUES);

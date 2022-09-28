@@ -7,6 +7,19 @@ import {
 import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
 import models from "../policeDataManager/models";
 
+jest.mock(
+  "../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("healthCheck", () => {
   afterAll(async () => {
     await models.sequelize.close();

@@ -12,6 +12,19 @@ import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getSignature", () => {
   afterEach(async () => {
     await cleanupDatabase();

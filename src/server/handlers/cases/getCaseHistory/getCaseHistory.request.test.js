@@ -10,6 +10,19 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("GET /api/cases/:caseId/case-history", () => {
   afterEach(async () => {
     await cleanupDatabase();

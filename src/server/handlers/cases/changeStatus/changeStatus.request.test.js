@@ -12,6 +12,19 @@ import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import models from "../../../policeDataManager/models";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("changeStatus request", () => {
   let initialCase, token;
 

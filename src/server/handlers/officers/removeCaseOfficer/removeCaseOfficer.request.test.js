@@ -14,6 +14,19 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("DELETE /cases/:caseId/cases-officers/:caseOfficerId", () => {
   let token;
   const nickname = "tuser";

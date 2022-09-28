@@ -11,6 +11,19 @@ const MOCK_CASE_NOTE_ACTION_VALUES = [
   ["case_note_action_name", "case_note_action_id"]
 ];
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 jest.mock("./getCaseNoteActions", () =>
   jest.fn((request, response, next) => {
     response.status(200).send(MOCK_CASE_NOTE_ACTION_VALUES);

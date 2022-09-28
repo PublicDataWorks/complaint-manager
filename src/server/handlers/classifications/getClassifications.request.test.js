@@ -7,6 +7,19 @@ import models from "../../policeDataManager/models";
 import request from "supertest";
 import app from "../../server";
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getClassifications", () => {
   afterEach(async () => {
     await cleanupDatabase();

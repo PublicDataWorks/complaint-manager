@@ -8,6 +8,19 @@ import getDistricts from "./getDistricts";
 
 const MOCK_DISTRICTS_VALUES = [["13th District", 13]];
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 jest.mock("./getDistricts", () =>
   jest.fn((request, response, next) => {
     response.status(200).send(MOCK_DISTRICTS_VALUES);

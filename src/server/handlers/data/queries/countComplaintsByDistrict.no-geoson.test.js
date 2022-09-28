@@ -28,6 +28,19 @@ jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`, () => ({
   }
 }));
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("executeQuery without GEOJSON", () => {
   const token = buildTokenWithPermissions("", "tuser");
 

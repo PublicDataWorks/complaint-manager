@@ -1,9 +1,9 @@
 import Feature from "./testHelpers/feature";
 import { cleanupDatabase } from "./testHelpers/requestTestHelpers";
 import models from "./policeDataManager/models";
-import { getFeaturesAsync } from "./featureToggleRouter";
+import getFeaturesAsync from "./getFeaturesAsync";
 
-describe("featureToggleRouter", function () {
+describe("getFeaturesAsync", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });
@@ -31,28 +31,26 @@ describe("featureToggleRouter", function () {
     });
   });
 
-  describe("getFeaturesAsync", function () {
-    test("should return toggles", done => {
-      const callback = features => {
-        expect(features).toEqual(
-          expect.arrayContaining([
-            {
-              id: feature.name,
-              name: feature.name,
-              description: feature.description,
-              enabled: feature.enabled
-            },
-            {
-              id: secondFeature.name,
-              name: secondFeature.name,
-              description: secondFeature.description,
-              enabled: secondFeature.enabled
-            }
-          ])
-        );
-        done();
-      };
-      getFeaturesAsync(callback);
-    });
+  test("should return toggles", done => {
+    const callback = features => {
+      expect(features).toEqual(
+        expect.arrayContaining([
+          {
+            id: feature.name,
+            name: feature.name,
+            description: feature.description,
+            enabled: feature.enabled
+          },
+          {
+            id: secondFeature.name,
+            name: secondFeature.name,
+            description: secondFeature.description,
+            enabled: secondFeature.enabled
+          }
+        ])
+      );
+      done();
+    };
+    getFeaturesAsync(callback);
   });
 });

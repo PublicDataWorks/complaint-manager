@@ -8,6 +8,19 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import Officer from "../../../../sharedTestHelpers/Officer";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("GET /officers/search", () => {
   let token;
   beforeEach(async () => {

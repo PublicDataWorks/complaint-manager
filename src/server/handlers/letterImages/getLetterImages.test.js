@@ -7,6 +7,19 @@ import {
 } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getLetterImages", () => {
   beforeEach(async () => {
     await models.letterImage.create(

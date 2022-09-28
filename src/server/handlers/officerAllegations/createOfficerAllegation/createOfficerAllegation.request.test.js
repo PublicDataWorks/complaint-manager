@@ -13,6 +13,19 @@ import {
 } from "../../../testHelpers/requestTestHelpers";
 import { ALLEGATION_SEVERITY } from "../../../../sharedUtilities/constants";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations", function () {
   afterEach(async () => {
     await cleanupDatabase();

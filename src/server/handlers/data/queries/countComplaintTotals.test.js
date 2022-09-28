@@ -12,6 +12,19 @@ import { updateCaseStatus } from "./queryHelperFunctions";
 import moment from "moment";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getCountByDateRange", () => {
   const fiveDaysAgo = moment().subtract(5, "days").format(ISO_DATE);
   const oneYearAgo = moment().subtract(1, "years").format(ISO_DATE);

@@ -13,6 +13,19 @@ import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers
 import { ACCUSED } from "../../../../sharedUtilities/constants";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("DELETE /officers-allegations/:officerAllegationId", () => {
   beforeEach(async () => {
     await models.caseStatus.create(

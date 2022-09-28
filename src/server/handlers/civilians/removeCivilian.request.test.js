@@ -15,6 +15,19 @@ import {
 } from "../../../sharedUtilities/constants";
 import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
 

@@ -14,6 +14,19 @@ import Tag from "../../../testHelpers/tag";
 import moment from "moment";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("executeQuery", () => {
   const token = buildTokenWithPermissions("", "tuser");
 

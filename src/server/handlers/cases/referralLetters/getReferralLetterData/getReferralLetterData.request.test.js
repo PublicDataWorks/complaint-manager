@@ -14,6 +14,19 @@ import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
+jest.mock(
+  "../../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("GET /cases/:id/referral-letter", function () {
   afterEach(async () => {
     await cleanupDatabase();

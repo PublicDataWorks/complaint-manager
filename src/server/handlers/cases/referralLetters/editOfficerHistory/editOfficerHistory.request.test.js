@@ -16,6 +16,19 @@ import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("nanoid", () => ({ nanoid: () => "uniqueTempId" }));
 
+jest.mock(
+  "../../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("officer histories (letter officers with history notes)", () => {
   let statuses;
   beforeEach(async () => {

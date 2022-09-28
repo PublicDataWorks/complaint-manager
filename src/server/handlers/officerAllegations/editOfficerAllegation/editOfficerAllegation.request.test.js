@@ -18,6 +18,19 @@ import {
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("PUT /officers-allegations/:officerAllegationId", function () {
   let createdCase;
 

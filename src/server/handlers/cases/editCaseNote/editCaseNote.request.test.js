@@ -12,6 +12,19 @@ import {
 import { NICKNAME, USERNAME } from "../../../../sharedUtilities/constants";
 import { isAuthDisabled } from "../../../isAuthDisabled";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("editCaseNote request", function () {
   afterEach(async () => {
     await cleanupDatabase();

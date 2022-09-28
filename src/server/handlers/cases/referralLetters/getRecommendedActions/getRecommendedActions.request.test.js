@@ -7,6 +7,19 @@ import request from "supertest";
 import app from "../../../../server";
 import models from "../../../../policeDataManager/models";
 
+jest.mock(
+  "../../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("getRecommendedActions", function () {
   afterEach(async () => {
     await cleanupDatabase();

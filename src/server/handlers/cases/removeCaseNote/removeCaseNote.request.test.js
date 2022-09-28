@@ -13,6 +13,19 @@ import { CASE_STATUS, NICKNAME } from "../../../../sharedUtilities/constants";
 import { isAuthDisabled } from "../../../isAuthDisabled";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 describe("removeCaseNote request", () => {
   afterEach(async () => {
     await cleanupDatabase();

@@ -10,6 +10,19 @@ import {
 } from "../../../../sharedUtilities/constants";
 import getWorkingCases from "./getWorkingCases";
 
+jest.mock(
+  "../../../getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 jest.mock("./getWorkingCases", () =>
   jest.fn((request, response, next) => {
     response.send();
