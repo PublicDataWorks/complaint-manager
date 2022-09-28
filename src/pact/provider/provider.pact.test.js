@@ -34,6 +34,19 @@ jest.mock(
   () => jest.fn()
 );
 
+jest.mock(
+  "../../server/getFeaturesAsync",
+  () => callback =>
+    callback([
+      {
+        id: "FEATURE",
+        name: "FEATURE",
+        description: "This is a feature",
+        enabled: true
+      }
+    ])
+);
+
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
