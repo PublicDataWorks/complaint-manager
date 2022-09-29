@@ -4715,7 +4715,7 @@ box-intersect@^1.0.1:
     bit-twiddle "^1.0.2"
     typedarray-pool "^1.1.0"
 
-"box-intersect@github:plotly/box-intersect#v1.1.0":
+box-intersect@plotly/box-intersect#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/box-intersect/tar.gz/1c21ef897c37eb69e5c1efeca7087726dd8d6a23"
   dependencies:
@@ -6836,12 +6836,7 @@ d3-collection@1, d3-collection@^1.0.4:
   resolved "https://registry.yarnpkg.com/d3-collection/-/d3-collection-1.0.7.tgz#349bd2aa9977db071091c13144d5e4f16b5b310e"
   integrity sha512-ii0/r5f4sjKNTfh84Di+DpztYwqKhEyUlKoPrzUFfeSkWxjW49xU2QzO9qrPrNkpdI0XJkfzvmTu8V2Zylln6A==
 
-d3-color@1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.4.1.tgz#c52002bf8846ada4424d55d97982fef26eb3bc8a"
-  integrity sha512-p2sTHSLCJI2QKunbGb7ocOh7DgTAn8IrLx21QRc/BSnodXM4sv6aLQlnfpvehFMLZEfBc6g9pH9SWQccFYfJ9Q==
-
-"d3-color@1 - 3", d3-color@3:
+d3-color@1, "d3-color@1 - 3", d3-color@3, d3-color@3.1, d3-color@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-3.1.0.tgz#395b2833dfac71507f12ac2f7af23bf819de24e2"
   integrity sha512-zg/chbXyeBtMQ1LbD/WSoW2DpC3I0mpmPdW+ynRTj/x2DAWYrIY7qeZIHidozwV24m4iavr15lNwIwLxRmOxhA==
@@ -7558,7 +7553,7 @@ diacritic@0.0.2:
   resolved "https://registry.yarnpkg.com/diacritic/-/diacritic-0.0.2.tgz#fc2a887b5a5bc0a0a854fb614c7c2f209061ee04"
   integrity sha512-iQCeDkSPwkfwWPr+HZZ49WRrM2FSI9097Q9w7agyRCdLcF9Eh2Ek0sHKcmMWx2oZVBjRBE/sziGFjZu0uf1Jbg==
 
-"diagnostics@github:DABH/diagnostics#master":
+diagnostics@DABH/diagnostics#master:
   version "2.0.3"
   resolved "https://codeload.github.com/DABH/diagnostics/tar.gz/dd61ee65d0a2d4c93d9a4acbddb926b4071de296"
   dependencies:
@@ -11074,7 +11069,7 @@ incremental-convex-hull@^1.0.1:
     robust-orientation "^1.1.2"
     simplicial-complex "^1.0.0"
 
-"incremental-convex-hull@github:plotly/incremental-convex-hull#v1.1.0":
+incremental-convex-hull@plotly/incremental-convex-hull#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/incremental-convex-hull/tar.gz/352d9e73861913695fd4e1a4c6ad79898c0c8268"
   dependencies:
@@ -14244,7 +14239,7 @@ ndarray-extract-contour@^1.0.0:
   dependencies:
     typedarray-pool "^1.0.0"
 
-"ndarray-extract-contour@github:plotly/ndarray-extract-contour#v1.1.0":
+ndarray-extract-contour@plotly/ndarray-extract-contour#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/ndarray-extract-contour/tar.gz/0d8ed3a2fee873f08868c35894d608794e8e9d83"
   dependencies:
@@ -14258,7 +14253,7 @@ ndarray-gradient@^1.0.0:
     cwise-compiler "^1.0.0"
     dup "^1.0.0"
 
-"ndarray-gradient@github:plotly/ndarray-gradient#v1.1.0":
+ndarray-gradient@plotly/ndarray-gradient#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/ndarray-gradient/tar.gz/c43b0856d77084cfac7c9d96c6ddc73aeddc0bd8"
   dependencies:
@@ -14276,7 +14271,7 @@ ndarray-ops@^1.1.0, ndarray-ops@^1.2.1, ndarray-ops@^1.2.2:
   dependencies:
     cwise-compiler "^1.0.0"
 
-"ndarray-ops@github:plotly/ndarray-ops#v1.3.0":
+ndarray-ops@plotly/ndarray-ops#v1.3.0:
   version "1.3.0"
   resolved "https://codeload.github.com/plotly/ndarray-ops/tar.gz/afac881492696196c9966f77507558737f60c716"
 
@@ -14288,7 +14283,7 @@ ndarray-pack@^1.2.1:
     cwise-compiler "^1.1.2"
     ndarray "^1.0.13"
 
-"ndarray-pack@github:plotly/ndarray-pack#v1.3.0":
+ndarray-pack@plotly/ndarray-pack#v1.3.0:
   version "1.3.0"
   resolved "https://codeload.github.com/plotly/ndarray-pack/tar.gz/b0cd1f835c2b623f860a3dbb0c5709c98b30aea0"
   dependencies:
@@ -14310,7 +14305,7 @@ ndarray-sort@^1.0.0:
   dependencies:
     typedarray-pool "^1.0.0"
 
-"ndarray-sort@github:plotly/ndarray-sort#v1.1.0":
+ndarray-sort@plotly/ndarray-sort#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/ndarray-sort/tar.gz/8b3c03c0c58906640a0551505601544c9775a87a"
   dependencies:
@@ -14324,7 +14319,7 @@ ndarray@^1.0.11, ndarray@^1.0.13, ndarray@^1.0.14, ndarray@^1.0.15, ndarray@^1.0
     iota-array "^1.0.0"
     is-buffer "^1.0.2"
 
-"ndarray@github:plotly/ndarray#v1.1.0":
+ndarray@plotly/ndarray#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/ndarray/tar.gz/70ec67233be65de444307a6916aba2655e28bd84"
   dependencies:
@@ -18216,7 +18211,7 @@ robust-determinant@^1.1.0:
     robust-sum "^1.0.0"
     two-product "^1.0.0"
 
-"robust-determinant@github:plotly/robust-determinant#v1.2.1":
+robust-determinant@plotly/robust-determinant#v1.2.1:
   version "1.2.1"
   resolved "https://codeload.github.com/plotly/robust-determinant/tar.gz/7cb499bb02411de80ae1a90e54893e46af82ca5e"
   dependencies:
@@ -18250,7 +18245,7 @@ robust-linear-solve@^1.0.0:
   dependencies:
     robust-determinant "^1.1.0"
 
-"robust-linear-solve@github:plotly/robust-linear-solve#v1.1.1":
+robust-linear-solve@plotly/robust-linear-solve#v1.1.1:
   version "1.1.1"
   resolved "https://codeload.github.com/plotly/robust-linear-solve/tar.gz/90ad6de2ce011a1e0b53d9e9f6bf8d117053c492"
   dependencies:
@@ -18890,7 +18885,7 @@ simplicial-complex-contour@^1.0.2:
     ndarray-sort "^1.0.0"
     typedarray-pool "^1.1.0"
 
-"simplicial-complex-contour@github:plotly/simplicial-complex-contour#v1.1.0":
+simplicial-complex-contour@plotly/simplicial-complex-contour#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/simplicial-complex-contour/tar.gz/3c09d0c163385b874fedc0a366b29b6e713bfd99"
   dependencies:
@@ -19832,7 +19827,7 @@ surface-nets@^1.0.0, surface-nets@^1.0.2:
     triangulate-hypercube "^1.0.0"
     zero-crossings "^1.0.0"
 
-"surface-nets@github:plotly/surface-nets#v1.1.1":
+surface-nets@plotly/surface-nets#v1.1.1:
   version "1.1.1"
   resolved "https://codeload.github.com/plotly/surface-nets/tar.gz/d80900ed4c39a1b07f9d8577180960945236d996"
   dependencies:
@@ -21856,6 +21851,6 @@ zero-crossings@^1.0.0:
   dependencies:
     cwise-compiler "^1.0.0"
 
-"zero-crossings@github:plotly/zero-crossings#v1.1.0":
+zero-crossings@plotly/zero-crossings#v1.1.0:
   version "1.1.0"
   resolved "https://codeload.github.com/plotly/zero-crossings/tar.gz/4746771f490344e21c84d1f631cb661d8c5ff508"
