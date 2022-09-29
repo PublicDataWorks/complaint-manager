@@ -49,6 +49,12 @@ export const reviewersShouldBeDifferent = (value, values) => {
   }
 };
 
+export const characterLimit = limit => value => {
+  return value.length <= limit
+    ? undefined
+    : `This field has a character limit of ${limit}`;
+};
+
 export const firstNameRequired = isRequired("First Name");
 export const lastNameRequired = isRequired("Last Name");
 export const firstNameNotBlank = notBlank("First Name");
@@ -80,3 +86,4 @@ export const defaultSenderRequired = selectRequired("Default Sender");
 export const defaultSenderNotBlank = notBlank("Default Sender");
 export const statusRequired = selectRequired("Status");
 export const statusNotBlank = notBlank("Status");
+export const characterLimit100 = characterLimit(100);

@@ -23,7 +23,8 @@ import {
   roleNotBlank,
   usernameRequired,
   usernameNotBlank,
-  isPhoneNumber
+  isPhoneNumber,
+  characterLimit100
 } from "../../../formFieldLevelValidations";
 import FileUpload from "../../shared/components/FileUpload";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
@@ -83,7 +84,7 @@ class SignatureDialog extends Component {
                 }}
                 name="name"
                 placeholder="Name"
-                validate={[nameRequired, nameNotBlank]}
+                validate={[nameRequired, nameNotBlank, characterLimit100]}
               />
               <Field
                 component={renderTextField}
@@ -92,7 +93,7 @@ class SignatureDialog extends Component {
                 }}
                 name="role"
                 placeholder="Role/title"
-                validate={[roleRequired, roleNotBlank]}
+                validate={[roleRequired, roleNotBlank, characterLimit100]}
               />
               <Field
                 component={renderTextField}
