@@ -4,15 +4,9 @@ const FFlipExpressIntegration = require("fflip-express");
 const fflipExpress = new FFlipExpressIntegration(fflip);
 const express = require("express");
 const router = express.Router();
-const features = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/features`);
+const getFeaturesAsync = require("./getFeaturesAsync");
 
 const criteria = [
-  {
-    id: "isPreProd",
-    check: user =>
-      process.env.NODE_ENV !== "production" &&
-      process.env.NODE_ENV !== "staging"
-  },
   {
     id: "off",
     check: false
@@ -20,7 +14,7 @@ const criteria = [
 ];
 
 fflip.config({
-  features,
+  features: getFeaturesAsync,
   criteria,
   reload: 120
 });

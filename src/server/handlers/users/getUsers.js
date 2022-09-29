@@ -2,10 +2,8 @@ import auditDataAccess from "../audits/auditDataAccess";
 import models from "../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
-  MANAGER_TYPE,
-  FAKE_USERS
+  MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-import { isAuthDisabled } from "../../isAuthDisabled";
 
 const auth0UserService = require("../../services/auth0UserService");
 const asyncMiddleware = require("../asyncMiddleware");
