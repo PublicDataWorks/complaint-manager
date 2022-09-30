@@ -64,12 +64,17 @@ const submitIncidentDetails = (values, dispatch, props) => {
 
   let timezone;
   if (
-    normalizedValuesWithId.incidentDate &&
+    (normalizedValuesWithId.incidentDate ||
+      normalizedValuesWithId.incidentTime) &&
     !normalizedValuesWithId.incidentTimezone
   ) {
-    timezone = moment
-      .tz(normalizedValuesWithId.incidentDate, userTimezone)
-      .zoneAbbr();
+    if (!normalizedValuesWithId.incidentDate) {
+      timezone = moment.tz(moment(), userTimezone).zoneAbbr();
+    } else {
+      timezone = moment
+        .tz(normalizedValuesWithId.incidentDate, userTimezone)
+        .zoneAbbr();
+    }
     normalizedValuesWithId.incidentTimezone = timezone;
   }
 
