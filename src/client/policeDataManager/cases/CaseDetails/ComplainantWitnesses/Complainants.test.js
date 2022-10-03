@@ -220,7 +220,10 @@ describe("Complainants", () => {
         );
         expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, {
           ...complainant,
-          isUnknown: false
+          isUnknown: false,
+          raceEthnicity: undefined,
+          genderIdentity: undefined,
+          fullName: undefined
         });
       });
     });
