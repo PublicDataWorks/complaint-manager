@@ -13,7 +13,7 @@ const createCivilian = civilian => async dispatch => {
     dispatch(startSubmit(CIVILIAN_FORM_NAME));
     const response = await axios.post(
       `api/cases/${civilian.caseId}/civilians`,
-      JSON.stringify(civilian)
+      civilian
     );
     dispatch(snackbarSuccess("Civilian was successfully created"));
     dispatch(createCivilianSuccess(response.data));

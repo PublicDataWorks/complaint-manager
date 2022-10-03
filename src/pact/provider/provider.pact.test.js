@@ -245,6 +245,31 @@ const setupIntakeSources = async () => {
   }
 };
 
+const setupRaceEthnicities = async () => {
+  await models.race_ethnicity.create(
+    new RaceEthnicity.Builder().defaultRaceEthnicity().withId(2).build(),
+    { auditUser: "user" }
+  );
+};
+
+const setupGenderIdentities = async () => {
+  try {
+    await models.gender_identity.create(
+      { id: 1, name: "Female" },
+      { auditUser: "user" }
+    );
+  } catch (error) {
+    console.log("ERRRRR gender identity", error);
+  }
+};
+
+const setupCivilianTitles = async () => {
+  const title = await models.civilian_title.create(
+    { id: 2, name: "Miss" },
+    { auditUser: "user" }
+  );
+};
+
 describe("Pact Verification", () => {
   let server, statuses;
   beforeAll(() => {
@@ -257,7 +282,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(300000);
+  jest.setTimeout(500000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
@@ -368,6 +393,15 @@ describe("Pact Verification", () => {
               throw e;
             }
           },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
         "letter is ready for review: with civilian complainant": async () => {
           const letterCase = await setupCase();
           await Promise.all([
@@ -423,15 +457,7 @@ describe("Pact Verification", () => {
             console.log(error);
           }
         },
-        "race ethnicities exist": async () => {
-          await models.race_ethnicity.create(
-            new RaceEthnicity.Builder()
-              .defaultRaceEthnicity()
-              .withId(2)
-              .build(),
-            { auditUser: "user" }
-          );
-        },
+        "race ethnicities exist": setupRaceEthnicities,
         "districts exist": async () => {
           await models.district.create(
             new District.Builder()
@@ -441,12 +467,7 @@ describe("Pact Verification", () => {
             { auditUser: "user" }
           );
         },
-        "civilian-titles exist": async () => {
-          await models.civilian_title.create(
-            { name: "Miss" },
-            { auditUser: "user" }
-          );
-        },
+        "civilian-titles exist": setupCivilianTitles,
         "tags exist": createTag,
         "case has a case tag": async () => {
           try {
@@ -485,16 +506,7 @@ describe("Pact Verification", () => {
             console.log("ERRRRR CaseNote", error);
           }
         },
-        "gender identities exist": async () => {
-          try {
-            await models.gender_identity.create(
-              { name: "Female" },
-              { auditUser: "user" }
-            );
-          } catch (error) {
-            console.log("ERRRRR gender identity", error);
-          }
-        },
+        "gender identities exist": setupGenderIdentities,
         "Case exists; case note actions exist": async () => {
           try {
             await Promise.all([setupCase(), setupCaseNoteActions()]);

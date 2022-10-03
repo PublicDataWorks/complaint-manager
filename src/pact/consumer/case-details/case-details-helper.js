@@ -116,7 +116,7 @@ export const setUpCaseDetailsPage = async provider => {
       headers: {
         "Content-Type": "application/json; charset=utf-8"
       },
-      body: eachLike(["N/A", 1])
+      body: eachLike(["Dr.", 2])
     }
   });
 

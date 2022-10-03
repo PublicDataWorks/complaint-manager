@@ -13,7 +13,7 @@ const editCivilian = civilian => async dispatch => {
     dispatch(startSubmit(CIVILIAN_FORM_NAME));
     const response = await axios.put(
       `api/cases/${civilian.caseId}/civilians/${civilian.id}`,
-      JSON.stringify(civilian)
+      civilian
     );
     dispatch(closeEditCivilianDialog());
     dispatch(editCivilianSuccess(response.data));
