@@ -42,6 +42,11 @@ describe("getLetterTypes", () => {
       { auditUser: "user" }
     );
 
+    const letterImage = await models.letterImage.create({
+      id: 1,
+      image: "header.png"
+    });
+
     const signer = new Signer.Builder().defaultSigner().withId(1).build();
 
     await models.signers.create(
@@ -65,11 +70,20 @@ describe("getLetterTypes", () => {
         .withType("REFERRAL")
         .withDefaultSender(signer)
         .withRequiredStatus(status)
+        .withLetterTypeLetterImage(1)
         .build(),
       {
         auditUser: "user"
       }
     );
+
+    await models.letterTypeLetterImage.create({
+      id: 1,
+      letterId: letterType.id,
+      imageId: letterImage.id,
+      maxWidth: "460px",
+      name: "header"
+    });
   });
 
   test("returns letter types when authorized", async () => {
@@ -98,7 +112,16 @@ describe("getLetterTypes", () => {
           phone: "888-576-9922",
           signatureFile: "bobby.png",
           title: "Independent Police Monitor"
-        })
+        }),
+        letterTypeLetterImage: expect.arrayContaining([
+          {
+            id: 1,
+            letterId: 1,
+            imageId: 1,
+            maxWidth: "460px",
+            name: "header"
+          }
+        ])
       }
     ]);
   });

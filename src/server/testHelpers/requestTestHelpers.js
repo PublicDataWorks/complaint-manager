@@ -118,6 +118,8 @@ export const cleanupDatabase = async () => {
     "TRUNCATE case_classifications CASCADE;" +
     "TRUNCATE notifications CASCADE;" +
     "TRUNCATE letter_fields CASCADE;" +
+    "TRUNCATE letter_images CASCADE;" +
+    "TRUNCATE letter_types_letter_images CASCADE;" +
     "TRUNCATE letter_types CASCADE;" +
     "TRUNCATE signers CASCADE;" +
     "TRUNCATE configs CASCADE;" +

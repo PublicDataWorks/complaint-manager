@@ -8,6 +8,8 @@ class LetterType {
     this.template = build.template;
     this.editableTemplate = build.editableTemplate;
     this.fields = build.fields;
+    this.letterImage = build.letterImage;
+    this.letterTypeLetterImage = build.letterTypeLetterImage;
     this.requiredStatusId = build.requiredStatus?.id;
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
@@ -63,6 +65,16 @@ class LetterType {
       withField(field) {
         this.fields = this.fields || [];
         this.fields.push(field);
+        return this;
+      }
+
+      withLetterImage(image) {
+        this.letterImage = image;
+        return this;
+      }
+
+      withLetterTypeLetterImage(id) {
+        this.letterTypeLetterImage = id;
         return this;
       }
 
