@@ -17,23 +17,25 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig
 const getFinalPdfDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
-    const existingCase = new Case(
-      await models.cases.findByPk(caseId, {
-        include: [
-          {
-            model: models.case_officer,
-            as: "complainantOfficers",
-            auditUser: "test"
-          },
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            auditUser: "test"
-          }
-        ],
-        paranoid: false
-      })
-    );
+    const existingCase = await Case.getCase(caseId, {
+      include: [
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          auditUser: "test"
+        },
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "test"
+        },
+        {
+          model: models.caseStatus,
+          as: "status"
+        }
+      ],
+      paranoid: false
+    });
 
     validateCaseStatus(await existingCase.getStatus());
 
