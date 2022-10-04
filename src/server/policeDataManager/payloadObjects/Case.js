@@ -9,11 +9,12 @@ export default class Case {
       id,
       options ?? { include: ["status"] }
     );
-    return new Case(model);
+    if (model) {
+      return new Case(model);
+    }
   };
 
   constructor(caseModel) {
-    // TODO maybe allow the constructor to get the model by id from DB (if needed)
     this._model = caseModel;
     this._status = caseModel.status?.name;
   }

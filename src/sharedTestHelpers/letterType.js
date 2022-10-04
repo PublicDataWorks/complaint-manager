@@ -22,9 +22,6 @@ class LetterType {
         this.type = "REFERRAL";
         this.defaultSender = new Signer.Builder().defaultSigner().build();
         this.template = "";
-        this.requiredStatus = new CaseStatus.Builder()
-          .defaultCaseStatus()
-          .build();
         return this;
       }
 
