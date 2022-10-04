@@ -93,17 +93,19 @@ class CivilianDialog extends Component {
       this.props.submitAction(
         values.isUnknown
           ? {
-              id: values.id,
               caseId: values.caseId,
               isAnonymous: true,
               isUnknown: true
             }
           : {
               ...values,
-              isAnonymous: values.isAnonymous,
+              id: undefined,
+              isAnonymous: !!values.isAnonymous,
+              isUnknown: !!values.isUnknown,
               birthDate: nullifyFieldUnlessValid(values.birthDate),
               address: normalizeAddress(values.address)
-            }
+            },
+        values.id
       )
     );
   };

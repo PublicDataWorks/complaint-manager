@@ -9,7 +9,7 @@ import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 import {
   setupCase,
-  addCivilianComplainantToCase,
+  addCivilianToCase,
   addComplainantOfficerToCase
 } from "./case-helpers";
 import {
@@ -28,6 +28,7 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -282,7 +283,7 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(500000);
+  jest.setTimeout(1000000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
@@ -359,6 +360,14 @@ describe("Pact Verification", () => {
         "Case exists": async () => {
           await setupCase();
         },
+        "Case exists: with civilian complainant": async () => {
+          const c4se = await setupCase();
+          await addCivilianToCase(c4se, COMPLAINANT);
+        },
+        "Case exists: with civilian witness": async () => {
+          const c4se = await setupCase();
+          await addCivilianToCase(c4se, WITNESS);
+        },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();
           await Promise.all([
@@ -402,12 +411,32 @@ describe("Pact Verification", () => {
               setupCivilianTitles()
             ]);
           },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian complainant":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              addCivilianToCase(letterCase, COMPLAINANT),
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian witness":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              addCivilianToCase(letterCase, WITNESS),
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
         "letter is ready for review: with civilian complainant": async () => {
           const letterCase = await setupCase();
           await Promise.all([
             setupLetter(letterCase, statuses),
             addComplainantOfficerToCase(letterCase),
-            addCivilianComplainantToCase(letterCase),
+            addCivilianToCase(letterCase, COMPLAINANT),
             addClassifications(),
             addRecommendedActions()
           ]);
@@ -431,7 +460,7 @@ describe("Pact Verification", () => {
             const letter = await setupLetter(letterCase, statuses);
             await Promise.all([
               addComplainantOfficerToCase(letterCase),
-              addCivilianComplainantToCase(letterCase),
+              addCivilianToCase(letterCase, COMPLAINANT),
               addOfficerHistoryToReferralLetter(letter),
               addClassifications(),
               addRecommendedActions()

@@ -8,9 +8,20 @@ import SharedSnackbarContainer from "../../../client/policeDataManager/shared/co
 import createConfiguredStore from "../../../client/createConfiguredStore";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
-export const setUpCaseDetailsPage = async provider => {
+export const CIVILIAN_COMPLAINANT = "civilianComplainant";
+export const CIVILIAN_WITNESS = "civilianWitness";
+
+export const setUpCaseDetailsPage = async (provider, ...options) => {
+  let getCaseState = "Case exists";
+  if (options.includes(CIVILIAN_COMPLAINANT)) {
+    getCaseState += ": with civilian complainant";
+  }
+  if (options.includes(CIVILIAN_WITNESS)) {
+    getCaseState += ": with civilian witness";
+  }
+
   await provider.addInteraction({
-    state: "Case exists",
+    state: getCaseState,
     uponReceiving: "get case",
     withRequest: {
       method: "GET",
@@ -42,8 +53,30 @@ export const setUpCaseDetailsPage = async provider => {
           createdAt: "2022-08-19T16:45:01.760Z",
           updatedAt: "2022-08-19T16:45:01.760Z"
         },
-        complainantCivilians: [],
-        witnessCivilians: [],
+        complainantCivilians: options.includes(CIVILIAN_COMPLAINANT)
+          ? eachLike({
+              fullName: "Bob Loblaw",
+              id: 1,
+              firstName: "Bob",
+              lastName: "Loblaw",
+              roleOnCase: "Complainant",
+              email: "realemail@email.com",
+              isAnonymous: false,
+              caseId: 1
+            })
+          : [],
+        witnessCivilians: options.includes(CIVILIAN_WITNESS)
+          ? eachLike({
+              fullName: "Bob Loblaw",
+              id: 2,
+              firstName: "Bob",
+              lastName: "Loblaw",
+              roleOnCase: "Witness",
+              email: "realemail@email.com",
+              isAnonymous: false,
+              caseId: 1
+            })
+          : [],
         attachments: [],
         accusedOfficers: [],
         complainantOfficers: [],
