@@ -23,7 +23,7 @@ export const formatLongDate = dateString => {
   return dateString;
 };
 
-export const dateTimeFromString = (dateTimeString, userTimezone) => {
+export const dateTimeFromString = (dateTimeString, userTimezone = TIMEZONE) => {
   return dateTimeString
     ? timezone.tz(dateTimeString, userTimezone).format("MMM D, YYYY h:mm A z")
     : null;
@@ -40,10 +40,6 @@ export const applyCentralTimeZoneOffset = dateString => {
     return dateString;
   }
   return timezone.tz(dateString, TIMEZONE).format();
-};
-
-export const computeTimeZone = () => {
-  return timezone.tz.zone(TIMEZONE).abbrs[0];
 };
 
 export function format12HourTime(time) {

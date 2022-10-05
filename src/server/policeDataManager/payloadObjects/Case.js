@@ -9,6 +9,7 @@ export default class Case {
       id,
       options ?? { include: ["status"] }
     );
+
     if (model) {
       return new Case(model);
     }
