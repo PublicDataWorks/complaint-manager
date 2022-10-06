@@ -124,6 +124,29 @@ jobs:
           environment:
             REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
 
+  test-server-and-worker-ci:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+        environment:
+          NODE_ENV: test
+          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+      - image: postgres:10.9-alpine
+    steps:
+      - checkout
+      - attach_workspace:
+          at: src/
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run server and worker unit tests
+          command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server:worker:ci
+      - store_artifacts:
+          name: Upload PNG diffs in case the PDF compare job(s) failed
+          path: /root/project/src/testPDFs/diffPNGs
+          destination: .
+          when: on_fail
+
   test-server-handlers-ci:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
@@ -774,7 +797,7 @@ workflows:
       - test-client:
           requires:
             - get-instance-files-latest
-      - test-server-handlers-ci:
+      - test-server-and-worker-ci:
           requires:
             - get-instance-files-latest
       - test-server-worker-non-handlers:
@@ -785,13 +808,13 @@ workflows:
             - get-instance-files-latest
       - build-and-publish-master:
           requires:
-            - test-client
-            - test-server-handlers-ci
-            - test-server-worker-non-handlers
+            - get-instance-files-latest
       - deploy-ci:
           requires:
             - build-and-publish-master
+            - test-server-and-worker-ci
             - test-pact
+            - test-client
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
