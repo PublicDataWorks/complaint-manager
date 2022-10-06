@@ -800,9 +800,6 @@ workflows:
       - test-server-and-worker-ci:
           requires:
             - get-instance-files-latest
-      - test-server-worker-non-handlers:
-          requires:
-            - get-instance-files-latest
       - test-pact:
           requires:
             - get-instance-files-latest
