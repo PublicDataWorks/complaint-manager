@@ -13,6 +13,8 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
+import LetterImage from "../../../../sharedTestHelpers/letterImage";
+import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
 import {
   ASCENDING,
   COMPLAINANT,
@@ -111,6 +113,39 @@ describe("generateLetterPdfBuffer", () => {
         .withTemplate("<div></div>")
         .build(),
       { auditUser: "test" }
+    );
+
+    const image1 = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
+
+    const image2 = await models.letterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("smallIcon.png")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withImageId(image1.id)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withId(2)
+        .withImageId(image2.id)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "user" }
     );
 
     await up(models);

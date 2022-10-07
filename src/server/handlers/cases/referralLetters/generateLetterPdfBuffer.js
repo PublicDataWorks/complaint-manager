@@ -48,7 +48,13 @@ const generateLetterPdfBuffer = async (
 
   const letterType = await models.letter_types.findOne({
     where: { type: letterSettings.type },
-    include: ["fields"]
+    include: [
+      "fields",
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage"
+      }
+    ]
   });
 
   if (letterType.editableTemplate) {
@@ -104,20 +110,48 @@ export const generateLetterPdfHtml = async (
 ) => {
   const currentDate = Date.now();
 
+  const letterType = await models.letter_types.findOne({
+    where: { type: letterSettings.type },
+    include: [
+      "fields",
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage"
+      }
+    ]
+  });
+
   let sender = pdfData.sender || pdfData.referralLetter?.sender;
   let signature = includeSignature
     ? await letterSettings.getSignature({ sender })
     : "<p><br></p>";
-  let header = await retrieveLetterImage("header_text.png", "max-width: 450px");
-  let smallIcon = await retrieveLetterImage("icon.png", "max-width: 60px");
+
+  let imageTypes = {};
+  const letter = letterType.letterTypeLetterImage.map(async imageType => {
+    let letterImage = await models.letterImage.findAll({
+      where: { id: imageType.imageId }
+    });
+
+    await Promise.all(
+      letterImage.map(async image => {
+        if (!imageTypes[imageType.name]) {
+          imageTypes[imageType.name] = await retrieveLetterImage(
+            image.image,
+            `max-width: ${imageType.maxWidth}`
+          );
+        }
+      })
+    );
+  });
+
+  await Promise.all(letter);
 
   const letterPdfData = {
     ...pdfData,
     letterBody,
     signature,
     currentDate,
-    header,
-    smallIcon
+    ...imageTypes
   };
 
   const compiledTemplate = Handlebars.compile(template);
