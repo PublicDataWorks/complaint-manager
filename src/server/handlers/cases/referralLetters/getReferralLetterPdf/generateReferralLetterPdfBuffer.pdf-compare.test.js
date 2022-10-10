@@ -37,11 +37,8 @@ describe("Compare Generated Referral Letter to Baseline", () => {
       .withTitle("Acting Police Monitor")
       .withSignatureFile("nina_ambroise.png")
       .build();
-    await models.sequelize.transaction(async transaction => {
-      const signer = await models.signers.create(signerAttr, {
-        auditUser: "user",
-        transaction
-      });
+    const signer = await models.signers.create(signerAttr, {
+      auditUser: "user"
     });
 
     const referralLetterTemplate = fs.readFileSync(
