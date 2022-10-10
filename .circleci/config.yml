@@ -622,6 +622,7 @@ jobs:
       - run:
           name: Install Git
           command: apt-get update && apt-get install --assume-yes git
+      - checkout
       - attach_workspace:
           at: .
       - add_ssh_keys:
@@ -630,6 +631,7 @@ jobs:
       - run: git config --global user.email "noipm.infrastructure@gmail.com"
       - run: git config --global user.name "Complaint Manager Pipeline"
       - run: git checkout -b release_v$(cat version.txt)
+      - run: ssh-keyscan github.com >> ~/.ssh/known_hosts
       - run: git push origin release_v$(cat version.txt) --follow-tags --no-verify
       - run: git checkout master
       - run: git reset --hard
