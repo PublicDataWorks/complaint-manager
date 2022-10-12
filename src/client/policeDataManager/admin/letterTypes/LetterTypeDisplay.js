@@ -148,10 +148,7 @@ const LetterTypeDisplay = props => {
           <PrimaryButton
             data-testid="edit-letter-type-btn"
             onClick={() => {
-              props.dispatch({
-                type: SET_LETTER_TYPE_TO_EDIT,
-                payload: props.letterType
-              });
+              props.setLetterTypeToEdit(props.letterType);
               props.history.push("/admin-portal/letter-type");
             }}
           >
@@ -201,5 +198,11 @@ export default connect(
   state => ({
     permissions: state?.users?.current?.userInfo?.permissions
   }),
-  { snackbarSuccess }
+  {
+    snackbarSuccess,
+    setLetterTypeToEdit: letterType => ({
+      type: SET_LETTER_TYPE_TO_EDIT,
+      payload: letterType
+    })
+  }
 )(withRouter(LetterTypeDisplay));
