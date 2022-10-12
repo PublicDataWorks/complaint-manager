@@ -8,7 +8,7 @@ class LetterImage {
     class Builder {
       defaultLetterImage() {
         this.id = 1;
-        this.image = "header.png";
+        this.image = "header_text.png";
         return this;
       }
 

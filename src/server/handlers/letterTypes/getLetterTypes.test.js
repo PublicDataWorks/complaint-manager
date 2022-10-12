@@ -10,6 +10,8 @@ import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
+import LetterImage from "../../../sharedTestHelpers/LetterImage";
+import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -42,10 +44,10 @@ describe("getLetterTypes", () => {
       { auditUser: "user" }
     );
 
-    const letterImage = await models.letterImage.create({
-      id: 1,
-      image: "header.png"
-    });
+    const letterImage = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
 
     const signer = new Signer.Builder().defaultSigner().withId(1).build();
 
@@ -70,20 +72,20 @@ describe("getLetterTypes", () => {
         .withType("REFERRAL")
         .withDefaultSender(signer)
         .withRequiredStatus(status)
-        .withLetterTypeLetterImage(1)
         .build(),
       {
         auditUser: "user"
       }
     );
 
-    await models.letterTypeLetterImage.create({
-      id: 1,
-      letterId: letterType.id,
-      imageId: letterImage.id,
-      maxWidth: "460px",
-      name: "header"
-    });
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withLetterId(letterType.id)
+        .withImageId(letterImage.id)
+        .build(),
+      { auditUser: "user" }
+    );
   });
 
   test("returns letter types when authorized", async () => {
@@ -118,7 +120,7 @@ describe("getLetterTypes", () => {
             id: 1,
             letterId: 1,
             imageId: 1,
-            maxWidth: "460px",
+            maxWidth: "450px",
             name: "header"
           }
         ])

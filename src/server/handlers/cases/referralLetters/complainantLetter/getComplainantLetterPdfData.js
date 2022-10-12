@@ -16,6 +16,11 @@ const getComplainantLetterPdfData = async complainant => {
         model: models.signers,
         as: "defaultSender",
         attributes: ["signatureFile", "name", "title"]
+      },
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage",
+        attributes: ["id", "letterId", "imageId", "maxWidth", "name"]
       }
     ]
   });

@@ -10,6 +10,8 @@ import getComplainantLetterPdfData from "./getComplainantLetterPdfData";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
+import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
+import LetterImage from "../../../../../sharedTestHelpers/letterImage";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
@@ -137,6 +139,39 @@ beforeEach(async () => {
       { auditUser: "user", transaction }
     );
   });
+
+  const image1 = await models.letterImage.create(
+    new LetterImage.Builder().defaultLetterImage().build(),
+    { auditUser: "user" }
+  );
+
+  const image2 = await models.letterImage.create(
+    new LetterImage.Builder()
+      .defaultLetterImage()
+      .withId(2)
+      .withImage("smallIcon.png")
+      .build(),
+    { auditUser: "user" }
+  );
+
+  await models.letterTypeLetterImage.create(
+    new LetterTypeLetterImage.Builder()
+      .defaultLetterTypeLetterImage()
+      .withImageId(image1.id)
+      .build(),
+    { auditUser: "user" }
+  );
+
+  await models.letterTypeLetterImage.create(
+    new LetterTypeLetterImage.Builder()
+      .defaultLetterTypeLetterImage()
+      .withId(2)
+      .withImageId(image2.id)
+      .withMaxWidth("60px")
+      .withName("smallIcon")
+      .build(),
+    { auditUser: "user" }
+  );
 
   await up(models);
 });

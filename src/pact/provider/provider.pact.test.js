@@ -5,6 +5,8 @@ import path from "path";
 import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
+import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";
+import LetterImage from "../../sharedTestHelpers/letterImage";
 import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 import {
@@ -269,6 +271,43 @@ const setupCivilianTitles = async () => {
     { id: 2, name: "Miss" },
     { auditUser: "user" }
   );
+};
+
+const setupLetterImages = async () => {
+  try {
+    await models.LetterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("smallIcon.png")
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withImageId(2)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "test" }
+    );
+  } catch (error) {
+    console.log("ERRRRRRR LetterImage", error);
+  }
 };
 
 describe("Pact Verification", () => {
@@ -555,7 +594,14 @@ describe("Pact Verification", () => {
             } catch (error) {
               console.log(error);
             }
-          }
+          },
+        "Letter image exists": async () => {
+          const letterCase = await setupCase();
+          await Promise.all([
+            await setupLetter(letterCase, statuses),
+            await setupLetterImages()
+          ]);
+        }
       }
     };
 
