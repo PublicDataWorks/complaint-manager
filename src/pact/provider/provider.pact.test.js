@@ -6,7 +6,7 @@ import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";
-import LetterImage from "../../sharedTestHelpers/letterImage";
+import LetterImage from "../../sharedTestHelpers/LetterImage";
 import Signer from "../../sharedTestHelpers/signer";
 import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 import {
