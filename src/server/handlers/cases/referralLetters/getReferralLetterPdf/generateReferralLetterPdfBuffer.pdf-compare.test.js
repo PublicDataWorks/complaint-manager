@@ -11,7 +11,7 @@ import ReferralLetter from "../../../../testHelpers/ReferralLetter";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
-import LetterImage from "../../../../../sharedTestHelpers/letterImage";
+import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";

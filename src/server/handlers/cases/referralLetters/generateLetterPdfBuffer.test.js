@@ -13,7 +13,7 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
-import LetterImage from "../../../../sharedTestHelpers/letterImage";
+import LetterImage from "../../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
 import {
   ASCENDING,

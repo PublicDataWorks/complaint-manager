@@ -11,7 +11,7 @@ import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
-import LetterImage from "../../../../../sharedTestHelpers/letterImage";
+import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";

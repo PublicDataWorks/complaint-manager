@@ -5,7 +5,7 @@ import models from "../../../../policeDataManager/models";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
-import LetterImage from "../../../../../sharedTestHelpers/letterImage";
+import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
