@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import axios from "axios";
 import {
   Divider,
   ExpansionPanel,
@@ -10,9 +12,13 @@ import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIcon
 import StyledInfoDisplay from "../../shared/components/StyledInfoDisplay";
 import StyledExpansionPanelDetails from "../../shared/components/StyledExpansionPanelDetails";
 import LetterTypeInfoDisplay from "./LetterTypeInfoDisplay";
-import { PrimaryButton } from "../../shared/components/StyledButtons";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../../shared/components/StyledButtons";
 import { SET_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
-import { withRouter } from "react-router";
+import ConfirmationDialog from "../../shared/components/ConfirmationDialog";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const templateStyle = {
   maxHeight: "25em",
@@ -23,6 +29,7 @@ const templateStyle = {
 };
 
 const LetterTypeDisplay = props => {
+  const [deleteDialog, setDeleteDialog] = useState(false);
   return (
     <div>
       <div
@@ -150,9 +157,36 @@ const LetterTypeDisplay = props => {
           >
             Edit
           </PrimaryButton>
+          <SecondaryButton
+            data-testid="delete-letter-type-btn"
+            onClick={() => {
+              setDeleteDialog(true);
+            }}
+            style={{ marginLeft: "20px" }}
+          >
+            Delete
+          </SecondaryButton>
         </section>
       </div>
       <Divider />
+      <ConfirmationDialog
+        confirmText="Delete"
+        onConfirm={() => {
+          axios
+            .delete(`api/letter-types/${props.letterType.id}`)
+            .then(result => {
+              props.setLoadLetterTypes(true);
+              props.snackbarSuccess("Letter type successfully deleted");
+              setDeleteDialog(false);
+            });
+        }}
+        onCancel={() => setDeleteDialog(false)}
+        open={deleteDialog}
+        title="Delete Letter Type"
+      >
+        Once you delete this letter type you will no longer be able to generate
+        this type of letter.
+      </ConfirmationDialog>
     </div>
   );
 
@@ -163,6 +197,9 @@ const LetterTypeDisplay = props => {
   }
 };
 
-export default connect(state => ({
-  permissions: state?.users?.current?.userInfo?.permissions
-}))(withRouter(LetterTypeDisplay));
+export default connect(
+  state => ({
+    permissions: state?.users?.current?.userInfo?.permissions
+  }),
+  { snackbarSuccess }
+)(withRouter(LetterTypeDisplay));

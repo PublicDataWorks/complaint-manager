@@ -81,6 +81,7 @@ import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 import getVisualizationConfigs from "./handlers/visualizationConfigs/getVisualizationConfigs";
 import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
 import editLetterType from "./handlers/letterTypes/editLetterType";
+import deleteLetterType from "./handlers/letterTypes/deleteLetterType";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -605,6 +606,11 @@ export const API_ROUTES = {
       handler: editLetterType,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while editing letter type"
+    },
+    delete: {
+      handler: deleteLetterType,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while deleting letter type"
     }
   },
   "/signers": {

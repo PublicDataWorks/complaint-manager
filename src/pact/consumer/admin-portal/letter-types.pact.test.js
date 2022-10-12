@@ -20,22 +20,39 @@ pactWith(
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
 
-    describe("Admin Portal", () => {
+    describe("letter types", () => {
       beforeEach(async () => {
         await setupAdminPortal(provider);
+        await Promise.all([
+          screen.findByText("REFERRAL"),
+          screen.findByText("Nina Ambroise"),
+          screen.findByText("Initial")
+        ]);
       });
 
-      describe("letter types", () => {
-        test("should show letter types saved in the database", async () => {
-          await Promise.all([
-            screen.findByText("REFERRAL"),
-            screen.findByText("Nina Ambroise"),
-            screen.findByText("Initial")
-          ]);
-          userEvent.click(await screen.findByText("REFERRAL"));
-          await Promise.all([screen.findByText("Template")]);
-        }, 100000);
-      });
+      test("should show letter types saved in the database", async () => {
+        userEvent.click(await screen.findByText("REFERRAL"));
+        await Promise.all([screen.findByText("Template")]);
+      }, 100000);
+
+      test("should delete letter type after delete is selected and confirmed", async () => {
+        await provider.addInteraction({
+          state: "letter types have been added to the database",
+          uponReceiving: "delete letter type",
+          withRequest: {
+            method: "DELETE",
+            path: "/api/letter-types/1"
+          },
+          willRespondWith: {
+            status: 204
+          }
+        });
+
+        userEvent.click(await screen.findByTestId("delete-letter-type-btn"));
+        userEvent.click(await screen.findByTestId("dialog-confirm-button"));
+        expect(await screen.findByText("Letter type successfully deleted"))
+          .toBeInTheDocument;
+      }, 100000);
     });
   }
 );

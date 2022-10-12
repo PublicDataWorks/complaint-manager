@@ -164,7 +164,7 @@
     "jest-extended": "^0.11.1",
     "jest-pact": "^0.9.3",
     "license-checker": "^25.0.1",
-    "msw": "0.47.4",
+    "msw": "^0.47.4",
     "nightwatch": "1.7.12",
     "nock": "13.1.0",
     "node-mocks-http": "1.10.1",

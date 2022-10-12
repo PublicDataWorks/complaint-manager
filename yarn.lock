@@ -14199,7 +14199,7 @@ msgpackr@^1.5.2:
   optionalDependencies:
     msgpackr-extract "^2.1.2"
 
-msw@0.47.4:
+msw@^0.47.4:
   version "0.47.4"
   resolved "https://registry.yarnpkg.com/msw/-/msw-0.47.4.tgz#5551011609890c6b62a2047055f475a9afae2ad4"
   integrity sha512-Psftt8Yfl0+l+qqg9OlmKEsxF8S/vtda0CmlR6y8wTaWrMMzuCDa55n2hEGC0ZRDwuV6FFWc/4CjoDsBpATKBw==

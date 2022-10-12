@@ -8,7 +8,6 @@ import LetterType from "../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";
 import LetterImage from "../../sharedTestHelpers/LetterImage";
 import Signer from "../../sharedTestHelpers/signer";
-import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 import {
   setupCase,
   addCivilianToCase,
@@ -322,11 +321,11 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(1000000);
+  jest.setTimeout(2000000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
-      timeout: 60000,
+      timeout: 2000000,
       providerBaseUrl: "http://localhost:8989",
       provider: "complaint-manager.server",
       providerVersion: "1.0.0",
@@ -392,8 +391,6 @@ describe("Pact Verification", () => {
             .build(),
           { auditUser: "test" }
         );
-
-        await seedLetterFields(models);
       },
       stateHandlers: {
         "Case exists": async () => {
