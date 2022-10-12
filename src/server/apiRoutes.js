@@ -81,8 +81,6 @@ import getCaseStatuses from "./handlers/caseStatuses/getCaseStatuses";
 import getVisualizationConfigs from "./handlers/visualizationConfigs/getVisualizationConfigs";
 import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
 import editLetterType from "./handlers/letterTypes/editLetterType";
-import getLetterImages from "./handlers/letterImages/getLetterImages";
-import getLetterTypesLetterImages from "./handlers/letterImages/getLetterTypesLetterImages";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -596,12 +594,6 @@ export const API_ROUTES = {
         "Something went wrong while getting configs.  Please try again."
     }
   },
-  "/letter-images": {
-    get: {
-      handler: getLetterImages,
-      errorMessage: "Something went wrong while retrieving the letter images"
-    }
-  },
   "/letter-types": {
     get: {
       handler: getLetterTypes,
@@ -613,13 +605,6 @@ export const API_ROUTES = {
       handler: editLetterType,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while editing letter type"
-    }
-  },
-  "/letter-types-letter-images": {
-    get: {
-      handler: getLetterTypesLetterImages,
-      errorMessage:
-        "Something went wrong while retrieving the letter types letter images"
     }
   },
   "/signers": {
