@@ -40,5 +40,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  LetterTypeLetterImage.associate = models => {
+    LetterTypeLetterImage.hasMany(models.letterImage, {
+      as: "letterImage",
+      foreignKey: {
+        name: "imageId",
+        field: "imageId"
+      }
+    });
+  };
+
   return LetterTypeLetterImage;
 };

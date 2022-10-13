@@ -157,7 +157,10 @@ const CivilianPanel = ({
                           ...civilian,
                           isUnknown: civilian.isAnonymous && !civilian.lastName,
                           isAnonymous:
-                            civilian.isAnonymous && !!civilian.lastName
+                            civilian.isAnonymous && !!civilian.lastName,
+                          raceEthnicity: undefined,
+                          genderIdentity: undefined,
+                          fullName: undefined
                         })
                       );
                       dispatch(

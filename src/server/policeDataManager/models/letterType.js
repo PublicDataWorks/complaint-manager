@@ -64,6 +64,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       }
     });
+
+    LetterType.hasMany(models.letterTypeLetterImage, {
+      as: "letterTypeLetterImage",
+      foreignKey: { name: "letterId", field: "letter_id" }
+    });
   };
 
   LetterType.prototype.toPayload = letterType => {

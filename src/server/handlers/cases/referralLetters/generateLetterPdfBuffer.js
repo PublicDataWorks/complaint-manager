@@ -8,35 +8,6 @@ import { retrieveLetterImage } from "./retrieveLetterImage";
 import { ASCENDING } from "../../../../sharedUtilities/constants";
 require("../../../handlebarHelpers");
 
-const MODEL_MAPPING = {
-  complainantOfficers: { model: models.case_officer },
-  complainantCivilians: { model: models.civilian },
-  witnessCivilians: { model: models.civilian },
-  witnessOfficers: { model: models.case_officer },
-  referralLetter: { model: models.referral_letter },
-  caseClassifications: { model: models.case_classification },
-  classification: { model: models.classification },
-  incidentLocation: { model: models.address },
-  accusedOfficers: { model: models.case_officer, separate: true },
-  allegations: { model: models.officer_allegation },
-  allegation: { model: models.allegation },
-  letterOfficer: { model: models.letter_officer },
-  letterImage: { model: models.letterImage },
-  letterTypeLetterImage: { model: models.letterTypeLetterImage },
-  referralLetterOfficerHistoryNotes: {
-    model: models.referral_letter_officer_history_note,
-    separate: true
-  },
-  referralLetterOfficerRecommendedActions: {
-    model: models.referral_letter_officer_recommended_action,
-    separate: true
-  },
-  recommendedAction: { model: models.recommended_action },
-  address: { model: models.address },
-  raceEthnicity: { model: models.race_ethnicity },
-  genderIdentity: { model: models.gender_identity }
-};
-
 const generateLetterPdfBuffer = async (
   caseId,
   includeSignature,
@@ -48,7 +19,13 @@ const generateLetterPdfBuffer = async (
 
   const letterType = await models.letter_types.findOne({
     where: { type: letterSettings.type },
-    include: ["fields"]
+    include: [
+      "fields",
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage"
+      }
+    ]
   });
 
   if (letterType.editableTemplate) {
@@ -70,10 +47,7 @@ const generateLetterPdfBuffer = async (
     ));
   }
 
-  const pdfDataAndAuditDetails = await getLetterData(
-    caseId,
-    letterType.fields.filter(field => !field.isForBody)
-  );
+  const pdfDataAndAuditDetails = await getLetterData(caseId);
   const pdfData = { ...pdfDataAndAuditDetails.data, ...extraData };
   const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
 
@@ -104,20 +78,48 @@ export const generateLetterPdfHtml = async (
 ) => {
   const currentDate = Date.now();
 
+  const letterType = await models.letter_types.findOne({
+    where: { type: letterSettings.type },
+    include: [
+      "fields",
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage"
+      }
+    ]
+  });
+
   let sender = pdfData.sender || pdfData.referralLetter?.sender;
   let signature = includeSignature
     ? await letterSettings.getSignature({ sender })
     : "<p><br></p>";
-  let header = await retrieveLetterImage("header_text.png", "max-width: 450px");
-  let smallIcon = await retrieveLetterImage("icon.png", "max-width: 60px");
+
+  let imageTypes = {};
+  const letter = letterType.letterTypeLetterImage.map(async imageType => {
+    let letterImage = await models.letterImage.findAll({
+      where: { id: imageType.imageId }
+    });
+
+    await Promise.all(
+      letterImage.map(async image => {
+        if (!imageTypes[imageType.name]) {
+          imageTypes[imageType.name] = await retrieveLetterImage(
+            image.image,
+            `max-width: ${imageType.maxWidth}`
+          );
+        }
+      })
+    );
+  });
+
+  await Promise.all(letter);
 
   const letterPdfData = {
     ...pdfData,
     letterBody,
     signature,
     currentDate,
-    header,
-    smallIcon
+    ...imageTypes
   };
 
   const compiledTemplate = Handlebars.compile(template);
@@ -136,10 +138,7 @@ export const determineLetterBody = async (
     html = letterBody;
     auditDetails = auditIfEdited();
   } else {
-    const letterDataResults = await getLetterData(
-      caseId,
-      letterType.fields.filter(field => field.isForBody)
-    );
+    const letterDataResults = await getLetterData(caseId);
     const compiledTemplate = Handlebars.compile(letterType.editableTemplate);
     html = compiledTemplate(letterDataResults.data);
     auditDetails = letterDataResults.auditDetails;
@@ -148,110 +147,155 @@ export const determineLetterBody = async (
   return { html, auditDetails };
 };
 
-export const getLetterData = async (caseId, fields) => {
+export const getLetterData = async caseId => {
   let queryOptions = {
-    attributes: constructLetterDataQueryAttributes(fields),
-    order: constructLetterDataQueryOrder(fields),
-    include: constructLetterDataQueryInclude(fields)
+    paranoid: false,
+    include: [
+      {
+        model: models.case_classification,
+        as: "caseClassifications",
+        include: [
+          {
+            model: models.classification,
+            as: "classification"
+          }
+        ]
+      },
+      {
+        model: models.intake_source,
+        as: "intakeSource"
+      },
+      {
+        model: models.how_did_you_hear_about_us_source,
+        as: "howDidYouHearAboutUsSource"
+      },
+      {
+        model: models.district,
+        as: "caseDistrict"
+      },
+      {
+        model: models.civilian,
+        as: "complainantCivilians",
+        include: [
+          models.address,
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
+        ]
+      },
+      {
+        model: models.civilian,
+        as: "witnessCivilians",
+        include: [
+          models.address,
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
+        ]
+      },
+      {
+        model: models.attachment
+      },
+      {
+        model: models.address,
+        as: "incidentLocation"
+      },
+      {
+        model: models.case_officer,
+        as: "accusedOfficers",
+        include: [
+          {
+            model: models.officer_allegation,
+            as: "allegations",
+            include: [models.allegation]
+          },
+          {
+            model: models.letter_officer,
+            as: "letterOfficer",
+            include: [
+              {
+                model: models.referral_letter_officer_history_note,
+                as: "referralLetterOfficerHistoryNotes",
+                separate: true
+              },
+              {
+                model: models.referral_letter_officer_recommended_action,
+                as: "referralLetterOfficerRecommendedActions",
+                include: [
+                  {
+                    model: models.recommended_action,
+                    as: "recommendedAction",
+                    attributes: ["id", "description", "createdAt", "updatedAt"]
+                  }
+                ],
+                separate: true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        model: models.case_officer,
+        as: "complainantOfficers"
+      },
+      {
+        model: models.case_officer,
+        as: "witnessOfficers"
+      },
+      {
+        model: models.referral_letter,
+        as: "referralLetter"
+      },
+      {
+        model: models.caseStatus,
+        as: "status",
+        attributes: ["id", "name", "orderKey"]
+      }
+    ],
+    order: [
+      [
+        { model: models.case_classification, as: "caseClassifications" },
+        "createdAt",
+        ASCENDING
+      ],
+      [
+        { model: models.case_officer, as: "accusedOfficers" },
+        "createdAt",
+        ASCENDING
+      ],
+      [
+        { model: models.civilian, as: "complainantCivilians" },
+        "createdAt",
+        ASCENDING
+      ],
+      [
+        { model: models.case_officer, as: "complainantOfficers" },
+        "createdAt",
+        ASCENDING
+      ],
+      [
+        { model: models.civilian, as: "witnessCivilians" },
+        "createdAt",
+        ASCENDING
+      ],
+      [
+        { model: models.case_officer, as: "witnessOfficers" },
+        "createdAt",
+        ASCENDING
+      ]
+    ]
   };
 
   let letterData = await models.cases.findByPk(caseId, queryOptions);
 
-  letterData = letterData.toJSON();
-  if (letterData?.accusedOfficers) {
-    letterData.accusedOfficers = letterData.accusedOfficers.sort(
-      (officerA, officerB) => {
-        return officerA.createdAt - officerB.createdAt;
-      }
-    );
-  }
-
   return {
-    data: letterData,
+    data: letterData.toJSON(),
     auditDetails: getQueryAuditAccessDetails(queryOptions, models.cases.name)
   };
 };
 
-const constructLetterDataQueryInclude = fields => {
-  return fields
-    .filter(field => field.relation !== "cases")
-    .reduce(
-      (include, f) =>
-        addRelationToIncludeClause(f.relation.split("."), include, f.field),
-      []
-    );
-};
-
-const constructLetterDataQueryOrder = fields => {
-  return fields
-    .filter(field => !!field.sortBy)
-    .map(field => {
-      let relationName = field.relation.split(".").pop();
-      return [
-        { model: MODEL_MAPPING[relationName].model, as: relationName },
-        field.sortBy,
-        field.sortDirection || ASCENDING
-      ];
-    });
-};
-
-const constructLetterDataQueryAttributes = fields => {
-  return fields.filter(field => field.relation === "cases").map(f => f.field);
-};
-
-/**
- * addRelationToIncludeClause - recursive function that creates sequelize "include" objects
- * and adds them to a given array (to be used in a sequelize query)
- *
- * @param {Array} pathToRelation an array of strings that shows the nesting needed
- * to place the field at the right depth
- * @param {Array} placeToAddRelation the include array that has been constructed so far (expect to pass a reference to an empty array on the initial call)
- * @param {String} field the name of the attribute to be included (if * then all fields should be included)
- * @returns the array (originally placeToAddRelation) that contains the constructed include clause(s)
- */
-const addRelationToIncludeClause = (
-  pathToRelation,
-  placeToAddRelation,
-  field
-) => {
-  let relationName = pathToRelation.shift();
-
-  let existingObject = placeToAddRelation.find(obj => obj.as === relationName);
-  if (!existingObject) {
-    existingObject = createIncludeObject(relationName, placeToAddRelation);
+const sortByCreatedAt = list => {
+  if (list) {
+    return list.sort((a, b) => a.createdAt - b.createdAt);
   }
-
-  if (pathToRelation.length) {
-    existingObject.include = existingObject.include || [];
-    addRelationToIncludeClause(pathToRelation, existingObject.include, field);
-  } else {
-    // base case
-    if (field !== "*") {
-      existingObject.attributes = existingObject.attributes
-        ? existingObject.attributes
-        : [];
-      existingObject.attributes.push(field);
-    }
-  }
-
-  return placeToAddRelation;
-};
-
-const createIncludeObject = (relationName, placeToAddRelation) => {
-  let existingObject = {
-    model: MODEL_MAPPING[relationName].model
-  };
-
-  if (relationName !== "address" && relationName !== "allegation") {
-    existingObject.as = relationName;
-  }
-
-  if (MODEL_MAPPING[relationName].separate) {
-    existingObject.separate = true;
-  }
-
-  placeToAddRelation.push(existingObject);
-  return existingObject;
 };
 
 export default generateLetterPdfBuffer;

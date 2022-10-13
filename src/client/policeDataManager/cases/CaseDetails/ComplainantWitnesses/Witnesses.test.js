@@ -239,7 +239,10 @@ describe("Witnesses", () => {
         );
         expect(initialize).toHaveBeenCalledWith(CIVILIAN_FORM_NAME, {
           ...witness,
-          isUnknown: false
+          isUnknown: false,
+          raceEthnicity: undefined,
+          genderIdentity: undefined,
+          fullName: undefined
         });
       });
     });

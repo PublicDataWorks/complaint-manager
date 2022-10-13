@@ -379,7 +379,8 @@ describe("civilian dialog", () => {
         expect.objectContaining({
           ...civilianToSubmit,
           genderIdentityId: unknownGenderIdentity[1]
-        })
+        }),
+        undefined
       );
     });
   });

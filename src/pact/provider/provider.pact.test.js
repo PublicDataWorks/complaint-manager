@@ -5,11 +5,12 @@ import path from "path";
 import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
+import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";
+import LetterImage from "../../sharedTestHelpers/LetterImage";
 import Signer from "../../sharedTestHelpers/signer";
-import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-letter-fields";
 import {
   setupCase,
-  addCivilianComplainantToCase,
+  addCivilianToCase,
   addComplainantOfficerToCase
 } from "./case-helpers";
 import {
@@ -28,6 +29,7 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -270,6 +272,43 @@ const setupCivilianTitles = async () => {
   );
 };
 
+const setupLetterImages = async () => {
+  try {
+    await models.LetterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("smallIcon.png")
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .build(),
+      { auditUser: "test" }
+    );
+
+    await models.LetterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withImageId(2)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "test" }
+    );
+  } catch (error) {
+    console.log("ERRRRRRR LetterImage", error);
+  }
+};
+
 describe("Pact Verification", () => {
   let server, statuses;
   beforeAll(() => {
@@ -282,11 +321,11 @@ describe("Pact Verification", () => {
     await server.close();
   });
 
-  jest.setTimeout(500000);
+  jest.setTimeout(2000000);
   test("validates the expectations of client side", async () => {
     const opts = {
       logLevel: "INFO",
-      timeout: 60000,
+      timeout: 2000000,
       providerBaseUrl: "http://localhost:8989",
       provider: "complaint-manager.server",
       providerVersion: "1.0.0",
@@ -352,12 +391,18 @@ describe("Pact Verification", () => {
             .build(),
           { auditUser: "test" }
         );
-
-        await seedLetterFields(models);
       },
       stateHandlers: {
         "Case exists": async () => {
           await setupCase();
+        },
+        "Case exists: with civilian complainant": async () => {
+          const c4se = await setupCase();
+          await addCivilianToCase(c4se, COMPLAINANT);
+        },
+        "Case exists: with civilian witness": async () => {
+          const c4se = await setupCase();
+          await addCivilianToCase(c4se, WITNESS);
         },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();
@@ -402,12 +447,32 @@ describe("Pact Verification", () => {
               setupCivilianTitles()
             ]);
           },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian complainant":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              addCivilianToCase(letterCase, COMPLAINANT),
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian witness":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              addCivilianToCase(letterCase, WITNESS),
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
         "letter is ready for review: with civilian complainant": async () => {
           const letterCase = await setupCase();
           await Promise.all([
             setupLetter(letterCase, statuses),
             addComplainantOfficerToCase(letterCase),
-            addCivilianComplainantToCase(letterCase),
+            addCivilianToCase(letterCase, COMPLAINANT),
             addClassifications(),
             addRecommendedActions()
           ]);
@@ -431,7 +496,7 @@ describe("Pact Verification", () => {
             const letter = await setupLetter(letterCase, statuses);
             await Promise.all([
               addComplainantOfficerToCase(letterCase),
-              addCivilianComplainantToCase(letterCase),
+              addCivilianToCase(letterCase, COMPLAINANT),
               addOfficerHistoryToReferralLetter(letter),
               addClassifications(),
               addRecommendedActions()
@@ -526,7 +591,14 @@ describe("Pact Verification", () => {
             } catch (error) {
               console.log(error);
             }
-          }
+          },
+        "Letter image exists": async () => {
+          const letterCase = await setupCase();
+          await Promise.all([
+            await setupLetter(letterCase, statuses),
+            await setupLetterImages()
+          ]);
+        }
       }
     };
 

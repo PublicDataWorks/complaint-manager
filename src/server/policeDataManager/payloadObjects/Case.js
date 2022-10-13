@@ -4,8 +4,18 @@ import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstan
 import determineNextCaseStatus from "../../handlers/cases/helpers/determineNextCaseStatus";
 
 export default class Case {
+  static getCase = async (id, options) => {
+    const model = await models.cases.findByPk(
+      id,
+      options ?? { include: ["status"] }
+    );
+
+    if (model) {
+      return new Case(model);
+    }
+  };
+
   constructor(caseModel) {
-    // TODO maybe allow the constructor to get the model by id from DB (if needed)
     this._model = caseModel;
     this._status = caseModel.status?.name;
   }

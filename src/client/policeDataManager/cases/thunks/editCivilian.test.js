@@ -44,7 +44,7 @@ describe("edit civilian thunk", () => {
       .put(`/api/cases/${civilian.caseId}/civilians/${civilian.id}`, civilian)
       .reply(500, responseBody);
 
-    await editCivilian(civilian)(dispatch);
+    await editCivilian(civilian, civilian.id)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CIVILIAN_FORM_NAME));
@@ -55,10 +55,13 @@ describe("edit civilian thunk", () => {
       "Content-Type": "application/json",
       Authorization: `Bearer TEST_TOKEN`
     })
-      .put(`/api/cases/${civilian.caseId}/civilians/${civilian.id}`, JSON.stringify(civilian))
+      .put(
+        `/api/cases/${civilian.caseId}/civilians/${civilian.id}`,
+        JSON.stringify(civilian)
+      )
       .reply(200, responseCivilians);
 
-    await editCivilian(civilian)(dispatch);
+    await editCivilian(civilian, civilian.id)(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(startSubmit(CIVILIAN_FORM_NAME));
     expect(editCivilianSuccess).toHaveBeenCalledWith(responseCivilians);

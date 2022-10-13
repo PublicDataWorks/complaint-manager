@@ -33,6 +33,7 @@ const LetterTypes = () => {
                 <LetterTypeDisplay
                   key={letterType.id}
                   letterType={letterType}
+                  setLoadLetterTypes={setLoadLetterTypes}
                 />
               ))
             : "There are no Letters"}

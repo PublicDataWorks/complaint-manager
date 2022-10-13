@@ -41,11 +41,9 @@ const changeStatus = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {
     let validationErrors = [];
 
-    const caseToUpdate = new Case(
-      await models.cases.findByPk(request.params.caseId, {
-        include: "status"
-      })
-    );
+    const caseToUpdate = await Case.getCase(request.params.caseId, {
+      include: "status"
+    });
 
     if (!canUpdateCaseToNewStatus(newStatus, request.permissions)) {
       throw Boom.badRequest(

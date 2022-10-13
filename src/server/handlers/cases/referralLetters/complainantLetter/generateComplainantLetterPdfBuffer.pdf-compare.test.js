@@ -4,6 +4,8 @@ import { compareLetter } from "../sharedLetterUtilities/compareLetterPDFTestUtil
 import models from "../../../../policeDataManager/models";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
+import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
+import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
@@ -35,38 +37,69 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       .withTitle("Acting Police Monitor")
       .withSignatureFile("nina_ambroise.png")
       .build();
-    await models.sequelize.transaction(async transaction => {
-      const signer = await models.signers.create(signerAttr, {
-        auditUser: "user",
-        transaction
-      });
 
-      const complainantLetterTemplate = fs.readFileSync(
-        `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
-      );
-
-      const letterAttr = new LetterType.Builder()
-        .defaultLetterType()
-        .withType("COMPLAINANT")
-        .withTemplate(complainantLetterTemplate.toString())
-        .withDefaultSender(signer)
-        .build();
-      await models.letter_types.create(letterAttr, {
-        auditUser: "user",
-        transaction
-      });
-
-      const letterAttr2 = new LetterType.Builder()
-        .defaultLetterType()
-        .withId(783838)
-        .withType("REFERRAL")
-        .withDefaultSender(signer)
-        .build();
-      await models.letter_types.create(letterAttr2, {
-        auditUser: "user",
-        transaction
-      });
+    const signer = await models.signers.create(signerAttr, {
+      auditUser: "user"
     });
+
+    const complainantLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+    );
+
+    const letterAttr = new LetterType.Builder()
+      .defaultLetterType()
+      .withType("COMPLAINANT")
+      .withTemplate(complainantLetterTemplate.toString())
+      .withDefaultSender(signer)
+      .build();
+    await models.letter_types.create(letterAttr, {
+      auditUser: "user"
+    });
+
+    const letterAttr2 = new LetterType.Builder()
+      .defaultLetterType()
+      .withId(783838)
+      .withType("REFERRAL")
+      .withDefaultSender(signer)
+      .build();
+    await models.letter_types.create(letterAttr2, {
+      auditUser: "user"
+    });
+
+    const image1 = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
+
+    const image2 = await models.letterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("icon.png")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withLetterId(letterAttr.id)
+        .withImageId(image1.id)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withId(2)
+        .withLetterId(letterAttr.id)
+        .withImageId(image2.id)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "user" }
+    );
 
     await up(models);
 

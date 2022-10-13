@@ -91,26 +91,6 @@ describe("apply CST to dateString", () => {
   });
 });
 
-describe("apply timezone to time based on date", () => {
-  test("should display timezone as CT when no date given", () => {
-    const time = "17:00:00";
-    const newTime = computeTimeZone(null, time);
-    expect(newTime).toEqual("CT");
-  });
-
-  test("should display timezone as CST when needed", () => {
-    const time = "17:00:00";
-    const newTime = computeTimeZone("2018-01-01", time);
-    expect(newTime).toEqual("CST");
-  });
-
-  test("should display timezone as CDT when needed", () => {
-    const time = "17:00:00";
-    const newTime = computeTimeZone("2018-05-01", time);
-    expect(newTime).toEqual("CDT");
-  });
-});
-
 describe("format12HourTime", () => {
   test("should return formatted time with single digit hour", () => {
     const time = "3:00:00";

@@ -1,5 +1,9 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved
+} from "@testing-library/react";
 import nock from "nock";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -105,5 +109,36 @@ describe("Letter Types Card", () => {
     userEvent.click(letterTypeRow[1]);
     expect(await screen.findAllByTestId("body-template-label")).toBeTruthy();
     expect(await screen.findByText("editable template")).toBeInTheDocument;
+  });
+
+  test("should reload letter types after delete is chosen, confirmed, and succeeds", async () => {
+    nock("http://localhost").delete("/api/letter-types/1").reply(204);
+    let subsequentGetNock = nock("http://localhost")
+      .get("/api/letter-types")
+      .reply(200, [
+        {
+          id: 2,
+          type: "COMPLAINANT",
+          template: "",
+          editableTemplate: "editable template",
+          hasEditPage: true,
+          requiresApproval: null,
+          defaultSender: {
+            name: "Kate",
+            nickname: "Kate@k.com"
+          },
+          requiredStatus: "Initial"
+        }
+      ]);
+
+    const deleteBtns = await screen.findAllByText("Delete");
+    userEvent.click(deleteBtns[0]);
+    userEvent.click(await screen.findByTestId("dialog-confirm-button"));
+    await waitForElementToBeRemoved(() =>
+      screen.getByTestId("dialog-confirm-button")
+    );
+    expect(await screen.findByText("Kate")).toBeInTheDocument;
+    expect(screen.queryByText("Billy")).toBeFalsy();
+    expect(subsequentGetNock.isDone()).toBeTrue();
   });
 });

@@ -13,6 +13,8 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Case from "../../../../sharedTestHelpers/case";
 import Signer from "../../../../sharedTestHelpers/signer";
 import ReferralLetter from "../../../testHelpers/ReferralLetter";
+import LetterImage from "../../../../sharedTestHelpers/LetterImage";
+import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
 import {
   ASCENDING,
   COMPLAINANT,
@@ -113,6 +115,39 @@ describe("generateLetterPdfBuffer", () => {
       { auditUser: "test" }
     );
 
+    const image1 = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
+
+    const image2 = await models.letterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("smallIcon.png")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withImageId(image1.id)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withId(2)
+        .withImageId(image2.id)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "user" }
+    );
+
     await up(models);
 
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
@@ -154,7 +189,8 @@ describe("generateLetterPdfBuffer", () => {
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
       .withComplaintType(RANK_INITIATED)
-      .withComplainantOfficers([complainantOfficer]);
+      .withComplainantOfficers([complainantOfficer])
+      .withStatus(statuses[0]);
     existingCase = await models.cases.create(caseAttributes, {
       include: [
         {
@@ -176,181 +212,6 @@ describe("generateLetterPdfBuffer", () => {
   });
 
   describe("getLetterData", () => {
-    test("should form appropriate referral letter query options", async () => {
-      const TYPE = await models.letter_types.findOne({
-        where: { type: "REFERRAL" },
-        include: ["fields"]
-      });
-
-      await getLetterData(
-        12070,
-        TYPE.fields.filter(field => !field.isForBody)
-      );
-
-      expect(findByPkSpy).toHaveBeenCalledWith(12070, {
-        attributes: [
-          "primaryComplainant",
-          "firstContactDate",
-          "complaintType",
-          "id",
-          "year",
-          "caseNumber",
-          "caseReference",
-          "pibCaseNumber"
-        ],
-        include: [
-          {
-            model: models.civilian,
-            as: "complainantCivilians"
-          },
-          {
-            model: models.case_officer,
-            as: "complainantOfficers"
-          },
-          {
-            model: models.referral_letter,
-            as: "referralLetter",
-            attributes: [
-              "recipient",
-              "recipientAddress",
-              "sender",
-              "transcribedBy"
-            ]
-          }
-        ],
-        order: []
-      });
-    });
-
-    test("should form appropriate referral letter body query options", async () => {
-      const TYPE = await models.letter_types.findOne({
-        where: { type: "REFERRAL" },
-        include: ["fields"]
-      });
-
-      await getLetterData(
-        12070,
-        TYPE.fields.filter(field => field.isForBody)
-      );
-
-      expect(findByPkSpy).toHaveBeenCalledWith(12070, {
-        attributes: [
-          "id",
-          "incidentDate",
-          "incidentTime",
-          "incidentTimezone",
-          "narrativeDetails",
-          "firstContactDate",
-          "complaintType",
-          "year",
-          "caseNumber",
-          "pibCaseNumber",
-          "caseReference"
-        ],
-        order: expect.arrayContaining([
-          [
-            { model: models.civilian, as: "complainantCivilians" },
-            "createdAt",
-            ASCENDING
-          ],
-          [
-            { model: models.civilian, as: "witnessCivilians" },
-            "createdAt",
-            ASCENDING
-          ],
-          [
-            { model: models.case_officer, as: "complainantOfficers" },
-            "createdAt",
-            ASCENDING
-          ],
-          [
-            { model: models.case_officer, as: "witnessOfficers" },
-            "createdAt",
-            ASCENDING
-          ]
-        ]),
-        include: expect.arrayContaining([
-          {
-            model: models.referral_letter,
-            as: "referralLetter"
-          },
-          {
-            model: models.case_classification,
-            as: "caseClassifications",
-            include: [
-              {
-                model: models.classification,
-                as: "classification"
-              }
-            ]
-          },
-          {
-            model: models.address,
-            as: "incidentLocation"
-          },
-          {
-            model: models.civilian,
-            as: "complainantCivilians",
-            include: [
-              { model: models.race_ethnicity, as: "raceEthnicity" },
-              { model: models.gender_identity, as: "genderIdentity" },
-              { model: models.address }
-            ]
-          },
-          {
-            model: models.civilian,
-            as: "witnessCivilians"
-          },
-          {
-            model: models.case_officer,
-            as: "complainantOfficers"
-          },
-          {
-            model: models.case_officer,
-            as: "accusedOfficers",
-            separate: true,
-            include: [
-              {
-                model: models.officer_allegation,
-                as: "allegations",
-                include: [
-                  {
-                    model: models.allegation
-                  }
-                ]
-              },
-              {
-                model: models.letter_officer,
-                as: "letterOfficer",
-                include: [
-                  {
-                    model: models.referral_letter_officer_history_note,
-                    as: "referralLetterOfficerHistoryNotes",
-                    separate: true
-                  },
-                  {
-                    model: models.referral_letter_officer_recommended_action,
-                    as: "referralLetterOfficerRecommendedActions",
-                    separate: true,
-                    include: [
-                      {
-                        model: models.recommended_action,
-                        as: "recommendedAction"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            model: models.case_officer,
-            as: "witnessOfficers"
-          }
-        ])
-      });
-    });
-
     test("should sort accused officers by createdAt date", async () => {
       const ID = 12070;
 

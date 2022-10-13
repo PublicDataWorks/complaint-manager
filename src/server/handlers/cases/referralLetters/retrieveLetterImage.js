@@ -24,7 +24,6 @@ export const retrieveLetterImage = async (fileName, style) => {
     return `<img style="${style || ""}" src="data:${
       data.ContentType
     };base64,${data.Body.toString("base64")}" />`;
-
   } else {
     return "<p><br></p>";
   }

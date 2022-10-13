@@ -30,6 +30,15 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
           field: "required_status",
           allowNull: true
         }
+      },
+      {
+        model: models.letterTypeLetterImage,
+        as: "letterTypeLetterImage",
+        attributes: ["id", "imageId", "letterId", "maxWidth", "name"],
+        foreignKey: {
+          field: "letterId",
+          allowNull: false
+        }
       }
     ]
   };

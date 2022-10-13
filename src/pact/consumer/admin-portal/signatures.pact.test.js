@@ -199,7 +199,7 @@ pactWith(
 
           const removeButtons = await screen.findAllByText("Remove");
           userEvent.click(removeButtons[0]);
-          const saveButton = await screen.findByText("Delete");
+          const saveButton = await screen.findByTestId("dialog-confirm-button");
 
           userEvent.click(saveButton);
           expect(await screen.findByText("Signer successfully deleted"))

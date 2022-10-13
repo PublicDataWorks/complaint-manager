@@ -13,39 +13,17 @@ import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import LetterImage from "../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
 
-jest.mock(
-  "../../getFeaturesAsync",
-  () => callback =>
-    callback([
-      {
-        id: "FEATURE",
-        name: "FEATURE",
-        description: "This is a feature",
-        enabled: true
-      }
-    ])
-);
-
-describe("getLetterTypes", () => {
-  let status;
+describe("deleteLetterType", () => {
+  let status, letterType;
 
   afterEach(async () => {
     await cleanupDatabase();
-  });
-
-  afterAll(async () => {
-    await models.sequelize.close();
   });
 
   beforeEach(async () => {
     await cleanupDatabase();
     status = await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
-      { auditUser: "user" }
-    );
-
-    const letterImage = await models.letterImage.create(
-      new LetterImage.Builder().defaultLetterImage().build(),
       { auditUser: "user" }
     );
 
@@ -65,7 +43,7 @@ describe("getLetterTypes", () => {
       }
     );
 
-    let letterType = await models.letter_types.create(
+    letterType = await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
         .withId(1)
@@ -77,8 +55,29 @@ describe("getLetterTypes", () => {
         auditUser: "user"
       }
     );
+  });
 
-    await models.letterTypeLetterImage.create(
+  test("deletes letter type if it exists", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+    const responsePromise = request(app)
+      .delete(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 204);
+    expect(await models.letter_types.findByPk(letterType.id)).toBeFalsy();
+  });
+
+  test("also deletes letter-types-letter-images connected to the letter type if any exist", async () => {
+    const letterImage = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
+
+    const letterTypeLetterImage = await models.letterTypeLetterImage.create(
       new LetterTypeLetterImage.Builder()
         .defaultLetterTypeLetterImage()
         .withLetterId(letterType.id)
@@ -86,45 +85,34 @@ describe("getLetterTypes", () => {
         .build(),
       { auditUser: "user" }
     );
+
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    const responsePromise = request(app)
+      .delete(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 204);
+    expect(await models.letter_types.findByPk(letterType.id)).toBeFalsy();
+    expect(
+      await models.letterTypeLetterImage.findByPk(letterTypeLetterImage.id)
+    ).toBeFalsy();
   });
 
-  test("returns letter types when authorized", async () => {
+  test("returns 404 if letter type does not exist", async () => {
     const token = buildTokenWithPermissions(
       USER_PERMISSIONS.ADMIN_ACCESS,
       "nickname"
     );
     const responsePromise = request(app)
-      .get("/api/letter-types")
+      .delete("/api/letter-types/223456")
       .set("Content-Header", "application/json")
       .set("Authorization", `Bearer ${token}`);
 
-    await expectResponse(responsePromise, 200, [
-      {
-        id: 1,
-        type: "REFERRAL",
-        template: "",
-        editableTemplate: null,
-        hasEditPage: false,
-        requiresApproval: false,
-        requiredStatus: "Initial",
-        defaultSender: expect.objectContaining({
-          id: 1,
-          name: "John A Simms",
-          nickname: "jsimms@oipm.gov",
-          phone: "888-576-9922",
-          signatureFile: "bobby.png",
-          title: "Independent Police Monitor"
-        }),
-        letterTypeLetterImage: expect.arrayContaining([
-          {
-            id: 1,
-            letterId: 1,
-            imageId: 1,
-            maxWidth: "450px",
-            name: "header"
-          }
-        ])
-      }
-    ]);
+    await expectResponse(responsePromise, 404);
   });
 });

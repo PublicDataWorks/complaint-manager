@@ -1,5 +1,5 @@
 import { random } from "lodash";
-import { COMPLAINANT } from "../../sharedUtilities/constants";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 import models from "../../server/policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 import IntakeSource from "../../server/testHelpers/intakeSource";
@@ -56,12 +56,13 @@ export const addComplainantOfficerToCase = async c4se => {
   }
 };
 
-export const addCivilianComplainantToCase = async theCase => {
+export const addCivilianToCase = async (theCase, role) => {
   return await models.civilian.create(
     new Civilian.Builder()
       .defaultCivilian()
+      .withId(role === WITNESS ? 2 : 1)
       .withCaseId(theCase.id)
-      .withRoleOnCase(COMPLAINANT)
+      .withRoleOnCase(role)
       .build(),
     { auditUser: "user" }
   );

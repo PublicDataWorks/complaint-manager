@@ -51,6 +51,7 @@ describe("getReferralLetterPreview", function () {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
     const signer = await models.signers.create(
       new Signer.Builder()

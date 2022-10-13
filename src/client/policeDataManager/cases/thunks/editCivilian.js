@@ -8,11 +8,11 @@ import { startSubmit, stopSubmit } from "redux-form";
 import { CIVILIAN_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
-const editCivilian = civilian => async dispatch => {
+const editCivilian = (civilian, id) => async dispatch => {
   try {
     dispatch(startSubmit(CIVILIAN_FORM_NAME));
     const response = await axios.put(
-      `api/cases/${civilian.caseId}/civilians/${civilian.id}`,
+      `api/cases/${civilian.caseId}/civilians/${id}`,
       civilian
     );
     dispatch(closeEditCivilianDialog());
