@@ -1,7 +1,7 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import styles from "./styles";
 
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
   palette: styles.colors,
   typography: {
     fontFamily: [

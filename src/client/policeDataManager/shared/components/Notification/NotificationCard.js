@@ -1,13 +1,13 @@
 import React from "react";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import NotificationCardText from "./NotificationCardText";
 import Divider from "@material-ui/core/Divider";
 
 const NotificationCard = props => {
-  const buttonTheme = createMuiTheme({
+  const buttonTheme = createTheme({
     overrides: {
       MuiButton: {
         root: {

@@ -1,6 +1,6 @@
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 
-const muiTheme = createMuiTheme({
+const muiTheme = createTheme({
   dashboard: {
     padding: "20px",
     about: {
