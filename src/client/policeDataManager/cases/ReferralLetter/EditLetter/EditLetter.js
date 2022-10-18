@@ -12,8 +12,7 @@ import {
 import {
   CASE_STATUS,
   EDIT_LETTER_HTML_FORM,
-  LETTER_PROGRESS,
-  USER_PERMISSIONS
+  LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, initialize, reduxForm, reset } from "redux-form";

@@ -18,7 +18,9 @@ class RemoveAttachmentConfirmationDialog extends React.Component {
         maxWidth="sm"
         fullWidth={true}
         open={this.props.dialogOpen}
-        onExited={this.props.handleDialogExit}
+        TransitionProps={{
+          onExit: this.props.handleDialogExit
+        }}
       >
         <DialogTitle>Remove Attachment</DialogTitle>
         <DialogContent>

@@ -151,6 +151,7 @@ class NavBar extends Component {
               <Badge
                 color={"error"}
                 badgeContent={this.countUnreadNotifications()}
+                overlap="rectangular"
               >
                 <NotificationsIcon />
               </Badge>
