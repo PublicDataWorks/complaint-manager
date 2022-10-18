@@ -31,8 +31,6 @@ const util = require("util");
     process.exit(1);
   }
 
-  console.log("argv:", process.argv);
-
   const query = buildQueryString(process.argv.slice(2).join(" "));
 
   console.log(`Searching for '${query}'...`);
