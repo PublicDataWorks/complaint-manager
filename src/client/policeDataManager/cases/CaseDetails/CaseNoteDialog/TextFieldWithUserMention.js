@@ -116,7 +116,7 @@ export const TextFieldWithUserMention = props => {
           <TextField
             {...params}
             multiline
-            rowsMax={8}
+            maxRows={8}
             fullWidth
             placeholder="Enter any notes about this action"
           />

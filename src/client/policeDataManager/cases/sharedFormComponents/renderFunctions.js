@@ -29,7 +29,7 @@ export const renderTextField = props => {
       error={touched && !!error}
       helperText={touched && error ? touched && error : null}
       {...input}
-      rowsMax={rowsMax ? rowsMax : 1}
+      maxRows={rowsMax ? rowsMax : 1}
     />
   );
 };
