@@ -32,7 +32,7 @@ pactWith(
 
       test("should show letter types saved in the database", async () => {
         userEvent.click(await screen.findByText("REFERRAL"));
-        await Promise.all([screen.findByText("Template")]);
+        await Promise.all([screen.findAllByText("Template")]);
       }, 100000);
 
       test("should delete letter type after delete is selected and confirmed", async () => {

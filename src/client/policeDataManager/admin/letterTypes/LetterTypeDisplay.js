@@ -28,6 +28,12 @@ const templateStyle = {
   padding: "1em 0 1em 1em"
 };
 
+const getHeadlessTemplate = letterType => {
+  const frontTemplate = letterType.template.split("<head>");
+  const backTemplate = letterType.template.split("</head>");
+  return frontTemplate[0] + backTemplate[1];
+};
+
 const LetterTypeDisplay = props => {
   const [deleteDialog, setDeleteDialog] = useState(false);
   return (
@@ -111,7 +117,9 @@ const LetterTypeDisplay = props => {
                 </Typography>
                 <div
                   style={templateStyle}
-                  dangerouslySetInnerHTML={{ __html: getHeadlessTemplate() }}
+                  dangerouslySetInnerHTML={{
+                    __html: getHeadlessTemplate(props.letterType)
+                  }}
                 />
               </StyledInfoDisplay>
               <br />
@@ -186,12 +194,6 @@ const LetterTypeDisplay = props => {
       </ConfirmationDialog>
     </div>
   );
-
-  function getHeadlessTemplate() {
-    const frontTemplate = props.letterType.template.split("<head>");
-    const backTemplate = props.letterType.template.split("</head>");
-    return frontTemplate[0] + backTemplate[1];
-  }
 };
 
 export default connect(

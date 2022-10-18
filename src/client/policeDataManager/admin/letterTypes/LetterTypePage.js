@@ -28,6 +28,7 @@ import {
 import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
+import { separateTemplateHeadFromBody } from "./letter-types-selectors";
 
 const styles = {
   labelStart: {
@@ -47,7 +48,21 @@ const LetterTypePage = props => {
     axios
       .put(`/api/letter-types/${props.letterTypeId}`, {
         type: values.letterTypeInput,
-        template: values.template,
+        template: `<html>
+          <head>
+            ${props.templateHead}
+          </head>
+          <body>
+            <div id="pageHeader-first">${values.firstPageHeader}</div>
+            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${values.subsequentPageHeader}</div>
+            <div id="pageFooter" style="text-align: center; margin-top: 16px">
+              <span style="display:inline-block; margin: 6px 16px 0 0">${values.footerImage}</span>
+              <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">${values.footerText}</span>
+              <span style="display:inline-block; width: 46px">&nbsp;</span>
+            </div>
+            ${values.template}
+          </body>
+        </html>`,
         hasEditPage: values.hasEditPage,
         requiresApproval: values.requiresApproval,
         defaultSender: values.defaultSender,
@@ -189,6 +204,92 @@ const LetterTypePage = props => {
                 padding: "10px 0px"
               }}
             >
+              <label htmlFor="first-page-header">First Page Header</label>
+              <Field
+                name="firstPageHeader"
+                label="First Page Header"
+                id="first-page-header"
+                component={RichTextEditorComponent}
+                placeholder="Enter First Page Header"
+                fullWidth
+                multiline
+                rowsMax={20}
+                rows={5}
+                style={{
+                  color: "black"
+                }}
+              />
+            </section>
+            <section
+              style={{
+                padding: "10px 0px"
+              }}
+            >
+              <label htmlFor="subsequent-page-header">
+                Subsequent Page Header
+              </label>
+              <Field
+                name="subsequentPageHeader"
+                label="Subsequent Page Header"
+                id="subsequent-page-header"
+                component={RichTextEditorComponent}
+                placeholder="Enter Subsequent Page Header"
+                fullWidth
+                multiline
+                rowsMax={20}
+                rows={5}
+                style={{
+                  color: "black"
+                }}
+              />
+            </section>
+            <section
+              style={{
+                padding: "10px 0px"
+              }}
+            >
+              <label htmlFor="footer-image">Footer Image</label>
+              <Field
+                name="footerImage"
+                label="Footer Image"
+                id="footer-image"
+                component={RichTextEditorComponent}
+                placeholder="Enter Footer Image"
+                fullWidth
+                multiline
+                rowsMax={20}
+                rows={5}
+                style={{
+                  color: "black"
+                }}
+              />
+            </section>
+            <section
+              style={{
+                padding: "10px 0px"
+              }}
+            >
+              <label htmlFor="footer-text">Footer Text</label>
+              <Field
+                name="footerText"
+                label="Footer Text"
+                id="footer-text"
+                component={RichTextEditorComponent}
+                placeholder="Enter Footer Text"
+                fullWidth
+                multiline
+                rowsMax={20}
+                rows={5}
+                style={{
+                  color: "black"
+                }}
+              />
+            </section>
+            <section
+              style={{
+                padding: "10px 0px"
+              }}
+            >
               <label htmlFor="template-field">Template</label>
               <Field
                 name="template"
@@ -250,6 +351,8 @@ const LetterTypePage = props => {
 
 export default connect(
   state => {
+    const template = separateTemplateHeadFromBody(state);
+
     return {
       editable: state.form.letterTypeForm?.values?.hasEditPage,
       initialValues: {
@@ -258,12 +361,17 @@ export default connect(
         hasEditPage: state.ui.editLetterType.hasEditPage,
         defaultSender: state.ui.editLetterType.defaultSender?.nickname,
         requiredStatus: state.ui.editLetterType.requiredStatus,
-        template: state.ui.editLetterType.template,
-        editableTemplate: state.ui.editLetterType.editableTemplate
+        template: template.body,
+        editableTemplate: state.ui.editLetterType.editableTemplate,
+        firstPageHeader: template.firstPageHeader,
+        subsequentPageHeader: template.subsequentPageHeader,
+        footerText: template.footerText,
+        footerImage: template.footerImage
       },
       letterTypeId: state.ui.editLetterType.id,
       signers: state.signers,
-      statuses: state.ui.caseStatuses
+      statuses: state.ui.caseStatuses,
+      templateHead: template.head
     };
   },
   { snackbarSuccess, snackbarError }

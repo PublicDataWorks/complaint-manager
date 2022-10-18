@@ -44,7 +44,27 @@ export const setupAdminPortal = async provider => {
       body: eachLike({
         id: 1,
         type: "REFERRAL",
-        template: "TEMPLATE",
+        template: `<html>
+          <head>
+            <style>* { font-size: 8.5pt; }</style>
+          </head>
+          <body>
+            <div id="pageHeader-first">
+              <div style="text-align: center;">{{{header}}}</div>
+            </div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">{{{referralLetter.recipient}}}<br/>{{{formatLongDate currentDate}}}<br/>Page \{{page}}</div>
+            <div id="pageFooter" style="text-align: center; margin-top: 16px">
+              <span style="display:inline-block; margin: 6px 16px 0 0">{{{smallIcon}}}</span>
+              <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">
+                INDEPENDENT POLICE MONITOR<br />
+                2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />
+                Phone (504) 309-9799| Fax (504) 309-7345
+              </span>
+              <span style="display:inline-block; width: 46px">&nbsp;</span>
+            </div>
+            <p>Template</p>
+          </body>
+        </html>`,
         hasEditPage: false,
         requiresApproval: false,
         requiredStatus: "Initial",
