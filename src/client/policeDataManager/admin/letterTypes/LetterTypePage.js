@@ -1,4 +1,9 @@
-import { FormControlLabel, Typography, withStyles } from "@material-ui/core";
+import {
+  Collapse,
+  FormControlLabel,
+  Typography,
+  withStyles
+} from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -29,6 +34,8 @@ import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
 import { separateTemplateHeadFromBody } from "./letter-types-selectors";
+import LinkButton from "../../shared/components/LinkButton";
+import Collapser from "./Collapser";
 
 const styles = {
   labelStart: {
@@ -40,6 +47,18 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-around"
+  },
+  sideBySideQuillContainer: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    columnGap: "10px"
+  },
+  halfWidthQuill: {
+    padding: "10px 0px",
+    minWidth: "350px",
+    flexGrow: "1"
   }
 };
 
@@ -199,92 +218,84 @@ const LetterTypePage = props => {
                 />
               </div>
             </div>
-            <section
-              style={{
-                padding: "10px 0px"
-              }}
-            >
-              <label htmlFor="first-page-header">First Page Header</label>
-              <Field
-                name="firstPageHeader"
-                label="First Page Header"
-                id="first-page-header"
-                component={RichTextEditorComponent}
-                placeholder="Enter First Page Header"
-                fullWidth
-                multiline
-                rowsMax={20}
-                rows={5}
-                style={{
-                  color: "black"
-                }}
-              />
-            </section>
-            <section
-              style={{
-                padding: "10px 0px"
-              }}
-            >
-              <label htmlFor="subsequent-page-header">
-                Subsequent Page Header
-              </label>
-              <Field
-                name="subsequentPageHeader"
-                label="Subsequent Page Header"
-                id="subsequent-page-header"
-                component={RichTextEditorComponent}
-                placeholder="Enter Subsequent Page Header"
-                fullWidth
-                multiline
-                rowsMax={20}
-                rows={5}
-                style={{
-                  color: "black"
-                }}
-              />
-            </section>
-            <section
-              style={{
-                padding: "10px 0px"
-              }}
-            >
-              <label htmlFor="footer-image">Footer Image</label>
-              <Field
-                name="footerImage"
-                label="Footer Image"
-                id="footer-image"
-                component={RichTextEditorComponent}
-                placeholder="Enter Footer Image"
-                fullWidth
-                multiline
-                rowsMax={20}
-                rows={5}
-                style={{
-                  color: "black"
-                }}
-              />
-            </section>
-            <section
-              style={{
-                padding: "10px 0px"
-              }}
-            >
-              <label htmlFor="footer-text">Footer Text</label>
-              <Field
-                name="footerText"
-                label="Footer Text"
-                id="footer-text"
-                component={RichTextEditorComponent}
-                placeholder="Enter Footer Text"
-                fullWidth
-                multiline
-                rowsMax={20}
-                rows={5}
-                style={{
-                  color: "black"
-                }}
-              />
-            </section>
+            <Collapser name="Header">
+              <section className={props.classes.sideBySideQuillContainer}>
+                <section className={props.classes.halfWidthQuill}>
+                  <label htmlFor="first-page-header">First Page Header</label>
+                  <Field
+                    name="firstPageHeader"
+                    label="First Page Header"
+                    id="first-page-header"
+                    component={RichTextEditorComponent}
+                    placeholder="Enter First Page Header"
+                    fullWidth
+                    multiline
+                    rowsMax={20}
+                    rows={5}
+                    style={{
+                      color: "black"
+                    }}
+                  />
+                </section>
+                <section className={props.classes.halfWidthQuill}>
+                  <label htmlFor="subsequent-page-header">
+                    Subsequent Page Header
+                  </label>
+                  <Field
+                    name="subsequentPageHeader"
+                    label="Subsequent Page Header"
+                    id="subsequent-page-header"
+                    component={RichTextEditorComponent}
+                    placeholder="Enter Subsequent Page Header"
+                    fullWidth
+                    multiline
+                    rowsMax={20}
+                    rows={5}
+                    style={{
+                      color: "black"
+                    }}
+                  />
+                </section>
+              </section>
+            </Collapser>
+            <Collapser name="Footer">
+              <section className={props.classes.sideBySideQuillContainer}>
+                <section className={props.classes.halfWidthQuill}>
+                  <label htmlFor="footer-image">Footer Image</label>
+                  <Field
+                    name="footerImage"
+                    label="Footer Image"
+                    id="footer-image"
+                    component={RichTextEditorComponent}
+                    placeholder="Enter Footer Image"
+                    fullWidth
+                    multiline
+                    rowsMax={20}
+                    rows={5}
+                    style={{
+                      color: "black"
+                    }}
+                  />
+                </section>
+                <section className={props.classes.halfWidthQuill}>
+                  <label htmlFor="footer-text">Footer Text</label>
+                  <Field
+                    name="footerText"
+                    label="Footer Text"
+                    id="footer-text"
+                    component={RichTextEditorComponent}
+                    placeholder="Enter Footer Text"
+                    fullWidth
+                    multiline
+                    rowsMax={20}
+                    rows={5}
+                    style={{
+                      color: "black"
+                    }}
+                  />
+                </section>
+              </section>
+            </Collapser>
             <section
               style={{
                 padding: "10px 0px"

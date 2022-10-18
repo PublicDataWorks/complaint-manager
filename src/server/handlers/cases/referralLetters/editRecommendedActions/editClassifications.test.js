@@ -17,6 +17,7 @@ describe("editClassifications", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 
