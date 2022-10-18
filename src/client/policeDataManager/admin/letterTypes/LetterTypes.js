@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../../cases/CaseDetails/caseDetailsStyles";
 import { CardContent, withStyles } from "@material-ui/core";
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
+import LinkButton from "../../shared/components/LinkButton";
+import { SET_LETTER_TYPE_TO_ADD } from "../../../../sharedUtilities/constants";
 
-const LetterTypes = () => {
+const LetterTypes = props => {
   const [letterTypes, setLetterTypes] = useState([]);
   const [loadLetterTypes, setLoadLetterTypes] = useState(true);
 
@@ -38,9 +43,33 @@ const LetterTypes = () => {
               ))
             : "There are no Letters"}
         </CardContent>
+        <Link to="/admin-portal/letter-type">
+          <LinkButton
+            style={{
+              marginLeft: "8px",
+              marginTop: "8px",
+              marginBottom: "8px"
+            }}
+            onClick={() => {
+              props.setLetterTypeToAdd(props.letterType);
+            }}
+            data-testid="addLetterType"
+          >
+            + Add Letter Type
+          </LinkButton>
+        </Link>
       </DetailsCard>
     </section>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(LetterTypes);
+const mapStateToProps = () => ({
+  setLetterTypeToAdd: letterType => ({
+    type: SET_LETTER_TYPE_TO_ADD,
+    payload: letterType
+  })
+});
+
+export default withStyles(styles, { withTheme: true })(
+  connect(mapStateToProps)(withRouter(LetterTypes))
+);
