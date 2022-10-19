@@ -13,7 +13,7 @@ import {
 import { allegationSeverityMenu } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
 import { connect } from "react-redux";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 
 const onSubmit = (values, dispatch, caseId) => {
@@ -29,7 +29,7 @@ const EditOfficerAllegationForm = ({
   caseId
 }) => {
   return (
-    <ExpansionPanelDetails>
+    <AccordionDetails>
       <div style={{ width: "100%", marginLeft: "64px" }}>
         <form>
           <div>
@@ -84,7 +84,7 @@ const EditOfficerAllegationForm = ({
           </PrimaryButton>
         </div>
       </div>
-    </ExpansionPanelDetails>
+    </AccordionDetails>
   );
 };
 const mapStateToProps = state => ({ caseId: state.currentCase.details.id });

@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import formatStringToTitleCase from "../../../utilities/formatStringToTitleCase";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
-import {
-  CardContent,
-  ExpansionPanel,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { CardContent, Accordion, AccordionSummary } from "@material-ui/core";
 import { connect } from "react-redux";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 
@@ -45,7 +41,7 @@ class OfficerAllegationDisplay extends Component {
           paddingBottom: "0px"
         }}
       >
-        <ExpansionPanel
+        <Accordion
           elevation={5}
           onChange={this.handleChange}
           expanded={this.state.expanded}
@@ -55,7 +51,7 @@ class OfficerAllegationDisplay extends Component {
             padding: "0"
           }}
         >
-          <ExpansionPanelSummary>
+          <AccordionSummary>
             <ExpansionPanelIconButton />
             <OfficerInfoDisplay
               displayLabel="Rule"
@@ -72,7 +68,7 @@ class OfficerAllegationDisplay extends Component {
               value={formatStringToTitleCase(directive)}
               testLabel="directive"
             />
-          </ExpansionPanelSummary>
+          </AccordionSummary>
           <StyledExpansionPanelDetails>
             <OfficerInfoDisplay
               shouldTruncate={false}
@@ -89,7 +85,7 @@ class OfficerAllegationDisplay extends Component {
               testLabel="allegationDetails"
             />
           </StyledExpansionPanelDetails>
-        </ExpansionPanel>
+        </Accordion>
       </CardContent>
     );
   }

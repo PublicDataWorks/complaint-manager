@@ -4,8 +4,8 @@ import { withRouter } from "react-router";
 import axios from "axios";
 import {
   Divider,
-  ExpansionPanel,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionSummary,
   Typography
 } from "@material-ui/core";
 import ExpansionPanelIconButton from "../../shared/components/ExpansionPanelIconButton";
@@ -45,12 +45,12 @@ const LetterTypeDisplay = props => {
           paddingRight: 0
         }}
       >
-        <ExpansionPanel
+        <Accordion
           data-testid="letterTypesPanel"
           elevation={0}
           style={{ backgroundColor: "white", width: "100%" }}
         >
-          <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
+          <AccordionSummary style={{ padding: "0px 24px" }}>
             <div
               style={{
                 display: "flex",
@@ -103,7 +103,7 @@ const LetterTypeDisplay = props => {
                 </StyledInfoDisplay>
               </div>
             </div>
-          </ExpansionPanelSummary>
+          </AccordionSummary>
           <StyledExpansionPanelDetails>
             <div
               style={{
@@ -143,7 +143,7 @@ const LetterTypeDisplay = props => {
               )}
             </div>
           </StyledExpansionPanelDetails>
-        </ExpansionPanel>
+        </Accordion>
         <section
           style={{
             display: "flex",

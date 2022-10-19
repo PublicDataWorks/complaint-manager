@@ -13,11 +13,7 @@ import editCivilian from "../../thunks/editCivilian";
 import LinkButton from "../../../shared/components/LinkButton";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import CivilianInfoDisplay from "./CivilianInfoDisplay";
-import {
-  Divider,
-  ExpansionPanel,
-  ExpansionPanelSummary
-} from "@material-ui/core";
+import { Divider, Accordion, AccordionSummary } from "@material-ui/core";
 import formatDate from "../../../../../sharedUtilities/formatDate";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import AddressInfoDisplay from "../../../shared/components/AddressInfoDisplay";
@@ -55,12 +51,12 @@ const CivilianPanel = ({
           paddingRight: 0
         }}
       >
-        <ExpansionPanel
+        <Accordion
           data-testid="complainantWitnessesPanel"
           elevation={0}
           style={{ backgroundColor: "white", width: "100%" }}
         >
-          <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
+          <AccordionSummary style={{ padding: "0px 24px" }}>
             <div
               style={{
                 display: "flex",
@@ -99,7 +95,7 @@ const CivilianPanel = ({
                 </StyledInfoDisplay>
               </div>
             </div>
-          </ExpansionPanelSummary>
+          </AccordionSummary>
           <StyledExpansionPanelDetails>
             <StyledInfoDisplay>
               <DateOfBirthAgeInfoDisplay
@@ -142,7 +138,7 @@ const CivilianPanel = ({
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
-        </ExpansionPanel>
+        </Accordion>
         <div style={{ margin: "12px 24px" }}>
           {isArchived ? null : (
             <div style={{ display: "flex" }}>

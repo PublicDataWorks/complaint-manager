@@ -1,7 +1,7 @@
 import {
   Divider,
-  ExpansionPanel,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionSummary,
   Typography
 } from "@material-ui/core";
 import React from "react";
@@ -24,7 +24,7 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   return (
     <div data-testid="unknownOfficerPanel">
       <div style={{ display: "flex", width: "100%", paddingRight: 0 }}>
-        <ExpansionPanel
+        <Accordion
           elevation={0}
           onChange={(event, expanded) => {
             expanded
@@ -33,7 +33,7 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
           }}
           style={{ backgroundColor: "white", width: "100%" }}
         >
-          <ExpansionPanelSummary style={{ padding: "0px 24px" }}>
+          <AccordionSummary style={{ padding: "0px 24px" }}>
             <div
               style={{
                 display: "flex",
@@ -51,7 +51,7 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
                 />
               </StyledInfoDisplay>
             </div>
-          </ExpansionPanelSummary>
+          </AccordionSummary>
           {caseOfficer && caseOfficer.roleOnCase !== ACCUSED && (
             <StyledExpansionPanelDetails>
               <StyledInfoDisplay>
@@ -106,7 +106,7 @@ const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
               )}
             </div>
           )}
-        </ExpansionPanel>
+        </Accordion>
         <div style={{ margin: "12px 24px" }}>{children}</div>
       </div>
       <Divider />

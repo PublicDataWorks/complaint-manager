@@ -1,8 +1,8 @@
 import formatStringToTitleCase from "../../utilities/formatStringToTitleCase";
 import {
-  ExpansionPanel,
-  ExpansionPanelDetails,
-  ExpansionPanelSummary,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Icon,
   IconButton,
   Typography
@@ -30,7 +30,7 @@ const styles = {
 const renderDetailsView = (details, severity) => {
   return (
     <div>
-      <ExpansionPanelDetails>
+      <AccordionDetails>
         <OfficerInfoDisplay
           shouldTruncate={false}
           displayLabel="Severity"
@@ -40,8 +40,8 @@ const renderDetailsView = (details, severity) => {
             marginLeft: "64px"
           }}
         />
-      </ExpansionPanelDetails>
-      <ExpansionPanelDetails>
+      </AccordionDetails>
+      <AccordionDetails>
         <OfficerInfoDisplay
           shouldTruncate={false}
           displayLabel="Allegation Details"
@@ -51,7 +51,7 @@ const renderDetailsView = (details, severity) => {
             marginLeft: "64px"
           }}
         />
-      </ExpansionPanelDetails>
+      </AccordionDetails>
     </div>
   );
 };
@@ -97,7 +97,7 @@ class OfficerAllegationPanelForm extends React.Component {
       editAllegationFormState && editAllegationFormState.editMode;
 
     return (
-      <ExpansionPanel
+      <Accordion
         classes={{ root: classes.root }}
         data-testid={`officerAllegation${index}`}
         elevation={0}
@@ -111,7 +111,7 @@ class OfficerAllegationPanelForm extends React.Component {
           marginLeft: "auto"
         }}
       >
-        <ExpansionPanelSummary style={{ display: "flex" }}>
+        <AccordionSummary style={{ display: "flex" }}>
           <IconButton
             style={{ marginRight: 16 }}
             color="secondary"
@@ -163,7 +163,7 @@ class OfficerAllegationPanelForm extends React.Component {
               </div>
             )}
           </div>
-        </ExpansionPanelSummary>
+        </AccordionSummary>
         {editMode ? (
           <EditOfficerAllegationForm
             form={`Allegation${id}DetailsForm`}
@@ -174,7 +174,7 @@ class OfficerAllegationPanelForm extends React.Component {
           renderDetailsView(details, severity)
         )}
         <div style={{ flex: "1" }} />
-      </ExpansionPanel>
+      </Accordion>
     );
   }
 }

@@ -1,8 +1,8 @@
 import React from "react";
-import { ExpansionPanelDetails } from "@material-ui/core";
+import { AccordionDetails } from "@material-ui/core";
 
 const StyledExpansionPanelDetails = ({ children, style }) => (
-  <ExpansionPanelDetails
+  <AccordionDetails
     style={{ padding: "8px 24px 24px 24px", marginLeft: "52px", ...style }}
   >
     <div
@@ -15,7 +15,7 @@ const StyledExpansionPanelDetails = ({ children, style }) => (
     >
       {children}
     </div>
-  </ExpansionPanelDetails>
+  </AccordionDetails>
 );
 
 export default StyledExpansionPanelDetails;
