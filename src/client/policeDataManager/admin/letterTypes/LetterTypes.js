@@ -50,9 +50,6 @@ const LetterTypes = props => {
               marginTop: "8px",
               marginBottom: "8px"
             }}
-            onClick={() => {
-              props.setLetterTypeToAdd(props.letterType);
-            }}
             data-testid="addLetterType"
           >
             + Add Letter Type
@@ -63,13 +60,4 @@ const LetterTypes = props => {
   );
 };
 
-const mapStateToProps = () => ({
-  setLetterTypeToAdd: letterType => ({
-    type: SET_LETTER_TYPE_TO_ADD,
-    payload: letterType
-  })
-});
-
-export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps)(withRouter(LetterTypes))
-);
+export default withStyles(styles, { withTheme: true })(LetterTypes);
