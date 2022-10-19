@@ -246,7 +246,7 @@ EditLetter.propTypes = {
   letterHtml: PropTypes.string,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.number
+      id: PropTypes.string
     })
   }),
   pristine: PropTypes.bool

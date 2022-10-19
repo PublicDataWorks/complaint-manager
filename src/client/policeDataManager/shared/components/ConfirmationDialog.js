@@ -46,8 +46,8 @@ ConfirmationDialog.defaultProps = {
 ConfirmationDialog.propTypes = {
   buttonStyle: PropTypes.oneOf(["SPLIT", "RIGHT"]),
   children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element),
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node),
     PropTypes.string
   ]),
   cancelText: PropTypes.string,
