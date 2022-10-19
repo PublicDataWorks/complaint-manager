@@ -55,7 +55,7 @@ const AllegationDetailsForm = props => {
             "data-testid": "allegationDetailsInput"
           }}
           multiline
-          rowsMax={5}
+          maxRows={5}
           label={ALLEGATION_DETAILS_LABEL}
         />
       </div>

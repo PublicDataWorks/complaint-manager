@@ -167,7 +167,7 @@ class RecommendedActions extends Component {
             style={{ width: "70%" }}
             component={renderTextField}
             multiline
-            rowsMax={5}
+            maxRows={5}
             data-testid={`${letterOfficerField}-recommendedActionNotes`}
             placeholder={"Additional notes or concerns"}
             inputProps={{ autoComplete: "off" }}

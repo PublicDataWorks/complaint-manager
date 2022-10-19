@@ -230,7 +230,7 @@ class LetterPreview extends Component {
               label="Title and Name"
               fullWidth
               multiline
-              rowsMax={5}
+              maxRows={5}
               inputProps={{ autoComplete: "off" }}
             />
             <Field
@@ -240,7 +240,7 @@ class LetterPreview extends Component {
               label="Address To"
               fullWidth
               multiline
-              rowsMax={5}
+              maxRows={5}
               inputProps={{ autoComplete: "off" }}
             />
           </CardContent>
@@ -275,7 +275,7 @@ class LetterPreview extends Component {
               label="Sincerely"
               fullWidth
               multiline
-              rowsMax={5}
+              maxRows={5}
               style={{ marginBottom: "16px" }}
               inputProps={{ autoComplete: "off" }}
             />

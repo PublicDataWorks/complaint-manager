@@ -13,7 +13,6 @@ import useOnClickOutside from "../../../shared/components/Notification/useOnClic
 export const TextFieldWithUserMention = props => {
   const {
     input,
-    rowsMax,
     meta: { touched, error, warning },
     users,
     style,

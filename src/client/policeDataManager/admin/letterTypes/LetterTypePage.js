@@ -230,7 +230,6 @@ const LetterTypePage = props => {
                     placeholder="Enter First Page Header"
                     fullWidth
                     multiline
-                    rowsMax={20}
                     rows={5}
                     style={{
                       color: "black"
@@ -249,7 +248,6 @@ const LetterTypePage = props => {
                     placeholder="Enter Subsequent Page Header"
                     fullWidth
                     multiline
-                    rowsMax={20}
                     rows={5}
                     style={{
                       color: "black"
@@ -270,7 +268,6 @@ const LetterTypePage = props => {
                     placeholder="Enter Footer Image"
                     fullWidth
                     multiline
-                    rowsMax={20}
                     rows={5}
                     style={{
                       color: "black"
@@ -287,7 +284,6 @@ const LetterTypePage = props => {
                     placeholder="Enter Footer Text"
                     fullWidth
                     multiline
-                    rowsMax={20}
                     rows={5}
                     style={{
                       color: "black"
@@ -310,7 +306,6 @@ const LetterTypePage = props => {
                 placeholder="Enter Letter Template"
                 fullWidth
                 multiline
-                rowsMax={20}
                 rows={5}
                 style={{
                   color: "black"
@@ -332,7 +327,6 @@ const LetterTypePage = props => {
                   placeholder="Enter Letter Editable Template"
                   fullWidth
                   multiline
-                  rowsMax={20}
                   rows={5}
                   style={{
                     color: "black"

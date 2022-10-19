@@ -52,7 +52,7 @@ describe("TextFieldWithUserMention", () => {
               shrink: true
             }}
             multiline
-            rowsMax={8}
+            maxRows={8}
             placeholder="Enter any notes about this action"
             fullWidth
             users={userList}

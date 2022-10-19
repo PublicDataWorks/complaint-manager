@@ -152,7 +152,7 @@ class Dropzone extends Component {
               id="fileAttachmentDescription"
               value={this.state.attachmentDescription}
               multiline
-              rowsMax={3}
+              maxRows={3}
               inputProps={{
                 maxLength: 200,
                 "data-testid": "attachmentDescriptionInput"

@@ -20,7 +20,7 @@ export const renderCheckbox = props => {
 export const renderTextField = props => {
   const {
     input,
-    rowsMax,
+    maxRows,
     meta: { touched, error, warning }
   } = props;
   return (
@@ -29,7 +29,7 @@ export const renderTextField = props => {
       error={touched && !!error}
       helperText={touched && error ? touched && error : null}
       {...input}
-      maxRows={rowsMax ? rowsMax : 1}
+      maxRows={maxRows ? maxRows : 1}
     />
   );
 };

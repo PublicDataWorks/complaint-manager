@@ -340,7 +340,7 @@ class CivilianDialog extends Component {
                   style={{ marginBottom: "16px" }}
                   fullWidth
                   multiline
-                  rowsMax={5}
+                  maxRows={5}
                   placeholder="Enter any additional details about the complainant here"
                   inputProps={{
                     "data-testid": "additionalInfoInput",

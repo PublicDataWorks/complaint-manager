@@ -61,7 +61,7 @@ const FeatureRequestPage = props => {
             component={renderTextField}
             fullWidth
             multiline
-            rowsMax={5}
+            maxRows={5}
             placeholder={
               props.isArchived
                 ? ""
@@ -98,7 +98,6 @@ const FeatureRequestPage = props => {
             placeholder="Enter a description of the feature or bug"
             fullWidth
             multiline
-            rowsMax={20}
             rows={5}
             inputProps={{
               "data-testid": "issueDescriptionInput",

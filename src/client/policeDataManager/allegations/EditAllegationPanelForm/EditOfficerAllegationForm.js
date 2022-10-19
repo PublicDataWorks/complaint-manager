@@ -56,7 +56,7 @@ const EditOfficerAllegationForm = ({
               }}
               validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
               multiline
-              rowsMax={5}
+              maxRows={5}
               style={{ width: "42%", marginBottom: `16px` }}
             />
           </div>

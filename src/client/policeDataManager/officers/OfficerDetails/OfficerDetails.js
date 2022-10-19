@@ -131,7 +131,7 @@ class OfficerDetails extends React.Component {
                 name="notes"
                 data-testid="notesField"
                 multiline
-                rowsMax={8}
+                maxRows={8}
                 style={{ width: "60%" }}
               />
             </form>
