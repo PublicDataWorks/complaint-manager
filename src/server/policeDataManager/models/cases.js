@@ -59,11 +59,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       complaintType: {
         type: DataTypes.STRING,
-        validate: {
-          isIn: [
-            [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_PD_INITIATED]
-          ]
-        },
         defaultValue: CIVILIAN_INITIATED,
         field: "complaint_type",
         allowNull: false
