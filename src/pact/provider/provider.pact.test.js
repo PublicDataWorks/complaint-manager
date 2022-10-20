@@ -10,7 +10,8 @@ import { up as seedLetterFields } from "../../server/seeders/202206130000-seed-l
 import {
   setupCase,
   addCivilianToCase,
-  addComplainantOfficerToCase
+  addComplainantOfficerToCase,
+  addWitnessOfficerToCase
 } from "./case-helpers";
 import {
   setupLetter,
@@ -367,6 +368,14 @@ describe("Pact Verification", () => {
         "Case exists: with civilian witness": async () => {
           const c4se = await setupCase();
           await addCivilianToCase(c4se, WITNESS);
+        },
+        "Case exists: with officer complainant": async () => {
+          const c4se = await setupCase();
+          await addComplainantOfficerToCase(c4se);
+        },
+        "Case exists: with officer witness": async () => {
+          const c4se = await setupCase();
+          await addWitnessOfficerToCase(c4se);
         },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();

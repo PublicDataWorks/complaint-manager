@@ -56,6 +56,28 @@ export const addComplainantOfficerToCase = async c4se => {
   }
 };
 
+export const addWitnessOfficerToCase = async c4se => {
+  try {
+    const officer = await models.officer.create(
+      new Officer.Builder().defaultOfficer(),
+      { auditUser: "user" }
+    );
+
+    const caseOfficer = await models.case_officer.create(
+      new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withOfficerId(officer.id)
+        .withCaseId(c4se.id)
+        .withRoleOnCase(WITNESS),
+      { auditUser: "user" }
+    );
+
+    return caseOfficer;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addCivilianToCase = async (theCase, role) => {
   return await models.civilian.create(
     new Civilian.Builder()
