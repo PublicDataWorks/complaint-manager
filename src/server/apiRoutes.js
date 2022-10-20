@@ -82,6 +82,7 @@ import getVisualizationConfigs from "./handlers/visualizationConfigs/getVisualiz
 import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
 import editLetterType from "./handlers/letterTypes/editLetterType";
 import deleteLetterType from "./handlers/letterTypes/deleteLetterType";
+import getComplaintTypes from "./handlers/complaintTypes/getComplaintTypes";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -662,6 +663,12 @@ export const API_ROUTES = {
       handler: getCaseStatuses,
       errorMessage:
         "Something went wrong while loading the case statuses. Please try again."
+    }
+  },
+  "/complaint-types": {
+    get: {
+      handler: getComplaintTypes,
+      errorMessage: "Something went wrong while loading the complaint types"
     }
   }
 };
