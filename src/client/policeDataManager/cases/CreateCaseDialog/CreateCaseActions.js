@@ -36,7 +36,7 @@ export class CreateCaseActions extends React.Component {
   createAndSearch = values => this.createNewCase(values, true);
 
   createNewCase = ({ civilian, case: theCase }, redirect) => {
-    if (this.props.complaintType !== CIVILIAN_INITIATED) {
+    if (this.props.complainantType !== CIVILIAN_INITIATED) {
       this.props.change("civilian", null);
       civilian = null;
     }
@@ -60,7 +60,8 @@ export class CreateCaseActions extends React.Component {
 
   prepareCase = theCase => ({
     ...theCase,
-    incidentDate: applyCentralTimeZoneOffset(theCase.incidentDate)
+    incidentDate: applyCentralTimeZoneOffset(theCase.incidentDate),
+    complaintType: theCase.complaintType ?? theCase.complainantType
   });
 
   prepareCivilian = civilian => {
@@ -104,7 +105,7 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {this.props.complaintType === CIVILIAN_INITIATED ? (
+        {this.props.complainantType === CIVILIAN_INITIATED ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}

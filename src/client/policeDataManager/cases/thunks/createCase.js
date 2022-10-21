@@ -30,14 +30,14 @@ const createCase = creationDetails => async dispatch => {
     dispatch(createCaseSuccess(response.data));
     dispatch(closeCreateDialog(DialogTypes.CASE));
 
-    const complaintType = creationDetails.caseDetails.case.complaintType;
+    const complainantType = creationDetails.caseDetails.case.complainantType;
     if (creationDetails.redirect) {
-      if (complaintType === CIVILIAN_INITIATED) {
+      if (complainantType === CIVILIAN_INITIATED) {
         dispatch(push(`/cases/${response.data.id}`));
       } else {
         dispatch(
           addCaseEmployeeType(
-            complaintType === RANK_INITIATED
+            complainantType === RANK_INITIATED
               ? PERSON_TYPE.KNOWN_OFFICER.employeeDescription
               : PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
           )

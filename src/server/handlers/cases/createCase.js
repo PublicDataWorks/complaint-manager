@@ -30,15 +30,11 @@ const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
   let newCase = {};
-  const { complaintType } = get(request, ["body", "case"], {});
-  if (
-    complaintType === RANK_INITIATED ||
-    complaintType === CIVILIAN_WITHIN_PD_INITIATED
-  ) {
-    newCase = await createCaseWithoutCivilian(request);
-  } else {
+  if (request.body.civilian) {
     validateCivilianName(request.body.civilian);
     newCase = await createCaseWithCivilian(request);
+  } else {
+    newCase = await createCaseWithoutCivilian(request);
   }
 
   response.status(201).send(await new Case(newCase).toJSON());
@@ -142,7 +138,7 @@ const attemptCreateCase = async (caseAttributes, includeOptions, nickname) => {
     );
 
     const isCivilianInitiatedWithAddress =
-      caseAttributes.complaintType === CIVILIAN_INITIATED &&
+      caseAttributes.complainantCivilians &&
       caseAttributes.complainantCivilians[0].address;
 
     if (isCivilianInitiatedWithAddress) {

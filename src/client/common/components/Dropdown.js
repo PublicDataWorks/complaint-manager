@@ -74,4 +74,6 @@ class Dropdown extends React.Component {
   }
 }
 
+Dropdown.defaultProps = { inputProps: {} };
+
 export default Dropdown;

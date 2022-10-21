@@ -225,7 +225,7 @@ describe("createCase", () => {
         case: {
           firstName: "Some",
           lastName: "Civilian",
-          complaintType: CIVILIAN_INITIATED
+          complainantType: CIVILIAN_INITIATED
         }
       },
       redirect: true

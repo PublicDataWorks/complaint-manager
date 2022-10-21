@@ -99,6 +99,7 @@ describe("CreateCaseDialog component", () => {
       caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
+          complainantType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1
         },
@@ -362,6 +363,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
+          complainantType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1,
           incidentDate: undefined
@@ -426,6 +428,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
+          complainantType: CIVILIAN_INITIATED,
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 2,
           incidentDate: undefined
@@ -551,7 +554,7 @@ describe("CreateCaseDialog component", () => {
           redirect: true,
           caseDetails: expect.objectContaining({
             case: expect.objectContaining({
-              complaintType: RANK_INITIATED
+              complainantType: RANK_INITIATED
             })
           })
         })
@@ -608,7 +611,7 @@ describe("CreateCaseDialog component", () => {
           redirect: true,
           caseDetails: expect.objectContaining({
             case: expect.objectContaining({
-              complaintType: CIVILIAN_WITHIN_PD_INITIATED
+              complainantType: CIVILIAN_WITHIN_PD_INITIATED
             })
           })
         })

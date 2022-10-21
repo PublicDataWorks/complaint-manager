@@ -27,6 +27,8 @@ import getIntakeSourceDropdownValues from "../../intakeSources/thunks/getIntakeS
 import { formatAddressAsString } from "../../utilities/formatAddress";
 import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFirstError";
 import AnonymousFields from "./AnonymousFields";
+import { snackbarError } from "../../actionCreators/snackBarActionCreators";
+import axios from "axios";
 
 const styles = {
   dialogPaper: {
@@ -35,21 +37,38 @@ const styles = {
 };
 
 class CreateCaseDialog extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      complaintTypes: []
+    };
+  }
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
+    if (this.props.chooseComplaintTypeFeatureFlag) {
+      axios
+        .get("/api/complaint-types")
+        .then(response => this.setState({ complaintTypes: response.data }))
+        .catch(error =>
+          this.props.dispatch(
+            snackbarError("There was a problem retrieving complaint types")
+          )
+        );
+    }
   }
 
   render() {
     const {
       classes,
       complaintType,
+      complainantType,
       handleSubmit,
       isUnknown,
       open,
       organization,
       submitting
     } = this.props;
-    const civilianComplainant = complaintType === CIVILIAN_INITIATED;
+    const civilianComplainant = complainantType === CIVILIAN_INITIATED;
 
     return (
       <Dialog
@@ -81,8 +100,25 @@ class CreateCaseDialog extends React.Component {
             <Timeline organization={organization} />
             <IntakeSource intakeSources={this.props.intakeSources} />
             <br />
+            {this.props.chooseComplaintTypeFeatureFlag ? (
+              <>
+                <Field
+                  component={Dropdown}
+                  placeholder="Select a Complaint Type"
+                  name="case.complaintType"
+                  style={{ width: "90%", marginBottom: "15px" }}
+                >
+                  {generateMenuOptions(
+                    this.state.complaintTypes.map(type => type.name)
+                  )}
+                </Field>
+                <br />
+              </>
+            ) : (
+              ""
+            )}
             <Field
-              name="case.complaintType"
+              name="case.complainantType"
               component={ComplaintTypeRadioGroup}
             />
             <br />
@@ -102,7 +138,7 @@ class CreateCaseDialog extends React.Component {
           </form>
         </DialogContent>
         <CreateCaseActions
-          complaintType={complaintType}
+          complainantType={complainantType}
           handleSubmit={handleSubmit}
           disabled={submitting}
           change={this.props.change}
@@ -175,12 +211,22 @@ const mapStateToProps = state => {
     "address.lng",
     "address.placeId"
   );
-  const complaintTypeValues = selector(state, "case.complaintType");
+  const chooseComplaintTypeFeatureFlag =
+    state.featureToggles.chooseComplaintType;
+  const complainantType = selector(state, "case.complainantType");
+  let complaintTypeValues;
+  if (chooseComplaintTypeFeatureFlag) {
+    complaintTypeValues = selector(state, "case.complaintType");
+  } else {
+    complaintTypeValues = complainantType;
+  }
   const isUnknown = selector(state, "civilian.isUnknown");
 
   return {
     addressValid: state.ui.addressInput.addressValid,
+    chooseComplaintTypeFeatureFlag,
     complaintType: complaintTypeValues,
+    complainantType: complainantType,
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
     isUnknown,
@@ -198,7 +244,7 @@ export default reduxForm({
   onSubmitFail: scrollToFirstErrorWithValue,
   initialValues: {
     case: {
-      complaintType: CIVILIAN_INITIATED,
+      complainantType: CIVILIAN_INITIATED,
       firstContactDate: moment(Date.now()).format(ISO_DATE)
     }
   }
