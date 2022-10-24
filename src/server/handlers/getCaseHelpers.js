@@ -174,10 +174,16 @@ const getCaseDetailsAndAuditDetails = async (
       }
     }
 
-    caseDetails.complainantCivilians.forEach(anonymizeCivilian);
-    caseDetails.witnessCivilians.forEach(anonymizeCivilian);
-    caseDetails.complainantOfficers.forEach(anonymizeOfficer);
-    caseDetails.witnessOfficers.forEach(anonymizeOfficer);
+    const arrayOfBooleansTellingUsIfSomeoneOnCaseIsAnonymous = [
+      ...caseDetails.complainantCivilians.map(anonymizeCivilian),
+      ...caseDetails.witnessCivilians.map(anonymizeCivilian),
+      ...caseDetails.complainantOfficers.map(anonymizeOfficer),
+      ...caseDetails.witnessOfficers.map(anonymizeOfficer)
+    ];
+
+    if (arrayOfBooleansTellingUsIfSomeoneOnCaseIsAnonymous.includes(true)) {
+      caseDetails.attachments = [];
+    }
   }
 
   const caseAuditDetails = getQueryAuditAccessDetails(
@@ -232,10 +238,14 @@ const pdfIsAvailable = referralLetter => {
 };
 
 const anonymizeCivilian = civilian => {
-  anonymizeBasicCivilianDetails(civilian);
-  anonymizeAddress(civilian);
-  anonymizeRace(civilian);
-  anonymizeGender(civilian);
+  if (civilian.isAnonymous) {
+    anonymizeBasicCivilianDetails(civilian);
+    anonymizeAddress(civilian);
+    anonymizeRace(civilian);
+    anonymizeGender(civilian);
+    return true;
+  }
+  return false;
 };
 
 const anonymizeOfficer = officer => {
@@ -268,7 +278,9 @@ const anonymizeOfficer = officer => {
     officer.race = "";
     officer.workStatus = "";
     officer.notes = "";
+    return true;
   }
+  return false;
 };
 
 const anonymizeBasicCivilianDetails = civilian => {

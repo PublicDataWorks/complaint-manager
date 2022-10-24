@@ -17,6 +17,7 @@ import {
   USER_PERMISSIONS,
   WITNESS
 } from "../../sharedUtilities/constants";
+import Attachment from "../../sharedTestHelpers/attachment";
 
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter, auditDetails;
@@ -33,6 +34,11 @@ describe("getCaseHelpers", () => {
     existingCase = await models.cases.create(existingCaseAttributes, {
       auditUser: "someone"
     });
+
+    await models.attachment.create(
+      new Attachment.Builder().defaultAttachment().withCaseId(existingCase.id),
+      { auditUser: "someone" }
+    );
 
     const referralLetterAttributes = new ReferralLetter.Builder()
       .defaultReferralLetter()
@@ -87,6 +93,8 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].address).toEqual(null);
       expect(caseDetails.complainantCivilians[0].raceEthnicity).toEqual(null);
       expect(caseDetails.complainantCivilians[0].genderIdentity).toEqual(null);
+      console.log(caseDetails);
+      expect(caseDetails.attachments).toEqual([]);
     });
 
     test("should see unknown for anonymous unknown civillians", async () => {

@@ -180,6 +180,10 @@ export default class Case {
     return this._model.pdfAvailable;
   }
 
+  get attachments() {
+    return this._model.attachments;
+  }
+
   toJSON = async () => {
     let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
