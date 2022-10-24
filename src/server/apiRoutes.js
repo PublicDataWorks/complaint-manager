@@ -83,6 +83,7 @@ import getLetterTypes from "./handlers/letterTypes/getLetterTypes";
 import editLetterType from "./handlers/letterTypes/editLetterType";
 import deleteLetterType from "./handlers/letterTypes/deleteLetterType";
 import getComplaintTypes from "./handlers/complaintTypes/getComplaintTypes";
+import addLetterType from "./handlers/letterTypes/addLetterType";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -600,6 +601,11 @@ export const API_ROUTES = {
     get: {
       handler: getLetterTypes,
       errorMessage: "Something went wrong while retrieving letter types"
+    },
+    post: {
+      handler: addLetterType,
+      requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
+      errorMessage: "Something went wrong while adding letter type"
     }
   },
   "/letter-types/:typeId": {
