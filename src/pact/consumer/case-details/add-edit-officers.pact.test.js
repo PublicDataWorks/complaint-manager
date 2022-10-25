@@ -114,10 +114,8 @@ scenarios.forEach(({ role, buttonIndex, buttonTestId, method, options }) => {
               addCaseEmployeeType(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
             );
 
-            let officerId = 1;
-
             expect(dispatchSpy).toHaveBeenCalledWith(
-              push(`/cases/1/officers/${officerId}`)
+              push("/cases/1/officers/1")
             );
           }, 200000);
         }
