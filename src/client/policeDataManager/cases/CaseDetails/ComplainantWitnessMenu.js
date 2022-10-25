@@ -74,6 +74,7 @@ const ComplainantWitnessMenu = props => {
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)
             );
+            console.log("dispatch push was called in Complainant menu");
           }}
         >
           {OFFICER_TITLE} {props.civilianType}

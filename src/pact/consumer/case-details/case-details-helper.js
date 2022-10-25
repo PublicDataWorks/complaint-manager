@@ -10,6 +10,8 @@ import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
 export const CIVILIAN_COMPLAINANT = "civilianComplainant";
 export const CIVILIAN_WITNESS = "civilianWitness";
+export const OFFICER_COMPLAINANT = "officerComplainant";
+export const OFFICER_WITNESS = "officerWitness";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -18,6 +20,12 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   }
   if (options.includes(CIVILIAN_WITNESS)) {
     getCaseState += ": with civilian witness";
+  }
+  if (options.includes(OFFICER_COMPLAINANT)) {
+    getCaseState += ": with officer complainant";
+  }
+  if (options.includes(OFFICER_WITNESS)) {
+    getCaseState += ": with officer witness";
   }
 
   await provider.addInteraction({
@@ -77,10 +85,75 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               caseId: 1
             })
           : [],
+        complainantOfficers: options.includes(OFFICER_COMPLAINANT)
+          ? eachLike({
+              fullName: "Joel Y Gottlieb",
+              isUnknownOfficer: false,
+              supervisorFullName: "Lula X Hoppe",
+              id: 1,
+              officerId: 5453,
+              firstName: "Joel",
+              middleName: "Y",
+              lastName: "Gottlieb",
+              windowsUsername: 18682,
+              supervisorFirstName: "Lula",
+              supervisorMiddleName: "X",
+              supervisorLastName: "Hoppe",
+              supervisorWindowsUsername: 9922,
+              supervisorOfficerNumber: 2561,
+              employeeType: "Commissioned",
+              caseEmployeeType: "Officer",
+              district: "6th District",
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE OFFICER 4",
+              hireDate: "2007-06-24",
+              sex: "M",
+              race: "White",
+              workStatus: "Active",
+              notes: "",
+              roleOnCase: "Complainant",
+              isAnonymous: false,
+              createdAt: "2022-10-21T18:55:46.053Z",
+              updatedAt: "2022-10-21T18:55:46.053Z",
+              caseId: 1
+            })
+          : [],
+
         attachments: [],
         accusedOfficers: [],
-        complainantOfficers: [],
-        witnessOfficers: [],
+        witnessOfficers: options.includes(OFFICER_WITNESS)
+          ? eachLike({
+              fullName: "Joel Y Gottlieb",
+              isUnknownOfficer: false,
+              supervisorFullName: "Lula X Hoppe",
+              id: 1,
+              officerId: 5453,
+              firstName: "Joel",
+              middleName: "Y",
+              lastName: "Gottlieb",
+              windowsUsername: 18682,
+              supervisorFirstName: "Lula",
+              supervisorMiddleName: "X",
+              supervisorLastName: "Hoppe",
+              supervisorWindowsUsername: 9922,
+              supervisorOfficerNumber: 2561,
+              employeeType: "Commissioned",
+              caseEmployeeType: "Officer",
+              district: "6th District",
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE OFFICER 4",
+              hireDate: "2007-06-24",
+              sex: "M",
+              race: "White",
+              workStatus: "Active",
+              notes: "",
+              roleOnCase: "Witness",
+              isAnonymous: false,
+              createdAt: "2022-10-21T18:55:46.053Z",
+              updatedAt: "2022-10-21T18:55:46.053Z",
+              caseId: 1
+            })
+          : [],
         pdfAvailable: false,
         isArchived: false
       })
@@ -350,6 +423,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     }
   });
 
+  let dispatchSpy = jest.spyOn(store, "dispatch");
+
   render(
     <Provider store={store}>
       <Router>
@@ -358,4 +433,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       </Router>
     </Provider>
   );
+
+  return dispatchSpy;
 };
