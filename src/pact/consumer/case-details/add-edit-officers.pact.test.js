@@ -75,6 +75,13 @@ scenarios.forEach(({ role, buttonIndex, buttonTestId, method, options }) => {
         let dispatchSpy;
         beforeEach(async () => {
           dispatchSpy = await setUpCaseDetailsPage(provider, ...options);
+          const complainantDialogButton = await screen.findAllByTestId(
+            "addComplainantWitness"
+          );
+
+          userEvent.click(complainantDialogButton[0]);
+          userEvent.click(await screen.findByText("Civilian Complainant"));
+          userEvent.click(await screen.findByTestId("cancelEditCivilian"));
         });
 
         if (method === "POST") {
