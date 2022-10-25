@@ -41,7 +41,6 @@ const OfficerActions = ({ caseOfficer, dispatch, pd }) => (
         dispatch(
           push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
         );
-        console.log("dispatch push was called in OfficerActions (Edit button)");
       }}
     >
       Edit
