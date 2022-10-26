@@ -1,9 +1,4 @@
-import {
-  Collapse,
-  FormControlLabel,
-  Typography,
-  withStyles
-} from "@material-ui/core";
+import { FormControlLabel, Typography, withStyles } from "@material-ui/core";
 import React from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -34,7 +29,6 @@ import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
 import { separateTemplateHeadFromBody } from "./letter-types-selectors";
-import LinkButton from "../../shared/components/LinkButton";
 import Collapser from "./Collapser";
 
 const styles = {
@@ -127,11 +121,11 @@ const LetterTypePage = props => {
           : undefined
       })
       .then(result => {
-        props.snackbarSuccess("Successfully added the letter type");
+        props.snackbarSuccess("Successfully added letter type");
         exit();
       })
       .catch(error => {
-        props.snackbarError("Failed to add the letter type");
+        props.snackbarError("Failed to add letter type");
         console.error(error);
       });
   };
@@ -401,7 +395,7 @@ const LetterTypePage = props => {
 
 export default connect(
   state => {
-    if (state.ui.editLetterType) {
+    if (state.ui.editLetterType.id) {
       const template = separateTemplateHeadFromBody(state);
 
       return {

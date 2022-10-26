@@ -349,13 +349,8 @@ describe("Pact Verification", () => {
           .withTitle("Acting Police Monitor")
           .withSignatureFile("nina_ambroise.png")
           .build();
-        let signer;
-        await models.sequelize.transaction(async transaction => {
-          signer = await models.signers.create(signerAttr, {
-            auditUser: "user",
-            transaction
-          });
-        });
+
+        await models.signers.create(signerAttr, { auditUser: "user" });
 
         const referralLetterTemplate = fs.readFileSync(
           `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`

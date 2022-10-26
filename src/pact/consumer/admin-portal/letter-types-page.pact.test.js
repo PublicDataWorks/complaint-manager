@@ -31,25 +31,30 @@ pactWith(
     });
 
     describe("LetterTypePage", () => {
+      let store;
+
+      beforeEach(() => {
+        store = createConfiguredStore();
+        store.dispatch({
+          type: GET_SIGNERS,
+          payload: [
+            { name: "Billy", nickname: "bill@billy.bil" },
+            {
+              name: "ABC Pest and Lawn",
+              nickname: "abcpestandlawn@gmail.com"
+            },
+            { name: "Nina Ambroise", nickname: "Amrose@place.com" }
+          ]
+        });
+
+        store.dispatch({
+          type: CASE_STATUSES_RETRIEVED,
+          payload: [{ name: "Initial" }, { name: "Active" }, { name: "Closed" }]
+        });
+      });
+
       describe("Edit Letter Type", () => {
         beforeEach(() => {
-          const store = createConfiguredStore();
-          store.dispatch({
-            type: GET_SIGNERS,
-            payload: [
-              { name: "Billy", nickname: "bill@billy.bil" },
-              {
-                name: "ABC Pest and Lawn",
-                nickname: "abcpestandlawn@gmail.com"
-              }
-            ]
-          });
-
-          store.dispatch({
-            type: CASE_STATUSES_RETRIEVED,
-            payload: [{ name: "Active" }, { name: "Closed" }]
-          });
-
           store.dispatch({
             type: SET_LETTER_TYPE_TO_EDIT,
             payload: {
@@ -162,6 +167,74 @@ pactWith(
           userEvent.click(screen.getByText("Save"));
 
           expect(await screen.findByText("Successfully edited letter type"))
+            .toBeInTheDocument;
+        });
+      });
+
+      describe("Add Letter Type", () => {
+        test("should add new letter type", async () => {
+          await provider.addInteraction({
+            state: "user is administrator",
+            uponReceiving: "add letter type",
+            withRequest: {
+              method: "POST",
+              path: "/api/letter-types",
+              headers: { "Content-Type": "application/json" },
+              body: {
+                type: "NEW LETTER TYPE",
+                template: like("template"),
+                requiresApproval: true,
+                requiredStatus: "Initial",
+                defaultSender: "Amrose@place.com"
+              }
+            },
+            willRespondWith: {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
+              body: like({
+                id: 1,
+                type: "LETTER",
+                template: "TEMPLATE",
+                hasEditPage: false,
+                requiresApproval: true,
+                requiredStatus: "Initial",
+                defaultSender: {
+                  name: "Nina Ambroise",
+                  nickname: "Amrose@place.com"
+                }
+              })
+            }
+          });
+
+          render(
+            <Provider store={store}>
+              <Router>
+                <LetterTypePage />
+                <SharedSnackbarContainer />
+              </Router>
+            </Provider>
+          );
+
+          await screen.findByText("Add Letter Type");
+          userEvent.click(screen.getByTestId("letter-type-input"));
+          userEvent.clear(screen.getByTestId("letter-type-input"));
+          userEvent.type(
+            screen.getByTestId("letter-type-input"),
+            "NEW LETTER TYPE"
+          );
+
+          userEvent.click(screen.getByTestId("default-sender-dropdown"));
+          userEvent.click(await screen.findByText("Nina Ambroise"));
+
+          userEvent.click(screen.getByTestId("required-status-dropdown"));
+          userEvent.type(await screen.findByText("Initial"));
+
+          userEvent.click(screen.getByTestId("requires-approval-checkbox"));
+          userEvent.click(screen.getByText("Save"));
+
+          expect(await screen.findByText("Successfully added letter type"))
             .toBeInTheDocument;
         });
       });

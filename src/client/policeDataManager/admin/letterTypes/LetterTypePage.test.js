@@ -15,24 +15,29 @@ import {
 import LetterTypePage from "./LetterTypePage";
 
 describe("LetterTypePage", () => {
+  let store, dispatchSpy;
+
+  beforeEach(() => {
+    store = createConfiguredStore();
+    dispatchSpy = jest.spyOn(store, "dispatch");
+
+    store.dispatch({
+      type: GET_SIGNERS,
+      payload: [
+        { name: "Billy", nickname: "bill@billy.bil" },
+        { name: "ABC Pest and Lawn", nickname: "abcpestandlawn@gmail.com" },
+        { name: "Rob Ot", nickname: "beeboop@gmail.com" }
+      ]
+    });
+
+    store.dispatch({
+      type: CASE_STATUSES_RETRIEVED,
+      payload: [{ name: "Initial" }, { name: "Active" }, { name: "Closed" }]
+    });
+  });
+
   describe("Edit Letter Type", () => {
-    let dispatchSpy;
     beforeEach(() => {
-      const store = createConfiguredStore();
-      dispatchSpy = jest.spyOn(store, "dispatch");
-      store.dispatch({
-        type: GET_SIGNERS,
-        payload: [
-          { name: "Billy", nickname: "bill@billy.bil" },
-          { name: "ABC Pest and Lawn", nickname: "abcpestandlawn@gmail.com" }
-        ]
-      });
-
-      store.dispatch({
-        type: CASE_STATUSES_RETRIEVED,
-        payload: [{ name: "Active" }, { name: "Closed" }]
-      });
-
       store.dispatch({
         type: SET_LETTER_TYPE_TO_EDIT,
         payload: {
@@ -111,6 +116,48 @@ describe("LetterTypePage", () => {
       expect(await screen.findByText("Successfully edited letter type"))
         .toBeInTheDocument;
       expect(editCall.isDone()).toBeTrue();
+    });
+  });
+
+  describe("Add Letter Type", () => {
+    beforeEach(() => {
+      render(
+        <Provider store={store}>
+          <Router>
+            <LetterTypePage />
+            <SharedSnackbarContainer />
+          </Router>
+        </Provider>
+      );
+    });
+
+    test("should add a new letter type", async () => {
+      const addCall = nock("http://localhost")
+        .post("/api/letter-types")
+        .reply(200, {
+          type: "NEW NEW TYPE",
+          template: "<section>Hello World</section>",
+          hasEditPage: false,
+          requiresApproval: false,
+          defaultSender: "beeboop@gmail.com",
+          requiredStatus: "Initial"
+        });
+
+      userEvent.click(screen.getByTestId("letter-type-input"));
+      userEvent.clear(screen.getByTestId("letter-type-input"));
+      userEvent.type(screen.getByTestId("letter-type-input"), "NEW NEW TYPE");
+
+      userEvent.click(screen.getByTestId("default-sender-dropdown"));
+      userEvent.click(screen.getByText("Rob Ot"));
+
+      userEvent.click(screen.getByTestId("required-status-dropdown"));
+      userEvent.click(screen.getByText("Initial"));
+
+      userEvent.click(screen.getByText("Save"));
+
+      expect(await screen.findByText("Successfully added letter type"))
+        .toBeInTheDocument;
+      expect(addCall.isDone()).toBeTrue();
     });
   });
 });

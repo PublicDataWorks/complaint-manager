@@ -86,8 +86,7 @@ describe("addLetterType", () => {
         hasEditPage: true,
         requiresApproval: true,
         requiredStatus: status.name,
-        defaultSender: signer.nickname,
-        defaultSenderId: signer.id
+        defaultSender: signer.nickname
       });
 
     await expectResponse(
@@ -100,7 +99,6 @@ describe("addLetterType", () => {
         hasEditPage: true,
         requiresApproval: true,
         requiredStatus: status.name,
-        defaultSenderId: signer.id,
         defaultSender: expect.objectContaining({
           id: signer.id,
           name: signer.name,
