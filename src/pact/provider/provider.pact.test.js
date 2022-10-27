@@ -387,6 +387,10 @@ describe("Pact Verification", () => {
             .build(),
           { auditUser: "test" }
         );
+
+        await models.sequelize.query(
+          "ALTER SEQUENCE IF EXISTS letter_types_id_seq START 2 RESTART 2 MINVALUE 2"
+        );
       },
       stateHandlers: {
         "Case exists": async () => {

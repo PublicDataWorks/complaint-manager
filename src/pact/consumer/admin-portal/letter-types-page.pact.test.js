@@ -194,6 +194,7 @@ pactWith(
                 "Content-Type": "application/json; charset=utf-8"
               },
               body: like({
+                id: 2,
                 type: "LETTER",
                 template: "TEMPLATE",
                 hasEditPage: false,
