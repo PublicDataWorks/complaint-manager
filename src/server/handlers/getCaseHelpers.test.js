@@ -93,7 +93,6 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].address).toEqual(null);
       expect(caseDetails.complainantCivilians[0].raceEthnicity).toEqual(null);
       expect(caseDetails.complainantCivilians[0].genderIdentity).toEqual(null);
-      console.log(caseDetails);
       expect(caseDetails.attachments).toEqual([]);
     });
 

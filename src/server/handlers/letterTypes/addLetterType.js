@@ -22,18 +22,28 @@ const addLetterType = asyncMiddleware(async (request, response, next) => {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_CASE_STATUS);
   }
 
-  const newLetterType = await models.letter_types.create(
-    {
-      type: request.body.type,
-      template: request.body.template,
-      editableTemplate: request.body.editableTemplate,
-      requiresApproval: request.body.requiresApproval,
-      hasEditPage: request.body.hasEditPage,
-      defaultSenderId: signer.id,
-      requiredStatusId: status.id
-    },
-    { auditUser: request.nickname }
-  );
+  let newLetterType;
+  try {
+    newLetterType = await models.letter_types.create(
+      {
+        type: request.body.type,
+        template: request.body.template,
+        editableTemplate: request.body.editableTemplate,
+        requiresApproval: request.body.requiresApproval,
+        hasEditPage: request.body.hasEditPage,
+        defaultSenderId: signer.id,
+        requiredStatusId: status.id
+      },
+      { auditUser: request.nickname }
+    );
+  } catch (e) {
+    if (e.parent?.constraint === "letter_types_type_key") {
+      console.error(e);
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_TYPE);
+    } else {
+      throw e;
+    }
+  }
 
   const letterType = await models.letter_types.findByPk(newLetterType.id, {
     include: ["defaultSender", "requiredStatus"]

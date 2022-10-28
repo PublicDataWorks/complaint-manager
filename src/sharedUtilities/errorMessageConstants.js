@@ -2,42 +2,43 @@ export const PAGE_NOT_AVAILABLE = "Sorry, that page is not available";
 
 export const BAD_REQUEST_ERRORS = {
   ACTION_NOT_ALLOWED: `This action is not allowed`,
-  CASE_DOES_NOT_EXIST: `This case does not exist`,
-  DATA_QUERY_TYPE_NOT_SUPPORTED: `This query type is not supported`,
-  PERMISSIONS_MISSING_TO_UPDATE_STATUS:
-    "Missing permissions to update case status",
-  PERMISSIONS_MISSING_TO_APPROVE_LETTER:
-    "Missing permissions to approve letter",
-  VALIDATION_ERROR_HEADER: "Validation error",
-  SEQUELIZE_VALIDATION_ERROR: "SequelizeValidationError",
-  INVALID_CASE_STATUS: "Case status is invalid for this action",
   CANNOT_UPDATE_ARCHIVED_CASE:
     "Case could not be updated due to archived status",
+  CASE_DOES_NOT_EXIST: `This case does not exist`,
+  DATA_QUERY_TYPE_NOT_SUPPORTED: `This query type is not supported`,
   INVALID_CASE_STATUS_FOR_UPDATE:
     "Case status could not be updated due to invalid status",
   INVALID_CIVILIAN_NAME: "Civilian name is invalid",
-  INVALID_FIRST_CONTACT_DATE: "Valid first contact date is required",
-  REMOVE_CASE_OFFICER_ERROR:
-    "Case officer requested for removal does not exist",
-  REFERRAL_LETTER_DOES_NOT_EXIST:
-    "The referral letter for this case does not exist",
-  INVALID_LETTER_OFFICER: "The letter officer does not exist",
   INVALID_CASE_OFFICER: "The case officer does not exist",
+  INVALID_CASE_STATUS: "Case status is invalid for this action",
+  INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
+  INVALID_FIRST_CONTACT_DATE: "Valid first contact date is required",
+  INVALID_LETTER_OFFICER: "The letter officer does not exist",
   INVALID_LETTER_OFFICER_CASE_OFFICER_COMBINATION:
     "The letter officer does not match with the expected case officer",
   INVALID_OFFICER_HISTORY_NOTE: "The officer's history note does not exist",
   INVALID_JOB: "Could not find specified job",
   INVALID_SENDER: "The requested sender could not be found",
-  OPERATION_NOT_PERMITTED: "Operation not permitted",
-  OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
-  PIB_CONTROL_NUMBER_ALREADY_EXISTS: "Bureau Control # is already in use",
+  INVALID_TYPE: "The requested type is invalid or is already in use",
+  MERGE_TAG_DOES_NOT_EXIST:
+    "The tag you are attempting to merge into does not exist",
   NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",
   NOTIFICATION_EDIT_ERROR: "There was an error notifying mentioned users.",
   NOTIFICATION_DELETION_ERROR: "There was an error removing the notification.",
-  INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
+  OFFICER_ALLEGATION_NOT_FOUND: "Officer allegation does not exist",
+  OPERATION_NOT_PERMITTED: "Operation not permitted",
+  PERMISSIONS_MISSING_TO_APPROVE_LETTER:
+    "Missing permissions to approve letter",
+  PERMISSIONS_MISSING_TO_UPDATE_STATUS:
+    "Missing permissions to update case status",
+  PIB_CONTROL_NUMBER_ALREADY_EXISTS: "Bureau Control # is already in use",
+  REFERRAL_LETTER_DOES_NOT_EXIST:
+    "The referral letter for this case does not exist",
+  REMOVE_CASE_OFFICER_ERROR:
+    "Case officer requested for removal does not exist",
+  SEQUELIZE_VALIDATION_ERROR: "SequelizeValidationError",
   TAG_WITH_NAME_EXISTS: "A tag with that name already exists",
-  MERGE_TAG_DOES_NOT_EXIST:
-    "The tag you are attempting to merge into does not exist"
+  VALIDATION_ERROR_HEADER: "Validation error"
 };
 
 export const BAD_DATA_ERRORS = {

@@ -58,8 +58,20 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
     })
   );
 
-  // update the database accordingly
-  await letterType.save({ auditUser: request.nickname });
+  // update the database accordingly and if that fails because of a duplicate type, handle that
+  try {
+    await letterType.save({ auditUser: request.nickname });
+  } catch (e) {
+    if (e.parent?.constraint === "letter_types_type_key") {
+      console.log("good!!!!!!!!!!!!!");
+      console.error(e);
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_TYPE);
+    } else {
+      console.log("BAD!!!!!!!!!!!!!");
+      throw e;
+    }
+  }
+
   letterType = await letterType.reload({
     include: ["defaultSender", "requiredStatus"]
   });

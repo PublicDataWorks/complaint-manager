@@ -1,5 +1,5 @@
 import { FormControlLabel, Typography, withStyles } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import {
@@ -100,6 +100,10 @@ export const reassembleTemplate = (values, templateHead) => {
 };
 
 const LetterTypePage = props => {
+  useEffect(() => {
+    return () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT });
+  }, []);
+
   const submit = (operation, values) => {
     const payload = {
       type: values.letterTypeInput,
@@ -121,13 +125,12 @@ const LetterTypePage = props => {
         exit();
       })
       .catch(error => {
-        props.snackbarError(`Failed to ${operation} letter type`);
+        props.snackbarError(error.message);
         console.error(error);
       });
   };
 
   const exit = () => {
-    props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT });
     props.history.push("/admin-portal");
   };
 

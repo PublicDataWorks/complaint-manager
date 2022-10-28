@@ -1,12 +1,3 @@
-const nextStatusMap = {
-  INITIAL: "Active",
-  ACTIVE: "Letter in Progress",
-  LETTER_IN_PROGRESS: "Ready for Review",
-  READY_FOR_REVIEW: "Ready for Review",
-  FORWARDED_TO_AGENCY: "Forwarded to Agency",
-  CLOSED: "Closed"
-};
-
 module.exports = (sequelize, DataTypes) => {
   const CaseStatus = sequelize.define(
     "caseStatus",

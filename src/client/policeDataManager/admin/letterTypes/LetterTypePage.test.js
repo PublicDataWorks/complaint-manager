@@ -8,7 +8,6 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 import {
   CASE_STATUSES_RETRIEVED,
-  CLEAR_LETTER_TYPE_TO_EDIT,
   GET_SIGNERS,
   SET_LETTER_TYPE_TO_EDIT
 } from "../../../../sharedUtilities/constants";
@@ -16,11 +15,10 @@ import LetterTypePage, { reassembleTemplate } from "./LetterTypePage";
 
 describe("LetterTypePage", () => {
   describe("Add/Edit", () => {
-    let store, dispatchSpy;
+    let store;
 
     beforeEach(() => {
       store = createConfiguredStore();
-      dispatchSpy = jest.spyOn(store, "dispatch");
 
       store.dispatch({
         type: GET_SIGNERS,
@@ -79,13 +77,6 @@ describe("LetterTypePage", () => {
         expect(screen.getByTestId("required-status-dropdown").value).toEqual(
           "Active"
         );
-      });
-
-      test("should close dialog when cancel is clicked", () => {
-        userEvent.click(screen.getByText("Cancel"));
-        expect(dispatchSpy).toHaveBeenCalledWith({
-          type: CLEAR_LETTER_TYPE_TO_EDIT
-        });
       });
 
       test("should call edit letter type endpoint when save is clicked", async () => {

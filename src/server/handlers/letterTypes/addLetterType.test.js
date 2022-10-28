@@ -25,7 +25,7 @@ jest.mock(
 );
 
 describe("addLetterType", () => {
-  let status, signer, letterType;
+  let status, signer;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -51,17 +51,6 @@ describe("addLetterType", () => {
         .withNickname("jsimms@oipm.gov")
         .withPhone("888-576-9922")
         .withTitle("Independent Police Monitor")
-        .build(),
-      {
-        auditUser: "user"
-      }
-    );
-
-    letterType = await models.letter_types.create(
-      new LetterType.Builder()
-        .defaultLetterType()
-        .withDefaultSender(signer)
-        .withRequiredStatus(status)
         .build(),
       {
         auditUser: "user"
@@ -109,5 +98,40 @@ describe("addLetterType", () => {
         })
       })
     );
+  });
+
+  test("should return 400 when letter type already exists", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withType("NEW LETTER TYPE")
+        .withDefaultSender(signer)
+        .withRequiredStatus(status)
+        .build(),
+      {
+        auditUser: "user"
+      }
+    );
+
+    const responsePromise = request(app)
+      .post("/api/letter-types")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        type: "NEW LETTER TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: status.name,
+        defaultSender: signer.nickname
+      });
+
+    await expectResponse(responsePromise, 400);
   });
 });

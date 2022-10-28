@@ -234,4 +234,39 @@ describe("editLetterType", () => {
 
     await expectResponse(responsePromise, 400);
   });
+
+  test("should return 400 when new type already exists", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withType("SOME_TYPE")
+        .withDefaultSender(signer)
+        .withRequiredStatus(status)
+        .build(),
+      {
+        auditUser: "user"
+      }
+    );
+
+    const responsePromise = request(app)
+      .put(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        type: "SOME_TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: status2.name,
+        defaultSender: signer2.nickname
+      });
+
+    await expectResponse(responsePromise, 400);
+  });
 });
