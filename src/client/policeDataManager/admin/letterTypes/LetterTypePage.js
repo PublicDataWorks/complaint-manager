@@ -31,6 +31,9 @@ import { withRouter } from "react-router";
 import { separateTemplateHeadFromBody } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 
+const ADD = "add";
+const EDIT = "edit";
+
 const styles = {
   labelStart: {
     justifyContent: "flex-end",
@@ -56,76 +59,69 @@ const styles = {
   }
 };
 
-const LetterTypePage = props => {
-  const submitEditLetterType = values => {
-    axios
-      .put(`/api/letter-types/${props.letterTypeId}`, {
-        type: values.letterTypeInput,
-        template: `<html>
-          <head>
-            ${props.templateHead}
-          </head>
-          <body>
-            <div id="pageHeader-first">${values.firstPageHeader}</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${values.subsequentPageHeader}</div>
-            <div id="pageFooter" style="text-align: center; margin-top: 16px">
-              <span style="display:inline-block; margin: 6px 16px 0 0">${values.footerImage}</span>
-              <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">${values.footerText}</span>
-              <span style="display:inline-block; width: 46px">&nbsp;</span>
-            </div>
-            ${values.template}
-          </body>
-        </html>`,
-        hasEditPage: values.hasEditPage,
-        requiresApproval: values.requiresApproval,
-        defaultSender: values.defaultSender,
-        requiredStatus: values.requiredStatus,
-        editableTemplate: values.hasEditPage
-          ? values.editableTemplate
-          : undefined
-      })
-      .then(result => {
-        props.snackbarSuccess("Successfully edited letter type");
-        exit();
-      })
-      .catch(error => {
-        props.snackbarError("Failed to edit letter type");
-        console.error(error);
-      });
-  };
+export const reassembleTemplate = (values, templateHead) => {
+  return `
+    <html>
+      <head>
+        ${templateHead}
+      </head>
+      <body>
+        ${
+          values.firstPageHeader
+            ? `<div id="pageHeader-first">${values.firstPageHeader}</div>`
+            : ""
+        }
+        ${
+          values.subsequentPageHeader
+            ? `<div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${values.subsequentPageHeader}</div>`
+            : ""
+        }
+        ${
+          values.footerImage || values.footerText
+            ? `<div id="pageFooter" style="text-align: center; margin-top: 16px">
+          ${
+            values.footerImage
+              ? `<span style="display:inline-block; margin: 6px 16px 0 0">${values.footerImage}</span>`
+              : ""
+          }
+          ${
+            values.footerText
+              ? `<span style="display:inline-block; font-size:7pt; color: #7F7F7F;">${values.footerText}</span>`
+              : ""
+          }
+          <span style="display:inline-block; width: 46px">&nbsp;</span>
+        </div>`
+            : ""
+        }
+        ${values.template ? values.template : ""}
+      </body>
+    </html>
+  `;
+};
 
-  const submitAddLetterType = values => {
-    axios
-      .post(`/api/letter-types`, {
-        type: values.letterTypeInput,
-        template: `<html>
-          <head>
-            ${props.templateHead}
-          </head>
-          <body>
-            <div id="pageHeader-first">${values.firstPageHeader}</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${values.subsequentPageHeader}</div>
-            <div id="pageFooter" style="text-align: center; margin-top: 16px">
-              <span style="display:inline-block; margin: 6px 16px 0 0">${values.footerImage}</span>
-              <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">${values.footerText}</span>
-              <span style="display:inline-block; width: 46px">&nbsp;</span>
-            </div>
-            ${values.template}
-          </body>
-        </html>`,
-        requiresApproval: values.requiresApproval,
-        defaultSender: values.defaultSender,
-        requiredStatus: values.requiredStatus,
-        editableTemplate: values.hasEditPage
-          ? values.editableTemplate
-          : undefined
-      })
+const LetterTypePage = props => {
+  const submit = (operation, values) => {
+    const payload = {
+      type: values.letterTypeInput,
+      template: reassembleTemplate(values, props.templateHead),
+      hasEditPage: values.hasEditPage,
+      requiresApproval: values.requiresApproval,
+      defaultSender: values.defaultSender,
+      requiredStatus: values.requiredStatus,
+      editableTemplate: values.hasEditPage ? values.editableTemplate : undefined
+    };
+
+    let promise =
+      operation === EDIT
+        ? axios.put(`/api/letter-types/${props.letterTypeId}`, payload)
+        : axios.post(`/api/letter-types`, payload);
+    promise
       .then(result => {
-        props.snackbarSuccess("Successfully added letter type");
+        props.snackbarSuccess(`Successfully ${operation}ed letter type`);
         exit();
       })
       .catch(error => {
-        props.snackbarError("Failed to add letter type");
+        props.snackbarError(`Failed to ${operation} letter type`);
         console.error(error);
       });
   };
@@ -142,8 +138,8 @@ const LetterTypePage = props => {
         <form
           onSubmit={
             props.letterTypeId
-              ? props.handleSubmit(submitEditLetterType)
-              : props.handleSubmit(submitAddLetterType)
+              ? props.handleSubmit(values => submit(EDIT, values))
+              : props.handleSubmit(values => submit(ADD, values))
           }
           role="form"
         >

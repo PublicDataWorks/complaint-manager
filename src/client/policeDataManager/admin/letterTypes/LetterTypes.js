@@ -43,21 +43,20 @@ const LetterTypes = props => {
               ))
             : "There are no Letters"}
         </CardContent>
-        <Link to="/admin-portal/letter-type">
-          <LinkButton
-            style={{
-              marginLeft: "8px",
-              marginTop: "8px",
-              marginBottom: "8px"
-            }}
-            data-testid="addLetterType"
-          >
-            + Add Letter Type
-          </LinkButton>
-        </Link>
+        <LinkButton
+          style={{
+            marginLeft: "8px",
+            marginTop: "8px",
+            marginBottom: "8px"
+          }}
+          data-testid="addLetterType"
+          onClick={() => props.history.push("/admin-portal/letter-type")}
+        >
+          + Add Letter Type
+        </LinkButton>
       </DetailsCard>
     </section>
   );
 };
 
-export default withStyles(styles, { withTheme: true })(LetterTypes);
+export default withStyles(styles, { withTheme: true })(withRouter(LetterTypes));
