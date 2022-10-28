@@ -72,6 +72,7 @@ describe("generateLetterPdfBuffer", () => {
   let letterBodyTemplate;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     findByPkSpy = jest.spyOn(models.cases, "findByPk");
     await cleanupDatabase();
     const signer = new Signer.Builder()
