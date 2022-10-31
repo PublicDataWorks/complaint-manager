@@ -12,8 +12,7 @@ import {
   setupCase,
   addCivilianToCase,
   addComplainantOfficerToCase,
-  addWitnessOfficerToCase,
-  addAccusedOfficerToCase
+  addWitnessOfficerToCase
 } from "./case-helpers";
 import {
   setupLetter,
