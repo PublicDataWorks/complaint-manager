@@ -21,10 +21,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../shared/components/StyledButtons";
-import {
-  snackbarSuccess,
-  snackbarError
-} from "../../actionCreators/snackBarActionCreators";
+import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
@@ -125,7 +122,6 @@ const LetterTypePage = props => {
         exit();
       })
       .catch(error => {
-        props.snackbarError(error.message);
         console.error(error);
       });
   };
@@ -530,7 +526,7 @@ export default connect(
       };
     }
   },
-  { snackbarSuccess, snackbarError }
+  { snackbarSuccess }
 )(
   reduxForm({ form: "letterTypeForm" })(
     withStyles(styles)(withRouter(LetterTypePage))
