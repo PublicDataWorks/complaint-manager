@@ -2,7 +2,6 @@ const models = require("./index");
 const { ALLEGATION_SEVERITY } = require("../../../sharedUtilities/constants");
 import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
-
 module.exports = (sequelize, DataTypes) => {
   const OfficerAllegation = sequelize.define(
     "officer_allegation",
@@ -110,7 +109,6 @@ module.exports = (sequelize, DataTypes) => {
     });
   };
 
-  //TODO: when comment this out, no tests fail!
   OfficerAllegation.auditDataChange();
 
   return OfficerAllegation;

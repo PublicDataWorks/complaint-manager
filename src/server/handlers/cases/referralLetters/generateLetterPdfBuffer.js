@@ -20,7 +20,6 @@ const generateLetterPdfBuffer = async (
   const letterType = await models.letter_types.findOne({
     where: { type: letterSettings.type },
     include: [
-      "fields",
       {
         model: models.letterTypeLetterImage,
         as: "letterTypeLetterImage"
@@ -81,7 +80,6 @@ export const generateLetterPdfHtml = async (
   const letterType = await models.letter_types.findOne({
     where: { type: letterSettings.type },
     include: [
-      "fields",
       {
         model: models.letterTypeLetterImage,
         as: "letterTypeLetterImage"

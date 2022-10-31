@@ -2,8 +2,6 @@ import fs from "fs";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import timekeeper from "timekeeper";
 import Case from "../../../../../sharedTestHelpers/case";
-import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
-import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
 import models from "../../../../policeDataManager/models";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import getComplainantLetterPdfData from "./getComplainantLetterPdfData";
@@ -13,7 +11,6 @@ import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
 import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 let existingCase, timeOfDownload, complainant, statuses;
@@ -172,8 +169,6 @@ beforeEach(async () => {
       .build(),
     { auditUser: "user" }
   );
-
-  await up(models);
 });
 
 describe("generateComplainantLetterPdfBuffer", function () {

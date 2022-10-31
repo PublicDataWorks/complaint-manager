@@ -16,7 +16,6 @@ import uploadLetterToS3 from "../sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../constructFilename";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { auditFileAction } from "../../../audits/auditFileAction";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
@@ -98,8 +97,6 @@ describe("generateComplainantLetterAndUploadToS3", () => {
         .build(),
       { auditUser: "test" }
     );
-
-    await up(models);
 
     complainant = {
       firstName: "firstName",

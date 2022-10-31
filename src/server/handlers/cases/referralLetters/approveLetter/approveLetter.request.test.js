@@ -20,7 +20,6 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
@@ -128,8 +127,6 @@ describe("Approve referral letter", () => {
         .build(),
       { auditUser: "test" }
     );
-
-    await up(models);
 
     const complainantOfficerAttributes = new Officer.Builder()
       .defaultOfficer()

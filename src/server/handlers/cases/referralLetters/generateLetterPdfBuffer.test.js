@@ -19,7 +19,6 @@ import {
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
-import { up } from "../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 import moment from "moment";
 const SENDER_NAME = "Bobby!";
@@ -148,8 +147,6 @@ describe("generateLetterPdfBuffer", () => {
       { auditUser: "user" }
     );
 
-    await up(models);
-
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
 
@@ -264,14 +261,10 @@ describe("generateLetterPdfBuffer", () => {
       );
 
       const TYPE = await models.letter_types.findOne({
-        where: { type: "REFERRAL" },
-        include: ["fields"]
+        where: { type: "REFERRAL" }
       });
 
-      const result = await getLetterData(
-        ID,
-        TYPE.fields.filter(field => field.isForBody)
-      );
+      const result = await getLetterData(ID);
 
       expect(result.data.accusedOfficers).toEqual([
         expect.objectContaining({ id: officer1.id }),

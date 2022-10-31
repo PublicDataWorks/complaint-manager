@@ -14,7 +14,6 @@ import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
 import request from "supertest";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock(
@@ -93,8 +92,6 @@ describe("Generate referral letter pdf", () => {
         .build(),
       { auditUser: "test" }
     );
-
-    await up(models);
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

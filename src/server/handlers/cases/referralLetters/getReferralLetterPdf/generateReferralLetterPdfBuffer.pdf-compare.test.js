@@ -14,7 +14,6 @@ import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLe
 import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 const {
   PERSON_TYPE
@@ -103,8 +102,6 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         .build(),
       { auditUser: "user" }
     );
-
-    await up(models);
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {

@@ -32,6 +32,7 @@ describe("getCases", () => {
   let statuses;
   beforeEach(async () => {
     await cleanupDatabase();
+    console.log("hi!");
     statuses = await seedStandardCaseStatuses();
   });
 

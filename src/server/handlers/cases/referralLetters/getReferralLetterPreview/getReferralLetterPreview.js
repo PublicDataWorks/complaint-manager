@@ -46,8 +46,7 @@ const getReferralLetterPreview = asyncMiddleware(
         referralLetterAndAuditDetails.auditDetails;
 
       const letterType = await models.letter_types.findOne({
-        where: { type: "REFERRAL" },
-        include: ["fields"]
+        where: { type: "REFERRAL" }
       });
 
       const { html, auditDetails: referralLetterBodyAuditDetails } =

@@ -11,7 +11,6 @@ import Case from "../../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 
 const {
   PERSON_TYPE
@@ -100,8 +99,6 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
         .build(),
       { auditUser: "user" }
     );
-
-    await up(models);
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {

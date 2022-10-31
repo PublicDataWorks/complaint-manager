@@ -33,7 +33,6 @@ import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 import auditDataAccess from "../../../audits/auditDataAccess";
 import ReferralLetterCaseClassification from "../../../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Signer from "../../../../../sharedTestHelpers/signer";
-import { up } from "../../../../seeders/202206130000-seed-letter-fields";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 jest.mock("../../../audits/auditDataAccess");
@@ -88,8 +87,6 @@ describe("getReferralLetterPreview", function () {
         .build(),
       { auditUser: "test" }
     );
-
-    await up(models);
 
     const caseAttributes = new Case.Builder()
       .defaultCase()

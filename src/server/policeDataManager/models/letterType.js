@@ -51,11 +51,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
 
-    LetterType.hasMany(models.letterField, {
-      as: "fields",
-      foreignKey: { name: "letterType", field: "letter_type" }
-    });
-
     LetterType.belongsTo(models.caseStatus, {
       as: "requiredStatus",
       foreignKey: {
