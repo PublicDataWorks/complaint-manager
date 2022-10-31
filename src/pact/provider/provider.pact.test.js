@@ -416,11 +416,7 @@ describe("Pact Verification", () => {
           const c4se = await setupCase();
           try {
             const allegationPromise = addAllegation();
-            await Promise.all([
-              addComplainantOfficerToCase(c4se),
-              addAccusedToCase(c4se.id),
-              allegationPromise
-            ]);
+            await Promise.all([addAccusedToCase(c4se.id), allegationPromise]);
           } catch (error) {
             console.log(error);
           }
