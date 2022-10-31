@@ -29,7 +29,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     getCaseState += ": with officer witness";
   }
   if (options.includes(OFFICER_ACCUSED)) {
-    getCaseState += ": with officer accused";
+    getCaseState += ": case has accused officer with allegations";
   }
 
   await provider.addInteraction({
