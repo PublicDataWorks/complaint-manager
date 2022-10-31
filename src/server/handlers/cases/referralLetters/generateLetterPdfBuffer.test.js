@@ -16,7 +16,6 @@ import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import LetterImage from "../../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../../sharedTestHelpers/LetterTypeLetterImage";
 import {
-  ASCENDING,
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
@@ -228,7 +227,7 @@ describe("generateLetterPdfBuffer", () => {
         new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withCaseId(ID)
-          .withId(122)
+          .withId(undefined)
           .withOfficerId(100)
           .withCreatedAt(moment().subtract(3, "days")),
         { auditUser: "user" }
@@ -243,7 +242,7 @@ describe("generateLetterPdfBuffer", () => {
         new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withCaseId(ID)
-          .withId(111)
+          .withId(undefined)
           .withOfficerId(50)
           .withCreatedAt(moment().subtract(2, "days")),
         { auditUser: "user" }
@@ -258,7 +257,7 @@ describe("generateLetterPdfBuffer", () => {
         new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withCaseId(ID)
-          .withId(100)
+          .withId(undefined)
           .withOfficerId(2)
           .withCreatedAt(moment().subtract(1, "days")),
         { auditUser: "user" }
