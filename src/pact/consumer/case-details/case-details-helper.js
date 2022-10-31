@@ -12,6 +12,7 @@ export const CIVILIAN_COMPLAINANT = "civilianComplainant";
 export const CIVILIAN_WITNESS = "civilianWitness";
 export const OFFICER_COMPLAINANT = "officerComplainant";
 export const OFFICER_WITNESS = "officerWitness";
+export const OFFICER_ACCUSED = "officerAccused";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -26,6 +27,9 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   }
   if (options.includes(OFFICER_WITNESS)) {
     getCaseState += ": with officer witness";
+  }
+  if (options.includes(OFFICER_ACCUSED)) {
+    getCaseState += ": with officer accused";
   }
 
   await provider.addInteraction({
@@ -120,7 +124,40 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
           : [],
 
         attachments: [],
-        accusedOfficers: [],
+        accusedOfficers: options.includes(OFFICER_ACCUSED)
+          ? eachLike({
+              fullName: "Joel Y Gottlieb",
+              isUnknownOfficer: false,
+              supervisorFullName: "Lula X Hoppe",
+              id: 1,
+              officerId: 5453,
+              firstName: "Joel",
+              middleName: "Y",
+              lastName: "Gottlieb",
+              windowsUsername: 18682,
+              supervisorFirstName: "Lula",
+              supervisorMiddleName: "X",
+              supervisorLastName: "Hoppe",
+              supervisorWindowsUsername: 9922,
+              supervisorOfficerNumber: 2561,
+              employeeType: "Commissioned",
+              caseEmployeeType: "Officer",
+              district: "6th District",
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE OFFICER 4",
+              hireDate: "2007-06-24",
+              sex: "M",
+              race: "White",
+              workStatus: "Active",
+              notes: "",
+              roleOnCase: "Accused",
+              isAnonymous: false,
+              createdAt: "2022-10-21T18:55:46.053Z",
+              updatedAt: "2022-10-21T18:55:46.053Z",
+              caseId: 1,
+              allegations: []
+            })
+          : [],
         witnessOfficers: options.includes(OFFICER_WITNESS)
           ? eachLike({
               fullName: "Joel Y Gottlieb",

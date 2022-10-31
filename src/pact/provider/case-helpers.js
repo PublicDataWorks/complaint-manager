@@ -1,5 +1,5 @@
 import { random } from "lodash";
-import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import { ACCUSED, COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 import models from "../../server/policeDataManager/models";
 import Case from "../../sharedTestHelpers/case";
 import IntakeSource from "../../server/testHelpers/intakeSource";
@@ -69,6 +69,28 @@ export const addWitnessOfficerToCase = async c4se => {
         .withOfficerId(officer.id)
         .withCaseId(c4se.id)
         .withRoleOnCase(WITNESS),
+      { auditUser: "user" }
+    );
+
+    return caseOfficer;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const addAccusedOfficerToCase = async c4se => {
+  try {
+    const officer = await models.officer.create(
+      new Officer.Builder().defaultOfficer(),
+      { auditUser: "user" }
+    );
+
+    const caseOfficer = await models.case_officer.create(
+      new CaseOfficer.Builder()
+        .defaultCaseOfficer()
+        .withOfficerId(officer.id)
+        .withCaseId(c4se.id)
+        .withRoleOnCase(ACCUSED),
       { auditUser: "user" }
     );
 

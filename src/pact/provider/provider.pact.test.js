@@ -12,7 +12,8 @@ import {
   setupCase,
   addCivilianToCase,
   addComplainantOfficerToCase,
-  addWitnessOfficerToCase
+  addWitnessOfficerToCase,
+  addAccusedOfficerToCase
 } from "./case-helpers";
 import {
   setupLetter,
@@ -30,7 +31,7 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
-import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import { COMPLAINANT, WITNESS, ACCUSED } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -411,6 +412,20 @@ describe("Pact Verification", () => {
         "Case exists: with officer witness": async () => {
           const c4se = await setupCase();
           await addWitnessOfficerToCase(c4se);
+        },
+        "Case exists: case has accused officer with allegations": async () => {
+          const c4se = await setupCase();
+          try {
+            const allegationPromise = addAllegation();
+            const c4se = await setupCase();
+            await Promise.all([
+              addComplainantOfficerToCase(c4se),
+              addAccusedToCase(c4se.id),
+              allegationPromise
+            ]);
+          } catch (error) {
+            console.log(error);
+          }
         },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();

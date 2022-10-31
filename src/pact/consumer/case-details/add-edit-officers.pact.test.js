@@ -6,6 +6,7 @@ import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import {
   OFFICER_COMPLAINANT,
   OFFICER_WITNESS,
+  OFFICER_ACCUSED,
   setUpCaseDetailsPage
 } from "./case-details-helper";
 import { addCaseEmployeeType } from "../../../client/policeDataManager/actionCreators/officersActionCreators";
@@ -43,6 +44,13 @@ const scenarios = [
     options: []
   },
   {
+    role: "Accused",
+    buttonIndex: 0,
+    buttonTestId: "addAccusedMenu",
+    method: "POST",
+    options: []
+  },
+  {
     role: "Complainant",
     buttonIndex: 0,
     buttonTestId: "editOfficerLink",
@@ -55,6 +63,13 @@ const scenarios = [
     buttonTestId: "editOfficerLink",
     method: "PUT",
     options: [OFFICER_WITNESS]
+  },
+  {
+    role: "Accused",
+    buttonIndex: 0,
+    buttonTestId: "manageCaseOfficer",
+    method: "PUT",
+    options: [OFFICER_ACCUSED]
   }
 ];
 
@@ -91,8 +106,11 @@ scenarios.forEach(({ role, buttonIndex, buttonTestId, method, options }) => {
             const buttons = await screen.findAllByTestId(buttonTestId);
 
             userEvent.click(buttons[buttonIndex]);
-            if (method === "POST") {
+            if (role === "Witness" || role === "Complainant") {
               userEvent.click(await screen.findByText(`Officer ${role}`));
+            }
+            if (role === "Accused") {
+              userEvent.click(await screen.findByText("Accused Officer"));
             }
 
             expect(dispatchSpy).toHaveBeenCalledWith(
@@ -112,10 +130,16 @@ scenarios.forEach(({ role, buttonIndex, buttonTestId, method, options }) => {
             if (method === "PUT" && options.includes(OFFICER_WITNESS)) {
               state += ": with officer witness";
             }
+            if (method === "PUT" && options.includes(OFFICER_ACCUSED)) {
+              state += ": with officer accused";
+            }
 
             const buttons = await screen.findAllByTestId(buttonTestId);
 
             userEvent.click(buttons[buttonIndex]);
+            if (role === "Accused" && method === "PUT") {
+              userEvent.click(await screen.findByText("Edit Officer"));
+            }
 
             expect(dispatchSpy).toHaveBeenCalledWith(
               addCaseEmployeeType(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
