@@ -21,6 +21,7 @@ jest.mock("../../audits/auditDataAccess");
 
 describe("deleteAttachment", function () {
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

@@ -11,6 +11,7 @@ describe("dataChangeAuditHooks for letter officer", () => {
   let existingCase, letterOfficer;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
@@ -57,6 +58,7 @@ describe("dataChangeAuditHooks for letter officer", () => {
   });
 
   afterAll(async () => {
+    await cleanupDatabase();
     await models.sequelize.close();
   });
 
