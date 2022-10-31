@@ -131,7 +131,7 @@ scenarios.forEach(({ role, buttonIndex, buttonTestId, method, options }) => {
               state += ": with officer witness";
             }
             if (method === "PUT" && options.includes(OFFICER_ACCUSED)) {
-              state += ": with officer accused";
+              state += ": case has accused officer with allegations";
             }
 
             const buttons = await screen.findAllByTestId(buttonTestId);
