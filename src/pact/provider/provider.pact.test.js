@@ -30,7 +30,7 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
-import { COMPLAINANT, WITNESS, ACCUSED } from "../../sharedUtilities/constants";
+import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
