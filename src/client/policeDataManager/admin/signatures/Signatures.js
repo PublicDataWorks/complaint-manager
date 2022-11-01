@@ -42,7 +42,7 @@ const Signatures = props => {
   const processSigner = signer => {
     if (signer?.links.length) {
       const signatureLink = signer.links.find(link => link.rel === "signature");
-      if (signatureLink) {
+      if (signatureLink && !props.thisIsATest) {
         retrieveSignature(signatureLink, signer.id);
       }
     }

@@ -8,7 +8,12 @@ import LetterTypes from "./letterTypes/LetterTypes";
 import getSigners from "./thunks/getSigners";
 import getCaseStatuses from "../cases/thunks/getCaseStatuses";
 
-const AdminPortal = ({ permissions, getCaseStatuses, getSigners }) => {
+const AdminPortal = ({
+  permissions,
+  getCaseStatuses,
+  getSigners,
+  thisIsATest
+}) => {
   useEffect(() => {
     getSigners();
     getCaseStatuses();
@@ -25,7 +30,9 @@ const AdminPortal = ({ permissions, getCaseStatuses, getSigners }) => {
   return (
     <main className="admin-portal">
       <NavBar menuType={policeDataManagerMenuOptions}>Admin Portal</NavBar>
-      {checkPermissions(<Signatures key="signatures" />)}
+      {checkPermissions(
+        <Signatures key="signatures" thisIsATest={thisIsATest} />
+      )}
       {checkPermissions(<LetterTypes key="letterTypes" />)}
     </main>
   );

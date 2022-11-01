@@ -9,42 +9,42 @@ import AdminPortal from "../../../client/policeDataManager/admin/AdminPortal";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
 export const setupAdminPortal = async provider => {
-  await provider.addInteraction({
-    state: "case statuses exist",
-    uponReceiving: "get case statuses",
-    withRequest: {
-      method: "GET",
-      path: "/api/case-statuses"
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
+  await Promise.all([
+    provider.addInteraction({
+      state: "case statuses exist",
+      uponReceiving: "get case statuses",
+      withRequest: {
+        method: "GET",
+        path: "/api/case-statuses"
       },
-      body: eachLike({
-        id: 1,
-        name: "Initial",
-        orderKey: 0
-      })
-    }
-  });
-
-  await provider.addInteraction({
-    state: "letter types have been added to the database",
-    uponReceiving: "get letter types",
-    withRequest: {
-      method: "GET",
-      path: "/api/letter-types"
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          id: 1,
+          name: "Initial",
+          orderKey: 0
+        })
+      }
+    }),
+    provider.addInteraction({
+      state: "letter types have been added to the database",
+      uponReceiving: "get letter types",
+      withRequest: {
+        method: "GET",
+        path: "/api/letter-types"
       },
-      body: eachLike({
-        id: 1,
-        type: "REFERRAL",
-        template: `<html>
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          id: 1,
+          type: "REFERRAL",
+          template: `<html>
           <head>
             <style>* { font-size: 8.5pt; }</style>
           </head>
@@ -65,65 +65,49 @@ export const setupAdminPortal = async provider => {
             <p>Template</p>
           </body>
         </html>`,
-        hasEditPage: false,
-        requiresApproval: false,
-        requiredStatus: "Initial",
-        defaultSender: {
-          name: "Nina Ambroise",
-          nickname: "Amrose@place.com"
-        }
-      })
-    }
-  });
-
-  await provider.addInteraction({
-    state: "signers have been added to the database",
-    uponReceiving: "get signers",
-    withRequest: {
-      method: "GET",
-      path: "/api/signers"
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
-      },
-      body: eachLike({
-        id: 1,
-        name: "John A Simms",
-        title: "Independent Police Monitor",
-        nickname: "jsimms@oipm.gov",
-        phone: "888-576-9922",
-        links: [
-          {
-            rel: "signature",
-            href: "/api/signers/1/signature"
-          },
-          {
-            rel: "delete",
-            href: "/api/signers/1",
-            method: "delete"
+          hasEditPage: false,
+          requiresApproval: false,
+          requiredStatus: "Initial",
+          defaultSender: {
+            name: "Nina Ambroise",
+            nickname: "Amrose@place.com"
           }
-        ]
-      })
-    }
-  });
-
-  await provider.addInteraction({
-    state: "signers have been added to the database",
-    uponReceiving: "get signature",
-    withRequest: {
-      method: "GET",
-      path: "/api/signers/1/signature"
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        "Content-Type": "image/png"
+        })
+      }
+    }),
+    provider.addInteraction({
+      state: "signers have been added to the database",
+      uponReceiving: "get signers",
+      withRequest: {
+        method: "GET",
+        path: "/api/signers"
       },
-      body: like(Buffer.from("bytes", "base64").toString("base64"))
-    }
-  });
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          id: 1,
+          name: "John A Simms",
+          title: "Independent Police Monitor",
+          nickname: "jsimms@oipm.gov",
+          phone: "888-576-9922",
+          links: [
+            {
+              rel: "signature",
+              href: "/api/signers/1/signature"
+            },
+            {
+              rel: "delete",
+              href: "/api/signers/1",
+              method: "delete"
+            }
+          ]
+        })
+      }
+    })
+  ]);
 
   let store = createConfiguredStore();
   store.dispatch({
@@ -134,7 +118,7 @@ export const setupAdminPortal = async provider => {
   render(
     <Provider store={store}>
       <Router>
-        <AdminPortal />
+        <AdminPortal thisIsATest={true} />
         <SharedSnackbarContainer />
       </Router>
     </Provider>

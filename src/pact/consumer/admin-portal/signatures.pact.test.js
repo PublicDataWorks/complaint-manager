@@ -28,14 +28,12 @@ pactWith(
       });
 
       describe("Signatures", () => {
-        test("should show signatures saved in the database", async () => {
+        test("should show signers saved in the database", async () => {
           await Promise.all([
             screen.findByText("John A Simms"),
             screen.findByText("888-576-9922"),
             screen.findByText("Independent Police Monitor")
           ]);
-
-          await screen.findByAltText("The signature of John A Simms");
         }, 100000);
 
         test("on click of add signature save button, should add new signer and signature", async () => {
@@ -123,6 +121,7 @@ pactWith(
           moment.prototype.utc = jest
             .fn()
             .mockReturnValue(moment("2011-10-10T10:20:20Z"));
+
           await provider.addInteraction({
             state: "signers have been added to the database",
             uponReceiving: "put signer",
@@ -161,7 +160,7 @@ pactWith(
 
           const editButtons = await screen.findAllByText("Edit");
           userEvent.click(editButtons[0]);
-          const saveButton = await screen.findByText("Save");
+          const saveButton = await screen.findByTestId("saveButton");
 
           fireEvent.change(screen.getByPlaceholderText("Name"), {
             target: { value: "Candy" }
@@ -178,7 +177,7 @@ pactWith(
             .toBeInTheDocument;
           expect(await screen.findByText("Signer successfully updated"))
             .toBeInTheDocument;
-          expect(await screen.findByText("+ Add Signature"));
+          expect(await screen.findByText("+ Add Signature")).toBeInTheDocument;
         }, 100000);
 
         test("on click of remove signature button, should remove signer and signature", async () => {
