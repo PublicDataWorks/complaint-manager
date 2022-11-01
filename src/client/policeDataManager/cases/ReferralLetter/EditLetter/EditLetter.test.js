@@ -112,6 +112,15 @@ describe("Edit Letter Html", () => {
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
+  test("should redirect to letter-preview when clicking cancel button on 'pristine' letter", () => {
+    const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
+    cancelButton.simulate("click");
+
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/letter/letter-preview`)
+    );
+  });
+
   test("dispatch openCancelEditLetterConfirmationDialog and do not save edits when clicking any stepper button only when letter is 'dirty'", () => {
     const statusStepper = wrapper
       .find("[data-testid='step-button-Review Case Details']")

@@ -133,7 +133,6 @@ export class EditLetter extends Component {
             push(`/cases/${this.state.caseId}/letter/letter-preview`)
           );
         }}
-        disabled={this.props.pristine}
       >
         Cancel
       </SecondaryButton>
