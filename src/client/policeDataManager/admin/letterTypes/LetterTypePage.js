@@ -25,7 +25,16 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 import { CLEAR_LETTER_TYPE_TO_EDIT } from "../../../../sharedUtilities/constants";
 import { withRouter } from "react-router";
-import { separateTemplateHeadFromBody } from "./letter-types-selectors";
+import {
+  getFirstPageHeader,
+  getFooterImage,
+  getFooterText,
+  getLetterContents,
+  getSubsequentPageHeader,
+  getTemplateHead,
+  reassembleTemplate,
+  separateTemplateHeadFromBody
+} from "./letter-types-selectors";
 import Collapser from "./Collapser";
 
 const ADD = "add";
@@ -56,46 +65,6 @@ const styles = {
   }
 };
 
-export const reassembleTemplate = (values, templateHead) => {
-  return `
-    <html>
-      <head>
-        ${templateHead}
-      </head>
-      <body>
-        ${
-          values.firstPageHeader
-            ? `<div id="pageHeader-first">${values.firstPageHeader}</div>`
-            : ""
-        }
-        ${
-          values.subsequentPageHeader
-            ? `<div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${values.subsequentPageHeader}</div>`
-            : ""
-        }
-        ${
-          values.footerImage || values.footerText
-            ? `<div id="pageFooter" style="text-align: center; margin-top: 16px">
-          ${
-            values.footerImage
-              ? `<span style="display:inline-block; margin: 6px 16px 0 0">${values.footerImage}</span>`
-              : ""
-          }
-          ${
-            values.footerText
-              ? `<span style="display:inline-block; font-size:7pt; color: #7F7F7F;">${values.footerText}</span>`
-              : ""
-          }
-          <span style="display:inline-block; width: 46px">&nbsp;</span>
-        </div>`
-            : ""
-        }
-        ${values.template ? values.template : ""}
-      </body>
-    </html>
-  `;
-};
-
 const LetterTypePage = props => {
   useEffect(() => {
     return () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT });
@@ -104,7 +73,7 @@ const LetterTypePage = props => {
   const submit = (operation, values) => {
     const payload = {
       type: values.letterTypeInput,
-      template: reassembleTemplate(values, props.templateHead),
+      template: props.reassembledTemplate,
       hasEditPage: values.hasEditPage,
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
@@ -390,34 +359,35 @@ const LetterTypePage = props => {
 
 export default connect(
   state => {
-    if (state.ui.editLetterType.id) {
-      const template = separateTemplateHeadFromBody(state);
+    const commonProps = {
+      editable: state.form.letterTypeForm?.values?.hasEditPage,
+      reassembledTemplate: reassembleTemplate(state),
+      signers: state.signers,
+      statuses: state.ui.caseStatuses
+    };
 
+    if (state.ui.editLetterType.id) {
       return {
-        editable: state.form.letterTypeForm?.values?.hasEditPage,
+        ...commonProps,
         initialValues: {
-          letterTypeInput: state.ui.editLetterType.type,
-          requiresApproval: state.ui.editLetterType.requiresApproval,
-          hasEditPage: state.ui.editLetterType.hasEditPage,
           defaultSender: state.ui.editLetterType.defaultSender?.nickname,
-          requiredStatus: state.ui.editLetterType.requiredStatus,
-          template: template.body,
           editableTemplate: state.ui.editLetterType.editableTemplate,
-          firstPageHeader: template.firstPageHeader,
-          subsequentPageHeader: template.subsequentPageHeader,
-          footerText: template.footerText,
-          footerImage: template.footerImage
+          firstPageHeader: getFirstPageHeader(state),
+          footerImage: getFooterImage(state),
+          footerText: getFooterText(state),
+          hasEditPage: state.ui.editLetterType.hasEditPage,
+          letterTypeInput: state.ui.editLetterType.type,
+          requiredStatus: state.ui.editLetterType.requiredStatus,
+          requiresApproval: state.ui.editLetterType.requiresApproval,
+          subsequentPageHeader: getSubsequentPageHeader(state),
+          template: getLetterContents(state)
         },
         letterTypeId: state.ui.editLetterType.id,
-        signers: state.signers,
-        statuses: state.ui.caseStatuses,
-        templateHead: template.head
+        templateHead: getTemplateHead(state)
       };
     } else {
       return {
-        editable: state.form.letterTypeForm?.values?.hasEditPage,
-        signers: state.signers,
-        statuses: state.ui.caseStatuses,
+        ...commonProps,
         templateHead: `
           <style>
             * {
