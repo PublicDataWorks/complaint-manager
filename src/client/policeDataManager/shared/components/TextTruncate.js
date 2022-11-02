@@ -96,7 +96,7 @@ class TextTruncate extends React.Component {
   };
 
   render() {
-    const { message, collapsedText, testLabel } = this.props;
+    const { message, collapsedText, testLabel, variant = "body2" } = this.props;
     const stringifiedMsg = String(message);
 
     if (
@@ -107,7 +107,7 @@ class TextTruncate extends React.Component {
         this.renderActivityNotes(stringifiedMsg)
       ) : (
         <Typography
-          variant="body2"
+          variant={variant}
           data-testid={testLabel}
           style={{ whiteSpace: "pre-wrap" }}
         >

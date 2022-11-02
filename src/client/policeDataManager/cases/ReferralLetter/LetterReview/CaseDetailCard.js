@@ -118,6 +118,7 @@ const CaseDetailCard = props => {
               message={
                 allegation[key] ? `${key}: ${allegation[key]}` : `${key}: N/A`
               }
+              variant="body1"
             />
           ) : (
             <Typography key={Object.keys(allegation).indexOf(key)}>

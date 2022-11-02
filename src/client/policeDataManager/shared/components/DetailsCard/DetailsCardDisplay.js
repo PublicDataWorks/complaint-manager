@@ -2,12 +2,11 @@ import { Typography } from "@material-ui/core";
 import React from "react";
 import TextTruncate from "../TextTruncate";
 
-const DetailsCardDisplay = ({ caption, message, children, width }) => (
+const DetailsCardDisplay = ({ caption, message, children }) => (
   <section
     style={{
       display: "flex",
       flexDirection: "column",
-      //marginLeft: "20px",
       textAlign: "left",
       width: "25%"
     }}
