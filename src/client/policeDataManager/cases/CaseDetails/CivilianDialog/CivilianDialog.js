@@ -129,7 +129,7 @@ class CivilianDialog extends Component {
             <Field
               name="roleOnCase"
               component={renderRadioGroup}
-              style={{ flexDirection: "row", marginBottom: "24px" }}
+              style={{ flexDirection: "row" }}
               data-testid="roleOnCaseRadioGroup"
             >
               <FormControlLabel
@@ -181,7 +181,7 @@ class CivilianDialog extends Component {
               ""
             ) : (
               <>
-                <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+                <Typography variant="subtitle2" style={{ marginBottom: "8px", marginTop: "24px" }}>
                   Personal Information
                 </Typography>
                 <div>
@@ -253,7 +253,7 @@ class CivilianDialog extends Component {
                     validate={[genderIdentityIsRequired]}
                     style={{
                       minWidth: "166px",
-                      marginBottom: "3%",
+                      marginBottom: "1%",
                       marginLeft: "28px"
                     }}
                     inputProps={{ "data-testid": "genderInput" }}
@@ -276,7 +276,7 @@ class CivilianDialog extends Component {
                 </Field>
                 <Typography
                   variant="subtitle2"
-                  style={{ marginTop: "24px", marginBottom: "8px" }}
+                  style={{ marginTop: "40px", marginBottom: "8px" }}
                 >
                   Contact Information
                 </Typography>
@@ -331,7 +331,7 @@ class CivilianDialog extends Component {
                   />
                 </div>
 
-                <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+                <Typography variant="subtitle2" style={{ marginBottom: "8px", marginTop: "24px" }}>
                   Notes
                 </Typography>
                 <Field
