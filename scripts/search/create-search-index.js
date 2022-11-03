@@ -7,21 +7,15 @@ import {
 
 const updateSearchIndex = async () => {
   const environment = process.env.NODE_ENV || "development";
-  const {
-    protocol,
-    host,
-    port,
-    indexName: index
-  } = require("./index-config")[environment];
+  const { id, indexName: index } = require("./index-config")[environment];
 
   const username = process.env.ELASTIC_USERNAME || null;
   const password = process.env.ELASTIC_PASSWORD || null;
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${
-      username ? username + ":" + password + "@" : ""
-    }${host}${port ? ":" + port : ""}`
+    cloud: { id },
+    auth: { username, password }
   });
 
   process.on("uncaughtException", error => {

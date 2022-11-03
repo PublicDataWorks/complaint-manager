@@ -2,12 +2,8 @@ import { buildQueryString } from "../../sharedUtilities/searchUtilities";
 
 export const getResultsFromES = async queryString => {
   const environment = process.env.NODE_ENV || "development";
-  const {
-    protocol,
-    host,
-    port,
-    indexName: index
-  } = require("../../../scripts/search/index-config")[environment];
+  const { id, indexName: index } =
+    require("../../../scripts/search/index-config")[environment];
 
   const username = process.env.ELASTIC_USERNAME || null;
   const password = process.env.ELASTIC_PASSWORD || null;
@@ -16,9 +12,8 @@ export const getResultsFromES = async queryString => {
 
   const elasticSearch = require("@elastic/elasticsearch");
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${
-      username ? username + ":" + password + "@" : ""
-    }${host}${port ? ":" + port : ""}`
+    cloud: { id },
+    auth: { username, password }
   });
 
   const { body: searchResults } = await elasticClient

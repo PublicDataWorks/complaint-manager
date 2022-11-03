@@ -8,12 +8,7 @@ const util = require("util");
 
 (async () => {
   const environment = process.env.NODE_ENV || "development";
-  const {
-    protocol,
-    host,
-    port,
-    indexName: index
-  } = require("./index-config")[environment];
+  const { id, indexName: index } = require("./index-config")[environment];
 
   const username = process.env.ELASTIC_USERNAME;
   const password = process.env.ELASTIC_PASSWORD;
@@ -21,9 +16,8 @@ const util = require("util");
   const elasticSearch = require("@elastic/elasticsearch");
   console.log(`Connecting to Elastic search in ${environment} env`);
   const elasticClient = new elasticSearch.Client({
-    node: `${protocol}${
-      username ? username + ":" + password + "@" : ""
-    }${host}${port ? ":" + port : ""}`
+    cloud: { id },
+    auth: { username, password }
   });
 
   function handleError(err) {
