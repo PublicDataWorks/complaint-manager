@@ -732,7 +732,7 @@ jobs:
             echo 'export DATABASE_PASS=$PRODUCTION_DATABASE_PASS' >> $BASH_ENV \
             echo 'export DATABASE_NAME=$PRODUCTION_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$PRODUCTION_DATABASE_HOST' >> $BASH_ENV \
-            echo 'export ELASTIC_PASSWORD=$PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \
+            echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \ 
             echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
