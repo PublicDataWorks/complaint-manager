@@ -8,21 +8,18 @@ const util = require("util");
 
 (async () => {
   const environment = process.env.NODE_ENV || "development";
-  const { id, indexName: index } = require("./index-config")[environment];
-
-  const username = process.env.ELASTIC_USERNAME;
-  const password = process.env.ELASTIC_PASSWORD;
-
-  const elasticSearch = require("@elastic/elasticsearch");
-  console.log(`Connecting to Elastic search in ${environment} env`);
-  const elasticClient = new elasticSearch.Client({
-    cloud: { id },
-    auth: { username, password }
-  });
+  const { indexName: index } = require("./index-config")[environment];
 
   function handleError(err) {
     console.error("Caught Error: ", err);
     process.exit(1);
+  }
+
+  let elasticClient;
+  try {
+    elasticClient = require("./create-configured-client")();
+  } catch (err) {
+    handleError(err);
   }
 
   const query = buildQueryString(process.argv.slice(2).join(" "));

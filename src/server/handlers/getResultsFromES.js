@@ -1,20 +1,19 @@
 import { buildQueryString } from "../../sharedUtilities/searchUtilities";
 
 export const getResultsFromES = async queryString => {
-  const environment = process.env.NODE_ENV || "development";
-  const { id, indexName: index } =
-    require("../../../scripts/search/index-config")[environment];
-
-  const username = process.env.ELASTIC_USERNAME || null;
-  const password = process.env.ELASTIC_PASSWORD || null;
-
   const MAX_ELASTICSEARCH_HIT_SIZE = 10000;
+  const environment = process.env.NODE_ENV || "development";
+  const { indexName: index } = require("../../../scripts/search/index-config")[
+    environment
+  ];
 
-  const elasticSearch = require("@elastic/elasticsearch");
-  const elasticClient = new elasticSearch.Client({
-    cloud: { id },
-    auth: { username, password }
-  });
+  let elasticClient;
+  try {
+    elasticClient =
+      require("../../../scripts/search/create-configured-client")();
+  } catch (err) {
+    handleError(err);
+  }
 
   const { body: searchResults } = await elasticClient
     .search({
