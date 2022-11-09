@@ -1,5 +1,10 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved
+} from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
@@ -14,6 +19,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import LetterTypePage from "../../../client/policeDataManager/admin/letterTypes/LetterTypePage";
+import { change } from "redux-form";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -168,6 +174,71 @@ pactWith(
 
           expect(await screen.findByText("Successfully edited letter type"))
             .toBeInTheDocument;
+        });
+
+        describe("Display Example HTML", () => {
+          test("should generate an HTML preview when preview button is clicked", async () => {
+            await provider.addInteraction({
+              state: "server is running",
+              uponReceiving: "show example letter preview",
+              withRequest: {
+                method: "POST",
+                path: "/api/example-letter-preview",
+                headers: { "Content-Type": "application/json" },
+                body: {
+                  template: like(
+                    "<section>Hello World {{caseReference}}</section>"
+                  )
+                }
+              },
+              willRespondWith: {
+                status: 200,
+                headers: {
+                  "Content-Type": "application/pdf"
+                }
+              }
+            });
+
+            userEvent.click(screen.getByText("Preview"));
+            expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+          });
+
+          test("should include body template if letter type is editable", async () => {
+            await provider.addInteraction({
+              state: "server is running",
+              uponReceiving: "show example editable letter preview",
+              withRequest: {
+                method: "POST",
+                path: "/api/example-letter-preview",
+                headers: { "Content-Type": "application/json" },
+                body: {
+                  template: like(
+                    "<html><body><section>Hello World {{caseReference}}</section>{{letterBody}}</body></html>"
+                  ),
+                  bodyTemplate: like("<div>I'm a body</div>")
+                }
+              },
+              willRespondWith: {
+                status: 200,
+                headers: {
+                  "Content-Type": "application/pdf"
+                }
+              }
+            });
+
+            userEvent.click(screen.getByTestId("edit-page-checkbox"));
+
+            store.dispatch(
+              change(
+                "letterTypeForm",
+                "editableTemplate",
+                "<div>I'm a body</div>"
+              )
+            );
+
+            userEvent.click(screen.getByText("Preview"));
+            expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+          });
         });
       });
 

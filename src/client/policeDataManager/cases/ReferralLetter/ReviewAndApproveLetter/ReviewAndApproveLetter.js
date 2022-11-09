@@ -5,10 +5,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Document, Page, pdfjs } from "react-pdf";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
-import { withStyles } from "@material-ui/core/styles";
-
 import { getReferralLetterPdfSuccess } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
@@ -23,15 +20,8 @@ import {
 import PageLoading from "../../../shared/components/PageLoading";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
+import PDFDocument from "../../../shared/components/PDFDocument";
 
-pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
-
-const styles = theme => ({
-  pageStyling: {
-    borderBottom: `${theme.palette.secondary.main} 1px dotted`,
-    "&:last-child": { borderBottom: "none" }
-  }
-});
 class ReviewAndApproveLetter extends Component {
   constructor(props) {
     super(props);
@@ -89,31 +79,8 @@ class ReviewAndApproveLetter extends Component {
     return <i>{message}</i>;
   }
 
-  onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({
-      numPages,
-      loadedPages: 0
-    });
-  };
-
   openUpdateCaseDialog = () => {
     this.props.openCaseStatusUpdateDialog(this.props.nextStatus);
-  };
-
-  renderPages = () => {
-    return Array.from(new Array(this.state.numPages), (el, index) => (
-      <Page
-        key={`page_${index + 1}`}
-        pageNumber={index + 1}
-        scale={1.3}
-        onLoadSuccess={() => {
-          this.setState({
-            loadedPages: this.state.loadedPages + 1
-          });
-        }}
-        className={this.props.classes.pageStyling}
-      />
-    ));
   };
 
   render() {
@@ -168,13 +135,11 @@ class ReviewAndApproveLetter extends Component {
                   display: this.state.loadingPdfPreview ? "none" : ""
                 }}
               >
-                <Document
-                  file={this.props.letterPdf}
-                  onLoadSuccess={this.onDocumentLoadSuccess}
-                  noData=""
-                >
-                  {this.renderPages()}
-                </Document>
+                <PDFDocument
+                  pdfFile={this.props.letterPdf}
+                  setLoadedPages={loadedPages => this.setState({ loadedPages })}
+                  setNumPages={numPages => this.setState({ numPages })}
+                />
               </div>
               <div style={{ textAlign: "center", marginTop: "8px" }}>
                 <CircularProgress
@@ -223,6 +188,7 @@ const mapDispatchToProps = {
   invalidCaseStatusRedirect
 };
 
-export default withStyles(styles, { withTheme: true })(
-  connect(mapStateToProps, mapDispatchToProps)(ReviewAndApproveLetter)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReviewAndApproveLetter);

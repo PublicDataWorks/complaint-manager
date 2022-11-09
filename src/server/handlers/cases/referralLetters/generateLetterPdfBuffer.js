@@ -93,24 +93,26 @@ export const generateLetterPdfHtml = async (
     : "<p><br></p>";
 
   let imageTypes = {};
-  const letter = letterType.letterTypeLetterImage.map(async imageType => {
-    let letterImage = await models.letterImage.findAll({
-      where: { id: imageType.imageId }
-    });
+  const letterPromises = letterType.letterTypeLetterImage.map(
+    async imageType => {
+      let letterImage = await models.letterImage.findAll({
+        where: { id: imageType.imageId }
+      });
 
-    await Promise.all(
-      letterImage.map(async image => {
-        if (!imageTypes[imageType.name]) {
-          imageTypes[imageType.name] = await retrieveLetterImage(
-            image.image,
-            `max-width: ${imageType.maxWidth}`
-          );
-        }
-      })
-    );
-  });
+      await Promise.all(
+        letterImage.map(async image => {
+          if (!imageTypes[imageType.name]) {
+            imageTypes[imageType.name] = await retrieveLetterImage(
+              image.image,
+              `max-width: ${imageType.maxWidth}`
+            );
+          }
+        })
+      );
+    }
+  );
 
-  await Promise.all(letter);
+  await Promise.all(letterPromises);
 
   const letterPdfData = {
     ...pdfData,

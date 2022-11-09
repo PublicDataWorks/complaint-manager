@@ -32,10 +32,10 @@ import {
   getLetterContents,
   getSubsequentPageHeader,
   getTemplateHead,
-  reassembleTemplate,
-  separateTemplateHeadFromBody
+  reassembleTemplate
 } from "./letter-types-selectors";
 import Collapser from "./Collapser";
+import TemplatePreview from "./TemplatePreview";
 
 const ADD = "add";
 const EDIT = "edit";
@@ -66,9 +66,10 @@ const styles = {
 };
 
 const LetterTypePage = props => {
-  useEffect(() => {
-    return () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT });
-  }, []);
+  useEffect(
+    () => () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT }),
+    []
+  );
 
   const submit = (operation, values) => {
     const payload = {
@@ -339,6 +340,10 @@ const LetterTypePage = props => {
             ) : (
               ""
             )}
+            <TemplatePreview
+              template={props.reassembledTemplate}
+              bodyTemplate={props.bodyTemplate}
+            />
             <section
               style={{
                 paddingBottom: "20px",
@@ -360,6 +365,7 @@ const LetterTypePage = props => {
 export default connect(
   state => {
     const commonProps = {
+      bodyTemplate: state.form.letterTypeForm?.values?.editableTemplate,
       editable: state.form.letterTypeForm?.values?.hasEditPage,
       reassembledTemplate: reassembleTemplate(state),
       signers: state.signers,

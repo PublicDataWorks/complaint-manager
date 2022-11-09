@@ -84,6 +84,7 @@ import editLetterType from "./handlers/letterTypes/editLetterType";
 import deleteLetterType from "./handlers/letterTypes/deleteLetterType";
 import getComplaintTypes from "./handlers/complaintTypes/getComplaintTypes";
 import addLetterType from "./handlers/letterTypes/addLetterType";
+import generateExampleLetterPreview from "./handlers/letterTypes/generateExampleLetterPreview";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -675,6 +676,12 @@ export const API_ROUTES = {
     get: {
       handler: getComplaintTypes,
       errorMessage: "Something went wrong while loading the complaint types"
+    }
+  },
+  "/example-letter-preview": {
+    post: {
+      handler: generateExampleLetterPreview,
+      errorMessage: "Something went wrong while generating the example letter"
     }
   }
 };

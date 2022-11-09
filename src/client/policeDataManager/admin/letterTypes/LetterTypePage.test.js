@@ -41,7 +41,7 @@ describe("LetterTypePage", () => {
         payload: {
           id: 1,
           type: "REFERRAL",
-          template: "<section>Hello World</section>",
+          template: "<section>Hello World {{caseReference}}</section>",
           hasEditPage: true,
           requiresApproval: true,
           defaultSender: {
@@ -107,6 +107,21 @@ describe("LetterTypePage", () => {
       expect(await screen.findByText("Successfully edited letter type"))
         .toBeInTheDocument;
       expect(editCall.isDone()).toBeTrue();
+    });
+
+    describe("Display Example HTML", () => {
+      test("should display Preview button", () => {
+        expect(screen.getByText("Preview")).toBeInTheDocument;
+      });
+
+      test("should generate html from template when Preview button is clicked", async () => {
+        nock("http://localhost")
+          .post("/api/example-letter-preview")
+          .reply(200, { html: "<section>Hello World CC2022-0001" });
+
+        userEvent.click(screen.getByText("Preview"));
+        expect(await screen.findByTestId("template-preview")).toBeInTheDocument;
+      });
     });
   });
 
