@@ -33,7 +33,8 @@ node-yarnaudit-minimist-*
 node-yarnaudit-node-forge-*
 node-yarnaudit-terser-*
 
-# This finding has no workable solution at this time, but we should revisit, since it's used by bull-repl, which is a non-dev dependency
+# This finding has no workable solution at this time, but we should revisit, since it's used by a non-dev dependency
 node-yarnaudit-got-1075647
 node-yarnaudit-got-1075701
 node-yarnaudit-got-1080920
+node-yarnaudit-loader-utils-1084924
