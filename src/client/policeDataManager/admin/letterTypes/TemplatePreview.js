@@ -3,7 +3,7 @@ import { Button, CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import PDFDocument from "../../shared/components/PDFDocument";
 
-const TemplatePreview = ({ template, bodyTemplate }) => {
+const TemplatePreview = ({ template, bodyTemplate, type }) => {
   const [preview, setPreview] = useState();
 
   return (
@@ -15,7 +15,7 @@ const TemplatePreview = ({ template, bodyTemplate }) => {
           axios
             .post(
               "/api/example-letter-preview",
-              { template, bodyTemplate },
+              { template, bodyTemplate, type },
               { responseType: "arraybuffer" }
             )
             .then(response => {

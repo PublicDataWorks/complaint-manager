@@ -1,11 +1,31 @@
 import { createSelector } from "reselect";
 import { formValueSelector } from "redux-form";
 
+const FIRST_PAGE_HEADER_DIV = '<div id="pageHeader-first"';
+const SUBSEQUENT_PAGE_HEADER_DIV = '<div id="pageHeader"';
+const PAGE_FOOTER_DIV = '<div id="pageFooter"';
+
 export const getTemplateHead = createSelector(
   state => state.ui.editLetterType.template?.replaceAll("\n", ""),
   template => {
     let match = template?.match(/<head>(.*)<\/head>/i);
-    return match ? match[1] : undefined;
+    return match
+      ? match[1]
+      : `<style>* {
+                font-size: 8.5pt;
+            }
+
+            p {
+                margin: 0;
+            }
+
+            .preserve-white-space {
+                white-space: pre-wrap;
+            }
+
+            .ql-align-center {
+                text-align: center;
+            }</style>`;
   }
 );
 
@@ -17,25 +37,38 @@ const getTemplateBody = createSelector(
   }
 );
 
+const findCorrespondingClosingTag = (html, tagName, endTagIndex) => {
+  let closeIndex, nextSameTag;
+  let startForNextTagSearch = endTagIndex;
+  let startForCloseTagSearch = endTagIndex;
+  do {
+    closeIndex = html.indexOf(`</${tagName}>`, startForCloseTagSearch);
+    nextSameTag = html.indexOf(`<${tagName}`, startForNextTagSearch);
+    startForNextTagSearch = nextSameTag + `<${tagName}>`.length;
+    startForCloseTagSearch = closeIndex + `</${tagName}>`.length;
+  } while (closeIndex > nextSameTag && nextSameTag !== -1);
+  return closeIndex;
+};
+
 export const getFirstPageHeader = createSelector(getTemplateBody, body => {
-  let index = body?.indexOf('<div id="pageHeader-first"');
+  let index = body?.indexOf(FIRST_PAGE_HEADER_DIV);
   if (!body || index === -1) {
     return undefined;
   }
 
   let endTagIndex = body.indexOf(">", index);
-  let closeDivIndex = body.indexOf("</div>", endTagIndex);
+  let closeDivIndex = findCorrespondingClosingTag(body, "div", endTagIndex);
   return body.substring(endTagIndex + 1, closeDivIndex).trim();
 });
 
 export const getSubsequentPageHeader = createSelector(getTemplateBody, body => {
-  let index = body?.indexOf('<div id="pageHeader"');
+  let index = body?.indexOf(SUBSEQUENT_PAGE_HEADER_DIV);
   if (!body || index === -1) {
     return undefined;
   }
 
   let endTagIndex = body.indexOf(">", index);
-  let closeDivIndex = body.indexOf("</div>", endTagIndex);
+  let closeDivIndex = findCorrespondingClosingTag(body, "div", endTagIndex);
   return body.substring(endTagIndex + 1, closeDivIndex).trim();
 });
 
@@ -48,7 +81,7 @@ export const getFooterImage = createSelector(getTemplateBody, body => {
   }
 
   let endTagIndex = body.indexOf(">", index);
-  let closeSpanIndex = body.indexOf("</span>", endTagIndex);
+  let closeSpanIndex = findCorrespondingClosingTag(body, "span", endTagIndex);
   return body.substring(endTagIndex + 1, closeSpanIndex).trim();
 });
 
@@ -61,25 +94,54 @@ export const getFooterText = createSelector(getTemplateBody, body => {
   }
 
   let endTagIndex = body.indexOf(">", index);
-  let closeSpanIndex = body.indexOf("</span>", endTagIndex);
+  let closeSpanIndex = findCorrespondingClosingTag(body, "span", endTagIndex);
   return body
     .substring(endTagIndex + 1, closeSpanIndex)
     .trim()
     .replaceAll(/\s{2,}/gi, " ");
 });
 
-export const getLetterContents = createSelector(getTemplateBody, body => {
-  const closeDiv = "</div>";
-  let index = body?.lastIndexOf(closeDiv);
-  if (!body) {
-    return undefined;
-  } else if (index === -1) {
-    return body.trim();
-  } else {
-    return body.substring(index + closeDiv.length).trim();
+const removeSectionFromContents = (contents, identifier, tagName) => {
+  if (!contents) {
+    return "";
   }
+
+  let startIndex = contents.indexOf(identifier);
+  if (startIndex < 0) {
+    return contents;
+  }
+
+  let tagEndIndex = contents.indexOf(">", startIndex);
+  let endIndex =
+    findCorrespondingClosingTag(contents, tagName, tagEndIndex) +
+    `</${tagName}>`.length;
+  return contents.substring(0, startIndex) + contents.substring(endIndex);
+};
+
+export const getLetterContents = createSelector(getTemplateBody, body => {
+  let letterContents = body;
+  letterContents = removeSectionFromContents(
+    letterContents,
+    FIRST_PAGE_HEADER_DIV,
+    "div"
+  );
+
+  letterContents = removeSectionFromContents(
+    letterContents,
+    SUBSEQUENT_PAGE_HEADER_DIV,
+    "div"
+  );
+
+  letterContents = removeSectionFromContents(
+    letterContents,
+    PAGE_FOOTER_DIV,
+    "div"
+  );
+
+  return letterContents.trim();
 });
 
+// documentation for headers and footer https://github.com/marcbachmann/node-html-pdf/blob/master/README.md#footers-and-headers
 export const reassembleTemplate = createSelector(
   getTemplateHead,
   state => formValueSelector("letterTypeForm")(state, "firstPageHeader"),
@@ -108,7 +170,7 @@ export const reassembleTemplate = createSelector(
         }
         ${
           subsequentPageHeader
-            ? `<div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">${subsequentPageHeader}</div>`
+            ? `<div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">${subsequentPageHeader}</div>`
             : ""
         }
         ${

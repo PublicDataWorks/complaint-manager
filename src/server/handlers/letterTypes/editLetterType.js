@@ -63,11 +63,9 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
     await letterType.save({ auditUser: request.nickname });
   } catch (e) {
     if (e.parent?.constraint === "letter_types_type_key") {
-      console.log("good!!!!!!!!!!!!!");
       console.error(e);
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_TYPE);
     } else {
-      console.log("BAD!!!!!!!!!!!!!");
       throw e;
     }
   }

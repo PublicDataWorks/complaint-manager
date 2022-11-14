@@ -41,12 +41,13 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   LetterTypeLetterImage.associate = models => {
-    LetterTypeLetterImage.hasMany(models.letterImage, {
+    LetterTypeLetterImage.belongsTo(models.letterImage, {
       as: "letterImage",
       foreignKey: {
         name: "imageId",
-        field: "imageId"
-      }
+        field: "image_id"
+      },
+      targetKey: "id"
     });
   };
 

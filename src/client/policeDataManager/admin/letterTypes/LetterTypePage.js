@@ -343,6 +343,7 @@ const LetterTypePage = props => {
             <TemplatePreview
               template={props.reassembledTemplate}
               bodyTemplate={props.bodyTemplate}
+              type={props.initialValues.letterTypeInput}
             />
             <section
               style={{

@@ -188,7 +188,8 @@ pactWith(
                 body: {
                   template: like(
                     "<section>Hello World {{caseReference}}</section>"
-                  )
+                  ),
+                  type: like("REFERRAL")
                 }
               },
               willRespondWith: {
@@ -215,7 +216,8 @@ pactWith(
                   template: like(
                     "<html><body><section>Hello World {{caseReference}}</section>{{letterBody}}</body></html>"
                   ),
-                  bodyTemplate: like("<div>I'm a body</div>")
+                  bodyTemplate: like("<div>I'm a body</div>"),
+                  type: like("REFERRAL")
                 }
               },
               willRespondWith: {

@@ -16,7 +16,7 @@ describe("letter-types-selectors", () => {
           </head>
           <body>
             <div id="pageHeader-first">Look for me on the first page</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             <div id="pageFooter" style="text-align: center; margin-top: 16px">
               <span style="display:inline-block; margin: 6px 16px 0 0">pretend I'm an image</span>
               <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">This is the footer</span>
@@ -54,7 +54,7 @@ describe("letter-types-selectors", () => {
             Hi, I'm the head
           </head>
           <body>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             <div id="pageFooter" style="text-align: center; margin-top: 16px">
               <span style="display:inline-block; margin: 6px 16px 0 0">pretend I'm an image</span>
               <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">This is the footer</span>
@@ -129,7 +129,7 @@ describe("letter-types-selectors", () => {
           </head>
           <body>
             <div id="pageHeader-first">Look for me on the first page</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             <div id="pageFooter" style="text-align: center; margin-top: 16px">
               <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">This is the footer</span>
               <span style="display:inline-block; width: 46px">&nbsp;</span>
@@ -166,7 +166,7 @@ describe("letter-types-selectors", () => {
           </head>
           <body>
             <div id="pageHeader-first">Look for me on the first page</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             <div id="pageFooter" style="text-align: center; margin-top: 16px">
               <span style="display:inline-block; margin: 6px 16px 0 0">pretend I'm an image</span>
               <span style="display:inline-block; width: 46px">&nbsp;</span>
@@ -203,7 +203,7 @@ describe("letter-types-selectors", () => {
           </head>
           <body>
             <div id="pageHeader-first">Look for me on the first page</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             I want to abolish policing!
           </body>
         </html>`;
@@ -235,7 +235,7 @@ describe("letter-types-selectors", () => {
           </head>
           <body>
             <div id="pageHeader-first">Look for me on the first page</div>
-            <div id="pageHeader""font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
+            <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">look for me on the other pages</div>
             <div id="pageFooter" style="text-align: center; margin-top: 16px">
               <span style="display:inline-block; margin: 6px 16px 0 0">pretend I'm an image</span>
               <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">This is the footer</span>
@@ -325,6 +325,20 @@ describe("letter-types-selectors", () => {
       expect(
         getFirstPageHeader({ ui: { editLetterType: { template } } })
       ).toEqual("I like tea and cakes for tea and cake time");
+    });
+
+    test("should return first page header even if it contains another div", () => {
+      let template = `<html>
+            <head>   I'm a head    </head>
+            <body>
+                <div id="pageHeader-first"><div style="text-align:center">I like tea and cakes for tea and cake time</div></div>
+            </body>
+        </html>`;
+      expect(
+        getFirstPageHeader({ ui: { editLetterType: { template } } })
+      ).toEqual(
+        '<div style="text-align:center">I like tea and cakes for tea and cake time</div>'
+      );
     });
   });
 
@@ -543,6 +557,33 @@ describe("letter-types-selectors", () => {
       expect(
         getLetterContents({ ui: { editLetterType: { template } } })
       ).toEqual("I'm the main contents of the letter!!! {{{something}}}");
+    });
+
+    test("should return letter contents even if the contents contain a div", () => {
+      let template = `<html>
+            <head>   I'm a head    </head>
+            <body>
+                <div id="pageHeader-first">   I like tea and cakes for tea and cake time   </div>
+                <div id="pageHeader">I don't show up on the first page    </div>
+                <div id="pageFooter">
+                    <span  style="display:inline-block; margin: 6px 16px 0 0">  
+                              {{{smallIcon}}}            
+                    </span>    
+                    <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">        
+                        INDEPENDENT POLICE MONITOR <br />   
+                        2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />           
+                        Phone (504) 309-9799| Fax (504) 309-7345    
+                    </span>       
+                    <span  style="display:inline-block; width: 46px">&nbsp;</span>      
+                </div>
+                <div>I'm a div</div><div>I'm the main contents of the letter!!! {{{something}}}</div>
+            </body>
+        </html>`;
+      expect(
+        getLetterContents({ ui: { editLetterType: { template } } })
+      ).toEqual(
+        "<div>I'm a div</div><div>I'm the main contents of the letter!!! {{{something}}}</div>"
+      );
     });
 
     test("should return letter contents when some fields are populated", () => {

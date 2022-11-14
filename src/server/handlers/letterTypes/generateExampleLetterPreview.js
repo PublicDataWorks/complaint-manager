@@ -1,6 +1,8 @@
 import asyncMiddleware from "../asyncMiddleware";
 import Handlebars from "handlebars";
+import models from "../../policeDataManager/models";
 import generatePdfBuffer from "../cases/referralLetters/sharedLetterUtilities/generatePdfBuffer";
+import { retrieveLetterImage } from "../cases/referralLetters/retrieveLetterImage";
 require("../../handlebarHelpers");
 
 const EXAMPLE_DATA = {
@@ -280,13 +282,13 @@ const EXAMPLE_DATA = {
     id: 2,
     caseId: 2,
     includeRetaliationConcerns: true,
-    recipient: "Deputy Superintendent Keith Sanchez",
+    recipient: "Deputy Superintendent Irvin Burrell",
     recipientAddress:
       "Public Integrity Bureau\n" +
-      "New Orleans Police Department\n" +
-      "1340 Poydras St Suite 1900\n" +
-      "New Orleans, LA 70112",
-    sender: "Stella Cziment\nIndependent Police Monitor\n504-309-9799",
+      "Police Department\n" +
+      "1237 Main St.\n" +
+      "Greenville, NM 70112",
+    sender: "Nina Ambroise\nIndependent Police Monitor\n",
     transcribedBy: null,
     editedLetterHtml: null,
     finalPdfFilename: null
@@ -299,6 +301,57 @@ const generateExampleLetterPreview = asyncMiddleware(
     const template = request.body.template;
     const bodyTemplate = request.body.bodyTemplate;
     let data = EXAMPLE_DATA;
+
+    let images;
+    if (request.body.type) {
+      const type = await models.letter_types.findOne({
+        where: { type: request.body.type },
+        attributes: [],
+        include: [
+          {
+            model: models.letterTypeLetterImage,
+            as: "letterTypeLetterImage",
+            attributes: ["name", "maxWidth"],
+            include: [
+              {
+                model: models.letterImage,
+                as: "letterImage",
+                attributes: ["image"]
+              }
+            ]
+          }
+        ]
+      });
+      images = type.letterTypeLetterImage;
+    } else {
+      images = await models.letterTypeLetterImage.findAll({
+        attributes: ["name", "maxWidth"],
+        include: [
+          {
+            model: models.letterImage,
+            as: "letterImage",
+            attributes: ["image"]
+          }
+        ]
+      });
+
+      images = images.reduce((acc, image) => {
+        if (acc.find(img => img.name === image.name)) {
+          return acc;
+        } else {
+          return [...acc, image];
+        }
+      }, []);
+    }
+
+    await Promise.all(
+      images.map(async image => {
+        data[image.name] = await retrieveLetterImage(
+          image.letterImage.image,
+          `max-width: ${image.maxWidth}`
+        );
+      })
+    );
 
     if (bodyTemplate) {
       const compiledBodyTemplate = Handlebars.compile(bodyTemplate);
