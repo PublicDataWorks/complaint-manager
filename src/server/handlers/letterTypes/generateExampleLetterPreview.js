@@ -6,6 +6,7 @@ import { retrieveLetterImage } from "../cases/referralLetters/retrieveLetterImag
 require("../../handlebarHelpers");
 
 const EXAMPLE_DATA = {
+  currentDate: Date.now(),
   recipientFirstName: "Ron",
   recipientLastName: "Swanson",
   senderName: "Sender of the Letter",
@@ -360,6 +361,7 @@ const generateExampleLetterPreview = asyncMiddleware(
 
     const compiledTemplate = Handlebars.compile(template);
     const html = compiledTemplate(EXAMPLE_DATA);
+    console.log(html.replaceAll(/<img[^>]*>/gi, "IMAGE!"));
 
     const pdf = await generatePdfBuffer(html);
     response

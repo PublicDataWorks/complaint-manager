@@ -423,7 +423,7 @@ export default connect(
           subsequentPageHeader: `
             {{recipientFirstName}}<br/>
               {{{formatLongDate currentDate}}}<br/>
-            Page \{{page}}
+            Page \\{{page}}
           `,
           footerImage: `{{{smallIcon}}}`,
           footerText: `
