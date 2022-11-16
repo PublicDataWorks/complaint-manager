@@ -158,9 +158,19 @@ pactWith(
             }
           });
 
-          const editButtons = await screen.findAllByText("Edit");
-          userEvent.click(editButtons[0]);
-          const saveButton = await screen.findByTestId("saveButton");
+          let saveButton,
+            i = 0;
+          do {
+            const editButtons = await screen.findAllByText("Edit");
+            userEvent.click(editButtons[0]);
+            await new Promise(resolve => {
+              setTimeout(() => {
+                saveButton = screen.queryByTestId("saveButton");
+                resolve();
+              }, 500);
+            });
+            i++;
+          } while (!saveButton && i < 20);
 
           fireEvent.change(screen.getByPlaceholderText("Name"), {
             target: { value: "Candy" }
