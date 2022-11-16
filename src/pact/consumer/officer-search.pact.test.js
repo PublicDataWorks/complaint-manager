@@ -26,6 +26,29 @@ pactWith(
 
     describe("officer search page", () => {
       let districtSelect, dispatchSpy;
+      const officer = {
+        fullName: "Bob Loblaw",
+        age: 74,
+        id: 1,
+        officerNumber: 6135,
+        firstName: "Gideon",
+        middleName: "B",
+        lastName: "Abshire",
+        rank: "POLICE RECRUIT FIELD",
+        race: "White",
+        sex: "M",
+        dob: "1948-05-07",
+        districtId: 2,
+        bureau: "FOB - Field Operations Bureau",
+        workStatus: "Active",
+        hireDate: "2016-07-17",
+        employeeType: "Commissioned",
+        windowsUsername: 29281,
+        officerDistrict: {
+          id: 1,
+          name: "1st District"
+        }
+      };
 
       beforeEach(async () => {
         await provider.addInteraction({
@@ -113,30 +136,6 @@ pactWith(
       });
 
       test("Search officers by name and select one", async () => {
-        const officer = {
-          fullName: "Bob Loblaw",
-          age: 74,
-          id: 1,
-          officerNumber: 6135,
-          firstName: "Gideon",
-          middleName: "B",
-          lastName: "Abshire",
-          rank: "POLICE RECRUIT FIELD",
-          race: "White",
-          sex: "M",
-          dob: "1948-05-07",
-          districtId: 2,
-          bureau: "FOB - Field Operations Bureau",
-          workStatus: "Active",
-          hireDate: "2016-07-17",
-          employeeType: "Commissioned",
-          windowsUsername: 29281,
-          officerDistrict: {
-            id: 1,
-            name: "1st District"
-          }
-        };
-
         await provider.addInteraction({
           state: "Officer Bob Loblaw exists and works in the first district",
           uponReceiving: "search for Officer Bob Loblaw",
@@ -170,7 +169,38 @@ pactWith(
         expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(officer));
       });
 
-      test.todo("Search officer by district and select one");
+      test("Search officer by district and select one", async () => {
+        await provider.addInteraction({
+          state: "Officer Bob Loblaw exists and works in the first district",
+          uponReceiving: "search for officers from 1st District",
+          withRequest: {
+            method: "GET",
+            path: "/api/officers/search",
+            query: {
+              districtId: "1",
+              page: "1"
+            }
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: like({
+              count: 1,
+              rows: eachLike(officer)
+            })
+          }
+        });
+
+        userEvent.click(districtSelect);
+        userEvent.click(await screen.findByText("1st District"));
+        userEvent.click(screen.getByTestId("officerSearchSubmitButton"));
+        expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
+
+        userEvent.click(screen.getByTestId("selectNewOfficerButton"));
+        expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(officer));
+      });
     });
   }
 );

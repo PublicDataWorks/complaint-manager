@@ -623,6 +623,7 @@ describe("Pact Verification", () => {
               const district = await models.district.create(
                 new District.Builder()
                   .defaultDistrict()
+                  .withId(1)
                   .withName("1st District")
                   .build(),
                 { auditUser: "user" }
