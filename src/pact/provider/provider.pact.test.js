@@ -31,6 +31,7 @@ import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
 import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import Officer from "../../sharedTestHelpers/Officer";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -615,7 +616,31 @@ describe("Pact Verification", () => {
             await setupLetter(letterCase, statuses),
             await setupLetterImages()
           ]);
-        }
+        },
+        "Officer Bob Loblaw exists and works in the first district":
+          async () => {
+            try {
+              const district = await models.district.create(
+                new District.Builder()
+                  .defaultDistrict()
+                  .withName("1st District")
+                  .build(),
+                { auditUser: "user" }
+              );
+
+              await models.officer.create(
+                new Officer.Builder()
+                  .defaultOfficer()
+                  .withFirstName("Bob")
+                  .withLastName("Loblaw")
+                  .withDistrictId(district.id)
+                  .build(),
+                { auditUser: "user" }
+              );
+            } catch (err) {
+              console.log("error while creating an officer", err);
+            }
+          }
       }
     };
 
