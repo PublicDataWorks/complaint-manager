@@ -37,6 +37,7 @@ class EditOfficerSearch extends React.Component {
       .concat(this.props.complainantOfficers)
       .concat(this.props.witnessOfficers);
 
+    console.log(this.props.accusedOfficers, allOfficers);
     const currentCaseOfficer = allOfficers.find(
       caseOfficer => caseOfficer && `${caseOfficer.id}` === caseOfficerId
     );
@@ -72,7 +73,4 @@ const mapDispatchToProps = {
   getCaseDetails
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditOfficerSearch);
+export default connect(mapStateToProps, mapDispatchToProps)(EditOfficerSearch);

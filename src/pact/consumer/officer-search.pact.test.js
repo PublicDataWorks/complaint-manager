@@ -8,8 +8,12 @@ import { pactWith } from "jest-pact";
 import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import {
+  GET_CASE_DETAILS_SUCCESS,
+  USER_PERMISSIONS
+} from "../../sharedUtilities/constants";
 import AddOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/AddOfficerSearch";
+import EditOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/EditOfficerSearch";
 import { selectOfficer } from "../../client/policeDataManager/actionCreators/officersActionCreators";
 
 pactWith(
@@ -24,7 +28,10 @@ pactWith(
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
 
-    describe("officer search page", () => {
+    describe.each([
+      ["Add", AddOfficerSearch],
+      ["Edit", EditOfficerSearch]
+    ])("%s officer search page", (action, Component) => {
       let districtSelect, dispatchSpy;
       const officer = {
         fullName: "Bob Loblaw",
@@ -52,7 +59,7 @@ pactWith(
 
       beforeEach(async () => {
         await provider.addInteraction({
-          state: "Case exists",
+          state: "Case exists: with officer complainant",
           uponReceiving: "get case",
           withRequest: {
             method: "GET",
@@ -86,7 +93,37 @@ pactWith(
               },
               complainantCivilians: [],
               witnessCivilians: [],
-              complainantOfficers: [],
+              complainantOfficers: eachLike({
+                fullName: "Joel Y Gottlieb",
+                isUnknownOfficer: false,
+                supervisorFullName: "Lula X Hoppe",
+                id: 1,
+                officerId: 5453,
+                firstName: "Joel",
+                middleName: "Y",
+                lastName: "Gottlieb",
+                windowsUsername: 18682,
+                supervisorFirstName: "Lula",
+                supervisorMiddleName: "X",
+                supervisorLastName: "Hoppe",
+                supervisorWindowsUsername: 9922,
+                supervisorOfficerNumber: 2561,
+                employeeType: "Commissioned",
+                caseEmployeeType: "Officer",
+                district: "6th District",
+                bureau: "FOB - Field Operations Bureau",
+                rank: "POLICE OFFICER 4",
+                hireDate: "2007-06-24",
+                sex: "M",
+                race: "White",
+                workStatus: "Active",
+                notes: "",
+                roleOnCase: "Complainant",
+                isAnonymous: false,
+                createdAt: "2022-10-21T18:55:46.053Z",
+                updatedAt: "2022-10-21T18:55:46.053Z",
+                caseId: 1
+              }),
 
               attachments: [],
               accusedOfficers: [],
@@ -126,7 +163,7 @@ pactWith(
         render(
           <Provider store={store}>
             <Router>
-              <AddOfficerSearch match={{ params: { id: "1" } }} />
+              <Component match={{ params: { id: "1", caseOfficerId: "1" } }} />
               <SharedSnackbarContainer />
             </Router>
           </Provider>
