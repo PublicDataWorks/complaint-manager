@@ -617,6 +617,16 @@ describe("Pact Verification", () => {
             await setupLetterImages()
           ]);
         },
+        "intake sources exist: complaint types exist": async () => {
+          try {
+            await Promise.all([
+              setupIntakeSources(),
+              models.complaintTypes.create({ name: "Civilian Initiated" })
+            ]);
+          } catch (error) {
+            console.log(error);
+          }
+        },
         "Officer Bob Loblaw exists and works in the first district":
           async () => {
             try {

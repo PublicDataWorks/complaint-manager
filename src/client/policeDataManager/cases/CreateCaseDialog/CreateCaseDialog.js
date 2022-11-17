@@ -107,6 +107,10 @@ class CreateCaseDialog extends React.Component {
                   placeholder="Select a Complaint Type"
                   name="case.complaintType"
                   style={{ width: "90%", marginBottom: "15px" }}
+                  inputProps={{
+                    "data-testid": "complaintTypeDropdown",
+                    "aria-label": "Complaint Type Dropdown"
+                  }}
                 >
                   {generateMenuOptions(
                     this.state.complaintTypes.map(type => type.name)

@@ -22,10 +22,7 @@ const {
 const createCase = creationDetails => async dispatch => {
   dispatch(startSubmit(CREATE_CASE_FORM_NAME));
   try {
-    const response = await axios.post(
-      `api/cases`,
-      JSON.stringify(creationDetails.caseDetails)
-    );
+    const response = await axios.post(`api/cases`, creationDetails.caseDetails);
     dispatch(snackbarSuccess("Case was successfully created"));
     dispatch(createCaseSuccess(response.data));
     dispatch(closeCreateDialog(DialogTypes.CASE));
