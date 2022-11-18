@@ -21,6 +21,7 @@ describe("createCivilian handler", () => {
   let createdCase, civilianValues, request, next, response;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
