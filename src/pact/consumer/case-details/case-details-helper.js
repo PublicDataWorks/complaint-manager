@@ -13,6 +13,9 @@ export const CIVILIAN_WITNESS = "civilianWitness";
 export const OFFICER_COMPLAINANT = "officerComplainant";
 export const OFFICER_WITNESS = "officerWitness";
 export const OFFICER_ACCUSED = "officerAccused";
+export const NOPD_COMPLAINANT = "nopdComplainant";
+export const NOPD_WITNESS = "nopdWitness";
+export const NOPD_ACCUSED = "nopdAccused";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -22,13 +25,16 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   if (options.includes(CIVILIAN_WITNESS)) {
     getCaseState += ": with civilian witness";
   }
-  if (options.includes(OFFICER_COMPLAINANT)) {
+  if (
+    options.includes(OFFICER_COMPLAINANT) ||
+    options.includes(NOPD_COMPLAINANT)
+  ) {
     getCaseState += ": with officer complainant";
   }
-  if (options.includes(OFFICER_WITNESS)) {
+  if (options.includes(OFFICER_WITNESS) || options.includes(NOPD_WITNESS)) {
     getCaseState += ": with officer witness";
   }
-  if (options.includes(OFFICER_ACCUSED)) {
+  if (options.includes(OFFICER_ACCUSED) || options.includes(NOPD_ACCUSED)) {
     getCaseState += ": case has accused officer with allegations";
   }
 
@@ -121,8 +127,40 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1
             })
+          : options.includes(NOPD_COMPLAINANT)
+          ? eachLike({
+              fullName: "Janelle K Erdman",
+              isUnknownOfficer: false,
+              supervisorFullName: "Florine W Weimann",
+              age: 66,
+              id: 1,
+              officerId: 5165,
+              firstName: "Janelle",
+              middleName: "K",
+              lastName: "Erdman",
+              windowsUsername: 12183,
+              supervisorFirstName: "Florine",
+              supervisorMiddleName: "W",
+              supervisorLastName: "Weimann",
+              supervisorWindowsUsername: 6419,
+              supervisorOfficerNumber: 356,
+              employeeType: "Non-Commissioned",
+              caseEmployeeType: "Civilian Within NOPD",
+              district: null,
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE DISPATCHER",
+              hireDate: "2000-06-04",
+              sex: "F",
+              race: "Black / African American",
+              workStatus: "Terminated",
+              notes: "",
+              roleOnCase: "Complainant",
+              isAnonymous: false,
+              createdAt: "2022-11-14T20:06:12.888Z",
+              updatedAt: "2022-11-14T20:06:12.888Z",
+              caseId: 1
+            })
           : [],
-
         attachments: [],
         accusedOfficers: options.includes(OFFICER_ACCUSED)
           ? eachLike({
@@ -157,6 +195,40 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               caseId: 1,
               allegations: []
             })
+          : options.includes(NOPD_ACCUSED)
+          ? eachLike({
+              fullName: "Janelle K Erdman",
+              isUnknownOfficer: false,
+              supervisorFullName: "Florine W Weimann",
+              age: 66,
+              id: 1,
+              officerId: 5165,
+              firstName: "Janelle",
+              middleName: "K",
+              lastName: "Erdman",
+              windowsUsername: 12183,
+              supervisorFirstName: "Florine",
+              supervisorMiddleName: "W",
+              supervisorLastName: "Weimann",
+              supervisorWindowsUsername: 6419,
+              supervisorOfficerNumber: 356,
+              employeeType: "Non-Commissioned",
+              caseEmployeeType: "Civilian Within NOPD",
+              district: null,
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE DISPATCHER",
+              hireDate: "2000-06-04",
+              sex: "F",
+              race: "Black / African American",
+              workStatus: "Terminated",
+              notes: "",
+              roleOnCase: "Accused",
+              isAnonymous: false,
+              createdAt: "2022-11-14T20:06:12.888Z",
+              updatedAt: "2022-11-14T20:06:12.888Z",
+              caseId: 1,
+              allegations: []
+            })
           : [],
         witnessOfficers: options.includes(OFFICER_WITNESS)
           ? eachLike({
@@ -188,6 +260,39 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               isAnonymous: false,
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
+              caseId: 1
+            })
+          : options.includes(NOPD_WITNESS)
+          ? eachLike({
+              fullName: "Janelle K Erdman",
+              isUnknownOfficer: false,
+              supervisorFullName: "Florine W Weimann",
+              age: 66,
+              id: 1,
+              officerId: 5165,
+              firstName: "Janelle",
+              middleName: "K",
+              lastName: "Erdman",
+              windowsUsername: 12183,
+              supervisorFirstName: "Florine",
+              supervisorMiddleName: "W",
+              supervisorLastName: "Weimann",
+              supervisorWindowsUsername: 6419,
+              supervisorOfficerNumber: 356,
+              employeeType: "Non-Commissioned",
+              caseEmployeeType: "Civilian Within NOPD",
+              district: null,
+              bureau: "FOB - Field Operations Bureau",
+              rank: "POLICE DISPATCHER",
+              hireDate: "2000-06-04",
+              sex: "F",
+              race: "Black / African American",
+              workStatus: "Terminated",
+              notes: "",
+              roleOnCase: "Witness",
+              isAnonymous: false,
+              createdAt: "2022-11-14T20:06:12.888Z",
+              updatedAt: "2022-11-14T20:06:12.888Z",
               caseId: 1
             })
           : [],

@@ -34,21 +34,26 @@ export const setupCase = async () => {
   }
 };
 
-export const addComplainantOfficerToCase = async c4se => {
+export const addComplainantOfficerToCase = async (c4se, caseOfficerId) => {
   try {
     const officer = await models.officer.create(
       new Officer.Builder().defaultOfficer(),
       { auditUser: "user" }
     );
 
-    const caseOfficer = await models.case_officer.create(
-      new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withOfficerId(officer.id)
-        .withCaseId(c4se.id)
-        .withRoleOnCase(COMPLAINANT),
-      { auditUser: "user" }
-    );
+    let buildOfficer = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerId(officer.id)
+      .withCaseId(c4se.id)
+      .withRoleOnCase(COMPLAINANT);
+
+    if (caseOfficerId) {
+      buildOfficer = buildOfficer.withId(caseOfficerId);
+    }
+
+    const caseOfficer = await models.case_officer.create(buildOfficer, {
+      auditUser: "user"
+    });
 
     return caseOfficer;
   } catch (error) {
@@ -56,21 +61,26 @@ export const addComplainantOfficerToCase = async c4se => {
   }
 };
 
-export const addWitnessOfficerToCase = async c4se => {
+export const addWitnessOfficerToCase = async (c4se, caseOfficerId) => {
   try {
     const officer = await models.officer.create(
       new Officer.Builder().defaultOfficer(),
       { auditUser: "user" }
     );
 
-    const caseOfficer = await models.case_officer.create(
-      new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withOfficerId(officer.id)
-        .withCaseId(c4se.id)
-        .withRoleOnCase(WITNESS),
-      { auditUser: "user" }
-    );
+    let buildOfficer = new CaseOfficer.Builder()
+      .defaultCaseOfficer()
+      .withOfficerId(officer.id)
+      .withCaseId(c4se.id)
+      .withRoleOnCase(WITNESS);
+
+    if (caseOfficerId) {
+      buildOfficer = buildOfficer.withId(caseOfficerId);
+    }
+
+    const caseOfficer = await models.case_officer.create(buildOfficer, {
+      auditUser: "user"
+    });
 
     return caseOfficer;
   } catch (error) {

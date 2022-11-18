@@ -407,11 +407,11 @@ describe("Pact Verification", () => {
         },
         "Case exists: with officer complainant": async () => {
           const c4se = await setupCase();
-          await addComplainantOfficerToCase(c4se);
+          await addComplainantOfficerToCase(c4se, 1);
         },
         "Case exists: with officer witness": async () => {
           const c4se = await setupCase();
-          await addWitnessOfficerToCase(c4se);
+          await addWitnessOfficerToCase(c4se, 1);
         },
         "Case exists: case has accused officer with allegations": async () => {
           const c4se = await setupCase();
