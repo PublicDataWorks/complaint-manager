@@ -163,7 +163,7 @@ pactWith(
         test("Create case with known civilian complainant", async () => {
           await provider.addInteraction({
             state: "intake sources exist: complaint types exist",
-            uponReceiving: "create case",
+            uponReceiving: "create case with known civilian complainant",
             withRequest: {
               method: "POST",
               path: "/api/cases",
@@ -173,7 +173,7 @@ pactWith(
               body: {
                 case: {
                   complainantType: "Civilian Initiated",
-                  firstContactDate: "2022-11-17",
+                  firstContactDate: like("2022-11-17"),
                   intakeSourceId: 1,
                   complaintType: "Civilian Initiated"
                 },
@@ -216,8 +216,8 @@ pactWith(
                     caseId: 4174
                   }
                 ],
-                createdBy: "claire.holt@thoughtworks.com",
-                assignedTo: "claire.holt@thoughtworks.com",
+                createdBy: "abc@def.ghi",
+                assignedTo: "abc@def.ghi",
                 year: 2022,
                 caseNumber: 532,
                 status: "Initial",
@@ -236,7 +236,78 @@ pactWith(
           userEvent.click(screen.getByTestId("createAndView"));
         });
 
-        test.todo("Create case with unknown civilian complainant");
+        test("Create case with unknown civilian complainant", async () => {
+          await provider.addInteraction({
+            state: "intake sources exist: complaint types exist",
+            uponReceiving: "create case with unknown civilian complainant",
+            withRequest: {
+              method: "POST",
+              path: "/api/cases",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: {
+                case: {
+                  complainantType: "Civilian Initiated",
+                  firstContactDate: like("2022-11-18"),
+                  intakeSourceId: 1,
+                  complaintType: "Civilian Initiated"
+                },
+                civilian: { isAnonymous: true, isUnknown: true }
+              }
+            },
+            willRespondWith: {
+              status: 201,
+              body: like({
+                primaryComplainant: {
+                  fullName: "",
+                  roleOnCase: "Complainant",
+                  id: 4130,
+                  isAnonymous: true,
+                  caseId: 4177,
+                  updatedAt: "2022-11-18T17:13:10.589Z",
+                  createdAt: "2022-11-18T17:13:10.589Z",
+                  firstName: "",
+                  lastName: ""
+                },
+                caseReferencePrefix: "AC",
+                caseReference: "AC2022-0534",
+                statusId: 1,
+                id: 4177,
+                firstContactDate: "2022-11-18",
+                intakeSourceId: 3,
+                complaintType: "Civilian Initiated",
+                complainantCivilians: [
+                  {
+                    fullName: "",
+                    roleOnCase: "Complainant",
+                    id: 4130,
+                    isAnonymous: true,
+                    caseId: 4177,
+                    updatedAt: "2022-11-18T17:13:10.589Z",
+                    createdAt: "2022-11-18T17:13:10.589Z",
+                    firstName: "",
+                    lastName: ""
+                  }
+                ],
+                createdBy: "abc@def.ghi",
+                assignedTo: "abc@def.ghi",
+                year: 2022,
+                caseNumber: 534,
+                status: "Initial",
+                nextStatus: "Active"
+              })
+            }
+          });
+
+          userEvent.click(intakeSourceDropdown);
+          userEvent.click(await screen.findByText("Facebook"));
+          userEvent.click(screen.getByTestId("complaintTypeDropdown"));
+          userEvent.click(await screen.findByText("Civilian Initiated"));
+          userEvent.click(screen.getByLabelText("Unknown"));
+          userEvent.click(screen.getByTestId("createAndView"));
+        });
+
         test.todo("Create case with officer complainant");
       });
     });
