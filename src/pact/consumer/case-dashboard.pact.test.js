@@ -308,7 +308,52 @@ pactWith(
           userEvent.click(screen.getByTestId("createAndView"));
         });
 
-        test.todo("Create case with officer complainant");
+        test("Create case with officer complainant", async () => {
+          await provider.addInteraction({
+            state: "intake sources exist: complaint types exist",
+            uponReceiving: "create case with officer complainant",
+            withRequest: {
+              method: "POST",
+              path: "/api/cases",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: {
+                case: {
+                  complainantType: "Rank Initiated",
+                  firstContactDate: like("2022-11-18"),
+                  intakeSourceId: 1,
+                  complaintType: "Civilian Initiated"
+                }
+              }
+            },
+            willRespondWith: {
+              status: 201,
+              body: like({
+                caseReferencePrefix: "CC",
+                caseReference: "CC2022-0535",
+                statusId: 1,
+                id: 4178,
+                firstContactDate: "2022-11-18",
+                intakeSourceId: 1,
+                complaintType: "Civilian Initiated",
+                createdBy: "abc@def.ghi",
+                assignedTo: "abc@def.ghi",
+                year: 2022,
+                caseNumber: 535,
+                status: "Initial",
+                nextStatus: "Active"
+              })
+            }
+          });
+
+          userEvent.click(intakeSourceDropdown);
+          userEvent.click(await screen.findByText("Facebook"));
+          userEvent.click(screen.getByTestId("complaintTypeDropdown"));
+          userEvent.click(await screen.findByText("Civilian Initiated"));
+          userEvent.click(screen.getByLabelText("Police Officer"));
+          userEvent.click(screen.getByTestId("createAndSearch"));
+        });
       });
     });
   }
