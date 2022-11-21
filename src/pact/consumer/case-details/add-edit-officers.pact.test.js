@@ -187,7 +187,7 @@ scenarios.forEach(
                 }
               }
 
-              if (title === "Civilian (NOPD") {
+              if (title === "Civilian (NOPD)") {
                 expect(dispatchSpy).toHaveBeenCalledWith(
                   addCaseEmployeeType(
                     PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
@@ -206,23 +206,24 @@ scenarios.forEach(
               );
             }, 200000);
           }
+
           if (method === "PUT") {
             test(`should edit a ${title} ${role}`, async () => {
               let state = "Case exists";
               if (
-                (method === "PUT" && options.includes(OFFICER_COMPLAINANT)) ||
+                options.includes(OFFICER_COMPLAINANT) ||
                 options.includes(NOPD_COMPLAINANT)
               ) {
                 state += ": with officer complainant";
               }
               if (
-                (method === "PUT" && options.includes(OFFICER_WITNESS)) ||
+                options.includes(OFFICER_WITNESS) ||
                 options.includes(NOPD_WITNESS)
               ) {
                 state += ": with officer witness";
               }
               if (
-                (method === "PUT" && options.includes(OFFICER_ACCUSED)) ||
+                options.includes(OFFICER_ACCUSED) ||
                 options.includes(NOPD_ACCUSED)
               ) {
                 state += ": case has accused officer with allegations";
@@ -231,22 +232,14 @@ scenarios.forEach(
               const buttons = await screen.findAllByTestId(buttonTestId);
 
               userEvent.click(buttons[buttonIndex]);
-              if (
-                title === "Officer" &&
-                role === "Accused" &&
-                method === "PUT"
-              ) {
+              if (title === "Officer" && role === "Accused") {
                 userEvent.click(await screen.findByText(`Edit ${title}`));
               }
-              if (
-                title === "Civilian (NOPD)" &&
-                role === "Accused" &&
-                method === "PUT"
-              ) {
+              if (title === "Civilian (NOPD)" && role === "Accused") {
                 userEvent.click(await screen.findByTestId("editCaseOfficer"));
               }
 
-              if (title === "Civilian (NOPD") {
+              if (title === "Civilian (NOPD)") {
                 expect(dispatchSpy).toHaveBeenCalledWith(
                   addCaseEmployeeType(
                     PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription

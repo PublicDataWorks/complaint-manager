@@ -10,8 +10,6 @@ import {
   setUpCaseDetailsPage
 } from "./case-details-helper";
 
-//const options = [OFFICER_COMPLAINANT, OFFICER_WITNESS, OFFICER_ACCUSED];
-
 const scenarios = [
   {
     role: "Complainant",
