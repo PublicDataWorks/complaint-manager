@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { connect } from "react-redux";
 import { withRouter } from "react-router";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "../../cases/CaseDetails/caseDetailsStyles";
 import { CardContent, withStyles } from "@material-ui/core";
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
 import LinkButton from "../../shared/components/LinkButton";
-import { SET_LETTER_TYPE_TO_ADD } from "../../../../sharedUtilities/constants";
 
 const LetterTypes = props => {
   const [letterTypes, setLetterTypes] = useState([]);
