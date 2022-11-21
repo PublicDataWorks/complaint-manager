@@ -95,7 +95,8 @@ class CivilianDialog extends Component {
           ? {
               caseId: values.caseId,
               isAnonymous: true,
-              isUnknown: true
+              isUnknown: true,
+              roleOnCase: values.roleOnCase
             }
           : {
               ...values,
@@ -181,7 +182,10 @@ class CivilianDialog extends Component {
               ""
             ) : (
               <>
-                <Typography variant="subtitle2" style={{ marginBottom: "8px", marginTop: "24px" }}>
+                <Typography
+                  variant="subtitle2"
+                  style={{ marginBottom: "8px", marginTop: "24px" }}
+                >
                   Personal Information
                 </Typography>
                 <div>
@@ -331,7 +335,10 @@ class CivilianDialog extends Component {
                   />
                 </div>
 
-                <Typography variant="subtitle2" style={{ marginBottom: "8px", marginTop: "24px" }}>
+                <Typography
+                  variant="subtitle2"
+                  style={{ marginBottom: "8px", marginTop: "24px" }}
+                >
                   Notes
                 </Typography>
                 <Field
