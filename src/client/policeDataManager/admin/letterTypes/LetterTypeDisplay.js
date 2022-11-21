@@ -180,7 +180,7 @@ const LetterTypeDisplay = props => {
           axios
             .delete(`api/letter-types/${props.letterType.id}`)
             .then(result => {
-              props.setLoadLetterTypes(true);
+              props.reloadLetterTypes();
               props.snackbarSuccess("Letter type successfully deleted");
               setDeleteDialog(false);
             });

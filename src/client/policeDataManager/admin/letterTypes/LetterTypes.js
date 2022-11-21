@@ -1,30 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router";
-import axios from "axios";
 import styles from "../../cases/CaseDetails/caseDetailsStyles";
 import { CardContent, withStyles } from "@material-ui/core";
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
 import LinkButton from "../../shared/components/LinkButton";
+import useGetServiceData from "../../../common/helpers/useGetServiceData";
 
 const LetterTypes = props => {
-  const [letterTypes, setLetterTypes] = useState([]);
-  const [loadLetterTypes, setLoadLetterTypes] = useState(true);
-
-  useEffect(() => {
-    if (loadLetterTypes) {
-      axios
-        .get("/api/letter-types")
-        .then(result => {
-          setLetterTypes(result.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-
-      setLoadLetterTypes(false);
-    }
-  }, [loadLetterTypes]);
+  const [letterTypes, reloadLetterTypes] = useGetServiceData(
+    "/api/letter-types",
+    []
+  );
 
   return (
     <section style={{ minWidth: "50em", padding: "5px" }}>
@@ -35,7 +22,7 @@ const LetterTypes = props => {
                 <LetterTypeDisplay
                   key={letterType.id}
                   letterType={letterType}
-                  setLoadLetterTypes={setLoadLetterTypes}
+                  reloadLetterTypes={reloadLetterTypes}
                 />
               ))
             : "There are no Letters"}
