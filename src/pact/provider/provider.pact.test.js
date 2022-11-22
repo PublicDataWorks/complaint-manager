@@ -192,9 +192,12 @@ const addAllegation = async () => {
 };
 
 const createTag = async () => {
-  return await models.tag.create(new Tag.Builder().defaultTag().build(), {
-    auditUser: "user"
-  });
+  return await models.tag.create(
+    new Tag.Builder().defaultTag().withId(1).build(),
+    {
+      auditUser: "user"
+    }
+  );
 };
 
 const setupCaseNoteActions = async () => {
@@ -421,6 +424,9 @@ describe("Pact Verification", () => {
           } catch (error) {
             console.log(error);
           }
+        },
+        "Case exists: tags exist": async () => {
+          await Promise.all([setupCase(), createTag()]);
         },
         "letter is ready for review": async () => {
           const letterCase = await setupCase();

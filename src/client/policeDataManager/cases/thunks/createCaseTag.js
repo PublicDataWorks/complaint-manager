@@ -24,7 +24,7 @@ const createCaseTag = (values, caseId) => async dispatch => {
   try {
     const response = await axios.post(
       `api/cases/${caseId}/case-tags`,
-      JSON.stringify(requestBody)
+      requestBody
     );
 
     dispatch(snackbarSuccess("Case tag was successfully added"));

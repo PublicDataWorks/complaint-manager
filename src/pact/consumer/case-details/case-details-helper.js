@@ -16,6 +16,7 @@ export const OFFICER_ACCUSED = "officerAccused";
 export const NOPD_COMPLAINANT = "nopdComplainant";
 export const NOPD_WITNESS = "nopdWitness";
 export const NOPD_ACCUSED = "nopdAccused";
+export const NO_CASE_TAGS = "noCaseTags";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -387,33 +388,51 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     }
   });
 
-  await provider.addInteraction({
-    state: "case has a case tag",
-    uponReceiving: "get case tags",
-    withRequest: {
-      method: "GET",
-      path: "/api/cases/1/case-tags"
-    },
-    willRespondWith: {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json; charset=utf-8"
+  if (options.includes(NO_CASE_TAGS)) {
+    await provider.addInteraction({
+      state: "Case exists",
+      uponReceiving: "get case tags for case with no case tags",
+      withRequest: {
+        method: "GET",
+        path: "/api/case-tags"
       },
-      body: eachLike({
-        id: 2678,
-        createdAt: "2022-05-02T18:53:25.798Z",
-        updatedAt: "2022-05-02T18:53:25.798Z",
-        caseId: 3541,
-        tagId: 284,
-        tag: {
-          id: 284,
-          name: "mardi gras",
-          createdAt: "2022-05-02T18:53:25.788Z",
-          updatedAt: "2022-05-02T18:53:25.788Z"
-        }
-      })
-    }
-  });
+      withRequest: {
+        method: "GET",
+        path: "/api/cases/1/case-tags"
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: []
+      }
+    });
+  } else {
+    await provider.addInteraction({
+      state: "case has a case tag",
+      uponReceiving: "get case tags",
+      withRequest: {
+        method: "GET",
+        path: "/api/cases/1/case-tags"
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          id: 2678,
+          caseId: 3541,
+          tagId: 284,
+          tag: {
+            id: 284,
+            name: "mardi gras"
+          }
+        })
+      }
+    });
+  }
 
   await provider.addInteraction({
     state: "intake sources exist",
@@ -481,7 +500,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
       },
       body: eachLike({
         name: "mardi gras",
-        id: 284
+        id: 1
       })
     }
   });
@@ -560,7 +579,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     userInfo: {
       permissions: [
         USER_PERMISSIONS.CREATE_CASE_NOTE,
-        USER_PERMISSIONS.EDIT_CASE
+        USER_PERMISSIONS.EDIT_CASE,
+        USER_PERMISSIONS.ADD_TAG_TO_CASE
       ]
     }
   });
