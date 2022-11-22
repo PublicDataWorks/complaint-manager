@@ -66,7 +66,54 @@ pactWith(
           .toBeInTheDocument;
       });
 
-      test.todo("should add a new tag to a case");
+      test("should add a new tag to a case", async () => {
+        await setUpCaseDetailsPage(provider, NO_CASE_TAGS);
+        await provider.addInteraction({
+          state: "Case exists",
+          uponReceiving: "add new case tag",
+          withRequest: {
+            method: "POST",
+            path: "/api/cases/1/case-tags",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: {
+              tagName: "apple pie"
+            }
+          },
+          willRespondWith: {
+            status: 200,
+            body: {
+              caseTags: eachLike({
+                id: 3221,
+                caseId: 1,
+                tagId: 284,
+                tag: {
+                  id: 1,
+                  name: "apple pie"
+                }
+              }),
+              tags: eachLike({
+                name: "apple pie",
+                id: 1
+              })
+            }
+          }
+        });
+
+        userEvent.click(await screen.findByTestId("addTagButton"));
+        userEvent.type(
+          await screen.findByTestId("caseTagDropdownInput"),
+          "apple pie"
+        );
+        userEvent.click(screen.getByTestId("caseTagSubmitButton"));
+        const newTag = await screen.findByTestId("caseTagChip");
+
+        expect(newTag.textContent).toEqual("apple pie");
+        expect(await screen.findByText("Case tag was successfully added"))
+          .toBeInTheDocument;
+      });
+
       test.todo("should remove a tag from a case");
     });
   }
