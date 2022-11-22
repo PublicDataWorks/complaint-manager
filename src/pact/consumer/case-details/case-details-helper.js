@@ -422,8 +422,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
           "Content-Type": "application/json; charset=utf-8"
         },
         body: eachLike({
-          id: 2678,
-          caseId: 3541,
+          id: 1,
+          caseId: 1,
           tagId: 284,
           tag: {
             id: 284,
@@ -587,7 +587,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
 
   let dispatchSpy = jest.spyOn(store, "dispatch");
 
-  render(
+  const { container } = render(
     <Provider store={store}>
       <Router>
         <CaseDetails match={{ params: { id: "1" } }} />
@@ -596,5 +596,5 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     </Provider>
   );
 
-  return dispatchSpy;
+  return { dispatchSpy, container };
 };

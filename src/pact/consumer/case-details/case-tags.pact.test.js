@@ -1,24 +1,17 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import { NO_CASE_TAGS, setUpCaseDetailsPage } from "./case-details-helper";
+import { resolve } from "path";
+import { reject } from "lodash";
 
-pactWith(
-  {
-    consumer: "complaint-manager.client",
-    provider: "complaint-manager.server",
-    logLevel: "ERROR",
-    timeout: 500000
-  },
-  provider => {
-    beforeAll(async () => {
-      axios.defaults.baseURL = provider.mockService.baseUrl;
-    });
-
-    describe("case tags", () => {
-      test("should add an existing tag to a case", async () => {
+describe("case tags", () => {
+  [
+    {
+      description: "should add an existing tag to a case",
+      test: provider => async () => {
         await setUpCaseDetailsPage(provider, NO_CASE_TAGS);
         await provider.addInteraction({
           state: "Case exists: tags exist",
@@ -64,9 +57,11 @@ pactWith(
         expect(newTag.textContent).toEqual("mardi gras");
         expect(await screen.findByText("Case tag was successfully added"))
           .toBeInTheDocument;
-      });
-
-      test("should add a new tag to a case", async () => {
+      }
+    },
+    {
+      description: "should add a new tag to a case",
+      test: provider => async () => {
         await setUpCaseDetailsPage(provider, NO_CASE_TAGS);
         await provider.addInteraction({
           state: "Case exists",
@@ -112,9 +107,62 @@ pactWith(
         expect(newTag.textContent).toEqual("apple pie");
         expect(await screen.findByText("Case tag was successfully added"))
           .toBeInTheDocument;
-      });
+      }
+    },
+    {
+      description: "should remove a tag from a case",
+      test: provider => async () => {
+        const results = await setUpCaseDetailsPage(provider);
+        await provider.addInteraction({
+          state: "case has a case tag",
+          uponReceiving: "remove case tag",
+          withRequest: {
+            method: "DELETE",
+            path: "/api/cases/1/case-tags/1"
+          },
+          willRespondWith: {
+            status: 200,
+            body: []
+          }
+        });
 
-      test.todo("should remove a tag from a case");
-    });
-  }
-);
+        // const deleteIcon = await new Promise((resolve, reject) => {
+        //   let result = results.container.querySelector(".MuiChip-deleteIcon");
+        //   for (let i = 0; i < 50 && !result; i++) {
+        //     setTimeout(() => {
+        //       result = results.container.querySelector(".MuiChip-deleteIcon");
+        //     }, 500);
+        //   }
+        //   resolve(result);
+        // });
+
+        // console.log(deleteIcon);
+
+        const tagChip = await screen.findByTestId("caseTagChip");
+        const deleteIcon = tagChip.getElementsByTagName("svg");
+        console.log(deleteIcon);
+        fireEvent.click(deleteIcon[0]);
+        userEvent.click(await screen.findByTestId("removeCaseTag"));
+
+        expect(await screen.findByText("Case tag was successfully removed"))
+          .toBeInTheDocument;
+      }
+    }
+  ].forEach(scenario => {
+    pactWith(
+      {
+        consumer: "complaint-manager.client",
+        provider: "complaint-manager.server",
+        logLevel: "ERROR",
+        timeout: 500000
+      },
+      provider => {
+        beforeAll(async () => {
+          axios.defaults.baseURL = provider.mockService.baseUrl;
+        });
+
+        test(scenario.description, scenario.test(provider));
+      }
+    );
+  });
+});

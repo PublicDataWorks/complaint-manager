@@ -147,7 +147,8 @@ scenarios.forEach(
         describe(`add/edit ${title} ${role}`, () => {
           let dispatchSpy;
           beforeEach(async () => {
-            dispatchSpy = await setUpCaseDetailsPage(provider, ...options);
+            const results = await setUpCaseDetailsPage(provider, ...options);
+            dispatchSpy = results.dispatchSpy;
             const complainantDialogButton = await screen.findAllByTestId(
               "addComplainantWitness"
             );
