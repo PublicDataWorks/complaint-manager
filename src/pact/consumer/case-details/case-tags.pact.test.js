@@ -121,8 +121,7 @@ describe("case tags", () => {
             path: "/api/cases/1/case-tags/1"
           },
           willRespondWith: {
-            status: 200,
-            body: []
+            status: 200
           }
         });
 
