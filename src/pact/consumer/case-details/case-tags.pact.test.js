@@ -2,12 +2,25 @@ import { fireEvent, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
+import { eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import { NO_CASE_TAGS, setUpCaseDetailsPage } from "./case-details-helper";
-import { resolve } from "path";
-import { reject } from "lodash";
 
 describe("case tags", () => {
+  /*  here's why there's an array:
+   *  pactWith has a bug where you can't override the timeout, which sometimes necessitates
+   *  splitting the test cases into separate pactWith blocks.  In order to preserve the case tags
+   *  describe as the parent of all the tests, we put it outside the pactWith and then put to tests
+   *  in an array with the keys description and test, description being the first argument to the
+   *  test wrapper and test being a function that takes the provider created by pactWith and returns
+   *  a function that serves as the second argument to the test wrapper, thus <code>test(scenario.description, scenario.test(provider));</code>
+   *  is called in each loop of the forEach, so to add another test here, simply add an object to the array directly below in this form:
+   *  {
+   *    description: "a string describing the test",
+   *    test: provider => async () => {
+   *      <code for the test>
+   *    }
+   *  }
+   */
   [
     {
       description: "should add an existing tag to a case",
