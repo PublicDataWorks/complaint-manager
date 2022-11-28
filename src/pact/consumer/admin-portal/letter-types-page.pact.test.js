@@ -202,6 +202,7 @@ pactWith(
 
             userEvent.click(screen.getByText("Preview"));
             expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+            await waitForElementToBeRemoved(screen.getByTestId("spinner"));
           });
 
           test("should include body template if letter type is editable", async () => {
@@ -240,6 +241,7 @@ pactWith(
 
             userEvent.click(screen.getByText("Preview"));
             expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+            await waitForElementToBeRemoved(screen.getByTestId("spinner"));
           });
         });
       });
