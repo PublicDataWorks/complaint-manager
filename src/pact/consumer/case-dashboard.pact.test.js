@@ -234,6 +234,8 @@ pactWith(
           userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
           userEvent.type(screen.getByTestId("phoneNumberInput"), "2221231234");
           userEvent.click(screen.getByTestId("createAndView"));
+          expect(await screen.findByText("Case was successfully created"))
+            .toBeInTheDocument;
         });
 
         test("Create case with unknown civilian complainant", async () => {
@@ -306,6 +308,8 @@ pactWith(
           userEvent.click(await screen.findByText("Civilian Initiated"));
           userEvent.click(screen.getByLabelText("Unknown"));
           userEvent.click(screen.getByTestId("createAndView"));
+          expect(await screen.findByText("Case was successfully created"))
+            .toBeInTheDocument;
         });
 
         test("Create case with officer complainant", async () => {
@@ -353,6 +357,8 @@ pactWith(
           userEvent.click(await screen.findByText("Civilian Initiated"));
           userEvent.click(screen.getByLabelText("Police Officer"));
           userEvent.click(screen.getByTestId("createAndSearch"));
+          expect(await screen.findByText("Case was successfully created"))
+            .toBeInTheDocument;
         });
       });
     });

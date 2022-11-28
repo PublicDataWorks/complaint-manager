@@ -125,21 +125,8 @@ describe("case tags", () => {
           }
         });
 
-        // const deleteIcon = await new Promise((resolve, reject) => {
-        //   let result = results.container.querySelector(".MuiChip-deleteIcon");
-        //   for (let i = 0; i < 50 && !result; i++) {
-        //     setTimeout(() => {
-        //       result = results.container.querySelector(".MuiChip-deleteIcon");
-        //     }, 500);
-        //   }
-        //   resolve(result);
-        // });
-
-        // console.log(deleteIcon);
-
         const tagChip = await screen.findByTestId("caseTagChip");
         const deleteIcon = tagChip.getElementsByTagName("svg");
-        console.log(deleteIcon);
         fireEvent.click(deleteIcon[0]);
         userEvent.click(await screen.findByTestId("removeCaseTag"));
 
