@@ -37,9 +37,4 @@ node-yarnaudit-terser-*
 node-yarnaudit-got-1075647
 node-yarnaudit-got-1075701
 node-yarnaudit-got-1080920
-node-yarnaudit-loader-utils-1084924
-node-yarnaudit-loader-utils-1084925
-node-yarnaudit-loader-utils-1084992
-node-yarnaudit-loader-utils-1084993
-node-yarnaudit-loader-utils-1084995
-node-yarnaudit-loader-utils-1084996
+node-yarnaudit-loader-utils-*
