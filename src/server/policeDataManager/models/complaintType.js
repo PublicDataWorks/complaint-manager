@@ -23,5 +23,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  ComplaintType.associate = models => {
+    ComplaintType.belongsToMany(models.letter_types, {
+      through: models.letterTypeComplaintType,
+      as: "letterTypes",
+      foreignKey: { name: "complaintTypeId", field: "complaint_type_id" }
+    });
+  };
+
   return ComplaintType;
 };

@@ -64,6 +64,13 @@ module.exports = (sequelize, DataTypes) => {
       as: "letterTypeLetterImage",
       foreignKey: { name: "letterId", field: "letter_id" }
     });
+
+    // if a letter type has no complaint type, the letter type can be generated for any complaint type
+    LetterType.belongsToMany(models.complaintTypes, {
+      through: models.letterTypeComplaintType,
+      as: "complaintTypes",
+      foreignKey: { name: "letterTypeId", field: "letter_type_id" }
+    });
   };
 
   LetterType.prototype.toPayload = letterType => {
@@ -87,6 +94,10 @@ module.exports = (sequelize, DataTypes) => {
     if (result.defaultSender) {
       delete result.defaultSender.createdAt;
       delete result.defaultSender.updatedAt;
+    }
+
+    if (result.complaintTypes) {
+      result.complaintTypes = result.complaintTypes.map(type => type.name);
     }
 
     return result;

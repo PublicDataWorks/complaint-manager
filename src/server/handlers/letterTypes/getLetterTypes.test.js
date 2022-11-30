@@ -8,10 +8,14 @@ import {
 import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  RANK_INITIATED,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import LetterImage from "../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
+import letterTypeComplaintType from "../../policeDataManager/models/letterTypeComplaintType";
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -107,6 +111,53 @@ describe("getLetterTypes", () => {
         hasEditPage: false,
         requiresApproval: false,
         requiredStatus: "Initial",
+        complaintTypes: [],
+        defaultSender: expect.objectContaining({
+          id: 1,
+          name: "John A Simms",
+          nickname: "jsimms@oipm.gov",
+          phone: "888-576-9922",
+          signatureFile: "bobby.png",
+          title: "Independent Police Monitor"
+        }),
+        letterTypeLetterImage: expect.arrayContaining([
+          {
+            id: 1,
+            letterId: 1,
+            imageId: 1,
+            maxWidth: "450px",
+            name: "header"
+          }
+        ])
+      }
+    ]);
+  });
+
+  test("returns letter types with complaint types when letter is restricted to certain complaint types", async () => {
+    await models.letterTypeComplaintType.create({
+      letterTypeId: 1,
+      complaintTypeId: RANK_INITIATED
+    });
+
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+    const responsePromise = request(app)
+      .get("/api/letter-types")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 200, [
+      {
+        id: 1,
+        type: "REFERRAL",
+        template: "",
+        editableTemplate: null,
+        hasEditPage: false,
+        requiresApproval: false,
+        requiredStatus: "Initial",
+        complaintTypes: [RANK_INITIATED],
         defaultSender: expect.objectContaining({
           id: 1,
           name: "John A Simms",

@@ -39,6 +39,11 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
           field: "letterId",
           allowNull: false
         }
+      },
+      {
+        model: models.complaintTypes,
+        as: "complaintTypes",
+        attributes: ["name"]
       }
     ]
   };
