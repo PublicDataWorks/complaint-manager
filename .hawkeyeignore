@@ -32,6 +32,7 @@ node-yarnaudit-node-fetch-*
 node-yarnaudit-minimist-*
 node-yarnaudit-node-forge-*
 node-yarnaudit-terser-*
+node-yarnaudit-decode-uri-component-*
 
 # This finding has no workable solution at this time, but we should revisit, since it's used by a non-dev dependency
 node-yarnaudit-got-1075647

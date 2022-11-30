@@ -30,23 +30,22 @@ describe("MapVisualization", () => {
   // });
 
   const description = "should render heatmap all the time";
-  const test = () => {
-    expect(wrapper.find(PlotlyWrapper).prop("data")).toHaveLength(1);
-    expect(wrapper.find(PlotlyWrapper).prop("data")[0]).toEqual(
-      expect.objectContaining({
-        type: "densitymapbox",
-        hoverinfo: "skip",
-        autocolorscale: false,
-        showscale: false,
-        showlegend: false
-      })
-    );
-  };
 
   if (MAP_CONFIG) {
     // if MAP_CONFIG is undefined the map won't work... at all
-    test(description, test);
+    test(description, () => {
+      expect(wrapper.find(PlotlyWrapper).prop("data")).toHaveLength(1);
+      expect(wrapper.find(PlotlyWrapper).prop("data")[0]).toEqual(
+        expect.objectContaining({
+          type: "densitymapbox",
+          hoverinfo: "skip",
+          autocolorscale: false,
+          showscale: false,
+          showlegend: false
+        })
+      );
+    });
   } else {
-    test.skip(description, test);
+    test.skip(description, () => {});
   }
 });
