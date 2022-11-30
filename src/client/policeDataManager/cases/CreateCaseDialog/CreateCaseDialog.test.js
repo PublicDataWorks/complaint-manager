@@ -26,7 +26,8 @@ import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceAction
 import { updateSort } from "../../actionCreators/casesActionCreators";
 
 const {
-  CIVILIAN_WITHIN_PD_INITIATED
+  CIVILIAN_WITHIN_PD_INITIATED,
+  PD
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
@@ -57,7 +58,7 @@ describe("CreateCaseDialog component", () => {
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
     store.dispatch({
       type: GET_CONFIGS_SUCCEEDED,
-      payload: { [CONFIGS.PD]: "NOPD" }
+      payload: { [CONFIGS.PD]: PD }
     });
     dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -600,11 +601,6 @@ describe("CreateCaseDialog component", () => {
         .last();
       createAndSearch.simulate("click");
 
-      console.log(
-        dispatchSpy.mock.calls.find(
-          call => call[0].type === "MOCK_CREATE_CASE_THUNK"
-        )[0].creationDetails
-      );
       expect(dispatchSpy).toHaveBeenCalledWith({
         type: "MOCK_CREATE_CASE_THUNK",
         creationDetails: expect.objectContaining({

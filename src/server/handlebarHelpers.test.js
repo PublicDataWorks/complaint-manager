@@ -17,8 +17,10 @@ const {
   generateSubjectLine
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/helpers`);
 
-const ORGANIZATION = "OIPM";
-const BUREAU_ACRONYM = "PIB";
+const {
+  ORGANIZATION,
+  BUREAU_ACRONYM
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("fs", () => ({
   readFileSync: (file, format) => file

@@ -6,6 +6,9 @@ import IntakeSource from "../../server/testHelpers/intakeSource";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Civilian from "../../sharedTestHelpers/civilian";
+const {
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const setupCase = async () => {
   try {
@@ -20,7 +23,7 @@ export const setupCase = async () => {
       new Case.Builder()
         .defaultCase()
         .withId(1)
-        .withComplaintType("Civilian Within NOPD Initiated")
+        .withComplaintType(CIVILIAN_WITHIN_PD_INITIATED)
         .withIntakeSourceId(intakeSource.id),
       {
         auditUser: "user"

@@ -5,6 +5,10 @@ import { PlotlyWrapper } from "./PlotlyWrapper";
 import { rest } from "msw";
 import { QUERY_TYPES } from "../../../../sharedUtilities/constants";
 
+const {
+  MAP_CONFIG
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const MOCK_DATA = { lat: [], lon: [], z: [] };
 
 rest.get(
@@ -25,7 +29,8 @@ describe("MapVisualization", () => {
   //     expect(wrapper.find(PlotlyWrapper).prop('layout').mapbox).toEqual("Hello!");
   // });
 
-  test("should render heatmap all the time", () => {
+  const description = "should render heatmap all the time";
+  const test = () => {
     expect(wrapper.find(PlotlyWrapper).prop("data")).toHaveLength(1);
     expect(wrapper.find(PlotlyWrapper).prop("data")[0]).toEqual(
       expect.objectContaining({
@@ -36,5 +41,12 @@ describe("MapVisualization", () => {
         showlegend: false
       })
     );
-  });
+  };
+
+  if (MAP_CONFIG) {
+    // if MAP_CONFIG is undefined the map won't work... at all
+    test(description, test);
+  } else {
+    test.skip(description, test);
+  }
 });
