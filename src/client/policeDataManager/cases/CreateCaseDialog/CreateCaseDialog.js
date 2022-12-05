@@ -43,9 +43,11 @@ class CreateCaseDialog extends React.Component {
       complaintTypes: []
     };
   }
+
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
   }
+
   componentDidUpdate() {
     if (this.props.chooseComplaintTypeFeatureFlag) {
       if (this.state.complaintTypes.length === 0) {
