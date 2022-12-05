@@ -12,7 +12,7 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
 
   // query the database based on that id
   const letterTypePromise = models.letter_types.findByPk(typeId, {
-    include: ["defaultSender", "requiredStatus"]
+    include: ["defaultSender", "requiredStatus", "complaintTypes"]
   });
 
   // if defaultSender is set look up the sender by the nickname and use the id of the sender to update the defaultSenderId field
@@ -33,6 +33,28 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
   let letterType = await letterTypePromise;
   if (!letterType) {
     throw Boom.notFound(NOT_FOUND_ERRORS.RESOURCE_NOT_FOUND);
+  }
+
+  if (Array.isArray(request.body.complaintTypes)) {
+    if (letterType.complaintTypes.length) {
+      await models.letterTypeComplaintType.destroy({
+        where: { letterTypeId: typeId }
+      });
+    }
+
+    if (request.body.complaintTypes.length) {
+      await Promise.all(
+        request.body.complaintTypes.map(async complaintType => {
+          await models.letterTypeComplaintType.create(
+            {
+              letterTypeId: typeId,
+              complaintTypeId: complaintType
+            },
+            { auditUser: request.nickname }
+          );
+        })
+      );
+    }
   }
 
   await Promise.all(
@@ -71,7 +93,7 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
   }
 
   letterType = await letterType.reload({
-    include: ["defaultSender", "requiredStatus"]
+    include: ["defaultSender", "requiredStatus", "complaintTypes"]
   });
 
   response.status(200).send(letterType.toPayload(letterType));

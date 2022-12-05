@@ -8,7 +8,10 @@ import {
 import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  RANK_INITIATED,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import LetterImage from "../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
@@ -101,6 +104,34 @@ describe("deleteLetterType", () => {
     expect(
       await models.letterTypeLetterImage.findByPk(letterTypeLetterImage.id)
     ).toBeFalsy();
+  });
+
+  test("should also delete complaint types if attached", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    await models.letterTypeComplaintType.create(
+      {
+        letterTypeId: letterType.id,
+        complaintTypeId: RANK_INITIATED
+      },
+      { auditUser: "user" }
+    );
+
+    const responsePromise = request(app)
+      .delete(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`);
+
+    await expectResponse(responsePromise, 204);
+    expect(await models.letter_types.findByPk(letterType.id)).toBeFalsy();
+    expect(
+      await models.letterTypeComplaintType.findAll({
+        where: { letterTypeId: letterType.id }
+      })
+    ).toHaveLength(0);
   });
 
   test("returns 404 if letter type does not exist", async () => {

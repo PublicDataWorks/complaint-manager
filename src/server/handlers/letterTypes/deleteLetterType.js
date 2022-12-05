@@ -7,9 +7,16 @@ const deleteLetterType = asyncMiddleware(async (request, response, next) => {
   const letterType = await models.letter_types.findByPk(request.params.typeId);
 
   if (letterType) {
-    await models.letterTypeLetterImage.destroy({
-      where: { letterId: request.params.typeId }
-    });
+    await Promise.all([
+      models.letterTypeLetterImage.destroy({
+        where: { letterId: request.params.typeId },
+        auditUser: request.nickname
+      }),
+      models.letterTypeComplaintType.destroy({
+        where: { letterTypeId: request.params.typeId },
+        auditUser: request.nickname
+      })
+    ]);
     await letterType.destroy();
     response.status(204).send();
   } else {

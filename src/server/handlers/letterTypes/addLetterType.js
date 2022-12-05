@@ -45,8 +45,22 @@ const addLetterType = asyncMiddleware(async (request, response, next) => {
     }
   }
 
+  if (request.body.complaintTypes && request.body.complaintTypes.length) {
+    await Promise.all(
+      request.body.complaintTypes.map(async type => {
+        await models.letterTypeComplaintType.create(
+          {
+            letterTypeId: newLetterType.id,
+            complaintTypeId: type
+          },
+          { auditUser: request.nickname }
+        );
+      })
+    );
+  }
+
   const letterType = await models.letter_types.findByPk(newLetterType.id, {
-    include: ["defaultSender", "requiredStatus"]
+    include: ["defaultSender", "requiredStatus", "complaintTypes"]
   });
 
   response.status(200).send(letterType.toPayload(letterType));

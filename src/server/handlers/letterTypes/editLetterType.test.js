@@ -8,7 +8,10 @@ import {
 import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  RANK_INITIATED,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 jest.mock(
@@ -129,7 +132,8 @@ describe("editLetterType", () => {
         phone: signer2.phone,
         signatureFile: signer2.signatureFile,
         title: signer2.title
-      })
+      }),
+      complaintTypes: []
     });
   });
 
@@ -165,7 +169,92 @@ describe("editLetterType", () => {
         phone: signer.phone,
         signatureFile: signer.signatureFile,
         title: signer.title
-      })
+      }),
+      complaintTypes: []
+    });
+  });
+
+  test("should add complaint types when specified", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    const responsePromise = request(app)
+      .put(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        complaintTypes: [RANK_INITIATED]
+      });
+
+    await expectResponse(responsePromise, 200, {
+      id: 1,
+      type: "REFERRAL",
+      template: "<div>Hello World</div>",
+      editableTemplate: "<section>Goodbye World</section>",
+      hasEditPage: true,
+      requiresApproval: true,
+      requiredStatus: status.name,
+      defaultSender: expect.objectContaining({
+        id: signer.id,
+        name: signer.name,
+        nickname: signer.nickname,
+        phone: signer.phone,
+        signatureFile: signer.signatureFile,
+        title: signer.title
+      }),
+      complaintTypes: [RANK_INITIATED]
+    });
+  });
+
+  test("should overwrite complaint types when specified", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    await models.letterTypeComplaintType.create(
+      {
+        letterTypeId: letterType.id,
+        complaintTypeId: RANK_INITIATED
+      },
+      { auditUser: "user" }
+    );
+
+    const responsePromise = request(app)
+      .put(`/api/letter-types/${letterType.id}`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        complaintTypes: []
+      });
+
+    await expectResponse(responsePromise, 200, {
+      id: 1,
+      type: "REFERRAL",
+      template: "<div>Hello World</div>",
+      editableTemplate: "<section>Goodbye World</section>",
+      hasEditPage: true,
+      requiresApproval: true,
+      requiredStatus: status.name,
+      defaultSender: expect.objectContaining({
+        id: signer.id,
+        name: signer.name,
+        nickname: signer.nickname,
+        phone: signer.phone,
+        signatureFile: signer.signatureFile,
+        title: signer.title
+      }),
+      complaintTypes: []
     });
   });
 

@@ -8,7 +8,11 @@ import {
 import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import LetterType from "../../../sharedTestHelpers/letterType";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  RANK_INITIATED,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 jest.mock(
@@ -96,6 +100,50 @@ describe("addLetterType", () => {
           signatureFile: signer.signatureFile,
           title: signer.title
         })
+      })
+    );
+  });
+
+  test("should also add complaint types to letter_types_complaint_types if included", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    const responsePromise = request(app)
+      .post("/api/letter-types")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        type: "NEW LETTER TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: status.name,
+        defaultSender: signer.nickname,
+        complaintTypes: [RANK_INITIATED, CIVILIAN_INITIATED]
+      });
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.objectContaining({
+        type: "NEW LETTER TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: status.name,
+        defaultSender: expect.objectContaining({
+          id: signer.id,
+          name: signer.name,
+          nickname: signer.nickname,
+          phone: signer.phone,
+          signatureFile: signer.signatureFile,
+          title: signer.title
+        }),
+        complaintTypes: [RANK_INITIATED, CIVILIAN_INITIATED]
       })
     );
   });
