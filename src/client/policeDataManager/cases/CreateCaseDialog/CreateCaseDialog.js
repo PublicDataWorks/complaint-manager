@@ -45,15 +45,19 @@ class CreateCaseDialog extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch(getIntakeSourceDropdownValues());
+  }
+  componentDidUpdate() {
     if (this.props.chooseComplaintTypeFeatureFlag) {
-      axios
-        .get("/api/complaint-types")
-        .then(response => this.setState({ complaintTypes: response.data }))
-        .catch(error =>
-          this.props.dispatch(
-            snackbarError("There was a problem retrieving complaint types")
-          )
-        );
+      if (this.state.complaintTypes.length === 0) {
+        axios
+          .get("/api/complaint-types")
+          .then(response => this.setState({ complaintTypes: response.data }))
+          .catch(error =>
+            this.props.dispatch(
+              snackbarError("There was a problem retrieving complaint types")
+            )
+          );
+      }
     }
   }
 
