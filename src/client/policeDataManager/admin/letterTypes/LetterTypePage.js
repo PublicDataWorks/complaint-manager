@@ -1,7 +1,12 @@
-import { FormControlLabel, Typography, withStyles } from "@material-ui/core";
-import React, { useEffect } from "react";
+import {
+  FormGroup,
+  FormControlLabel,
+  Typography,
+  withStyles
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, change, SubmissionError } from "redux-form";
 import {
   defaultSenderNotBlank,
   defaultSenderRequired,
@@ -14,6 +19,7 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
+import LinkButton from "../../shared/components/LinkButton";
 import Dropdown from "../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import { RichTextEditorComponent } from "../../shared/components/RichTextEditor/RichTextEditor";
@@ -36,6 +42,7 @@ import {
 } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 import TemplatePreview from "./TemplatePreview";
+import useGetServiceData from "../../../common/helpers/useGetServiceData";
 
 const ADD = "add";
 const EDIT = "edit";
@@ -72,6 +79,21 @@ const LetterTypePage = props => {
   );
 
   const submit = (operation, values) => {
+    let complaintTypes = props.complaintTypes
+      .filter(complaintType => values[complaintType.name])
+      .map(complaintType => complaintType.name);
+
+    if (!complaintTypes.length) {
+      throw new SubmissionError({
+        [props.complaintTypes[0].name]:
+          "Please choose at least one complaint type"
+      });
+    }
+
+    if (complaintTypes.length === props.complaintTypes.length) {
+      complaintTypes = [];
+    }
+
     const payload = {
       type: values.letterTypeInput,
       template: props.reassembledTemplate,
@@ -79,7 +101,10 @@ const LetterTypePage = props => {
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
       requiredStatus: values.requiredStatus,
-      editableTemplate: values.hasEditPage ? values.editableTemplate : undefined
+      editableTemplate: values.hasEditPage
+        ? values.editableTemplate
+        : undefined,
+      complaintTypes
     };
 
     let promise =
@@ -220,6 +245,53 @@ const LetterTypePage = props => {
                     </Field>
                   }
                 />
+              </div>
+
+              <div
+                style={{
+                  margin: "20px, 0"
+                }}
+              >
+                <Typography variant="subtitle2">Complaint Type</Typography>
+                <FormGroup>
+                  <LinkButton
+                    onClick={() =>
+                      props.complaintTypes.forEach(complaintType => {
+                        props.change(complaintType.name, true);
+                      })
+                    }
+                  >
+                    Select All
+                  </LinkButton>
+                  <LinkButton
+                    onClick={() =>
+                      props.complaintTypes.forEach(complaintType => {
+                        props.change(complaintType.name, false);
+                      })
+                    }
+                  >
+                    Deselect All
+                  </LinkButton>
+                  {props.complaintTypesError ? (
+                    <p style={{ color: "#d32f2f" }}>
+                      {props.complaintTypesError}
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                  {props.complaintTypes.map(complaintType => (
+                    <FormControlLabel
+                      key={complaintType.name}
+                      label={complaintType.name}
+                      control={
+                        <Field
+                          component={PrimaryCheckBox}
+                          name={complaintType.name}
+                        />
+                      }
+                    />
+                  ))}
+                </FormGroup>
               </div>
             </div>
             <Collapser name="Header">
@@ -370,13 +442,31 @@ export default connect(
       editable: state.form.letterTypeForm?.values?.hasEditPage,
       reassembledTemplate: reassembleTemplate(state),
       signers: state.signers,
-      statuses: state.ui.caseStatuses
+      statuses: state.ui.caseStatuses,
+      complaintTypes: state.ui.complaintTypes,
+      complaintTypesError: state.form.letterTypeForm?.submitErrors
+        ? state.form.letterTypeForm?.submitErrors[
+            state.ui.complaintTypes[0].name
+          ]
+        : undefined
     };
+
+    const complaintTypeValues = commonProps.complaintTypes.reduce(
+      (acc, complaintType) => {
+        acc[complaintType.name] =
+          !state.ui.editLetterType.id ||
+          !state.ui.editLetterType.complaintTypes?.length ||
+          state.ui.editLetterType.complaintTypes?.includes(complaintType.name);
+        return acc;
+      },
+      {}
+    );
 
     if (state.ui.editLetterType.id) {
       return {
         ...commonProps,
         initialValues: {
+          ...complaintTypeValues,
           defaultSender: state.ui.editLetterType.defaultSender?.nickname,
           editableTemplate: state.ui.editLetterType.editableTemplate,
           firstPageHeader: getFirstPageHeader(state),
@@ -415,6 +505,7 @@ export default connect(
           </style>
         `,
         initialValues: {
+          ...complaintTypeValues,
           firstPageHeader: `
             <div style="text-align: center;">
               {{{header}}}
@@ -503,7 +594,7 @@ export default connect(
       };
     }
   },
-  { snackbarSuccess }
+  { snackbarSuccess, change }
 )(
   reduxForm({ form: "letterTypeForm" })(
     withStyles(styles)(withRouter(LetterTypePage))

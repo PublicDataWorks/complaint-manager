@@ -12,7 +12,10 @@ import createConfiguredStore from "../../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
   CASE_STATUSES_RETRIEVED,
+  CIVILIAN_INITIATED,
+  GET_COMPLAINT_TYPES_SUCCEEDED,
   GET_SIGNERS,
+  RANK_INITIATED,
   SET_LETTER_TYPE_TO_EDIT
 } from "../../../sharedUtilities/constants";
 import axios from "axios";
@@ -57,6 +60,11 @@ pactWith(
           type: CASE_STATUSES_RETRIEVED,
           payload: [{ name: "Initial" }, { name: "Active" }, { name: "Closed" }]
         });
+
+        store.dispatch({
+          type: GET_COMPLAINT_TYPES_SUCCEEDED,
+          payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
+        });
       });
 
       describe("Edit Letter Type", () => {
@@ -93,7 +101,8 @@ pactWith(
               defaultSender: {
                 name: "Nina Ambroise",
                 nickname: "Amrose@place.com"
-              }
+              },
+              complaintTypes: []
             }
           });
 
@@ -141,7 +150,8 @@ pactWith(
                 hasEditPage: false,
                 requiresApproval: true,
                 requiredStatus: "Initial",
-                defaultSender: "Amrose@place.com"
+                defaultSender: "Amrose@place.com",
+                complaintTypes: []
               }
             },
             willRespondWith: {
@@ -159,7 +169,8 @@ pactWith(
                 defaultSender: {
                   name: "Nina Ambroise",
                   nickname: "Amrose@place.com"
-                }
+                },
+                complaintTypes: []
               })
             }
           });
@@ -260,7 +271,8 @@ pactWith(
                 template: like("template"),
                 requiresApproval: true,
                 requiredStatus: "Initial",
-                defaultSender: "Amrose@place.com"
+                defaultSender: "Amrose@place.com",
+                complaintTypes: [RANK_INITIATED]
               }
             },
             willRespondWith: {
@@ -278,7 +290,8 @@ pactWith(
                 defaultSender: {
                   name: "Nina Ambroise",
                   nickname: "Amrose@place.com"
-                }
+                },
+                complaintTypes: [RANK_INITIATED]
               })
             }
           });
@@ -299,6 +312,8 @@ pactWith(
             screen.getByTestId("letter-type-input"),
             "NEW LETTER TYPE"
           );
+
+          userEvent.click(screen.getByLabelText(CIVILIAN_INITIATED));
 
           userEvent.click(screen.getByTestId("default-sender-dropdown"));
           userEvent.click(await screen.findByText("Nina Ambroise"));

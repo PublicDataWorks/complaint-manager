@@ -8,7 +8,10 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
 import {
   CASE_STATUSES_RETRIEVED,
+  CIVILIAN_INITIATED,
+  GET_COMPLAINT_TYPES_SUCCEEDED,
   GET_SIGNERS,
+  RANK_INITIATED,
   SET_LETTER_TYPE_TO_EDIT
 } from "../../../../sharedUtilities/constants";
 import LetterTypePage, { reassembleTemplate } from "./LetterTypePage";
@@ -32,6 +35,11 @@ describe("LetterTypePage", () => {
       type: CASE_STATUSES_RETRIEVED,
       payload: [{ name: "Initial" }, { name: "Active" }, { name: "Closed" }]
     });
+
+    store.dispatch({
+      type: GET_COMPLAINT_TYPES_SUCCEEDED,
+      payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
+    });
   });
 
   describe("Edit Letter Type", () => {
@@ -48,7 +56,8 @@ describe("LetterTypePage", () => {
             name: "Billy",
             nickname: "bill@billy.bil"
           },
-          requiredStatus: "Active"
+          requiredStatus: "Active",
+          complaintTypes: []
         }
       });
 
@@ -77,17 +86,19 @@ describe("LetterTypePage", () => {
     });
 
     test("should call edit letter type endpoint when save is clicked", async () => {
+      const payload = {
+        type: "NEW TYPE",
+        template: /.+/,
+        hasEditPage: false,
+        requiresApproval: false,
+        defaultSender: "abcpestandlawn@gmail.com",
+        requiredStatus: "Closed",
+        complaintTypes: []
+      };
+
       const editCall = nock("http://localhost")
-        .put("/api/letter-types/1")
-        .reply(200, {
-          id: 1,
-          type: "NEW TYPE",
-          template: "<section>Hello World</section>",
-          hasEditPage: false,
-          requiresApproval: false,
-          defaultSender: "abcpestandlawn@gmail.com",
-          requiredStatus: "Closed"
-        });
+        .put("/api/letter-types/1", payload)
+        .reply(200, payload);
 
       userEvent.click(screen.getByTestId("letter-type-input"));
       userEvent.clear(screen.getByTestId("letter-type-input"));
@@ -102,6 +113,29 @@ describe("LetterTypePage", () => {
       userEvent.click(screen.getByTestId("required-status-dropdown"));
       userEvent.click(screen.getByText("Closed"));
 
+      userEvent.click(screen.getByText("Save"));
+
+      expect(await screen.findByText("Successfully edited letter type"))
+        .toBeInTheDocument;
+      expect(editCall.isDone()).toBeTrue();
+    });
+
+    test("should include complaint types on edit request when complaint types are selected", async () => {
+      const payload = {
+        type: "REFERRAL",
+        template: /.+/,
+        hasEditPage: true,
+        requiresApproval: true,
+        defaultSender: "bill@billy.bil",
+        requiredStatus: "Active",
+        complaintTypes: [RANK_INITIATED]
+      };
+
+      const editCall = nock("http://localhost")
+        .put("/api/letter-types/1", payload)
+        .reply(200, payload);
+
+      userEvent.click(screen.getByLabelText(CIVILIAN_INITIATED));
       userEvent.click(screen.getByText("Save"));
 
       expect(await screen.findByText("Successfully edited letter type"))

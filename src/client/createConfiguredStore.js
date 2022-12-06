@@ -70,6 +70,7 @@ import configReducer from "./policeDataManager/reducers/ui/configReducer";
 import caseStatusesReducer from "./policeDataManager/reducers/ui/caseStatusesReducer";
 import signersReducer from "./policeDataManager/reducers/signersReducer";
 import editLetterTypeReducer from "./policeDataManager/reducers/ui/editLetterTypeReducer";
+import complaintTypeReducer from "./policeDataManager/reducers/ui/complaintTypeReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -118,6 +119,7 @@ const rootReducer = combineReducers({
     caseTagDialog: caseTagDialogReducer,
     civilianDialog: civilianDialogReducer,
     civilianTitles: civilianTitleReducer,
+    complaintTypes: complaintTypeReducer,
     createDialog: createDialogReducer,
     districts: districtReducer,
     editAllegationForms: editAllegationFormsReducer,

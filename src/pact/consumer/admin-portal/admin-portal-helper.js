@@ -106,6 +106,23 @@ export const setupAdminPortal = async provider => {
           ]
         })
       }
+    }),
+    provider.addInteraction({
+      state: "complaint types exist",
+      uponReceiving: "get complaint types",
+      withRequest: {
+        method: "GET",
+        path: "/api/complaint-types"
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          name: "Rank Initiated"
+        })
+      }
     })
   ]);
 

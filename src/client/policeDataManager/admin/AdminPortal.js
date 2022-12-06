@@ -7,16 +7,19 @@ import Signatures from "./signatures/Signatures";
 import LetterTypes from "./letterTypes/LetterTypes";
 import getSigners from "./thunks/getSigners";
 import getCaseStatuses from "../cases/thunks/getCaseStatuses";
+import getComplaintTypes from "./thunks/getComplaintTypes";
 
 const AdminPortal = ({
   permissions,
   getCaseStatuses,
   getSigners,
-  thisIsATest
+  thisIsATest,
+  getComplaintTypes
 }) => {
   useEffect(() => {
     getSigners();
     getCaseStatuses();
+    getComplaintTypes();
   }, []);
 
   const checkPermissions = (...children) => {
@@ -42,5 +45,5 @@ export default connect(
   state => ({
     permissions: state?.users?.current?.userInfo?.permissions
   }),
-  { getSigners, getCaseStatuses }
+  { getSigners, getCaseStatuses, getComplaintTypes }
 )(AdminPortal);
