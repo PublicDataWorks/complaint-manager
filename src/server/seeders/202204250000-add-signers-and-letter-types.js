@@ -6,8 +6,8 @@ const INSERT_SIGNERS = `INSERT INTO signers (name, signature_file, nickname, tit
   VALUES `;
 
 const INSERT_LETTER_TYPES = `INSERT INTO letter_types (type, default_sender) 
-  VALUES ('REFERRAL', 1), 
-    ('COMPLAINANT', 1)`;
+  VALUES ('REFERRAL', {signerId}), 
+    ('COMPLAINANT', {signerId})`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -17,13 +17,19 @@ module.exports = {
     query = query.slice(0, -1);
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize
-          .query(query, { transaction })
-          .then(async () => {
-            await queryInterface.sequelize.query(INSERT_LETTER_TYPES, {
+        await queryInterface.sequelize.query(query, { transaction });
+        if (process.env.ORG === "NOIPM") {
+          const signers = await queryInterface.sequelize.query(
+            "SELECT id FROM signers",
+            { transaction }
+          );
+          await queryInterface.sequelize.query(
+            INSERT_LETTER_TYPES.replaceAll("{signerId}", signers[0][0].id),
+            {
               transaction
-            });
-          });
+            }
+          );
+        }
       });
     } catch (error) {
       throw new Error(
