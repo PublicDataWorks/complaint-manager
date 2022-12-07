@@ -1,18 +1,18 @@
 import { mount } from "enzyme";
 import React from "react";
 import DashboardDataSection from "./DashboardDataSection";
-import {
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
+import { QUERY_TYPES } from "../../sharedUtilities/constants";
+
+const {
   DATA_SECTIONS,
   DDS_COMPLAINANTS_SUBMIT_COMPLAINTS,
   DDS_COMPLAINTS_OVER_TIME,
   DDS_EMERGING_THEMES,
   DDS_TOP_ALLEGATIONS,
-  DDS_WHO_SUBMITS_COMPLAINTS,
-  DDS_LOCATION_DATA,
-  QUERY_TYPES
-} from "../../sharedUtilities/constants";
-import { MuiThemeProvider } from "@material-ui/core/styles";
-import dashboardStylingDesktop from "./dashboardStyling/dashboardStylingDesktop";
+  DDS_WHO_SUBMITS_COMPLAINTS
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/public-data-dashboard-options`);
 
 jest.mock(
   "../common/components/Visualization/Visualization",

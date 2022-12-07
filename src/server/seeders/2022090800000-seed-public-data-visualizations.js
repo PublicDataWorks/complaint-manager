@@ -1,9 +1,10 @@
 "use strict";
 
 const {
-  DATA_SECTIONS,
-  QUERY_TYPES
-} = require("../../sharedUtilities/constants");
+  DATA_SECTIONS
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/public-data-dashboard-options`);
+
+const { QUERY_TYPES } = require("../../sharedUtilities/constants");
 
 const INSERT_VISUALIZATIONS = `INSERT INTO public_data_visualizations (query_type, title, subtitle, collapsed_text, full_message, order_key) 
   VALUES 
