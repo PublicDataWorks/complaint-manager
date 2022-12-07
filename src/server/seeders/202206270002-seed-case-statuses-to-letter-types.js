@@ -23,26 +23,32 @@ const INSERT_COMPLAINANT_FOREIGN_KEY = `
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    try {
-      await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(INSERT_REFERRAL_FOREIGN_KEY, {
-          transaction
+    if (process.env.ORG === "NOIPM") {
+      try {
+        await queryInterface.sequelize.transaction(async transaction => {
+          await queryInterface.sequelize.query(INSERT_REFERRAL_FOREIGN_KEY, {
+            transaction
+          });
+          await queryInterface.sequelize.query(INSERT_COMPLAINANT_FOREIGN_KEY, {
+            transaction
+          });
         });
-        await queryInterface.sequelize.query(INSERT_COMPLAINANT_FOREIGN_KEY, {
-          transaction
-        });
-      });
-    } catch (error) {
-      throw new Error(
-        `Error while seeding foreign key data from ${CASE_STATUSES_TABLE} to ${LETTER_TYPES_TABLE}. Internal Error: ${error}`
-      );
+      } catch (error) {
+        throw new Error(
+          `Error while seeding foreign key data from ${CASE_STATUSES_TABLE} to ${LETTER_TYPES_TABLE}. Internal Error: ${error}`
+        );
+      }
     }
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(
-        `TRUNCATE ${LETTER_TYPES_TABLE} CASCADE`,
+        `
+  UPDATE ${LETTER_TYPES_TABLE}
+  SET required_status = NULL
+  WHERE TYPE = 'REFERRAL' OR TYPE = 'COMPLAINANT'
+`,
         {
           transaction
         }
