@@ -29,23 +29,25 @@ const REVERSION_QUERY = `UPDATE letter_types
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    try {
-      await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize
-          .query(REFERRAL_LETTER_TEMPLATE_QUERY, { transaction })
-          .then(async () => {
-            await queryInterface.sequelize.query(
-              COMPLAINANT_LETTER_TEMPLATE_QUERY,
-              {
-                transaction
-              }
-            );
-          });
-      });
-    } catch (error) {
-      throw new Error(
-        `Error while seeding letter type data. Internal Error: ${error}`
-      );
+    if (process.env.ORG === "NOIPM") {
+      try {
+        await queryInterface.sequelize.transaction(async transaction => {
+          await queryInterface.sequelize
+            .query(REFERRAL_LETTER_TEMPLATE_QUERY, { transaction })
+            .then(async () => {
+              await queryInterface.sequelize.query(
+                COMPLAINANT_LETTER_TEMPLATE_QUERY,
+                {
+                  transaction
+                }
+              );
+            });
+        });
+      } catch (error) {
+        throw new Error(
+          `Error while seeding letter type data. Internal Error: ${error}`
+        );
+      }
     }
   },
 
