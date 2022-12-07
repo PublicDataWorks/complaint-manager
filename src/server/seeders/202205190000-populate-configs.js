@@ -1,13 +1,15 @@
 "use strict";
 
+const CONSTANTS = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const INSERT_CONFIGS = `INSERT INTO configs (name, value) 
-  VALUES ('ORG_ACRONYM', 'OIPM'), 
-  ('ORG_NAME', 'Office of the Independent Police Monitor'), 
-  ('CITY', 'New Orleans'), 
-  ('POLICE_ACRONYM', 'NOPD'), 
-  ('IA_BUREAU', 'Public Integrity Bureau'), 
-  ('IA_ACRONYM', 'PIB'), 
-  ('FIRST_YEAR_DATA_IS_AVAILABLE', '2018')
+  VALUES ('ORG_ACRONYM', '${CONSTANTS.ORGANIZATION}'), 
+  ('ORG_NAME', '${CONSTANTS.ORGANIZATION_TITLE}'), 
+  ('CITY', '${CONSTANTS.CITY}'), 
+  ('POLICE_ACRONYM', '${CONSTANTS.PD}'), 
+  ('IA_BUREAU', '${CONSTANTS.BUREAU}'), 
+  ('IA_ACRONYM', '${CONSTANTS.BUREAU_ACRONYM}'), 
+  ('FIRST_YEAR_DATA_IS_AVAILABLE', '${CONSTANTS.FIRST_YEAR_DATA_IS_AVAILABLE}')
 `;
 
 module.exports = {
@@ -18,7 +20,7 @@ module.exports = {
       });
     } catch (error) {
       throw new Error(
-        `Error while seeding letter type data. Internal Error: ${error}`
+        `Error while seeding config data. Internal Error: ${error}`
       );
     }
   },
