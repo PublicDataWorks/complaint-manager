@@ -24,6 +24,7 @@ services:
       - REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
       - REACT_APP_GITHUB_TOKEN
+      - ORG=NOIPM
     depends_on:
       - db
       - worker
