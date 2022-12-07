@@ -18,42 +18,53 @@ const INSERT_LETTER_TYPES_LETTER_IMAGES = `INSERT INTO ${LETTER_TYPES_LETTER_IMA
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     if (process.env.ORG === "NOIPM") {
-    try {
-      await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize
-          .query(INSERT_LETTER_IMAGES, {
+      try {
+        await queryInterface.sequelize.transaction(async transaction => {
+          await queryInterface.sequelize.query(INSERT_LETTER_IMAGES, {
             transaction
-          })
+          });
 
           const imageId = await queryInterface.sequelize.query(
-            `SELECT id, image FROM ${LETTER_IMAGES_TABLE}`, {
+            `SELECT id, image FROM ${LETTER_IMAGES_TABLE}`,
+            {
               transaction
-            });
+            }
+          );
           const letterId = await queryInterface.sequelize.query(
-            "SELECT id, type FROM letter_types", {
+            "SELECT id, type FROM letter_types",
+            {
               transaction
-            });
+            }
+          );
 
           let query = INSERT_LETTER_TYPES_LETTER_IMAGES;
           imageId[0].forEach(element => {
             query = query.replaceAll(
-              element.image === "header_text.png" ? "{headerImageId}" : "{iconImageId}", element.id)
-            })
+              element.image === "header_text.png"
+                ? "{headerImageId}"
+                : "{iconImageId}",
+              element.id
+            );
+          });
           letterId[0].forEach(element => {
             query = query.replaceAll(
-              element.type === "REFERRAL" ? "{referralLetterId}" : "{complainantLetterId}", element.id)
-            })
+              element.type === "REFERRAL"
+                ? "{referralLetterId}"
+                : "{complainantLetterId}",
+              element.id
+            );
+          });
 
-        await queryInterface.sequelize.query(query, {
-              transaction
-            })
-      })
-    } catch (error) {
-      throw new Error(
-        `Error while seeding data into ${LETTER_IMAGES_TABLE} and ${LETTER_TYPES_LETTER_IMAGES_TABLE} tables. Internal Error: ${error}`
-      );
+          await queryInterface.sequelize.query(query, {
+            transaction
+          });
+        });
+      } catch (error) {
+        throw new Error(
+          `Error while seeding data into ${LETTER_IMAGES_TABLE} and ${LETTER_TYPES_LETTER_IMAGES_TABLE} tables. Internal Error: ${error}`
+        );
+      }
     }
-  }
   },
 
   down: async (queryInterface, Sequelize) => {
