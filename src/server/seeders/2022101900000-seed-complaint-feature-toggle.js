@@ -2,8 +2,10 @@
 
 const FEATURE_TOGGLES_TABLE = "feature_toggles";
 
+const ENABLED = process.env.ORG === "HAWAII" ? true : false;
+
 const INSERT_FEATURE_TOGGLE = `INSERT INTO ${FEATURE_TOGGLES_TABLE}(name, description, enabled, is_dev) 
-  VALUES ('chooseComplaintType', 'Allows you to choose from a list of complaint types when creating a case', false, false)
+  VALUES ('chooseComplaintType', 'Allows you to choose from a list of complaint types when creating a case', ${ENABLED}, false)
 `;
 
 module.exports = {
