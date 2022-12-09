@@ -46,12 +46,25 @@ const addLetterType = asyncMiddleware(async (request, response, next) => {
   }
 
   if (request.body.complaintTypes && request.body.complaintTypes.length) {
-    await Promise.all(
+    const complaintTypeIds = await Promise.all(
       request.body.complaintTypes.map(async type => {
+        const complaintType = await models.complaintTypes.findOne({
+          where: { name: type }
+        });
+
+        if (!complaintType) {
+          throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_COMPLAINT_TYPE);
+        }
+
+        return complaintType.id;
+      })
+    );
+    await Promise.all(
+      complaintTypeIds.map(async id => {
         await models.letterTypeComplaintType.create(
           {
             letterTypeId: newLetterType.id,
-            complaintTypeId: type
+            complaintTypeId: id
           },
           { auditUser: request.nickname }
         );

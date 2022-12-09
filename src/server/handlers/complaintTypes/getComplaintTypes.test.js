@@ -1,5 +1,6 @@
 import {
   buildTokenWithPermissions,
+  cleanupDatabase,
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import app from "../../server";
@@ -16,6 +17,17 @@ const {
 describe("getComplaintTypes", () => {
   afterAll(async () => {
     await models.sequelize.close();
+  });
+
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
+  beforeEach(async () => {
+    await cleanupDatabase();
+    await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
+    await models.complaintTypes.create({ name: RANK_INITIATED });
+    await models.complaintTypes.create({ name: CIVILIAN_WITHIN_PD_INITIATED });
   });
 
   test("returns a list of complaint types to populate dropdown", async () => {

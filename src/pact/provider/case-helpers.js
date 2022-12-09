@@ -19,11 +19,15 @@ export const setupCase = async () => {
       { auditUser: "user" }
     );
 
+    const civilianWithinPdInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_WITHIN_PD_INITIATED
+    });
+
     const c = await models.cases.create(
       new Case.Builder()
         .defaultCase()
         .withId(1)
-        .withComplaintType(CIVILIAN_WITHIN_PD_INITIATED)
+        .withComplaintTypeId(civilianWithinPdInitiated.id)
         .withIntakeSourceId(intakeSource.id),
       {
         auditUser: "user"

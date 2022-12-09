@@ -180,12 +180,16 @@ describe("generateLetterPdfBuffer", () => {
       .withCreatedAt(new Date("2018-09-22"))
       .withRoleOnCase(COMPLAINANT);
 
+    const complaintType = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
-      .withComplaintType(RANK_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withComplainantOfficers([complainantOfficer])
       .withStatus(statuses[0]);
     existingCase = await models.cases.create(caseAttributes, {

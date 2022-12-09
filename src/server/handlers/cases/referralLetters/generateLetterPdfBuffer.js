@@ -248,6 +248,11 @@ export const getLetterData = async caseId => {
         model: models.caseStatus,
         as: "status",
         attributes: ["id", "name", "orderKey"]
+      },
+      {
+        model: models.complaintTypes,
+        as: "complaintType",
+        attributes: ["name"]
       }
     ],
     order: [

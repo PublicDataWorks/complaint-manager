@@ -30,7 +30,12 @@ import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
 import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
-import { COMPLAINANT, WITNESS } from "../../sharedUtilities/constants";
+import {
+  CIVILIAN_INITIATED,
+  COMPLAINANT,
+  RANK_INITIATED,
+  WITNESS
+} from "../../sharedUtilities/constants";
 import Officer from "../../sharedTestHelpers/Officer";
 
 jest.mock(
@@ -344,6 +349,9 @@ describe("Pact Verification", () => {
         await cleanupDatabase();
 
         statuses = await seedStandardCaseStatuses();
+
+        await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
+        await models.complaintTypes.create({ name: RANK_INITIATED });
 
         const signerAttr = new Signer.Builder()
           .defaultSigner()

@@ -23,9 +23,26 @@ const models = require("../../policeDataManager/models");
 jest.mock("../audits/auditDataAccess");
 
 describe("createCase handler", () => {
-  let request, response, next, caseAttributes, civilianAttributes, user;
+  let request,
+    response,
+    next,
+    caseAttributes,
+    civilianAttributes,
+    user,
+    civilianInitiated,
+    rankInitiated,
+    civilianWithinPdInitiated;
 
   beforeEach(async () => {
+    civilianInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+    rankInitiated = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+    civilianWithinPdInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_WITHIN_PD_INITIATED
+    });
     user = "TEST_USER_NICKNAME";
     caseAttributes = {
       complaintType: CIVILIAN_INITIATED,
@@ -83,7 +100,7 @@ describe("createCase handler", () => {
     await createCase(request, response, next);
 
     const insertedCase = await models.cases.findOne({
-      where: { complaintType: CIVILIAN_INITIATED },
+      where: { complaintTypeId: civilianInitiated.id },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
     const insertedAddress = await models.address.findOne({
@@ -101,14 +118,14 @@ describe("createCase handler", () => {
     await createCase(request, response, next);
 
     const insertedCase = await models.cases.findOne({
-      where: { complaintType: CIVILIAN_INITIATED },
+      where: { complaintTypeId: civilianInitiated.id },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
     expect(insertedCase).toEqual(
       expect.objectContaining({
         year: 2018,
         caseNumber: 1,
-        complaintType: CIVILIAN_INITIATED,
+        complaintTypeId: civilianInitiated.id,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
@@ -142,14 +159,14 @@ describe("createCase handler", () => {
 
     await createCase(policeOfficerRequest, response, next);
     const insertedCase = await models.cases.findOne({
-      where: { complaintType: RANK_INITIATED },
+      where: { complaintTypeId: rankInitiated.id },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
     expect(insertedCase).toEqual(
       expect.objectContaining({
         year: 2018,
         caseNumber: 1,
-        complaintType: RANK_INITIATED,
+        complaintTypeId: rankInitiated.id,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
@@ -177,14 +194,14 @@ describe("createCase handler", () => {
 
     await createCase(civilianWithinPd, response, next);
     const insertedCase = await models.cases.findOne({
-      where: { complaintType: CIVILIAN_WITHIN_PD_INITIATED },
+      where: { complaintTypeId: civilianWithinPdInitiated.id },
       include: [{ model: models.civilian, as: "complainantCivilians" }]
     });
     expect(insertedCase).toEqual(
       expect.objectContaining({
         year: 2018,
         caseNumber: 1,
-        complaintType: CIVILIAN_WITHIN_PD_INITIATED,
+        complaintTypeId: civilianWithinPdInitiated.id,
         firstContactDate: "2018-02-08",
         incidentDate: "2018-03-16",
         createdBy: user,
@@ -221,7 +238,7 @@ describe("createCase handler", () => {
       body: {
         case: {
           complainantType: CIVILIAN_INITIATED,
-          complainantType: CIVILIAN_INITIATED
+          complaintType: CIVILIAN_INITIATED
         },
         civilian: {
           firstName: "",

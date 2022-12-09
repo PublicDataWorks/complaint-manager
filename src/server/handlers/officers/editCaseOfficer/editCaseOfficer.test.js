@@ -8,6 +8,7 @@ import editCaseOfficer from "./editCaseOfficer";
 import {
   ACCUSED,
   AUDIT_SUBJECT,
+  CIVILIAN_INITIATED,
   COMPLAINANT,
   MANAGER_TYPE,
   USER_PERMISSIONS,
@@ -42,11 +43,16 @@ describe("editCaseOfficer", () => {
       { auditUser: "user" }
     );
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withAccusedOfficers([])
       .withIncidentLocation(undefined)
+      .withComplaintTypeId(complaintType.id)
       .build();
 
     existingCase = await models.cases.create(existingCaseAttributes, {
@@ -70,7 +76,7 @@ describe("editCaseOfficer", () => {
       existingCaseOfficerAttributes = new CaseOfficer.Builder()
         .defaultCaseOfficer()
         .withOfficerAttributes(existingOfficer)
-        .withCaseId(existingCase.dataValues.id)
+        .withCaseId(existingCase.id)
         .build();
 
       existingCaseOfficer = await models.case_officer.create(
@@ -562,7 +568,7 @@ describe("editCaseOfficer", () => {
         .withId(undefined)
         .withRoleOnCase(ACCUSED)
         .withOfficerAttributes(existingOfficer)
-        .withCaseId(existingCase.dataValues.id)
+        .withCaseId(existingCase.id)
         .build();
 
       existingCaseOfficer = await models.case_officer.create(

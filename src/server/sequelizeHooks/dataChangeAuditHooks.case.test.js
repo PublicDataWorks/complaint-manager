@@ -16,12 +16,21 @@ const {
 
 describe("dataChangeAuditHooks", () => {
   jest.setTimeout(60000);
+  let complaintType, civilianInitiated;
   beforeEach(async () => {
     await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
+
+    complaintType = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+
+    civilianInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
   });
 
   afterEach(async () => {
@@ -50,7 +59,7 @@ describe("dataChangeAuditHooks", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withComplaintType(RANK_INITIATED)
+        .withComplaintTypeId(complaintType.id)
         .withDistrict(null)
         .withDistrictId(null)
         .withFirstContactDate("2017-12-24")
@@ -133,7 +142,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
         districtId: { new: null },
-        complaintType: { new: RANK_INITIATED },
+        complaintTypeId: { new: complaintType.id },
         assignedTo: { new: "originalAssignedToPerson" },
         statusId: { new: 1 },
         caseNumber: { new: 1 },
@@ -172,7 +181,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
         districtId: { new: null },
-        complaintType: { new: RANK_INITIATED },
+        complaintTypeId: { new: complaintType.id },
         assignedTo: { new: "originalAssignedToPerson" },
         statusId: { new: 1 },
         intakeSourceId: { new: emailIntakeSource.id },
@@ -213,7 +222,7 @@ describe("dataChangeAuditHooks", () => {
         firstContactDate: { new: "2017-12-24" },
         district: { new: null },
         districtId: { new: null },
-        complaintType: { new: RANK_INITIATED },
+        complaintTypeId: { new: complaintType.id },
         assignedTo: { new: "originalAssignedToPerson" },
         statusId: { new: 1 },
         howDidYouHearAboutUsSourceId: {
@@ -256,7 +265,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: null,
         district: null,
         districtId: null,
-        complaintType: RANK_INITIATED,
+        complaintTypeId: complaintType.id,
         assignedTo: "originalAssignedToPerson",
         statusId: 1,
         createdAt: createdCase.createdAt.toJSON(),
@@ -407,7 +416,7 @@ describe("dataChangeAuditHooks", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
-        .withComplaintType(RANK_INITIATED)
+        .withComplaintTypeId(complaintType.id)
         .withDistrict("1st District")
         .withDistrictId(1)
         .withFirstContactDate("2017-12-24")
@@ -519,7 +528,6 @@ describe("dataChangeAuditHooks", () => {
       });
 
       const expectedChanges = {
-        complaintType: { previous: RANK_INITIATED, new: CIVILIAN_INITIATED },
         district: { previous: "1st District", new: "2nd District" },
         districtId: { previous: 1, new: 2 },
         firstContactDate: { previous: "2017-12-24", new: "2018-01-01" },
@@ -549,7 +557,7 @@ describe("dataChangeAuditHooks", () => {
       });
       await existingCase.update(
         {
-          complaintType: CIVILIAN_INITIATED,
+          complaintTypeId: civilianInitiated.id,
           district: "2nd District",
           districtId: 2,
           firstContactDate: "2018-01-01",
@@ -587,7 +595,7 @@ describe("dataChangeAuditHooks", () => {
         howDidYouHearAboutUsSource: null,
         district: "2nd District",
         districtId: 2,
-        complaintType: CIVILIAN_INITIATED,
+        complaintTypeId: civilianInitiated.id,
         assignedTo: "updatedAssignedPerson",
         statusId: 1,
         createdAt: existingCase.createdAt.toJSON(),
@@ -819,7 +827,7 @@ describe("dataChangeAuditHooks", () => {
 
       const expectedChanges = {
         assignedTo: { new: "tuser" },
-        complaintType: { new: "Civilian Initiated" },
+        complaintTypeId: { new: null },
         district: { new: null },
         districtId: { new: null },
         firstContactDate: { new: "2017-12-24" },
@@ -861,7 +869,7 @@ describe("dataChangeAuditHooks", () => {
 
       const expectedChanges = {
         assignedTo: { previous: "tuser" },
-        complaintType: { previous: "Civilian Initiated" },
+        complaintTypeId: { previous: null },
         district: { previous: null },
         districtId: { previous: null },
         firstContactDate: { previous: "2017-12-24" },

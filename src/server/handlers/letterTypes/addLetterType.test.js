@@ -47,6 +47,9 @@ describe("addLetterType", () => {
       { auditUser: "user" }
     );
 
+    await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
+    await models.complaintTypes.create({ name: RANK_INITIATED });
+
     signer = await models.signers.create(
       new Signer.Builder()
         .defaultSigner()
@@ -143,7 +146,10 @@ describe("addLetterType", () => {
           signatureFile: signer.signatureFile,
           title: signer.title
         }),
-        complaintTypes: [RANK_INITIATED, CIVILIAN_INITIATED]
+        complaintTypes: expect.arrayContaining([
+          RANK_INITIATED,
+          CIVILIAN_INITIATED
+        ])
       })
     );
   });

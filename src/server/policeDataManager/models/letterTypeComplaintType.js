@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       complaintTypeId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         field: "complaint_type_id",
         allowNull: false
       },

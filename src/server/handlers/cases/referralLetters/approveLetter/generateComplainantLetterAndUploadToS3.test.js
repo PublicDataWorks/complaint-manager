@@ -104,12 +104,16 @@ describe("generateComplainantLetterAndUploadToS3", () => {
       createdAt: "2017-01-01 12:12:00"
     };
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
-      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withComplainantCivilians([complainant]);
 
     existingCase = await models.cases.create(caseAttributes, {

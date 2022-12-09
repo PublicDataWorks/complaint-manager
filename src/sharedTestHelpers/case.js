@@ -7,7 +7,6 @@ import CaseStatus from "./caseStatus";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
-  CIVILIAN_INITIATED,
   COMPLAINANT,
   WITNESS
 } from "../sharedUtilities/constants";
@@ -18,7 +17,7 @@ class Case {
     this.id = build.id;
     this.complainantCivilians = build.complainantCivilians;
     this.witnessCivilians = build.witnessCivilians;
-    this.complaintType = build.complaintType;
+    this.complaintTypeId = build.complaintTypeId;
     this.statusId = build.statusId;
     this.status = build.status;
     this.createdAt = build.createdAt;
@@ -134,7 +133,6 @@ class Case {
         this.district = null;
         this.districtId = null;
         this.caseDistrict = null;
-        this.complaintType = CIVILIAN_INITIATED;
         this.createdBy = "tuser";
         this.assignedTo = "tuser";
         this.narrativeDetails = "<p> test details </p>";
@@ -183,8 +181,8 @@ class Case {
         return this;
       }
 
-      withComplaintType(complaintType) {
-        this.complaintType = complaintType;
+      withComplaintTypeId(complaintTypeId) {
+        this.complaintTypeId = complaintTypeId;
         return this;
       }
 

@@ -43,12 +43,27 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
     }
 
     if (request.body.complaintTypes.length) {
+      const complaintTypeIds = await Promise.all(
+        request.body.complaintTypes.map(async type => {
+          const complaintType = await models.complaintTypes.findOne({
+            where: { name: type }
+          });
+
+          if (!complaintType) {
+            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_COMPLAINT_TYPE);
+          }
+
+          return complaintType.id;
+        })
+      );
+
       await Promise.all(
-        request.body.complaintTypes.map(async complaintType => {
+        complaintTypeIds.map(async complaintTypeId => {
+          console.log(complaintTypeId);
           await models.letterTypeComplaintType.create(
             {
               letterTypeId: typeId,
-              complaintTypeId: complaintType
+              complaintTypeId
             },
             { auditUser: request.nickname }
           );
@@ -80,6 +95,7 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
     })
   );
 
+  console.log(await models.letter_types.findAll());
   // update the database accordingly and if that fails because of a duplicate type, handle that
   try {
     await letterType.save({ auditUser: request.nickname });

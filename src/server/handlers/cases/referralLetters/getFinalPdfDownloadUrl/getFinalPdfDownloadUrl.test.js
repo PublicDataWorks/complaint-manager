@@ -65,12 +65,16 @@ describe("getFinalPdfDownloadUrl", () => {
       .withRoleOnCase(COMPLAINANT)
       .withOfficerId(complainantOfficer.id);
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
       .withIncidentDate("2016-01-01")
-      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withComplainantCivilians([complainantCivilianAttributes])
       .withComplainantOfficers([complainantCaseOfficerAttributes]);
 

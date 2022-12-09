@@ -1,12 +1,12 @@
 "use strict";
 
 const ADD_COLUMN_QUERY = `ALTER TABLE cases 
-  ADD COLUMN IF NOT EXISTS district`;
+  ADD COLUMN IF NOT EXISTS district VARCHAR(255)`;
 
 const REMOVE_COLUMN_QUERY = `ALTER TABLE cases 
   DROP COLUMN IF EXISTS district`;
 
-const SELECT_DISTRICT_QUERY =  `
+const SELECT_DISTRICT_QUERY = `
   select d.id as district_id, c.id as case_id
     from cases c
       join districts d
@@ -26,15 +26,20 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        const cases = await queryInterface.sequelize.query(SELECT_DISTRICT_QUERY, {
-          transaction
-        });
+        const cases = await queryInterface.sequelize.query(
+          SELECT_DISTRICT_QUERY,
+          {
+            transaction
+          }
+        );
         cases[0].forEach(c => {
           queryInterface.sequelize.query(
             `UPDATE cases SET district_id = ${c.district_id} WHERE id = ${c.case_id}`
           );
         });
-        await queryInterface.sequelize.query(REMOVE_COLUMN_QUERY, { transaction });
+        await queryInterface.sequelize.query(REMOVE_COLUMN_QUERY, {
+          transaction
+        });
       });
     } catch (error) {
       throw new Error(

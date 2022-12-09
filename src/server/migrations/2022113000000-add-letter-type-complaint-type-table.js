@@ -5,9 +5,9 @@ const LETTER_TYPE_COMPLAINT_TYPE_TABLE = "letter_type_complaint_type";
 const CREATE_LETTER_TYPE_COMPLAINT_TYPE_QUERY = `CREATE TABLE IF NOT EXISTS ${LETTER_TYPE_COMPLAINT_TYPE_TABLE} (
   id serial PRIMARY KEY,
   letter_type_id INT NOT NULL,
-  complaint_type_id TEXT NOT NULL,
+  complaint_type_id INT NOT NULL,
   FOREIGN KEY (letter_type_id) REFERENCES letter_types (id),
-  FOREIGN KEY (complaint_type_id) REFERENCES complaint_types (name),
+  FOREIGN KEY (complaint_type_id) REFERENCES complaint_types (id),
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ
 )`;

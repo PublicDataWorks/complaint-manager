@@ -96,7 +96,6 @@ describe("cases table", () => {
       .withId(17)
       .withCaseReference("CC2017-0001")
       .withPrimaryComplainant(civilianChuck)
-      .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.INITIAL)
       .withAssignedTo("tuser")
       .withAccusedOfficer(accusedOfficer)
@@ -104,29 +103,33 @@ describe("cases table", () => {
       .withTagNames(["cold-cut sandwich", "Grapes", "Use of Force"])
       .build();
 
+    caseOne.complaintType = CIVILIAN_INITIATED;
+
     const caseTwo = new SortableCase.Builder()
       .defaultSortableCase()
       .withId(24)
       .withCaseReference("CC2017-0002")
       .withPrimaryComplainant(civilianAriel)
-      .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withAssignedTo("tuser")
       .withFirstContactDate("2017-12-25")
       .build();
+
+    caseTwo.complaintType = CIVILIAN_INITIATED;
 
     const caseThree = new SortableCase.Builder()
       .defaultSortableCase()
       .withId(28)
       .withCaseReference("CC2017-0002")
       .withPrimaryComplainant(civilianAriel)
-      .withComplaintType(CIVILIAN_INITIATED)
       .withStatus(CASE_STATUS.READY_FOR_REVIEW)
       .withAccusedOfficer(accusedOfficer)
       .withAccusedOfficer(accusedOfficer2)
       .withAssignedTo("tuser")
       .withFirstContactDate("2017-12-25")
       .build();
+
+    caseThree.complaintType = CIVILIAN_INITIATED;
 
     cases = [caseOne, caseTwo, caseThree];
 

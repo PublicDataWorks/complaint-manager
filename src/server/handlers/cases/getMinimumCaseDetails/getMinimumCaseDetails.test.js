@@ -30,11 +30,15 @@ describe("getMinimumCaseDetails", () => {
       { auditUser: "user" }
     );
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(205)
       .withFirstContactDate("2017-12-25")
-      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withComplainantCivilians([]);
 
     existingCase = await models.cases.create(caseAttributes, {

@@ -289,11 +289,15 @@ const createCase = async (complaintType, isAnonymous = false) => {
         ]
       : [];
 
+  const type = models.complaintTypes.create({
+    name: complaintType || CIVILIAN_INITIATED
+  });
+
   const existingCaseAttributes = new Case.Builder()
     .defaultCase()
     .withFirstContactDate("2012-05-05")
     .withId(88)
-    .withComplaintType(complaintType || CIVILIAN_INITIATED)
+    .withComplaintTypeId(type.id)
     .withComplainantCivilians(civilianComplainants)
     .withComplainantOfficers(officerComplainants);
   return await models.cases.create(existingCaseAttributes, {
@@ -322,11 +326,14 @@ const createUnknownOfficerCase = async () => {
       createdAt: "2018-02-01"
     }
   ];
+
+  const complaintType = models.complaintTypes.create({ name: RANK_INITIATED });
+
   const existingCaseAttributes = new Case.Builder()
     .defaultCase()
     .withFirstContactDate("2012-05-05")
     .withId(88)
-    .withComplaintType(RANK_INITIATED)
+    .withComplaintTypeId(complaintType.id)
     .withComplainantOfficers(officerComplainants);
   return await models.cases.create(existingCaseAttributes, {
     auditUser: "someone",

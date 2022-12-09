@@ -15,7 +15,6 @@ import {
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import LetterImage from "../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
-import letterTypeComplaintType from "../../policeDataManager/models/letterTypeComplaintType";
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -134,9 +133,13 @@ describe("getLetterTypes", () => {
   });
 
   test("returns letter types with complaint types when letter is restricted to certain complaint types", async () => {
+    const complaintType = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+
     await models.letterTypeComplaintType.create({
       letterTypeId: 1,
-      complaintTypeId: RANK_INITIATED
+      complaintTypeId: complaintType.id
     });
 
     const token = buildTokenWithPermissions(

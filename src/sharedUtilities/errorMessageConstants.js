@@ -11,6 +11,7 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_CIVILIAN_NAME: "Civilian name is invalid",
   INVALID_CASE_OFFICER: "The case officer does not exist",
   INVALID_CASE_STATUS: "Case status is invalid for this action",
+  INVALID_COMPLAINT_TYPE: "Complaint Type is invalid",
   INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
   INVALID_FIRST_CONTACT_DATE: "Valid first contact date is required",
   INVALID_LETTER_OFFICER: "The letter officer does not exist",

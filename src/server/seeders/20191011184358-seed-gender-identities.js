@@ -8,6 +8,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete("gender_identity");
+    await queryInterface.bulkDelete("gender_identities");
   }
 };

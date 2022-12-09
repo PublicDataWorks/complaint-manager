@@ -361,7 +361,6 @@ const generateExampleLetterPreview = asyncMiddleware(
 
     const compiledTemplate = Handlebars.compile(template);
     const html = compiledTemplate(EXAMPLE_DATA);
-    console.log(html.replaceAll(/<img[^>]*>/gi, "IMAGE!"));
 
     const pdf = await generatePdfBuffer(html);
     response

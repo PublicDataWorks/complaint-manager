@@ -66,9 +66,10 @@ jest.mock("./handlers/tags/getTags", () =>
 );
 
 describe("server", () => {
-  let token, user, raceEthnicity;
+  let token, user, raceEthnicity, civilianInitiated;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     user = NICKNAME;
     token = buildTokenWithPermissions(
       "case:create case-notes:create case:add-tag case:edit",
@@ -87,6 +88,9 @@ describe("server", () => {
     );
 
     await seedStandardCaseStatuses();
+    civilianInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
   });
 
   afterEach(async () => {
@@ -220,7 +224,6 @@ describe("server", () => {
     let requestBody, responseBody;
 
     beforeEach(() => {
-      //TODO Restructure this to have the same structure as represented in Redux/Builder.
       requestBody = {
         civilian: {
           firstName: "Manny",
@@ -319,6 +322,7 @@ describe("server", () => {
       const caseToCreate = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withIncidentLocation(undefined)
         .withComplainantCivilians([existingCivilianToCreate]);
 
@@ -404,6 +408,7 @@ describe("server", () => {
       const caseDefault = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withComplainantCivilians([civilianDefault])
         .withIncidentLocation(undefined)
         .build();
@@ -488,6 +493,7 @@ describe("server", () => {
       const caseDefault = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withIncidentLocation(undefined)
         .withComplainantCivilians([civilianWithAddress])
         .build();
@@ -548,6 +554,7 @@ describe("server", () => {
         .defaultCase()
         .withId(undefined)
         .withIncidentLocation(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withComplainantCivilians([civilianWithAddress])
         .build();
 
@@ -635,6 +642,7 @@ describe("server", () => {
       const existingCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withIncidentLocation(undefined)
         .build();
       createdCase = await models.cases.create(existingCase, {
@@ -687,6 +695,7 @@ describe("server", () => {
       const existingCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withIncidentLocation(undefined)
         .build();
       const createdCase = await models.cases.create(existingCase, {
@@ -771,6 +780,7 @@ describe("server", () => {
       let caseToCreate = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withComplainantCivilians([civilian])
         .withNarrativeDetails("Beginning narrative")
         .withIncidentLocation(undefined)
@@ -812,7 +822,7 @@ describe("server", () => {
               email: caseToUpdate.complainantCivilians[0].email
             })
           ],
-          complaintType: caseToUpdate.complaintType,
+          complaintType: CIVILIAN_INITIATED,
           narrativeDetails: updatedNarrative.narrativeDetails,
           status: CASE_STATUS.ACTIVE
         })
@@ -842,6 +852,7 @@ describe("server", () => {
       defaultCase = new Case.Builder()
         .defaultCase()
         .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id)
         .withComplainantCivilians([defaultCivilian])
         .withAttachments([defaultAttachment, attachmentToDelete])
         .withIncidentLocation(undefined)
@@ -961,6 +972,7 @@ describe("server", () => {
         caseWithSameFilename = new Case.Builder()
           .defaultCase()
           .withId(undefined)
+          .withComplaintTypeId(civilianInitiated.id)
           .withAttachments([defaultAttachment, attachmentToDelete])
           .withIncidentLocation(undefined)
           .build();

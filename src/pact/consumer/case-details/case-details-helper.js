@@ -8,6 +8,10 @@ import SharedSnackbarContainer from "../../../client/policeDataManager/shared/co
 import createConfiguredStore from "../../../client/createConfiguredStore";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 export const CIVILIAN_COMPLAINANT = "civilianComplainant";
 export const CIVILIAN_WITNESS = "civilianWitness";
 export const OFFICER_COMPLAINANT = "officerComplainant";
@@ -146,7 +150,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType: "Civilian Within NOPD",
+              caseEmployeeType:
+                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",
@@ -213,7 +218,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType: "Civilian Within NOPD",
+              caseEmployeeType:
+                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",
@@ -279,7 +285,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType: "Civilian Within NOPD",
+              caseEmployeeType:
+                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",

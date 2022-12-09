@@ -3,7 +3,6 @@ import models from "../../../policeDataManager/models";
 import * as httpMocks from "node-mocks-http";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseTag from "../../../testHelpers/caseTag";
-import Tag from "../../../testHelpers/tag";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import searchCases from "./searchCases";

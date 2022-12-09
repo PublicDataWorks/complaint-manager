@@ -57,11 +57,9 @@ module.exports = (sequelize, DataTypes) => {
           );
         }
       },
-      complaintType: {
+      complaintTypeId: {
         type: DataTypes.STRING,
-        defaultValue: CIVILIAN_INITIATED,
-        field: "complaint_type",
-        allowNull: false
+        field: "complaint_type_id"
       },
       statusId: {
         field: "status",
@@ -372,6 +370,12 @@ module.exports = (sequelize, DataTypes) => {
         name: "statusId",
         field: "status",
         allowNull: false
+      }
+    });
+    Case.belongsTo(models.complaintTypes, {
+      as: "complaintType",
+      foreignKey: {
+        name: "complaintTypeId"
       }
     });
   };

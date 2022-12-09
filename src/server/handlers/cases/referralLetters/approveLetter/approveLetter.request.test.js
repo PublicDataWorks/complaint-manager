@@ -148,10 +148,14 @@ describe("Approve referral letter", () => {
       .withOfficerId(complainantOfficer.id)
       .withRoleOnCase(COMPLAINANT);
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(undefined)
-      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withIncidentDate("2003-01-01")
       .withFirstContactDate("2004-01-01")
       .withComplainantCivilians([complainantCivilianAttributes])

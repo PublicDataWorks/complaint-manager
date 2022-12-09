@@ -88,12 +88,17 @@ describe("getReferralLetterPreview", function () {
       { auditUser: "test" }
     );
 
+    const complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+
     const caseAttributes = new Case.Builder()
       .defaultCase()
       .withId(12070)
       .withFirstContactDate("2017-12-25")
-      .withComplaintType(CIVILIAN_INITIATED)
+      .withComplaintTypeId(complaintType.id)
       .withComplainantCivilians([]);
+
     existingCase = await models.cases.create(caseAttributes, {
       include: [
         {
@@ -104,10 +109,12 @@ describe("getReferralLetterPreview", function () {
       ],
       auditUser: "test"
     });
+
     await existingCase.update(
       { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "test" }
     );
+
     await models.civilian_title.create({
       name: "Miss",
       id: 2
@@ -839,7 +846,7 @@ describe("getReferralLetterPreview", function () {
           const referralLetterPreviewCaseAttributes = [
             "assignedTo",
             "caseNumber",
-            "complaintType",
+            "complaintTypeId",
             "createdAt",
             "createdBy",
             "districtId",
@@ -919,6 +926,10 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.case_officer.rawAttributes)
               ),
               model: models.case_officer.name
+            },
+            complaintType: {
+              attributes: expect.toIncludeSameMembers(["name"]),
+              model: models.complaintTypes.name
             },
             caseDistrict: expect.objectContaining({
               attributes: expect.arrayContaining(
@@ -1040,7 +1051,7 @@ describe("getReferralLetterPreview", function () {
           const referralLetterPreviewCaseAttributes = [
             "assignedTo",
             "caseNumber",
-            "complaintType",
+            "complaintTypeId",
             "createdAt",
             "createdBy",
             "districtId",

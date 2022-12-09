@@ -1,8 +1,7 @@
-import { findByTestId, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import {
   OFFICER_COMPLAINANT,
   OFFICER_WITNESS,
@@ -86,7 +85,7 @@ const scenarios = [
     buttonTestId: "addComplainantWitness",
     method: "POST",
     options: [],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   },
   {
     role: "Witness",
@@ -94,7 +93,7 @@ const scenarios = [
     buttonTestId: "addComplainantWitness",
     method: "POST",
     options: [],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   },
   {
     role: "Accused",
@@ -102,7 +101,7 @@ const scenarios = [
     buttonTestId: "addAccusedMenu",
     method: "POST",
     options: [],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   },
   {
     role: "Complainant",
@@ -110,7 +109,7 @@ const scenarios = [
     buttonTestId: "editOfficerLink",
     method: "PUT",
     options: [NOPD_COMPLAINANT],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   },
   {
     role: "Witness",
@@ -118,7 +117,7 @@ const scenarios = [
     buttonTestId: "editOfficerLink",
     method: "PUT",
     options: [NOPD_WITNESS],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   },
   {
     role: "Accused",
@@ -126,7 +125,7 @@ const scenarios = [
     buttonTestId: "manageCaseOfficer",
     method: "PUT",
     options: [NOPD_ACCUSED],
-    title: "Civilian (NOPD)"
+    title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
   }
 ];
 
@@ -173,7 +172,7 @@ scenarios.forEach(
                   userEvent.click(await screen.findByText(`Accused ${title}`));
                 }
               }
-              if (title === "Civilian (NOPD)") {
+              if (title === PERSON_TYPE.CIVILIAN_WITHIN_PD.description) {
                 if (role === "Witness" || role === "Complainant") {
                   userEvent.click(
                     await screen.findByTestId(
@@ -188,7 +187,7 @@ scenarios.forEach(
                 }
               }
 
-              if (title === "Civilian (NOPD)") {
+              if (title === PERSON_TYPE.CIVILIAN_WITHIN_PD.description) {
                 expect(dispatchSpy).toHaveBeenCalledWith(
                   addCaseEmployeeType(
                     PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
@@ -236,11 +235,14 @@ scenarios.forEach(
               if (title === "Officer" && role === "Accused") {
                 userEvent.click(await screen.findByText(`Edit ${title}`));
               }
-              if (title === "Civilian (NOPD)" && role === "Accused") {
+              if (
+                title === PERSON_TYPE.CIVILIAN_WITHIN_PD.description &&
+                role === "Accused"
+              ) {
                 userEvent.click(await screen.findByTestId("editCaseOfficer"));
               }
 
-              if (title === "Civilian (NOPD)") {
+              if (title === PERSON_TYPE.CIVILIAN_WITHIN_PD.description) {
                 expect(dispatchSpy).toHaveBeenCalledWith(
                   addCaseEmployeeType(
                     PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription

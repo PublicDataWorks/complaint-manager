@@ -7,7 +7,7 @@ export default class Case {
   static getCase = async (id, options) => {
     const model = await models.cases.findByPk(
       id,
-      options ?? { include: ["status"] }
+      options ?? { include: ["status", "complaintType"] }
     );
 
     if (model) {
@@ -30,10 +30,6 @@ export default class Case {
 
   get primaryComplainant() {
     return this._model.primaryComplainant;
-  }
-
-  get complaintType() {
-    return this._model.complaintType;
   }
 
   /**
@@ -62,6 +58,18 @@ export default class Case {
 
   getNextStatus = async () => {
     return await determineNextCaseStatus(await this.getStatus());
+  };
+
+  getComplaintType = async () => {
+    if (this.model.complaintType) {
+      return this.model.complaintType.name;
+    } else {
+      const complaintType = await models.complaintTypes.findByPk(
+        this.model.complaintTypeId,
+        { attributes: ["name"] }
+      );
+      return complaintType?.name;
+    }
   };
 
   get year() {
@@ -188,6 +196,7 @@ export default class Case {
     let json = this._model.toJSON ? this._model.toJSON() : this._model;
     json.status = await this.getStatus();
     json.nextStatus = (await this.getNextStatus())?.name;
+    json.complaintType = await this.getComplaintType();
     return json;
   };
 }

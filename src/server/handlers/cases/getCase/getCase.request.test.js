@@ -11,6 +11,7 @@ import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   ACCUSED,
   ADDRESSABLE_TYPE,
+  CIVILIAN_INITIATED,
   WITNESS
 } from "../../../../sharedUtilities/constants";
 import {
@@ -33,7 +34,11 @@ jest.mock(
 );
 
 describe("GET /cases/:id", () => {
-  let caseToRetrieve, incidentLocation, expectedStreetAddress, token;
+  let caseToRetrieve,
+    incidentLocation,
+    expectedStreetAddress,
+    complaintType,
+    token;
 
   beforeEach(async () => {
     token = buildTokenWithPermissions("", "some_nickname");
@@ -42,6 +47,10 @@ describe("GET /cases/:id", () => {
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
+
+    complaintType = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
 
     const supervisor = new Officer.Builder()
       .defaultOfficer()
@@ -99,6 +108,7 @@ describe("GET /cases/:id", () => {
       .defaultCase()
       .withId(undefined)
       .withComplainantCivilians([civilian])
+      .withComplaintTypeId(complaintType.id)
       .withWitnessCivilians([witness])
       .withAttachments([attachment])
       .withIncidentLocation(incidentLocation)
@@ -156,7 +166,7 @@ describe("GET /cases/:id", () => {
       200,
       expect.objectContaining({
         id: caseToRetrieve.id,
-        complaintType: caseToRetrieve.complaintType,
+        complaintType: complaintType.name,
         status: "Initial",
         complainantCivilians: expect.arrayContaining([
           expect.objectContaining({

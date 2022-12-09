@@ -1,7 +1,7 @@
 "use strict";
 
 const ADD_COLUMN_QUERY = `ALTER TABLE case_notes
-  ADD COLUMN IF NOT EXISTS action`;
+  ADD COLUMN IF NOT EXISTS action VARCHAR(255)`;
 
 const REMOVE_COLUMN_QUERY = `ALTER TABLE case_notes 
   DROP COLUMN IF EXISTS action`;
@@ -10,8 +10,8 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(REMOVE_COLUMN_QUERY, { 
-          transaction 
+        await queryInterface.sequelize.query(REMOVE_COLUMN_QUERY, {
+          transaction
         });
       });
     } catch (error) {

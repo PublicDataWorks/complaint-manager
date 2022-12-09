@@ -28,7 +28,7 @@ jest.mock(
 );
 
 describe("editLetterType", () => {
-  let status, status2, letterType, signer, signer2;
+  let status, status2, letterType, signer, signer2, rankInitiated;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -40,6 +40,11 @@ describe("editLetterType", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+
+    rankInitiated = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+
     status = await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
@@ -221,7 +226,7 @@ describe("editLetterType", () => {
     await models.letterTypeComplaintType.create(
       {
         letterTypeId: letterType.id,
-        complaintTypeId: RANK_INITIATED
+        complaintTypeId: rankInitiated.id
       },
       { auditUser: "user" }
     );

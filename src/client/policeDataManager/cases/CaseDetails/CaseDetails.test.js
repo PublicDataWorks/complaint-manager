@@ -27,6 +27,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import {
   CASE_STATUS,
+  CIVILIAN_INITIATED,
   GET_CONFIGS_SUCCEEDED,
   NARRATIVE_FORM,
   USER_PERMISSIONS
@@ -81,6 +82,7 @@ describe("Case Details Component", () => {
 
     expectedCase.status = CASE_STATUS.INITIAL;
     expectedCase.nextStatus = CASE_STATUS.ACTIVE;
+    expectedCase.complaintType = CIVILIAN_INITIATED;
 
     store.dispatch(getCaseDetailsSuccess(expectedCase));
     store.dispatch({

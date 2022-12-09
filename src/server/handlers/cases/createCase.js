@@ -8,19 +8,11 @@ import getQueryAuditAccessDetails, {
 } from "../audits/getQueryAuditAccessDetails";
 import {
   ADDRESSABLE_TYPE,
-  CIVILIAN_INITIATED,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-const {
-  CIVILIAN_WITHIN_PD_INITIATED
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-import { get } from "lodash";
 import Case from "../../policeDataManager/payloadObjects/Case";
 
-const {
-  AUDIT_SUBJECT,
-  RANK_INITIATED
-} = require("../../../sharedUtilities/constants");
+const { AUDIT_SUBJECT } = require("../../../sharedUtilities/constants");
 
 const asyncMiddleware = require("../asyncMiddleware");
 const models = require("../../policeDataManager/models/index");
@@ -56,7 +48,7 @@ const invalidName = input => {
 
 const createCaseWithoutCivilian = async request => {
   return await createCaseWithRetry(
-    request.body.case,
+    await mapComplaintTypeToCaseAttributes(request.body.case),
     [],
     request.nickname,
     FIRST_TRY
@@ -76,11 +68,24 @@ const createCaseWithCivilian = async request => {
     }
   ];
   return await createCaseWithRetry(
-    newCaseAttributes,
+    await mapComplaintTypeToCaseAttributes(newCaseAttributes),
     includeOptions,
     request.nickname,
     FIRST_TRY
   );
+};
+
+const mapComplaintTypeToCaseAttributes = async caseAttributes => {
+  let newCaseAttributes = caseAttributes;
+  const complaintType = await models.complaintTypes.findOne({
+    where: { name: newCaseAttributes.complaintType }
+  });
+  delete newCaseAttributes.complaintType;
+  if (complaintType) {
+    newCaseAttributes.complaintTypeId = complaintType.id;
+  }
+
+  return newCaseAttributes;
 };
 
 const createCaseWithRetry = async (

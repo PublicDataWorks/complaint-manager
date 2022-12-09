@@ -112,10 +112,14 @@ describe("deleteLetterType", () => {
       "nickname"
     );
 
+    const complaintType = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
+
     await models.letterTypeComplaintType.create(
       {
         letterTypeId: letterType.id,
-        complaintTypeId: RANK_INITIATED
+        complaintTypeId: complaintType.id
       },
       { auditUser: "user" }
     );

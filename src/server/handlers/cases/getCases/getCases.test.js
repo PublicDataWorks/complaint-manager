@@ -12,9 +12,11 @@ import {
   ACCUSED,
   ASCENDING,
   CASE_STATUS,
+  CIVILIAN_INITIATED,
   COMPLAINANT,
   DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
+  RANK_INITIATED,
   SORT_CASES_BY,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
@@ -29,10 +31,16 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("getCases", () => {
-  let statuses;
+  let statuses, civilianInitiated, rankInitiated;
   beforeEach(async () => {
     await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
+    civilianInitiated = await models.complaintTypes.create({
+      name: CIVILIAN_INITIATED
+    });
+    rankInitiated = await models.complaintTypes.create({
+      name: RANK_INITIATED
+    });
   });
 
   afterEach(async () => {
@@ -119,7 +127,10 @@ describe("getCases", () => {
     test("should not get archived cases", async () => {
       const existingArchivedCaseAttributes = new Case.Builder()
         .defaultCase()
-        .withId(undefined);
+        .withComplaintTypeId(civilianInitiated)
+        .withId(undefined)
+        .withComplaintTypeId(civilianInitiated.id);
+
       const existingArchivedCase = await models.cases.create(
         existingArchivedCaseAttributes,
         {
@@ -174,6 +185,7 @@ describe("getCases", () => {
     test("should not get unarchived case", async () => {
       const existingUnarchivedCaseAttributes = new Case.Builder()
         .defaultCase()
+        .withComplaintTypeId(civilianInitiated.id)
         .withId(undefined);
       const existingUnarchivedCase = await models.cases.create(
         existingUnarchivedCaseAttributes,
@@ -196,7 +208,9 @@ describe("getCases", () => {
 
   describe("sorting", () => {
     const createCaseInStatus = async (finalStatus, params) => {
-      let builder = new Case.Builder().defaultCase();
+      let builder = new Case.Builder()
+        .defaultCase()
+        .withComplaintTypeId(civilianInitiated.id);
       if (params) {
         if (params.id) {
           builder.withId(params.id);
@@ -331,6 +345,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2012-12-01")),
           {
             auditUser: "someone"
@@ -341,6 +356,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2011-12-02")),
           {
             auditUser: "someone"
@@ -351,6 +367,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2011-3-02")),
           {
             auditUser: "someone"
@@ -361,6 +378,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2012-3-03")),
           {
             auditUser: "someone"
@@ -484,6 +502,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(5)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAccusedOfficers([firstKnownOfficer]),
           {
             include: [
@@ -535,6 +554,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(6)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAccusedOfficers([secondKnownOfficer]),
           {
             include: [
@@ -571,7 +591,10 @@ describe("getCases", () => {
         );
 
         caseWithNoAccused = await models.cases.create(
-          new Case.Builder().defaultCase().withId(8),
+          new Case.Builder()
+            .defaultCase()
+            .withComplaintTypeId(civilianInitiated.id)
+            .withId(8),
           {
             auditUser: "test"
           }
@@ -581,6 +604,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(9)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAccusedOfficers([
               secondKnownOfficer,
               new CaseOfficer.Builder()
@@ -676,6 +700,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withIncidentDate("2012-12-01")
             .withFirstContactDate("2012-12-02")
             .withComplainantCivilians([complainantCivilian]),
@@ -706,6 +731,7 @@ describe("getCases", () => {
             .withIncidentDate("2013-02-23")
             .withFirstContactDate("2013-03-23")
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withComplainantCivilians([secondCaseComplainantCivilian]),
           {
             include: [
@@ -734,6 +760,7 @@ describe("getCases", () => {
             .withId(undefined)
             .withIncidentDate("2012-12-01")
             .withFirstContactDate("2012-12-02")
+            .withComplaintTypeId(civilianInitiated.id)
             .withComplainantCivilians([thirdComplainantCivilian]),
           {
             include: [
@@ -770,6 +797,7 @@ describe("getCases", () => {
             .withIncidentDate("2013-02-23")
             .withFirstContactDate("2013-03-23")
             .withId(undefined)
+            .withComplaintTypeId(rankInitiated.id)
             .withComplainantOfficers([firstCaseOfficer]),
           {
             include: [
@@ -806,6 +834,7 @@ describe("getCases", () => {
             .withIncidentDate("2013-02-23")
             .withFirstContactDate("2013-03-23")
             .withId(undefined)
+            .withComplaintTypeId(rankInitiated.id)
             .withComplainantOfficers([secondCaseOfficer]),
           {
             include: [
@@ -829,6 +858,7 @@ describe("getCases", () => {
             .withIncidentDate("2013-02-23")
             .withFirstContactDate("2013-03-23")
             .withId(undefined)
+            .withComplaintTypeId(rankInitiated.id)
             .withComplainantOfficers([unknownOfficer]),
           {
             include: [
@@ -843,7 +873,10 @@ describe("getCases", () => {
         );
 
         caseWithoutComplainant = await models.cases.create(
-          new Case.Builder().defaultCase().withId(undefined),
+          new Case.Builder()
+            .defaultCase()
+            .withComplaintTypeId(civilianInitiated.id)
+            .withId(undefined),
           { auditUser: "someone" }
         );
       });
@@ -937,6 +970,7 @@ describe("getCases", () => {
               .withId(undefined)
               .withIncidentDate("2012-12-01")
               .withFirstContactDate("2012-12-02")
+              .withComplaintTypeId(civilianInitiated.id)
               .withComplainantCivilians([anonymousComplainantCivilian]),
             {
               include: [
@@ -979,6 +1013,7 @@ describe("getCases", () => {
             new Case.Builder()
               .defaultCase()
               .withId(undefined)
+              .withComplaintTypeId(civilianInitiated.id)
               .withIncidentDate("2012-12-01")
               .withFirstContactDate("2012-12-02")
               .withComplainantCivilians([anonymousComplainantCivilian]),
@@ -1024,6 +1059,7 @@ describe("getCases", () => {
             new Case.Builder()
               .defaultCase()
               .withId(undefined)
+              .withComplaintTypeId(civilianInitiated.id)
               .withIncidentDate("2012-12-01")
               .withFirstContactDate("2012-12-02")
               .withComplainantCivilians([anonymousComplainantCivilian]),
@@ -1064,6 +1100,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2016-02-13")),
           { auditUser: "user" }
         );
@@ -1071,6 +1108,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2017-02-13")),
           { auditUser: "user" }
         );
@@ -1078,6 +1116,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withFirstContactDate(new Date("2014-02-13")),
           { auditUser: "user" }
         );
@@ -1120,6 +1159,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAssignedTo("zmail"),
           { auditUser: "test" }
         );
@@ -1127,6 +1167,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAssignedTo("bmail"),
           { auditUser: "test" }
         );
@@ -1134,6 +1175,7 @@ describe("getCases", () => {
           new Case.Builder()
             .defaultCase()
             .withId(undefined)
+            .withComplaintTypeId(civilianInitiated.id)
             .withAssignedTo("email"),
           { auditUser: "test" }
         );
@@ -1175,11 +1217,19 @@ describe("getCases", () => {
 
       beforeEach(async () => {
         case1 = await models.cases.create(
-          new Case.Builder().defaultCase().withId(13).withAssignedTo("zmail"),
+          new Case.Builder()
+            .defaultCase()
+            .withId(13)
+            .withComplaintTypeId(civilianInitiated.id)
+            .withAssignedTo("zmail"),
           { auditUser: "test" }
         );
         case2 = await models.cases.create(
-          new Case.Builder().defaultCase().withId(14).withAssignedTo("bmail"),
+          new Case.Builder()
+            .defaultCase()
+            .withId(14)
+            .withComplaintTypeId(civilianInitiated.id)
+            .withAssignedTo("bmail"),
           { auditUser: "test" }
         );
 
@@ -1368,15 +1418,27 @@ describe("getCases", () => {
 
       beforeEach(async () => {
         case1 = await models.cases.create(
-          new Case.Builder().defaultCase().withId(13).withAssignedTo("zmail"),
+          new Case.Builder()
+            .defaultCase()
+            .withId(13)
+            .withComplaintTypeId(civilianInitiated.id)
+            .withAssignedTo("zmail"),
           { auditUser: "test" }
         );
         case2 = await models.cases.create(
-          new Case.Builder().defaultCase().withId(14).withAssignedTo("bmail"),
+          new Case.Builder()
+            .defaultCase()
+            .withId(14)
+            .withComplaintTypeId(civilianInitiated.id)
+            .withAssignedTo("bmail"),
           { auditUser: "test" }
         );
         case3 = await models.cases.create(
-          new Case.Builder().defaultCase().withId(15).withAssignedTo("email"),
+          new Case.Builder()
+            .defaultCase()
+            .withId(15)
+            .withComplaintTypeId(civilianInitiated.id)
+            .withAssignedTo("email"),
           { auditUser: "test" }
         );
 

@@ -186,6 +186,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
+        await queryInterface.sequelize.query(DROP_VIEW, { transaction });
         await queryInterface.sequelize.query(REVERT_VIEW, { transaction });
       });
     } catch (error) {
