@@ -78,9 +78,12 @@ module.exports = {
         "UPDATE cases SET complaint_type_id = NULL WHERE complaint_type_id IS NOT NULL",
         { transaction }
       );
-      await queryInterface.sequelize.query("TRUNCATE complaint_types CASCADE", {
-        transaction
-      });
+      await queryInterface.sequelize.query(
+        "DELETE FROM complaint_types WHERE TRUE",
+        {
+          transaction
+        }
+      );
     });
   }
 };

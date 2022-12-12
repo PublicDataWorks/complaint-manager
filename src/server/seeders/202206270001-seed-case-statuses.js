@@ -26,7 +26,11 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
-      await queryInterface.sequelize.query(`TRUNCATE ${TABLE} CASCADE`, {
+      await queryInterface.sequelize.query(
+        "UPDATE cases SET status_id = NULL WHERE status_id IS NOT NULL",
+        { transaction }
+      );
+      await queryInterface.sequelize.query(`DELETE FROM ${TABLE} WHERE TRUE`, {
         transaction
       });
     });
