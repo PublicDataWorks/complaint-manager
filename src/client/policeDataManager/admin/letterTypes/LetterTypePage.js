@@ -246,41 +246,52 @@ const LetterTypePage = props => {
                   }
                 />
               </div>
+            </div>
 
+            <div
+              style={{
+                width: "100%",
+                margin: "20px, 0px"
+              }}
+            >
+              <Typography style={{ marginTop: "15px" }} variant="subtitle2">
+                Complaint Type
+              </Typography>
               <div
                 style={{
-                  margin: "20px, 0"
+                  display: "flex",
+                  width: "50%"
                 }}
               >
-                <Typography variant="subtitle2">Complaint Type</Typography>
-                <FormGroup>
-                  <LinkButton
-                    onClick={() =>
-                      props.complaintTypes.forEach(complaintType => {
-                        props.change(complaintType.name, true);
-                      })
-                    }
-                  >
-                    Select All
-                  </LinkButton>
-                  <LinkButton
-                    onClick={() =>
-                      props.complaintTypes.forEach(complaintType => {
-                        props.change(complaintType.name, false);
-                      })
-                    }
-                  >
-                    Deselect All
-                  </LinkButton>
-                  {props.complaintTypesError ? (
-                    <p style={{ color: "#d32f2f" }}>
-                      {props.complaintTypesError}
-                    </p>
-                  ) : (
-                    ""
-                  )}
+                <LinkButton
+                  onClick={() =>
+                    props.complaintTypes.forEach(complaintType => {
+                      props.change(complaintType.name, true);
+                    })
+                  }
+                >
+                  <small>Select All</small>
+                </LinkButton>
+                <LinkButton
+                  onClick={() =>
+                    props.complaintTypes.forEach(complaintType => {
+                      props.change(complaintType.name, false);
+                    })
+                  }
+                >
+                  <small>Deselect All</small>
+                </LinkButton>
+              </div>
+              {props.complaintTypesError ? (
+                <p style={{ color: "#d32f2f" }}>{props.complaintTypesError}</p>
+              ) : (
+                ""
+              )}
+              <FormGroup>
+                <div>
                   {props.complaintTypes.map(complaintType => (
                     <FormControlLabel
+                      style={{ width: "30%" }}
                       key={complaintType.name}
                       label={complaintType.name}
                       control={
@@ -291,8 +302,8 @@ const LetterTypePage = props => {
                       }
                     />
                   ))}
-                </FormGroup>
-              </div>
+                </div>
+              </FormGroup>
             </div>
             <Collapser name="Header">
               <section className={props.classes.sideBySideQuillContainer}>
