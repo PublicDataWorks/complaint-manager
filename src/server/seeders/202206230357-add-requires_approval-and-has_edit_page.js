@@ -99,12 +99,12 @@ module.exports = {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
         await queryInterface.sequelize
-          .query(`DROP TABLE IF EXISTS ${LETTER_TYPE_LETTER_INPUT_PAGES}`, {
+          .query(`TRUNCATE ${LETTER_TYPE_LETTER_INPUT_PAGES} CASCADE`, {
             transaction
           })
           .then(async () => {
             await queryInterface.sequelize.query(
-              `DROP TABLE IF EXISTS ${LETTER_INPUT_PAGES}`,
+              `TRUNCATE ${LETTER_INPUT_PAGES} CASCADE`,
               {
                 transaction
               }

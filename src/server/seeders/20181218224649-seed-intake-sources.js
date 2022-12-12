@@ -8,6 +8,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "UPDATE cases SET intake_source_id = NULL WHERE intake_source_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("intake_sources");
   }
 };
