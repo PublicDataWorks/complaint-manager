@@ -10,7 +10,7 @@ export const updateCaseToActiveIfInitial = async (
     transaction
   });
 
-  if (c4se && c4se.status.name === "Initial") {
+  if ((c4se && c4se.status?.name === "Initial") || (c4se && !c4se.status)) {
     const activeStatus = await models.caseStatus.findOne({
       where: { name: "Active" },
       transaction

@@ -41,7 +41,7 @@ export default class Case {
   getStatus = async () => {
     if (!this._status) {
       const status = await models.caseStatus.findByPk(this._model.statusId);
-      this._status = status.name;
+      this._status = status?.name;
     }
     return this._status;
   };

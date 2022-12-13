@@ -22,11 +22,15 @@ const FIRST_TRY = 1;
 
 const createCase = asyncMiddleware(async (request, response, next) => {
   let newCase = {};
+  const status = await models.caseStatus.findOne({
+    where: { orderKey: 0 },
+    attributes: ["id"]
+  });
   if (request.body.civilian) {
     validateCivilianName(request.body.civilian);
-    newCase = await createCaseWithCivilian(request);
+    newCase = await createCaseWithCivilian(request, status.id);
   } else {
-    newCase = await createCaseWithoutCivilian(request);
+    newCase = await createCaseWithoutCivilian(request, status.id);
   }
 
   response.status(201).send(await new Case(newCase).toJSON());
@@ -46,18 +50,20 @@ const invalidName = input => {
   return !input || input.length === 0 || input.length > 25;
 };
 
-const createCaseWithoutCivilian = async request => {
+const createCaseWithoutCivilian = async (request, statusId) => {
+  const newCase = await mapComplaintTypeToCaseAttributes(request.body.case);
   return await createCaseWithRetry(
-    await mapComplaintTypeToCaseAttributes(request.body.case),
+    { ...newCase, statusId },
     [],
     request.nickname,
     FIRST_TRY
   );
 };
 
-const createCaseWithCivilian = async request => {
+const createCaseWithCivilian = async (request, statusId) => {
   const newCaseAttributes = {
     ...request.body.case,
+    statusId,
     complainantCivilians: [request.body.civilian]
   };
   const includeOptions = [

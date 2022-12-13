@@ -22,11 +22,6 @@ import { getPersonType } from "./modelUtilities/getPersonType";
 import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 
 const Boom = require("boom");
-const CASE_STATUS = require("../../../sharedUtilities/constants").CASE_STATUS;
-const RANK_INITIATED =
-  require("../../../sharedUtilities/constants").RANK_INITIATED;
-const CIVILIAN_INITIATED =
-  require("../../../sharedUtilities/constants").CIVILIAN_INITIATED;
 
 const {
   ACCUSED,
@@ -65,7 +60,6 @@ module.exports = (sequelize, DataTypes) => {
         field: "status",
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1,
         references: {
           model: models.caseStatus,
           key: "id"
