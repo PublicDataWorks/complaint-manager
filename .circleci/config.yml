@@ -149,14 +149,14 @@ jobs:
       - image: docker:stable
     steps:
       - get-instance-files-latest:
-          - instance-files-image-name: << pipeline.parameters.instance-files-image-name-noipm >>
+          instance-files-image-name: << pipeline.parameters.instance-files-image-name-noipm >>
 
   get-instance-files-latest-hawaii:
     docker:
       - image: docker:stable
     steps:
       - get-instance-files-latest:
-          - instance-files-image-name: << pipeline.parameters.instance-files-image-name-hawaii >>
+          instance-files-image-name: << pipeline.parameters.instance-files-image-name-hawaii >>
 
   get-instance-files-release:
     docker:
@@ -167,10 +167,10 @@ jobs:
       - run: apk add jq
       - run: jq .version package.json | tr -d '"' > release.version
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull << pipeline.parameters.instance-files-image-name >>:$(cat release.version)
+      - run: docker pull << pipeline.parameters.instance-files-image-name-noipm >>:$(cat release.version)
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:$(cat release.version)):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name-noipm >>:$(cat release.version)):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
@@ -461,21 +461,21 @@ jobs:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
-      deploy-to-lower-env:
-        environment: "ci"
-        org: "NOIPM"
-        env-uppercase: "CI"
-        image: "police-data-manager-ci"
+      - deploy-to-lower-env:
+          environment: "ci"
+          org: "NOIPM"
+          env-uppercase: "CI"
+          image: "police-data-manager-ci"
 
   deploy-ci-hawaii:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
-      deploy-to-lower-env:
-        environment: "ci"
-        org: "HAWAII"
-        env-uppercase: "CI"
-        image: "police-data-manager-hawaii-ci"
+      - deploy-to-lower-env:
+          environment: "ci"
+          org: "HAWAII"
+          env-uppercase: "CI"
+          image: "police-data-manager-hawaii-ci"
 
   ensure-ci-deploy-succeeded:
     docker:
@@ -848,10 +848,10 @@ workflows:
               only:
                 - master
     jobs:
-      - get-instance-files-latest
+      - get-instance-files-latest-noipm
       - update-search-indices-ci:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
 
   nightly_index_update_staging:
     triggers:
@@ -862,10 +862,10 @@ workflows:
               only:
                 - << pipeline.parameters.stage-indexing-branch >>
     jobs:
-      - get-instance-files-latest
+      - get-instance-files-latest-noipm
       - update-search-indices-staging:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
 
   nightly_index_update_production:
     triggers:
@@ -876,10 +876,10 @@ workflows:
               only:
                 - << pipeline.parameters.prod-indexing-branch >>
     jobs:
-      - get-instance-files-latest
+      - get-instance-files-latest-noipm
       - update-search-indices-production:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
 
   build_and_deploy_master_noipm:
     jobs:
@@ -893,16 +893,16 @@ workflows:
             - security-check
       - test-client:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - test-server-and-worker-ci:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - test-pact:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - build-and-publish-master-noipm:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - deploy-no-to-ci:
           type: approval
           requires:
@@ -958,16 +958,16 @@ workflows:
             - security-check
       - test-client:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-hawaii
       - test-server-and-worker-ci:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-hawaii
       - test-pact:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-hawaii
       - build-and-publish-master-hawaii:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-hawaii
       - deploy-ci-hawaii:
           requires:
             - build-and-publish-master-hawaii
@@ -1014,21 +1014,21 @@ workflows:
             branches:
               only:
                 - lighthouse
-      - get-instance-files-latest:
+      - get-instance-files-latest-noipm:
           requires:
             - security-check
       - lighthouse:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - test-client:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - test-server-handlers-ci:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - test-server-worker-non-handlers:
           requires:
-            - get-instance-files-latest
+            - get-instance-files-latest-noipm
       - build-and-publish-playground:
           requires:
             - test-client
