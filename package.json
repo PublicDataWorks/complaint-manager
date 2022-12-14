@@ -14,7 +14,7 @@
     "postbuild": "node scripts/postbuild.js",
     "pullAll": "git pull --rebase && cd ../instance_files_noipm && git pull --rebase && cd ../instance_files_hawaii_csoc && git pull --rebase && cd ../complaint-manager",
     "release": "standard-version",
-    "reseed:db": "sequelize db:seed:undo:all && sequelize db:seed:all",
+    "reseed:db": "sequelize db:seed:undo:all && yarn setup:db",
     "setup:db": "sequelize db:create; node scripts/checkEmptySchema.js && node scripts/loadSchema.js; sequelize db:migrate && sequelize db:seed:all",
     "setup:elasticsearch": "node scripts/search/is-search-disabled.js || ./scripts/init-elasticsearch.sh",
     "setup:localstack": "./scripts/init-localstack.sh",
