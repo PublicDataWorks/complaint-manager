@@ -6,6 +6,7 @@ import UpdateCaseStatusDialog from "../UpdateCaseStatusDialog/UpdateCaseStatusDi
 import DownloadFinalLetterButton from "../DownloadFinalLetterButton/DownloadFinalLetterButton";
 import EditLetterButton from "../EditLetterButton/EditLetterButton";
 import StatusButton from "../StatusButton/StatusButton";
+import GenerateLetterButton from "../GenerateLetterButton/GenerateLetterButton";
 import getActiveStep from "./getActiveStep";
 import getCaseStatuses from "../../thunks/getCaseStatuses";
 import { mapCaseStatuses } from "./case-status-selector";
@@ -26,7 +27,8 @@ const CaseStatusStepper = ({
   isArchived,
   permissions,
   caseStatuses,
-  getCaseStatuses
+  getCaseStatuses,
+  chooseGenerateLetterButtonFeatureFlag
 }) => {
   useEffect(() => {
     if (!Object.keys(caseStatuses).length) {
@@ -56,6 +58,9 @@ const CaseStatusStepper = ({
               <EditLetterButton status={status} caseId={caseId} />
             )}
             <StatusButton />
+            {!chooseGenerateLetterButtonFeatureFlag ? (
+              <GenerateLetterButton />
+            ) : null}
           </div>
         )}
       </div>
@@ -83,7 +88,9 @@ const mapStateToProps = state => ({
   status: state.currentCase.details.status,
   isArchived: state.currentCase.details.isArchived,
   permissions: state?.users?.current?.userInfo?.permissions,
-  caseStatuses: mapCaseStatuses(state)
+  caseStatuses: mapCaseStatuses(state),
+  chooseGenerateLetterButtonFeatureFlag:
+    state.featureToggles.chooseGenerateLetterButton
 });
 
 export default connect(mapStateToProps, { getCaseStatuses })(CaseStatusStepper);
