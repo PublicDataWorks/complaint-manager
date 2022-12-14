@@ -8,9 +8,12 @@ parameters:
   stage-indexing-branch:
     type: string
     default: "master"
-  instance-files-image-name:
+  instance-files-image-name-noipm:
     type: string
     default: "publicdataworks/instance-files-noipm"
+  instance-files-image-name-hawaii:
+    type: string
+    default: "publicdataworks/instance-files-hawaii-csoc"
   ubuntu-version:
     type: string
     default: "1.1.0"
@@ -33,11 +36,24 @@ commands:
       google-api-key:
         default: $REACT_APP_GOOGLE_API_KEY_PREPROD
         type: string
+      instance-image:
+        default: << pipeline.parameters.instance-files-image-name-noipm >>
+        type: string
+      image-name:
+        default: base-app
+        type: string
     steps:
       - setup_remote_docker:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> --build-arg REACT_APP_GITHUB_TOKEN=$REACT_APP_GITHUB_TOKEN --build-arg INSTANCE_VERSION=<<parameters.instance-version>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/base-app:latest .
+      - run: |
+          docker build -f Dockerfile.base --build-arg REACT_APP_ENV=<<parameters.env>> \
+          --build-arg REACT_APP_GOOGLE_API_KEY=<<parameters.google-api-key>> \
+          --build-arg REACT_APP_GITHUB_TOKEN=$REACT_APP_GITHUB_TOKEN \
+          --build-arg INSTANCE_VERSION=<<parameters.instance-version>> \
+          --build-arg INSTANCE_IMAGE=<<parameters.instance-image>> \
+          --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
+          -t publicdataworks/<<parameters.image-name>>:latest .
   build-and-publish-app-image:
     parameters:
       env:
@@ -46,8 +62,11 @@ commands:
       version:
         default: $CIRCLE_SHA1
         type: string
+      base-image:
+        default: "base-app"
+        type: string
     steps:
-      - run: docker build -f Dockerfile.web --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>> .
+      - run: docker build -f Dockerfile.web --build-arg BASE_IMAGE_NAME=<<parameters.base-image>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>> .
       - run: docker push publicdataworks/police-data-manager-<<parameters.env>>:<<parameters.version>>
   build-and-publish-worker-image:
     parameters:
@@ -57,26 +76,87 @@ commands:
       version:
         default: $CIRCLE_SHA1
         type: string
+      base-image:
+        default: "base-app"
+        type: string
     steps:
-      - run: docker build -f Dockerfile.worker --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>> .
+      - run: docker build -f Dockerfile.worker --build-arg BASE_IMAGE_NAME=<<parameters.base-image>> --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files -t publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>> .
       - run: docker push publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>>
-
-jobs:
   get-instance-files-latest:
-    docker:
-      - image: docker:stable
+    parameters:
+      instance-files-image-name:
+        type: string
+        default: << pipeline.parameters.instance-files-image-name-noipm >>
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container << pipeline.parameters.instance-files-image-name >>:latest):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container << parameters.instance-files-image-name >>:latest):/instance-files instance-files/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
       - persist_to_workspace:
           root: .
           paths: instance-files/*
+  deploy-to-lower-env:
+    parameters:
+      environment:
+        default: "ci"
+        type: string
+      org:
+        default: "NOIPM"
+        type: string
+      env-uppercase:
+        default: "CI"
+        type: string
+      image:
+        default: "police-data-manager-ci"
+        type: string
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull publicdataworks/<<parameters.image>>:$CIRCLE_SHA1
+      - run: docker pull publicdataworks/<<parameters.image>>-worker:$CIRCLE_SHA1
+      - run: heroku maintenance:on --app noipm-<<parameters.environment>>
+      - run:
+          name: Migrate and Seed DB
+          command: |
+            docker run \
+            -e NODE_ENV=<<parameters.environment>> \
+            -e DATABASE_USERNAME=$<<parameters.env-uppercase>>_DATABASE_USERNAME \
+            -e DATABASE_PASS=$<<parameters.env-uppercase>>_DATABASE_PASS \
+            -e DATABASE_NAME=$<<parameters.env-uppercase>>_DATABASE_NAME \
+            -e DATABASE_HOST=$<<parameters.env-uppercase>>_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$<<parameters.env-uppercase>>_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$<<parameters.env-uppercase>>_AWS_SECRET_ACCESS_KEY \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e ORG=<<parameters.org>> \
+            publicdataworks/<<parameters.image>>:$CIRCLE_SHA1 yarn setup:db
+
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag publicdataworks/<<parameters.image>>:$CIRCLE_SHA1 registry.heroku.com/noipm-<<parameters.environment>>/web
+      - run: docker tag publicdataworks/<<parameters.image>>-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-<<parameters.environment>>/worker
+      - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/web
+      - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/worker
+      - run: heroku container:release web worker --app noipm-<<parameters.environment>>
+      - run: heroku maintenance:off --app noipm-<<parameters.environment>>
+
+jobs:
+  get-instance-files-latest-noipm:
+    docker:
+      - image: docker:stable
+    steps:
+      - get-instance-files-latest:
+          - instance-files-image-name: << pipeline.parameters.instance-files-image-name-noipm >>
+
+  get-instance-files-latest-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - get-instance-files-latest:
+          - instance-files-image-name: << pipeline.parameters.instance-files-image-name-hawaii >>
 
   get-instance-files-release:
     docker:
@@ -254,17 +334,37 @@ jobs:
       - store_artifacts:
           path: hawkeye_report.json
 
-  build-and-publish-master:
+  build-and-publish-master-noipm:
     docker:
       - image: docker:stable
     steps:
       - checkout
       - build-base-image:
           env: "ci"
+          instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
+          image-name: "base-app"
       - build-and-publish-app-image:
           env: "ci"
+          base-image: "base-app"
       - build-and-publish-worker-image:
           env-suffix: "-ci"
+          base-image: "base-app"
+
+  build-and-publish-master-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - build-base-image:
+          env: "ci"
+          instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
+          image-name: "base-app-hawaii"
+      - build-and-publish-app-image:
+          env: "hawaii-ci"
+          base-image: "base-app-hawaii"
+      - build-and-publish-worker-image:
+          env-suffix: "-hawaii-ci"
+          base-image: "base-app-hawaii"
 
   build-and-publish-playground:
     docker:
@@ -357,36 +457,25 @@ jobs:
       - store_artifacts:
           path: output/
 
-  deploy-ci:
+  deploy-ci-noipm:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker pull publicdataworks/police-data-manager-ci:$CIRCLE_SHA1
-      - run: docker pull publicdataworks/police-data-manager-ci-worker:$CIRCLE_SHA1
-      - run:
-          name: Migrate and Seed DB
-          command: |
-            docker run \
-            -e NODE_ENV=ci \
-            -e DATABASE_USERNAME=$CI_DATABASE_USERNAME \
-            -e DATABASE_PASS=$CI_DATABASE_PASS \
-            -e DATABASE_NAME=$CI_DATABASE_NAME \
-            -e DATABASE_HOST=$CI_DATABASE_HOST \
-            -e AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID \
-            -e AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY \
-            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
-            -e ORG=NOIPM \
-            publicdataworks/police-data-manager-ci:$CIRCLE_SHA1 yarn setup:db
+      deploy-to-lower-env:
+        environment: "ci"
+        org: "NOIPM"
+        env-uppercase: "CI"
+        image: "police-data-manager-ci"
 
-      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag publicdataworks/police-data-manager-ci:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/web
-      - run: docker push registry.heroku.com/noipm-ci/web
-      - run: docker tag publicdataworks/police-data-manager-ci-worker:$CIRCLE_SHA1 registry.heroku.com/noipm-ci/worker
-      - run: docker push registry.heroku.com/noipm-ci/worker
-      - run: heroku container:release web worker --app noipm-ci
+  deploy-ci-hawaii:
+    docker:
+      - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
+    steps:
+      deploy-to-lower-env:
+        environment: "ci"
+        org: "HAWAII"
+        env-uppercase: "CI"
+        image: "police-data-manager-hawaii-ci"
 
   ensure-ci-deploy-succeeded:
     docker:
@@ -792,14 +881,14 @@ workflows:
           requires:
             - get-instance-files-latest
 
-  build_and_deploy_master:
+  build_and_deploy_master_noipm:
     jobs:
       - security-check:
           filters:
             branches:
               only:
                 - master
-      - get-instance-files-latest:
+      - get-instance-files-latest-noipm:
           requires:
             - security-check
       - test-client:
@@ -811,22 +900,83 @@ workflows:
       - test-pact:
           requires:
             - get-instance-files-latest
-      - build-and-publish-master:
+      - build-and-publish-master-noipm:
           requires:
             - get-instance-files-latest
       - deploy-no-to-ci:
           type: approval
           requires:
-            - build-and-publish-master
+            - build-and-publish-master-noipm
             - test-server-and-worker-ci
             - test-pact
             - test-client
-      - deploy-ci:
+      - deploy-ci-noipm:
           requires:
             - deploy-no-to-ci
       - ensure-ci-deploy-succeeded:
           requires:
-            - deploy-ci
+            - deploy-ci-noipm
+      - letter-generation-testing-ci:
+          requires:
+            - ensure-ci-deploy-succeeded
+      # - letter-generation-ci-latency-check:
+      #     requires:
+      #       - letter-generation-testing-ci
+      - e2e-testing-ci-pdm:
+          requires:
+            - letter-generation-testing-ci
+      - create-release:
+          type: approval
+          requires:
+            - e2e-testing-ci-pdm
+      - bump-version:
+          requires:
+            - create-release
+      - tag-instance-files:
+          requires:
+            - bump-version
+      - build-and-publish-app-staging:
+          requires:
+            - tag-instance-files
+      - build-and-publish-production:
+          requires:
+            - tag-instance-files
+      - push-tag:
+          requires:
+            - build-and-publish-app-staging
+            - build-and-publish-production
+
+  build_and_deploy_master_hawaii:
+    jobs:
+      - security-check:
+          filters:
+            branches:
+              only:
+                - master
+      - get-instance-files-latest-hawaii:
+          requires:
+            - security-check
+      - test-client:
+          requires:
+            - get-instance-files-latest
+      - test-server-and-worker-ci:
+          requires:
+            - get-instance-files-latest
+      - test-pact:
+          requires:
+            - get-instance-files-latest
+      - build-and-publish-master-hawaii:
+          requires:
+            - get-instance-files-latest
+      - deploy-ci-hawaii:
+          requires:
+            - build-and-publish-master-hawaii
+            - test-server-and-worker-ci
+            - test-pact
+            - test-client
+      - ensure-ci-deploy-succeeded:
+          requires:
+            - deploy-ci-hawaii
       - letter-generation-testing-ci:
           requires:
             - ensure-ci-deploy-succeeded

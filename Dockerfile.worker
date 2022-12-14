@@ -1,4 +1,6 @@
-FROM publicdataworks/base-app:latest
+ARG BASE_IMAGE_NAME=base-app
+
+FROM publicdataworks/${BASE_IMAGE_NAME}:latest
 
 EXPOSE 5000
 
