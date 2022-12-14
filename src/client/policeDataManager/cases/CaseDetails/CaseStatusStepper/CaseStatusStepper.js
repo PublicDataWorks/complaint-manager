@@ -28,7 +28,7 @@ const CaseStatusStepper = ({
   permissions,
   caseStatuses,
   getCaseStatuses,
-  chooseGenerateLetterButtonFeatureFlag
+  generateLetterButtonFeatureFlag
 }) => {
   useEffect(() => {
     if (!Object.keys(caseStatuses).length) {
@@ -58,9 +58,7 @@ const CaseStatusStepper = ({
               <EditLetterButton status={status} caseId={caseId} />
             )}
             <StatusButton />
-            {!chooseGenerateLetterButtonFeatureFlag ? (
-              <GenerateLetterButton />
-            ) : null}
+            {!generateLetterButtonFeatureFlag ? <GenerateLetterButton /> : null}
           </div>
         )}
       </div>
@@ -89,7 +87,7 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   permissions: state?.users?.current?.userInfo?.permissions,
   caseStatuses: mapCaseStatuses(state),
-  chooseGenerateLetterButtonFeatureFlag:
+  generateLetterButtonFeatureFlag:
     state.featureToggles.chooseGenerateLetterButton
 });
 

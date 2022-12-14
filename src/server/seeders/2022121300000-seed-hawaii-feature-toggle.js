@@ -5,7 +5,7 @@ const FEATURE_TOGGLES_TABLE = "feature_toggles";
 const ENABLED = process.env.ORG === "HAWAII" ? true : false;
 
 const INSERT_FEATURE_TOGGLE = `INSERT INTO ${FEATURE_TOGGLES_TABLE}(name, description, enabled, is_dev) 
-  VALUES ('chooseGenerateLetterButton', 'Allows you to choose between generate letter button dropdown and status button', ${ENABLED}, false)
+  VALUES ('generateLetterButton', 'Allows you to show the generate letter button dropdown', ${ENABLED}, false)
 `;
 
 module.exports = {
