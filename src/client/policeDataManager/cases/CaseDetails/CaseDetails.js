@@ -68,6 +68,7 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(closeArchiveCaseDialog());
   dispatch(closeRemoveAttachmentConfirmationDialog());
 };
+
 class CaseDetails extends React.Component {
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (

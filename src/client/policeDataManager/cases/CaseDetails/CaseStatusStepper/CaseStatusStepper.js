@@ -23,12 +23,12 @@ const generateSteps = map => {
 
 const CaseStatusStepper = ({
   caseId,
-  status,
+  caseStatuses,
+  generateLetterButtonFeatureFlag,
+  getCaseStatuses,
   isArchived,
   permissions,
-  caseStatuses,
-  getCaseStatuses,
-  generateLetterButtonFeatureFlag
+  status
 }) => {
   useEffect(() => {
     if (!Object.keys(caseStatuses).length) {
@@ -51,16 +51,18 @@ const CaseStatusStepper = ({
         <div>
           <DownloadFinalLetterButton />
         </div>
-        {!permissions?.includes(USER_PERMISSIONS.SETUP_LETTER) ? null : (
+        {permissions?.includes(USER_PERMISSIONS.SETUP_LETTER) ? (
           <div>
-            {isArchived ||
-            !permissions?.includes(USER_PERMISSIONS.SETUP_LETTER) ? null : (
+            {isArchived ? null : (
               <EditLetterButton status={status} caseId={caseId} />
             )}
-            <StatusButton />
-            {generateLetterButtonFeatureFlag ? <GenerateLetterButton /> : null}
+            {generateLetterButtonFeatureFlag ? (
+              <GenerateLetterButton caseId={caseId} />
+            ) : (
+              <StatusButton />
+            )}
           </div>
-        )}
+        ) : null}
       </div>
     );
   };
@@ -87,8 +89,7 @@ const mapStateToProps = state => ({
   isArchived: state.currentCase.details.isArchived,
   permissions: state?.users?.current?.userInfo?.permissions,
   caseStatuses: mapCaseStatuses(state),
-  generateLetterButtonFeatureFlag:
-    state.featureToggles.chooseGenerateLetterButton
+  generateLetterButtonFeatureFlag: state.featureToggles.generateLetterButton
 });
 
 export default connect(mapStateToProps, { getCaseStatuses })(CaseStatusStepper);

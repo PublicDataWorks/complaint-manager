@@ -6,7 +6,10 @@ import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import CaseDetails from "../../../client/policeDataManager/cases/CaseDetails/CaseDetails";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import createConfiguredStore from "../../../client/createConfiguredStore";
-import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  GET_FEATURES_SUCCEEDED,
+  USER_PERMISSIONS
+} from "../../../sharedUtilities/constants";
 
 const {
   PERSON_TYPE
@@ -21,6 +24,7 @@ export const NOPD_COMPLAINANT = "nopdComplainant";
 export const NOPD_WITNESS = "nopdWitness";
 export const NOPD_ACCUSED = "nopdAccused";
 export const NO_CASE_TAGS = "noCaseTags";
+export const GENERATE_LETTER_BUTTON = "hasGenerateLetterButton";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -578,16 +582,60 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
 
   let store = createConfiguredStore();
 
-  store.dispatch({
-    type: "AUTH_SUCCESS",
-    userInfo: {
-      permissions: [
-        USER_PERMISSIONS.CREATE_CASE_NOTE,
-        USER_PERMISSIONS.EDIT_CASE,
-        USER_PERMISSIONS.ADD_TAG_TO_CASE
-      ]
-    }
-  });
+  if (options.includes(GENERATE_LETTER_BUTTON)) {
+    store.dispatch({
+      type: GET_FEATURES_SUCCEEDED,
+      features: { generateLetterButton: true }
+    });
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: {
+        permissions: [USER_PERMISSIONS.SETUP_LETTER]
+      }
+    });
+
+    await provider.addInteraction({
+      state: "Letter types exist",
+      uponReceiving: "get letter types",
+      withRequest: {
+        method: "GET",
+        path: "/api/letter-types"
+      },
+      willRespondWith: {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        body: eachLike({
+          id: 1,
+          type: "COMPLAINANT",
+          template: "template",
+          requiresApproval: false,
+          hasEditPage: false,
+          defaultSender: {
+            id: 1,
+            name: "Jon Doe",
+            signatureFile: "JD.png",
+            nickname: "jondoe@org.gov",
+            title: "Independent Police Monitor",
+            phone: "555-309-9799"
+          },
+          requiredStatus: "Initial"
+        })
+      }
+    });
+  } else {
+    store.dispatch({
+      type: "AUTH_SUCCESS",
+      userInfo: {
+        permissions: [
+          USER_PERMISSIONS.CREATE_CASE_NOTE,
+          USER_PERMISSIONS.EDIT_CASE,
+          USER_PERMISSIONS.ADD_TAG_TO_CASE
+        ]
+      }
+    });
+  }
 
   let dispatchSpy = jest.spyOn(store, "dispatch");
 

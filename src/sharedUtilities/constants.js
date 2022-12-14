@@ -348,6 +348,7 @@ export const AUDIT_FILE_TYPE = {
   DRAFT_REFERRAL_LETTER_PDF: "Draft Referral Letter PDF",
   FINAL_REFERRAL_LETTER_PDF: "Final Referral Letter PDF",
   LETTER_TO_COMPLAINANT_PDF: "Letter to Complainant PDF",
+  LETTER: "Letter PDF",
   ATTACHMENT: "Attachment",
   SIGNATURE: "Signature"
 };

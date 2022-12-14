@@ -371,6 +371,7 @@ describe("Pact Verification", () => {
         const letterBodyTemplate = fs.readFileSync(
           `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
         );
+
         await models.letter_types.create(
           new LetterType.Builder()
             .defaultLetterType()
