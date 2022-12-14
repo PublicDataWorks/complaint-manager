@@ -814,12 +814,16 @@ workflows:
       - build-and-publish-master:
           requires:
             - get-instance-files-latest
-      - deploy-ci:
+      - deploy-no-to-ci:
+          type: approval
           requires:
             - build-and-publish-master
             - test-server-and-worker-ci
             - test-pact
             - test-client
+      - deploy-ci:
+          requires:
+            - deploy-no-to-ci
       - ensure-ci-deploy-succeeded:
           requires:
             - deploy-ci
