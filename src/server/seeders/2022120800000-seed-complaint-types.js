@@ -75,6 +75,10 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(
+        "TRUNCATE letter_type_complaint_type",
+        { transaction }
+      );
+      await queryInterface.sequelize.query(
         "UPDATE cases SET complaint_type_id = NULL WHERE complaint_type_id IS NOT NULL",
         { transaction }
       );
