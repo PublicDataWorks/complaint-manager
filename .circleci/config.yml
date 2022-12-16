@@ -230,7 +230,7 @@ jobs:
           NODE_ENV: test
     steps:
       - yarn-test:
-          test-command: "yarn test:client"
+          test-command: "yarn test:client:ci"
           instance-files: "/root/project/src/instance-files-noipm"
 
   test-client-hawaii:
@@ -240,7 +240,7 @@ jobs:
           NODE_ENV: test
     steps:
       - yarn-test:
-          test-command: "yarn test:client"
+          test-command: "yarn test:client:ci"
           instance-files: "/root/project/src/instance-files-hawaii-csoc"
 
   test-server-and-worker-ci-noipm:
