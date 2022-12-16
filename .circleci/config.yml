@@ -185,6 +185,21 @@ commands:
             nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
       - store_artifacts:
           path: e2e/tests/policeDataManager
+  tag-instance-files:
+    parameters:
+      instance-files:
+        default: "instance-files-noipm"
+        type: string
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - attach_workspace:
+          at: src/
+      - run: echo "FROM alpine:latest" >> src/Dockerfile
+      - run: echo "COPY ./<<parameters.instance-files>> instance-files" >> src/Dockerfile
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -t publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt) src/
+      - run: docker push publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt)
 
 jobs:
   get-instance-files-latest-noipm:
@@ -681,19 +696,19 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
-  tag-instance-files:
+  tag-instance-files-noipm:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - attach_workspace:
-          at: src/
-      - run: echo "FROM alpine:latest" >> src/Dockerfile
-      - run: echo "COPY ./instance-files instance-files" >> src/Dockerfile
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -t publicdataworks/instance-files-noipm:$(cat src/version.txt) src/
-      - run: docker push publicdataworks/instance-files-noipm:$(cat src/version.txt)
+      - tag-instance-files:
+          instance-files: "instance-files-noipm"
+
+  tag-instance-files-hawaii:
+    docker:
+      - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
+    steps:
+      - tag-instance-files:
+          instance-files: "instance-files-hawaii"
 
   bump-version:
     docker:
@@ -715,7 +730,7 @@ jobs:
             - .git/*
             - version.txt
 
-  build-and-publish-app-staging:
+  build-and-publish-app-staging-noipm:
     docker:
       - image: docker:stable
     steps:
@@ -727,11 +742,33 @@ jobs:
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+          instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
+          image-name: base-app
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
+          base-image: base-app
 
-  build-and-publish-production:
+  build-and-publish-app-staging-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - build-base-image:
+          env: staging
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+          instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
+          image-name: base-app-hawaii
+      - build-and-publish-app-image:
+          env: staging
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
+
+  build-and-publish-production-noipm:
     docker:
       - image: docker:stable
     steps:
@@ -743,12 +780,39 @@ jobs:
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
+          instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
+          image-name: base-app
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
+          base-image: base-app
       - build-and-publish-worker-image:
           env-suffix: ""
           version: $(cat version.txt)
+          base-image: base-app
+
+  build-and-publish-production-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - build-base-image:
+          env: production
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
+          instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
+          image-name: base-app-hawaii
+      - build-and-publish-app-image:
+          env: production
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
+      - build-and-publish-worker-image:
+          env-suffix: ""
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
 
   push-tag:
     docker:
@@ -1025,19 +1089,30 @@ workflows:
       - bump-version:
           requires:
             - create-release
-      - tag-instance-files:
+      - tag-instance-files-noipm:
           requires:
             - bump-version
-      - build-and-publish-app-staging:
+      - tag-instance-files-hawaii:
           requires:
-            - tag-instance-files
-      - build-and-publish-production:
+            - bump-version
+      - build-and-publish-app-staging-noipm:
           requires:
-            - tag-instance-files
+            - tag-instance-files-noipm
+      - build-and-publish-app-staging-hawaii:
+          requires:
+            - tag-instance-files-hawaii
+      - build-and-publish-production-noipm:
+          requires:
+            - tag-instance-files-noipm
+      - build-and-publish-production-hawaii:
+          requires:
+            - tag-instance-files-hawaii
       - push-tag:
           requires:
-            - build-and-publish-app-staging
-            - build-and-publish-production
+            - build-and-publish-app-staging-noipm
+            - build-and-publish-production-noipm
+            - build-and-publish-app-staging-hawaii
+            - build-and-publish-production-hawaii
 
   build_and_deploy_playground:
     jobs:
