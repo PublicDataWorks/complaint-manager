@@ -830,7 +830,7 @@ jobs:
             echo 'export DATABASE_NAME=$CI_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$CI_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       # - run:
       #     name: Install Git
@@ -858,7 +858,7 @@ jobs:
             echo 'export DATABASE_NAME=$STAGING_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$STAGING_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:
@@ -883,7 +883,7 @@ jobs:
             echo 'export DATABASE_NAME=$PRODUCTION_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$PRODUCTION_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \ 
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:
