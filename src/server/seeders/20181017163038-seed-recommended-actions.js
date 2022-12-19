@@ -8,6 +8,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete(
+      "referral_letter_officer_recommended_actions"
+    );
     await queryInterface.bulkDelete("recommended_actions");
   }
 };

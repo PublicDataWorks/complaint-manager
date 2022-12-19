@@ -31,6 +31,7 @@ describe("POST /cases/:caseId/cases_officers", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await seedStandardCaseStatuses();
   });
 
