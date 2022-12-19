@@ -30,6 +30,10 @@ module.exports = {
         "UPDATE cases SET status = NULL WHERE status IS NOT NULL",
         { transaction }
       );
+      await queryInterface.sequelize.query(
+        "UPDATE letter_types SET required_status = NULL WHERE required_status IS NOT NULL",
+        { transaction }
+      );
       await queryInterface.sequelize.query(`DELETE FROM ${TABLE} WHERE TRUE`, {
         transaction
       });
