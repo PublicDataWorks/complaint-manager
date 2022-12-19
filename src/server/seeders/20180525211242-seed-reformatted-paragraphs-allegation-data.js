@@ -8,6 +8,7 @@ module.exports = {
     await loadCsvFromS3("allegations.csv", models.allegation);
   },
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.bulkDelete("officers_allegations");
     await queryInterface.bulkDelete("allegations");
   }
 };
