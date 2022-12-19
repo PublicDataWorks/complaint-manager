@@ -6,7 +6,10 @@ module.exports = {
     await createSeedOfficerDataFromS3();
   },
 
-  down: (queryInterface, Sequelize) => {
-    return Promise.resolve();
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "UPDATE cases_officers SET officer_id = NULL WHERE officer_id IS NOT NULL"
+    );
+    await queryInterface.bulkDelete("officers");
   }
 };
