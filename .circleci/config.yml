@@ -84,21 +84,21 @@ commands:
       - run: docker push publicdataworks/police-data-manager<<parameters.env-suffix>>-worker:<<parameters.version>>
   get-instance-files-latest:
     parameters:
-      instance-files-image-name:
+      instance-files-image-suffix:
         type: string
-        default: << pipeline.parameters.instance-files-image-name-noipm >>
+        default: noipm
     steps:
       - setup_remote_docker
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run:
           name: Copies instance files from temp container
-          command: docker cp $(docker create --name temp-container << parameters.instance-files-image-name >>:latest):/instance-files instance-files/
+          command: docker cp $(docker create --name temp-container publicdataworks/instance-files-<< parameters.instance-files-image-suffix >>:latest):/instance-files instance-files-<< parameters.instance-files-image-suffix >>/
       - run:
           name: Removes temporary container
           command: docker rm temp-container
       - persist_to_workspace:
           root: .
-          paths: instance-files/*
+          paths: instance-files-<< parameters.instance-files-image-suffix >>/*
   deploy-to-lower-env:
     parameters:
       environment:
@@ -119,7 +119,7 @@ commands:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker pull publicdataworks/<<parameters.image>>:$CIRCLE_SHA1
       - run: docker pull publicdataworks/<<parameters.image>>-worker:$CIRCLE_SHA1
-      - run: heroku maintenance:on --app noipm-<<parameters.environment>>
+      # - run: heroku maintenance:on --app noipm-<<parameters.environment>>
       - run:
           name: Migrate and Seed DB
           command: |
@@ -141,7 +141,65 @@ commands:
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/web
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/worker
       - run: heroku container:release web worker --app noipm-<<parameters.environment>>
-      - run: heroku maintenance:off --app noipm-<<parameters.environment>>
+      # - run: heroku maintenance:off --app noipm-<<parameters.environment>>
+  yarn-test:
+    parameters:
+      test-command:
+        default: yarn test:client
+        type: string
+      instance-files:
+        default: /root/project/src/instance-files-noipm
+        type: string
+    steps:
+      - checkout
+      - attach_workspace:
+          at: src/
+      - run:
+          name: Install Dependencies
+          command: yarn install
+      - run:
+          name: Run server and worker unit tests
+          command: << parameters.test-command >>
+          environment:
+            REACT_APP_INSTANCE_FILES_DIR: << parameters.instance-files >>
+  e2e-test:
+    parameters:
+      instance-files:
+        default: "instance-files-noipm"
+        type: string
+    steps:
+      # - run:
+      #     name: Install Git
+      #     command: apt-get update && apt-get install --assume-yes git
+      - checkout
+      - attach_workspace:
+          at: src/
+      - run:
+          name: Run E2E tests
+          command: |
+            echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
+            echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/<<parameters.instance-files>>' >> $BASH_ENV
+            echo 'export REACT_APP_USE_CLOUD_SERVICES=false' >> $BASH_ENV
+            source $BASH_ENV
+            nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
+      - store_artifacts:
+          path: e2e/tests/policeDataManager
+  tag-instance-files:
+    parameters:
+      instance-files:
+        default: "instance-files-noipm"
+        type: string
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - attach_workspace:
+          at: src/
+      - run: echo "FROM alpine:latest" >> src/Dockerfile
+      - run: echo "COPY ./<<parameters.instance-files>> instance-files" >> src/Dockerfile
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker build -t publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt) src/
+      - run: docker push publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt)
 
 jobs:
   get-instance-files-latest-noipm:
@@ -149,14 +207,14 @@ jobs:
       - image: docker:stable
     steps:
       - get-instance-files-latest:
-          instance-files-image-name: << pipeline.parameters.instance-files-image-name-noipm >>
+          instance-files-image-suffix: "noipm"
 
   get-instance-files-latest-hawaii:
     docker:
       - image: docker:stable
     steps:
       - get-instance-files-latest:
-          instance-files-image-name: << pipeline.parameters.instance-files-image-name-hawaii >>
+          instance-files-image-suffix: "hawaii-csoc"
 
   get-instance-files-release:
     docker:
@@ -180,50 +238,55 @@ jobs:
             - instance-files/*
             - release.version
 
-  test-client:
+  test-client-noipm:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
     steps:
-      - checkout
-      - attach_workspace:
-          at: src/
-      - run:
-          name: Shows current Directory
-          command: pwd
-      - run:
-          name: Shows content in Directory
-          command: ls /root/project/src/
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - run:
-          name: Run client unit tests
-          command: yarn test:client:ci
-          environment:
-            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+      - yarn-test:
+          test-command: "yarn test:client:ci"
+          instance-files: "/root/project/src/instance-files-noipm"
 
-  test-server-and-worker-ci:
+  test-client-hawaii:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
-          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+    steps:
+      - yarn-test:
+          test-command: "yarn test:client:ci"
+          instance-files: "/root/project/src/instance-files-hawaii-csoc"
+
+  test-server-and-worker-ci-noipm:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+        environment:
+          NODE_ENV: test
       - image: postgres:10.9-alpine
     steps:
-      - checkout
-      - attach_workspace:
-          at: src/
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - run:
-          name: Run server and worker unit tests
-          command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server:worker:ci
+      - yarn-test:
+          test-command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server:worker:ci
+          instance-files: "/root/project/src/instance-files-noipm"
       - store_artifacts:
           name: Upload PNG diffs in case the PDF compare job(s) failed
-          path: /root/project/src/testPDFs/diffPNGs
+          path: /root/project/src/testPDFs/diffPNGs/noipm
+          destination: .
+          when: on_fail
+
+  test-server-and-worker-ci-hawaii:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+        environment:
+          NODE_ENV: test
+      - image: postgres:10.9-alpine
+    steps:
+      - yarn-test:
+          test-command: AWS_ACCESS_KEY_ID=$CI_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$CI_AWS_SECRET_ACCESS_KEY yarn test:server:worker:ci
+          instance-files: "/root/project/src/instance-files-hawaii-csoc"
+      - store_artifacts:
+          name: Upload PNG diffs in case the PDF compare job(s) failed
+          path: /root/project/src/testPDFs/diffPNGs/hawaii
           destination: .
           when: on_fail
 
@@ -484,30 +547,25 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
-  e2e-testing-ci-pdm:
+  e2e-testing-ci-pdm-noipm:
     docker:
       - image: publicdataworks/e2e-noipm:latest
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
-      # - run:
-      #     name: Install Git
-      #     command: apt-get update && apt-get install --assume-yes git
-      - checkout
-      - attach_workspace:
-          at: src/
-      - run:
-          name: Run E2E tests
-          command: |
-            echo 'export TEST_USER=$CI_TEST_USER' >> $BASH_ENV
-            echo 'export TEST_PASS=$CI_TEST_PASS' >> $BASH_ENV
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV
-            echo 'export REACT_APP_USE_CLOUD_SERVICES=false' >> $BASH_ENV
-            source $BASH_ENV
-            nightwatch --config /src/instance-files/tests/e2e/nightwatch.conf.js --env ci e2e/tests/policeDataManager --retries 2
-      - store_artifacts:
-          path: e2e/tests/policeDataManager
+      - e2e-test:
+          instance-files: "instance-files-noipm"
+
+  e2e-testing-ci-pdm-hawaii:
+    docker:
+      - image: publicdataworks/e2e-noipm:latest
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+    steps:
+      - e2e-test:
+          instance-files: "instance-files-hawaii"
 
   deploy-staging:
     docker:
@@ -638,19 +696,19 @@ jobs:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
 
-  tag-instance-files:
+  tag-instance-files-noipm:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
-      - setup_remote_docker:
-          version: 19.03.13
-      - attach_workspace:
-          at: src/
-      - run: echo "FROM alpine:latest" >> src/Dockerfile
-      - run: echo "COPY ./instance-files instance-files" >> src/Dockerfile
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - run: docker build -t publicdataworks/instance-files-noipm:$(cat src/version.txt) src/
-      - run: docker push publicdataworks/instance-files-noipm:$(cat src/version.txt)
+      - tag-instance-files:
+          instance-files: "instance-files-noipm"
+
+  tag-instance-files-hawaii:
+    docker:
+      - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
+    steps:
+      - tag-instance-files:
+          instance-files: "instance-files-hawaii"
 
   bump-version:
     docker:
@@ -672,7 +730,7 @@ jobs:
             - .git/*
             - version.txt
 
-  build-and-publish-app-staging:
+  build-and-publish-app-staging-noipm:
     docker:
       - image: docker:stable
     steps:
@@ -684,11 +742,33 @@ jobs:
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+          instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
+          image-name: base-app
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
+          base-image: base-app
 
-  build-and-publish-production:
+  build-and-publish-app-staging-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - build-base-image:
+          env: staging
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
+          instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
+          image-name: base-app-hawaii
+      - build-and-publish-app-image:
+          env: staging
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
+
+  build-and-publish-production-noipm:
     docker:
       - image: docker:stable
     steps:
@@ -700,12 +780,39 @@ jobs:
           version: $(cat version.txt)
           instance-version: $(cat version.txt)
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
+          instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
+          image-name: base-app
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
+          base-image: base-app
       - build-and-publish-worker-image:
           env-suffix: ""
           version: $(cat version.txt)
+          base-image: base-app
+
+  build-and-publish-production-hawaii:
+    docker:
+      - image: docker:stable
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - build-base-image:
+          env: production
+          version: $(cat version.txt)
+          instance-version: $(cat version.txt)
+          google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
+          instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
+          image-name: base-app-hawaii
+      - build-and-publish-app-image:
+          env: production
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
+      - build-and-publish-worker-image:
+          env-suffix: ""
+          version: $(cat version.txt)
+          base-image: base-app-hawaii
 
   push-tag:
     docker:
@@ -730,29 +837,44 @@ jobs:
       - run: git pull -r origin master
       - run: git push origin master --follow-tags --no-verify
 
-  test-pact:
+  test-pact-noipm:
     docker:
       - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
         environment:
           NODE_ENV: test
-          REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
           REACT_APP_USE_CLOUD_SERVICES: false
       - image: postgres:10.9-alpine
     steps:
-      - checkout
-      - attach_workspace:
-          at: src/
-      - run:
-          name: Install Dependencies
-          command: yarn install
-      - run:
-          name: Run integration tests against client
-          command: yarn test:pact:client:ci
-          environment:
-            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files
+      - yarn-test:
+          test-command: yarn test:pact:client:ci
+          instance-files: /root/project/src/instance-files-noipm
       - run:
           name: Verify Pact contract against server
           command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
+          environment:
+            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files-noipm
+      - store_artifacts:
+          name: Upload pact logs
+          path: /root/project/pact/logs
+          destination: .
+          when: on_fail
+
+  test-pact-hawaii:
+    docker:
+      - image: publicdataworks/docker-node-ubuntu:<< pipeline.parameters.ubuntu-version >>
+        environment:
+          NODE_ENV: test
+          REACT_APP_USE_CLOUD_SERVICES: false
+      - image: postgres:10.9-alpine
+    steps:
+      - yarn-test:
+          test-command: yarn test:pact:client:ci
+          instance-files: /root/project/src/instance-files-hawaii-csoc
+      - run:
+          name: Verify Pact contract against server
+          command: AWS_ACCESS_KEY_ID=$STAGING_AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY=$STAGING_AWS_SECRET_ACCESS_KEY yarn test:pact:server:ci
+          environment:
+            REACT_APP_INSTANCE_FILES_DIR: /root/project/src/instance-files-hawaii-csoc
       - store_artifacts:
           name: Upload pact logs
           path: /root/project/pact/logs
@@ -772,7 +894,7 @@ jobs:
             echo 'export DATABASE_NAME=$CI_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$CI_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       # - run:
       #     name: Install Git
@@ -800,7 +922,7 @@ jobs:
             echo 'export DATABASE_NAME=$STAGING_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$STAGING_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:
@@ -825,7 +947,7 @@ jobs:
             echo 'export DATABASE_NAME=$PRODUCTION_DATABASE_NAME' >> $BASH_ENV \
             echo 'export DATABASE_HOST=$PRODUCTION_DATABASE_HOST' >> $BASH_ENV \
             echo 'export ELASTIC_PASSWORD=$NON_PRODUCTION_ELASTIC_PASSWORD' >> $BASH_ENV \ 
-            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files' >> $BASH_ENV \
+            echo 'export REACT_APP_INSTANCE_FILES_DIR=/root/project/src/instance-files-noipm' >> $BASH_ENV \
             source $BASH_ENV
       - checkout
       - attach_workspace:
@@ -881,7 +1003,7 @@ workflows:
           requires:
             - get-instance-files-latest-noipm
 
-  build_and_deploy_master_noipm:
+  build_and_deploy_master:
     jobs:
       - security-check:
           filters:
@@ -891,121 +1013,106 @@ workflows:
       - get-instance-files-latest-noipm:
           requires:
             - security-check
-      - test-client:
+      - get-instance-files-latest-hawaii:
+          requires:
+            - security-check
+      - test-client-noipm:
           requires:
             - get-instance-files-latest-noipm
-      - test-server-and-worker-ci:
+      - test-server-and-worker-ci-noipm:
           requires:
             - get-instance-files-latest-noipm
-      - test-pact:
+      - test-pact-noipm:
           requires:
             - get-instance-files-latest-noipm
+      - test-client-hawaii:
+          requires:
+            - get-instance-files-latest-hawaii
+      - test-server-and-worker-ci-hawaii:
+          requires:
+            - get-instance-files-latest-hawaii
+      - test-pact-hawaii:
+          requires:
+            - get-instance-files-latest-hawaii
       - build-and-publish-master-noipm:
           requires:
             - get-instance-files-latest-noipm
+      - build-and-publish-master-hawaii:
+          requires:
+            - get-instance-files-latest-hawaii
       - deploy-no-to-ci:
           type: approval
           requires:
             - build-and-publish-master-noipm
-            - test-server-and-worker-ci
-            - test-pact
-            - test-client
+            - test-server-and-worker-ci-noipm
+            - test-pact-noipm
+            - test-client-noipm
       - deploy-ci-noipm:
           requires:
             - deploy-no-to-ci
-      - ensure-ci-deploy-succeeded:
-          requires:
-            - deploy-ci-noipm
-      - letter-generation-testing-ci:
-          requires:
-            - ensure-ci-deploy-succeeded
-      # - letter-generation-ci-latency-check:
-      #     requires:
-      #       - letter-generation-testing-ci
-      - e2e-testing-ci-pdm:
-          requires:
-            - letter-generation-testing-ci
-      - create-release:
-          type: approval
-          requires:
-            - e2e-testing-ci-pdm
-      - bump-version:
-          requires:
-            - create-release
-      - tag-instance-files:
-          requires:
-            - bump-version
-      - build-and-publish-app-staging:
-          requires:
-            - tag-instance-files
-      - build-and-publish-production:
-          requires:
-            - tag-instance-files
-      - push-tag:
-          requires:
-            - build-and-publish-app-staging
-            - build-and-publish-production
-
-  build_and_deploy_master_hawaii:
-    jobs:
-      - security-check:
-          filters:
-            branches:
-              only:
-                - master
-      - get-instance-files-latest-hawaii:
-          requires:
-            - security-check
-      - test-client:
-          requires:
-            - get-instance-files-latest-hawaii
-      - test-server-and-worker-ci:
-          requires:
-            - get-instance-files-latest-hawaii
-      - test-pact:
-          requires:
-            - get-instance-files-latest-hawaii
-      - build-and-publish-master-hawaii:
-          requires:
-            - get-instance-files-latest-hawaii
       - deploy-ci-hawaii:
           requires:
             - build-and-publish-master-hawaii
-            - test-server-and-worker-ci
-            - test-pact
-            - test-client
+            - test-server-and-worker-ci-hawaii
+            - test-pact-hawaii
+            - test-client-hawaii
       - ensure-ci-deploy-succeeded:
+          name: ensure-ci-noipm-deploy-succeeded
+          requires:
+            - deploy-ci-noipm
+      - ensure-ci-deploy-succeeded:
+          name: ensure-ci-hawaii-deploy-succeeded
           requires:
             - deploy-ci-hawaii
       - letter-generation-testing-ci:
+          name: letter-generation-testing-ci-noipm
           requires:
-            - ensure-ci-deploy-succeeded
+            - ensure-ci-noipm-deploy-succeeded
+      - letter-generation-testing-ci:
+          name: letter-generation-testing-ci-hawaii
+          requires:
+            - ensure-ci-hawaii-deploy-succeeded
       # - letter-generation-ci-latency-check:
       #     requires:
       #       - letter-generation-testing-ci
-      - e2e-testing-ci-pdm:
+      - e2e-testing-ci-pdm-noipm:
           requires:
-            - letter-generation-testing-ci
+            - letter-generation-testing-ci-noipm
+      - e2e-testing-ci-pdm-hawaii:
+          requires:
+            - letter-generation-testing-ci-hawaii
       - create-release:
           type: approval
           requires:
-            - e2e-testing-ci-pdm
+            - e2e-testing-ci-pdm-noipm
+            - e2e-testing-ci-pdm-hawaii
       - bump-version:
           requires:
             - create-release
-      - tag-instance-files:
+      - tag-instance-files-noipm:
           requires:
             - bump-version
-      - build-and-publish-app-staging:
+      - tag-instance-files-hawaii:
           requires:
-            - tag-instance-files
-      - build-and-publish-production:
+            - bump-version
+      - build-and-publish-app-staging-noipm:
           requires:
-            - tag-instance-files
+            - tag-instance-files-noipm
+      - build-and-publish-app-staging-hawaii:
+          requires:
+            - tag-instance-files-hawaii
+      - build-and-publish-production-noipm:
+          requires:
+            - tag-instance-files-noipm
+      - build-and-publish-production-hawaii:
+          requires:
+            - tag-instance-files-hawaii
       - push-tag:
           requires:
-            - build-and-publish-app-staging
-            - build-and-publish-production
+            - build-and-publish-app-staging-noipm
+            - build-and-publish-production-noipm
+            - build-and-publish-app-staging-hawaii
+            - build-and-publish-production-hawaii
 
   build_and_deploy_playground:
     jobs:
@@ -1020,7 +1127,7 @@ workflows:
       - lighthouse:
           requires:
             - get-instance-files-latest-noipm
-      - test-client:
+      - test-client-noipm:
           requires:
             - get-instance-files-latest-noipm
       - test-server-handlers-ci:
@@ -1031,7 +1138,7 @@ workflows:
             - get-instance-files-latest-noipm
       - build-and-publish-playground:
           requires:
-            - test-client
+            - test-client-noipm
             - test-server-worker-non-handlers
             - test-server-handlers-ci
       - deploy-playground:
