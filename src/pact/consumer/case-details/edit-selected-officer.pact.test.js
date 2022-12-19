@@ -5,7 +5,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import {
   OFFICER_COMPLAINANT,
   OFFICER_WITNESS,
@@ -79,7 +79,7 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
           caseOfficerId,
           caseEmployeeType,
           state,
-          submitAction;
+          officer;
         beforeEach(async () => {
           state = "Case exists";
           if (options.includes(OFFICER_COMPLAINANT)) {
@@ -97,6 +97,38 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
           caseOfficerId = "1";
           caseEmployeeType = PERSON_TYPE.KNOWN_OFFICER.employeeDescription;
 
+          officer = {
+            fullName: "Joel Y Gottlieb",
+            isUnknownOfficer: false,
+            supervisorFullName: "Lula X Hoppe",
+            id: 1,
+            officerId: 5453,
+            firstName: "Joel",
+            middleName: "Y",
+            lastName: "Gottlieb",
+            windowsUsername: 18682,
+            supervisorFirstName: "Lula",
+            supervisorMiddleName: "X",
+            supervisorLastName: "Hoppe",
+            supervisorWindowsUsername: 9922,
+            supervisorOfficerNumber: 2561,
+            employeeType: "Commissioned",
+            caseEmployeeType: "Officer",
+            district: "6th District",
+            bureau: "FOB - Field Operations Bureau",
+            rank: "POLICE OFFICER 4",
+            hireDate: "2007-06-24",
+            sex: "M",
+            race: "White",
+            workStatus: "Active",
+            notes: "",
+            roleOnCase: currentRole,
+            isAnonymous: false,
+            createdAt: "2022-10-21T18:55:46.053Z",
+            updatedAt: "2022-10-21T18:55:46.053Z",
+            caseId: 1
+          };
+
           store.dispatch({
             type: "AUTH_SUCCESS",
             userInfo: {
@@ -104,47 +136,12 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
             }
           });
 
-          render(
-            <Provider store={store}>
-              <Router>
-                <ConnectedOfficerDetailsContainer
-                  match={{
-                    params: {
-                      id: `${caseId}`
-                    }
-                  }}
-                  caseId={caseId}
-                  titleAction={"Test"}
-                  submitButtonText={"Test Officer"}
-                  submitAction={editThunkWrapper(caseId, caseOfficerId)}
-                  officerSearchUrl={`/cases/${caseId}/officers/search`}
-                  selectedOfficer={{
-                    roleOnCase: { currentRole }
-                  }}
-                  initialRoleOnCase={currentRole}
-                  caseEmployeeTitle={OFFICER_TITLE}
-                  caseEmployeeType={caseEmployeeType}
-                />
-                <SharedSnackbarContainer />
-              </Router>
-            </Provider>
-          );
-        });
-
-        test("should redirect to search page when click change on selected officer", async () => {
-          userEvent.click(await screen.findByTestId("changeOfficerLink"));
-          expect(dispatchSpy).toHaveBeenCalledWith(
-            push(`/cases/1/officers/search`)
-          );
-        }, 200000);
-
-        test("should change role of officer and redirect back to case detail page on submit", async () => {
           await provider.addInteraction({
             state,
-            uponReceiving: `edit ${currentRole}`,
+            uponReceiving: `get case details`,
             withRequest: {
-              method: "PUT",
-              path: "/api/cases/1/cases-officers/1"
+              method: "GET",
+              path: "/api/cases/1"
             },
             willRespondWith: {
               status: 200,
@@ -170,9 +167,107 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
                 complainantCivilians: [],
                 witnessCivilians: [],
                 attachments: [],
-                accusedOfficers: [],
-                complainantOfficers: [],
-                witnessOfficers: [],
+                accusedOfficers:
+                  currentRole === "Accused" ? eachLike(officer) : [],
+                complainantOfficers:
+                  currentRole === "Complainant" ? eachLike(officer) : [],
+                witnessOfficers:
+                  currentRole === "Witness" ? eachLike(officer) : [],
+                status: "Active",
+                pdfAvailable: false,
+                isArchived: false,
+                nextStatus: "Letter in Progress"
+              })
+            }
+          });
+
+          render(
+            <Provider store={store}>
+              <Router>
+                {/* <ConnectedOfficerDetailsContainer
+                  match={{
+                    params: {
+                      id: `${caseId}`,
+                      caseOfficerId: `${caseOfficerId}`
+                    }
+                  }}
+                  caseId={caseId}
+                  titleAction={"Test"}
+                  submitButtonText={"Test Officer"}
+                  submitAction={editThunkWrapper(caseId, caseOfficerId)}
+                  officerSearchUrl={`/cases/${caseId}/officers/search`}
+                  selectedOfficer={{
+                    roleOnCase: { currentRole }
+                  }}
+                  initialRoleOnCase={currentRole}
+                  caseEmployeeTitle={OFFICER_TITLE}
+                  caseEmployeeType={caseEmployeeType}
+                /> */}
+                <EditOfficerDetails
+                  match={{
+                    params: {
+                      id: `${caseId}`,
+                      caseOfficerId: `${caseOfficerId}`
+                    }
+                  }}
+                ></EditOfficerDetails>
+                <SharedSnackbarContainer />
+              </Router>
+            </Provider>
+          );
+        });
+
+        test("should redirect to search page when click change on selected officer", async () => {
+          userEvent.click(await screen.findByTestId("changeOfficerLink"));
+          expect(dispatchSpy).toHaveBeenCalledWith(
+            push(`/cases/1/officers/1/search`)
+          );
+        }, 200000);
+
+        test("should change role of officer and redirect back to case detail page on submit", async () => {
+          const changedOfficer = { ...officer, roleOnCase: newRole };
+          await provider.addInteraction({
+            state,
+            uponReceiving: `edit ${currentRole}`,
+            withRequest: {
+              method: "PUT",
+              path: `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
+              body: like({
+                roleOnCase: newRole,
+                officerId: caseOfficerId
+              }),
+              headers: { "Content-Type": "application/json" }
+            },
+            willRespondWith: {
+              status: 200,
+              body: like({
+                caseReferencePrefix: "CC",
+                caseReference: "CC2022-0453",
+                id: 1,
+                complaintType: "Civilian Initiated",
+                statusId: 2,
+                year: 2022,
+                caseNumber: 453,
+                firstContactDate: "2022-10-04",
+                intakeSourceId: 3,
+                createdAt: "2022-10-04T18:40:59.540Z",
+                updatedAt: "2022-10-04T18:41:21.538Z",
+                caseClassifications: [],
+                intakeSource: {
+                  id: 3,
+                  name: "In Person",
+                  createdAt: "2018-12-21T02:07:39.872Z",
+                  updatedAt: "2018-12-21T02:07:39.872Z"
+                },
+                complainantCivilians: [],
+                witnessCivilians: [],
+                attachments: [],
+                accusedOfficers:
+                  newRole === "Accused" ? eachLike(changedOfficer) : [],
+                complainantOfficers:
+                  newRole === "Complainant" ? eachLike(changedOfficer) : [],
+                witnessOfficers:
+                  newRole === "Witness" ? eachLike(changedOfficer) : [],
                 status: "Active",
                 pdfAvailable: false,
                 isArchived: false,

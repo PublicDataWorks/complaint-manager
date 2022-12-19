@@ -19,7 +19,7 @@ const editCaseOfficer =
           : OFFICER_TITLE;
       await axios.put(
         `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
-        JSON.stringify(payload)
+        payload
       );
       dispatch(
         snackbarSuccess(`${caseEmployeeTitle} was successfully updated`)
