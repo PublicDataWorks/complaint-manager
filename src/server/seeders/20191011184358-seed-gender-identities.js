@@ -8,6 +8,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "UPDATE civilians SET gender_identity_id = NULL WHERE gender_identity_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("gender_identities");
   }
 };

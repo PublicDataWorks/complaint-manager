@@ -8,6 +8,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "UPDATE civilians SET civilian_title_id = NULL WHERE civilian_title_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("civilian_titles");
   }
 };
