@@ -1,6 +1,5 @@
 import { NICKNAME, PERMISSIONS } from "../../sharedUtilities/constants";
 import { UNAUTHORIZED_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-import checkFeatureToggleEnabled from "../checkFeatureToggleEnabled";
 
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
