@@ -10,16 +10,15 @@ const Boom = require("boom");
 
 const verifyUserNickname = (request, response, next) => {
   const userInfo = request.user;
-  const nonUserAuthenticationFeature = checkFeatureToggleEnabled(
-    request,
-    "nonUserAuthenticationFeature"
-  );
 
   if (!userInfo) {
     return next(Boom.unauthorized(UNAUTHORIZED_ERRORS.USER_INFO_MISSING));
   }
 
-  if (nonUserAuthenticationFeature && userInfo["gty"] == "client-credentials") {
+  if (
+    (process.env.NODE_ENV === "ci" || process.env.NODE_ENV === "staging") &&
+    userInfo["gty"] == "client-credentials"
+  ) {
     request.nickname = NICKNAME;
     request.permissions = PERMISSIONS;
     next();
