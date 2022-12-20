@@ -41,6 +41,7 @@ describe("Generate referral letter pdf", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();

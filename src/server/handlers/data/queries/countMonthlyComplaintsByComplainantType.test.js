@@ -109,6 +109,7 @@ describe("executeQuery", () => {
     });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     civilianCC = new Civilian.Builder().defaultCivilian().withId(2);

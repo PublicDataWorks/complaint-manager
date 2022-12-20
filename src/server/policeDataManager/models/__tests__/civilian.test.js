@@ -8,6 +8,7 @@ import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 describe("civilian", () => {
   let statuses;
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
   });
 

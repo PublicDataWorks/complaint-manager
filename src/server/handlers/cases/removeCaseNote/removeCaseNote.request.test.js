@@ -36,6 +36,7 @@ describe("removeCaseNote request", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await seedStandardCaseStatuses();
   });
 

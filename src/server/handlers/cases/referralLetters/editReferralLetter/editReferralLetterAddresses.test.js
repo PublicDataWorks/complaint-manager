@@ -13,6 +13,7 @@ describe("Edit referral letter addresses", () => {
   let response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 

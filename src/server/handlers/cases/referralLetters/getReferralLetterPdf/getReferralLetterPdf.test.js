@@ -40,6 +40,7 @@ describe("Generate referral letter pdf", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     const caseAttributes = new Case.Builder()

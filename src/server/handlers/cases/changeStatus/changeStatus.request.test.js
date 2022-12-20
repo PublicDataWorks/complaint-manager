@@ -29,6 +29,7 @@ describe("changeStatus request", () => {
   let initialCase, token;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await seedStandardCaseStatuses();
 
     initialCase = await createTestCaseWithoutCivilian();

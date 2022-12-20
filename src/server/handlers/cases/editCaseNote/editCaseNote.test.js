@@ -46,6 +46,7 @@ describe("editCaseNote", function () {
   next = jest.fn();
 
   beforeEach(async () => {
+    await cleanupDatabase();
     caseNoteAction = await models.case_note_action.create(
       { name: "some action" },
       { auditUser: "some user" }

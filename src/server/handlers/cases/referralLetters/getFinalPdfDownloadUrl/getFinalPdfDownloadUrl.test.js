@@ -38,6 +38,7 @@ describe("getFinalPdfDownloadUrl", () => {
   const testUser = "Bob the Builder";
 
   beforeEach(async () => {
+    await cleanupDatabase();
     getSignedUrlMock = jest.fn(() => "url");
     createConfiguredS3Instance.mockImplementation(() => ({
       getSignedUrl: getSignedUrlMock

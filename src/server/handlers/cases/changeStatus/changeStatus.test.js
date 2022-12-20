@@ -25,6 +25,7 @@ describe("changeStatus", () => {
   let initialCase, response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.signers.create(
       new Signer.Builder()
         .defaultSigner()

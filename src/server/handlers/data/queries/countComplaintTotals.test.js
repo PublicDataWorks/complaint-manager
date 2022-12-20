@@ -41,6 +41,7 @@ describe("getCountByDateRange", () => {
   const expectedData = { ytd: 2, previousYear: 2 };
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     const firstCase = await models.cases.create(
