@@ -75,6 +75,28 @@ describe("verifyUserNickname", () => {
     ).toBeTruthy();
   });
 
+  test("should update nickname permission when grant type is 'client-credentials' when feature flag enabled", async () => {
+    const request = httpMocks.createRequest({
+      headers: {
+        authorization: "Bearer VALID_TOKEN_FORMAT"
+      },
+      user: {
+        gty: "client-credentials"
+      }
+    });
+    request.fflip = mockFflipObject({ nonUserAuthenticationFeature: true });
+
+    await verifyUserNickname(request, response, next);
+
+    expect(request.nickname).toEqual(NICKNAME);
+    expect(
+      request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
+    ).toBeTruthy();
+    expect(
+      request.permissions.includes(USER_PERMISSIONS.EXPORT_AUDIT_LOG)
+    ).toBeTruthy();
+  });
+
   test("should not update nickname permission when grant type is 'client-credentials' when feature flag disabled", async () => {
     const request = httpMocks.createRequest({
       headers: {
