@@ -9247,7 +9247,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"case\": {\n        \"complaintType\": \"Civilian Initiated\",\n        \"firstContactDate\": \"2020-07-22\",\n        \"intakeSourceId\": 3\n    },\n    \"civilian\": {\n        \"firstName\": \"Tim\",\n        \"lastName\": \"Names\",\n        \"phoneNumber\": \"3147834127\"\n    }\n}",
+              "raw": "{\n    \"case\": {\n        \"complaintType\": \"Civilian Initiated\",\n        \"firstContactDate\": \"2020-07-22\",\n    },\n    \"civilian\": {\n        \"firstName\": \"Tim\",\n        \"lastName\": \"Names\",\n        \"phoneNumber\": \"3147834127\"\n    }\n}",
               "options": {
                 "raw": {
                   "language": "json"
