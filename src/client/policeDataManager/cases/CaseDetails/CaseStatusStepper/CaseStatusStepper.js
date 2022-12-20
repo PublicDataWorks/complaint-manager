@@ -58,7 +58,7 @@ const CaseStatusStepper = ({
               <EditLetterButton status={status} caseId={caseId} />
             )}
             <StatusButton />
-            {!generateLetterButtonFeatureFlag ? <GenerateLetterButton /> : null}
+            {generateLetterButtonFeatureFlag ? <GenerateLetterButton /> : null}
           </div>
         )}
       </div>
