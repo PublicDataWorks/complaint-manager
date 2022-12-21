@@ -136,6 +136,9 @@ commands:
       image:
         default: "police-data-manager-ci"
         type: string
+      worker-image:
+        default: "police-data-manager-ci-worker"
+        type: string
       version:
         default: $CIRCLE_SHA1
         type: string
@@ -144,7 +147,7 @@ commands:
           version: 19.03.13
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker pull publicdataworks/<<parameters.image>>:<<parameters.version>>
-      - run: docker pull publicdataworks/<<parameters.image>>-worker:<<parameters.version>>
+      - run: docker pull publicdataworks/<<parameters.worker-image>>:<<parameters.version>>
       - run: heroku maintenance:on --app noipm-<<parameters.environment>>
       - run:
           name: Migrate and Seed DB
@@ -162,7 +165,7 @@ commands:
             publicdataworks/<<parameters.image>>:<<parameters.version>> yarn reseed:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
       - run: docker tag publicdataworks/<<parameters.image>>:<<parameters.version>> registry.heroku.com/noipm-<<parameters.environment>>/web
-      - run: docker tag publicdataworks/<<parameters.image>>-worker:<<parameters.version>> registry.heroku.com/noipm-<<parameters.environment>>/worker
+      - run: docker tag publicdataworks/<<parameters.worker-image>>:<<parameters.version>> registry.heroku.com/noipm-<<parameters.environment>>/worker
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/web
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/worker
       - run: heroku container:release web worker --app noipm-<<parameters.environment>>
@@ -552,6 +555,7 @@ jobs:
           org: "NOIPM"
           env-uppercase: "CI"
           image: "police-data-manager-ci"
+          worker-image: "police-data-manager-ci-worker"
 
   deploy-ci-hawaii:
     docker:
@@ -562,6 +566,7 @@ jobs:
           org: "HAWAII"
           env-uppercase: "CI"
           image: "police-data-manager-hawaii-ci"
+          worker-image: "police-data-manager-hawaii-ci-worker"
 
   ensure-ci-deploy-succeeded:
     docker:
@@ -606,6 +611,7 @@ jobs:
           org: "NOIPM"
           env-uppercase: "STAGING"
           image: "police-data-manager-staging"
+          worker-image: "police-data-manager-worker"
           version: "$(cat release.version)"
 
   deploy-staging-hawaii:
@@ -619,6 +625,7 @@ jobs:
           org: "HAWAII"
           env-uppercase: "STAGING"
           image: "police-data-manager-hawaii-staging"
+          worker-image: "police-data-manager-hawaii-worker"
           version: "$(cat release.version)"
 
   e2e-testing-playground:
