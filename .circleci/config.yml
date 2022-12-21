@@ -568,6 +568,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - run: sleep 60;
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-ci.herokuapp.com/health-check
 
   e2e-testing-ci-pdm-noipm:
@@ -645,6 +646,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - run: sleep 60;
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-staging.herokuapp.com/health-check
 
   e2e-testing-staging:
