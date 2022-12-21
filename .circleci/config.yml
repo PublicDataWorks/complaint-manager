@@ -590,7 +590,7 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - e2e-test:
-          instance-files: "instance-files-hawaii"
+          instance-files: "instance-files-hawaii-csoc"
           env: "ci"
           env-uppercase: "CI"
 
@@ -1069,22 +1069,17 @@ workflows:
           requires:
             - deploy-ci-hawaii
       - letter-generation-testing-ci:
-          name: letter-generation-testing-ci-noipm
           requires:
             - ensure-ci-noipm-deploy-succeeded
-      - letter-generation-testing-ci:
-          name: letter-generation-testing-ci-hawaii
-          requires:
-            - ensure-ci-hawaii-deploy-succeeded
       # - letter-generation-ci-latency-check:
       #     requires:
       #       - letter-generation-testing-ci
       - e2e-testing-ci-pdm-noipm:
           requires:
-            - letter-generation-testing-ci-noipm
+            - letter-generation-testing-ci
       - e2e-testing-ci-pdm-hawaii:
           requires:
-            - letter-generation-testing-ci-hawaii
+            - ensure-ci-hawaii-deploy-succeeded
       - create-release:
           type: approval
           requires:
