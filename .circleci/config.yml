@@ -599,6 +599,8 @@ jobs:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
+      - attach_workspace:
+          at: .
       - deploy-to-lower-env:
           environment: "staging"
           org: "NOIPM"
@@ -610,6 +612,8 @@ jobs:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
+      - attach_workspace:
+          at: .
       - deploy-to-lower-env:
           environment: "staging"
           org: "HAWAII"
