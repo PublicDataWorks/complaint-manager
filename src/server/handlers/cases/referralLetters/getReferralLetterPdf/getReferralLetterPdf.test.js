@@ -29,6 +29,7 @@ jest.mock(
 jest.mock("../../../audits/auditDataAccess");
 
 describe("Generate referral letter pdf", () => {
+  jest.setTimeout(50000);
   let existingCase, request, response, next, statuses;
 
   afterEach(async () => {

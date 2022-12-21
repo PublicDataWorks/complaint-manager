@@ -27,6 +27,7 @@ jest.mock(
 );
 
 describe("removeCaseNote request", () => {
+  jest.setTimeout(50000);
   afterEach(async () => {
     await cleanupDatabase();
   });
