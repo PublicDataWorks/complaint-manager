@@ -11,5 +11,8 @@ module.exports = {
       "UPDATE cases_officers SET officer_id = NULL WHERE officer_id IS NOT NULL"
     );
     await queryInterface.bulkDelete("officers");
+    await queryInterface.sequelize.query(
+      "ALTER SEQUENCE IF EXISTS officers_id_seq START 1 RESTART 1 MINVALUE 1"
+    );
   }
 };
