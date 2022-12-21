@@ -8,5 +8,8 @@ module.exports = {
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete("allegations");
+    await queryInterface.sequelize.query(
+      "ALTER SEQUENCE IF EXISTS allegations_id_seq START 1 RESTART 1 MINVALUE 1"
+    );
   }
 };
