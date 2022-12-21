@@ -9,5 +9,8 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete("classifications");
+    await queryInterface.sequelize.query(
+      "ALTER SEQUENCE IF EXISTS new_classifications_id_seq START 1 RESTART 1 MINVALUE 1"
+    );
   }
 };
