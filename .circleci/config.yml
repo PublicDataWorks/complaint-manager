@@ -712,7 +712,7 @@ jobs:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
       - tag-instance-files:
-          instance-files: "instance-files-hawaii"
+          instance-files: "instance-files-hawaii-csoc"
 
   bump-version:
     docker:

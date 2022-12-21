@@ -24,6 +24,7 @@ jest.mock(
 describe("GET /officers/search", () => {
   let token;
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("", "tuser");
     await models.district.create({
       id: 1,
