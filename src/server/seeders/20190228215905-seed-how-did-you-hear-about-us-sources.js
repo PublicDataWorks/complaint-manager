@@ -11,6 +11,9 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.sequelize.query(
+      "UPDATE cases SET how_did_you_hear_about_us_source_id = NULL WHERE how_did_you_hear_about_us_source_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("how_did_you_hear_about_us_sources");
   }
 };
