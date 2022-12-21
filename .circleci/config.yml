@@ -774,7 +774,7 @@ jobs:
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: base-app-hawaii
       - build-and-publish-app-image:
-          env: staging
+          env: hawaii-staging
           version: $(cat version.txt)
           base-image: base-app-hawaii
 
@@ -816,11 +816,11 @@ jobs:
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: base-app-hawaii
       - build-and-publish-app-image:
-          env: production
+          env: hawaii-production
           version: $(cat version.txt)
           base-image: base-app-hawaii
       - build-and-publish-worker-image:
-          env-suffix: ""
+          env-suffix: "-hawaii"
           version: $(cat version.txt)
           base-image: base-app-hawaii
 
