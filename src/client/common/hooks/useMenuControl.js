@@ -1,4 +1,4 @@
-import { useState } from "React";
+import { useState } from "react";
 
 /**
  * useMenuControl - meant to be used in tandem with the material UI <Menu> component.
