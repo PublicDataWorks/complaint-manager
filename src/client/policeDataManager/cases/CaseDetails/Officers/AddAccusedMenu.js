@@ -11,12 +11,16 @@ import {
 import { push } from "connected-react-router";
 import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
+import useMenuControl from "../../../../common/hooks/useMenuControl";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const AddAccusedMenu = props => {
+  const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
+    useMenuControl();
+
   return (
     <div>
       <LinkButton
@@ -25,22 +29,22 @@ const AddAccusedMenu = props => {
           marginTop: "8px",
           marginBottom: "8px"
         }}
-        onClick={props.handleMenuOpen}
+        onClick={handleMenuOpen}
         data-testid="addAccusedMenu"
       >
         + Add Accused
       </LinkButton>
       <Menu
         data-testid="addAccusedMenu"
-        open={props.menuOpen}
-        onClose={props.handleMenuClose}
-        anchorEl={props.anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+        anchorEl={anchorEl}
         getContentAnchorEl={null}
       >
         <MenuItem
           data-testid="addAccusedOfficer"
           onClick={() => {
-            props.handleMenuClose();
+            handleMenuClose();
             props.dispatch(
               initialize(OFFICER_DETAILS_FORM_NAME, {
                 roleOnCase: ACCUSED
@@ -57,7 +61,7 @@ const AddAccusedMenu = props => {
         <MenuItem
           data-testid="addAccusedCivilianWithinPD"
           onClick={() => {
-            props.handleMenuClose();
+            handleMenuClose();
             props.dispatch(
               initialize(OFFICER_DETAILS_FORM_NAME, {
                 roleOnCase: ACCUSED

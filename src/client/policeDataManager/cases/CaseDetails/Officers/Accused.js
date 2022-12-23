@@ -20,8 +20,6 @@ const Accused = props => {
     incidentDate,
     caseId,
     isArchived,
-    menuOpen,
-    anchorEl,
     permissions,
     allowAccusedOfficersToBeBlankFeature
   } = props;
@@ -65,35 +63,16 @@ const Accused = props => {
             )}
         {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
           ? null
-          : renderAddAccused(
-              menuOpen,
-              props.handleMenuClose,
-              props.handleMenuOpen,
-              anchorEl,
-              dispatch,
-              caseId,
-              ACCUSED
-            )}
+          : renderAddAccused(dispatch, caseId, ACCUSED)}
       </CardContent>
     </DetailsCard>
   );
 };
 
-const renderAddAccused = (
-  menuOpen,
-  handleMenuClose,
-  handleMenuOpen,
-  anchorEl,
-  dispatch,
-  caseId
-) => {
+const renderAddAccused = (dispatch, caseId) => {
   return (
     <Fragment>
       <AddAccusedMenu
-        menuOpen={menuOpen}
-        handleMenuClose={handleMenuClose}
-        handleMenuOpen={handleMenuOpen}
-        anchorEl={anchorEl}
         dispatch={dispatch}
         caseId={caseId}
         civilianType={ACCUSED}

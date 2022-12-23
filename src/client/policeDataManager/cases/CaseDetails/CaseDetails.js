@@ -79,17 +79,7 @@ class CaseDetails extends React.Component {
   }
 
   state = {
-    mobileOpen: false,
-    anchorEl: null,
-    addAccusedMenuOpen: false
-  };
-
-  handleAddAccusedMenuOpen = event => {
-    this.setState({ addAccusedMenuOpen: true, anchorEl: event.currentTarget });
-  };
-
-  handleAddAccusedMenuClose = () => {
-    this.setState({ addAccusedMenuOpen: false });
+    mobileOpen: false
   };
 
   componentDidMount() {
@@ -196,10 +186,6 @@ class CaseDetails extends React.Component {
               accusedOfficers={this.props.caseDetails.accusedOfficers}
               dispatch={this.props.dispatch}
               isArchived={this.props.caseDetails.isArchived}
-              handleMenuOpen={this.handleAddAccusedMenuOpen}
-              menuOpen={this.state.addAccusedMenuOpen}
-              handleMenuClose={this.handleAddAccusedMenuClose}
-              anchorEl={this.state.anchorEl}
             />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>

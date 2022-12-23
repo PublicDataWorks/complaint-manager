@@ -15,104 +15,85 @@ import {
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
 } from "../../../../../sharedUtilities/constants";
+import useMenuControl from "../../../../common/hooks/useMenuControl";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-class ManageOfficerMenu extends React.Component {
-  state = { menuOpen: false, anchorEl: null };
+const ManageOfficerMenu = props => {
+  const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
+    useMenuControl();
 
-  handleMenuOpen = event => {
-    event.stopPropagation();
-    this.setState({ menuOpen: true, anchorEl: event.target });
-  };
+  const { caseOfficer, pd } = props;
 
-  handleMenuClose = event => {
-    event.stopPropagation();
-    this.setState({ menuOpen: false, anchorEl: null });
-  };
+  const isCivilianWithinPd =
+    caseOfficer.caseEmployeeType ===
+    PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
 
-  render() {
-    const { caseOfficer, pd } = this.props;
+  const caseEmployeeTitle = isCivilianWithinPd
+    ? `Civilian (${pd})`
+    : OFFICER_TITLE;
 
-    const isCivilianWithinPd =
-      caseOfficer.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
-
-    const caseEmployeeTitle = isCivilianWithinPd
-      ? `Civilian (${pd})`
-      : OFFICER_TITLE;
-
-    return (
-      <div>
-        <LinkButton
-          data-testid="manageCaseOfficer"
-          onClick={this.handleMenuOpen}
+  return (
+    <div>
+      <LinkButton data-testid="manageCaseOfficer" onClick={handleMenuOpen}>
+        Manage
+      </LinkButton>
+      <Menu open={menuOpen} anchorEl={anchorEl} onClose={handleMenuClose}>
+        <MenuItem
+          data-testid="addAllegation"
+          onClick={() => {
+            props.dispatch(
+              push(
+                `/cases/${caseOfficer.caseId}/cases-officers/${caseOfficer.id}/allegations/search`
+              )
+            );
+          }}
         >
-          Manage
-        </LinkButton>
-        <Menu
-          open={this.state.menuOpen}
-          anchorEl={this.state.anchorEl}
-          onClose={this.handleMenuClose}
+          Manage Allegations
+        </MenuItem>
+        <MenuItem
+          data-testid="editCaseOfficer"
+          onClick={event => {
+            handleMenuClose(event);
+            if (caseOfficer.officerId) {
+              props.dispatch(selectCaseOfficer(caseOfficer));
+              props.dispatch(addCaseEmployeeType(caseOfficer.caseEmployeeType));
+            } else {
+              props.dispatch(selectUnknownOfficer());
+            }
+            props.dispatch(
+              initialize(OFFICER_DETAILS_FORM_NAME, {
+                notes: caseOfficer.notes,
+                roleOnCase: caseOfficer.roleOnCase,
+                officerId: caseOfficer.officerId,
+                phoneNumber: caseOfficer.phoneNumber,
+                email: caseOfficer.email
+              })
+            );
+            props.dispatch(
+              push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
+            );
+          }}
         >
-          <MenuItem
-            data-testid="addAllegation"
-            onClick={() => {
-              this.props.dispatch(
-                push(
-                  `/cases/${caseOfficer.caseId}/cases-officers/${caseOfficer.id}/allegations/search`
-                )
-              );
-            }}
-          >
-            Manage Allegations
-          </MenuItem>
-          <MenuItem
-            data-testid="editCaseOfficer"
-            onClick={event => {
-              this.handleMenuClose(event);
-              if (caseOfficer.officerId) {
-                this.props.dispatch(selectCaseOfficer(caseOfficer));
-                this.props.dispatch(
-                  addCaseEmployeeType(caseOfficer.caseEmployeeType)
-                );
-              } else {
-                this.props.dispatch(selectUnknownOfficer());
-              }
-              this.props.dispatch(
-                initialize(OFFICER_DETAILS_FORM_NAME, {
-                  notes: caseOfficer.notes,
-                  roleOnCase: caseOfficer.roleOnCase,
-                  officerId: caseOfficer.officerId,
-                  phoneNumber: caseOfficer.phoneNumber,
-                  email: caseOfficer.email
-                })
-              );
-              this.props.dispatch(
-                push(`/cases/${caseOfficer.caseId}/officers/${caseOfficer.id}`)
-              );
-            }}
-          >
-            {`Edit ${caseEmployeeTitle}`}
-          </MenuItem>
-          <MenuItem
-            data-testid="removeCaseOfficer"
-            onClick={event => {
-              this.handleMenuClose(event);
-              return this.props.dispatch(
-                openRemovePersonDialog(caseOfficer, "cases-officers", pd)
-              );
-            }}
-          >
-            {`Remove ${caseEmployeeTitle}`}
-          </MenuItem>
-        </Menu>
-      </div>
-    );
-  }
-}
+          {`Edit ${caseEmployeeTitle}`}
+        </MenuItem>
+        <MenuItem
+          data-testid="removeCaseOfficer"
+          onClick={event => {
+            handleMenuClose(event);
+            return props.dispatch(
+              openRemovePersonDialog(caseOfficer, "cases-officers", pd)
+            );
+          }}
+        >
+          {`Remove ${caseEmployeeTitle}`}
+        </MenuItem>
+      </Menu>
+    </div>
+  );
+};
 
 export default connect(state => ({ pd: state.configs[CONFIGS.PD] }))(
   ManageOfficerMenu
