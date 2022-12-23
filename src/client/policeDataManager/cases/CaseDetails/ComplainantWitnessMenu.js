@@ -10,7 +10,7 @@ import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";
 import { openCivilianDialog } from "../../actionCreators/casesActionCreators";
 import { Menu, MenuItem } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import LinkButton from "../../shared/components/LinkButton";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
@@ -20,6 +20,18 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const ComplainantWitnessMenu = props => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = event => {
+    setMenuOpen(true);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuOpen(false);
+  };
+
   return (
     <div>
       {props.permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
@@ -29,7 +41,7 @@ const ComplainantWitnessMenu = props => {
             marginTop: "8px",
             marginBottom: "8px"
           }}
-          onClick={props.handleMenuOpen}
+          onClick={handleMenuOpen}
           data-testid="addComplainantWitness"
         >
           + Add {props.civilianType}
@@ -38,15 +50,15 @@ const ComplainantWitnessMenu = props => {
         ""
       )}
       <Menu
-        open={props.menuOpen}
-        onClose={props.handleMenuClose}
-        anchorEl={props.anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+        anchorEl={anchorEl}
         getContentAnchorEl={null}
       >
         <MenuItem
           data-testid="addCivilianComplainantWitness"
           onClick={() => {
-            props.handleMenuClose();
+            handleMenuClose();
             props.dispatch(
               initialize(CIVILIAN_FORM_NAME, {
                 roleOnCase: props.civilianType,

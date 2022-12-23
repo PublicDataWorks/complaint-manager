@@ -39,10 +39,6 @@ const Complainants = props => {
 
         {props.caseDetails.isArchived ? null : (
           <ComplainantWitnessMenu
-            menuOpen={props.menuOpen}
-            handleMenuClose={props.handleMenuClose}
-            handleMenuOpen={props.handleMenuOpen}
-            anchorEl={props.anchorEl}
             dispatch={props.dispatch}
             caseDetails={props.caseDetails}
             civilianType={COMPLAINANT}

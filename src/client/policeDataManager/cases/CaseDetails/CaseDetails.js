@@ -81,25 +81,7 @@ class CaseDetails extends React.Component {
   state = {
     mobileOpen: false,
     anchorEl: null,
-    complainantMenuOpen: false,
-    witnessMenuOpen: false,
     addAccusedMenuOpen: false
-  };
-
-  handleComplainantMenuOpen = event => {
-    this.setState({ complainantMenuOpen: true, anchorEl: event.currentTarget });
-  };
-
-  handleComplainantMenuClose = () => {
-    this.setState({ complainantMenuOpen: false });
-  };
-
-  handleWitnessMenuOpen = event => {
-    this.setState({ witnessMenuOpen: true, anchorEl: event.currentTarget });
-  };
-
-  handleWitnessMenuClose = () => {
-    this.setState({ witnessMenuOpen: false });
   };
 
   handleAddAccusedMenuOpen = event => {
@@ -193,19 +175,11 @@ class CaseDetails extends React.Component {
             <Complainants
               caseDetails={this.props.caseDetails}
               dispatch={this.props.dispatch}
-              handleMenuOpen={this.handleComplainantMenuOpen}
-              menuOpen={this.state.complainantMenuOpen}
-              handleMenuClose={this.handleComplainantMenuClose}
-              anchorEl={this.state.anchorEl}
               classes={classes}
             />
             <Witnesses
               caseDetails={this.props.caseDetails}
               dispatch={this.props.dispatch}
-              handleMenuOpen={this.handleWitnessMenuOpen}
-              menuOpen={this.state.witnessMenuOpen}
-              handleMenuClose={this.handleWitnessMenuClose}
-              anchorEl={this.state.anchorEl}
               classes={classes}
             />
             <Narrative
