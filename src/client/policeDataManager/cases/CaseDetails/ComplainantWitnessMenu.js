@@ -14,23 +14,15 @@ import React, { useState } from "react";
 import LinkButton from "../../shared/components/LinkButton";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
+import useMenuControl from "../../../common/hooks/useMenuControl";
 
 const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const ComplainantWitnessMenu = props => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleMenuOpen = event => {
-    setMenuOpen(true);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setMenuOpen(false);
-  };
+  const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
+    useMenuControl();
 
   return (
     <div>

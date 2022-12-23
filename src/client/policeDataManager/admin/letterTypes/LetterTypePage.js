@@ -42,7 +42,7 @@ import {
 } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 import TemplatePreview from "./TemplatePreview";
-import useGetServiceData from "../../../common/helpers/useGetServiceData";
+import useGetServiceData from "../../../common/hooks/useGetServiceData";
 
 const ADD = "add";
 const EDIT = "edit";

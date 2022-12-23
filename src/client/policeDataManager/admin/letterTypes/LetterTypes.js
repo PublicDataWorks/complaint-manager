@@ -5,7 +5,7 @@ import { CardContent, withStyles } from "@material-ui/core";
 import LetterTypeDisplay from "./LetterTypeDisplay";
 import DetailsCard from "../../shared/components/DetailsCard";
 import LinkButton from "../../shared/components/LinkButton";
-import useGetServiceData from "../../../common/helpers/useGetServiceData";
+import useGetServiceData from "../../../common/hooks/useGetServiceData";
 
 const LetterTypes = props => {
   const [letterTypes, reloadLetterTypes] = useGetServiceData(
