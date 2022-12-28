@@ -4,7 +4,7 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm, change, SubmissionError } from "redux-form";
 import {
@@ -42,7 +42,6 @@ import {
 } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 import TemplatePreview from "./TemplatePreview";
-import useGetServiceData from "../../../common/hooks/useGetServiceData";
 
 const ADD = "add";
 const EDIT = "edit";
@@ -291,7 +290,7 @@ const LetterTypePage = props => {
                 <div>
                   {props.complaintTypes.map(complaintType => (
                     <FormControlLabel
-                      style={{ width: "30%" }}
+                      style={{ width: "30%", minWidth: "300px" }}
                       key={complaintType.name}
                       label={complaintType.name}
                       control={
