@@ -14,6 +14,7 @@ describe("mergeTagAndAuditDetails", () => {
   let tag1, tag2, case1, case2;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
