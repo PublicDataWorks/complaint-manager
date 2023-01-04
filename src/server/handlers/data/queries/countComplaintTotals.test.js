@@ -26,7 +26,7 @@ jest.mock(
 );
 
 describe("getCountByDateRange", () => {
-  const fiveDaysAgo = moment().subtract(5, "days").format(ISO_DATE);
+  const yesterday = moment().subtract(1, "days").format(ISO_DATE);
   const oneYearAgo = moment().subtract(1, "years").format(ISO_DATE);
   let statuses;
 
@@ -47,7 +47,7 @@ describe("getCountByDateRange", () => {
     const firstCase = await models.cases.create(
       new Case.Builder()
         .defaultCase()
-        .withFirstContactDate(fiveDaysAgo)
+        .withFirstContactDate(yesterday)
         .withId(undefined),
       {
         auditUser: "someone"
@@ -61,7 +61,7 @@ describe("getCountByDateRange", () => {
     );
 
     const secondCase = await models.cases.create(
-      new Case.Builder().defaultCase().withFirstContactDate(fiveDaysAgo),
+      new Case.Builder().defaultCase().withFirstContactDate(yesterday),
       {
         auditUser: "someone"
       }
