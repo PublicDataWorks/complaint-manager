@@ -1042,6 +1042,9 @@ workflows:
       - test-pact-noipm:
           requires:
             - get-instance-files-latest-noipm
+      - build-and-publish-master-noipm:
+          requires:
+            - get-instance-files-latest-noipm
       - test-client-hawaii:
           requires:
             - get-instance-files-latest-hawaii
@@ -1051,9 +1054,6 @@ workflows:
       - test-pact-hawaii:
           requires:
             - get-instance-files-latest-hawaii
-      - build-and-publish-master-noipm:
-          requires:
-            - get-instance-files-latest-noipm
       - build-and-publish-master-hawaii:
           requires:
             - get-instance-files-latest-hawaii
