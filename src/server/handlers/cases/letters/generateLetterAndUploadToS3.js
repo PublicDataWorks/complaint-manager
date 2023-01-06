@@ -88,7 +88,7 @@ const generateLetter = async (caseId, filename, request, transaction) => {
   await uploadLetterToS3(
     filenameWithCaseId,
     pdfBuffer,
-    config[process.env.NODE_ENV].referralLettersBucket
+    config[process.env.NODE_ENV].s3Bucket
   );
 };
 

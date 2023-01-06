@@ -99,7 +99,7 @@ describe("Generate letter and upload to S3", () => {
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       expectedFullFilename,
       expect.anything(),
-      "noipm-referral-letters-test"
+      "noipm-local"
     );
 
     expect(newAttachment.caseId).toEqual(existingCase.id);

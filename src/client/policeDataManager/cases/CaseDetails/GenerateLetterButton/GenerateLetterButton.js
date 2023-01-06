@@ -52,8 +52,7 @@ const GenerateLetterButton = props => {
                 key={letterType.id}
                 data-testid={`${letterType.type}-option`}
                 onClick={() => {
-                  generateLetter(letterType.type);
-                  handleMenuClose();
+                  generateLetter(letterType.type).then(() => handleMenuClose());
                 }}
               >
                 {letterType.type}
