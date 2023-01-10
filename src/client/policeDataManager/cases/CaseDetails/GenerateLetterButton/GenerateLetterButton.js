@@ -44,6 +44,7 @@ const GenerateLetterButton = props => {
         open={menuOpen}
         onClose={handleMenuClose}
         anchorEl={anchorEl}
+        anchorOrigin={{ vertical: "bottom" }}
         getContentAnchorEl={null}
       >
         {letterTypes.length > 0

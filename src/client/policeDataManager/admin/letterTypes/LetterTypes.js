@@ -17,15 +17,17 @@ const LetterTypes = props => {
     <section style={{ minWidth: "50em", padding: "5px" }}>
       <DetailsCard title="Letters" data-testid="letterTypesSection">
         <CardContent style={{ padding: "0" }}>
-          {letterTypes.length
-            ? letterTypes.map(letterType => (
-                <LetterTypeDisplay
-                  key={letterType.id}
-                  letterType={letterType}
-                  reloadLetterTypes={reloadLetterTypes}
-                />
-              ))
-            : "There are no Letters"}
+          {letterTypes.length ? (
+            letterTypes.map(letterType => (
+              <LetterTypeDisplay
+                key={letterType.id}
+                letterType={letterType}
+                reloadLetterTypes={reloadLetterTypes}
+              />
+            ))
+          ) : (
+            <p style={{ padding: "16px" }}>There are no Letters</p>
+          )}
         </CardContent>
         <LinkButton
           style={{
