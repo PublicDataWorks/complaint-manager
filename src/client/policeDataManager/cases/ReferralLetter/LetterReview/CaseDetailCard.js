@@ -46,42 +46,6 @@ const CaseDetailCard = props => {
     );
   };
 
-  function narrativeDetailsData(strippedNarrDetails) {
-    if (strippedNarrDetails) {
-      return (
-        <Fragment>
-          <br />
-          <div dangerouslySetInnerHTML={{ __html: cardData.props.message }} />
-        </Fragment>
-      );
-    } else {
-      return (
-        <Fragment>
-          <br />
-          <Typography style={{ fontStyle: "italic", color: "grey" }}>
-            Not specified
-          </Typography>
-        </Fragment>
-      );
-    }
-  }
-
-  const renderNarrativeData = cardTitle => {
-    if (cardTitle === "Narrative Details" && cardData.props.message) {
-      const regex = /(<([^>]+)>)/gi;
-      const strippedNarrDetails = cardData.props.message.replace(regex, "");
-
-      return narrativeDetailsData(strippedNarrDetails);
-    } else {
-      return (
-        <Fragment>
-          <br />
-          {cardData}
-        </Fragment>
-      );
-    }
-  };
-
   const renderAllegationSection = () => {
     return (
       <Fragment>
@@ -99,6 +63,40 @@ const CaseDetailCard = props => {
             return renderAllegationData(allegation);
           })
         )}
+      </Fragment>
+    );
+  };
+
+  const renderNarrativeSection = (cardTitle, cardData) => {
+    let strippedNarrDetails = cardData;
+    if (cardTitle === "Narrative Details" && cardData.props.message) {
+      const regex = /(<([^>]+)>)/gi;
+      strippedNarrDetails = cardData.props.message.replace(regex, "");
+    }
+
+    return (
+      <Fragment>
+        <br />
+        <Typography style={styles.section}>{props.cardSecondTitle}</Typography>
+        {strippedNarrDetails.length === 0 ? (
+          <Fragment>
+            <br />
+            <Typography style={{ fontStyle: "italic", color: "grey" }}>
+              Not specified
+            </Typography>
+          </Fragment>
+        ) : (
+          renderNarrativeData(strippedNarrDetails)
+        )}
+      </Fragment>
+    );
+  };
+
+  const renderNarrativeData = cardData => {
+    return (
+      <Fragment>
+        <br />
+        {cardData}
       </Fragment>
     );
   };
@@ -144,8 +142,16 @@ const CaseDetailCard = props => {
         <Typography style={styles.section}>{cardTitle}</Typography>
         {_.isArray(cardData)
           ? renderComplainantWitnessOfficerData()
-          : renderNarrativeData(cardTitle)}
-        {props.cardSecondTitle ? renderAllegationSection() : null}
+          : renderNarrativeData(cardData)}
+        {props.cardSecondTitle === "Narrative Details"
+          ? renderNarrativeSection(
+              "Narrative Details",
+              props.narrativeDetailsCardData
+            )
+          : null}
+        {props.cardSecondTitle === "Allegations"
+          ? renderAllegationSection()
+          : null}
       </CardContent>
     </Card>
   );

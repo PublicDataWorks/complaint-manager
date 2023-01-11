@@ -65,6 +65,12 @@ export class LetterReview extends Component {
     this.props.push(redirectUrl);
   };
 
+  narrativeDetailsData = cardData => {
+    const regex = /(<([^>]+)>)/gi;
+    const strippedNarrDetails = cardData.props.message.replace(regex, "");
+    return strippedNarrDetails;
+  };
+
   render() {
     const { caseDetails, organization, pd } = this.props;
     const caseId = this.props.match.params.id;
@@ -141,11 +147,8 @@ export class LetterReview extends Component {
           <CaseDetailCard
             cardTitle={"Narrative Summary"}
             cardData={narrativeSummaryCardData}
-          />
-
-          <CaseDetailCard
-            cardTitle={"Narrative Details"}
-            cardData={narrativeDetailsCardData}
+            cardSecondTitle={"Narrative Details"}
+            narrativeDetailsCardData={narrativeDetailsCardData}
           />
 
           <CaseDetailCard
