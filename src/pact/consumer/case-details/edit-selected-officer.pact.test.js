@@ -129,7 +129,8 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
             isAnonymous: false,
             createdAt: "2022-10-21T18:55:46.053Z",
             updatedAt: "2022-10-21T18:55:46.053Z",
-            caseId: 1
+            caseId: 1,
+            allegations: newRole === "Accused" ? [] : undefined
           };
 
           store.dispatch({

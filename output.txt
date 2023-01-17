@@ -1,0 +1,1388 @@
+yarn run v1.22.18
+$ yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=2000 test src/pact/provider --logHeapUsage --forceExit --env=jsdom --testTimeout 100000 --runInBand
+$ ./scripts/setup-test-db.sh test1
+Running against test1 database...
+$ /app/node_modules/.bin/sequelize db:create --env=test1
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test1".
+
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+$ /app/node_modules/.bin/sequelize db:migrate --env=test1
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test1".
+No migrations were executed, database schema was already up to date.
+$ ./scripts/setup-test-db.sh test2
+Running against test2 database...
+$ /app/node_modules/.bin/sequelize db:create --env=test2
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test2".
+
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+$ /app/node_modules/.bin/sequelize db:migrate --env=test2
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test2".
+No migrations were executed, database schema was already up to date.
+  console.log
+    Running on Worker:  1
+
+      at Object.<anonymous> (src/setupTests.js:13:9)
+
+[2023-01-17 17:59:16.081 +0000] INFO (268 on 97721196da1f): pact@9.18.1: Verifying provider
+[2023-01-17 17:59:16.164 +0000] INFO (268 on 97721196da1f): pact-node@10.17.6: Verifying Pacts.
+[2023-01-17 17:59:16.178 +0000] INFO (268 on 97721196da1f): pact-node@10.17.6: Verifying Pact Files
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 1)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+[2023-01-17 17:59:30.397 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "complaint types exist", ignoring
+[2023-01-17 17:59:30.888 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "null", ignoring
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 1)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+[2023-01-17 17:59:44.987 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "case statuses exist", ignoring
+[2023-01-17 17:59:47.149 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "users exist in the store", ignoring
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
+          at Array.forEach (<anonymous>)
+
+[2023-01-17 17:59:54.108 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+[2023-01-17 17:59:55.136 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "signer to be added doesn't exist in the database", ignoring
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+          at runMicrotasks (<anonymous>)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+          at runMicrotasks (<anonymous>)
+
+[2023-01-17 18:00:14.154 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:00:15 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","os":{"loadavg":[1.38,0.91,0.55],"uptime":6583.77},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":1240481,"external":4995253,"heapTotal":274919424,"heapUsed":242130288,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":712,"method":null,"native":false}]},"trace":"See stack"}
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
+          at Array.forEach (<anonymous>)
+
+{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:00:16 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","os":{"loadavg":[1.38,0.91,0.55],"uptime":6584.42},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":840003,"external":5206527,"heapTotal":274919424,"heapUsed":234438088,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":712,"method":null,"native":false}]},"trace":"See stack"}
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
+          at Array.forEach (<anonymous>)
+
+[2023-01-17 18:00:17.257 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+  console.log
+    [
+      letter_types {
+        dataValues: {
+          id: 1,
+          type: 'REFERRAL',
+          template: '<html>\n' +
+            '  <head>\n' +
+            '    <style>\n' +
+            '      * {\n' +
+            '        font-size: 8.5pt;\n' +
+            '      }\n' +
+            '\n' +
+            '      p {\n' +
+            '        margin: 0;\n' +
+            '      }\n' +
+            '\n' +
+            '      .preserve-white-space {\n' +
+            '        white-space: pre-wrap;\n' +
+            '      }\n' +
+            '\n' +
+            '      .ql-align-center {\n' +
+            '        text-align: center;\n' +
+            '      }\n' +
+            '    </style>\n' +
+            '  </head>\n' +
+            '  <body>\n' +
+            '    <div id="pageHeader-first">\n' +
+            '      <div style="text-align: center;">\n' +
+            '        {{{header}}}\n' +
+            '      </div>\n' +
+            '    </div>\n' +
+            '    <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">\n' +
+            '      {{{referralLetter.recipient}}}<br/>\n' +
+            '      {{{formatLongDate currentDate}}}<br/>\n' +
+            '      Page \\{{page}}\n' +
+            '    </div>\n' +
+            '\n' +
+            '    <div id="pageFooter" style="text-align: center; margin-top: 16px">\n' +
+            '            <span  style="display:inline-block; margin: 6px 16px 0 0">\n' +
+            '                {{{smallIcon}}}\n' +
+            '            </span>\n' +
+            '      <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">\n' +
+            '                INDEPENDENT POLICE MONITOR <br />\n' +
+            '                2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />\n' +
+            '                Phone (504) 309-9799| Fax (504) 309-7345\n' +
+            '            </span>\n' +
+            '      <span  style="display:inline-block; width: 46px">&nbsp;</span>\n' +
+            '    </div>\n' +
+            '    <p style="color: #7F7F7F;">\n' +
+            '      STELLA CZIMENT\n' +
+            '      <br>\n' +
+            '      INDEPENDENT POLICE MONITOR\n' +
+            '    </p>\n' +
+            '    <p><br></p>\n' +
+            '    {{{formatLongDate currentDate}}}\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml referralLetter.recipient}}}</br>\n' +
+            '    {{{renderHtml (newLineToLineBreak referralLetter.recipientAddress)}}}\n' +
+            '    <p><br></p>\n' +
+            '    <p><strong>RE: {{{ generateSubjectLine caseReference pibCaseNumber}}}</strong></p>\n' +
+            '    <p><br></p>\n' +
+            '    <p>Dear {{{referralLetter.recipient}}}:</p>\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml letterBody}}}\n' +
+            '    <p><br></p>\n' +
+            '    Sincerely,\n' +
+            '    <p><br></p>\n' +
+            '    {{{signature}}}\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml (newLineToLineBreak referralLetter.sender)}}}\n' +
+            '    {{#if referralLetter.transcribedBy}}\n' +
+            '    <p><br></p>\n' +
+            '    Transcribed by: {{referralLetter.transcribedBy}}\n' +
+            '    {{/if}}\n' +
+            '  </body>\n' +
+            '</html>',
+          editableTemplate: '<div>\n' +
+            '  <p>\n' +
+            '    This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the\n' +
+            '    Office of the Independent Police Monitor (OIPM) has received a complaint of misconduct by an NOPD employee(s).\n' +
+            '    The complainant relayed the following information to our office:\n' +
+            '  </p>\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  {{#if (isPresent firstContactDate)}}\n' +
+            '    <p>Date filed with OIPM: {{{formatShortDate firstContactDate}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent pibCaseNumber)}}\n' +
+            '    <p>PIB Case Number: {{pibCaseNumber}}</p>\n' +
+            '  {{/if}}\n' +
+            '  <p><br></p>\n' +
+            '\n' +
+            '  <p><strong><u>Complainant Information</u></strong></p>\n' +
+            '  {{#each complainantCivilians}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}\n' +
+            '      Complainant #{{addNumbers @index 1}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      {{#if (isPresent lastName)}}\n' +
+            '        Known Anonymous Complainant\n' +
+            '      {{else}}\n' +
+            '        Unknown Complainant\n' +
+            '      {{/if}}\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent raceEthnicity)}}\n' +
+            '        <p>Race: {{raceEthnicity.name}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent genderIdentity)}}\n' +
+            '        <p>Sex: {{genderIdentity.name}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent birthDate)}}\n' +
+            '        <p>Date of Birth: {{{formatShortDate birthDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent (formatAddress address))}}\n' +
+            '        <p>Address: {{{formatAddress address}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  {{#each complainantOfficers}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}\n' +
+            '      Complainant #{{addNumbers (addNumbers @index 1) ../complainantCivilians.length}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      Known Anonymous Complainant\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '          <p>Unknown Officer</p>\n' +
+            '        {{else}}\n' +
+            '          <p>Name: {{fullName}}</p>\n' +
+            '        {{/if}}\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent rank)}}\n' +
+            '        <p>Rank: {{rank}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent windowsUsername)}}\n' +
+            '        <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent race)}}\n' +
+            '        <p>Race: {{race}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent sex)}}\n' +
+            '        <p>Sex: {{sex}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent supervisorFullName)}}\n' +
+            '        <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent employeeType)}}\n' +
+            '        <p>Employee Type: {{employeeType}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent district)}}\n' +
+            '        <p>District: {{district}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent bureau)}}\n' +
+            '        <p>Bureau: {{bureau}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent workStatus)}}\n' +
+            '        <p>Status: {{workStatus}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent endDate)}}\n' +
+            '        <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    {{#if (isPresent fullName)}}\n' +
+            '      {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '        <p>Unknown Officer</p>\n' +
+            '      {{else}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent rank)}}\n' +
+            '      <p>Rank: {{rank}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent windowsUsername)}}\n' +
+            '      <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent race)}}\n' +
+            '      <p>Race: {{race}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent sex)}}\n' +
+            '      <p>Sex: {{sex}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent supervisorFullName)}}\n' +
+            '      <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent employeeType)}}\n' +
+            '      <p>Employee Type: {{employeeType}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent district)}}\n' +
+            '      <p>District: {{district}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent bureau)}}\n' +
+            '      <p>Bureau: {{bureau}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent workStatus)}}\n' +
+            '      <p>Status: {{workStatus}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent endDate)}}\n' +
+            '      <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  {{#if (atLeastOneInputDefined witnessCivilians witnessOfficers)}}\n' +
+            '    <p><strong><u>Witnesses</u></strong></p>\n' +
+            '  {{/if}}\n' +
+            '  {{#each witnessCivilians}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}\n' +
+            '      Witness #{{addNumbers @index 1}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      {{#if (isPresent lastName)}}\n' +
+            '        Known Anonymous Witness\n' +
+            '      {{else}}\n' +
+            '        Unknown Witness\n' +
+            '      {{/if}}\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      <p><br></p>\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  {{#each witnessOfficers}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}\n' +
+            '      Witness #{{addNumbers (addNumbers @index 1) ../witnessCivilians.length}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      Known Anonymous Witness\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '          <p>Unknown Officer</p>\n' +
+            '        {{else}}\n' +
+            '          <p>Name: {{fullName}}</p>\n' +
+            '        {{/if}}\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent rank)}}\n' +
+            '        <p>Rank: {{rank}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent windowsUsername)}}\n' +
+            '        <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent race)}}\n' +
+            '        <p>Race: {{race}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent sex)}}\n' +
+            '        <p>Sex: {{sex}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent supervisorFullName)}}\n' +
+            '        <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent employeeType)}}\n' +
+            '        <p>Employee Type: {{employeeType}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent district)}}\n' +
+            '        <p>District: {{district}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent bureau)}}\n' +
+            '        <p>Bureau: {{bureau}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent workStatus)}}\n' +
+            '        <p>Status: {{workStatus}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent endDate)}}\n' +
+            '        <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  <p><strong><u>Incident</u></strong></p>\n' +
+            '  {{#if (isPresent incidentDate)}}\n' +
+            '    <p>Date: {{{formatShortDate incidentDate}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent (formatAddress incidentLocation))}}\n' +
+            '    <p>Location: {{{formatAddress incidentLocation}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent incidentTime)}}\n' +
+            '    <p>Time: {{{formatTime incidentDate incidentTime incidentTimezone}}}</p>\n' +
+            '  {{/if}}\n' +
+            '\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="ql-align-center"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    Complainant alleges the following occurred\n' +
+            '    {{#if (isPresent ../incidentDate)}} on {{{formatShortDate ../incidentDate}}},{{/if}}\n' +
+            '    during the complainant’s interaction with {{rank}} {{fullName}}. If proven, the accused may have violated\n' +
+            '    NOPD policy, rules, or procedure when:\n' +
+            '    <ol>\n' +
+            '      {{#each allegations}}\n' +
+            '        <li>{{this.details}} This is in violation of <b><i>{{allegation.rule}}: {{allegation.paragraph}}{{#if (isPresent allegation.directive)}}: {{allegation.directive}}{{/if}}</i></b></li>\n' +
+            '      {{/each}}\n' +
+            '    </ol>\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  <p class="ql-align-center"><strong><u>Details of Complainant’s Account</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="preserve-white-space">{{{narrativeDetails}}}</p>\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '\n' +
+            '  {{#if (showOfficerHistoryHeader accusedOfficers)}}\n' +
+            '    <p class="ql-align-center"><strong><u>Complaint History</u></strong></p>\n' +
+            '    <p><br></p>\n' +
+            '  {{/if}}\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    {{#if letterOfficer}}\n' +
+            '      {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '        <p>\n' +
+            '          The OIPM is unable to review <strong>{{fullName~}}’s</strong> disciplinary history as they are unable to be\n' +
+            '          identified at this time.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 1)}}\n' +
+            '        <p>\n' +
+            '          The OIPM reviewed <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years and has determined\n' +
+            '          there is no significant / noteworthy complaints.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 2)}}\n' +
+            '        <p>\n' +
+            '          The OIPM reviewed <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years and has determined\n' +
+            '          the officer is still\n' +
+            '          considered a recruit and does not have any significant/noteworthy complaints.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 3)}}\n' +
+            '        <p>\n' +
+            '          The OIPM was unable to review <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years\n' +
+            '          because there was no officer\n' +
+            '          disciplinary history available in the NOPD IAPro.\n' +
+            '        </p>\n' +
+            '      '... 4569 more characters,
+          requiresApproval: null,
+          hasEditPage: null,
+          createdAt: 2023-01-17T18:00:17.232Z,
+          updatedAt: 2023-01-17T18:00:17.232Z,
+          defaultSenderId: 17,
+          requiredStatusId: 1
+        },
+        _previousDataValues: {
+          id: 1,
+          type: 'REFERRAL',
+          template: '<html>\n' +
+            '  <head>\n' +
+            '    <style>\n' +
+            '      * {\n' +
+            '        font-size: 8.5pt;\n' +
+            '      }\n' +
+            '\n' +
+            '      p {\n' +
+            '        margin: 0;\n' +
+            '      }\n' +
+            '\n' +
+            '      .preserve-white-space {\n' +
+            '        white-space: pre-wrap;\n' +
+            '      }\n' +
+            '\n' +
+            '      .ql-align-center {\n' +
+            '        text-align: center;\n' +
+            '      }\n' +
+            '    </style>\n' +
+            '  </head>\n' +
+            '  <body>\n' +
+            '    <div id="pageHeader-first">\n' +
+            '      <div style="text-align: center;">\n' +
+            '        {{{header}}}\n' +
+            '      </div>\n' +
+            '    </div>\n' +
+            '    <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">\n' +
+            '      {{{referralLetter.recipient}}}<br/>\n' +
+            '      {{{formatLongDate currentDate}}}<br/>\n' +
+            '      Page \\{{page}}\n' +
+            '    </div>\n' +
+            '\n' +
+            '    <div id="pageFooter" style="text-align: center; margin-top: 16px">\n' +
+            '            <span  style="display:inline-block; margin: 6px 16px 0 0">\n' +
+            '                {{{smallIcon}}}\n' +
+            '            </span>\n' +
+            '      <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">\n' +
+            '                INDEPENDENT POLICE MONITOR <br />\n' +
+            '                2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />\n' +
+            '                Phone (504) 309-9799| Fax (504) 309-7345\n' +
+            '            </span>\n' +
+            '      <span  style="display:inline-block; width: 46px">&nbsp;</span>\n' +
+            '    </div>\n' +
+            '    <p style="color: #7F7F7F;">\n' +
+            '      STELLA CZIMENT\n' +
+            '      <br>\n' +
+            '      INDEPENDENT POLICE MONITOR\n' +
+            '    </p>\n' +
+            '    <p><br></p>\n' +
+            '    {{{formatLongDate currentDate}}}\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml referralLetter.recipient}}}</br>\n' +
+            '    {{{renderHtml (newLineToLineBreak referralLetter.recipientAddress)}}}\n' +
+            '    <p><br></p>\n' +
+            '    <p><strong>RE: {{{ generateSubjectLine caseReference pibCaseNumber}}}</strong></p>\n' +
+            '    <p><br></p>\n' +
+            '    <p>Dear {{{referralLetter.recipient}}}:</p>\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml letterBody}}}\n' +
+            '    <p><br></p>\n' +
+            '    Sincerely,\n' +
+            '    <p><br></p>\n' +
+            '    {{{signature}}}\n' +
+            '    <p><br></p>\n' +
+            '    {{{renderHtml (newLineToLineBreak referralLetter.sender)}}}\n' +
+            '    {{#if referralLetter.transcribedBy}}\n' +
+            '    <p><br></p>\n' +
+            '    Transcribed by: {{referralLetter.transcribedBy}}\n' +
+            '    {{/if}}\n' +
+            '  </body>\n' +
+            '</html>',
+          editableTemplate: '<div>\n' +
+            '  <p>\n' +
+            '    This is to inform you pursuant to New Orleans City Code Section 2-1121 (the Police Monitors Ordinance) that the\n' +
+            '    Office of the Independent Police Monitor (OIPM) has received a complaint of misconduct by an NOPD employee(s).\n' +
+            '    The complainant relayed the following information to our office:\n' +
+            '  </p>\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="ql-align-center"><strong><u>Complaint Information</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  {{#if (isPresent firstContactDate)}}\n' +
+            '    <p>Date filed with OIPM: {{{formatShortDate firstContactDate}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent pibCaseNumber)}}\n' +
+            '    <p>PIB Case Number: {{pibCaseNumber}}</p>\n' +
+            '  {{/if}}\n' +
+            '  <p><br></p>\n' +
+            '\n' +
+            '  <p><strong><u>Complainant Information</u></strong></p>\n' +
+            '  {{#each complainantCivilians}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}\n' +
+            '      Complainant #{{addNumbers @index 1}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      {{#if (isPresent lastName)}}\n' +
+            '        Known Anonymous Complainant\n' +
+            '      {{else}}\n' +
+            '        Unknown Complainant\n' +
+            '      {{/if}}\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent raceEthnicity)}}\n' +
+            '        <p>Race: {{raceEthnicity.name}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent genderIdentity)}}\n' +
+            '        <p>Sex: {{genderIdentity.name}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent birthDate)}}\n' +
+            '        <p>Date of Birth: {{{formatShortDate birthDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent (formatAddress address))}}\n' +
+            '        <p>Address: {{{formatAddress address}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  {{#each complainantOfficers}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../complainantCivilians.length ../complainantOfficers.length) 1)}}\n' +
+            '      Complainant #{{addNumbers (addNumbers @index 1) ../complainantCivilians.length}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      Known Anonymous Complainant\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '          <p>Unknown Officer</p>\n' +
+            '        {{else}}\n' +
+            '          <p>Name: {{fullName}}</p>\n' +
+            '        {{/if}}\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent rank)}}\n' +
+            '        <p>Rank: {{rank}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent windowsUsername)}}\n' +
+            '        <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent race)}}\n' +
+            '        <p>Race: {{race}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent sex)}}\n' +
+            '        <p>Sex: {{sex}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent supervisorFullName)}}\n' +
+            '        <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent employeeType)}}\n' +
+            '        <p>Employee Type: {{employeeType}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent district)}}\n' +
+            '        <p>District: {{district}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent bureau)}}\n' +
+            '        <p>Bureau: {{bureau}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent workStatus)}}\n' +
+            '        <p>Status: {{workStatus}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent endDate)}}\n' +
+            '        <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  <p><strong><u>Subject NOPD Employee(s) Information</u></strong></p>\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    {{#if (isPresent fullName)}}\n' +
+            '      {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '        <p>Unknown Officer</p>\n' +
+            '      {{else}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent rank)}}\n' +
+            '      <p>Rank: {{rank}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent windowsUsername)}}\n' +
+            '      <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent race)}}\n' +
+            '      <p>Race: {{race}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent sex)}}\n' +
+            '      <p>Sex: {{sex}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent supervisorFullName)}}\n' +
+            '      <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent employeeType)}}\n' +
+            '      <p>Employee Type: {{employeeType}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent district)}}\n' +
+            '      <p>District: {{district}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent bureau)}}\n' +
+            '      <p>Bureau: {{bureau}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent workStatus)}}\n' +
+            '      <p>Status: {{workStatus}}</p>\n' +
+            '    {{/if}}\n' +
+            '    {{#if (isPresent endDate)}}\n' +
+            '      <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  {{#if (atLeastOneInputDefined witnessCivilians witnessOfficers)}}\n' +
+            '    <p><strong><u>Witnesses</u></strong></p>\n' +
+            '  {{/if}}\n' +
+            '  {{#each witnessCivilians}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}\n' +
+            '      Witness #{{addNumbers @index 1}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      {{#if (isPresent lastName)}}\n' +
+            '        Known Anonymous Witness\n' +
+            '      {{else}}\n' +
+            '        Unknown Witness\n' +
+            '      {{/if}}\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        <p>Name: {{fullName}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      <p><br></p>\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  {{#each witnessOfficers}}\n' +
+            '    {{#if (isGreaterThan (addNumbers ../witnessCivilians.length ../witnessOfficers.length) 1)}}\n' +
+            '      Witness #{{addNumbers (addNumbers @index 1) ../witnessCivilians.length}}\n' +
+            '      <br>\n' +
+            '    {{/if}}\n' +
+            '    {{#if isAnonymous}}\n' +
+            '      Known Anonymous Witness\n' +
+            '      <br>\n' +
+            '    {{else}}\n' +
+            '      {{#if (isPresent fullName)}}\n' +
+            '        {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '          <p>Unknown Officer</p>\n' +
+            '        {{else}}\n' +
+            '          <p>Name: {{fullName}}</p>\n' +
+            '        {{/if}}\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent rank)}}\n' +
+            '        <p>Rank: {{rank}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent windowsUsername)}}\n' +
+            '        <p>Employee ID: #{{windowsUsername}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent race)}}\n' +
+            '        <p>Race: {{race}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent sex)}}\n' +
+            '        <p>Sex: {{sex}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent phoneNumber)}}\n' +
+            '        <p>Phone: {{{formatPhoneNumber phoneNumber}}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent email)}}\n' +
+            '        <p>Email: {{email}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent supervisorFullName)}}\n' +
+            '        <p>Supervisor (Employee ID): {{supervisorFullName}} (#{{supervisorWindowsUsername}})</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent employeeType)}}\n' +
+            '        <p>Employee Type: {{employeeType}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent district)}}\n' +
+            '        <p>District: {{district}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent bureau)}}\n' +
+            '        <p>Bureau: {{bureau}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent workStatus)}}\n' +
+            '        <p>Status: {{workStatus}}</p>\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isPresent endDate)}}\n' +
+            '        <p>End of Employment: {{{formatShortDate endDate}}}</p>\n' +
+            '      {{/if}}\n' +
+            '    {{/if}}\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '\n' +
+            '  <p><strong><u>Incident</u></strong></p>\n' +
+            '  {{#if (isPresent incidentDate)}}\n' +
+            '    <p>Date: {{{formatShortDate incidentDate}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent (formatAddress incidentLocation))}}\n' +
+            '    <p>Location: {{{formatAddress incidentLocation}}}</p>\n' +
+            '  {{/if}}\n' +
+            '  {{#if (isPresent incidentTime)}}\n' +
+            '    <p>Time: {{{formatTime incidentDate incidentTime incidentTimezone}}}</p>\n' +
+            '  {{/if}}\n' +
+            '\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="ql-align-center"><strong><u>Initial Allegations/Concerns/Issues</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    Complainant alleges the following occurred\n' +
+            '    {{#if (isPresent ../incidentDate)}} on {{{formatShortDate ../incidentDate}}},{{/if}}\n' +
+            '    during the complainant’s interaction with {{rank}} {{fullName}}. If proven, the accused may have violated\n' +
+            '    NOPD policy, rules, or procedure when:\n' +
+            '    <ol>\n' +
+            '      {{#each allegations}}\n' +
+            '        <li>{{this.details}} This is in violation of <b><i>{{allegation.rule}}: {{allegation.paragraph}}{{#if (isPresent allegation.directive)}}: {{allegation.directive}}{{/if}}</i></b></li>\n' +
+            '      {{/each}}\n' +
+            '    </ol>\n' +
+            '    <p><br></p>\n' +
+            '  {{/each}}\n' +
+            '  <p class="ql-align-center"><strong><u>Details of Complainant’s Account</u></strong></p>\n' +
+            '  <p><br></p>\n' +
+            '  <p class="preserve-white-space">{{{narrativeDetails}}}</p>\n' +
+            '  <p><br></p>\n' +
+            '  <p><br></p>\n' +
+            '\n' +
+            '  {{#if (showOfficerHistoryHeader accusedOfficers)}}\n' +
+            '    <p class="ql-align-center"><strong><u>Complaint History</u></strong></p>\n' +
+            '    <p><br></p>\n' +
+            '  {{/if}}\n' +
+            '  {{#each accusedOfficers}}\n' +
+            '    {{#if letterOfficer}}\n' +
+            '      {{#if (isEqual fullName "Unknown Officer")}}\n' +
+            '        <p>\n' +
+            '          The OIPM is unable to review <strong>{{fullName~}}’s</strong> disciplinary history as they are unable to be\n' +
+            '          identified at this time.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 1)}}\n' +
+            '        <p>\n' +
+            '          The OIPM reviewed <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years and has determined\n' +
+            '          there is no significant / noteworthy complaints.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 2)}}\n' +
+            '        <p>\n' +
+            '          The OIPM reviewed <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years and has determined\n' +
+            '          the officer is still\n' +
+            '          considered a recruit and does not have any significant/noteworthy complaints.\n' +
+            '        </p>\n' +
+            '        <br />\n' +
+            '      {{/if}}\n' +
+            '      {{#if (isEqual letterOfficer.officerHistoryOptionId 3)}}\n' +
+            '        <p>\n' +
+            '          The OIPM was unable to review <strong>{{rank}} {{fullName~}}’s</strong> history for the last five years\n' +
+            '          because there was no officer\n' +
+            '          disciplinary history available in the NOPD IAPro.\n' +
+            '        </p>\n' +
+            '      '... 4569 more characters,
+          requiresApproval: null,
+          hasEditPage: null,
+          createdAt: 2023-01-17T18:00:17.232Z,
+          updatedAt: 2023-01-17T18:00:17.232Z,
+          defaultSenderId: 17,
+          requiredStatusId: 1
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      },
+      letter_types {
+        dataValues: {
+          id: 88373,
+          type: 'COMPLAINANT',
+          template: '<html>\n' +
+            '    <head>\n' +
+            '        <style>\n' +
+            '            * {\n' +
+            '                font-size: 8.5pt;\n' +
+            '            }\n' +
+            '\n' +
+            '            p {\n' +
+            '                margin: 0;\n' +
+            '            }\n' +
+            '\n' +
+            '            .preserve-white-space {\n' +
+            '                white-space: pre-wrap;\n' +
+            '            }\n' +
+            '\n' +
+            '            .ql-align-center {\n' +
+            '                text-align: center;\n' +
+            '            }\n' +
+            '        </style>\n' +
+            '    </head>\n' +
+            '    <body>\n' +
+            '        <div id="pageHeader-first">\n' +
+            '            <div style="text-align: center;">\n' +
+            '                {{{header}}}\n' +
+            '            </div>\n' +
+            '        </div>\n' +
+            '        <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">\n' +
+            '            {{recipientFirstName}}<br/>\n' +
+            '            {{{formatLongDate currentDate}}}<br/>\n' +
+            '            Page \\{{page}}\n' +
+            '        </div>\n' +
+            '\n' +
+            '        <div id="pageFooter" style="text-align: center; margin-top: 16px">\n' +
+            '            <span  style="display:inline-block; margin: 6px 16px 0 0">\n' +
+            '                {{{smallIcon}}}\n' +
+            '            </span>\n' +
+            '            <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">\n' +
+            '                INDEPENDENT POLICE MONITOR <br />\n' +
+            '                2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />\n' +
+            '                Phone (504) 309-9799| Fax (504) 309-7345\n' +
+            '            </span>\n' +
+            '            <span  style="display:inline-block; width: 46px">&nbsp;</span>\n' +
+            '        </div>\n' +
+            '        <p style="color: #7F7F7F;">\n' +
+            '            STELLA CZIMENT\n' +
+            '            <br/>\n' +
+            '            INDEPENDENT POLICE MONITOR\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '        {{{formatLongDate currentDate}}}\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        {{#if (isCivilianComplainant complainantPersonType)}}\n' +
+            '        <p>\n' +
+            '            {{recipientFirstName}} {{recipientLastName}}\n' +
+            '                {{#if (isPresent (formatAddress complainantAddress))}}\n' +
+            '                <p>{{{formatAddress complainantAddress}}}</p>\n' +
+            '                {{/if}}\n' +
+            '            {{#if (isPresent complainantEmail)}}\n' +
+            '                <p>{{complainantEmail}}</p>\n' +
+            '            {{/if}}\n' +
+            '        </p>\n' +
+            '        {{/if}}\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Re: OIPM Complaint# {{caseReference}}</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Dear {{title}} {{recipientFirstName}} {{recipientLastName}},</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '            On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor\n' +
+            '            (OIPM) alleging possible misconduct by an officer of the New Orleans Police\n' +
+            '            Department (NOPD or Department) for possible violations of several NOPD rules. As a\n' +
+            '            result of your contact with us, OIPM No. {{caseReference}} was generated.\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '            Among other things, the OIPM takes complaints and examines the NOPD’s internal investigations system by conducting independent reviews of completed investigations into allegations of misconduct to determine whether they have been conducted appropriately. The OIPM does not conduct separate or new investigations.\n' +
+            '        </p>\n' +
+            '\n' +
+            '        <p><br/></p>\n' +
+            '        <p>We forwarded the information you provided us to the NOPD’s Public Integrity Bureau\n' +
+            '            (PIB) as an inquiry and asked that the matter be reviewed for possible violations of the\n' +
+            '            NOPD rules and regulations. You may be contacted by a representative of PIB or by an\n' +
+            '            NOPD supervisor regarding this matter.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Please take into consideration that facts and/or allegations from your complaint may be\n' +
+            '            used in future OIPM reports. If facts and/or allegations are used in future OIPM\n' +
+            '            reports, names of witnesses, law enforcement, and complainants may be included. Once\n' +
+            '            the review of your investigation has been completed, all or parts of the complaint may\n' +
+            '            become public records.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Enclosed you will find a copy of the OIPM letter to PIB and some information about\n' +
+            '            our office. If you have any questions regarding the status of the information you\n' +
+            '            provided, please contact us at (504) 309-9799 or via email at\n' +
+            '            policemonitor@nolaipm.gov. Please refer to your OIPM No. {{caseReference}} when you\n' +
+            '            contact our office.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p><br/></p>\n' +
+            '        Sincerely,\n' +
+            '        <p><br></p>\n' +
+            '        {{{signature}}}\n' +
+            '        <p><br/></p>\n' +
+            '        {{{renderHtml (newLineToLineBreak senderName)}}}\n' +
+            '    </body>\n' +
+            '</html>\n',
+          editableTemplate: null,
+          requiresApproval: null,
+          hasEditPage: null,
+          createdAt: 2023-01-17T18:00:17.246Z,
+          updatedAt: 2023-01-17T18:00:17.246Z,
+          defaultSenderId: 17,
+          requiredStatusId: 1
+        },
+        _previousDataValues: {
+          id: 88373,
+          type: 'COMPLAINANT',
+          template: '<html>\n' +
+            '    <head>\n' +
+            '        <style>\n' +
+            '            * {\n' +
+            '                font-size: 8.5pt;\n' +
+            '            }\n' +
+            '\n' +
+            '            p {\n' +
+            '                margin: 0;\n' +
+            '            }\n' +
+            '\n' +
+            '            .preserve-white-space {\n' +
+            '                white-space: pre-wrap;\n' +
+            '            }\n' +
+            '\n' +
+            '            .ql-align-center {\n' +
+            '                text-align: center;\n' +
+            '            }\n' +
+            '        </style>\n' +
+            '    </head>\n' +
+            '    <body>\n' +
+            '        <div id="pageHeader-first">\n' +
+            '            <div style="text-align: center;">\n' +
+            '                {{{header}}}\n' +
+            '            </div>\n' +
+            '        </div>\n' +
+            '        <div id="pageHeader" style="font-size:8.5pt; color: #7F7F7F;">\n' +
+            '            {{recipientFirstName}}<br/>\n' +
+            '            {{{formatLongDate currentDate}}}<br/>\n' +
+            '            Page \\{{page}}\n' +
+            '        </div>\n' +
+            '\n' +
+            '        <div id="pageFooter" style="text-align: center; margin-top: 16px">\n' +
+            '            <span  style="display:inline-block; margin: 6px 16px 0 0">\n' +
+            '                {{{smallIcon}}}\n' +
+            '            </span>\n' +
+            '            <span style="display:inline-block; font-size:7pt; color: #7F7F7F;">\n' +
+            '                INDEPENDENT POLICE MONITOR <br />\n' +
+            '                2714 Canal Street, Suite 201 | NEW ORLEANS, LOUISIANA | 70119 <br />\n' +
+            '                Phone (504) 309-9799| Fax (504) 309-7345\n' +
+            '            </span>\n' +
+            '            <span  style="display:inline-block; width: 46px">&nbsp;</span>\n' +
+            '        </div>\n' +
+            '        <p style="color: #7F7F7F;">\n' +
+            '            STELLA CZIMENT\n' +
+            '            <br/>\n' +
+            '            INDEPENDENT POLICE MONITOR\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '        {{{formatLongDate currentDate}}}\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        {{#if (isCivilianComplainant complainantPersonType)}}\n' +
+            '        <p>\n' +
+            '            {{recipientFirstName}} {{recipientLastName}}\n' +
+            '                {{#if (isPresent (formatAddress complainantAddress))}}\n' +
+            '                <p>{{{formatAddress complainantAddress}}}</p>\n' +
+            '                {{/if}}\n' +
+            '            {{#if (isPresent complainantEmail)}}\n' +
+            '                <p>{{complainantEmail}}</p>\n' +
+            '            {{/if}}\n' +
+            '        </p>\n' +
+            '        {{/if}}\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Re: OIPM Complaint# {{caseReference}}</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Dear {{title}} {{recipientFirstName}} {{recipientLastName}},</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '            On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor\n' +
+            '            (OIPM) alleging possible misconduct by an officer of the New Orleans Police\n' +
+            '            Department (NOPD or Department) for possible violations of several NOPD rules. As a\n' +
+            '            result of your contact with us, OIPM No. {{caseReference}} was generated.\n' +
+            '        </p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>\n' +
+            '            Among other things, the OIPM takes complaints and examines the NOPD’s internal investigations system by conducting independent reviews of completed investigations into allegations of misconduct to determine whether they have been conducted appropriately. The OIPM does not conduct separate or new investigations.\n' +
+            '        </p>\n' +
+            '\n' +
+            '        <p><br/></p>\n' +
+            '        <p>We forwarded the information you provided us to the NOPD’s Public Integrity Bureau\n' +
+            '            (PIB) as an inquiry and asked that the matter be reviewed for possible violations of the\n' +
+            '            NOPD rules and regulations. You may be contacted by a representative of PIB or by an\n' +
+            '            NOPD supervisor regarding this matter.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Please take into consideration that facts and/or allegations from your complaint may be\n' +
+            '            used in future OIPM reports. If facts and/or allegations are used in future OIPM\n' +
+            '            reports, names of witnesses, law enforcement, and complainants may be included. Once\n' +
+            '            the review of your investigation has been completed, all or parts of the complaint may\n' +
+            '            become public records.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p>Enclosed you will find a copy of the OIPM letter to PIB and some information about\n' +
+            '            our office. If you have any questions regarding the status of the information you\n' +
+            '            provided, please contact us at (504) 309-9799 or via email at\n' +
+            '            policemonitor@nolaipm.gov. Please refer to your OIPM No. {{caseReference}} when you\n' +
+            '            contact our office.</p>\n' +
+            '        <p><br/></p>\n' +
+            '        <p><br/></p>\n' +
+            '        Sincerely,\n' +
+            '        <p><br></p>\n' +
+            '        {{{signature}}}\n' +
+            '        <p><br/></p>\n' +
+            '        {{{renderHtml (newLineToLineBreak senderName)}}}\n' +
+            '    </body>\n' +
+            '</html>\n',
+          editableTemplate: null,
+          requiresApproval: null,
+          hasEditPage: null,
+          createdAt: 2023-01-17T18:00:17.246Z,
+          updatedAt: 2023-01-17T18:00:17.246Z,
+          defaultSenderId: 17,
+          requiredStatusId: 1
+        },
+        uniqno: 1,
+        _changed: Set(0) {},
+        _options: {
+          isNewRecord: false,
+          _schema: null,
+          _schemaDelimiter: '',
+          raw: true,
+          attributes: [Array]
+        },
+        isNewRecord: false
+      }
+    ]
+
+      at src/server/handlers/letterTypes/editLetterType.js:98:11
+          at runMicrotasks (<anonymous>)
+
+[2023-01-17 18:00:17.757 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "server is running", ignoring
+[2023-01-17 18:00:19.383 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "server is running", ignoring
+[2023-01-17 18:00:20.949 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "user is administrator", ignoring
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
+          at Array.forEach (<anonymous>)
+
+[2023-01-17 18:00:23.418 +0000] WARN (268 on 97721196da1f): pact-node@10.17.6: Pact exited with code 1.
+

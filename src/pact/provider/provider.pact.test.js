@@ -643,8 +643,8 @@ describe("Pact Verification", () => {
         "intake sources exist: complaint types exist": async () => {
           try {
             await Promise.all([
-              setupIntakeSources(),
-              models.complaintTypes.create({ name: "Civilian Initiated" })
+              setupIntakeSources()
+              //models.complaintTypes.create({ name: "Civilian Initiated" })
             ]);
           } catch (error) {
             console.log(error);
