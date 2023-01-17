@@ -47,7 +47,9 @@ export const addComplainantOfficerToCase = async (c4se, caseOfficerId) => {
       new Officer.Builder().defaultOfficer(),
       { auditUser: "user" }
     );
-
+    console.log(
+      "BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG"
+    );
     let buildOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withOfficerId(officer.id)

@@ -418,18 +418,27 @@ describe("Pact Verification", () => {
         },
         "Case exists: with officer complainant": async () => {
           const c4se = await setupCase();
-          await addComplainantOfficerToCase(c4se, 1);
+          try {
+            console.log("officer complainant state");
+            await addComplainantOfficerToCase(c4se, 1);
+          } catch (error) {
+            console.log("problem herre");
+            console.log(error);
+          }
         },
         "Case exists: with officer witness": async () => {
+          console.log("officer witness state");
           const c4se = await setupCase();
           await addWitnessOfficerToCase(c4se, 1);
         },
         "Case exists: case has accused officer with allegations": async () => {
+          console.log("accused with allegation state");
           const c4se = await setupCase();
           try {
             const allegationPromise = addAllegation();
             await Promise.all([addAccusedToCase(c4se.id), allegationPromise]);
           } catch (error) {
+            console.log("THISONERIGHTHERE");
             console.log(error);
           }
         },
@@ -466,7 +475,7 @@ describe("Pact Verification", () => {
                 addClassificationsToCase(letterCase)
               ]);
             } catch (e) {
-              console.log(e);
+              console.log("ERROR IN ACCUSED", e);
               throw e;
             }
           },

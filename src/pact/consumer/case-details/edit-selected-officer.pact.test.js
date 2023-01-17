@@ -14,7 +14,10 @@ import {
 } from "./case-details-helper";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import { addCaseEmployeeType } from "../../../client/policeDataManager/actionCreators/officersActionCreators";
+import {
+  addCaseEmployeeType,
+  selectCaseOfficer
+} from "../../../client/policeDataManager/actionCreators/officersActionCreators";
 import { push } from "connected-react-router";
 import EditOfficerDetails from "../../../client/policeDataManager/officers/OfficerDetails/EditOfficerDetails";
 import createConfiguredStore from "../../../client/createConfiguredStore";
@@ -78,18 +81,18 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
           store,
           caseOfficerId,
           caseEmployeeType,
-          state,
+          caseState,
           officer;
         beforeEach(async () => {
-          state = "Case exists";
+          caseState = "Case exists";
           if (options.includes(OFFICER_COMPLAINANT)) {
-            state += ": with officer complainant";
+            caseState += ": with officer complainant";
           }
           if (options.includes(OFFICER_WITNESS)) {
-            state += ": with officer witness";
+            caseState += ": with officer witness";
           }
           if (options.includes(OFFICER_ACCUSED)) {
-            state += ": case has accused officer with allegations";
+            caseState += ": case has accused officer with allegations";
           }
           store = createConfiguredStore();
           dispatchSpy = jest.spyOn(store, "dispatch");
@@ -137,32 +140,37 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
           });
 
           await provider.addInteraction({
-            state,
-            uponReceiving: `get case details`,
+            state: caseState,
+            uponReceiving: `get case`,
             withRequest: {
               method: "GET",
               path: "/api/cases/1"
             },
             willRespondWith: {
               status: 200,
+              headers: {
+                "Content-Type": "application/json; charset=utf-8"
+              },
               body: like({
-                caseReferencePrefix: "CC",
-                caseReference: "CC2022-0453",
+                nextStatus: "Forwarded to Agency",
+                caseReferencePrefix: "AC",
+                caseReference: "AC2022-0001",
                 id: 1,
                 complaintType: "Civilian Initiated",
-                statusId: 2,
+                status: "Ready for Review",
                 year: 2022,
-                caseNumber: 453,
-                firstContactDate: "2022-10-04",
+                caseNumber: 1,
+                firstContactDate: "2022-08-22",
                 intakeSourceId: 3,
-                createdAt: "2022-10-04T18:40:59.540Z",
-                updatedAt: "2022-10-04T18:41:21.538Z",
-                caseClassifications: [],
+                createdBy: "noipm.infrastructure@gmail.com",
+                assignedTo: "noipm.infrastructure@gmail.com",
+                createdAt: "2022-08-22T15:55:45.879Z",
+                updatedAt: "2022-08-22T15:56:27.641Z",
                 intakeSource: {
                   id: 3,
                   name: "In Person",
-                  createdAt: "2018-12-21T02:07:39.872Z",
-                  updatedAt: "2018-12-21T02:07:39.872Z"
+                  createdAt: "2022-08-19T16:45:01.760Z",
+                  updatedAt: "2022-08-19T16:45:01.760Z"
                 },
                 complainantCivilians: [],
                 witnessCivilians: [],
@@ -175,8 +183,7 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
                   currentRole === "Witness" ? eachLike(officer) : [],
                 status: "Active",
                 pdfAvailable: false,
-                isArchived: false,
-                nextStatus: "Letter in Progress"
+                isArchived: false
               })
             }
           });
@@ -207,7 +214,9 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
                   match={{
                     params: {
                       id: `${caseId}`,
-                      caseOfficerId: `${caseOfficerId}`
+                      caseOfficerId: `${caseOfficerId}`,
+                      officerId: `${officer.officerId}`,
+                      caseEmployeeType: ""
                     }
                   }}
                 ></EditOfficerDetails>
@@ -225,19 +234,27 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
         }, 200000);
 
         test("should change role of officer and redirect back to case detail page on submit", async () => {
+          store.dispatch({
+            type: "CASE_OFFICER_SELECTED",
+            caseOfficer: officer
+          });
           const changedOfficer = { ...officer, roleOnCase: newRole };
+          console.log("CASESTATEHERE", caseState);
           await provider.addInteraction({
-            state,
+            state: caseState,
             uponReceiving: `edit ${currentRole}`,
             withRequest: {
               method: "PUT",
-              path: `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
+              path: `/api/cases/1/cases-officers/1`,
+              headers: {
+                "Content-Type": "application/json"
+              },
               body: like({
                 roleOnCase: newRole,
-                officerId: caseOfficerId
-              }),
-              headers: { "Content-Type": "application/json" }
+                officerId: 1
+              })
             },
+
             willRespondWith: {
               status: 200,
               body: like({
@@ -275,7 +292,7 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
               })
             }
           });
-
+          await screen.findByText(`Back to Case`);
           userEvent.click(await screen.findByTestId("roleOnCaseInput"));
           userEvent.click(await screen.findByText(`${newRole}`));
           userEvent.click(await screen.findByTestId("officerSubmitButton"));
