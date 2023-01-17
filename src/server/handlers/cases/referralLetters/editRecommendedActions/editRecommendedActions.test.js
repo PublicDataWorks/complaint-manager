@@ -28,6 +28,7 @@ describe("editRecommendedActions", function () {
   let existingCase, referralLetter, response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 

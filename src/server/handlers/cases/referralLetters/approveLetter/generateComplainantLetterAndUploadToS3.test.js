@@ -57,6 +57,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
   let complainant, caseAttributes, existingCase, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     const signerAttr = new Signer.Builder()
       .defaultSigner()
       .withName("Nina Ambroise")

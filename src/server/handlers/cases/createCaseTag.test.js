@@ -18,6 +18,7 @@ import Boom from "boom";
 jest.mock("../audits/auditDataAccess");
 
 describe("createCaseTag", () => {
+  jest.setTimeout(50000);
   let request, response, next, createdCase, createdTag;
   const testUser = "A Test Person";
 

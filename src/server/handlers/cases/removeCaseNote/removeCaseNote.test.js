@@ -47,6 +47,7 @@ describe("RemoveCaseNote unit", () => {
   let statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     const caseToCreate = new Case.Builder()

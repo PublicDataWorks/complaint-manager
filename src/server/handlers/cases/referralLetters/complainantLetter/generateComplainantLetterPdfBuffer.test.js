@@ -51,6 +51,7 @@ afterAll(async () => {
 });
 
 beforeEach(async () => {
+  await cleanupDatabase();
   timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
   timekeeper.freeze(timeOfDownload);
 

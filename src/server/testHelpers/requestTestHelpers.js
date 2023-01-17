@@ -58,7 +58,8 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
   const options = {
     audience: config.authentication.audience,
     issuer: config.authentication.issuer,
-    algorithm: config.authentication.algorithm
+    algorithm: config.authentication.algorithm,
+    allowInsecureKeySizes: true
   };
 
   return jwt.sign(payload, cert, options);
@@ -125,7 +126,7 @@ export const cleanupDatabase = async () => {
     "TRUNCATE configs CASCADE;" +
     "TRUNCATE case_statuses CASCADE;" +
     "TRUNCATE public_data_visualizations CASCADE;" +
-    "TRUNCATE feature_toggles CASCADE;" + 
+    "TRUNCATE feature_toggles CASCADE;" +
     "TRUNCATE complaint_types CASCADE";
 
   await models.sequelize.query(truncationQuery, {

@@ -32,6 +32,7 @@ jest.mock(
 describe("officer histories (letter officers with history notes)", () => {
   let statuses;
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
   });
 

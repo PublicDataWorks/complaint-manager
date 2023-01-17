@@ -88,6 +88,7 @@ class CreateCaseDialog extends React.Component {
         PaperProps={{
           title: "createCaseDialogTitle"
         }}
+        style={{ position: "absolute", top: "70px" }}
       >
         <DialogTitle
           data-testid="createCaseDialogTitle"

@@ -31,7 +31,6 @@ jest.mock("redux-form", () => ({
 }));
 
 describe("Complainants", () => {
-  const menuOpen = true;
   const raceEthnicity = new RaceEthnicity.Builder()
     .defaultRaceEthnicity()
     .build();
@@ -73,7 +72,6 @@ describe("Complainants", () => {
           <Complainants
             caseDetails={caseDetails}
             dispatch={dispatchSpy}
-            menuOpen={menuOpen}
             classes={{}}
           />
         </Provider>
@@ -109,7 +107,6 @@ describe("Complainants", () => {
           <Complainants
             caseDetails={caseDetails}
             dispatch={dispatchSpy}
-            menuOpen={menuOpen}
             classes={{}}
           />
         </Provider>
@@ -135,7 +132,6 @@ describe("Complainants", () => {
 
     describe("Sort order", () => {
       test("People should be sorted by createdAt ascending", () => {
-        const menuOpen = true;
         const civilian1 = {
           ...new Civilian.Builder()
             .defaultCivilian()
@@ -186,11 +182,7 @@ describe("Complainants", () => {
 
         complainantWitnesses = mount(
           <Provider store={store}>
-            <Complainants
-              caseDetails={caseDetails}
-              menuOpen={menuOpen}
-              classes={{}}
-            />
+            <Complainants caseDetails={caseDetails} classes={{}} />
           </Provider>
         );
 
@@ -254,7 +246,6 @@ describe("Complainants", () => {
 
     describe("address", () => {
       test("should display N/A when no address", () => {
-        const menuOpen = true;
         const civilianWithNoAddress = {
           ...new Civilian.Builder()
             .defaultCivilian()
@@ -270,11 +261,7 @@ describe("Complainants", () => {
 
         complainantWitnesses = mount(
           <Provider store={store}>
-            <Complainants
-              caseDetails={caseWithNoAddress}
-              menuOpen={menuOpen}
-              classes={{}}
-            />
+            <Complainants caseDetails={caseWithNoAddress} classes={{}} />
           </Provider>
         );
 
@@ -303,7 +290,6 @@ describe("Complainants", () => {
 
     describe("additional address info", () => {
       test("should be empty when no address", () => {
-        const menuOpen = true;
         const civilianWithNoAddress = {
           ...new Civilian.Builder()
             .defaultCivilian()
@@ -319,11 +305,7 @@ describe("Complainants", () => {
 
         complainantWitnesses = mount(
           <Provider store={store}>
-            <Complainants
-              caseDetails={caseWithNoAddress}
-              menuOpen={menuOpen}
-              classes={{}}
-            />
+            <Complainants caseDetails={caseWithNoAddress} classes={{}} />
           </Provider>
         );
 
@@ -352,7 +334,6 @@ describe("Complainants", () => {
     });
 
     test("warning message shows when no complainants", () => {
-      const menuOpen = true;
       const witness = new Civilian.Builder()
         .defaultCivilian()
         .withRoleOnCase(WITNESS)
@@ -367,11 +348,7 @@ describe("Complainants", () => {
 
       const wrapper = mount(
         <Provider store={store}>
-          <Complainants
-            caseDetails={caseWithoutComplainant}
-            menuOpen={menuOpen}
-            classes={{}}
-          />
+          <Complainants caseDetails={caseWithoutComplainant} classes={{}} />
         </Provider>
       );
       const warn = wrapper.find("[data-testid='warnIcon']");
@@ -391,7 +368,6 @@ describe("Complainants", () => {
     });
 
     test("should display another warning message when no complainants or witnesses on a case", () => {
-      const menuOpen = true;
       const caseWithoutComplainant = new Case.Builder()
         .defaultCase()
         .withComplainantCivilians([])
@@ -402,11 +378,7 @@ describe("Complainants", () => {
 
       const wrapper = mount(
         <Provider store={store}>
-          <Complainants
-            caseDetails={caseWithoutComplainant}
-            menuOpen={menuOpen}
-            classes={{}}
-          />
+          <Complainants caseDetails={caseWithoutComplainant} classes={{}} />
         </Provider>
       );
       const noCivilianMessage = wrapper.find(
@@ -417,7 +389,6 @@ describe("Complainants", () => {
     });
 
     test("should display officer and civilian complainants", () => {
-      const menuOpen = true;
       const civilianComplainant = {
         ...new Civilian.Builder()
           .defaultCivilian()
@@ -444,11 +415,7 @@ describe("Complainants", () => {
 
       const wrapper = mount(
         <Provider store={store}>
-          <Complainants
-            caseDetails={caseWithMixedComplainants}
-            menuOpen={menuOpen}
-            classes={{}}
-          />
+          <Complainants caseDetails={caseWithMixedComplainants} classes={{}} />
         </Provider>
       );
 

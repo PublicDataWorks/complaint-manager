@@ -39,6 +39,7 @@ describe("GET /cases/:id/referral-letter", function () {
   let token, newCase, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();

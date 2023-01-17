@@ -39,6 +39,7 @@ describe("getReferralLetterData", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     emptyObject = { tempId: "uniqueTempId" };
 
     statuses = await seedStandardCaseStatuses();

@@ -11,6 +11,9 @@ module.exports = {
     await queryInterface.sequelize.query(
       `UPDATE officers SET district_id = NULL WHERE district_id IS NOT NULL`
     );
+    await queryInterface.sequelize.query(
+      "UPDATE cases SET district_id = NULL WHERE district_id IS NOT NULL"
+    );
     await queryInterface.bulkDelete("districts");
   }
 };

@@ -50,6 +50,7 @@ describe("executeQuery", () => {
   let statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
     const firstCase = await models.cases.create(
       new Case.Builder()

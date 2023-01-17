@@ -31,6 +31,7 @@ describe("getCaseStatuses", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await seedStandardCaseStatuses();
   });
 

@@ -8,9 +8,12 @@ const INSERT_FEATURES = `INSERT INTO feature_toggles (name, description, enabled
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     let query = features.reduce((acc, elem) => {
-      return `${acc} ('${elem.name}', '${
-        elem.description
-      }', ${!!elem.enabled}, FALSE),`;
+      return `${acc} ('${elem.name}', '${elem.description}', ${
+        (process.env.NODE_ENV === "ci" || process.env.NODE_ENV === "staging") &&
+        elem.name === "nonUserAuthenticationFeature"
+          ? "TRUE"
+          : !!elem.enabled
+      }, FALSE),`;
     }, INSERT_FEATURES);
     query = query.slice(0, -1);
     try {

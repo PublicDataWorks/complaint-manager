@@ -41,6 +41,7 @@ describe("executeQuery", () => {
   let statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     const emailIntakeSource = await models.intake_source.create({
       name: "Email"
     });

@@ -28,6 +28,8 @@ const constructFilename = (existingCase, pdfLetterType, editStatus) => {
     return `${formattedFirstContactDate}_${existingCase.caseReference}_${editStatus}_Referral_Draft${complainantLastName}.pdf`;
   } else if (pdfLetterType === COMPLAINANT_LETTER) {
     return `${formattedFirstContactDate}_${existingCase.caseReference}_Letter_to_Complainant${complainantLastName}.pdf`;
+  } else {
+    return `${formattedFirstContactDate}_${existingCase.caseReference}_${pdfLetterType}.pdf`;
   }
 };
 

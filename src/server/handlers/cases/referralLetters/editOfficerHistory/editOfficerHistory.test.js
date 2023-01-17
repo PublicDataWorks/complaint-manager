@@ -23,6 +23,7 @@ describe("edit referral letter", () => {
   let existingCase, referralLetter, caseOfficer, response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 

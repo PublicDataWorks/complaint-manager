@@ -93,6 +93,7 @@ describe("executeQuery", () => {
     });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     existingCase1 = await models.cases.create(

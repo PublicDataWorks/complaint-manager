@@ -24,6 +24,7 @@ describe("cases", function () {
   let createdCase, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
   });
 

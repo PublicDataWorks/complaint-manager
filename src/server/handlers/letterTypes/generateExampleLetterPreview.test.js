@@ -8,6 +8,7 @@ import {
 import models from "../../policeDataManager/models";
 
 describe("generateExampleLetterPreview", () => {
+  jest.setTimeout(50000);
   afterEach(async () => {
     await cleanupDatabase();
   });

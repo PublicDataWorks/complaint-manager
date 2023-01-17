@@ -10,6 +10,7 @@ describe("Case", () => {
   let statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
   });
 

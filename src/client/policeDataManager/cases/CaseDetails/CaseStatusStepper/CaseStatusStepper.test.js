@@ -6,14 +6,17 @@ import {
   getCaseDetailsSuccess,
   openCaseStatusUpdateDialog
 } from "../../../actionCreators/casesActionCreators";
-import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import {
+  USER_PERMISSIONS,
+  GET_FEATURES_SUCCEEDED
+} from "../../../../../sharedUtilities/constants";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import CaseStatusStepper from "./CaseStatusStepper";
 import { BrowserRouter as Router } from "react-router-dom";
 import getActiveStep from "./getActiveStep";
 import nock from "nock";
 import "@testing-library/jest-dom";
-import {render, waitFor, screen} from '@testing-library/react';
+import { render, waitFor, screen } from "@testing-library/react";
 
 describe("CaseStatusStepper", () => {
   let store, responseBody, caseStatusMap, getAllCaseStatuses;
@@ -21,16 +24,18 @@ describe("CaseStatusStepper", () => {
     store = createConfiguredStore();
 
     responseBody = [
-      {"id":1,"name":"Initial","orderKey":0},
-      {"id":2,"name":"Active","orderKey":1},
-      {"id":3,"name":"Letter in Progress","orderKey":2},
-      {"id":4,"name":"Ready for Review","orderKey":3},
-      {"id":5,"name":"Forwarded to Agency","orderKey":4},
-      {"id":6,"name":"Closed","orderKey":5}
+      { id: 1, name: "Initial", orderKey: 0 },
+      { id: 2, name: "Active", orderKey: 1 },
+      { id: 3, name: "Letter in Progress", orderKey: 2 },
+      { id: 4, name: "Ready for Review", orderKey: 3 },
+      { id: 5, name: "Forwarded to Agency", orderKey: 4 },
+      { id: 6, name: "Closed", orderKey: 5 }
     ];
-    
+
     nock.cleanAll();
-    getAllCaseStatuses = nock("http://localhost").get(`/api/case-statuses`).reply(200, responseBody);
+    getAllCaseStatuses = nock("http://localhost")
+      .get(`/api/case-statuses`)
+      .reply(200, responseBody);
 
     caseStatusMap = {
       ["Initial"]: 0,
@@ -40,6 +45,8 @@ describe("CaseStatusStepper", () => {
       ["Forwarded to Agency"]: 4,
       ["Closed"]: 5
     };
+
+    nock("http://localhost").get("/api/cases/1/referral-letter").reply(200, {});
   });
 
   test("should set status to Initial", async () => {
@@ -58,14 +65,16 @@ describe("CaseStatusStepper", () => {
     );
 
     await waitFor(() => screen.getByTestId("statusStepper"));
-    
+
     await new Promise(resolve => {
       getAllCaseStatuses.on("replied", () => {
         resolve();
-      })
+      });
     });
 
-    expect(await screen.findByText("Initial")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");
+    expect(await screen.findByText("Initial")).toHaveStyle(
+      "color: rgba(0, 0, 0, 0.87)"
+    );
   });
 
   test("should set status to Forwarded to Agency", async () => {
@@ -86,14 +95,16 @@ describe("CaseStatusStepper", () => {
     );
 
     await waitFor(() => screen.getByTestId("statusStepper"));
-    
+
     await new Promise(resolve => {
       getAllCaseStatuses.on("replied", () => {
         resolve();
-      })
+      });
     });
 
-    expect(await screen.findByText("Forwarded to Agency")).toHaveStyle("color: rgba(0, 0, 0, 0.87)");
+    expect(await screen.findByText("Forwarded to Agency")).toHaveStyle(
+      "color: rgba(0, 0, 0, 0.87)"
+    );
   });
 
   test("should open update status dialog with redirect url if next status is letter in progress", () => {
@@ -102,7 +113,7 @@ describe("CaseStatusStepper", () => {
       getCaseDetailsSuccess({
         id: 1,
         status: responseBody[1].name,
-        nextStatus: responseBody[2].name,
+        nextStatus: responseBody[2].name
       })
     );
     store.dispatch({
@@ -123,10 +134,7 @@ describe("CaseStatusStepper", () => {
     updateStatusButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseStatusUpdateDialog(
-        responseBody[2].name,
-        `/cases/1/letter/review`
-      )
+      openCaseStatusUpdateDialog(responseBody[2].name, `/cases/1/letter/review`)
     );
   });
 
@@ -361,6 +369,62 @@ describe("CaseStatusStepper", () => {
 
       expect(updateStatusButton.exists()).toBeFalsy();
     });
+
+    test("should render Generate Letter button when generateLetterButtonFeatureFlag is true", async () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: { generateLetterButton: true }
+      });
+
+      store.dispatch(
+        getCaseDetailsSuccess({
+          id: 1,
+          status: responseBody[0].name,
+          nextStatus: "blah"
+        })
+      );
+
+      nock("http://localhost")
+        .get("/api/letter-types")
+        .reply(200, [
+          {
+            id: 1,
+            type: "REFERRAL",
+            template: "<section>Hello World</section>",
+            hasEditPage: true,
+            requiresApproval: true,
+            defaultSender: {
+              name: "Billy",
+              nickname: "bill@billy.bil"
+            },
+            requiredStatus: "Active"
+          },
+          {
+            id: 2,
+            type: "COMPLAINANT",
+            template: "",
+            editableTemplate: "editable template",
+            hasEditPage: true,
+            requiresApproval: null,
+            defaultSender: {
+              name: "Kate",
+              nickname: "Kate@k.com"
+            },
+            requiredStatus: "Initial"
+          }
+        ]);
+
+      render(
+        <Provider store={store}>
+          <Router>
+            <CaseStatusStepper />
+          </Router>
+        </Provider>
+      );
+
+      expect(await screen.findByTestId("generate-letter-button"))
+        .toBeInTheDocument;
+    });
   });
 
   describe("without permissions", () => {
@@ -423,9 +487,7 @@ describe("CaseStatusStepper", () => {
     });
 
     test("does not increment for statuses other than closed", () => {
-      expect(
-        getActiveStep(caseStatusMap, responseBody[3].name)
-      ).toEqual(3);
+      expect(getActiveStep(caseStatusMap, responseBody[3].name)).toEqual(3);
     });
   });
 });

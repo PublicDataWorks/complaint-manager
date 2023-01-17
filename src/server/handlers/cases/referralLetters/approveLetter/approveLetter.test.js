@@ -54,6 +54,7 @@ describe("approveLetter", () => {
   const testUser = "Kyle Katarn";
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
 
     statuses = await seedStandardCaseStatuses();

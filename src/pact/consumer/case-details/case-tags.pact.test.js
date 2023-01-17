@@ -60,6 +60,20 @@ describe("case tags", () => {
         });
 
         userEvent.click(await screen.findByTestId("addTagButton"));
+
+        let findTagResult,
+          counter = 0;
+        do {
+          userEvent.click(await screen.findByTestId("caseTagDropdownInput"));
+          await new Promise((resolve, reject) => {
+            setTimeout(() => {
+              findTagResult = screen.queryByText("mardi gras");
+              resolve();
+            }, 500);
+            counter++;
+          });
+        } while (!findTagResult && counter < 40);
+
         userEvent.type(
           await screen.findByTestId("caseTagDropdownInput"),
           "mardi gras"

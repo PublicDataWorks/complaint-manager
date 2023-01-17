@@ -1,3 +1,4 @@
+import { stream } from "winston";
 import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
 
 const csvParse = require("csv-parse");
@@ -8,6 +9,7 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig
 const winston = require("winston");
 
 const promises = [];
+let counter = 0;
 const officersToUpdate = [];
 const officersToCreate = [];
 
@@ -33,7 +35,15 @@ const createSeedOfficerDataFromS3 = async (
       })
       .createReadStream()
       .pipe(parser)
-      .on("data", onData);
+      .on("data", seedDataRow => {
+        const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
+        promises.push(promise);
+        if (counter++ >= 500) {
+          counter = 0;
+          stream.pause();
+          setTimeout(() => stream.resume(), 1000);
+        }
+      });
 
     await new Promise((resolve, reject) => {
       stream.on("end", () => {
@@ -98,11 +108,6 @@ const transformDistrictToDistrictId = async seedDataRow => {
       seedDataRow.district = null;
     }
   }
-};
-
-const onData = seedDataRow => {
-  const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
-  promises.push(promise);
 };
 
 const updateOfficers = async officersToUpdate => {

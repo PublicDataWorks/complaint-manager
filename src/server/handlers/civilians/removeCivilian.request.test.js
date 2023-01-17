@@ -32,6 +32,7 @@ describe("DELETE /cases/:caseId/civilians/:civilianId", () => {
   let token;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("case:edit", "some_nickname");
 
     await seedStandardCaseStatuses();

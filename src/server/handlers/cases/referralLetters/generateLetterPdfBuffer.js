@@ -34,7 +34,7 @@ const generateLetterPdfBuffer = async (
       transaction
     };
     let letterData = await models.referral_letter.findOne(queryOptions);
-    letterBody = letterData.editedLetterHtml;
+    letterBody = letterData?.editedLetterHtml;
 
     ({ html: letterBody, auditDetails } = await determineLetterBody(
       letterBody,

@@ -24,6 +24,7 @@ describe("editCivilian", () => {
   let response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 

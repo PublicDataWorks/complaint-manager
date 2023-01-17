@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.55.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.55.0...v3.55.1) (2022-12-21)
+
+## [3.55.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.54.1...v3.55.0) (2022-12-21)
+
+
+### Features
+
+* Andrew [[#198](https://www.pivotaltracker.com/story/show/198)] adds ability to delete a letter type on admin portal ([d38c657](https://github.com/PublicDataWorks/complaint-manager/commit/d38c657bcae00b5cd6633392866053e7d3f1625f))
+* Andrew [[#199](https://www.pivotaltracker.com/story/show/199)] adds letter preview to add/edit letter type page ([6e2cf82](https://github.com/PublicDataWorks/complaint-manager/commit/6e2cf821108370059c8d1e4cf68d1c884acebac9))
+* Andrew/Jean [[#203](https://www.pivotaltracker.com/story/show/203)] Dropdown to select Complaint Type and feature flag logic ([53fedb3](https://github.com/PublicDataWorks/complaint-manager/commit/53fedb34296af83fa5a40d939402ccffeae3287d))
+* Andrew/Jean #[166] users who cant view anonymous data can't view attatchments if theres an Anonymous person on the case ([a375cf4](https://github.com/PublicDataWorks/complaint-manager/commit/a375cf4fc170d99e7b0c3f54df361836fcf45688))
+
+
+### Bug Fixes
+
+* Andrew [[#206](https://www.pivotaltracker.com/story/show/206)] adds new fields to letter type page in order to make template editing work ([17021c2](https://github.com/PublicDataWorks/complaint-manager/commit/17021c2f458569903b9e9e598d3e8c708650a0ec))
+* Andrew/Claire [[#224](https://www.pivotaltracker.com/story/show/224)] Adds role on case when adding unknown civilian ([e76dc69](https://github.com/PublicDataWorks/complaint-manager/commit/e76dc692e8d13d059aff13be2473e8c9a30595e5))
+* Isabel/Maria [[#207](https://www.pivotaltracker.com/story/show/207)] changed allegation details font to be normal ([f5c1209](https://github.com/PublicDataWorks/complaint-manager/commit/f5c120915a735547531cbbe1c3dc59be2b4fca6c))
+* Isabel/Maria [[#209](https://www.pivotaltracker.com/story/show/209)] fix styling of civilian dialog ([fd6b1d3](https://github.com/PublicDataWorks/complaint-manager/commit/fd6b1d3164b06fcc91d102a3e88722eecb96bea4))
+* Maria/Andrew [[#214](https://www.pivotaltracker.com/story/show/214)] enables Cancel button on edit letter page immediately ([c3f0186](https://github.com/PublicDataWorks/complaint-manager/commit/c3f0186bdcaf5da52f78f7c30acdc4d8bd4c64a5))
+* Maria/Syamala [[#194](https://www.pivotaltracker.com/story/show/194)] fix ALL imports of LetterImage from sharedTestHelpers ([81e6736](https://github.com/PublicDataWorks/complaint-manager/commit/81e67360e4f7a1f1e218182e96caf0d4eab63d61))
+* Maria/Syamala [[#194](https://www.pivotaltracker.com/story/show/194)] upgrade msw package and fix typo in pact provider imports ([338c6b9](https://github.com/PublicDataWorks/complaint-manager/commit/338c6b93d41bd5edb1fd2cf510b4c780d55d8c1b))
+
 ### [3.54.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.54.0...v3.54.1) (2022-10-10)
 
 ## [3.54.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.53.0...v3.54.0) (2022-10-06)

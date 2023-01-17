@@ -85,6 +85,7 @@ import deleteLetterType from "./handlers/letterTypes/deleteLetterType";
 import getComplaintTypes from "./handlers/complaintTypes/getComplaintTypes";
 import addLetterType from "./handlers/letterTypes/addLetterType";
 import generateExampleLetterPreview from "./handlers/letterTypes/generateExampleLetterPreview";
+import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetterAndUploadToS3";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -319,6 +320,13 @@ export const API_ROUTES = {
       handler: getAttachmentDownloadUrl,
       errorMessage:
         "Something went wrong and the attachment URL was not found. Please try again."
+    }
+  },
+  "/cases/:caseId/letters": {
+    post: {
+      handler: generateLetterAndUploadToS3,
+      errorMessage:
+        "Something went wrong and the PDF was not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter": {

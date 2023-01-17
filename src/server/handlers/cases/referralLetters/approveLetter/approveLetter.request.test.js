@@ -76,6 +76,7 @@ describe("Approve referral letter", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("letter:setup", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();

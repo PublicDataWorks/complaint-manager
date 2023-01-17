@@ -35,6 +35,7 @@ describe("addCaseOfficer", () => {
   let existingCase, response, next, statuses;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
 
     const existingCaseAttributes = new Case.Builder()

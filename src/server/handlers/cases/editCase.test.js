@@ -44,6 +44,7 @@ describe("Edit Case", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
   });
 
