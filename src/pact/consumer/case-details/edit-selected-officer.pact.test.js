@@ -252,7 +252,7 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
               },
               body: like({
                 roleOnCase: newRole,
-                officerId: 1
+                officerId: currentRole === "Accused" ? 1 : 57
               })
             },
 

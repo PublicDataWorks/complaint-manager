@@ -47,9 +47,6 @@ export const addComplainantOfficerToCase = async (c4se, caseOfficerId) => {
       new Officer.Builder().defaultOfficer(),
       { auditUser: "user" }
     );
-    console.log(
-      "BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG"
-    );
     let buildOfficer = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withOfficerId(officer.id)
@@ -90,28 +87,6 @@ export const addWitnessOfficerToCase = async (c4se, caseOfficerId) => {
     const caseOfficer = await models.case_officer.create(buildOfficer, {
       auditUser: "user"
     });
-
-    return caseOfficer;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const addAccusedOfficerToCase = async c4se => {
-  try {
-    const officer = await models.officer.create(
-      new Officer.Builder().defaultOfficer(),
-      { auditUser: "user" }
-    );
-
-    const caseOfficer = await models.case_officer.create(
-      new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withOfficerId(officer.id)
-        .withCaseId(c4se.id)
-        .withRoleOnCase(ACCUSED),
-      { auditUser: "user" }
-    );
 
     return caseOfficer;
   } catch (error) {

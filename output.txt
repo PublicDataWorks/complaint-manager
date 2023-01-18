@@ -41,9 +41,9 @@ No migrations were executed, database schema was already up to date.
 
       at Object.<anonymous> (src/setupTests.js:13:9)
 
-[2023-01-17 17:59:16.081 +0000] INFO (268 on 97721196da1f): pact@9.18.1: Verifying provider
-[2023-01-17 17:59:16.164 +0000] INFO (268 on 97721196da1f): pact-node@10.17.6: Verifying Pacts.
-[2023-01-17 17:59:16.178 +0000] INFO (268 on 97721196da1f): pact-node@10.17.6: Verifying Pact Files
+[2023-01-17 18:50:41.885 +0000] INFO (268 on bf024cce65e8): pact@9.18.1: Verifying provider
+[2023-01-17 18:50:41.950 +0000] INFO (268 on bf024cce65e8): pact-node@10.17.6: Verifying Pacts.
+[2023-01-17 18:50:41.963 +0000] INFO (268 on bf024cce65e8): pact-node@10.17.6: Verifying Pact Files
   console.log
     BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
@@ -51,10 +51,93 @@ No migrations were executed, database schema was already up to date.
           at async Promise.all (index 0)
           at async Promise.all (index 0)
 
+[2023-01-17 18:50:48.402 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "users exist in the store", ignoring
+[2023-01-17 18:50:52.737 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "case statuses exist", ignoring
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:423:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
   console.log
     BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
       at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:431:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:436:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:423:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:50:56 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:720:11","os":{"loadavg":[1.14,0.45,0.25],"uptime":9624.35},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":582637,"external":1565202,"heapTotal":266997760,"heapUsed":204217256,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:720:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":720,"method":null,"native":false}]},"trace":"See stack"}
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:431:19)
+          at Array.forEach (<anonymous>)
+
+{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:50:56 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:720:11","os":{"loadavg":[1.14,0.45,0.25],"uptime":9624.97},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":793873,"external":1776478,"heapTotal":267259904,"heapUsed":209544704,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:720:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":720,"method":null,"native":false}]},"trace":"See stack"}
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:436:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    officer complainant state
+
+      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:423:21)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+
+  console.log
+    officer witness state
+
+      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:431:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    accused with allegation state
+
+      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:436:19)
+          at Array.forEach (<anonymous>)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
           at async Promise.all (index 0)
           at async Promise.all (index 0)
 
@@ -62,6 +145,15 @@ No migrations were executed, database schema was already up to date.
     BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
       at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
           at async Promise.all (index 1)
           at async Promise.all (index 0)
 
@@ -69,61 +161,6 @@ No migrations were executed, database schema was already up to date.
     BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
       at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-[2023-01-17 17:59:30.397 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "complaint types exist", ignoring
-[2023-01-17 17:59:30.888 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "null", ignoring
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 1)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
           at runMicrotasks (<anonymous>)
           at async Promise.all (index 0)
           at async Promise.all (index 0)
@@ -152,44 +189,10 @@ No migrations were executed, database schema was already up to date.
           at async Promise.all (index 0)
           at async Promise.all (index 0)
 
-  console.log
-    officer complainant state
-
-      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-[2023-01-17 17:59:44.987 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "case statuses exist", ignoring
-[2023-01-17 17:59:47.149 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "users exist in the store", ignoring
-  console.log
-    officer witness state
-
-      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
-          at Array.forEach (<anonymous>)
-
-  console.log
-    accused with allegation state
-
-      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
-          at Array.forEach (<anonymous>)
-
-[2023-01-17 17:59:54.108 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
-[2023-01-17 17:59:55.136 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "signer to be added doesn't exist in the database", ignoring
+[2023-01-17 18:51:12.837 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "null", ignoring
+[2023-01-17 18:51:13.735 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "complaint types exist", ignoring
+[2023-01-17 18:51:16.072 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+[2023-01-17 18:51:16.453 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "signer to be added doesn't exist in the database", ignoring
   console.log
     Overriding AWS config for Localstack
 
@@ -206,114 +209,7 @@ No migrations were executed, database schema was already up to date.
       at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
           at runMicrotasks (<anonymous>)
 
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-          at async Promise.all (index 0)
-
-  console.log
-    Overriding AWS config for Localstack
-
-      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
-          at runMicrotasks (<anonymous>)
-
-[2023-01-17 18:00:14.154 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
-  console.log
-    officer complainant state
-
-      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-
-  console.log
-    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
-
-      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
-          at runMicrotasks (<anonymous>)
-          at async Promise.all (index 0)
-
-{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:00:15 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","os":{"loadavg":[1.38,0.91,0.55],"uptime":6583.77},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":1240481,"external":4995253,"heapTotal":274919424,"heapUsed":242130288,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":712,"method":null,"native":false}]},"trace":"See stack"}
-  console.log
-    officer witness state
-
-      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
-          at Array.forEach (<anonymous>)
-
-{"level":"error","memoryUsage":"","message":"middlewareError","meta":{"date":"Tue Jan 17 2023 18:00:16 GMT+0000 (Coordinated Universal Time)","error":{"data":null,"isBoom":true,"isDeveloperError":true,"isServer":true,"output":{"headers":{},"payload":{"error":"Internal Server Error","message":"An internal server error occurred","statusCode":500},"statusCode":500}},"exception":true,"level":"error","message":"uncaughtException: Cannot read properties of null (reading 'supervisorOfficerNumber')\nTypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","os":{"loadavg":[1.38,0.91,0.55],"uptime":6584.42},"process":{"argv":["/usr/bin/node","/app/node_modules/react-app-rewired/scripts/test.js","src/pact/provider","--logHeapUsage","--forceExit","--env=jsdom","--testTimeout","100000","--runInBand"],"cwd":"/app","execPath":"/usr/bin/node","gid":0,"memoryUsage":{"arrayBuffers":840003,"external":5206527,"heapTotal":274919424,"heapUsed":234438088,"rss":0},"pid":268,"uid":0,"version":"v16.14.2"},"req":{"method":"PUT","originalUrl":"/api/cases/1/cases-officers/1","url":"/api/cases/1/cases-officers/1"},"stack":"TypeError: Cannot read properties of null (reading 'supervisorOfficerNumber')\n    at buildSupervisorAttributes (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:48:19)\n    at buildOfficerAttributesForNewOfficer (/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js:18:36)\n    at runMicrotasks (<anonymous>)\n    at processTicksAndRejections (node:internal/process/task_queues:96:5)\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:54:27\n    at /app/node_modules/sequelize/src/sequelize.js:1187:18\n    at /app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js:28:23\n    at /app/src/server/handlers/asyncMiddleware.js:6:5\n    at /app/src/server/apiRoutes.js:712:11","trace":[{"column":19,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildSupervisorAttributes","line":48,"method":null,"native":false},{"column":36,"file":"/app/src/server/handlers/officers/helpers/buildOfficerAttributesHelpers.js","function":"buildOfficerAttributesForNewOfficer","line":18,"method":null,"native":false},{"column":null,"file":null,"function":"runMicrotasks","line":null,"method":null,"native":false},{"column":5,"file":"node:internal/process/task_queues","function":"processTicksAndRejections","line":96,"method":null,"native":false},{"column":27,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":54,"method":null,"native":false},{"column":18,"file":"/app/node_modules/sequelize/src/sequelize.js","function":null,"line":1187,"method":null,"native":false},{"column":23,"file":"/app/src/server/handlers/officers/editCaseOfficer/editCaseOfficer.js","function":null,"line":28,"method":null,"native":false},{"column":5,"file":"/app/src/server/handlers/asyncMiddleware.js","function":null,"line":6,"method":null,"native":false},{"column":11,"file":"/app/src/server/apiRoutes.js","function":null,"line":712,"method":null,"native":false}]},"trace":"See stack"}
-  console.log
-    accused with allegation state
-
-      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
-          at Array.forEach (<anonymous>)
-
-[2023-01-17 18:00:17.257 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+[2023-01-17 18:51:18.957 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
   console.log
     [
       letter_types {
@@ -700,8 +596,8 @@ No migrations were executed, database schema was already up to date.
             '      '... 4569 more characters,
           requiresApproval: null,
           hasEditPage: null,
-          createdAt: 2023-01-17T18:00:17.232Z,
-          updatedAt: 2023-01-17T18:00:17.232Z,
+          createdAt: 2023-01-17T18:51:18.941Z,
+          updatedAt: 2023-01-17T18:51:18.941Z,
           defaultSenderId: 17,
           requiredStatusId: 1
         },
@@ -1088,8 +984,8 @@ No migrations were executed, database schema was already up to date.
             '      '... 4569 more characters,
           requiresApproval: null,
           hasEditPage: null,
-          createdAt: 2023-01-17T18:00:17.232Z,
-          updatedAt: 2023-01-17T18:00:17.232Z,
+          createdAt: 2023-01-17T18:51:18.941Z,
+          updatedAt: 2023-01-17T18:51:18.941Z,
           defaultSenderId: 17,
           requiredStatusId: 1
         },
@@ -1217,8 +1113,8 @@ No migrations were executed, database schema was already up to date.
           editableTemplate: null,
           requiresApproval: null,
           hasEditPage: null,
-          createdAt: 2023-01-17T18:00:17.246Z,
-          updatedAt: 2023-01-17T18:00:17.246Z,
+          createdAt: 2023-01-17T18:51:18.951Z,
+          updatedAt: 2023-01-17T18:51:18.951Z,
           defaultSenderId: 17,
           requiredStatusId: 1
         },
@@ -1334,8 +1230,8 @@ No migrations were executed, database schema was already up to date.
           editableTemplate: null,
           requiresApproval: null,
           hasEditPage: null,
-          createdAt: 2023-01-17T18:00:17.246Z,
-          updatedAt: 2023-01-17T18:00:17.246Z,
+          createdAt: 2023-01-17T18:51:18.951Z,
+          updatedAt: 2023-01-17T18:51:18.951Z,
           defaultSenderId: 17,
           requiredStatusId: 1
         },
@@ -1355,14 +1251,15 @@ No migrations were executed, database schema was already up to date.
       at src/server/handlers/letterTypes/editLetterType.js:98:11
           at runMicrotasks (<anonymous>)
 
-[2023-01-17 18:00:17.757 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "server is running", ignoring
-[2023-01-17 18:00:19.383 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "server is running", ignoring
-[2023-01-17 18:00:20.949 +0000] WARN (268 on 97721196da1f): pact@9.18.1: No state handler found for "user is administrator", ignoring
+[2023-01-17 18:51:19.464 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "server is running", ignoring
+[2023-01-17 18:51:21.008 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "server is running", ignoring
+[2023-01-17 18:51:22.465 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "user is administrator", ignoring
   console.log
-    officer complainant state
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
-      at Case exists: with officer complainant (src/pact/provider/provider.pact.test.js:422:21)
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
           at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
           at async Promise.all (index 0)
 
   console.log
@@ -1371,18 +1268,127 @@ No migrations were executed, database schema was already up to date.
       at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
           at runMicrotasks (<anonymous>)
           at async Promise.all (index 0)
+          at async Promise.all (index 0)
 
   console.log
-    officer witness state
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
-      at Case exists: with officer witness (src/pact/provider/provider.pact.test.js:430:19)
-          at Array.forEach (<anonymous>)
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
 
   console.log
-    accused with allegation state
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
 
-      at Case exists: case has accused officer with allegations (src/pact/provider/provider.pact.test.js:435:19)
-          at Array.forEach (<anonymous>)
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 1)
+          at async Promise.all (index 0)
 
-[2023-01-17 18:00:23.418 +0000] WARN (268 on 97721196da1f): pact-node@10.17.6: Pact exited with code 1.
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+[2023-01-17 18:51:34.793 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "letter types have been added to the database", ignoring
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+          at runMicrotasks (<anonymous>)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+  console.log
+    BANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANGBANG
+
+      at addComplainantOfficerToCase (src/pact/provider/case-helpers.js:50:13)
+          at runMicrotasks (<anonymous>)
+          at async Promise.all (index 0)
+          at async Promise.all (index 0)
+
+[2023-01-17 18:51:42.548 +0000] WARN (268 on bf024cce65e8): pact@9.18.1: No state handler found for "Letter types exist", ignoring
+[2023-01-17 18:51:44.898 +0000] WARN (268 on bf024cce65e8): pact-node@10.17.6: Pact exited with code 1.
 
