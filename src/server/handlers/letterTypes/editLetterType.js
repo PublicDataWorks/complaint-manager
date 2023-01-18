@@ -59,7 +59,6 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
 
       await Promise.all(
         complaintTypeIds.map(async complaintTypeId => {
-          console.log(complaintTypeId);
           await models.letterTypeComplaintType.create(
             {
               letterTypeId: typeId,
