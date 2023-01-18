@@ -240,7 +240,6 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
             caseOfficer: officer
           });
           const changedOfficer = { ...officer, roleOnCase: newRole };
-          console.log("CASESTATEHERE", caseState);
           await provider.addInteraction({
             state: caseState,
             uponReceiving: `edit ${currentRole}`,
