@@ -6,6 +6,7 @@ import {
   setUpCaseDetailsPage,
   GENERATE_LETTER_BUTTON
 } from "./case-details-helper";
+import { like } from "@pact-foundation/pact/src/dsl/matchers";
 
 pactWith(
   {
@@ -39,7 +40,11 @@ pactWith(
             }
           },
           willRespondWith: {
-            status: 204
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: like({ id: 1 })
           }
         });
 

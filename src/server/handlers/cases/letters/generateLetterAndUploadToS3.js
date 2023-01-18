@@ -45,7 +45,7 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         transaction
       );
     });
-    response.status(204).send();
+    response.status(200).send({ id: 1 });
   }
 );
 
