@@ -95,7 +95,7 @@ describe("Generate letter and upload to S3", () => {
       where: { caseId: existingCase.id, description: request.body.type }
     });
 
-    expect(response.statusCode).toEqual(204);
+    expect(response.statusCode).toEqual(200);
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       expectedFullFilename,
       expect.anything(),
