@@ -25,7 +25,7 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
 
     const filename = constructFilename(existingCase, request.body.type);
 
-    await models.sequelize.transaction(async transaction => {
+    const letter = await models.sequelize.transaction(async transaction => {
       await generateLetter(caseId, filename, request);
 
       await createLetterAttachment(
@@ -44,8 +44,16 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         AUDIT_FILE_TYPE.LETTER,
         transaction
       );
+
+      return await models.letter.create(
+        {
+          caseId,
+          finalPdfFilename: filename
+        },
+        { transaction, auditUser: request.nickname }
+      );
     });
-    response.status(200).send({ id: 1 });
+    response.status(200).send({ id: letter.id });
   }
 );
 
