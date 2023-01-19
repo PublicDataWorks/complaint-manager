@@ -19,6 +19,15 @@ module.exports = (sequelize, DataTypes) => {
           key: "id"
         }
       },
+      typeId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        field: "type_id",
+        references: {
+          model: models.letter_types,
+          key: "id"
+        }
+      },
       recipient: {
         type: DataTypes.TEXT
       },
@@ -54,17 +63,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "letters" }
   );
-  Letter.associate = function (models) {
-    Letter.hasMany(models.case_officer, {
-      as: "caseOfficers",
-      sourceKey: "caseId",
-      foreignKey: {
-        name: "caseId",
-        field: "caseId",
-        allowNull: false
-      }
-    });
-  };
 
   Letter.prototype.getCaseId = async function (transaction) {
     return this.caseId;

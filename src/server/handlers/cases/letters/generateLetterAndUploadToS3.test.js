@@ -99,6 +99,7 @@ describe("Generate letter and upload to S3", () => {
     expect(response.statusCode).toEqual(200);
     const letter = await models.letter.findByPk(response._getData().id);
     expect(letter).toBeTruthy();
+    expect(letter.typeId).toEqual(1);
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       expectedFullFilename,
       expect.anything(),

@@ -45,9 +45,15 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         transaction
       );
 
+      const letterType = await models.letter_types.findOne({
+        where: { type: request.body.type },
+        transaction
+      });
+
       return await models.letter.create(
         {
           caseId,
+          typeId: letterType.id,
           finalPdfFilename: filename
         },
         { transaction, auditUser: request.nickname }
