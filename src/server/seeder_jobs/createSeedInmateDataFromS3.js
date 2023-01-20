@@ -1,6 +1,3 @@
-import { stream } from "winston";
-import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
-
 const csvParse = require("csv-parse");
 const models = require("../policeDataManager/models");
 const _ = require("lodash");
@@ -23,7 +20,7 @@ const createSeedInmateDataFromS3 = async (
     const bucketName = config[process.env.NODE_ENV].officerBucket;
 
     const parser = csvParse({
-      cast: parseNullValues,
+      cast: value => parseDates(parseBooleans(parseNullValues(value))),
       columns: true,
       trim: true
     });
@@ -137,6 +134,35 @@ const parseNullValues = value => {
   return value;
 };
 
+const parseBooleans = value => {
+  if (!value) {
+    return value;
+  } else if (value.toUpperCase() === "Y" || value.toUpperCase() === "YES") {
+    return true;
+  } else if (value.toUpperCase() === "N" || value.toUpperCase() === "NO") {
+    return false;
+  } else {
+    return value;
+  }
+};
+
+const parseDates = value => {
+  if (!value || typeof value !== "string") {
+    return value;
+  }
+
+  const match = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (match) {
+    const formattedDate = `${match[3]}-${match[1].padStart(
+      2,
+      "0"
+    )}-${match[2].padStart(2, "0")}`;
+    return formattedDate;
+  } else {
+    return value;
+  }
+};
+
 const isEqualIgnoringType = (value1, value2) => {
   if (value1 == value2) {
     return true;
@@ -146,7 +172,8 @@ const isEqualIgnoringType = (value1, value2) => {
 const rowDataIsInmateToBeUpdated = (seedDataRow, existingInmate) => {
   const inmateValuesToCompare = _.omit(existingInmate.dataValues, [
     "createdAt",
-    "updatedAt"
+    "updatedAt",
+    "fullName"
   ]);
 
   const keysToPick = Object.keys(inmateValuesToCompare);
