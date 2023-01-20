@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       inmateId: {
         allowNull: false,
         primaryKey: true,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        field: "inmate_id"
       },
       firstName: {
         type: DataTypes.STRING,
@@ -82,9 +83,9 @@ module.exports = (sequelize, DataTypes) => {
       gender: {
         type: DataTypes.STRING
       },
-      primaryEthniticity: {
+      primaryEthnicity: {
         type: DataTypes.STRING,
-        field: "primary_ethniticity"
+        field: "primary_ethnicity"
       },
       race: {
         type: DataTypes.STRING

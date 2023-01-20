@@ -3,7 +3,9 @@ const createSeedOfficerDataFromS3 = require("../seeder_jobs/createSeedOfficerDat
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await createSeedOfficerDataFromS3();
+    if (process.env.ORG !== "HAWAII") {
+      await createSeedOfficerDataFromS3();
+    }
   },
 
   down: async (queryInterface, Sequelize) => {
