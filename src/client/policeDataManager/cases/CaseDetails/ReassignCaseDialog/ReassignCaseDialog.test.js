@@ -43,7 +43,11 @@ describe("ReassignCaseDialog", () => {
   beforeEach(() => {
     dialog = render(
       <Provider store={store}>
-        <ReassignCaseDialog open={true} close={closeFunction} />
+        <ReassignCaseDialog
+          open={true}
+          close={closeFunction}
+          caseDetails={{ assignedTo: FAKE_USERS[0].email }}
+        />
       </Provider>
     );
 
@@ -69,7 +73,10 @@ describe("ReassignCaseDialog", () => {
 
   test.todo("should dispatch editCase when clicking submit button");
 
-  test.todo(
-    "assign user button should not be clickable when original user is selected"
-  );
+  test("assign user button should not be clickable when original user is selected", () => {
+    expect(screen.getByTestId("userDropdownInput").value).toEqual(
+      FAKE_USERS[0].email
+    );
+    expect(screen.getByTestId("assignedToSubmitButton").disabled).toBeTrue();
+  });
 });

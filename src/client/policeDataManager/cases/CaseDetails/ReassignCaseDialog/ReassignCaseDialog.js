@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Field, reduxForm, reset } from "redux-form";
+import { Field, formValueSelector, reduxForm, reset } from "redux-form";
 import {
   Dialog,
   DialogActions,
@@ -33,9 +33,6 @@ class ReassignCaseDialog extends Component {
 
   render() {
     const { open, submitting, handleSubmit } = this.props;
-
-    const isTagSelected =
-      !!this.props.selectedTag && this.props.selectedTag.label !== "";
 
     return (
       <Dialog open={open}>
@@ -84,11 +81,13 @@ class ReassignCaseDialog extends Component {
             Cancel
           </SecondaryButton>
           <PrimaryButton
-            data-testid="caseTagSubmitButton"
+            data-testid="assignedToSubmitButton"
             onClick={handleSubmit(this.submit)}
-            disabled={submitting || !isTagSelected}
+            disabled={
+              this.props.currentValue === this.props.caseDetails.assignedTo
+            }
           >
-            Add Tag
+            Assign User
           </PrimaryButton>
         </DialogActions>
       </Dialog>
@@ -100,9 +99,13 @@ const ReassignCaseDialogForm = reduxForm({
   form: REASSIGN_CASE_FORM_NAME
 })(ReassignCaseDialog);
 
-const mapStateToProps = state => ({
-  users: state.users.all
-});
+const mapStateToProps = (state, props) => {
+  return {
+    users: state.users.all,
+    initialValues: { user: props.caseDetails.assignedTo },
+    currentValue: formValueSelector(REASSIGN_CASE_FORM_NAME)(state, "user")
+  };
+};
 
 const mapDispatchToProps = {
   // closeCaseTagDialog,
