@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router";
 import { Menu, MenuItem } from "@material-ui/core";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import useGetServiceData from "../../../../common/hooks/useGetServiceData";
@@ -21,10 +22,15 @@ const GenerateLetterButton = props => {
 
   const generateLetter = async letterType => {
     try {
-      await axios.post(`/api/cases/${props.caseId}/letters`, {
+      const response = await axios.post(`/api/cases/${props.caseId}/letters`, {
         type: letterType
       });
-      props.getCaseDetails(props.caseId);
+
+      props.history.push(
+        `/cases/${props.caseId}/letter/${response.data.id}/letter-preview`
+      );
+
+      // props.getCaseDetails(props.caseId);
       props.snackbarSuccess(`You have generated a new ${letterType} letter`);
     } catch (error) {
       console.error(error);
@@ -52,9 +58,7 @@ const GenerateLetterButton = props => {
               <MenuItem
                 key={letterType.id}
                 data-testid={`${letterType.type}-option`}
-                onClick={() => {
-                  generateLetter(letterType.type).then(() => handleMenuClose());
-                }}
+                onClick={() => generateLetter(letterType.type)}
               >
                 {letterType.type}
               </MenuItem>
@@ -69,4 +73,4 @@ export default connect(undefined, {
   getCaseDetails,
   snackbarSuccess,
   snackbarError
-})(GenerateLetterButton);
+})(withRouter(GenerateLetterButton));

@@ -5,6 +5,7 @@ import { render, screen } from "@testing-library/react";
 import nock from "nock";
 import GenerateLetterButton from "./GenerateLetterButton";
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter as Router } from "react-router-dom";
 
 describe("GenerateLetterButton", () => {
   let store, responseBody;
@@ -60,7 +61,9 @@ describe("GenerateLetterButton", () => {
   test("should show list of letter types on click", async () => {
     render(
       <Provider store={store}>
-        <GenerateLetterButton />
+        <Router>
+          <GenerateLetterButton />
+        </Router>
       </Provider>
     );
 

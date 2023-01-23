@@ -31,6 +31,7 @@ import {
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import timekeeper from "timekeeper";
+import ReferralLetterPreview from "./ReferralLetterPreview";
 
 jest.mock("../thunks/editReferralLetterAddresses", () =>
   jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
@@ -122,7 +123,7 @@ describe("LetterPreview", function () {
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <LetterPreview match={{ params: { id: caseId } }} />
+          <ReferralLetterPreview match={{ params: { id: caseId } }} />
         </Router>
       </Provider>
     );
@@ -1091,7 +1092,7 @@ describe("LetterPreview", function () {
       wrapper = mount(
         <Provider store={store}>
           <Router>
-            <LetterPreview match={{ params: { id: caseId } }} />
+            <ReferralLetterPreview match={{ params: { id: caseId } }} />
           </Router>
         </Provider>
       );

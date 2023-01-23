@@ -14,7 +14,6 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { Field, reduxForm } from "redux-form";
 import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import {
@@ -32,7 +31,6 @@ import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
 import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../../common/globalStyling/styles";
-import getReferralLetterData from "../thunks/getReferralLetterData";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import IncompleteClassificationsDialog from "../../sharedFormComponents/IncompleteClassificationsDialog";
@@ -44,12 +42,6 @@ import { userTimezone } from "../../../../common/helpers/userTimezone";
 class LetterPreview extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id };
-  }
-
-  componentDidMount() {
-    this.props.getReferralLetterPreview(this.state.caseId);
-    this.props.getReferralLetterData(this.state.caseId);
   }
 
   letterPreviewNotYetLoaded = () => {
@@ -58,13 +50,13 @@ class LetterPreview extends Component {
 
   saveAndReturnToCase = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}`)
+      this.submitForm(`/cases/${this.props.caseId}`)
     );
   };
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getReferralLetterPdf(this.state.caseId, this.props.draftFilename, true)
+      getReferralLetterPdf(this.props.caseId, this.props.draftFilename, true)
     );
   };
 
@@ -81,7 +73,7 @@ class LetterPreview extends Component {
 
   saveAndGoBackToRecommendedActions = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/recommended-actions`)
+      this.submitForm(`/cases/${this.props.caseId}/letter/recommended-actions`)
     );
   };
 
@@ -91,7 +83,7 @@ class LetterPreview extends Component {
 
   saveAndGoToEditLetter = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.state.caseId}/letter/edit-letter`)
+      this.submitForm(`/cases/${this.props.caseId}/letter/edit-letter`)
     );
   };
 
@@ -100,7 +92,7 @@ class LetterPreview extends Component {
     const isLetterValid = await validateLetterDetails(this.props);
     if (isLetterValid) {
       return this.props.handleSubmit(
-        this.submitForm(`/cases/${this.state.caseId}/letter/review-and-approve`)
+        this.submitForm(`/cases/${this.props.caseId}/letter/review-and-approve`)
       )(values, this.props.dispatch);
     }
   };
@@ -123,7 +115,7 @@ class LetterPreview extends Component {
     (values, dispatch) => {
       dispatch(
         editReferralLetterAddresses(
-          this.state.caseId,
+          this.props.caseId,
           values,
           redirectUrl,
           alternativeSuccessCallback,
@@ -138,7 +130,7 @@ class LetterPreview extends Component {
     if (isLetterValid) {
       this.props.openCaseStatusUpdateDialog(
         this.props.caseDetails.nextStatus,
-        `/cases/${this.state.caseId}`
+        `/cases/${this.props.caseId}`
       );
     }
   };
@@ -155,7 +147,7 @@ class LetterPreview extends Component {
 
   renderEditLetterButton = () => {
     if (
-      this.letterAlreadyApproved() ||
+      this.props.letterAlreadyApproved(this.props.caseDetails.status) ||
       !this.props.permissions?.includes(USER_PERMISSIONS.SETUP_LETTER)
     ) {
       return null;
@@ -191,18 +183,11 @@ class LetterPreview extends Component {
     }
   };
 
-  letterAlreadyApproved = () => {
-    return ![
-      CASE_STATUS.LETTER_IN_PROGRESS,
-      CASE_STATUS.READY_FOR_REVIEW
-    ].includes(this.props.caseDetails.status);
-  };
-
   renderLetterPreview = () => {
     if (!this.props.caseDetails.status) {
       return null;
     }
-    if (this.letterAlreadyApproved()) {
+    if (this.props.letterAlreadyApproved(this.props.caseDetails.status)) {
       return (
         <div
           style={{ marginBottom: "24px" }}
@@ -294,7 +279,7 @@ class LetterPreview extends Component {
           </CardContent>
         </Card>
         <EditLetterConfirmationDialog
-          caseId={this.state.caseId}
+          caseId={this.props.caseId}
           saveAndGoToEditLetterCallback={this.saveAndGoToEditLetter()}
         />
         <LinkButton
@@ -379,7 +364,7 @@ class LetterPreview extends Component {
             <LetterProgressStepper
               currentLetterStatus={LETTER_PROGRESS.PREVIEW}
               pageChangeCallback={this.pageChangeCallback}
-              caseId={this.state.caseId}
+              caseId={this.props.caseId}
             />
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
@@ -412,9 +397,9 @@ class LetterPreview extends Component {
             </div>
           </div>
         </form>
-        <MissingComplainantDialog caseId={this.state.caseId} />
-        <IncompleteOfficerHistoryDialog caseId={this.state.caseId} />
-        <IncompleteClassificationsDialog caseId={this.state.caseId} />
+        <MissingComplainantDialog caseId={this.props.caseId} />
+        <IncompleteOfficerHistoryDialog caseId={this.props.caseId} />
+        <IncompleteClassificationsDialog caseId={this.props.caseId} />
         <UpdateCaseStatusDialog
           alternativeAction={this.saveAndSubmitForReview}
         />
@@ -423,33 +408,30 @@ class LetterPreview extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+LetterPreview.defaultProps = {
+  letterAlreadyApproved: () => false
+};
+
+const mapStateToProps = (state, props) => ({
   accused: state.currentCase.details.accusedOfficers,
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
-  letterHtml: state.referralLetter.letterHtml,
-  initialValues: state.referralLetter.addresses,
-  editStatus: state.referralLetter.editStatus,
-  lastEdited: state.referralLetter.lastEdited,
-  draftFilename: state.referralLetter.draftFilename,
   caseDetails: state.currentCase.details,
-  downloadInProgress: state.ui.letterDownload.downloadInProgress,
-  userInfo: state.users.current.userInfo,
-  letterOfficers: state.referralLetter.letterDetails.letterOfficers,
-  classifications: state.referralLetter.letterDetails.classifications,
   classificationFeature: state.featureToggles.classificationFeature,
-  permissions: state.users?.current?.userInfo?.permissions
+  classifications: state.referralLetter.letterDetails.classifications,
+  downloadInProgress: state.ui.letterDownload.downloadInProgress,
+  initialValues: props.addresses,
+  permissions: state.users?.current?.userInfo?.permissions,
+  userInfo: state.users.current.userInfo
 });
 
 const mapDispatchToProps = {
   openCaseStatusUpdateDialog,
-  startLetterDownload,
-  stopLetterDownload,
-  getReferralLetterData,
-  getReferralLetterPreview,
-  openMissingComplainantDialog,
+  openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
-  openIncompleteClassificationsDialog
+  openMissingComplainantDialog,
+  startLetterDownload,
+  stopLetterDownload
 };
 
 export default connect(

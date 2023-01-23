@@ -10,6 +10,7 @@ import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import LetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview";
 import { CASE_STATUS, USER_PERMISSIONS } from "../../sharedUtilities/constants";
+import ReferralLetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/ReferralLetterPreview";
 
 pactWith(
   {
@@ -128,7 +129,7 @@ pactWith(
           render(
             <Provider store={store}>
               <Router>
-                <LetterPreview match={{ params: { id: 1 } }} />
+                <ReferralLetterPreview match={{ params: { id: 1 } }} />
                 <SharedSnackbarContainer />
               </Router>
             </Provider>
@@ -259,7 +260,7 @@ pactWith(
         render(
           <Provider store={store}>
             <Router>
-              <LetterPreview match={{ params: { id: 1 } }} />
+              <ReferralLetterPreview match={{ params: { id: 1 } }} />
               <SharedSnackbarContainer />
             </Router>
           </Provider>

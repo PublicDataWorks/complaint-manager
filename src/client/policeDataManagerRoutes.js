@@ -48,8 +48,15 @@ const JobDashboard = lazy(() =>
 const EditOfficerDetails = lazy(() =>
   import("./policeDataManager/officers/OfficerDetails/EditOfficerDetails")
 );
-const LetterPreview = lazy(() =>
-  import("./policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview")
+const ReferralLetterPreview = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/LetterPreview/ReferralLetterPreview"
+  )
+);
+const GeneralLetterPreview = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/LetterPreview/GeneralLetterPreview"
+  )
 );
 const ReviewAndApproveLetter = lazy(() =>
   import(
@@ -127,7 +134,11 @@ const policeDataManagerRoutes = [
   },
   {
     path: "/cases/:id/letter/letter-preview",
-    component: LetterPreview
+    component: ReferralLetterPreview
+  },
+  {
+    path: "/cases/:id/letter/:letterId/letter-preview",
+    component: GeneralLetterPreview
   },
   {
     path: "/cases/:id/letter/edit-letter",

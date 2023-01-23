@@ -20,35 +20,24 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
     validateUserPermissions(request);
 
     const caseId = request.params.caseId;
-    const nickname = request.nickname;
     const existingCase = await getCase(caseId);
 
-    const filename = constructFilename(existingCase, request.body.type);
-
     const letter = await models.sequelize.transaction(async transaction => {
-      await generateLetter(caseId, filename, request);
-
-      await createLetterAttachment(
-        caseId,
-        filename,
-        request.body.type,
-        transaction,
-        nickname
-      );
-
-      await auditFileAction(
-        nickname,
-        caseId,
-        AUDIT_ACTION.UPLOADED,
-        filename,
-        AUDIT_FILE_TYPE.LETTER,
-        transaction
-      );
-
       const letterType = await models.letter_types.findOne({
         where: { type: request.body.type },
         transaction
       });
+
+      let filename;
+      if (letterType.hasEditPage) {
+        filename = constructFilename(existingCase, request.body.type);
+      } else {
+        filename = await generateAttachedLetter(
+          existingCase,
+          request,
+          transaction
+        );
+      }
 
       return await models.letter.create(
         {
@@ -125,6 +114,29 @@ const getCase = async caseId => {
       }
     ]
   });
+};
+
+const generateAttachedLetter = async (existingCase, request, transaction) => {
+  const filename = constructFilename(existingCase, request.body.type);
+  await generateLetter(existingCase.id, filename, request);
+
+  await createLetterAttachment(
+    existingCase.id,
+    filename,
+    request.body.type,
+    transaction,
+    request.nickname
+  );
+
+  await auditFileAction(
+    request.nickname,
+    existingCase.id,
+    AUDIT_ACTION.UPLOADED,
+    filename,
+    AUDIT_FILE_TYPE.LETTER,
+    transaction
+  );
+  return filename;
 };
 
 export default generateLetterAndUploadToS3;

@@ -86,6 +86,7 @@ import getComplaintTypes from "./handlers/complaintTypes/getComplaintTypes";
 import addLetterType from "./handlers/letterTypes/addLetterType";
 import generateExampleLetterPreview from "./handlers/letterTypes/generateExampleLetterPreview";
 import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetterAndUploadToS3";
+import generateLetterForPreview from "./handlers/cases/letters/generateLetterForPreview";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -327,6 +328,13 @@ export const API_ROUTES = {
       handler: generateLetterAndUploadToS3,
       errorMessage:
         "Something went wrong and the PDF was not loaded. Please try again."
+    }
+  },
+  "/cases/:caseId/letter/:letterId/preview": {
+    get: {
+      handler: generateLetterForPreview,
+      errorMessage:
+        "Something went wrong and the letter preview was not loaded. Please try again."
     }
   },
   "/cases/:caseId/referral-letter": {

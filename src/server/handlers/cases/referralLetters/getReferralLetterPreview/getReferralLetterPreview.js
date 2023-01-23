@@ -57,7 +57,6 @@ const getReferralLetterPreview = asyncMiddleware(
           caseId,
           transaction
         );
-
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
           caseId,
