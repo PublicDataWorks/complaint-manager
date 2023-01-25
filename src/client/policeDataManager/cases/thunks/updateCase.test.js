@@ -25,12 +25,12 @@ describe("updateCase", () => {
 
     const responseBody = {
       id: 1,
-      assignedTo: "random.person@email.com"
+      assignedTo: "another.person@email.com"
     };
 
     nock("http://localhost")
       .put(`/api/cases/${updateDetails.id}/`, {
-        assignedTo: "random.person@email.com"
+        assignedTo: "another.person@email.com"
       })
       .reply(200, responseBody);
 

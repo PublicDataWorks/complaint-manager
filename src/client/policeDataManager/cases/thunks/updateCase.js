@@ -1,58 +1,25 @@
+import {
+  closeCaseNoteDialog,
+  editCaseNoteSuccess
+} from "../../actionCreators/casesActionCreators";
 import axios from "axios";
+import { startSubmit, stopSubmit } from "redux-form";
+import { REASSIGN_CASE_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import editCase from "../../../../server/handlers/cases/editCase";
-import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
-import { response } from "express";
-const httpMocks = require("node-mocks-http");
-//const editCase = require("./editCase");
-const Boom = require("boom");
 
-const updateCase = updateDetails => async dispatch => {
-  //let next = jest.fn();
+const updateCase = values => async dispatch => {
   try {
-    // const request = httpMocks.createRequest({
-    //   method: "PUT",
-    //   headers: {
-    //     authorization: "Bearer SOME_MOCK_TOKEN"
-    //   },
-    //   params: { caseId: updateDetails.id },
-    //   body: updateDetails,
-    //   nickname: "TEST_USER_NICKNAME",
-    //   permissions: USER_PERMISSIONS.EDIT_CASE
-    // });
-    // const response = await axios.put(
-    //   `api/cases/${updateDetails.id}/`,
-    //   JSON.stringify({
-    //     assignedTo: updateDetails.assignedTo
-    //   })
-    // );
-    // await editCase(request, response, next);
-
-    //response = httpMocks.createResponse();
-    next = jest.fn();
-
-    request = httpMocks.createRequest({
-      method: "PUT",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      params: { caseId: updateDetails.id },
-      body: updateDetails,
-      nickname: "TEST_USER_NICKNAME",
-      permissions: USER_PERMISSIONS.EDIT_CASE
-    });
-
+    dispatch(startSubmit(REASSIGN_CASE_FORM_NAME));
     const response = await axios.put(
-      `api/cases/${updateDetails.id}`,
-      JSON.stringify({
-        assignedTo: updateDetails.assignedTo
-      })
+      `api/cases/${values.caseId}`,
+      JSON.stringify(values)
     );
-
-    await editCase(request, response, next);
-
+    dispatch(stopSubmit(REASSIGN_CASE_FORM_NAME));
     return dispatch(snackbarSuccess("Case was successfully updated"));
-  } catch (e) {}
+    // dispatch(closeCaseNoteDialog());
+  } catch (error) {
+    dispatch(stopSubmit(REASSIGN_CASE_FORM_NAME));
+  }
 };
 
 export default updateCase;

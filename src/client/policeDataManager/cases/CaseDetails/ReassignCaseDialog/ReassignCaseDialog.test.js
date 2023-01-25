@@ -24,6 +24,7 @@ jest.mock("../../thunks/editCase", () => caseId => ({
 }));
 
 describe("ReassignCaseDialog", () => {
+  const caseDetails = new Case.Builder().defaultCase().withId(1).build();
   const store = createConfiguredStore();
   store.dispatch({ type: GET_USERS_SUCCESS, users: FAKE_USERS });
   const dispatchSpy = jest.spyOn(store, "dispatch");
@@ -66,7 +67,8 @@ describe("ReassignCaseDialog", () => {
     const newAssignee = await screen.findByText(FAKE_USERS[1].email);
     userEvent.click(newAssignee);
     userEvent.click(screen.getByTestId("assignedToSubmitButton"));
-    expect();
+    //expect(); add thunk logic to update case
+    expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
   });
 
   test("assign user button should not be clickable when original user is selected", () => {
