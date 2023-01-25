@@ -94,7 +94,6 @@ const editLetterType = asyncMiddleware(async (request, response, next) => {
     })
   );
 
-  console.log(await models.letter_types.findAll());
   // update the database accordingly and if that fails because of a duplicate type, handle that
   try {
     await letterType.save({ auditUser: request.nickname });
