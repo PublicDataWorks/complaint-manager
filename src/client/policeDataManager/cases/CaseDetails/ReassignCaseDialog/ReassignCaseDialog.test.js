@@ -1,12 +1,6 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
 import ReassignCaseDialog from "./ReassignCaseDialog";
 import React from "react";
-import { mount } from "enzyme";
-import {
-  getCaseDetailsSuccess,
-  openReassignCaseDialog,
-  closeReassignCaseDialog
-} from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";
 import {
@@ -15,10 +9,6 @@ import {
   REASSIGN_CASE_FORM_NAME
 } from "../../../../../sharedUtilities/constants";
 import getUsers from "../../../../../server/handlers/users/getUsers";
-import {
-  containsText,
-  findCreatableDropdownOption
-} from "../../../../testHelpers";
 import userEvent from "@testing-library/user-event";
 import { reset } from "redux-form";
 
@@ -28,10 +18,10 @@ import { reset } from "redux-form";
 //     caseId
 //   }));
 
-// jest.mock("../../thunks/getUsers", () => caseId => ({
-//   type: "MOCK_GET_USERS",
-//   caseId
-// }));
+jest.mock("../../thunks/editCase", () => caseId => ({
+  type: "MOCK_EDIT_CASE",
+  caseId
+}));
 
 describe("ReassignCaseDialog", () => {
   const store = createConfiguredStore();
@@ -71,7 +61,13 @@ describe("ReassignCaseDialog", () => {
     expect(await screen.findByText(FAKE_USERS[1].email)).toBeInTheDocument;
   });
 
-  test.todo("should dispatch editCase when clicking submit button");
+  test("should dispatch editCase when clicking submit button", async () => {
+    userEvent.click(screen.getByTestId("userDropdownInput"));
+    const newAssignee = await screen.findByText(FAKE_USERS[1].email);
+    userEvent.click(newAssignee);
+    userEvent.click(screen.getByTestId("assignedToSubmitButton"));
+    expect();
+  });
 
   test("assign user button should not be clickable when original user is selected", () => {
     expect(screen.getByTestId("userDropdownInput").value).toEqual(
