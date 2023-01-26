@@ -3,7 +3,6 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import LetterPreview from "./LetterPreview";
 import { getFeaturesSuccess } from "../../../actionCreators/featureTogglesActionCreators";
 import {
   getReferralLetterPreviewSuccess,

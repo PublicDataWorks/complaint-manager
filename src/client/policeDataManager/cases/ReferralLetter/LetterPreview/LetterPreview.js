@@ -216,7 +216,10 @@ class LetterPreview extends Component {
               fullWidth
               multiline
               maxRows={5}
-              inputProps={{ autoComplete: "off" }}
+              inputProps={{
+                autoComplete: "off",
+                "data-testid": "recipient-field"
+              }}
             />
             <Field
               style={{ flex: 4 }}
@@ -262,7 +265,10 @@ class LetterPreview extends Component {
               multiline
               maxRows={5}
               style={{ marginBottom: "16px" }}
-              inputProps={{ autoComplete: "off" }}
+              inputProps={{
+                autoComplete: "off",
+                "data-testid": "sender-field"
+              }}
             />
 
             <Field
