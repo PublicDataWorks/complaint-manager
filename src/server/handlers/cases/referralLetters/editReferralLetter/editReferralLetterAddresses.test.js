@@ -6,7 +6,6 @@ import Case from "../../../../../sharedTestHelpers/case";
 import Boom from "boom";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 import { BAD_REQUEST_ERRORS } from "../../../../../sharedUtilities/errorMessageConstants";
-import getCaseStatuses from "../../../caseStatuses/getCaseStatuses";
 import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 describe("Edit referral letter addresses", () => {

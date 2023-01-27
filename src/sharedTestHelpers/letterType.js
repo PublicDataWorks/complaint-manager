@@ -1,5 +1,4 @@
 import Signer from "./signer";
-import CaseStatus from "./caseStatus";
 
 class LetterType {
   constructor(build) {
