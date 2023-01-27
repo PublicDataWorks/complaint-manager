@@ -9,6 +9,7 @@ import Signer from "../../../../sharedTestHelpers/signer";
 import editLetterAddresses from "./editLetterAddresses";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import { NOT_FOUND_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 
 describe("editLetterAddresses", () => {
   let c4se, letter, response, next;
@@ -73,7 +74,8 @@ describe("editLetterAddresses", () => {
         sender: "Sally McSally",
         transcribedBy: "John Watson"
       },
-      nickname: "nickname"
+      nickname: "nickname",
+      permissions: [USER_PERMISSIONS.SETUP_LETTER]
     });
 
     await editLetterAddresses(request, response, next);
@@ -98,7 +100,8 @@ describe("editLetterAddresses", () => {
         sender: "Sally McSally",
         transcribedBy: "John Watson"
       },
-      nickname: "nickname"
+      nickname: "nickname",
+      permissions: [USER_PERMISSIONS.SETUP_LETTER]
     });
 
     await editLetterAddresses(request, response, next);

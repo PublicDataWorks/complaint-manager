@@ -1,14 +1,12 @@
 import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../policeDataManager/models";
 import constructFilename from "../referralLetters/constructFilename";
-import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
 import { determineLetterBody } from "../referralLetters/generateLetterPdfBuffer";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import {
   AUDIT_SUBJECT,
   EDIT_STATUS,
-  MANAGER_TYPE,
-  REFERRAL_LETTER_VERSION
+  MANAGER_TYPE
 } from "../../../../sharedUtilities/constants";
 import Boom from "boom";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -23,8 +21,10 @@ const generateLetterForPreview = asyncMiddleware(
       throw Boom.badRequest(BAD_REQUEST_ERRORS.CANNOT_UPDATE_ARCHIVED_CASE);
     }
 
+    let letter, letterHtml, caseDetails;
+
     await models.sequelize.transaction(async transaction => {
-      const letter = await models.letter.findByPk(request.params.letterId, {
+      letter = await models.letter.findByPk(request.params.letterId, {
         include: [{ model: models.letter_types, as: "letterType" }],
         transaction
       });
@@ -51,6 +51,7 @@ const generateLetterForPreview = asyncMiddleware(
           caseId,
           transaction
         );
+
       const caseDetailsAndAuditDetails =
         await getCaseWithAllAssociationsAndAuditDetails(
           caseId,
@@ -58,7 +59,7 @@ const generateLetterForPreview = asyncMiddleware(
           request.permissions
         );
 
-      const caseDetails = caseDetailsAndAuditDetails.caseDetails;
+      caseDetails = caseDetailsAndAuditDetails.caseDetails;
       const caseAuditDetails = caseDetailsAndAuditDetails.auditDetails;
 
       await auditDataAccess(
@@ -78,40 +79,41 @@ const generateLetterForPreview = asyncMiddleware(
         letterBodyAuditDetails,
         transaction
       );
+      letterHtml = html;
+    });
 
-      let lastEdited = letter.updatedAt;
+    let lastEdited = letter.updatedAt;
 
-      const finalFilename = constructFilename(
-        caseDetails,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
+    const finalFilename = constructFilename(
+      caseDetails,
+      letter.letterType.type
+    );
 
-      const editStatus = letter.editedLetterHtml
-        ? EDIT_STATUS.EDITED
-        : EDIT_STATUS.GENERATED;
+    const editStatus = letter.editedLetterHtml
+      ? EDIT_STATUS.EDITED
+      : EDIT_STATUS.GENERATED;
 
-      const draftFilename = constructFilename(
-        caseDetails,
-        REFERRAL_LETTER_VERSION.DRAFT,
-        editStatus
-      );
+    const draftFilename = constructFilename(
+      caseDetails,
+      letter.letterType.type,
+      editStatus
+    );
 
-      let letterAddresses = {
-        recipient: letter.recipient,
-        recipientAddress: letter.recipientAddress,
-        sender: letter.sender,
-        transcribedBy: letter.transcribedBy
-      };
+    let letterAddresses = {
+      recipient: letter.recipient,
+      recipientAddress: letter.recipientAddress,
+      sender: letter.sender,
+      transcribedBy: letter.transcribedBy
+    };
 
-      response.status(200).send({
-        letterHtml: html,
-        addresses: letterAddresses,
-        editStatus,
-        lastEdited,
-        caseDetails: await caseDetails.toJSON(),
-        finalFilename: finalFilename,
-        draftFilename: draftFilename
-      });
+    response.status(200).send({
+      letterHtml,
+      addresses: letterAddresses,
+      editStatus,
+      lastEdited,
+      caseDetails: await caseDetails.toJSON(),
+      finalFilename: finalFilename,
+      draftFilename: draftFilename
     });
   }
 );
