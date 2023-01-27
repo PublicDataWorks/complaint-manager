@@ -10,7 +10,10 @@ const GeneralLetterPreview = props => {
       .get(
         `api/cases/${props.match.params.id}/letter/${props.match.params.letterId}/preview`
       )
-      .then(response => setLetter(response.data));
+      .then(response => {
+        setLetter(response.data);
+      })
+      .catch(err => {});
   }, []);
 
   return (
