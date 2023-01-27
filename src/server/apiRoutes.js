@@ -87,6 +87,7 @@ import addLetterType from "./handlers/letterTypes/addLetterType";
 import generateExampleLetterPreview from "./handlers/letterTypes/generateExampleLetterPreview";
 import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetterAndUploadToS3";
 import generateLetterForPreview from "./handlers/cases/letters/generateLetterForPreview";
+import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
