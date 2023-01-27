@@ -11,6 +11,9 @@ import {
 import getUsers from "../../../../../server/handlers/users/getUsers";
 import userEvent from "@testing-library/user-event";
 import { reset } from "redux-form";
+import updateCase from "../../thunks/updateCase";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
+import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 
 // jest.mock("../../thunks/createCaseTag", () => (values, caseId) => ({
 //     type: "MOCK_CREATE_CASE_TAG",
@@ -18,14 +21,14 @@ import { reset } from "redux-form";
 //     caseId
 //   }));
 
-jest.mock("../../thunks/editCase", () => caseId => ({
+jest.mock("../../thunks/updateCase", () => caseId => ({
   type: "MOCK_EDIT_CASE",
   caseId
 }));
 
 describe("ReassignCaseDialog", () => {
-  const caseDetails = new Case.Builder().defaultCase().withId(1).build();
   const store = createConfiguredStore();
+
   store.dispatch({ type: GET_USERS_SUCCESS, users: FAKE_USERS });
   const dispatchSpy = jest.spyOn(store, "dispatch");
   let dialog;
@@ -37,8 +40,9 @@ describe("ReassignCaseDialog", () => {
         <ReassignCaseDialog
           open={true}
           close={closeFunction}
-          caseDetails={{ assignedTo: FAKE_USERS[0].email }}
+          caseDetails={{ caseId: 1, assignedTo: FAKE_USERS[0].email }}
         />
+        <SharedSnackbarContainer />
       </Provider>
     );
 
@@ -68,7 +72,10 @@ describe("ReassignCaseDialog", () => {
     userEvent.click(newAssignee);
     userEvent.click(screen.getByTestId("assignedToSubmitButton"));
     //expect(); add thunk logic to update case
-    expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      snackbarSuccess("Case was successfully updated")
+    );
+    //expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
   });
 
   test("assign user button should not be clickable when original user is selected", () => {

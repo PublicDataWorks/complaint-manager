@@ -10,12 +10,20 @@ import ArchiveCaseButton from "./ArchiveCaseButton/ArchiveCaseButton";
 import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchivedCaseButton";
 import { resetWorkingCasesPaging } from "../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
+import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
+import SettingsIcon from "@mui/icons-material/Settings";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
 
-const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions }) => {
+const CaseDrawer = ({
+  classes,
+  caseDetails,
+  resetWorkingCasesPaging,
+  permissions
+}) => {
   const lastDrawerRowClassName = classes.drawerRowEnd;
+  let gearDialogOpen = false;
 
   return (
     <Drawer
@@ -48,7 +56,9 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
             >
               {`Case #${caseDetails.caseReference}`}
             </Typography>
-            {permissions?.includes(USER_PERMISSIONS.ARCHIVE_CASE) ? renderArchiveOrRestoreButton(caseDetails.isArchived) : ""}
+            {permissions?.includes(USER_PERMISSIONS.ARCHIVE_CASE)
+              ? renderArchiveOrRestoreButton(caseDetails.isArchived)
+              : ""}
           </div>
           <div className={classes.drawerRow}>
             <div className={classes.drawerRowItem}>
@@ -78,6 +88,11 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
               <Typography data-testid="assigned-to" variant="body2">
                 {caseDetails.assignedTo}
               </Typography>
+              <SettingsIcon />
+              <ReassignCaseDialog
+                caseId={this.props.caseDetails.id}
+                open={gearDialogOpen}
+              ></ReassignCaseDialog>
             </div>
             <div className={classes.drawerRowItem} />
             <div className={classes.drawerRowItem} />
@@ -90,6 +105,9 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
   );
 };
 
-export default connect(state => ({ 
-  permissions: state?.users?.current?.userInfo?.permissions 
-}), { resetWorkingCasesPaging })(CaseDrawer);
+export default connect(
+  state => ({
+    permissions: state?.users?.current?.userInfo?.permissions
+  }),
+  { resetWorkingCasesPaging }
+)(CaseDrawer);

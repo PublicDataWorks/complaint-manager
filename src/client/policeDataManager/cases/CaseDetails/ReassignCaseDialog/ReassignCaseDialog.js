@@ -12,6 +12,7 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
+import updateCase from "../../thunks/updateCase";
 import { closeReassinCaseDialog } from "../../../actionCreators/casesActionCreators";
 import { REASSIGN_CASE_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
@@ -27,10 +28,13 @@ class ReassignCaseDialog extends Component {
 
   submit = values => {
     const { caseId } = this.props;
+    this.props.updateCase({
+      caseId: caseId,
+      assignedTo: this.props.currentValue
+    });
     //this.props.createCaseTag(values, caseId);
     //this.props.reset(CASE_TAG_FORM_NAME);
   };
-
   render() {
     const { open, submitting, handleSubmit } = this.props;
 
@@ -108,6 +112,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
+  updateCase,
   // closeCaseTagDialog,
   // createCaseTag,
   // getTagDropdownValues,
