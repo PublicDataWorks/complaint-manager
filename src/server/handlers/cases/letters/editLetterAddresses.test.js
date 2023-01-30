@@ -67,7 +67,7 @@ describe("editLetterAddresses", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { caseId: c4se.id, letterId: letter.id },
+      params: { caseId: c4se.id + "", letterId: letter.id + "" },
       body: {
         recipient: "Arthur Conan Doyle",
         recipientAddress: "123 Missing Link Road",

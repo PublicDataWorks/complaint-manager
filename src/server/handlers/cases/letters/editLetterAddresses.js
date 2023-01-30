@@ -6,7 +6,6 @@ import asyncMiddleware from "../../asyncMiddleware";
 const editLetterAddresses = asyncMiddleware(async (request, response, next) => {
   let letter = await models.letter.findByPk(request.params.letterId);
 
-  console.log(letter, request.params);
   if (!letter || letter.caseId + "" !== request.params.caseId) {
     throw Boom.notFound(NOT_FOUND_ERRORS.RESOURCE_NOT_FOUND);
   }
