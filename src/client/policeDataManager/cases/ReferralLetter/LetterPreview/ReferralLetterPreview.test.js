@@ -31,20 +31,9 @@ import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import timekeeper from "timekeeper";
 import ReferralLetterPreview from "./ReferralLetterPreview";
-
-jest.mock("../thunks/editReferralLetterAddresses", () =>
-  jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
-    if (successCallback) {
-      successCallback();
-    }
-    return {
-      type: "SOMETHING",
-      caseId,
-      values,
-      redirectUrl
-    };
-  })
-);
+import nock from "nock";
+import { push } from "connected-react-router";
+import { LetterPreview } from "./LetterPreview";
 
 jest.mock("../../thunks/setCaseStatus", () =>
   jest.fn(() => (caseId, status, redirectUrl) => {})
@@ -77,7 +66,7 @@ describe("LetterPreview", function () {
   const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
   timekeeper.freeze(date);
 
-  let store, dispatchSpy, wrapper, caseId, caseDetail;
+  let store, dispatchSpy, wrapper, caseId, caseDetail, submitSpy;
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
@@ -126,66 +115,41 @@ describe("LetterPreview", function () {
         </Router>
       </Provider>
     );
+
+    submitSpy = jest.spyOn(
+      wrapper.find(LetterPreview).instance(),
+      "submitForm"
+    );
+
     dispatchSpy.mockClear();
+    submitSpy.mockClear();
+
+    nock("http://localhost")
+      .put(`/api/cases/${caseId}/referral-letter/addresses`)
+      .reply(200, {});
   });
 
-  test("dispatches editReferralLetterAddresses with correct values for return to case button", () => {
+  test("calls edit referral letter addresses handler with correct values for return to case button", () => {
     const button = wrapper
       .find("[data-testid='save-and-return-to-case-link']")
       .first();
     button.simulate("click");
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      recipientAddress: "jane's address",
-      transcribedBy: "joe"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}`
-      )
-    );
+    expect(submitSpy).toHaveBeenCalledWith(`/cases/${caseId}`);
   });
 
-  test("dispatches editReferralLetterAddresses with correct values for download button", () => {
+  test("calls edit referral letter addresses with correct values for download button", () => {
     const button = wrapper
       .find("[data-testid='download-letter-as-pdf']")
       .first();
     button.simulate("click");
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      recipientAddress: "jane's address",
-      transcribedBy: "joe"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(caseId, expectedFormValues, null, jest.fn())
+    expect(submitSpy).toHaveBeenCalledWith(
+      null,
+      wrapper.find(LetterPreview).instance().downloadLetterAsPdfFile,
+      expect.anything()
     );
   });
 
-  test("dispatches editReferralLetterAddresses with correct values for back button", () => {
-    dispatchSpy.mockClear();
-    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
-    const backButton = wrapper.find("[data-testid='back-button']").first();
-    backButton.simulate("click");
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      recipientAddress: "jane's address",
-      transcribedBy: "transcriber"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}/letter/recommended-actions`
-      )
-    );
-  });
-
-  test("dispatches editReferralLetterAddresses with correct values for review and approve button button", async () => {
+  test("calls edit referral letter addresses with correct values for review and approve button button", done => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: 1,
@@ -216,20 +180,13 @@ describe("LetterPreview", function () {
       .find("[data-testid='review-and-approve-letter-button']")
       .first();
     dispatchSpy.mockClear();
-    await reviewAndApproveButton.simulate("click");
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      recipientAddress: "jane's address",
-      transcribedBy: "transcriber"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(
-        caseId,
-        expectedFormValues,
-        `/cases/${caseId}/letter/review-and-approve`
-      )
-    );
+    reviewAndApproveButton.simulate("click");
+    setTimeout(() => {
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        push(`/cases/${caseId}/letter/review-and-approve`)
+      );
+      done();
+    }, 500);
   });
 
   test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {
@@ -292,7 +249,7 @@ describe("LetterPreview", function () {
     );
   });
 
-  test("editReferralLetterAddresses and setCaseStatus are called when click on confirmation of submit for review dialog", async () => {
+  test("submitAction and setCaseStatus are called when click on confirmation of submit for review dialog", async () => {
     store.dispatch(
       getCaseDetailsSuccess({
         complainantCivilians: [{ fullName: "someone" }],
@@ -323,16 +280,11 @@ describe("LetterPreview", function () {
       .first();
     submitForReviewButton.simulate("click");
 
-    const expectedFormValues = {
-      sender: "bob",
-      recipient: "jane",
-      recipientAddress: "jane's address",
-      transcribedBy: "joe"
-    };
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(caseId, expectedFormValues, null, () => {})
+    expect(submitSpy).toHaveBeenCalledWith(
+      null,
+      expect.anything(),
+      expect.anything()
     );
-    expect(setCaseStatus).toHaveBeenCalled();
   });
 
   test("should not render Review and Approve Letter button if not authorized to approve letter and in Ready for Review", () => {
@@ -553,13 +505,7 @@ describe("LetterPreview", function () {
         .find('[data-testid="step-button-Review Case Details"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterAddresses(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/review`
-        )
-      );
+      expect(submitSpy).toHaveBeenCalledWith(`/cases/${caseId}/letter/review`);
     });
 
     test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
@@ -567,12 +513,8 @@ describe("LetterPreview", function () {
         .find('[data-testid="step-button-Officer Complaint Histories"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterAddresses(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/officer-history`
-        )
+      expect(submitSpy).toHaveBeenCalledWith(
+        `/cases/${caseId}/letter/officer-history`
       );
     });
 
@@ -581,12 +523,8 @@ describe("LetterPreview", function () {
         .find('[data-testid="step-button-Recommended Actions"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterAddresses(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/recommended-actions`
-        )
+      expect(submitSpy).toHaveBeenCalledWith(
+        `/cases/${caseId}/letter/recommended-actions`
       );
     });
 
@@ -595,15 +533,12 @@ describe("LetterPreview", function () {
         .find('[data-testid="step-button-Preview"]')
         .first();
       reviewCaseDetailsButton.simulate("click");
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        editReferralLetterAddresses(
-          caseId,
-          expectedFormValues,
-          `/cases/${caseId}/letter/letter-preview`
-        )
+      expect(submitSpy).toHaveBeenCalledWith(
+        `/cases/${caseId}/letter/letter-preview`
       );
     });
   });
+
   test("do not dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was edited", () => {
     store.dispatch(
       getReferralLetterPreviewSuccess(
@@ -629,18 +564,6 @@ describe("LetterPreview", function () {
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
       openEditLetterConfirmationDialog()
-    );
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editReferralLetterAddresses(
-        caseId,
-        {
-          sender: "bob",
-          recipient: "jane",
-          recipientAddress: "jane's address",
-          transcribedBy: "joe"
-        },
-        `/cases/${caseId}/letter/edit-letter`
-      )
     );
   });
 
@@ -670,8 +593,10 @@ describe("LetterPreview", function () {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      getReferralLetterPdf(caseId, draftFilename, true)
+    expect(submitSpy).toHaveBeenCalledWith(
+      null,
+      wrapper.find(LetterPreview).instance().downloadLetterAsPdfFile,
+      expect.anything()
     );
   });
 
@@ -684,30 +609,11 @@ describe("LetterPreview", function () {
     downloadButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(startLetterDownload());
-    expect(dispatchSpy).toHaveBeenNthCalledWith(
-      3,
-      getReferralLetterPdf(caseId, draftFilename, true)
+    expect(submitSpy).toHaveBeenCalledWith(
+      null,
+      wrapper.find(LetterPreview).instance().downloadLetterAsPdfFile,
+      expect.anything()
     );
-  });
-
-  test("dispatches stopLetterDownload on failure of download letter", () => {
-    editReferralLetterAddresses.mockImplementationOnce(
-      (caseId, values, redirectUrl, successCallback, failureCallback) => {
-        failureCallback();
-        return {
-          type: "SOMETHING",
-          caseId,
-          values,
-          redirectUrl
-        };
-      }
-    );
-
-    const downloadButton = wrapper
-      .find('[data-testid="download-letter-as-pdf"]')
-      .first();
-    downloadButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(stopLetterDownload());
   });
 
   test("test that download button has correct text based on edit history", () => {

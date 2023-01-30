@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios";
+import { push } from "connected-react-router";
 import {
   CASE_STATUS,
   EDIT_STATUS,
@@ -15,7 +17,6 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import { Field, reduxForm } from "redux-form";
-import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import {
   openEditLetterConfirmationDialog,
   openIncompleteClassificationsDialog,
@@ -38,8 +39,9 @@ import MissingComplainantDialog from "../../sharedFormComponents/MissingComplain
 import validateLetterDetails from "../../../utilities/validateLetterDetails";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
-class LetterPreview extends Component {
+export class LetterPreview extends Component {
   constructor(props) {
     super(props);
   }
@@ -112,16 +114,22 @@ class LetterPreview extends Component {
 
   submitForm =
     (redirectUrl, alternativeSuccessCallback, alternativeFailureCallback) =>
-    (values, dispatch) => {
-      dispatch(
-        editReferralLetterAddresses(
-          this.props.caseId,
-          values,
-          redirectUrl,
-          alternativeSuccessCallback,
-          alternativeFailureCallback
-        )
-      );
+    values => {
+      axios
+        .put(this.props.editAddressUrl, values)
+        .then(() => {
+          if (alternativeSuccessCallback) {
+            alternativeSuccessCallback();
+          } else {
+            this.props.push(redirectUrl);
+          }
+          this.props.snackbarSuccess("Letter was successfully updated");
+        })
+        .catch(() => {
+          if (alternativeFailureCallback) {
+            alternativeFailureCallback();
+          }
+        });
     };
 
   confirmSubmitForReview = async values => {
@@ -229,7 +237,10 @@ class LetterPreview extends Component {
               fullWidth
               multiline
               maxRows={5}
-              inputProps={{ autoComplete: "off" }}
+              inputProps={{
+                autoComplete: "off",
+                "data-testid": "recipient-address-field"
+              }}
             />
           </CardContent>
         </Card>
@@ -436,6 +447,8 @@ const mapDispatchToProps = {
   openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
   openMissingComplainantDialog,
+  push,
+  snackbarSuccess,
   startLetterDownload,
   stopLetterDownload
 };

@@ -38,7 +38,7 @@ const LetterProgressStepper = props => {
       return (
         <Step key={key} completed={false}>
           <StepButton
-            onClick={handlePageChange(key)}
+            onClick={() => handlePageChange(key)}
             data-testid={`step-button-${key}`}
           >
             <StepLabel>{key}</StepLabel>

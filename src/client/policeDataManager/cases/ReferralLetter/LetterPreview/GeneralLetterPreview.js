@@ -4,12 +4,11 @@ import LetterPreview from "./LetterPreview";
 
 const GeneralLetterPreview = props => {
   const [letter, setLetter] = useState();
+  const letterBaseApiRoute = `api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`;
 
   useEffect(() => {
     axios
-      .get(
-        `api/cases/${props.match.params.id}/letter/${props.match.params.letterId}/preview`
-      )
+      .get(`${letterBaseApiRoute}/preview`)
       .then(response => {
         setLetter(response.data);
       })
@@ -21,6 +20,7 @@ const GeneralLetterPreview = props => {
       addresses={letter?.addresses}
       caseId={props.match.params.id}
       draftFilename={letter?.draftFilename}
+      editAddressUrl={`${letterBaseApiRoute}/addresses`}
       editStatus={letter?.editStatus}
       lastEdited={letter?.lastEdited}
       letterHtml={letter?.letterHtml}

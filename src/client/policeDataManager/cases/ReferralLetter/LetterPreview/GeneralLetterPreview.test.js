@@ -12,21 +12,7 @@ import nock from "nock";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
-import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
-
-jest.mock("../thunks/editReferralLetterAddresses", () =>
-  jest.fn((caseId, values, redirectUrl, successCallback, failureCallback) => {
-    if (successCallback) {
-      successCallback();
-    }
-    return {
-      type: "SOMETHING",
-      caseId,
-      values,
-      redirectUrl
-    };
-  })
-);
+import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 
 describe("GeneralLetterPreview", () => {
   let caseId, letterId, dispatchSpy;
@@ -36,7 +22,7 @@ describe("GeneralLetterPreview", () => {
     letterId = "1";
 
     nock("http://localhost")
-      .get(`/api/cases/${caseId}/letter/${letterId}/preview`)
+      .get(`/api/cases/${caseId}/letters/${letterId}/preview`)
       .reply(200, {
         addresses: {
           recipient: "Billy Bob",
@@ -77,6 +63,7 @@ describe("GeneralLetterPreview", () => {
               }
             }}
           />
+          <SharedSnackbarContainer />
         </Router>
       </Provider>
     );
@@ -92,25 +79,36 @@ describe("GeneralLetterPreview", () => {
     );
   });
 
-  test("should update address fields when the back to case button is clicked", async () => {
-    expect(await screen.findByText("This is some HTML")).toBeInTheDocument;
-    let recipientField = await screen.findByTestId("recipient-field");
+  test("should call edit letter addresses when return to case button is clicked", async () => {
+    const editAddressCall = nock("http://localhost")
+      .put(`/api/cases/${caseId}/letters/${letterId}/addresses`, {
+        recipient: "Dirk Gently",
+        recipientAddress: "4 W Peckender St.",
+        sender: "Richard McDuff",
+        transcribedBy: "Someone who doesn't work here"
+      })
+      .reply(200, {});
 
+    const recipientField = await screen.findByTestId("recipient-field");
     userEvent.clear(recipientField);
-    userEvent.type(recipientField, "Arthur Conan Doyle");
+    userEvent.type(recipientField, "Dirk Gently");
+
+    const recipientAddressField = screen.getByTestId("recipient-address-field");
+    userEvent.clear(recipientAddressField);
+    userEvent.type(recipientAddressField, "4 W Peckender St.");
+
+    const senderField = screen.getByTestId("sender-field");
+    userEvent.clear(senderField);
+    userEvent.type(senderField, "Richard McDuff");
+
+    const transcribedField = screen.getByTestId("transcribed-by-field");
+    userEvent.clear(transcribedField);
+    userEvent.type(transcribedField, "Someone who doesn't work here");
+
     userEvent.click(screen.getByTestId("save-and-return-to-case-link"));
 
-    expect(editReferralLetterAddresses).toHaveBeenCalledWith(
-      caseId,
-      {
-        recipient: "Arthur Conan Doyle",
-        recipientAddress: "123 Missing Link Road",
-        sender: "Sally McSally",
-        transcribedBy: ""
-      },
-      `/cases/${caseId}`,
-      undefined,
-      undefined
-    );
+    expect(await screen.findByText("Letter was successfully updated"))
+      .toBeInTheDocument;
+    expect(editAddressCall.isDone()).toBe(true);
   });
 });

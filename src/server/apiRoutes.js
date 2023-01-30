@@ -331,14 +331,14 @@ export const API_ROUTES = {
         "Something went wrong and the PDF was not loaded. Please try again."
     }
   },
-  "/cases/:caseId/letter/:letterId/addresses": {
-    get: {
+  "/cases/:caseId/letters/:letterId/addresses": {
+    put: {
       handler: editLetterAddresses,
       errorMessage:
         "Something went wrong and the letter was not updated. Please try again."
     }
   },
-  "/cases/:caseId/letter/:letterId/preview": {
+  "/cases/:caseId/letters/:letterId/preview": {
     get: {
       handler: generateLetterForPreview,
       errorMessage:

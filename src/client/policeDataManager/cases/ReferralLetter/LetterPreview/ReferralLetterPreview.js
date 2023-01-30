@@ -4,6 +4,7 @@ import LetterPreview from "./LetterPreview";
 import getReferralLetterData from "../thunks/getReferralLetterData";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { CASE_STATUS } from "../../../../../sharedUtilities/constants";
+import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 
 const ReferralLetterPreview = props => {
   useEffect(() => {
@@ -23,6 +24,7 @@ const ReferralLetterPreview = props => {
       addresses={props.addresses}
       caseId={props.match.params.id}
       draftFilename={props.draftFilename}
+      editAddressUrl={`api/cases/${props.match.params.id}/referral-letter/addresses`}
       editStatus={props.editStatus}
       lastEdited={props.lastEdited}
       letterAlreadyApproved={letterAlreadyApproved}
@@ -42,6 +44,7 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, {
+  editReferralLetterAddresses,
   getReferralLetterData,
   getReferralLetterPreview
 })(ReferralLetterPreview);
