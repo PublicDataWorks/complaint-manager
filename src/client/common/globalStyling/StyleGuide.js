@@ -2,9 +2,9 @@ import React from "react";
 import {
   Card,
   CardContent,
-  GridList,
-  GridListTile,
-  GridListTileBar,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
   Typography,
   withTheme
 } from "@material-ui/core";
@@ -58,34 +58,34 @@ const StyleGuide = props => (
         Primary
       </Typography>
       <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-        <GridList style={{ flexWrap: "nowrap" }} cols={2} cellHeight={"auto"}>
-          <GridListTile style={getBoxStyle(props.theme.palette.primary.main)}>
-            <GridListTileBar
+        <ImageList style={{ flexWrap: "nowrap" }} cols={2} rowHeight={"auto"}>
+          <ImageListItem style={getBoxStyle(props.theme.palette.primary.main)}>
+            <ImageListItemBar
               title="Primary"
               subtitle="#673ab7"
               position="bottom"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
+          </ImageListItem>
 
-          <GridListTile style={getBoxStyle(props.theme.palette.primary.light)}>
-            <GridListTileBar
+          <ImageListItem style={getBoxStyle(props.theme.palette.primary.light)}>
+            <ImageListItemBar
               title="P - Light"
               subtitle="#9a67ea"
               position="bottom"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
+          </ImageListItem>
 
-          <GridListTile style={getBoxStyle(props.theme.palette.primary.dark)}>
-            <GridListTileBar
+          <ImageListItem style={getBoxStyle(props.theme.palette.primary.dark)}>
+            <ImageListItemBar
               title="P - Dark"
               subtitle="#320b86"
               position="bottom"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
-        </GridList>
+          </ImageListItem>
+        </ImageList>
       </Card>
 
       <Typography variant="subtitle1" style={{ marginLeft: 20 }}>
@@ -93,88 +93,92 @@ const StyleGuide = props => (
       </Typography>
 
       <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-        <GridList
+        <ImageList
           style={{ flexWrap: "nowrap" }}
           cols={2}
           padding={10}
-          cellHeight={"auto"}
+          rowHeight={"auto"}
         >
-          <GridListTile style={getBoxStyle(props.theme.palette.secondary.main)}>
-            <GridListTileBar
+          <ImageListItem
+            style={getBoxStyle(props.theme.palette.secondary.main)}
+          >
+            <ImageListItemBar
               title="Secondary"
               subtitle="#586972"
               style={{ background: "transparent" }}
             />
-          </GridListTile>
+          </ImageListItem>
 
-          <GridListTile
+          <ImageListItem
             style={getBoxStyle(props.theme.palette.secondary.light)}
           >
-            <GridListTileBar
+            <ImageListItemBar
               title="S - Light"
               subtitle={"#62757f66"}
               style={{ background: "transparent" }}
             />
-          </GridListTile>
+          </ImageListItem>
 
-          <GridListTile
+          <ImageListItem
             style={getBoxStyle(props.theme.palette.secondary.lighter)}
           >
-            <GridListTileBar
+            <ImageListItemBar
               title="S - Lighter"
               subtitle="#eceff1"
               style={{ background: "transparent" }}
             />
-          </GridListTile>
-          <GridListTile style={getBoxStyle(props.theme.palette.secondary.dark)}>
-            <GridListTileBar
+          </ImageListItem>
+          <ImageListItem
+            style={getBoxStyle(props.theme.palette.secondary.dark)}
+          >
+            <ImageListItemBar
               title="S - Dark"
               subtitle="#000a12"
               style={{ background: "transparent" }}
             />
-          </GridListTile>
-        </GridList>
+          </ImageListItem>
+        </ImageList>
       </Card>
 
       <Typography variant="subtitle1" style={{ marginLeft: 20 }}>
         Info, Error, and Warning colors
       </Typography>
       <Card elevation={0} style={{ marginTop: 30, backgroundColor: "white" }}>
-        <GridList
+        <ImageList
           style={{ flexWrap: "nowrap" }}
           cols={2}
           padding={10}
-          cellHeight={"auto"}
+          rowHeight={"auto"}
         >
-          <GridListTile style={getBoxStyle(props.theme.palette.blue)}>
-            <GridListTileBar
+          <ImageListItem style={getBoxStyle(props.theme.palette.blue)}>
+            <ImageListItemBar
               title="Blue"
               subtitle="#1565c0"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
-          <GridListTile style={getBoxStyle(props.theme.palette.yellow)}>
-            <GridListTileBar
+          </ImageListItem>
+          <ImageListItem style={getBoxStyle(props.theme.palette.yellow)}>
+            <ImageListItemBar
               title="Yellow"
               subtitle="#fbc02d"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
-          <GridListTile style={getBoxStyle(props.theme.palette.error.main)}>
-            <GridListTileBar
+          </ImageListItem>
+          <ImageListItem style={getBoxStyle(props.theme.palette.error.main)}>
+            <ImageListItemBar
               title="Red"
               subtitle="#d32f2f"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
-          <GridListTile style={getBoxStyle(props.theme.palette.green)}>
-            <GridListTileBar
+          </ImageListItem>
+          <ImageListItem style={getBoxStyle(props.theme.palette.green)}>
+            <ImageListItemBar
               title="Green"
               subtitle="#328736"
               style={{ backgroundColor: "transparent" }}
             />
-          </GridListTile>
-        </GridList>
+          </ImageListItem>
+        </ImageList>
       </Card>
     </Card>
 

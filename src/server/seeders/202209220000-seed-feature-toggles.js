@@ -9,8 +9,9 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     let query = features.reduce((acc, elem) => {
       return `${acc} ('${elem.name}', '${elem.description}', ${
-        (process.env.NODE_ENV === "ci" || process.env.NODE_ENV === "staging") &&
-        elem.name === "nonUserAuthenticationFeature"
+        process.env.NODE_ENV !== "production" &&
+        (elem.name === "nonUserAuthenticationFeature" ||
+          elem.name === "styleGuideFeature")
           ? "TRUE"
           : !!elem.enabled
       }, FALSE),`;
