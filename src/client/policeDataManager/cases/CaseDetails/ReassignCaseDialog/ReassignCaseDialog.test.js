@@ -14,17 +14,13 @@ import { reset } from "redux-form";
 import updateCase from "../../thunks/updateCase";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
+import nock from "nock";
 
 // jest.mock("../../thunks/createCaseTag", () => (values, caseId) => ({
 //     type: "MOCK_CREATE_CASE_TAG",
 //     values,
 //     caseId
 //   }));
-
-jest.mock("../../thunks/updateCase", () => caseId => ({
-  type: "MOCK_EDIT_CASE",
-  caseId
-}));
 
 describe("ReassignCaseDialog", () => {
   const store = createConfiguredStore();
@@ -33,6 +29,7 @@ describe("ReassignCaseDialog", () => {
   const dispatchSpy = jest.spyOn(store, "dispatch");
   let dialog;
   const closeFunction = jest.fn();
+  const caseId = 1;
 
   beforeEach(() => {
     dialog = render(
@@ -40,7 +37,7 @@ describe("ReassignCaseDialog", () => {
         <ReassignCaseDialog
           open={true}
           close={closeFunction}
-          caseDetails={{ caseId: 1, assignedTo: FAKE_USERS[0].email }}
+          caseDetails={{ caseId: caseId, assignedTo: FAKE_USERS[0].email }}
         />
         <SharedSnackbarContainer />
       </Provider>
@@ -67,6 +64,7 @@ describe("ReassignCaseDialog", () => {
   });
 
   test("should dispatch editCase when clicking submit button", async () => {
+    nock("http://localhost").put(`/api/cases/${caseId}`).reply(200, {});
     userEvent.click(screen.getByTestId("userDropdownInput"));
     const newAssignee = await screen.findByText(FAKE_USERS[1].email);
     userEvent.click(newAssignee);

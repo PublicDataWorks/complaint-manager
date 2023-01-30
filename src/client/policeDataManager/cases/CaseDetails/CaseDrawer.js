@@ -11,7 +11,7 @@ import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchiv
 import { resetWorkingCasesPaging } from "../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
-import SettingsIcon from "@mui/icons-material/Settings";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
@@ -90,7 +90,7 @@ const CaseDrawer = ({
               </Typography>
               <SettingsIcon />
               <ReassignCaseDialog
-                caseId={this.props.caseDetails.id}
+                caseDetails={caseDetails}
                 open={gearDialogOpen}
               ></ReassignCaseDialog>
             </div>

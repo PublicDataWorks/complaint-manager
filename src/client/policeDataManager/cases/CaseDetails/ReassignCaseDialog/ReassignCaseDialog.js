@@ -27,7 +27,7 @@ class ReassignCaseDialog extends Component {
   //   }
 
   submit = values => {
-    const { caseId } = this.props;
+    const { caseId } = this.props.caseDetails;
     this.props.updateCase({
       caseId: caseId,
       assignedTo: this.props.currentValue
