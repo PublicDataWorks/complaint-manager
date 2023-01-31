@@ -91,6 +91,7 @@ import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetter
 import generateLetterForPreview from "./handlers/cases/letters/generateLetterForPreview";
 import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
 import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
+import getLetterPdf from "./handlers/cases/letters/getLetterPdf";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -345,6 +346,20 @@ export const API_ROUTES = {
   "/cases/:caseId/letters/:letterId/addresses": {
     put: {
       handler: editLetterAddresses,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
+    }
+  },
+  "/cases/:caseId/letters/:letterId/content": {
+    put: {
+      handler: editLetterContent,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
+    }
+  },
+  "/cases/:caseId/letters/:letterId/pdf": {
+    get: {
+      handler: getLetterPdf,
       errorMessage:
         "Something went wrong and the letter was not updated. Please try again."
     }

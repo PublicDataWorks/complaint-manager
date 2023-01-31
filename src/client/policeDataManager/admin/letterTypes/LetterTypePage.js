@@ -522,7 +522,7 @@ export default connect(
             </div>
           `,
           subsequentPageHeader: `
-            {{recipientFirstName}}<br/>
+            {{recipient}}<br/>
               {{{formatLongDate currentDate}}}<br/>
             Page \\{{page}}
           `,
@@ -545,9 +545,9 @@ export default connect(
             <p><br/></p>
               {{#if (isCivilianComplainant complainantPersonType)}}
             <p>
-              {{recipientFirstName}} {{recipientLastName}}
-                {{#if (isPresent (formatAddress complainantAddress))}}
-                <p>{{{formatAddress complainantAddress}}}</p>
+              {{recipient}}
+                {{#if (isPresent (formatAddress recipientAddress))}}
+                <p>{{{formatAddress recipientAddress}}}</p>
                 {{/if}}
               {{#if (isPresent complainantEmail)}}
                 <p>{{complainantEmail}}</p>
@@ -557,7 +557,7 @@ export default connect(
             <p><br/></p>
             <p>Re: OIPM Complaint# {{caseReference}}</p>
             <p><br/></p>
-            <p>Dear {{title}} {{recipientFirstName}} {{recipientLastName}},</p>
+            <p>Dear {{title}} {{recipient}},</p>
             <p><br/></p>
             <p>
               On {{{formatLongDate firstContactDate}}}, you contacted the Office of the Independent Police Monitor
@@ -598,7 +598,7 @@ export default connect(
             <p><br></p>
             {{{signature}}}
             <p><br/></p>
-            {{{renderHtml (newLineToLineBreak senderName)}}}
+            {{{renderHtml (newLineToLineBreak sender)}}}
           `
         }
       };

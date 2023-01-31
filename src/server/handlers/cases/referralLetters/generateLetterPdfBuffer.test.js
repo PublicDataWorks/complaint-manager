@@ -282,6 +282,9 @@ describe("generateLetterPdfBuffer", () => {
   });
 
   test("generates letter pdf html correctly", async () => {
+    const expandedLetter = await models.letter_types.findByPk(17, {
+      include: ["letterTypeLetterImage"]
+    });
     const letterBody = "<p> Letter Body </p>";
     const pdfData = {
       referralLetter: {
@@ -303,7 +306,7 @@ describe("generateLetterPdfBuffer", () => {
         },
         type: "REFERRAL"
       },
-      referralLetterTemplate.toString()
+      expandedLetter
     );
     expect(letterPdfHtml).toMatchSnapshot();
   });

@@ -41,6 +41,12 @@ import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
+export const SUBMIT_BUTTON_TYPE = {
+  SUBMIT_FOR_REVIEW_BTN: "submitForReview",
+  REVIEW_AND_APPROVE_BTN: "reviewAndApprove",
+  GENERATE_LETTER_BTN: "generate"
+};
+
 export class LetterPreview extends Component {
   constructor(props) {
     super(props);
@@ -179,23 +185,6 @@ export class LetterPreview extends Component {
     return { __html: this.props.letterHtml };
   };
 
-  renderSubmitForReviewButton = () => {
-    if (
-      this.props.caseDetails.status === CASE_STATUS.LETTER_IN_PROGRESS &&
-      this.props.permissions?.includes(USER_PERMISSIONS.SETUP_LETTER)
-    ) {
-      return (
-        <PrimaryButton
-          style={{ marginLeft: "16px" }}
-          data-testid="submit-for-review-button"
-          onClick={this.confirmSubmitForReview}
-        >
-          Submit for Review
-        </PrimaryButton>
-      );
-    }
-  };
-
   renderLetterPreview = () => {
     if (!this.props.caseDetails.status) {
       return null;
@@ -324,23 +313,46 @@ export class LetterPreview extends Component {
     );
   };
 
-  renderReviewAndApproveButton = () => {
-    if (
-      this.props.caseDetails.status === CASE_STATUS.READY_FOR_REVIEW &&
-      this.props.userInfo &&
-      this.props.userInfo.permissions.includes(
-        USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
-      )
-    ) {
-      return (
-        <PrimaryButton
-          style={{ marginLeft: "16px" }}
-          data-testid="review-and-approve-letter-button"
-          onClick={this.saveAndGoToReviewAndApproveLetter.bind(this)}
-        >
-          Review and Approve Letter
-        </PrimaryButton>
-      );
+  renderReviewAndApproveButton = () => (
+    <PrimaryButton
+      style={{ marginLeft: "16px" }}
+      data-testid="review-and-approve-letter-button"
+      onClick={this.saveAndGoToReviewAndApproveLetter.bind(this)}
+    >
+      Review and Approve Letter
+    </PrimaryButton>
+  );
+
+  renderSubmitForReviewButton = () => (
+    <PrimaryButton
+      style={{ marginLeft: "16px" }}
+      data-testid="submit-for-review-button"
+      onClick={this.confirmSubmitForReview}
+    >
+      Submit for Review
+    </PrimaryButton>
+  );
+
+  renderGenerateLetterButton = () => (
+    <PrimaryButton
+      style={{ marginLeft: "16px" }}
+      data-testid="generate-letter-button"
+      onClick={() => {}}
+    >
+      Generate Letter
+    </PrimaryButton>
+  );
+
+  renderSubmitButton = () => {
+    switch (this.props.submitButtonType) {
+      case SUBMIT_BUTTON_TYPE.REVIEW_AND_APPROVE_BTN:
+        return this.renderReviewAndApproveButton();
+      case SUBMIT_BUTTON_TYPE.SUBMIT_FOR_REVIEW_BTN:
+        return this.renderSubmitForReviewButton();
+      case SUBMIT_BUTTON_TYPE.GENERATE_LETTER_BTN:
+        return this.renderGenerateLetterButton();
+      default:
+        return "";
     }
   };
 
@@ -411,8 +423,7 @@ export class LetterPreview extends Component {
                   </span>
                   <span style={{ flex: "auto", textAlign: "right" }}>
                     {this.renderEditLetterButton()}
-                    {this.renderReviewAndApproveButton()}
-                    {this.renderSubmitForReviewButton()}
+                    {this.renderSubmitButton()}
                   </span>
                 </div>
               )}

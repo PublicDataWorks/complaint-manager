@@ -22,6 +22,7 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_JOB: "Could not find specified job",
   INVALID_SENDER: "The requested sender could not be found",
   INVALID_TYPE: "The requested type is invalid or is already in use",
+  LETTER_DOES_NOT_EXIST: "The letter for this case does not exist",
   MERGE_TAG_DOES_NOT_EXIST:
     "The tag you are attempting to merge into does not exist",
   NOTIFICATION_CREATION_ERROR: "There was an error creating the notification.",

@@ -57,7 +57,8 @@ jest.mock("../../UserAvatar", () => {
   };
 });
 
-describe("LetterPreview", function () {
+describe("ReferralLetterPreview", function () {
+  jest.setTimeout(3000);
   const finalFilename = "final_filename.pdf";
   const draftFilename = "draft_filename.pdf";
   const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
@@ -222,6 +223,7 @@ describe("LetterPreview", function () {
 
   test("dispatch open case status dialog on click of submit for review button", async () => {
     dispatchSpy.mockClear();
+
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
@@ -243,10 +245,13 @@ describe("LetterPreview", function () {
         classifications: { "csfn-1": true }
       })
     );
+
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
+
     await openSubmitForReviewButton.simulate("click");
+
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(
         CASE_STATUS.READY_FOR_REVIEW,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import LetterPreview from "./LetterPreview";
+import LetterPreview, { SUBMIT_BUTTON_TYPE } from "./LetterPreview";
 
 const GeneralLetterPreview = props => {
   const [letter, setLetter] = useState();
@@ -25,6 +25,7 @@ const GeneralLetterPreview = props => {
       getPdfEndpoint={`letters/${props.match.params.letterId}/pdf`}
       lastEdited={letter?.lastEdited}
       letterHtml={letter?.letterHtml}
+      submitButtonType={SUBMIT_BUTTON_TYPE.GENERATE_LETTER_BTN}
     />
   );
 };
