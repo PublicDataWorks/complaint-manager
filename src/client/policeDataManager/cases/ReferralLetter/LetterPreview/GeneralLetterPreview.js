@@ -22,6 +22,7 @@ const GeneralLetterPreview = props => {
       draftFilename={letter?.draftFilename}
       editAddressUrl={`${letterBaseApiRoute}/addresses`}
       editStatus={letter?.editStatus}
+      getPdfEndpoint={`letters/${props.match.params.letterId}/pdf`}
       lastEdited={letter?.lastEdited}
       letterHtml={letter?.letterHtml}
     />

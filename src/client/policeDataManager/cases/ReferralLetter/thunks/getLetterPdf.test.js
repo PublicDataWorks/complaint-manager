@@ -1,5 +1,5 @@
 import saveAs from "file-saver";
-import getReferralLetterPdf from "./getReferralLetterPdf";
+import getLetterPdf from "./getLetterPdf";
 import nock from "nock";
 import getAccessToken from "../../../../common/auth/getAccessToken";
 import {
@@ -20,7 +20,7 @@ jest.mock("../../thunks/invalidCaseStatusRedirect", () => caseId => ({
   caseId
 }));
 
-describe("getReferralLetterPdf thunk", function () {
+describe("getLetterPdf thunk", function () {
   const dispatch = jest.fn();
   configureInterceptors({ dispatch });
   const caseId = 2;
@@ -55,7 +55,7 @@ describe("getReferralLetterPdf thunk", function () {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getReferralLetterPdf(caseId, uneditedFilename, true)(dispatch);
+      await getLetterPdf(caseId, uneditedFilename, true)(dispatch);
       const expectFile = new File([response], uneditedFilename);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, uneditedFilename);
@@ -70,7 +70,7 @@ describe("getReferralLetterPdf thunk", function () {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(200, response);
 
-      await getReferralLetterPdf(caseId, editedFilename, true)(dispatch);
+      await getLetterPdf(caseId, editedFilename, true)(dispatch);
       const expectFile = new File([response], editedFilename);
 
       expect(saveAs).toHaveBeenCalledWith(expectFile, editedFilename);
@@ -83,7 +83,7 @@ describe("getReferralLetterPdf thunk", function () {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(500, errorResponseFor500);
 
-      await getReferralLetterPdf(caseId, null, true)(dispatch);
+      await getLetterPdf(caseId, null, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
 
@@ -93,7 +93,7 @@ describe("getReferralLetterPdf thunk", function () {
         .get(`/api/cases/${caseId}/referral-letter/get-pdf`)
         .reply(400, errorResponseFor400);
 
-      await getReferralLetterPdf(caseId, null, true)(dispatch);
+      await getLetterPdf(caseId, null, true)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(stopLetterDownload());
     });
   });
@@ -108,7 +108,7 @@ describe("getReferralLetterPdf thunk", function () {
 
       const arrayBuffer = convertStringToArrayBuffer("hello world");
 
-      await getReferralLetterPdf(caseId, finalFilename)(dispatch);
+      await getLetterPdf(caseId, finalFilename)(dispatch);
       expect(dispatch).toHaveBeenCalledWith(
         getReferralLetterPdfSuccess(expect.objectContaining(arrayBuffer))
       );

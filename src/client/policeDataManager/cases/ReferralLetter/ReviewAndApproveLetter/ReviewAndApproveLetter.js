@@ -5,7 +5,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
+import getLetterPdf from "../thunks/getLetterPdf";
 import { getReferralLetterPdfSuccess } from "../../../actionCreators/letterActionCreators";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
@@ -39,7 +39,7 @@ class ReviewAndApproveLetter extends Component {
   componentDidMount() {
     this.props.getReferralLetterPreview(this.state.caseId);
     this.setState({ loadingPdfPreview: true });
-    this.props.getReferralLetterPdf(this.state.caseId);
+    this.props.getLetterPdf(this.state.caseId);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -181,7 +181,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   getReferralLetterPreview,
-  getReferralLetterPdf,
+  getLetterPdf,
   openCaseStatusUpdateDialog,
   approveReferralLetter,
   getReferralLetterPdfSuccess,

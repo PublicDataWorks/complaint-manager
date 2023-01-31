@@ -11,23 +11,20 @@ import {
   openIncompleteClassificationsDialog,
   openIncompleteOfficerHistoryDialog,
   openMissingComplainantDialog,
-  startLetterDownload,
-  stopLetterDownload
+  startLetterDownload
 } from "../../../actionCreators/letterActionCreators";
-import editReferralLetterAddresses from "../thunks/editReferralLetterAddresses";
 import { changeInput } from "../../../../testHelpers";
 import {
   getCaseDetailsSuccess,
   openCaseStatusUpdateDialog
 } from "../../../actionCreators/casesActionCreators";
-import setCaseStatus from "../../thunks/setCaseStatus";
 import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   EDIT_STATUS,
+  GET_FEATURES_SUCCEEDED,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
 import { userAuthSuccess } from "../../../../common/auth/actionCreators";
 import timekeeper from "timekeeper";
 import ReferralLetterPreview from "./ReferralLetterPreview";
@@ -40,7 +37,7 @@ jest.mock("../../thunks/setCaseStatus", () =>
 );
 
 jest.mock(
-  "../thunks/getReferralLetterPdf",
+  "../thunks/getLetterPdf",
   () => (caseId, filename, saveFileForUser) => {
     return {
       type: "SOMETHING",
@@ -96,6 +93,7 @@ describe("LetterPreview", function () {
         draftFilename
       )
     );
+
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
@@ -103,11 +101,20 @@ describe("LetterPreview", function () {
         nextStatus: CASE_STATUS.READY_FOR_REVIEW
       })
     );
+
+    store.dispatch({
+      type: GET_FEATURES_SUCCEEDED,
+      features: {
+        allowAccusedOfficersToBeBlankFeature: false
+      }
+    });
+
     store.dispatch({
       type: "AUTH_SUCCESS",
       userInfo: { permissions: [USER_PERMISSIONS.SETUP_LETTER] }
     });
 
+    submitSpy?.mockClear();
     wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -122,7 +129,6 @@ describe("LetterPreview", function () {
     );
 
     dispatchSpy.mockClear();
-    submitSpy.mockClear();
 
     nock("http://localhost")
       .put(`/api/cases/${caseId}/referral-letter/addresses`)
@@ -490,34 +496,6 @@ describe("LetterPreview", function () {
   });
 
   describe("Saves and Redirects when click Stepper Buttons", function () {
-    let expectedFormValues;
-    beforeEach(function () {
-      expectedFormValues = {
-        sender: "bob",
-        recipient: "jane",
-        recipientAddress: "jane's address",
-        transcribedBy: "joe"
-      };
-    });
-
-    test("it dispatches edit and redirects to review letter when click review case details stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Review Case Details"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(submitSpy).toHaveBeenCalledWith(`/cases/${caseId}/letter/review`);
-    });
-
-    test("it dispatches edit and redirects to officer history when click officer history stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Officer Complaint Histories"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(submitSpy).toHaveBeenCalledWith(
-        `/cases/${caseId}/letter/officer-history`
-      );
-    });
-
     test("it dispatches edit and redirects to recommended actions when click recommended actions stepper button", () => {
       const reviewCaseDetailsButton = wrapper
         .find('[data-testid="step-button-Recommended Actions"]')
@@ -525,16 +503,6 @@ describe("LetterPreview", function () {
       reviewCaseDetailsButton.simulate("click");
       expect(submitSpy).toHaveBeenCalledWith(
         `/cases/${caseId}/letter/recommended-actions`
-      );
-    });
-
-    test("it dispatches edit and redirects to preview when click preview stepper button", () => {
-      const reviewCaseDetailsButton = wrapper
-        .find('[data-testid="step-button-Preview"]')
-        .first();
-      reviewCaseDetailsButton.simulate("click");
-      expect(submitSpy).toHaveBeenCalledWith(
-        `/cases/${caseId}/letter/letter-preview`
       );
     });
   });
@@ -567,7 +535,7 @@ describe("LetterPreview", function () {
     );
   });
 
-  test("dispatches startLetterDownload and getReferralLetterPdf with edit info when download button is clicked and pdf has been edited", () => {
+  test("dispatches startLetterDownload and getLetterPdf with edit info when download button is clicked and pdf has been edited", () => {
     store.dispatch(
       getReferralLetterPreviewSuccess(
         "Letter Preview HTML",
@@ -600,7 +568,7 @@ describe("LetterPreview", function () {
     );
   });
 
-  test("dispatches startLetterDownload and getReferralLetterPdf with edit info when download button is clicked and pdf is unedited", () => {
+  test("dispatches startLetterDownload and getLetterPdf with edit info when download button is clicked and pdf is unedited", () => {
     store.dispatch(getCaseDetailsSuccess(caseDetail));
     dispatchSpy.mockClear();
     const downloadButton = wrapper

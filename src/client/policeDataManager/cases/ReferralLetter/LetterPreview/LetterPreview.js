@@ -29,7 +29,7 @@ import EditLetterConfirmationDialog from "./EditLetterConfirmationDialog";
 import { openCaseStatusUpdateDialog } from "../../../actionCreators/casesActionCreators";
 import UpdateCaseStatusDialog from "../../CaseDetails/UpdateCaseStatusDialog/UpdateCaseStatusDialog";
 import { dateTimeFromString } from "../../../../../sharedUtilities/formatDate";
-import getReferralLetterPdf from "../thunks/getReferralLetterPdf";
+import getLetterPdf from "../thunks/getLetterPdf";
 import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 import styles from "../../../../common/globalStyling/styles";
 import IncompleteOfficerHistoryDialog from "../../sharedFormComponents/IncompleteOfficerHistoryDialog";
@@ -58,7 +58,12 @@ export class LetterPreview extends Component {
 
   downloadLetterAsPdfFile = () => {
     return this.props.dispatch(
-      getReferralLetterPdf(this.props.caseId, this.props.draftFilename, true)
+      getLetterPdf(
+        this.props.caseId,
+        this.props.draftFilename,
+        true,
+        this.props.getPdfEndpoint
+      )
     );
   };
 
