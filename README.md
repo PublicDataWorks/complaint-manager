@@ -70,9 +70,10 @@ brew install mkcert
 # installs the local CA
 mkcert -install
 
-# make directory to store certs
+# make directories to store certs
 cd <root of project>
 mkdir .cert/
+mkdir data/
 
 # generates the local certificates signed by local CA
 mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
