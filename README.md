@@ -81,7 +81,7 @@ mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
 # local certificiates for exporting audits
 mkcert -cert-file data/server.test.pem.crt -key-file data/server.test.pem.key host.docker.internal
 
-  - Navigate into the data folder and replace the contents in the server.test.pem file with the contents of the newly generated .key and .crt files. The .key should be at the top and the .crt on the bottom
+  - Navigate into the data folder and create a file named server.test.pem and add (or replace if it already exists) the contents in the server.test.pem file with the contents of the newly generated .key and .crt files. The .key should be at the top and the .crt on the bottom
   - Do a docker-compose down then a docker-compose up app for changes to take effect
 
 # set CERT_DIR env variable
