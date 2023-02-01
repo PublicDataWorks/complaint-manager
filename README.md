@@ -82,7 +82,7 @@ mkcert -cert-file .cert/client.crt -key-file .cert/client.key localhost
 mkcert -cert-file data/server.test.pem.crt -key-file data/server.test.pem.key host.docker.internal
 
   - Navigate into the data folder and create a file named server.test.pem and add (or replace if it already exists) the contents in the server.test.pem file with the contents of the newly generated .key and .crt files. The .key should be at the top and the .crt on the bottom
-  - Do a docker-compose down then a docker-compose up app for changes to take effect
+  - If Docker is already setup docker-compose down then a docker-compose up app for changes to take effect (if this is your first time, you can't docker compose up yet)
 
 # set CERT_DIR env variable
 in .zshrc set the CERT_DIR environment variable to the directory in which the root cert lives (You can find this directory by running `mkcert -CAROOT`. Will look something like `/Users/<username>/Library/Application\ Support/mkcert`)
