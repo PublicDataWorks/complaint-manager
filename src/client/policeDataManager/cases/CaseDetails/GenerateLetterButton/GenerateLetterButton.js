@@ -26,11 +26,12 @@ const GenerateLetterButton = props => {
         type: letterType
       });
 
-      props.history.push(
-        `/cases/${props.caseId}/letter/${response.data.id}/letter-preview`
-      );
+      if (letterType.hasEditPage) {
+        props.history.push(
+          `/cases/${props.caseId}/letter/${response.data.id}/letter-preview`
+        );
+      }
 
-      // props.getCaseDetails(props.caseId);
       props.snackbarSuccess(`You have generated a new ${letterType} letter`);
     } catch (error) {
       console.error(error);
