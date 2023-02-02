@@ -32,15 +32,16 @@ const GenerateLetterButton = props => {
         );
       } else {
         props.getCaseDetails(props.caseId);
+        props.snackbarSuccess(
+          `You have generated a new ${letterType.type} letter`
+        );
       }
-
-      props.snackbarSuccess(
-        `You have generated a new ${letterType.type} letter`
-      );
     } catch (error) {
       console.error(error);
       props.snackbarError(error.message);
     }
+
+    handleMenuClose();
   };
 
   return (
