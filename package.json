@@ -201,6 +201,7 @@
     "**/extend": "3.0.2",
     "**/follow-redirects": "^1.14.9",
     "**/glob-parent": "6.0.2",
+    "**/http-cache-semantics": "^4.1.1",
     "**/http-proxy": "^1.18.1",
     "**/immer": "9.0.6",
     "**/ini": "2.0.0",
