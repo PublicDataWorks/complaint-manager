@@ -23,16 +23,20 @@ const GenerateLetterButton = props => {
   const generateLetter = async letterType => {
     try {
       const response = await axios.post(`/api/cases/${props.caseId}/letters`, {
-        type: letterType
+        type: letterType.type
       });
 
       if (letterType.hasEditPage) {
         props.history.push(
           `/cases/${props.caseId}/letter/${response.data.id}/letter-preview`
         );
+      } else {
+        props.getCaseDetails(props.caseId);
       }
 
-      props.snackbarSuccess(`You have generated a new ${letterType} letter`);
+      props.snackbarSuccess(
+        `You have generated a new ${letterType.type} letter`
+      );
     } catch (error) {
       console.error(error);
       props.snackbarError(error.message);
@@ -59,7 +63,7 @@ const GenerateLetterButton = props => {
               <MenuItem
                 key={letterType.id}
                 data-testid={`${letterType.type}-option`}
-                onClick={() => generateLetter(letterType.type)}
+                onClick={() => generateLetter(letterType)}
               >
                 {letterType.type}
               </MenuItem>
