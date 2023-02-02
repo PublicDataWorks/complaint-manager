@@ -4,9 +4,10 @@ import { Field, formValueSelector } from "redux-form";
 import styles from "../../../../common/globalStyling/styles";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import LinkButton from "../../../shared/components/LinkButton";
-import { openRemoveOfficerHistoryNoteDialog } from "../../../actionCreators/letterActionCreators";
 import { connect } from "react-redux";
 import { renderTextField } from "../../sharedFormComponents/renderFunctions";
+import { useState } from "react";
+import RemoveOfficerHistoryNoteDialog from "./RemoveOfficerHistoryNoteDialog";
 
 const RichTextEditorComponent = props => (
   <RichTextEditor
@@ -18,18 +19,15 @@ const RichTextEditorComponent = props => (
 const OfficerHistoryNote = props => {
   const {
     referralLetterOfficerHistoryNote,
-    openRemoveOfficerHistoryNoteDialog,
     fieldArrayName,
     noteIndex,
     caseOfficerName,
     pibCaseNumber,
-    details
+    details,
+    removeNote
   } = props;
 
-  const openRemoveNoteDialog = () => {
-    const noteDetails = { caseOfficerName, pibCaseNumber, details };
-    openRemoveOfficerHistoryNoteDialog(fieldArrayName, noteIndex, noteDetails);
-  };
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   return (
     <Card
@@ -60,7 +58,7 @@ const OfficerHistoryNote = props => {
           />
           <div style={{ marginTop: "16px" }}>
             <LinkButton
-              onClick={openRemoveNoteDialog}
+              onClick={() => setDialogOpen(true)}
               data-testid={`note-${noteIndex}-openRemoveOfficerHistoryNoteButton`}
             >
               Remove
@@ -78,6 +76,14 @@ const OfficerHistoryNote = props => {
           />
         </div>
       </CardContent>
+      <RemoveOfficerHistoryNoteDialog
+        closeDialog={() => setDialogOpen(false)}
+        dialogOpen={dialogOpen}
+        fieldArrayName={fieldArrayName}
+        noteDetails={{ caseOfficerName, pibCaseNumber, details }}
+        noteIndex={noteIndex}
+        removeNote={removeNote}
+      />
     </Card>
   );
 };
@@ -91,8 +97,4 @@ const mapStateToProps = (state, props) => ({
   details: selector(state, `${props.referralLetterOfficerHistoryNote}.details`)
 });
 
-const mapDispatchToProps = {
-  openRemoveOfficerHistoryNoteDialog
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(OfficerHistoryNote);
+export default connect(mapStateToProps)(OfficerHistoryNote);

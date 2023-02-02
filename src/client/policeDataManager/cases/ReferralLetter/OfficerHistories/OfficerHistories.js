@@ -116,6 +116,7 @@ class OfficerHistories extends Component {
           caseOfficerId={letterOfficerInstance.caseOfficerId}
           key={letterOfficerInstance.caseOfficerId}
           isSelectedOfficer={isSelectedOfficer}
+          removeNote={this.props.array.remove}
         />
       );
     });
@@ -228,9 +229,6 @@ class OfficerHistories extends Component {
                 </PrimaryButton>
               </span>
             </div>
-            <RemoveOfficerHistoryNoteDialog
-              removeNote={this.props.array.remove}
-            />
           </div>
         </form>
       </div>

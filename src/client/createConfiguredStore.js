@@ -28,7 +28,6 @@ import removeOfficerAllegationDialogReducer from "./policeDataManager/reducers/u
 import exportDialogReducer from "./policeDataManager/reducers/ui/exportDialogReducer";
 import featureTogglesReducer from "./policeDataManager/reducers/featureToggles/featureTogglesReducer";
 import addressInputReducer from "./policeDataManager/reducers/ui/addressInputReducer";
-import officerHistoryNoteDialogReducer from "./policeDataManager/reducers/ui/officerHistoryNoteDialogReducer";
 import referralLetterReducer from "./policeDataManager/reducers/cases/referralLetterReducer";
 import exportJobDownloadUrlReducer from "./policeDataManager/reducers/export/exportJobDownloadUrlReducer";
 import generateJobReducer from "./policeDataManager/reducers/export/generateJobReducer";
@@ -133,7 +132,6 @@ const rootReducer = combineReducers({
     incompleteOfficerHistoryDialog: incompleteOfficerHistoryDialogReducer,
     intakeSources: intakeSourceReducer,
     letterDownload: letterDownloadReducer,
-    officerHistoryNoteDialog: officerHistoryNoteDialogReducer,
     officerHistoryOptions: officerHistoryOptionsReducer,
     openIncompleteClassificationsDialog: incompleteClassificationsDialogReducer,
     openMissingComplainantDialog: missingComplainantDialogReducer,

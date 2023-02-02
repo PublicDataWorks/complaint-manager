@@ -11,12 +11,11 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeRemoveOfficerHistoryNoteDialog } from "../../../actionCreators/letterActionCreators";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const RemoveOfficerHistoryNoteDialog = ({
   dialogOpen,
-  closeRemoveOfficerHistoryNoteDialog,
+  closeDialog,
   removeNote,
   fieldArrayName,
   noteIndex,
@@ -24,7 +23,7 @@ const RemoveOfficerHistoryNoteDialog = ({
   snackbarSuccess
 }) => {
   const removeOfficerHistoryNote = () => {
-    closeRemoveOfficerHistoryNoteDialog();
+    closeDialog();
     removeNote(fieldArrayName, noteIndex);
     snackbarSuccess("Note was successfully removed");
   };
@@ -56,10 +55,7 @@ const RemoveOfficerHistoryNoteDialog = ({
         <Typography>Are you sure you want to continue?</Typography>
       </DialogContent>
       <DialogActions>
-        <SecondaryButton
-          data-testid="cancelButton"
-          onClick={closeRemoveOfficerHistoryNoteDialog}
-        >
+        <SecondaryButton data-testid="cancelButton" onClick={closeDialog}>
           Cancel
         </SecondaryButton>
         <PrimaryButton
@@ -73,19 +69,6 @@ const RemoveOfficerHistoryNoteDialog = ({
   );
 };
 
-const mapDispatchToProps = {
-  closeRemoveOfficerHistoryNoteDialog,
-  snackbarSuccess
-};
-
-const mapStateToProps = state => ({
-  dialogOpen: state.ui.officerHistoryNoteDialog.dialogOpen,
-  fieldArrayName: state.ui.officerHistoryNoteDialog.fieldArrayName,
-  noteIndex: state.ui.officerHistoryNoteDialog.noteIndex,
-  noteDetails: state.ui.officerHistoryNoteDialog.noteDetails
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RemoveOfficerHistoryNoteDialog);
+export default connect(undefined, { snackbarSuccess })(
+  RemoveOfficerHistoryNoteDialog
+);

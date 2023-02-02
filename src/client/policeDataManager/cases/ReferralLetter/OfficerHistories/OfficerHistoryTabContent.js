@@ -52,6 +52,7 @@ class OfficerHistoryTabContent extends React.Component {
           fieldArrayName={`${this.props.letterOfficer}.referralLetterOfficerHistoryNotes`}
           noteIndex={index}
           caseOfficerName={this.props.caseOfficerName}
+          removeNote={this.props.removeNote}
         />
       );
     });
