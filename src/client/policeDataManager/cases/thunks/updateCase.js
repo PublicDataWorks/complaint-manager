@@ -9,12 +9,11 @@ import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 
 const updateCase = values => async dispatch => {
   try {
-    console.log("updateCaseThunk", values.caseId);
-    //dispatch(startSubmit(REASSIGN_CASE_FORM_NAME));
-    const response = await axios.put(`api/cases/${values.caseId}`, values);
-    //dispatch(stopSubmit(REASSIGN_CASE_FORM_NAME));
-    console.log("here im here");
+    dispatch(startSubmit(REASSIGN_CASE_FORM_NAME));
+    await axios.put(`api/cases/${values.caseId}`, values);
+    dispatch(stopSubmit(REASSIGN_CASE_FORM_NAME));
     return dispatch(snackbarSuccess("Case was successfully updated"));
+
     // dispatch(closeCaseNoteDialog());
   } catch (error) {
     console.log(error);

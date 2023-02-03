@@ -10,34 +10,41 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import getUsers from "../../../../../server/handlers/users/getUsers";
 import userEvent from "@testing-library/user-event";
-import { reset } from "redux-form";
+import { reset, startSubmit } from "redux-form";
 import updateCase from "../../thunks/updateCase";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 import nock from "nock";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
+import Case from "../../../../../sharedTestHelpers/case";
 
-// jest.mock("../../thunks/createCaseTag", () => (values, caseId) => ({
-//     type: "MOCK_CREATE_CASE_TAG",
-//     values,
-//     caseId
-//   }));
+jest.mock("../../thunks/updateCase", () => values => ({
+  type: "MOCK_UPDATE_CASE",
+  values
+}));
 
 describe("ReassignCaseDialog", () => {
   const store = createConfiguredStore();
 
   store.dispatch({ type: GET_USERS_SUCCESS, users: FAKE_USERS });
-  const dispatchSpy = jest.spyOn(store, "dispatch");
+  let dispatchSpy;
   let dialog;
   const closeFunction = jest.fn();
   const caseId = 1;
+  const caseDetails = new Case.Builder()
+    .defaultCase()
+    .withId(caseId)
+    .withAssignedTo(FAKE_USERS[0].email)
+    .build();
 
   beforeEach(() => {
+    dispatchSpy = jest.spyOn(store, "dispatch");
     dialog = render(
       <Provider store={store}>
         <ReassignCaseDialog
           open={true}
           close={closeFunction}
-          caseDetails={{ caseId: caseId, assignedTo: FAKE_USERS[0].email }}
+          caseDetails={caseDetails}
         />
         <SharedSnackbarContainer />
       </Provider>
@@ -63,17 +70,19 @@ describe("ReassignCaseDialog", () => {
     expect(await screen.findByText(FAKE_USERS[1].email)).toBeInTheDocument;
   });
 
-  test("should dispatch editCase when clicking submit button", async () => {
-    nock("http://localhost").put(`/api/cases/${caseId}`).reply(200, {});
+  test("should dispatch updateCase when clicking submit button", async () => {
+    let caseDetailsCopy = { ...caseDetails };
+    caseDetailsCopy.assignedTo = FAKE_USERS[1].email;
+    store.dispatch(getCaseDetailsSuccess(caseDetails));
+    nock("http://localhost", {})
+      .put(`/api/cases/${caseId}`, caseDetailsCopy)
+      .reply(200, {});
     userEvent.click(screen.getByTestId("userDropdownInput"));
     const newAssignee = await screen.findByText(FAKE_USERS[1].email);
     userEvent.click(newAssignee);
     userEvent.click(screen.getByTestId("assignedToSubmitButton"));
-    //expect(); add thunk logic to update case
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      snackbarSuccess("Case was successfully updated")
-    );
-    //expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
+    expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
+    expect(dispatchSpy).toHaveBeenCalledWith(updateCase(caseDetailsCopy));
   });
 
   test("assign user button should not be clickable when original user is selected", () => {
