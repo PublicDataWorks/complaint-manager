@@ -7,7 +7,8 @@ import {
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
   RANK_INITIATED,
-  CREATE_CASE_FORM_NAME
+  CREATE_CASE_FORM_NAME,
+  SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import getWorkingCases from "./getWorkingCases";
@@ -29,14 +30,14 @@ const createCase = creationDetails => async dispatch => {
 
     const complainantType = creationDetails.caseDetails.case.complainantType;
     if (creationDetails.redirect) {
-      if (complainantType === CIVILIAN_INITIATED) {
+      if (PERSON_TYPE[complainantType].createDialogAction === SHOW_FORM) {
         dispatch(push(`/cases/${response.data.id}`));
       } else {
         dispatch(
           addCaseEmployeeType(
-            complainantType === RANK_INITIATED
-              ? PERSON_TYPE.KNOWN_OFFICER.employeeDescription
-              : PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+            PERSON_TYPE[complainantType].isEmployee
+              ? PERSON_TYPE[complainantType].employeeDescription
+              : PERSON_TYPE[complainantType].description
           )
         );
         dispatch(
@@ -44,7 +45,7 @@ const createCase = creationDetails => async dispatch => {
             roleOnCase: COMPLAINANT
           })
         );
-        dispatch(push(`/cases/${response.data.id}/officers/search`));
+        dispatch(push(`/cases/${response.data.id}${PERSON_TYPE[complainantType].createDialogAction}`));
       }
     } else {
       dispatch(

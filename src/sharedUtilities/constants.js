@@ -175,6 +175,8 @@ export const SET_LETTER_TYPE_TO_EDIT = "SET_LETTER_TYPE_TO_EDIT";
 export const CLEAR_LETTER_TYPE_TO_EDIT = "CLEAR_LETTER_TYPE_TO_EDIT";
 export const SET_LETTER_TYPE_TO_ADD = "SET_LETTER_TYPE_TO_ADD";
 
+export const SHOW_FORM = "showForm";
+
 // ----------------------------------------
 //          Attachment Errors
 // ----------------------------------------

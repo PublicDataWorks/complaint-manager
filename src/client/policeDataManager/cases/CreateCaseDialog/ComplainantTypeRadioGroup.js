@@ -8,50 +8,53 @@ import {
   RadioGroup,
   Typography
 } from "@material-ui/core";
-import {
-  CIVILIAN_INITIATED,
-  CONFIGS,
-  RANK_INITIATED
-} from "../../../../sharedUtilities/constants";
+import { CONFIGS } from "../../../../sharedUtilities/constants";
 
-const ComplainantTypeRadioGroup = props => (
-  <FormControl>
-    <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
-      Complainant Information
-    </Typography>
-    <FormLabel>The complainant is a...</FormLabel>
-    <RadioGroup
-      style={{ flexDirection: "row" }}
-      {...props}
-      value={props.input.value}
-    >
-      <FormControlLabel
-        style={{ marginRight: "48px" }}
-        data-testid="civilianRadioButton"
-        value={CIVILIAN_INITIATED}
-        control={<Radio color="primary" />}
-        label="Civilian"
-        onClick={() => props.input.onChange(CIVILIAN_INITIATED)}
-      />
-      <FormControlLabel
-        data-testid="officerRadioButton"
-        value={RANK_INITIATED}
-        control={<Radio color="primary" />}
-        label="Police Officer"
-        onClick={() => props.input.onChange(RANK_INITIATED)}
-      />
-      <FormControlLabel
-        data-testid="civilianWithinPDRadioButton"
-        value={`Civilian Within ${props.pd} Initiated`}
-        control={<Radio color="primary" />}
-        label={`Civilian (${props.pd})`}
-        onClick={() =>
-          props.input.onChange(`Civilian Within ${props.pd} Initiated`)
-        }
-      />
-    </RadioGroup>
-  </FormControl>
-);
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
+const isOfficer = type => type.employeeDescription === "Officer";
+
+const ComplainantTypeRadioGroup = props => {
+  let officerAdded = false;
+  return (
+    <FormControl>
+      <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+        Complainant Information
+      </Typography>
+      <FormLabel>The complainant is a...</FormLabel>
+      <RadioGroup
+        style={{ flexDirection: "row" }}
+        {...props}
+        value={props.input.value}
+      >
+        {Object.keys(PERSON_TYPE).reduce((acc, key) => {
+          let type = PERSON_TYPE[key];
+          if (isOfficer(type)) {
+            if (officerAdded) {
+              return acc;
+            } else {
+              officerAdded = true;
+            }
+          }
+          acc.push(
+            <FormControlLabel
+              style={{ marginRight: "48px" }}
+              data-testid={`${type.description}RadioButton`}
+              key={key}
+              label={isOfficer(type) ? "Police Officer" : type.description}
+              value={key}
+              control={<Radio color="primary" />}
+              onClick={() => props.input.onChange(key)}
+            />
+          );
+          return acc;
+        }, [])}
+      </RadioGroup>
+    </FormControl>
+  );
+};
 
 export default connect(state => ({
   pd: state.configs[CONFIGS.PD]

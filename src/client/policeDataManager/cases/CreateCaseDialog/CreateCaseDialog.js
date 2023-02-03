@@ -14,10 +14,10 @@ import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
 import {
-  CIVILIAN_INITIATED,
   CONFIGS,
   CREATE_CASE_FORM_NAME,
-  ISO_DATE
+  ISO_DATE,
+  SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
@@ -29,6 +29,10 @@ import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFir
 import AnonymousFields from "./AnonymousFields";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
+
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const styles = {
   dialogPaper: {
@@ -67,7 +71,6 @@ class CreateCaseDialog extends React.Component {
   render() {
     const {
       classes,
-      complaintType,
       complainantType,
       handleSubmit,
       isUnknown,
@@ -75,7 +78,6 @@ class CreateCaseDialog extends React.Component {
       organization,
       submitting
     } = this.props;
-    const civilianComplainant = complainantType === CIVILIAN_INITIATED;
 
     return (
       <Dialog
@@ -134,7 +136,7 @@ class CreateCaseDialog extends React.Component {
               component={ComplaintTypeRadioGroup}
             />
             <br />
-            {civilianComplainant && (
+            {PERSON_TYPE[complainantType]?.createDialogAction === SHOW_FORM && (
               <>
                 <AnonymousFields />
                 {isUnknown ? (
@@ -226,18 +228,11 @@ const mapStateToProps = state => {
   const chooseComplaintTypeFeatureFlag =
     state.featureToggles.chooseComplaintType;
   const complainantType = selector(state, "case.complainantType");
-  let complaintTypeValues;
-  if (chooseComplaintTypeFeatureFlag) {
-    complaintTypeValues = selector(state, "case.complaintType");
-  } else {
-    complaintTypeValues = complainantType;
-  }
   const isUnknown = selector(state, "civilian.isUnknown");
 
   return {
     addressValid: state.ui.addressInput.addressValid,
     chooseComplaintTypeFeatureFlag,
-    complaintType: complaintTypeValues,
     complainantType: complainantType,
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
@@ -256,7 +251,7 @@ export default reduxForm({
   onSubmitFail: scrollToFirstErrorWithValue,
   initialValues: {
     case: {
-      complainantType: CIVILIAN_INITIATED,
+      complainantType: "CIVILIAN",
       firstContactDate: moment(Date.now()).format(ISO_DATE)
     }
   }

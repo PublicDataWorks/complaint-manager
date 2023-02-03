@@ -18,10 +18,17 @@ import { applyCentralTimeZoneOffset } from "../../../../sharedUtilities/formatDa
 import { isEmpty } from "lodash";
 import {
   CIVILIAN_INITIATED,
-  CREATE_CASE_FORM_NAME
+  CREATE_CASE_FORM_NAME,
+  RANK_INITIATED,
+  SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import normalizeAddress from "../../utilities/normalizeAddress";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
+
+const {
+  PERSON_TYPE,
+  CIVILIAN_WITHIN_PD_INITIATED
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export class CreateCaseActions extends React.Component {
   closeDialog = () => {
@@ -36,7 +43,9 @@ export class CreateCaseActions extends React.Component {
   createAndSearch = values => this.createNewCase(values, true);
 
   createNewCase = ({ civilian, case: theCase }, redirect) => {
-    if (this.props.complainantType !== CIVILIAN_INITIATED) {
+    if (
+      PERSON_TYPE[this.props.complainantType].createDialogAction !== SHOW_FORM
+    ) {
       this.props.change("civilian", null);
       civilian = null;
     }
@@ -58,11 +67,27 @@ export class CreateCaseActions extends React.Component {
     });
   };
 
-  prepareCase = theCase => ({
-    ...theCase,
-    incidentDate: applyCentralTimeZoneOffset(theCase.incidentDate),
-    complaintType: theCase.complaintType ?? theCase.complainantType
-  });
+  prepareCase = theCase => {
+    let complaintType = theCase.complaintType;
+    if (!complaintType) {
+      if (
+        // this is all NOIPM specific
+        PERSON_TYPE[theCase.complainantType].employeeDescription === "Officer"
+      ) {
+        complaintType = RANK_INITIATED;
+      } else if (PERSON_TYPE[theCase.complainantType].isEmployee) {
+        complaintType = CIVILIAN_WITHIN_PD_INITIATED;
+      } else {
+        complaintType = CIVILIAN_INITIATED;
+      }
+    }
+
+    return {
+      ...theCase,
+      incidentDate: applyCentralTimeZoneOffset(theCase.incidentDate),
+      complaintType
+    };
+  };
 
   prepareCivilian = civilian => {
     const civilianData = civilian.isUnknown
@@ -105,7 +130,8 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {this.props.complainantType === CIVILIAN_INITIATED ? (
+        {PERSON_TYPE[this.props.complainantType].createDialogAction ===
+        SHOW_FORM ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}
