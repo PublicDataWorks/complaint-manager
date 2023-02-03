@@ -19,16 +19,12 @@ import {
   DESCENDING,
   GET_CONFIGS_SUCCEEDED,
   ISO_DATE,
-  RANK_INITIATED,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceActionCreators";
 import { updateSort } from "../../actionCreators/casesActionCreators";
 
-const {
-  CIVILIAN_WITHIN_PD_INITIATED,
-  PD
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
 
@@ -45,16 +41,11 @@ jest.mock("../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
 );
 
 describe("CreateCaseDialog component", () => {
-  let store,
-    dialog,
-    dispatchSpy,
-    dateAndTimeToday,
-    dateAndTimeTodayWithTimezone;
+  let store, dialog, dispatchSpy, dateAndTimeToday;
 
   beforeEach(() => {
     store = createConfiguredStore();
     dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm");
-    dateAndTimeTodayWithTimezone = applyCentralTimeZoneOffset(dateAndTimeToday);
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
     store.dispatch({
       type: GET_CONFIGS_SUCCEEDED,
@@ -100,7 +91,7 @@ describe("CreateCaseDialog component", () => {
       caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          complainantType: CIVILIAN_INITIATED,
+          complainantType: "CIVILIAN",
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1
         },
@@ -207,9 +198,7 @@ describe("CreateCaseDialog component", () => {
 
       test("should default to civilian complainant whenever dialog opened", () => {
         const civilianRadioButton = dialog
-          .find(
-            `WithStyles(ForwardRef(SwitchBase))[value="${CIVILIAN_INITIATED}"]`
-          )
+          .find(`WithStyles(ForwardRef(SwitchBase))[value="CIVILIAN"]`)
           .last();
 
         expect(civilianRadioButton.prop("checked")).toEqual(true);
@@ -364,7 +353,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          complainantType: CIVILIAN_INITIATED,
+          complainantType: "CIVILIAN",
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 1,
           incidentDate: undefined
@@ -429,7 +418,7 @@ describe("CreateCaseDialog component", () => {
       const caseDetails = {
         case: {
           complaintType: CIVILIAN_INITIATED,
-          complainantType: CIVILIAN_INITIATED,
+          complainantType: "CIVILIAN",
           firstContactDate: moment(Date.now()).format(ISO_DATE),
           intakeSourceId: 2,
           incidentDate: undefined
@@ -479,7 +468,7 @@ describe("CreateCaseDialog component", () => {
   describe("police officer radio button", () => {
     beforeEach(() => {
       const officerRadioButton = dialog
-        .find('[data-testid="officerRadioButton"]')
+        .find('[data-testid="officer-radio-button"]')
         .last();
       officerRadioButton.simulate("click");
     });
@@ -523,7 +512,7 @@ describe("CreateCaseDialog component", () => {
 
     test("should see civilian details & buttons when civilian reselected", () => {
       const civilianRadioButton = dialog
-        .find('[data-testid="civilianRadioButton"]')
+        .find('[data-testid="civilian-radio-button"]')
         .last();
       civilianRadioButton.simulate("click");
 
@@ -555,7 +544,7 @@ describe("CreateCaseDialog component", () => {
           redirect: true,
           caseDetails: expect.objectContaining({
             case: expect.objectContaining({
-              complainantType: RANK_INITIATED
+              complainantType: "KNOWN_OFFICER"
             })
           })
         })
@@ -566,7 +555,7 @@ describe("CreateCaseDialog component", () => {
   describe("civilian within pd radio button", () => {
     beforeEach(() => {
       const civilianWithinPDRadioButton = dialog
-        .find('[data-testid="civilianWithinPDRadioButton"]')
+        .find('[data-testid="civilian-within-nopd-radio-button"]')
         .last();
       civilianWithinPDRadioButton.simulate("click");
     });
@@ -607,7 +596,7 @@ describe("CreateCaseDialog component", () => {
           redirect: true,
           caseDetails: expect.objectContaining({
             case: expect.objectContaining({
-              complainantType: CIVILIAN_WITHIN_PD_INITIATED
+              complainantType: "CIVILIAN_WITHIN_PD"
             })
           })
         })
@@ -616,7 +605,7 @@ describe("CreateCaseDialog component", () => {
 
     test("should see civilian details & buttons when civilian reselected", () => {
       const civilianRadioButton = dialog
-        .find('[data-testid="civilianRadioButton"]')
+        .find('[data-testid="civilian-radio-button"]')
         .last();
       civilianRadioButton.simulate("click");
 

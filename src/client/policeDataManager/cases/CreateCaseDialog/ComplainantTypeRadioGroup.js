@@ -41,7 +41,12 @@ const ComplainantTypeRadioGroup = props => {
           acc.push(
             <FormControlLabel
               style={{ marginRight: "48px" }}
-              data-testid={`${type.description}RadioButton`}
+              data-testid={`${(type.isEmployee
+                ? type.employeeDescription
+                : type.description
+              )
+                .toLowerCase()
+                .replaceAll(" ", "-")}-radio-button`}
               key={key}
               label={isOfficer(type) ? "Police Officer" : type.description}
               value={key}

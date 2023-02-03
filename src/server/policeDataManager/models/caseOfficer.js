@@ -140,15 +140,7 @@ module.exports = (sequelize, DataTypes) => {
       caseEmployeeType: {
         field: "case_employee_type",
         type: DataTypes.STRING,
-        validate: {
-          isIn: [
-            [
-              PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
-              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            ]
-          ]
-        },
-        defaultValue: PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
+        defaultValue: "Officer",
         allowNull: false
       },
       district: {
@@ -272,7 +264,7 @@ module.exports = (sequelize, DataTypes) => {
       supervisorLastName: null,
       supervisorWindowsUsername: null,
       supervisorOfficerNumber: null,
-      caseEmployeeType: PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription,
+      caseEmployeeType: "Officer",
       employeeType: null,
       district: null,
       bureau: null,

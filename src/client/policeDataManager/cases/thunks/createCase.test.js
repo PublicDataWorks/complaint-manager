@@ -131,7 +131,7 @@ describe("createCase", () => {
         case: {
           firstName: "Police",
           lastName: "Officer",
-          complaintType: RANK_INITIATED
+          complainantType: "KNOWN_OFFICER"
         }
       },
       redirect: true
@@ -178,7 +178,7 @@ describe("createCase", () => {
         case: {
           firstName: "Civilian",
           lastName: `Within SBPD`,
-          complaintType: CIVILIAN_WITHIN_PD_INITIATED
+          complainantType: "CIVILIAN_WITHIN_PD"
         }
       },
       redirect: true
@@ -225,7 +225,7 @@ describe("createCase", () => {
         case: {
           firstName: "Some",
           lastName: "Civilian",
-          complainantType: CIVILIAN_INITIATED
+          complainantType: "CIVILIAN"
         }
       },
       redirect: true

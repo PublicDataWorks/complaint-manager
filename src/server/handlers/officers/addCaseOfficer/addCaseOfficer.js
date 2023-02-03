@@ -5,10 +5,6 @@ import { sendNotifsIfComplainantChange } from "../../sendNotifsIfComplainantChan
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
 
 const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
-const {
   buildOfficerAttributesForNewOfficer,
   buildOfficerAttributesForUnknownOfficer
 } = require("../helpers/buildOfficerAttributesHelpers");
@@ -25,7 +21,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
     officerId,
     notes,
     roleOnCase,
-    caseEmployeeType = PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
+    caseEmployeeType = "Officer",
     phoneNumber,
     email
   } = request.body;
