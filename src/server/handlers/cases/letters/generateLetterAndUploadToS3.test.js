@@ -93,7 +93,7 @@ describe("Generate letter and upload to S3", () => {
     await generateLetterAndUploadToS3(request, response, next);
     const finalPdfFilename = constructFilename(existingCase, "TEST LETTER");
     const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
-    const regEx = new RegExp("(?:" + pdfName + ")[0-9]*.(?:.pdf)");
+    const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
     const newAttachment = await models.attachment.findOne({
       where: { caseId: existingCase.id, description: request.body.type }
     });
@@ -142,7 +142,7 @@ describe("Generate letter and upload to S3", () => {
     await generateLetterAndUploadToS3(request, response, next);
     const finalPdfFilename = constructFilename(existingCase, "TEST LETTER");
     const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
-    const regEx = new RegExp("(?:" + pdfName + ")[0-9]*.(?:.pdf)");
+    const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
 
     expect(response.statusCode).toEqual(200);
     const letter = await models.letter.findByPk(response._getData().id);

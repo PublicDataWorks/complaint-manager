@@ -34,7 +34,7 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
       if (letterType.hasEditPage) {
         filename = constructFilename(existingCase, request.body.type, "");
         filename =
-          filename.substring(0, filename.indexOf(".pdf")) + time + ".pdf";
+          filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
       } else {
         filename = await generateAttachedLetter(
           existingCase,
@@ -128,7 +128,8 @@ const generateAttachedLetter = async (
   time
 ) => {
   let filename = constructFilename(existingCase, request.body.type);
-  filename = filename.substring(0, filename.indexOf(".pdf")) + time + ".pdf";
+  filename =
+    filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
   await generateLetter(existingCase.id, filename, request);
 
   await createLetterAttachment(
