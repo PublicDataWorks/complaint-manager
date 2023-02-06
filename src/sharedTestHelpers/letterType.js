@@ -6,6 +6,7 @@ class LetterType {
     this.type = build.type;
     this.template = build.template;
     this.editableTemplate = build.editableTemplate;
+    this.hasEditPage = build.hasEditPage;
     this.fields = build.fields;
     this.requiredStatusId = build.requiredStatus?.id;
     this.defaultSenderId = build.defaultSenderId
@@ -51,6 +52,11 @@ class LetterType {
 
       withRequiredStatus(requiredStatus) {
         this.requiredStatus = requiredStatus;
+        return this;
+      }
+
+      withHasEditPage(hasEditPage) {
+        this.hasEditPage = hasEditPage;
         return this;
       }
 

@@ -21,6 +21,8 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
 
     const caseId = request.params.caseId;
     const existingCase = await getCase(caseId);
+    const d = new Date();
+    let time = d.getTime();
 
     const letter = await models.sequelize.transaction(async transaction => {
       const letterType = await models.letter_types.findOne({
@@ -30,12 +32,15 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
 
       let filename;
       if (letterType.hasEditPage) {
-        filename = constructFilename(existingCase, request.body.type);
+        filename = constructFilename(existingCase, request.body.type, "");
+        filename =
+          filename.substring(0, filename.indexOf(".pdf")) + time + ".pdf";
       } else {
         filename = await generateAttachedLetter(
           existingCase,
           request,
-          transaction
+          transaction,
+          time
         );
       }
 
@@ -116,8 +121,14 @@ const getCase = async caseId => {
   });
 };
 
-const generateAttachedLetter = async (existingCase, request, transaction) => {
-  const filename = constructFilename(existingCase, request.body.type);
+const generateAttachedLetter = async (
+  existingCase,
+  request,
+  transaction,
+  time
+) => {
+  let filename = constructFilename(existingCase, request.body.type);
+  filename = filename.substring(0, filename.indexOf(".pdf")) + time + ".pdf";
   await generateLetter(existingCase.id, filename, request);
 
   await createLetterAttachment(
