@@ -149,6 +149,7 @@ export const determineLetterBody = async (
   transaction
 ) => {
   let auditDetails, html;
+  console.log("letterBody in determineLetterBody: ", letterBody);
   if (letterBody) {
     html = letterBody;
     auditDetails = auditIfEdited();

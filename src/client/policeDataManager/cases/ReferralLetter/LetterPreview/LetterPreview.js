@@ -136,7 +136,7 @@ export class LetterPreview extends Component {
           } else {
             this.props.push(redirectUrl);
           }
-          this.props.snackbarSuccess("Letter was successfully updated");
+          // this.props.snackbarSuccess("Letter was successfully updated");
         })
         .catch(() => {
           if (alternativeFailureCallback) {

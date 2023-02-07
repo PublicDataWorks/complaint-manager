@@ -19,6 +19,10 @@ const editLetterContent = asyncMiddleware(async (request, response, next) => {
       auditUser: request.nickname
     }
   );
+  console.log(
+    "request letterHtml in generate letter for preview: ",
+    request.body
+  );
 
   return response.status(200).send({});
 });

@@ -46,7 +46,10 @@ let shouldBlockRoutingRedirects;
 export class EditLetter extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id, redirectUrl: null };
+    this.state = {
+      caseId: this.props.caseId,
+      redirectUrl: null
+    };
   }
 
   componentDidMount() {
@@ -54,7 +57,7 @@ export class EditLetter extends Component {
       history.block(location => {
         if (
           location.pathname !==
-            `cases/${this.state.caseId}/letter/edit-letter` &&
+            `cases/${this.state.caseId}/${this.props.editLetterEndpoint}` &&
           this.props.dirty &&
           shouldNotRedirect
         ) {
@@ -65,37 +68,34 @@ export class EditLetter extends Component {
       });
     };
     shouldBlockRoutingRedirects(true);
-    this.props.dispatch(getReferralLetterPreview(this.state.caseId));
+
+    console.log("LETTER >>>>", this.props.letter);
+    console.log("INITALVALUES PROPS>>>>", this.props.initialValues);
+
+    // this.props.getLetterPreview(this.state.caseId);
 
     if (this.props.initialValues.editedLetterHtml === "") {
-      this.props.dispatch(
-        initialize(EDIT_LETTER_HTML_FORM, this.state.initialValues)
-      );
+      this.props.setInitialValues();
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.letterPreviewNotYetLoaded() && this.invalidCaseStatus()) {
+  componentDidUpdate() {
+    if (
+      !this.letterPreviewNotYetLoaded() &&
+      this.props.checkCaseStatus(this.props.caseStatus)
+    ) {
       this.props.invalidCaseStatusRedirect(this.state.caseId);
     }
   }
 
-  invalidCaseStatus = () => {
-    const allowed_statuses_for_edit_letter = [
-      CASE_STATUS.LETTER_IN_PROGRESS,
-      CASE_STATUS.READY_FOR_REVIEW
-    ];
-    return !allowed_statuses_for_edit_letter.includes(this.props.caseStatus);
-  };
-
   letterPreviewNotYetLoaded = () => {
-    return this.props.letterHtml === "" || !this.props.caseStatus;
+    return this.props.letter.letterHtml === "" || !this.props.caseStatus;
   };
 
   saveAndGoBackToPreview = () => {
     return this.props.handleSubmit(
       this.submitEditedLetterForm(
-        `/cases/${this.state.caseId}/letter/letter-preview`
+        `/cases/${this.state.caseId}/letter/${this.props.letterPreviewEndpoint}`
       )
     );
   };
@@ -130,7 +130,9 @@ export class EditLetter extends Component {
         data-testid="cancel-button"
         onClick={() => {
           this.props.dispatch(
-            push(`/cases/${this.state.caseId}/letter/letter-preview`)
+            push(
+              `/cases/${this.state.caseId}/letter/${this.props.letterPreviewEndpoint}`
+            )
           );
         }}
       >
@@ -154,11 +156,17 @@ export class EditLetter extends Component {
     values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
       values.editedLetterHtml
     );
-    dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
+
+    console.log("values in editLetter", values);
+    console.log("REDIRECT URL in editLetter", redirectUrl),
+      this.props.editContent(values, redirectUrl);
   };
 
   render() {
-    if (this.letterPreviewNotYetLoaded() || this.invalidCaseStatus()) {
+    if (
+      this.letterPreviewNotYetLoaded() ||
+      this.props.checkCaseStatus(this.props.caseStatus)
+    ) {
       return null;
     }
 
@@ -251,11 +259,11 @@ EditLetter.propTypes = {
   pristine: PropTypes.bool
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   accused: state.currentCase.details.accusedOfficers,
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
-  initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
+  // initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
   caseReference: state.currentCase.details.caseReference,
   caseStatus: state.currentCase.details.status,
   permissions: state?.users?.current?.userInfo?.permissions
