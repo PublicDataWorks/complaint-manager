@@ -23,6 +23,7 @@ const GeneralLetterPreview = props => {
       editAddressUrl={`${letterBaseApiRoute}/addresses`}
       editStatus={letter?.editStatus}
       getPdfEndpoint={`letters/${props.match.params.letterId}/pdf`}
+      editLetterEndpoint={`letter/${props.match.params.letterId}/edit-letter`}
       lastEdited={letter?.lastEdited}
       letterHtml={letter?.letterHtml}
       submitButtonType={SUBMIT_BUTTON_TYPE.GENERATE_LETTER_BTN}

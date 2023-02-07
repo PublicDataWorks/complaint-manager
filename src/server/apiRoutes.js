@@ -2,6 +2,7 @@ import getCase from "./handlers/cases/getCase/getCase";
 import getWorkingCases from "./handlers/cases/getCases/getWorkingCases";
 import createCase from "./handlers/cases/createCase";
 import editCase from "./handlers/cases/editCase";
+import editLetterContent from "./handlers/cases/letters/editLetterContent";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
 import restoreArchivedCase from "./handlers/cases/restoreArchivedCase/restoreArchivedCase";
 import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMinimumCaseDetails";

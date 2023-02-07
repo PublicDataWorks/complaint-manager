@@ -46,6 +46,7 @@ const ReferralLetterPreview = props => {
       editAddressUrl={`api/cases/${props.match.params.id}/referral-letter/addresses`}
       editStatus={props.editStatus}
       getPdfEndpoint="referral-letter/get-pdf"
+      editLetterEndpoint={"letter/edit-letter"}
       lastEdited={props.lastEdited}
       letterAlreadyApproved={letterAlreadyApproved}
       letterHtml={props.letterHtml}

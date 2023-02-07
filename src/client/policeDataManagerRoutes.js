@@ -27,8 +27,15 @@ const CaseDetails = lazy(() =>
 const CaseHistory = lazy(() =>
   import("./policeDataManager/cases/CaseDetails/CaseHistory/CaseHistory")
 );
-const EditLetter = lazy(() =>
-  import("./policeDataManager/cases/ReferralLetter/EditLetter/EditLetter")
+const EditReferralLetter = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/EditLetter/EditReferralLetter"
+  )
+);
+const EditGeneralLetter = lazy(() =>
+  import(
+    "./policeDataManager/cases/ReferralLetter/EditLetter/EditGeneralLetter"
+  )
 );
 const AddOfficerDetails = lazy(() =>
   import("./policeDataManager/officers/OfficerDetails/AddOfficerDetails")
@@ -158,7 +165,11 @@ const policeDataManagerRoutes = [
   },
   {
     path: "/cases/:id/letter/edit-letter",
-    component: EditLetter
+    component: EditReferralLetter
+  },
+  {
+    path: "/cases/:id/letter/:letterId/edit-letter",
+    component: EditGeneralLetter
   },
   {
     path: "/cases/:id/letter/review-and-approve",

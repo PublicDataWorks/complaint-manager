@@ -96,7 +96,9 @@ export class LetterPreview extends Component {
 
   saveAndGoToEditLetter = () => {
     return this.props.handleSubmit(
-      this.submitForm(`/cases/${this.props.caseId}/letter/edit-letter`)
+      this.submitForm(
+        `/cases/${this.props.caseId}/${this.props.editLetterEndpoint}`
+      )
     );
   };
 
