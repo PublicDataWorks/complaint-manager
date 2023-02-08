@@ -14,6 +14,11 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 
+const {
+  DEFAULT_PERSON_TYPE,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 describe("constructFilename", function () {
   afterEach(async () => {
     await cleanupDatabase();
@@ -42,7 +47,7 @@ describe("constructFilename", function () {
         existingCase,
         REFERRAL_LETTER_VERSION.FINAL
       );
-      const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral_Smith.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_PIB_Referral_Smith.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
 
@@ -52,8 +57,7 @@ describe("constructFilename", function () {
         REFERRAL_LETTER_VERSION.DRAFT,
         EDIT_STATUS.GENERATED
       );
-      const expectedFilename =
-        "5-5-2012_CC2012-0001_Generated_Referral_Draft_Smith.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_Generated_Referral_Draft_Smith.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
 
@@ -63,15 +67,14 @@ describe("constructFilename", function () {
         REFERRAL_LETTER_VERSION.DRAFT,
         EDIT_STATUS.EDITED
       );
-      const expectedFilename =
-        "5-5-2012_CC2012-0001_Edited_Referral_Draft_Smith.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_Edited_Referral_Draft_Smith.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
 
     test("returned correct filename when letterType is complainant", async () => {
       const filename = constructFilename(existingCase, COMPLAINANT_LETTER);
       expect(filename).toEqual(
-        "5-5-2012_CC2012-0001_Letter_to_Complainant_Smith.pdf"
+        `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_Letter_to_Complainant_Smith.pdf`
       );
     });
   });
@@ -134,7 +137,7 @@ describe("constructFilename", function () {
         existingCase,
         REFERRAL_LETTER_VERSION.FINAL
       );
-      const expectedFilename = "5-5-2012_CC2012-0001_PIB_Referral.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_PIB_Referral.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
 
@@ -144,8 +147,7 @@ describe("constructFilename", function () {
         REFERRAL_LETTER_VERSION.DRAFT,
         EDIT_STATUS.GENERATED
       );
-      const expectedFilename =
-        "5-5-2012_CC2012-0001_Generated_Referral_Draft.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_Generated_Referral_Draft.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
 
@@ -155,86 +157,90 @@ describe("constructFilename", function () {
         REFERRAL_LETTER_VERSION.DRAFT,
         EDIT_STATUS.EDITED
       );
-      const expectedFilename = "5-5-2012_CC2012-0001_Edited_Referral_Draft.pdf";
+      const expectedFilename = `5-5-2012_${DEFAULT_PERSON_TYPE.abbreviation}2012-0001_Edited_Referral_Draft.pdf`;
       expect(filename).toEqual(expectedFilename);
     });
   });
 
-  describe("complainant is type: rank initiated", () => {
-    test("returns correct final pdf filename with primary officer complainant", async () => {
-      const existingCase = await createCase(RANK_INITIATED);
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
-      const expectedFilename = "5-5-2012_PO2012-0001_PIB_Referral_Jones.pdf";
-      expect(filename).toEqual(expectedFilename);
-    });
-
-    test("returns correct final pdf filename with anonymous primary officer complainant", async () => {
-      const existingCase = await createCase(RANK_INITIATED, true);
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
-      const expectedFilename =
-        "5-5-2012_AC2012-0001_PIB_Referral_Anonymous.pdf";
-      expect(filename).toEqual(expectedFilename);
-    });
-
-    test("returned correct filename with unknown_officer as suffix", async () => {
-      const existingCase = await createUnknownOfficerCase();
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.DRAFT,
-        EDIT_STATUS.EDITED
-      );
-      const expectedFilename =
-        "5-5-2012_PO2012-0001_Edited_Referral_Draft_Unknown_Officer.pdf";
-      expect(filename).toEqual(expectedFilename);
-    });
-  });
-
-  describe("compliant has both civilian and police officer complainants", () => {
-    let existingCase;
-
-    beforeEach(async () => {
-      existingCase = await createCase(CIVILIAN_INITIATED);
-    });
-
-    test("should generate correct filename based on primary complainant as primary complainant is updated", async () => {
-      const officerAttributes = new Officer.Builder()
-        .defaultOfficer()
-        .withLastName("Iamofficer");
-
-      const officer = await models.officer.create(officerAttributes, {
-        auditUser: "user"
+  if (PERSON_TYPE.KNOWN_OFFICER) {
+    describe("complainant is type: rank initiated", () => {
+      test("returns correct final pdf filename with primary officer complainant", async () => {
+        const existingCase = await createCase(RANK_INITIATED);
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
+        const expectedFilename = "5-5-2012_PO2012-0001_PIB_Referral_Jones.pdf";
+        expect(filename).toEqual(expectedFilename);
       });
 
-      const caseOfficerToCreate = new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withId(undefined)
-        .withOfficerId(officer.id)
-        .withCaseId(existingCase.id)
-        .withRoleOnCase(COMPLAINANT)
-        .withCreatedAt("2017-12-31")
-        .withOfficerAttributes(officerAttributes);
-
-      await models.case_officer.create(caseOfficerToCreate, {
-        auditUser: "someone"
+      test("returns correct final pdf filename with anonymous primary officer complainant", async () => {
+        const existingCase = await createCase(RANK_INITIATED, true);
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
+        const expectedFilename =
+          "5-5-2012_AC2012-0001_PIB_Referral_Anonymous.pdf";
+        expect(filename).toEqual(expectedFilename);
       });
 
-      await existingCase.reload();
-
-      const filename = constructFilename(
-        existingCase,
-        REFERRAL_LETTER_VERSION.FINAL
-      );
-      const expectedFilename =
-        "5-5-2012_PO2012-0001_PIB_Referral_Iamofficer.pdf";
-      expect(filename).toEqual(expectedFilename);
+      test("returned correct filename with unknown_officer as suffix", async () => {
+        const existingCase = await createUnknownOfficerCase();
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.DRAFT,
+          EDIT_STATUS.EDITED
+        );
+        const expectedFilename =
+          "5-5-2012_PO2012-0001_Edited_Referral_Draft_Unknown_Officer.pdf";
+        expect(filename).toEqual(expectedFilename);
+      });
     });
-  });
+  }
+
+  if (PERSON_TYPE.KNOWN_OFFICER) {
+    describe("complaint has both civilian and police officer complainants", () => {
+      let existingCase;
+
+      beforeEach(async () => {
+        existingCase = await createCase(CIVILIAN_INITIATED);
+      });
+
+      test("should generate correct filename based on primary complainant as primary complainant is updated", async () => {
+        const officerAttributes = new Officer.Builder()
+          .defaultOfficer()
+          .withLastName("Iamofficer");
+
+        const officer = await models.officer.create(officerAttributes, {
+          auditUser: "user"
+        });
+
+        const caseOfficerToCreate = new CaseOfficer.Builder()
+          .defaultCaseOfficer()
+          .withId(undefined)
+          .withOfficerId(officer.id)
+          .withCaseId(existingCase.id)
+          .withRoleOnCase(COMPLAINANT)
+          .withCreatedAt("2017-12-31")
+          .withOfficerAttributes(officerAttributes);
+
+        await models.case_officer.create(caseOfficerToCreate, {
+          auditUser: "someone"
+        });
+
+        await existingCase.reload();
+
+        const filename = constructFilename(
+          existingCase,
+          REFERRAL_LETTER_VERSION.FINAL
+        );
+        const expectedFilename =
+          "5-5-2012_PO2012-0001_PIB_Referral_Iamofficer.pdf";
+        expect(filename).toEqual(expectedFilename);
+      });
+    });
+  }
 });
 
 const createCase = async (complaintType, isAnonymous = false) => {

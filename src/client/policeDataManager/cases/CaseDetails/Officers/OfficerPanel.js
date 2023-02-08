@@ -26,14 +26,8 @@ import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelI
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
-  const isCivilianWithinPd =
-    caseOfficer.caseEmployeeType ===
-    PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+  const isCivilianWithinPd = caseOfficer.caseEmployeeType.includes("Civilian");
   const caseEmployeeTitle = isCivilianWithinPd
     ? `Civilian (${pd})`
     : OFFICER_TITLE;

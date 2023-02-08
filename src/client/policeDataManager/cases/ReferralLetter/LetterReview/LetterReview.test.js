@@ -17,10 +17,6 @@ import getCaseDetails from "../../thunks/getCaseDetails";
 import Case from "../../../../../sharedTestHelpers/case";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../thunks/getCaseDetails", () => caseId => ({
   type: "GetCaseDetails",
   caseId
@@ -83,9 +79,7 @@ describe("LetterReview", () => {
         .withAccusedOfficers([
           new CaseOfficer.Builder()
             .defaultCaseOfficer()
-            .withCaseEmployeeType(
-              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            )
+            .withCaseEmployeeType("Civilian Within PD")
             .build()
         ])
         .build();

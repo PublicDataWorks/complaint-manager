@@ -8,9 +8,6 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class OfficerSearchContainer extends Component {
   componentDidMount() {
     this.props.dispatch(clearSelectedOfficer());
@@ -20,10 +17,9 @@ export class OfficerSearchContainer extends Component {
     const { caseEmployeeType, caseId, officerDetailsPath, pd, titleAction } =
       this.props;
 
-    const employeeSearchTitle =
-      caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? `Civilian (${pd})`
-        : OFFICER_TITLE;
+    const employeeSearchTitle = caseEmployeeType?.includes("Civilian")
+      ? `Civilian (${pd})`
+      : OFFICER_TITLE;
 
     return (
       <div>

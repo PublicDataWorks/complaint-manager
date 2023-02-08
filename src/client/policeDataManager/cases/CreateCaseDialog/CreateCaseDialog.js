@@ -31,6 +31,7 @@ import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 
 const {
+  DEFAULT_PERSON_TYPE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -251,7 +252,9 @@ export default reduxForm({
   onSubmitFail: scrollToFirstErrorWithValue,
   initialValues: {
     case: {
-      complainantType: "CIVILIAN",
+      complainantType: Object.keys(PERSON_TYPE).find(
+        key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
+      ),
       firstContactDate: moment(Date.now()).format(ISO_DATE)
     }
   }

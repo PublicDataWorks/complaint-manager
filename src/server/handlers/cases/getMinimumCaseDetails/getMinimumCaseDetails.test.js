@@ -11,6 +11,10 @@ import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
 
+const {
+  DEFAULT_PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 jest.mock("../../audits/auditDataAccess");
 
 describe("getMinimumCaseDetails", () => {
@@ -69,14 +73,18 @@ describe("getMinimumCaseDetails", () => {
   test("gets case reference", async () => {
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
-    expect(responseBody.caseReference).toEqual("CC2017-0001");
+    expect(responseBody.caseReference).toEqual(
+      `${DEFAULT_PERSON_TYPE.abbreviation}2017-0001`
+    );
   });
 
   test("gets minimum case details for archived case", async () => {
     await existingCase.destroy({ auditUser: "test" });
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
-    expect(responseBody.caseReference).toEqual("CC2017-0001");
+    expect(responseBody.caseReference).toEqual(
+      `${DEFAULT_PERSON_TYPE.abbreviation}2017-0001`
+    );
   });
   describe("auditing", () => {
     test("audits the data access", async () => {

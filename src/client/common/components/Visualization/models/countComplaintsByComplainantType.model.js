@@ -77,15 +77,15 @@ export default class CountComplaintsByComplainantType extends DonutVisualization
     let labels = [];
     let values = [];
 
-    const caseReferenceToName = {
-      [PERSON_TYPE.CIVILIAN.abbreviation]:
-        PERSON_TYPE.CIVILIAN.publicLegendValue,
-      [PERSON_TYPE.KNOWN_OFFICER.abbreviation]:
-        PERSON_TYPE.KNOWN_OFFICER.publicLegendValue,
-      [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]:
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.publicLegendValue,
-      AC: "Anonymous (AC)"
-    };
+    const caseReferenceToName = Object.values(PERSON_TYPE).reduce(
+      (acc, type) => {
+        acc[type.abbreviation] = type.publicLegendValue;
+        return acc;
+      },
+      {
+        AC: "Anonymous (AC)"
+      }
+    );
 
     let complaintsByComplainantTypeArray = Object.keys(rawData).reduce(
       (newArray, key) => {

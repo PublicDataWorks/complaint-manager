@@ -19,11 +19,11 @@ const {
 const addOfficer =
   (caseId, officerId, caseEmployeeType, values) => async dispatch => {
     const payload = { officerId, caseEmployeeType, ...values };
-    const isCivilianWithinPd =
-      caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
-    const caseEmployeeTitle = isCivilianWithinPd
-      ? PERSON_TYPE.CIVILIAN_WITHIN_PD.description
-      : OFFICER_TITLE;
+    const isCivilianWithinPd = caseEmployeeType.includes("Civilian");
+    const caseEmployeeTitle =
+      isCivilianWithinPd && PERSON_TYPE.CIVILIAN_WITHIN_PD
+        ? PERSON_TYPE.CIVILIAN_WITHIN_PD.description
+        : OFFICER_TITLE;
 
     try {
       dispatch(startSubmit(OFFICER_DETAILS_FORM_NAME));

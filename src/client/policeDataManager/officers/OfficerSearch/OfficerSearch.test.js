@@ -6,10 +6,6 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("OfficerSearch test", () => {
   let store, mockPath;
   beforeEach(() => {
@@ -23,7 +19,7 @@ describe("OfficerSearch test", () => {
         <Router>
           <OfficerSearch
             employeeSearchTitle={OFFICER_TITLE}
-            caseEmployeeType={PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription}
+            caseEmployeeType="Unknown Officer"
             path={mockPath}
           />
         </Router>
@@ -50,9 +46,7 @@ describe("OfficerSearch test", () => {
         <Router>
           <OfficerSearch
             employeeSearchTitle="Civilian (LMNOPD)"
-            caseEmployeeType={
-              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            }
+            caseEmployeeType="Civilian Within PD"
             path={mockPath}
           />
         </Router>

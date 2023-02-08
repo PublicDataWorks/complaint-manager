@@ -15,10 +15,6 @@ import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 

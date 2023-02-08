@@ -19,10 +19,6 @@ import {
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../cases/thunks/getCaseDetails");
 
 describe("OfficerDetailsContainer", () => {
@@ -148,9 +144,7 @@ describe("OfficerDetailsContainer", () => {
             submitButtonText={"Test Employee"}
             submitAction={jest.fn()}
             officerSearchUrl={`/test-search`}
-            caseEmployeeType={
-              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            }
+            caseEmployeeType={"Civilian Within PD"}
           />
         </Router>
       </Provider>

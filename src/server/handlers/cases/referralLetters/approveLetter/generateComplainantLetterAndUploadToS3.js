@@ -11,9 +11,6 @@ import { auditFileAction } from "../../../audits/auditFileAction";
 import { getPersonType } from "../../../../policeDataManager/models/modelUtilities/getPersonType";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 export const generateComplainantLetterAndUploadToS3 = async (
@@ -32,13 +29,9 @@ export const generateComplainantLetterAndUploadToS3 = async (
       caseId: caseId,
       finalPdfFilename: finalPdfFilename,
       complainantCivilianId:
-        primaryComplainantType === PERSON_TYPE.CIVILIAN.description
-          ? primaryComplainant.id
-          : null,
+        primaryComplainantType === "Civilian" ? primaryComplainant.id : null,
       complainantOfficerId:
-        primaryComplainantType === PERSON_TYPE.KNOWN_OFFICER.description
-          ? primaryComplainant.id
-          : null
+        primaryComplainantType === "Officer" ? primaryComplainant.id : null
     },
     { auditUser: nickname, transaction }
   );

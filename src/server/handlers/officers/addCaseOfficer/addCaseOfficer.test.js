@@ -17,10 +17,6 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../audits/auditDataAccess");
 
 describe("addCaseOfficer", () => {
@@ -62,7 +58,7 @@ describe("addCaseOfficer", () => {
       },
       body: {
         officerId: null,
-        caseEmployeeType: PERSON_TYPE.OFFICER,
+        caseEmployeeType: "Officer",
         roleOnCase: ACCUSED,
         notes: "these are notes"
       },
@@ -331,7 +327,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: officer.id,
         roleOnCase: ACCUSED,
-        caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription,
+        caseEmployeeType: "Known Officer",
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME",
@@ -410,7 +406,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: officer.id,
         roleOnCase: ACCUSED,
-        caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+        caseEmployeeType: "Civilian Within NOPD",
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME",
@@ -422,9 +418,7 @@ describe("addCaseOfficer", () => {
     const caseOfficerEmployeeType =
       response._getData().accusedOfficers[0].caseEmployeeType;
 
-    expect(caseOfficerEmployeeType).toEqual(
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-    );
+    expect(caseOfficerEmployeeType).toEqual("Civilian Within NOPD");
   });
 
   test("Should return an officer with phone number and email when given phone number and email", async () => {
@@ -449,7 +443,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: createdOfficer.id,
         roleOnCase: COMPLAINANT,
-        caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+        caseEmployeeType: "Civilian Within NOPD",
         notes: "these are notes",
         phoneNumber: "8005882300",
         email: "notAnOfficer@gmail.com"

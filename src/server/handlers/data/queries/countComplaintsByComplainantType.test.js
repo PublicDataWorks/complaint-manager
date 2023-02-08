@@ -48,12 +48,17 @@ describe("executeQuery", () => {
 
   const token = buildTokenWithPermissions("", "tuser");
 
-  const expectedData = {
-    [PERSON_TYPE.CIVILIAN.abbreviation]: 1,
-    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 1,
-    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
-    AC: 1
-  };
+  const expectedData = PERSON_TYPE.PERSON_IN_CUSTODY
+    ? {
+        [PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation]: 2, // TODO alter this as more person types emerge
+        AC: 1
+      }
+    : {
+        [PERSON_TYPE.CIVILIAN.abbreviation]: 1,
+        [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 1,
+        [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
+        AC: 1
+      };
 
   const getResponsePromise = request(app)
     .get("/api/public-data")
@@ -80,9 +85,8 @@ describe("executeQuery", () => {
       .withIsAnonymous(true)
       .withId(3);
 
-    complainantOfficerPO = (
-      await createCaseOfficer(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
-    ).withId(4);
+    complainantOfficerPO = (await createCaseOfficer("Officer")) // TODO replace with inmate?
+      .withId(4);
 
     const todaysDate = moment().format(ISO_DATE);
 
@@ -192,7 +196,12 @@ describe("executeQuery", () => {
         minDate: moment().subtract(12, "months").format(ISO_DATE)
       });
 
-    const expectedDataPast12Months = { ...expectedData, ...{ CC: 2 } };
+    const expectedDataPast12Months = { ...expectedData };
+    if (PERSON_TYPE.PERSON_IN_CUSTODY) {
+      expectedDataPast12Months[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation]++;
+    } else {
+      expectedDataPast12Months[PERSON_TYPE.CIVILIAN.abbreviation]++;
+    }
 
     await getComplaintsPast12Months.then(response => {
       expect(response.statusCode).toEqual(200);

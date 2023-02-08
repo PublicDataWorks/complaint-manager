@@ -71,7 +71,7 @@ describe("dataChangeAuditHooks", () => {
         .withYear("2017")
         .withPrimaryComplainant({
           officerId: "1234",
-          caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+          caseEmployeeType: "Officer"
         })
         .withAssignedTo("originalAssignedToPerson")
         .withCreatedBy("createdByPerson");

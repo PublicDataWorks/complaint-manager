@@ -11,6 +11,7 @@ const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
 const {
+  DEFAULT_PERSON_TYPE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -159,19 +160,22 @@ const transformCaseData = casesData => {
     let prefix;
     if (caseData["complainants.isAnonymous"]) {
       prefix = "AC";
+    } else if (
+      PERSON_TYPE.KNOWN_OFFICER &&
+      caseData["complainants.complainant"] ===
+        PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+    ) {
+      prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
+    } else if (
+      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
+      caseData["complainants.complainant"] ===
+        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+    ) {
+      prefix = PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
     } else {
-      switch (caseData["complainants.complainant"]) {
-        case PERSON_TYPE.KNOWN_OFFICER.employeeDescription:
-          prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
-          break;
-        case PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription:
-          prefix = PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
-          break;
-        default:
-          prefix = PERSON_TYPE.CIVILIAN.abbreviation;
-          break;
-      }
+      prefix = DEFAULT_PERSON_TYPE.abbreviation;
     }
+
     const paddedNumber = `${caseData.case_number}`.padStart(4, "0");
     caseData.caseReference = `${prefix}${caseData.year}-${paddedNumber}`;
   }

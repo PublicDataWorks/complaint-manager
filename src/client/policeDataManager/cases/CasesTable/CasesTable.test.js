@@ -21,17 +21,12 @@ import {
   SORT_CASES_BY,
   WORKING
 } from "../../../../sharedUtilities/constants";
-import Civilian from "../../../../sharedTestHelpers/civilian";
 import Tag from "../../../../server/testHelpers/tag";
 import SearchCasesForm from "../SearchCases/SearchCasesForm";
 import SortableCase from "../../testUtilities/SortableCase";
 import getWorkingCases from "../thunks/getWorkingCases";
 import getArchivedCases from "../thunks/getArchivedCases";
 import getSearchCases from "../thunks/getSearchCases";
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../thunks/getWorkingCases");
 jest.mock("../thunks/getArchivedCases");
@@ -80,13 +75,13 @@ describe("cases table", () => {
     accusedOfficer = {
       firstName: "Jeff",
       lastName: "Wallace",
-      personType: PERSON_TYPE.KNOWN_OFFICER.description
+      personType: "Officer"
     };
 
     let accusedOfficer2 = {
       firstName: "William",
       lastName: "Wallace",
-      personType: PERSON_TYPE.KNOWN_OFFICER.description
+      personType: "Officer"
     };
 
     tagOne = new Tag.Builder().defaultTag().build();

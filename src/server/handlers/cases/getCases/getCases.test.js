@@ -26,10 +26,6 @@ import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("getCases", () => {
   let statuses, civilianInitiated, rankInitiated;
   beforeEach(async () => {
@@ -909,7 +905,7 @@ describe("getCases", () => {
             complainantLastName: "Zebra"
           }),
           expect.objectContaining({
-            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
+            complainantPersonType: "Unknown Officer",
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null
@@ -932,7 +928,7 @@ describe("getCases", () => {
             complainantPersonType: null
           }),
           expect.objectContaining({
-            complainantPersonType: PERSON_TYPE.UNKNOWN_OFFICER.description,
+            complainantPersonType: "Unknown Officer",
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null

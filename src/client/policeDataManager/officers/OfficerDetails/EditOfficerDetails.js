@@ -6,10 +6,6 @@ import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedir
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 class EditOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded = () => {
     return (
@@ -34,8 +30,7 @@ class EditOfficerDetails extends React.Component {
     const caseId = this.props.match.params.id;
     const caseOfficerId = this.props.match.params.caseOfficerId;
     const isCivilianWithinPd =
-      this.props.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+      this.props.caseEmployeeType?.includes("Civilian");
     const submitButtonText = isCivilianWithinPd
       ? `Save Civilian (${this.props.pd})`
       : `Save ${OFFICER_TITLE}`;

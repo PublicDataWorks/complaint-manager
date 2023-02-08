@@ -1,5 +1,4 @@
 import {
-  CASE_STATUS,
   CIVILIAN_INITIATED,
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";

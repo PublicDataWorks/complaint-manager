@@ -16,10 +16,6 @@ import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators
 import { connect } from "react-redux";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const ComplainantWitnessMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
@@ -72,9 +68,7 @@ const ComplainantWitnessMenu = props => {
                 roleOnCase: props.civilianType
               })
             );
-            props.dispatch(
-              addCaseEmployeeType(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
-            );
+            props.dispatch(addCaseEmployeeType("Officer"));
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)
             );
@@ -90,11 +84,7 @@ const ComplainantWitnessMenu = props => {
                 roleOnCase: props.civilianType
               })
             );
-            props.dispatch(
-              addCaseEmployeeType(
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-              )
-            );
+            props.dispatch(addCaseEmployeeType(`Civilian Within ${props.pd}`));
             props.dispatch(
               push(`/cases/${props.caseDetails.id}/officers/search`)
             );

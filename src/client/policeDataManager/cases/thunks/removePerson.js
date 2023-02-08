@@ -11,10 +11,6 @@ import {
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import _ from "lodash";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const removePerson = (personDetails, pd) => async dispatch => {
   const { personType, id, caseId } = personDetails;
   let personTypeForDisplay;
@@ -22,8 +18,7 @@ const removePerson = (personDetails, pd) => async dispatch => {
     personTypeForDisplay = "Civilian";
   } else {
     const isCivilianWithinPd =
-      personDetails.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+      personDetails.caseEmployeeType.includes("Civilian");
     personTypeForDisplay = isCivilianWithinPd
       ? `Civilian (${pd})`
       : OFFICER_TITLE;

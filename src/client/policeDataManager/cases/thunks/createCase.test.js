@@ -6,11 +6,10 @@ import {
   ASCENDING,
   CREATE_CASE_FORM_NAME,
   CASE_STATUS,
-  CIVILIAN_INITIATED,
   COMPLAINANT,
   OFFICER_DETAILS_FORM_NAME,
-  RANK_INITIATED,
-  SORT_CASES_BY
+  SORT_CASES_BY,
+  SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
@@ -19,13 +18,24 @@ import { initialize, startSubmit, stopSubmit } from "redux-form";
 import { closeCreateDialog } from "../../../common/actionCreators/createDialogActionCreators";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 
-const {
-  CIVILIAN_WITHIN_PD_INITIATED
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
+
+jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`, () => ({
+  PERSON_TYPE: {
+    REDIRECT_TO_CASE_DETAILS: {
+      isEmployee: false,
+      description: "Not an employee",
+      createDialogAction: "showForm"
+    },
+    REDIRECT_TO_OTHER: {
+      isEmployee: true,
+      employeeDescription: "Employee",
+      createDialogAction: "/redirect"
+    }
+  }
+}));
 
 jest.mock("./getWorkingCases", () => (sortBy, sortDirection, page) => ({
   type: "MOCK_GET_WORKING_CASES",
@@ -47,7 +57,8 @@ describe("createCase", () => {
       caseDetails: {
         case: {
           firstName: "Fats",
-          lastName: "Domino"
+          lastName: "Domino",
+          complainantType: "REDIRECT_TO_CASE_DETAILS"
         }
       },
       redirect: false,
@@ -123,7 +134,7 @@ describe("createCase", () => {
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
   });
 
-  test("should redirect to add officer if complainant is officer", async () => {
+  test("should redirect to /redirect if complainant so specifies", async () => {
     const caseId = 12;
 
     const creationDetails = {
@@ -131,7 +142,7 @@ describe("createCase", () => {
         case: {
           firstName: "Police",
           lastName: "Officer",
-          complainantType: "KNOWN_OFFICER"
+          complainantType: "REDIRECT_TO_OTHER"
         }
       },
       redirect: true
@@ -160,9 +171,7 @@ describe("createCase", () => {
       snackbarSuccess("Case was successfully created")
     );
     expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(
-      push(`/cases/${caseId}/officers/search`)
-    );
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}/redirect`));
     expect(dispatch).toHaveBeenCalledWith(
       initialize(OFFICER_DETAILS_FORM_NAME, {
         roleOnCase: COMPLAINANT
@@ -170,54 +179,7 @@ describe("createCase", () => {
     );
   });
 
-  test("should redirect to add employee if complainant is an employee within PD", async () => {
-    const caseId = 12;
-
-    const creationDetails = {
-      caseDetails: {
-        case: {
-          firstName: "Civilian",
-          lastName: `Within SBPD`,
-          complainantType: "CIVILIAN_WITHIN_PD"
-        }
-      },
-      redirect: true
-    };
-
-    const responseBody = {
-      id: caseId,
-      firstName: "Civilian",
-      lastName: `Within SBPD`,
-      status: CASE_STATUS.INITIAL
-    };
-
-    nock("http://localhost", {
-      reqheaders: {
-        "Content-Type": "application/json"
-      }
-    })
-      .post("/api/cases", creationDetails.caseDetails)
-      .reply(201, responseBody);
-
-    await createCase(creationDetails)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(startSubmit(CREATE_CASE_FORM_NAME));
-    expect(dispatch).toHaveBeenCalledWith(stopSubmit(CREATE_CASE_FORM_NAME));
-    expect(dispatch).toHaveBeenCalledWith(
-      snackbarSuccess("Case was successfully created")
-    );
-    expect(dispatch).toHaveBeenCalledWith(createCaseSuccess(responseBody));
-    expect(dispatch).toHaveBeenCalledWith(
-      push(`/cases/${caseId}/officers/search`)
-    );
-    expect(dispatch).toHaveBeenCalledWith(
-      initialize(OFFICER_DETAILS_FORM_NAME, {
-        roleOnCase: COMPLAINANT
-      })
-    );
-  });
-
-  test("should redirect to case details if complainant is civilian", async () => {
+  test("should redirect to case details if complainant type shows the form on the dialog", async () => {
     const caseId = 12;
 
     const creationDetails = {
@@ -225,7 +187,7 @@ describe("createCase", () => {
         case: {
           firstName: "Some",
           lastName: "Civilian",
-          complainantType: "CIVILIAN"
+          complainantType: "REDIRECT_TO_CASE_DETAILS"
         }
       },
       redirect: true

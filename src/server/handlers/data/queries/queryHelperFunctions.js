@@ -7,7 +7,8 @@ import moment from "moment";
 import sequelize from "sequelize";
 
 const {
-  PERSON_TYPE
+  PERSON_TYPE,
+  DEFAULT_PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const updateCaseStatus = async (
@@ -37,7 +38,7 @@ export const getComplainantType = caseReference => {
   } else {
     complainantType =
       Object.values(PERSON_TYPE).find(type => type.abbreviation === prefix)
-        ?.complainantLegendValue || PERSON_TYPE.CIVILIAN.complainantLegendValue;
+        ?.complainantLegendValue || DEFAULT_PERSON_TYPE.complainantLegendValue;
   }
   return complainantType;
 };

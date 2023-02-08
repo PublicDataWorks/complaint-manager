@@ -17,19 +17,13 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import useMenuControl from "../../../../common/hooks/useMenuControl";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const ManageOfficerMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
   const { caseOfficer, pd } = props;
 
-  const isCivilianWithinPd =
-    caseOfficer.caseEmployeeType ===
-    PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+  const isCivilianWithinPd = caseOfficer.caseEmployeeType.includes("Civilian");
 
   const caseEmployeeTitle = isCivilianWithinPd
     ? `Civilian (${pd})`

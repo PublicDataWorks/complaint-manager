@@ -5,10 +5,6 @@ import DisplayComplainant from "./DisplayComplainant";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import { COMPLAINANT } from "../../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 test("displays the complainant when complainant is civilian", () => {
   const firstName = "Sal";
   const lastName = "Ariza";
@@ -44,7 +40,7 @@ test("displays complainant if the complainant is an officer", () => {
 
   const complainantOfficer = {
     fullName: officerFullName,
-    personType: PERSON_TYPE.KNOWN_OFFICER.description
+    personType: "Officer"
   };
 
   const wrapper = mount(
@@ -60,7 +56,7 @@ test("displays complainant if the complainant is an officer AND anonymous", () =
 
   const complainantOfficer = {
     fullName: officerFullName,
-    personType: PERSON_TYPE.KNOWN_OFFICER.description,
+    personType: "Officer",
     isAnonymous: true
   };
 

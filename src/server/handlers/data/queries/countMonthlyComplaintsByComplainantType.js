@@ -84,12 +84,15 @@ export const executeQuery = async (nickname, dateRange) => {
   };
   let { counts, dateToIndex } = getDateRange(modifiedDateRange);
 
-  let totalComplaints = {
-    [PERSON_TYPE.CIVILIAN.abbreviation]: _.cloneDeep(counts),
-    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: _.cloneDeep(counts),
-    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: _.cloneDeep(counts),
-    AC: _.cloneDeep(counts)
-  };
+  let totalComplaints = Object.values(PERSON_TYPE).reduce(
+    (acc, type) => {
+      acc[type.abbreviation] = _.cloneDeep(counts);
+      return acc;
+    },
+    {
+      AC: _.cloneDeep(counts)
+    }
+  );
 
   const complaints = await getAllComplaints(modifiedDateRange, nickname);
 

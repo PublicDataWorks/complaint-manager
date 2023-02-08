@@ -6,9 +6,6 @@ import { connect } from "react-redux";
 import invalidCaseStatusRedirect from "../../cases/thunks/invalidCaseStatusRedirect";
 import getCaseDetails from "../../cases/thunks/getCaseDetails";
 import { OFFICER_TITLE, CONFIGS } from "../../../../sharedUtilities/constants";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 class AddOfficerDetails extends React.Component {
   caseDetailsNotYetLoaded() {
@@ -33,8 +30,7 @@ class AddOfficerDetails extends React.Component {
     if (this.caseDetailsNotYetLoaded()) return null;
     const caseId = this.props.match.params.id;
     const isCivilianWithinPd =
-      this.props.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+      this.props.caseEmployeeType?.includes("Civilian");
     const submitButtonText = isCivilianWithinPd
       ? `Add Civilian (${this.props.pd}) to Case`
       : `Add ${OFFICER_TITLE} to Case`;

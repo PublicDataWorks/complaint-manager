@@ -427,62 +427,62 @@ describe("caseDetailDataHelpers", function () {
       );
     });
 
-    test("returns correct complainant data when single civilian within PD", () => {
-      const caseDetail = {
-        complainantCivilians: [],
-        complainantOfficers: [
-          {
-            isUnknownOfficer: false,
-            fullName: "complainant joe",
-            windowsUsername: 12345,
-            district: "some district",
-            caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-          }
-        ]
-      };
+    if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
+      test("returns correct complainant data when single civilian within PD", () => {
+        const caseDetail = {
+          complainantCivilians: [],
+          complainantOfficers: [
+            {
+              isUnknownOfficer: false,
+              fullName: "complainant joe",
+              windowsUsername: 12345,
+              district: "some district",
+              caseEmployeeType: "Civilian Within PD"
+            }
+          ]
+        };
 
-      const complainantData = getComplainantData(caseDetail);
+        const complainantData = getComplainantData(caseDetail);
 
-      expect(complainantData).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            [`${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`]:
-              "complainant joe",
-            ID: "#12345",
-            District: "some district"
-          })
-        ])
-      );
-    });
+        expect(complainantData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian Within PD Name": "complainant joe",
+              ID: "#12345",
+              District: "some district"
+            })
+          ])
+        );
+      });
 
-    test("returns correct complainant data when single civilian within PD AND anonymous", () => {
-      const caseDetail = {
-        complainantCivilians: [],
-        complainantOfficers: [
-          {
-            isUnknownOfficer: false,
-            isAnonymous: true,
-            fullName: "complainant joe",
-            windowsUsername: 12345,
-            district: "some district",
-            caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-          }
-        ]
-      };
+      test("returns correct complainant data when single civilian within PD AND anonymous", () => {
+        const caseDetail = {
+          complainantCivilians: [],
+          complainantOfficers: [
+            {
+              isUnknownOfficer: false,
+              isAnonymous: true,
+              fullName: "complainant joe",
+              windowsUsername: 12345,
+              district: "some district",
+              caseEmployeeType: "Civilian Within PD"
+            }
+          ]
+        };
 
-      const complainantData = getComplainantData(caseDetail);
+        const complainantData = getComplainantData(caseDetail);
 
-      expect(complainantData).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            [`${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`]:
-              "(AC) complainant joe",
-            ID: "#12345",
-            District: "some district"
-          })
-        ])
-      );
-    });
+        expect(complainantData).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              "Civilian Within PD Name": "(AC) complainant joe",
+              ID: "#12345",
+              District: "some district"
+            })
+          ])
+        );
+      });
+    }
 
     test("returns correct complainant data when multiple civilians, known and unknown officers with some as anonymous", () => {
       const birthDate = "1990-09-09";
@@ -712,7 +712,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "witness officer joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+              caseEmployeeType: "Known Officer"
             }
           ]
         };
@@ -740,7 +740,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "witness officer joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+              caseEmployeeType: "Known Officer"
             }
           ]
         };
@@ -758,64 +758,62 @@ describe("caseDetailDataHelpers", function () {
         );
       });
 
-      test("returns correct witness data when single civilian within PD", () => {
-        const caseDetail = {
-          witnessCivilians: [],
-          witnessOfficers: [
-            {
-              isUnknownOfficer: false,
-              fullName: "witness joe",
-              windowsUsername: 12345,
-              district: "some district",
-              caseEmployeeType:
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            }
-          ]
-        };
+      if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
+        test("returns correct witness data when single civilian within PD", () => {
+          const caseDetail = {
+            witnessCivilians: [],
+            witnessOfficers: [
+              {
+                isUnknownOfficer: false,
+                fullName: "witness joe",
+                windowsUsername: 12345,
+                district: "some district",
+                caseEmployeeType: "Civilian Within PD"
+              }
+            ]
+          };
 
-        const witnessData = getWitnessData(caseDetail);
+          const witnessData = getWitnessData(caseDetail);
 
-        expect(witnessData).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              [`${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`]:
-                "witness joe",
-              ID: "#12345",
-              District: "some district"
-            })
-          ])
-        );
-      });
+          expect(witnessData).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                [`Civilian Within PD Name`]: "witness joe",
+                ID: "#12345",
+                District: "some district"
+              })
+            ])
+          );
+        });
 
-      test("returns correct witness data when single civilian within PD is anonymous", () => {
-        const caseDetail = {
-          witnessCivilians: [],
-          witnessOfficers: [
-            {
-              isUnknownOfficer: false,
-              isAnonymous: true,
-              fullName: "witness joe",
-              windowsUsername: 12345,
-              district: "some district",
-              caseEmployeeType:
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            }
-          ]
-        };
+        test("returns correct witness data when single civilian within PD is anonymous", () => {
+          const caseDetail = {
+            witnessCivilians: [],
+            witnessOfficers: [
+              {
+                isUnknownOfficer: false,
+                isAnonymous: true,
+                fullName: "witness joe",
+                windowsUsername: 12345,
+                district: "some district",
+                caseEmployeeType: "Civilian Within PD"
+              }
+            ]
+          };
 
-        const witnessData = getWitnessData(caseDetail);
+          const witnessData = getWitnessData(caseDetail);
 
-        expect(witnessData).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              [`${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`]:
-                "(AC) witness joe",
-              ID: "#12345",
-              District: "some district"
-            })
-          ])
-        );
-      });
+          expect(witnessData).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                [`Civilian Within PD Name`]: "(AC) witness joe",
+                ID: "#12345",
+                District: "some district"
+              })
+            ])
+          );
+        });
+      }
 
       test("returns correct witness data when single unknown officer witness", () => {
         const caseDetail = {
@@ -911,7 +909,7 @@ describe("caseDetailDataHelpers", function () {
           fullName: "some name",
           windowsUsername: "some id",
           district: "some district",
-          caseEmployeeType: PERSON_TYPE.KNOWN_OFFICER.employeeDescription
+          caseEmployeeType: "Known Officer"
         };
 
         const accusedOfficerData = getAccusedOfficerData(officer);
@@ -930,7 +928,7 @@ describe("caseDetailDataHelpers", function () {
       test("returns correct accused officer data when single unknown officer", () => {
         const officer = {
           isUnknownOfficer: true,
-          caseEmployeeType: PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription
+          caseEmployeeType: "Unknown Officer"
         };
 
         const accusedOfficerData = getAccusedOfficerData(officer);
@@ -944,28 +942,29 @@ describe("caseDetailDataHelpers", function () {
         );
       });
 
-      test("returns correct accused data when single civilian within PD", () => {
-        const officer = {
-          isUnknownOfficer: false,
-          fullName: "some name",
-          windowsUsername: "some id",
-          district: "some district",
-          caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        };
+      if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
+        test("returns correct accused data when single civilian within PD", () => {
+          const officer = {
+            isUnknownOfficer: false,
+            fullName: "some name",
+            windowsUsername: "some id",
+            district: "some district",
+            caseEmployeeType: "Civilian Within PD"
+          };
 
-        const accusedOfficerData = getAccusedOfficerData(officer);
+          const accusedOfficerData = getAccusedOfficerData(officer);
 
-        expect(accusedOfficerData).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              [`${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`]:
-                "some name",
-              ID: "#some id",
-              District: "some district"
-            })
-          ])
-        );
-      });
+          expect(accusedOfficerData).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                [`Civilian Within PD Name`]: "some name",
+                ID: "#some id",
+                District: "some district"
+              })
+            ])
+          );
+        });
+      }
     });
 
     describe("allegation data", function () {

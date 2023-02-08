@@ -130,7 +130,7 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {PERSON_TYPE[this.props.complainantType].createDialogAction ===
+        {PERSON_TYPE[this.props.complainantType]?.createDialogAction ===
         SHOW_FORM ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}

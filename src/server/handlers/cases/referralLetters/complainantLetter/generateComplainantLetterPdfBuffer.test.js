@@ -15,6 +15,10 @@ import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 
 let existingCase, timeOfDownload, complainant, statuses;
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const SENDER_NAME = "Bobby!";
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
@@ -41,192 +45,199 @@ jest.mock("fs", () => {
   };
 });
 
-afterEach(async () => {
-  await cleanupDatabase();
-  timekeeper.reset();
-});
-
-afterAll(async () => {
-  await models.sequelize.close();
-});
-
-beforeEach(async () => {
-  await cleanupDatabase();
-  timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
-  timekeeper.freeze(timeOfDownload);
-
-  let s3 = AWS.S3.mockImplementation(() => ({
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    },
-    getObject: jest.fn((opts, callback) =>
-      callback(undefined, {
-        ContentType: "image/bytes",
-        Body: {
-          toString: () => "bytesbytesbytes"
-        }
-      })
-    )
-  }));
-
-  complainant = new Civilian.Builder()
-    .defaultCivilian()
-    .withId(undefined)
-    .withCivilianTitle({ name: "Miss", id: 2 })
-    .build();
-
-  statuses = await seedStandardCaseStatuses();
-
-  const caseAttributes = new Case.Builder()
-    .defaultCase()
-    .withId(12070)
-    .withFirstContactDate("2017-12-25")
-    .withIncidentDate("2016-01-01")
-    .withComplainantCivilians([complainant]);
-
-  existingCase = await models.cases.create(caseAttributes, {
-    include: [
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        auditUser: "someone"
-      }
-    ],
-    auditUser: "test"
+if (!PERSON_TYPE.PERSON_IN_CUSTODY) {
+  afterEach(async () => {
+    await cleanupDatabase();
+    timekeeper.reset();
   });
 
-  await existingCase.update(
-    {
-      statusId: statuses.find(status => status.name === "Letter in Progress").id
-    },
-    { auditUser: "test" }
-  );
-
-  const complainantLetterTemplate = fs.readFileSync(
-    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
-  );
-
-  const signer = new Signer.Builder()
-    .defaultSigner()
-    .withName(SENDER_NAME)
-    .withTitle("Chiefest Bobby!")
-    .withSignatureFile("bobby.jpeg")
-    .build();
-  await models.sequelize.transaction(async transaction => {
-    await models.signers.create(signer, { auditUser: "user", transaction });
-    await models.letter_types.create(
-      new LetterType.Builder()
-        .defaultLetterType()
-        .withType("COMPLAINANT")
-        .withDefaultSender(signer)
-        .withRequiredStatus(statuses[0])
-        .withTemplate(complainantLetterTemplate.toString())
-        .build(),
-      { auditUser: "user", transaction }
-    );
-
-    await models.letter_types.create(
-      new LetterType.Builder()
-        .defaultLetterType()
-        .withId(39933)
-        .withType("REFERRAL")
-        .withDefaultSender(signer)
-        .withRequiredStatus(statuses[0])
-        .build(),
-      { auditUser: "user", transaction }
-    );
+  afterAll(async () => {
+    await models.sequelize.close();
   });
 
-  const image1 = await models.letterImage.create(
-    new LetterImage.Builder().defaultLetterImage().build(),
-    { auditUser: "user" }
-  );
+  beforeEach(async () => {
+    await cleanupDatabase();
+    timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
+    timekeeper.freeze(timeOfDownload);
 
-  const image2 = await models.letterImage.create(
-    new LetterImage.Builder()
-      .defaultLetterImage()
-      .withId(2)
-      .withImage("smallIcon.png")
-      .build(),
-    { auditUser: "user" }
-  );
+    let s3 = AWS.S3.mockImplementation(() => ({
+      config: {
+        loadFromPath: jest.fn(),
+        update: jest.fn()
+      },
+      getObject: jest.fn((opts, callback) =>
+        callback(undefined, {
+          ContentType: "image/bytes",
+          Body: {
+            toString: () => "bytesbytesbytes"
+          }
+        })
+      )
+    }));
 
-  await models.letterTypeLetterImage.create(
-    new LetterTypeLetterImage.Builder()
-      .defaultLetterTypeLetterImage()
-      .withImageId(image1.id)
-      .build(),
-    { auditUser: "user" }
-  );
+    complainant = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(undefined)
+      .withCivilianTitle({ name: "Miss", id: 2 })
+      .build();
 
-  await models.letterTypeLetterImage.create(
-    new LetterTypeLetterImage.Builder()
-      .defaultLetterTypeLetterImage()
-      .withId(2)
-      .withImageId(image2.id)
-      .withMaxWidth("60px")
-      .withName("smallIcon")
-      .build(),
-    { auditUser: "user" }
-  );
-});
+    statuses = await seedStandardCaseStatuses();
 
-describe("generateComplainantLetterPdfBuffer", function () {
-  test("pdf buffer is created for complainant letter", async () => {
-    const pdfResults = await models.sequelize.transaction(async transaction => {
-      let result = await generateLetterPdfBuffer(
-        existingCase.id,
-        true,
-        transaction,
+    const caseAttributes = new Case.Builder()
+      .defaultCase()
+      .withId(12070)
+      .withFirstContactDate("2017-12-25")
+      .withIncidentDate("2016-01-01")
+      .withComplainantCivilians([complainant]);
+
+    existingCase = await models.cases.create(caseAttributes, {
+      include: [
         {
-          getSignature: async ({ sender }) => {
-            return await retrieveSignatureImage(
-              sender ? sender.signatureFile : undefined
-            );
-          },
-          type: "COMPLAINANT"
-        },
-        await getComplainantLetterPdfData(complainant)
-      );
-      return result.pdfBuffer;
+          model: models.civilian,
+          as: "complainantCivilians",
+          auditUser: "someone"
+        }
+      ],
+      auditUser: "test"
     });
 
-    expect(pdfResults).toMatchSnapshot();
+    await existingCase.update(
+      {
+        statusId: statuses.find(status => status.name === "Letter in Progress")
+          .id
+      },
+      { auditUser: "test" }
+    );
+
+    const complainantLetterTemplate = fs.readFileSync(
+      `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+    );
+
+    const signer = new Signer.Builder()
+      .defaultSigner()
+      .withName(SENDER_NAME)
+      .withTitle("Chiefest Bobby!")
+      .withSignatureFile("bobby.jpeg")
+      .build();
+    await models.sequelize.transaction(async transaction => {
+      await models.signers.create(signer, { auditUser: "user", transaction });
+      await models.letter_types.create(
+        new LetterType.Builder()
+          .defaultLetterType()
+          .withType("COMPLAINANT")
+          .withDefaultSender(signer)
+          .withRequiredStatus(statuses[0])
+          .withTemplate(complainantLetterTemplate.toString())
+          .build(),
+        { auditUser: "user", transaction }
+      );
+
+      await models.letter_types.create(
+        new LetterType.Builder()
+          .defaultLetterType()
+          .withId(39933)
+          .withType("REFERRAL")
+          .withDefaultSender(signer)
+          .withRequiredStatus(statuses[0])
+          .build(),
+        { auditUser: "user", transaction }
+      );
+    });
+
+    const image1 = await models.letterImage.create(
+      new LetterImage.Builder().defaultLetterImage().build(),
+      { auditUser: "user" }
+    );
+
+    const image2 = await models.letterImage.create(
+      new LetterImage.Builder()
+        .defaultLetterImage()
+        .withId(2)
+        .withImage("smallIcon.png")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withImageId(image1.id)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letterTypeLetterImage.create(
+      new LetterTypeLetterImage.Builder()
+        .defaultLetterTypeLetterImage()
+        .withId(2)
+        .withImageId(image2.id)
+        .withMaxWidth("60px")
+        .withName("smallIcon")
+        .build(),
+      { auditUser: "user" }
+    );
   });
 
-  // test("pdf buffer should generate complainant letter with case reference prefiC when primary complainant is anonymized", async () => {
-  //   const civilian = await models.civilian.findOne({
-  //     where: { caseId: existingCase.id }
-  //   });
-  //
-  //   await models.civilian.update(
-  //     {
-  //       isAnonymous: true
-  //     },
-  //     {
-  //       where: {
-  //         id: civilian.id
-  //       },
-  //       auditUser: "test user"
-  //     }
-  //   );
-  //   const newCase = await models.cases.findOne({
-  //     where: { id: existingCase.id },
-  //     include: [
-  //       {
-  //         model: models.civilian,
-  //         as: "complainantCivilians",
-  //         auditUser: "someone"
-  //       }
-  //     ],
-  //     auditUser: "someone"
-  //   });
-  //
-  //   const pdfResults = await generateComplainantLetterPdfBuffer(
-  //     newCase,
-  //     newCase.primaryComplainant
-  //   );
-  //   expect(pdfResults).toMatchSnapshot();
-  // });
-});
+  describe("generateComplainantLetterPdfBuffer", function () {
+    test("pdf buffer is created for complainant letter", async () => {
+      const pdfResults = await models.sequelize.transaction(
+        async transaction => {
+          let result = await generateLetterPdfBuffer(
+            existingCase.id,
+            true,
+            transaction,
+            {
+              getSignature: async ({ sender }) => {
+                return await retrieveSignatureImage(
+                  sender ? sender.signatureFile : undefined
+                );
+              },
+              type: "COMPLAINANT"
+            },
+            await getComplainantLetterPdfData(complainant)
+          );
+          return result.pdfBuffer;
+        }
+      );
+
+      expect(pdfResults).toMatchSnapshot();
+    });
+
+    // test("pdf buffer should generate complainant letter with case reference prefiC when primary complainant is anonymized", async () => {
+    //   const civilian = await models.civilian.findOne({
+    //     where: { caseId: existingCase.id }
+    //   });
+    //
+    //   await models.civilian.update(
+    //     {
+    //       isAnonymous: true
+    //     },
+    //     {
+    //       where: {
+    //         id: civilian.id
+    //       },
+    //       auditUser: "test user"
+    //     }
+    //   );
+    //   const newCase = await models.cases.findOne({
+    //     where: { id: existingCase.id },
+    //     include: [
+    //       {
+    //         model: models.civilian,
+    //         as: "complainantCivilians",
+    //         auditUser: "someone"
+    //       }
+    //     ],
+    //     auditUser: "someone"
+    //   });
+    //
+    //   const pdfResults = await generateComplainantLetterPdfBuffer(
+    //     newCase,
+    //     newCase.primaryComplainant
+    //   );
+    //   expect(pdfResults).toMatchSnapshot();
+    // });
+  });
+} else {
+  test.skip("No tests, sorry", () => {});
+}

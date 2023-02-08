@@ -8,32 +8,19 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 import sequelize from "sequelize";
 import moment from "moment";
 const {
-  PERSON_TYPE
+  PERSON_TYPE,
+  DEFAULT_PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("queryHelperFunctions", () => {
   describe("getComplainantType", () => {
-    test("should return Civilian (CC) based on civilian/default person type case reference", () => {
-      const caseReference = `${PERSON_TYPE.CIVILIAN.abbreviation}2019-0001`;
-      const result = getComplainantType(caseReference);
+    Object.values(PERSON_TYPE).forEach(type => {
+      test(`should return ${type.complainantLegendValue} based on ${type.abbreviation} case reference`, () => {
+        const caseReference = `${type.abbreviation}2019-0001`;
+        const result = getComplainantType(caseReference);
 
-      expect(result).toEqual(PERSON_TYPE.CIVILIAN.complainantLegendValue);
-    });
-
-    test("should return appropriate prefix based on known/unknown officer person type case reference", () => {
-      const caseReference = `${PERSON_TYPE.KNOWN_OFFICER.abbreviation}2019-0001`;
-      const result = getComplainantType(caseReference);
-
-      expect(result).toEqual(PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue);
-    });
-
-    test("should return appropriate prefix based on civilian within pd personType case reference", () => {
-      const caseReference = `${PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation}2019-0001`;
-      const result = getComplainantType(caseReference);
-
-      expect(result).toEqual(
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.complainantLegendValue
-      );
+        expect(result).toEqual(type.complainantLegendValue);
+      });
     });
 
     test("should return AC prefix given anonymized primary complainant case reference", () => {
@@ -43,10 +30,10 @@ describe("queryHelperFunctions", () => {
       expect(result).toEqual("Anonymous (AC)");
     });
 
-    test("should return civilian legend value if unknown prefix is given", () => {
+    test("should return default legend value if unknown prefix is given", () => {
       const caseReference = "GG2021-0001";
       const result = getComplainantType(caseReference);
-      expect(result).toEqual("Civilian (CC)");
+      expect(result).toEqual(DEFAULT_PERSON_TYPE.complainantLegendValue);
     });
   });
 

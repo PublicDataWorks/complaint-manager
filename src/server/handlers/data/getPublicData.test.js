@@ -8,10 +8,6 @@ import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntak
 import * as countComplaintsByComplainantType from "./queries/countComplaintsByComplainantType";
 import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
   { cases: "5", name: "Facebook" },
@@ -21,30 +17,30 @@ const MOCK_INTAKE_SOURCE_DATA_VALUES = [
 const MOCK_TOTAL_DATA_VALUES = [{ ytd: 10, previousYear: 20 }];
 
 const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
-  { complainantType: PERSON_TYPE.CIVILIAN.complainantLegendValue },
+  { complainantType: "Civilian (CC)" },
   {
-    complainantType: PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue
+    complainantType: "Police (PO)"
   },
   { complainantType: "Anonymous (AC)" },
   {
-    complainantType: PERSON_TYPE.CIVILIAN_WITHIN_PD.complainantLegendValue
+    complainantType: "Civilian Within NOPD (CN)"
   }
 ];
 
 const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_DATA_VALUES = {
-  [PERSON_TYPE.CIVILIAN.abbreviation]: [
+  CC: [
     {
       date: "Jun 19",
       count: 1
     }
   ],
-  [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: [
+  PO: [
     {
       date: "Jun 19",
       count: 8
     }
   ],
-  [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: [
+  CN: [
     {
       date: "Jun 19",
       count: 3

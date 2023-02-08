@@ -4,14 +4,10 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import { ACCUSED, CASE_STATUS } from "../../../../sharedUtilities/constants";
+import { ACCUSED } from "../../../../sharedUtilities/constants";
 import Allegation from "../../../../sharedTestHelpers/Allegation";
 import OfficerAllegation from "../../../../sharedTestHelpers/OfficerAllegation";
 import LetterOfficer from "../../../testHelpers/LetterOfficer";
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("caseOfficer", () => {
   beforeEach(async () => {
@@ -222,8 +218,6 @@ describe("caseOfficer", () => {
     expect(caseOfficer.sex).toBeNull();
     expect(caseOfficer.race).toBeNull();
     expect(caseOfficer.workStatus).toBeNull();
-    expect(caseOfficer.caseEmployeeType).toEqual(
-      PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription
-    );
+    expect(caseOfficer.caseEmployeeType).toEqual("Officer");
   });
 });

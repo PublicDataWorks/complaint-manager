@@ -4,11 +4,6 @@ import {
   getPersonFullName
 } from "./getFullName";
 
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("getFullName", () => {
   describe("getPersonFullName", () => {
     test("should get full name for known officer", () => {
@@ -16,7 +11,7 @@ describe("getFullName", () => {
       const middleName = "M";
       const lastName = "Last";
       const suffix = null;
-      const personType = PERSON_TYPE.KNOWN_OFFICER.description;
+      const personType = "Known Officer";
 
       expect(
         getPersonFullName(firstName, middleName, lastName, suffix, personType)
@@ -24,7 +19,7 @@ describe("getFullName", () => {
     });
 
     test("should get unknown officer for unknown officer", () => {
-      const personType = PERSON_TYPE.UNKNOWN_OFFICER.description;
+      const personType = "Unknown Officer";
 
       expect(getPersonFullName(null, null, null, null, personType)).toEqual(
         "Unknown Officer"

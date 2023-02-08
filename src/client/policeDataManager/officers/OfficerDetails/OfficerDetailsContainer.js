@@ -13,9 +13,6 @@ import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import { CONFIGS, OFFICER_TITLE } from "../../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class OfficerDetailsContainer extends Component {
   componentDidMount() {
     const snackbarErrorText =
@@ -46,10 +43,9 @@ export class OfficerDetailsContainer extends Component {
       dispatch(clearSelectedOfficer());
     };
 
-    const caseEmployeeTitle =
-      caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? `Civilian (${pd})`
-        : OFFICER_TITLE;
+    const caseEmployeeTitle = caseEmployeeType?.includes("Civilian")
+      ? `Civilian (${pd})`
+      : OFFICER_TITLE;
 
     const selectedOfficerId = selectedOfficerData && selectedOfficerData.id;
 

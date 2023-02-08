@@ -7,15 +7,10 @@ import {
   SelectUnknownOfficerLink
 } from "./OfficerSearchResults/officerSearchResultsRowButtons";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const OfficerSearch = props => {
   const { employeeSearchTitle, caseEmployeeType } = props;
 
-  const isCivilianWithinPd =
-    caseEmployeeType === PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+  const isCivilianWithinPd = caseEmployeeType?.includes("Civilian");
 
   const searchText = isCivilianWithinPd
     ? `Search for a ${employeeSearchTitle}`
@@ -62,7 +57,7 @@ const OfficerSearch = props => {
         initialize={props.initialize}
         caseEmployeeType={caseEmployeeType}
       />
-      {caseEmployeeType === PERSON_TYPE.UNKNOWN_OFFICER.employeeDescription ? (
+      {caseEmployeeType?.includes("Officer") ? (
         <SelectUnknownOfficerButton
           initialize={props.initialize}
           dispatch={props.dispatch}

@@ -25,7 +25,8 @@ jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`, () => ({
     CIVILIAN_WITHIN_PD: {},
     KNOWN_OFFICER: {},
     UNKNOWN_OFFICER: {}
-  }
+  },
+  DEFAULT_PERSON_TYPE: {}
 }));
 
 jest.mock(

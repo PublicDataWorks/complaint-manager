@@ -24,23 +24,24 @@ const MOCK_INTAKE_SOURCE_DATA_VALUES = [
 
 const MOCK_TOTAL_DATA_VALUES = [{ ytd: 10, previousYear: 20 }];
 
-const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
-  { complainantType: PERSON_TYPE.CIVILIAN.complainantLegendValue },
-  {
-    complainantType: PERSON_TYPE.KNOWN_OFFICER.complainantLegendValue
+const MOCK_COMPLAINANT_TYPE_DATA_VALUES = Object.values(PERSON_TYPE).reduce(
+  (acc, type) => {
+    return [...acc, { complainantType: type.complainantLegendValue }];
   },
-  { complainantType: "Anonymous (AC)" },
-  {
-    complainantType: PERSON_TYPE.CIVILIAN_WITHIN_PD.complainantLegendValue
-  }
-];
+  [{ complainantType: "Anonymous (AC)" }]
+);
 
-const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = {
-  [PERSON_TYPE.CIVILIAN.abbreviation]: [],
-  [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: [],
-  [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: [],
-  AC: []
-};
+const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = Object.values(
+  PERSON_TYPE
+).reduce(
+  (acc, type) => {
+    acc[type.abbreviation] = [];
+    return acc;
+  },
+  {
+    AC: []
+  }
+);
 
 const MOCK_TOP_TAGS_VALUES = [];
 const MOCK_TOP_ALLEGATIONS_VALUES = [];

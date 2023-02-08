@@ -31,6 +31,7 @@ import Config from "../../../sharedTestHelpers/config";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 
 const {
+  DEFAULT_PERSON_TYPE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -281,7 +282,11 @@ describe("csvCaseExport request", () => {
       });
 
       const paddedId = `${caseToExport.caseNumber}`.padStart(4, "0");
-      caseReference = `CC2018-${paddedId}`;
+      caseReference = `${
+        PERSON_TYPE.CIVILIAN
+          ? PERSON_TYPE.CIVILIAN.abbreviation
+          : DEFAULT_PERSON_TYPE.abbreviation
+      }2018-${paddedId}`;
 
       const addressAttributes = new Address.Builder()
         .defaultAddress()
@@ -551,7 +556,9 @@ describe("csvCaseExport request", () => {
       expect(secondRecord["Civilian Complainant Name"]).toEqual(
         `${civilian2.firstName} ${civilian2.middleInitial} ${civilian2.lastName} ${civilian2.suffix}`
       );
-      expect(secondRecord["Case #"]).toEqual(caseReference.replace(/CC/, "AC"));
+      expect(secondRecord["Case #"]).toEqual(
+        caseReference.replace(DEFAULT_PERSON_TYPE.abbreviation, "AC")
+      );
     });
 
     test("should retrieve civilian complainant + officer complainant data", async () => {
@@ -584,7 +591,7 @@ describe("csvCaseExport request", () => {
       expect(records.length).toEqual(2);
 
       const officerComplainantRow = records[1];
-      expect(officerComplainantRow["Complainant"]).toEqual("Officer");
+      expect(officerComplainantRow["Complainant"]).toEqual("Known Officer");
       expect(
         officerComplainantRow["Officer Complainant Case Officer Database ID"]
       ).toEqual(`${caseOfficerComplainant.id}`);
@@ -666,9 +673,7 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(officerComplainant)
         .withNotes("hello")
         .withCaseId(caseToExport.id)
-        .withCaseEmployeeType(
-          PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        )
+        .withCaseEmployeeType("Civilian Within NOPD")
         .withRoleOnCase(COMPLAINANT);
       await models.case_officer.create(caseOfficerComplainantAttributes, {
         auditUser: "tuser"
@@ -678,7 +683,7 @@ describe("csvCaseExport request", () => {
 
       const complainantOfficerRow = records[1];
       expect(complainantOfficerRow["Complainant"]).toEqual(
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+        "Civilian Within NOPD"
       );
       expect(
         complainantOfficerRow["Officer Complainant Age on Incident Date"]
@@ -977,7 +982,7 @@ describe("csvCaseExport request", () => {
       const secondRecord = records[0];
 
       const otherPaddedId = `${otherCase.caseNumber}`.padStart(4, "0");
-      const othercaseReference = `CC2012-${otherPaddedId}`;
+      const othercaseReference = `${DEFAULT_PERSON_TYPE.abbreviation}2012-${otherPaddedId}`;
 
       expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);

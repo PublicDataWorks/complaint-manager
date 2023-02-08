@@ -1,7 +1,3 @@
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 export const getCivilianFullName = (
   givenFirst,
   givenMiddleInitial,
@@ -38,19 +34,19 @@ export const getPersonFullName = (
   suffix,
   personType
 ) => {
-  if (personType === PERSON_TYPE.CIVILIAN.description) {
+  if (personType.includes("Officer")) {
+    return getOfficerFullName(
+      firstName,
+      middleName,
+      lastName,
+      personType.includes("Unknown")
+    );
+  } else {
     return getCivilianFullName(
       firstName,
       middleName ? middleName.substr(0, 1).toUpperCase() : null,
       lastName,
       suffix
-    );
-  } else {
-    return getOfficerFullName(
-      firstName,
-      middleName,
-      lastName,
-      personType === PERSON_TYPE.UNKNOWN_OFFICER.description
     );
   }
 };

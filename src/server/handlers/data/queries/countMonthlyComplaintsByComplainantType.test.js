@@ -119,9 +119,7 @@ describe("executeQuery", () => {
       .withIsAnonymous(true)
       .withId(3);
 
-    complainantOfficerPO = (
-      await createCaseOfficer(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
-    ).withId(4);
+    complainantOfficerPO = (await createCaseOfficer("Known Officer")).withId(4);
   });
 
   describe("helper functions", () => {
@@ -297,38 +295,55 @@ describe("executeQuery", () => {
     test("should return complainant types for past 12 months", async () => {
       await getResponsePromise.then(response => {
         expect(response.statusCode).toEqual(200);
-        expect(
-          response.body[PERSON_TYPE.CIVILIAN.abbreviation][9]["count"]
-        ).toEqual(2);
-        expect(
-          response.body[PERSON_TYPE.CIVILIAN.abbreviation][11]["count"]
-        ).toEqual(1);
-        expect(
-          response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][8]["count"]
-        ).toEqual(1);
-        expect(
-          response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][3]["count"]
-        ).toEqual(0);
+        if (PERSON_TYPE.CIVILIAN) {
+          expect(
+            response.body[PERSON_TYPE.CIVILIAN.abbreviation][9]["count"]
+          ).toEqual(2);
 
-        const numOfCC = response.body[PERSON_TYPE.CIVILIAN.abbreviation].filter(
-          month => month["count"] === 0
-        ).length;
-        expect(numOfCC).toEqual(10);
+          expect(
+            response.body[PERSON_TYPE.CIVILIAN.abbreviation][11]["count"]
+          ).toEqual(1);
 
-        const numOfPO = response.body[
-          PERSON_TYPE.KNOWN_OFFICER.abbreviation
-        ].filter(month => month["count"] === 0).length;
-        expect(numOfPO).toEqual(11);
+          const numOfCC = response.body[
+            PERSON_TYPE.CIVILIAN.abbreviation
+          ].filter(month => month["count"] === 0).length;
+          expect(numOfCC).toEqual(10);
+        }
+        if (PERSON_TYPE.KNOWN_OFFICER) {
+          expect(
+            response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][8]["count"]
+          ).toEqual(1);
+
+          const numOfPO = response.body[
+            PERSON_TYPE.KNOWN_OFFICER.abbreviation
+          ].filter(month => month["count"] === 0).length;
+          expect(numOfPO).toEqual(11);
+        }
+        if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
+          expect(
+            response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][3][
+              "count"
+            ]
+          ).toEqual(0);
+
+          const numOfCPD = response.body[
+            PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
+          ].filter(month => month["count"] === 0).length;
+          expect(numOfCPD).toEqual(12);
+        }
+        if (PERSON_TYPE.PERSON_IN_CUSTODY) {
+          expect(
+            // TODO rework when more HAWAII person types are available
+            response.body[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation][9][
+              "count"
+            ]
+          ).toEqual(2);
+        }
 
         const numOfAC = response.body["AC"].filter(
           month => month["count"] === 0
         ).length;
         expect(numOfAC).toEqual(12);
-
-        const numOfCPD = response.body[
-          PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
-        ].filter(month => month["count"] === 0).length;
-        expect(numOfCPD).toEqual(12);
       });
     });
 
@@ -344,14 +359,25 @@ describe("executeQuery", () => {
         })
         .then(response => {
           expect(response.statusCode).toEqual(200);
-          expect(
-            response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][2]["count"]
-          ).toEqual(1);
-          expect(
-            response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][0][
-              "count"
-            ]
-          ).toEqual(0);
+          if (PERSON_TYPE.KNOWN_OFFICER) {
+            expect(
+              response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][2]["count"]
+            ).toEqual(1);
+          }
+          if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
+            expect(
+              response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][0][
+                "count"
+              ]
+            ).toEqual(0);
+          }
+          if (PERSON_TYPE.PERSON_IN_CUSTODY) {
+            expect(
+              response.body[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation][2][
+                "count"
+              ]
+            ).toEqual(1);
+          }
         });
     });
   });

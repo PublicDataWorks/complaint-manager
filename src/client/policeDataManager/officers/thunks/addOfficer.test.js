@@ -15,10 +15,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
@@ -42,7 +38,7 @@ describe("addOfficer", () => {
     };
     const payload = {
       officerId: officer.id,
-      caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+      caseEmployeeType: "Civilian Within PD",
       ...formValues
     };
 
@@ -58,7 +54,7 @@ describe("addOfficer", () => {
     await addOfficer(
       defaultCase.id,
       officer.id,
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+      "Civilian Within PD",
       formValues
     )(dispatch);
 

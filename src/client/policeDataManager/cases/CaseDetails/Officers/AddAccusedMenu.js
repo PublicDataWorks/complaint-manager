@@ -50,9 +50,7 @@ const AddAccusedMenu = props => {
                 roleOnCase: ACCUSED
               })
             );
-            props.dispatch(
-              addCaseEmployeeType(PERSON_TYPE.KNOWN_OFFICER.employeeDescription)
-            );
+            props.dispatch(addCaseEmployeeType("Known Officer"));
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));
           }}
         >
@@ -69,7 +67,7 @@ const AddAccusedMenu = props => {
             );
             props.dispatch(
               addCaseEmployeeType(
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+                "Civilian Within NOPD" // FIXME
               )
             );
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));

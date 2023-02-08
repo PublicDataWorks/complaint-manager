@@ -44,12 +44,15 @@ export const executeQuery = async (nickname, dateRange) => {
     return await models.cases.findAll(queryOptions);
   });
 
-  let totalComplaints = {
-    [PERSON_TYPE.CIVILIAN.abbreviation]: 0,
-    [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 0,
-    [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
-    AC: 0
-  };
+  let totalComplaints = Object.values(PERSON_TYPE).reduce(
+    (acc, type) => {
+      acc[type.abbreviation] = 0;
+      return acc;
+    },
+    {
+      AC: 0
+    }
+  );
 
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {

@@ -59,6 +59,7 @@ import {
 import _ from "lodash";
 
 const {
+  DEFAULT_PERSON_TYPE,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
@@ -291,7 +292,7 @@ export const openRemovePersonDialog = (personDetails, personType, pd) => {
   if (personType === "civilians") {
     optionalText = "";
     personTypeTitleDisplay = "Civilian";
-  } else {
+  } else if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
     const isCivilianWithinPd =
       personDetails.caseEmployeeType ===
       PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
@@ -301,6 +302,8 @@ export const openRemovePersonDialog = (personDetails, personType, pd) => {
     optionalText = ` This includes any Notes or Allegations associated to the ${_.lowerCase(
       personTypeTitleDisplay
     )}.`;
+  } else {
+    personTypeTitleDisplay = DEFAULT_PERSON_TYPE.description;
   }
 
   return {

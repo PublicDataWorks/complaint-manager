@@ -28,10 +28,6 @@ import LetterStatusMessage from "../../CaseDetails/LetterStatusMessage/LetterSta
 import getReferralLetterEditStatus from "../thunks/getReferralLetterEditStatus";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 export class LetterReview extends Component {
   caseDetailsNotYetLoaded() {
     return (
@@ -162,11 +158,9 @@ export class LetterReview extends Component {
           />
 
           {caseDetails.accusedOfficers.map(officer => {
-            const cardTitle =
-              officer.caseEmployeeType ===
-              PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-                ? `Accused Civilian (${pd})`
-                : "Accused Officer";
+            const cardTitle = officer.caseEmployeeType.includes("Civilian")
+              ? `Accused Civilian (${pd})`
+              : "Accused Officer";
             return (
               <CaseDetailCard
                 cardTitle={cardTitle}

@@ -1,5 +1,6 @@
 const {
-  PERSON_TYPE
+  PERSON_TYPE,
+  DEFAULT_PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
@@ -13,7 +14,7 @@ const getPrefix = personType => {
   );
   return typeObject
     ? typeObject.abbreviation
-    : PERSON_TYPE.CIVILIAN.abbreviation;
+    : DEFAULT_PERSON_TYPE.abbreviation;
 };
 
 export const getCaseReferencePrefix = (isAnonymous, personType) => {

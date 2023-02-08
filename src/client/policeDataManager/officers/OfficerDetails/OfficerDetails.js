@@ -27,9 +27,6 @@ import PhoneNumberField from "../../cases/sharedFormComponents/PhoneNumberField"
 import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 import { connect } from "react-redux";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 class OfficerDetails extends React.Component {
   onSubmit = (values, dispatch) => {
     dispatch(this.props.submitAction(values));
@@ -54,8 +51,7 @@ class OfficerDetails extends React.Component {
   render() {
     const CIVILIAN_WITHIN_PD = `Civilian (${this.props.pd})`;
     const isCivilianWithinPd =
-      this.props.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+      this.props.caseEmployeeType?.includes("Civilian");
     const additionalInformationText = isCivilianWithinPd
       ? `Use this section to add notes, a description, or indicate any information about the ${_.lowerFirst(
           CIVILIAN_WITHIN_PD

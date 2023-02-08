@@ -1,9 +1,6 @@
 "use strict";
 import { sanitize } from "../../../sharedUtilities/sanitizeHTML";
 import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const {
   ACCUSED,

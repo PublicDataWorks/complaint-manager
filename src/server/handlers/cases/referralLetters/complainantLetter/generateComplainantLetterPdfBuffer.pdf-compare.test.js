@@ -12,10 +12,6 @@ import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
@@ -139,7 +135,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       address: "123 Loblaw Lane",
       email: "bob@bobloblawslawblog.net",
       officerId: "9393448",
-      caseEmployeeType: PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+      caseEmployeeType: "Civilian Within NOPD"
     };
 
     let buffer = await models.sequelize.transaction(async transaction => {
