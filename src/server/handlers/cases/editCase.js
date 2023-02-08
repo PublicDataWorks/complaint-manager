@@ -46,7 +46,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   }
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
-    const valuesToUpdate = _.omit(request.body, ["createdBy", "assignedTo"]);
+    const valuesToUpdate = _.omit(request.body, ["createdBy"]);
 
     if (request.body.incidentLocation) {
       await upsertAddress(

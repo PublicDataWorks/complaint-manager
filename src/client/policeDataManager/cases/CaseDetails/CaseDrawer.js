@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import formatDate from "../../../../sharedUtilities/formatDate";
 import { Link } from "react-router-dom";
 import LinkButton from "../../shared/components/LinkButton";
-import { Drawer, Typography } from "@material-ui/core";
+import { Drawer, IconButton, Typography } from "@material-ui/core";
 import CaseNotes from "./CaseNotes/CaseNotes";
 import CaseTags from "./CaseTags/CaseTags";
 import ArchiveCaseButton from "./ArchiveCaseButton/ArchiveCaseButton";
 import RestoreArchivedCaseButton from "./RestoreArchivedCaseButton/RestoreArchivedCaseButton";
 import { resetWorkingCasesPaging } from "../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
+import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
 
-const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions }) => {
+const CaseDrawer = ({
+  classes,
+  caseDetails,
+  resetWorkingCasesPaging,
+  permissions
+}) => {
   const lastDrawerRowClassName = classes.drawerRowEnd;
+  const [gearDialogOpen, setGearDialogOpen] = useState(false);
 
   return (
     <Drawer
@@ -48,7 +56,9 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
             >
               {`Case #${caseDetails.caseReference}`}
             </Typography>
-            {permissions?.includes(USER_PERMISSIONS.ARCHIVE_CASE) ? renderArchiveOrRestoreButton(caseDetails.isArchived) : ""}
+            {permissions?.includes(USER_PERMISSIONS.ARCHIVE_CASE)
+              ? renderArchiveOrRestoreButton(caseDetails.isArchived)
+              : ""}
           </div>
           <div className={classes.drawerRow}>
             <div className={classes.drawerRowItem}>
@@ -75,9 +85,23 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
           <div className={classes.drawerRowEnd}>
             <div className={classes.drawerRowItem}>
               <Typography variant="caption">Assigned To</Typography>
-              <Typography data-testid="assigned-to" variant="body2">
-                {caseDetails.assignedTo}
-              </Typography>
+              <span style={{ display: "flex" }}>
+                <Typography data-testid="assigned-to" variant="body2">
+                  {caseDetails.assignedTo}
+                </Typography>
+                <IconButton
+                  data-testid={"assignedToButton"}
+                  style={{ paddingTop: "0px" }}
+                  onClick={() => setGearDialogOpen(true)}
+                >
+                  <SettingsIcon />
+                </IconButton>
+              </span>
+              <ReassignCaseDialog
+                caseDetails={caseDetails}
+                open={gearDialogOpen}
+                setDialog={openState => setGearDialogOpen(openState)}
+              ></ReassignCaseDialog>
             </div>
             <div className={classes.drawerRowItem} />
             <div className={classes.drawerRowItem} />
@@ -90,6 +114,9 @@ const CaseDrawer = ({ classes, caseDetails, resetWorkingCasesPaging, permissions
   );
 };
 
-export default connect(state => ({ 
-  permissions: state?.users?.current?.userInfo?.permissions 
-}), { resetWorkingCasesPaging })(CaseDrawer);
+export default connect(
+  state => ({
+    permissions: state?.users?.current?.userInfo?.permissions
+  }),
+  { resetWorkingCasesPaging }
+)(CaseDrawer);
