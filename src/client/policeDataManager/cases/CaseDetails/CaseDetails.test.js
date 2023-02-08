@@ -29,6 +29,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   GET_CONFIGS_SUCCEEDED,
+  GET_USERS_SUCCESS,
   NARRATIVE_FORM,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
@@ -97,6 +98,10 @@ describe("Case Details Component", () => {
     store.dispatch({
       type: GET_CONFIGS_SUCCEEDED,
       payload: { pd: "LAPD" }
+    });
+    store.dispatch({
+      type: GET_USERS_SUCCESS,
+      users: [{ email: expectedCase.assignedTo, name: "Fungi" }]
     });
 
     caseDetails = mount(
@@ -226,11 +231,7 @@ describe("Case Details Component", () => {
     });
 
     test("should display assigned to user", () => {
-      containsText(
-        caseDetails,
-        '[data-testid="assigned-to"]',
-        expectedCase.assignedTo
-      );
+      containsText(caseDetails, '[data-testid="assigned-to"]', "Fungi");
     });
   });
 
