@@ -15,7 +15,7 @@ export const setupCase = async () => {
     models.cases.destroy({ where: {}, truncate: true, auditUser: "user" });
 
     const intakeSource = await models.intake_source.create(
-      new IntakeSource.Builder().defaultIntakeSource().withId(random(5, 99999)),
+      new IntakeSource.Builder().defaultIntakeSource().withId(3),
       { auditUser: "user" }
     );
 

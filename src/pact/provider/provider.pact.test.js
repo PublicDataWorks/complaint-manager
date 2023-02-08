@@ -2,7 +2,10 @@ import app from "../../server/server";
 import fs from "fs";
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
-import { base } from "../../server/testHelpers/requestTestHelpers";
+import {
+  base,
+  cleanupDatabase
+} from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";

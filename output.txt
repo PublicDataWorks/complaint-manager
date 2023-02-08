@@ -1,0 +1,1275 @@
+yarn run v1.22.18
+$ yarn setup:test:db test1 && yarn setup:test:db test2 && NEW_RELIC_ENABLED=false NEW_RELIC_NO_CONFIG_FILE=true react-app-rewired --max_old_space_size=2000 test src/pact/provider --logHeapUsage --forceExit --env=jsdom --testTimeout 100000 --runInBand
+$ ./scripts/setup-test-db.sh test1
+Running against test1 database...
+$ /app/node_modules/.bin/sequelize db:create --env=test1
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test1".
+
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+$ /app/node_modules/.bin/sequelize db:migrate --env=test1
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test1".
+No migrations were executed, database schema was already up to date.
+$ ./scripts/setup-test-db.sh test2
+Running against test2 database...
+$ /app/node_modules/.bin/sequelize db:create --env=test2
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test2".
+
+
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+$ /app/node_modules/.bin/sequelize db:migrate --env=test2
+
+[4mSequelize CLI [Node: 16.14.2, CLI: 6.3.0, ORM: 6.21.6][24m
+
+Loaded configuration file "src/server/config/sequelize_config.js".
+Using environment "test2".
+No migrations were executed, database schema was already up to date.
+  console.log
+    Running on Worker:  1
+
+      at Object.<anonymous> (src/setupTests.js:13:9)
+
+  console.warn
+    For browser usage, directly use msgpackr/unpack or msgpackr/pack modules. The argument 'filename' must be a file URL object, file URL string, or absolute path string. Received 'http://localhost/node.cjs'
+
+      at tryRequire (node_modules/msgpackr/dist/node.cjs:2128:12)
+      at Object.<anonymous> (node_modules/msgpackr/dist/node.cjs:2118:19)
+      at Object.<anonymous> (node_modules/bull/lib/scripts.js:8:18)
+
+[2023-02-08 19:55:11.948 +0000] INFO (267 on 276da776e292): pact@9.17.3: Verifying provider
+[2023-02-08 19:55:12.131 +0000] INFO (267 on 276da776e292): pact-node@10.17.2: Verifying Pacts.
+[2023-02-08 19:55:12.146 +0000] INFO (267 on 276da776e292): pact-node@10.17.2: Verifying Pact Files
+[2023-02-08 19:55:21.505 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "users exist in the store", ignoring
+[2023-02-08 19:55:26.878 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "case statuses exist", ignoring
+[2023-02-08 19:55:49.327 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "null", ignoring
+[2023-02-08 19:55:50.287 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "complaint types exist", ignoring
+[2023-02-08 19:55:53.574 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "letter types have been added to the database", ignoring
+[2023-02-08 19:55:54.031 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "signer to be added doesn't exist in the database", ignoring
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+          at runMicrotasks (<anonymous>)
+
+[2023-02-08 19:55:56.969 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "letter types have been added to the database", ignoring
+[2023-02-08 19:55:57.442 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "server is running", ignoring
+[2023-02-08 19:55:59.191 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "server is running", ignoring
+[2023-02-08 19:56:00.870 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "user is administrator", ignoring
+[2023-02-08 19:56:15.395 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "letter types have been added to the database", ignoring
+  console.log
+    Overriding AWS config for Localstack
+
+      at createConfiguredS3Instance (src/server/createConfiguredS3Instance.js:15:13)
+          at runMicrotasks (<anonymous>)
+
+[2023-02-08 19:56:24.396 +0000] WARN (267 on 276da776e292): pact@9.17.3: No state handler found for "Letter types exist", ignoring
+[2023-02-08 19:56:28.200 +0000] INFO (267 on 276da776e292): pact-node@10.17.2: Pact Verification succeeded.
+  console.log
+    INFO: Reading pact at /app/pact/pacts/complaint-manager.client-complaint-manager.server.json
+    WARN: Please note: we are tracking events anonymously to gather important usage statistics like Pact-Ruby version
+                    and operating system. To disable tracking, set the 'PACT_DO_NOT_TRACK' environment
+                    variable to 'true'.
+    
+    
+    
+    Verifying a pact between complaint-manager.client and complaint-manager.server
+      Given letter is ready for review
+        get letter review status
+          with GET /api/cases/1/referral-letter/edit-status
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given districts exist
+    
+        get districts
+    
+          with GET /api/districts
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given users exist in the store
+    
+        get users
+    
+          with GET /api/users
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given tags exist
+    
+        get tags
+    
+          with GET /api/tags
+    
+            returns a response which
+    
+              has status code 200
+              has a matching body
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+      Given intake sources exist
+        get intake sources
+          with GET /api/intake-sources
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given civilian-titles exist
+    
+        get civilian-titles
+    
+          with GET /api/civilian-titles
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given case has a case note
+    
+        get case notes
+    
+          with GET /api/cases/1/case-notes
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given case has a case tag
+    
+        get case tags
+    
+          with GET /api/cases/1/case-tags
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given case note actions exist
+    
+        get case note actions
+    
+          with GET /api/case-note-actions
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given gender identities exist
+    
+        get gender idenities
+    
+          with GET /api/gender-identities
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given race ethnicities exist
+    
+        get race ethnicities
+    
+          with GET /api/race-ethnicities
+    
+            returns a response which
+    
+              has status code 200
+              has a matching body
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given case statuses exist
+    
+        get case statuses
+    
+          with GET /api/case-statuses
+    
+            returns a response which
+    
+              has status code 200
+              has a matching body
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given how did you hear about us sources exist
+    
+        get how did you hear about us sources
+    
+          with GET /api/how-did-you-hear-about-us-sources
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: with officer complainant
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: with officer witness
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: case has accused officer with allegations
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: with officer complainant
+    
+        edit Complainant
+    
+          with PUT /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: with officer witness
+    
+        edit Witness
+    
+          with PUT /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: case has accused officer with allegations
+    
+        edit Accused
+    
+          with PUT /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: race ethnicities exist: gender identities exist: civilian titles exist
+    
+        add Complainant
+    
+          with POST /api/cases/1/civilians
+    
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given Case exists: race ethnicities exist: gender identities exist: civilian titles exist
+    
+        add Witness
+    
+          with POST /api/cases/1/civilians
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given Case exists: with civilian complainant
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian complainant
+    
+        edit Complainant
+    
+          with PUT /api/cases/1/civilians/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: with civilian witness
+    
+        get case
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian witness
+    
+        edit Witness
+    
+          with PUT /api/cases/1/civilians/2
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: with officer complainant
+    
+        remove Complainant
+    
+          with DELETE /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+    
+      Given Case exists: with officer witness
+    
+        remove Witness
+    
+          with DELETE /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists: case has accused officer with allegations
+    
+        remove Accused
+    
+          with DELETE /api/cases/1/cases-officers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists
+    
+        get case tags for case with no case tags
+    
+          with GET /api/cases/1/case-tags
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: tags exist
+    
+        add existing case tag
+    
+          with POST /api/cases/1/case-tags
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given Case exists
+    
+        add new case tag
+    
+          with POST /api/cases/1/case-tags
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given case has a case tag
+    
+        remove case tag
+    
+          with DELETE /api/cases/1/case-tags/1
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review
+    
+        get letter preview
+    
+          with GET /api/cases/1/referral-letter/preview
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review
+    
+        get referral letter data
+    
+          with GET /api/cases/1/referral-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: with civilian complainant
+    
+        get letter preview
+    
+          with GET /api/cases/1/referral-letter/preview
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: officer history added
+    
+        get referral letter data
+    
+          with GET /api/cases/1/referral-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: officer history added: classifications added
+    
+        get referral letter data
+    
+          with GET /api/cases/1/referral-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: officer history added: classifications added
+    
+        update addresses
+    
+          with PUT /api/cases/1/referral-letter/addresses
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review: officer history added: classifications added
+    
+        update case status
+    
+          with PUT /api/cases/1/status
+    
+            returns a response which
+    
+              has status code 200
+    
+      Get complaint totals
+    
+        with GET /api/data?queryType=countComplaintTotals
+    
+          returns a response which
+    
+            has status code 200
+    
+            has a matching body
+    
+            includes headers
+    
+              "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists: with civilian complainant
+    
+        get cases page 1
+    
+          with GET /api/cases?page=1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given complaint types exist
+    
+        get complaint types
+    
+          with GET /api/complaint-types
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given intake sources exist: complaint types exist
+    
+        create case with known civilian complainant
+    
+          with POST /api/cases
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given intake sources exist: complaint types exist
+    
+        create case with unknown civilian complainant
+    
+          with POST /api/cases
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given intake sources exist: complaint types exist
+    
+        create case with officer complainant
+          with POST /api/cases
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given signers have been added to the database
+    
+        get signers
+    
+          with GET /api/signers
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter types have been added to the database
+    
+        get letter types
+    
+          with GET /api/letter-types
+    
+            returns a response which
+    
+              has status code 200
+              has a matching body
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+      Given signer to be added doesn't exist in the database
+        post signer
+          with POST /api/signers
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given signers have been added to the database
+    
+        put signer
+    
+          with PUT /api/signers/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given signers have been added to the database
+    
+        delete signature
+    
+          with DELETE /api/signers/1
+    
+            returns a response which
+    
+              has status code 204
+    
+      Given Officer Bob Loblaw exists and works in the first district
+    
+        search for Officer Bob Loblaw
+    
+          with GET /api/officers/search?firstName=Bob&lastName=Loblaw&page=1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Officer Bob Loblaw exists and works in the first district
+    
+        search for officers from 1st District
+    
+          with GET /api/officers/search?districtId=1&page=1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter types have been added to the database
+    
+        edit letter type
+    
+          with PUT /api/letter-types/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given server is running
+    
+        show example letter preview
+    
+          with POST /api/example-letter-preview
+    
+            returns a response which
+    
+              has status code 200
+    
+              includes headers
+    
+                "Content-Type" which equals "application/pdf"
+    
+      Given server is running
+    
+        show example editable letter preview
+    
+          with POST /api/example-letter-preview
+    
+            returns a response which
+    
+              has status code 200
+    
+              includes headers
+    
+                "Content-Type" which equals "application/pdf"
+    
+      Given user is administrator
+    
+        add letter type
+    
+          with POST /api/letter-types
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given allegations have been added to the database
+    
+        get allegations
+    
+          with GET /api/allegations
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given allegations have been added to the database
+    
+        search allegations
+    
+          with GET /api/allegations/search?rule=RULE+2%3A+MORAL+CONDUCT
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given case has accused officer with allegations
+    
+        add officer allegation
+    
+          with POST /api/cases/1/cases-officers/1/officers-allegations
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists; districts exist; intake sources exsist; how did you hear about us sources exist
+    
+        edit incident details
+    
+          with PUT /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: officer history added
+    
+        get referral letter details
+    
+          with GET /api/cases/1/referral-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given classifications are added
+    
+        get classifications
+    
+          with GET /api/classifications
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given recommended actions are added
+    
+        get recommended actions
+    
+          with GET /api/recommended-actions
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review
+    
+        get letter edit status
+    
+          with GET /api/cases/1/referral-letter/edit-status
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: with civilian complainant
+    
+        get case details
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: officer history added
+    
+        update classifications
+    
+          with PUT /api/cases/1/referral-letter/classifications
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review: officer history added
+    
+        update recommended actions
+    
+          with PUT /api/cases/1/referral-letter/recommended-actions
+    
+            returns a response which
+    
+    
+              has status code 200
+    
+      Given letter is ready for review: officer history added
+    
+        update multiple classifications
+    
+          with PUT /api/cases/1/referral-letter/classifications
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review: officer history added
+    
+        update multiple recommended actions
+    
+          with PUT /api/cases/1/referral-letter/recommended-actions
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given Case exists; case note actions exist
+    
+        add case note
+    
+          with POST /api/cases/1/case-notes
+    
+            returns a response which
+    
+              has status code 201
+    
+              has a matching body
+    
+      Given letter is ready for review
+    
+        get case details
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review: with civilian complainant with accused officer
+    
+        get referral letter details
+    
+          with GET /api/cases/1/referral-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+      Given officer history options exist
+        get officer history options
+          with GET /api/officer-history-options
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given letter is ready for review
+    
+        update officer history including allegations
+    
+          with PUT /api/cases/1/referral-letter/officer-history
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review
+    
+        update officer history
+    
+    
+          with PUT /api/cases/1/referral-letter/officer-history
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given Case exists: with civilian complainant
+    
+        remove Complainant
+    
+          with DELETE /api/cases/1/civilians/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+      Given letter types have been added to the database
+    
+        delete letter type
+    
+          with DELETE /api/letter-types/1
+    
+            returns a response which
+    
+              has status code 204
+    
+      Given letter is ready for review
+    
+        get pdf
+    
+          with GET /api/cases/1/referral-letter/get-pdf
+    
+            returns a response which
+    
+              has status code 200
+    
+              includes headers
+    
+                "Content-Type" which equals "application/octet-stream"
+    
+      Given letter is ready for review
+    
+        approve letter
+    
+          with PUT /api/cases/1/referral-letter/approve-letter
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review
+    
+        update letter content
+    
+          with PUT /api/cases/1/referral-letter/content
+    
+            returns a response which
+    
+              has status code 200
+    
+      Given letter is ready for review: with civilian complainant with accused officer
+    
+        get letter review data
+    
+          with GET /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Letter types exist
+    
+        get letter types
+    
+          with GET /api/letter-types
+    
+            returns a response which
+    
+              has status code 200
+              has a matching body
+              includes headers
+                "Content-Type" which equals "application/json; charset=utf-8"
+      Given Case exists
+        generate letter
+          with POST /api/cases/1/letters
+            returns a response which
+    
+              has status code 200
+    
+              has a matching body
+    
+              includes headers
+    
+                "Content-Type" which equals "application/json; charset=utf-8"
+    
+      Given Case exists
+    
+        Update Assigned To
+    
+          with PUT /api/cases/1
+    
+            returns a response which
+    
+              has status code 200
+    
+    
+    85 interactions, 0 failures
+
+      at Object.<anonymous> (src/pact/provider/provider.pact.test.js:681:13)
+          at runMicrotasks (<anonymous>)
+
+

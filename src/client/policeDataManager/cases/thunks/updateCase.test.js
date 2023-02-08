@@ -29,9 +29,7 @@ describe("updateCase", () => {
     };
 
     nock("http://localhost")
-      .put(`/api/cases/${updateDetails.id}/`, {
-        assignedTo: "another.person@email.com"
-      })
+      .put(`/api/cases/${updateDetails.id}`)
       .reply(200, responseBody);
 
     await updateCase(updateDetails)(dispatch);
