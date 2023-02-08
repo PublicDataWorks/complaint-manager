@@ -29,7 +29,7 @@ describe("ReassignCaseDialog", () => {
   store.dispatch({ type: GET_USERS_SUCCESS, users: FAKE_USERS });
   let dispatchSpy;
   let dialog;
-  const closeFunction = jest.fn();
+  const setDialog = jest.fn();
   const caseId = 1;
   const caseDetails = new Case.Builder()
     .defaultCase()
@@ -43,7 +43,7 @@ describe("ReassignCaseDialog", () => {
       <Provider store={store}>
         <ReassignCaseDialog
           open={true}
-          close={closeFunction}
+          setDialog={openState => setDialog(openState)}
           caseDetails={caseDetails}
         />
         <SharedSnackbarContainer />
@@ -61,7 +61,7 @@ describe("ReassignCaseDialog", () => {
 
   test("should close dialog and reset form when cancel button is clicked", () => {
     userEvent.click(screen.getByText("Cancel"));
-    expect(closeFunction).toHaveBeenCalled();
+    expect(setDialog).toHaveBeenCalled();
     expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
   });
 

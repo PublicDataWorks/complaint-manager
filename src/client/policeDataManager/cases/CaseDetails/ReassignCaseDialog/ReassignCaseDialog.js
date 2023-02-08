@@ -13,29 +13,21 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import updateCase from "../../thunks/updateCase";
-import { closeReassinCaseDialog } from "../../../actionCreators/casesActionCreators";
 import { REASSIGN_CASE_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
-import getUsers from "../../../../common/thunks/getUsers";
 import { usernameRequired } from "../../../../formFieldLevelValidations";
 //import getTagDropdownValues from "../../../tags/thunks/getTagDropdownValues";
 import Dropdown from "../../../../common/components/Dropdown";
 
 class ReassignCaseDialog extends Component {
-  //   componentDidMount() {
-  //     this.props.getUsers();
-  //   }
-
   submit = values => {
-    const { caseId } = this.props.caseDetails;
     let caseDetailsCopy = { ...this.props.caseDetails };
     caseDetailsCopy.assignedTo = this.props.currentValue;
     this.props.updateCase(caseDetailsCopy);
-    //this.props.createCaseTag(values, caseId);
-    //this.props.reset(CASE_TAG_FORM_NAME);
+    this.props.setDialog(false);
   };
   render() {
-    const { open, submitting, handleSubmit } = this.props;
+    const { open, handleSubmit } = this.props;
 
     return (
       <Dialog open={open}>
@@ -77,7 +69,7 @@ class ReassignCaseDialog extends Component {
             }}
             data-testid="reassignCaseCancelButton"
             onClick={() => {
-              this.props.close();
+              this.props.setDialog(false);
               this.props.reset(REASSIGN_CASE_FORM_NAME);
             }}
           >
@@ -112,9 +104,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   updateCase,
-  // closeCaseTagDialog,
-  // createCaseTag,
-  // getTagDropdownValues,
   reset
 };
 
