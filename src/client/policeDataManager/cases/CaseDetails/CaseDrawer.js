@@ -12,6 +12,7 @@ import { resetWorkingCasesPaging } from "../../actionCreators/casesActionCreator
 import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
 import SettingsIcon from "@material-ui/icons/Settings";
+import { getNameOfUser } from "./usersSelector";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
@@ -20,7 +21,8 @@ const CaseDrawer = ({
   classes,
   caseDetails,
   resetWorkingCasesPaging,
-  permissions
+  permissions,
+  nameOfUser
 }) => {
   const lastDrawerRowClassName = classes.drawerRowEnd;
   const [gearDialogOpen, setGearDialogOpen] = useState(false);
@@ -87,11 +89,11 @@ const CaseDrawer = ({
               <Typography variant="caption">Assigned To</Typography>
               <span style={{ display: "flex" }}>
                 <Typography data-testid="assigned-to" variant="body2">
-                  {caseDetails.assignedTo}
+                  {nameOfUser}
                 </Typography>
                 <IconButton
                   data-testid={"assignedToButton"}
-                  style={{ paddingTop: "0px" }}
+                  style={{ marginTop: "-14px" }}
                   onClick={() => setGearDialogOpen(true)}
                 >
                   <SettingsIcon />
@@ -115,8 +117,9 @@ const CaseDrawer = ({
 };
 
 export default connect(
-  state => ({
-    permissions: state?.users?.current?.userInfo?.permissions
+  (state, props) => ({
+    permissions: state?.users?.current?.userInfo?.permissions,
+    nameOfUser: getNameOfUser(state, props.caseDetails.assignedTo)
   }),
   { resetWorkingCasesPaging }
 )(CaseDrawer);

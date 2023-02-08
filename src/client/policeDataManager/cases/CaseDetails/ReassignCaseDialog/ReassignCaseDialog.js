@@ -48,10 +48,12 @@ class ReassignCaseDialog extends Component {
               component={Dropdown}
               name="user"
               required
-              style={{ width: "12rem" }}
+              style={{ width: "20rem" }}
               validate={[usernameRequired]}
             >
-              {generateMenuOptions(this.props.users.map(user => user.email))}
+              {generateMenuOptions(
+                this.props.users.map(user => [user.name, user.email])
+              )}
             </Field>
           </form>
         </DialogContent>

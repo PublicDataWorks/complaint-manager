@@ -81,7 +81,7 @@ pactWith(
         });
 
         userEvent.click(screen.getByTestId("userDropdownInput"));
-        const newAssignee = await screen.findByText("anna.banana@gmail.com");
+        const newAssignee = await screen.findByText("Anna Banana");
         userEvent.click(newAssignee);
         userEvent.click(screen.getByTestId("assignedToSubmitButton"));
 

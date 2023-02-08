@@ -67,7 +67,7 @@ describe("ReassignCaseDialog", () => {
 
   test("users should appear in dropdown menu", async () => {
     userEvent.click(screen.getByTestId("userDropdownInput"));
-    expect(await screen.findByText(FAKE_USERS[1].email)).toBeInTheDocument;
+    expect(await screen.findByText(FAKE_USERS[1].name)).toBeInTheDocument;
   });
 
   test("should dispatch updateCase when clicking submit button", async () => {
@@ -78,7 +78,7 @@ describe("ReassignCaseDialog", () => {
       .put(`/api/cases/${caseId}`, caseDetailsCopy)
       .reply(200, {});
     userEvent.click(screen.getByTestId("userDropdownInput"));
-    const newAssignee = await screen.findByText(FAKE_USERS[1].email);
+    const newAssignee = await screen.findByText(FAKE_USERS[1].name);
     userEvent.click(newAssignee);
     userEvent.click(screen.getByTestId("assignedToSubmitButton"));
     expect(dispatchSpy).toHaveBeenCalledWith(reset(REASSIGN_CASE_FORM_NAME));
@@ -87,7 +87,7 @@ describe("ReassignCaseDialog", () => {
 
   test("assign user button should not be clickable when original user is selected", () => {
     expect(screen.getByTestId("userDropdownInput").value).toEqual(
-      FAKE_USERS[0].email
+      FAKE_USERS[0].name
     );
     expect(screen.getByTestId("assignedToSubmitButton").disabled).toBeTrue();
   });
