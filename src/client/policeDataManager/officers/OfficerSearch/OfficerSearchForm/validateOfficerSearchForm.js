@@ -4,27 +4,25 @@ import {
   includesInvalidCharacter
 } from "../../../../searchFormValidations";
 
-const validate = values => {
+const validate = fields => values => {
   const includesInvalidCharMessage = "Please note that % and _ are not allowed";
   const fieldTooShortMessage = "Please enter at least two characters";
 
   const errors = atLeastOneRequired(
     values,
     "Please complete at least one field",
-    ["firstName", "lastName", "districtId"]
+    fields.map(field => field.name)
   );
 
-  if (includesInvalidCharacter(values.firstName)) {
-    errors.firstName = includesInvalidCharMessage;
-  } else if (fieldTooShort(values.firstName)) {
-    errors.firstName = fieldTooShortMessage;
-  }
-
-  if (includesInvalidCharacter(values.lastName)) {
-    errors.lastName = includesInvalidCharMessage;
-  } else if (fieldTooShort(values.lastName)) {
-    errors.lastName = fieldTooShortMessage;
-  }
+  fields.forEach(field => {
+    if (field.isText) {
+      if (includesInvalidCharacter(values[field.name])) {
+        errors[field.name] = includesInvalidCharMessage;
+      } else if (fieldTooShort(values[field.name])) {
+        errors[field.name] = fieldTooShortMessage;
+      }
+    }
+  });
 
   return errors;
 };

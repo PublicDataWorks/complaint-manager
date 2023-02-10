@@ -312,6 +312,7 @@ export const AUDIT_SUBJECT = {
   ALL_ARCHIVED_CASES: "All Archived Cases",
   CASE_EXPORT: "Case Export",
   OFFICER_DATA: "Officer Data",
+  INMATE_DATA: "Inmate Data",
   CASE_HISTORY: "Case History",
   CASE_NOTES: "Case Notes",
   CASE_TAGS: "Case Tags",

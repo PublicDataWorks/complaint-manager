@@ -1,39 +1,35 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import Dropdown from "../../../../common/components/Dropdown";
-import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
-import { PrimaryButton } from "../../../shared/components/StyledButtons";
-import validate from "./validateOfficerSearchForm";
-import getSearchResults from "../../../shared/thunks/getSearchResults";
-import { OFFICER_SEARCH_FORM_NAME } from "../../../../../sharedUtilities/constants";
-import getDistrictDropdownValues from "../../../districts/thunks/getDistrictDropdownValues";
-import { connect } from "react-redux";
-import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import { renderTextField } from "../../../cases/sharedFormComponents/renderFunctions";
+import Dropdown from "../../common/components/Dropdown";
+import { generateMenuOptions } from "../utilities/generateMenuOptions";
+import { PrimaryButton } from "../shared/components/StyledButtons";
+import getSearchResults from "../shared/thunks/getSearchResults";
+import { nullifyFieldUnlessValid } from "../utilities/fieldNormalizers";
+import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
+import validate from "../officers/OfficerSearch/OfficerSearchForm/validateOfficerSearchForm";
 
 const normalizeValues = values => {
   const normalizedValues = {};
+  if (values.inmateId) {
+    normalizedValues.inmateId = values.inmateId.trim();
+  }
   if (values.firstName) {
     normalizedValues.firstName = values.firstName.trim();
   }
   if (values.lastName) {
     normalizedValues.lastName = values.lastName.trim();
   }
-  if (values.districtId) {
-    normalizedValues.districtId = nullifyFieldUnlessValid(values.districtId);
-  }
+  // if (values.districtId) {
+  //   normalizedValues.districtId = nullifyFieldUnlessValid(values.districtId);
+  // }
   return { ...values, ...normalizedValues };
 };
 
-class OfficerSearchForm extends Component {
-  componentDidMount() {
-    this.props.getDistrictDropdownValues();
-  }
-
+class InmateSearchForm extends Component {
   onSubmit = (values, dispatch) => {
     const paginatingSearch = true;
     dispatch(
-      getSearchResults(normalizeValues(values), "officers", paginatingSearch, 1)
+      getSearchResults(normalizeValues(values), "inmates", paginatingSearch, 1)
     );
   };
 
@@ -44,6 +40,17 @@ class OfficerSearchForm extends Component {
       <div>
         <form>
           <div style={{ display: "flex" }}>
+            <Field
+              label="ID Number"
+              name="inmateId"
+              component={renderTextField}
+              inputProps={{
+                "data-testid": "idField",
+                autoComplete: "off",
+                "aria-label": "Inmate ID Field"
+              }}
+              style={{ flex: "1", marginRight: "24px" }}
+            />
             <Field
               label="First Name"
               name="firstName"
@@ -67,8 +74,7 @@ class OfficerSearchForm extends Component {
               }}
               style={{ flex: "1", marginRight: "24px" }}
             />
-
-            <Field
+            {/* <Field
               label="District"
               name="districtId"
               component={Dropdown}
@@ -80,13 +86,13 @@ class OfficerSearchForm extends Component {
               }}
             >
               {generateMenuOptions(props.districts, "Any District")}
-            </Field>
+            </Field> */}
             <div style={{ alignSelf: "center" }}>
               <PrimaryButton
                 disabled={props.invalid}
                 onClick={props.handleSubmit(this.onSubmit)}
                 style={{ margin: "18px 0" }}
-                data-testid="officerSearchSubmitButton"
+                data-testid="inmateSearchSubmitButton"
               >
                 search
               </PrimaryButton>
@@ -98,23 +104,11 @@ class OfficerSearchForm extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    districts: state.ui.districts
-  };
-};
-
-const mapDispatchToProps = {
-  getDistrictDropdownValues
-};
-
-const connectedForm = reduxForm({
-  form: OFFICER_SEARCH_FORM_NAME,
+export default reduxForm({
+  form: "InmateSearchForm",
   validate: validate([
     { name: "firstName", isText: true },
     { name: "lastName", isText: true },
-    { name: "districtId", isText: false }
+    { name: "inmateId", isText: true }
   ])
-})(OfficerSearchForm);
-
-export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);
+})(InmateSearchForm);

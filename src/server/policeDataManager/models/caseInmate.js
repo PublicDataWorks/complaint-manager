@@ -9,7 +9,7 @@ const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
   const CaseInmate = sequelize.define(
-    "case_inmate",
+    "caseInmate",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -42,6 +42,10 @@ module.exports = (sequelize, DataTypes) => {
       updatedAt: {
         field: "updated_at",
         type: DataTypes.DATE
+      },
+      deletedAt: {
+        field: "deleted_at",
+        type: DataTypes.DATE
       }
     },
     {
@@ -56,6 +60,10 @@ module.exports = (sequelize, DataTypes) => {
 
   CaseInmate.prototype.getManagerType = async function (transaction) {
     return "complaint";
+  };
+
+  CaseInmate.prototype.modelDescription = async function (transaction) {
+    return [{ "Person in Custody ID": this.inmateId }];
   };
 
   CaseInmate.associate = models => {

@@ -18,6 +18,7 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_LETTER_OFFICER_CASE_OFFICER_COMBINATION:
     "The letter officer does not match with the expected case officer",
   INVALID_OFFICER_HISTORY_NOTE: "The officer's history note does not exist",
+  INVALID_PERSON_IN_CUSTODY: "The requested person in custody does not exist",
   INVALID_JOB: "Could not find specified job",
   INVALID_SENDER: "The requested sender could not be found",
   INVALID_TYPE: "The requested type is invalid or is already in use",

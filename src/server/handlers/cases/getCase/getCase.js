@@ -1,7 +1,6 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
-import Case from "../../../policeDataManager/payloadObjects/Case";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../policeDataManager/models");

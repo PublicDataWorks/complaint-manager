@@ -173,10 +173,10 @@ module.exports = (sequelize, DataTypes) => {
 
   Inmate.associate = models => {
     Inmate.belongsToMany(models.cases, {
-      through: models.case_inmate,
+      through: models.caseInmate,
       foreignKey: {
-        name: "officerId",
-        field: "officer_id",
+        name: "inmateId",
+        field: "inmate_id",
         allowNull: true
       }
     });

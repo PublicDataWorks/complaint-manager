@@ -79,6 +79,10 @@ const LetterTypePage = lazy(() =>
   import("./policeDataManager/admin/letterTypes/LetterTypePage")
 );
 
+const InmatesSearch = lazy(() =>
+  import("./policeDataManager/inmates/InmatesSearch")
+);
+
 const policeDataManagerRoutes = [
   {
     path: "/archived-cases",
@@ -111,6 +115,10 @@ const policeDataManagerRoutes = [
   {
     path: "/cases/:id/officers/:caseOfficerId/search",
     component: EditOfficerSearch
+  },
+  {
+    path: "/cases/:id/inmates/search",
+    component: InmatesSearch
   },
   {
     path: "/cases/:id/history",

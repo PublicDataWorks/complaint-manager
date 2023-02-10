@@ -13,6 +13,7 @@ import changeStatus from "./handlers/cases/changeStatus/changeStatus";
 import updateCaseNarrative from "./handlers/cases/updateCaseNarrative";
 import getCaseHistory from "./handlers/cases/getCaseHistory/getCaseHistory";
 import addCaseOfficer from "./handlers/officers/addCaseOfficer/addCaseOfficer";
+import addCaseInmate from "./handlers/inmates/addCaseInmate";
 import editCaseOfficer from "./handlers/officers/editCaseOfficer/editCaseOfficer";
 import removeCaseOfficer from "./handlers/officers/removeCaseOfficer/removeCaseOfficer";
 import exportJob from "./handlers/cases/export/exportJob";
@@ -32,6 +33,7 @@ import editCivilian from "./handlers/civilians/editCivilian";
 import removeCivilian from "./handlers/civilians/removeCivilian";
 import audit from "./handlers/audits/auditAuthentication";
 import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
+import searchInmates from "./handlers/inmates/searchInmates";
 import searchAllegations from "./handlers/allegations/searchAllegations";
 import searchCases from "./handlers/cases/casesSearch/searchCases";
 import getAllegations from "./handlers/allegations/getAllegations";
@@ -259,6 +261,14 @@ export const API_ROUTES = {
         "Something went wrong and the case tag was not removed. Please try again."
     }
   },
+  "/cases/:caseId/inmates": {
+    post: {
+      handler: addCaseInmate,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
+      errorMessage:
+        "Something went wrong and the person in custody was not added. Please try again."
+    }
+  },
   "/cases/:caseId/cases-officers": {
     post: {
       handler: addCaseOfficer,
@@ -458,6 +468,13 @@ export const API_ROUTES = {
   "/officers/search": {
     get: {
       handler: searchOfficers,
+      errorMessage:
+        "Something went wrong and the search was not completed. Please try again."
+    }
+  },
+  "/inmates/search": {
+    get: {
+      handler: searchInmates,
       errorMessage:
         "Something went wrong and the search was not completed. Please try again."
     }
