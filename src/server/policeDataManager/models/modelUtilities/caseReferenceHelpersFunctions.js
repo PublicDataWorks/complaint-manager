@@ -10,7 +10,8 @@ export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
 
 const getPrefix = personType => {
   const typeObject = Object.values(PERSON_TYPE).find(
-    type => type.description === personType
+    type =>
+      type.description === personType || type.employeeDescription === personType
   );
   return typeObject
     ? typeObject.abbreviation

@@ -181,7 +181,7 @@ pactWith(
                 },
                 body: {
                   case: {
-                    complainantType: "Civilian Initiated",
+                    complainantType: "CIVILIAN",
                     firstContactDate: like("2022-11-17"),
                     intakeSourceId: 1,
                     complaintType: "Civilian Initiated"
@@ -262,7 +262,7 @@ pactWith(
                 },
                 body: {
                   case: {
-                    complainantType: "Civilian Initiated",
+                    complainantType: "CIVILIAN",
                     firstContactDate: like("2022-11-18"),
                     intakeSourceId: 1,
                     complaintType: "Civilian Initiated"
@@ -371,7 +371,12 @@ pactWith(
           userEvent.click(await screen.findByText("Facebook"));
           userEvent.click(screen.getByTestId("complaintTypeDropdown"));
           userEvent.click(await screen.findByText("Civilian Initiated"));
-          userEvent.click(screen.getByLabelText(PERSON_TYPE[type].description));
+
+          const label = PERSON_TYPE[type].description.includes("Officer")
+            ? "Police Officer"
+            : PERSON_TYPE[type].description;
+          userEvent.click(screen.getByLabelText(label));
+
           userEvent.click(screen.getByTestId("createAndSearch"));
           expect(await screen.findByText("Case was successfully created"))
             .toBeInTheDocument;

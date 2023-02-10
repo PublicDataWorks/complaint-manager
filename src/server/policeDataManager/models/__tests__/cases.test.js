@@ -380,6 +380,10 @@ describe("cases", function () {
         );
 
         complainantCase = await createCase(caseAttributes);
+        console.log(
+          complainantCase.caseReferencePrefix,
+          complainantCase.primaryComplainant
+        );
 
         expect(complainantCase.caseReference).toEqual("PO2016-0001");
       });

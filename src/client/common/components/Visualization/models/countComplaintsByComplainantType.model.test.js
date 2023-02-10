@@ -21,13 +21,19 @@ describe("countComplaintsByComplainantType model", () => {
       const transformedData =
         new CountComplaintsByComplainantType().transformData(rawData);
 
+      let x = 0;
       const expectedTransformedData = {
         data: [
           {
             type: "pie",
             labels: Object.values(PERSON_TYPE).reduce(
               (acc, type) => {
-                return [...acc, type.publicLegendValue];
+                if (acc.find(legend => legend === type.publicLegendValue)) {
+                  x++;
+                  return acc;
+                } else {
+                  return [...acc, type.publicLegendValue];
+                }
               },
               ["Anonymous (AC)"]
             ),
@@ -37,7 +43,7 @@ describe("countComplaintsByComplainantType model", () => {
               },
               [1]
             ),
-            count: Object.values(PERSON_TYPE).length + 1,
+            count: Object.values(PERSON_TYPE).length + 1 - x,
             marker: {
               colors: COLORS
             },
@@ -48,6 +54,10 @@ describe("countComplaintsByComplainantType model", () => {
           }
         ]
       };
+
+      for (let i = 0; i < x; i++) {
+        expectedTransformedData.data[0].values.pop();
+      }
 
       expect(transformedData).toEqual(expectedTransformedData);
     });

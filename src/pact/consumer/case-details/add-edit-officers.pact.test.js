@@ -200,6 +200,11 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
                   );
                 }
                 if (title === "Officer") {
+                  console.log(
+                    dispatchSpy.mock.calls.filter(
+                      call => call[0].type === "ADD_CASE_EMPLOYEE_TYPE"
+                    )
+                  );
                   expect(dispatchSpy).toHaveBeenCalledWith(
                     addCaseEmployeeType(
                       PERSON_TYPE.KNOWN_OFFICER.employeeDescription

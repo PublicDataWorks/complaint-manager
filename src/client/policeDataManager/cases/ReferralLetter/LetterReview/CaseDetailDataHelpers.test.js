@@ -437,7 +437,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "complainant joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: "Civilian Within PD"
+              caseEmployeeType: "Civilian Within NOPD"
             }
           ]
         };
@@ -447,7 +447,7 @@ describe("caseDetailDataHelpers", function () {
         expect(complainantData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian Within PD Name": "complainant joe",
+              "Civilian (NOPD) Name": "complainant joe",
               ID: "#12345",
               District: "some district"
             })
@@ -465,7 +465,7 @@ describe("caseDetailDataHelpers", function () {
               fullName: "complainant joe",
               windowsUsername: 12345,
               district: "some district",
-              caseEmployeeType: "Civilian Within PD"
+              caseEmployeeType: "Civilian Within NOPD"
             }
           ]
         };
@@ -475,7 +475,7 @@ describe("caseDetailDataHelpers", function () {
         expect(complainantData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian Within PD Name": "(AC) complainant joe",
+              "Civilian (NOPD) Name": "(AC) complainant joe",
               ID: "#12345",
               District: "some district"
             })
@@ -768,7 +768,7 @@ describe("caseDetailDataHelpers", function () {
                 fullName: "witness joe",
                 windowsUsername: 12345,
                 district: "some district",
-                caseEmployeeType: "Civilian Within PD"
+                caseEmployeeType: "Civilian Within NOPD"
               }
             ]
           };
@@ -778,7 +778,7 @@ describe("caseDetailDataHelpers", function () {
           expect(witnessData).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
-                [`Civilian Within PD Name`]: "witness joe",
+                [`Civilian (NOPD) Name`]: "witness joe",
                 ID: "#12345",
                 District: "some district"
               })
@@ -796,7 +796,7 @@ describe("caseDetailDataHelpers", function () {
                 fullName: "witness joe",
                 windowsUsername: 12345,
                 district: "some district",
-                caseEmployeeType: "Civilian Within PD"
+                caseEmployeeType: "Civilian Within NOPD"
               }
             ]
           };
@@ -806,7 +806,7 @@ describe("caseDetailDataHelpers", function () {
           expect(witnessData).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
-                [`Civilian Within PD Name`]: "(AC) witness joe",
+                [`Civilian (NOPD) Name`]: "(AC) witness joe",
                 ID: "#12345",
                 District: "some district"
               })
@@ -949,7 +949,7 @@ describe("caseDetailDataHelpers", function () {
             fullName: "some name",
             windowsUsername: "some id",
             district: "some district",
-            caseEmployeeType: "Civilian Within PD"
+            caseEmployeeType: "Civilian Within NOPD"
           };
 
           const accusedOfficerData = getAccusedOfficerData(officer);
@@ -957,7 +957,7 @@ describe("caseDetailDataHelpers", function () {
           expect(accusedOfficerData).toEqual(
             expect.arrayContaining([
               expect.objectContaining({
-                [`Civilian Within PD Name`]: "some name",
+                [`Civilian (NOPD) Name`]: "some name",
                 ID: "#some id",
                 District: "some district"
               })

@@ -2,7 +2,6 @@ import nock from "nock";
 import updateCase from "./updateCase";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import editCase from "../../../../server/handlers/cases/editCase";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")

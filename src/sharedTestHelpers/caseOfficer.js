@@ -61,7 +61,7 @@ class CaseOfficer {
         this.hireDate = "2018-05-30";
         this.endDate = "2018-05-31";
         this.employeeType = "Commissioned";
-        this.caseEmployeeType = "Known Officer";
+        this.caseEmployeeType = "Officer";
         this.officerId = 123456;
         this.roleOnCase = ACCUSED;
         this.notes = "Some notes about this officer's history";

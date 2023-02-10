@@ -18,6 +18,7 @@ import {
   DESCENDING,
   GET_CONFIGS_SUCCEEDED,
   ISO_DATE,
+  RANK_INITIATED,
   SHOW_FORM,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
@@ -25,6 +26,7 @@ import { getIntakeSourcesSuccess } from "../../actionCreators/intakeSourceAction
 import { updateSort } from "../../actionCreators/casesActionCreators";
 
 const {
+  CIVILIAN_WITHIN_PD_INITIATED,
   PD,
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -47,6 +49,7 @@ describe("CreateCaseDialog component", () => {
   let store, dialog, dispatchSpy, dateAndTimeToday;
 
   beforeEach(() => {
+    console.warn = () => {};
     store = createConfiguredStore();
     dateAndTimeToday = moment(Date.now()).format("YYYY-MM-DDTHH:mm");
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
@@ -103,16 +106,13 @@ describe("CreateCaseDialog component", () => {
     const type = PERSON_TYPE[key];
     describe(type.description, () => {
       beforeEach(() => {
-        dialog
-          .find(
-            `label[data-testid="${(type.isEmployee
-              ? type.employeeDescription
-              : type.description
-            )
-              .toLowerCase()
-              .replaceAll(" ", "-")}-radio-button"]`
-          )
-          .simulate("click");
+        const selector = `label[data-testid="${(type.isEmployee
+          ? type.employeeDescription
+          : type.description
+        )
+          .toLowerCase()
+          .replaceAll(" ", "-")}-radio-button"]`;
+        dialog.find(selector).simulate("click");
       });
 
       if (type.createDialogAction === SHOW_FORM) {
@@ -120,11 +120,21 @@ describe("CreateCaseDialog component", () => {
           let caseDetails;
 
           beforeEach(() => {
+            let complaintType;
+            if (key === "CIVILIAN") {
+              complaintType = CIVILIAN_INITIATED;
+            } else if (key.includes("OFFICER")) {
+              complaintType = RANK_INITIATED;
+            } else if (key.includes("CIVILIAN")) {
+              complaintType = CIVILIAN_WITHIN_PD_INITIATED;
+            }
+
             caseDetails = {
               case: {
                 complainantType: key,
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
-                intakeSourceId: 1
+                intakeSourceId: 1,
+                complaintType
               },
               civilian: {
                 firstName: "Fats",
@@ -188,7 +198,11 @@ describe("CreateCaseDialog component", () => {
             );
             submitButton.simulate("click");
 
-            expect(dispatchSpy).toHaveBeenCalledWith(
+            expect(
+              dispatchSpy.mock.calls.find(
+                call => call[0].type === "MOCK_CREATE_CASE_THUNK"
+              )[0]
+            ).toEqual(
               createCase({
                 caseDetails: caseDetails,
                 redirect: false,
@@ -568,7 +582,9 @@ describe("CreateCaseDialog component", () => {
                 redirect: true,
                 caseDetails: expect.objectContaining({
                   case: expect.objectContaining({
-                    complainantType: key
+                    complainantType: key.includes("OFFICER")
+                      ? expect.stringContaining("OFFICER")
+                      : key
                   })
                 })
               })

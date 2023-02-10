@@ -8,11 +8,9 @@ import {
   FAKE_USERS,
   REASSIGN_CASE_FORM_NAME
 } from "../../../../../sharedUtilities/constants";
-import getUsers from "../../../../../server/handlers/users/getUsers";
 import userEvent from "@testing-library/user-event";
-import { reset, startSubmit } from "redux-form";
+import { reset } from "redux-form";
 import updateCase from "../../thunks/updateCase";
-import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 import nock from "nock";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";

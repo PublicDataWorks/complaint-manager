@@ -591,7 +591,7 @@ describe("csvCaseExport request", () => {
       expect(records.length).toEqual(2);
 
       const officerComplainantRow = records[1];
-      expect(officerComplainantRow["Complainant"]).toEqual("Known Officer");
+      expect(officerComplainantRow["Complainant"]).toEqual("Officer");
       expect(
         officerComplainantRow["Officer Complainant Case Officer Database ID"]
       ).toEqual(`${caseOfficerComplainant.id}`);

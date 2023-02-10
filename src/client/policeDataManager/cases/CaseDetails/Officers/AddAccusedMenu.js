@@ -50,7 +50,7 @@ const AddAccusedMenu = props => {
                 roleOnCase: ACCUSED
               })
             );
-            props.dispatch(addCaseEmployeeType("Known Officer"));
+            props.dispatch(addCaseEmployeeType("Officer"));
             props.dispatch(push(`/cases/${props.caseId}/officers/search`));
           }}
         >
