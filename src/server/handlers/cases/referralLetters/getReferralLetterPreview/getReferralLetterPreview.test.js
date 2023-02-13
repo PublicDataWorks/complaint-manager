@@ -927,6 +927,30 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.case_officer.name
             },
+            complainantInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            witnessInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            accusedInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            inmate: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.inmate.rawAttributes)
+              ),
+              model: models.inmate.name
+            },
             complaintType: {
               attributes: expect.toIncludeSameMembers(["name"]),
               model: models.complaintTypes.name
@@ -1126,6 +1150,30 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.case_officer.name
             }),
+            complainantInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            witnessInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            accusedInmates: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.caseInmate.rawAttributes)
+              ),
+              model: models.caseInmate.name
+            },
+            inmate: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.inmate.rawAttributes)
+              ),
+              model: models.inmate.name
+            },
             caseDistrict: expect.objectContaining({
               attributes: expect.arrayContaining(
                 Object.keys(models.district.rawAttributes)

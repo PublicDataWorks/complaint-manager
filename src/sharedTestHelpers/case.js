@@ -37,6 +37,9 @@ class Case {
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
+    this.accusedInmate = build.accusedInmates;
+    this.complainantInmates = build.complainantInmates;
+    this.witnessInmates = build.witnessInmates;
     this.caseReference = build.caseReference;
     this.intakeSourceId = build.intakeSourceId;
     this.deletedAt = build.deletedAt;
@@ -141,6 +144,9 @@ class Case {
         this.accusedOfficers = [accusedOfficer];
         this.complainantOfficers = [complainantOfficer];
         this.witnessOfficers = [witnessOfficer];
+        this.complainantInmates = [];
+        this.witnessInmates = [];
+        this.accusedInmates = [];
         this.year = "2017";
         this.deletedAt = null;
         return this;
@@ -263,6 +269,21 @@ class Case {
 
       withWitnessOfficers(witnessOfficers) {
         this.witnessOfficers = witnessOfficers;
+        return this;
+      }
+
+      withComplainantInmates(inmates) {
+        this.complainantInmates = inmates;
+        return this;
+      }
+
+      withWitnessInmates(inmates) {
+        this.witnessInmates = inmates;
+        return this;
+      }
+
+      withAccusedInmates(inmates) {
+        this.accusedInmates = inmates;
         return this;
       }
 

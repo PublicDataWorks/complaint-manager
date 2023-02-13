@@ -11,6 +11,8 @@ import { initialize } from "redux-form";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import Case from "../../../../../sharedTestHelpers/case";
+import Inmate from "../../../../../sharedTestHelpers/Inmate";
+import CaseInmate from "../../../../../sharedTestHelpers/CaseInmate";
 import editCivilian from "../../thunks/editCivilian";
 import {
   CIVILIAN_FORM_NAME,
@@ -388,7 +390,7 @@ describe("Complainants", () => {
       expect(noCivilianMessage.exists()).toBeTruthy();
     });
 
-    test("should display officer and civilian complainants", () => {
+    test("should display officer, civilian, and inmate complainants", () => {
       const civilianComplainant = {
         ...new Civilian.Builder()
           .defaultCivilian()
@@ -407,10 +409,25 @@ describe("Complainants", () => {
         .withOfficerAttributes(officerComplainant)
         .build();
 
+      const inmate = new Inmate.Builder()
+        .defaultInmate()
+        .withFirstName("Billy")
+        .build();
+      const caseInmate = new CaseInmate.Builder()
+        .defaultCaseInmate()
+        .withInmate(inmate)
+        .build();
+
       const caseWithMixedComplainants = new Case.Builder()
         .defaultCase()
         .withComplainantCivilians([civilianComplainant])
         .withComplainantOfficers([caseOfficer])
+        .withComplainantInmates([
+          {
+            ...caseInmate,
+            inmate: { ...caseInmate.inmate, fullName: "Billy Bob" }
+          }
+        ])
         .build();
 
       const wrapper = mount(
@@ -423,7 +440,13 @@ describe("Complainants", () => {
         .find('[data-testid="complainantWitnessesPanel"]')
         .first();
 
+      const officerPanel = wrapper
+        .find('[data-testid="knownOfficerPanel"]')
+        .first();
+      const inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
+
       expect(complainantPanel.text()).toContain("Alpha");
+      expect(inmatePanel.text()).toContain("Billy");
     });
   });
 });

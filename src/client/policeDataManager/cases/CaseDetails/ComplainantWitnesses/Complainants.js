@@ -9,9 +9,9 @@ import { COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Complainants = props => {
-  const allComplainants = props.caseDetails.complainantCivilians.concat(
-    props.caseDetails.complainantOfficers
-  );
+  const allComplainants = props.caseDetails.complainantCivilians
+    .concat(props.caseDetails.complainantOfficers || [])
+    .concat(props.caseDetails.complainantInmates || []);
   const { classes } = props;
 
   const sortedComplainants = _.orderBy(

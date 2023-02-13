@@ -3,6 +3,7 @@ import { Divider, Typography } from "@material-ui/core";
 import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
+import InmatePanel from "./InmatePanel";
 import CivilianPanel from "./CivilianPanel";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";
 import { connect } from "react-redux";
@@ -49,7 +50,7 @@ const ComplainantWitnessDisplay = ({
             } else {
               return (
                 <OfficerPanel
-                  key={index}
+                  key={civilianOrOfficer.officerId}
                   caseOfficer={civilianOrOfficer}
                   officerAge={calculateAgeBasedOnIncidentDate(
                     civilianOrOfficer,
@@ -63,6 +64,13 @@ const ComplainantWitnessDisplay = ({
                 </OfficerPanel>
               );
             }
+          } else if (civilianOrOfficer.hasOwnProperty("inmateId")) {
+            return (
+              <InmatePanel
+                key={civilianOrOfficer.inmateId}
+                caseInmate={civilianOrOfficer}
+              ></InmatePanel>
+            );
           } else {
             return (
               <CivilianPanel

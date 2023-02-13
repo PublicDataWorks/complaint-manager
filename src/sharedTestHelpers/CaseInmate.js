@@ -4,9 +4,10 @@ class CaseInmate {
   constructor(build) {
     this.id = build.id;
     this.caseId = build.caseId;
-    this.inmateId = build.inmateId;
+    this.inmateId = build.inmateId || build.inmate?.inmateId;
     this.roleOnCase = build.roleOnCase;
     this.isAnonymous = build.isAnonymous;
+    this.inmate = build.inmate;
   }
 
   static get Builder() {
@@ -39,6 +40,11 @@ class CaseInmate {
 
       withIsAnonymous(isAnonymous) {
         this.isAnonymous = isAnonymous;
+        return this;
+      }
+
+      withInmate(inmate) {
+        this.inmate = inmate;
         return this;
       }
 

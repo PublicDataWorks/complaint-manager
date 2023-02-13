@@ -48,6 +48,30 @@ export const expectedCaseAuditDetails = {
     ),
     model: models.civilian.name
   },
+  complainantInmates: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.caseInmate.rawAttributes)
+    ),
+    model: models.caseInmate.name
+  },
+  witnessInmates: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.caseInmate.rawAttributes)
+    ),
+    model: models.caseInmate.name
+  },
+  accusedInmates: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.caseInmate.rawAttributes)
+    ),
+    model: models.caseInmate.name
+  },
+  inmate: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.inmate.rawAttributes)
+    ),
+    model: models.inmate.name
+  },
   address: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.address.rawAttributes)
