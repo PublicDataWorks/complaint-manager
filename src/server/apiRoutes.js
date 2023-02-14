@@ -90,6 +90,7 @@ import generateExampleLetterPreview from "./handlers/letterTypes/generateExample
 import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetterAndUploadToS3";
 import generateLetterForPreview from "./handlers/cases/letters/generateLetterForPreview";
 import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
+import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -637,6 +638,13 @@ export const API_ROUTES = {
       handler: getConfigs,
       errorMessage:
         "Something went wrong while getting configs.  Please try again."
+    }
+  },
+  "/facilities": {
+    get: {
+      handler: retrieveFacilities,
+      errorMessage:
+        "Something went wrong while getting facilities.  Please try again."
     }
   },
   "/letter-types": {

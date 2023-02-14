@@ -1,8 +1,5 @@
 "use strict";
 import { getOfficerFullName } from "../../../sharedUtilities/getFullName";
-import models from "./index";
-
-const moment = require("moment/moment");
 
 module.exports = (sequelize, DataTypes) => {
   var Inmate = sequelize.define(
@@ -177,6 +174,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "inmateId",
         field: "inmate_id",
+        allowNull: true
+      }
+    });
+    Inmate.belongsTo(models.facility, {
+      as: "facilityDetails",
+      foreignKey: {
+        name: "facilityId",
+        field: "facility_id",
         allowNull: true
       }
     });

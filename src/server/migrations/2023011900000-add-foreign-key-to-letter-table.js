@@ -10,8 +10,8 @@ const ADD_COLUMN_QUERY = `
 const ADD_CONSTRAINT_QUERY = `
   ALTER TABLE ${TABLE}
   ADD CONSTRAINT letter_types_fk
-  FOREIGN KEY (type_id)
-  REFERENCES letter_types(id)
+    FOREIGN KEY (type_id)
+    REFERENCES letter_types(id)
 `;
 
 const DROP_CONSTRAINT_QUERY = `

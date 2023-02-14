@@ -173,7 +173,8 @@ const rowDataIsInmateToBeUpdated = (seedDataRow, existingInmate) => {
   const inmateValuesToCompare = _.omit(existingInmate.dataValues, [
     "createdAt",
     "updatedAt",
-    "fullName"
+    "fullName",
+    "facilityId"
   ]);
 
   const keysToPick = Object.keys(inmateValuesToCompare);
