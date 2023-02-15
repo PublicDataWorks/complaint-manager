@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
+import { Card, CardContent, Typography } from "@material-ui/core";
 import Dropdown from "../../common/components/Dropdown";
 import { generateMenuOptions } from "../utilities/generateMenuOptions";
 import { PrimaryButton } from "../shared/components/StyledButtons";
@@ -46,72 +47,85 @@ class InmateSearchForm extends Component {
     const props = this.props;
 
     return (
-      <div>
-        <form>
-          <div style={{ display: "flex" }}>
-            <Field
-              label="ID Number"
-              name="inmateId"
-              component={renderTextField}
-              inputProps={{
-                "data-testid": "idField",
-                autoComplete: "off",
-                "aria-label": "Inmate ID Field"
-              }}
-              style={{ flex: "1", marginRight: "24px" }}
-            />
-            <Field
-              label="First Name"
-              name="firstName"
-              component={renderTextField}
-              inputProps={{
-                "data-testid": "firstNameField",
-                autoComplete: "off",
-                "aria-label": "First Name Field"
-              }}
-              style={{ flex: "1", marginRight: "24px" }}
-            />
+      <Card
+        style={{
+          backgroundColor: "white",
+          margin: "0 0 32px 0"
+        }}
+      >
+        <CardContent style={{ paddingBottom: "8px" }}>
+          <Typography variant="body2" style={{ marginBottom: "8px" }}>
+            Search by entering at least one of the following fields:
+          </Typography>
+          <form>
+            <div style={{ display: "flex" }}>
+              <Field
+                label="ID Number"
+                name="inmateId"
+                component={renderTextField}
+                inputProps={{
+                  "data-testid": "idField",
+                  autoComplete: "off",
+                  "aria-label": "Inmate ID Field"
+                }}
+                style={{ flex: "1", marginRight: "24px" }}
+              />
+              <Field
+                label="First Name"
+                name="firstName"
+                component={renderTextField}
+                inputProps={{
+                  "data-testid": "firstNameField",
+                  autoComplete: "off",
+                  "aria-label": "First Name Field"
+                }}
+                style={{ flex: "1", marginRight: "24px" }}
+              />
 
-            <Field
-              label="Last Name"
-              name="lastName"
-              component={renderTextField}
-              inputProps={{
-                "data-testid": "lastNameField",
-                autoComplete: "off",
-                "aria-label": "Last Name Field"
-              }}
-              style={{ flex: "1", marginRight: "24px" }}
-            />
-            <Field
-              label="Facility"
-              name="facility"
-              component={Dropdown}
-              data-testid="facility-field"
-              style={{ flex: "1", marginRight: "24px", padding: "5px" }}
-              inputProps={{
-                "data-testid": "facility-input",
-                "aria-label": "Facility Field"
-              }}
-            >
-              {generateMenuOptions(
-                props.facilities.map(facility => [facility.name, facility.id]),
-                "Any Facility"
-              )}
-            </Field>
-            <div style={{ alignSelf: "center" }}>
-              <PrimaryButton
-                disabled={props.invalid}
-                onClick={props.handleSubmit(this.onSubmit)}
-                style={{ margin: "18px 0" }}
-                data-testid="inmateSearchSubmitButton"
+              <Field
+                label="Last Name"
+                name="lastName"
+                component={renderTextField}
+                inputProps={{
+                  "data-testid": "lastNameField",
+                  autoComplete: "off",
+                  "aria-label": "Last Name Field"
+                }}
+                style={{ flex: "1", marginRight: "24px" }}
+              />
+              <Field
+                label="Facility"
+                name="facility"
+                component={Dropdown}
+                data-testid="facility-field"
+                style={{ flex: "1", marginRight: "24px", padding: "5px" }}
+                inputProps={{
+                  "data-testid": "facility-input",
+                  "aria-label": "Facility Field"
+                }}
               >
-                search
-              </PrimaryButton>
+                {generateMenuOptions(
+                  props.facilities.map(facility => [
+                    facility.name,
+                    facility.id
+                  ]),
+                  "Any Facility"
+                )}
+              </Field>
+              <div style={{ alignSelf: "center" }}>
+                <PrimaryButton
+                  disabled={props.invalid}
+                  onClick={props.handleSubmit(this.onSubmit)}
+                  style={{ margin: "18px 0" }}
+                  data-testid="inmateSearchSubmitButton"
+                >
+                  search
+                </PrimaryButton>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
+          </form>
+        </CardContent>
+      </Card>
     );
   }
 }

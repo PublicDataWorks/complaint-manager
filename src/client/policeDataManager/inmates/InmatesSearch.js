@@ -50,19 +50,7 @@ const InmatesSearch = props => {
             Search for a Person in Custody
           </Typography>
         </div>
-        <Card
-          style={{
-            backgroundColor: "white",
-            margin: "0 0 32px 0"
-          }}
-        >
-          <CardContent style={{ paddingBottom: "8px" }}>
-            <Typography variant="body2" style={{ marginBottom: "8px" }}>
-              Search by entering at least one of the following fields:
-            </Typography>
-            <InmateSearchForm />
-          </CardContent>
-        </Card>
+        <InmateSearchForm />
         <InmateSearchResults />
       </section>
     </section>

@@ -39,7 +39,7 @@ const styles = theme => {
   };
 };
 
-export class OfficerSearchResults extends Component {
+export class InmateSearchResults extends Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -72,6 +72,20 @@ export class OfficerSearchResults extends Component {
         .getElementsByClassName("officerSearchHeader")[0]
         .scrollIntoView(true);
     }
+  }
+
+  addInmateToCase(inmate) {
+    return axios
+      .post(`api/cases/${this.props.caseDetails.id}/inmates`, {
+        inmateId: inmate.inmateId,
+        roleOnCase: COMPLAINANT
+      })
+      .then(() => {
+        this.props.snackbarSuccess(
+          "Person in Custody Successfully Added to Case"
+        );
+      })
+      .catch(err => {});
   }
 
   render() {
@@ -123,23 +137,11 @@ export class OfficerSearchResults extends Component {
                       <LinkButton
                         data-testid={`${inmate.inmateId}-select-button`}
                         onClick={() => {
-                          axios
-                            .post(
-                              `api/cases/${this.props.caseDetails.id}/inmates`,
-                              {
-                                inmateId: inmate.inmateId,
-                                roleOnCase: COMPLAINANT
-                              }
-                            )
-                            .then(() => {
-                              this.props.snackbarSuccess(
-                                "Person in Custody Successfully Added to Case"
-                              );
-                              this.props.push(
-                                `/cases/${this.props.caseDetails.id}`
-                              );
-                            })
-                            .catch(err => {});
+                          this.addInmateToCase(inmate).then(() => {
+                            this.props.push(
+                              `/cases/${this.props.caseDetails.id}`
+                            );
+                          });
                         }}
                       >
                         SELECT
@@ -172,5 +174,5 @@ export default withStyles(styles, { withTheme: true })(
     push,
     searchCleared,
     snackbarSuccess
-  })(OfficerSearchResults)
+  })(InmateSearchResults)
 );
