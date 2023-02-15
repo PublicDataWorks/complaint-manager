@@ -22,9 +22,9 @@ const searchInmates = asyncMiddleware(async (request, response, next) => {
   if (request.query.inmateId) {
     whereClause.inmateId = { [Op.iLike]: `%${request.query.inmateId}%` };
   }
-  // if (request.query.districtId) {
-  //   whereClause.district_id = { [Op.eq]: `${request.query.districtId}` };
-  // }
+  if (request.query.facility) {
+    whereClause.facilityId = { [Op.eq]: `${request.query.facility}` };
+  }
 
   const offset = request.query.page
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT

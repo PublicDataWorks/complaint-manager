@@ -39,6 +39,7 @@ class Inmate {
     this.sentenceLength = build.sentenceLength;
     this.onCount = build.onCount;
     this.transferDate = build.transferDate;
+    this.facilityId = build.facilityId;
   }
 
   static get Builder() {
@@ -264,6 +265,11 @@ class Inmate {
 
       withTransferDate(transferDate) {
         this.transferDate = transferDate;
+        return this;
+      }
+
+      withFacilityId(facilityId) {
+        this.facilityId = facilityId;
         return this;
       }
 

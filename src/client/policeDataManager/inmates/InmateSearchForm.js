@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
+import { connect } from "react-redux";
 import Dropdown from "../../common/components/Dropdown";
 import { generateMenuOptions } from "../utilities/generateMenuOptions";
 import { PrimaryButton } from "../shared/components/StyledButtons";
@@ -7,6 +8,7 @@ import getSearchResults from "../shared/thunks/getSearchResults";
 import { nullifyFieldUnlessValid } from "../utilities/fieldNormalizers";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import validate from "../officers/OfficerSearch/OfficerSearchForm/validateOfficerSearchForm";
+import getFacilities from "../cases/thunks/getFacilities";
 
 const normalizeValues = values => {
   const normalizedValues = {};
@@ -19,13 +21,20 @@ const normalizeValues = values => {
   if (values.lastName) {
     normalizedValues.lastName = values.lastName.trim();
   }
-  // if (values.districtId) {
-  //   normalizedValues.districtId = nullifyFieldUnlessValid(values.districtId);
-  // }
+  if (values.facility) {
+    normalizedValues.facility = nullifyFieldUnlessValid(values.facility);
+  }
   return { ...values, ...normalizedValues };
 };
 
 class InmateSearchForm extends Component {
+  componentDidMount() {
+    if (!this.props.facilities?.length) {
+      // we don't expect facilities to change often, so no need to refresh
+      this.props.getFacilities();
+    }
+  }
+
   onSubmit = (values, dispatch) => {
     const paginatingSearch = true;
     dispatch(
@@ -74,19 +83,22 @@ class InmateSearchForm extends Component {
               }}
               style={{ flex: "1", marginRight: "24px" }}
             />
-            {/* <Field
-              label="District"
-              name="districtId"
+            <Field
+              label="Facility"
+              name="facility"
               component={Dropdown}
-              data-testid="districtField"
+              data-testid="facility-field"
               style={{ flex: "1", marginRight: "24px", padding: "5px" }}
               inputProps={{
-                "data-testid": "districtInput",
-                "aria-label": "District Field"
+                "data-testid": "facility-input",
+                "aria-label": "Facility Field"
               }}
             >
-              {generateMenuOptions(props.districts, "Any District")}
-            </Field> */}
+              {generateMenuOptions(
+                props.facilities.map(facility => [facility.name, facility.id]),
+                "Any Facility"
+              )}
+            </Field>
             <div style={{ alignSelf: "center" }}>
               <PrimaryButton
                 disabled={props.invalid}
@@ -109,6 +121,11 @@ export default reduxForm({
   validate: validate([
     { name: "firstName", isText: true },
     { name: "lastName", isText: true },
-    { name: "inmateId", isText: true }
+    { name: "inmateId", isText: true },
+    { name: "facility", isText: false }
   ])
-})(InmateSearchForm);
+})(
+  connect(state => ({ facilities: state.facilities }), { getFacilities })(
+    InmateSearchForm
+  )
+);

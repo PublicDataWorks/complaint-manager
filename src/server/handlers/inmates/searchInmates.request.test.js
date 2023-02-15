@@ -37,13 +37,22 @@ describe("GET /inmates/search", () => {
   });
 
   describe("match single attribute", () => {
-    let bobInmate, garretInmate, grantInmate;
+    let bobInmate, garretInmate, grantInmate, facility1, facility2;
     beforeEach(async () => {
+      facility1 = await models.facility.create({
+        abbreviation: "ABC",
+        name: "Alpha Betting Company"
+      });
+      facility2 = await models.facility.create({
+        abbreviation: "TCBY",
+        name: "The copied butter yogurt"
+      });
       bobInmate = new Inmate.Builder()
         .defaultInmate()
         .withInmateId("123")
         .withFirstName("Bob")
         .withLastName("Ferguson")
+        .withFacilityId(facility1.id)
         .build();
 
       garretInmate = new Inmate.Builder()
@@ -51,6 +60,7 @@ describe("GET /inmates/search", () => {
         .withInmateId("A1299")
         .withFirstName("Garret")
         .withLastName("Fisher")
+        .withFacilityId(facility1.id)
         .build();
 
       grantInmate = new Inmate.Builder()
@@ -58,6 +68,7 @@ describe("GET /inmates/search", () => {
         .withInmateId("A09383")
         .withFirstName("Grant")
         .withLastName("Livingston")
+        .withFacilityId(facility2.id)
         .build();
 
       await models.inmate.bulkCreate([bobInmate, garretInmate, grantInmate], {
@@ -117,6 +128,30 @@ describe("GET /inmates/search", () => {
         200,
         expect.objectContaining({
           rows: [
+            expect.objectContaining({
+              firstName: garretInmate.firstName,
+              lastName: garretInmate.lastName
+            })
+          ]
+        })
+      );
+    });
+
+    test("returns inmates that match facility id", async () => {
+      const responsePromise = request(app)
+        .get("/api/inmates/search")
+        .set("Authorization", `Bearer ${token}`)
+        .query({ facility: facility1.id });
+
+      await expectResponse(
+        responsePromise,
+        200,
+        expect.objectContaining({
+          rows: [
+            expect.objectContaining({
+              firstName: bobInmate.firstName,
+              lastName: bobInmate.lastName
+            }),
             expect.objectContaining({
               firstName: garretInmate.firstName,
               lastName: garretInmate.lastName

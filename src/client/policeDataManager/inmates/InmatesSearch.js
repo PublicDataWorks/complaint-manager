@@ -29,7 +29,7 @@ const InmatesSearch = props => {
         dataTest={"inmate-search-title"}
       >
         {props.caseReference
-          ? `Case #${props.caseReference}   : Add Inmate`
+          ? `Case #${props.caseReference}   : Add Person in Custody`
           : ""}
       </NavBar>
       <LinkButton

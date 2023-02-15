@@ -36,7 +36,7 @@ export const setupCase = async () => {
 
     return c;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     throw e;
   }
 };

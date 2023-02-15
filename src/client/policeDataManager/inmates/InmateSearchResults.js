@@ -90,7 +90,7 @@ export class OfficerSearchResults extends Component {
       >
         <Table style={{ marginBottom: "32px" }}>
           <TableHead>
-            <TableRow classname={this.props.classes.headerRow}>
+            <TableRow className={this.props.classes.headerRow}>
               {FIELDS.map(field => (
                 <TableCell
                   key={field.name}
@@ -156,17 +156,14 @@ export class OfficerSearchResults extends Component {
 }
 
 const mapStateToProps = state => {
-  if (state.currentCase.details.accusedOfficers) {
-    return {
-      caseDetails: state.currentCase.details,
-      searchResults: state.ui.search.searchResults.rows,
-      spinnerVisible: state.ui.search.spinnerVisible,
-      count: state.ui.search.searchResults.count,
-      newPage: state.ui.search.newPage,
-      formValues: state.form["InmateSearchForm"].values
-    };
-  }
-  return {};
+  return {
+    caseDetails: state.currentCase.details,
+    searchResults: state.ui.search.searchResults.rows,
+    spinnerVisible: state.ui.search.spinnerVisible,
+    count: state.ui.search.searchResults.count,
+    newPage: state.ui.search.newPage,
+    formValues: state.form["InmateSearchForm"].values
+  };
 };
 
 export default withStyles(styles, { withTheme: true })(

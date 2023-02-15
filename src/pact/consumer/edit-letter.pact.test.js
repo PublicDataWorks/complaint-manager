@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
@@ -13,7 +13,7 @@ import {
   CASE_STATUS,
   EDIT_LETTER_HTML_FORM
 } from "../../sharedUtilities/constants";
-import { change, FormReducer } from "redux-form";
+import { change } from "redux-form";
 
 jest.mock("react-quill", () => props => (
   <div __dangerouslySetInnerHtml={{ html: props.value }}></div>

@@ -70,6 +70,7 @@ import caseStatusesReducer from "./policeDataManager/reducers/ui/caseStatusesRed
 import signersReducer from "./policeDataManager/reducers/signersReducer";
 import editLetterTypeReducer from "./policeDataManager/reducers/ui/editLetterTypeReducer";
 import complaintTypeReducer from "./policeDataManager/reducers/ui/complaintTypeReducer";
+import facilitiesReducer from "./policeDataManager/reducers/facilitiesReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -92,6 +93,7 @@ const rootReducer = combineReducers({
     generateJob: generateJobReducer
   }),
   featureToggles: featureTogglesReducer,
+  facilities: facilitiesReducer,
   form: formReducer,
   notifications: getNotificationsReducer,
   officers: combineReducers({

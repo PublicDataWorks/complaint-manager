@@ -26,6 +26,7 @@ import {
 import Allegation from "../../sharedTestHelpers/Allegation";
 import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
 import District from "../../sharedTestHelpers/District";
+import Inmate from "../../sharedTestHelpers/Inmate";
 import Tag from "../../server/testHelpers/tag";
 import CaseTag from "../../server/testHelpers/caseTag";
 import IntakeSource from "../../server/testHelpers/intakeSource";
@@ -322,6 +323,41 @@ const setupLetterImages = async () => {
   }
 };
 
+const setupFacilities = async () => {
+  try {
+    return await Promise.all([
+      models.facility.create(
+        {
+          id: 1,
+          abbreviation: "NBC",
+          name: "National Broadcasting Corporation"
+        },
+        { auditUser: "user" }
+      )
+    ]);
+  } catch (err) {
+    console.error("facility setup error", err);
+  }
+};
+
+const setupInmates = async facility => {
+  try {
+    let inmateBuilder = new Inmate.Builder()
+      .defaultInmate()
+      .withInmateId("A0000001");
+
+    if (facility) {
+      inmateBuilder = inmateBuilder.withFacilityId(facility.id);
+    }
+
+    return await Promise.all([
+      models.inmate.create(inmateBuilder.build(), { auditUser: "user" })
+    ]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 describe("Pact Verification", () => {
   let server, statuses;
   beforeAll(() => {
@@ -349,64 +385,69 @@ describe("Pact Verification", () => {
         )
       ],
       beforeEach: async () => {
-        await cleanupDatabase();
+        try {
+          await cleanupDatabase();
 
-        statuses = await seedStandardCaseStatuses();
+          statuses = await seedStandardCaseStatuses();
 
-        await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
-        await models.complaintTypes.create({ name: RANK_INITIATED });
+          await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
+          await models.complaintTypes.create({ name: RANK_INITIATED });
 
-        const signerAttr = new Signer.Builder()
-          .defaultSigner()
-          .withName("Nina Ambroise")
-          .withNickname("Amrose@place.com")
-          .withPhone("367-202-3456")
-          .withTitle("Acting Police Monitor")
-          .withSignatureFile("nina_ambroise.png")
-          .build();
+          const signerAttr = new Signer.Builder()
+            .defaultSigner()
+            .withName("Nina Ambroise")
+            .withNickname("Amrose@place.com")
+            .withPhone("367-202-3456")
+            .withTitle("Acting Police Monitor")
+            .withSignatureFile("nina_ambroise.png")
+            .build();
 
-        await models.signers.create(signerAttr, { auditUser: "user" });
+          await models.signers.create(signerAttr, { auditUser: "user" });
 
-        const referralLetterTemplate = fs.readFileSync(
-          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
-        );
+          const referralLetterTemplate = fs.readFileSync(
+            `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+          );
 
-        const letterBodyTemplate = fs.readFileSync(
-          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
-        );
+          const letterBodyTemplate = fs.readFileSync(
+            `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+          );
 
-        await models.letter_types.create(
-          new LetterType.Builder()
-            .defaultLetterType()
-            .withId(1)
-            .withEditableTemplate(letterBodyTemplate.toString())
-            .withType("REFERRAL")
-            .withTemplate(referralLetterTemplate.toString())
-            .withDefaultSender(signerAttr)
-            .withRequiredStatus(statuses[0])
-            .build(),
-          { auditUser: "test" }
-        );
+          await models.letter_types.create(
+            new LetterType.Builder()
+              .defaultLetterType()
+              .withId(1)
+              .withEditableTemplate(letterBodyTemplate.toString())
+              .withType("REFERRAL")
+              .withTemplate(referralLetterTemplate.toString())
+              .withDefaultSender(signerAttr)
+              .withRequiredStatus(statuses[0])
+              .build(),
+            { auditUser: "test" }
+          );
 
-        const complainantLetterTemplate = fs.readFileSync(
-          `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
-        );
+          const complainantLetterTemplate = fs.readFileSync(
+            `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+          );
 
-        await models.letter_types.create(
-          new LetterType.Builder()
-            .defaultLetterType()
-            .withId(88373)
-            .withType("COMPLAINANT")
-            .withTemplate(complainantLetterTemplate.toString())
-            .withDefaultSender(signerAttr)
-            .withRequiredStatus(statuses[0])
-            .build(),
-          { auditUser: "test" }
-        );
+          await models.letter_types.create(
+            new LetterType.Builder()
+              .defaultLetterType()
+              .withId(88373)
+              .withType("COMPLAINANT")
+              .withTemplate(complainantLetterTemplate.toString())
+              .withDefaultSender(signerAttr)
+              .withRequiredStatus(statuses[0])
+              .build(),
+            { auditUser: "test" }
+          );
 
-        await models.sequelize.query(
-          "ALTER SEQUENCE IF EXISTS letter_types_id_seq START 2 RESTART 2 MINVALUE 2"
-        );
+          await models.sequelize.query(
+            "ALTER SEQUENCE IF EXISTS letter_types_id_seq START 2 RESTART 2 MINVALUE 2"
+          );
+        } catch (error) {
+          console.error(error);
+          throw error;
+        }
       },
       stateHandlers: {
         "Case exists": async () => {
@@ -647,6 +688,24 @@ describe("Pact Verification", () => {
             ]);
           } catch (error) {
             console.log(error);
+          }
+        },
+        "Facilities exist": async () => {
+          await setupFacilities();
+        },
+        "Inmates exist": async () => {
+          await setupInmates();
+        },
+        "Inmates exist; Facilities exist": async () => {
+          const facilities = await setupFacilities();
+          await setupInmates(facilities[0]);
+        },
+        "Case exists; Inmates exist": async () => {
+          try {
+            await Promise.all([setupCase(), setupInmates()]);
+          } catch (error) {
+            console.error(error);
+            throw error;
           }
         },
         "Officer Bob Loblaw exists and works in the first district":
