@@ -98,7 +98,7 @@ class InmateSearchForm extends Component {
                 name="facility"
                 component={Dropdown}
                 data-testid="facility-field"
-                style={{ flex: "1", marginRight: "24px", padding: "5px" }}
+                style={{ flex: "2", marginRight: "24px", padding: "5px" }}
                 inputProps={{
                   "data-testid": "facility-input",
                   "aria-label": "Facility Field"

@@ -40,7 +40,7 @@ const InmatesSearch = props => {
       >
         Back to Case
       </LinkButton>
-      <section style={{ margin: "0% 5% 3%", maxWidth: "60rem" }}>
+      <section style={{ margin: "0% 5% 3%", maxWidth: "70rem" }}>
         <div style={{ margin: "0 0 32px 0" }}>
           <Typography
             data-testid="search-page-header"
