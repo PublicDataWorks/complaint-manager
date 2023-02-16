@@ -51,6 +51,12 @@ describe("executeQuery", () => {
   const expectedData = PERSON_TYPE.PERSON_IN_CUSTODY
     ? {
         [PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation]: 2, // TODO alter this as more person types emerge
+        [PERSON_TYPE.DEPARTMENT_STAFF.abbreviation]: 0,
+        [PERSON_TYPE.FAMILY.abbreviation]: 0,
+        [PERSON_TYPE.COMMUNITY.abbreviation]: 0,
+        [PERSON_TYPE.LEGISLATOR.abbreviation]: 0,
+        [PERSON_TYPE.COMMISSIONER.abbreviation]: 0,
+        [PERSON_TYPE.OTHER.abbreviation]: 0,
         AC: 1
       }
     : {
