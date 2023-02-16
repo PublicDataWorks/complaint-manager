@@ -7,6 +7,7 @@ import {
   CIVILIAN_INITIATED,
   DESCENDING,
   ISO_DATE,
+  SHOW_FORM,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
 import CreateCaseButton from "../CreateCaseButton";
@@ -60,86 +61,209 @@ jest.mock("../../utilities/normalizeAddress", () =>
 jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
 
 describe("CreateCaseActions", () => {
-  if (PERSON_TYPE.CIVILIAN) {
-    let dispatchSpy, store, dialog, caseDetails;
+  let dispatchSpy, store, dialog, caseDetails;
+
+  beforeEach(() => {
+    store = createConfiguredStore();
+    store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
+
+    dispatchSpy = jest.spyOn(store, "dispatch");
+
+    dialog = mount(
+      <Provider store={store}>
+        <CreateCaseButton />
+      </Provider>
+    );
+
+    dispatchSpy.mockClear();
+
+    const createCaseButton = dialog.find(
+      'button[data-testid="createCaseButton"]'
+    );
+    createCaseButton.simulate("click");
+
+    store.dispatch(
+      getIntakeSourcesSuccess([
+        ["NOIPM Website", 1],
+        ["Email", 2]
+      ])
+    );
+
+    const showFormType = Object.values(PERSON_TYPE).find(
+      type => type.createDialogAction === SHOW_FORM
+    );
+
+    dialog
+      .find(
+        `label[data-testid="${showFormType.description
+          .toLowerCase()
+          .replaceAll(" ", "-")}-radio-button"]`
+      )
+      .simulate("click");
+
+    caseDetails = {
+      case: {
+        complaintType: CIVILIAN_INITIATED,
+        firstContactDate: moment(Date.now()).format(ISO_DATE),
+        intakeSourceId: 1
+      },
+      civilian: {
+        firstName: "Steven",
+        lastName: "Universe",
+        phoneNumber: "5748392098",
+        address: {
+          streetAddress: "123 Main St",
+          city: "Nowhere",
+          state: "XY",
+          streetAddress2: "Number 2"
+        }
+      }
+    };
+
+    changeInput(
+      dialog,
+      '[data-testid="firstNameInput"]',
+      caseDetails.civilian.firstName
+    );
+    changeInput(
+      dialog,
+      '[data-testid="lastNameInput"]',
+      caseDetails.civilian.lastName
+    );
+    changeInput(
+      dialog,
+      '[data-testid="phoneNumberInput"]',
+      caseDetails.civilian.phoneNumber
+    );
+    selectDropdownOption(
+      dialog,
+      '[data-testid="intakeSourceDropdown"]',
+      "NOIPM Website"
+    );
+  });
+
+  describe("creating a case", () => {
+    let addressSuggestionField, submitButton;
 
     beforeEach(() => {
-      store = createConfiguredStore();
-      store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
-
-      dispatchSpy = jest.spyOn(store, "dispatch");
-
-      dialog = mount(
-        <Provider store={store}>
-          <CreateCaseButton />
-        </Provider>
+      addressSuggestionField = dialog.find(
+        'input[data-testid="addressSuggestionField"]'
       );
-
-      dispatchSpy.mockClear();
-
-      const createCaseButton = dialog.find(
-        'button[data-testid="createCaseButton"]'
-      );
-      createCaseButton.simulate("click");
-
-      store.dispatch(
-        getIntakeSourcesSuccess([
-          ["NOIPM Website", 1],
-          ["Email", 2]
-        ])
-      );
-
-      caseDetails = {
-        case: {
-          complaintType: CIVILIAN_INITIATED,
-          firstContactDate: moment(Date.now()).format(ISO_DATE),
-          intakeSourceId: 1
-        },
-        civilian: {
-          firstName: "Steven",
-          lastName: "Universe",
-          phoneNumber: "5748392098",
-          address: {
-            streetAddress: "123 Main St",
-            city: "Nowhere",
-            state: "XY",
-            streetAddress2: "Number 2"
-          }
-        }
-      };
-
+      submitButton = dialog.find('LinkButton[data-testid="createCaseOnly"]');
+    });
+    test("should create a case with address", async () => {
       changeInput(
         dialog,
-        '[data-testid="firstNameInput"]',
-        caseDetails.civilian.firstName
+        '[data-testid="addressSuggestionField"]',
+        caseDetails.civilian.address.streetAddress
       );
+      addressSuggestionField.simulate("blur");
+
+      const fillAddressToConfirmButton = dialog
+        .find('[data-testid="fillAddressToConfirm"]')
+        .last();
       changeInput(
         dialog,
-        '[data-testid="lastNameInput"]',
-        caseDetails.civilian.lastName
+        '[data-testid="streetAddress2Input"]',
+        caseDetails.civilian.address.streetAddress2
       );
-      changeInput(
+      await expectEventuallyToExist(
         dialog,
-        '[data-testid="phoneNumberInput"]',
-        caseDetails.civilian.phoneNumber
+        '[data-testid="fillAddressToConfirm"]'
       );
-      selectDropdownOption(
-        dialog,
-        '[data-testid="intakeSourceDropdown"]',
-        "NOIPM Website"
+      fillAddressToConfirmButton.simulate("click");
+
+      submitButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          creationDetails: expect.objectContaining({
+            caseDetails: expect.objectContaining({
+              civilian: expect.objectContaining({
+                address: expect.objectContaining({
+                  streetAddress: "200 E Randolph St",
+                  streetAddress2: "Number 2",
+                  zipCode: "60601",
+                  state: "IL",
+                  city: "Chicago",
+                  country: "US"
+                })
+              })
+            })
+          })
+        })
       );
     });
 
-    describe("creating a case", () => {
-      let addressSuggestionField, submitButton;
-
-      beforeEach(() => {
-        addressSuggestionField = dialog.find(
-          'input[data-testid="addressSuggestionField"]'
+    describe("adding address onto civilian object", () => {
+      test("should call addressMustBeValid when address provided on civilian", async () => {
+        changeInput(
+          dialog,
+          '[data-testid="addressSuggestionField"]',
+          caseDetails.civilian.address.streetAddress
         );
-        submitButton = dialog.find('LinkButton[data-testid="createCaseOnly"]');
+        addressSuggestionField.simulate("blur");
+
+        const fillAddressToConfirmButton = dialog
+          .find('[data-testid="fillAddressToConfirm"]')
+          .last();
+        changeInput(
+          dialog,
+          '[data-testid="streetAddress2Input"]',
+          caseDetails.civilian.address.streetAddress2
+        );
+        await expectEventuallyToExist(
+          dialog,
+          '[data-testid="fillAddressToConfirm"]'
+        );
+        fillAddressToConfirmButton.simulate("click");
+
+        const dummyAddressValid = "I am valid";
+        store.dispatch(updateAddressInputValidity(dummyAddressValid));
+
+        submitButton.simulate("click");
+
+        expect(addressMustBeValid).toHaveBeenCalledWith(dummyAddressValid, {});
       });
-      test("should create a case with address", async () => {
+
+      test("should return error if address not valid", async () => {
+        addressMustBeValid.mockClear();
+        addressMustBeValid.mockImplementationOnce((addressValid, errors) => {
+          errors.autoSuggestValue = "Some Error Message";
+          return errors;
+        });
+        changeInput(
+          dialog,
+          '[data-testid="addressSuggestionField"]',
+          caseDetails.civilian.address.streetAddress
+        );
+        addressSuggestionField.simulate("blur");
+
+        const fillAddressToConfirmButton = dialog
+          .find('[data-testid="fillAddressToConfirm"]')
+          .last();
+        changeInput(
+          dialog,
+          '[data-testid="streetAddress2Input"]',
+          caseDetails.civilian.address.streetAddress2
+        );
+        await expectEventuallyToExist(
+          dialog,
+          '[data-testid="fillAddressToConfirm"]'
+        );
+        fillAddressToConfirmButton.simulate("click");
+
+        const dummyAddressValid = "I am valid";
+        store.dispatch(updateAddressInputValidity(dummyAddressValid));
+
+        submitButton.simulate("click");
+
+        expect(dispatchSpy).toBeCalledWith(
+          expect.objectContaining({ error: true })
+        );
+      });
+
+      test("should call normalizeAddress when address provided on civilian", async () => {
         changeInput(
           dialog,
           '[data-testid="addressSuggestionField"]',
@@ -163,175 +287,57 @@ describe("CreateCaseActions", () => {
 
         submitButton.simulate("click");
 
+        expect(normalizeAddress).toHaveBeenCalledWith({
+          city: "Chicago",
+          country: "US",
+          lat: 41.8855572,
+          lng: -87.6214826,
+          placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
+          state: "IL",
+          streetAddress: "200 E Randolph St",
+          streetAddress2: "Number 2",
+          zipCode: "60601"
+        });
+      });
+
+      test("should remove address and name when choosing unknown", async () => {
+        changeInput(
+          dialog,
+          '[data-testid="addressSuggestionField"]',
+          caseDetails.civilian.address.streetAddress
+        );
+        addressSuggestionField.simulate("blur");
+
+        const fillAddressToConfirmButton = dialog
+          .find('[data-testid="fillAddressToConfirm"]')
+          .last();
+        changeInput(
+          dialog,
+          '[data-testid="streetAddress2Input"]',
+          caseDetails.civilian.address.streetAddress2
+        );
+        await expectEventuallyToExist(
+          dialog,
+          '[data-testid="fillAddressToConfirm"]'
+        );
+        fillAddressToConfirmButton.simulate("click");
+
+        changeInput(dialog, '[name="civilian.isUnknown"]', true);
+        submitButton.simulate("click");
+
         expect(dispatchSpy).toHaveBeenCalledWith(
           expect.objectContaining({
             creationDetails: expect.objectContaining({
               caseDetails: expect.objectContaining({
-                civilian: expect.objectContaining({
-                  address: expect.objectContaining({
-                    streetAddress: "200 E Randolph St",
-                    streetAddress2: "Number 2",
-                    zipCode: "60601",
-                    state: "IL",
-                    city: "Chicago",
-                    country: "US"
-                  })
-                })
+                civilian: {
+                  isAnonymous: true,
+                  isUnknown: true
+                }
               })
             })
           })
         );
       });
-
-      describe("adding address onto civilian object", () => {
-        test("should call addressMustBeValid when address provided on civilian", async () => {
-          changeInput(
-            dialog,
-            '[data-testid="addressSuggestionField"]',
-            caseDetails.civilian.address.streetAddress
-          );
-          addressSuggestionField.simulate("blur");
-
-          const fillAddressToConfirmButton = dialog
-            .find('[data-testid="fillAddressToConfirm"]')
-            .last();
-          changeInput(
-            dialog,
-            '[data-testid="streetAddress2Input"]',
-            caseDetails.civilian.address.streetAddress2
-          );
-          await expectEventuallyToExist(
-            dialog,
-            '[data-testid="fillAddressToConfirm"]'
-          );
-          fillAddressToConfirmButton.simulate("click");
-
-          const dummyAddressValid = "I am valid";
-          store.dispatch(updateAddressInputValidity(dummyAddressValid));
-
-          submitButton.simulate("click");
-
-          expect(addressMustBeValid).toHaveBeenCalledWith(
-            dummyAddressValid,
-            {}
-          );
-        });
-
-        test("should return error if address not valid", async () => {
-          addressMustBeValid.mockClear();
-          addressMustBeValid.mockImplementationOnce((addressValid, errors) => {
-            errors.autoSuggestValue = "Some Error Message";
-            return errors;
-          });
-          changeInput(
-            dialog,
-            '[data-testid="addressSuggestionField"]',
-            caseDetails.civilian.address.streetAddress
-          );
-          addressSuggestionField.simulate("blur");
-
-          const fillAddressToConfirmButton = dialog
-            .find('[data-testid="fillAddressToConfirm"]')
-            .last();
-          changeInput(
-            dialog,
-            '[data-testid="streetAddress2Input"]',
-            caseDetails.civilian.address.streetAddress2
-          );
-          await expectEventuallyToExist(
-            dialog,
-            '[data-testid="fillAddressToConfirm"]'
-          );
-          fillAddressToConfirmButton.simulate("click");
-
-          const dummyAddressValid = "I am valid";
-          store.dispatch(updateAddressInputValidity(dummyAddressValid));
-
-          submitButton.simulate("click");
-
-          expect(dispatchSpy).toBeCalledWith(
-            expect.objectContaining({ error: true })
-          );
-        });
-
-        test("should call normalizeAddress when address provided on civilian", async () => {
-          changeInput(
-            dialog,
-            '[data-testid="addressSuggestionField"]',
-            caseDetails.civilian.address.streetAddress
-          );
-          addressSuggestionField.simulate("blur");
-
-          const fillAddressToConfirmButton = dialog
-            .find('[data-testid="fillAddressToConfirm"]')
-            .last();
-          changeInput(
-            dialog,
-            '[data-testid="streetAddress2Input"]',
-            caseDetails.civilian.address.streetAddress2
-          );
-          await expectEventuallyToExist(
-            dialog,
-            '[data-testid="fillAddressToConfirm"]'
-          );
-          fillAddressToConfirmButton.simulate("click");
-
-          submitButton.simulate("click");
-
-          expect(normalizeAddress).toHaveBeenCalledWith({
-            city: "Chicago",
-            country: "US",
-            lat: 41.8855572,
-            lng: -87.6214826,
-            placeId: "ChIJObywJqYsDogR_4XaBVM4ge8",
-            state: "IL",
-            streetAddress: "200 E Randolph St",
-            streetAddress2: "Number 2",
-            zipCode: "60601"
-          });
-        });
-
-        test("should remove address and name when choosing unknown", async () => {
-          changeInput(
-            dialog,
-            '[data-testid="addressSuggestionField"]',
-            caseDetails.civilian.address.streetAddress
-          );
-          addressSuggestionField.simulate("blur");
-
-          const fillAddressToConfirmButton = dialog
-            .find('[data-testid="fillAddressToConfirm"]')
-            .last();
-          changeInput(
-            dialog,
-            '[data-testid="streetAddress2Input"]',
-            caseDetails.civilian.address.streetAddress2
-          );
-          await expectEventuallyToExist(
-            dialog,
-            '[data-testid="fillAddressToConfirm"]'
-          );
-          fillAddressToConfirmButton.simulate("click");
-
-          changeInput(dialog, '[name="civilian.isUnknown"]', true);
-          submitButton.simulate("click");
-
-          expect(dispatchSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-              creationDetails: expect.objectContaining({
-                caseDetails: expect.objectContaining({
-                  civilian: {
-                    isAnonymous: true,
-                    isUnknown: true
-                  }
-                })
-              })
-            })
-          );
-        });
-      });
     });
-  } else {
-    test.skip("TODO these tests won't work until we have a person type that requires a form", () => {});
-  }
+  });
 });
