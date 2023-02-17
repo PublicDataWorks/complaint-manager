@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import EditLetter from "./EditLetter";
-import { push } from "connected-react-router";
 import history from "../../../../history";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const EditGeneralLetter = props => {
   const [letter, setLetter] = useState();
@@ -24,15 +24,14 @@ const EditGeneralLetter = props => {
 
   const updateLetter = async (value, redirectUrl) => {
     try {
-      const myJSON = JSON.stringify(value);
-      const response = await axios.put(`${letterBaseApiRoute}/content`, myJSON);
+      const response = await axios.put(
+        `${letterBaseApiRoute}/content`,
+        JSON.stringify(value)
+      );
       setLetter(response.data);
-      console.log("edited letter html", letter.editedLetterHtml);
       history.push(redirectUrl);
-    } catch (error) {
-      console.log("Error in try/catch", error);
-    }
-    // snackbarSuccess("Letter was successfully updated");
+    } catch (error) {}
+    snackbarSuccess("Letter was successfully updated");
   };
 
   return (

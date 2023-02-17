@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { push } from "connected-react-router";
 import {
-  CASE_STATUS,
   EDIT_STATUS,
   LETTER_PROGRESS,
   USER_PERMISSIONS
@@ -136,7 +135,7 @@ export class LetterPreview extends Component {
           } else {
             this.props.push(redirectUrl);
           }
-          // this.props.snackbarSuccess("Letter was successfully updated");
+          this.props.snackbarSuccess("Letter was successfully updated");
         })
         .catch(() => {
           if (alternativeFailureCallback) {
@@ -339,7 +338,10 @@ export class LetterPreview extends Component {
     <PrimaryButton
       style={{ marginLeft: "16px" }}
       data-testid="generate-letter-button"
-      onClick={() => {}}
+      onClick={e => {
+        e.preventDefault();
+        this.props.generateEditedLetter();
+      }}
     >
       Generate Letter
     </PrimaryButton>

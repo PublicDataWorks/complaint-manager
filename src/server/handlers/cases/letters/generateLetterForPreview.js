@@ -113,7 +113,8 @@ const generateLetterForPreview = asyncMiddleware(
       lastEdited,
       caseDetails: await caseDetails.toJSON(),
       finalFilename: finalFilename,
-      draftFilename: draftFilename
+      draftFilename: draftFilename,
+      letter
     });
   }
 );

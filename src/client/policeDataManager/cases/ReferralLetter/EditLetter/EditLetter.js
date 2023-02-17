@@ -69,9 +69,6 @@ export class EditLetter extends Component {
     };
     shouldBlockRoutingRedirects(true);
 
-    console.log("LETTER >>>>", this.props.letter);
-    console.log("INITALVALUES PROPS>>>>", this.props.initialValues);
-
     // this.props.getLetterPreview(this.state.caseId);
 
     if (this.props.initialValues.editedLetterHtml === "") {
@@ -157,9 +154,7 @@ export class EditLetter extends Component {
       values.editedLetterHtml
     );
 
-    console.log("values in editLetter", values);
-    console.log("REDIRECT URL in editLetter", redirectUrl),
-      this.props.editContent(values, redirectUrl);
+    this.props.editContent(values, redirectUrl);
   };
 
   render() {

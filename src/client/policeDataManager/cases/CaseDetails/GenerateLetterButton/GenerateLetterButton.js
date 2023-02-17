@@ -22,9 +22,10 @@ const GenerateLetterButton = props => {
 
   const generateLetter = async letterType => {
     try {
-      const response = await axios.post(`/api/cases/${props.caseId}/letters`, {
-        type: letterType.type
-      });
+      const response = await axios.post(
+        `/api/cases/${props.caseId}/letters`,
+        letterType
+      );
 
       if (letterType.hasEditPage) {
         props.history.push(

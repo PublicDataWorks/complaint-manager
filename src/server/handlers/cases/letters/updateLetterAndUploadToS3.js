@@ -2,8 +2,7 @@ import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
-  AUDIT_FILE_TYPE,
-  USER_PERMISSIONS
+  AUDIT_FILE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { retrieveSignatureImageBySigner } from "../referralLetters/retrieveSignatureImage";
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
@@ -16,45 +15,52 @@ import Case from "../../../policeDataManager/payloadObjects/Case";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
-const generateLetterAndUploadToS3 = asyncMiddleware(
+const updateLetterAndUploadToS3 = asyncMiddleware(
   async (request, response, next) => {
-    validateUserPermissions(request);
-
     const caseId = request.params.caseId;
     const existingCase = await getCase(caseId);
     const d = new Date();
     let time = d.getTime();
 
-    const letter = await models.sequelize.transaction(async transaction => {
-      const letterType = await models.letter_types.findOne({
-        where: { type: request.body.type },
-        transaction
-      });
+    let filename = constructFilename(
+      existingCase,
+      request.body.letter.letterType.type
+    );
+    filename =
+      filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
 
-      let filename;
-      if (letterType.hasEditPage) {
-        filename = constructFilename(existingCase, request.body.type, "");
-        filename =
-          filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
-      } else {
-        filename = await generateAttachedLetter(
-          existingCase,
-          request,
-          transaction,
-          time
-        );
+    await models.sequelize.transaction(async transaction => {
+      await generateLetter(existingCase.id, filename, request);
+
+      await createLetterAttachment(
+        existingCase.id,
+        filename,
+        request.body.letter.letterType.type,
+        transaction,
+        request.nickname
+      );
+
+      const letter = await models.letter.findByPk(request.params.letterId);
+
+      if (letter == null) {
+        throw Boom.badRequest(BAD_REQUEST_ERRORS.LETTER_DOES_NOT_EXIST);
       }
 
-      return await models.letter.create(
-        {
-          caseId,
-          typeId: letterType.id,
-          finalPdfFilename: filename
-        },
-        { transaction, auditUser: request.nickname }
+      await letter.update(
+        { finalPdfFilename: filename },
+        { auditUser: request.nickname, transaction }
+      );
+
+      await auditFileAction(
+        request.nickname,
+        existingCase.id,
+        AUDIT_ACTION.UPLOADED,
+        filename,
+        AUDIT_FILE_TYPE.LETTER,
+        transaction
       );
     });
-    response.status(200).send({ id: letter.id });
+    response.status(200).send({});
   }
 );
 
@@ -88,7 +94,7 @@ const generateLetter = async (caseId, filename, request, transaction) => {
       getSignature: async args => {
         return await retrieveSignatureImageBySigner(args.sender);
       },
-      type: request.body.type
+      type: request.body.letter.letterType.type
     }
   );
 
@@ -99,16 +105,6 @@ const generateLetter = async (caseId, filename, request, transaction) => {
     pdfBuffer,
     config[process.env.NODE_ENV].s3Bucket
   );
-};
-
-const validateUserPermissions = request => {
-  if (
-    !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
-  ) {
-    throw Boom.badRequest(
-      BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_APPROVE_LETTER
-    );
-  }
 };
 
 const getCase = async caseId => {
@@ -122,34 +118,4 @@ const getCase = async caseId => {
   });
 };
 
-const generateAttachedLetter = async (
-  existingCase,
-  request,
-  transaction,
-  time
-) => {
-  let filename = constructFilename(existingCase, request.body.type);
-  filename =
-    filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
-  await generateLetter(existingCase.id, filename, request);
-
-  await createLetterAttachment(
-    existingCase.id,
-    filename,
-    request.body.type,
-    transaction,
-    request.nickname
-  );
-
-  await auditFileAction(
-    request.nickname,
-    existingCase.id,
-    AUDIT_ACTION.UPLOADED,
-    filename,
-    AUDIT_FILE_TYPE.LETTER,
-    transaction
-  );
-  return filename;
-};
-
-export default generateLetterAndUploadToS3;
+export default updateLetterAndUploadToS3;

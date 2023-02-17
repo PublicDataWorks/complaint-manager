@@ -93,6 +93,7 @@ import generateLetterForPreview from "./handlers/cases/letters/generateLetterFor
 import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
 import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
 import getLetterPdf from "./handlers/cases/letters/getLetterPdf";
+import updateLetterAndUploadToS3 from "./handlers/cases/letters/updateLetterAndUploadToS3";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -342,6 +343,13 @@ export const API_ROUTES = {
       handler: generateLetterAndUploadToS3,
       errorMessage:
         "Something went wrong and the PDF was not loaded. Please try again."
+    }
+  },
+  "/cases/:caseId/letters/:letterId": {
+    put: {
+      handler: updateLetterAndUploadToS3,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
     }
   },
   "/cases/:caseId/letters/:letterId/addresses": {
