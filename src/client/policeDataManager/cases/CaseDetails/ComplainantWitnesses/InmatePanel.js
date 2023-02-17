@@ -81,19 +81,19 @@ const InmatePanel = ({ caseInmate, children }) => {
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Region"
-                value={caseInmate.inmate.region}
+                value={caseInmate?.inmate?.region}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Status"
-                value={caseInmate.inmate.status}
+                value={caseInmate?.inmate?.status}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Custody Status"
-                value={caseInmate.inmate.custodyStatus}
+                value={caseInmate?.inmate?.custodyStatus}
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
@@ -101,19 +101,19 @@ const InmatePanel = ({ caseInmate, children }) => {
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Race"
-                value={caseInmate.inmate.race}
+                value={caseInmate?.inmate?.race}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Gender"
-                value={caseInmate.inmate.gender}
+                value={caseInmate?.inmate?.gender}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Primary Ethnicity"
-                value={caseInmate.inmate.primaryEthnicity}
+                value={caseInmate?.inmate?.primaryEthnicity}
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
@@ -122,20 +122,20 @@ const InmatePanel = ({ caseInmate, children }) => {
               <DateOfBirthAgeInfoDisplay
                 displayLabel="Date of Birth"
                 testLabel="age"
-                birthDate={formatDate(caseInmate.inmate.dateOfBirth)}
-                age={caseInmate.inmate.age}
+                birthDate={formatDate(caseInmate?.inmate?.dateOfBirth)}
+                age={caseInmate?.inmate?.age}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Country of Birth"
-                value={caseInmate.inmate.countryOfBirth}
+                value={caseInmate?.inmate?.countryOfBirth}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Language"
-                value={caseInmate.inmate.language}
+                value={caseInmate?.inmate?.language}
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
@@ -143,19 +143,19 @@ const InmatePanel = ({ caseInmate, children }) => {
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Booking Start Date"
-                value={formatDate(caseInmate.inmate.bookingStartDate)}
+                value={formatDate(caseInmate?.inmate?.bookingStartDate)}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Booking End Date"
-                value={formatDate(caseInmate.inmate.bookingEndDate)}
+                value={formatDate(caseInmate?.inmate?.bookingEndDate)}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Tentative Release Date"
-                value={formatDate(caseInmate.inmate.tentativeReleaseDate)}
+                value={formatDate(caseInmate?.inmate?.tentativeReleaseDate)}
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
