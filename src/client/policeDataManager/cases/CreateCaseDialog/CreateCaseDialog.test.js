@@ -132,6 +132,7 @@ describe("CreateCaseDialog component", () => {
             caseDetails = {
               case: {
                 complainantType: key,
+                complaintType: "Civilian Initiated",
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 1,
                 complaintType
@@ -177,9 +178,19 @@ describe("CreateCaseDialog component", () => {
             );
             submitButton.simulate("click");
 
-            expect(dispatchSpy).toHaveBeenCalledWith(
+            expect(
+              dispatchSpy.mock.calls.find(
+                call => call[0].type === "MOCK_CREATE_CASE_THUNK"
+              )[0]
+            ).toEqual(
               createCase({
-                caseDetails: caseDetails,
+                caseDetails: {
+                  ...caseDetails,
+                  case: {
+                    ...caseDetails.case,
+                    complaintType: CIVILIAN_INITIATED
+                  }
+                },
                 redirect: true,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -204,7 +215,13 @@ describe("CreateCaseDialog component", () => {
               )[0]
             ).toEqual(
               createCase({
-                caseDetails: caseDetails,
+                caseDetails: {
+                  ...caseDetails,
+                  case: {
+                    ...caseDetails.case,
+                    complaintType: CIVILIAN_INITIATED
+                  }
+                },
                 redirect: false,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -231,7 +248,7 @@ describe("CreateCaseDialog component", () => {
 
             test("should default to civilian complainant whenever dialog opened", () => {
               const civilianRadioButton = dialog
-                .find(`WithStyles(ForwardRef(SwitchBase))[value="CIVILIAN"]`)
+                .find(`WithStyles(ForwardRef(SwitchBase))[value="${key}"]`)
                 .last();
 
               expect(civilianRadioButton.prop("checked")).toEqual(true);
@@ -415,7 +432,7 @@ describe("CreateCaseDialog component", () => {
             const caseDetails = {
               case: {
                 complaintType: CIVILIAN_INITIATED,
-                complainantType: "CIVILIAN",
+                complainantType: key,
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 1,
                 incidentDate: undefined
@@ -488,7 +505,7 @@ describe("CreateCaseDialog component", () => {
             const caseDetails = {
               case: {
                 complaintType: CIVILIAN_INITIATED,
-                complainantType: "CIVILIAN",
+                complainantType: key,
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 2,
                 incidentDate: undefined
@@ -527,7 +544,11 @@ describe("CreateCaseDialog component", () => {
             );
             submitButton.simulate("click");
 
-            expect(dispatchSpy).toHaveBeenCalledWith(
+            expect(
+              dispatchSpy.mock.calls.find(
+                call => call[0].type === "MOCK_CREATE_CASE_THUNK"
+              )[0]
+            ).toEqual(
               createCase({
                 caseDetails: caseDetails,
                 redirect: false,

@@ -165,9 +165,11 @@ pactWith(
           intakeSourceDropdown = await screen.findByTestId("intakeSourceInput");
         });
 
-        const typeWithForm = Object.values(PERSON_TYPE).find(
-          type => type.createDialogAction === SHOW_FORM
+        const typeWithFormKey = Object.keys(PERSON_TYPE).find(
+          key => PERSON_TYPE[key].createDialogAction === SHOW_FORM
         );
+        const typeWithForm = PERSON_TYPE[typeWithFormKey];
+
         if (typeWithForm) {
           test("Create case with known complainant using form", async () => {
             await provider.addInteraction({
@@ -181,7 +183,7 @@ pactWith(
                 },
                 body: {
                   case: {
-                    complainantType: "CIVILIAN",
+                    complainantType: typeWithFormKey,
                     firstContactDate: like("2022-11-17"),
                     intakeSourceId: 1,
                     complaintType: "Civilian Initiated"
@@ -239,6 +241,9 @@ pactWith(
             userEvent.click(await screen.findByText("Facebook"));
             userEvent.click(screen.getByTestId("complaintTypeDropdown"));
             userEvent.click(await screen.findByText("Civilian Initiated"));
+            const label = typeWithForm.description;
+            userEvent.click(screen.getByLabelText(label));
+
             userEvent.type(screen.getByTestId("firstNameInput"), "Jane");
             userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
             userEvent.type(
@@ -262,7 +267,7 @@ pactWith(
                 },
                 body: {
                   case: {
-                    complainantType: "CIVILIAN",
+                    complainantType: typeWithFormKey,
                     firstContactDate: like("2022-11-18"),
                     intakeSourceId: 1,
                     complaintType: "Civilian Initiated"
@@ -318,6 +323,8 @@ pactWith(
             userEvent.click(await screen.findByText("Facebook"));
             userEvent.click(screen.getByTestId("complaintTypeDropdown"));
             userEvent.click(await screen.findByText("Civilian Initiated"));
+            const label = typeWithForm.description;
+            userEvent.click(screen.getByLabelText(label));
             userEvent.click(screen.getByLabelText("Unknown"));
             userEvent.click(screen.getByTestId("createAndView"));
             expect(await screen.findByText("Case was successfully created"))

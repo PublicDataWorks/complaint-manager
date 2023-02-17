@@ -40,19 +40,19 @@ const InmatePanel = ({ caseInmate, children }) => {
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="Person in Custody"
-                  value={caseInmate.inmate.fullName}
+                  value={caseInmate?.inmate?.fullName}
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="ID"
-                  value={caseInmate.inmate.inmateId}
+                  value={caseInmate?.inmate?.inmateId}
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="Facility"
-                  value={caseInmate.inmate.facility}
+                  value={caseInmate?.inmate?.facility}
                 />
               </StyledInfoDisplay>
             </div>
@@ -61,19 +61,19 @@ const InmatePanel = ({ caseInmate, children }) => {
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Module"
-                value={caseInmate.inmate.locationSub1}
+                value={caseInmate?.inmate?.locationSub1}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Cell"
-                value={caseInmate.inmate.locationSub2}
+                value={caseInmate?.inmate?.locationSub2}
               />
             </StyledInfoDisplay>
             <StyledInfoDisplay>
               <OfficerInfoDisplay
                 displayLabel="Bed"
-                value={caseInmate.inmate.locationSub3}
+                value={caseInmate?.inmate?.locationSub3}
               />
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
