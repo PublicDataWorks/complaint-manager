@@ -96,14 +96,13 @@ module.exports = (sequelize, DataTypes) => {
       },
       personType: {
         field: "person_type",
-        type: DataTypes.STRING,
+        type: DataTypes.STRING
       },
       isAnonymous: {
         field: "is_anonymous",
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
-
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

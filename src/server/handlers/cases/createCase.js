@@ -64,7 +64,14 @@ const createCaseWithCivilian = async (request, statusId) => {
   const newCaseAttributes = {
     ...request.body.case,
     statusId,
-    complainantCivilians: [request.body.civilian]
+    complainantCivilians: request.body.case.complainantType
+      ? [
+          {
+            ...request.body.civilian,
+            personType: request.body.case.complainantType
+          }
+        ]
+      : [request.body.civilian]
   };
   const includeOptions = [
     {
