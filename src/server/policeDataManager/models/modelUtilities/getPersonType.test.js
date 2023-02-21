@@ -5,12 +5,15 @@ const {
 
 describe("getPersonType", () => {
   if (PERSON_TYPE.PERSON_IN_CUSTODY) {
-    test("should return person in custody type no matter what", () => {
-      // TODO obviously temporary
-      const primaryComplainant = {
-        fullName: "Pleading Eyes"
-      };
-      const result = getPersonType(primaryComplainant);
+    test("should return person in custody by default", () => {
+      const result = getPersonType();
+      expect(result).toEqual(PERSON_TYPE.PERSON_IN_CUSTODY.description);
+    });
+
+    test("should return person in custody if primaryComplainant has an inmateId", () => {
+      const result = getPersonType({
+        inmateId: "A0000001"
+      });
       expect(result).toEqual(PERSON_TYPE.PERSON_IN_CUSTODY.description);
     });
   } else {
@@ -56,4 +59,12 @@ describe("getPersonType", () => {
       expect(result).toEqual(PERSON_TYPE.CIVILIAN_WITHIN_PD.description);
     });
   }
+
+  Object.keys(PERSON_TYPE).forEach(key => {
+    test(`should return ${PERSON_TYPE[key].description} if personType is ${key}`, () => {
+      expect(getPersonType({ personType: key })).toEqual(
+        PERSON_TYPE[key].description
+      );
+    });
+  });
 });

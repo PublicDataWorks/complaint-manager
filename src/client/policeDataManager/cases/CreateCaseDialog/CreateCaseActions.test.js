@@ -2,7 +2,6 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
 import React from "react";
-import { CreateCaseActions } from "./CreateCaseActions";
 import {
   CIVILIAN_INITIATED,
   DESCENDING,

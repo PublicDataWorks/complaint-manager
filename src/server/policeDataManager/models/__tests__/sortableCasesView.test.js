@@ -228,7 +228,6 @@ describe("sortableCasesView", () => {
 
         expect(sortedCase).toEqual(
           expect.objectContaining({
-            complainantPersonType: "Civilian",
             complainantFirstName: complainantCivilian.firstName,
             complainantMiddleName: complainantCivilian.middleInitial,
             complainantLastName: complainantCivilian.lastName,
@@ -363,7 +362,9 @@ describe("sortableCasesView", () => {
 
         expect(sortedCase).toEqual(
           expect.objectContaining({
-            complainantPersonType: null,
+            complainantPersonType: Object.keys(PERSON_TYPE).find(
+              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
+            ),
             complainantFirstName: null,
             complainantMiddleName: null,
             complainantLastName: null,

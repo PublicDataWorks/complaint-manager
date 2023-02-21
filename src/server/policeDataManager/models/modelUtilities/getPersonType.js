@@ -3,7 +3,6 @@ const {
   DEFAULT_PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-// TODO this will need further reworking when adding other HAWAII complainant types
 export const getPersonType = primaryComplainant => {
   if (
     primaryComplainant &&
@@ -22,6 +21,18 @@ export const getPersonType = primaryComplainant => {
     PERSON_TYPE.UNKNOWN_OFFICER
   ) {
     return PERSON_TYPE.UNKNOWN_OFFICER.description;
+  } else if (
+    primaryComplainant &&
+    primaryComplainant.inmateId &&
+    PERSON_TYPE.PERSON_IN_CUSTODY
+  ) {
+    return PERSON_TYPE.PERSON_IN_CUSTODY.description;
+  } else if (
+    primaryComplainant &&
+    primaryComplainant.personType &&
+    PERSON_TYPE[primaryComplainant.personType]
+  ) {
+    return PERSON_TYPE[primaryComplainant.personType].description;
   } else {
     return DEFAULT_PERSON_TYPE.description;
   }

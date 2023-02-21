@@ -26,6 +26,11 @@ import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
+const {
+  DEFAULT_PERSON_TYPE,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 describe("getCases", () => {
   let statuses, civilianInitiated, rankInitiated;
   beforeEach(async () => {
@@ -911,7 +916,9 @@ describe("getCases", () => {
             complainantMiddleName: null
           }),
           expect.objectContaining({
-            complainantPersonType: null
+            complainantPersonType: Object.keys(PERSON_TYPE).find(
+              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
+            )
           })
         ]);
       });
@@ -925,7 +932,9 @@ describe("getCases", () => {
 
         expect(cases.rows).toEqual([
           expect.objectContaining({
-            complainantPersonType: null
+            complainantPersonType: Object.keys(PERSON_TYPE).find(
+              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
+            )
           }),
           expect.objectContaining({
             complainantPersonType: "Unknown Officer",
