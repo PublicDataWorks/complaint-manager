@@ -11,6 +11,7 @@ import SharedSnackbarContainer from "../../client/policeDataManager/shared/compo
 import CaseDashboard from "../../client/policeDataManager/cases/CaseDashboard";
 import {
   GET_FEATURES_SUCCEEDED,
+  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
@@ -241,8 +242,17 @@ pactWith(
             userEvent.click(await screen.findByText("Facebook"));
             userEvent.click(screen.getByTestId("complaintTypeDropdown"));
             userEvent.click(await screen.findByText("Civilian Initiated"));
+
             const label = typeWithForm.description;
-            userEvent.click(screen.getByLabelText(label));
+            if (
+              Object.keys(PERSON_TYPE).length >
+              NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+            ) {
+              userEvent.click(screen.getByTestId("complainant-type-dropdown"));
+              userEvent.click(await screen.findByText(label));
+            } else {
+              userEvent.click(screen.getByLabelText(label));
+            }
 
             userEvent.type(screen.getByTestId("firstNameInput"), "Jane");
             userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
@@ -323,8 +333,18 @@ pactWith(
             userEvent.click(await screen.findByText("Facebook"));
             userEvent.click(screen.getByTestId("complaintTypeDropdown"));
             userEvent.click(await screen.findByText("Civilian Initiated"));
+
             const label = typeWithForm.description;
-            userEvent.click(screen.getByLabelText(label));
+            if (
+              Object.keys(PERSON_TYPE).length >
+              NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+            ) {
+              userEvent.click(screen.getByTestId("complainant-type-dropdown"));
+              userEvent.click(await screen.findByText(label));
+            } else {
+              userEvent.click(screen.getByLabelText(label));
+            }
+
             userEvent.click(screen.getByLabelText("Unknown"));
             userEvent.click(screen.getByTestId("createAndView"));
             expect(await screen.findByText("Case was successfully created"))
@@ -382,7 +402,15 @@ pactWith(
           const label = PERSON_TYPE[type].description.includes("Officer")
             ? "Police Officer"
             : PERSON_TYPE[type].description;
-          userEvent.click(screen.getByLabelText(label));
+          if (
+            Object.keys(PERSON_TYPE).length >
+            NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+          ) {
+            userEvent.click(screen.getByTestId("complainant-type-dropdown"));
+            userEvent.click(await screen.findByText(label));
+          } else {
+            userEvent.click(screen.getByLabelText(label));
+          }
 
           userEvent.click(screen.getByTestId("createAndSearch"));
           expect(await screen.findByText("Case was successfully created"))

@@ -18,6 +18,7 @@ import {
   DESCENDING,
   GET_CONFIGS_SUCCEEDED,
   ISO_DATE,
+  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   RANK_INITIATED,
   SHOW_FORM,
   SORT_CASES_BY
@@ -106,13 +107,24 @@ describe("CreateCaseDialog component", () => {
     const type = PERSON_TYPE[key];
     describe(type.description, () => {
       beforeEach(() => {
-        const selector = `label[data-testid="${(type.isEmployee
-          ? type.employeeDescription
-          : type.description
-        )
-          .toLowerCase()
-          .replaceAll(" ", "-")}-radio-button"]`;
-        dialog.find(selector).simulate("click");
+        if (
+          Object.keys(PERSON_TYPE).length >
+          NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+        ) {
+          selectDropdownOption(
+            dialog,
+            `[data-testid="complainant-type-dropdown-autocomplete"]`,
+            type.isEmployee ? type.employeeDescription : type.description
+          );
+        } else {
+          const selector = `label[data-testid="${(type.isEmployee
+            ? type.employeeDescription
+            : type.description
+          )
+            .toLowerCase()
+            .replaceAll(" ", "-")}-radio-button"]`;
+          dialog.find(selector).simulate("click");
+        }
       });
 
       if (type.createDialogAction === SHOW_FORM) {
@@ -246,12 +258,7 @@ describe("CreateCaseDialog component", () => {
               );
             });
 
-            test("should default to civilian complainant whenever dialog opened", () => {
-              const civilianRadioButton = dialog
-                .find(`WithStyles(ForwardRef(SwitchBase))[value="${key}"]`)
-                .last();
-
-              expect(civilianRadioButton.prop("checked")).toEqual(true);
+            test("should show form to fill in complainant info", () => {
               expect(
                 dialog.find('[data-testid="firstNameField"]').exists()
               ).toBeTruthy();

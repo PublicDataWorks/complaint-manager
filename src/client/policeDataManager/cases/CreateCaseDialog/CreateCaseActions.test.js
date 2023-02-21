@@ -6,6 +6,7 @@ import {
   CIVILIAN_INITIATED,
   DESCENDING,
   ISO_DATE,
+  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";
@@ -92,13 +93,24 @@ describe("CreateCaseActions", () => {
       type => type.createDialogAction === SHOW_FORM
     );
 
-    dialog
-      .find(
-        `label[data-testid="${showFormType.description
-          .toLowerCase()
-          .replaceAll(" ", "-")}-radio-button"]`
-      )
-      .simulate("click");
+    if (
+      Object.keys(PERSON_TYPE).length >
+      NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+    ) {
+      selectDropdownOption(
+        dialog,
+        `[data-testid="complainant-type-dropdown-autocomplete"]`,
+        showFormType.description
+      );
+    } else {
+      dialog
+        .find(
+          `label[data-testid="${showFormType.description
+            .toLowerCase()
+            .replaceAll(" ", "-")}-radio-button"]`
+        )
+        .simulate("click");
+    }
 
     caseDetails = {
       case: {
