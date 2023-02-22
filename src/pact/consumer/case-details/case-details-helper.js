@@ -7,9 +7,12 @@ import CaseDetails from "../../../client/policeDataManager/cases/CaseDetails/Cas
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import createConfiguredStore from "../../../client/createConfiguredStore";
 import {
+  CIVILIAN_INITIATED,
   CONFIGS,
+  GET_COMPLAINT_TYPES_SUCCEEDED,
   GET_CONFIGS_SUCCEEDED,
   GET_FEATURES_SUCCEEDED,
+  RANK_INITIATED,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 
@@ -28,6 +31,7 @@ export const NOPD_WITNESS = "nopdWitness";
 export const NOPD_ACCUSED = "nopdAccused";
 export const NO_CASE_TAGS = "noCaseTags";
 export const GENERATE_LETTER_BUTTON = "hasGenerateLetterButton";
+export const COMPLAINT_TYPES = "hasComplaintTypes";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -588,6 +592,17 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     type: GET_CONFIGS_SUCCEEDED,
     payload: { [CONFIGS.PD]: PD }
   });
+
+  if (options.includes(COMPLAINT_TYPES)) {
+    store.dispatch({
+      type: GET_FEATURES_SUCCEEDED,
+      features: { chooseComplaintType: true }
+    });
+    store.dispatch({
+      type: GET_COMPLAINT_TYPES_SUCCEEDED,
+      payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
+    });
+  }
 
   if (options.includes(GENERATE_LETTER_BUTTON)) {
     store.dispatch({

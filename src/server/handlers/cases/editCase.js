@@ -46,7 +46,7 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   }
 
   const updatedCase = await models.sequelize.transaction(async transaction => {
-    const valuesToUpdate = _.omit(request.body, [
+    let valuesToUpdate = _.omit(request.body, [
       "createdBy",
       "caseReference",
       "year",
@@ -62,7 +62,11 @@ const editCase = asyncMiddleware(async (request, response, next) => {
       );
     }
 
-    const caseToUpdate = await models.cases.findByPk(request.params.caseId);
+    let caseToUpdate = await models.cases.findByPk(request.params.caseId);
+    if (valuesToUpdate.complaintType !== caseToUpdate.complaintType) {
+      valuesToUpdate = await mapComplaintTypeToCaseAttributes(valuesToUpdate);
+    }
+
     await caseToUpdate.update(valuesToUpdate, {
       individualHooks: true,
       transaction,
@@ -97,5 +101,18 @@ const editCase = asyncMiddleware(async (request, response, next) => {
   });
   response.status(200).send(await updatedCase.toJSON());
 });
+
+const mapComplaintTypeToCaseAttributes = async caseAttributes => {
+  let newCaseAttributes = caseAttributes;
+  const complaintType = await models.complaintTypes.findOne({
+    where: { name: newCaseAttributes.complaintType }
+  });
+  delete newCaseAttributes.complaintType;
+  if (complaintType) {
+    newCaseAttributes.complaintTypeId = complaintType.id;
+  }
+
+  return newCaseAttributes;
+};
 
 module.exports = editCase;

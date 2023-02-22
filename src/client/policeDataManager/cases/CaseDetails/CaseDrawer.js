@@ -13,6 +13,7 @@ import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { getNameOfUser } from "./usersSelector";
+import ReassignComplaintType from "./ChangeComplaintTypeDialog/ChangeComplaintType";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
@@ -22,11 +23,36 @@ const CaseDrawer = ({
   caseDetails,
   resetWorkingCasesPaging,
   permissions,
-  nameOfUser
+  nameOfUser,
+  chooseComplaintTypeFeatureFlag
 }) => {
   const lastDrawerRowClassName = classes.drawerRowEnd;
   const [gearDialogOpen, setGearDialogOpen] = useState(false);
-
+  const [complaintGearDialogOpen, setComplaintGearDialogOpen] = useState(false);
+  const complaintTypeFeature = chooseComplaintTypeFeatureFlag ? (
+    <div className={classes.drawerRowItem}>
+      <Typography variant="caption">Complaint Type</Typography>
+      <span style={{ display: "flex" }}>
+        <Typography data-testid="complaint-type" variant="body2">
+          {caseDetails.complaintType}
+        </Typography>
+        <IconButton
+          data-testid={"complaintButton"}
+          style={{ marginTop: "-14px" }}
+          onClick={() => setComplaintGearDialogOpen(true)}
+        >
+          <SettingsIcon />
+        </IconButton>
+      </span>
+      <ReassignComplaintType
+        caseDetails={caseDetails}
+        open={complaintGearDialogOpen}
+        setDialog={openState => setComplaintGearDialogOpen(openState)}
+      ></ReassignComplaintType>
+    </div>
+  ) : (
+    ""
+  );
   return (
     <Drawer
       variant="permanent"
@@ -77,12 +103,7 @@ const CaseDrawer = ({
                 {formatDate(caseDetails.createdAt)}
               </Typography>
             </div>
-            <div className={classes.drawerRowItem}>
-              <Typography variant="caption">Complaint Type</Typography>
-              <Typography data-testid="complaint-type" variant="body2">
-                {caseDetails.complaintType}
-              </Typography>
-            </div>
+            {complaintTypeFeature}
           </div>
           <div className={classes.drawerRowEnd}>
             <div className={classes.drawerRowItem}>
@@ -119,7 +140,8 @@ const CaseDrawer = ({
 export default connect(
   (state, props) => ({
     permissions: state?.users?.current?.userInfo?.permissions,
-    nameOfUser: getNameOfUser(state, props.caseDetails.assignedTo)
+    nameOfUser: getNameOfUser(state, props.caseDetails.assignedTo),
+    chooseComplaintTypeFeatureFlag: state.featureToggles.chooseComplaintType
   }),
   { resetWorkingCasesPaging }
 )(CaseDrawer);
