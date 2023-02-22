@@ -32,16 +32,7 @@ class ChangeComplaintTypeDialog extends Component {
 
   submit = values => {
     let caseDetailsCopy = { ...this.props.caseDetails };
-    console.log(this.props.currentValue);
     caseDetailsCopy.complaintType = this.props.currentValue;
-    // let i = 0;
-    // for (let c of this.props.complaintTypesState) {
-    //   i++;
-    //   if (c.name === this.props.currentValue) {
-    //     console.log(i);
-    //     caseDetailsCopy.complaintTypeId = i;
-    //   }
-    // }
     this.props.updateCase(caseDetailsCopy);
     this.props.setDialog(false);
   };

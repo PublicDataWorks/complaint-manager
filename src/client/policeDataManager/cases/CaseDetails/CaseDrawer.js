@@ -29,27 +29,14 @@ const CaseDrawer = ({
   const lastDrawerRowClassName = classes.drawerRowEnd;
   const [gearDialogOpen, setGearDialogOpen] = useState(false);
   const [complaintGearDialogOpen, setComplaintGearDialogOpen] = useState(false);
-  const complaintTypeFeature = chooseComplaintTypeFeatureFlag ? (
-    <div className={classes.drawerRowItem}>
-      <Typography variant="caption">Complaint Type</Typography>
-      <span style={{ display: "flex" }}>
-        <Typography data-testid="complaint-type" variant="body2">
-          {caseDetails.complaintType}
-        </Typography>
-        <IconButton
-          data-testid={"complaintButton"}
-          style={{ marginTop: "-14px" }}
-          onClick={() => setComplaintGearDialogOpen(true)}
-        >
-          <SettingsIcon />
-        </IconButton>
-      </span>
-      <ReassignComplaintType
-        caseDetails={caseDetails}
-        open={complaintGearDialogOpen}
-        setDialog={openState => setComplaintGearDialogOpen(openState)}
-      ></ReassignComplaintType>
-    </div>
+  const changeComplaintTypeFeature = chooseComplaintTypeFeatureFlag ? (
+    <IconButton
+      data-testid={"complaintButton"}
+      style={{ marginTop: "-14px" }}
+      onClick={() => setComplaintGearDialogOpen(true)}
+    >
+      <SettingsIcon />
+    </IconButton>
   ) : (
     ""
   );
@@ -103,7 +90,20 @@ const CaseDrawer = ({
                 {formatDate(caseDetails.createdAt)}
               </Typography>
             </div>
-            {complaintTypeFeature}
+            <div className={classes.drawerRowItem}>
+              <Typography variant="caption">Complaint Type</Typography>
+              <span style={{ display: "flex" }}>
+                <Typography data-testid="complaint-type" variant="body2">
+                  {caseDetails.complaintType}
+                </Typography>
+                {changeComplaintTypeFeature}
+              </span>
+              <ReassignComplaintType
+                caseDetails={caseDetails}
+                open={complaintGearDialogOpen}
+                setDialog={openState => setComplaintGearDialogOpen(openState)}
+              ></ReassignComplaintType>
+            </div>
           </div>
           <div className={classes.drawerRowEnd}>
             <div className={classes.drawerRowItem}>
