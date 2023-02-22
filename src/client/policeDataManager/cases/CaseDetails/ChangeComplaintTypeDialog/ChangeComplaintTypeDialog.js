@@ -24,7 +24,7 @@ class ChangeComplaintTypeDialog extends Component {
   componentDidUpdate() {
     if (
       this.props.chooseComplaintTypeFeatureFlag &&
-      this.props.complaintTypesState.length === 0
+      this.props.complaintTypes.length === 0
     ) {
       this.props.getComplaintTypes();
     }
@@ -62,9 +62,9 @@ class ChangeComplaintTypeDialog extends Component {
               style={{ width: "20rem" }}
               validate={[usernameRequired]}
             >
-              {this.props.complaintTypesState
+              {this.props.complaintTypes
                 ? generateMenuOptions(
-                    this.props.complaintTypesState.map(type => type.name)
+                    this.props.complaintTypes.map(type => type.name)
                   )
                 : this.props.getComplaintTypes()}
             </Field>
@@ -112,7 +112,7 @@ const ChangeComplaintTypeDialogForm = reduxForm({
 const mapStateToProps = (state, props) => {
   return {
     chooseComplaintTypeFeatureFlag: state.featureToggles.chooseComplaintType,
-    complaintTypesState: state.ui.complaintTypes,
+    complaintTypes: state.ui.complaintTypes,
     initialValues: { user: props.caseDetails.assignedTo },
     currentValue: formValueSelector(CHANGE_COMPLAINT_TYPE_FORM_NAME)(
       state,

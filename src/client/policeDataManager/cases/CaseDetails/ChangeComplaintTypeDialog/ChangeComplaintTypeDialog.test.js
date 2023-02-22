@@ -1,5 +1,5 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import ChangeComplaintTypeDialog from "./ChangeComplaintType";
+import ChangeComplaintTypeDialog from "./ChangeComplaintTypeDialog";
 import React from "react";
 import { Provider } from "react-redux";
 import { render, screen } from "@testing-library/react";

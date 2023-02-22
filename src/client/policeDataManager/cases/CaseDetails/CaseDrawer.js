@@ -13,7 +13,7 @@ import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import ReassignCaseDialog from "./ReassignCaseDialog/ReassignCaseDialog";
 import SettingsIcon from "@material-ui/icons/Settings";
 import { getNameOfUser } from "./usersSelector";
-import ReassignComplaintType from "./ChangeComplaintTypeDialog/ChangeComplaintType";
+import ReassignComplaintType from "./ChangeComplaintTypeDialog/ChangeComplaintTypeDialog";
 
 const renderArchiveOrRestoreButton = isArchived =>
   isArchived ? <RestoreArchivedCaseButton /> : <ArchiveCaseButton />;
@@ -29,7 +29,7 @@ const CaseDrawer = ({
   const lastDrawerRowClassName = classes.drawerRowEnd;
   const [gearDialogOpen, setGearDialogOpen] = useState(false);
   const [complaintGearDialogOpen, setComplaintGearDialogOpen] = useState(false);
-  const changeComplaintTypeFeature = chooseComplaintTypeFeatureFlag ? (
+  const changeComplaintTypeButton = chooseComplaintTypeFeatureFlag ? (
     <IconButton
       data-testid={"complaintButton"}
       style={{ marginTop: "-14px" }}
@@ -96,7 +96,7 @@ const CaseDrawer = ({
                 <Typography data-testid="complaint-type" variant="body2">
                   {caseDetails.complaintType}
                 </Typography>
-                {changeComplaintTypeFeature}
+                {changeComplaintTypeButton}
               </span>
               <ReassignComplaintType
                 caseDetails={caseDetails}
