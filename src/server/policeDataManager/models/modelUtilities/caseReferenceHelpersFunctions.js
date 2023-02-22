@@ -9,12 +9,14 @@ export const getCaseReference = (caseReferencePrefix, caseNumber, year) => {
 };
 
 const getPrefix = personType => {
-  const typeObject = Object.values(PERSON_TYPE).find(
-    type =>
-      type.description === personType || type.employeeDescription === personType
+  const typeKey = Object.keys(PERSON_TYPE).find(
+    key =>
+      PERSON_TYPE[key].description === personType ||
+      PERSON_TYPE[key].employeeDescription === personType ||
+      key === personType
   );
-  return typeObject
-    ? typeObject.abbreviation
+  return PERSON_TYPE[typeKey]
+    ? PERSON_TYPE[typeKey].abbreviation
     : DEFAULT_PERSON_TYPE.abbreviation;
 };
 

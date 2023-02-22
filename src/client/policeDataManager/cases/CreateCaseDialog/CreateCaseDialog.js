@@ -9,7 +9,8 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import ComplaintTypeRadioGroup from "./ComplainantTypeRadioGroup";
+import ComplainantTypeDropdown from "./ComplainantTypeDropdown";
+import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
@@ -17,6 +18,7 @@ import {
   CONFIGS,
   CREATE_CASE_FORM_NAME,
   ISO_DATE,
+  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
@@ -134,7 +136,12 @@ class CreateCaseDialog extends React.Component {
             )}
             <Field
               name="case.complainantType"
-              component={ComplaintTypeRadioGroup}
+              component={
+                Object.keys(PERSON_TYPE).length >
+                NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+                  ? ComplainantTypeDropdown
+                  : ComplainantTypeRadioGroup
+              }
             />
             <br />
             {PERSON_TYPE[complainantType]?.createDialogAction === SHOW_FORM && (

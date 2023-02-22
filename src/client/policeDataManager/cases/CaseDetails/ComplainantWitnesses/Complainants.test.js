@@ -16,6 +16,7 @@ import CaseInmate from "../../../../../sharedTestHelpers/CaseInmate";
 import editCivilian from "../../thunks/editCivilian";
 import {
   CIVILIAN_FORM_NAME,
+  SHOW_FORM,
   USER_PERMISSIONS,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
@@ -24,6 +25,10 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import { Provider } from "react-redux";
 import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
+
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
@@ -446,7 +451,43 @@ describe("Complainants", () => {
       const inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
 
       expect(complainantPanel.text()).toContain("Alpha");
+      expect(complainantPanel.text()).toContain("Civilian");
       expect(inmatePanel.text()).toContain("Billy");
+    });
+
+    test("should display the person type of a complainant civilian if there is one", () => {
+      let type = Object.keys(PERSON_TYPE).find(
+        key => PERSON_TYPE[key].createDialogAction === SHOW_FORM
+      );
+      const civilianComplainant = {
+        ...new Civilian.Builder()
+          .defaultCivilian()
+          .withFullName("First Alpha")
+          .withPersonType(type)
+          .build(),
+        raceEthnicity
+      };
+
+      const caseWithCivilianComplainant = new Case.Builder()
+        .defaultCase()
+        .withComplainantCivilians([civilianComplainant])
+        .build();
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <Complainants
+            caseDetails={caseWithCivilianComplainant}
+            classes={{}}
+          />
+        </Provider>
+      );
+
+      const complainantPanel = wrapper
+        .find('[data-testid="complainantWitnessesPanel"]')
+        .first();
+
+      expect(complainantPanel.text()).toContain("Alpha");
+      expect(complainantPanel.text()).toContain(PERSON_TYPE[type].description);
     });
   });
 });

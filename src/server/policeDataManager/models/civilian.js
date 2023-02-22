@@ -94,6 +94,10 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
+      personType: {
+        field: "person_type",
+        type: DataTypes.STRING
+      },
       isAnonymous: {
         field: "is_anonymous",
         type: DataTypes.BOOLEAN,

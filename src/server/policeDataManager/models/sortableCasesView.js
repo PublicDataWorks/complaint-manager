@@ -8,6 +8,11 @@ import {
   getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 
+const {
+  DEFAULT_PERSON_TYPE,
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 module.exports = (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
     "sortable_cases_view",
@@ -31,15 +36,15 @@ module.exports = (sequelize, DataTypes) => {
           "complainantIsAnonymous"
         ]),
         get: function () {
-          if (this.get("complainantPersonType")) {
+          if (this.get("complainantFirstName")) {
             return {
-              personType: this.get("complainantPersonType"),
+              personType: this.get("complainantPersonType") || "CIVILIAN",
               fullName: getPersonFullName(
                 this.get("complainantFirstName"),
                 this.get("complainantMiddleName"),
                 this.get("complainantLastName"),
                 this.get("complainantSuffix"),
-                this.get("complainantPersonType")
+                this.get("complainantPersonType") || "CIVILIAN"
               ),
               isAnonymous: this.get("complainantIsAnonymous")
             };
@@ -143,7 +148,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       complainantPersonType: {
         field: "complainant_person_type",
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        get: function () {
+          return (
+            this.getDataValue("complainantPersonType") ||
+            Object.keys(PERSON_TYPE).find(
+              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
+            )
+          );
+        }
       },
       complainantFirstName: {
         field: "complainant_first_name",

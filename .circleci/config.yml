@@ -4,10 +4,10 @@ orbs:
 parameters:
   prod-indexing-branch:
     type: string
-    default: "master"
+    default: "release_v3.55.1"
   stage-indexing-branch:
     type: string
-    default: "master"
+    default: "release_v3.55.1"
   instance-files-image-name-noipm:
     type: string
     default: "publicdataworks/instance-files-noipm"

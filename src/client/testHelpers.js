@@ -41,10 +41,8 @@ export const findDropdownOption = (
     }
   });
 
-  const autocomplete = mountedComponent
-    .find(dropdownSelector)
-    .first()
-    .find("ForwardRef(Autocomplete)");
+  const dropdown = mountedComponent.find(dropdownSelector).first();
+  const autocomplete = dropdown.find("ForwardRef(Autocomplete)");
 
   const options = autocomplete.props().options;
 

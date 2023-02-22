@@ -114,6 +114,41 @@ describe("createCase handler", () => {
       })
     );
   });
+
+  test("should create case with civilian with given complainant type", async () => {
+    const complainantTypeRequest = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      body: {
+        case: {
+          complainantType: "RANDOM_COMPLAINANT_TYPE",
+          complaintType: CIVILIAN_INITIATED,
+          firstContactDate: "2018-02-08",
+          incidentDate: "2018-03-16"
+        },
+        civilian: {
+          firstName: "First",
+          lastName: "Last",
+          phoneNumber: "1234567890"
+        }
+      },
+      nickname: user
+    });
+
+    await createCase(complainantTypeRequest, response, next);
+
+    const insertedCase = await models.cases.findOne({
+      where: { complaintTypeId: civilianInitiated.id },
+      include: [{ model: models.civilian, as: "complainantCivilians" }]
+    });
+
+    expect(insertedCase.complainantCivilians[0].personType).toEqual(
+      "RANDOM_COMPLAINANT_TYPE"
+    );
+  });
+
   test("should create case with civilian if civilian complainant type ", async () => {
     await createCase(request, response, next);
 

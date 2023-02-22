@@ -22,6 +22,10 @@ import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelI
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import { connect } from "react-redux";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const CivilianPanel = ({
   civilian,
   civilianAge,
@@ -69,7 +73,11 @@ const CivilianPanel = ({
               <div className={classes.detailsLastRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel={"Civilian"}
+                    displayLabel={
+                      civilian.personType && PERSON_TYPE[civilian.personType]
+                        ? PERSON_TYPE[civilian.personType].description
+                        : "Civilian"
+                    }
                     value={fullName}
                     isAnonymous={civilian.isAnonymous}
                     testLabel="complainantWitness"
