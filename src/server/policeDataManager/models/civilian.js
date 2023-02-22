@@ -98,6 +98,10 @@ module.exports = (sequelize, DataTypes) => {
         field: "person_type",
         type: DataTypes.STRING
       },
+      personSubType: {
+        field: "person_subtype",
+        type: DataTypes.STRING
+      },
       isAnonymous: {
         field: "is_anonymous",
         type: DataTypes.BOOLEAN,
