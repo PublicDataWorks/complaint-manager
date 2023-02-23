@@ -143,6 +143,22 @@ class CreateCaseDialog extends React.Component {
                   : ComplainantTypeRadioGroup
               }
             />
+            {PERSON_TYPE[complainantType]?.subTypes ? (
+              <>
+                <br />
+                <Field
+                  name="civilian.personSubType"
+                  component={Dropdown}
+                  style={{ width: "90%", marginBottom: "15px" }}
+                  placeholder={`Select a ${PERSON_TYPE[complainantType].description} Type`}
+                  inputProps={{ "data-testid": "complainantSubtypeDropdown" }}
+                >
+                  {generateMenuOptions(PERSON_TYPE[complainantType].subTypes)}
+                </Field>
+              </>
+            ) : (
+              ""
+            )}
             <br />
             {PERSON_TYPE[complainantType]?.createDialogAction === SHOW_FORM && (
               <>

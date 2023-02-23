@@ -125,6 +125,13 @@ describe("CreateCaseDialog component", () => {
             .replaceAll(" ", "-")}-radio-button"]`;
           dialog.find(selector).simulate("click");
         }
+        if (type.subTypes) {
+          selectDropdownOption(
+            dialog,
+            `[data-testid="complainantSubtypeDropdown-autocomplete"]`,
+            type.subTypes[0]
+          );
+        }
       });
 
       if (type.createDialogAction === SHOW_FORM) {
@@ -156,6 +163,10 @@ describe("CreateCaseDialog component", () => {
                 email: "fdomino@gmail.com"
               }
             };
+
+            if (type.subTypes) {
+              caseDetails.civilian.personSubType = type.subTypes[0];
+            }
 
             changeInput(
               dialog,
@@ -447,6 +458,10 @@ describe("CreateCaseDialog component", () => {
               civilian: civilian
             };
 
+            if (type.subTypes) {
+              caseDetails.civilian.personSubType = type.subTypes[0];
+            }
+
             changeInput(
               dialog,
               '[data-testid="lastNameInput"]',
@@ -523,6 +538,10 @@ describe("CreateCaseDialog component", () => {
                 phoneNumber: "1234567890"
               }
             };
+
+            if (type.subTypes) {
+              caseDetails.civilian.personSubType = type.subTypes[0];
+            }
 
             changeInput(
               dialog,

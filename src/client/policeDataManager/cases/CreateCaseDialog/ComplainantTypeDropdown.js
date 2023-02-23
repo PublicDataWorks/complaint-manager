@@ -12,7 +12,7 @@ const isOfficer = type => type.employeeDescription === "Officer";
 const ComplainantTypeDropdown = props => {
   let officerAdded = false;
   return (
-    <FormControl style={{ width: "90%" }}>
+    <FormControl style={{ width: "90%", marginBottom: "15px" }}>
       <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
         Complainant Information
       </Typography>

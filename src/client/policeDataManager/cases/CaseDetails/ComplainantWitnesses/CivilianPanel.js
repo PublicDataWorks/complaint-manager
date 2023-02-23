@@ -145,6 +145,17 @@ const CivilianPanel = ({
                 testLabel="complainantAdditionalInfo"
               />
             </StyledInfoDisplay>
+            {civilian.personSubType ? (
+              <StyledInfoDisplay>
+                <CivilianInfoDisplay
+                  displayLabel="Role"
+                  value={civilian.personSubType}
+                  testLabel="complainantRole"
+                />
+              </StyledInfoDisplay>
+            ) : (
+              ""
+            )}
           </StyledExpansionPanelDetails>
         </Accordion>
         <div style={{ margin: "12px 24px" }}>
