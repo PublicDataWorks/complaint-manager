@@ -195,20 +195,6 @@ describe("complainant/witness dialog", () => {
       });
     });
 
-    describe("gender", () => {
-      let genderDropdown;
-      beforeEach(() => {
-        genderDropdown = complainantWitnessDialog
-          .find('[data-testid="genderDropdown"]')
-          .last();
-      });
-
-      test("should show error if not set on save", () => {
-        save.simulate("click");
-        expect(genderDropdown.text()).toContain("Please enter Gender Identity");
-      });
-    });
-
     describe("race and ethnicity", () => {
       let raceDropdown;
       beforeEach(() => {
@@ -218,26 +204,7 @@ describe("complainant/witness dialog", () => {
       });
 
       test("should have a label race/ethnicity", () => {
-        expect(raceDropdown.find("label").text()).toEqual("Race/Ethnicity *");
-      });
-
-      test("should show error if not set on save", () => {
-        save.simulate("click");
-        expect(raceDropdown.text()).toContain("Please enter Race/Ethnicity");
-      });
-    });
-
-    describe("title", () => {
-      let titleDropdown;
-      beforeEach(() => {
-        titleDropdown = complainantWitnessDialog
-          .find('[data-testid="titleDropdown"]')
-          .last();
-      });
-
-      test("should show error if not set on save", () => {
-        save.simulate("click");
-        expect(titleDropdown.text()).toContain("Please enter Title");
+        expect(raceDropdown.find("label").text()).toEqual("Race/Ethnicity");
       });
     });
 

@@ -78,7 +78,6 @@ const CivilianFormFields = props => {
           </Typography>
           <div>
             <Field
-              required
               name="civilianTitleId"
               component={Dropdown}
               label="Title"
@@ -89,7 +88,6 @@ const CivilianFormFields = props => {
                 marginBottom: "3%"
               }}
               inputProps={{ "data-testid": "titleInput" }}
-              validate={[titleIsRequired]}
             >
               {generateMenuOptions(props.civilianTitles)}
             </Field>
@@ -136,13 +134,11 @@ const CivilianFormFields = props => {
               />
             </div>
             <Field
-              required
               name="genderIdentityId"
               component={Dropdown}
               label="Gender Identity"
               hinttext="Gender Identity"
               data-testid="genderDropdown"
-              validate={[genderIdentityIsRequired]}
               style={{
                 minWidth: "166px",
                 marginBottom: "1%",
@@ -154,7 +150,6 @@ const CivilianFormFields = props => {
             </Field>
           </div>
           <Field
-            required
             name="raceEthnicityId"
             component={Dropdown}
             label="Race/Ethnicity"
@@ -162,7 +157,6 @@ const CivilianFormFields = props => {
             data-testid="raceDropdown"
             style={{ width: "75%" }}
             inputProps={{ "data-testid": "raceEthnicityInput" }}
-            validate={[raceEthnicityIsRequired]}
           >
             {generateMenuOptions(props.raceEthnicities)}
           </Field>
