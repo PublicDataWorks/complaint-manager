@@ -87,7 +87,6 @@ describe("complainant/witness dialog", () => {
   const aTitleCivilianTitle = ["A Title", 3];
 
   beforeEach(() => {
-    console.warn = () => {};
     store = createConfiguredStore();
 
     const addressToSubmit = new Address.Builder()
@@ -423,6 +422,81 @@ describe("complainant/witness dialog", () => {
           complainantWitnessDialog.find(`[data-testid="personSubtypeDropdown"]`)
         ).toHaveLength(1);
       }
+    });
+
+    test("should throw an error if person type is not filled in", () => {
+      const civilianToSubmit = new Civilian.Builder()
+        .defaultCivilian()
+        .withFirstName("Foo")
+        .withLastName("Bar")
+        .withMiddleInitial("Y")
+        .withSuffix("updated test suffix")
+        .withBirthDate("2012-02-13")
+        .withGenderIdentityId(1)
+        .withRaceEthnicityId(1)
+        .withPhoneNumber("1234567890")
+        .withEmail("example@test.com")
+        .withAddress(caseCivilian.address)
+        .withCivilianTitleId(doctorMrsCivilianTitle[1])
+        .withId(undefined)
+        .build();
+
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="firstNameInput"]',
+        civilianToSubmit.firstName
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="middleInitialInput"]',
+        civilianToSubmit.middleInitial
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="lastNameInput"]',
+        civilianToSubmit.lastName
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="suffixInput"]',
+        civilianToSubmit.suffix
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="birthDateInput"]',
+        civilianToSubmit.birthDate
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="phoneNumberInput"]',
+        civilianToSubmit.phoneNumber
+      );
+      changeInput(
+        complainantWitnessDialog,
+        '[data-testid="emailInput"]',
+        civilianToSubmit.email
+      );
+      selectDropdownOption(
+        complainantWitnessDialog,
+        '[data-testid="genderDropdown"]',
+        unknownGenderIdentity[0]
+      );
+      selectDropdownOption(
+        complainantWitnessDialog,
+        '[data-testid="raceDropdown"]',
+        "Japanese"
+      );
+      selectDropdownOption(
+        complainantWitnessDialog,
+        '[data-testid="titleDropdown"]',
+        doctorMrsCivilianTitle[0]
+      );
+
+      save.simulate("click");
+
+      expect(complainantWitnessDialog.text()).toContain(
+        "Person Type is Required"
+      );
     });
 
     Object.keys(PERSON_TYPE)

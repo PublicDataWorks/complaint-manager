@@ -63,6 +63,13 @@ const ComplainantTypeRadioGroup = props => {
           return acc;
         }, [])}
       </RadioGroup>
+      {props.meta.touched && props.meta.invalid ? (
+        <p class="MuiFormHelperText-root Mui-error Mui-required">
+          {props.meta.error}
+        </p>
+      ) : (
+        ""
+      )}
     </FormControl>
   );
 };

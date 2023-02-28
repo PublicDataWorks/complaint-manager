@@ -28,7 +28,13 @@ const ComplainantWitnessMenu = props => {
       })
     );
     props.dispatch(
-      openCivilianDialog("Add Civilian", "Create", createCivilian)
+      openCivilianDialog(
+        props.choosePersonTypeInAddDialog
+          ? `Add ${props.civilianType}`
+          : "Add Civilian",
+        "Create",
+        createCivilian
+      )
     );
   };
 

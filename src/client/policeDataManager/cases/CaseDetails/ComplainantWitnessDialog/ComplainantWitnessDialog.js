@@ -55,6 +55,21 @@ class ComplainantWitnessDialog extends Component {
     this.props.getCivilianTitleDropdownValues();
   }
 
+  submit = (values, dispatch) => {
+    if (
+      !this.props.personType ||
+      PERSON_TYPE[this.props.personType]?.createDialogAction === SHOW_FORM
+    ) {
+      this.handleCivilian(values, dispatch);
+    } else {
+      this.props.push(
+        `/cases/${this.props.caseId}${
+          PERSON_TYPE[this.props.personType]?.createDialogAction
+        }`
+      );
+    }
+  };
+
   handleCivilian = (values, dispatch) => {
     if (this.props.choosePersonTypeInAddDialog && !values.personType) {
       throw new SubmissionError({ personType: "Person Type is Required" });
@@ -161,18 +176,7 @@ class ComplainantWitnessDialog extends Component {
           </SecondaryButton>
           <PrimaryButton
             data-testid="submitEditCivilian"
-            onClick={this.props.handleSubmit(
-              !this.props.personType ||
-                PERSON_TYPE[this.props.personType]?.createDialogAction ===
-                  SHOW_FORM
-                ? this.handleCivilian
-                : () =>
-                    this.props.push(
-                      `/cases/${this.props.caseId}${
-                        PERSON_TYPE[this.props.personType]?.createDialogAction
-                      }`
-                    )
-            )}
+            onClick={this.props.handleSubmit(this.submit)}
             disabled={this.props.submitting}
           >
             {this.props.submitButtonText}
