@@ -34,7 +34,9 @@ const CivilianFormFields = props => {
     <>
       <FormControlLabel
         key="isAnonymous"
-        label={`Anonymize ${props.roleOnCase?.toLowerCase()} in referral letter`}
+        label={`Anonymize ${
+          props.roleOnCase?.toLowerCase() || ""
+        } in referral letter`}
         control={
           <Field
             data-testid="isAnonymous"
@@ -50,7 +52,7 @@ const CivilianFormFields = props => {
       />
       <FormControlLabel
         key="isUnknown"
-        label={`Unknown ${props.roleOnCase}`}
+        label={`Unknown ${props.roleOnCase || ""}`}
         control={
           <Field
             data-testid="isUnknown"

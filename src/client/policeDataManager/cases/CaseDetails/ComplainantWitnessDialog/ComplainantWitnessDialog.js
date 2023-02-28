@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  Field,
-  formValueSelector,
-  reduxForm,
-  SubmissionError,
-  change
-} from "redux-form";
+import { Field, reduxForm, SubmissionError, change } from "redux-form";
+import { push } from "connected-react-router";
 import {
   Dialog,
   DialogActions,
@@ -23,11 +18,12 @@ import {
 } from "../../../shared/components/StyledButtons";
 import { closeEditCivilianDialog } from "../../../actionCreators/casesActionCreators";
 import { withTheme } from "@material-ui/core/styles";
-import { formatAddressAsString } from "../../../utilities/formatAddress";
 import validate from "./helpers/validateCivilianFields";
 import {
   CIVILIAN_FORM_NAME,
   COMPLAINANT,
+  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
+  SHOW_FORM,
   WITNESS
 } from "../../../../../sharedUtilities/constants";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
@@ -40,6 +36,11 @@ import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCi
 import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import CivilianFormFields from "./CivilianFormFields";
+import PersonTypeSelection from "../../CreateCaseDialog/PersonTypeSelection";
+
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const styles = {
   dialogPaper: {
@@ -48,7 +49,7 @@ const styles = {
   }
 };
 
-class CivilianDialog extends Component {
+class ComplainantWitnessDialog extends Component {
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
     this.props.getGenderIdentityDropdownValues();
@@ -125,7 +126,22 @@ class CivilianDialog extends Component {
                 label={WITNESS}
               />
             </Field>
-            <CivilianFormFields />
+            {this.props.choosePersonTypeInAddDialog ? (
+              <PersonTypeSelection
+                selectedType={this.props.personType}
+                subtypeFieldName="personSubType"
+                typeFieldName="personType"
+              />
+            ) : (
+              ""
+            )}
+            {!this.props.personType ||
+            PERSON_TYPE[this.props.personType]?.createDialogAction ===
+              SHOW_FORM ? (
+              <CivilianFormFields />
+            ) : (
+              ""
+            )}
           </form>
         </DialogContent>
         <DialogActions
@@ -142,7 +158,18 @@ class CivilianDialog extends Component {
           </SecondaryButton>
           <PrimaryButton
             data-testid="submitEditCivilian"
-            onClick={this.props.handleSubmit(this.handleCivilian)}
+            onClick={this.props.handleSubmit(
+              !this.props.personType ||
+                PERSON_TYPE[this.props.personType]?.createDialogAction ===
+                  SHOW_FORM
+                ? this.handleCivilian
+                : () =>
+                    this.props.push(
+                      `/cases/${this.props.caseId}${
+                        PERSON_TYPE[this.props.personType]?.createDialogAction
+                      }`
+                    )
+            )}
             disabled={this.props.submitting}
           >
             {this.props.submitButtonText}
@@ -153,26 +180,33 @@ class CivilianDialog extends Component {
   }
 }
 
-const DialogWithTheme = withTheme(withStyles(styles)(CivilianDialog));
+const DialogWithTheme = withTheme(withStyles(styles)(ComplainantWitnessDialog));
 
 const connectedForm = reduxForm({
   form: CIVILIAN_FORM_NAME,
   onSubmitFail: scrollToFirstError
 })(DialogWithTheme);
 
-const mapStateToProps = state => ({
-  open: state.ui.civilianDialog.open,
-  submitAction: state.ui.civilianDialog.submitAction,
-  title: state.ui.civilianDialog.title,
-  submitButtonText: state.ui.civilianDialog.submitButtonText,
-  addressValid: state.ui.addressInput.addressValid
-});
+const mapStateToProps = state => {
+  return {
+    addressValid: state.ui.addressInput.addressValid,
+    caseId: state.currentCase?.details?.id,
+    choosePersonTypeInAddDialog:
+      state.featureToggles.choosePersonTypeInAddDialog,
+    open: state.ui.civilianDialog.open,
+    personType: state.form[CIVILIAN_FORM_NAME]?.values?.personType,
+    submitAction: state.ui.civilianDialog.submitAction,
+    submitButtonText: state.ui.civilianDialog.submitButtonText,
+    title: state.ui.civilianDialog.title
+  };
+};
 
 const mapDispatchToProps = {
-  getRaceEthnicityDropdownValues,
-  getGenderIdentityDropdownValues,
+  change,
   getCivilianTitleDropdownValues,
-  change
+  getGenderIdentityDropdownValues,
+  getRaceEthnicityDropdownValues,
+  push
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(connectedForm);

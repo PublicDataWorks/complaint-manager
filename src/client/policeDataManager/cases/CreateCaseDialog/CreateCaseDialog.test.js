@@ -32,7 +32,7 @@ const {
   PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-jest.mock("../CaseDetails/CivilianDialog/MapServices/MapService");
+jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",
@@ -128,7 +128,7 @@ describe("CreateCaseDialog component", () => {
         if (type.subTypes) {
           selectDropdownOption(
             dialog,
-            `[data-testid="complainantSubtypeDropdown-autocomplete"]`,
+            `[data-testid="personSubtypeDropdown-autocomplete"]`,
             type.subTypes[0]
           );
         }

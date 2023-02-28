@@ -1,3 +1,4 @@
+import React from "react";
 import {
   CIVILIAN_FORM_NAME,
   CONFIGS,
@@ -10,7 +11,6 @@ import createCivilian from "../thunks/createCivilian";
 import { initialize } from "redux-form";
 import { openCivilianDialog } from "../../actionCreators/casesActionCreators";
 import { Menu, MenuItem } from "@material-ui/core";
-import React, { useState } from "react";
 import LinkButton from "../../shared/components/LinkButton";
 import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators";
 import { connect } from "react-redux";
@@ -19,6 +19,18 @@ import useMenuControl from "../../../common/hooks/useMenuControl";
 const ComplainantWitnessMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
+
+  const launchDialog = () => {
+    props.dispatch(
+      initialize(CIVILIAN_FORM_NAME, {
+        roleOnCase: props.civilianType,
+        caseId: props.caseDetails.id
+      })
+    );
+    props.dispatch(
+      openCivilianDialog("Add Civilian", "Create", createCivilian)
+    );
+  };
 
   return (
     <div>
@@ -29,7 +41,9 @@ const ComplainantWitnessMenu = props => {
             marginTop: "8px",
             marginBottom: "8px"
           }}
-          onClick={handleMenuOpen}
+          onClick={
+            props.choosePersonTypeInAddDialog ? launchDialog : handleMenuOpen
+          }
           data-testid="addComplainantWitness"
         >
           + Add {props.civilianType}
@@ -47,15 +61,7 @@ const ComplainantWitnessMenu = props => {
           data-testid="addCivilianComplainantWitness"
           onClick={() => {
             handleMenuClose();
-            props.dispatch(
-              initialize(CIVILIAN_FORM_NAME, {
-                roleOnCase: props.civilianType,
-                caseId: props.caseDetails.id
-              })
-            );
-            props.dispatch(
-              openCivilianDialog("Add Civilian", "Create", createCivilian)
-            );
+            launchDialog();
           }}
         >
           Civilian {props.civilianType}
@@ -98,6 +104,7 @@ const ComplainantWitnessMenu = props => {
 };
 
 export default connect(state => ({
+  choosePersonTypeInAddDialog: state.featureToggles.choosePersonTypeInAddDialog,
   pd: state.configs[CONFIGS.PD],
   permissions: state?.users?.current?.userInfo?.permissions
 }))(ComplainantWitnessMenu);

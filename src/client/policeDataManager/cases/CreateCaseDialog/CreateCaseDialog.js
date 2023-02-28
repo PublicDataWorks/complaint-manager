@@ -31,6 +31,7 @@ import { scrollToFirstErrorWithValue } from "../../../common/helpers/scrollToFir
 import AnonymousFields from "./AnonymousFields";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
+import PersonTypeSelection from "./PersonTypeSelection";
 
 const {
   DEFAULT_PERSON_TYPE,
@@ -134,32 +135,12 @@ class CreateCaseDialog extends React.Component {
             ) : (
               ""
             )}
-            <Field
-              name="case.complainantType"
-              component={
-                Object.keys(PERSON_TYPE).length >
-                NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-                  ? ComplainantTypeDropdown
-                  : ComplainantTypeRadioGroup
-              }
+            <PersonTypeSelection
+              selectedType={complainantType}
+              showLabels={true}
+              subtypeFieldName="civilian.personSubType"
+              typeFieldName="case.complainantType"
             />
-            {PERSON_TYPE[complainantType]?.subTypes ? (
-              <>
-                <br />
-                <Field
-                  name="civilian.personSubType"
-                  component={Dropdown}
-                  style={{ width: "90%", marginBottom: "15px" }}
-                  placeholder={`Select a ${PERSON_TYPE[complainantType].description} Type`}
-                  inputProps={{ "data-testid": "complainantSubtypeDropdown" }}
-                >
-                  {generateMenuOptions(PERSON_TYPE[complainantType].subTypes)}
-                </Field>
-              </>
-            ) : (
-              ""
-            )}
-            <br />
             {PERSON_TYPE[complainantType]?.createDialogAction === SHOW_FORM && (
               <>
                 <AnonymousFields />

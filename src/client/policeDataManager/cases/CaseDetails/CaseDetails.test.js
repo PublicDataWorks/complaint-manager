@@ -29,6 +29,7 @@ import {
   CASE_STATUS,
   CIVILIAN_INITIATED,
   GET_CONFIGS_SUCCEEDED,
+  GET_FEATURES_SUCCEEDED,
   GET_USERS_SUCCESS,
   NARRATIVE_FORM,
   USER_PERMISSIONS
@@ -62,7 +63,7 @@ jest.mock("../thunks/updateNarrative", () => () => ({
   type: "MOCK_UPDATE_NARRATIVE_THUNK"
 }));
 
-jest.mock("./CivilianDialog/MapServices/MapService");
+jest.mock("./ComplainantWitnessDialog/MapServices/MapService");
 
 describe("Case Details Component", () => {
   let caseDetails, expectedCase, dispatchSpy, store;
@@ -246,6 +247,21 @@ describe("Case Details Component", () => {
         'li[data-testid="addCivilianComplainantWitness"]'
       );
       addCivilian.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openCivilianDialog("Add Civilian", "Create", createCivilian)
+      );
+    });
+
+    test("should open general add dialog when feature flag is turned on and Add Complainant button is clicked", () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: { choosePersonTypeInAddDialog: true }
+      });
+      const addButton = caseDetails
+        .find('button[data-testid="addComplainantWitness"]')
+        .first();
+      addButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
         openCivilianDialog("Add Civilian", "Create", createCivilian)

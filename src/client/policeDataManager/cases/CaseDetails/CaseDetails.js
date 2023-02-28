@@ -6,7 +6,7 @@ import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
 import Complainants from "./ComplainantWitnesses/Complainants";
-import CivilianDialog from "./CivilianDialog/CivilianDialog";
+import ComplainantWitnessDialog from "./ComplainantWitnessDialog/ComplainantWitnessDialog";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
@@ -190,7 +190,7 @@ class CaseDetails extends React.Component {
             />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
-          <CivilianDialog />
+          <ComplainantWitnessDialog />
           <RemoveCivilianDialog data-testid="removeCivilianDialog" />
           <CaseNoteDialog />
         </div>

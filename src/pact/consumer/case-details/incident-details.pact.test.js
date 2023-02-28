@@ -6,7 +6,7 @@ import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import { setUpCaseDetailsPage } from "./case-details-helper";
 
 jest.mock(
-  "../../../client/policeDataManager/cases/CaseDetails/CivilianDialog/MapServices/MapService"
+  "../../../client/policeDataManager/cases/CaseDetails/ComplainantWitnessDialog/MapServices/MapService"
 );
 
 pactWith(
