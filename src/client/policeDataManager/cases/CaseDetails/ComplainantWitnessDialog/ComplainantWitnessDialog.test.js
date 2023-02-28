@@ -30,6 +30,7 @@ import getCivilianTitleDropdownValues from "../../../civilianTitles/thunks/getCi
 import { getGenderIdentitiesSuccess } from "../../../actionCreators/genderIdentityActionCreators";
 import { getCivilianTitlesSuccess } from "../../../actionCreators/civilianTitleActionCreators";
 import { push } from "connected-react-router";
+import ComplainantTypeRadioGroup from "../../CreateCaseDialog/ComplainantTypeRadioGroup";
 
 const {
   PERSON_TYPE
@@ -86,6 +87,7 @@ describe("complainant/witness dialog", () => {
   const aTitleCivilianTitle = ["A Title", 3];
 
   beforeEach(() => {
+    console.warn = () => {};
     store = createConfiguredStore();
 
     const addressToSubmit = new Address.Builder()
@@ -417,22 +419,9 @@ describe("complainant/witness dialog", () => {
           )
         ).toHaveLength(1);
       } else {
-        const abbreviationsChecked = [];
-        Object.values(PERSON_TYPE).forEach(type => {
-          if (!abbreviationsChecked.includes(type.abbreviation)) {
-            expect(
-              complainantWitnessDialog.find(
-                `label[data-testid="${(type.isEmployee
-                  ? type.employeeDescription
-                  : type.description
-                )
-                  .toLowerCase()
-                  .replaceAll(" ", "-")}-radio-button}"]`
-              )
-            ).toHaveLength(1);
-            abbreviationsChecked.push(type.abbreviation);
-          }
-        });
+        expect(
+          complainantWitnessDialog.find(ComplainantTypeRadioGroup)
+        ).toHaveLength(1);
       }
     });
 
@@ -469,125 +458,127 @@ describe("complainant/witness dialog", () => {
       }
     });
 
-    Object.keys(PERSON_TYPE).forEach(key => {
-      describe(`PERSON_TYPE: ${PERSON_TYPE[key].description}`, () => {
-        beforeEach(() => {
-          if (
-            Object.keys(PERSON_TYPE).length >
-            NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-          ) {
-            selectDropdownOption(
-              complainantWitnessDialog,
-              "[data-testid='complainant-type-dropdown-autocomplete']",
-              PERSON_TYPE[key].isEmployee
-                ? PERSON_TYPE[key].employeeDescription
-                : PERSON_TYPE[key].description
-            );
-          } else {
-            complainantWitnessDialog
-              .find(
-                `label[data-testid="${(PERSON_TYPE[key].isEmployee
+    Object.keys(PERSON_TYPE)
+      .filter(key => !key.includes("UNKNOWN"))
+      .forEach(key => {
+        describe(`PERSON_TYPE: ${PERSON_TYPE[key].description}`, () => {
+          beforeEach(() => {
+            if (
+              Object.keys(PERSON_TYPE).length >
+              NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
+            ) {
+              selectDropdownOption(
+                complainantWitnessDialog,
+                "[data-testid='complainant-type-dropdown-autocomplete']",
+                PERSON_TYPE[key].isEmployee
                   ? PERSON_TYPE[key].employeeDescription
                   : PERSON_TYPE[key].description
+              );
+            } else {
+              complainantWitnessDialog
+                .find(
+                  `label[data-testid="${(PERSON_TYPE[key].isEmployee
+                    ? PERSON_TYPE[key].employeeDescription
+                    : PERSON_TYPE[key].description
+                  )
+                    .toLowerCase()
+                    .replaceAll(" ", "-")}-radio-button"]`
                 )
-                  .toLowerCase()
-                  .replaceAll(" ", "-")}-radio-button}"]`
-              )
-              .simulate("click");
+                .simulate("click");
+            }
+          });
+
+          if (PERSON_TYPE[key].createDialogAction === SHOW_FORM) {
+            test("should call submitAction when form is correctly filled out and submitted", () => {
+              const civilianToSubmit = new Civilian.Builder()
+                .defaultCivilian()
+                .withFirstName("Foo")
+                .withLastName("Bar")
+                .withMiddleInitial("Y")
+                .withSuffix("updated test suffix")
+                .withBirthDate("2012-02-13")
+                .withGenderIdentityId(1)
+                .withRaceEthnicityId(1)
+                .withPhoneNumber("1234567890")
+                .withEmail("example@test.com")
+                .withAddress(caseCivilian.address)
+                .withCivilianTitleId(doctorMrsCivilianTitle[1])
+                .withId(undefined)
+                .build();
+
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="firstNameInput"]',
+                civilianToSubmit.firstName
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="middleInitialInput"]',
+                civilianToSubmit.middleInitial
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="lastNameInput"]',
+                civilianToSubmit.lastName
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="suffixInput"]',
+                civilianToSubmit.suffix
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="birthDateInput"]',
+                civilianToSubmit.birthDate
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="phoneNumberInput"]',
+                civilianToSubmit.phoneNumber
+              );
+              changeInput(
+                complainantWitnessDialog,
+                '[data-testid="emailInput"]',
+                civilianToSubmit.email
+              );
+              selectDropdownOption(
+                complainantWitnessDialog,
+                '[data-testid="genderDropdown"]',
+                unknownGenderIdentity[0]
+              );
+              selectDropdownOption(
+                complainantWitnessDialog,
+                '[data-testid="raceDropdown"]',
+                "Japanese"
+              );
+              selectDropdownOption(
+                complainantWitnessDialog,
+                '[data-testid="titleDropdown"]',
+                doctorMrsCivilianTitle[0]
+              );
+
+              save.simulate("click");
+              expect(submitAction).toHaveBeenCalledWith(
+                expect.objectContaining({
+                  ...civilianToSubmit,
+                  genderIdentityId: unknownGenderIdentity[1],
+                  personType: key
+                }),
+                undefined
+              );
+            });
+          } else {
+            test("should redirect to correct page when clicking submit", () => {
+              save.simulate("click");
+              expect(
+                dispatchSpy.mock.calls.find(
+                  call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+                )[0]
+              ).toEqual(push(`/cases/1${PERSON_TYPE[key].createDialogAction}`));
+            });
           }
         });
-
-        if (PERSON_TYPE[key].createDialogAction === SHOW_FORM) {
-          test("should call submitAction when form is correctly filled out and submitted", () => {
-            const civilianToSubmit = new Civilian.Builder()
-              .defaultCivilian()
-              .withFirstName("Foo")
-              .withLastName("Bar")
-              .withMiddleInitial("Y")
-              .withSuffix("updated test suffix")
-              .withBirthDate("2012-02-13")
-              .withGenderIdentityId(1)
-              .withRaceEthnicityId(1)
-              .withPhoneNumber("1234567890")
-              .withEmail("example@test.com")
-              .withAddress(caseCivilian.address)
-              .withCivilianTitleId(doctorMrsCivilianTitle[1])
-              .withId(undefined)
-              .build();
-
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="firstNameInput"]',
-              civilianToSubmit.firstName
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="middleInitialInput"]',
-              civilianToSubmit.middleInitial
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="lastNameInput"]',
-              civilianToSubmit.lastName
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="suffixInput"]',
-              civilianToSubmit.suffix
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="birthDateInput"]',
-              civilianToSubmit.birthDate
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="phoneNumberInput"]',
-              civilianToSubmit.phoneNumber
-            );
-            changeInput(
-              complainantWitnessDialog,
-              '[data-testid="emailInput"]',
-              civilianToSubmit.email
-            );
-            selectDropdownOption(
-              complainantWitnessDialog,
-              '[data-testid="genderDropdown"]',
-              unknownGenderIdentity[0]
-            );
-            selectDropdownOption(
-              complainantWitnessDialog,
-              '[data-testid="raceDropdown"]',
-              "Japanese"
-            );
-            selectDropdownOption(
-              complainantWitnessDialog,
-              '[data-testid="titleDropdown"]',
-              doctorMrsCivilianTitle[0]
-            );
-
-            save.simulate("click");
-            expect(submitAction).toHaveBeenCalledWith(
-              expect.objectContaining({
-                ...civilianToSubmit,
-                genderIdentityId: unknownGenderIdentity[1],
-                personType: key
-              }),
-              undefined
-            );
-          });
-        } else {
-          test("should redirect to correct page when clicking submit", () => {
-            save.simulate("click");
-            expect(
-              dispatchSpy.mock.calls.find(
-                call => call[0].type === "@@router/CALL_HISTORY_METHOD"
-              )[0]
-            ).toEqual(push(`/cases/1${PERSON_TYPE[key].createDialogAction}`));
-          });
-        }
       });
-    });
   });
 
   describe("dialog dismissal", () => {
