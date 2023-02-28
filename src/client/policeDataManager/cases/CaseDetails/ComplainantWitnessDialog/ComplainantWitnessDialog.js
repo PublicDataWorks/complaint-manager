@@ -56,6 +56,10 @@ class ComplainantWitnessDialog extends Component {
   }
 
   handleCivilian = (values, dispatch) => {
+    if (this.props.choosePersonTypeInAddDialog && !values.personType) {
+      throw new SubmissionError({ personType: "Person Type is Required" });
+    }
+
     if (!values.isUnknown) {
       const errors = addressMustBeValid(this.props.addressValid);
 

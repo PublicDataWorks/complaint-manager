@@ -28,6 +28,7 @@ const PersonTypeSelection = props => {
         <>
           <br />
           <Field
+            required
             name={props.subtypeFieldName}
             component={Dropdown}
             style={{ width: "90%", marginBottom: "15px" }}

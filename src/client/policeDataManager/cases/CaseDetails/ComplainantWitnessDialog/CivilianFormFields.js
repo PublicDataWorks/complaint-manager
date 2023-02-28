@@ -5,11 +5,6 @@ import { Field, formValueSelector, change } from "redux-form";
 import { FormControlLabel, Typography } from "@material-ui/core";
 import FirstNameField from "../../sharedFormComponents/FirstNameField";
 import LastNameField from "../../sharedFormComponents/LastNameField";
-import {
-  genderIdentityIsRequired,
-  raceEthnicityIsRequired,
-  titleIsRequired
-} from "../../../../formFieldLevelValidations";
 import Dropdown from "../../../../common/components/Dropdown";
 import DateField from "../../sharedFormComponents/DateField";
 import MiddleInitialField from "../../sharedFormComponents/MiddleInitialField";

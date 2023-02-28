@@ -24,6 +24,7 @@ const ComplainantTypeDropdown = props => {
         ""
       )}
       <Dropdown
+        required
         inputProps={{ "data-testid": "complainant-type-dropdown" }}
         input={props.input}
         meta={props.meta}
