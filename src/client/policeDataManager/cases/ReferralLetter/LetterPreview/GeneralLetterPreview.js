@@ -6,7 +6,7 @@ import { push } from "connected-react-router";
 
 const GeneralLetterPreview = props => {
   const [letter, setLetter] = useState();
-  const letterBaseApiRoute = `api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`;
+  const letterBaseApiRoute = `/api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`;
 
   useEffect(() => {
     axios
@@ -20,7 +20,7 @@ const GeneralLetterPreview = props => {
   const generateEditedLetter = async () => {
     try {
       await axios.put(
-        `api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`,
+        `/api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`,
         letter
       );
       props.dispatch(push(`/cases/${props.match.params.id}`));

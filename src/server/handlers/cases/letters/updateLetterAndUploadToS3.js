@@ -28,7 +28,7 @@ const updateLetterAndUploadToS3 = asyncMiddleware(
     );
     filename =
       filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
-
+    console.log(filename);
     await models.sequelize.transaction(async transaction => {
       await generateLetter(existingCase.id, filename, request);
 

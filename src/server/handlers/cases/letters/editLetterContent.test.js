@@ -1,14 +1,15 @@
-import Letter from "../../../../sharedTestHelpers/Letter";
 import models from "../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
+import Boom from "boom";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import Case from "../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
-import editLetterContent from "./editLetterContent";
-import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import Boom from "boom";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-import Signer from "../../../../sharedTestHelpers/signer";
+import Letter from "../../../../sharedTestHelpers/Letter";
 import LetterType from "../../../../sharedTestHelpers/letterType";
+import Signer from "../../../../sharedTestHelpers/signer";
+import editLetterContent from "./editLetterContent";
 
 describe("Edit letter", () => {
   let c4se, letter, letterType, response, next;
@@ -72,8 +73,8 @@ describe("Edit letter", () => {
     const request = requestWithUpdatedLetterContent();
 
     await editLetterContent(request, response, next);
-
     await letter.reload();
+
     expect(letter.editedLetterHtml).toEqual(newEditedLetterHtml);
   });
 
@@ -99,9 +100,10 @@ describe("Edit letter", () => {
       headers: {
         authorization: "Bearer token"
       },
-      params: { caseId: c4se.id },
+      params: { letterId: letter.id + "", caseId: c4se.id + "" },
       body: { editedLetterHtml: newEditedLetterHtml },
-      nickname: "nickname"
+      nickname: "nickname",
+      permissions: [USER_PERMISSIONS.SETUP_LETTER]
     });
   };
 });

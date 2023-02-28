@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
+import { push } from "connected-react-router";
 
 describe("GeneralLetterPreview", () => {
   let caseId, letterId, dispatchSpy;
@@ -110,5 +111,33 @@ describe("GeneralLetterPreview", () => {
     expect(await screen.findByText("Letter was successfully updated"))
       .toBeInTheDocument;
     expect(editAddressCall.isDone()).toBe(true);
+  });
+
+  test("should update letter", async () => {
+    const editLetterCall = nock("http://localhost")
+      .put(`/api/cases/${caseId}/letters/${letterId}`, {
+        addresses: {
+          recipient: "Billy Bob",
+          recipientAddress: "123 Missing Link Road",
+          sender: "Sally McSally",
+          transcribedBy: ""
+        },
+        draftFilename: "draft_filename.pdf",
+        editStatus: EDIT_STATUS.EDITED,
+        lastEdited: null,
+        letterHtml: "This is some HTML"
+      })
+      .reply(200, {});
+
+    userEvent.click(await screen.findByTestId("generate-letter-button"));
+
+    //expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+    expect(
+      dispatchSpy.mock.calls.find(
+        call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+      )[0]
+    ).toEqual(push(`/cases/${caseId}`));
+
+    expect(editLetterCall.isDone()).toBe(true);
   });
 });

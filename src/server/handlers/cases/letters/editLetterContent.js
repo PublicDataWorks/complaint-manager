@@ -6,11 +6,10 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 const editLetterContent = asyncMiddleware(async (request, response, next) => {
   const letter = await models.letter.findByPk(request.params.letterId);
 
-  // Add validation in case the letterId is not on the case ?
-  // Update the test from caseId to letterId
-  if (letter == null) {
+  if (!letter || letter.caseId + "" !== request.params.caseId) {
     throw Boom.badRequest(BAD_REQUEST_ERRORS.LETTER_DOES_NOT_EXIST);
   }
+
   await letter.update(
     {
       editedLetterHtml: request.body.editedLetterHtml
