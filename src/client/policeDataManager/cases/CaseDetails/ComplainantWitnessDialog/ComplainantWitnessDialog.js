@@ -71,20 +71,25 @@ class ComplainantWitnessDialog extends Component {
   };
 
   handleCivilian = (values, dispatch) => {
+    let personTypeErrors = {};
     if (this.props.choosePersonTypeInAddDialog && !values.personType) {
-      throw new SubmissionError({ personType: "Person Type is Required" });
+      personTypeErrors.personType = "Person Type is Required";
     }
 
     if (!values.isUnknown) {
       const errors = addressMustBeValid(this.props.addressValid);
 
       if (errors.autoSuggestValue) {
-        throw new SubmissionError(errors);
+        throw new SubmissionError({ ...errors, ...personTypeErrors });
       }
       const contactErrors = validate(values);
       if (!_.isEmpty(contactErrors)) {
-        throw new SubmissionError(contactErrors);
+        throw new SubmissionError({ ...contactErrors, ...personTypeErrors });
       }
+    }
+
+    if (personTypeErrors.personType) {
+      throw new SubmissionError(personTypeErrors);
     }
 
     dispatch(

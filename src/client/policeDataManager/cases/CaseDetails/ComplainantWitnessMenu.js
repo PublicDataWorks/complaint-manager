@@ -30,7 +30,7 @@ const ComplainantWitnessMenu = props => {
     props.dispatch(
       openCivilianDialog(
         props.choosePersonTypeInAddDialog
-          ? `Add ${props.civilianType}`
+          ? "Add Person to Case"
           : "Add Civilian",
         "Create",
         createCivilian

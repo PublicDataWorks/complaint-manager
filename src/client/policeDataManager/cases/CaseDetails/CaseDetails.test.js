@@ -264,7 +264,7 @@ describe("Case Details Component", () => {
       addButton.simulate("click");
 
       expect(dispatchSpy).toHaveBeenCalledWith(
-        openCivilianDialog("Add Complainant", "Create", createCivilian)
+        openCivilianDialog("Add Person to Case", "Create", createCivilian)
       );
     });
 
