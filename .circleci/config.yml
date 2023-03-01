@@ -187,7 +187,7 @@ commands:
           command: yarn install
       - run:
           name: Run Jest tests
-          command: << parameters.test-command >>
+          command: << parameters.test-command >> --verbose > temp.txt
           environment:
             REACT_APP_INSTANCE_FILES_DIR: << parameters.instance-files >>
   e2e-test:
