@@ -10,16 +10,13 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import {
-  CASE_STATUS,
   EDIT_LETTER_HTML_FORM,
   LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
-import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
-import { Field, initialize, reduxForm, reset } from "redux-form";
+import { Field, initialize, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
-import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import history from "../../../../history";
@@ -77,16 +74,13 @@ export class EditLetter extends Component {
   }
 
   componentDidUpdate() {
-    if (
-      !this.letterPreviewNotYetLoaded() &&
-      this.props.checkCaseStatus(this.props.caseStatus)
-    ) {
+    if (!this.letterPreviewNotYetLoaded() && this.props.isCaseStatusInvalid()) {
       this.props.invalidCaseStatusRedirect(this.state.caseId);
     }
   }
 
   letterPreviewNotYetLoaded = () => {
-    return this.props.letter.letterHtml === "" || !this.props.caseStatus;
+    return this.props.letterHtml === "";
   };
 
   saveAndGoBackToPreview = () => {
@@ -100,7 +94,7 @@ export class EditLetter extends Component {
   renderSaveButton = () => {
     return (
       <PrimaryButton
-        data-testid="saveButton"
+        data-testid="save-button"
         onClick={this.saveAndGoBackToPreview()}
         disabled={this.props.pristine}
       >
@@ -158,10 +152,7 @@ export class EditLetter extends Component {
   };
 
   render() {
-    if (
-      this.letterPreviewNotYetLoaded() ||
-      this.props.checkCaseStatus(this.props.caseStatus)
-    ) {
+    if (this.letterPreviewNotYetLoaded() || this.props.isCaseStatusInvalid()) {
       return null;
     }
 
@@ -237,7 +228,6 @@ export class EditLetter extends Component {
 
 EditLetter.propTypes = {
   caseReference: PropTypes.string,
-  caseStatus: PropTypes.string,
   dirty: PropTypes.bool,
   dispatch: PropTypes.func,
   handleSubmit: PropTypes.func,
@@ -258,9 +248,7 @@ const mapStateToProps = (state, props) => ({
   accused: state.currentCase.details.accusedOfficers,
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
-  // initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
   caseReference: state.currentCase.details.caseReference,
-  caseStatus: state.currentCase.details.status,
   permissions: state?.users?.current?.userInfo?.permissions
 });
 

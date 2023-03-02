@@ -115,16 +115,30 @@ describe("GeneralLetterPreview", () => {
   });
 
   test("should call axios put request on click to update letter", async () => {
-    nock("http://localhost")
-      .put(`/api/cases/${caseId}/letters/${letterId}`)
-      .reply(200, {});
-
-    const axiosSpy = jest.spyOn(axios, "put");
+    const axiosSpy = jest.spyOn(axios, "put").mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: {},
+        headers: {},
+        config: {}
+      })
+    );
     userEvent.click(await screen.findByTestId("generate-letter-button"));
 
     expect(axiosSpy).toHaveBeenCalledWith(
-      `/api/cases/${caseId}/letters/${letterId}`,
+      `/api/cases/${caseId}/letters/${letterId}/addresses`,
       expect.anything()
     );
+
+    await new Promise(resolve => {
+      setTimeout(() => {
+        expect(axiosSpy).toHaveBeenCalledWith(
+          `/api/cases/${caseId}/letters/${letterId}`,
+          expect.anything()
+        );
+        resolve();
+      }, 500);
+    });
   });
 });

@@ -22,7 +22,7 @@ const GeneralLetterPreview = props => {
     try {
       await axios.put(
         `/api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`,
-        letter
+        { editStatus: "Finalized" }
       );
       props.dispatch(push(`/cases/${props.match.params.id}`));
       props.dispatch(snackbarSuccess("Letter was generated successfully"));

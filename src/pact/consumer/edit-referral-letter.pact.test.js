@@ -7,7 +7,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
-import EditLetter from "../../client/policeDataManager/cases/ReferralLetter/EditLetter/EditLetter";
+import EditReferralLetter from "../../client/policeDataManager/cases/ReferralLetter/EditLetter/EditReferralLetter";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import {
   CASE_STATUS,
@@ -89,7 +89,7 @@ pactWith(
         render(
           <Provider store={store}>
             <Router>
-              <EditLetter
+              <EditReferralLetter
                 dirty={false}
                 invalidCaseStatusRedirect={jest.fn()}
                 letterHtml="<div></div>"
@@ -100,7 +100,7 @@ pactWith(
           </Provider>
         );
 
-        expect(await screen.findByTestId("saveButton")).toBeInTheDocument;
+        expect(await screen.findByTestId("save-button")).toBeInTheDocument;
 
         store.dispatch(
           change(
@@ -112,10 +112,10 @@ pactWith(
 
         await waitFor(() =>
           expect(
-            screen.getByTestId("saveButton").className.includes("Mui-disabled")
+            screen.getByTestId("save-button").className.includes("Mui-disabled")
           ).toBeFalse()
         );
-        userEvent.click(screen.getByTestId("saveButton"));
+        userEvent.click(screen.getByTestId("save-button"));
         const snackbar = await screen.findByTestId("sharedSnackbarBannerText");
         expect(snackbar.textContent).toEqual("Letter was successfully updated");
       });

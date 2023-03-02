@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { push } from "connected-react-router";
+import { initialize } from "redux-form";
 import EditLetter from "./EditLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
@@ -8,39 +8,55 @@ import {
   EDIT_LETTER_HTML_FORM,
   CASE_STATUS
 } from "../../../../../sharedUtilities/constants";
+import { useEffect } from "react";
 
 const EditReferralLetter = props => {
+  useEffect(() => {
+    props.getReferralLetterPreview(props.match.params.id);
+  }, []);
+
   const setInitialValues = () => {
-    dispatch(initialize(EDIT_LETTER_HTML_FORM, props.initialValues));
+    props.initialize(EDIT_LETTER_HTML_FORM, props.initialValues);
   };
 
-  const invalidCaseStatus = caseStatus => {
+  const invalidCaseStatus = () => {
     const allowed_statuses_for_edit_letter = [
       CASE_STATUS.LETTER_IN_PROGRESS,
       CASE_STATUS.READY_FOR_REVIEW
     ];
-    return !allowed_statuses_for_edit_letter.includes(caseStatus);
+    return (
+      !props.caseStatus ||
+      !allowed_statuses_for_edit_letter.includes(props.caseStatus)
+    );
   };
 
   return (
     <EditLetter
       caseId={props.match.params.id}
       letterPreviewEndpoint={"letter-preview"}
-      editContent={() => props.editReferralLetterContent()}
+      letterHtml={props.initialValues.editedLetterHtml}
+      editContent={(values, redirectUrl) =>
+        props.editReferralLetterContent(
+          props.match.params.id,
+          values,
+          redirectUrl
+        )
+      }
       editLetterEndpoint={"letter/edit-letter"}
-      getLetterPreview={() => props.getReferralLetterPreview()}
       initialValues={props.initialValues}
       setInitialValues={() => setInitialValues()}
-      checkCaseStatus={() => invalidCaseStatus()}
+      isCaseStatusInvalid={invalidCaseStatus}
     />
   );
 };
 
 const mapStateToProps = state => ({
+  caseStatus: state.currentCase.details.status,
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml }
 });
 
 export default connect(mapStateToProps, {
   editReferralLetterContent,
-  getReferralLetterPreview
+  getReferralLetterPreview,
+  initialize
 })(EditReferralLetter);

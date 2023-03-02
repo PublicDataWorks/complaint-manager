@@ -1,16 +1,14 @@
 import httpMocks from "node-mocks-http";
 import models from "../../../policeDataManager/models";
+import _ from "lodash";
 import Case from "../../../../sharedTestHelpers/case";
+import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../referralLetters/constructFilename";
-import _ from "lodash";
 import generateLetterAndUploadToS3 from "./generateLetterAndUploadToS3";
 import LetterType from "../../../../sharedTestHelpers/letterType";
 import Signer from "../../../../sharedTestHelpers/signer";
-import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
-import { dateTimeFromString } from "../../../../sharedUtilities/formatDate";
-import moment from "moment";
 
 jest.mock("../referralLetters/sharedLetterUtilities/uploadLetterToS3", () =>
   jest.fn()
@@ -31,26 +29,29 @@ jest.mock(
 );
 
 describe("Generate letter and upload to S3", () => {
-  let existingCase, request, response, next, signer;
-  let i = 0;
+  let c4se, request, response, next, signer;
 
   beforeEach(async () => {
     await cleanupDatabase();
-    const caseAttributes = new Case.Builder().defaultCase().build();
-    const signerAttr = new Signer.Builder().defaultSigner().build();
-    signer = await models.signers.create(signerAttr, {
-      auditUser: "user"
-    });
 
-    existingCase = await models.cases.create(caseAttributes, {
+    response = httpMocks.createResponse();
+
+    signer = await models.signers.create(
+      new Signer.Builder().defaultSigner().build(),
+      {
+        auditUser: "test user"
+      }
+    );
+
+    c4se = await models.cases.create(new Case.Builder().defaultCase().build(), {
       include: [
         {
           model: models.caseStatus,
           as: "status",
-          auditUser: "test"
+          auditUser: "test user"
         }
       ],
-      auditUser: "test"
+      auditUser: "test user"
     });
 
     next = jest.fn();
@@ -74,7 +75,7 @@ describe("Generate letter and upload to S3", () => {
         .withTemplate("Test letter template")
         .withDefaultSender(signer)
         .build(),
-      { auditUser: "test" }
+      { auditUser: "test user" }
     );
 
     request = httpMocks.createRequest({
@@ -85,21 +86,24 @@ describe("Generate letter and upload to S3", () => {
       body: {
         type: "TEST LETTER"
       },
-      params: { caseId: existingCase.id },
+      params: { caseId: c4se.id },
       nickname: "Barbra Matrix",
       permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
     });
-    response = httpMocks.createResponse();
+
     await generateLetterAndUploadToS3(request, response, next);
-    const finalPdfFilename = constructFilename(existingCase, "TEST LETTER");
+
+    const finalPdfFilename = constructFilename(c4se, "TEST LETTER");
     const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
     const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
+
+    const letter = await models.letter.findByPk(response._getData().id);
+
     const newAttachment = await models.attachment.findOne({
-      where: { caseId: existingCase.id, description: request.body.type }
+      where: { caseId: c4se.id, description: request.body.type }
     });
 
     expect(response.statusCode).toEqual(200);
-    const letter = await models.letter.findByPk(response._getData().id);
     expect(letter).toBeTruthy();
     expect(letter.typeId).toEqual(1);
     expect(uploadLetterToS3).toHaveBeenCalledWith(
@@ -107,8 +111,7 @@ describe("Generate letter and upload to S3", () => {
       expect.anything(),
       "noipm-local"
     );
-
-    expect(newAttachment.caseId).toEqual(existingCase.id);
+    expect(newAttachment.caseId).toEqual(c4se.id);
     expect(newAttachment.description).toEqual(expect.anything());
     expect(newAttachment.fileName).toMatch(regEx);
   });
@@ -124,8 +127,9 @@ describe("Generate letter and upload to S3", () => {
         .withDefaultSender(signer)
         .withHasEditPage(true)
         .build(),
-      { auditUser: "test" }
+      { auditUser: "test user" }
     );
+
     request = httpMocks.createRequest({
       method: "POST",
       headers: {
@@ -134,21 +138,22 @@ describe("Generate letter and upload to S3", () => {
       body: {
         type: "EDIT LETTER"
       },
-      params: { caseId: existingCase.id },
+      params: { caseId: c4se.id },
       nickname: "Barbra Matrix",
       permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
     });
-    response = httpMocks.createResponse();
+
     await generateLetterAndUploadToS3(request, response, next);
-    const finalPdfFilename = constructFilename(existingCase, "TEST LETTER");
+
+    const finalPdfFilename = constructFilename(c4se, "TEST LETTER");
     const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
     const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
 
-    expect(response.statusCode).toEqual(200);
     const letter = await models.letter.findByPk(response._getData().id);
+
+    expect(response.statusCode).toEqual(200);
     expect(letter).toBeTruthy();
     expect(letter.typeId).toEqual(1);
-
     expect(letter.finalPdfFilename).toMatch(regEx);
   });
 });

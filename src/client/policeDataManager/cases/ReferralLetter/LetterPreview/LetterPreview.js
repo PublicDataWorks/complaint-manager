@@ -338,10 +338,9 @@ export class LetterPreview extends Component {
     <PrimaryButton
       style={{ marginLeft: "16px" }}
       data-testid="generate-letter-button"
-      onClick={e => {
-        e.preventDefault();
-        this.props.generateEditedLetter();
-      }}
+      onClick={this.props.handleSubmit(
+        this.submitForm(null, this.props.generateEditedLetter)
+      )}
     >
       Generate Letter
     </PrimaryButton>
