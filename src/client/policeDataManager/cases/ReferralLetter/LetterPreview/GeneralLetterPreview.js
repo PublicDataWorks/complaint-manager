@@ -3,6 +3,7 @@ import axios from "axios";
 import LetterPreview, { SUBMIT_BUTTON_TYPE } from "./LetterPreview";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const GeneralLetterPreview = props => {
   const [letter, setLetter] = useState();
@@ -24,6 +25,7 @@ const GeneralLetterPreview = props => {
         letter
       );
       props.dispatch(push(`/cases/${props.match.params.id}`));
+      props.dispatch(snackbarSuccess("Letter was generated successfully"));
     } catch (error) {}
   };
 

@@ -14,6 +14,7 @@ import createConfiguredStore from "../../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
 import { push } from "connected-react-router";
+import axios from "axios";
 
 describe("GeneralLetterPreview", () => {
   let caseId, letterId, dispatchSpy;
@@ -113,31 +114,17 @@ describe("GeneralLetterPreview", () => {
     expect(editAddressCall.isDone()).toBe(true);
   });
 
-  test("should update letter", async () => {
-    const editLetterCall = nock("http://localhost")
-      .put(`/api/cases/${caseId}/letters/${letterId}`, {
-        addresses: {
-          recipient: "Billy Bob",
-          recipientAddress: "123 Missing Link Road",
-          sender: "Sally McSally",
-          transcribedBy: ""
-        },
-        draftFilename: "draft_filename.pdf",
-        editStatus: EDIT_STATUS.EDITED,
-        lastEdited: null,
-        letterHtml: "This is some HTML"
-      })
+  test("should call axios put request on click to update letter", async () => {
+    nock("http://localhost")
+      .put(`/api/cases/${caseId}/letters/${letterId}`)
       .reply(200, {});
 
+    const axiosSpy = jest.spyOn(axios, "put");
     userEvent.click(await screen.findByTestId("generate-letter-button"));
 
-    //expect(dispatchSpy).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-    expect(
-      dispatchSpy.mock.calls.find(
-        call => call[0].type === "@@router/CALL_HISTORY_METHOD"
-      )[0]
-    ).toEqual(push(`/cases/${caseId}`));
-
-    expect(editLetterCall.isDone()).toBe(true);
+    expect(axiosSpy).toHaveBeenCalledWith(
+      `/api/cases/${caseId}/letters/${letterId}`,
+      expect.anything()
+    );
   });
 });
