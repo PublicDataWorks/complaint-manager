@@ -14,8 +14,8 @@ const INSERT_LETTER_IMAGES = `INSERT INTO ${LETTER_IMAGES_TABLE}(image)
 const INSERT_LETTER_TYPES_LETTER_IMAGES = `INSERT INTO ${LETTER_TYPES_LETTER_IMAGES_TABLE}(image_id, letter_id, max_width, name) 
   VALUES ${
     process.env.ORG === "HAWAII"
-      ? `({headerImageId}, {cannotHelpLetterId}, '450px', 'header'),
-        ({iconImageId}, {cannotHelpLetterId}, '60px', 'smallIcon')`
+      ? `({headerImageId}, {cannotHelpLetterId}, '550px', 'header'),
+        ({iconImageId}, {cannotHelpLetterId}, '50px', 'smallIcon')`
       : `({headerImageId}, {referralLetterId}, '450px', 'header'), 
         ({iconImageId}, {referralLetterId}, '60px', 'smallIcon'), 
         ({headerImageId}, {complainantLetterId}, '450px', 'header'), 
