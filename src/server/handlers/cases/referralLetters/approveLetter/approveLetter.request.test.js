@@ -20,7 +20,10 @@ import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
 import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
-import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedStandardCaseStatuses
+} from "../../../../testHelpers/testSeeding";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 
@@ -77,6 +80,7 @@ describe("Approve referral letter", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedLetterSettings();
     token = buildTokenWithPermissions("letter:setup", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();

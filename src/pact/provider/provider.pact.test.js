@@ -33,7 +33,10 @@ import IntakeSource from "../../server/testHelpers/intakeSource";
 import CaseNoteAction from "../../server/testHelpers/caseNoteAction";
 import CaseNote from "../../server/testHelpers/caseNote";
 import HowDidYouHearAboutUsSource from "../../server/testHelpers/HowDidYouHearAboutUsSource";
-import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedStandardCaseStatuses
+} from "../../server/testHelpers/testSeeding";
 import {
   CIVILIAN_INITIATED,
   COMPLAINANT,
@@ -389,6 +392,7 @@ describe("Pact Verification", () => {
           await cleanupDatabase();
 
           statuses = await seedStandardCaseStatuses();
+          await seedLetterSettings();
 
           await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
           await models.complaintTypes.create({ name: RANK_INITIATED });

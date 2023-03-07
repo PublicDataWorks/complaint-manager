@@ -19,7 +19,10 @@ import {
   COMPLAINANT,
   RANK_INITIATED
 } from "../../../../sharedUtilities/constants";
-import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedStandardCaseStatuses
+} from "../../../testHelpers/testSeeding";
 import moment from "moment";
 const SENDER_NAME = "Bobby!";
 
@@ -72,7 +75,7 @@ describe("generateLetterPdfBuffer", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     findByPkSpy = jest.spyOn(models.cases, "findByPk");
-    await cleanupDatabase();
+    await seedLetterSettings();
     const signer = new Signer.Builder()
       .defaultSigner()
       .withName(SENDER_NAME)

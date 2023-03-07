@@ -14,6 +14,7 @@ import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLe
 import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
+import { seedLetterSettings } from "../../../../testHelpers/testSeeding";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
@@ -22,6 +23,7 @@ describe("Compare Generated Referral Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedLetterSettings();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
