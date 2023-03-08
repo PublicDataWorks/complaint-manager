@@ -47,6 +47,7 @@ const EditGeneralLetter = props => {
           setInitialValues={() => setInitialValues()}
           initialValues={{ editedLetterHtml: letter.letterHtml }}
           isCaseStatusInvalid={invalidCaseStatus}
+          useLetterProgressStepper={false}
         />
       )}
     </>

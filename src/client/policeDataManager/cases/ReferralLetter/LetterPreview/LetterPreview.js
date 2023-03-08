@@ -398,11 +398,13 @@ export class LetterPreview extends Component {
               padding: "0% 5% 0%"
             }}
           >
-            <LetterProgressStepper
-              currentLetterStatus={LETTER_PROGRESS.PREVIEW}
-              pageChangeCallback={this.pageChangeCallback}
-              caseId={this.props.caseId}
-            />
+            {this.props.useLetterProgressStepper ? (
+              <LetterProgressStepper
+                currentLetterStatus={LETTER_PROGRESS.PREVIEW}
+                pageChangeCallback={this.pageChangeCallback}
+                caseId={this.props.caseId}
+              />
+            ) : null}
             <div style={{ margin: "0 0 32px 0" }}>
               <Typography
                 style={{

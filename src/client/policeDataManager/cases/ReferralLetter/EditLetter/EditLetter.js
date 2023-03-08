@@ -66,8 +66,6 @@ export class EditLetter extends Component {
     };
     shouldBlockRoutingRedirects(true);
 
-    // this.props.getLetterPreview(this.state.caseId);
-
     if (this.props.initialValues.editedLetterHtml === "") {
       this.props.setInitialValues();
     }
@@ -171,11 +169,13 @@ export class EditLetter extends Component {
             padding: "0% 5% 0%"
           }}
         >
-          <LetterProgressStepper
-            currentLetterStatus={LETTER_PROGRESS.PREVIEW}
-            pageChangeCallback={this.pageChangeCallback}
-            caseId={this.state.caseId}
-          />
+          {this.props.useLetterProgressStepper ? (
+            <LetterProgressStepper
+              currentLetterStatus={LETTER_PROGRESS.PREVIEW}
+              pageChangeCallback={this.pageChangeCallback}
+              caseId={this.state.caseId}
+            />
+          ) : null}
           <div style={{ margin: "0 0 32px 0" }}>
             <Typography
               style={{

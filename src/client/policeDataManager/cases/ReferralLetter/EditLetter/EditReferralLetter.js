@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { initialize } from "redux-form";
 import EditLetter from "./EditLetter";
@@ -8,7 +8,6 @@ import {
   EDIT_LETTER_HTML_FORM,
   CASE_STATUS
 } from "../../../../../sharedUtilities/constants";
-import { useEffect } from "react";
 
 const EditReferralLetter = props => {
   useEffect(() => {
@@ -46,6 +45,7 @@ const EditReferralLetter = props => {
       initialValues={props.initialValues}
       setInitialValues={() => setInitialValues()}
       isCaseStatusInvalid={invalidCaseStatus}
+      useLetterProgressStepper={true}
     />
   );
 };

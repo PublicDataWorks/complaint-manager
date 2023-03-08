@@ -44,6 +44,7 @@ const GeneralLetterPreview = props => {
           letterHtml={letter?.letterHtml}
           submitButtonType={SUBMIT_BUTTON_TYPE.GENERATE_LETTER_BTN}
           generateEditedLetter={generateEditedLetter}
+          useLetterProgressStepper={false}
         />
       )}
     </>

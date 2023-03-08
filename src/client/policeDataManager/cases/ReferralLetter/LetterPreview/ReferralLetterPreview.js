@@ -52,6 +52,7 @@ const ReferralLetterPreview = props => {
       letterHtml={props.letterHtml}
       letterOfficers={props.letterOfficers}
       submitButtonType={determineSubmitButtonType()}
+      useLetterProgressStepper={true}
     />
   );
 };
