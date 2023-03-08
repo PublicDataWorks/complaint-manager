@@ -11,6 +11,7 @@ const extractRelevantAttributes = statusModel => {
 describe("determineNextCaseStatus", () => {
   let status0, status1, status2, status3, status4;
   beforeAll(async () => {
+    await cleanupDatabase();
     status0 = await models.caseStatus.create(
       new CaseStatus.Builder()
         .defaultCaseStatus()

@@ -34,6 +34,7 @@ describe("createCase handler", () => {
     civilianWithinPdInitiated;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     civilianInitiated = await models.complaintTypes.create({
       name: CIVILIAN_INITIATED
     });

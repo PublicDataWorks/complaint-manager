@@ -20,6 +20,7 @@ describe("getTags", () => {
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     request = httpMocks.createRequest({
       method: "GET",
       headers: {

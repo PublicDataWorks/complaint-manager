@@ -30,6 +30,7 @@ describe("removeCaseOfficer", () => {
 
   let existingCase, existingCaseOfficer, next, response;
   beforeEach(async () => {
+    await cleanupDatabase();
     next = jest.fn();
     response = httpMocks.createResponse();
 

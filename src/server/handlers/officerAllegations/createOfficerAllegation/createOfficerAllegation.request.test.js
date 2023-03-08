@@ -36,6 +36,7 @@ describe("POST /cases/:caseId/cases-officers/:caseOfficerId/officers-allegations
   });
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

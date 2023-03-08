@@ -23,6 +23,7 @@ describe("createOfficerAllegation", () => {
   let newCase, allegation, response, next;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

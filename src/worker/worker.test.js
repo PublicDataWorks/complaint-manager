@@ -1,9 +1,13 @@
 import request from "supertest";
 import workerApp from "./worker";
-import { expectResponse } from "../server/testHelpers/requestTestHelpers";
+import {
+  cleanupDatabase,
+  expectResponse
+} from "../server/testHelpers/requestTestHelpers";
 
 describe("worker", () => {
   test("should respond with 503 when app is shutting down", async () => {
+    await cleanupDatabase();
     workerApp.locals.shuttingDown = true;
 
     const responsePromise = request(workerApp)

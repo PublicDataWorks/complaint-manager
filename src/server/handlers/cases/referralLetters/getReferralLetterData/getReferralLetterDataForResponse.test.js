@@ -7,6 +7,7 @@ import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
 
 describe("getReferralLetterDataForResponse", () => {
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

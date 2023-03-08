@@ -12,6 +12,7 @@ describe("param handler", () => {
   let request, response, next;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     request = httpMocks.createRequest({
       method: "GET",
       headers: {

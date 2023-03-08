@@ -1,7 +1,12 @@
 import models from "../../policeDataManager/models";
+import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { legacyFormatAuditDetails } from "./legacyFormatAuditDetails";
 
 describe("legacyFormatAuditDetails", () => {
+  afterEach(async () => {
+    await cleanupDatabase();
+  });
+
   test("should replace attributes if all fields are present", async () => {
     const auditDetails = {
       cases: {

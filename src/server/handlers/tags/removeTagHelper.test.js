@@ -11,6 +11,7 @@ describe("removeTagAndAuditDetails", () => {
   let tag1, tag2, case1;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

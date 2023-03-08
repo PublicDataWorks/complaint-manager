@@ -25,6 +25,7 @@ jest.mock("../../getCaseHelpers", () => ({
 describe("getCase", () => {
   let existingCase;
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

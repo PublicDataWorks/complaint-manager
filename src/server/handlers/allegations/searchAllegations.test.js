@@ -13,6 +13,7 @@ describe("searchAllegations handler", function () {
   let existingCase, caseOfficer;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

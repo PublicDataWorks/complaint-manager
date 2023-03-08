@@ -9,6 +9,7 @@ import models from "../index";
 
 describe("address", () => {
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

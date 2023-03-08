@@ -9,6 +9,7 @@ import ReferralLetterOfficerHistoryNote from "../../../testHelpers/ReferralLette
 
 describe("Referral Letter Officer History Note", () => {
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

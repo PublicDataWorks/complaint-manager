@@ -11,6 +11,7 @@ describe("getNotificationStatus", () => {
   let request, response, next, currentCaseNote, currentNotif, currentCase;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

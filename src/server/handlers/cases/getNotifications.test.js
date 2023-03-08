@@ -31,6 +31,7 @@ describe("getNotifications", () => {
   let timestamp, currentCase, currentCaseNote, currentNotif;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     timestamp = utc().toDate();
 
     await models.caseStatus.create(

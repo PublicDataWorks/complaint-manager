@@ -19,6 +19,7 @@ describe("transforming recipient into title/name and address fields", () => {
   const selectReferralLettersQuery = "SELECT * FROM referral_letters;";
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

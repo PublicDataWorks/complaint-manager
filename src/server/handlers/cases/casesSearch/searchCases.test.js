@@ -44,6 +44,7 @@ describe("searchCases handler", function () {
     next;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     response = httpMocks.createResponse();
     next = jest.fn();
 

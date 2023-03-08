@@ -18,6 +18,7 @@ describe("searchInmates", function () {
   let existingCase, response, next, request;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

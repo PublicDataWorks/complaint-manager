@@ -14,6 +14,7 @@ describe("getCaseTags", () => {
   let request, response, next, existingCase, existingTag;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

@@ -16,6 +16,7 @@ describe("legacyAuditDataAccess", () => {
     let caseForAudit;
 
     beforeEach(async () => {
+      await cleanupDatabase();
       await models.caseStatus.create(
         new CaseStatus.Builder().defaultCaseStatus().build(),
         { auditUser: "user" }

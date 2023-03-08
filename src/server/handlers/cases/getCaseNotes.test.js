@@ -21,6 +21,7 @@ describe("getCaseNotes", function () {
   let request, response, next, existingCase, caseNoteAction;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

@@ -22,6 +22,7 @@ const httpMocks = require("node-mocks-http");
 
 describe("getArchivedCases", () => {
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }

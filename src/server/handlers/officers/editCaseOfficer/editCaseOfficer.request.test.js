@@ -29,6 +29,7 @@ describe("PUT /cases/:id/cases-officers/:caseOfficerId", () => {
   let token;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("case:edit", "tuser");
 
     await models.caseStatus.create(

@@ -41,6 +41,7 @@ describe("GET /cases/:id", () => {
     token;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     token = buildTokenWithPermissions("", "some_nickname");
 
     await models.caseStatus.create(

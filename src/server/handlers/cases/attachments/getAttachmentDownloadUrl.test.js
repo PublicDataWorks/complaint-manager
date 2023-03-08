@@ -40,6 +40,7 @@ describe("getAttachmentDownloadUrl", function () {
   let getSignedUrl;
 
   beforeEach(async () => {
+    await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
