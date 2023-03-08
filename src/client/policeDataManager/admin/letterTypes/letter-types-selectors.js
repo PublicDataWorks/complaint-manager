@@ -75,8 +75,8 @@ export const getSubsequentPageHeader = createSelector(getTemplateBody, body => {
 export const getFooterImage = createSelector(getTemplateBody, body => {
   let index = body?.match(
     /<span\s+style="display:inline-block; margin:\s+6px\s+16px\s+0\s+0"/i
-  ).index;
-  if (!body || index === -1) {
+  )?.index;
+  if (!body || !index || index === -1) {
     return undefined;
   }
 

@@ -6,6 +6,7 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
+import { seedLetterSettings } from "../../testHelpers/testSeeding";
 
 describe("generateExampleLetterPreview", () => {
   jest.setTimeout(50000);
@@ -19,6 +20,7 @@ describe("generateExampleLetterPreview", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedLetterSettings();
   });
 
   test("generates example letter from template", async () => {

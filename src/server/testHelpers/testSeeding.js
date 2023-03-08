@@ -66,3 +66,10 @@ export const seedStandardCaseStatuses = async () => {
     )
   ]);
 };
+
+export const seedLetterSettings = async () => {
+  await models.letterSettings.create({
+    type: "DEFAULT",
+    headerHeight: "1.3in"
+  });
+};

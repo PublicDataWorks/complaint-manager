@@ -20,10 +20,16 @@ const ComplainantTypeRadioGroup = props => {
   let officerAdded = false;
   return (
     <FormControl>
-      <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
-        Complainant Information
-      </Typography>
-      <FormLabel>The complainant is a...</FormLabel>
+      {props.showLabels ? (
+        <>
+          <Typography variant="subtitle2" style={{ marginBottom: "8px" }}>
+            Complainant Information
+          </Typography>
+          <FormLabel>The complainant is a...</FormLabel>
+        </>
+      ) : (
+        ""
+      )}
       <RadioGroup
         style={{ flexDirection: "row" }}
         {...props}
@@ -57,6 +63,13 @@ const ComplainantTypeRadioGroup = props => {
           return acc;
         }, [])}
       </RadioGroup>
+      {props.meta.touched && props.meta.invalid ? (
+        <p class="MuiFormHelperText-root Mui-error Mui-required">
+          {props.meta.error}
+        </p>
+      ) : (
+        ""
+      )}
     </FormControl>
   );
 };

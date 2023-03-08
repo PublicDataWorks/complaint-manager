@@ -21,17 +21,33 @@ const COMPLAINANT_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
   SET template = '${complainantLetterTemplate.toString().replace(/'/g, "''")}'
   WHERE type = 'COMPLAINANT'`;
 
+const cannotHelpLetterTemplate = fs.readFileSync(
+  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetter.tpl`
+);
+const cannotHelpLetterBodyTemplate = fs.readFileSync(
+  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetterBody.tpl`
+);
+
+const CANNOT_HELP_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
+  SET template = '${cannotHelpLetterTemplate.toString().replace(/'/g, "''")}',
+    editable_template = '${cannotHelpLetterBodyTemplate
+      .toString()
+      .replace(/'/g, "''")}'
+  WHERE type = 'CAN''T HELP'
+`;
+
 const REVERSION_QUERY = `UPDATE letter_types
   SET template = '',
     editable_template = NULL
   WHERE type = 'REFERRAL'
-    OR type = 'COMPLAINANT'`;
+    OR type = 'COMPLAINANT'
+    OR type = 'CAN''T HELP'`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    if (process.env.ORG === "NOIPM") {
-      try {
-        await queryInterface.sequelize.transaction(async transaction => {
+    try {
+      await queryInterface.sequelize.transaction(async transaction => {
+        if (process.env.ORG === "NOIPM") {
           await queryInterface.sequelize
             .query(REFERRAL_LETTER_TEMPLATE_QUERY, { transaction })
             .then(async () => {
@@ -42,12 +58,17 @@ module.exports = {
                 }
               );
             });
-        });
-      } catch (error) {
-        throw new Error(
-          `Error while seeding letter type data. Internal Error: ${error}`
-        );
-      }
+        } else {
+          await queryInterface.sequelize.query(
+            CANNOT_HELP_LETTER_TEMPLATE_QUERY,
+            { transaction }
+          );
+        }
+      });
+    } catch (error) {
+      throw new Error(
+        `Error while seeding letter type data. Internal Error: ${error}`
+      );
     }
   },
 

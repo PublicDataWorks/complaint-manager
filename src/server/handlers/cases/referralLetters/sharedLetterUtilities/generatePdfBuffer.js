@@ -1,18 +1,19 @@
 import pdf from "html-pdf";
 import util from "util";
+import models from "../../../../policeDataManager/models";
 
 require("../../../../handlebarHelpers");
 
-const generatePdfBuffer = async letterHtml => {
+const generatePdfBuffer = async (letterHtml, type = "DEFAULT") => {
+  const settings = await models.letterSettings.findByPk(type);
   const pdfOptions = {
-    format: "Letter",
+    format: settings.format,
     timeout: 100000,
-    width: "8.5in",
-    height: "11in",
-    border: "0.5in",
-    header: { height: "1.3 in" },
-    footer: { height: "0.7 in" },
-    base: "file:///app/src/server/handlers/cases/referralLetters/assets/"
+    width: settings.width,
+    height: settings.height,
+    border: settings.border,
+    header: { height: settings.headerHeight },
+    footer: { height: settings.footerHeight }
   };
 
   let pdfCreator = pdf.create(letterHtml, pdfOptions);

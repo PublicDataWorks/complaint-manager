@@ -11,6 +11,7 @@ import Case from "../../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
+import { seedLetterSettings } from "../../../../testHelpers/testSeeding";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
@@ -19,6 +20,7 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedLetterSettings();
 
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),

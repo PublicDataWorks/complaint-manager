@@ -25,67 +25,35 @@ const NULL_LETTER_TYPES = `UPDATE letter_types
 SET has_edit_page = false, requires_approval = false`;
 
 const UPDATE_COMPLAINANT_LETTER = `UPDATE letter_types 
-SET has_edit_page = false, requires_approval = false
-WHERE "type" = 'COMPLAINANT'`;
+  SET has_edit_page = false, requires_approval = false
+  WHERE "type" = 'COMPLAINANT'`;
+
+const UPDATE_CANNOT_HELP_LETTER = `UPDATE letter_types
+  SET has_edit_page = true, requires_approval = false
+  WHERE "type" = 'CAN''T HELP'
+`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    if (process.env.ORG === "NOIPM") {
-      try {
-        await queryInterface.sequelize.transaction(async transaction => {
+    try {
+      await queryInterface.sequelize.transaction(async transaction => {
+        if (process.env.ORG === "NOIPM") {
           await queryInterface.sequelize.query(UPDATE_REFERRAL_LETTER, {
             transaction
           });
           await queryInterface.sequelize.query(UPDATE_COMPLAINANT_LETTER, {
             transaction
           });
-        });
-      } catch (error) {
-        throw new Error(
-          `Error while seeding and update of letter types to include has_edit_page and requires_approval ${error}`
-        );
-      }
-
-      try {
-        await queryInterface.sequelize.transaction(async transaction => {
-          await queryInterface.sequelize
-            .query(UPDATE_REFERRAL_LETTER, { transaction })
-            .then(async () => {
-              await queryInterface.sequelize.query(UPDATE_COMPLAINANT_LETTER, {
-                transaction
-              });
-            });
-        });
-      } catch (error) {
-        throw new Error(
-          `Error while seeding and update of letter types to include has_edit_page and requires_approval ${error}`
-        );
-      }
-
-      try {
-        await queryInterface.sequelize.transaction(async transaction => {
-          await queryInterface.sequelize
-            .query(INSERT_LETTER_INPUT_PAGES, { transaction })
-            .then(async () => {
-              const referralLetterId = await queryInterface.sequelize.query(
-                "SELECT id FROM letter_types WHERE type = 'REFERRAL'"
-              );
-              await queryInterface.sequelize.query(
-                INSERT_LETTER_TYPE_LETTER_INPUT_PAGES.replaceAll(
-                  "{referralLetterId}",
-                  referralLetterId[0][0].id
-                ),
-                {
-                  transaction
-                }
-              );
-            });
-        });
-      } catch (error) {
-        throw new Error(
-          `Error while seeding Letter Input Pages and Letter Type letter Input Pages ${error}`
-        );
-      }
+        } else {
+          await queryInterface.sequelize.query(UPDATE_CANNOT_HELP_LETTER, {
+            transaction
+          });
+        }
+      });
+    } catch (error) {
+      throw new Error(
+        `Error while seeding and update of letter types to include has_edit_page and requires_approval ${error}`
+      );
     }
   },
 

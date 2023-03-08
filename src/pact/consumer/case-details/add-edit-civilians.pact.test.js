@@ -10,7 +10,7 @@ import {
 } from "./case-details-helper";
 
 jest.mock(
-  "../../../client/policeDataManager/cases/CaseDetails/CivilianDialog/MapServices/MapService",
+  "../../../client/policeDataManager/cases/CaseDetails/ComplainantWitnessDialog/MapServices/MapService",
   () => {
     return jest.fn().mockImplementation(() => ({
       healthCheck: callback => {

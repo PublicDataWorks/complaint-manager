@@ -6,7 +6,7 @@ import SuffixField from "../sharedFormComponents/SuffixField";
 import PhoneNumberField from "../sharedFormComponents/PhoneNumberField";
 import EmailField from "../sharedFormComponents/EmailField";
 import { Typography } from "@material-ui/core";
-import AddressInput from "../CaseDetails/CivilianDialog/AddressInput";
+import AddressInput from "../CaseDetails/ComplainantWitnessDialog/AddressInput";
 import AddressSecondLine from "../sharedFormComponents/AddressSecondLine";
 
 const CivilianComplainantFields = ({ formattedAddress, formName }) => {

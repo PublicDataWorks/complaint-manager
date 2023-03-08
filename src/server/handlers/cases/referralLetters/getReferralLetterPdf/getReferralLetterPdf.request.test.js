@@ -14,7 +14,10 @@ import LetterOfficer from "../../../../testHelpers/LetterOfficer";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import app from "../../../../server";
 import request from "supertest";
-import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedStandardCaseStatuses
+} from "../../../../testHelpers/testSeeding";
 
 jest.mock(
   "../../../../getFeaturesAsync",
@@ -42,6 +45,7 @@ describe("Generate referral letter pdf", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedLetterSettings();
     token = buildTokenWithPermissions("", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();

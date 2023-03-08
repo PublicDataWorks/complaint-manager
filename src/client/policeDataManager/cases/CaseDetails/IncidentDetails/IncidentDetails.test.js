@@ -46,7 +46,7 @@ jest.mock(
     }))
 );
 
-jest.mock("../CivilianDialog/MapServices/MapService");
+jest.mock("../ComplainantWitnessDialog/MapServices/MapService");
 
 describe("incident details", () => {
   let incidentDetails,

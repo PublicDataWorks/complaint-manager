@@ -11,7 +11,10 @@ import LetterType from "../../../../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLetterImage";
 import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedStandardCaseStatuses
+} from "../../../../testHelpers/testSeeding";
 
 let existingCase, timeOfDownload, complainant, statuses;
 
@@ -59,6 +62,8 @@ if (!PERSON_TYPE.PERSON_IN_CUSTODY) {
     await cleanupDatabase();
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
+
+    await seedLetterSettings();
 
     let s3 = AWS.S3.mockImplementation(() => ({
       config: {
