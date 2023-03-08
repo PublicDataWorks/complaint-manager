@@ -24,10 +24,9 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     try {
       await queryInterface.sequelize.transaction(async transaction => {
-        await queryInterface.sequelize.query(
-          "UPDATE cases SET status = NULL WHERE status IS NOT NULL",
-          { transaction }
-        );
+        await queryInterface.sequelize.query("TRUNCATE letter_settings", {
+          transaction
+        });
       });
     } catch (e) {
       throw new Error(
