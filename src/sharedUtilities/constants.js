@@ -224,6 +224,7 @@ export const EXPORT_CASES_FORM_NAME = "ExportCasesForm";
 export const SEARCH_CASES_FORM_NAME = "SearchCasesForm";
 export const REASSIGN_CASE_FORM_NAME = "ReassignCaseDialogForm";
 export const CHANGE_COMPLAINT_TYPE_FORM_NAME = "ChangeComplantTypeDialogForm";
+export const MANUALLY_ENTER_INMATE_FORM = "ManuallyEnterInputForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions

@@ -83,6 +83,10 @@ const InmatesSearch = lazy(() =>
   import("./policeDataManager/inmates/InmatesSearch")
 );
 
+const InmateDetails = lazy(() =>
+  import("./policeDataManager/inmates/InmateDetails")
+);
+
 const policeDataManagerRoutes = [
   {
     path: "/archived-cases",
@@ -119,6 +123,10 @@ const policeDataManagerRoutes = [
   {
     path: "/cases/:id/inmates/search",
     component: InmatesSearch
+  },
+  {
+    path: "/cases/:id/inmates/details",
+    component: InmateDetails
   },
   {
     path: "/cases/:id/history",

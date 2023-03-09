@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardContent, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import NavBar from "../shared/components/NavBar/NavBar";
 import LinkButton from "../shared/components/LinkButton";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 import getCaseDetails from "../cases/thunks/getCaseDetails";
 import InmateSearchForm from "./InmateSearchForm";
 import InmateSearchResults from "./InmateSearchResults";
+import { SecondaryButton } from "../shared/components/StyledButtons";
 
 const InmatesSearch = props => {
   const caseDetailsNotYetLoaded = () => {
@@ -52,13 +53,26 @@ const InmatesSearch = props => {
         </div>
         <InmateSearchForm />
         <InmateSearchResults />
+        {props.manuallyAddInmateFeature ? (
+          <SecondaryButton
+            style={{ marginRight: 20 }}
+            data-testid="manually-add-person-in-custody"
+            component={Link}
+            to={`/cases/${props.match.params.id}/inmates/details`}
+          >
+            Manually Add Person in Custody
+          </SecondaryButton>
+        ) : (
+          ""
+        )}
       </section>
     </section>
   );
 };
 
 const mapStateToProps = state => ({
-  caseReference: state.currentCase.details.caseReference
+  caseReference: state.currentCase.details.caseReference,
+  manuallyAddInmateFeature: state.featureToggles.manuallyAddInmateFeature
 });
 
 export default connect(mapStateToProps, { getCaseDetails })(InmatesSearch);
