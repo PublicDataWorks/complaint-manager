@@ -6,7 +6,7 @@ const LETTER_TYPES_LETTER_IMAGES_TABLE = "letter_types_letter_images";
 const INSERT_LETTER_IMAGES = `INSERT INTO ${LETTER_IMAGES_TABLE}(image) 
   VALUES ${
     process.env.ORG === "HAWAII"
-      ? "('hawaii_header_text.jpeg'), ('hawaii_icon.jpeg')"
+      ? "('hawaii_header_text.png'), ('hawaii_icon.jpeg')"
       : "('header_text.png'), ('icon.png')"
   }
 `;

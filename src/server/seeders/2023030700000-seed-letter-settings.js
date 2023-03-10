@@ -1,10 +1,10 @@
 "use strict";
 const TABLE = "letter_settings";
 
-const INSERT_LETTER_SETTINGS = `INSERT INTO ${TABLE}(type, header_height, footer_height) 
+const INSERT_LETTER_SETTINGS = `INSERT INTO ${TABLE}(type, header_height, footer_height, border) 
   VALUES ('DEFAULT', '${process.env.ORG === "NOIPM" ? "1.3in" : "2.1in"}', '${
   process.env.ORG === "NOIPM" ? "0.7in" : "0.7in"
-}')`;
+}', '${process.env.ORG === "NOIPM" ? "0.5in" : "0.3in"}')`;
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
