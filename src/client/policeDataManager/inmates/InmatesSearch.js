@@ -52,13 +52,13 @@ const InmatesSearch = props => {
           </Typography>
         </div>
         <InmateSearchForm />
-        <InmateSearchResults />
+        <InmateSearchResults roleOnCase={props.match.params.roleOnCase} />
         {props.manuallyAddInmateFeature ? (
           <SecondaryButton
             style={{ marginRight: 20 }}
             data-testid="manually-add-person-in-custody"
             component={Link}
-            to={`/cases/${props.match.params.id}/inmates/details`}
+            to={`/cases/${props.match.params.id}/inmates/${props.match.params.roleOnCase}/details`}
           >
             Manually Add Person in Custody
           </SecondaryButton>

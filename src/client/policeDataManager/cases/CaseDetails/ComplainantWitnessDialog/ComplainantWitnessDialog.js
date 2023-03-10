@@ -63,9 +63,9 @@ class ComplainantWitnessDialog extends Component {
       this.handleCivilian(values, dispatch);
     } else {
       this.props.push(
-        `/cases/${this.props.caseId}${
-          PERSON_TYPE[this.props.personType]?.createDialogAction
-        }`
+        `/cases/${this.props.caseId}${PERSON_TYPE[
+          this.props.personType
+        ]?.createDialogAction.replace(COMPLAINANT, values.roleOnCase)}`
       );
     }
   };

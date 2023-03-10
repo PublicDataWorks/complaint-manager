@@ -121,11 +121,11 @@ const policeDataManagerRoutes = [
     component: EditOfficerSearch
   },
   {
-    path: "/cases/:id/inmates/search",
+    path: "/cases/:id/inmates/:roleOnCase/search",
     component: InmatesSearch
   },
   {
-    path: "/cases/:id/inmates/details",
+    path: "/cases/:id/inmates/:roleOnCase/details",
     component: InmateDetails
   },
   {

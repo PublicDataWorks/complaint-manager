@@ -71,7 +71,9 @@ pactWith(
         render(
           <Provider store={store}>
             <Router>
-              <InmatesSearch match={{ params: { id: "1" } }} />
+              <InmatesSearch
+                match={{ params: { id: "1", roleOnCase: COMPLAINANT } }}
+              />
               <SharedSnackbarContainer />
             </Router>
           </Provider>

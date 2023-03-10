@@ -56,12 +56,15 @@ const InmateDetails = props => {
           <LinkButton
             data-testid="back-to-search-link"
             component={Link}
-            to={`/cases/${props.match.params.id}/inmates/search`}
+            to={`/cases/${props.match.params.id}/inmates/${props.match.params.roleOnCase}/search`}
           >
             Search for Person in Custody
           </LinkButton>
         </section>
-        <ManuallyEnterInmateForm />
+        <ManuallyEnterInmateForm
+          caseId={props.match.params.id}
+          roleOnCase={props.match.params.roleOnCase}
+        />
       </section>
     </section>
   );

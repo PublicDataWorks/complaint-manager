@@ -35,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+      notes: {
+        type: DataTypes.STRING
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE

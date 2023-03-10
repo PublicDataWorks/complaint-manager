@@ -78,7 +78,7 @@ export class InmateSearchResults extends Component {
     return axios
       .post(`api/cases/${this.props.caseDetails.id}/inmates`, {
         inmateId: inmate.inmateId,
-        roleOnCase: COMPLAINANT
+        roleOnCase: this.props.roleOnCase
       })
       .then(() => {
         this.props.snackbarSuccess(

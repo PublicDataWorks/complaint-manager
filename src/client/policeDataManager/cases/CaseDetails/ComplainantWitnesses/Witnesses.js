@@ -7,9 +7,9 @@ import { WITNESS } from "../../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Witnesses = props => {
-  const allWitnesses = props.caseDetails.witnessCivilians.concat(
-    props.caseDetails.witnessOfficers
-  );
+  const allWitnesses = props.caseDetails.witnessCivilians
+    .concat(props.caseDetails.witnessOfficers)
+    .concat(props.caseDetails.witnessInmates || []);
 
   const { classes } = props;
 

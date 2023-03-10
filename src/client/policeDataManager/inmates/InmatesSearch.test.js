@@ -30,7 +30,9 @@ describe("InmatesSearch", () => {
     render(
       <Provider store={store}>
         <BrowserRouter>
-          <InmatesSearch match={{ params: { id: "1" } }} />
+          <InmatesSearch
+            match={{ params: { id: "1", roleOnCase: COMPLAINANT } }}
+          />
           <SharedSnackbarContainer />
         </BrowserRouter>
       </Provider>

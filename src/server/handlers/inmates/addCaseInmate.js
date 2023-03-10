@@ -9,7 +9,7 @@ import {
 } from "../../../sharedUtilities/errorMessageConstants";
 
 const addCaseInmate = asyncMiddleware(async (request, response, next) => {
-  const { inmateId, roleOnCase } = request.body;
+  const { inmateId, notes, roleOnCase } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
 
   const retrievedCase = await models.cases.findByPk(request.params.caseId);
@@ -17,7 +17,7 @@ const addCaseInmate = asyncMiddleware(async (request, response, next) => {
     throw Boom.notFound(NOT_FOUND_ERRORS.RESOURCE_NOT_FOUND);
   }
 
-  if (!isAnonymous) {
+  if (!isAnonymous && inmateId) {
     const retrievedInmate = await models.inmate.findByPk(inmateId);
     if (!retrievedInmate) {
       throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_PERSON_IN_CUSTODY);
@@ -27,6 +27,7 @@ const addCaseInmate = asyncMiddleware(async (request, response, next) => {
   let caseInmateAttributes = {
     caseId: request.params.caseId,
     inmateId,
+    notes,
     roleOnCase,
     isAnonymous
   };
