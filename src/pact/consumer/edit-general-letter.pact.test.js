@@ -33,7 +33,7 @@ pactWith(
     describe("edit letter page", () => {
       test("should add input text to the letter", async () => {
         await provider.addInteraction({
-          state: "letter is ready for review", // make a seperate general letter state?
+          state: "general letter exists",
           uponReceiving: "get letter preview",
           withRequest: {
             method: "GET",
@@ -63,7 +63,7 @@ pactWith(
         });
 
         await provider.addInteraction({
-          state: "letter is ready for review",
+          state: "general letter exists",
           uponReceiving: "update letter content",
           withRequest: {
             method: "PUT",

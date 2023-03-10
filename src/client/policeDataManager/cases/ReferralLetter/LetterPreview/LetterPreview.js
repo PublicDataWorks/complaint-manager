@@ -101,9 +101,10 @@ export class LetterPreview extends Component {
     );
   };
 
-  saveAndGoToReviewAndApproveLetter = async values => {
+  saveAndGoToReviewAndApproveLetter = values => {
     values.preventDefault();
-    const isLetterValid = await validateLetterDetails(this.props);
+    const isLetterValid = validateLetterDetails(this.props);
+
     if (isLetterValid) {
       return this.props.handleSubmit(
         this.submitForm(`/cases/${this.props.caseId}/letter/review-and-approve`)

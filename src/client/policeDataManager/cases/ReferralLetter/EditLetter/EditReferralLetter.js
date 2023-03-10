@@ -18,14 +18,14 @@ const EditReferralLetter = props => {
     props.initialize(EDIT_LETTER_HTML_FORM, props.initialValues);
   };
 
-  const invalidCaseStatus = () => {
+  const isCaseStatusValid = () => {
     const allowed_statuses_for_edit_letter = [
       CASE_STATUS.LETTER_IN_PROGRESS,
       CASE_STATUS.READY_FOR_REVIEW
     ];
     return (
-      !props.caseStatus ||
-      !allowed_statuses_for_edit_letter.includes(props.caseStatus)
+      props.caseStatus &&
+      allowed_statuses_for_edit_letter.includes(props.caseStatus)
     );
   };
 
@@ -44,13 +44,15 @@ const EditReferralLetter = props => {
       editLetterEndpoint={"letter/edit-letter"}
       initialValues={props.initialValues}
       setInitialValues={() => setInitialValues()}
-      isCaseStatusInvalid={invalidCaseStatus}
+      isCaseStatusValid={isCaseStatusValid}
       useLetterProgressStepper={true}
+      caseReference={props.caseReference}
     />
   );
 };
 
 const mapStateToProps = state => ({
+  caseReference: state.currentCase.details.caseReference,
   caseStatus: state.currentCase.details.status,
   initialValues: { editedLetterHtml: state.referralLetter.letterHtml }
 });

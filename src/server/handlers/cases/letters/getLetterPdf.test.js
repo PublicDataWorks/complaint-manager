@@ -10,7 +10,10 @@ import Letter from "../../../../sharedTestHelpers/Letter";
 import LetterType from "../../../../sharedTestHelpers/letterType";
 import app from "../../../server";
 import request from "supertest";
-import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import {
+  seedStandardCaseStatuses,
+  seedLetterSettings
+} from "../../../testHelpers/testSeeding";
 
 jest.mock(
   "../../../getFeaturesAsync",
@@ -75,6 +78,8 @@ describe("Generate letter pdf", () => {
         .build(),
       { auditUser: "test user" }
     );
+
+    await seedLetterSettings();
   });
 
   afterEach(async () => {

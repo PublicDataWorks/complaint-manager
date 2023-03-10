@@ -166,11 +166,19 @@ describe("ReferralLetterPreview", function () {
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
     );
+
     store.dispatch(
       userAuthSuccess({
         permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
       })
     );
+
+    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
+
+    const reviewAndApproveButton = wrapper
+      .find("[data-testid='review-and-approve-letter-button']")
+      .first();
+
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -182,18 +190,18 @@ describe("ReferralLetterPreview", function () {
         classifications: { "csfn-1": true }
       })
     );
-    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
-    const reviewAndApproveButton = wrapper
-      .find("[data-testid='review-and-approve-letter-button']")
-      .first();
+
     dispatchSpy.mockClear();
     reviewAndApproveButton.simulate("click");
+
     setTimeout(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        push(`/cases/${caseId}/letter/review-and-approve`)
-      );
+      expect(
+        dispatchSpy.mock.calls.find(
+          call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+        )[0]
+      ).toEqual(push(`/cases/${caseId}/letter/review-and-approve`));
       done();
-    }, 500);
+    }, 1000);
   });
 
   test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {

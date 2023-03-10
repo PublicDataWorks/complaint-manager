@@ -7,7 +7,7 @@ import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators"
 
 const EditGeneralLetter = props => {
   const [letter, setLetter] = useState();
-  const letterBaseApiRoute = `api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`;
+  const letterBaseApiRoute = `/api/cases/${props.match.params.id}/letters/${props.match.params.letterId}`;
 
   useEffect(() => {
     axios.get(`${letterBaseApiRoute}/preview`).then(response => {
@@ -15,15 +15,7 @@ const EditGeneralLetter = props => {
     });
   }, []);
 
-  const setInitialValues = () => {
-    return letter.letterHtml;
-  };
-
-  const invalidCaseStatus = () => {
-    return false;
-  };
-
-  const updateLetter = async (value, redirectUrl) => {
+  const editContent = async (value, redirectUrl) => {
     try {
       const response = await axios.put(
         `${letterBaseApiRoute}/content`,
@@ -41,13 +33,14 @@ const EditGeneralLetter = props => {
         <EditLetter
           caseId={props.match.params.id}
           letterPreviewEndpoint={`${props.match.params.letterId}/letter-preview`}
-          editContent={updateLetter}
+          editContent={editContent}
           editLetterEndpoint={`letter/${props.match.params.letterId}/edit-letter`}
           letterHtml={letter?.letterHtml}
-          setInitialValues={() => setInitialValues()}
+          setInitialValues={() => {}}
           initialValues={{ editedLetterHtml: letter.letterHtml }}
-          isCaseStatusInvalid={invalidCaseStatus}
+          isCaseStatusValid={() => true}
           useLetterProgressStepper={false}
+          caseReference={letter?.caseDetails?.caseReference}
         />
       )}
     </>

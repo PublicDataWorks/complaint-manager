@@ -19,6 +19,7 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { push } from "connected-react-router";
 import history from "../../../../history";
 import { initialize } from "redux-form";
+import { Card } from "@material-ui/core";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -60,7 +61,10 @@ describe("Edit Referral Letter Html", () => {
       })
     );
     store.dispatch(
-      getCaseDetailsSuccess({ status: CASE_STATUS.LETTER_IN_PROGRESS })
+      getCaseDetailsSuccess({
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        caseReference: "ABC-123-that'showeasylovecanbe"
+      })
     );
 
     wrapper = mount(
@@ -216,6 +220,7 @@ describe("Edit Referral Letter Html", () => {
   });
 
   test("does not dispatch openCancelEditLetterConfirmationDialog and saves edits when clicking save button", () => {
+    console.warn = () => {};
     const input = wrapper.find("Quill").first();
     input.props().onChange("<p>Letter Preview HTML change </p>");
 

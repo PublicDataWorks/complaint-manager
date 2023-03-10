@@ -13,7 +13,6 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
-import { push } from "connected-react-router";
 import axios from "axios";
 
 describe("GeneralLetterPreview", () => {
@@ -43,8 +42,7 @@ describe("GeneralLetterPreview", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
-        status: CASE_STATUS.LETTER_IN_PROGRESS,
-        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+        status: CASE_STATUS.ACTIVE
       })
     );
     store.dispatch({

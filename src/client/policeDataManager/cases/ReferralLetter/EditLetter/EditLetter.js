@@ -72,7 +72,11 @@ export class EditLetter extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.letterPreviewNotYetLoaded() && this.props.isCaseStatusInvalid()) {
+    if (
+      !this.letterPreviewNotYetLoaded() &&
+      !this.props.isCaseStatusValid() &&
+      this.props.caseStatus
+    ) {
       this.props.invalidCaseStatusRedirect(this.state.caseId);
     }
   }
@@ -150,14 +154,14 @@ export class EditLetter extends Component {
   };
 
   render() {
-    if (this.letterPreviewNotYetLoaded() || this.props.isCaseStatusInvalid()) {
+    if (this.letterPreviewNotYetLoaded() || !this.props.isCaseStatusValid()) {
       return null;
     }
 
     return (
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>
-          {`Case #${this.props.caseReference}   : Letter Generation`}
+          {`Case #${this.props.caseReference} : Letter Generation`}
         </NavBar>
 
         {this.renderBackToCaseButton()}
@@ -227,7 +231,6 @@ export class EditLetter extends Component {
 }
 
 EditLetter.propTypes = {
-  caseReference: PropTypes.string,
   dirty: PropTypes.bool,
   dispatch: PropTypes.func,
   handleSubmit: PropTypes.func,
@@ -245,11 +248,11 @@ EditLetter.propTypes = {
 };
 
 const mapStateToProps = (state, props) => ({
-  accused: state.currentCase.details.accusedOfficers,
+  accused: state.currentCase.details?.accusedOfficers,
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
-  caseReference: state.currentCase.details.caseReference,
-  permissions: state?.users?.current?.userInfo?.permissions
+  caseStatus: state.currentCase.details?.status,
+  permissions: state.users.current?.userInfo?.permissions
 });
 
 const mapDispatchToProps = {
