@@ -39,6 +39,24 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         field: "first_name"
       },
+      middleInitial: {
+        type: DataTypes.STRING,
+        field: "middle_initial"
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        field: "last_name"
+      },
+      suffix: {
+        type: DataTypes.STRING
+      },
+      notFoundInmateId: {
+        type: DataTypes.STRING,
+        field: "not_found_inmate_id"
+      },
+      facility: {
+        type: DataTypes.STRING
+      },
       notes: {
         type: DataTypes.STRING
       },

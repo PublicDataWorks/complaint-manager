@@ -9,7 +9,17 @@ import {
 } from "../../../sharedUtilities/errorMessageConstants";
 
 const addCaseInmate = asyncMiddleware(async (request, response, next) => {
-  const { inmateId, firstName, notes, roleOnCase } = request.body;
+  const {
+    inmateId,
+    firstName,
+    middleInitial,
+    lastName,
+    suffix,
+    notFoundInmateId,
+    facility,
+    notes,
+    roleOnCase
+  } = request.body;
   const isAnonymous = canBeAnonymous(request.body.isAnonymous, roleOnCase);
 
   const retrievedCase = await models.cases.findByPk(request.params.caseId);
@@ -28,6 +38,11 @@ const addCaseInmate = asyncMiddleware(async (request, response, next) => {
     caseId: request.params.caseId,
     inmateId,
     firstName,
+    middleInitial,
+    lastName,
+    suffix,
+    notFoundInmateId,
+    facility,
     notes,
     roleOnCase,
     isAnonymous

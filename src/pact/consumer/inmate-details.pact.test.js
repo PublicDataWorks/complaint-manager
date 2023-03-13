@@ -58,7 +58,13 @@ pactWith(
 
       test("should post to cases/1/inmates when form is filled in", async () => {
         const NOTES = "These are notes!!";
-        const FIRSTNAME = "Patrick";
+        const FIRST_NAME = "Patrick";
+        const MIDDLE_INITIAL = "K";
+        const LAST_NAME = "Star";
+        const SUFFIX = "Jr.";
+        const INMATE_ID = "A0383838";
+        const FACILITY = "WCCC";
+
         await provider.addInteraction({
           state: "Case exists",
           uponReceiving: "manually add inmate",
@@ -71,7 +77,12 @@ pactWith(
             body: {
               notes: NOTES,
               roleOnCase: COMPLAINANT,
-              firstName: FIRSTNAME
+              firstName: FIRST_NAME,
+              middleInitial: MIDDLE_INITIAL,
+              lastName: LAST_NAME,
+              suffix: SUFFIX,
+              notFoundInmateId: INMATE_ID,
+              facility: FACILITY
             }
           },
           willRespondWith: {
@@ -82,13 +93,27 @@ pactWith(
             body: like({
               id: 1,
               notes: NOTES,
-              firstName: FIRSTNAME
+              roleOnCase: COMPLAINANT,
+              firstName: FIRST_NAME,
+              middleInitial: MIDDLE_INITIAL,
+              lastName: LAST_NAME,
+              suffix: SUFFIX,
+              notFoundInmateId: INMATE_ID,
+              facility: FACILITY
             })
           }
         });
 
         userEvent.type(screen.getByTestId("notesField"), NOTES);
-        userEvent.type(screen.getByTestId("firstNameField"), FIRSTNAME);
+        userEvent.type(screen.getByTestId("firstNameField"), FIRST_NAME);
+        userEvent.type(
+          screen.getByTestId("middleInitialField"),
+          MIDDLE_INITIAL
+        );
+        userEvent.type(screen.getByTestId("lastNameField"), LAST_NAME);
+        userEvent.type(screen.getByTestId("suffixField"), SUFFIX);
+        userEvent.type(screen.getByTestId("inmateIdField"), INMATE_ID);
+        userEvent.type(screen.getByTestId("facilityField"), FACILITY);
         userEvent.click(screen.getByTestId("inmate-submit-button"));
         expect(
           await screen.findByText(

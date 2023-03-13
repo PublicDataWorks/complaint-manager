@@ -43,6 +43,36 @@ const ManuallyEnterInmateForm = props => {
           inputProps={{ "data-testid": "firstNameField" }}
           placeholder="First Name"
         />
+        <Field
+          component={renderTextField}
+          name="middleInitial"
+          inputProps={{ "data-testid": "middleInitialField" }}
+          placeholder="M.I."
+        />
+        <Field
+          component={renderTextField}
+          name="lastName"
+          inputProps={{ "data-testid": "lastNameField" }}
+          placeholder="Last Name"
+        />
+        <Field
+          component={renderTextField}
+          name="suffix"
+          inputProps={{ "data-testid": "suffixField" }}
+          placeholder="Suffix"
+        />
+        <Field
+          component={renderTextField}
+          name="notFoundInmateId"
+          inputProps={{ "data-testid": "inmateIdField" }}
+          placeholder="ID Number"
+        />
+        <Field
+          component={renderTextField}
+          name="facility"
+          inputProps={{ "data-testid": "facilityField" }}
+          placeholder="Facility"
+        />
         <Typography>Notes</Typography>
         <Typography variant="body2">
           Use this section to add notes, a description, or indicate any
