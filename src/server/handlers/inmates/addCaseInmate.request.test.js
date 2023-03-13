@@ -78,6 +78,43 @@ describe("POST /cases/:caseId/inmates", () => {
     );
   });
 
+  test("should manually add an inmate to a case", async () => {
+    let caseToCreate, seededCase;
+    caseToCreate = new Case.Builder()
+      .defaultCase()
+      .withId(undefined)
+      .withIncidentLocation(undefined)
+      .build();
+    seededCase = await models.cases.create(caseToCreate, {
+      auditUser: "someone"
+    });
+
+    const responsePromise = request(app)
+      .post(`/api/cases/${seededCase.id}/inmates/`)
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        roleOnCase: COMPLAINANT,
+        firstName: "Bob",
+        lastName: "Loblaw",
+        notFoundInmateId: "A08783374",
+        facility: "WCC"
+      });
+
+    await expectResponse(
+      responsePromise,
+      200,
+      expect.objectContaining({
+        id: expect.anything(),
+        roleOnCase: COMPLAINANT,
+        firstName: "Bob",
+        lastName: "Loblaw",
+        notFoundInmateId: "A08783374",
+        facility: "WCC"
+      })
+    );
+  });
+
   test("should add an unknown inmate to a case", async () => {
     let caseToCreate, inmateToCreate, seededCase;
     caseToCreate = new Case.Builder()
