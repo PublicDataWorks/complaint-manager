@@ -35,6 +35,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false
       },
+      firstName: {
+        type: DataTypes.STRING,
+        field: "first_name"
+      },
       notes: {
         type: DataTypes.STRING
       },

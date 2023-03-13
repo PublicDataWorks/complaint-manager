@@ -37,6 +37,12 @@ const ManuallyEnterInmateForm = props => {
         <CardContent>
           <Typography>Complainant Information</Typography>
         </CardContent>
+        <Field
+          component={renderTextField}
+          name="firstName"
+          inputProps={{ "data-testid": "firstNameField" }}
+          placeholder="First Name"
+        />
         <Typography>Notes</Typography>
         <Typography variant="body2">
           Use this section to add notes, a description, or indicate any

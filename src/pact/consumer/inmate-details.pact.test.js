@@ -58,6 +58,7 @@ pactWith(
 
       test("should post to cases/1/inmates when form is filled in", async () => {
         const NOTES = "These are notes!!";
+        const FIRSTNAME = "Patrick";
         await provider.addInteraction({
           state: "Case exists",
           uponReceiving: "manually add inmate",
@@ -69,7 +70,8 @@ pactWith(
             },
             body: {
               notes: NOTES,
-              roleOnCase: COMPLAINANT
+              roleOnCase: COMPLAINANT,
+              firstName: FIRSTNAME
             }
           },
           willRespondWith: {
@@ -79,12 +81,14 @@ pactWith(
             },
             body: like({
               id: 1,
-              notes: NOTES
+              notes: NOTES,
+              firstName: FIRSTNAME
             })
           }
         });
 
         userEvent.type(screen.getByTestId("notesField"), NOTES);
+        userEvent.type(screen.getByTestId("firstNameField"), FIRSTNAME);
         userEvent.click(screen.getByTestId("inmate-submit-button"));
         expect(
           await screen.findByText(
