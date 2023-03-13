@@ -1,6 +1,7 @@
 import Case from "../../../sharedTestHelpers/case";
 import models from "../../policeDataManager/models/index";
 import * as httpMocks from "node-mocks-http";
+import Boom from "boom";
 import Inmate from "../../../sharedTestHelpers/Inmate";
 import {
   COMPLAINANT,
@@ -10,6 +11,10 @@ import {
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
 import addCaseInmate from "./addCaseInmate";
+import {
+  BAD_REQUEST_ERRORS,
+  NOT_FOUND_ERRORS
+} from "../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -177,6 +182,90 @@ describe("addCaseInmate", () => {
         inmateId: null,
         roleOnCase: inmateAttributes.roleOnCase
       })
+    );
+  });
+
+  test("should create a case inmate record when manually adding inmate to a case", async () => {
+    const inmateAttributes = {
+      roleOnCase: COMPLAINANT,
+      firstName: "Billy"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: inmateAttributes,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    await addCaseInmate(request, response, next);
+
+    const caseInmateCreated = await models.caseInmate.findOne({
+      where: { caseId: existingCase.id }
+    });
+
+    expect(caseInmateCreated).toEqual(
+      expect.objectContaining({
+        inmateId: null,
+        roleOnCase: inmateAttributes.roleOnCase,
+        firstName: "Billy"
+      })
+    );
+  });
+
+  test("should throw a 404 if the given case does not exist", async () => {
+    const inmateAttributes = {
+      roleOnCase: COMPLAINANT,
+      firstName: "Billy"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id + 1
+      },
+      body: inmateAttributes,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    await addCaseInmate(request, response, next);
+    expect(next).toHaveBeenCalledWith(
+      Boom.notFound(NOT_FOUND_ERRORS.RESOURCE_NOT_FOUND)
+    );
+  });
+
+  test("should throw a 400 if inmate is not anonymous AND inmateId is set AND specified inmate does not exist", async () => {
+    const inmateAttributes = {
+      roleOnCase: COMPLAINANT,
+      inmateId: "123"
+    };
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id
+      },
+      body: inmateAttributes,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    await addCaseInmate(request, response, next);
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_PERSON_IN_CUSTODY)
     );
   });
 });
