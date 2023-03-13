@@ -1,40 +1,46 @@
 "use strict";
 const fs = require("fs");
 
-const referralLetterTemplate = fs.readFileSync(
-  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
-);
-const referralLetterEditableTemplate = fs.readFileSync(
-  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
-);
-const REFERRAL_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
+let REFERRAL_LETTER_TEMPLATE_QUERY, COMPLAINANT_LETTER_TEMPLATE_QUERY;
+if (process.env.ORG === "NOIPM") {
+  const referralLetterTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterPdf.tpl`
+  );
+  const referralLetterEditableTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/letterBody.tpl`
+  );
+  REFERRAL_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
   SET template = '${referralLetterTemplate.toString().replace(/'/g, "''")}',
     editable_template = '${referralLetterEditableTemplate
       .toString()
       .replace(/'/g, "''")}'
   WHERE type = 'REFERRAL'`;
 
-const complainantLetterTemplate = fs.readFileSync(
-  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
-);
-const COMPLAINANT_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
+  const complainantLetterTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/complainantLetterPdf.tpl`
+  );
+  COMPLAINANT_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
   SET template = '${complainantLetterTemplate.toString().replace(/'/g, "''")}'
   WHERE type = 'COMPLAINANT'`;
+}
 
-const cannotHelpLetterTemplate = fs.readFileSync(
-  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetter.tpl`
-);
-const cannotHelpLetterBodyTemplate = fs.readFileSync(
-  `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetterBody.tpl`
-);
+let CANNOT_HELP_LETTER_TEMPLATE_QUERY;
+if (process.env.ORG === "HAWAII") {
+  const cannotHelpLetterTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetter.tpl`
+  );
+  const cannotHelpLetterBodyTemplate = fs.readFileSync(
+    `${process.env.REACT_APP_INSTANCE_FILES_DIR}/cannotHelpLetterBody.tpl`
+  );
 
-const CANNOT_HELP_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
+  CANNOT_HELP_LETTER_TEMPLATE_QUERY = `UPDATE letter_types
   SET template = '${cannotHelpLetterTemplate.toString().replace(/'/g, "''")}',
     editable_template = '${cannotHelpLetterBodyTemplate
       .toString()
       .replace(/'/g, "''")}'
   WHERE type = 'CAN''T HELP'
 `;
+}
 
 const REVERSION_QUERY = `UPDATE letter_types
   SET template = '',
