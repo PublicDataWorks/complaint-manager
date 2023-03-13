@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography } from "@material-ui/core";
 import axios from "axios";
+import { push } from "connected-react-router";
 import { wrap } from "lodash";
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
@@ -23,6 +24,7 @@ const ManuallyEnterInmateForm = props => {
         dispatch(
           snackbarSuccess("Successfully added Person in Custody to case")
         );
+        dispatch(push(`/cases/${props.caseId}`));
       })
       .catch(err => {})
       .finally(() => {
