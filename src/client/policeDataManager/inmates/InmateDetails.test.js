@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import nock from "nock";
 import createConfiguredStore from "../../createConfiguredStore";
 import InmateDetails from "./InmateDetails";
-import { WITNESS } from "../../../sharedUtilities/constants";
+import { GET_FACILITIES, WITNESS } from "../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
@@ -14,6 +14,10 @@ describe("Inmate details", () => {
   let dispatchSpy;
   beforeEach(() => {
     const store = createConfiguredStore();
+    store.dispatch({
+      type: GET_FACILITIES,
+      payload: [{ name: "BIKINI BOTTOM" }]
+    });
     dispatchSpy = jest.spyOn(store, "dispatch");
     render(
       <Provider store={store}>
@@ -61,7 +65,8 @@ describe("Inmate details", () => {
       .reply(200);
 
     userEvent.type(screen.getByTestId("inmateIdField"), "A1234567");
-    userEvent.type(screen.getByTestId("facilityField"), "BIKINI BOTTOM");
+    userEvent.click(screen.getByTestId("facilityField"));
+    userEvent.click(await screen.getByText("BIKINI BOTTOM"));
     userEvent.type(
       screen.getByTestId("notesField"),
       "He lived in a pineapple under the sea"

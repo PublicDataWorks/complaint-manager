@@ -1,14 +1,15 @@
 import { Card, CardContent, Typography } from "@material-ui/core";
 import axios from "axios";
 import { push } from "connected-react-router";
-import { wrap } from "lodash";
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { MANUALLY_ENTER_INMATE_FORM } from "../../../sharedUtilities/constants";
+import Dropdown from "../../common/components/Dropdown";
 import styles from "../../common/globalStyling/styles";
 import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import { PrimaryButton } from "../shared/components/StyledButtons";
+import { generateMenuOptions } from "../utilities/generateMenuOptions";
 
 const ManuallyEnterInmateForm = props => {
   const [submitting, setSubmitting] = useState(false);
@@ -95,12 +96,16 @@ const ManuallyEnterInmateForm = props => {
               placeholder="ID Number"
             />
             <Field
-              component={renderTextField}
+              component={Dropdown}
               name="facility"
               inputProps={{ "data-testid": "facilityField" }}
               placeholder="Facility"
               style={{ minWidth: "450px" }}
-            />
+            >
+              {generateMenuOptions(
+                props.facilities.map(facility => facility.name)
+              )}
+            </Field>
           </div>
           <Typography style={styles.section}>Notes</Typography>
           <Typography variant="body2">

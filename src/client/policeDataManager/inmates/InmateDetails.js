@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import LinkButton from "../shared/components/LinkButton";
 import { Typography } from "@material-ui/core";
 import ManuallyEnterInmateForm from "./ManuallyEnterInmateForm";
+import getFacilities from "../cases/thunks/getFacilities";
 
 const InmateDetails = props => {
   const caseDetailsNotYetLoaded = () => {
@@ -18,6 +19,10 @@ const InmateDetails = props => {
   useEffect(() => {
     if (caseDetailsNotYetLoaded()) {
       props.getCaseDetails(props.match.params.id);
+    }
+
+    if (!props.facilities?.length) {
+      props.getFacilities();
     }
   }, []);
 
@@ -64,6 +69,7 @@ const InmateDetails = props => {
         <ManuallyEnterInmateForm
           caseId={props.match.params.id}
           roleOnCase={props.match.params.roleOnCase}
+          facilities={props.facilities}
         />
       </section>
     </section>
@@ -72,7 +78,8 @@ const InmateDetails = props => {
 
 export default connect(
   state => ({
-    caseDetails: state.currentCase.details
+    caseDetails: state.currentCase.details,
+    facilities: state.facilities
   }),
-  { getCaseDetails }
+  { getCaseDetails, getFacilities }
 )(InmateDetails);
