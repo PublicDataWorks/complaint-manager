@@ -49,4 +49,28 @@ describe("Inmate details", () => {
     expect(postNock.isDone()).toBeTrue();
     expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
   });
+
+  test("should successfully submit and redirect when id, facility, and notes are entered", async () => {
+    const postNock = nock("http://localhost")
+      .post("/api/cases/1/inmates", {
+        roleOnCase: WITNESS,
+        notFoundInmateId: "A1234567",
+        facility: "BIKINI BOTTOM",
+        notes: "He lived in a pineapple under the sea"
+      })
+      .reply(200);
+
+    userEvent.type(screen.getByTestId("inmateIdField"), "A1234567");
+    userEvent.type(screen.getByTestId("facilityField"), "BIKINI BOTTOM");
+    userEvent.type(
+      screen.getByTestId("notesField"),
+      "He lived in a pineapple under the sea"
+    );
+    userEvent.click(screen.getByText("Create and View"));
+    expect(
+      await screen.findByText("Successfully added Person in Custody to case")
+    );
+    expect(postNock.isDone()).toBeTrue();
+    expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
+  });
 });

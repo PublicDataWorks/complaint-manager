@@ -16,7 +16,7 @@ const ManuallyEnterInmateForm = props => {
   const submit = (values, dispatch) => {
     setSubmitting(true);
     axios
-      .post(`api/cases/${props.caseId}/inmates`, {
+      .post(`/api/cases/${props.caseId}/inmates`, {
         ...values,
         roleOnCase: props.roleOnCase
       })
