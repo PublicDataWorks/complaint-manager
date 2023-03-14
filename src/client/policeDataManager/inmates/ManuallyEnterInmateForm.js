@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 import React, { useState } from "react";
 import { Field, reduxForm } from "redux-form";
 import { MANUALLY_ENTER_INMATE_FORM } from "../../../sharedUtilities/constants";
+import CreatableDropdown from "../../common/components/CreatableDropdown";
 import Dropdown from "../../common/components/Dropdown";
 import styles from "../../common/globalStyling/styles";
 import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
@@ -19,6 +20,7 @@ const ManuallyEnterInmateForm = props => {
     axios
       .post(`/api/cases/${props.caseId}/inmates`, {
         ...values,
+        facility: values?.facility?.value,
         roleOnCase: props.roleOnCase
       })
       .then(() => {
@@ -96,10 +98,12 @@ const ManuallyEnterInmateForm = props => {
               placeholder="ID Number"
             />
             <Field
-              component={Dropdown}
+              component={CreatableDropdown}
               name="facility"
-              inputProps={{ "data-testid": "facilityField" }}
-              placeholder="Facility"
+              inputProps={{
+                "data-testid": "facilityField",
+                placeholder: "Facility"
+              }}
               style={{ minWidth: "450px" }}
             >
               {generateMenuOptions(
