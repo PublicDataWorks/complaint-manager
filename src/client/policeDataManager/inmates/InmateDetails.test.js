@@ -1,16 +1,25 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
+import nock from "nock";
 import createConfiguredStore from "../../createConfiguredStore";
 import InmateDetails from "./InmateDetails";
+import { WITNESS } from "../../../sharedUtilities/constants";
+import { push } from "connected-react-router";
+import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
 describe("Inmate details", () => {
+  let dispatchSpy;
   beforeEach(() => {
+    const store = createConfiguredStore();
+    dispatchSpy = jest.spyOn(store, "dispatch");
     render(
-      <Provider store={createConfiguredStore()}>
+      <Provider store={store}>
         <Router>
-          <InmateDetails match={{ params: { id: "1" } }} />
+          <InmateDetails match={{ params: { id: "1", roleOnCase: WITNESS } }} />
+          <SharedSnackbarContainer />
         </Router>
       </Provider>
     );
@@ -20,7 +29,24 @@ describe("Inmate details", () => {
     expect(screen.getByText("Selected Manually Add Person in Custody"));
   });
 
-  test.todo(
-    "should successfully submit and redirect when first name, middle initial, and last name are entered"
-  );
+  test("should successfully submit and redirect when first name, middle initial, and last name are entered", async () => {
+    const postNock = nock("http://localhost")
+      .post("/api/cases/1/inmates", {
+        roleOnCase: WITNESS,
+        firstName: "Stringer",
+        middleInitial: "R",
+        lastName: "Bell"
+      })
+      .reply(200);
+
+    userEvent.type(screen.getByTestId("firstNameField"), "Stringer");
+    userEvent.type(screen.getByTestId("middleInitialField"), "R");
+    userEvent.type(screen.getByTestId("lastNameField"), "Bell");
+    userEvent.click(screen.getByText("Create and View"));
+    expect(
+      await screen.findByText("Successfully added Person in Custody to case")
+    );
+    expect(postNock.isDone()).toBeTrue();
+    expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
+  });
 });
