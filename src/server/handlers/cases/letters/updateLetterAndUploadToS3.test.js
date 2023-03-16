@@ -5,7 +5,7 @@ import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
 import constructFilename from "../referralLetters/constructFilename";
-import updateLetterAndUploadTos3 from "./updateLetterAndUploadTos3";
+import updateLetterAndUploadToS3 from "./updateLetterAndUploadToS3";
 import Case from "../../../../sharedTestHelpers/case";
 import Letter from "../../../../sharedTestHelpers/Letter";
 import LetterType from "../../../../sharedTestHelpers/letterType";
@@ -102,7 +102,7 @@ describe("Update letter and upload to S3", () => {
       permissions: [`${USER_PERMISSIONS.SETUP_LETTER}`]
     });
 
-    await updateLetterAndUploadTos3(request, response, next);
+    await updateLetterAndUploadToS3(request, response, next);
 
     const finalPdfFilename = constructFilename(c4se, "EDIT LETTER");
     const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
