@@ -1,7 +1,9 @@
 import { Card, CardContent, Typography } from "@material-ui/core";
 import axios from "axios";
 import { push } from "connected-react-router";
+import _ from "lodash";
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { MANUALLY_ENTER_INMATE_FORM } from "../../../sharedUtilities/constants";
 import CreatableDropdown from "../../common/components/CreatableDropdown";
@@ -128,7 +130,10 @@ const ManuallyEnterInmateForm = props => {
         </CardContent>
       </Card>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <PrimaryButton data-testid="inmate-submit-button" disabled={submitting}>
+        <PrimaryButton
+          data-testid="inmate-submit-button"
+          disabled={submitting || props.formInvalid}
+        >
           Create and View
         </PrimaryButton>
       </div>
@@ -137,5 +142,19 @@ const ManuallyEnterInmateForm = props => {
 };
 
 export default reduxForm({
-  form: MANUALLY_ENTER_INMATE_FORM
-})(ManuallyEnterInmateForm);
+  form: MANUALLY_ENTER_INMATE_FORM,
+  validate: values => {
+    if (_.isEmpty(values)) {
+      return {
+        notes: "At least one field must be filled out"
+      };
+    } else {
+      return {};
+    }
+  }
+})(
+  connect(state => ({
+    facilities: state.facilities,
+    formInvalid: !_.isEmpty(state.form[MANUALLY_ENTER_INMATE_FORM].syncErrors)
+  }))(ManuallyEnterInmateForm)
+);

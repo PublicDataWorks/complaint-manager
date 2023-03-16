@@ -65,7 +65,6 @@ const InmateDetails = props => {
         <ManuallyEnterInmateForm
           caseId={props.match.params.id}
           roleOnCase={props.match.params.roleOnCase}
-          facilities={props.facilities}
         />
       </section>
     </section>
@@ -74,8 +73,7 @@ const InmateDetails = props => {
 
 export default connect(
   state => ({
-    caseDetails: state.currentCase.details,
-    facilities: state.facilities
+    caseDetails: state.currentCase.details
   }),
   { getCaseDetails, getFacilities }
 )(InmateDetails);
