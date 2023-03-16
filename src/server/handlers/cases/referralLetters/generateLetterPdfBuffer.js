@@ -51,7 +51,9 @@ const generateLetterPdfBuffer = async (
       () =>
         getQueryAuditAccessDetails(
           queryOptions,
-          letterSettings.letter ? models.letter : models.referral_letter.name
+          letterSettings.letter
+            ? models.letter.name
+            : models.referral_letter.name
         ),
       letterType,
       caseId,

@@ -23,7 +23,13 @@ const updateLetterAndUploadToS3 = asyncMiddleware(
     const caseId = request.params.caseId;
     const existingCase = await getCase(caseId);
     const letter = await models.letter.findByPk(request.params.letterId, {
-      include: ["letterType"]
+      include: [
+        {
+          model: models.letter_types,
+          as: "letterType",
+          include: ["letterTypeLetterImage"]
+        }
+      ]
     });
 
     if (letter == null) {
@@ -37,7 +43,7 @@ const updateLetterAndUploadToS3 = asyncMiddleware(
     filename =
       filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
     await models.sequelize.transaction(async transaction => {
-      await generateLetter(existingCase.id, filename, letter.letterType.type);
+      await generateLetter(existingCase.id, filename, letter);
 
       await createLetterAttachment(
         existingCase.id,
@@ -85,7 +91,7 @@ const createLetterAttachment = async (
   );
 };
 
-const generateLetter = async (caseId, filename, letterType, transaction) => {
+const generateLetter = async (caseId, filename, letter, transaction) => {
   const includeSignature = true;
   const { pdfBuffer } = await generateLetterPdfBuffer(
     caseId,
@@ -95,7 +101,7 @@ const generateLetter = async (caseId, filename, letterType, transaction) => {
       getSignature: async args => {
         return await retrieveSignatureImageBySigner(args.sender);
       },
-      type: letterType
+      letter
     }
   );
 
