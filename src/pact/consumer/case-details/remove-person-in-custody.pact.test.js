@@ -3,13 +3,10 @@ import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
-import {
-  // CIVILIAN_COMPLAINANT,
-  // CIVILIAN_WITNESS,
-  setUpCaseDetailsPage
-} from "./case-details-helper";
+import { PERSON_IN_CUSTODY, setUpCaseDetailsPage } from "./case-details-helper";
 
-let state = "Case exists: with person in custody complainant";
+let state = "Case exists: with person in custody";
+const options = [PERSON_IN_CUSTODY];
 
 pactWith(
   {
@@ -24,57 +21,60 @@ pactWith(
     });
 
     describe("remove person in custody from case", () => {
-      //beforeEach(async () => await setUpCaseDetailsPage(provider, ...options));
+      beforeEach(async () => await setUpCaseDetailsPage(provider, ...options));
 
-      test.todo("should remove a person in custody complainant"); //, async () => {
-      //         await provider.addInteraction({
-      //           state,
-      //           uponReceiving: `remove ${role}`,
-      //           withRequest: {
-      //             method: "DELETE",
-      //             path: "/api/cases/1/inmates/1"
-      //           },
-      //           willRespondWith: {
-      //             status: 200,
-      //             body: like({
-      //               caseReferencePrefix: "CC",
-      //               caseReference: "CC2022-0453",
-      //               id: 4022,
-      //               complaintType: "Civilian Initiated",
-      //               statusId: 2,
-      //               year: 2022,
-      //               caseNumber: 453,
-      //               firstContactDate: "2022-10-04",
-      //               intakeSourceId: 3,
-      //               createdAt: "2022-10-04T18:40:59.540Z",
-      //               updatedAt: "2022-10-04T18:41:21.538Z",
-      //               caseClassifications: [],
-      //               intakeSource: {
-      //                 id: 3,
-      //                 name: "In Person",
-      //                 createdAt: "2018-12-21T02:07:39.872Z",
-      //                 updatedAt: "2018-12-21T02:07:39.872Z"
-      //               },
-      //               complainantCivilians: [],
-      //               witnessCivilians: [],
-      //               attachments: [],
-      //               accusedOfficers: [],
-      //               complainantOfficers: [],
-      //               witnessOfficers: [],
-      //               status: "Active",
-      //               pdfAvailable: false,
-      //               isArchived: false,
-      //               nextStatus: "Letter in Progress"
-      //             })
-      //           }
-      //         });
-      //         userEvent.click(await screen.findByTestId("removePersonInCustodyLink"));
-      //         userEvent.click(await screen.findByTestId("removeButton"));
-      //         expect(
-      //           await screen.findByText("Person in Custody was successfully removed")
-      //         ).toBeInTheDocument;
+      test("should remove a person in custody", async () => {
+        await provider.addInteraction({
+          state,
+          uponReceiving: "remove person in custody",
+          withRequest: {
+            method: "DELETE",
+            path: "/api/cases/1/inmates/1"
+          },
+          willRespondWith: {
+            status: 200,
+            body: like({
+              caseReferencePrefix: "PiC",
+              caseReference: "PiC2023-0002",
+              id: 2,
+              statusId: 2,
+              year: 2023,
+              caseNumber: 2,
+              firstContactDate: "2023-02-22",
+              intakeSourceId: 2,
+              createdBy: "noipm.infrastructure@gmail.com",
+              assignedTo: "noipm.infrastructure@gmail.com",
+              createdAt: "2023-02-22T22:17:28.112Z",
+              updatedAt: "2023-03-13T19:45:24.441Z",
+              caseClassifications: [],
+              intakeSource: {
+                id: 2,
+                name: "Facebook",
+                createdAt: "2023-02-16T17:32:39.004Z",
+                updatedAt: "2023-02-16T17:32:39.004Z"
+              },
+              complainantCivilians: [],
+              witnessCivilians: [],
+              complainantInmates: [],
+              witnessInmates: [],
+              accusedInmates: [],
+              attachments: [],
+              accusedOfficers: [],
+              complainantOfficers: [],
+              witnessOfficers: [],
+              status: "Active",
+              pdfAvailable: false,
+              isArchived: false,
+              nextStatus: "Letter in Progress"
+            })
+          }
+        });
+        userEvent.click(await screen.findByTestId("removePersonInCustodyLink"));
+        userEvent.click(await screen.findByTestId("removeButton"));
+        expect(
+          await screen.findByText("person in custody was successfully removed")
+        ).toBeInTheDocument;
+      });
     });
   }
 );
-//}
-// );

@@ -32,6 +32,7 @@ export const NOPD_ACCUSED = "nopdAccused";
 export const NO_CASE_TAGS = "noCaseTags";
 export const GENERATE_LETTER_BUTTON = "hasGenerateLetterButton";
 export const COMPLAINT_TYPES = "hasComplaintTypes";
+export const PERSON_IN_CUSTODY = "personInCustody";
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -52,6 +53,9 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   }
   if (options.includes(OFFICER_ACCUSED) || options.includes(NOPD_ACCUSED)) {
     getCaseState += ": case has accused officer with allegations";
+  }
+  if (options.includes(PERSON_IN_CUSTODY)) {
+    getCaseState += ": with person in custody";
   }
 
   await provider.addInteraction({
@@ -109,6 +113,51 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               email: "realemail@email.com",
               isAnonymous: false,
               caseId: 1
+            })
+          : [],
+        complainantInmates: options.includes(PERSON_IN_CUSTODY)
+          ? eachLike({
+              id: 2,
+              inmateId: "A8013888",
+              roleOnCase: "Complainant",
+              isAnonymous: false,
+              createdAt: "2023-03-13T18:56:28.650Z",
+              updatedAt: "2023-03-13T18:56:28.650Z",
+              caseId: 4,
+              inmate: {
+                fullName: "Linda Ali",
+                inmateId: "A8013888",
+                firstName: "Linda",
+                lastName: "Ali",
+                region: "MAUI",
+                facility: "KCF",
+                locationSub1: "DORM 5",
+                housing: "KCF",
+                currentLocation: "MAUI",
+                status: "PROBATION",
+                custodyStatus: "PAROLE VIOLATION",
+                securityClassification: "COMMUNITY",
+                gender: "MALE",
+                primaryEthnicity: "FILIPINO",
+                race: "ASIAN or PACIFIC ISLANDER",
+                muster: "MAUI",
+                indigent: true,
+                classificationDate: "2022-06-29",
+                bookingStartDate: "2022-09-27",
+                tentativeReleaseDate: "2023-02-22",
+                bookingEndDate: "2023-02-28",
+                actualReleaseDate: "2023-02-28",
+                weekender: false,
+                dateOfBirth: "1968-07-20",
+                age: 54,
+                countryOfBirth: "USA",
+                language: "ENGLISH",
+                sentenceLength: "0 years, 5 months, 0 weeks, 4 days",
+                onCount: true,
+                createdAt: "2023-02-16T17:32:40.969Z",
+                updatedAt: "2023-02-16T17:32:40.969Z",
+                facilityId: 3
+              }
             })
           : [],
         complainantOfficers: options.includes(OFFICER_COMPLAINANT)

@@ -6,8 +6,12 @@ import formatDate from "../../../../../sharedUtilities/formatDate";
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
+import LinkButton from "../../../shared/components/LinkButton";
+import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
+import { connect } from "react-redux";
+import { CONFIGS } from "../../../../../sharedUtilities/constants";
 
-const InmatePanel = ({ caseInmate, children }) => {
+const InmatePanel = ({ caseInmate, dispatch, pd }) => {
   return (
     <div>
       <div
@@ -160,11 +164,25 @@ const InmatePanel = ({ caseInmate, children }) => {
             </StyledInfoDisplay>
           </StyledExpansionPanelDetails>
         </Accordion>
-        <div style={{ margin: "12px 24px" }}>{children || ""}</div>
+        <div style={{ margin: "12px 24px" }}>
+          <>
+            <LinkButton
+              data-testid="removePersonInCustodyLink"
+              onClick={event => {
+                event.stopPropagation();
+                dispatch(openRemovePersonDialog(caseInmate, "inmates", pd));
+              }}
+            >
+              Remove
+            </LinkButton>
+          </>
+        </div>
       </div>
       <Divider />
     </div>
   );
 };
 
-export default InmatePanel;
+export default connect(state => ({
+  pd: state.configs[CONFIGS.PD]
+}))(InmatePanel);

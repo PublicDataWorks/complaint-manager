@@ -91,6 +91,7 @@ import generateLetterAndUploadToS3 from "./handlers/cases/letters/generateLetter
 import generateLetterForPreview from "./handlers/cases/letters/generateLetterForPreview";
 import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
 import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
+import removeCaseInmate from "./handlers/inmates/removeCaseInmate";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -260,6 +261,14 @@ export const API_ROUTES = {
       requiredPermission: USER_PERMISSIONS.ADD_TAG_TO_CASE,
       errorMessage:
         "Something went wrong and the case tag was not removed. Please try again."
+    }
+  },
+  "/cases/:caseId/inmates/:caseInmateId": {
+    delete: {
+      handler: removeCaseInmate,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
+      errorMessage:
+        "Something went wrong and the person in custody was not removed from the case. Please try again."
     }
   },
   "/cases/:caseId/inmates": {

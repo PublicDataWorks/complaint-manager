@@ -38,6 +38,8 @@ export const BAD_REQUEST_ERRORS = {
     "The referral letter for this case does not exist",
   REMOVE_CASE_OFFICER_ERROR:
     "Case officer requested for removal does not exist",
+  REMOVE_CASE_INMATE_ERROR:
+    "Person in custody requested for removal does not exist",
   SEQUELIZE_VALIDATION_ERROR: "SequelizeValidationError",
   TAG_WITH_NAME_EXISTS: "A tag with that name already exists",
   VALIDATION_ERROR_HEADER: "Validation error"

@@ -6,6 +6,8 @@ import IntakeSource from "../../server/testHelpers/intakeSource";
 import Officer from "../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Civilian from "../../sharedTestHelpers/civilian";
+import Inmate from "../../sharedTestHelpers/Inmate";
+import CaseInmate from "../../sharedTestHelpers/CaseInmate";
 const {
   CIVILIAN_WITHIN_PD_INITIATED
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -104,4 +106,31 @@ export const addCivilianToCase = async (theCase, role) => {
       .build(),
     { auditUser: "user" }
   );
+};
+
+export const addPersonInCustodyToCase = async (c4se, inmateId) => {
+  try {
+    const personInCustody = await models.inmate.create(
+      new Inmate.Builder().defaultInmate(),
+      { auditUser: "user" }
+    );
+
+    let buildInmate = new CaseInmate.Builder()
+      .defaultCaseInmate()
+      .withInmateId(personInCustody.id)
+      .withCaseId(c4se.id)
+      .withRoleOnCase(COMPLAINANT);
+
+    if (inmateId) {
+      buildInmate = buildInmate.withId(inmateId);
+    }
+
+    const caseInmate = await models.caseInmate.create(buildInmate, {
+      auditUser: "user"
+    });
+
+    return caseInmate;
+  } catch (error) {
+    console.log(error);
+  }
 };
