@@ -302,8 +302,8 @@ export class LetterPreview extends Component {
           disabled={this.props.downloadInProgress}
         >
           {this.props.editStatus === EDIT_STATUS.EDITED
-            ? "Download Edited Letter as PDF File"
-            : "Download Generated Letter as PDF File"}
+            ? "Download Edited Letter Preview as PDF"
+            : "Download Letter Preview as PDF"}
         </LinkButton>
 
         <CircularProgress

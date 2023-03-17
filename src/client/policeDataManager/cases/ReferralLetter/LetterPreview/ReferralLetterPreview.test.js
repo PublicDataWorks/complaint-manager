@@ -601,9 +601,9 @@ describe("ReferralLetterPreview", function () {
     const downloadButton = wrapper
       .find('[data-testid="download-letter-as-pdf"]')
       .first();
-    let expectedText = "Download Generated Letter as PDF File";
+    let expectedText = "Download Letter Preview as PDF";
     expect(downloadButton.text()).toEqual(expectedText);
-    expectedText = "Download Edited Letter as PDF File";
+    expectedText = "Download Edited Letter Preview as PDF";
     store.dispatch(
       getReferralLetterPreviewSuccess(
         "Letter Preview HTML Edited",
