@@ -55,6 +55,7 @@ pactWith(
               },
               complainantCivilians: [],
               witnessCivilians: [],
+              complainantInmates: [],
               complainantOfficers: [],
               attachments: [],
               accusedOfficers: [],

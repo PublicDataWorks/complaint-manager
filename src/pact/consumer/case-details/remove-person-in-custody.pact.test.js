@@ -5,7 +5,7 @@ import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import { PERSON_IN_CUSTODY, setUpCaseDetailsPage } from "./case-details-helper";
 
-let state = "Case exists: with person in custody";
+let state = "Case exists: with person in custody complainant";
 const options = [PERSON_IN_CUSTODY];
 
 pactWith(
@@ -36,10 +36,10 @@ pactWith(
             body: like({
               caseReferencePrefix: "PiC",
               caseReference: "PiC2023-0002",
-              id: 2,
+              id: 1,
               statusId: 2,
               year: 2023,
-              caseNumber: 2,
+              caseNumber: 1,
               firstContactDate: "2023-02-22",
               intakeSourceId: 2,
               createdBy: "noipm.infrastructure@gmail.com",
@@ -72,7 +72,7 @@ pactWith(
         userEvent.click(await screen.findByTestId("removePersonInCustodyLink"));
         userEvent.click(await screen.findByTestId("removeButton"));
         expect(
-          await screen.findByText("person in custody was successfully removed")
+          await screen.findByText("Person in Custody was successfully removed")
         ).toBeInTheDocument;
       });
     });

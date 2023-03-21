@@ -8,6 +8,7 @@ import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Civilian from "../../sharedTestHelpers/civilian";
 import Inmate from "../../sharedTestHelpers/Inmate";
 import CaseInmate from "../../sharedTestHelpers/CaseInmate";
+import incompleteClassificationsDialogReducer from "../../client/policeDataManager/reducers/ui/incompleteClassificationsDialogReducer";
 const {
   CIVILIAN_WITHIN_PD_INITIATED
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
@@ -108,7 +109,7 @@ export const addCivilianToCase = async (theCase, role) => {
   );
 };
 
-export const addPersonInCustodyToCase = async (c4se, inmateId) => {
+export const addComplainantPersonInCustodyToCase = async (c4se, inmateId) => {
   try {
     const personInCustody = await models.inmate.create(
       new Inmate.Builder().defaultInmate(),
@@ -117,7 +118,7 @@ export const addPersonInCustodyToCase = async (c4se, inmateId) => {
 
     let buildInmate = new CaseInmate.Builder()
       .defaultCaseInmate()
-      .withInmateId(personInCustody.id)
+      .withInmateId(personInCustody.inmateId)
       .withCaseId(c4se.id)
       .withRoleOnCase(COMPLAINANT);
 
@@ -132,5 +133,6 @@ export const addPersonInCustodyToCase = async (c4se, inmateId) => {
     return caseInmate;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };

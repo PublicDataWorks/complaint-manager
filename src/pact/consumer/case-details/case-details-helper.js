@@ -55,7 +55,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     getCaseState += ": case has accused officer with allegations";
   }
   if (options.includes(PERSON_IN_CUSTODY)) {
-    getCaseState += ": with person in custody";
+    getCaseState += ": with person in custody complainant";
   }
 
   await provider.addInteraction({
@@ -117,13 +117,13 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
           : [],
         complainantInmates: options.includes(PERSON_IN_CUSTODY)
           ? eachLike({
-              id: 2,
+              id: 1,
               inmateId: "A8013888",
               roleOnCase: "Complainant",
               isAnonymous: false,
               createdAt: "2023-03-13T18:56:28.650Z",
               updatedAt: "2023-03-13T18:56:28.650Z",
-              caseId: 4,
+              caseId: 1,
               inmate: {
                 fullName: "Linda Ali",
                 inmateId: "A8013888",
@@ -155,8 +155,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
                 sentenceLength: "0 years, 5 months, 0 weeks, 4 days",
                 onCount: true,
                 createdAt: "2023-02-16T17:32:40.969Z",
-                updatedAt: "2023-02-16T17:32:40.969Z",
-                facilityId: 3
+                updatedAt: "2023-02-16T17:32:40.969Z"
               }
             })
           : [],

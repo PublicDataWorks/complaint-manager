@@ -12,7 +12,7 @@ import {
 } from "../../../sharedUtilities/constants";
 
 const removeCaseInmate = asyncMiddleware(async (request, response, next) => {
-  const inmateToRemove = await models.case_inmate.findByPk(
+  const inmateToRemove = await models.caseInmate.findByPk(
     request.params.caseInmateId
   );
 

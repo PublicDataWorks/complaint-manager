@@ -13,12 +13,11 @@ import _ from "lodash";
 
 const removePerson = (personDetails, pd) => async dispatch => {
   const { personType, id, caseId } = personDetails;
-  console.log("PERSON DETAILS>>>>", personDetails);
   let personTypeForDisplay;
   if (personType === "civilians") {
     personTypeForDisplay = "Civilian";
   } else if (personType === "inmates") {
-    personTypeForDisplay = "person in custody";
+    personTypeForDisplay = "Person in Custody";
   } else {
     const isCivilianWithinPd =
       personDetails.caseEmployeeType.includes("Civilian");

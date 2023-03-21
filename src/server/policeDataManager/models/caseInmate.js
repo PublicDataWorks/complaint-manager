@@ -79,7 +79,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  CaseInmate.prototype.getCaseId = async function (transaction) {
+  CaseInmate.prototype.getCaseId = function (transaction) {
     return this.caseId;
   };
 

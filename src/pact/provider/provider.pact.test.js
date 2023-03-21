@@ -15,7 +15,8 @@ import {
   setupCase,
   addCivilianToCase,
   addComplainantOfficerToCase,
-  addWitnessOfficerToCase
+  addWitnessOfficerToCase,
+  addComplainantPersonInCustodyToCase
 } from "./case-helpers";
 import {
   setupLetter,
@@ -477,9 +478,9 @@ describe("Pact Verification", () => {
           const c4se = await setupCase();
           await addWitnessOfficerToCase(c4se, 1);
         },
-        "Case exists: with person in custody": async () => {
+        "Case exists: with person in custody complainant": async () => {
           const c4se = await setupCase();
-          await addPersonInCustodyToCase(c4se, 1);
+          await addComplainantPersonInCustodyToCase(c4se, 1);
         },
         "Case exists: case has accused officer with allegations": async () => {
           const c4se = await setupCase();
