@@ -2,6 +2,7 @@ import getCase from "./handlers/cases/getCase/getCase";
 import getWorkingCases from "./handlers/cases/getCases/getWorkingCases";
 import createCase from "./handlers/cases/createCase";
 import editCase from "./handlers/cases/editCase";
+import editLetterContent from "./handlers/cases/letters/editLetterContent";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
 import restoreArchivedCase from "./handlers/cases/restoreArchivedCase/restoreArchivedCase";
 import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMinimumCaseDetails";
@@ -92,6 +93,8 @@ import generateLetterForPreview from "./handlers/cases/letters/generateLetterFor
 import editLetterAddresses from "./handlers/cases/letters/editLetterAddresses";
 import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
 import removeCaseInmate from "./handlers/inmates/removeCaseInmate";
+import getLetterPdf from "./handlers/cases/letters/getLetterPdf";
+import updateLetterAndUploadToS3 from "./handlers/cases/letters/updateLetterAndUploadToS3";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -351,9 +354,30 @@ export const API_ROUTES = {
         "Something went wrong and the PDF was not loaded. Please try again."
     }
   },
+  "/cases/:caseId/letters/:letterId": {
+    put: {
+      handler: updateLetterAndUploadToS3,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
+    }
+  },
   "/cases/:caseId/letters/:letterId/addresses": {
     put: {
       handler: editLetterAddresses,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
+    }
+  },
+  "/cases/:caseId/letters/:letterId/content": {
+    put: {
+      handler: editLetterContent,
+      errorMessage:
+        "Something went wrong and the letter was not updated. Please try again."
+    }
+  },
+  "/cases/:caseId/letters/:letterId/pdf": {
+    get: {
+      handler: getLetterPdf,
       errorMessage:
         "Something went wrong and the letter was not updated. Please try again."
     }

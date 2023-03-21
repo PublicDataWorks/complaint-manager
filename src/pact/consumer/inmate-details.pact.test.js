@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
-import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import InmateDetails from "../../client/policeDataManager/inmates/InmateDetails";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
@@ -25,6 +25,26 @@ pactWith(
 
     describe("Inmate Details Page", () => {
       beforeEach(async () => {
+        await provider.addInteraction({
+          state: "Facilities exist",
+          uponReceiving: "retrieve facilities",
+          withRequest: {
+            method: "GET",
+            path: "/api/facilities"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({
+              id: 1,
+              abbreviation: "ABC",
+              name: "ABC Pest and Lawn"
+            })
+          }
+        });
+
         await provider.addInteraction({
           state: "Case exists",
           uponReceiving: "get case",
@@ -63,7 +83,7 @@ pactWith(
         const LAST_NAME = "Star";
         const SUFFIX = "Jr.";
         const INMATE_ID = "A0383838";
-        const FACILITY = "WCCC";
+        const FACILITY = "ABC Pest and Lawn";
 
         await provider.addInteraction({
           state: "Case exists",
@@ -113,7 +133,8 @@ pactWith(
         userEvent.type(screen.getByTestId("lastNameField"), LAST_NAME);
         userEvent.type(screen.getByTestId("suffixField"), SUFFIX);
         userEvent.type(screen.getByTestId("inmateIdField"), INMATE_ID);
-        userEvent.type(screen.getByTestId("facilityField"), FACILITY);
+        userEvent.click(screen.getByTestId("facilityField"));
+        userEvent.click(await screen.findByText(FACILITY));
         userEvent.click(screen.getByTestId("inmate-submit-button"));
         expect(
           await screen.findByText(

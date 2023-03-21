@@ -15,31 +15,46 @@ const generateLetterPdfBuffer = async (
   letterSettings,
   extraData = {}
 ) => {
-  let letterBody, auditDetails;
+  let letterBody, letterType, auditDetails;
 
-  const letterType = await models.letter_types.findOne({
-    where: { type: letterSettings.type },
-    include: [
-      {
-        model: models.letterTypeLetterImage,
-        as: "letterTypeLetterImage"
-      }
-    ]
-  });
+  if (letterSettings.letter?.letterType) {
+    letterType = letterSettings.letter.letterType;
+  } else if (letterSettings.type) {
+    letterType = await models.letter_types.findOne({
+      where: { type: letterSettings.type },
+      include: [
+        {
+          model: models.letterTypeLetterImage,
+          as: "letterTypeLetterImage"
+        }
+      ]
+    });
+  }
 
+  let queryOptions = {};
   if (letterType.editableTemplate) {
-    const queryOptions = {
-      where: { caseId },
-      attributes: ["editedLetterHtml"],
-      transaction
-    };
-    let letterData = await models.referral_letter.findOne(queryOptions);
+    let letterData;
+    if (letterSettings.letter) {
+      letterData = letterSettings.letter;
+    } else {
+      queryOptions = {
+        where: { caseId },
+        attributes: ["editedLetterHtml"],
+        transaction
+      };
+      letterData = await models.referral_letter.findOne(queryOptions);
+    }
     letterBody = letterData?.editedLetterHtml;
 
     ({ html: letterBody, auditDetails } = await determineLetterBody(
       letterBody,
       () =>
-        getQueryAuditAccessDetails(queryOptions, models.referral_letter.name),
+        getQueryAuditAccessDetails(
+          queryOptions,
+          letterSettings.letter
+            ? models.letter.name
+            : models.referral_letter.name
+        ),
       letterType,
       caseId,
       transaction
@@ -47,15 +62,27 @@ const generateLetterPdfBuffer = async (
   }
 
   const pdfDataAndAuditDetails = await getLetterData(caseId);
-  const pdfData = { ...pdfDataAndAuditDetails.data, ...extraData };
+  let pdfData = { ...pdfDataAndAuditDetails.data, ...extraData };
   const pdfDataAuditDetails = pdfDataAndAuditDetails.auditDetails;
+
+  if (letterSettings.letter) {
+    const { sender, recipient, recipientAddress, transcribedBy } =
+      letterSettings.letter;
+    pdfData = {
+      ...pdfData,
+      sender,
+      recipient,
+      recipientAddress,
+      transcribedBy
+    };
+  }
 
   const fullLetterHtml = await generateLetterPdfHtml(
     letterBody,
     pdfData,
     includeSignature,
     letterSettings,
-    letterType.template
+    letterType
   );
 
   auditDetails = auditDetails
@@ -73,19 +100,9 @@ export const generateLetterPdfHtml = async (
   pdfData,
   includeSignature,
   letterSettings,
-  template
+  letterType
 ) => {
   const currentDate = Date.now();
-
-  const letterType = await models.letter_types.findOne({
-    where: { type: letterSettings.type },
-    include: [
-      {
-        model: models.letterTypeLetterImage,
-        as: "letterTypeLetterImage"
-      }
-    ]
-  });
 
   let sender = pdfData.sender || pdfData.referralLetter?.sender;
   let signature = includeSignature
@@ -93,7 +110,7 @@ export const generateLetterPdfHtml = async (
     : "<p><br></p>";
 
   let imageTypes = {};
-  const letterPromises = letterType.letterTypeLetterImage.map(
+  const letterPromises = letterType?.letterTypeLetterImage.map(
     async imageType => {
       let letterImage = await models.letterImage.findAll({
         where: { id: imageType.imageId }
@@ -122,7 +139,7 @@ export const generateLetterPdfHtml = async (
     ...imageTypes
   };
 
-  const compiledTemplate = Handlebars.compile(template);
+  const compiledTemplate = Handlebars.compile(letterType.template);
   return compiledTemplate(letterPdfData);
 };
 

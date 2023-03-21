@@ -5,6 +5,10 @@ const {
   COMPLAINANT,
   WITNESS
 } = require("../../../sharedUtilities/constants");
+const {
+  getOfficerFullName,
+  getPersonFullName
+} = require("../../../sharedUtilities/getFullName");
 const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {
@@ -46,6 +50,23 @@ module.exports = (sequelize, DataTypes) => {
       lastName: {
         type: DataTypes.STRING,
         field: "last_name"
+      },
+      fullName: {
+        type: new DataTypes.VIRTUAL(DataTypes.STRING, [
+          "firstName",
+          "middleInitial",
+          "lastName",
+          "suffix"
+        ]),
+        get: function () {
+          return getPersonFullName(
+            this.get("firstName"),
+            this.get("middleInitial"),
+            this.get("lastName"),
+            this.get("suffix"),
+            "Person in Custody"
+          );
+        }
       },
       suffix: {
         type: DataTypes.STRING

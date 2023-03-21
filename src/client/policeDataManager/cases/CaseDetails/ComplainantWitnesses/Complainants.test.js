@@ -455,6 +455,44 @@ describe("Complainants", () => {
       expect(inmatePanel.text()).toContain("Billy");
     });
 
+    test("should display manually added inmate complainant", () => {
+      const caseInmate = new CaseInmate.Builder()
+        .defaultCaseInmate()
+        .withFirstName("Jeffrey")
+        .withMiddleInitial("N")
+        .withLastName("Winger")
+        .withSuffix("III")
+        .withNotFoundInmateId("A0662526")
+        .withFacility("WCCC")
+        .withNotes("Narcissistic Personality Disorder... definitely")
+        .build();
+
+      const caseWithMixedComplainants = new Case.Builder()
+        .defaultCase()
+        .withComplainantInmates([
+          { ...caseInmate, fullName: "Jeffrey N Winger III" }
+        ])
+        .build();
+
+      const wrapper = mount(
+        <Provider store={store}>
+          <Complainants caseDetails={caseWithMixedComplainants} classes={{}} />
+        </Provider>
+      );
+
+      const inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
+
+      expect(inmatePanel.text()).toContain("Jeffrey");
+      expect(inmatePanel.text()).toContain("N");
+      expect(inmatePanel.text()).toContain("Winger");
+      expect(inmatePanel.text()).toContain("III");
+      expect(inmatePanel.text()).toContain("A0662526");
+      expect(inmatePanel.text()).toContain("WCCC");
+      expect(inmatePanel.text()).toContain(
+        "Narcissistic Personality Disorder... definitely"
+      );
+    });
+
     test("should display the person type of a complainant civilian if there is one", () => {
       let type = Object.keys(PERSON_TYPE).find(
         key => PERSON_TYPE[key].createDialogAction === SHOW_FORM

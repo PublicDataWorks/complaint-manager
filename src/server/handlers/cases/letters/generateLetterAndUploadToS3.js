@@ -15,6 +15,7 @@ import generateLetterPdfBuffer from "../referralLetters/generateLetterPdfBuffer"
 import Case from "../../../policeDataManager/payloadObjects/Case";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
+
 const generateLetterAndUploadToS3 = asyncMiddleware(
   async (request, response, next) => {
     validateUserPermissions(request);

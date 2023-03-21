@@ -8,7 +8,7 @@ import {
   openCancelEditLetterConfirmationDialog
 } from "../../../actionCreators/letterActionCreators";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
-import EditLetter from "./EditLetter";
+import EditReferralLetter from "./EditReferralLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import {
@@ -19,6 +19,7 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { push } from "connected-react-router";
 import history from "../../../../history";
 import { initialize } from "redux-form";
+import { Card } from "@material-ui/core";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -41,7 +42,7 @@ jest.mock(
   })
 );
 
-describe("Edit Letter Html", () => {
+describe("Edit Referral Letter Html", () => {
   let store, dispatchSpy, wrapper;
 
   const caseId = "102";
@@ -60,13 +61,16 @@ describe("Edit Letter Html", () => {
       })
     );
     store.dispatch(
-      getCaseDetailsSuccess({ status: CASE_STATUS.LETTER_IN_PROGRESS })
+      getCaseDetailsSuccess({
+        status: CASE_STATUS.LETTER_IN_PROGRESS,
+        caseReference: "ABC-123-that'showeasylovecanbe"
+      })
     );
 
     wrapper = mount(
       <Provider store={store}>
         <Router>
-          <EditLetter match={{ params: { id: caseId } }} />
+          <EditReferralLetter match={{ params: { id: caseId } }} />
         </Router>
       </Provider>
     );
@@ -76,7 +80,7 @@ describe("Edit Letter Html", () => {
     dispatchSpy.mockClear();
   });
 
-  test("load letter preview html and set it on the rtf editor when page is loaded", () => {
+  test("load letter preview html and set it on the quill editor when page is loaded", () => {
     store.dispatch(
       initialize(EDIT_LETTER_HTML_FORM, { editedLetterHtml: initialLetterHtml })
     );
@@ -84,8 +88,8 @@ describe("Edit Letter Html", () => {
 
     wrapper.update();
 
-    const rtfEditor = wrapper.find("Quill").first();
-    expect(rtfEditor.props().value).toEqual(initialLetterHtml);
+    const quillEditor = wrapper.find("Quill").first();
+    expect(quillEditor.props().value).toEqual(initialLetterHtml);
   });
 
   test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button only when letter is 'dirty'", () => {
@@ -216,10 +220,11 @@ describe("Edit Letter Html", () => {
   });
 
   test("does not dispatch openCancelEditLetterConfirmationDialog and saves edits when clicking save button", () => {
+    console.warn = () => {};
     const input = wrapper.find("Quill").first();
     input.props().onChange("<p>Letter Preview HTML change </p>");
 
-    const saveButton = wrapper.find("[data-testid='saveButton']").first();
+    const saveButton = wrapper.find("[data-testid='save-button']").first();
     saveButton.simulate("click");
 
     const expectedFormValues = {

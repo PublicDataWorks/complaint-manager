@@ -6,14 +6,16 @@ import nock from "nock";
 import GenerateLetterButton from "./GenerateLetterButton";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
+import { push } from "connected-react-router";
 
 describe("GenerateLetterButton", () => {
-  let store, responseBody;
+  let store, responseBody, dispatchSpy, caseId;
 
   beforeEach(() => {
     store = createConfiguredStore();
     nock.cleanAll();
 
+    caseId = 1;
     responseBody = [
       {
         id: 1,
@@ -54,19 +56,19 @@ describe("GenerateLetterButton", () => {
         requiredStatus: "Initial"
       }
     ];
+    dispatchSpy = jest.spyOn(store, "dispatch");
 
     nock("http://localhost").get("/api/letter-types").reply(200, responseBody);
-  });
-
-  test("should show list of letter types on click", async () => {
     render(
       <Provider store={store}>
         <Router>
-          <GenerateLetterButton />
+          <GenerateLetterButton caseId={caseId} />
         </Router>
       </Provider>
     );
+  });
 
+  test("should show list of letter types on click", async () => {
     userEvent.click(screen.getByText("Generate Letter"));
     expect(await screen.findByTestId(`${responseBody[0].type}-option`))
       .toBeInTheDocument;
@@ -74,5 +76,27 @@ describe("GenerateLetterButton", () => {
       .toBeInTheDocument;
     expect(await screen.findByTestId(`${responseBody[2].type}-option`))
       .toBeInTheDocument;
+  });
+
+  test("should redirect to Letter Preview Page if letter type is editable", async () => {
+    const knock = nock("http://localhost")
+      .post(`/api/cases/${caseId}/letters`, { type: "REFERRAL" })
+      .reply(200, { id: 1 });
+    userEvent.click(screen.getByText("Generate Letter"));
+    userEvent.click(await screen.findByText("REFERRAL"));
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (knock.isDone()) {
+          resolve();
+        } else {
+          reject(
+            "Service call to /api/cases/${caseId}/letters was not made within 500ms"
+          );
+        }
+      }, 500);
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith(
+      push(`/cases/${caseId}/letter/1/letter-preview`)
+    );
   });
 });

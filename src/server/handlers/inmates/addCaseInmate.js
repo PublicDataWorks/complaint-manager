@@ -7,6 +7,7 @@ import {
   BAD_REQUEST_ERRORS,
   NOT_FOUND_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
+import { sendNotifsIfComplainantChange } from "../sendNotifsIfComplainantChange";
 
 const addCaseInmate = asyncMiddleware(async (request, response, next) => {
   const {
@@ -68,7 +69,7 @@ const addCaseInmate = asyncMiddleware(async (request, response, next) => {
 
   response.status(200).send(await caseInmate.toJSON());
 
-  // await sendNotifsIfComplainantChange(updatedCase.id);
+  await sendNotifsIfComplainantChange(request.params.caseId);
 });
 
 module.exports = addCaseInmate;

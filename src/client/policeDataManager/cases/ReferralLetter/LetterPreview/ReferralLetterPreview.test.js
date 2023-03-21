@@ -57,7 +57,8 @@ jest.mock("../../UserAvatar", () => {
   };
 });
 
-describe("LetterPreview", function () {
+describe("ReferralLetterPreview", function () {
+  jest.setTimeout(3000);
   const finalFilename = "final_filename.pdf";
   const draftFilename = "draft_filename.pdf";
   const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
@@ -165,11 +166,19 @@ describe("LetterPreview", function () {
         nextStatus: CASE_STATUS.FORWARDED_TO_AGENCY
       })
     );
+
     store.dispatch(
       userAuthSuccess({
         permissions: [USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES]
       })
     );
+
+    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
+
+    const reviewAndApproveButton = wrapper
+      .find("[data-testid='review-and-approve-letter-button']")
+      .first();
+
     store.dispatch(
       getReferralLetterSuccess({
         letterOfficers: [
@@ -181,18 +190,18 @@ describe("LetterPreview", function () {
         classifications: { "csfn-1": true }
       })
     );
-    changeInput(wrapper, "[data-testid='transcribed-by-field']", "transcriber");
-    const reviewAndApproveButton = wrapper
-      .find("[data-testid='review-and-approve-letter-button']")
-      .first();
+
     dispatchSpy.mockClear();
     reviewAndApproveButton.simulate("click");
+
     setTimeout(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        push(`/cases/${caseId}/letter/review-and-approve`)
-      );
+      expect(
+        dispatchSpy.mock.calls.find(
+          call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+        )[0]
+      ).toEqual(push(`/cases/${caseId}/letter/review-and-approve`));
       done();
-    }, 500);
+    }, 1000);
   });
 
   test("dispatch openEditLetterConfirmationDialog when clicking edit button if the letter was not edited", () => {
@@ -222,6 +231,7 @@ describe("LetterPreview", function () {
 
   test("dispatch open case status dialog on click of submit for review button", async () => {
     dispatchSpy.mockClear();
+
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
@@ -243,10 +253,13 @@ describe("LetterPreview", function () {
         classifications: { "csfn-1": true }
       })
     );
+
     const openSubmitForReviewButton = wrapper
       .find("[data-testid='submit-for-review-button']")
       .first();
+
     await openSubmitForReviewButton.simulate("click");
+
     expect(dispatchSpy).toHaveBeenCalledWith(
       openCaseStatusUpdateDialog(
         CASE_STATUS.READY_FOR_REVIEW,
@@ -588,9 +601,9 @@ describe("LetterPreview", function () {
     const downloadButton = wrapper
       .find('[data-testid="download-letter-as-pdf"]')
       .first();
-    let expectedText = "Download Generated Letter as PDF File";
+    let expectedText = "Download Letter Preview as PDF";
     expect(downloadButton.text()).toEqual(expectedText);
-    expectedText = "Download Edited Letter as PDF File";
+    expectedText = "Download Edited Letter Preview as PDF";
     store.dispatch(
       getReferralLetterPreviewSuccess(
         "Letter Preview HTML Edited",

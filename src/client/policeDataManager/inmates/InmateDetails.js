@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import LinkButton from "../shared/components/LinkButton";
 import { Typography } from "@material-ui/core";
 import ManuallyEnterInmateForm from "./ManuallyEnterInmateForm";
+import getFacilities from "../cases/thunks/getFacilities";
 
 const InmateDetails = props => {
   const caseDetailsNotYetLoaded = () => {
@@ -18,6 +19,10 @@ const InmateDetails = props => {
   useEffect(() => {
     if (caseDetailsNotYetLoaded()) {
       props.getCaseDetails(props.match.params.id);
+    }
+
+    if (!props.facilities?.length) {
+      props.getFacilities();
     }
   }, []);
 
@@ -38,13 +43,7 @@ const InmateDetails = props => {
         <Typography variant="h6">
           Selected Manually Add Person in Custody
         </Typography>
-        <section
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "start"
-          }}
-        >
+        <section>
           <Typography
             data-testid="unknownOfficerMessage"
             style={{ marginBottom: "32px" }}
@@ -53,6 +52,8 @@ const InmateDetails = props => {
             You have selected Manually Add Person in Custody. Go back to search
             the roster by selecting Search for Person in Custody.
           </Typography>
+        </section>
+        <section style={{ float: "right" }}>
           <LinkButton
             data-testid="back-to-search-link"
             component={Link}
@@ -74,5 +75,5 @@ export default connect(
   state => ({
     caseDetails: state.currentCase.details
   }),
-  { getCaseDetails }
+  { getCaseDetails, getFacilities }
 )(InmateDetails);

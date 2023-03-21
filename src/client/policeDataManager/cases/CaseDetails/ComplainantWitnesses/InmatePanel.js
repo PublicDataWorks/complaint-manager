@@ -44,19 +44,21 @@ const InmatePanel = ({ caseInmate, dispatch, pd }) => {
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="Person in Custody"
-                  value={caseInmate?.inmate?.fullName}
+                  value={caseInmate?.inmate?.fullName ?? caseInmate?.fullName}
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="ID"
-                  value={caseInmate?.inmate?.inmateId}
+                  value={
+                    caseInmate?.inmate?.inmateId ?? caseInmate?.notFoundInmateId
+                  }
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="Facility"
-                  value={caseInmate?.inmate?.facility}
+                  value={caseInmate?.inmate?.facility ?? caseInmate?.facility}
                 />
               </StyledInfoDisplay>
             </div>
@@ -162,6 +164,12 @@ const InmatePanel = ({ caseInmate, dispatch, pd }) => {
                 value={formatDate(caseInmate?.inmate?.tentativeReleaseDate)}
               />
             </StyledInfoDisplay>
+          </StyledExpansionPanelDetails>
+          <StyledExpansionPanelDetails>
+            <OfficerInfoDisplay
+              displayLabel="Notes"
+              value={caseInmate?.notes}
+            />
           </StyledExpansionPanelDetails>
         </Accordion>
         <div style={{ margin: "12px 24px" }}>

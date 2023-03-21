@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router";
+import { push } from "connected-react-router";
 import { Menu, MenuItem } from "@material-ui/core";
 import { PrimaryButton } from "../../../shared/components/StyledButtons";
 import useGetServiceData from "../../../../common/hooks/useGetServiceData";
@@ -25,9 +25,8 @@ const GenerateLetterButton = props => {
       const response = await axios.post(`/api/cases/${props.caseId}/letters`, {
         type: letterType.type
       });
-
       if (letterType.hasEditPage) {
-        props.history.push(
+        props.push(
           `/cases/${props.caseId}/letter/${response.data.id}/letter-preview`
         );
       } else {
@@ -78,5 +77,6 @@ const GenerateLetterButton = props => {
 export default connect(undefined, {
   getCaseDetails,
   snackbarSuccess,
-  snackbarError
-})(withRouter(GenerateLetterButton));
+  snackbarError,
+  push
+})(GenerateLetterButton);

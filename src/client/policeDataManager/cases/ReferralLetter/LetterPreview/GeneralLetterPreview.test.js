@@ -13,6 +13,7 @@ import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarContainer";
+import axios from "axios";
 
 describe("GeneralLetterPreview", () => {
   let caseId, letterId, dispatchSpy;
@@ -41,8 +42,7 @@ describe("GeneralLetterPreview", () => {
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId,
-        status: CASE_STATUS.LETTER_IN_PROGRESS,
-        nextStatus: CASE_STATUS.READY_FOR_REVIEW
+        status: CASE_STATUS.ACTIVE
       })
     );
     store.dispatch({
@@ -110,5 +110,33 @@ describe("GeneralLetterPreview", () => {
     expect(await screen.findByText("Letter was successfully updated"))
       .toBeInTheDocument;
     expect(editAddressCall.isDone()).toBe(true);
+  });
+
+  test("should call axios put request on click to update letter", async () => {
+    const axiosSpy = jest.spyOn(axios, "put").mockReturnValue(
+      Promise.resolve({
+        status: 200,
+        statusText: "OK",
+        data: {},
+        headers: {},
+        config: {}
+      })
+    );
+    userEvent.click(await screen.findByTestId("generate-letter-button"));
+
+    expect(axiosSpy).toHaveBeenCalledWith(
+      `/api/cases/${caseId}/letters/${letterId}/addresses`,
+      expect.anything()
+    );
+
+    await new Promise(resolve => {
+      setTimeout(() => {
+        expect(axiosSpy).toHaveBeenCalledWith(
+          `/api/cases/${caseId}/letters/${letterId}`,
+          expect.anything()
+        );
+        resolve();
+      }, 500);
+    });
   });
 });

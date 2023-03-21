@@ -8,7 +8,6 @@ import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
-import LetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/LetterPreview";
 import { CASE_STATUS, USER_PERMISSIONS } from "../../sharedUtilities/constants";
 import ReferralLetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/ReferralLetterPreview";
 

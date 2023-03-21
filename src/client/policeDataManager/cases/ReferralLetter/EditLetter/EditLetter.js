@@ -10,16 +10,13 @@ import {
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
 import {
-  CASE_STATUS,
   EDIT_LETTER_HTML_FORM,
   LETTER_PROGRESS
 } from "../../../../../sharedUtilities/constants";
-import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
-import { Field, initialize, reduxForm, reset } from "redux-form";
+import { Field, initialize, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
 import { openCancelEditLetterConfirmationDialog } from "../../../actionCreators/letterActionCreators";
 import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
-import editReferralLetterContent from "../thunks/editReferralLetterContent";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import history from "../../../../history";
@@ -46,7 +43,10 @@ let shouldBlockRoutingRedirects;
 export class EditLetter extends Component {
   constructor(props) {
     super(props);
-    this.state = { caseId: this.props.match.params.id, redirectUrl: null };
+    this.state = {
+      caseId: this.props.caseId,
+      redirectUrl: null
+    };
   }
 
   componentDidMount() {
@@ -54,7 +54,7 @@ export class EditLetter extends Component {
       history.block(location => {
         if (
           location.pathname !==
-            `cases/${this.state.caseId}/letter/edit-letter` &&
+            `cases/${this.state.caseId}/${this.props.editLetterEndpoint}` &&
           this.props.dirty &&
           shouldNotRedirect
         ) {
@@ -65,37 +65,30 @@ export class EditLetter extends Component {
       });
     };
     shouldBlockRoutingRedirects(true);
-    this.props.dispatch(getReferralLetterPreview(this.state.caseId));
 
     if (this.props.initialValues.editedLetterHtml === "") {
-      this.props.dispatch(
-        initialize(EDIT_LETTER_HTML_FORM, this.state.initialValues)
-      );
+      this.props.setInitialValues();
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!this.letterPreviewNotYetLoaded() && this.invalidCaseStatus()) {
+  componentDidUpdate() {
+    if (
+      !this.letterPreviewNotYetLoaded() &&
+      !this.props.isCaseStatusValid() &&
+      this.props.caseStatus
+    ) {
       this.props.invalidCaseStatusRedirect(this.state.caseId);
     }
   }
 
-  invalidCaseStatus = () => {
-    const allowed_statuses_for_edit_letter = [
-      CASE_STATUS.LETTER_IN_PROGRESS,
-      CASE_STATUS.READY_FOR_REVIEW
-    ];
-    return !allowed_statuses_for_edit_letter.includes(this.props.caseStatus);
-  };
-
   letterPreviewNotYetLoaded = () => {
-    return this.props.letterHtml === "" || !this.props.caseStatus;
+    return this.props.letterHtml === "";
   };
 
   saveAndGoBackToPreview = () => {
     return this.props.handleSubmit(
       this.submitEditedLetterForm(
-        `/cases/${this.state.caseId}/letter/letter-preview`
+        `/cases/${this.state.caseId}/letter/${this.props.letterPreviewEndpoint}`
       )
     );
   };
@@ -103,7 +96,7 @@ export class EditLetter extends Component {
   renderSaveButton = () => {
     return (
       <PrimaryButton
-        data-testid="saveButton"
+        data-testid="save-button"
         onClick={this.saveAndGoBackToPreview()}
         disabled={this.props.pristine}
       >
@@ -130,7 +123,9 @@ export class EditLetter extends Component {
         data-testid="cancel-button"
         onClick={() => {
           this.props.dispatch(
-            push(`/cases/${this.state.caseId}/letter/letter-preview`)
+            push(
+              `/cases/${this.state.caseId}/letter/${this.props.letterPreviewEndpoint}`
+            )
           );
         }}
       >
@@ -154,18 +149,19 @@ export class EditLetter extends Component {
     values.editedLetterHtml = this.stripWhitespaceBeforeLastParagraphElement(
       values.editedLetterHtml
     );
-    dispatch(editReferralLetterContent(this.state.caseId, values, redirectUrl));
+
+    this.props.editContent(values, redirectUrl);
   };
 
   render() {
-    if (this.letterPreviewNotYetLoaded() || this.invalidCaseStatus()) {
+    if (this.letterPreviewNotYetLoaded() || !this.props.isCaseStatusValid()) {
       return null;
     }
 
     return (
       <div>
         <NavBar menuType={policeDataManagerMenuOptions}>
-          {`Case #${this.props.caseReference}   : Letter Generation`}
+          {`Case #${this.props.caseReference} : Letter Generation`}
         </NavBar>
 
         {this.renderBackToCaseButton()}
@@ -177,11 +173,13 @@ export class EditLetter extends Component {
             padding: "0% 5% 0%"
           }}
         >
-          <LetterProgressStepper
-            currentLetterStatus={LETTER_PROGRESS.PREVIEW}
-            pageChangeCallback={this.pageChangeCallback}
-            caseId={this.state.caseId}
-          />
+          {this.props.useLetterProgressStepper ? (
+            <LetterProgressStepper
+              currentLetterStatus={LETTER_PROGRESS.PREVIEW}
+              pageChangeCallback={this.pageChangeCallback}
+              caseId={this.state.caseId}
+            />
+          ) : null}
           <div style={{ margin: "0 0 32px 0" }}>
             <Typography
               style={{
@@ -233,8 +231,6 @@ export class EditLetter extends Component {
 }
 
 EditLetter.propTypes = {
-  caseReference: PropTypes.string,
-  caseStatus: PropTypes.string,
   dirty: PropTypes.bool,
   dispatch: PropTypes.func,
   handleSubmit: PropTypes.func,
@@ -251,14 +247,12 @@ EditLetter.propTypes = {
   pristine: PropTypes.bool
 };
 
-const mapStateToProps = state => ({
-  accused: state.currentCase.details.accusedOfficers,
+const mapStateToProps = (state, props) => ({
+  accused: state.currentCase.details?.accusedOfficers,
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
-  initialValues: { editedLetterHtml: state.referralLetter.letterHtml },
-  caseReference: state.currentCase.details.caseReference,
-  caseStatus: state.currentCase.details.status,
-  permissions: state?.users?.current?.userInfo?.permissions
+  caseStatus: state.currentCase.details?.status,
+  permissions: state.users.current?.userInfo?.permissions
 });
 
 const mapDispatchToProps = {

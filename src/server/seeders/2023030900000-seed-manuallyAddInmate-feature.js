@@ -2,7 +2,7 @@
 
 const FEATURE_TOGGLES_TABLE = "feature_toggles";
 const FLAG_NAME = "manuallyAddInmateFeature";
-const ENABLED = process.env.ORG === "HAWAII" ? false : false;
+const ENABLED = process.env.ORG === "HAWAII" ? true : false;
 
 const INSERT_FEATURE_TOGGLE = `INSERT INTO ${FEATURE_TOGGLES_TABLE}(name, description, enabled, is_dev) 
   VALUES ('${FLAG_NAME}', 'shows a "Manually Enter Person in Custody" button on search page', ${ENABLED}, true)

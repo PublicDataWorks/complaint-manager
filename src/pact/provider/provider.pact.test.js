@@ -2,10 +2,7 @@ import app from "../../server/server";
 import fs from "fs";
 import { Verifier } from "@pact-foundation/pact";
 import path from "path";
-import {
-  base,
-  cleanupDatabase
-} from "../../server/testHelpers/requestTestHelpers";
+import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
 import models from "../../server/policeDataManager/models";
 import LetterType from "../../sharedTestHelpers/letterType";
 import LetterTypeLetterImage from "../../sharedTestHelpers/LetterTypeLetterImage";
@@ -26,6 +23,7 @@ import {
 } from "./letter-helpers";
 import Allegation from "../../sharedTestHelpers/Allegation";
 import RaceEthnicity from "../../sharedTestHelpers/raceEthnicity";
+import Letter from "../../sharedTestHelpers/Letter";
 import District from "../../sharedTestHelpers/District";
 import Inmate from "../../sharedTestHelpers/Inmate";
 import Tag from "../../server/testHelpers/tag";
@@ -716,6 +714,18 @@ describe("Pact Verification", () => {
             console.error(error);
             throw error;
           }
+        },
+        "general letter exists": async () => {
+          const c4se = await setupCase();
+          await models.letter.create(
+            new Letter.Builder()
+              .defaultLetter()
+              .withCaseId(c4se.id)
+              .withId(1)
+              .withTypeId(1)
+              .build(),
+            { auditUser: "user" }
+          );
         },
         "Officer Bob Loblaw exists and works in the first district":
           async () => {

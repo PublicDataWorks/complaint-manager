@@ -1,14 +1,18 @@
 import { Card, CardContent, Typography } from "@material-ui/core";
 import axios from "axios";
 import { push } from "connected-react-router";
-import { wrap } from "lodash";
+import _ from "lodash";
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
 import { MANUALLY_ENTER_INMATE_FORM } from "../../../sharedUtilities/constants";
+import CreatableDropdown from "../../common/components/CreatableDropdown";
+import Dropdown from "../../common/components/Dropdown";
 import styles from "../../common/globalStyling/styles";
 import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import { PrimaryButton } from "../shared/components/StyledButtons";
+import { generateMenuOptions } from "../utilities/generateMenuOptions";
 
 const ManuallyEnterInmateForm = props => {
   const [submitting, setSubmitting] = useState(false);
@@ -16,8 +20,9 @@ const ManuallyEnterInmateForm = props => {
   const submit = (values, dispatch) => {
     setSubmitting(true);
     axios
-      .post(`api/cases/${props.caseId}/inmates`, {
+      .post(`/api/cases/${props.caseId}/inmates`, {
         ...values,
+        facility: values?.facility?.value,
         roleOnCase: props.roleOnCase
       })
       .then(() => {
@@ -95,12 +100,18 @@ const ManuallyEnterInmateForm = props => {
               placeholder="ID Number"
             />
             <Field
-              component={renderTextField}
+              component={CreatableDropdown}
               name="facility"
-              inputProps={{ "data-testid": "facilityField" }}
-              placeholder="Facility"
+              inputProps={{
+                "data-testid": "facilityField",
+                placeholder: "Facility"
+              }}
               style={{ minWidth: "450px" }}
-            />
+            >
+              {generateMenuOptions(
+                props.facilities.map(facility => facility.name)
+              )}
+            </Field>
           </div>
           <Typography style={styles.section}>Notes</Typography>
           <Typography variant="body2">
@@ -119,7 +130,10 @@ const ManuallyEnterInmateForm = props => {
         </CardContent>
       </Card>
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
-        <PrimaryButton data-testid="inmate-submit-button" disabled={submitting}>
+        <PrimaryButton
+          data-testid="inmate-submit-button"
+          disabled={submitting || props.formInvalid}
+        >
           Create and View
         </PrimaryButton>
       </div>
@@ -128,5 +142,19 @@ const ManuallyEnterInmateForm = props => {
 };
 
 export default reduxForm({
-  form: MANUALLY_ENTER_INMATE_FORM
-})(ManuallyEnterInmateForm);
+  form: MANUALLY_ENTER_INMATE_FORM,
+  validate: values => {
+    if (_.isEmpty(values)) {
+      return {
+        notes: "At least one field must be filled out"
+      };
+    } else {
+      return {};
+    }
+  }
+})(
+  connect(state => ({
+    facilities: state.facilities,
+    formInvalid: !_.isEmpty(state.form[MANUALLY_ENTER_INMATE_FORM].syncErrors)
+  }))(ManuallyEnterInmateForm)
+);
