@@ -69,6 +69,7 @@ const ComplainantWitnessDisplay = ({
               <InmatePanel
                 key={civilianOrOfficer.inmateId}
                 caseInmate={civilianOrOfficer}
+                isArchived={isArchived}
               ></InmatePanel>
             );
           } else {

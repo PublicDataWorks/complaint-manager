@@ -58,10 +58,24 @@ describe("Complainants", () => {
         .build(),
       raceEthnicity: raceEthnicity
     };
+    const inmate = new Inmate.Builder()
+      .defaultInmate()
+      .withFirstName("Billy")
+      .build();
+    const caseInmate = new CaseInmate.Builder()
+      .defaultCaseInmate()
+      .withInmate(inmate)
+      .build();
 
     caseDetails = new Case.Builder()
       .defaultCase()
       .withComplainantCivilians([complainant])
+      .withComplainantInmates([
+        {
+          ...caseInmate,
+          inmate: { ...caseInmate.inmate, fullName: "Billy Bob" }
+        }
+      ])
       .build();
 
     store = createConfiguredStore();
@@ -99,6 +113,12 @@ describe("Complainants", () => {
     test("should not be able to remove", () => {
       expect(
         complainantWitnesses.find('[data-testid="removeCivilianLink"]')
+      ).toHaveLength(0);
+    });
+
+    test("should not be able to remove", () => {
+      expect(
+        complainantWitnesses.find('[data-testid="removePersonInCustodyLink"]')
       ).toHaveLength(0);
     });
   });
@@ -495,35 +515,35 @@ describe("Complainants", () => {
       let caseInmate, caseWithMixedComplainants, wrapper, inmatePanel;
       beforeEach(() => {
         caseInmate = new CaseInmate.Builder()
-        .defaultCaseInmate()
-        .withFirstName("Jeffrey")
-        .withMiddleInitial("N")
-        .withLastName("Winger")
-        .withSuffix("III")
-        .withNotFoundInmateId("A0662526")
-        .withFacility("WCCC")
-        .withNotes("Narcissistic Personality Disorder... definitely")
-        .build();
+          .defaultCaseInmate()
+          .withFirstName("Jeffrey")
+          .withMiddleInitial("N")
+          .withLastName("Winger")
+          .withSuffix("III")
+          .withNotFoundInmateId("A0662526")
+          .withFacility("WCCC")
+          .withNotes("Narcissistic Personality Disorder... definitely")
+          .build();
 
-      caseWithMixedComplainants = new Case.Builder()
-        .defaultCase()
-        .withComplainantInmates([
-          { ...caseInmate, fullName: "Jeffrey N Winger III" }
-        ])
-        .build();
+        caseWithMixedComplainants = new Case.Builder()
+          .defaultCase()
+          .withComplainantInmates([
+            { ...caseInmate, fullName: "Jeffrey N Winger III" }
+          ])
+          .build();
 
-      wrapper = mount(
-        <Provider store={store}>
-          <Complainants caseDetails={caseWithMixedComplainants} classes={{}} />
-        </Provider>
-      );
+        wrapper = mount(
+          <Provider store={store}>
+            <Complainants
+              caseDetails={caseWithMixedComplainants}
+              classes={{}}
+            />
+          </Provider>
+        );
 
-      inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
-
-
+        inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
       });
       test("should display manually added inmate complainant", () => {
-  
         expect(inmatePanel.text()).toContain("Jeffrey");
         expect(inmatePanel.text()).toContain("N");
         expect(inmatePanel.text()).toContain("Winger");
@@ -532,20 +552,22 @@ describe("Complainants", () => {
         expect(inmatePanel.text()).toContain("WCCC");
         expect(inmatePanel.text()).toContain(
           "Narcissistic Personality Disorder... definitely"
-        );  
+        );
       });
-        test("should display remove button and dispatch", () => {
-          const inmatePanelRemoveButton = wrapper.find('[data-testid="removePersonInCustodyLink"]').first();
-          inmatePanelRemoveButton.simulate("click");
-  
-          expect(dispatchSpy).toHaveBeenCalledWith(
-            openRemovePersonDialog(
-              caseWithMixedComplainants.complainantInmates[0],
-              "inmates",
-              "WCCC"
-            )
-          );
-      })
+      test("should display remove button and dispatch", () => {
+        const inmatePanelRemoveButton = wrapper
+          .find('[data-testid="removePersonInCustodyLink"]')
+          .first();
+        inmatePanelRemoveButton.simulate("click");
+
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          openRemovePersonDialog(
+            caseWithMixedComplainants.complainantInmates[0],
+            "inmates",
+            "WCCC"
+          )
+        );
+      });
     });
   });
 });

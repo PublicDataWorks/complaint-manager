@@ -9,9 +9,12 @@ import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import LinkButton from "../../../shared/components/LinkButton";
 import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
-import { CONFIGS } from "../../../../../sharedUtilities/constants";
+import {
+  CONFIGS,
+  USER_PERMISSIONS
+} from "../../../../../sharedUtilities/constants";
 
-const InmatePanel = ({ caseInmate, dispatch, pd }) => {
+const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
   return (
     <div>
       <div
@@ -20,11 +23,6 @@ const InmatePanel = ({ caseInmate, dispatch, pd }) => {
       >
         <Accordion
           elevation={0}
-          // onChange={(event, expanded) => {
-          //   expanded
-          //     ? dispatch(accusedInmatePanelExpanded(caseInmate.id))
-          //     : dispatch(accusedInmatePanelCollapsed(caseInmate.id));
-          // }}
           style={{ backgroundColor: "white", width: "100%" }}
         >
           <AccordionSummary
@@ -172,19 +170,25 @@ const InmatePanel = ({ caseInmate, dispatch, pd }) => {
             />
           </StyledExpansionPanelDetails>
         </Accordion>
-        <div style={{ margin: "12px 24px" }}>
-          <>
-            <LinkButton
-              data-testid="removePersonInCustodyLink"
-              onClick={event => {
-                event.stopPropagation();
-                dispatch(openRemovePersonDialog(caseInmate, "inmates", pd));
-              }}
-            >
-              Remove
-            </LinkButton>
-          </>
-        </div>
+        {isArchived ? null : (
+          <div style={{ margin: "12px 24px" }}>
+            {permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+              <>
+                <LinkButton
+                  data-testid="removePersonInCustodyLink"
+                  onClick={event => {
+                    event.stopPropagation();
+                    dispatch(openRemovePersonDialog(caseInmate, "inmates", pd));
+                  }}
+                >
+                  Remove
+                </LinkButton>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        )}
       </div>
       <Divider />
     </div>
@@ -192,5 +196,6 @@ const InmatePanel = ({ caseInmate, dispatch, pd }) => {
 };
 
 export default connect(state => ({
-  pd: state.configs[CONFIGS.PD]
+  pd: state.configs[CONFIGS.PD],
+  permissions: state?.users?.current?.userInfo?.permissions
 }))(InmatePanel);
