@@ -28,6 +28,12 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
     const letter = await models.sequelize.transaction(async transaction => {
       const letterType = await models.letter_types.findOne({
         where: { type: request.body.type },
+        include: [
+          {
+            model: models.signers,
+            as: "defaultSender"
+          }
+        ],
         transaction
       });
 
@@ -49,7 +55,12 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         {
           caseId,
           typeId: letterType.id,
-          finalPdfFilename: filename
+          finalPdfFilename: filename,
+          recipient: letterType.defaultRecipient,
+          recipientAddress: letterType.defaultRecipientAddress,
+          sender: letterType.defaultSender
+            ? `${letterType.defaultSender.name}\n${letterType.defaultSender.title}\n${letterType.defaultSender.phone}`
+            : null
         },
         { transaction, auditUser: request.nickname }
       );

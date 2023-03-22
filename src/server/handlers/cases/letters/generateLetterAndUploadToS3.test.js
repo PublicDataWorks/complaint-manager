@@ -67,13 +67,15 @@ describe("Generate letter and upload to S3", () => {
   });
 
   test("should generate letter and attach to case", async () => {
-    await models.letter_types.create(
+    const type = await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
         .withId(1)
         .withType("TEST LETTER")
         .withTemplate("Test letter template")
         .withDefaultSender(signer)
+        .withDefaultRecipient("Bob")
+        .withDefaultRecipientAddress("123 Bob St.")
         .build(),
       { auditUser: "test user" }
     );
@@ -106,6 +108,11 @@ describe("Generate letter and upload to S3", () => {
     expect(response.statusCode).toEqual(200);
     expect(letter).toBeTruthy();
     expect(letter.typeId).toEqual(1);
+    expect(letter.sender).toEqual(
+      `${signer.name}\n${signer.title}\n${signer.phone}`
+    );
+    expect(letter.recipient).toEqual(type.defaultRecipient);
+    expect(letter.recipientAddress).toEqual(type.defaultRecipientAddress);
     expect(uploadLetterToS3).toHaveBeenCalledWith(
       expect.anything(),
       expect.anything(),

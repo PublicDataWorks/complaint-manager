@@ -130,6 +130,8 @@ describe("editLetterType", () => {
       hasEditPage: true,
       requiresApproval: true,
       requiredStatus: status2.name,
+      defaultRecipient: null,
+      defaultRecipientAddress: null,
       defaultSender: expect.objectContaining({
         id: signer2.id,
         name: signer2.name,
@@ -167,6 +169,8 @@ describe("editLetterType", () => {
       hasEditPage: true,
       requiresApproval: true,
       requiredStatus: status.name,
+      defaultRecipient: null,
+      defaultRecipientAddress: null,
       defaultSender: expect.objectContaining({
         id: signer.id,
         name: signer.name,
@@ -205,6 +209,8 @@ describe("editLetterType", () => {
       hasEditPage: true,
       requiresApproval: true,
       requiredStatus: status.name,
+      defaultRecipient: null,
+      defaultRecipientAddress: null,
       defaultSender: expect.objectContaining({
         id: signer.id,
         name: signer.name,
@@ -251,6 +257,8 @@ describe("editLetterType", () => {
       hasEditPage: true,
       requiresApproval: true,
       requiredStatus: status.name,
+      defaultRecipient: null,
+      defaultRecipientAddress: null,
       defaultSender: expect.objectContaining({
         id: signer.id,
         name: signer.name,
