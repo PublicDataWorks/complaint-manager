@@ -422,6 +422,13 @@ describe("complainant/witness dialog", () => {
       complainantWitnessDialog.update();
     });
 
+    test("should display radio button of role on case for witness, complainant, and accused", () => {
+      const radioButtonGroup = complainantWitnessDialog.find("[data-testid='roleOnCaseRadioGroup']")
+      expect(radioButtonGroup.find("label").at(0).text()).toEqual("Complainant");
+      expect(radioButtonGroup.find("label").at(1).text()).toEqual("Witness");
+      expect(radioButtonGroup.find("label").at(2).text()).toEqual("Accused");
+    });
+
     test("should show radio buttons or dropdown (depending on the number) for choosing a person type", () => {
       expect(
         complainantWitnessDialog.find(

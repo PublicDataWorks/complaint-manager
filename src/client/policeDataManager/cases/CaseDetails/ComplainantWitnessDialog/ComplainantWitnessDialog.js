@@ -20,6 +20,7 @@ import { closeEditCivilianDialog } from "../../../actionCreators/casesActionCrea
 import { withTheme } from "@material-ui/core/styles";
 import validate from "./helpers/validateCivilianFields";
 import {
+  ACCUSED,
   CIVILIAN_FORM_NAME,
   COMPLAINANT,
   SHOW_FORM,
@@ -151,6 +152,12 @@ class ComplainantWitnessDialog extends Component {
                 value={WITNESS}
                 control={<Radio color="primary" />}
                 label={WITNESS}
+              />
+              <FormControlLabel
+                style={{ marginRight: "48px" }}
+                value={ACCUSED}
+                control={<Radio color="primary" />}
+                label={ACCUSED}
               />
             </Field>
             {this.props.choosePersonTypeInAddDialog ? (
