@@ -51,13 +51,35 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         );
       }
 
+      let recipient = letterType.defaultRecipient;
+      if (recipient === "{primaryComplainant}") {
+        if (existingCase.primaryComplainant) {
+          recipient = existingCase.primaryComplainant.fullName;
+        } else {
+          recipient = null;
+        }
+      }
+
+      let recipientAddress = letterType.defaultRecipientAddress;
+      if (recipientAddress === "{primaryComplainantAddress}") {
+        if (existingCase.primaryComplainant?.address) {
+          const { streetAddress, streetAddress2, city, state, zipCode } =
+            existingCase.primaryComplainant.address;
+          recipientAddress = `${streetAddress}\n${
+            streetAddress2 ? `${streetAddress2}\n` : ""
+          }${city}, ${state} ${zipCode}`;
+        } else {
+          recipientAddress = null;
+        }
+      }
+
       return await models.letter.create(
         {
           caseId,
           typeId: letterType.id,
           finalPdfFilename: filename,
-          recipient: letterType.defaultRecipient,
-          recipientAddress: letterType.defaultRecipientAddress,
+          recipient,
+          recipientAddress,
           sender: letterType.defaultSender
             ? `${letterType.defaultSender.name}\n${letterType.defaultSender.title}\n${letterType.defaultSender.phone}`
             : null
@@ -128,6 +150,19 @@ const getCase = async caseId => {
       {
         model: models.caseStatus,
         as: "status"
+      },
+      {
+        model: models.civilian,
+        as: "complainantCivilians",
+        include: ["address"]
+      },
+      {
+        model: models.case_officer,
+        as: "complainantOfficers"
+      },
+      {
+        model: models.caseInmate,
+        as: "complainantInmates"
       }
     ]
   });
