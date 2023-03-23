@@ -134,12 +134,12 @@ describe("Accused", function () {
     render(
       <Provider store={store}>
         <Router>
-        <Accused accusedOfficers={accusedOfficers} />
+          <Accused accusedOfficers={accusedOfficers} />
         </Router>
       </Provider>
     );
 
     userEvent.click(screen.getByText("+ Add Accused"));
-    expect(await screen.getByText("ROLE ON CASE")).toBeInTheDocument;
+    expect(await screen.findByTestId("editDialogTitle")).toBeInTheDocument;
   });
 });

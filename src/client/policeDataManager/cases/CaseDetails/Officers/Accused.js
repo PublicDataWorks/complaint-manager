@@ -74,16 +74,11 @@ const Accused = props => {
 const renderAddAccused = (dispatch, caseDetails) => {
   return (
     <Fragment>
-      {/* <AddAccusedMenu
+      <ComplainantWitnessMenu
         dispatch={dispatch}
-        caseId={caseId}
+        caseDetails={caseDetails}
         civilianType={ACCUSED}
-      /> */}
-          <ComplainantWitnessMenu
-            dispatch={dispatch}
-            caseDetails={caseDetails}
-            civilianType={ACCUSED}
-          />
+      />
     </Fragment>
   );
 };
