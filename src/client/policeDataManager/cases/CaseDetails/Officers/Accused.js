@@ -12,6 +12,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
 import { connect } from "react-redux";
+import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
 const Accused = props => {
   const {
@@ -19,6 +20,7 @@ const Accused = props => {
     accusedOfficers,
     incidentDate,
     caseId,
+    caseDetails,
     isArchived,
     permissions,
     allowAccusedOfficersToBeBlankFeature
@@ -63,20 +65,25 @@ const Accused = props => {
             )}
         {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
           ? null
-          : renderAddAccused(dispatch, caseId, ACCUSED)}
+          : renderAddAccused(dispatch, caseDetails, ACCUSED)}
       </CardContent>
     </DetailsCard>
   );
 };
 
-const renderAddAccused = (dispatch, caseId) => {
+const renderAddAccused = (dispatch, caseDetails) => {
   return (
     <Fragment>
-      <AddAccusedMenu
+      {/* <AddAccusedMenu
         dispatch={dispatch}
         caseId={caseId}
         civilianType={ACCUSED}
-      />
+      /> */}
+          <ComplainantWitnessMenu
+            dispatch={dispatch}
+            caseDetails={caseDetails}
+            civilianType={ACCUSED}
+          />
     </Fragment>
   );
 };

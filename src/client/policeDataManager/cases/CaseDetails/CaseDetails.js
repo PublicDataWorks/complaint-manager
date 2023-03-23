@@ -183,6 +183,7 @@ class CaseDetails extends React.Component {
             />
             <Accused
               caseId={this.props.caseDetails.id}
+              caseDetails={this.props.caseDetails}
               incidentDate={this.props.caseDetails.incidentDate}
               accusedOfficers={this.props.caseDetails.accusedOfficers}
               dispatch={this.props.dispatch}
