@@ -6,7 +6,11 @@ import { Provider } from "react-redux";
 import nock from "nock";
 import createConfiguredStore from "../../createConfiguredStore";
 import InmateDetails from "./InmateDetails";
-import { GET_FACILITIES, WITNESS } from "../../../sharedUtilities/constants";
+import {
+  COMPLAINANT,
+  GET_FACILITIES,
+  WITNESS
+} from "../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
 import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
@@ -71,6 +75,24 @@ describe("Inmate details", () => {
       screen.getByTestId("notesField"),
       "He lived in a pineapple under the sea"
     );
+    userEvent.click(screen.getByText("Create and View"));
+    expect(
+      await screen.findByText("Successfully added Person in Custody to case")
+    );
+    expect(postNock.isDone()).toBeTrue();
+    expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
+  });
+
+  test("should successfully submit and redirect when anonymize checkbox is clicked and one field is entered", async () => {
+    const postNock = nock("http://localhost")
+      .post("/api/cases/1/inmates", {
+        roleOnCase: WITNESS,
+        notFoundInmateId: "A1234567"
+      })
+      .reply(200);
+
+    userEvent.click(screen.getByTestId("isInmateAnonymous"));
+    userEvent.type(screen.getByTestId("inmateIdField"), "A1234567");
     userEvent.click(screen.getByText("Create and View"));
     expect(
       await screen.findByText("Successfully added Person in Custody to case")

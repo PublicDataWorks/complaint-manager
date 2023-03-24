@@ -1,7 +1,12 @@
-import { Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Typography,
+  FormControlLabel
+} from "@material-ui/core";
 import axios from "axios";
 import { push } from "connected-react-router";
-import _ from "lodash";
+import _, { values } from "lodash";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Field, reduxForm } from "redux-form";
@@ -13,6 +18,7 @@ import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import { PrimaryButton } from "../shared/components/StyledButtons";
 import { generateMenuOptions } from "../utilities/generateMenuOptions";
+import PrimaryCheckBox from "../shared/components/PrimaryCheckBox";
 
 const ManuallyEnterInmateForm = props => {
   const [submitting, setSubmitting] = useState(false);
@@ -47,6 +53,13 @@ const ManuallyEnterInmateForm = props => {
           <Typography style={styles.section}>
             Complainant Information
           </Typography>
+          <FormControlLabel
+            data-testid="isInmateAnonymous"
+            key="isAnonymous"
+            label={"Anonymize Person in Custody"}
+            control={<Field name="isAnonymous" component={PrimaryCheckBox} />}
+            disabled={submitting || props.formInvalid}
+          />
           <div
             style={{
               marginTop: "24px",
