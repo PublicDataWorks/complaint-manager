@@ -237,7 +237,76 @@ describe("Generate letter and upload to S3", () => {
     expect(letter).toBeTruthy();
     expect(letter.typeId).toEqual(1);
     expect(letter.recipient).toEqual(inmate.fullName);
-    expect(letter.recipientAddress).toEqual("address\naddress");
+    expect(letter.recipientAddress).toEqual(
+      "Halawa Correctional Facility\naddress\naddress"
+    );
+  });
+
+  test("should set recipient and address by the primary manually added inmate complainant if {primaryComplainant} and {primaryComplainant} address are the defaults", async () => {
+    const facility = await models.facility.create(
+      {
+        abbreviation: "HCF",
+        name: "Halawa Correctional Facility",
+        address: "address\naddress"
+      },
+      { auditUser: "user" }
+    );
+
+    await models.caseInmate.create(
+      new CaseInmate.Builder()
+        .defaultCaseInmate()
+        .withCaseId(c4se.id)
+        .withRoleOnCase(COMPLAINANT)
+        .withFirstName("Bobby")
+        .withLastName("Loblaw")
+        .withFacility("Halawa Correctional Facility")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(1)
+        .withType("EDIT LETTER")
+        .withTemplate("Test letter template editable")
+        .withEditableTemplate("HTML goes here")
+        .withDefaultSender(signer)
+        .withHasEditPage(true)
+        .withDefaultRecipient("{primaryComplainant}")
+        .withDefaultRecipientAddress("{primaryComplainantAddress}")
+        .build(),
+      { auditUser: "test user" }
+    );
+
+    request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer token"
+      },
+      body: {
+        type: "EDIT LETTER"
+      },
+      params: { caseId: c4se.id },
+      nickname: "Barbra Matrix",
+      permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
+    });
+
+    await generateLetterAndUploadToS3(request, response, next);
+
+    const finalPdfFilename = constructFilename(c4se, "TEST LETTER");
+    const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
+    const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
+
+    const letter = await models.letter.findByPk(response._getData().id);
+
+    expect(response.statusCode).toEqual(200);
+    expect(letter).toBeTruthy();
+    expect(letter.typeId).toEqual(1);
+    expect(letter.recipient).toEqual("Bobby Loblaw");
+    expect(letter.recipientAddress).toEqual(
+      `${facility.name}\n${facility.address}`
+    );
   });
 
   test("should set recipient and address by the primary civilian complainant if {primaryComplainant} and {primaryComplainant} address are the defaults", async () => {

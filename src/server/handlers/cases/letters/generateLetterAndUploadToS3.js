@@ -65,8 +65,17 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
       let recipientAddress = letterType.defaultRecipientAddress;
       if (recipientAddress === "{primaryComplainantAddress}") {
         if (existingCase.primaryComplainant?.inmate?.facilityDetails?.address) {
-          recipientAddress =
-            existingCase.primaryComplainant?.inmate?.facilityDetails?.address;
+          recipientAddress = `${existingCase.primaryComplainant?.inmate?.facilityDetails?.name}\n${existingCase.primaryComplainant?.inmate?.facilityDetails?.address}`;
+        } else if (existingCase?.primaryComplainant?.facility) {
+          const facility = await models.facility.findOne({
+            where: { name: existingCase.primaryComplainant.facility },
+            attributes: ["address"]
+          });
+          if (facility?.address) {
+            recipientAddress = `${existingCase.primaryComplainant.facility}\n${facility.address}`;
+          } else {
+            recipientAddress = null;
+          }
         } else if (existingCase.primaryComplainant?.address) {
           const { streetAddress, streetAddress2, city, state, zipCode } =
             existingCase.primaryComplainant.address;
