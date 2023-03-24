@@ -51,7 +51,7 @@ export const retrieveSignatureImageBySigner = async sender => {
     attributes: ["signatureFile"]
   });
 
-  return signer
+  return signer?.signatureFile && signer?.signatureFile !== "undefined"
     ? await retrieveSignatureImage(signer.signatureFile)
     : "<p><br></p>";
 };
