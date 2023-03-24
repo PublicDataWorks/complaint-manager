@@ -4,6 +4,7 @@ import _ from "lodash";
 import Case from "../../../../sharedTestHelpers/case";
 import {
   ADDRESSABLE_TYPE,
+  COMPLAINANT,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
@@ -14,6 +15,8 @@ import LetterType from "../../../../sharedTestHelpers/letterType";
 import Signer from "../../../../sharedTestHelpers/signer";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import Address from "../../../../sharedTestHelpers/Address";
+import Inmate from "../../../../sharedTestHelpers/Inmate";
+import CaseInmate from "../../../../sharedTestHelpers/CaseInmate";
 
 jest.mock("../referralLetters/sharedLetterUtilities/uploadLetterToS3", () =>
   jest.fn()
@@ -169,7 +172,75 @@ describe("Generate letter and upload to S3", () => {
     expect(letter.finalPdfFilename).toMatch(regEx);
   });
 
-  test("should set recipient and address by the primary complainant if {primaryComplainant} and {primaryComplainant} address are the defaults", async () => {
+  test("should set recipient and address by the primary inmate complainant if {primaryComplainant} and {primaryComplainant} address are the defaults", async () => {
+    const facility = await models.facility.create(
+      {
+        abbreviation: "HCF",
+        name: "Halawa Correctional Facility",
+        address: "address\naddress"
+      },
+      { auditUser: "user" }
+    );
+
+    const inmate = await models.inmate.create(
+      new Inmate.Builder().defaultInmate().withFacilityId(facility.id).build(),
+      { auditUser: "user" }
+    );
+
+    await models.caseInmate.create(
+      new CaseInmate.Builder()
+        .defaultCaseInmate()
+        .withCaseId(c4se.id)
+        .withInmateId(inmate.inmateId)
+        .withRoleOnCase(COMPLAINANT)
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withId(1)
+        .withType("EDIT LETTER")
+        .withTemplate("Test letter template editable")
+        .withEditableTemplate("HTML goes here")
+        .withDefaultSender(signer)
+        .withHasEditPage(true)
+        .withDefaultRecipient("{primaryComplainant}")
+        .withDefaultRecipientAddress("{primaryComplainantAddress}")
+        .build(),
+      { auditUser: "test user" }
+    );
+
+    request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer token"
+      },
+      body: {
+        type: "EDIT LETTER"
+      },
+      params: { caseId: c4se.id },
+      nickname: "Barbra Matrix",
+      permissions: [`${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES}`]
+    });
+
+    await generateLetterAndUploadToS3(request, response, next);
+
+    const finalPdfFilename = constructFilename(c4se, "TEST LETTER");
+    const pdfName = finalPdfFilename.substring(0, finalPdfFilename.length - 4);
+    const regEx = new RegExp("(?:" + pdfName + ")[_][0-9]*.(?:.pdf)");
+
+    const letter = await models.letter.findByPk(response._getData().id);
+
+    expect(response.statusCode).toEqual(200);
+    expect(letter).toBeTruthy();
+    expect(letter.typeId).toEqual(1);
+    expect(letter.recipient).toEqual(inmate.fullName);
+    expect(letter.recipientAddress).toEqual("address\naddress");
+  });
+
+  test("should set recipient and address by the primary civilian complainant if {primaryComplainant} and {primaryComplainant} address are the defaults", async () => {
     const civilian = await models.civilian.create(
       new Civilian.Builder().defaultCivilian().withCaseId(c4se.id).build(),
       { auditUser: "user" }

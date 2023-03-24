@@ -140,6 +140,14 @@ export default class Case {
     return this._model.complainantCivilians;
   }
 
+  get complainantInmates() {
+    return this._model.complainantInmates;
+  }
+
+  get witnessInmates() {
+    return this._model.witnessInmates;
+  }
+
   get witnessOfficers() {
     return this._model.witnessOfficers;
   }

@@ -54,7 +54,9 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
       let recipient = letterType.defaultRecipient;
       if (recipient === "{primaryComplainant}") {
         if (existingCase.primaryComplainant) {
-          recipient = existingCase.primaryComplainant.fullName;
+          recipient = existingCase.primaryComplainant.inmate
+            ? existingCase.primaryComplainant.inmate.fullName
+            : existingCase.primaryComplainant.fullName;
         } else {
           recipient = null;
         }
@@ -62,7 +64,10 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
 
       let recipientAddress = letterType.defaultRecipientAddress;
       if (recipientAddress === "{primaryComplainantAddress}") {
-        if (existingCase.primaryComplainant?.address) {
+        if (existingCase.primaryComplainant?.inmate?.facilityDetails?.address) {
+          recipientAddress =
+            existingCase.primaryComplainant?.inmate?.facilityDetails?.address;
+        } else if (existingCase.primaryComplainant?.address) {
           const { streetAddress, streetAddress2, city, state, zipCode } =
             existingCase.primaryComplainant.address;
           recipientAddress = `${streetAddress}\n${
@@ -162,7 +167,14 @@ const getCase = async caseId => {
       },
       {
         model: models.caseInmate,
-        as: "complainantInmates"
+        as: "complainantInmates",
+        include: [
+          {
+            model: models.inmate,
+            as: "inmate",
+            include: ["facilityDetails"]
+          }
+        ]
       }
     ]
   });
