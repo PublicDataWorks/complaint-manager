@@ -1,5 +1,4 @@
 import { createTestCaseWithoutCivilian } from "../../../testHelpers/modelMothers";
-import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -9,7 +8,6 @@ import {
 import request from "supertest";
 import app from "../../../server";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import models from "../../../policeDataManager/models";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock(

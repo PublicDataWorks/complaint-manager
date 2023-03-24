@@ -14,6 +14,7 @@ import models from "../../../policeDataManager/models/index";
 import Officer from "../../../../sharedTestHelpers/Officer";
 import Signer from "../../../../sharedTestHelpers/signer";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
+import LetterType from "../../../../sharedTestHelpers/letterType";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
@@ -26,13 +27,24 @@ describe("changeStatus", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
-    await models.signers.create(
+    const signer = await models.signers.create(
       new Signer.Builder()
         .defaultSigner()
         .withPhone("555-555-5555")
         .withName("bob")
         .withNickname("someone")
         .withTitle("title")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.letter_types.create(
+      new LetterType.Builder()
+        .defaultLetterType()
+        .withType("REFERRAL")
+        .withDefaultRecipient("recipe")
+        .withDefaultRecipientAddress("nt")
+        .withDefaultSender(signer)
         .build(),
       { auditUser: "user" }
     );
@@ -122,6 +134,8 @@ describe("changeStatus", () => {
     });
     expect(letterCreated).not.toBeNull();
     expect(letterCreated.sender).not.toBeNull();
+    expect(letterCreated.recipient).toEqual("recipe");
+    expect(letterCreated.recipientAddress).toEqual("nt");
 
     await initialCase.reload();
     expect(initialCase.statusId).toEqual(

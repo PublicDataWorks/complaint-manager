@@ -1,4 +1,3 @@
-const constants = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/referralLetterDefaults`);
 import {
   ACCUSED,
   USER_PERMISSIONS
@@ -8,9 +7,6 @@ import { isEmpty } from "lodash";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import Case from "../../../policeDataManager/payloadObjects/Case";
-const {
-  signatureKeys
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/content.json`);
 
 const { CASE_STATUS } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -128,19 +124,25 @@ const createReferralLetterAndLetterOfficers = async (
   nickname,
   transaction
 ) => {
-  const { RECIPIENT, RECIPIENT_ADDRESS, SENDER, SENDER_NAME } = constants || {};
-  const currentSender = await models.signers.findOne({
+  const referralLetterType = await models.letter_types.findOne({
+    attributes: ["defaultRecipient", "defaultRecipientAddress"],
+    where: { type: "REFERRAL" },
+    include: ["defaultSender"]
+  });
+
+  let currentSender = await models.signers.findOne({
     where: { nickname }
   });
+  if (!currentSender) {
+    currentSender = referralLetterType.defaultSender;
+  }
 
   await models.referral_letter.create(
     {
       caseId: caseToUpdate.id,
-      recipient: RECIPIENT,
-      recipientAddress: RECIPIENT_ADDRESS,
-      sender: currentSender
-        ? `${currentSender.name}\n${currentSender.title}\n${currentSender.phone}`
-        : SENDER
+      recipient: referralLetterType.defaultRecipient,
+      recipientAddress: referralLetterType.defaultRecipientAddress,
+      sender: `${currentSender.name}\n${currentSender.title}\n${currentSender.phone}`
     },
     { auditUser: nickname, transaction }
   );
