@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.56.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.55.1...v3.56.0) (2023-03-23)
+
+
+### Features
+
+* adds the ability to add a person in custody as the complainant on a new case ([6e4c62c](https://github.com/PublicDataWorks/complaint-manager/commit/6e4c62ce6550ced33152ad749ab8ee185f424c71))
+* Andrew [[#246](https://www.pivotaltracker.com/story/show/246)] swaps in dropdown for radio buttons on create case dialog when the number of complainant types is greater than 4 ([0f749fd](https://github.com/PublicDataWorks/complaint-manager/commit/0f749fdbf822ebb9f43cc748b4a079b929a87bfa))
+* Andrew [[#25](https://www.pivotaltracker.com/story/show/25)] adds person type selection to the add complainant/witness dialog when a feature flag is turned on ([d5d5a4b](https://github.com/PublicDataWorks/complaint-manager/commit/d5d5a4b2ea0f331f2150a4f95611a43bbc645eb8))
+* Andrew [[#257](https://www.pivotaltracker.com/story/show/257)] adds default recipients to letter types and uses them to preset the recipient for the generated letters ([b49c398](https://github.com/PublicDataWorks/complaint-manager/commit/b49c3982f278e9f852481bef2f14c4c38b46b54d))
+* Andrew/Jean [[#239](https://www.pivotaltracker.com/story/show/239)] Added button to change the person assigned to a given case on the Case Details page ([f6a08a9](https://github.com/PublicDataWorks/complaint-manager/commit/f6a08a922ccac31f54296563749482c7075a2a2b))
+* Claire/Andrew [[#236](https://www.pivotaltracker.com/story/show/236)] adds ability to manually add a person in custody ([005bdee](https://github.com/PublicDataWorks/complaint-manager/commit/005bdee847fbf741c86ca829467a2b2acb78088a))
+* Isabel/Syamala/Jean [[#255](https://www.pivotaltracker.com/story/show/255)] Added delete functionality for inmates attatched to a case ([2e9027b](https://github.com/PublicDataWorks/complaint-manager/commit/2e9027b892276eff743b005cf8206605e1ca8716))
+* Jean [[#238](https://www.pivotaltracker.com/story/show/238)] Users can change the complaint type of cases form the case details page ([1199746](https://github.com/PublicDataWorks/complaint-manager/commit/1199746ed9b44f8c5d1f3ff6238b32a605846e55))
+* Maria/Andrew [[#232](https://www.pivotaltracker.com/story/show/232)] generated a letter preview for arbitrary letter type ([1dbeac9](https://github.com/PublicDataWorks/complaint-manager/commit/1dbeac90fdc45b7e9679f7201f99ee056fb34102))
+* Maria/Syamala/Claire [[#231](https://www.pivotaltracker.com/story/show/231)] add button that can generate any letter type on the case details page ([d3e3878](https://github.com/PublicDataWorks/complaint-manager/commit/d3e387888013f1c5e8336c93a3f5c6ecf2b2b7f1))
+
+
+### Bug Fixes
+
+* Andrew [[#250](https://www.pivotaltracker.com/story/show/250)] removes requirement for title, race/ethnicity, and gender identity from add civilian dialog ([7f4e941](https://github.com/PublicDataWorks/complaint-manager/commit/7f4e9413fb0a924c29acd29db33f3c355d9c5d76))
+* Maria/Andrew/Ylia [[#232](https://www.pivotaltracker.com/story/show/232)] add conditional to direct to path if letter is editable ([2d0e786](https://github.com/PublicDataWorks/complaint-manager/commit/2d0e786b9baf67ec5a5bc1d797458b58c2e0d236))
+
 ### [3.55.1](https://github.com/PublicDataWorks/complaint-manager/compare/v3.55.0...v3.55.1) (2022-12-21)
 
 ## [3.55.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.54.1...v3.55.0) (2022-12-21)

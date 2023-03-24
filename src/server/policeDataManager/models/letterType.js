@@ -29,6 +29,14 @@ module.exports = (sequelize, DataTypes) => {
       field: "has_edit_page",
       allowNull: true
     },
+    defaultRecipient: {
+      type: DataTypes.STRING,
+      field: "default_recipient"
+    },
+    defaultRecipientAddress: {
+      type: DataTypes.STRING,
+      field: "default_recipient_address"
+    },
     createdAt: {
       type: DataTypes.DATE,
       field: "created_at",

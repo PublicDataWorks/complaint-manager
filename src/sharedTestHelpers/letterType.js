@@ -12,6 +12,8 @@ class LetterType {
     this.defaultSenderId = build.defaultSenderId
       ? build.defaultSenderId
       : build.defaultSender.id;
+    this.defaultRecipient = build.defaultRecipient;
+    this.defaultRecipientAddress = build.defaultRecipientAddress;
   }
 
   //TODO: Builders are not usually part of the class that they're building.  The class is usually a domain object used in the app, not just tests.  Should this be refactored?
@@ -68,6 +70,16 @@ class LetterType {
       withField(field) {
         this.fields = this.fields || [];
         this.fields.push(field);
+        return this;
+      }
+
+      withDefaultRecipient(defaultRecipient) {
+        this.defaultRecipient = defaultRecipient;
+        return this;
+      }
+
+      withDefaultRecipientAddress(defaultRecipientAddress) {
+        this.defaultRecipientAddress = defaultRecipientAddress;
         return this;
       }
 

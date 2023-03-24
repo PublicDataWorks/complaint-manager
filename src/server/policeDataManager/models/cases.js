@@ -45,7 +45,8 @@ module.exports = (sequelize, DataTypes) => {
             sortBy(
               [
                 ...(this.complainantCivilians || []),
-                ...(this.complainantOfficers || [])
+                ...(this.complainantOfficers || []),
+                ...(this.complainantInmates || [])
               ],
               "createdAt"
             )

@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      address: {
+        type: DataTypes.STRING
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE,
