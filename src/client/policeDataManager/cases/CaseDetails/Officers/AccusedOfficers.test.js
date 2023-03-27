@@ -112,34 +112,4 @@ describe("Accused", function () {
     expect(wrapper.text()).toContain("+ Add Accused");
     expect(wrapper.text()).toContain("Manage");
   });
-
-  test("should render complainantwitnessmenu when click add accused button", async () => {
-    const store = createConfiguredStore();
-    store.dispatch({
-      type: "AUTH_SUCCESS",
-      userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
-    });
-    dispatchSpy = jest.spyOn(store, "dispatch");
-    const anOfficer = new Officer.Builder()
-      .defaultOfficer()
-      .withFullName("Jerry Springfield")
-      .build();
-    const accusedOfficers = [
-      new CaseOfficer.Builder()
-        .defaultCaseOfficer()
-        .withOfficerAttributes(anOfficer)
-        .build()
-    ];
-
-    render(
-      <Provider store={store}>
-        <Router>
-          <Accused accusedOfficers={accusedOfficers} />
-        </Router>
-      </Provider>
-    );
-
-    userEvent.click(screen.getByText("+ Add Accused"));
-    expect(await screen.findByTestId("editDialogTitle")).toBeInTheDocument;
-  });
 });

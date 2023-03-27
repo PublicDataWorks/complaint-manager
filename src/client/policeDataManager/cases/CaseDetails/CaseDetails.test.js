@@ -42,6 +42,10 @@ import { userTimezone } from "../../../common/helpers/userTimezone";
 
 require("../../testUtilities/MockMutationObserver");
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 jest.mock("../../../ScrollToTop", () => ({
   scrollToTop: jest.fn(() => "MOCK_SCROLL_TO_TOP")
 }));
@@ -295,6 +299,46 @@ describe("Case Details Component", () => {
         })
       );
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
+    });
+
+    //we want to mock two situations, where isEmployee is either true of false.
+    //want to have different dispatches as a result.
+    // need to give the case either option (actually pass)
+    //question: how to manually pass isEmployee to the component/case?
+    //with complaint type????? need two different cases then??
+
+    describe("add accused", () => {
+      let type, isEmployee, addButton;
+
+      beforeEach(() => {
+        type = Object.values(PERSON_TYPE).find(pType => pType.subTypes?.length);
+        isEmployee = type.isEmployee;
+
+        store.dispatch({
+          type: GET_FEATURES_SUCCEEDED,
+          features: { choosePersonTypeInAddDialog: true }
+        });
+
+        addButton = isEmployee
+          ? caseDetails.find('button[data-testid="AddAccusedMenu"]')
+          : caseDetails
+              .find('button[data-testid="addComplainantWitness"]')
+              .at(2);
+
+        addButton.simulate("click");
+      });
+
+      test("Should open openCivilianDialog when isEmployee is false and add accused button is clicked (prison oversite)", () => {
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          openCivilianDialog("Add Person to Case", "Create", createCivilian)
+        );
+      });
+      //todo: need to test this -> need to render app in noipm mode(when isemployee is true)
+      test("Should show menu options when isEmployee is true and add accused button is clicked (police oversite)", () => {
+        expect(caseDetails.find("[data-testid='addAccusedMenu']")).toHaveLength(
+          1
+        );
+      });
     });
   });
 });

@@ -14,6 +14,10 @@ import AddAccusedMenu from "./AddAccusedMenu";
 import { connect } from "react-redux";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
+const {
+  PERSON_TYPE
+} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+
 const Accused = props => {
   const {
     dispatch,
@@ -65,20 +69,30 @@ const Accused = props => {
             )}
         {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
           ? null
-          : renderAddAccused(dispatch, caseDetails, ACCUSED)}
+          : renderAddAccused(dispatch, caseDetails, caseId)}
       </CardContent>
     </DetailsCard>
   );
 };
 
-const renderAddAccused = (dispatch, caseDetails) => {
+const renderAddAccused = (dispatch, caseDetails, caseId) => {
+  //If isEmployee is true, return police oversite menu options.
+  //If false, return prison oversite menu options.
   return (
     <Fragment>
-      <ComplainantWitnessMenu
-        dispatch={dispatch}
-        caseDetails={caseDetails}
-        civilianType={ACCUSED}
-      />
+      {Object.values(PERSON_TYPE).find(type => type.isEmployee) ? (
+        <AddAccusedMenu
+          dispatch={dispatch}
+          caseId={caseId}
+          civilianType={ACCUSED}
+        />
+      ) : (
+        <ComplainantWitnessMenu
+          dispatch={dispatch}
+          caseDetails={caseDetails}
+          civilianType={ACCUSED}
+        />
+      )}
     </Fragment>
   );
 };
