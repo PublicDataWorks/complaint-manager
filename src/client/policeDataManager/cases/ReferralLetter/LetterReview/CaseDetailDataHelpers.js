@@ -40,7 +40,7 @@ export const getIncidentInfoData = (caseDetail, organization) => {
 
 const fullNameIsAnonymous = complainantOrWitness =>
   complainantOrWitness.isAnonymous
-    ? `(AC) ${complainantOrWitness.fullName}`
+    ? `(ANON) ${complainantOrWitness.fullName}`
     : complainantOrWitness.fullName;
 
 export const mapOfficer = (officer, pd) => {

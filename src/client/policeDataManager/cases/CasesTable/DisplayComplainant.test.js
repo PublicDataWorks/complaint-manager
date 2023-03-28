@@ -31,7 +31,7 @@ test("displays the complainant when complainant is civilian AND anonymous", () =
 
   const wrapper = mount(<DisplayComplainant complainant={civilian} />);
 
-  expect(wrapper.text()).toEqual("(AC) " + firstName + " " + lastName);
+  expect(wrapper.text()).toEqual("(ANON) " + firstName + " " + lastName);
 });
 
 test("displays complainant if the complainant is an officer", () => {
@@ -52,7 +52,7 @@ test("displays complainant if the complainant is an officer", () => {
 
 test("displays complainant if the complainant is an officer AND anonymous", () => {
   const officerFullName = "TEST_OFFICER_COMPLAINANT_NAME";
-  const expectedDisplayName = "(AC) Officer " + officerFullName;
+  const expectedDisplayName = "(ANON) Officer " + officerFullName;
 
   const complainantOfficer = {
     fullName: officerFullName,

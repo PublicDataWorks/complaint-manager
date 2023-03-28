@@ -309,6 +309,48 @@ describe("Case Details Component", () => {
       caseDetails.update();
 
       const addButton = caseDetails
+        .find('button[data-testid="addComplainantWitness"]')
+        .at(2);
+
+      addButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openCivilianDialog("Add Person to Case", "Create", createCivilian)
+      );
+    });
+
+    test("Should show menu options when allowAllTypesToBeAccused is false and add accused button is clicked (police oversite)", () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: {
+          choosePersonTypeInAddDialog: true,
+          allowAllTypesToBeAccused: false
+        }
+      });
+
+      caseDetails.update();
+
+      const addAccusedMenuButton = caseDetails
+        .find('[data-testid="addAccusedMenu"]')
+        .first();
+
+      expect(addAccusedMenuButton.exists()).toBeTruthy();
+    });
+  });
+
+  describe("add accused", () => {
+    test("Should open openCivilianDialog when allowAllTypesToBeAccused is true and add accused button is clicked (prison oversite)", () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: {
+          choosePersonTypeInAddDialog: true,
+          allowAllTypesToBeAccused: true
+        }
+      });
+
+      caseDetails.update();
+
+      const addButton = caseDetails
         .find('button[data-testid="addPersonOnCase"]')
         .at(2);
 

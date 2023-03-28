@@ -226,6 +226,7 @@ export const SEARCH_CASES_FORM_NAME = "SearchCasesForm";
 export const REASSIGN_CASE_FORM_NAME = "ReassignCaseDialogForm";
 export const CHANGE_COMPLAINT_TYPE_FORM_NAME = "ChangeComplantTypeDialogForm";
 export const MANUALLY_ENTER_INMATE_FORM = "ManuallyEnterInputForm";
+export const SELECTED_INMATE_FORM = "SelectedInmateForm";
 
 // ----------------------------------------
 //          Auth0 Scopes / Permissions
@@ -270,6 +271,9 @@ export const OFFICER_SELECTED = "OFFICER_SELECTED";
 export const CASE_OFFICER_SELECTED = "CASE_OFFICER_SELECTED";
 export const UNKNOWN_OFFICER_SELECTED = "UNKNOWN_OFFICER_SELECTED";
 export const CLEAR_SELECTED_OFFICER = "CLEAR_SELECTED_OFFICER";
+export const CLEAR_SELECTED_INMATE = "CLEAR_SELECTED_INMATE";
+export const CLEAR_SELECTED_INMATE_SUCCEEDED =
+  "CLEAR_SELECTED_INMATE_SUCCEEDED";
 export const ADD_CASE_EMPLOYEE_TYPE = "ADD_CASE_EMPLOYEE_TYPE";
 export const CLEAR_CASE_EMPLOYEE_TYPE = "CLEAR_CASE_EMPLOYEE_TYPE";
 export const UNKNOWN_OFFICER_NAME = "Unknown Officer";

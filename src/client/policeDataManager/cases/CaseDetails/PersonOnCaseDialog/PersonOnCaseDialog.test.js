@@ -445,6 +445,46 @@ describe("complainant/witness dialog", () => {
       expect(radioButtonGroup.find("label").at(2)).toHaveLength(0);
     });
 
+    test("should display radio button of role on case for witness, complainant, and accused (when allowAllTypesToBeAccused is true)", () => {
+      const radioButtonGroup = complainantWitnessDialog.find(
+        "[data-testid='roleOnCaseRadioGroup']"
+      );
+      expect(radioButtonGroup.find("label").at(0).text()).toEqual(
+        "Complainant"
+      );
+      expect(radioButtonGroup.find("label").at(1).text()).toEqual("Witness");
+      expect(radioButtonGroup.find("label").at(2).text()).toEqual("Accused");
+    });
+
+    test("should not display radio button of role on case for accused (when allowAllTypesToBeAccused is false)", () => {
+      const otherStore = createConfiguredStore();
+
+      otherStore.dispatch(
+        openCivilianDialog("Test Title", "Test Submit Text", submitAction)
+      );
+
+      otherStore.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: {
+          allowAllTypesToBeAccused: false
+        }
+      });
+
+      const otherCivilianDialog = mount(
+        <Provider store={otherStore}>
+          <ComplainantWitnessDialog />
+        </Provider>
+      );
+
+      otherCivilianDialog.update();
+
+      const radioButtonGroup = otherCivilianDialog.find(
+        "[data-testid='roleOnCaseRadioGroup']"
+      );
+
+      expect(radioButtonGroup.find("label").at(2)).toHaveLength(0);
+    });
+
     test("should show radio buttons or dropdown (depending on the number) for choosing a person type", () => {
       expect(
         personOnCaseDialog.find("[data-testid='complainant-type-dropdown']")

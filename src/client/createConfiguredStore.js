@@ -71,6 +71,7 @@ import editLetterTypeReducer from "./policeDataManager/reducers/ui/editLetterTyp
 import complaintTypeReducer from "./policeDataManager/reducers/ui/complaintTypeReducer";
 import facilitiesReducer from "./policeDataManager/reducers/facilitiesReducer";
 import personTypesReducer from "./policeDataManager/reducers/personTypesReducer";
+import removeInmateReducer from "./policeDataManager/reducers/inmates/removeInmateReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -95,6 +96,7 @@ const rootReducer = combineReducers({
   featureToggles: featureTogglesReducer,
   facilities: facilitiesReducer,
   form: formReducer,
+  inmates: removeInmateReducer,
   notifications: getNotificationsReducer,
   officers: combineReducers({
     addOfficer: addOfficerReducer,

@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import nock from "nock";
 import createConfiguredStore from "../../createConfiguredStore";
-import InmateDetails from "./InmateDetails";
+import ManuallyEnteredInmateDetails from "./ManuallyEnteredInmateDetails";
 import {
   COMPLAINANT,
   GET_FACILITIES,
@@ -14,7 +14,7 @@ import {
 import { push } from "connected-react-router";
 import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
-describe("Inmate details", () => {
+describe("Manually Entered Inmate details", () => {
   let dispatchSpy;
   beforeEach(() => {
     const store = createConfiguredStore();
@@ -26,7 +26,9 @@ describe("Inmate details", () => {
     render(
       <Provider store={store}>
         <Router>
-          <InmateDetails match={{ params: { id: "1", roleOnCase: WITNESS } }} />
+          <ManuallyEnteredInmateDetails
+            match={{ params: { id: "1", roleOnCase: WITNESS } }}
+          />
           <SharedSnackbarContainer />
         </Router>
       </Provider>

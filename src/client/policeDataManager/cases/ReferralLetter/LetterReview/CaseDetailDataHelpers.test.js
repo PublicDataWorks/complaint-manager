@@ -244,7 +244,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            "Civilian Name": "(AC) Civilian Joe",
+            "Civilian Name": "(ANON) Civilian Joe",
             Race: "some race",
             "Gender Identity": "some gender",
             DOB: formattedBirthDate,
@@ -336,7 +336,7 @@ describe("caseDetailDataHelpers", function () {
             Email: "test2@test.com"
           }),
           expect.objectContaining({
-            "Civilian Name": "(AC) Civilian Joe3",
+            "Civilian Name": "(ANON) Civilian Joe3",
             Race: "some race",
             "Gender Identity": "some gender",
             DOB: formattedBirthDate3,
@@ -393,7 +393,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            "Officer Name": "(AC) officer joe",
+            "Officer Name": "(ANON) officer joe",
             ID: "#12345",
             District: "some district"
           })
@@ -470,7 +470,7 @@ describe("caseDetailDataHelpers", function () {
       expect(complainantData).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            "Civilian (GCPD) Name": "(AC) complainant joe",
+            "Civilian (GCPD) Name": "(ANON) complainant joe",
             ID: "#12345",
             District: "some district"
           })
@@ -561,7 +561,7 @@ describe("caseDetailDataHelpers", function () {
             Email: "test@test.com"
           }),
           expect.objectContaining({
-            "Civilian Name": "(AC) Civilian Joe2",
+            "Civilian Name": "(ANON) Civilian Joe2",
             Race: "some race",
             "Gender Identity": "some gender",
             DOB: formattedBirthDate2,
@@ -579,7 +579,7 @@ describe("caseDetailDataHelpers", function () {
             Email: "test3@test.com"
           }),
           expect.objectContaining({
-            "Officer Name": "(AC) officer joe",
+            "Officer Name": "(ANON) officer joe",
             ID: "#12345",
             District: "some district"
           }),
@@ -643,7 +643,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Civilian Name": "(AC) Witness Joe",
+              "Civilian Name": "(ANON) Witness Joe",
               "Cell Phone": "(000) 000-0000",
               "Email Address": "email@email.com"
             })
@@ -684,7 +684,7 @@ describe("caseDetailDataHelpers", function () {
               "Email Address": "email@email.com"
             }),
             expect.objectContaining({
-              "Civilian Name": "(AC) Another Witness",
+              "Civilian Name": "(ANON) Another Witness",
               "Cell Phone": "(111) 111-1111",
               "Email Address": "another@email.com"
             }),
@@ -744,7 +744,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              "Officer Name": "(AC) witness officer joe",
+              "Officer Name": "(ANON) witness officer joe",
               ID: "#12345",
               District: "some district"
             })
@@ -799,7 +799,7 @@ describe("caseDetailDataHelpers", function () {
         expect(witnessData).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              [`Civilian (GCPD) Name`]: "(AC) witness joe",
+              [`Civilian (GCPD) Name`]: "(ANON) witness joe",
               ID: "#12345",
               District: "some district"
             })
@@ -879,12 +879,12 @@ describe("caseDetailDataHelpers", function () {
               "Email Address": "another@email.com"
             }),
             expect.objectContaining({
-              "Civilian Name": "(AC) Final Witness",
+              "Civilian Name": "(ANON) Final Witness",
               "Cell Phone": "(222) 222-2222",
               "Email Address": "final@email.com"
             }),
             expect.objectContaining({
-              "Officer Name": "(AC) witness officer joe",
+              "Officer Name": "(ANON) witness officer joe",
               ID: "#12345",
               District: "some district"
             }),

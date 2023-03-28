@@ -15,6 +15,7 @@ import updateCaseNarrative from "./handlers/cases/updateCaseNarrative";
 import getCaseHistory from "./handlers/cases/getCaseHistory/getCaseHistory";
 import addCaseOfficer from "./handlers/officers/addCaseOfficer/addCaseOfficer";
 import addCaseInmate from "./handlers/inmates/addCaseInmate";
+import editCaseInmate from "./handlers/inmates/editCaseInmate";
 import editCaseOfficer from "./handlers/officers/editCaseOfficer/editCaseOfficer";
 import removeCaseOfficer from "./handlers/officers/removeCaseOfficer/removeCaseOfficer";
 import exportJob from "./handlers/cases/export/exportJob";
@@ -287,6 +288,12 @@ export const API_ROUTES = {
       requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage:
         "Something went wrong and the person in custody was not removed from the case. Please try again."
+    },
+    put: {
+      handler: editCaseInmate,
+      requiredPermission: USER_PERMISSIONS.EDIT_CASE,
+      errorMessage:
+        "Something went wrong and the person in custody was not updated. Please try again."
     }
   },
   "/cases/:caseId/inmates": {

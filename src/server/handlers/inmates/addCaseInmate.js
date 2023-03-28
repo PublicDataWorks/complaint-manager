@@ -64,7 +64,10 @@ const addCaseInmate = asyncMiddleware(async (request, response, next) => {
       transaction
     );
 
-    return createdCaseInmate;
+    return await models.caseInmate.findByPk(createdCaseInmate.id, {
+      transaction,
+      include: ["inmate"]
+    });
   });
 
   response.status(200).send(await caseInmate.toJSON());

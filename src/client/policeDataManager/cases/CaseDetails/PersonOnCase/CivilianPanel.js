@@ -43,7 +43,7 @@ const CivilianPanel = ({
   if (!civilian.fullName) {
     fullName = "Unknown";
   } else if (civilian.isAnonymous) {
-    fullName = `(AC) ${civilian.fullName}`;
+    fullName = `(ANON) ${civilian.fullName}`;
   } else {
     fullName = civilian.fullName;
   }

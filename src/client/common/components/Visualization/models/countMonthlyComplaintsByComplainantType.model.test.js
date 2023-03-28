@@ -43,7 +43,7 @@ describe("CountMonthlyComplaintsByComplainantType model", () => {
             count: 2
           }
         ],
-        AC: [
+        ANON: [
           {
             date: "Jun 19",
             count: 0

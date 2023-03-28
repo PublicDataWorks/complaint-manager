@@ -7,7 +7,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { eachLike, like } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../client/createConfiguredStore";
-import InmateDetails from "../../client/policeDataManager/inmates/InmateDetails";
+import ManuallyEnteredInmateDetails from "../../client/policeDataManager/inmates/ManuallyEnteredInmateDetails";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import { COMPLAINANT } from "../../sharedUtilities/constants";
 
@@ -23,7 +23,7 @@ pactWith(
       axios.defaults.baseURL = provider.mockService.baseUrl;
     });
 
-    describe("Inmate Details Page", () => {
+    describe("Manually Entered Inmate Details Page", () => {
       beforeEach(async () => {
         await provider.addInteraction({
           state: "Facilities exist",
@@ -67,7 +67,7 @@ pactWith(
         render(
           <Provider store={createConfiguredStore()}>
             <Router>
-              <InmateDetails
+              <ManuallyEnteredInmateDetails
                 match={{ params: { id: "1", roleOnCase: COMPLAINANT } }}
               />
               <SharedSnackbarContainer />

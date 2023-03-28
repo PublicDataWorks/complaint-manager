@@ -32,7 +32,7 @@ const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
     ? `Civilian (${pd})`
     : OFFICER_TITLE;
   const fullNameIsAnonymous = caseOfficer.isAnonymous
-    ? `(AC) ${caseOfficer.fullName}`
+    ? `(ANON) ${caseOfficer.fullName}`
     : caseOfficer.fullName;
 
   const knownEmployeePanelDataTest = isCivilianWithinPd

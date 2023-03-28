@@ -9,7 +9,7 @@ import { Typography } from "@material-ui/core";
 import ManuallyEnterInmateForm from "./ManuallyEnterInmateForm";
 import getFacilities from "../cases/thunks/getFacilities";
 
-const InmateDetails = props => {
+const ManuallyEnteredInmateDetails = props => {
   const caseDetailsNotYetLoaded = () => {
     return (
       !props.caseDetails || `${props.caseDetails.id}` !== props.match.params.id
@@ -76,4 +76,4 @@ export default connect(
     caseDetails: state.currentCase.details
   }),
   { getCaseDetails, getFacilities }
-)(InmateDetails);
+)(ManuallyEnteredInmateDetails);

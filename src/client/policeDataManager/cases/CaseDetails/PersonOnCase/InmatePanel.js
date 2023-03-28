@@ -20,6 +20,21 @@ import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators"
 const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
+  const getCaseInmateName = () => {
+    let fullName;
+    if (caseInmate.fullName) {
+      fullName = caseInmate.fullName;
+    } else {
+      fullName = caseInmate.inmate.fullName;
+    }
+
+    if (caseInmate.isAnonymous) {
+      return `(ANON) ${fullName}`;
+    } else {
+      return fullName;
+    }
+  };
+
   return (
     <div>
       <div
@@ -47,7 +62,7 @@ const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
               <StyledInfoDisplay>
                 <OfficerInfoDisplay
                   displayLabel="Person in Custody"
-                  value={caseInmate?.inmate?.fullName ?? caseInmate?.fullName}
+                  value={getCaseInmateName()}
                 />
               </StyledInfoDisplay>
               <StyledInfoDisplay>

@@ -9,9 +9,11 @@ import InmatesSearch from "./InmatesSearch";
 import { COMPLAINANT } from "../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 import { push } from "connected-react-router";
+import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 
 describe("InmatesSearch", () => {
-  let dispatchSpy;
+  let dispatchSpy, store;
+
   beforeEach(async () => {
     nock("http://localhost").get("/api/cases/1").reply(200, {
       id: 1,
@@ -25,8 +27,9 @@ describe("InmatesSearch", () => {
         { id: 2, abbreviation: "CBS", name: "Columbia Broadcast System" }
       ]);
 
-    const store = createConfiguredStore();
+    store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+
     render(
       <Provider store={store}>
         <BrowserRouter>
@@ -72,7 +75,7 @@ describe("InmatesSearch", () => {
     expect(searchNock.isDone()).toBeTrue();
   });
 
-  test("should allow search by facility if facility is selected and clicking Select will submit and redirect to case dashboard", async () => {
+  test("should allow search by facility if facility is selected and clicking Select will submit and redirect to selected inmate details page", async () => {
     const searchNock = nock("http://localhost")
       .get("/api/inmates/search?facility=1&page=1")
       .reply(200, {
@@ -104,12 +107,38 @@ describe("InmatesSearch", () => {
         inmateId: "A0000001",
         roleOnCase: COMPLAINANT
       })
-      .reply(200);
+      .reply(200, {
+        fullName: "Billy",
+        id: 28,
+        inmateId: "A0000001",
+        roleOnCase: "Complainant"
+      });
+
+    store.dispatch(
+      getCaseDetailsSuccess({
+        id: 1,
+        complainantInmates: [
+          {
+            caseId: 1,
+            id: 28,
+            roleOnCase: COMPLAINANT,
+            inmate: { inmateId: "A0000001" }
+          }
+        ]
+      })
+    );
+
     userEvent.click(screen.getByText("SELECT"));
     expect(
       await screen.findByText("Person in Custody Successfully Added to Case")
     ).toBeInTheDocument;
+
+    expect(
+      dispatchSpy.mock.calls.find(
+        call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+      )[0]
+    ).toEqual(push(`/cases/1/inmates/${COMPLAINANT}/28`));
+
     expect(selectNock.isDone()).toBeTrue();
-    expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
   });
 });

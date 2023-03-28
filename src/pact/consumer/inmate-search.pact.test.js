@@ -154,12 +154,15 @@ pactWith(
         expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
 
         userEvent.click(screen.getByText("SELECT"));
-        expect(
-          await screen.findByText(
-            "Person in Custody Successfully Added to Case"
-          )
-        ).toBeInTheDocument;
-        expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
+
+        await new Promise(resolve => {
+          setTimeout(() => {
+            expect(dispatchSpy).toHaveBeenCalledWith(
+              push("/cases/1/inmates/Complainant/1")
+            );
+            resolve();
+          }, 50);
+        });
       });
     });
   }

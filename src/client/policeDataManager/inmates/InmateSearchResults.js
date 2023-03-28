@@ -16,8 +16,9 @@ import { searchCleared } from "../actionCreators/searchActionCreators";
 import { withStyles } from "@material-ui/core/styles";
 import tableStyleGenerator from "../../tableStyles";
 import LinkButton from "../shared/components/LinkButton";
-import { COMPLAINANT } from "../../../sharedUtilities/constants";
+import { COMPLAINANT, WITNESS } from "../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
+import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 
 const FIELDS = [
   { name: "Name", key: ["firstName", "lastName"] },
@@ -74,19 +75,43 @@ export class InmateSearchResults extends Component {
     }
   }
 
-  addInmateToCase(inmate) {
-    return axios
-      .post(`api/cases/${this.props.caseDetails.id}/inmates`, {
-        inmateId: inmate.inmateId,
-        roleOnCase: this.props.roleOnCase
-      })
-      .then(() => {
-        this.props.snackbarSuccess(
-          "Person in Custody Successfully Added to Case"
-        );
-      })
-      .catch(err => {});
-  }
+  addInmateToCase = async inmate => {
+    try {
+      const result = await axios.post(
+        `api/cases/${this.props.caseDetails.id}/inmates`,
+        {
+          inmateId: inmate.inmateId,
+          roleOnCase: this.props.roleOnCase
+        }
+      );
+      if (this.props.roleOnCase === COMPLAINANT) {
+        this.props.getCaseDetailsSuccess({
+          ...this.props.caseDetails,
+          complainantInmates: [
+            ...(this.props.caseDetails.complainantInmates || []),
+            result.data
+          ]
+        });
+      } else if (this.props.roleOnCase === WITNESS) {
+        this.props.getCaseDetailsSuccess({
+          ...this.props.caseDetails,
+          witnessInmates: [
+            ...(this.props.caseDetails.witnessInmates || []),
+            result.data
+          ]
+        });
+      } else {
+        this.props.getCaseDetailsSuccess({
+          ...this.props.caseDetails,
+          accusedInmates: [
+            ...(this.props.caseDetails.accusedInmates || []),
+            result.data
+          ]
+        });
+      }
+      return result.data;
+    } catch (error) {}
+  };
 
   render() {
     return (
@@ -137,9 +162,9 @@ export class InmateSearchResults extends Component {
                       <LinkButton
                         data-testid={`${inmate.inmateId}-select-button`}
                         onClick={() => {
-                          this.addInmateToCase(inmate).then(() => {
+                          this.addInmateToCase(inmate).then(result => {
                             this.props.push(
-                              `/cases/${this.props.caseDetails.id}`
+                              `/cases/${this.props.caseDetails.id}/inmates/${this.props.roleOnCase}/${result.id}`
                             );
                           });
                         }}
@@ -170,6 +195,7 @@ const mapStateToProps = state => {
 
 export default withStyles(styles, { withTheme: true })(
   connect(mapStateToProps, {
+    getCaseDetailsSuccess,
     getSearchResults,
     push,
     searchCleared,
