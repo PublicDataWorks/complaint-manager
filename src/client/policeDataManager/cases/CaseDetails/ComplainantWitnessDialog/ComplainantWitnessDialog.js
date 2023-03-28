@@ -153,12 +153,16 @@ class ComplainantWitnessDialog extends Component {
                 control={<Radio color="primary" />}
                 label={WITNESS}
               />
-              <FormControlLabel
-                style={{ marginRight: "48px" }}
-                value={ACCUSED}
-                control={<Radio color="primary" />}
-                label={ACCUSED}
-              />
+              {this.props.allowAllTypesToBeAccused ? (
+                <FormControlLabel
+                  style={{ marginRight: "48px" }}
+                  value={ACCUSED}
+                  control={<Radio color="primary" />}
+                  label={ACCUSED}
+                />
+              ) : (
+                ""
+              )}
             </Field>
             {this.props.choosePersonTypeInAddDialog ? (
               <PersonTypeSelection
@@ -216,6 +220,7 @@ const mapStateToProps = state => {
     caseId: state.currentCase?.details?.id,
     choosePersonTypeInAddDialog:
       state.featureToggles.choosePersonTypeInAddDialog,
+    allowAllTypesToBeAccused: state.featureToggles.allowAllTypesToBeAccused,
     open: state.ui.civilianDialog.open,
     personType: getSelectedPersonType(
       state,

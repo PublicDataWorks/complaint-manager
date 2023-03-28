@@ -301,40 +301,65 @@ describe("Case Details Component", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
     });
 
-    //we want to mock two situations, where isEmployee is either true of false.
-    //want to have different dispatches as a result.
-    // need to give the case either option (actually pass)
-    //question: how to manually pass isEmployee to the component/case?
-    //with complaint type????? need two different cases then??
-
     describe("add accused", () => {
-      let type, isEmployee, addButton;
+      let type, isEmployee, addButton, otherStore;
 
-      beforeEach(() => {
-        type = Object.values(PERSON_TYPE).find(pType => pType.subTypes?.length);
-        isEmployee = type.isEmployee;
+      test("Should open openCivilianDialog when allowAllTypesToBeAccused is true and add accused button is clicked (prison oversite)", () => {
+        const previousCase = new Case.Builder()
+          .defaultCase()
+          .withId(500)
+          .build();
+        previousCase.status = CASE_STATUS.INITIAL;
+        previousCase.nextStatus = CASE_STATUS.ACTIVE;
+        otherStore = createConfiguredStore();
 
-        store.dispatch({
+        otherStore.dispatch(getCaseDetailsSuccess(previousCase));
+
+        otherStore.dispatch({
           type: GET_FEATURES_SUCCEEDED,
-          features: { choosePersonTypeInAddDialog: true }
+          features: {
+            choosePersonTypeInAddDialog: true,
+            allowAllTypesToBeAccused: true
+          }
         });
 
-        addButton = isEmployee
-          ? caseDetails.find('button[data-testid="AddAccusedMenu"]')
-          : caseDetails
-              .find('button[data-testid="addComplainantWitness"]')
-              .at(2);
+        caseDetails = mount(
+          <Provider store={otherStore}>
+            <Router>
+              <CaseDetails
+                match={{ params: { id: previousCase.id.toString() } }}
+              />
+            </Router>
+          </Provider>
+        );
+
+        addButton = caseDetails
+          .find('button[data-testid="addComplainantWitness"]')
+          .at(2);
 
         addButton.simulate("click");
-      });
 
-      test("Should open openCivilianDialog when isEmployee is false and add accused button is clicked (prison oversite)", () => {
         expect(dispatchSpy).toHaveBeenCalledWith(
           openCivilianDialog("Add Person to Case", "Create", createCivilian)
         );
       });
+
       //todo: need to test this -> need to render app in noipm mode(when isemployee is true)
-      test("Should show menu options when isEmployee is true and add accused button is clicked (police oversite)", () => {
+      test("Should show menu options when allowAllTypesToBeAccused is false and add accused button is clicked (police oversite)", () => {
+        store.dispatch({
+          type: GET_FEATURES_SUCCEEDED,
+          features: {
+            choosePersonTypeInAddDialog: true,
+            allowAllTypesToBeAccused: false
+          }
+        });
+
+        addButton = caseDetails.find('button[data-testid="AddAccusedMenu"]');
+
+        addButton.simulate("click");
+
+        // check dialog doesn't show up / menu works
+
         expect(caseDetails.find("[data-testid='addAccusedMenu']")).toHaveLength(
           1
         );

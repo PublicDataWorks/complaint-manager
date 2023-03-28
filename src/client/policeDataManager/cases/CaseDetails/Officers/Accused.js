@@ -26,8 +26,7 @@ const Accused = props => {
     caseId,
     caseDetails,
     isArchived,
-    permissions,
-    allowAccusedOfficersToBeBlankFeature
+    permissions
   } = props;
   const titleText = "Accused";
 
@@ -69,27 +68,27 @@ const Accused = props => {
             )}
         {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
           ? null
-          : renderAddAccused(dispatch, caseDetails, caseId)}
+          : renderAddAccused(dispatch, caseDetails, caseId, props)}
       </CardContent>
     </DetailsCard>
   );
 };
 
-const renderAddAccused = (dispatch, caseDetails, caseId) => {
+const renderAddAccused = (dispatch, caseDetails, caseId, props) => {
   //If isEmployee is true, return police oversite menu options.
   //If false, return prison oversite menu options.
   return (
     <Fragment>
-      {Object.values(PERSON_TYPE).find(type => type.isEmployee) ? (
-        <AddAccusedMenu
-          dispatch={dispatch}
-          caseId={caseId}
-          civilianType={ACCUSED}
-        />
-      ) : (
+      {props.allowAllTypesToBeAccused ? (
         <ComplainantWitnessMenu
           dispatch={dispatch}
           caseDetails={caseDetails}
+          civilianType={ACCUSED}
+        />
+      ) : (
+        <AddAccusedMenu
+          dispatch={dispatch}
+          caseId={caseId}
           civilianType={ACCUSED}
         />
       )}
@@ -121,6 +120,7 @@ const renderNoOfficers = props => {
 const mapStateToProps = state => ({
   allowAccusedOfficersToBeBlankFeature:
     state.featureToggles.allowAccusedOfficersToBeBlankFeature,
+  allowAllTypesToBeAccused: state.featureToggles.allowAllTypesToBeAccused,
   permissions: state?.users?.current?.userInfo?.permissions
 });
 
