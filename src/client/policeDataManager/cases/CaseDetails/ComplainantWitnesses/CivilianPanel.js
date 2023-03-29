@@ -21,6 +21,7 @@ import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAge
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import { connect } from "react-redux";
+import { getSelectedPersonType } from "../../../globalData/person-type-selectors";
 
 const {
   PERSON_TYPE
@@ -33,7 +34,8 @@ const CivilianPanel = ({
   dispatch,
   isArchived,
   pd,
-  permissions
+  permissions,
+  personType
 }) => {
   const phoneNumber = formatPhoneNumber(civilian.phoneNumber);
   const birthDate = formatDate(civilian.birthDate);
@@ -73,11 +75,7 @@ const CivilianPanel = ({
               <div className={classes.detailsLastRow}>
                 <StyledInfoDisplay>
                   <CivilianInfoDisplay
-                    displayLabel={
-                      civilian.personType && PERSON_TYPE[civilian.personType]
-                        ? PERSON_TYPE[civilian.personType].description
-                        : "Civilian"
-                    }
+                    displayLabel={personType?.description || "Civilian"}
                     value={fullName}
                     isAnonymous={civilian.isAnonymous}
                     testLabel="complainantWitness"
@@ -213,7 +211,8 @@ const CivilianPanel = ({
   );
 };
 
-export default connect(state => ({
+export default connect((state, props) => ({
   pd: state.configs[CONFIGS.PD],
-  permissions: state?.users?.current?.userInfo?.permissions
+  permissions: state?.users?.current?.userInfo?.permissions,
+  personType: getSelectedPersonType(state, props.civilian.personType)
 }))(CivilianPanel);

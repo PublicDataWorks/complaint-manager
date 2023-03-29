@@ -19,7 +19,8 @@ import {
   CIVILIAN_FORM_NAME,
   SHOW_FORM,
   USER_PERMISSIONS,
-  WITNESS
+  WITNESS,
+  GET_PERSON_TYPES
 } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
@@ -27,9 +28,27 @@ import Officer from "../../../../../sharedTestHelpers/Officer";
 import { Provider } from "react-redux";
 import RaceEthnicity from "../../../../../sharedTestHelpers/raceEthnicity";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const payload = [
+  {
+    key: "OFFICER",
+    description: "Officer",
+    employeeDescription: "Officer",
+    isEmployee: true,
+    abbreviation: "O",
+    legend: "Officer (O)",
+    dialogAction: "/redirect",
+    isDefault: false
+  },
+  {
+    key: "OTHER",
+    description: "not an officer",
+    abbreviation: "OTH",
+    legend: "not an officer (OTH)",
+    dialogAction: SHOW_FORM,
+    isDefault: true,
+    subTypes: ["Other1", "Other2", "Other3"]
+  }
+];
 
 jest.mock("redux-form", () => ({
   reducer: { mockReducer: "mockReducerState" },
@@ -79,6 +98,10 @@ describe("Complainants", () => {
       .build();
 
     store = createConfiguredStore();
+    store.dispatch({
+      type: GET_PERSON_TYPES,
+      payload: payload
+    });
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(caseDetails));
   });
@@ -477,9 +500,7 @@ describe("Complainants", () => {
     });
 
     test("should display the person type of a complainant civilian if there is one", () => {
-      let type = Object.keys(PERSON_TYPE).find(
-        key => PERSON_TYPE[key].createDialogAction === SHOW_FORM
-      );
+      let type = "OTHER";
       const civilianComplainant = {
         ...new Civilian.Builder()
           .defaultCivilian()
@@ -508,7 +529,7 @@ describe("Complainants", () => {
         .first();
 
       expect(complainantPanel.text()).toContain("Alpha");
-      expect(complainantPanel.text()).toContain(PERSON_TYPE[type].description);
+      expect(complainantPanel.text()).toContain("not an officer");
     });
 
     describe("Manually Added Inmate Testing", () => {
