@@ -16,6 +16,7 @@ import getFeatureToggles from "./policeDataManager/globalData/thunks/getFeatureT
 import getConfigs from "./policeDataManager/globalData/thunks/getConfigs";
 import { onMessage } from "./onMessage";
 import getNotifications from "./policeDataManager/shared/thunks/getNotifications";
+import getPersonTypes from "./policeDataManager/globalData/thunks/getPersonTypes";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import { isAuthDisabled } from "./isAuthDisabled";
@@ -28,6 +29,7 @@ const App = props => {
 
   useEffect(() => {
     props.getFeatureToggles();
+    props.getPersonTypes();
 
     const accessToken = getAccessToken();
     const auth = new Auth();
@@ -120,6 +122,7 @@ const mapDispatchToProps = {
   getFeatureToggles,
   getConfigs,
   getNotifications,
+  getPersonTypes,
   snackbarError,
   dispatch: arg => dispatch => dispatch(arg)
 };

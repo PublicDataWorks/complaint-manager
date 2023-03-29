@@ -36,6 +36,7 @@ import { renderRadioGroup } from "../../sharedFormComponents/renderFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import CivilianFormFields from "./CivilianFormFields";
 import PersonTypeSelection from "../../CreateCaseDialog/PersonTypeSelection";
+import { getSelectedPersonType } from "../../../globalData/person-type-selectors";
 
 const {
   PERSON_TYPE
@@ -58,14 +59,17 @@ class ComplainantWitnessDialog extends Component {
   submit = (values, dispatch) => {
     if (
       !this.props.personType ||
-      PERSON_TYPE[this.props.personType]?.createDialogAction === SHOW_FORM
+      this.props.personType.dialogAction === SHOW_FORM
     ) {
       this.handleCivilian(values, dispatch);
     } else {
       this.props.push(
-        `/cases/${this.props.caseId}${PERSON_TYPE[
-          this.props.personType
-        ]?.createDialogAction.replace(COMPLAINANT, values.roleOnCase)}`
+        `/cases/${
+          this.props.caseId
+        }${this.props.personType?.dialogAction.replace(
+          COMPLAINANT,
+          values.roleOnCase
+        )}`
       );
     }
   };
@@ -151,6 +155,7 @@ class ComplainantWitnessDialog extends Component {
             </Field>
             {this.props.choosePersonTypeInAddDialog ? (
               <PersonTypeSelection
+                personTypes={this.props.personTypes}
                 selectedType={this.props.personType}
                 subtypeFieldName="personSubType"
                 typeFieldName="personType"
@@ -159,8 +164,7 @@ class ComplainantWitnessDialog extends Component {
               ""
             )}
             {!this.props.personType ||
-            PERSON_TYPE[this.props.personType]?.createDialogAction ===
-              SHOW_FORM ? (
+            this.props.personType?.dialogAction === SHOW_FORM ? (
               <CivilianFormFields />
             ) : (
               ""
@@ -206,7 +210,11 @@ const mapStateToProps = state => {
     choosePersonTypeInAddDialog:
       state.featureToggles.choosePersonTypeInAddDialog,
     open: state.ui.civilianDialog.open,
-    personType: state.form[CIVILIAN_FORM_NAME]?.values?.personType,
+    personType: getSelectedPersonType(
+      state,
+      state.form[CIVILIAN_FORM_NAME]?.values?.personType
+    ),
+    personTypes: state.personTypes,
     submitAction: state.ui.civilianDialog.submitAction,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     title: state.ui.civilianDialog.title

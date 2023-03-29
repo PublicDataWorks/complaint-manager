@@ -71,6 +71,7 @@ import signersReducer from "./policeDataManager/reducers/signersReducer";
 import editLetterTypeReducer from "./policeDataManager/reducers/ui/editLetterTypeReducer";
 import complaintTypeReducer from "./policeDataManager/reducers/ui/complaintTypeReducer";
 import facilitiesReducer from "./policeDataManager/reducers/facilitiesReducer";
+import personTypesReducer from "./policeDataManager/reducers/personTypesReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -100,6 +101,7 @@ const rootReducer = combineReducers({
     addOfficer: addOfficerReducer,
     searchOfficers: searchOfficersReducer
   }),
+  personTypes: personTypesReducer,
   recommendedActions: recommendedActionsReducer,
   referralLetter: referralLetterReducer,
   router: connectRouter(history),

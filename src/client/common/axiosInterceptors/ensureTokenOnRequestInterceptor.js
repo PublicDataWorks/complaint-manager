@@ -2,10 +2,11 @@ import getAccessToken from "../auth/getAccessToken";
 import redirectToAuth from "../auth/redirectToAuth";
 
 const publicAPIs = [
-  "/api/public-data",
-  "features",
   "/api/configs",
-  "/api/visualizations"
+  "/api/person-types",
+  "/api/public-data",
+  "/api/visualizations",
+  "features"
 ];
 
 const ensureTokenOnRequestInterceptor =

@@ -7,10 +7,6 @@ import { NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN } from "../../
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import Dropdown from "../../../common/components/Dropdown";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const PersonTypeSelection = props => {
   return (
     <>
@@ -18,13 +14,13 @@ const PersonTypeSelection = props => {
         name={props.typeFieldName}
         inputProps={{ showLabels: props.showLabels }}
         component={
-          Object.keys(PERSON_TYPE).length >
+          props.personTypes.length >
           NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
             ? ComplainantTypeDropdown
             : ComplainantTypeRadioGroup
         }
       />
-      {PERSON_TYPE[props.selectedType]?.subTypes ? (
+      {props.selectedType?.subTypes ? (
         <>
           <br />
           <Field
@@ -32,12 +28,10 @@ const PersonTypeSelection = props => {
             name={props.subtypeFieldName}
             component={Dropdown}
             style={{ width: "90%", marginBottom: "15px" }}
-            placeholder={`Select a ${
-              PERSON_TYPE[props.selectedType].description
-            } Type`}
+            placeholder={`Select a ${props.selectedType.description} Type`}
             inputProps={{ "data-testid": "personSubtypeDropdown" }}
           >
-            {generateMenuOptions(PERSON_TYPE[props.selectedType].subTypes)}
+            {generateMenuOptions(props.selectedType.subTypes)}
           </Field>
         </>
       ) : (
@@ -49,7 +43,8 @@ const PersonTypeSelection = props => {
 };
 
 PersonTypeSelection.propTypes = {
-  selectedType: PropTypes.string,
+  personTypes: PropTypes.array,
+  selectedType: PropTypes.object,
   showLabels: PropTypes.bool,
   subtypeFieldName: PropTypes.string,
   typeFieldName: PropTypes.string

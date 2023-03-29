@@ -44,7 +44,9 @@ export class CreateCaseActions extends React.Component {
 
   createNewCase = ({ civilian, case: theCase }, redirect) => {
     if (
-      PERSON_TYPE[this.props.complainantType].createDialogAction !== SHOW_FORM
+      this.props.personTypes.find(
+        type => type.key === this.props.complainantType
+      ).dialogAction !== SHOW_FORM
     ) {
       this.props.change("civilian", null);
       civilian = null;
@@ -72,10 +74,16 @@ export class CreateCaseActions extends React.Component {
     if (!complaintType) {
       if (
         // this is all NOIPM specific
-        PERSON_TYPE[theCase.complainantType].employeeDescription === "Officer"
+        this.props.personTypes.find(
+          type => type.key === theCase.complainantType
+        ).employeeDescription === "Officer"
       ) {
         complaintType = RANK_INITIATED;
-      } else if (PERSON_TYPE[theCase.complainantType].isEmployee) {
+      } else if (
+        this.props.personTypes.find(
+          type => type.key === theCase.complainantType
+        ).isEmployee
+      ) {
         complaintType = CIVILIAN_WITHIN_PD_INITIATED;
       } else {
         complaintType = CIVILIAN_INITIATED;
@@ -93,7 +101,8 @@ export class CreateCaseActions extends React.Component {
     const civilianData = civilian.isUnknown
       ? {
           isAnonymous: true,
-          isUnknown: true
+          isUnknown: true,
+          personSubType: civilian.personSubType
         }
       : {
           ...civilian,
@@ -130,8 +139,9 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {PERSON_TYPE[this.props.complainantType]?.createDialogAction ===
-        SHOW_FORM ? (
+        {this.props.personTypes.find(
+          type => type.key === this.props.complainantType
+        )?.dialogAction === SHOW_FORM ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}
@@ -188,11 +198,12 @@ export const ActionsWithTheme = withTheme(CreateCaseActions);
 const selector = formValueSelector(CREATE_CASE_FORM_NAME);
 
 const mapStateToProps = state => ({
+  addressValid: state.ui.addressInput.addressValid,
   civilian: selector(state, "civilian"),
-  sortBy: state.ui.casesTable.sortBy,
-  sortDirection: state.ui.casesTable.sortDirection,
   currentPage: state.cases.working.currentPage,
-  addressValid: state.ui.addressInput.addressValid
+  personTypes: state.personTypes,
+  sortBy: state.ui.casesTable.sortBy,
+  sortDirection: state.ui.casesTable.sortDirection
 });
 
 const mapDispatchToProps = {

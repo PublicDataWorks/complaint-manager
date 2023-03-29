@@ -35,8 +35,7 @@ const ComplainantTypeRadioGroup = props => {
         {...props}
         value={props.input.value}
       >
-        {Object.keys(PERSON_TYPE).reduce((acc, key) => {
-          let type = PERSON_TYPE[key];
+        {props.personTypes.reduce((acc, type) => {
           if (isOfficer(type)) {
             if (officerAdded) {
               return acc;
@@ -53,11 +52,11 @@ const ComplainantTypeRadioGroup = props => {
               )
                 .toLowerCase()
                 .replaceAll(" ", "-")}-radio-button`}
-              key={key}
+              key={type.key}
               label={isOfficer(type) ? "Police Officer" : type.description}
-              value={key}
+              value={type.key}
               control={<Radio color="primary" />}
-              onClick={() => props.input.onChange(key)}
+              onClick={() => props.input.onChange(type.key)}
             />
           );
           return acc;
@@ -75,5 +74,6 @@ const ComplainantTypeRadioGroup = props => {
 };
 
 export default connect(state => ({
-  pd: state.configs[CONFIGS.PD]
+  pd: state.configs[CONFIGS.PD],
+  personTypes: state.personTypes
 }))(ComplainantTypeRadioGroup);

@@ -5,6 +5,7 @@ import React from "react";
 import {
   CIVILIAN_INITIATED,
   DESCENDING,
+  GET_PERSON_TYPES,
   ISO_DATE,
   NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
@@ -24,10 +25,6 @@ import {
   updateSort
 } from "../../actionCreators/casesActionCreators";
 import normalizeAddress from "../../utilities/normalizeAddress";
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
 
@@ -63,9 +60,36 @@ jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
 describe("CreateCaseActions", () => {
   let dispatchSpy, store, dialog, caseDetails;
 
+  const personTypes = [
+    {
+      key: "OFFICER",
+      description: "Officer",
+      employeeDescription: "Officer",
+      isEmployee: true,
+      abbreviation: "O",
+      legend: "Officer (O)",
+      dialogAction: "/redirect",
+      isDefault: false
+    },
+    {
+      key: "OTHER",
+      description: "not an officer",
+      abbreviation: "OTH",
+      legend: "not an officer (OTH)",
+      dialogAction: SHOW_FORM,
+      isDefault: true,
+      subTypes: ["Other1", "Other2", "Other3"]
+    }
+  ];
+
   beforeEach(() => {
     store = createConfiguredStore();
     store.dispatch(updateSort(SORT_CASES_BY.CASE_REFERENCE, DESCENDING));
+
+    store.dispatch({
+      type: GET_PERSON_TYPES,
+      payload: personTypes
+    });
 
     dispatchSpy = jest.spyOn(store, "dispatch");
 
@@ -89,28 +113,17 @@ describe("CreateCaseActions", () => {
       ])
     );
 
-    const showFormType = Object.values(PERSON_TYPE).find(
-      type => type.createDialogAction === SHOW_FORM
+    const showFormType = personTypes.find(
+      type => type.dialogAction === SHOW_FORM
     );
 
-    if (
-      Object.keys(PERSON_TYPE).length >
-      NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-    ) {
-      selectDropdownOption(
-        dialog,
-        `[data-testid="complainant-type-dropdown-autocomplete"]`,
-        showFormType.description
-      );
-    } else {
-      dialog
-        .find(
-          `label[data-testid="${showFormType.description
-            .toLowerCase()
-            .replaceAll(" ", "-")}-radio-button"]`
-        )
-        .simulate("click");
-    }
+    dialog
+      .find(
+        `label[data-testid="${showFormType.description
+          .toLowerCase()
+          .replaceAll(" ", "-")}-radio-button"]`
+      )
+      .simulate("click");
 
     caseDetails = {
       case: {

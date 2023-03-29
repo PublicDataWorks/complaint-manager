@@ -11,14 +11,11 @@ import SharedSnackbarContainer from "../../client/policeDataManager/shared/compo
 import CaseDashboard from "../../client/policeDataManager/cases/CaseDashboard";
 import {
   GET_FEATURES_SUCCEEDED,
+  GET_PERSON_TYPES,
   NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock(
   "../../client/policeDataManager/cases/CaseDetails/ComplainantWitnessDialog/MapServices/MapService",
@@ -146,6 +143,31 @@ pactWith(
           features: { chooseComplaintType: true }
         });
 
+        store.dispatch({
+          type: GET_PERSON_TYPES,
+          payload: [
+            {
+              key: "OFFICER",
+              description: "Officer",
+              employeeDescription: "Officer",
+              isEmployee: true,
+              abbreviation: "O",
+              legend: "Officer (O)",
+              dialogAction: "/redirect",
+              isDefault: false
+            },
+            {
+              key: "OTHER",
+              description: "not an officer",
+              abbreviation: "OTH",
+              legend: "not an officer (OTH)",
+              dialogAction: SHOW_FORM,
+              isDefault: true,
+              subTypes: ["Other1", "Other2", "Other3"]
+            }
+          ]
+        });
+
         render(
           <Provider store={store}>
             <Router>
@@ -166,40 +188,53 @@ pactWith(
           intakeSourceDropdown = await screen.findByTestId("intakeSourceInput");
         });
 
-        const typeWithFormKey = Object.keys(PERSON_TYPE).find(
-          key => PERSON_TYPE[key].createDialogAction === SHOW_FORM
-        );
-        const typeWithForm = PERSON_TYPE[typeWithFormKey];
-
-        if (typeWithForm) {
-          test("Create case with known complainant using form", async () => {
-            await provider.addInteraction({
-              state: "intake sources exist: complaint types exist",
-              uponReceiving: "create case with known civilian complainant",
-              withRequest: {
-                method: "POST",
-                path: "/api/cases",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: {
-                  case: {
-                    complainantType: typeWithFormKey,
-                    firstContactDate: like("2022-11-17"),
-                    intakeSourceId: 1,
-                    complaintType: "Civilian Initiated"
-                  },
-                  civilian: {
-                    firstName: "Jane",
-                    lastName: "Doe",
-                    phoneNumber: "2221231234"
-                  }
-                }
+        const typeWithFormKey = "OTHER";
+        test("Create case with known complainant using form", async () => {
+          await provider.addInteraction({
+            state: "intake sources exist: complaint types exist",
+            uponReceiving: "create case with known civilian complainant",
+            withRequest: {
+              method: "POST",
+              path: "/api/cases",
+              headers: {
+                "Content-Type": "application/json"
               },
-              willRespondWith: {
-                status: 201,
-                body: like({
-                  primaryComplainant: {
+              body: {
+                case: {
+                  complainantType: typeWithFormKey,
+                  firstContactDate: like("2022-11-17"),
+                  intakeSourceId: 1,
+                  complaintType: "Civilian Initiated"
+                },
+                civilian: {
+                  firstName: "Jane",
+                  lastName: "Doe",
+                  phoneNumber: "2221231234"
+                }
+              }
+            },
+            willRespondWith: {
+              status: 201,
+              body: like({
+                primaryComplainant: {
+                  fullName: "Jane Doe",
+                  roleOnCase: "Complainant",
+                  isAnonymous: false,
+                  id: 4127,
+                  firstName: "Jane",
+                  lastName: "Doe",
+                  phoneNumber: "2221231234",
+                  caseId: 4174
+                },
+                caseReferencePrefix: "CC",
+                caseReference: "CC2022-0532",
+                statusId: 1,
+                id: 4174,
+                firstContactDate: "2022-11-17",
+                intakeSourceId: 1,
+                complaintType: "Civilian Initiated",
+                complainantCivilians: [
+                  {
                     fullName: "Jane Doe",
                     roleOnCase: "Complainant",
                     isAnonymous: false,
@@ -208,87 +243,78 @@ pactWith(
                     lastName: "Doe",
                     phoneNumber: "2221231234",
                     caseId: 4174
-                  },
-                  caseReferencePrefix: "CC",
-                  caseReference: "CC2022-0532",
-                  statusId: 1,
-                  id: 4174,
-                  firstContactDate: "2022-11-17",
-                  intakeSourceId: 1,
-                  complaintType: "Civilian Initiated",
-                  complainantCivilians: [
-                    {
-                      fullName: "Jane Doe",
-                      roleOnCase: "Complainant",
-                      isAnonymous: false,
-                      id: 4127,
-                      firstName: "Jane",
-                      lastName: "Doe",
-                      phoneNumber: "2221231234",
-                      caseId: 4174
-                    }
-                  ],
-                  createdBy: "abc@def.ghi",
-                  assignedTo: "abc@def.ghi",
-                  year: 2022,
-                  caseNumber: 532,
-                  status: "Initial",
-                  nextStatus: "Active"
-                })
-              }
-            });
-
-            userEvent.click(intakeSourceDropdown);
-            userEvent.click(await screen.findByText("Facebook"));
-            userEvent.click(screen.getByTestId("complaintTypeDropdown"));
-            userEvent.click(await screen.findByText("Civilian Initiated"));
-
-            const label = typeWithForm.description;
-            if (
-              Object.keys(PERSON_TYPE).length >
-              NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-            ) {
-              userEvent.click(screen.getByTestId("complainant-type-dropdown"));
-              userEvent.click(await screen.findByText(label));
-            } else {
-              userEvent.click(screen.getByLabelText(label));
+                  }
+                ],
+                createdBy: "abc@def.ghi",
+                assignedTo: "abc@def.ghi",
+                year: 2022,
+                caseNumber: 532,
+                status: "Initial",
+                nextStatus: "Active"
+              })
             }
-
-            userEvent.type(screen.getByTestId("firstNameInput"), "Jane");
-            userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
-            userEvent.type(
-              screen.getByTestId("phoneNumberInput"),
-              "2221231234"
-            );
-            userEvent.click(screen.getByTestId("createAndView"));
-            expect(await screen.findByText("Case was successfully created"))
-              .toBeInTheDocument;
           });
 
-          test("Create case with unknown civilian complainant", async () => {
-            await provider.addInteraction({
-              state: "intake sources exist: complaint types exist",
-              uponReceiving: "create case with unknown civilian complainant",
-              withRequest: {
-                method: "POST",
-                path: "/api/cases",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: {
-                  case: {
-                    complainantType: typeWithFormKey,
-                    firstContactDate: like("2022-11-18"),
-                    intakeSourceId: 1,
-                    complaintType: "Civilian Initiated"
-                  },
-                  civilian: { isAnonymous: true, isUnknown: true }
-                }
+          userEvent.click(intakeSourceDropdown);
+          userEvent.click(await screen.findByText("Facebook"));
+          userEvent.click(screen.getByTestId("complaintTypeDropdown"));
+          userEvent.click(await screen.findByText("Civilian Initiated"));
+
+          const label = "not an officer";
+
+          userEvent.click(screen.getByLabelText(label));
+
+          userEvent.type(screen.getByTestId("firstNameInput"), "Jane");
+          userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
+          userEvent.type(screen.getByTestId("phoneNumberInput"), "2221231234");
+          userEvent.click(screen.getByTestId("createAndView"));
+          expect(await screen.findByText("Case was successfully created"))
+            .toBeInTheDocument;
+        });
+
+        test("Create case with unknown civilian complainant", async () => {
+          await provider.addInteraction({
+            state: "intake sources exist: complaint types exist",
+            uponReceiving: "create case with unknown civilian complainant",
+            withRequest: {
+              method: "POST",
+              path: "/api/cases",
+              headers: {
+                "Content-Type": "application/json"
               },
-              willRespondWith: {
-                status: 201,
-                body: like({
-                  primaryComplainant: {
+              body: {
+                case: {
+                  complainantType: typeWithFormKey,
+                  firstContactDate: like("2022-11-18"),
+                  intakeSourceId: 1,
+                  complaintType: "Civilian Initiated"
+                },
+                civilian: { isAnonymous: true, isUnknown: true }
+              }
+            },
+            willRespondWith: {
+              status: 201,
+              body: like({
+                primaryComplainant: {
+                  fullName: "",
+                  roleOnCase: "Complainant",
+                  id: 4130,
+                  isAnonymous: true,
+                  caseId: 4177,
+                  updatedAt: "2022-11-18T17:13:10.589Z",
+                  createdAt: "2022-11-18T17:13:10.589Z",
+                  firstName: "",
+                  lastName: ""
+                },
+                caseReferencePrefix: "AC",
+                caseReference: "AC2022-0534",
+                statusId: 1,
+                id: 4177,
+                firstContactDate: "2022-11-18",
+                intakeSourceId: 3,
+                complaintType: "Civilian Initiated",
+                complainantCivilians: [
+                  {
                     fullName: "",
                     roleOnCase: "Complainant",
                     id: 4130,
@@ -298,64 +324,34 @@ pactWith(
                     createdAt: "2022-11-18T17:13:10.589Z",
                     firstName: "",
                     lastName: ""
-                  },
-                  caseReferencePrefix: "AC",
-                  caseReference: "AC2022-0534",
-                  statusId: 1,
-                  id: 4177,
-                  firstContactDate: "2022-11-18",
-                  intakeSourceId: 3,
-                  complaintType: "Civilian Initiated",
-                  complainantCivilians: [
-                    {
-                      fullName: "",
-                      roleOnCase: "Complainant",
-                      id: 4130,
-                      isAnonymous: true,
-                      caseId: 4177,
-                      updatedAt: "2022-11-18T17:13:10.589Z",
-                      createdAt: "2022-11-18T17:13:10.589Z",
-                      firstName: "",
-                      lastName: ""
-                    }
-                  ],
-                  createdBy: "abc@def.ghi",
-                  assignedTo: "abc@def.ghi",
-                  year: 2022,
-                  caseNumber: 534,
-                  status: "Initial",
-                  nextStatus: "Active"
-                })
-              }
-            });
-
-            userEvent.click(intakeSourceDropdown);
-            userEvent.click(await screen.findByText("Facebook"));
-            userEvent.click(screen.getByTestId("complaintTypeDropdown"));
-            userEvent.click(await screen.findByText("Civilian Initiated"));
-
-            const label = typeWithForm.description;
-            if (
-              Object.keys(PERSON_TYPE).length >
-              NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-            ) {
-              userEvent.click(screen.getByTestId("complainant-type-dropdown"));
-              userEvent.click(await screen.findByText(label));
-            } else {
-              userEvent.click(screen.getByLabelText(label));
+                  }
+                ],
+                createdBy: "abc@def.ghi",
+                assignedTo: "abc@def.ghi",
+                year: 2022,
+                caseNumber: 534,
+                status: "Initial",
+                nextStatus: "Active"
+              })
             }
-
-            userEvent.click(screen.getByLabelText("Unknown"));
-            userEvent.click(screen.getByTestId("createAndView"));
-            expect(await screen.findByText("Case was successfully created"))
-              .toBeInTheDocument;
           });
-        }
+
+          userEvent.click(intakeSourceDropdown);
+          userEvent.click(await screen.findByText("Facebook"));
+          userEvent.click(screen.getByTestId("complaintTypeDropdown"));
+          userEvent.click(await screen.findByText("Civilian Initiated"));
+
+          const label = "not an officer";
+          userEvent.click(screen.getByLabelText(label));
+
+          userEvent.click(screen.getByLabelText("Unknown"));
+          userEvent.click(screen.getByTestId("createAndView"));
+          expect(await screen.findByText("Case was successfully created"))
+            .toBeInTheDocument;
+        });
 
         test("Create case with complainant type that does not show form", async () => {
-          const type = Object.keys(PERSON_TYPE).find(
-            type => PERSON_TYPE[type].createDialogAction !== SHOW_FORM
-          );
+          const type = "OFFICER";
           await provider.addInteraction({
             state: "intake sources exist: complaint types exist",
             uponReceiving: "create case with officer complainant",
@@ -399,18 +395,8 @@ pactWith(
           userEvent.click(screen.getByTestId("complaintTypeDropdown"));
           userEvent.click(await screen.findByText("Civilian Initiated"));
 
-          const label = PERSON_TYPE[type].description.includes("Officer")
-            ? "Police Officer"
-            : PERSON_TYPE[type].description;
-          if (
-            Object.keys(PERSON_TYPE).length >
-            NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-          ) {
-            userEvent.click(screen.getByTestId("complainant-type-dropdown"));
-            userEvent.click(await screen.findByText(label));
-          } else {
-            userEvent.click(screen.getByLabelText(label));
-          }
+          const label = "Police Officer";
+          userEvent.click(screen.getByLabelText(label));
 
           userEvent.click(screen.getByTestId("createAndSearch"));
           expect(await screen.findByText("Case was successfully created"))

@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, formValueSelector, reduxForm } from "redux-form";
+import { Field, formValueSelector, initialize, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import {
   Dialog,
@@ -9,8 +9,6 @@ import {
   Typography,
   withStyles
 } from "@material-ui/core";
-import ComplainantTypeDropdown from "./ComplainantTypeDropdown";
-import ComplainantTypeRadioGroup from "./ComplainantTypeRadioGroup";
 import moment from "moment";
 import DateField from "../sharedFormComponents/DateField";
 import CivilianComplainantFields from "./CivilianComplainantFields";
@@ -18,7 +16,6 @@ import {
   CONFIGS,
   CREATE_CASE_FORM_NAME,
   ISO_DATE,
-  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM
 } from "../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
@@ -32,11 +29,10 @@ import AnonymousFields from "./AnonymousFields";
 import { snackbarError } from "../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 import PersonTypeSelection from "./PersonTypeSelection";
-
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import {
+  getDefaultPersonType,
+  getSelectedPersonType
+} from "../../globalData/person-type-selectors";
 
 const styles = {
   dialogPaper: {
@@ -69,6 +65,17 @@ class CreateCaseDialog extends React.Component {
             snackbarError("There was a problem retrieving complaint types")
           )
         );
+    }
+
+    if (!this.props.selectedPersonType && this.props.defaultPersonType) {
+      this.props.dispatch(
+        initialize(CREATE_CASE_FORM_NAME, {
+          case: {
+            complainantType: this.props.defaultPersonType.key,
+            firstContactDate: moment(Date.now()).format(ISO_DATE)
+          }
+        })
+      );
     }
   }
 
@@ -136,12 +143,13 @@ class CreateCaseDialog extends React.Component {
               ""
             )}
             <PersonTypeSelection
-              selectedType={complainantType}
+              personTypes={this.props.personTypes}
+              selectedType={this.props.selectedPersonType}
               showLabels={true}
               subtypeFieldName="civilian.personSubType"
               typeFieldName="case.complainantType"
             />
-            {PERSON_TYPE[complainantType]?.createDialogAction === SHOW_FORM && (
+            {this.props.selectedPersonType?.dialogAction === SHOW_FORM && (
               <>
                 <AnonymousFields />
                 {isUnknown ? (
@@ -239,11 +247,14 @@ const mapStateToProps = state => {
     addressValid: state.ui.addressInput.addressValid,
     chooseComplaintTypeFeatureFlag,
     complainantType: complainantType,
+    defaultPersonType: getDefaultPersonType(state),
     formattedAddress: formatAddressAsString(addressValues.address),
     intakeSources: state.ui.intakeSources,
     isUnknown,
     open: state.ui.createDialog.case.open,
-    organization: state.configs[CONFIGS.ORGANIZATION]
+    organization: state.configs[CONFIGS.ORGANIZATION],
+    personTypes: state.personTypes,
+    selectedPersonType: getSelectedPersonType(state, complainantType)
   };
 };
 
@@ -253,13 +264,5 @@ const ConnectedDialog = connect(mapStateToProps)(
 
 export default reduxForm({
   form: CREATE_CASE_FORM_NAME,
-  onSubmitFail: scrollToFirstErrorWithValue,
-  initialValues: {
-    case: {
-      complainantType: Object.keys(PERSON_TYPE).find(
-        key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
-      ),
-      firstContactDate: moment(Date.now()).format(ISO_DATE)
-    }
-  }
+  onSubmitFail: scrollToFirstErrorWithValue
 })(ConnectedDialog);

@@ -17,6 +17,7 @@ import {
   CONFIGS,
   DESCENDING,
   GET_CONFIGS_SUCCEEDED,
+  GET_PERSON_TYPES,
   ISO_DATE,
   NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   RANK_INITIATED,
@@ -28,8 +29,7 @@ import { updateSort } from "../../actionCreators/casesActionCreators";
 
 const {
   CIVILIAN_WITHIN_PD_INITIATED,
-  PD,
-  PERSON_TYPE
+  PD
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
@@ -49,6 +49,28 @@ jest.mock("../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
 describe("CreateCaseDialog component", () => {
   let store, dialog, dispatchSpy, dateAndTimeToday;
 
+  const personTypes = [
+    {
+      key: "OFFICER",
+      description: "Officer",
+      employeeDescription: "Officer",
+      isEmployee: true,
+      abbreviation: "O",
+      legend: "Officer (O)",
+      dialogAction: "/redirect",
+      isDefault: false
+    },
+    {
+      key: "OTHER",
+      description: "not an officer",
+      abbreviation: "OTH",
+      legend: "not an officer (OTH)",
+      dialogAction: SHOW_FORM,
+      isDefault: true,
+      subTypes: ["Other1", "Other2", "Other3"]
+    }
+  ];
+
   beforeEach(() => {
     console.warn = () => {};
     store = createConfiguredStore();
@@ -58,6 +80,12 @@ describe("CreateCaseDialog component", () => {
       type: GET_CONFIGS_SUCCEEDED,
       payload: { [CONFIGS.PD]: PD }
     });
+
+    store.dispatch({
+      type: GET_PERSON_TYPES,
+      payload: personTypes
+    });
+
     dispatchSpy = jest.spyOn(store, "dispatch");
 
     dialog = mount(
@@ -103,28 +131,17 @@ describe("CreateCaseDialog component", () => {
     });
   });
 
-  Object.keys(PERSON_TYPE).forEach(key => {
-    const type = PERSON_TYPE[key];
+  personTypes.forEach(type => {
     describe(type.description, () => {
       beforeEach(() => {
-        if (
-          Object.keys(PERSON_TYPE).length >
-          NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN
-        ) {
-          selectDropdownOption(
-            dialog,
-            `[data-testid="complainant-type-dropdown-autocomplete"]`,
-            type.isEmployee ? type.employeeDescription : type.description
-          );
-        } else {
-          const selector = `label[data-testid="${(type.isEmployee
-            ? type.employeeDescription
-            : type.description
-          )
-            .toLowerCase()
-            .replaceAll(" ", "-")}-radio-button"]`;
-          dialog.find(selector).simulate("click");
-        }
+        const selector = `label[data-testid="${(type.isEmployee
+          ? type.employeeDescription
+          : type.description
+        )
+          .toLowerCase()
+          .replaceAll(" ", "-")}-radio-button"]`;
+        dialog.find(selector).simulate("click");
+
         if (type.subTypes) {
           selectDropdownOption(
             dialog,
@@ -134,23 +151,23 @@ describe("CreateCaseDialog component", () => {
         }
       });
 
-      if (type.createDialogAction === SHOW_FORM) {
+      if (type.dialogAction === SHOW_FORM) {
         describe("submitting a case", () => {
           let caseDetails;
 
           beforeEach(() => {
             let complaintType;
-            if (key === "CIVILIAN") {
+            if (type.key === "CIVILIAN") {
               complaintType = CIVILIAN_INITIATED;
-            } else if (key.includes("OFFICER")) {
+            } else if (type.key.includes("OFFICER")) {
               complaintType = RANK_INITIATED;
-            } else if (key.includes("CIVILIAN")) {
+            } else if (type.key.includes("CIVILIAN")) {
               complaintType = CIVILIAN_WITHIN_PD_INITIATED;
             }
 
             caseDetails = {
               case: {
-                complainantType: key,
+                complainantType: type.key,
                 complaintType: "Civilian Initiated",
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 1,
@@ -450,7 +467,7 @@ describe("CreateCaseDialog component", () => {
             const caseDetails = {
               case: {
                 complaintType: CIVILIAN_INITIATED,
-                complainantType: key,
+                complainantType: type.key,
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 1,
                 incidentDate: undefined
@@ -527,7 +544,7 @@ describe("CreateCaseDialog component", () => {
             const caseDetails = {
               case: {
                 complaintType: CIVILIAN_INITIATED,
-                complainantType: key,
+                complainantType: type.key,
                 firstContactDate: moment(Date.now()).format(ISO_DATE),
                 intakeSourceId: 2,
                 incidentDate: undefined
@@ -623,15 +640,19 @@ describe("CreateCaseDialog component", () => {
               .last();
             createAndSearch.simulate("click");
 
-            expect(dispatchSpy).toHaveBeenCalledWith({
+            expect(
+              dispatchSpy.mock.calls.find(
+                call => call[0].type === "MOCK_CREATE_CASE_THUNK"
+              )[0]
+            ).toEqual({
               type: "MOCK_CREATE_CASE_THUNK",
               creationDetails: expect.objectContaining({
                 redirect: true,
                 caseDetails: expect.objectContaining({
                   case: expect.objectContaining({
-                    complainantType: key.includes("OFFICER")
+                    complainantType: type.key.includes("OFFICER")
                       ? expect.stringContaining("OFFICER")
-                      : key
+                      : type.key
                   })
                 })
               })

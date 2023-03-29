@@ -5,7 +5,7 @@ import { GET_CONFIGS_SUCCEEDED } from "../../../../sharedUtilities/constants";
 
 jest.mock("../../../common/auth/getAccessToken", () => () => "TEST_TOKEN");
 
-describe("getFeatureToggles thunk", function () {
+describe("getConfigs thunk", function () {
   test("should dispatch success when configs fetched successfully", async () => {
     const mockDispatch = jest.fn();
     configureInterceptors({ dispatch: mockDispatch });

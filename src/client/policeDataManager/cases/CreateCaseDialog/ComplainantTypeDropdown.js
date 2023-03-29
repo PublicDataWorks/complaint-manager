@@ -2,6 +2,7 @@ import React from "react";
 import { FormControl, FormLabel, Typography } from "@material-ui/core";
 import Dropdown from "../../../common/components/Dropdown";
 import { generateMenuOptions } from "../../utilities/generateMenuOptions";
+import { connect } from "react-redux";
 
 const {
   PERSON_TYPE
@@ -31,26 +32,27 @@ const ComplainantTypeDropdown = props => {
         style={{ width: "100%" }}
         placeholder="Select a Person Type"
       >
-        {generateMenuOptions(
-          Object.keys(PERSON_TYPE).reduce((acc, key) => {
-            let type = PERSON_TYPE[key];
-            if (isOfficer(type)) {
-              if (officerAdded) {
-                return acc;
-              } else {
-                officerAdded = true;
-              }
+        {props.personTypes.reduce((acc, type) => {
+          if (isOfficer(type)) {
+            if (officerAdded) {
+              return acc;
+            } else {
+              officerAdded = true;
             }
-            acc.push([
-              isOfficer(type) ? "Police Officer" : type.description,
-              key
-            ]);
-            return acc;
-          }, [])
-        )}
+          }
+
+          acc.push({
+            label: isOfficer(type) ? "Police Officer" : type.description,
+            value: type.key
+          });
+
+          return acc;
+        }, [])}
       </Dropdown>
     </FormControl>
   );
 };
 
-export default ComplainantTypeDropdown;
+export default connect(state => ({ personTypes: state.personTypes }))(
+  ComplainantTypeDropdown
+);

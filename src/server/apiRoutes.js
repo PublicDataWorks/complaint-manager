@@ -95,6 +95,7 @@ import retrieveFacilities from "./handlers/inmates/retrieveFacilities";
 import removeCaseInmate from "./handlers/inmates/removeCaseInmate";
 import getLetterPdf from "./handlers/cases/letters/getLetterPdf";
 import updateLetterAndUploadToS3 from "./handlers/cases/letters/updateLetterAndUploadToS3";
+import retrievePersonTypes from "./handlers/personTypes/retrievePersonTypes";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -104,6 +105,20 @@ export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
 ];
 
 export const PUBLIC_ROUTES = {
+  "/configs": {
+    get: {
+      handler: getConfigs,
+      errorMessage:
+        "Something went wrong while getting configs.  Please try again."
+    }
+  },
+  "/person-types": {
+    get: {
+      handler: retrievePersonTypes,
+      errorMessage:
+        "Something went wrong while getting personTypes.  Please try again."
+    }
+  },
   "/public-data": {
     get: {
       handler: getPublicData,
@@ -664,13 +679,6 @@ export const API_ROUTES = {
       handler: getNotificationStatus,
       errorMessage:
         "Something went wrong and notifications could not be verified. Please try again."
-    }
-  },
-  "/configs": {
-    get: {
-      handler: getConfigs,
-      errorMessage:
-        "Something went wrong while getting configs.  Please try again."
     }
   },
   "/facilities": {
