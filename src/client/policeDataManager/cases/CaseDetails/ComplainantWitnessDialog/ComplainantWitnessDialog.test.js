@@ -437,28 +437,15 @@ describe("complainant/witness dialog", () => {
     });
 
     test("should not display radio button of role on case for accused (when allowAllTypesToBeAccused is false)", () => {
-      const otherStore = createConfiguredStore();
-
-      otherStore.dispatch(
-        openCivilianDialog("Test Title", "Test Submit Text", submitAction)
-      );
-
-      otherStore.dispatch({
+      store.dispatch({
         type: GET_FEATURES_SUCCEEDED,
         features: {
           allowAllTypesToBeAccused: false
         }
       });
+      complainantWitnessDialog.update();
 
-      const otherCivilianDialog = mount(
-        <Provider store={otherStore}>
-          <ComplainantWitnessDialog />
-        </Provider>
-      );
-
-      otherCivilianDialog.update();
-
-      const radioButtonGroup = otherCivilianDialog.find(
+      const radioButtonGroup = complainantWitnessDialog.find(
         "[data-testid='roleOnCaseRadioGroup']"
       );
 
