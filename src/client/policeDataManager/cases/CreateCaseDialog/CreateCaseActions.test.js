@@ -7,7 +7,6 @@ import {
   DESCENDING,
   GET_PERSON_TYPES,
   ISO_DATE,
-  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
   SORT_CASES_BY
 } from "../../../../sharedUtilities/constants";

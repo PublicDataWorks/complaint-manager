@@ -14,6 +14,7 @@ const ensureTokenOnRequestInterceptor =
     let isPublicAPI;
     const url = config.url.toLowerCase();
 
+    console.log(url);
     publicAPIs.forEach(api => {
       if (url.startsWith(api)) {
         isPublicAPI = true;
