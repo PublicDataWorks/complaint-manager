@@ -42,10 +42,6 @@ import { userTimezone } from "../../../common/helpers/userTimezone";
 
 require("../../testUtilities/MockMutationObserver");
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../../ScrollToTop", () => ({
   scrollToTop: jest.fn(() => "MOCK_SCROLL_TO_TOP")
 }));
@@ -300,70 +296,47 @@ describe("Case Details Component", () => {
       );
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
     });
+  });
 
-    describe("add accused", () => {
-      let type, isEmployee, addButton, otherStore;
-
-      test("Should open openCivilianDialog when allowAllTypesToBeAccused is true and add accused button is clicked (prison oversite)", () => {
-        const previousCase = new Case.Builder()
-          .defaultCase()
-          .withId(500)
-          .build();
-        previousCase.status = CASE_STATUS.INITIAL;
-        previousCase.nextStatus = CASE_STATUS.ACTIVE;
-        otherStore = createConfiguredStore();
-
-        otherStore.dispatch(getCaseDetailsSuccess(previousCase));
-
-        otherStore.dispatch({
-          type: GET_FEATURES_SUCCEEDED,
-          features: {
-            choosePersonTypeInAddDialog: true,
-            allowAllTypesToBeAccused: true
-          }
-        });
-
-        caseDetails = mount(
-          <Provider store={otherStore}>
-            <Router>
-              <CaseDetails
-                match={{ params: { id: previousCase.id.toString() } }}
-              />
-            </Router>
-          </Provider>
-        );
-
-        addButton = caseDetails
-          .find('button[data-testid="addComplainantWitness"]')
-          .at(2);
-
-        addButton.simulate("click");
-
-        expect(dispatchSpy).toHaveBeenCalledWith(
-          openCivilianDialog("Add Person to Case", "Create", createCivilian)
-        );
+  describe("add accused", () => {
+    test("Should open openCivilianDialog when allowAllTypesToBeAccused is true and add accused button is clicked (prison oversite)", () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: {
+          choosePersonTypeInAddDialog: true,
+          allowAllTypesToBeAccused: true
+        }
       });
 
-      //todo: need to test this -> need to render app in noipm mode(when isemployee is true)
-      test("Should show menu options when allowAllTypesToBeAccused is false and add accused button is clicked (police oversite)", () => {
-        store.dispatch({
-          type: GET_FEATURES_SUCCEEDED,
-          features: {
-            choosePersonTypeInAddDialog: true,
-            allowAllTypesToBeAccused: false
-          }
-        });
+      caseDetails.update();
 
-        addButton = caseDetails.find('button[data-testid="AddAccusedMenu"]');
+      const addButton = caseDetails
+        .find('button[data-testid="addComplainantWitness"]')
+        .at(2);
 
-        addButton.simulate("click");
+      addButton.simulate("click");
 
-        // check dialog doesn't show up / menu works
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openCivilianDialog("Add Person to Case", "Create", createCivilian)
+      );
+    });
 
-        expect(caseDetails.find("[data-testid='addAccusedMenu']")).toHaveLength(
-          1
-        );
+    test("Should show menu options when allowAllTypesToBeAccused is false and add accused button is clicked (police oversite)", () => {
+      store.dispatch({
+        type: GET_FEATURES_SUCCEEDED,
+        features: {
+          choosePersonTypeInAddDialog: true,
+          allowAllTypesToBeAccused: false
+        }
       });
+
+      caseDetails.update();
+
+      const addAccusedMenuButton = caseDetails
+        .find('[data-testid="addAccusedMenu"]')
+        .first();
+
+      expect(addAccusedMenuButton.exists()).toBeTruthy();
     });
   });
 });

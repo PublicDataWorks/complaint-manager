@@ -14,10 +14,6 @@ import AddAccusedMenu from "./AddAccusedMenu";
 import { connect } from "react-redux";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const Accused = props => {
   const {
     dispatch,
@@ -75,8 +71,6 @@ const Accused = props => {
 };
 
 const renderAddAccused = (dispatch, caseDetails, caseId, props) => {
-  //If isEmployee is true, return police oversite menu options.
-  //If false, return prison oversite menu options.
   return (
     <Fragment>
       {props.allowAllTypesToBeAccused ? (
