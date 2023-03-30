@@ -78,7 +78,7 @@ pactWith(
           }
         });
         userEvent.click(await screen.findByTestId("removeCivilianLink"));
-        userEvent.click(await screen.findByTestId("removeButton"));
+        userEvent.click(await screen.findByTestId("dialog-confirm-button"));
         expect(await screen.findByText("Civilian was successfully removed"))
           .toBeInTheDocument;
       });
