@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { Divider, Accordion, AccordionSummary } from "@material-ui/core";
 import OfficerInfoDisplay from "../Officers/OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
@@ -7,14 +8,18 @@ import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAge
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
 import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
 import LinkButton from "../../../shared/components/LinkButton";
-import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
 import {
   CONFIGS,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
+import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
+import { removePersonSuccess } from "../../../actionCreators/casesActionCreators";
+import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
 const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
+  const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
+
   return (
     <div>
       <div
@@ -178,11 +183,43 @@ const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
                   data-testid="removePersonInCustodyLink"
                   onClick={event => {
                     event.stopPropagation();
-                    dispatch(openRemovePersonDialog(caseInmate, "inmates", pd));
+                    setRemoveDialogOpen(true);
                   }}
                 >
                   Remove
                 </LinkButton>
+                {removeDialogOpen ? (
+                  <ConfirmationDialog
+                    confirmText="Remove"
+                    onConfirm={() => {
+                      axios
+                        .delete(
+                          `api/cases/${caseInmate.caseId}/inmates/${caseInmate.id}`
+                        )
+                        .then(result => {
+                          dispatch(
+                            snackbarSuccess(
+                              "Person in Custody was successfully removed"
+                            )
+                          );
+                          setRemoveDialogOpen(false);
+                          dispatch(removePersonSuccess(result.data));
+                        });
+                    }}
+                    onCancel={() => setRemoveDialogOpen(false)}
+                    open={removeDialogOpen}
+                    title="Remove Person in Custody"
+                  >
+                    This action will remove{" "}
+                    <strong>
+                      {caseInmate.inmate?.fullName ?? caseInmate.fullName}
+                    </strong>{" "}
+                    and all information associated to this person from the case.
+                    Are you sure you want to continue?
+                  </ConfirmationDialog>
+                ) : (
+                  ""
+                )}
               </>
             ) : (
               ""

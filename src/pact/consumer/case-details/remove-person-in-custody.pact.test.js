@@ -70,7 +70,7 @@ pactWith(
           }
         });
         userEvent.click(await screen.findByTestId("removePersonInCustodyLink"));
-        userEvent.click(await screen.findByTestId("removeButton"));
+        userEvent.click(await screen.findByTestId("dialog-confirm-button"));
         expect(
           await screen.findByText("Person in Custody was successfully removed")
         ).toBeInTheDocument;

@@ -215,9 +215,7 @@ const CivilianPanel = ({
                               )
                             );
                             setDeleteDialogOpen(false);
-                            dispatch(
-                              removePersonSuccess(result.data, "Civilian")
-                            );
+                            dispatch(removePersonSuccess(result.data));
                           });
                       }}
                       onCancel={() => setDeleteDialogOpen(false)}

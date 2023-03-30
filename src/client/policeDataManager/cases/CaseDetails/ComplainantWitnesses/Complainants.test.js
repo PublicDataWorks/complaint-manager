@@ -4,8 +4,7 @@ import Complainants from "./Complainants";
 import { mount } from "enzyme";
 import {
   getCaseDetailsSuccess,
-  openCivilianDialog,
-  openRemovePersonDialog
+  openCivilianDialog
 } from "../../../actionCreators/casesActionCreators";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { initialize } from "redux-form";
@@ -581,13 +580,12 @@ describe("Complainants", () => {
           .first();
         inmatePanelRemoveButton.simulate("click");
 
-        expect(dispatchSpy).toHaveBeenCalledWith(
-          openRemovePersonDialog(
-            caseWithMixedComplainants.complainantInmates[0],
-            "inmates",
-            "WCCC"
-          )
-        );
+        expect(
+          wrapper
+            .find('[data-testid="confirmation-dialog-RemovePersoninCustody"]')
+            .first()
+            .text()
+        ).toContain("Remove Person in Custody");
       });
     });
   });

@@ -22,8 +22,7 @@ import {
   closeRestoreArchivedCaseDialog,
   getCaseDetailsSuccess,
   openCaseNoteDialog,
-  openCivilianDialog,
-  openRemovePersonDialog
+  openCivilianDialog
 } from "../../actionCreators/casesActionCreators";
 import {
   CASE_STATUS,
