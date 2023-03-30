@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { initialize } from "redux-form";
 import {
   openCivilianDialog,
-  openRemovePersonDialog,
   removePersonSuccess
 } from "../../../actionCreators/casesActionCreators";
 import {
@@ -25,6 +24,7 @@ import { connect } from "react-redux";
 import { getSelectedPersonType } from "../../../globalData/person-type-selectors";
 import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
+import axios from "axios";
 
 const {
   PERSON_TYPE
@@ -195,38 +195,43 @@ const CivilianPanel = ({
                     data-testid="removeCivilianLink"
                     onClick={event => {
                       event.stopPropagation();
-                      dispatch(
-                        openRemovePersonDialog(civilian, "civilians", pd)
-                      );
+                      setDeleteDialogOpen(true);
                     }}
                   >
                     Remove
                   </LinkButton>
-                  <ConfirmationDialog
-                    confirmText="Remove"
-                    onConfirm={() => {
-                      axios
-                        .delete(
-                          `api/cases/${civilian.caseId}/civilians/${civilian.id}`
-                        )
-                        .then(result => {
-                          dispatch(
-                            snackbarSuccess("Civilian was successfully removed")
-                          );
-                          setDeleteDialogOpen(false);
-                          dispatch(
-                            removePersonSuccess(result.data, "Civilian")
-                          );
-                        });
-                    }}
-                    onCancel={() => setDeleteDialogOpen(false)}
-                    open={deleteDialogOpen}
-                    title="Remove Civilian"
-                  >
-                    This action will remove <strong>{civilian.fullName}</strong>{" "}
-                    and all information associated to this person from the case.{" "}
-                    Are you sure you want to continue?
-                  </ConfirmationDialog>
+                  {deleteDialogOpen ? (
+                    <ConfirmationDialog
+                      confirmText="Remove"
+                      onConfirm={() => {
+                        axios
+                          .delete(
+                            `api/cases/${civilian.caseId}/civilians/${civilian.id}`
+                          )
+                          .then(result => {
+                            dispatch(
+                              snackbarSuccess(
+                                "Civilian was successfully removed"
+                              )
+                            );
+                            setDeleteDialogOpen(false);
+                            dispatch(
+                              removePersonSuccess(result.data, "Civilian")
+                            );
+                          });
+                      }}
+                      onCancel={() => setDeleteDialogOpen(false)}
+                      open={deleteDialogOpen}
+                      title="Remove Civilian"
+                    >
+                      This action will remove{" "}
+                      <strong>{civilian.fullName}</strong> and all information
+                      associated to this person from the case. Are you sure you
+                      want to continue?
+                    </ConfirmationDialog>
+                  ) : (
+                    ""
+                  )}
                 </>
               ) : (
                 ""

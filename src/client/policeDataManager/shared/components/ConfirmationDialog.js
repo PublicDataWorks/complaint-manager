@@ -14,7 +14,10 @@ const ConfirmationDialog = props => {
       ? { justifyContent: "space-between", margin: "5px 15px" }
       : { margin: "5px 0px" };
   return (
-    <Dialog open={props.open}>
+    <Dialog
+      open={props.open}
+      data-testid={`confirmation-dialog-${props.title.replaceAll(" ", "")}`}
+    >
       <DialogTitle>{props.title}</DialogTitle>
       <DialogContent>{props.children}</DialogContent>
       <DialogActions style={actionsStyle}>

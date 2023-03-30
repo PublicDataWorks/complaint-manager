@@ -274,13 +274,12 @@ describe("Case Details Component", () => {
         .first();
       removeComplainantButton.simulate("click");
 
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openRemovePersonDialog(
-          expectedCase.complainantCivilians[0],
-          "civilians",
-          "LAPD"
-        )
-      );
+      expect(
+        caseDetails
+          .find('[data-testid="confirmation-dialog-RemoveCivilian"]')
+          .first()
+          .text()
+      ).toContain("Remove Civilian");
     });
 
     test("should open and initialize Case Note Dialog when Add Case Note button is clicked", () => {
