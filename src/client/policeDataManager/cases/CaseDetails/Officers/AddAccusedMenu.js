@@ -13,10 +13,6 @@ import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreat
 import { connect } from "react-redux";
 import useMenuControl from "../../../../common/hooks/useMenuControl";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const AddAccusedMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();

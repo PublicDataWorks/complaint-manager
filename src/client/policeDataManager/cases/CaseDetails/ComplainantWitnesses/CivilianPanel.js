@@ -26,10 +26,6 @@ import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import axios from "axios";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const CivilianPanel = ({
   civilian,
   civilianAge,

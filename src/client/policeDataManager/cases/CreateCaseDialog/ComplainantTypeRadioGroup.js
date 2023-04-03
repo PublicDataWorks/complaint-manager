@@ -10,10 +10,6 @@ import {
 } from "@material-ui/core";
 import { CONFIGS } from "../../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const isOfficer = type => type.employeeDescription === "Officer";
 
 const ComplainantTypeRadioGroup = props => {

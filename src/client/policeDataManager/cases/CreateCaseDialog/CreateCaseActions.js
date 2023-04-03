@@ -26,7 +26,6 @@ import normalizeAddress from "../../utilities/normalizeAddress";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
 
 const {
-  PERSON_TYPE,
   CIVILIAN_WITHIN_PD_INITIATED
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 

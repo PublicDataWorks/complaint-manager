@@ -1,12 +1,7 @@
 import React from "react";
 import { FormControl, FormLabel, Typography } from "@material-ui/core";
 import Dropdown from "../../../common/components/Dropdown";
-import { generateMenuOptions } from "../../utilities/generateMenuOptions";
 import { connect } from "react-redux";
-
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const isOfficer = type => type.employeeDescription === "Officer";
 

@@ -1,10 +1,6 @@
 import React from "react";
 import WarningMessage from "../../shared/components/WarningMessage";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 export default ({ complainant }) =>
   complainant ? (
     <div>{complainantName(complainant)}</div>

@@ -39,10 +39,6 @@ import CivilianFormFields from "./CivilianFormFields";
 import PersonTypeSelection from "../../CreateCaseDialog/PersonTypeSelection";
 import { getSelectedPersonType } from "../../../globalData/person-type-selectors";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const styles = {
   dialogPaper: {
     minWidth: "40%",
