@@ -1,5 +1,6 @@
 "use strict";
 import {
+  ACCUSED,
   ADDRESSABLE_TYPE,
   COMPLAINANT,
   WITNESS
@@ -69,7 +70,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       roleOnCase: {
         field: "role_on_case",
-        type: DataTypes.ENUM([COMPLAINANT, WITNESS]),
+        type: DataTypes.ENUM([COMPLAINANT, WITNESS, ACCUSED]),
         defaultValue: COMPLAINANT
       },
       phoneNumber: {
