@@ -103,7 +103,7 @@ scenarios.forEach(({ role, options }) => {
             userEvent.click(await screen.findByTestId("removeOfficerLink"));
           }
 
-          userEvent.click(await screen.findByTestId("removeButton"));
+          userEvent.click(await screen.findByTestId("dialog-confirm-button"));
           expect(await screen.findByText("Officer was successfully removed"))
             .toBeInTheDocument;
         });

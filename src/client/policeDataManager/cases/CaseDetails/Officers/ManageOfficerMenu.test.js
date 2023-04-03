@@ -10,7 +10,6 @@ import {
 } from "../../../actionCreators/officersActionCreators";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import ManageOfficerMenu from "./ManageOfficerMenu";
-import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import { GET_CONFIGS_SUCCEEDED } from "../../../../../sharedUtilities/constants";
 
 describe("ManageOfficerMenu", () => {
@@ -84,8 +83,11 @@ describe("ManageOfficerMenu", () => {
 
     removeOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemovePersonDialog(caseOfficer, "cases-officers", "LVPD")
-    );
+    expect(
+      wrapper
+        .find('[data-testid="confirmation-dialog-RemoveOfficer"]')
+        .first()
+        .text()
+    ).toContain("Remove Officer");
   });
 });

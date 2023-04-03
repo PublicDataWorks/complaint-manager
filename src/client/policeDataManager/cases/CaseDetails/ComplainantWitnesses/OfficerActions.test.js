@@ -71,8 +71,6 @@ describe("OfficerActions", () => {
       payload: { pd: "VPD" }
     });
 
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-
     const wrapper = mount(
       <Provider store={store}>
         <Router>
@@ -86,8 +84,11 @@ describe("OfficerActions", () => {
       .last();
     removeOfficer.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemovePersonDialog(caseOfficer, "cases-officers", "VPD")
-    );
+    expect(
+      wrapper
+        .find('[data-testid="confirmation-dialog-RemoveOfficer"]')
+        .first()
+        .text()
+    ).toContain("Remove Officer");
   });
 });
