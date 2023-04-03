@@ -286,38 +286,6 @@ export const updateAllegationDetailsSuccess = (allegationId, caseDetails) => ({
   caseDetails
 });
 
-export const openRemovePersonDialog = (personDetails, personType, pd) => {
-  let optionalText, personTypeTitleDisplay;
-
-  if (personType === "civilians") {
-    optionalText = "";
-    personTypeTitleDisplay = "Civilian";
-  } else if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
-    const isCivilianWithinPd =
-      personDetails.caseEmployeeType ===
-      PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
-    personTypeTitleDisplay = isCivilianWithinPd
-      ? `Civilian (${pd})`
-      : OFFICER_TITLE;
-    optionalText = ` This includes any Notes or Allegations associated to the ${_.lowerCase(
-      personTypeTitleDisplay
-    )}.`;
-  } else {
-    personTypeTitleDisplay = DEFAULT_PERSON_TYPE.description;
-  }
-
-  return {
-    type: REMOVE_PERSON_DIALOG_OPENED,
-    personDetails: { ...personDetails, personType: personType },
-    optionalText,
-    personTypeTitleDisplay
-  };
-};
-
-export const closeRemovePersonDialog = () => ({
-  type: REMOVE_PERSON_DIALOG_CLOSED
-});
-
 export const removePersonSuccess = caseDetails => ({
   type: REMOVE_PERSON_SUCCEEDED,
   caseDetails

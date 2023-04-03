@@ -23,7 +23,6 @@ import {
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
   closeRemoveCaseTagDialog,
-  closeRemovePersonDialog,
   closeRestoreArchivedCaseDialog
 } from "../../actionCreators/casesActionCreators";
 import {
@@ -32,7 +31,6 @@ import {
 } from "../../../../sharedUtilities/constants";
 import Accused from "./Officers/Accused";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
-import RemoveCivilianDialog from "../RemovePersonDialog/RemovePersonDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./ComplainantWitnesses/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
@@ -62,7 +60,6 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());
   dispatch(closeRemoveCaseTagDialog());
-  dispatch(closeRemovePersonDialog());
   dispatch(closeEditIncidentDetailsDialog());
   dispatch(closeRestoreArchivedCaseDialog());
   dispatch(closeArchiveCaseDialog());
@@ -192,7 +189,6 @@ class CaseDetails extends React.Component {
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <ComplainantWitnessDialog />
-          <RemoveCivilianDialog data-testid="removeCivilianDialog" />
           <CaseNoteDialog />
         </div>
       </div>

@@ -15,7 +15,6 @@ import attachmentsReducer from "./policeDataManager/reducers/ui/attachmentsReduc
 import searchOfficersReducer from "./policeDataManager/reducers/officers/searchOfficersReducer";
 import caseNotesReducer from "./policeDataManager/reducers/cases/caseNotesReducer";
 import caseNoteDialogReducer from "./policeDataManager/reducers/ui/caseNoteDialogReducer";
-import removePersonDialogReducer from "./policeDataManager/reducers/ui/removePersonDialogReducer";
 import removeCaseNoteDialogReducer from "./policeDataManager/reducers/ui/removeCaseNoteDialogReducer";
 import searchCasesReducer from "./policeDataManager/reducers/cases/searchCasesReducer";
 import searchReducer from "./policeDataManager/reducers/ui/searchReducer";
@@ -146,7 +145,6 @@ const rootReducer = combineReducers({
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
     removeCaseTagDialog: removeCaseTagDialogReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
-    removePersonDialog: removePersonDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     search: searchReducer,
     snackbar: snackbarReducer,

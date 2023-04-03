@@ -18,7 +18,6 @@ import {
   closeEditIncidentDetailsDialog,
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
-  closeRemovePersonDialog,
   closeRestoreArchivedCaseDialog,
   getCaseDetailsSuccess,
   openCaseNoteDialog,
@@ -165,7 +164,6 @@ describe("Case Details Component", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeCaseStatusUpdateDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
-    expect(dispatchSpy).toHaveBeenCalledWith(closeRemovePersonDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditIncidentDetailsDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRestoreArchivedCaseDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeArchiveCaseDialog());

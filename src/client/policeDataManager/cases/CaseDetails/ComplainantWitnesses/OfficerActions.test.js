@@ -10,7 +10,6 @@ import {
   selectCaseOfficer,
   selectUnknownOfficer
 } from "../../../actionCreators/officersActionCreators";
-import { openRemovePersonDialog } from "../../../actionCreators/casesActionCreators";
 import { GET_CONFIGS_SUCCEEDED } from "../../../../../sharedUtilities/constants";
 
 describe("OfficerActions", () => {
