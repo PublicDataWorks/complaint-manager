@@ -1,5 +1,5 @@
 import {
-  getAccusedOfficerData,
+  mapOfficer,
   getAllegationData,
   getComplainantData,
   getFormattedDate,
@@ -912,16 +912,14 @@ describe("caseDetailDataHelpers", function () {
           caseEmployeeType: "Known Officer"
         };
 
-        const accusedOfficerData = getAccusedOfficerData(officer);
+        const accusedOfficerData = mapOfficer(officer);
 
         expect(accusedOfficerData).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              "Officer Name": "some name",
-              ID: "#some id",
-              District: "some district"
-            })
-          ])
+          expect.objectContaining({
+            "Officer Name": "some name",
+            ID: "#some id",
+            District: "some district"
+          })
         );
       });
 
@@ -931,14 +929,12 @@ describe("caseDetailDataHelpers", function () {
           caseEmployeeType: "Unknown Officer"
         };
 
-        const accusedOfficerData = getAccusedOfficerData(officer);
+        const accusedOfficerData = mapOfficer(officer);
 
         expect(accusedOfficerData).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              "Officer Name": "Unknown"
-            })
-          ])
+          expect.objectContaining({
+            "Officer Name": "Unknown"
+          })
         );
       });
 
@@ -952,16 +948,14 @@ describe("caseDetailDataHelpers", function () {
             caseEmployeeType: "Civilian Within NOPD"
           };
 
-          const accusedOfficerData = getAccusedOfficerData(officer);
+          const accusedOfficerData = mapOfficer(officer);
 
           expect(accusedOfficerData).toEqual(
-            expect.arrayContaining([
-              expect.objectContaining({
-                [`Civilian (NOPD) Name`]: "some name",
-                ID: "#some id",
-                District: "some district"
-              })
-            ])
+            expect.objectContaining({
+              [`Civilian (NOPD) Name`]: "some name",
+              ID: "#some id",
+              District: "some district"
+            })
           );
         });
       }

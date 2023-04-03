@@ -9,7 +9,7 @@ import LinkButton from "../../../shared/components/LinkButton";
 import LetterProgressStepper from "../LetterProgressStepper";
 import CaseDetailCard from "./CaseDetailCard";
 import {
-  getAccusedOfficerData,
+  mapOfficer,
   getAllegationData,
   getComplainantData,
   getIncidentInfoData,
@@ -164,7 +164,7 @@ export class LetterReview extends Component {
             return (
               <CaseDetailCard
                 cardTitle={cardTitle}
-                cardData={getAccusedOfficerData(officer)}
+                cardData={[mapOfficer(officer)]}
                 data-testid="case-detail-card-accused"
                 cardSecondTitle={"Allegations"}
                 allegations={getAllegationData(officer)}

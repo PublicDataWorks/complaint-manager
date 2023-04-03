@@ -47,6 +47,26 @@ const fullNameIsAnonymous = complainantOrWitness =>
     ? `(AC) ${complainantOrWitness.fullName}`
     : complainantOrWitness.fullName;
 
+export const mapOfficer = officer => {
+  if (officer.isUnknownOfficer) {
+    return { "Officer Name": "Unknown" };
+  } else {
+    const nameTitle =
+      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
+      officer.caseEmployeeType ===
+        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
+        ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
+        : "Officer Name";
+
+    const officerData = {
+      [nameTitle]: fullNameIsAnonymous(officer),
+      ID: `#${officer.windowsUsername}`,
+      District: officer.district
+    };
+    return officerData;
+  }
+};
+
 export const getComplainantData = caseDetail => {
   let complainantCivilianData = caseDetail.complainantCivilians.map(
     complainant => {
@@ -69,27 +89,7 @@ export const getComplainantData = caseDetail => {
     }
   );
 
-  let complainantOfficerData = caseDetail.complainantOfficers.map(
-    complainant => {
-      if (complainant.isUnknownOfficer) {
-        return { "Officer Name": "Unknown" };
-      } else {
-        const nameTitle =
-          PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-          complainant.caseEmployeeType ===
-            PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-            ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
-            : "Officer Name";
-
-        const complainantData = {
-          [nameTitle]: fullNameIsAnonymous(complainant),
-          ID: `#${complainant.windowsUsername}`,
-          District: complainant.district
-        };
-        return complainantData;
-      }
-    }
-  );
+  let complainantOfficerData = caseDetail.complainantOfficers.map(mapOfficer);
 
   return complainantCivilianData.concat(complainantOfficerData);
 };
@@ -104,51 +104,11 @@ export const getWitnessData = caseDetail => {
     };
   });
 
-  let witnessOfficerData = caseDetail.witnessOfficers.map(witness => {
-    if (witness.isUnknownOfficer) {
-      return { "Officer Name": "Unknown" };
-    } else {
-      const nameTitle =
-        PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-        witness.caseEmployeeType ===
-          PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-          ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
-          : "Officer Name";
-      const witnessData = {
-        [nameTitle]: fullNameIsAnonymous(witness),
-        ID: `#${witness.windowsUsername}`,
-        District: witness.district
-      };
-      return witnessData;
-    }
-  });
+  let witnessOfficerData = caseDetail.witnessOfficers.map(mapOfficer);
 
   return witnessCivilianData.concat(witnessOfficerData).length === 0
     ? ["No witnesses have been added"]
     : witnessCivilianData.concat(witnessOfficerData);
-};
-
-export const getAccusedOfficerData = officer => {
-  let officerData;
-
-  if (officer.isUnknownOfficer) {
-    officerData = [{ "Officer Name": "Unknown" }];
-  } else {
-    const nameTitle =
-      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-      officer.caseEmployeeType ===
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
-        : "Officer Name";
-    officerData = [
-      {
-        [nameTitle]: officer.fullName,
-        ID: `#${officer.windowsUsername}`,
-        District: officer.district
-      }
-    ];
-  }
-  return officerData;
 };
 
 export const getAllegationData = officer => {
