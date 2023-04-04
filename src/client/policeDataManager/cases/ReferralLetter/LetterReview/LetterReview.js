@@ -149,12 +149,12 @@ export class LetterReview extends Component {
 
           <CaseDetailCard
             cardTitle={"Complainant Information"}
-            cardData={getComplainantData(caseDetails)}
+            cardData={getComplainantData(caseDetails, pd)}
           />
 
           <CaseDetailCard
             cardTitle={"Witness Information"}
-            cardData={getWitnessData(caseDetails)}
+            cardData={getWitnessData(caseDetails, pd)}
           />
 
           {caseDetails.accusedOfficers.map(officer => {
@@ -164,7 +164,7 @@ export class LetterReview extends Component {
             return (
               <CaseDetailCard
                 cardTitle={cardTitle}
-                cardData={[mapOfficer(officer)]}
+                cardData={[mapOfficer(officer, pd)]}
                 data-testid="case-detail-card-accused"
                 cardSecondTitle={"Allegations"}
                 allegations={getAllegationData(officer)}

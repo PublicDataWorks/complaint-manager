@@ -4,10 +4,6 @@ import formatDate, {
 import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 export const getFormattedDate = date => {
   return date ? formatDate(date) : null;
 };
@@ -47,16 +43,13 @@ const fullNameIsAnonymous = complainantOrWitness =>
     ? `(AC) ${complainantOrWitness.fullName}`
     : complainantOrWitness.fullName;
 
-export const mapOfficer = officer => {
+export const mapOfficer = (officer, pd) => {
   if (officer.isUnknownOfficer) {
     return { "Officer Name": "Unknown" };
   } else {
-    const nameTitle =
-      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-      officer.caseEmployeeType ===
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-        ? `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} Name`
-        : "Officer Name";
+    const nameTitle = officer.caseEmployeeType?.includes("Civilian")
+      ? `Civilian (${pd}) Name`
+      : "Officer Name";
 
     const officerData = {
       [nameTitle]: fullNameIsAnonymous(officer),
@@ -67,7 +60,7 @@ export const mapOfficer = officer => {
   }
 };
 
-export const getComplainantData = caseDetail => {
+export const getComplainantData = (caseDetail, pd) => {
   let complainantCivilianData = caseDetail.complainantCivilians.map(
     complainant => {
       const complainantBirthDate = getFormattedDate(complainant.birthDate);
@@ -89,12 +82,14 @@ export const getComplainantData = caseDetail => {
     }
   );
 
-  let complainantOfficerData = caseDetail.complainantOfficers.map(mapOfficer);
+  let complainantOfficerData = caseDetail.complainantOfficers.map(officer =>
+    mapOfficer(officer, pd)
+  );
 
   return complainantCivilianData.concat(complainantOfficerData);
 };
 
-export const getWitnessData = caseDetail => {
+export const getWitnessData = (caseDetail, pd) => {
   let witnessCivilianData = caseDetail.witnessCivilians.map(witness => {
     const witnessPhoneNumber = formatPhoneNumber(witness.phoneNumber);
     return {
@@ -104,7 +99,9 @@ export const getWitnessData = caseDetail => {
     };
   });
 
-  let witnessOfficerData = caseDetail.witnessOfficers.map(mapOfficer);
+  let witnessOfficerData = caseDetail.witnessOfficers.map(officer =>
+    mapOfficer(officer, pd)
+  );
 
   return witnessCivilianData.concat(witnessOfficerData).length === 0
     ? ["No witnesses have been added"]
