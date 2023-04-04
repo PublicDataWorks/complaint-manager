@@ -231,6 +231,7 @@ describe("CreateCaseDialog component", () => {
                     complaintType: CIVILIAN_INITIATED
                   }
                 },
+                personType: personTypes[1],
                 redirect: true,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -262,6 +263,7 @@ describe("CreateCaseDialog component", () => {
                     complaintType: CIVILIAN_INITIATED
                   }
                 },
+                personType: personTypes[1],
                 redirect: false,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -526,6 +528,7 @@ describe("CreateCaseDialog component", () => {
             expect(dispatchSpy).toHaveBeenCalledWith(
               createCase({
                 caseDetails: caseDetails,
+                personType: personTypes[1],
                 redirect: false,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -594,6 +597,7 @@ describe("CreateCaseDialog component", () => {
             ).toEqual(
               createCase({
                 caseDetails: caseDetails,
+                personType: personTypes[1],
                 redirect: false,
                 sorting: {
                   sortBy: SORT_CASES_BY.CASE_REFERENCE,

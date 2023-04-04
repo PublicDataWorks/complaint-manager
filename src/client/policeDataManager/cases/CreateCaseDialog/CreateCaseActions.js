@@ -24,6 +24,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import normalizeAddress from "../../utilities/normalizeAddress";
 import { DialogTypes } from "../../../common/actionCreators/dialogTypes";
+import { getSelectedPersonType } from "../../globalData/person-type-selectors";
 
 const {
   CIVILIAN_WITHIN_PD_INITIATED
@@ -42,11 +43,7 @@ export class CreateCaseActions extends React.Component {
   createAndSearch = values => this.createNewCase(values, true);
 
   createNewCase = ({ civilian, case: theCase }, redirect) => {
-    if (
-      this.props.personTypes.find(
-        type => type.key === this.props.complainantType
-      ).dialogAction !== SHOW_FORM
-    ) {
+    if (this.props.selectedPersonType.dialogAction !== SHOW_FORM) {
       this.props.change("civilian", null);
       civilian = null;
     }
@@ -57,6 +54,7 @@ export class CreateCaseActions extends React.Component {
           this.isValid(civilian) &&
           this.prepareCivilian(civilian))
       },
+      personType: this.props.selectedPersonType,
       redirect,
       sorting: {
         sortBy: this.props.sortBy,
@@ -73,16 +71,10 @@ export class CreateCaseActions extends React.Component {
     if (!complaintType) {
       if (
         // this is all NOIPM specific
-        this.props.personTypes.find(
-          type => type.key === theCase.complainantType
-        ).employeeDescription === "Officer"
+        this.props.selectedPersonType.employeeDescription === "Officer"
       ) {
         complaintType = RANK_INITIATED;
-      } else if (
-        this.props.personTypes.find(
-          type => type.key === theCase.complainantType
-        ).isEmployee
-      ) {
+      } else if (this.props.selectedPersonType.isEmployee) {
         complaintType = CIVILIAN_WITHIN_PD_INITIATED;
       } else {
         complaintType = CIVILIAN_INITIATED;
@@ -138,9 +130,7 @@ export class CreateCaseActions extends React.Component {
         <SecondaryButton data-testid="cancelCase" onClick={this.closeDialog}>
           Cancel
         </SecondaryButton>
-        {this.props.personTypes.find(
-          type => type.key === this.props.complainantType
-        )?.dialogAction === SHOW_FORM ? (
+        {this.props.selectedPersonType?.dialogAction === SHOW_FORM ? (
           <CivilianComplainantButtons
             createCaseOnly={handleSubmit(this.createOnly)}
             createAndView={handleSubmit(this.createAndView)}
@@ -196,11 +186,11 @@ export const ActionsWithTheme = withTheme(CreateCaseActions);
 
 const selector = formValueSelector(CREATE_CASE_FORM_NAME);
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   addressValid: state.ui.addressInput.addressValid,
   civilian: selector(state, "civilian"),
   currentPage: state.cases.working.currentPage,
-  personTypes: state.personTypes,
+  selectedPersonType: getSelectedPersonType(state, props.complainantType),
   sortBy: state.ui.casesTable.sortBy,
   sortDirection: state.ui.casesTable.sortDirection
 });

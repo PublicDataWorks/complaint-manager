@@ -22,27 +22,27 @@ jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
 
-jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`, () => ({
-  PERSON_TYPE: {
-    REDIRECT_TO_CASE_DETAILS: {
-      isEmployee: false,
-      description: "Not an employee",
-      createDialogAction: "showForm"
-    },
-    REDIRECT_TO_OTHER: {
-      isEmployee: true,
-      employeeDescription: "Employee",
-      createDialogAction: "/redirect"
-    }
-  }
-}));
-
 jest.mock("./getWorkingCases", () => (sortBy, sortDirection, page) => ({
   type: "MOCK_GET_WORKING_CASES",
   sortBy: sortBy,
   sortDirection: sortDirection,
   page: page
 }));
+
+const personTypes = [
+  {
+    key: "REDIRECT_TO_CASE_DETAILS",
+    isEmployee: false,
+    description: "Not an employee",
+    dialogAction: "showForm"
+  },
+  {
+    key: "REDIRECT_TO_OTHER",
+    isEmployee: true,
+    employeeDescription: "Employee",
+    dialogAction: "/redirect"
+  }
+];
 
 describe("createCase", () => {
   const dispatch = jest.fn();
@@ -61,6 +61,7 @@ describe("createCase", () => {
           complainantType: "REDIRECT_TO_CASE_DETAILS"
         }
       },
+      personType: personTypes[0],
       redirect: false,
       sorting: {
         sortBy: SORT_CASES_BY.CASE_REFERENCE,
@@ -145,6 +146,7 @@ describe("createCase", () => {
           complainantType: "REDIRECT_TO_OTHER"
         }
       },
+      personType: personTypes[1],
       redirect: true
     };
 
@@ -190,6 +192,7 @@ describe("createCase", () => {
           complainantType: "REDIRECT_TO_CASE_DETAILS"
         }
       },
+      personType: personTypes[0],
       redirect: true
     };
 
