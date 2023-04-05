@@ -34,7 +34,7 @@ const personTypes = [
     key: "REDIRECT_TO_CASE_DETAILS",
     isEmployee: false,
     description: "Not an employee",
-    dialogAction: "showForm"
+    dialogAction: SHOW_FORM
   },
   {
     key: "REDIRECT_TO_OTHER",
