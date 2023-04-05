@@ -12,18 +12,13 @@ import {
   OFFICER_TITLE
 } from "../../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const addOfficer =
-  (caseId, officerId, caseEmployeeType, values) => async dispatch => {
+  (caseId, officerId, caseEmployeeType, values, pd) => async dispatch => {
     const payload = { officerId, caseEmployeeType, ...values };
     const isCivilianWithinPd = caseEmployeeType.includes("Civilian");
-    const caseEmployeeTitle =
-      isCivilianWithinPd && PERSON_TYPE.CIVILIAN_WITHIN_PD
-        ? PERSON_TYPE.CIVILIAN_WITHIN_PD.description
-        : OFFICER_TITLE;
+    const caseEmployeeTitle = isCivilianWithinPd
+      ? `Civilian (${pd})`
+      : OFFICER_TITLE;
 
     try {
       dispatch(startSubmit(OFFICER_DETAILS_FORM_NAME));

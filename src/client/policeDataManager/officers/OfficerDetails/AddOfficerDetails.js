@@ -40,7 +40,7 @@ class AddOfficerDetails extends React.Component {
         caseId={caseId}
         titleAction={"Add"}
         submitButtonText={submitButtonText}
-        submitAction={addThunkWrapper(caseId)}
+        submitAction={addThunkWrapper(caseId, this.props.pd)}
         officerSearchUrl={`/cases/${caseId}/officers/search`}
         caseEmployeeType={this.props.caseEmployeeType}
       />
