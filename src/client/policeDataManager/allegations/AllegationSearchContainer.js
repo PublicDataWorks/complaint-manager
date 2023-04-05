@@ -13,9 +13,6 @@ import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect
 import { CONFIGS, OFFICER_TITLE } from "../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 export class AllegationSearchContainer extends Component {
   caseDetailsNotYetLoaded = () => {
     return (
@@ -56,9 +53,7 @@ export class AllegationSearchContainer extends Component {
     }
 
     const isCivilianWithinPd =
-      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-      currentCaseOfficerData.caseEmployeeType ===
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+      currentCaseOfficerData.caseEmployeeType.includes("Civilian");
     const titleText = isCivilianWithinPd
       ? `Accused Civilian (${this.props.pd})`
       : `Accused ${OFFICER_TITLE}`;
