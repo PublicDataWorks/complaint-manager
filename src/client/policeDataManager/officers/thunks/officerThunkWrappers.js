@@ -7,12 +7,13 @@ export const addThunkWrapper =
   };
 
 export const editThunkWrapper =
-  (caseId, caseOfficerId) => (officerId, caseEmployeeType) => values => {
+  (caseId, caseOfficerId, pd) => (officerId, caseEmployeeType) => values => {
     return editCaseOfficer(
       caseId,
       caseOfficerId,
       officerId,
       caseEmployeeType,
-      values
+      values,
+      pd
     );
   };

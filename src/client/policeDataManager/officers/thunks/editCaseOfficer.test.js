@@ -7,10 +7,6 @@ import { clearSelectedOfficer } from "../../actionCreators/officersActionCreator
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { authEnabledTest } from "../../../testHelpers";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
 );
@@ -60,7 +56,8 @@ describe("editCaseOfficer thunk", () => {
       caseOfficerId,
       officerId,
       caseEmployeeType,
-      values
+      values,
+      "GCPD"
     )(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
@@ -70,41 +67,37 @@ describe("editCaseOfficer thunk", () => {
     expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
   });
 
-  if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
-    test("should dispatch success, clear selected employee, & redirect to case details when response is 200", async () => {
-      const caseId = 100;
-      const caseOfficerId = 100;
-      const officerId = 200;
-      const caseEmployeeType =
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription;
+  test("should dispatch success, clear selected employee, & redirect to case details when response is 200", async () => {
+    const caseId = 100;
+    const caseOfficerId = 100;
+    const officerId = 200;
+    const caseEmployeeType = "Civilian Employee";
 
-      const values = { payload: "test edit" };
-      const payload = { ...values, officerId };
+    const values = { payload: "test edit" };
+    const payload = { ...values, officerId };
 
-      const responseBody = { response: "Successful" };
+    const responseBody = { response: "Successful" };
 
-      nock("http://localhost")
-        .put(
-          `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
-          JSON.stringify(payload)
-        )
-        .reply(200, responseBody);
+    nock("http://localhost")
+      .put(
+        `/api/cases/${caseId}/cases-officers/${caseOfficerId}`,
+        JSON.stringify(payload)
+      )
+      .reply(200, responseBody);
 
-      await editCaseOfficer(
-        caseId,
-        caseOfficerId,
-        officerId,
-        caseEmployeeType,
-        values
-      )(dispatch);
+    await editCaseOfficer(
+      caseId,
+      caseOfficerId,
+      officerId,
+      caseEmployeeType,
+      values,
+      "GCPD"
+    )(dispatch);
 
-      expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
-      expect(dispatch).toHaveBeenCalledWith(
-        snackbarSuccess(
-          `${PERSON_TYPE.CIVILIAN_WITHIN_PD.description} was successfully updated`
-        )
-      );
-      expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
-    });
-  }
+    expect(dispatch).toHaveBeenCalledWith(clearSelectedOfficer());
+    expect(dispatch).toHaveBeenCalledWith(
+      snackbarSuccess("Civilian (GCPD) was successfully updated")
+    );
+    expect(dispatch).toHaveBeenCalledWith(push(`/cases/${caseId}`));
+  });
 });
