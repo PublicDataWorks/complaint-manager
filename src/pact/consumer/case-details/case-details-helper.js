@@ -12,8 +12,10 @@ import {
   GET_COMPLAINT_TYPES_SUCCEEDED,
   GET_CONFIGS_SUCCEEDED,
   GET_FEATURES_SUCCEEDED,
+  GET_PERSON_TYPES,
   RANK_INITIATED,
-  USER_PERMISSIONS
+  USER_PERMISSIONS,
+  SHOW_FORM
 } from "../../../sharedUtilities/constants";
 
 const {
@@ -23,6 +25,7 @@ const {
 
 export const CIVILIAN_COMPLAINANT = "civilianComplainant";
 export const CIVILIAN_WITNESS = "civilianWitness";
+export const CIVILIAN_ACCUSED = "civilianAccused";
 export const OFFICER_COMPLAINANT = "officerComplainant";
 export const OFFICER_WITNESS = "officerWitness";
 export const OFFICER_ACCUSED = "officerAccused";
@@ -33,6 +36,54 @@ export const NO_CASE_TAGS = "noCaseTags";
 export const GENERATE_LETTER_BUTTON = "hasGenerateLetterButton";
 export const COMPLAINT_TYPES = "hasComplaintTypes";
 export const PERSON_IN_CUSTODY = "personInCustody";
+export const CHOOSE_PERSON_TYPE = "choosePersonType";
+const personTypes = [
+  {
+    key: "OFFICER",
+    description: "Officer",
+    employeeDescription: "Officer",
+    isEmployee: true,
+    abbreviation: "O",
+    legend: "Officer (O)",
+    dialogAction: "/redirect",
+    isDefault: false
+  },
+  {
+    key: "OTHER",
+    description: "not an officer",
+    abbreviation: "OTH",
+    legend: "not an officer (OTH)",
+    dialogAction: SHOW_FORM,
+    isDefault: true,
+    subTypes: ["Other1", "Other2", "Other3"]
+  },
+  {
+    key: "EMPLOYEE",
+    description: "Employed Person",
+    employeeDescription: "Non-Officer",
+    isEmployee: true,
+    abbreviation: "EMP",
+    legend: "Employed Person (EMP)",
+    dialogAction: "/redirect",
+    isDefault: false
+  },
+  {
+    key: "ONEMORE",
+    description: "one more type",
+    abbreviation: "OM",
+    legend: "one more type (ONEMORE)",
+    dialogAction: SHOW_FORM,
+    isDefault: false
+  },
+  {
+    key: "ELVIS",
+    description: "Elvis Presley",
+    abbreviation: "?:",
+    legend: "Elvis Presley (?:)",
+    dialogAction: SHOW_FORM,
+    isDefault: false
+  }
+];
 
 export const setUpCaseDetailsPage = async (provider, ...options) => {
   let getCaseState = "Case exists";
@@ -41,6 +92,9 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   }
   if (options.includes(CIVILIAN_WITNESS)) {
     getCaseState += ": with civilian witness";
+  }
+  if (options.includes(CIVILIAN_ACCUSED)) {
+    getCaseState += ": with civilian accused";
   }
   if (
     options.includes(OFFICER_COMPLAINANT) ||
@@ -110,6 +164,18 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               firstName: "Bob",
               lastName: "Loblaw",
               roleOnCase: "Witness",
+              email: "realemail@email.com",
+              isAnonymous: false,
+              caseId: 1
+            })
+          : [],
+        accusedCivilians: options.includes(CIVILIAN_ACCUSED)
+          ? eachLike({
+              fullName: "Bob Loblaw",
+              id: 2,
+              firstName: "Bob",
+              lastName: "Loblaw",
+              roleOnCase: "Accused",
               email: "realemail@email.com",
               isAnonymous: false,
               caseId: 1
@@ -641,11 +707,22 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     payload: { [CONFIGS.PD]: PD }
   });
 
+  store.dispatch({
+    type: GET_FEATURES_SUCCEEDED,
+    features: {
+      generateLetterButton: options.includes(GENERATE_LETTER_BUTTON),
+      chooseComplaintType: options.includes(COMPLAINT_TYPES),
+      allowAllTypesToBeAccused: options.includes(CIVILIAN_ACCUSED),
+      choosePersonTypeInAddDialog: options.includes(CHOOSE_PERSON_TYPE)
+    }
+  });
+
+  store.dispatch({
+    type: GET_PERSON_TYPES,
+    payload: personTypes
+  });
+
   if (options.includes(COMPLAINT_TYPES)) {
-    store.dispatch({
-      type: GET_FEATURES_SUCCEEDED,
-      features: { chooseComplaintType: true }
-    });
     store.dispatch({
       type: GET_COMPLAINT_TYPES_SUCCEEDED,
       payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
@@ -653,10 +730,6 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   }
 
   if (options.includes(GENERATE_LETTER_BUTTON)) {
-    store.dispatch({
-      type: GET_FEATURES_SUCCEEDED,
-      features: { generateLetterButton: true }
-    });
     store.dispatch({
       type: "AUTH_SUCCESS",
       userInfo: {

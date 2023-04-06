@@ -160,6 +160,14 @@ export default class Case {
     return this._model.accusedOfficers;
   }
 
+  get accusedCivilians() {
+    return this._model.accusedCivilians;
+  }
+
+  get accusedInmates() {
+    return this._model.accusedInmates;
+  }
+
   get incidentLocation() {
     return this._model.incidentLocation;
   }

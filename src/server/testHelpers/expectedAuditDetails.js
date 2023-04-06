@@ -114,6 +114,12 @@ export const expectedCaseAuditDetails = {
     ),
     model: models.case_officer.name
   },
+  accusedCivilians: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.civilian.rawAttributes)
+    ),
+    model: models.civilian.name
+  },
   allegations: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.officer_allegation.rawAttributes)

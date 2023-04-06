@@ -88,6 +88,15 @@ const getCaseDetailsAndAuditDetails = async (
         ]
       },
       {
+        model: models.civilian,
+        as: "accusedCivilians",
+        include: [
+          models.address,
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" }
+        ]
+      },
+      {
         model: models.caseInmate,
         as: "complainantInmates",
         include: [{ model: models.inmate, as: "inmate" }]

@@ -37,6 +37,7 @@ import {
   seedStandardCaseStatuses
 } from "../../server/testHelpers/testSeeding";
 import {
+  ACCUSED,
   CIVILIAN_INITIATED,
   COMPLAINANT,
   RANK_INITIATED,
@@ -464,6 +465,10 @@ describe("Pact Verification", () => {
           const c4se = await setupCase();
           await addCivilianToCase(c4se, WITNESS);
         },
+        "Case exists: with civilian accused": async () => {
+          const c4se = await setupCase();
+          await addCivilianToCase(c4se, ACCUSED);
+        },
         "Case exists: with officer complainant": async () => {
           const c4se = await setupCase();
           try {
@@ -550,6 +555,16 @@ describe("Pact Verification", () => {
             const letterCase = await setupCase();
             await Promise.all([
               addCivilianToCase(letterCase, WITNESS),
+              setupRaceEthnicities(),
+              setupGenderIdentities(),
+              setupCivilianTitles()
+            ]);
+          },
+        "Case exists: race ethnicities exist: gender identities exist: civilian titles exist: with civilian accused":
+          async () => {
+            const letterCase = await setupCase();
+            await Promise.all([
+              addCivilianToCase(letterCase, ACCUSED),
               setupRaceEthnicities(),
               setupGenderIdentities(),
               setupCivilianTitles()

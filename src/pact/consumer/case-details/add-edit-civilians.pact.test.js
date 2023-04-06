@@ -6,6 +6,8 @@ import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import {
   CIVILIAN_COMPLAINANT,
   CIVILIAN_WITNESS,
+  CIVILIAN_ACCUSED,
+  CHOOSE_PERSON_TYPE,
   setUpCaseDetailsPage
 } from "./case-details-helper";
 
@@ -39,6 +41,15 @@ const scenarios = [
     endpoint: "",
     successMessage: "Civilian was successfully created",
     options: []
+  },
+  {
+    role: "Accused",
+    buttonIndex: 2,
+    buttonTestId: "addComplainantWitness",
+    method: "POST",
+    endpoint: "",
+    successMessage: "Civilian was successfully created",
+    options: [CIVILIAN_ACCUSED, CHOOSE_PERSON_TYPE]
   },
   {
     role: "Complainant",
@@ -124,6 +135,27 @@ scenarios.forEach(
             if (options.includes(CIVILIAN_WITNESS)) {
               state += ": with civilian witness";
             }
+            if (options.includes(CIVILIAN_ACCUSED)) {
+              state += ": with civilian accused";
+            }
+
+            let requestBody = {
+              roleOnCase: role,
+              caseId: 1,
+              civilianTitleId: 2,
+              firstName: "Andrew",
+              isAnonymous: false,
+              isUnknown: false,
+              lastName: "Rist",
+              genderIdentityId: 1,
+              raceEthnicityId: 2,
+              email: "fakeemail@email.com"
+            };
+
+            if (options.includes(CIVILIAN_ACCUSED)) {
+              requestBody.personType = "ELVIS";
+            }
+
             await provider.addInteraction({
               state,
               uponReceiving: `${method === "POST" ? "add" : "edit"} ${role}`,
@@ -133,18 +165,7 @@ scenarios.forEach(
                 headers: {
                   "Content-Type": "application/json"
                 },
-                body: like({
-                  roleOnCase: role,
-                  caseId: 1,
-                  civilianTitleId: 2,
-                  firstName: "Andrew",
-                  isAnonymous: false,
-                  isUnknown: false,
-                  lastName: "Rist",
-                  genderIdentityId: 1,
-                  raceEthnicityId: 2,
-                  email: "fakeemail@email.com"
-                })
+                body: like(requestBody)
               },
               willRespondWith: {
                 status: method === "POST" ? 201 : 200,
@@ -193,7 +214,7 @@ scenarios.forEach(
             const buttons = await screen.findAllByTestId(buttonTestId);
 
             userEvent.click(buttons[buttonIndex]);
-            if (method === "POST") {
+            if (method === "POST" && role !== "Accused") {
               userEvent.click(await screen.findByText(`Civilian ${role}`));
             }
 
@@ -217,6 +238,12 @@ scenarios.forEach(
               screen.getByTestId("emailInput"),
               "fakeemail@email.com"
             );
+
+            if (options.includes(CHOOSE_PERSON_TYPE)) {
+              userEvent.click(screen.getByTestId("complainant-type-dropdown"));
+              userEvent.click(await screen.findByText("Elvis Presley"));
+            }
+
             userEvent.click(screen.getByTestId("submitEditCivilian"));
 
             expect(await screen.findByText(successMessage)).toBeInTheDocument;

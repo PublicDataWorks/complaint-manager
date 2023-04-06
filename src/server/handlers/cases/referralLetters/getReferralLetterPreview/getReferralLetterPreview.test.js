@@ -867,6 +867,12 @@ describe("getReferralLetterPreview", function () {
           ];
 
           const expectedAuditDetails = {
+            accusedCivilians: expect.objectContaining({
+              attributes: expect.arrayContaining(
+                Object.keys(models.civilian.rawAttributes)
+              ),
+              model: models.civilian.name
+            }),
             accusedOfficers: {
               attributes: expect.arrayContaining(
                 Object.keys(models.case_officer.rawAttributes)
@@ -1096,6 +1102,12 @@ describe("getReferralLetterPreview", function () {
           ];
 
           const expectedAuditDetails = {
+            accusedCivilians: expect.objectContaining({
+              attributes: expect.arrayContaining(
+                Object.keys(models.civilian.rawAttributes)
+              ),
+              model: models.civilian.name
+            }),
             accusedOfficers: {
               attributes: expect.arrayContaining(
                 Object.keys(models.case_officer.rawAttributes)

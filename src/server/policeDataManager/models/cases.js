@@ -284,6 +284,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: { name: "caseId", field: "case_id" },
       scope: { role_on_case: WITNESS }
     });
+    Case.hasMany(models.civilian, {
+      as: "accusedCivilians",
+      foreignKey: { name: "caseId", field: "case_id" },
+      scope: { role_on_case: ACCUSED }
+    });
     Case.hasMany(models.attachment, {
       foreignKey: { name: "caseId", field: "case_id" }
     });
