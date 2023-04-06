@@ -193,6 +193,12 @@ const getCaseDetailsAndAuditDetails = async (
     ) {
       if (caseDetails.primaryComplainant.officerId) {
         anonymizeOfficer(caseDetails.primaryComplainant);
+      } else if (
+        caseDetails.primaryComplainant.inmateId ||
+        caseDetails.primaryComplainant.notFoundInmateId ||
+        caseDetails.primaryComplainant.facility
+      ) {
+        anonymizeInmate(caseDetails.primaryComplainant);
       } else {
         anonymizeCivilian(caseDetails.primaryComplainant);
       }
@@ -202,7 +208,9 @@ const getCaseDetailsAndAuditDetails = async (
       ...caseDetails.complainantCivilians.map(anonymizeCivilian),
       ...caseDetails.witnessCivilians.map(anonymizeCivilian),
       ...caseDetails.complainantOfficers.map(anonymizeOfficer),
-      ...caseDetails.witnessOfficers.map(anonymizeOfficer)
+      ...caseDetails.witnessOfficers.map(anonymizeOfficer),
+      ...caseDetails.complainantInmates.map(anonymizeInmate),
+      ...caseDetails.witnessInmates.map(anonymizeInmate)
     ];
 
     if (arrayOfBooleansTellingUsIfSomeoneOnCaseIsAnonymous.includes(true)) {
@@ -304,6 +312,24 @@ const anonymizeOfficer = officer => {
     officer.notes = "";
     return true;
   }
+  return false;
+};
+
+const anonymizeInmate = inmate => {
+  if (inmate.isAnonymous) {
+    inmate.inmate = null;
+    inmate.inmateId = "";
+    inmate.firstName = "Anonymous";
+    inmate.middleInitial = "";
+    inmate.lastName = "";
+    inmate.fullName = "Anonymous";
+    inmate.suffix = "";
+    inmate.notFoundInmateId = "";
+    inmate.facility = "";
+    inmate.notes = "";
+    return true;
+  }
+
   return false;
 };
 
