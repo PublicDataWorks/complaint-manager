@@ -1,6 +1,5 @@
 import React from "react";
 import { Divider, Typography } from "@material-ui/core";
-import OfficerActions from "./OfficerActions";
 import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
 import OfficerPanel from "../Officers/OfficerPanel";
 import InmatePanel from "./InmatePanel";
@@ -16,7 +15,8 @@ const ComplainantWitnessDisplay = ({
   incidentDate,
   isArchived,
   classes,
-  permissions
+  permissions,
+  OfficerButtonsComponent
 }) => {
   return (
     <div>
@@ -43,7 +43,7 @@ const ComplainantWitnessDisplay = ({
                 >
                   {isArchived ||
                   !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
-                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                    <OfficerButtonsComponent caseOfficer={civilianOrOfficer} />
                   )}
                 </UnknownOfficerPanel>
               );
@@ -59,7 +59,7 @@ const ComplainantWitnessDisplay = ({
                 >
                   {isArchived ||
                   !permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? null : (
-                    <OfficerActions caseOfficer={civilianOrOfficer} />
+                    <OfficerButtonsComponent caseOfficer={civilianOrOfficer} />
                   )}
                 </OfficerPanel>
               );

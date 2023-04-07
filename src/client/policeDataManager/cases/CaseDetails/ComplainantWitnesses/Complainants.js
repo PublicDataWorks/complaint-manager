@@ -4,6 +4,7 @@ import DetailsCard from "../../../shared/components/DetailsCard";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
+import OfficerActions from "./OfficerActions";
 import * as _ from "lodash";
 import { COMPLAINANT } from "../../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
@@ -35,6 +36,7 @@ const Complainants = props => {
           incidentDate={props.caseDetails.incidentDate}
           isArchived={props.caseDetails.isArchived}
           classes={classes}
+          OfficerButtonsComponent={OfficerActions}
         />
 
         {props.caseDetails.isArchived ? null : (

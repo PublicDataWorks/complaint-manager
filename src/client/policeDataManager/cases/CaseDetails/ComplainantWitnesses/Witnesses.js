@@ -2,6 +2,7 @@ import React from "react";
 import { CardContent } from "@material-ui/core";
 import * as _ from "lodash";
 import DetailsCard from "../../../shared/components/DetailsCard";
+import OfficerActions from "./OfficerActions";
 import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
 import { WITNESS } from "../../../../../sharedUtilities/constants";
 import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
@@ -29,6 +30,7 @@ const Witnesses = props => {
           incidentDate={props.caseDetails.incidentDate}
           isArchived={props.caseDetails.isArchived}
           classes={classes}
+          OfficerButtonsComponent={OfficerActions}
         />
         {props.caseDetails.isArchived ? null : (
           <ComplainantWitnessMenu
