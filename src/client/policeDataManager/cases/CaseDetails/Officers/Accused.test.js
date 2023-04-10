@@ -60,8 +60,8 @@ describe("Accused", () => {
   const raceEthnicity = new RaceEthnicity.Builder()
     .defaultRaceEthnicity()
     .build();
-  let complainantWitnessesSection,
-    complainantWitnesses,
+  let personOnCaseesSection,
+    personOnCasees,
     complainantPanel,
     caseDetails,
     dispatchSpy,
@@ -116,7 +116,7 @@ describe("Accused", () => {
         type: "AUTH_SUCCESS",
         userInfo: { permissions: [USER_PERMISSIONS.ADD_TAG_TO_CASE] }
       });
-      complainantWitnesses = mount(
+      personOnCasees = mount(
         <Provider store={store}>
           <Accused
             caseDetails={caseDetails}
@@ -128,24 +128,24 @@ describe("Accused", () => {
     });
 
     test("should not be able to add", () => {
-      expect(complainantWitnesses.text().includes("+ Add")).toBeFalse();
+      expect(personOnCasees.text().includes("+ Add")).toBeFalse();
     });
 
     test("should not be able to edit", () => {
       expect(
-        complainantWitnesses.find('[data-testid="editComplainantLink"]')
+        personOnCasees.find('[data-testid="editComplainantLink"]')
       ).toHaveLength(0);
     });
 
     test("should not be able to remove", () => {
       expect(
-        complainantWitnesses.find('[data-testid="removeCivilianLink"]')
+        personOnCasees.find('[data-testid="removeCivilianLink"]')
       ).toHaveLength(0);
     });
 
     test("should not be able to remove", () => {
       expect(
-        complainantWitnesses.find('[data-testid="removePersonInCustodyLink"]')
+        personOnCasees.find('[data-testid="removePersonInCustodyLink"]')
       ).toHaveLength(0);
     });
   });
@@ -157,7 +157,7 @@ describe("Accused", () => {
         userInfo: { permissions: [USER_PERMISSIONS.EDIT_CASE] }
       });
 
-      complainantWitnesses = mount(
+      personOnCasees = mount(
         <Provider store={store}>
           <Accused
             caseDetails={caseDetails}
@@ -166,11 +166,11 @@ describe("Accused", () => {
           />
         </Provider>
       );
-      complainantWitnessesSection = complainantWitnesses
-        .find('[data-testid="complainantWitnessesSection"]')
+      personOnCaseesSection = personOnCasees
+        .find('[data-testid="personOnCaseesSection"]')
         .first();
-      complainantPanel = complainantWitnesses
-        .find('[data-testid="complainantWitnessesPanel"]')
+      complainantPanel = personOnCasees
+        .find('[data-testid="personOnCaseesPanel"]')
         .first();
     });
 
@@ -178,8 +178,8 @@ describe("Accused", () => {
       test("should display civilian first and last name", () => {
         const complainantName = complainant.fullName;
         containsText(
-          complainantWitnessesSection,
-          '[data-testid="complainantWitness"]',
+          personOnCaseesSection,
+          '[data-testid="personOnCase"]',
           complainantName
         );
       });
@@ -235,14 +235,14 @@ describe("Accused", () => {
           .withWitnessOfficers([])
           .build();
 
-        complainantWitnesses = mount(
+        personOnCasees = mount(
           <Provider store={store}>
             <Accused caseDetails={caseDetails} classes={{}} />
           </Provider>
         );
 
-        const complainantNames = complainantWitnesses.find(
-          '[data-testid="complainantWitness"]'
+        const complainantNames = personOnCasees.find(
+          '[data-testid="personOnCase"]'
         );
         const uniqueComplainantNamesRendered = _.uniq(
           complainantNames.map(complainant => complainant.text())
@@ -257,7 +257,7 @@ describe("Accused", () => {
 
     describe("Edit", () => {
       test("should open and initialize edit complainant dialog when edit is clicked", () => {
-        const editLink = complainantWitnesses
+        const editLink = personOnCasees
           .find('[data-testid="editComplainantLink"]')
           .first();
         editLink.simulate("click");
@@ -288,8 +288,8 @@ describe("Accused", () => {
 
     describe("email", () => {
       test("should display email when expanded", () => {
-        const complainantPanel = complainantWitnessesSection
-          .find('[data-testid="complainantWitnessesPanel"]')
+        const complainantPanel = personOnCaseesSection
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(
           complainantPanel,
@@ -314,14 +314,14 @@ describe("Accused", () => {
           .withAccusedCivilians([civilianWithNoAddress])
           .build();
 
-        complainantWitnesses = mount(
+        personOnCasees = mount(
           <Provider store={store}>
             <Accused caseDetails={caseWithNoAddress} classes={{}} />
           </Provider>
         );
 
-        complainantPanel = complainantWitnesses
-          .find('[data-testid="complainantWitnessesPanel"]')
+        complainantPanel = personOnCasees
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(
           complainantPanel,
@@ -358,14 +358,14 @@ describe("Accused", () => {
           .withAccusedCivilians([civilianWithNoAddress])
           .build();
 
-        complainantWitnesses = mount(
+        personOnCasees = mount(
           <Provider store={store}>
             <Accused caseDetails={caseWithNoAddress} classes={{}} />
           </Provider>
         );
 
-        complainantPanel = complainantWitnesses
-          .find('[data-testid="complainantWitnessesPanel"]')
+        complainantPanel = personOnCasees
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(complainantPanel, '[data-testid="civilianAddress"]', "");
       });
@@ -458,7 +458,7 @@ describe("Accused", () => {
       );
 
       const complainantPanel = wrapper
-        .find('[data-testid="complainantWitnessesPanel"]')
+        .find('[data-testid="personOnCaseesPanel"]')
         .first();
 
       const inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
@@ -491,7 +491,7 @@ describe("Accused", () => {
       );
 
       const complainantPanel = wrapper
-        .find('[data-testid="complainantWitnessesPanel"]')
+        .find('[data-testid="personOnCaseesPanel"]')
         .first();
 
       expect(complainantPanel.text()).toContain("Alpha");

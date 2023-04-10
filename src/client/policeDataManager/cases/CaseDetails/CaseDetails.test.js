@@ -236,12 +236,12 @@ describe("Case Details Component", () => {
   describe("main", () => {
     test("should open Add Civilian Dialog when Add Civilian button is clicked", () => {
       const addButton = caseDetails
-        .find('button[data-testid="addComplainantWitness"]')
+        .find('button[data-testid="addPersonOnCase"]')
         .first();
       addButton.simulate("click");
 
       const addCivilian = caseDetails.find(
-        'li[data-testid="addCivilianComplainantWitness"]'
+        'li[data-testid="addCivilianPersonOnCase"]'
       );
       addCivilian.simulate("click");
 
@@ -256,7 +256,7 @@ describe("Case Details Component", () => {
         features: { choosePersonTypeInAddDialog: true }
       });
       const addButton = caseDetails
-        .find('button[data-testid="addComplainantWitness"]')
+        .find('button[data-testid="addPersonOnCase"]')
         .first();
       addButton.simulate("click");
 
@@ -309,7 +309,7 @@ describe("Case Details Component", () => {
       caseDetails.update();
 
       const addButton = caseDetails
-        .find('button[data-testid="addComplainantWitness"]')
+        .find('button[data-testid="addPersonOnCase"]')
         .at(2);
 
       addButton.simulate("click");

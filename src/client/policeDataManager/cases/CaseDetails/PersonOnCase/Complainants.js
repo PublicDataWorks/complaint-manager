@@ -23,7 +23,7 @@ const Complainants = props => {
 
   return (
     <DetailsCard
-      data-testid="complainantWitnessesSection"
+      data-testid="personOnCaseesSection"
       title="Complainants"
       subtitle={getSubtitleText(sortedComplainants)}
       maxWidth="850px"
@@ -51,8 +51,8 @@ const Complainants = props => {
   );
 };
 
-const getSubtitleText = complainantWitnesses => {
-  const complainant = getFirstComplainant(complainantWitnesses);
+const getSubtitleText = personOnCasees => {
+  const complainant = getFirstComplainant(personOnCasees);
   const hasComplainants = Boolean(complainant);
 
   if (hasComplainants) {

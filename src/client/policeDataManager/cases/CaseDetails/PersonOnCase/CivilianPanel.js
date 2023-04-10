@@ -58,7 +58,7 @@ const CivilianPanel = ({
         }}
       >
         <Accordion
-          data-testid="complainantWitnessesPanel"
+          data-testid="personOnCaseesPanel"
           elevation={0}
           style={{ backgroundColor: "white", width: "100%" }}
         >
@@ -78,7 +78,7 @@ const CivilianPanel = ({
                     displayLabel={personType?.description || "Civilian"}
                     value={fullName}
                     isAnonymous={civilian.isAnonymous}
-                    testLabel="complainantWitness"
+                    testLabel="personOnCase"
                   />
                 </StyledInfoDisplay>
                 <StyledInfoDisplay>

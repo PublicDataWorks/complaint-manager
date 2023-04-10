@@ -50,7 +50,7 @@ const PersonOnCaseMenu = props => {
           onClick={
             props.choosePersonTypeInAddDialog ? launchDialog : handleMenuOpen
           }
-          data-testid="addComplainantWitness"
+          data-testid="addPersonOnCase"
         >
           + Add {props.civilianType}
         </LinkButton>
@@ -64,7 +64,7 @@ const PersonOnCaseMenu = props => {
         getContentAnchorEl={null}
       >
         <MenuItem
-          data-testid="addCivilianComplainantWitness"
+          data-testid="addCivilianPersonOnCase"
           onClick={() => {
             handleMenuClose();
             launchDialog();
@@ -73,7 +73,7 @@ const PersonOnCaseMenu = props => {
           Civilian {props.civilianType}
         </MenuItem>
         <MenuItem
-          data-testid="addOfficerComplainantWitness"
+          data-testid="addOfficerPersonOnCase"
           onClick={() => {
             props.dispatch(
               initialize(OFFICER_DETAILS_FORM_NAME, {
@@ -89,7 +89,7 @@ const PersonOnCaseMenu = props => {
           {OFFICER_TITLE} {props.civilianType}
         </MenuItem>
         <MenuItem
-          data-testid="addCivilianWithinPdComplainantWitness"
+          data-testid="addCivilianWithinPdPersonOnCase"
           onClick={() => {
             props.dispatch(
               initialize("OfficerDetails", {

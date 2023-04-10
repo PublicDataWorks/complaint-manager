@@ -141,7 +141,7 @@ describe("Witnesses", () => {
         .find('[data-testid="witnessesSection"]')
         .first();
       witnessPanel = witnesses
-        .find('[data-testid="complainantWitnessesPanel"]')
+        .find('[data-testid="personOnCaseesPanel"]')
         .first();
     });
 
@@ -150,7 +150,7 @@ describe("Witnesses", () => {
         const witnessName = witness.fullName;
         containsText(
           witnessSection,
-          '[data-testid="complainantWitness"]',
+          '[data-testid="personOnCase"]',
           witnessName
         );
       });
@@ -213,9 +213,7 @@ describe("Witnesses", () => {
           </Provider>
         );
 
-        const witnessNames = witnesses.find(
-          '[data-testid="complainantWitness"]'
-        );
+        const witnessNames = witnesses.find('[data-testid="personOnCase"]');
         const uniqueWitnessNamesRendered = _.uniq(
           witnessNames.map(witness => witness.text())
         );
@@ -261,7 +259,7 @@ describe("Witnesses", () => {
     describe("email", () => {
       test("should display email when expanded", () => {
         const complainantPanel = witnessSection
-          .find('[data-testid="complainantWitnessesPanel"]')
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(
           complainantPanel,
@@ -299,7 +297,7 @@ describe("Witnesses", () => {
         );
 
         witnessPanel = witnesses
-          .find('[data-testid="complainantWitnessesPanel"]')
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(
           witnessPanel,
@@ -349,7 +347,7 @@ describe("Witnesses", () => {
         );
 
         witnessPanel = witnesses
-          .find('[data-testid="complainantWitnessesPanel"]')
+          .find('[data-testid="personOnCaseesPanel"]')
           .first();
         containsText(witnessPanel, '[data-testid="civilianAddress"]', "");
       });
@@ -411,7 +409,7 @@ describe("Witnesses", () => {
       );
 
       const complainantPanel = wrapper
-        .find('[data-testid="complainantWitnessesPanel"]')
+        .find('[data-testid="personOnCaseesPanel"]')
         .first();
 
       expect(complainantPanel.text()).toContain("Alpha");

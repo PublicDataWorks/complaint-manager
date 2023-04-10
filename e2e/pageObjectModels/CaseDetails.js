@@ -194,7 +194,7 @@ module.exports = {
         selector: "[data-testid='caseReference']"
       },
       addCivilianComplainant: {
-        selector: "[data-testid='addCivilianComplainantWitness']"
+        selector: "[data-testid='addCivilianPersonOnCase']"
       }
     },
     attachmentElements,

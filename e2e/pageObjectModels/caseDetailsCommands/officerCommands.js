@@ -1,45 +1,45 @@
 const e2e = require("../e2eUtilities.js");
 
 const officerCommands = {
-  thereIsAnUnknownOfficer: function() {
+  thereIsAnUnknownOfficer: function () {
     this.waitForElementVisible(
       "@unknownOfficerPanel",
       e2e.roundtripWait
     ).assert.containsText("@unknownOfficerPanel", "Unknown Officer");
     return this;
   },
-  clickManageUnknownOfficer: function() {
+  clickManageUnknownOfficer: function () {
     return this.waitForElementVisible(
       "@manageUnknownOfficerButton",
       e2e.rerenderWait
     ).click("@manageUnknownOfficerButton", e2e.logOnClick);
   },
-  clickManageKnownOfficer: function() {
+  clickManageKnownOfficer: function () {
     return this.waitForElementVisible(
       "@manageKnownOfficerButton",
       e2e.rerenderWait
     ).click("@manageKnownOfficerButton", e2e.logOnClick);
   },
-  clickEditOfficer: function() {
+  clickEditOfficer: function () {
     return this.waitForElementVisible(
       "@editOfficerButton",
       e2e.rerenderWait
     ).click("@editOfficerButton", e2e.logOnClick);
   },
-  thereIsAKnownOfficer: function(officerName) {
+  thereIsAKnownOfficer: function (officerName) {
     this.waitForElementVisible(
       "@knownOfficerPanel",
       e2e.roundtripWait
     ).assert.containsText("@knownOfficerPanel", officerName);
     return this;
   },
-  thereIsNoUnknownOfficer: function() {
+  thereIsNoUnknownOfficer: function () {
     return this.waitForElementNotPresent(
       "@unknownOfficerPanel",
       e2e.rerenderWait
     );
   },
-  clickManageAllegations: function() {
+  clickManageAllegations: function () {
     return this.waitForElementVisible(
       "@manageAllegationsButton",
       e2e.rerenderWait
@@ -47,7 +47,7 @@ const officerCommands = {
       .moveToElement("@manageAllegationsButton", undefined, undefined)
       .click("@manageAllegationsButton", e2e.logOnClick);
   },
-  addWitnessCivilianWithinPd: function() {
+  addWitnessCivilianWithinPd: function () {
     this.waitForElementVisible("@addWitnessMenu", e2e.rerenderWait).click(
       "@addWitnessMenu",
       e2e.logOnClick
@@ -57,17 +57,14 @@ const officerCommands = {
       e2e.rerenderWait
     ).click("@addWitnessCivilianWithinPd", e2e.logOnClick);
   },
-  thereIsAKnownCivilianWithinPd: function(civilianWithinPdName) {
+  thereIsAKnownCivilianWithinPd: function (civilianWithinPdName) {
     this.waitForElementVisible(
       "@knownCivilianWithinPdPanel",
       e2e.roundtripWait
-    ).assert.containsText(
-      "@knownCivilianWithinPdPanel",
-      civilianWithinPdName
-    );
+    ).assert.containsText("@knownCivilianWithinPdPanel", civilianWithinPdName);
     return this;
   },
-  addAccusedOfficer: function() {
+  addAccusedOfficer: function () {
     this.waitForElementVisible("@addAccusedMenu", e2e.rerenderWait).click(
       "@addAccusedMenu",
       e2e.logOnClick
@@ -77,13 +74,13 @@ const officerCommands = {
       e2e.rerenderWait
     ).click("@addAccusedOfficer", e2e.logOnClick);
   },
-  clickRemoveOfficer: function() {
+  clickRemoveOfficer: function () {
     return this.waitForElementVisible(
       "@removeOfficerButton",
       e2e.rerenderWait
     ).click("@removeOfficerButton", e2e.logOnClick);
   },
-  confirmRemoveOfficerInDialog: function() {
+  confirmRemoveOfficerInDialog: function () {
     return this.waitForElementVisible(
       "@removeOfficerDialogButton",
       e2e.rerenderWait
@@ -113,10 +110,10 @@ const officerElements = {
     selector: '[data-testid="knownOfficerPanel"]'
   },
   addWitnessMenu: {
-    selector: '[data-testid="addComplainantWitness"]'
+    selector: '[data-testid="addPersonOnCase"]'
   },
   addWitnessCivilianWithinPd: {
-    selector: '[data-testid="addCivilianWithinPdComplainantWitness"]'
+    selector: '[data-testid="addCivilianWithinPdPersonOnCase"]'
   },
   knownCivilianWithinPdPanel: {
     selector: "[data-testid='knownCivilian(PD)Panel']"

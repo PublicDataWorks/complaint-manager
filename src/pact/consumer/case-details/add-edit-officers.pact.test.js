@@ -35,7 +35,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
     {
       role: "Complainant",
       buttonIndex: 0,
-      buttonTestId: "addComplainantWitness",
+      buttonTestId: "addPersonOnCase",
       method: "POST",
       options: [],
       title: "Officer"
@@ -43,7 +43,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
     {
       role: "Witness",
       buttonIndex: 1,
-      buttonTestId: "addComplainantWitness",
+      buttonTestId: "addPersonOnCase",
       method: "POST",
       options: [],
       title: "Officer"
@@ -83,7 +83,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
     {
       role: "Complainant",
       buttonIndex: 0,
-      buttonTestId: "addComplainantWitness",
+      buttonTestId: "addPersonOnCase",
       method: "POST",
       options: [],
       title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
@@ -91,7 +91,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
     {
       role: "Witness",
       buttonIndex: 1,
-      buttonTestId: "addComplainantWitness",
+      buttonTestId: "addPersonOnCase",
       method: "POST",
       options: [],
       title: PERSON_TYPE.CIVILIAN_WITHIN_PD.description
@@ -151,7 +151,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
               const results = await setUpCaseDetailsPage(provider, ...options);
               dispatchSpy = results.dispatchSpy;
               const complainantDialogButton = await screen.findAllByTestId(
-                "addComplainantWitness"
+                "addPersonOnCase"
               );
 
               userEvent.click(complainantDialogButton[0]);
@@ -183,7 +183,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
                   if (role === "Witness" || role === "Complainant") {
                     userEvent.click(
                       await screen.findByTestId(
-                        "addCivilianWithinPdComplainantWitness"
+                        "addCivilianWithinPdPersonOnCase"
                       )
                     );
                   }

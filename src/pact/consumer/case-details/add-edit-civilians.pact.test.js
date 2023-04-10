@@ -27,7 +27,7 @@ const scenarios = [
   {
     role: "Complainant",
     buttonIndex: 0,
-    buttonTestId: "addComplainantWitness",
+    buttonTestId: "addPersonOnCase",
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",
@@ -36,7 +36,7 @@ const scenarios = [
   {
     role: "Witness",
     buttonIndex: 1,
-    buttonTestId: "addComplainantWitness",
+    buttonTestId: "addPersonOnCase",
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",
@@ -45,7 +45,7 @@ const scenarios = [
   {
     role: "Accused",
     buttonIndex: 2,
-    buttonTestId: "addComplainantWitness",
+    buttonTestId: "addPersonOnCase",
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",

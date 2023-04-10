@@ -32,7 +32,7 @@ const Accused = props => {
 
   return (
     <DetailsCard
-      data-testid="complainantWitnessesSection"
+      data-testid="personOnCaseesSection"
       title={titleText}
       maxWidth="850px"
     >

@@ -7,7 +7,7 @@ import TextTruncate from "../../../shared/components/TextTruncate";
 const CaseDetailCard = props => {
   const { cardData, cardTitle } = props;
 
-  const renderComplainantWitnessOfficerData = () => {
+  const renderPersonOnCaseOfficerData = () => {
     return cardData.map(data => {
       if (data) {
         return renderCardData(data);
@@ -141,7 +141,7 @@ const CaseDetailCard = props => {
       >
         <Typography style={styles.section}>{cardTitle}</Typography>
         {_.isArray(cardData)
-          ? renderComplainantWitnessOfficerData()
+          ? renderPersonOnCaseOfficerData()
           : renderNarrativeData(cardData)}
         {props.cardSecondTitle === "Narrative Details"
           ? renderNarrativeSection(
