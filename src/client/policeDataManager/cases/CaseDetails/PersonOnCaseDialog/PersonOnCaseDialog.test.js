@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import createConfiguredStore from "../../../../createConfiguredStore";
-import ComplainantWitnessDialog from "./ComplainantWitnessDialog";
+import PersonOnCaseDialog from "./PersonOnCaseDialog";
 import {
   closeEditCivilianDialog,
   openCivilianDialog
@@ -67,12 +67,7 @@ jest.mock("../../../civilianTitles/thunks/getCivilianTitleDropdownValues", () =>
 );
 
 describe("complainant/witness dialog", () => {
-  let complainantWitnessDialog,
-    store,
-    dispatchSpy,
-    caseCivilian,
-    save,
-    submitAction;
+  let personOnCaseDialog, store, dispatchSpy, caseCivilian, save, submitAction;
 
   const personTypes = [
     {
@@ -193,16 +188,14 @@ describe("complainant/witness dialog", () => {
       openCivilianDialog("Test Title", "Test Submit Text", submitAction)
     );
 
-    complainantWitnessDialog = mount(
+    personOnCaseDialog = mount(
       <Provider store={store}>
-        <ComplainantWitnessDialog />
+        <PersonOnCaseDialog />
       </Provider>
     );
 
-    complainantWitnessDialog.update();
-    save = complainantWitnessDialog.find(
-      'button[data-testid="submitEditCivilian"]'
-    );
+    personOnCaseDialog.update();
+    save = personOnCaseDialog.find('button[data-testid="submitEditCivilian"]');
   });
 
   test("should call getGenderIdentityDropdownValues on mount", () => {
@@ -228,7 +221,7 @@ describe("complainant/witness dialog", () => {
 
         const otherCivilianDialog = mount(
           <Provider store={otherStore}>
-            <ComplainantWitnessDialog />
+            <PersonOnCaseDialog />
           </Provider>
         );
 
@@ -245,7 +238,7 @@ describe("complainant/witness dialog", () => {
     describe("race and ethnicity", () => {
       let raceDropdown;
       beforeEach(() => {
-        raceDropdown = complainantWitnessDialog
+        raceDropdown = personOnCaseDialog
           .find('[data-testid="raceDropdown"]')
           .last();
       });
@@ -277,49 +270,49 @@ describe("complainant/witness dialog", () => {
           .build();
 
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="firstNameInput"]',
           civilianToSubmit.firstName
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="lastNameInput"]',
           civilianToSubmit.lastName
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="birthDateInput"]',
           civilianToSubmit.birthDate
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="phoneNumberInput"]',
           civilianToSubmit.phoneNumber
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="emailInput"]',
           civilianToSubmit.email
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="genderDropdown"]',
           "Other"
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="raceDropdown"]',
           "Japanese"
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="titleDropdown"]',
           doctorMrsCivilianTitle[0]
         );
-        const phoneNumberField = complainantWitnessDialog.find(
+        const phoneNumberField = personOnCaseDialog.find(
           'div[data-testid="phoneNumberField"]'
         );
-        const phoneNumberInput = complainantWitnessDialog.find(
+        const phoneNumberInput = personOnCaseDialog.find(
           'input[data-testid="phoneNumberInput"]'
         );
         phoneNumberInput.simulate("focus");
@@ -350,52 +343,52 @@ describe("complainant/witness dialog", () => {
           .build();
 
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="firstNameInput"]',
           civilianToSubmit.firstName
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="middleInitialInput"]',
           civilianToSubmit.middleInitial
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="lastNameInput"]',
           civilianToSubmit.lastName
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="suffixInput"]',
           civilianToSubmit.suffix
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="birthDateInput"]',
           civilianToSubmit.birthDate
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="phoneNumberInput"]',
           civilianToSubmit.phoneNumber
         );
         changeInput(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="emailInput"]',
           civilianToSubmit.email
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="genderDropdown"]',
           unknownGenderIdentity[0]
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="raceDropdown"]',
           "Japanese"
         );
         selectDropdownOption(
-          complainantWitnessDialog,
+          personOnCaseDialog,
           '[data-testid="titleDropdown"]',
           doctorMrsCivilianTitle[0]
         );
@@ -422,11 +415,11 @@ describe("complainant/witness dialog", () => {
         }
       });
 
-      complainantWitnessDialog.update();
+      personOnCaseDialog.update();
     });
 
     test("should display radio button of role on case for witness, complainant, and accused (when allowAllTypesToBeAccused is true)", () => {
-      const radioButtonGroup = complainantWitnessDialog.find(
+      const radioButtonGroup = personOnCaseDialog.find(
         "[data-testid='roleOnCaseRadioGroup']"
       );
       expect(radioButtonGroup.find("label").at(0).text()).toEqual(
@@ -443,9 +436,9 @@ describe("complainant/witness dialog", () => {
           allowAllTypesToBeAccused: false
         }
       });
-      complainantWitnessDialog.update();
+      personOnCaseDialog.update();
 
-      const radioButtonGroup = complainantWitnessDialog.find(
+      const radioButtonGroup = personOnCaseDialog.find(
         "[data-testid='roleOnCaseRadioGroup']"
       );
 
@@ -454,21 +447,19 @@ describe("complainant/witness dialog", () => {
 
     test("should show radio buttons or dropdown (depending on the number) for choosing a person type", () => {
       expect(
-        complainantWitnessDialog.find(
-          "[data-testid='complainant-type-dropdown']"
-        )
+        personOnCaseDialog.find("[data-testid='complainant-type-dropdown']")
       ).toHaveLength(1);
     });
 
     test("should show subtype dropdown if a type with subtypes is selected", () => {
       selectDropdownOption(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         "[data-testid='complainant-type-dropdown-autocomplete']",
         "not an officer"
       );
 
       expect(
-        complainantWitnessDialog.find(`[data-testid="personSubtypeDropdown"]`)
+        personOnCaseDialog.find(`[data-testid="personSubtypeDropdown"]`)
       ).toHaveLength(1);
     });
 
@@ -490,68 +481,66 @@ describe("complainant/witness dialog", () => {
         .build();
 
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="firstNameInput"]',
         civilianToSubmit.firstName
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="middleInitialInput"]',
         civilianToSubmit.middleInitial
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="lastNameInput"]',
         civilianToSubmit.lastName
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="suffixInput"]',
         civilianToSubmit.suffix
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="birthDateInput"]',
         civilianToSubmit.birthDate
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="phoneNumberInput"]',
         civilianToSubmit.phoneNumber
       );
       changeInput(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="emailInput"]',
         civilianToSubmit.email
       );
       selectDropdownOption(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="genderDropdown"]',
         unknownGenderIdentity[0]
       );
       selectDropdownOption(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="raceDropdown"]',
         "Japanese"
       );
       selectDropdownOption(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="titleDropdown"]',
         doctorMrsCivilianTitle[0]
       );
 
       save.simulate("click");
 
-      expect(complainantWitnessDialog.text()).toContain(
-        "Person Type is Required"
-      );
+      expect(personOnCaseDialog.text()).toContain("Person Type is Required");
     });
 
     personTypes.forEach(type => {
       describe(`PERSON_TYPE: ${type.description}`, () => {
         beforeEach(() => {
           selectDropdownOption(
-            complainantWitnessDialog,
+            personOnCaseDialog,
             "[data-testid='complainant-type-dropdown-autocomplete']",
             type.isEmployee ? "Police Officer" : type.description
           );
@@ -576,52 +565,52 @@ describe("complainant/witness dialog", () => {
               .build();
 
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="firstNameInput"]',
               civilianToSubmit.firstName
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="middleInitialInput"]',
               civilianToSubmit.middleInitial
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="lastNameInput"]',
               civilianToSubmit.lastName
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="suffixInput"]',
               civilianToSubmit.suffix
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="birthDateInput"]',
               civilianToSubmit.birthDate
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="phoneNumberInput"]',
               civilianToSubmit.phoneNumber
             );
             changeInput(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="emailInput"]',
               civilianToSubmit.email
             );
             selectDropdownOption(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="genderDropdown"]',
               unknownGenderIdentity[0]
             );
             selectDropdownOption(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="raceDropdown"]',
               "Japanese"
             );
             selectDropdownOption(
-              complainantWitnessDialog,
+              personOnCaseDialog,
               '[data-testid="titleDropdown"]',
               doctorMrsCivilianTitle[0]
             );
@@ -652,16 +641,16 @@ describe("complainant/witness dialog", () => {
 
   describe("dialog dismissal", () => {
     test("should dismiss when cancel button is clicked", async () => {
-      const cancel = complainantWitnessDialog.find(
+      const cancel = personOnCaseDialog.find(
         'button[data-testid="cancelEditCivilian"]'
       );
       cancel.simulate("click");
 
-      complainantWitnessDialog.update();
+      personOnCaseDialog.update();
 
       expect(dispatchSpy).toHaveBeenCalledWith(closeEditCivilianDialog());
       await expectEventuallyNotToExist(
-        complainantWitnessDialog,
+        personOnCaseDialog,
         '[data-testid="editDialogTitle"]'
       );
     });

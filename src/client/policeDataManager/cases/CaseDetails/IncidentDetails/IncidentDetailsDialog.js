@@ -20,7 +20,7 @@ import {
 } from "../../../shared/components/StyledButtons";
 import editIncidentDetails from "../../thunks/editIncidentDetails";
 import { nullifyFieldUnlessValid } from "../../../utilities/fieldNormalizers";
-import AddressInput from "../ComplainantWitnessDialog/AddressInput";
+import AddressInput from "../PersonOnCaseDialog/AddressInput";
 import { connect } from "react-redux";
 import { formatAddressAsString } from "../../../utilities/formatAddress";
 import { addressMustBeValid } from "../../../../formValidations";

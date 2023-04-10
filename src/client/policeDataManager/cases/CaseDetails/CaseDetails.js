@@ -5,8 +5,8 @@ import Typography from "@material-ui/core/Typography";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { connect } from "react-redux";
 import Narrative from "./Narrative";
-import Complainants from "./ComplainantWitnesses/Complainants";
-import ComplainantWitnessDialog from "./ComplainantWitnessDialog/ComplainantWitnessDialog";
+import Complainants from "./PersonOnCase/Complainants";
+import PersonOnCaseDialog from "./PersonOnCaseDialog/PersonOnCaseDialog";
 import getCaseDetails from "../thunks/getCaseDetails";
 import * as _ from "lodash";
 import Attachments from "./Attachments/Attachments";
@@ -32,7 +32,7 @@ import {
 import Accused from "./Officers/Accused";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
-import Witnesses from "./ComplainantWitnesses/Witnesses";
+import Witnesses from "./PersonOnCase/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
 import LetterStatusMessage, {
   PAGE_TYPE
@@ -181,7 +181,7 @@ class CaseDetails extends React.Component {
             <Accused caseDetails={this.props.caseDetails} classes={classes} />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
-          <ComplainantWitnessDialog />
+          <PersonOnCaseDialog />
           <CaseNoteDialog />
         </div>
       </div>

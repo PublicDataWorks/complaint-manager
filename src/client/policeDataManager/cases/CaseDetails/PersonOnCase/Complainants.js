@@ -3,11 +3,11 @@ import { CardContent, Typography } from "@material-ui/core";
 import DetailsCard from "../../../shared/components/DetailsCard";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import getFirstComplainant from "../../../utilities/getFirstComplainant";
-import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
+import PersonOnCaseDisplay from "./PersonOnCaseDisplay";
 import OfficerActions from "./OfficerActions";
 import * as _ from "lodash";
 import { COMPLAINANT } from "../../../../../sharedUtilities/constants";
-import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
+import PersonOnCaseMenu from "../PersonOnCaseMenu";
 
 const Complainants = props => {
   const allComplainants = props.caseDetails.complainantCivilians
@@ -29,7 +29,7 @@ const Complainants = props => {
       maxWidth="850px"
     >
       <CardContent style={{ padding: "0" }}>
-        <ComplainantWitnessDisplay
+        <PersonOnCaseDisplay
           emptyMessage={"No complainants have been added"}
           civiliansAndOfficers={sortedComplainants}
           dispatch={props.dispatch}
@@ -40,7 +40,7 @@ const Complainants = props => {
         />
 
         {props.caseDetails.isArchived ? null : (
-          <ComplainantWitnessMenu
+          <PersonOnCaseMenu
             dispatch={props.dispatch}
             caseDetails={props.caseDetails}
             civilianType={COMPLAINANT}

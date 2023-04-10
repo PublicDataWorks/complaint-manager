@@ -32,7 +32,7 @@ const {
   PD
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
-jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
+jest.mock("../CaseDetails/PersonOnCaseDialog/MapServices/MapService");
 
 jest.mock("../thunks/createCase", () => creationDetails => ({
   type: "MOCK_CREATE_CASE_THUNK",

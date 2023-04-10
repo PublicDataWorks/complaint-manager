@@ -10,8 +10,8 @@ import {
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
-import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
-import ComplainantWitnessDisplay from "../ComplainantWitnesses/ComplainantWitnessDisplay";
+import PersonOnCaseMenu from "../PersonOnCaseMenu";
+import PersonOnCaseDisplay from "../PersonOnCase/PersonOnCaseDisplay";
 
 const Accused = props => {
   const { dispatch, caseDetails, classes, permissions } = props;
@@ -40,7 +40,7 @@ const Accused = props => {
         {!sortedAccused || sortedAccused.length === 0 ? (
           renderNoOfficers(props)
         ) : (
-          <ComplainantWitnessDisplay
+          <PersonOnCaseDisplay
             civiliansAndOfficers={sortedAccused}
             classes={classes}
             dispatch={dispatch}
@@ -63,7 +63,7 @@ const renderAddAccused = (dispatch, caseDetails, caseId, props) => {
   return (
     <Fragment>
       {props.allowAllTypesToBeAccused ? (
-        <ComplainantWitnessMenu
+        <PersonOnCaseMenu
           dispatch={dispatch}
           caseDetails={caseDetails}
           civilianType={ACCUSED}

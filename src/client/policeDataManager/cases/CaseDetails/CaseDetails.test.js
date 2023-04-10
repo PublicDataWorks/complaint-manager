@@ -61,7 +61,7 @@ jest.mock("../thunks/updateNarrative", () => () => ({
   type: "MOCK_UPDATE_NARRATIVE_THUNK"
 }));
 
-jest.mock("./ComplainantWitnessDialog/MapServices/MapService");
+jest.mock("./PersonOnCaseDialog/MapServices/MapService");
 
 describe("Case Details Component", () => {
   let caseDetails, expectedCase, dispatchSpy, store;

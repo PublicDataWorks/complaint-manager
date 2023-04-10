@@ -8,7 +8,7 @@ import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBase
 import { connect } from "react-redux";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
-const ComplainantWitnessDisplay = ({
+const PersonOnCaseDisplay = ({
   civiliansAndOfficers,
   emptyMessage,
   dispatch,
@@ -95,4 +95,4 @@ const ComplainantWitnessDisplay = ({
 
 export default connect(state => ({
   permissions: state?.users?.current?.userInfo?.permissions
-}))(ComplainantWitnessDisplay);
+}))(PersonOnCaseDisplay);

@@ -1,6 +1,6 @@
 import React from "react";
 import DetailsCard from "../../../shared/components/DetailsCard";
-import CivilianInfoDisplay from "../ComplainantWitnesses/CivilianInfoDisplay";
+import CivilianInfoDisplay from "../PersonOnCase/CivilianInfoDisplay";
 import formatDate, {
   format12HourTime
 } from "../../../../../sharedUtilities/formatDate";

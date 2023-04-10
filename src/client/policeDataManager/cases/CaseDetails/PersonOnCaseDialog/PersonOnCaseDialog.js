@@ -46,7 +46,7 @@ const styles = {
   }
 };
 
-class ComplainantWitnessDialog extends Component {
+class PersonOnCaseDialog extends Component {
   componentDidMount() {
     this.props.getRaceEthnicityDropdownValues();
     this.props.getGenderIdentityDropdownValues();
@@ -203,7 +203,7 @@ class ComplainantWitnessDialog extends Component {
   }
 }
 
-const DialogWithTheme = withTheme(withStyles(styles)(ComplainantWitnessDialog));
+const DialogWithTheme = withTheme(withStyles(styles)(PersonOnCaseDialog));
 
 const connectedForm = reduxForm({
   form: CIVILIAN_FORM_NAME,

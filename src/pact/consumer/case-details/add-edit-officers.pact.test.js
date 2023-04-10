@@ -19,7 +19,7 @@ const {
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 jest.mock(
-  "../../../client/policeDataManager/cases/CaseDetails/ComplainantWitnessDialog/MapServices/MapService",
+  "../../../client/policeDataManager/cases/CaseDetails/PersonOnCaseDialog/MapServices/MapService",
   () => {
     return jest.fn().mockImplementation(() => ({
       healthCheck: callback => {

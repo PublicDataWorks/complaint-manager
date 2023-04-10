@@ -6,7 +6,7 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
+import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
 import { ACCUSED } from "../../../../../sharedUtilities/constants";
 import styles from "../../../../common/globalStyling/styles";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";

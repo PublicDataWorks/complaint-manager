@@ -3,9 +3,9 @@ import { CardContent } from "@material-ui/core";
 import * as _ from "lodash";
 import DetailsCard from "../../../shared/components/DetailsCard";
 import OfficerActions from "./OfficerActions";
-import ComplainantWitnessDisplay from "./ComplainantWitnessDisplay";
+import PersonOnCaseDisplay from "./PersonOnCaseDisplay";
 import { WITNESS } from "../../../../../sharedUtilities/constants";
-import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
+import PersonOnCaseMenu from "../PersonOnCaseMenu";
 
 const Witnesses = props => {
   const allWitnesses = props.caseDetails.witnessCivilians
@@ -23,7 +23,7 @@ const Witnesses = props => {
       maxWidth="850px"
     >
       <CardContent style={{ padding: "0" }}>
-        <ComplainantWitnessDisplay
+        <PersonOnCaseDisplay
           emptyMessage={"No witnesses have been added"}
           civiliansAndOfficers={sortedWitnesses}
           dispatch={props.dispatch}
@@ -33,7 +33,7 @@ const Witnesses = props => {
           OfficerButtonsComponent={OfficerActions}
         />
         {props.caseDetails.isArchived ? null : (
-          <ComplainantWitnessMenu
+          <PersonOnCaseMenu
             dispatch={props.dispatch}
             caseDetails={props.caseDetails}
             civilianType={WITNESS}

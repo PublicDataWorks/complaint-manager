@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import formatStringToTitleCase from "../../../utilities/formatStringToTitleCase";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
+import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
 import { CardContent, Accordion, AccordionSummary } from "@material-ui/core";
 import { connect } from "react-redux";
 import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";

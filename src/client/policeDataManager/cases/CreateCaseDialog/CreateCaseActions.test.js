@@ -25,7 +25,7 @@ import {
 } from "../../actionCreators/casesActionCreators";
 import normalizeAddress from "../../utilities/normalizeAddress";
 
-jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
+jest.mock("../CaseDetails/PersonOnCaseDialog/MapServices/MapService");
 
 jest.mock("../../intakeSources/thunks/getIntakeSourceDropdownValues", () =>
   jest.fn(values => ({
@@ -54,7 +54,7 @@ jest.mock("../../utilities/normalizeAddress", () =>
   })
 );
 
-jest.mock("../CaseDetails/ComplainantWitnessDialog/MapServices/MapService");
+jest.mock("../CaseDetails/PersonOnCaseDialog/MapServices/MapService");
 
 describe("CreateCaseActions", () => {
   let dispatchSpy, store, dialog, caseDetails;

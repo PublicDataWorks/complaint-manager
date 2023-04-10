@@ -16,7 +16,7 @@ import { addCaseEmployeeType } from "../../actionCreators/officersActionCreators
 import { connect } from "react-redux";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 
-const ComplainantWitnessMenu = props => {
+const PersonOnCaseMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
@@ -113,4 +113,4 @@ export default connect(state => ({
   choosePersonTypeInAddDialog: state.featureToggles.choosePersonTypeInAddDialog,
   pd: state.configs[CONFIGS.PD],
   permissions: state?.users?.current?.userInfo?.permissions
-}))(ComplainantWitnessMenu);
+}))(PersonOnCaseMenu);

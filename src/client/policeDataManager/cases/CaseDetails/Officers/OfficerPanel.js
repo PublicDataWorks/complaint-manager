@@ -6,7 +6,7 @@ import {
   Typography
 } from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../ComplainantWitnesses/StyledExpansionPanelDetails";
+import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
 import formatDate from "../../../../../sharedUtilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
