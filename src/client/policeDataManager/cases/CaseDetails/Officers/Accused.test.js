@@ -103,7 +103,7 @@ describe("Accused", () => {
     });
     store.dispatch({
       type: GET_FEATURES_SUCCEEDED,
-      payload: { allowAllTypesToBeAccused: true }
+      features: { allowAllTypesToBeAccused: true }
     });
 
     dispatchSpy = jest.spyOn(store, "dispatch");
