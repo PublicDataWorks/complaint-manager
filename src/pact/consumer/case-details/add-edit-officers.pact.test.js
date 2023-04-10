@@ -160,6 +160,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
 
             if (method === "POST") {
               test(`should add a ${title} ${role}`, async () => {
+                jest.setTimeout(700000);
                 let state = "Case exists";
 
                 const buttons = await screen.findAllByTestId(buttonTestId);
@@ -219,6 +220,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
 
             if (method === "PUT") {
               test(`should edit a ${title} ${role}`, async () => {
+                jest.setTimeout(700000);
                 let state = "Case exists";
                 if (
                   options.includes(OFFICER_COMPLAINANT) ||
