@@ -19,7 +19,7 @@ const Accused = props => {
     accusedOfficers,
     accusedInmates,
     accusedCivilians,
-    caseId,
+    id: caseId,
     isArchived,
     incidentDate
   } = caseDetails;

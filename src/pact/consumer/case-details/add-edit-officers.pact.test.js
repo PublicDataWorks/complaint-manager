@@ -147,6 +147,7 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
           describe(`add/edit ${title} ${role}`, () => {
             let dispatchSpy;
             beforeEach(async () => {
+              console.warn = () => {};
               const results = await setUpCaseDetailsPage(provider, ...options);
               dispatchSpy = results.dispatchSpy;
               const complainantDialogButton = await screen.findAllByTestId(
@@ -201,20 +202,17 @@ if (PERSON_TYPE.KNOWN_OFFICER) {
                   );
                 }
                 if (title === "Officer") {
-                  console.log(
-                    dispatchSpy.mock.calls.filter(
-                      call => call[0].type === "ADD_CASE_EMPLOYEE_TYPE"
-                    )
-                  );
                   expect(dispatchSpy).toHaveBeenCalledWith(
                     addCaseEmployeeType(
                       PERSON_TYPE.KNOWN_OFFICER.employeeDescription
                     )
                   );
                 }
-                expect(dispatchSpy).toHaveBeenCalledWith(
-                  push("/cases/1/officers/search")
-                );
+                expect(
+                  dispatchSpy.mock.calls.find(
+                    call => call[0].type === "@@router/CALL_HISTORY_METHOD"
+                  )[0]
+                ).toEqual(push("/cases/1/officers/search"));
               }, 200000);
             }
 
