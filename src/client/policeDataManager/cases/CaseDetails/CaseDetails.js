@@ -178,14 +178,7 @@ class CaseDetails extends React.Component {
               caseId={this.props.caseDetails.id}
               isArchived={this.props.caseDetails.isArchived}
             />
-            <Accused
-              caseId={this.props.caseDetails.id}
-              caseDetails={this.props.caseDetails}
-              incidentDate={this.props.caseDetails.incidentDate}
-              accusedOfficers={this.props.caseDetails.accusedOfficers}
-              dispatch={this.props.dispatch}
-              isArchived={this.props.caseDetails.isArchived}
-            />
+            <Accused caseDetails={this.props.caseDetails} classes={classes} />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <ComplainantWitnessDialog />

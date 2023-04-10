@@ -5,10 +5,7 @@ const {
   COMPLAINANT,
   WITNESS
 } = require("../../../sharedUtilities/constants");
-const {
-  getOfficerFullName,
-  getPersonFullName
-} = require("../../../sharedUtilities/getFullName");
+const { getPersonFullName } = require("../../../sharedUtilities/getFullName");
 const models = require("./index");
 
 module.exports = (sequelize, DataTypes) => {

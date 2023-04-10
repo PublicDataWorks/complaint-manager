@@ -15,6 +15,7 @@ import RaceEthnicity from "./raceEthnicity";
 class Case {
   constructor(build) {
     this.id = build.id;
+    this.accusedCivilians = build.accusedCivilians;
     this.complainantCivilians = build.complainantCivilians;
     this.witnessCivilians = build.witnessCivilians;
     this.complaintTypeId = build.complaintTypeId;
@@ -37,7 +38,7 @@ class Case {
     this.accusedOfficers = build.accusedOfficers;
     this.complainantOfficers = build.complainantOfficers;
     this.witnessOfficers = build.witnessOfficers;
-    this.accusedInmate = build.accusedInmates;
+    this.accusedInmates = build.accusedInmates;
     this.complainantInmates = build.complainantInmates;
     this.witnessInmates = build.witnessInmates;
     this.caseReference = build.caseReference;
@@ -123,6 +124,7 @@ class Case {
         const status = new CaseStatus.Builder().defaultCaseStatus().build();
 
         this.id = id;
+        this.accusedCivilians = [];
         this.complainantCivilians = [complainantCivilian];
         this.witnessCivilians = [witnessCivilian];
         this.statusId = 1;
@@ -154,6 +156,11 @@ class Case {
 
       withId(id) {
         this.id = id;
+        return this;
+      }
+
+      withAccusedCivilians(accusedCivilians) {
+        this.accusedCivilians = accusedCivilians;
         return this;
       }
 
