@@ -26,7 +26,7 @@ describe("Accused", function () {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <Accused accusedOfficers={accusedOfficers} />
+        <Accused caseDetails={{ accusedOfficers }} />
       </Provider>
     );
 
@@ -47,7 +47,7 @@ describe("Accused", function () {
 
     const wrapper = mount(
       <Provider store={createConfiguredStore()}>
-        <Accused accusedOfficers={accusedOfficers} />
+        <Accused caseDetails={{ accusedOfficers }} />
       </Provider>
     );
 
@@ -78,7 +78,7 @@ describe("Accused", function () {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Accused accusedOfficers={accusedOfficers} />
+        <Accused caseDetails={{ accusedOfficers }} />
       </Provider>
     );
 
@@ -105,7 +105,7 @@ describe("Accused", function () {
 
     const wrapper = mount(
       <Provider store={store}>
-        <Accused accusedOfficers={accusedOfficers} />
+        <Accused caseDetails={{ accusedOfficers }} />
       </Provider>
     );
 

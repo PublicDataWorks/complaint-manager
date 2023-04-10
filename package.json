@@ -71,7 +71,7 @@
     "auth0": "3.1.1",
     "auth0-js": "9.20.1",
     "autosuggest-highlight": "~3.1.1",
-    "aws-sdk": "2.1033.0",
+    "aws-sdk": "2.1353.0",
     "axios": "0.27.2",
     "body-parser": "~1.20.1",
     "boom": "~7.3.0",
@@ -108,7 +108,7 @@
     "nanoid": "^3.2.0",
     "newrelic": "8.14.0",
     "node-cache": "^5.1.0",
-    "octokit": "^2.0.10",
+    "octokit": "^2.0.14",
     "path": "^0.12.7",
     "pg": "8.6.0",
     "pg-hstore": "~2.3.2",
@@ -139,7 +139,7 @@
     "striptags": "~3.2.0",
     "timekeeper": "~2.2.0",
     "validator": "13.7.0",
-    "vm2": "3.9.11",
+    "vm2": "3.9.15",
     "winston": "3.3.1",
     "winston-transport": "^4.4.0"
   },
@@ -237,7 +237,8 @@
     "**/url-parse": "^1.5.10",
     "**/yargs-parser": "^20.2.7",
     "**/validator": "^13.7.0",
-    "**/vm2": "^3.9.11"
+    "**/vm2": "^3.9.11",
+    "**/xml2js": "^0.5.0"
   },
   "browserslist": [
     ">0.2%",
