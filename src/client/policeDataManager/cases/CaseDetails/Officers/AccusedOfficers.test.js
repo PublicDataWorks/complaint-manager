@@ -1,9 +1,6 @@
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
 import { mount } from "enzyme";
 import Accused from "./Accused";
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
 import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import createConfiguredStore from "../../../../createConfiguredStore";
@@ -11,7 +8,6 @@ import { Provider } from "react-redux";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 describe("Accused", function () {
-  let dispatchSpy;
   test("should display officers", () => {
     const anOfficer = new Officer.Builder()
       .defaultOfficer()

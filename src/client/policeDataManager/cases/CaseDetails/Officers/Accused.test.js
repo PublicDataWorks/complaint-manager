@@ -18,8 +18,8 @@ import {
   CIVILIAN_FORM_NAME,
   SHOW_FORM,
   USER_PERMISSIONS,
-  WITNESS,
-  GET_PERSON_TYPES
+  GET_PERSON_TYPES,
+  GET_FEATURES_SUCCEEDED
 } from "../../../../../sharedUtilities/constants";
 import _ from "lodash";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
@@ -101,6 +101,11 @@ describe("Accused", () => {
       type: GET_PERSON_TYPES,
       payload: payload
     });
+    store.dispatch({
+      type: GET_FEATURES_SUCCEEDED,
+      payload: { allowAllTypesToBeAccused: true }
+    });
+
     dispatchSpy = jest.spyOn(store, "dispatch");
     store.dispatch(getCaseDetailsSuccess(caseDetails));
   });
@@ -456,9 +461,6 @@ describe("Accused", () => {
         .find('[data-testid="complainantWitnessesPanel"]')
         .first();
 
-      const officerPanel = wrapper
-        .find('[data-testid="knownOfficerPanel"]')
-        .first();
       const inmatePanel = wrapper.find('[data-testid="inmate-panel"]').first();
 
       expect(complainantPanel.text()).toContain("Alpha");
