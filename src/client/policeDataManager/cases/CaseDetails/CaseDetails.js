@@ -29,7 +29,7 @@ import {
   CASE_STATUS,
   NARRATIVE_FORM
 } from "../../../../sharedUtilities/constants";
-import Accused from "./Officers/Accused";
+import Accused from "./PersonOnCase/Accused";
 import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./PersonOnCase/Witnesses";

@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { push } from "connected-react-router";
 import { Menu, MenuItem } from "@material-ui/core";
-import LinkButton from "../../../shared/components/LinkButton";
+import { connect } from "react-redux";
+import { initialize } from "redux-form";
+import LinkButton from "../../../../shared/components/LinkButton";
 import {
   addCaseEmployeeType,
   selectCaseOfficer,
   selectUnknownOfficer
-} from "../../../actionCreators/officersActionCreators";
-import { connect } from "react-redux";
-import { initialize } from "redux-form";
+} from "../../../../actionCreators/officersActionCreators";
 import {
   CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
-} from "../../../../../sharedUtilities/constants";
-import useMenuControl from "../../../../common/hooks/useMenuControl";
+} from "../../../../../../sharedUtilities/constants";
+import useMenuControl from "../../../../../common/hooks/useMenuControl";
 import axios from "axios";
-import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
-import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
-import { removePersonSuccess } from "../../../actionCreators/casesActionCreators";
+import ConfirmationDialog from "../../../../shared/components/ConfirmationDialog";
+import { snackbarSuccess } from "../../../../actionCreators/snackBarActionCreators";
+import { removePersonSuccess } from "../../../../actionCreators/casesActionCreators";
 
 const ManageOfficerMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Divider, Accordion, AccordionSummary } from "@material-ui/core";
-import OfficerInfoDisplay from "../Officers/OfficerInfoDisplay";
+import OfficerInfoDisplay from "./Officers/OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "./StyledExpansionPanelDetails";
 import formatDate from "../../../../../sharedUtilities/formatDate";
 import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";

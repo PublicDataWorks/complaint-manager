@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-import TextTruncate from "../../../shared/components/TextTruncate";
+import TextTruncate from "../../../../shared/components/TextTruncate";
 
 const OfficerInfoDisplay = ({
   testLabel,

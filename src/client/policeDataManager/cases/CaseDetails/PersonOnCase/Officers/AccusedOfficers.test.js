@@ -1,11 +1,11 @@
-import { mount } from "enzyme";
-import Accused from "./Accused";
 import React from "react";
-import Officer from "../../../../../sharedTestHelpers/Officer";
-import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
-import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
-import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import { mount } from "enzyme";
+import Accused from "../Accused";
+import Officer from "../../../../../../sharedTestHelpers/Officer";
+import CaseOfficer from "../../../../../../sharedTestHelpers/caseOfficer";
+import createConfiguredStore from "../../../../../createConfiguredStore";
+import { USER_PERMISSIONS } from "../../../../../../sharedUtilities/constants";
 
 describe("Accused", function () {
   test("should display officers", () => {

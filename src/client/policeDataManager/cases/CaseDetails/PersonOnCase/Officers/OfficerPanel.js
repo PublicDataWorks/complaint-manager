@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import {
   Divider,
   Accordion,
@@ -6,25 +7,24 @@ import {
   Typography
 } from "@material-ui/core";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
-import formatDate from "../../../../../sharedUtilities/formatDate";
+import StyledExpansionPanelDetails from "../StyledExpansionPanelDetails";
+import formatDate from "../../../../../../sharedUtilities/formatDate";
 import OfficerNameDisplay from "./OfficerNameDisplay";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
-import styles from "../../../../common/globalStyling/styles";
+import styles from "../../../../../common/globalStyling/styles";
 import {
   ACCUSED,
   CONFIGS,
   OFFICER_TITLE
-} from "../../../../../sharedUtilities/constants";
-import { connect } from "react-redux";
+} from "../../../../../../sharedUtilities/constants";
 import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
-} from "../../../actionCreators/accusedOfficerPanelsActionCreators";
-import DateOfBirthAgeInfoDisplay from "../../../shared/components/DateOfBirthAgeInfoDisplay";
-import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
-import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
+} from "../../../../actionCreators/accusedOfficerPanelsActionCreators";
+import DateOfBirthAgeInfoDisplay from "../../../../shared/components/DateOfBirthAgeInfoDisplay";
+import ExpansionPanelIconButton from "../../../../shared/components/ExpansionPanelIconButton";
+import StyledInfoDisplay from "../../../../shared/components/StyledInfoDisplay";
+import formatPhoneNumber from "../../../../../../sharedUtilities/formatPhoneNumber";
 
 const OfficerPanel = ({ dispatch, caseOfficer, officerAge, children, pd }) => {
   const isCivilianWithinPd = caseOfficer.caseEmployeeType.includes("Civilian");

@@ -1,23 +1,23 @@
+import React from "react";
+import { connect } from "react-redux";
 import {
   Divider,
   Accordion,
   AccordionSummary,
   Typography
 } from "@material-ui/core";
-import React from "react";
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
-import { ACCUSED } from "../../../../../sharedUtilities/constants";
-import styles from "../../../../common/globalStyling/styles";
+import StyledExpansionPanelDetails from "../StyledExpansionPanelDetails";
+import { ACCUSED } from "../../../../../../sharedUtilities/constants";
+import styles from "../../../../../common/globalStyling/styles";
 import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
 import {
   accusedOfficerPanelCollapsed,
   accusedOfficerPanelExpanded
-} from "../../../actionCreators/accusedOfficerPanelsActionCreators";
-import { connect } from "react-redux";
-import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
-import StyledInfoDisplay from "../../../shared/components/StyledInfoDisplay";
-import formatPhoneNumber from "../../../../../sharedUtilities/formatPhoneNumber";
+} from "../../../../actionCreators/accusedOfficerPanelsActionCreators";
+import ExpansionPanelIconButton from "../../../../shared/components/ExpansionPanelIconButton";
+import StyledInfoDisplay from "../../../../shared/components/StyledInfoDisplay";
+import formatPhoneNumber from "../../../../../../sharedUtilities/formatPhoneNumber";
 
 const UnknownOfficerPanel = ({ dispatch, caseOfficer, children }) => {
   const phoneNumber = formatPhoneNumber(caseOfficer.phoneNumber);

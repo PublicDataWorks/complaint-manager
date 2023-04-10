@@ -7,7 +7,7 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
-import OfficerInfoDisplay from "../../cases/CaseDetails/Officers/OfficerInfoDisplay";
+import OfficerInfoDisplay from "../../cases/CaseDetails/PersonOnCase/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
 import React from "react";
 import { connect } from "react-redux";

@@ -1,16 +1,16 @@
 import React from "react";
 import { mount } from "enzyme";
-import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import { push } from "connected-react-router";
+import createConfiguredStore from "../../../../../createConfiguredStore";
 import {
   selectCaseOfficer,
   selectUnknownOfficer
-} from "../../../actionCreators/officersActionCreators";
-import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
+} from "../../../../actionCreators/officersActionCreators";
+import CaseOfficer from "../../../../../../sharedTestHelpers/caseOfficer";
 import ManageOfficerMenu from "./ManageOfficerMenu";
-import { GET_CONFIGS_SUCCEEDED } from "../../../../../sharedUtilities/constants";
+import { GET_CONFIGS_SUCCEEDED } from "../../../../../../sharedUtilities/constants";
 
 describe("ManageOfficerMenu", () => {
   let caseOfficer, dispatchSpy, wrapper;

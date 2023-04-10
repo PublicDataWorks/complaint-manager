@@ -1,17 +1,17 @@
-import LinkButton from "../../../shared/components/LinkButton";
 import React from "react";
-import { Menu, MenuItem } from "@material-ui/core";
+import { push } from "connected-react-router";
 import { initialize } from "redux-form";
+import { connect } from "react-redux";
+import { Menu, MenuItem } from "@material-ui/core";
+import LinkButton from "../../../../shared/components/LinkButton";
 import {
   ACCUSED,
   CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
   OFFICER_TITLE
-} from "../../../../../sharedUtilities/constants";
-import { push } from "connected-react-router";
-import { addCaseEmployeeType } from "../../../actionCreators/officersActionCreators";
-import { connect } from "react-redux";
-import useMenuControl from "../../../../common/hooks/useMenuControl";
+} from "../../../../../../sharedUtilities/constants";
+import { addCaseEmployeeType } from "../../../../actionCreators/officersActionCreators";
+import useMenuControl from "../../../../../common/hooks/useMenuControl";
 
 const AddAccusedMenu = props => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =

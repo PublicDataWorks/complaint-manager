@@ -1,7 +1,7 @@
 import React from "react";
 import { Divider, Typography } from "@material-ui/core";
-import UnknownOfficerPanel from "../Officers/UnknownOfficerPanel";
-import OfficerPanel from "../Officers/OfficerPanel";
+import UnknownOfficerPanel from "./Officers/UnknownOfficerPanel";
+import OfficerPanel from "./Officers/OfficerPanel";
 import InmatePanel from "./InmatePanel";
 import CivilianPanel from "./CivilianPanel";
 import calculateAgeBasedOnIncidentDate from "../../../utilities/calculateAgeBasedOnIncidentDate";

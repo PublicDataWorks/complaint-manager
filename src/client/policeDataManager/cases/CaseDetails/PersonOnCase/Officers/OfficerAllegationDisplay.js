@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import formatStringToTitleCase from "../../../utilities/formatStringToTitleCase";
-import OfficerInfoDisplay from "./OfficerInfoDisplay";
-import StyledExpansionPanelDetails from "../PersonOnCase/StyledExpansionPanelDetails";
-import { CardContent, Accordion, AccordionSummary } from "@material-ui/core";
 import { connect } from "react-redux";
-import ExpansionPanelIconButton from "../../../shared/components/ExpansionPanelIconButton";
+import { CardContent, Accordion, AccordionSummary } from "@material-ui/core";
+import formatStringToTitleCase from "../../../../utilities/formatStringToTitleCase";
+import OfficerInfoDisplay from "./OfficerInfoDisplay";
+import StyledExpansionPanelDetails from "../StyledExpansionPanelDetails";
+import ExpansionPanelIconButton from "../../../../shared/components/ExpansionPanelIconButton";
 
 class OfficerAllegationDisplay extends Component {
   handleChange = (event, expanded) => {

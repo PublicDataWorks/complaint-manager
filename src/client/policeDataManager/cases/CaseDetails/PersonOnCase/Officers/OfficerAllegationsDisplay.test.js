@@ -1,11 +1,11 @@
-import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
-import { mount } from "enzyme";
 import React from "react";
-import OfficerAllegationDisplay from "./OfficerAllegationDisplay";
-import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
+import { mount } from "enzyme";
+import OfficerAllegationsDisplay from "./OfficerAllegationsDisplay";
+import OfficerAllegationDisplay from "./OfficerAllegationDisplay";
+import createConfiguredStore from "../../../../../createConfiguredStore";
 
-describe("OfficerAllegationsDisplay", function() {
+describe("OfficerAllegationsDisplay", function () {
   test("should render accused officer's allegations", () => {
     const officerAllegations = [
       {

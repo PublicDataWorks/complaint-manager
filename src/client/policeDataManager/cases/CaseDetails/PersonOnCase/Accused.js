@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import _ from "lodash";
 import { CardContent, Divider, Typography } from "@material-ui/core";
 import DetailsCard from "../../../shared/components/DetailsCard";
-import ManageOfficerMenu from "./ManageOfficerMenu";
+import ManageOfficerMenu from "./Officers/ManageOfficerMenu";
 import WarningMessage from "../../../shared/components/WarningMessage";
 import {
   ACCUSED,
   USER_PERMISSIONS
 } from "../../../../../sharedUtilities/constants";
-import AddAccusedMenu from "./AddAccusedMenu";
+import AddAccusedMenu from "./Officers/AddAccusedMenu";
 import PersonOnCaseMenu from "../PersonOnCaseMenu";
 import PersonOnCaseDisplay from "../PersonOnCase/PersonOnCaseDisplay";
 
@@ -52,7 +52,7 @@ const Accused = props => {
           />
         )}
         {isArchived || !permissions?.includes(USER_PERMISSIONS.EDIT_CASE)
-          ? null
+          ? ""
           : renderAddAccused(dispatch, caseDetails, caseId, props)}
       </CardContent>
     </DetailsCard>
@@ -60,23 +60,23 @@ const Accused = props => {
 };
 
 const renderAddAccused = (dispatch, caseDetails, caseId, props) => {
-  return (
-    <Fragment>
-      {props.allowAllTypesToBeAccused ? (
-        <PersonOnCaseMenu
-          dispatch={dispatch}
-          caseDetails={caseDetails}
-          civilianType={ACCUSED}
-        />
-      ) : (
-        <AddAccusedMenu
-          dispatch={dispatch}
-          caseId={caseId}
-          civilianType={ACCUSED}
-        />
-      )}
-    </Fragment>
-  );
+  if (props.allowAllTypesToBeAccused) {
+    return (
+      <PersonOnCaseMenu
+        dispatch={dispatch}
+        caseDetails={caseDetails}
+        civilianType={ACCUSED}
+      />
+    );
+  } else {
+    return (
+      <AddAccusedMenu
+        dispatch={dispatch}
+        caseId={caseId}
+        civilianType={ACCUSED}
+      />
+    );
+  }
 };
 
 const renderNoOfficers = props => {
