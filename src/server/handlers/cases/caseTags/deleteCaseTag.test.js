@@ -1,20 +1,20 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { removeCaseTag } from "./removeCaseTag";
-import Case from "../../../sharedTestHelpers/case";
-import CaseTag from "../../testHelpers/caseTag";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
-import tag from "../../testHelpers/tag";
-import models from "../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import deleteCaseTag from "./deleteCaseTag";
+import Case from "../../../../sharedTestHelpers/case";
+import CaseTag from "../../../testHelpers/caseTag";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
+import tag from "../../../testHelpers/tag";
+import models from "../../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} from "../../../sharedUtilities/constants";
-import auditDataAccess from "../audits/auditDataAccess";
+} from "../../../../sharedUtilities/constants";
+import auditDataAccess from "../../audits/auditDataAccess";
 
-jest.mock("../audits/auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
-describe("RemoveCaseTag", () => {
+describe("deleteCaseTag", () => {
   let createdCase, createdCaseTag, createdTag, request, next;
 
   afterEach(async () => {
@@ -74,7 +74,7 @@ describe("RemoveCaseTag", () => {
 
   test("should delete case tag from db after case tag removed", async () => {
     const response = httpMocks.createResponse();
-    await removeCaseTag(request, response, next);
+    await deleteCaseTag(request, response, next);
 
     const updatedCaseTags = await models.case_tag.findAll({
       where: { caseId: createdCase.id }
@@ -86,7 +86,7 @@ describe("RemoveCaseTag", () => {
   describe("auditing", () => {
     test("should audit case tags access when case tag removed", async () => {
       const response = httpMocks.createResponse();
-      await removeCaseTag(request, response, next);
+      await deleteCaseTag(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,

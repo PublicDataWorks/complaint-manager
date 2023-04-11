@@ -55,13 +55,13 @@ import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOffice
 import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
 import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
 import retrieveCaseNoteActions from "./handlers/caseNoteActions/retrieveCaseNoteActions";
-import createCaseTag from "./handlers/cases/createCaseTag";
-import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
+import createCaseTag from "./handlers/cases/caseTags/createCaseTag";
+import retrieveCaseTags from "./handlers/cases/caseTags/retrieveCaseTags";
 import getTags from "./handlers/tags/getTags";
 import editTag from "./handlers/tags/editTag";
 import removeTag from "./handlers/tags/removeTag";
 import mergeTag from "./handlers/tags/mergeTag";
-import { removeCaseTag } from "./handlers/cases/removeCaseTag";
+import deleteCaseTag from "./handlers/cases/caseTags/deleteCaseTag";
 import getUsers from "./handlers/users/getUsers";
 import { extractNotifications } from "./handlers/cases/getNotifications";
 import getNotificationStatus from "./handlers/cases/getNotificationStatus";
@@ -268,14 +268,14 @@ export const API_ROUTES = {
         "Something went wrong and the case tag was not created. Please try again."
     },
     get: {
-      handler: getCaseTags,
+      handler: retrieveCaseTags,
       errorMessage:
         "Something went wrong and the case tags were not loaded. Please try again."
     }
   },
   "/cases/:caseId/case-tags/:caseTagId": {
     delete: {
-      handler: removeCaseTag,
+      handler: deleteCaseTag,
       requiredPermission: USER_PERMISSIONS.ADD_TAG_TO_CASE,
       errorMessage:
         "Something went wrong and the case tag was not removed. Please try again."

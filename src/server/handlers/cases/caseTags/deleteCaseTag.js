@@ -1,13 +1,13 @@
-import asyncMiddleware from "../asyncMiddleware";
-import models from "../../policeDataManager/models";
-import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../audits/auditDataAccess";
+import asyncMiddleware from "../../asyncMiddleware";
+import models from "../../../policeDataManager/models";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 
-export const removeCaseTag = asyncMiddleware(async (request, response) => {
+const deleteCaseTag = asyncMiddleware(async (request, response) => {
   const caseId = request.params.caseId;
   const caseTagId = request.params.caseTagId;
 
@@ -51,3 +51,5 @@ export const removeCaseTag = asyncMiddleware(async (request, response) => {
 
   response.status(200).send(currentCase);
 });
+
+export default deleteCaseTag;

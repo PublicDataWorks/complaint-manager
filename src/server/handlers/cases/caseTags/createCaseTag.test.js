@@ -1,21 +1,21 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
+import httpMocks from "node-mocks-http";
+import Boom from "boom";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
   MANAGER_TYPE
-} from "../../../sharedUtilities/constants";
-import Case from "../../../sharedTestHelpers/case";
-import models from "../../policeDataManager/models";
-import httpMocks from "node-mocks-http";
+} from "../../../../sharedUtilities/constants";
+import Case from "../../../../sharedTestHelpers/case";
+import models from "../../../policeDataManager/models";
 import createCaseTag from "./createCaseTag";
-import Tag from "../../testHelpers/tag";
-import CaseTag from "../../testHelpers/caseTag";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
-import auditDataAccess from "../audits/auditDataAccess";
-import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import Boom from "boom";
+import Tag from "../../../testHelpers/tag";
+import CaseTag from "../../../testHelpers/caseTag";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
+import auditDataAccess from "../../audits/auditDataAccess";
+import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
-jest.mock("../audits/auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
 describe("createCaseTag", () => {
   jest.setTimeout(50000);

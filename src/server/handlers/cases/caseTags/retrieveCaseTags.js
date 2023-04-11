@@ -8,7 +8,7 @@ import {
 
 const asyncMiddleWare = require("../../asyncMiddleware");
 
-const getCaseTags = asyncMiddleWare(async (request, response) => {
+const retrieveCaseTags = asyncMiddleWare(async (request, response) => {
   const caseTags = await models.sequelize.transaction(async transaction => {
     const caseTagsAndAuditDetails = await getAllCaseTagsAndAuditDetails(
       request.params.caseId,
@@ -55,4 +55,4 @@ const getAllCaseTagsAndAuditDetails = async (caseId, nickname, transaction) => {
   return { caseTags: caseTags, auditDetails: auditDetails };
 };
 
-module.exports = getCaseTags;
+module.exports = retrieveCaseTags;

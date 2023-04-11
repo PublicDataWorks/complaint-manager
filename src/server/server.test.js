@@ -21,7 +21,7 @@ import {
   suppressWinstonLogs
 } from "./testHelpers/requestTestHelpers";
 import audit from "./handlers/audits/auditAuthentication";
-import createCaseTag from "./handlers/cases/createCaseTag";
+import createCaseTag from "./handlers/cases/caseTags/createCaseTag";
 import { createTestCaseWithoutCivilian } from "./testHelpers/modelMothers";
 import getTags from "./handlers/tags/getTags";
 import { authEnabledTest } from "./testHelpers/authEnabledTest";
@@ -54,7 +54,7 @@ jest.mock("./handlers/audits/auditAuthentication", () =>
     response.send();
   })
 );
-jest.mock("./handlers/cases/createCaseTag", () =>
+jest.mock("./handlers/cases/caseTags/createCaseTag", () =>
   jest.fn((request, response, next) => {
     response.send();
   })

@@ -1,16 +1,16 @@
 import Boom from "boom";
-import models from "../../policeDataManager/models";
-import auditDataAccess from "../audits/auditDataAccess";
+import models from "../../../policeDataManager/models";
+import auditDataAccess from "../../audits/auditDataAccess";
 import {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} from "../../../sharedUtilities/constants";
-import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import { BAD_DATA_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
-import { getTagsAndAuditDetails } from "../tags/getTagsHelper";
-import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
+} from "../../../../sharedUtilities/constants";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import { BAD_DATA_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
+import { getTagsAndAuditDetails } from "../../tags/getTagsHelper";
+import { updateCaseToActiveIfInitial } from "../helpers/caseStatusHelpers";
 
-const asyncMiddleware = require("../asyncMiddleware");
+const asyncMiddleware = require("../../asyncMiddleware");
 
 const createCaseTag = asyncMiddleware(async (request, response, next) => {
   await validateTag(request);

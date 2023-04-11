@@ -1,7 +1,7 @@
 import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
-import getCaseTags from "./getCaseTags";
+import retrieveCaseTags from "./retrieveCaseTags";
 import models from "../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
@@ -10,7 +10,7 @@ import {
 
 const httpMocks = require("node-mocks-http");
 
-describe("getCaseTags", () => {
+describe("retrieveCaseTags", () => {
   let request, response, next, existingCase, existingTag;
 
   beforeEach(async () => {
@@ -63,7 +63,7 @@ describe("getCaseTags", () => {
   });
 
   test("should return case tags", async () => {
-    await getCaseTags(request, response, next);
+    await retrieveCaseTags(request, response, next);
 
     expect(response._getData()).toEqual([
       expect.objectContaining({
@@ -78,7 +78,7 @@ describe("getCaseTags", () => {
 
   describe("auditing", () => {
     test("should audit accessing case tags", async () => {
-      await getCaseTags(request, response, next);
+      await retrieveCaseTags(request, response, next);
 
       const audit = await models.audit.findOne({
         where: {
