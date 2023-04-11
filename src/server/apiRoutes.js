@@ -54,7 +54,7 @@ import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
 import getOfficerHistoryOptions from "./handlers/cases/referralLetters/getOfficerHistoryOptions/getOfficerHistoryOptions";
 import getHowDidYouHearAboutUsSources from "./handlers/howDidYouHearAboutUsSources/getHowDidYouHearAboutUsSources";
 import getGenderIdentities from "./handlers/genderIdentities/getGenderIdentities";
-import getCaseNoteActions from "./handlers/caseNoteActions/getCaseNoteActions";
+import retrieveCaseNoteActions from "./handlers/caseNoteActions/retrieveCaseNoteActions";
 import createCaseTag from "./handlers/cases/createCaseTag";
 import getCaseTags from "./handlers/cases/caseTags/getCaseTags";
 import getTags from "./handlers/tags/getTags";
@@ -544,7 +544,7 @@ export const API_ROUTES = {
   },
   "/case-note-actions": {
     get: {
-      handler: getCaseNoteActions,
+      handler: retrieveCaseNoteActions,
       errorMessage:
         "Something went wrong and the case note action values were not found. Please try again."
     }

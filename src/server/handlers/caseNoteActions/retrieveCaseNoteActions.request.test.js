@@ -3,7 +3,7 @@ import {
   cleanupDatabase,
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
-import getCaseNoteActions from "./getCaseNoteActions";
+import retrieveCaseNoteActions from "./retrieveCaseNoteActions";
 import request from "supertest";
 import app from "../../server";
 
@@ -24,18 +24,18 @@ jest.mock(
     ])
 );
 
-jest.mock("./getCaseNoteActions", () =>
+jest.mock("./retrieveCaseNoteActions", () =>
   jest.fn((request, response, next) => {
     response.status(200).send(MOCK_CASE_NOTE_ACTION_VALUES);
   })
 );
 
-describe("getCaseNoteActions", () => {
+describe("retrieveCaseNoteActions", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });
 
-  test("hits endpoint that calls getCaseNoteActions", async () => {
+  test("hits endpoint that calls retrieveCaseNoteActions", async () => {
     const token = buildTokenWithPermissions("", "tuser");
 
     const responsePromise = request(app)
@@ -44,6 +44,6 @@ describe("getCaseNoteActions", () => {
       .set("Authorization", `Bearer ${token}`);
 
     await expectResponse(responsePromise, 200, MOCK_CASE_NOTE_ACTION_VALUES);
-    expect(getCaseNoteActions).toHaveBeenCalled();
+    expect(retrieveCaseNoteActions).toHaveBeenCalled();
   });
 });

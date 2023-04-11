@@ -1,10 +1,10 @@
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
-import getCaseNoteActions from "./getCaseNoteActions";
+import retrieveCaseNoteActions from "./retrieveCaseNoteActions";
 
 const httpMocks = require("node-mocks-http");
 
-describe("getCaseNoteActions", () => {
+describe("retrieveCaseNoteActions", () => {
   let request, response, next;
 
   beforeEach(() => {
@@ -32,7 +32,7 @@ describe("getCaseNoteActions", () => {
       name: "Contacted complainant support person"
     });
 
-    await getCaseNoteActions(request, response);
+    await retrieveCaseNoteActions(request, response);
 
     expect(response._getData().length).toEqual(2);
     expect(response._getData()).toEqual(
