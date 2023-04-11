@@ -6,10 +6,10 @@ import editLetterContent from "./handlers/cases/letters/editLetterContent";
 import archiveCase from "./handlers/cases/archiveCase/archiveCase";
 import restoreArchivedCase from "./handlers/cases/restoreArchivedCase/restoreArchivedCase";
 import getMinimumCaseDetails from "./handlers/cases/getMinimumCaseDetails/getMinimumCaseDetails";
-import getCaseNotes from "./handlers/cases/getCaseNotes";
-import createCaseNote from "./handlers/cases/createCaseNote";
-import editCaseNote from "./handlers/cases/editCaseNote/editCaseNote";
-import removeCaseNote from "./handlers/cases/removeCaseNote/removeCaseNote";
+import retrieveCaseNotes from "./handlers/cases/caseNotes/retrieveCaseNotes";
+import createCaseNote from "./handlers/cases/caseNotes/createCaseNote";
+import updateCaseNote from "./handlers/cases/caseNotes/updateCaseNote";
+import deleteCaseNote from "./handlers/cases/caseNotes/deleteCaseNote";
 import changeStatus from "./handlers/cases/changeStatus/changeStatus";
 import updateCaseNarrative from "./handlers/cases/updateCaseNarrative";
 import getCaseHistory from "./handlers/cases/getCaseHistory/getCaseHistory";
@@ -237,7 +237,7 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/case-notes": {
     get: {
-      handler: getCaseNotes,
+      handler: retrieveCaseNotes,
       errorMessage:
         "Something went wrong and the case notes were not loaded. Please try again."
     },
@@ -250,12 +250,12 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/case-notes/:caseNoteId": {
     put: {
-      handler: editCaseNote,
+      handler: updateCaseNote,
       errorMessage:
         "Something went wrong and the case note was not updated. Please try again."
     },
     delete: {
-      handler: removeCaseNote,
+      handler: deleteCaseNote,
       errorMessage:
         "Something went wrong and the case note was not removed. Please try again."
     }

@@ -26,7 +26,7 @@ jest.mock(
     ])
 );
 
-describe("removeCaseNote request", () => {
+describe("deleteCaseNote request", () => {
   jest.setTimeout(50000);
   afterEach(async () => {
     await cleanupDatabase();
@@ -41,7 +41,7 @@ describe("removeCaseNote request", () => {
     await seedStandardCaseStatuses();
   });
 
-  test("should remove a case note", async () => {
+  test("should delete a case note", async () => {
     const token = buildTokenWithPermissions("", NICKNAME);
 
     const caseToCreate = new Case.Builder()

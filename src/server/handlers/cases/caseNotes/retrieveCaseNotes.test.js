@@ -1,23 +1,23 @@
 import {
   AUDIT_ACTION,
   AUDIT_SUBJECT
-} from "../../../sharedUtilities/constants";
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import { createTestCaseWithCivilian } from "../../testHelpers/modelMothers";
-import getCaseNotes from "./getCaseNotes";
-import CaseNote from "../../testHelpers/caseNote";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
-import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
-const models = require("../../policeDataManager/models");
+} from "../../../../sharedUtilities/constants";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
+import retrieveCaseNotes from "./retrieveCaseNotes";
+import CaseNote from "../../../testHelpers/caseNote";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+const models = require("../../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
 
-jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({
+jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
   addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
     return caseNotes;
   })
 }));
 
-describe("getCaseNotes", function () {
+describe("retrieveCaseNotes", function () {
   let request, response, next, existingCase, caseNoteAction;
 
   beforeEach(async () => {
@@ -62,7 +62,7 @@ describe("getCaseNotes", function () {
   });
 
   test("should return case notes with case note action", async () => {
-    await getCaseNotes(request, response, next);
+    await retrieveCaseNotes(request, response, next);
 
     expect(response._getData()).toEqual([
       expect.objectContaining({
@@ -75,14 +75,14 @@ describe("getCaseNotes", function () {
   });
 
   test("should call addAuthorDetailsToCaseNote", async () => {
-    await getCaseNotes(request, response, next);
+    await retrieveCaseNotes(request, response, next);
 
     expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
   });
 
   describe("auditing", () => {
     test("should audit accessing case notes", async () => {
-      await getCaseNotes(request, response, next);
+      await retrieveCaseNotes(request, response, next);
 
       const audit = await models.audit.findOne({
         where: {

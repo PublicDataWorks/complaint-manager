@@ -1,32 +1,32 @@
-import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
-import Case from "../../../sharedTestHelpers/case";
-import CaseStatus from "../../../sharedTestHelpers/caseStatus";
-import models from "../../policeDataManager/models";
+import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
+import Case from "../../../../sharedTestHelpers/case";
+import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
+import models from "../../../policeDataManager/models";
 import {
   AUDIT_SUBJECT,
   CASE_STATUS,
   MANAGER_TYPE,
   USER_PERMISSIONS
-} from "../../../sharedUtilities/constants";
+} from "../../../../sharedUtilities/constants";
 import createCaseNote from "./createCaseNote";
 import * as httpMocks from "node-mocks-http";
 import moment from "moment";
-import auditDataAccess from "../audits/auditDataAccess";
-import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
-import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import auditDataAccess from "../../audits/auditDataAccess";
+import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
-import { sendNotification } from "./getMessageStream";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "../getMessageStream";
 
-jest.mock("../audits/auditDataAccess");
+jest.mock("../../audits/auditDataAccess");
 
-jest.mock("./helpers/addAuthorDetailsToCaseNote", () => ({
+jest.mock("../helpers/addAuthorDetailsToCaseNote", () => ({
   addAuthorDetailsToCaseNote: jest.fn(caseNotes => {
     return caseNotes;
   })
 }));
 
-jest.mock("./getMessageStream", () => ({
+jest.mock("../getMessageStream", () => ({
   sendNotification: jest.fn()
 }));
 

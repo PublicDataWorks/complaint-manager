@@ -25,7 +25,7 @@ jest.mock(
     ])
 );
 
-describe("editCaseNote request", function () {
+describe("updateCaseNote request", function () {
   afterEach(async () => {
     await cleanupDatabase();
   });

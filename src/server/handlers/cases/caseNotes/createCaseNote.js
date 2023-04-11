@@ -1,20 +1,19 @@
-import { getCaseWithAllAssociationsAndAuditDetails } from "../getCaseHelpers";
-import auditDataAccess from "../audits/auditDataAccess";
-import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
+import auditDataAccess from "../../audits/auditDataAccess";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-import { handleNotifications } from "./helpers/handleNotifications";
-import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
-import { sendNotification } from "./getMessageStream";
-import moment from "moment";
-import { updateCaseToActiveIfInitial } from "./helpers/caseStatusHelpers";
+import { handleNotifications } from "../helpers/handleNotifications";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
+import { sendNotification } from "../getMessageStream";
+import { updateCaseToActiveIfInitial } from "../helpers/caseStatusHelpers";
 
 const {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} = require("../../../sharedUtilities/constants");
-const asyncMiddleware = require("../asyncMiddleware");
-const models = require("../../policeDataManager/models");
+} = require("../../../../sharedUtilities/constants");
+const asyncMiddleware = require("../../asyncMiddleware");
+const models = require("../../../policeDataManager/models");
 
 const createCaseNote = asyncMiddleware(async (request, response, next) => {
   const currentCase = await models.sequelize.transaction(async transaction => {

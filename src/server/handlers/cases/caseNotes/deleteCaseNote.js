@@ -15,7 +15,7 @@ const {
 const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../policeDataManager/models");
 
-const removeCaseNote = asyncMiddleware(async (request, response, next) => {
+const deleteCaseNote = asyncMiddleware(async (request, response, next) => {
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
 
@@ -132,4 +132,4 @@ const removeCaseNote = asyncMiddleware(async (request, response, next) => {
   }
 });
 
-module.exports = removeCaseNote;
+module.exports = deleteCaseNote;

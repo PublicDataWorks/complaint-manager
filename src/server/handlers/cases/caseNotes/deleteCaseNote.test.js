@@ -2,7 +2,7 @@ import * as httpMocks from "node-mocks-http";
 import Case from "../../../../sharedTestHelpers/case";
 import models from "../../../policeDataManager/models";
 import CaseNote from "../../../testHelpers/caseNote";
-import removeCaseNote from "./removeCaseNote";
+import deleteCaseNote from "./deleteCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
@@ -33,7 +33,7 @@ jest.mock("../getMessageStream", () => ({
   sendNotification: jest.fn()
 }));
 
-describe("RemoveCaseNote unit", () => {
+describe("deleteCaseNote unit", () => {
   let createdCase, createdCaseNote, request;
 
   afterEach(async () => {
@@ -89,14 +89,14 @@ describe("RemoveCaseNote unit", () => {
     isCaseNoteAuthor.mockReturnValue(true);
   });
 
-  describe("only remove case notes when operations are permitted", () => {
+  describe("only delete case notes when operations are permitted", () => {
     test("should return bad request response with not allowed message", async () => {
       const next = jest.fn();
       const response = httpMocks.createResponse();
 
       isCaseNoteAuthor.mockReturnValue(false);
 
-      await removeCaseNote(request, response, next);
+      await deleteCaseNote(request, response, next);
 
       expect(isCaseNoteAuthor).toHaveBeenCalledWith(
         request.nickname,
@@ -111,14 +111,14 @@ describe("RemoveCaseNote unit", () => {
   test("should call addAuthorDetailsToCaseNote", async () => {
     const next = jest.fn();
     const response = httpMocks.createResponse();
-    await removeCaseNote(request, response, next);
+    await deleteCaseNote(request, response, next);
 
     expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
   });
 
-  test("should update case status and case notes in the db after case note removed", async () => {
+  test("should update case status and case notes in the db after case note deleted", async () => {
     const response = httpMocks.createResponse();
-    await removeCaseNote(request, response, jest.fn());
+    await deleteCaseNote(request, response, jest.fn());
 
     const updatedCase = await models.cases.findOne({
       where: { id: createdCase.id }
@@ -136,7 +136,7 @@ describe("RemoveCaseNote unit", () => {
     expect(updatedCaseNotes).toEqual([]);
   });
 
-  test("should delete case note notifications when case note is removed", async () => {
+  test("should delete case note notifications when case note is deleted", async () => {
     const response = httpMocks.createResponse();
 
     const notificationAttributes = new Notification.Builder()
@@ -149,7 +149,7 @@ describe("RemoveCaseNote unit", () => {
       { auditUser: "someone" }
     );
 
-    await removeCaseNote(request, response, jest.fn());
+    await deleteCaseNote(request, response, jest.fn());
     const deletedNotification = await models.notification.findOne({
       where: { caseNoteId: createdCaseNote.id },
       paranoid: false
@@ -169,9 +169,9 @@ describe("RemoveCaseNote unit", () => {
   });
 
   describe("auditing", () => {
-    test("should audit case notes access when case note removed", async () => {
+    test("should audit case notes access when case note deleted", async () => {
       const response = httpMocks.createResponse();
-      await removeCaseNote(request, response, jest.fn());
+      await deleteCaseNote(request, response, jest.fn());
 
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,
@@ -188,9 +188,9 @@ describe("RemoveCaseNote unit", () => {
       );
     });
 
-    test("should audit case details access when case note removed", async () => {
+    test("should audit case details access when case note deleted", async () => {
       const response = httpMocks.createResponse();
-      await removeCaseNote(request, response, jest.fn());
+      await deleteCaseNote(request, response, jest.fn());
 
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,

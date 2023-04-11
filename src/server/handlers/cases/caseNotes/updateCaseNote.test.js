@@ -2,7 +2,7 @@ import * as httpMocks from "node-mocks-http";
 import CaseNote from "../../../testHelpers/caseNote";
 import models from "../../../policeDataManager/models";
 import Case from "../../../../sharedTestHelpers/case";
-import editCaseNote from "./editCaseNote";
+import updateCaseNote from "./updateCaseNote";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import {
   AUDIT_SUBJECT,
@@ -31,7 +31,7 @@ jest.mock("../getMessageStream", () => ({
   sendNotification: jest.fn()
 }));
 
-describe("editCaseNote", function () {
+describe("updateCaseNote", function () {
   let createdCase,
     createdCaseNote,
     updatedCaseNote,
@@ -117,7 +117,7 @@ describe("editCaseNote", function () {
     test("should return bad request response with not allowed message", async () => {
       isCaseNoteAuthor.mockReturnValue(false);
 
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       expect(isCaseNoteAuthor).toHaveBeenCalledWith(
         request.nickname,
@@ -131,7 +131,7 @@ describe("editCaseNote", function () {
 
   describe("editing case note with no mentions yet", () => {
     test("should update case status and case notes in the db after case note edited", async () => {
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       const updatedCase = await models.cases.findOne({
         where: { id: createdCase.id }
@@ -173,7 +173,7 @@ describe("editCaseNote", function () {
       ];
       updatedCaseNote.notes += " @Test";
 
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       const updatedCase = await models.cases.findOne({
         where: { id: createdCase.id }
@@ -221,7 +221,7 @@ describe("editCaseNote", function () {
 
       request.body = updatedCaseNote;
 
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       expect(next).toHaveBeenCalledWith(
         Boom.badData(BAD_REQUEST_ERRORS.NOTIFICATION_EDIT_ERROR)
@@ -229,7 +229,7 @@ describe("editCaseNote", function () {
     });
 
     test("should call addAuthorDetailsToCaseNote", async () => {
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       expect(addAuthorDetailsToCaseNote).toHaveBeenCalled();
     });
@@ -283,7 +283,7 @@ describe("editCaseNote", function () {
 
       const previousTimeStamp = previousNotification[0].updatedAt;
 
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       const notification = await models.notification.findAll({
         where: { caseNoteId: createdCaseNote.id }
@@ -314,7 +314,7 @@ describe("editCaseNote", function () {
 
       request.body = updatedCaseNote;
 
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       const notification = await models.notification.findAll({
         where: { caseNoteId: createdCaseNote.id }
@@ -343,7 +343,7 @@ describe("editCaseNote", function () {
     });
 
     test("should audit when case note accessed through edit", async () => {
-      await editCaseNote(request, response, next);
+      await updateCaseNote(request, response, next);
 
       expect(auditDataAccess).toHaveBeenCalledWith(
         request.nickname,

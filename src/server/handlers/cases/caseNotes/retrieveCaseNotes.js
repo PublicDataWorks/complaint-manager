@@ -1,15 +1,15 @@
-import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
-import auditDataAccess from "../audits/auditDataAccess";
-import { addAuthorDetailsToCaseNote } from "./helpers/addAuthorDetailsToCaseNote";
+import getQueryAuditAccessDetails from "../../audits/getQueryAuditAccessDetails";
+import auditDataAccess from "../../audits/auditDataAccess";
+import { addAuthorDetailsToCaseNote } from "../helpers/addAuthorDetailsToCaseNote";
 
 const {
   AUDIT_SUBJECT,
   MANAGER_TYPE
-} = require("../../../sharedUtilities/constants");
-const asyncMiddleWare = require("../asyncMiddleware");
-const models = require("../../policeDataManager/models/index");
+} = require("../../../../sharedUtilities/constants");
+const asyncMiddleWare = require("../../asyncMiddleware");
+const models = require("../../../policeDataManager/models/index");
 
-const getCaseNotes = asyncMiddleWare(async (request, response) => {
+const retrieveCaseNotes = asyncMiddleWare(async (request, response) => {
   const rawCaseNotes = await models.sequelize.transaction(async transaction => {
     const caseNotesAndAuditDetails = await getAllCaseNotesAndAuditDetails(
       request.params.caseId,
@@ -76,4 +76,4 @@ const getAllCaseNotesAndAuditDetails = async (
   return { caseNotes: caseNotes, auditDetails: auditDetails };
 };
 
-module.exports = getCaseNotes;
+module.exports = retrieveCaseNotes;

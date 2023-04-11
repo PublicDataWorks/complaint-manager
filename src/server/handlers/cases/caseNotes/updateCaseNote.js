@@ -14,7 +14,7 @@ const asyncMiddleware = require("../../asyncMiddleware");
 const models = require("../../../policeDataManager/models");
 const _ = require("lodash");
 
-const editCaseNote = asyncMiddleware(async (request, response, next) => {
+const updateCaseNote = asyncMiddleware(async (request, response, next) => {
   const mentionedUsers = request.body.mentionedUsers;
   const caseId = request.params.caseId;
   const caseNoteId = request.params.caseNoteId;
@@ -105,4 +105,4 @@ const editCaseNote = asyncMiddleware(async (request, response, next) => {
   }
 });
 
-module.exports = editCaseNote;
+module.exports = updateCaseNote;
