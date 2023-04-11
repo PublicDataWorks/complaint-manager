@@ -37,7 +37,7 @@ import searchOfficers from "./handlers/officers/searchOfficers/searchOfficers";
 import searchInmates from "./handlers/inmates/searchInmates";
 import searchAllegations from "./handlers/allegations/searchAllegations";
 import searchCases from "./handlers/cases/casesSearch/searchCases";
-import getAllegations from "./handlers/allegations/getAllegations";
+import retrieveAllegations from "./handlers/allegations/retrieveAllegations";
 import getClassifications from "./handlers/classifications/getClassifications";
 import getIntakeSources from "./handlers/intake_sources/getIntakeSources";
 import getRaceEthnicities from "./handlers/race_ethnicities/getRaceEthnicities";
@@ -47,7 +47,7 @@ import getRecommendedActions from "./handlers/cases/referralLetters/getRecommend
 import getFinalPdfDownloadUrl from "./handlers/cases/referralLetters/getFinalPdfDownloadUrl/getFinalPdfDownloadUrl";
 import getReferralLetterPdf from "./handlers/cases/referralLetters/getReferralLetterPdf/getReferralLetterPdf";
 import approveLetter from "./handlers/cases/referralLetters/approveLetter/approveLetter";
-import getAttachmentDownloadUrl from "./handlers/cases/attachments/getAttachmentDownloadUrl";
+import retrieveAttachmentDownloadUrl from "./handlers/cases/attachments/retrieveAttachmentDownloadUrl";
 import uploadAttachment from "./handlers/cases/attachments/uploadAttachment";
 import deleteAttachment from "./handlers/cases/attachments/deleteAttachment";
 import getArchivedCases from "./handlers/cases/getCases/getArchivedCases";
@@ -357,7 +357,7 @@ export const API_ROUTES = {
   },
   "/cases/:caseId/attachmentUrls": {
     get: {
-      handler: getAttachmentDownloadUrl,
+      handler: retrieveAttachmentDownloadUrl,
       errorMessage:
         "Something went wrong and the attachment URL was not found. Please try again."
     }
@@ -537,7 +537,7 @@ export const API_ROUTES = {
   },
   "/allegations": {
     get: {
-      handler: getAllegations,
+      handler: retrieveAllegations,
       errorMessage:
         "Something went wrong and the allegation values were not found. Please try again."
     }

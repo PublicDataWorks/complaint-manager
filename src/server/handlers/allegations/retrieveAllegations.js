@@ -2,7 +2,7 @@ import { ASCENDING } from "../../../sharedUtilities/constants";
 
 const models = require("../../policeDataManager/models");
 
-const getAllegations = async (request, response, next) => {
+const retrieveAllegations = async (request, response, next) => {
   const uniqueRules = await models.allegation.findAll({
     raw: true,
     attributes: ["rule"],
@@ -28,4 +28,4 @@ const getAllegations = async (request, response, next) => {
   response.status(200).send(formattedRuleParagraphs);
 };
 
-module.exports = getAllegations;
+module.exports = retrieveAllegations;

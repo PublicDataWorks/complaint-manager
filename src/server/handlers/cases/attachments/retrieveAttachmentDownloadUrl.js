@@ -11,7 +11,7 @@ const {
 } = require("../../../../sharedUtilities/constants");
 const models = require("../../../policeDataManager/models/index");
 
-const getAttachmentDownloadUrl = asyncMiddleware(
+const retrieveAttachmentDownloadUrl = asyncMiddleware(
   async (request, response, next) => {
     const s3 = createConfiguredS3Instance();
     const fileName = request.query.fileName;
@@ -113,4 +113,4 @@ const getReferralLetterS3Url = (s3, referralLetter) => {
   );
 };
 
-module.exports = getAttachmentDownloadUrl;
+module.exports = retrieveAttachmentDownloadUrl;

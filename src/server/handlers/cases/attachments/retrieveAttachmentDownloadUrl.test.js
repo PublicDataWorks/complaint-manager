@@ -1,5 +1,5 @@
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-import getAttachmentDownloadUrl from "./getAttachmentDownloadUrl";
+import retrieveAttachmentDownloadUrl from "./retrieveAttachmentDownloadUrl";
 import {
   AUDIT_ACTION,
   AUDIT_FILE_TYPE,
@@ -23,7 +23,7 @@ jest.mock("aws-sdk");
 
 jest.mock("../../audits/auditFileAction");
 
-describe("getAttachmentDownloadUrl", function () {
+describe("retrieveAttachmentDownloadUrl", function () {
   const testUser = "April Ludgate";
 
   afterEach(async () => {
@@ -153,7 +153,7 @@ describe("getAttachmentDownloadUrl", function () {
 
       const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(auditFileAction).toHaveBeenCalledWith(
         testUser,
@@ -171,7 +171,7 @@ describe("getAttachmentDownloadUrl", function () {
       const response = httpMocks.createResponse();
       response.write = jest.fn();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(auditFileAction).toHaveBeenCalledWith(
         testUser,
@@ -190,7 +190,7 @@ describe("getAttachmentDownloadUrl", function () {
 
       response.write = jest.fn();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(auditFileAction).toHaveBeenCalledWith(
         testUser,
@@ -211,7 +211,7 @@ describe("getAttachmentDownloadUrl", function () {
 
       const { request } = await requestWithExistingCaseAttachment();
 
-      await getAttachmentDownloadUrl(
+      await retrieveAttachmentDownloadUrl(
         request,
         httpMocks.createResponse(),
         jest.fn()
@@ -228,7 +228,7 @@ describe("getAttachmentDownloadUrl", function () {
       const response = httpMocks.createResponse();
       response.write = jest.fn();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(response.write).toHaveBeenCalledWith(SIGNED_TEST_URL);
       expect(getSignedUrl).toHaveBeenCalledWith(
@@ -247,7 +247,7 @@ describe("getAttachmentDownloadUrl", function () {
 
       const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(getSignedUrl).toHaveBeenCalledWith(
         S3_GET_OBJECT,
@@ -263,7 +263,7 @@ describe("getAttachmentDownloadUrl", function () {
 
       const response = httpMocks.createResponse();
 
-      await getAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
       expect(getSignedUrl).toHaveBeenCalledWith(
         S3_GET_OBJECT,
