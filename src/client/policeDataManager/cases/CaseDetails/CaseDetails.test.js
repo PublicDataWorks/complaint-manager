@@ -309,7 +309,7 @@ describe("Case Details Component", () => {
       caseDetails.update();
 
       const addButton = caseDetails
-        .find('button[data-testid="addComplainantWitness"]')
+        .find('button[data-testid="addPersonOnCase"]')
         .at(2);
 
       addButton.simulate("click");

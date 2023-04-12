@@ -446,7 +446,7 @@ describe("complainant/witness dialog", () => {
     });
 
     test("should display radio button of role on case for witness, complainant, and accused (when allowAllTypesToBeAccused is true)", () => {
-      const radioButtonGroup = complainantWitnessDialog.find(
+      const radioButtonGroup = personOnCaseDialog.find(
         "[data-testid='roleOnCaseRadioGroup']"
       );
       expect(radioButtonGroup.find("label").at(0).text()).toEqual(
@@ -472,7 +472,7 @@ describe("complainant/witness dialog", () => {
 
       const otherCivilianDialog = mount(
         <Provider store={otherStore}>
-          <ComplainantWitnessDialog />
+          <PersonOnCaseDialog />
         </Provider>
       );
 

@@ -90,7 +90,7 @@ export const executeQuery = async (nickname, dateRange) => {
       return acc;
     },
     {
-      ANON: _.cloneDeep(counts)
+      AC: _.cloneDeep(counts)
     }
   );
 

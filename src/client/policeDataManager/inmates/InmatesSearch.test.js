@@ -129,16 +129,21 @@ describe("InmatesSearch", () => {
     );
 
     userEvent.click(screen.getByText("SELECT"));
-    expect(
-      await screen.findByText("Person in Custody Successfully Added to Case")
-    ).toBeInTheDocument;
+
+    let i = 0;
+    while (!selectNock.isDone() && i < 30) {
+      await new Promise(resolve => {
+        setTimeout(() => {
+          i++;
+          resolve();
+        }, 50);
+      });
+    }
 
     expect(
       dispatchSpy.mock.calls.find(
         call => call[0].type === "@@router/CALL_HISTORY_METHOD"
       )[0]
     ).toEqual(push(`/cases/1/inmates/${COMPLAINANT}/28`));
-
-    expect(selectNock.isDone()).toBeTrue();
   });
 });

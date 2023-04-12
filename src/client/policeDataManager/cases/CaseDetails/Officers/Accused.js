@@ -12,7 +12,7 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import AddAccusedMenu from "./AddAccusedMenu";
 import { connect } from "react-redux";
-import ComplainantWitnessMenu from "../ComplainantWitnessMenu";
+import PersonOnCaseMenu from "../PersonOnCaseMenu";
 
 const Accused = props => {
   const {
@@ -74,7 +74,7 @@ const renderAddAccused = (dispatch, caseDetails, caseId, props) => {
   return (
     <Fragment>
       {props.allowAllTypesToBeAccused ? (
-        <ComplainantWitnessMenu
+        <PersonOnCaseMenu
           dispatch={dispatch}
           caseDetails={caseDetails}
           civilianType={ACCUSED}

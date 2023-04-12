@@ -89,10 +89,10 @@ const mapStateToProps = state => {
     );
 
   return {
-    open: state.ui.removeOfficerAllegationDialog.open,
+    caseId: state.currentCase.details.id,
     officerAllegation: officerAllegation,
     officerName: caseOfficer ? caseOfficer.fullName : "",
-    caseId: state.currentCase.details.id
+    open: state.ui.removeOfficerAllegationDialog.open
   };
 };
 
