@@ -31,7 +31,7 @@ const SelectedInmateDetails = props => {
   return (
     <section>
       <NavBar menuType={policeDataManagerMenuOptions}>
-        {`Case #${props.caseDetails.id}   : Add Person in Custody`}
+        {`Case #${props.caseDetails.caseReference}   : Add Person in Custody`}
       </NavBar>
       <LinkButton
         data-testid="back-to-case-link"
