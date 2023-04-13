@@ -17,18 +17,18 @@ import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
 import { removePersonSuccess } from "../../../actionCreators/casesActionCreators";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 
-const InmatePanel = ({ caseInmate, dispatch, pd, permissions, isArchived }) => {
+const InmatePanel = ({ caseInmate, dispatch, permissions, isArchived }) => {
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
 
   const getCaseInmateName = () => {
     let fullName;
-    if (caseInmate.fullName) {
+    if (caseInmate?.fullName) {
       fullName = caseInmate.fullName;
     } else {
-      fullName = caseInmate.inmate.fullName;
+      fullName = caseInmate?.inmate?.fullName;
     }
 
-    if (caseInmate.isAnonymous) {
+    if (caseInmate?.isAnonymous) {
       return `(ANON) ${fullName}`;
     } else {
       return fullName;
