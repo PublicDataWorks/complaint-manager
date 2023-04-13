@@ -10,6 +10,8 @@ import createConfiguredStore from "../../client/createConfiguredStore";
 import SelectedInmateDetails from "../../client/policeDataManager/inmates/SelectedInmateDetails";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import { push } from "connected-react-router";
+import { selectInmate } from "../../client/policeDataManager/actionCreators/inmateActionCreators";
+import { COMPLAINANT } from "../../sharedUtilities/constants";
 
 pactWith(
   {
@@ -30,6 +32,29 @@ pactWith(
         store = createConfiguredStore();
         dispatchSpy = jest.spyOn(store, "dispatch");
 
+        store.dispatch(
+          selectInmate(
+            {
+              fullName: "",
+              id: 1,
+              inmateId: "A6084745",
+              roleOnCase: "Complainant",
+              isAnonymous: false,
+              caseId: 1,
+              inmate: {
+                fullName: "Robin Archuleta",
+                inmateId: "A6084745",
+                firstName: "Robin",
+                lastName: "Archuleta",
+                region: "HAWAII",
+                facility: "WCCC",
+                facilityId: 6
+              }
+            },
+            COMPLAINANT
+          )
+        );
+
         await provider.addInteraction({
           state: "Case exists",
           uponReceiving: "get case",
@@ -43,45 +68,10 @@ pactWith(
               "Content-Type": "application/json; charset=utf-8"
             },
             body: like({
-              primaryComplainant: {
-                fullName: "",
-                id: 1,
-                inmateId: "A6084745",
-                roleOnCase: "Complainant",
-                isAnonymous: false,
-                caseId: 1,
-                inmate: {
-                  fullName: "Robin Archuleta",
-                  inmateId: "A6084745",
-                  firstName: "Robin",
-                  lastName: "Archuleta",
-                  region: "HAWAII",
-                  facility: "WCCC",
-                  facilityId: 6
-                }
-              },
               caseReferencePrefix: "PiC",
               caseReference: "PiC2023-0001",
               id: 1,
-              complainantInmates: [
-                {
-                  fullName: "",
-                  id: 1,
-                  inmateId: "A6084745",
-                  roleOnCase: "Complainant",
-                  isAnonymous: false,
-                  caseId: 1,
-                  inmate: {
-                    fullName: "Robin Archuleta",
-                    inmateId: "A6084745",
-                    firstName: "Robin",
-                    lastName: "Archuleta",
-                    region: "HAWAII",
-                    facility: "WCCC",
-                    facilityId: 6
-                  }
-                }
-              ],
+              complainantInmates: [],
               witnessInmates: [],
               accusedInmates: []
             })
@@ -92,7 +82,7 @@ pactWith(
           <Provider store={store}>
             <Router>
               <SelectedInmateDetails
-                match={{ params: { id: "1", caseInmateId: "1" } }}
+                match={{ params: { id: "1", roleOnCase: COMPLAINANT } }}
               />
               <SharedSnackbarContainer />
             </Router>
@@ -102,17 +92,19 @@ pactWith(
 
       test("should update inmate when anonymous checkbox is selected", async () => {
         await provider.addInteraction({
-          state: "Case exists: with person in custody complainant",
-          uponReceiving: "updating existing inmate",
+          state: "Case exists",
+          uponReceiving: "adding inmate",
           withRequest: {
-            method: "PUT",
-            path: "/api/cases/1/inmates/1",
+            method: "POST",
+            path: "/api/cases/1/inmates",
             headers: {
               "Content-type": "application/json"
             },
             body: {
               notes: "some notes.",
-              isAnonymous: true
+              isAnonymous: true,
+              inmateId: "A6084745",
+              roleOnCase: COMPLAINANT
             }
           },
           willRespondWith: {

@@ -117,35 +117,6 @@ pactWith(
           }
         });
 
-        await provider.addInteraction({
-          state: "Case exists; Inmates exist",
-          uponReceiving: "add case inmate",
-          withRequest: {
-            method: "POST",
-            path: "/api/cases/1/inmates",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: {
-              inmateId: "A0000001",
-              roleOnCase: COMPLAINANT
-            }
-          },
-          willRespondWith: {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json; charset=utf-8"
-            },
-            body: like({
-              id: 1,
-              caseId: 1,
-              inmateId: "A0000001",
-              roleOnCase: COMPLAINANT,
-              isAnonymous: false
-            })
-          }
-        });
-
         userEvent.click(screen.getByTestId("facility-input"));
         userEvent.click(await screen.findByText("ABC Pest and Lawn"));
         userEvent.click(screen.getByTestId("inmateSearchSubmitButton"));
@@ -155,14 +126,9 @@ pactWith(
 
         userEvent.click(screen.getByText("SELECT"));
 
-        await new Promise(resolve => {
-          setTimeout(() => {
-            expect(dispatchSpy).toHaveBeenCalledWith(
-              push("/cases/1/inmates/Complainant/1")
-            );
-            resolve();
-          }, 50);
-        });
+        expect(dispatchSpy).toHaveBeenCalledWith(
+          push("/cases/1/inmates/Complainant")
+        );
       });
     });
   }

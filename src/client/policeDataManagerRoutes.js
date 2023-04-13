@@ -140,7 +140,7 @@ const policeDataManagerRoutes = [
     component: ManuallyEnteredInmateDetails
   },
   {
-    path: "/cases/:id/inmates/:roleOnCase/:caseInmateId",
+    path: "/cases/:id/inmates/:roleOnCase",
     component: SelectedInmateDetails
   },
   {

@@ -144,6 +144,6 @@ describe("InmatesSearch", () => {
       dispatchSpy.mock.calls.find(
         call => call[0].type === "@@router/CALL_HISTORY_METHOD"
       )[0]
-    ).toEqual(push(`/cases/1/inmates/${COMPLAINANT}/28`));
+    ).toEqual(push(`/cases/1/inmates/${COMPLAINANT}`));
   });
 });

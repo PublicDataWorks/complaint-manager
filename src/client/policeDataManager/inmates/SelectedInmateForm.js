@@ -15,13 +15,16 @@ import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import axios from "axios";
 import { push } from "connected-react-router";
 import { snackbarSuccess } from "../actionCreators/snackBarActionCreators";
+import { ACCUSED } from "../../../sharedUtilities/constants";
 
 const SelectedInmateForm = props => {
   const submit = async (values, dispatch) => {
     await axios
-      .put(`api/cases/${props.caseId}/inmates/${props.selectedInmate.id}`, {
+      .post(`api/cases/${props.caseId}/inmates`, {
         isAnonymous: values?.isAnonymous,
-        notes: values?.notes
+        notes: values?.notes,
+        inmateId: props.selectedInmate.inmateId,
+        roleOnCase: props.roleOnCase
       })
       .then(() => {
         dispatch(push(`/cases/${props.caseId}`));
@@ -39,14 +42,18 @@ const SelectedInmateForm = props => {
       <Card style={{ backgroundColor: "white", marginBottom: "16px" }}>
         <CardContent>
           <Typography style={styles.section}>
-            Complainant Information
+            {props.roleOnCase} Information
           </Typography>
-          <FormControlLabel
-            data-testid="isInmateAnonymous"
-            key="isAnonymous"
-            label={"Anonymize Person in Custody"}
-            control={<Field name="isAnonymous" component={PrimaryCheckBox} />}
-          />
+          {props.roleOnCase === ACCUSED ? (
+            ""
+          ) : (
+            <FormControlLabel
+              data-testid="isInmateAnonymous"
+              key="isAnonymous"
+              label={"Anonymize Person in Custody"}
+              control={<Field name="isAnonymous" component={PrimaryCheckBox} />}
+            />
+          )}
           <div
             style={{
               marginTop: "24px",

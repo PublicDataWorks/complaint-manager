@@ -36,7 +36,7 @@ const SelectedInmateDisplay = ({
   caseId,
   selectedInmate,
   classes,
-  removeCaseInmate
+  roleOnCase
 }) => {
   return (
     <Table style={{ marginBottom: "32px" }}>
@@ -57,20 +57,17 @@ const SelectedInmateDisplay = ({
         <TableRow className={classes.bodyRow}>
           {FIELDS.map(field => (
             <TableCell
-              key={selectedInmate.inmate[field.key]}
+              key={selectedInmate[field.key]}
               className={classes.bodyCell}
             >
-              {selectedInmate.inmate[field.key]}
+              {selectedInmate[field.key]}
             </TableCell>
           ))}
           <TableCell className={classes.buttonCell}>
             <LinkButton
               data-testid="change-inmate-link"
               component={Link}
-              to={`/cases/${caseId}/inmates/${selectedInmate.roleOnCase}/search`}
-              onClick={() => {
-                removeCaseInmate(caseId, selectedInmate.id);
-              }}
+              to={`/cases/${caseId}/inmates/${roleOnCase}/search`}
             >
               Change
             </LinkButton>

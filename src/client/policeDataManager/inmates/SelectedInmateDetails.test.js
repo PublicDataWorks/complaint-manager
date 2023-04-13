@@ -9,6 +9,8 @@ import SharedSnackbarContainer from "../shared/components/SharedSnackbarContaine
 import SelectedInmateDetails from "./SelectedInmateDetails";
 import { getCaseDetailsSuccess } from "../actionCreators/casesActionCreators";
 import { push } from "connected-react-router";
+import { selectInmate } from "../actionCreators/inmateActionCreators";
+import { COMPLAINANT } from "../../../sharedUtilities/constants";
 
 describe("Selected Inmate Details", () => {
   let store, dispatchSpy;
@@ -16,6 +18,29 @@ describe("Selected Inmate Details", () => {
   beforeEach(() => {
     store = createConfiguredStore();
     dispatchSpy = jest.spyOn(store, "dispatch");
+
+    store.dispatch(
+      selectInmate(
+        {
+          fullName: "",
+          id: 1,
+          inmateId: "A6084745",
+          roleOnCase: "Complainant",
+          isAnonymous: false,
+          caseId: 1,
+          inmate: {
+            fullName: "Robin Archuleta",
+            inmateId: "A6084745",
+            firstName: "Robin",
+            lastName: "Archuleta",
+            region: "HAWAII",
+            facility: "WCCC",
+            facilityId: 6
+          }
+        },
+        COMPLAINANT
+      )
+    );
 
     store.dispatch(
       getCaseDetailsSuccess({
@@ -39,25 +64,7 @@ describe("Selected Inmate Details", () => {
         caseReferencePrefix: "PiC",
         caseReference: "PiC2023-0001",
         id: 1,
-        complainantInmates: [
-          {
-            fullName: "",
-            id: 1,
-            inmateId: "A6084745",
-            roleOnCase: "Complainant",
-            isAnonymous: false,
-            caseId: 1,
-            inmate: {
-              fullName: "Robin Archuleta",
-              inmateId: "A6084745",
-              firstName: "Robin",
-              lastName: "Archuleta",
-              region: "HAWAII",
-              facility: "WCCC",
-              facilityId: 6
-            }
-          }
-        ],
+        complainantInmates: [],
         witnessInmates: [],
         accusedInmates: []
       })
@@ -67,7 +74,7 @@ describe("Selected Inmate Details", () => {
       <Provider store={store}>
         <Router>
           <SelectedInmateDetails
-            match={{ params: { id: "1", caseInmateId: "1" } }}
+            match={{ params: { id: "1", roleOnCase: COMPLAINANT } }}
           />
           <SharedSnackbarContainer />
         </Router>
@@ -80,11 +87,13 @@ describe("Selected Inmate Details", () => {
     expect(await screen.findByText("Additional Info"));
   });
 
-  test("should successfully submit and redirect when anonymize checkbox is clicked and notes are added", async () => {
-    const putNock = nock("http://localhost")
-      .put("/api/cases/1/inmates/1", {
+  test("should successfully add inmate to case and redirect when submitted", async () => {
+    const postNock = nock("http://localhost")
+      .post("/api/cases/1/inmates", {
         isAnonymous: true,
-        notes: "this PiC is OK"
+        notes: "this PiC is OK",
+        inmateId: "A6084745",
+        roleOnCase: COMPLAINANT
       })
       .reply(200);
 
@@ -95,7 +104,7 @@ describe("Selected Inmate Details", () => {
     expect(
       await screen.findByText("Person in Custody Successfully Added to Case")
     );
-    expect(putNock.isDone()).toBeTrue();
+    expect(postNock.isDone()).toBeTrue();
     expect(dispatchSpy).toHaveBeenCalledWith(push("/cases/1"));
   });
 });
