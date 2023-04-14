@@ -41,6 +41,9 @@ module.exports = {
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
+      await queryInterface.sequelize.query(
+        `UPDATE civilians SET person_type = NULL WHERE person_type IS NOT NULL`
+      );
       await queryInterface.sequelize.query(`DELETE FROM ${TABLE} WHERE TRUE`, {
         transaction
       });
