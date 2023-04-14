@@ -178,6 +178,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true
       }
     });
+    Civilian.belongsTo(models.personType, {
+      as: "personTypeDetails",
+      foreignKey: {
+        name: "personType",
+        field: "person_type",
+        allowNull: true
+      }
+    });
   };
 
   Civilian.auditDataChange();

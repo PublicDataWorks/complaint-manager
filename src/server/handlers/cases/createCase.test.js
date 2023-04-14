@@ -13,6 +13,7 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import Boom from "boom";
 import Case from "../../../sharedTestHelpers/case";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
+import PersonType from "../../../sharedTestHelpers/PersonType";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import auditDataAccess from "../audits/auditDataAccess";
 
@@ -85,6 +86,14 @@ describe("createCase handler", () => {
 
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
+      { auditUser: "user" }
+    );
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("RANDOM_COMPLAINANT_TYPE")
+        .build(),
       { auditUser: "user" }
     );
   });

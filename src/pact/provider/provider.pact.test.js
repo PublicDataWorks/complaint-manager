@@ -44,6 +44,7 @@ import {
   WITNESS
 } from "../../sharedUtilities/constants";
 import Officer from "../../sharedTestHelpers/Officer";
+import PersonType from "../../sharedTestHelpers/PersonType";
 
 jest.mock(
   "../../server/handlers/cases/referralLetters/sharedLetterUtilities/uploadLetterToS3",
@@ -443,6 +444,30 @@ describe("Pact Verification", () => {
               .withRequiredStatus(statuses[0])
               .build(),
             { auditUser: "test" }
+          );
+
+          await models.personType.create(
+            new PersonType.Builder()
+              .defaultPersonType()
+              .withKey("OFFICER")
+              .withDescription("An Officer")
+              .build(),
+            { auditUser: "user" }
+          );
+          await models.personType.create(
+            new PersonType.Builder()
+              .defaultPersonType()
+              .withKey("ELVIS")
+              .withDescription("?:")
+              .build(),
+            { auditUser: "user" }
+          );
+          await models.personType.create(
+            new PersonType.Builder()
+              .defaultPersonType()
+              .withKey("OTHER")
+              .build(),
+            { auditUser: "user" }
           );
 
           await models.sequelize.query(
