@@ -19,8 +19,7 @@ import {
 } from "../../../sharedUtilities/constants";
 
 const {
-  PERSON_TYPE,
-  PD
+  PERSON_TYPE
 } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const CIVILIAN_COMPLAINANT = "civilianComplainant";
@@ -704,7 +703,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
   let store = createConfiguredStore();
   store.dispatch({
     type: GET_CONFIGS_SUCCEEDED,
-    payload: { [CONFIGS.PD]: PD }
+    payload: { [CONFIGS.PD]: "GCPD" }
   });
 
   store.dispatch({
