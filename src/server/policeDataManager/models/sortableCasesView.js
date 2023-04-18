@@ -64,11 +64,16 @@ module.exports = (sequelize, DataTypes) => {
           ) {
             return this.getDataValue("accusedOfficers")
               .reduce((acc, accused) => {
+                console.log("accused ", accused);
                 if (
                   !acc.length ||
                   !acc.find(
                     element =>
-                      element.case_officer_id === accused.case_officer_id
+                      element.accused_first_name ===
+                        accused.accused_first_name &&
+                      element.accused_last_name === accused.accused_last_name &&
+                      element.accused_person_type ===
+                        accused.accused_person_type
                   )
                 ) {
                   acc.push(accused);
