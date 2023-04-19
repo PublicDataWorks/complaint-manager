@@ -30,6 +30,53 @@ const {
 } = require("../../../sharedUtilities/constants");
 
 module.exports = (sequelize, DataTypes) => {
+  /**
+   * Case model - represents a case in the cases table
+   * Fields:
+   * @property id {number} - the numeric id of the case
+   * @property primaryComplainant {Civilian | CaseOfficer | CaseInmate} - VIRTUAL holds the complainant (of whatever type) that was added first (duplicated from civilianComplainants, officerComplainants, or inmateComplainants)
+   * @property complaintTypeId {string} - the foreign key to the complaint_types table
+   * @property statusId {number} - a foreign key to the case_status table, indicating the status of the case
+   * @property year {string} - the four digit year of the case
+   * @property caseNumber {number} - the number of the case (separate from the id), used to generate the case reference
+   * @property caseReferencePrefix {string} - VIRTUAL the alphabetical prefix to a case reference number, determined by the type of the primary complainant
+   * @property caseReference {string} - VIRTUAL the case identifier used for display purposes, constructed from the prefix ^^, the year, and the case number padded to 4 digits
+   * @property firstContactDate {Date} - the date that the first complainant first contacted oversight about the case
+   * @property intakeSourceId {number} - a foreign key to the intake_sources table, indicating the source through which the complaint came in
+   * @property incidentDate {Date} - The date at which the incident took place
+   * @property districtId {number} - a foreign key to the districts table, indicating the district in which the case took place
+   * @property incidentTime {Time} - The time at which the incident took place
+   * @property incidentTimeZone {string} - The timezone of the incident time
+   * @property narrativeSummary {string} - A summary of the events of the case
+   * @property narrativeDetails {string} - An HTML string with a narrative description of the case to be used when reporting the case
+   * @property pibCaseNumber {string} - The external case number related to the case
+   * @property createdBy {string} - The username of the user who created the case
+   * @property assignedTo {string} - The username of the user to whom the case is assigned
+   *
+   * Associations:
+   * @property audit (One to Many) - changes/data accesses on the case
+   * @property complainantCivilians (One to Many) - Civilians who have the role of Complainant on the case
+   * @property witnessCivilians (One to Many) - Civilians who have the role of Witness on the case
+   * @property accusedCivilians (One to Many) - Civilians who have the role of Accused on the case
+   * @property attachment (One to Many) - References to files attached to the case (not the actual files, which are in S3)
+   * @property incidentLocation (One to One) - The address at which the incident occurred
+   * @property accusedOfficers (Many to Many) - The officers who have the role of Accused on the case (connected through cases_officers table)
+   * @property complainantOfficers (Many to Many) - The officers who have the role of Complainant on the case (connected through cases_officers table)
+   * @property witnessOfficers (Many to Many) - The officers who have the role of Witness on the case (connected through cases_officers table)
+   * @property complainantInmates (Many to Many) - The people in custody who have the role of Complainant on the case (connected through cases_inmates table)
+   * @property witnessInmates (Many to Many) - The people in custody who have the role of Witness on the case (connected through cases_inmates table)
+   * @property accusedInmates (Many to Many) - The people in custody who have the role of Accused on the case (connected through cases_inmates table)
+   * @property caseClassifications (Many to Many) - classifications added to the case (connected by case_classifications)
+   * @property howDidYouHearAboutUsSource (Many to One) - the place where the complainant heard about the oversight org
+   * @property intakeSource (Many to One) - the manner in which the complaint was intaken
+   * @property caseDistrict (Many to One) - The district in which the incident occurred
+   * @property dataChangeAudits (One to Many) - Records of changes to the case data
+   * @property actionAudits (One to Many) - Records of actions taken
+   * @property referralLetter (One to One) - The referral letter generated for the case (if there is one)
+   * @property caseTags (Many to Many) - The tags applied to the case (associated through case_tags table)
+   * @property status (Many to One) - The status of the case (statuses have their own table so that different orgs can have different statuses)
+   * @property complaintType (Many to One) - The type of complaint
+   */
   const Case = sequelize.define(
     "cases",
     {
