@@ -23,18 +23,20 @@ module.exports = {
         await queryInterface.sequelize.query(ADD_CONSTRAINT_QUERY, {
           transaction
         });
-        await queryInterface.sequelize.query(
-          `UPDATE ${TABLE} SET person_type = 'CIVILIAN_WITHIN_PD' WHERE case_employee_type = 'Civilian Within NOPD'`,
-          { transaction }
-        );
-        await queryInterface.sequelize.query(
-          `UPDATE ${TABLE} SET person_type = 'KNOWN_OFFICER' WHERE case_employee_type = 'Officer' AND last_name IS NOT NULL`,
-          { transaction }
-        );
-        await queryInterface.sequelize.query(
-          `UPDATE ${TABLE} SET person_type = 'UNKNOWN_OFFICER' WHERE case_employee_type = 'Officer' AND last_name IS NULL`,
-          { transaction }
-        );
+        if (process.env.org === "NOIPM") {
+          await queryInterface.sequelize.query(
+            `UPDATE ${TABLE} SET person_type = 'CIVILIAN_WITHIN_PD' WHERE case_employee_type = 'Civilian Within NOPD'`,
+            { transaction }
+          );
+          await queryInterface.sequelize.query(
+            `UPDATE ${TABLE} SET person_type = 'KNOWN_OFFICER' WHERE case_employee_type = 'Officer' AND last_name IS NOT NULL`,
+            { transaction }
+          );
+          await queryInterface.sequelize.query(
+            `UPDATE ${TABLE} SET person_type = 'UNKNOWN_OFFICER' WHERE case_employee_type = 'Officer' AND last_name IS NULL`,
+            { transaction }
+          );
+        }
       });
     } catch (error) {
       throw new Error(
