@@ -166,9 +166,7 @@ export const expectedCaseAuditDetails = {
   },
   personType: {
     attributes: expect.toIncludeSameMembers(
-      Object.keys(models.personType.rawAttributes).filter(
-        attribute => attribute !== "createdAt" && attribute !== "updatedAt"
-      )
+      Object.keys(models.personType.rawAttributes)
     ),
     model: models.personType.name
   }

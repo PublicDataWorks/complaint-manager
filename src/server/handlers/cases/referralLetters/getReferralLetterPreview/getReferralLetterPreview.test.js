@@ -1057,7 +1057,13 @@ describe("getReferralLetterPreview", function () {
                 )
               ),
               model: models.caseStatus.name
-            })
+            }),
+            personType: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.personType.rawAttributes)
+              ),
+              model: models.personType.name
+            }
           };
 
           expect(auditDataAccess).toHaveBeenCalledWith(
@@ -1253,7 +1259,13 @@ describe("getReferralLetterPreview", function () {
                 )
               ),
               model: models.caseStatus.name
-            })
+            }),
+            personType: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.personType.rawAttributes)
+              ),
+              model: models.personType.name
+            }
           };
 
           expect(auditDataAccess).toHaveBeenCalledWith(
