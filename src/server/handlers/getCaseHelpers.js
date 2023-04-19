@@ -126,16 +126,32 @@ const getCaseDetailsAndAuditDetails = async (
             model: models.officer_allegation,
             as: "allegations",
             include: [models.allegation]
+          },
+          {
+            model: models.personType,
+            as: "personType"
           }
         ]
       },
       {
         model: models.case_officer,
-        as: "complainantOfficers"
+        as: "complainantOfficers",
+        include: [
+          {
+            model: models.personType,
+            as: "personType"
+          }
+        ]
       },
       {
         model: models.case_officer,
-        as: "witnessOfficers"
+        as: "witnessOfficers",
+        include: [
+          {
+            model: models.personType,
+            as: "personType"
+          }
+        ]
       },
       {
         model: models.referral_letter,

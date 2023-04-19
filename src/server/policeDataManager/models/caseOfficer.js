@@ -297,6 +297,13 @@ module.exports = (sequelize, DataTypes) => {
         field: "case_officer_id"
       }
     });
+    CaseOfficer.belongsTo(models.personType, {
+      as: "personType",
+      foreignKey: {
+        name: "personTypeKey",
+        field: "person_type"
+      }
+    });
   };
 
   CaseOfficer.auditDataChange();

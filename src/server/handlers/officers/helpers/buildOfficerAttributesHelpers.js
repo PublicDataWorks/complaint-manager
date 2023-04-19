@@ -1,7 +1,15 @@
+const { Op } = require("sequelize");
 const models = require("../../../policeDataManager/models");
 
-const buildOfficerAttributesForUnknownOfficer = () => {
-  return models.case_officer.build().emptyCaseOfficerAttributes();
+const buildOfficerAttributesForUnknownOfficer = async () => {
+  let personType = await models.personType.findOne({
+    where: { key: { [Op.like]: "%UNKNOWN%" } },
+    attributes: ["key"]
+  });
+  return {
+    ...models.case_officer.build().emptyCaseOfficerAttributes(),
+    personTypeKey: personType?.key
+  };
 };
 
 const buildOfficerAttributesForNewOfficer = async (
@@ -13,8 +21,20 @@ const buildOfficerAttributesForNewOfficer = async (
   const newOfficer = await models.officer.findByPk(officerId, {
     include: [{ model: models.district, as: "officerDistrict" }]
   });
+  let personType;
+  let personTypes = await models.personType.findAll({
+    where: { employeeDescription: caseEmployeeType },
+    attributes: ["key", "employeeDescription"]
+  });
+  if (personTypes.length > 1) {
+    personType = personTypes.find(type => !type.key.includes("UNKNOWN"))?.key;
+  } else if (!personTypes.length) {
+    personType = null;
+  } else {
+    personType = personTypes[0]?.key;
+  }
 
-  let initialAttributes = buildOfficerAttributesForUnknownOfficer();
+  let initialAttributes = await buildOfficerAttributesForUnknownOfficer();
   let supervisorAttributes = await buildSupervisorAttributes(newOfficer);
 
   return Object.assign(
@@ -38,7 +58,8 @@ const buildOfficerAttributesForNewOfficer = async (
       email: email,
       employeeType: newOfficer.employeeType,
       workStatus: newOfficer.workStatus,
-      supervisorOfficerNumber: newOfficer.supervisorOfficerNumber
+      supervisorOfficerNumber: newOfficer.supervisorOfficerNumber,
+      personTypeKey: personType
     },
     supervisorAttributes
   );

@@ -49,7 +49,7 @@ const editCaseOfficer = asyncMiddleware(async (request, response, next) => {
 
     let officerAttributes = {};
     if (!officerId) {
-      officerAttributes = buildOfficerAttributesForUnknownOfficer();
+      officerAttributes = await buildOfficerAttributesForUnknownOfficer();
     } else if (officerId !== caseOfficerToUpdate.officerId) {
       officerAttributes = await buildOfficerAttributesForNewOfficer(
         officerId,

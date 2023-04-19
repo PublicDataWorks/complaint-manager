@@ -163,5 +163,13 @@ export const expectedCaseAuditDetails = {
       )
     ),
     model: models.caseStatus.name
+  },
+  personType: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.personType.rawAttributes).filter(
+        attribute => attribute !== "createdAt" && attribute !== "updatedAt"
+      )
+    ),
+    model: models.personType.name
   }
 };

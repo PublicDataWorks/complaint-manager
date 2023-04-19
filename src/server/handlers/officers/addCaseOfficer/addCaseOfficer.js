@@ -34,7 +34,7 @@ const addCaseOfficer = asyncMiddleware(async (request, response, next) => {
 
   let caseOfficerAttributes = {};
   if (!officerId) {
-    caseOfficerAttributes = buildOfficerAttributesForUnknownOfficer();
+    caseOfficerAttributes = await buildOfficerAttributesForUnknownOfficer();
   } else {
     caseOfficerAttributes = await buildOfficerAttributesForNewOfficer(
       officerId,
