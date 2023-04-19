@@ -4,7 +4,7 @@ orbs:
 parameters:
   prod-indexing-branch:
     type: string
-    default: "release_v3.55.1"
+    default: "release_v3.56.0"
   stage-indexing-branch:
     type: string
     default: "master"
