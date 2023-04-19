@@ -18,7 +18,7 @@ import axios from "axios";
 import { snackbarSuccess } from "../../../actionCreators/snackBarActionCreators";
 import { removePersonSuccess } from "../../../actionCreators/casesActionCreators";
 
-const OfficerActions = ({ caseOfficer, dispatch, pd }) => {
+const OfficerActions = ({ caseOfficer, dispatch }) => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   return (
     <div style={{ display: "flex" }}>

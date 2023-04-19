@@ -32,6 +32,7 @@ class CaseOfficer {
     this.createdAt = build.createdAt;
     this.allegations = build.allegations;
     this.isAnonymous = build.isAnonymous;
+    this.personTypeKey = build.personTypeKey;
   }
 
   static get Builder() {
@@ -215,6 +216,11 @@ class CaseOfficer {
 
       withEmail(email) {
         this.email = email;
+        return this;
+      }
+
+      withPersonTypeKey(personTypeKey) {
+        this.personTypeKey = personTypeKey;
         return this;
       }
 

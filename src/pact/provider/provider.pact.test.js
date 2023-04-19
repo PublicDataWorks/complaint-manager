@@ -451,6 +451,7 @@ describe("Pact Verification", () => {
               .defaultPersonType()
               .withKey("OFFICER")
               .withDescription("An Officer")
+              .withEmployeeDescription("Officer")
               .build(),
             { auditUser: "user" }
           );

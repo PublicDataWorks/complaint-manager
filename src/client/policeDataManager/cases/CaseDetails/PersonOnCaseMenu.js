@@ -3,7 +3,6 @@ import {
   CIVILIAN_FORM_NAME,
   CONFIGS,
   OFFICER_DETAILS_FORM_NAME,
-  OFFICER_TITLE,
   USER_PERMISSIONS
 } from "../../../../sharedUtilities/constants";
 import { push } from "connected-react-router";
@@ -72,38 +71,30 @@ const PersonOnCaseMenu = props => {
         >
           Civilian {props.civilianType}
         </MenuItem>
-        <MenuItem
-          data-testid="addOfficerPersonOnCase"
-          onClick={() => {
-            props.dispatch(
-              initialize(OFFICER_DETAILS_FORM_NAME, {
-                roleOnCase: props.civilianType
-              })
-            );
-            props.dispatch(addCaseEmployeeType("Officer"));
-            props.dispatch(
-              push(`/cases/${props.caseDetails.id}/officers/search`)
-            );
-          }}
-        >
-          {OFFICER_TITLE} {props.civilianType}
-        </MenuItem>
-        <MenuItem
-          data-testid="addCivilianWithinPdPersonOnCase"
-          onClick={() => {
-            props.dispatch(
-              initialize("OfficerDetails", {
-                roleOnCase: props.civilianType
-              })
-            );
-            props.dispatch(addCaseEmployeeType(`Civilian Within ${props.pd}`));
-            props.dispatch(
-              push(`/cases/${props.caseDetails.id}/officers/search`)
-            );
-          }}
-        >
-          Civilian ({props.pd}) {props.civilianType}
-        </MenuItem>
+        {props.personTypes
+          .filter(type => type.isEmployee && !type.key.includes("UNKNOWN"))
+          .map(type => (
+            <MenuItem
+              key={type.key}
+              data-testid={`add${type.employeeDescription}PersonOnCase`}
+              onClick={() => {
+                props.dispatch(
+                  initialize(OFFICER_DETAILS_FORM_NAME, {
+                    roleOnCase: props.civilianType
+                  })
+                );
+                props.dispatch(addCaseEmployeeType(type.employeeDescription));
+                props.dispatch(
+                  push(`/cases/${props.caseDetails.id}/officers/search`)
+                );
+              }}
+            >
+              {type.key.includes("CIVILIAN")
+                ? type.description
+                : type.employeeDescription}{" "}
+              {props.civilianType}
+            </MenuItem>
+          ))}
       </Menu>
     </div>
   );
@@ -111,6 +102,6 @@ const PersonOnCaseMenu = props => {
 
 export default connect(state => ({
   choosePersonTypeInAddDialog: state.featureToggles.choosePersonTypeInAddDialog,
-  pd: state.configs[CONFIGS.PD],
-  permissions: state?.users?.current?.userInfo?.permissions
+  permissions: state?.users?.current?.userInfo?.permissions,
+  personTypes: state.personTypes
 }))(PersonOnCaseMenu);

@@ -18,10 +18,7 @@ import {
   SHOW_FORM
 } from "../../../sharedUtilities/constants";
 
-const {
-  PERSON_TYPE,
-  PD
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+const { PD } = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const CIVILIAN_COMPLAINANT = "civilianComplainant";
 export const CIVILIAN_WITNESS = "civilianWitness";
@@ -255,7 +252,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               isAnonymous: false,
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
-              caseId: 1
+              caseId: 1,
+              personType: personTypes[0]
             })
           : options.includes(NOPD_COMPLAINANT)
           ? eachLike({
@@ -275,8 +273,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType:
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+              caseEmployeeType: "Non-Officer",
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",
@@ -288,7 +285,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               isAnonymous: false,
               createdAt: "2022-11-14T20:06:12.888Z",
               updatedAt: "2022-11-14T20:06:12.888Z",
-              caseId: 1
+              caseId: 1,
+              personType: personTypes[2]
             })
           : [],
         attachments: [],
@@ -323,7 +321,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1,
-              allegations: []
+              allegations: [],
+              personType: personTypes[0]
             })
           : options.includes(NOPD_ACCUSED)
           ? eachLike({
@@ -343,8 +342,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType:
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+              caseEmployeeType: "Non-Officer",
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",
@@ -357,7 +355,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-11-14T20:06:12.888Z",
               updatedAt: "2022-11-14T20:06:12.888Z",
               caseId: 1,
-              allegations: []
+              allegations: [],
+              personType: personTypes[2]
             })
           : [],
         witnessOfficers: options.includes(OFFICER_WITNESS)
@@ -390,7 +389,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               isAnonymous: false,
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
-              caseId: 1
+              caseId: 1,
+              personType: personTypes[0]
             })
           : options.includes(NOPD_WITNESS)
           ? eachLike({
@@ -410,8 +410,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               supervisorWindowsUsername: 6419,
               supervisorOfficerNumber: 356,
               employeeType: "Non-Commissioned",
-              caseEmployeeType:
-                PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription,
+              caseEmployeeType: "Non-Officer",
               bureau: "FOB - Field Operations Bureau",
               rank: "POLICE DISPATCHER",
               hireDate: "2000-06-04",
@@ -423,7 +422,8 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               isAnonymous: false,
               createdAt: "2022-11-14T20:06:12.888Z",
               updatedAt: "2022-11-14T20:06:12.888Z",
-              caseId: 1
+              caseId: 1,
+              personType: personTypes[2]
             })
           : [],
         pdfAvailable: false,

@@ -54,7 +54,8 @@ export const addComplainantOfficerToCase = async (c4se, caseOfficerId) => {
       .defaultCaseOfficer()
       .withOfficerId(officer.id)
       .withCaseId(c4se.id)
-      .withRoleOnCase(COMPLAINANT);
+      .withRoleOnCase(COMPLAINANT)
+      .withPersonTypeKey("OFFICER");
 
     if (caseOfficerId) {
       buildOfficer = buildOfficer.withId(caseOfficerId);
@@ -81,7 +82,8 @@ export const addWitnessOfficerToCase = async (c4se, caseOfficerId) => {
       .defaultCaseOfficer()
       .withOfficerId(officer.id)
       .withCaseId(c4se.id)
-      .withRoleOnCase(WITNESS);
+      .withRoleOnCase(WITNESS)
+      .withPersonTypeKey("OFFICER");
 
     if (caseOfficerId) {
       buildOfficer = buildOfficer.withId(caseOfficerId);

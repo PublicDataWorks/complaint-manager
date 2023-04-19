@@ -75,7 +75,8 @@ export const addAccusedToCase = async (caseId, withAllegation) => {
       .withId(1)
       .withOfficerId(officer.id)
       .withCaseId(caseId)
-      .withRoleOnCase(ACCUSED),
+      .withRoleOnCase(ACCUSED)
+      .withPersonTypeKey("OFFICER"),
     { auditUser: "user" }
   );
 

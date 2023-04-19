@@ -17,9 +17,6 @@ const {
   incidentCommands,
   incidentElements
 } = require("./caseDetailsCommands/incidentCommands.js");
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const storeCaseRefCallback = function (context) {
   return result => {
@@ -131,7 +128,7 @@ const caseDetailsCommands = {
   caseReferenceIsCC: function () {
     return this.waitForElementVisible("@caseReference", e2e.rerenderWait)
       .getText("@caseReference", storeCaseRefCallback(this))
-      .assert.containsText("@caseReference", PERSON_TYPE.CIVILIAN.abbreviation);
+      .assert.containsText("@caseReference", "CC");
   }
 };
 
