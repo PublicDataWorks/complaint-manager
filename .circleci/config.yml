@@ -7,7 +7,7 @@ parameters:
     default: "release_v3.56.0"
   stage-indexing-branch:
     type: string
-    default: "master"
+    default: "release_v3.56.0"
   instance-files-image-name-noipm:
     type: string
     default: "publicdataworks/instance-files-noipm"
