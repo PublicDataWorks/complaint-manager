@@ -50,6 +50,8 @@ import TemplatePreview from "./TemplatePreview";
 const ADD = "add";
 const EDIT = "edit";
 const PRIMARY_COMPLAINANT = "Primary Complainant";
+const EACH_COMPLAINANT = "Each Complainant";
+const OTHER = "Other";
 
 const styles = {
   labelStart: {
@@ -81,6 +83,8 @@ const LetterTypePage = props => {
     () => () => props.dispatch({ type: CLEAR_LETTER_TYPE_TO_EDIT }),
     []
   );
+
+  console.log("PROPS >>>", props);
 
   const submit = (operation, values) => {
     let complaintTypes = props.complaintTypes
@@ -275,6 +279,22 @@ const LetterTypePage = props => {
                   control={<Radio color="primary" />}
                   label={PRIMARY_COMPLAINANT}
                 />
+                {!props.chooseDefaultRecipientFeature && (
+                  <>
+                    <FormControlLabel
+                      style={{ marginRight: "48px" }}
+                      value={EACH_COMPLAINANT}
+                      control={<Radio color="primary" />}
+                      label={EACH_COMPLAINANT}
+                    />
+                    <FormControlLabel
+                      style={{ marginRight: "48px" }}
+                      value={OTHER}
+                      control={<Radio color="primary" />}
+                      label={OTHER}
+                    />
+                  </>
+                )}
               </Field>
             </div>
 
@@ -489,7 +509,9 @@ export default connect(
         ? state.form.letterTypeForm?.submitErrors[
             state.ui.complaintTypes[0].name
           ]
-        : undefined
+        : undefined,
+      chooseDefaultRecipientFeature:
+        state.featureToggles.chooseDefaultRecipientFeature
     };
 
     const complaintTypeValues = commonProps.complaintTypes.reduce(
