@@ -64,7 +64,6 @@ module.exports = (sequelize, DataTypes) => {
           ) {
             return this.getDataValue("accusedOfficers")
               .reduce((acc, accused) => {
-                console.log("accused ", accused);
                 if (
                   !acc.length ||
                   !acc.find(

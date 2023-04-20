@@ -253,7 +253,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1,
-              personType: personTypes[0]
+              personTypeDetails: personTypes[0]
             })
           : options.includes(NOPD_COMPLAINANT)
           ? eachLike({
@@ -286,7 +286,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-11-14T20:06:12.888Z",
               updatedAt: "2022-11-14T20:06:12.888Z",
               caseId: 1,
-              personType: personTypes[2]
+              personTypeDetails: personTypes[2]
             })
           : [],
         attachments: [],
@@ -322,7 +322,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1,
               allegations: [],
-              personType: personTypes[0]
+              personTypeDetails: personTypes[0]
             })
           : options.includes(NOPD_ACCUSED)
           ? eachLike({
@@ -356,7 +356,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               updatedAt: "2022-11-14T20:06:12.888Z",
               caseId: 1,
               allegations: [],
-              personType: personTypes[2]
+              personTypeDetails: personTypes[2]
             })
           : [],
         witnessOfficers: options.includes(OFFICER_WITNESS)
@@ -390,7 +390,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1,
-              personType: personTypes[0]
+              personTypeDetails: personTypes[0]
             })
           : options.includes(NOPD_WITNESS)
           ? eachLike({
@@ -423,7 +423,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-11-14T20:06:12.888Z",
               updatedAt: "2022-11-14T20:06:12.888Z",
               caseId: 1,
-              personType: personTypes[2]
+              personTypeDetails: personTypes[2]
             })
           : [],
         pdfAvailable: false,

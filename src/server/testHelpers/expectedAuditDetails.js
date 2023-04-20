@@ -164,7 +164,7 @@ export const expectedCaseAuditDetails = {
     ),
     model: models.caseStatus.name
   },
-  personType: {
+  personTypeDetails: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.personType.rawAttributes)
     ),

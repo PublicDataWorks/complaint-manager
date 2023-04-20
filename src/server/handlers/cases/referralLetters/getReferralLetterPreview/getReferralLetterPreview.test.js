@@ -1058,7 +1058,7 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.caseStatus.name
             }),
-            personType: {
+            personTypeDetails: {
               attributes: expect.arrayContaining(
                 Object.keys(models.personType.rawAttributes)
               ),
@@ -1260,7 +1260,7 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.caseStatus.name
             }),
-            personType: {
+            personTypeDetails: {
               attributes: expect.arrayContaining(
                 Object.keys(models.personType.rawAttributes)
               ),

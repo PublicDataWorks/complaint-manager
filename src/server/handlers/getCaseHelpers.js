@@ -75,7 +75,8 @@ const getCaseDetailsAndAuditDetails = async (
         include: [
           models.address,
           { model: models.race_ethnicity, as: "raceEthnicity" },
-          { model: models.gender_identity, as: "genderIdentity" }
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
         ]
       },
       {
@@ -84,7 +85,8 @@ const getCaseDetailsAndAuditDetails = async (
         include: [
           models.address,
           { model: models.race_ethnicity, as: "raceEthnicity" },
-          { model: models.gender_identity, as: "genderIdentity" }
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
         ]
       },
       {
@@ -93,7 +95,8 @@ const getCaseDetailsAndAuditDetails = async (
         include: [
           models.address,
           { model: models.race_ethnicity, as: "raceEthnicity" },
-          { model: models.gender_identity, as: "genderIdentity" }
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
         ]
       },
       {
@@ -129,7 +132,7 @@ const getCaseDetailsAndAuditDetails = async (
           },
           {
             model: models.personType,
-            as: "personType"
+            as: "personTypeDetails"
           }
         ]
       },
@@ -139,7 +142,7 @@ const getCaseDetailsAndAuditDetails = async (
         include: [
           {
             model: models.personType,
-            as: "personType"
+            as: "personTypeDetails"
           }
         ]
       },
@@ -149,7 +152,7 @@ const getCaseDetailsAndAuditDetails = async (
         include: [
           {
             model: models.personType,
-            as: "personType"
+            as: "personTypeDetails"
           }
         ]
       },

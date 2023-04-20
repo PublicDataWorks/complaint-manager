@@ -2,7 +2,6 @@ import models from "../../../policeDataManager/models";
 import sequelize from "sequelize";
 import getSortingOrderForQuery from "../helpers/getSortingOrderForQuery";
 import {
-  ASCENDING,
   DEFAULT_PAGINATION_LIMIT,
   DESCENDING,
   USER_PERMISSIONS
