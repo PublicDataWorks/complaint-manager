@@ -2,7 +2,8 @@ import {
   FormGroup,
   FormControlLabel,
   Typography,
-  withStyles
+  withStyles,
+  Radio
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -17,7 +18,10 @@ import {
 } from "../../../formFieldLevelValidations";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
-import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
+import {
+  renderRadioGroup,
+  renderTextField
+} from "../../cases/sharedFormComponents/renderFunctions";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import LinkButton from "../../shared/components/LinkButton";
 import Dropdown from "../../../common/components/Dropdown";
@@ -45,6 +49,7 @@ import TemplatePreview from "./TemplatePreview";
 
 const ADD = "add";
 const EDIT = "edit";
+const PRIMARY_COMPLAINANT = "Primary Complainant";
 
 const styles = {
   labelStart: {
@@ -99,6 +104,7 @@ const LetterTypePage = props => {
       hasEditPage: values.hasEditPage,
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
+      defaultRecipient: values.defaultRecipient,
       requiredStatus: values.requiredStatus,
       editableTemplate: values.hasEditPage
         ? values.editableTemplate
@@ -245,6 +251,31 @@ const LetterTypePage = props => {
                   }
                 />
               </div>
+            </div>
+
+            <div
+              style={{
+                width: "100%",
+                margin: "20px, 0px"
+              }}
+            >
+              <Typography style={{ marginTop: "15px" }} variant="subtitle2">
+                Default Recipient
+              </Typography>
+
+              <Field
+                name="defaultRecipient"
+                component={renderRadioGroup}
+                style={{ flexDirection: "row" }}
+                data-testid="default-recipient-radio-group"
+              >
+                <FormControlLabel
+                  style={{ marginRight: "48px" }}
+                  value={PRIMARY_COMPLAINANT}
+                  control={<Radio color="primary" />}
+                  label={PRIMARY_COMPLAINANT}
+                />
+              </Field>
             </div>
 
             <div

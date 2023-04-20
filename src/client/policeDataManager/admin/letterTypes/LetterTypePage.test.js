@@ -14,7 +14,7 @@ import {
   RANK_INITIATED,
   SET_LETTER_TYPE_TO_EDIT
 } from "../../../../sharedUtilities/constants";
-import LetterTypePage, { reassembleTemplate } from "./LetterTypePage";
+import LetterTypePage from "./LetterTypePage";
 
 describe("LetterTypePage", () => {
   let store;
@@ -198,6 +198,11 @@ describe("LetterTypePage", () => {
       expect(await screen.findByText("Successfully added letter type"))
         .toBeInTheDocument;
       expect(addCall.isDone()).toBeTrue();
+    });
+
+    test("should have default recipient section with corresponding radio buttons", async () => {
+      expect(await screen.findByText("Default Recipient")).toBeInTheDocument;
+      expect(await screen.findByText("Primary Complainant")).toBeInTheDocument;
     });
   });
 });
