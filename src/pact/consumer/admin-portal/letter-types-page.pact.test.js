@@ -23,6 +23,7 @@ import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import LetterTypePage from "../../../client/policeDataManager/admin/letterTypes/LetterTypePage";
 import { change } from "redux-form";
+import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -65,6 +66,12 @@ pactWith(
           type: GET_COMPLAINT_TYPES_SUCCEEDED,
           payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
         });
+
+        store.dispatch(
+          getFeaturesSuccess({
+            chooseDefaultRecipientFeature: true
+          })
+        );
       });
 
       describe("Edit Letter Type", () => {
@@ -102,6 +109,8 @@ pactWith(
                 name: "Nina Ambroise",
                 nickname: "Amrose@place.com"
               },
+              defaultRecipient: "{primaryComplainant}",
+              defaultRecipientAddress: "{primaryComplainantAddress}",
               complaintTypes: []
             }
           });
@@ -151,6 +160,8 @@ pactWith(
                 requiresApproval: true,
                 requiredStatus: "Initial",
                 defaultSender: "Amrose@place.com",
+                defaultRecipient: "{primaryComplainant}",
+                defaultRecipientAddress: "{primaryComplainantAddress}",
                 complaintTypes: []
               }
             },
@@ -170,6 +181,8 @@ pactWith(
                   name: "Nina Ambroise",
                   nickname: "Amrose@place.com"
                 },
+                defaultRecipient: "{primaryComplainant}",
+                defaultRecipientAddress: "{primaryComplainantAddress}",
                 complaintTypes: []
               })
             }
@@ -181,6 +194,7 @@ pactWith(
           userEvent.type(screen.getByTestId("letter-type-input"), "LETTER");
 
           userEvent.click(screen.getByTestId("requires-approval-checkbox"));
+          userEvent.click(screen.getByText("Primary Complainant"));
           userEvent.click(screen.getByText("Save"));
 
           expect(await screen.findByText("Successfully edited letter type"))

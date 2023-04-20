@@ -15,7 +15,9 @@ const getLetterTypes = asyncMiddleware(async (request, response, next) => {
       "template",
       "editableTemplate",
       "requiresApproval",
-      "hasEditPage"
+      "hasEditPage",
+      "defaultRecipient",
+      "defaultRecipientAddress"
     ],
     include: [
       {

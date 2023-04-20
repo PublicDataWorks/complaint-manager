@@ -74,6 +74,8 @@ describe("getLetterTypes", () => {
         .withId(1)
         .withType("REFERRAL")
         .withDefaultSender(signer)
+        .withDefaultRecipient("Dolli Fin")
+        .withDefaultRecipientAddress("Ocean Surface Way")
         .withRequiredStatus(status)
         .build(),
       {
@@ -119,6 +121,8 @@ describe("getLetterTypes", () => {
           signatureFile: "bobby.png",
           title: "Independent Police Monitor"
         }),
+        defaultRecipient: "Dolli Fin",
+        defaultRecipientAddress: "Ocean Surface Way",
         letterTypeLetterImage: expect.arrayContaining([
           {
             id: 1,
@@ -169,6 +173,8 @@ describe("getLetterTypes", () => {
           signatureFile: "bobby.png",
           title: "Independent Police Monitor"
         }),
+        defaultRecipient: "Dolli Fin",
+        defaultRecipientAddress: "Ocean Surface Way",
         letterTypeLetterImage: expect.arrayContaining([
           {
             id: 1,

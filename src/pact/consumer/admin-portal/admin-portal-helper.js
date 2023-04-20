@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
-import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
+import { eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import createConfiguredStore from "../../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import AdminPortal from "../../../client/policeDataManager/admin/AdminPortal";
@@ -71,7 +71,9 @@ export const setupAdminPortal = async provider => {
           defaultSender: {
             name: "Nina Ambroise",
             nickname: "Amrose@place.com"
-          }
+          },
+          defaultRecipient: "The Primary Complainant",
+          defaultRecipientAddress: "Their Address"
         })
       }
     }),

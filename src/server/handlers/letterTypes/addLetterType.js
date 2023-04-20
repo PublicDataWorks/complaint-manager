@@ -32,6 +32,8 @@ const addLetterType = asyncMiddleware(async (request, response, next) => {
         requiresApproval: request.body.requiresApproval,
         hasEditPage: request.body.hasEditPage,
         defaultSenderId: signer.id,
+        defaultRecipient: request.body.defaultRecipient,
+        defaultRecipientAddress: request.body.defaultRecipientAddress,
         requiredStatusId: status.id
       },
       { auditUser: request.nickname }

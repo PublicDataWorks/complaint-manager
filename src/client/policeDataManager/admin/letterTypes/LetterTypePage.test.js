@@ -15,6 +15,7 @@ import {
   SET_LETTER_TYPE_TO_EDIT
 } from "../../../../sharedUtilities/constants";
 import LetterTypePage from "./LetterTypePage";
+import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
 
 describe("LetterTypePage", () => {
   let store;
@@ -40,6 +41,12 @@ describe("LetterTypePage", () => {
       type: GET_COMPLAINT_TYPES_SUCCEEDED,
       payload: [{ name: RANK_INITIATED }, { name: CIVILIAN_INITIATED }]
     });
+
+    store.dispatch(
+      getFeaturesSuccess({
+        chooseDefaultRecipientFeature: true
+      })
+    );
   });
 
   describe("Edit Letter Type", () => {
@@ -56,6 +63,8 @@ describe("LetterTypePage", () => {
             name: "Billy",
             nickname: "bill@billy.bil"
           },
+          defaultRecipient: "The Primary Complainant",
+          defaultRecipientAddress: "Their Address",
           requiredStatus: "Active",
           complaintTypes: []
         }
@@ -92,6 +101,8 @@ describe("LetterTypePage", () => {
         hasEditPage: false,
         requiresApproval: false,
         defaultSender: "abcpestandlawn@gmail.com",
+        defaultRecipient: "The Primary Complainant",
+        defaultRecipientAddress: "Their Address",
         requiredStatus: "Closed",
         complaintTypes: []
       };
@@ -127,6 +138,8 @@ describe("LetterTypePage", () => {
         hasEditPage: true,
         requiresApproval: true,
         defaultSender: "bill@billy.bil",
+        defaultRecipient: "The Primary Complainant",
+        defaultRecipientAddress: "Their Address",
         requiredStatus: "Active",
         complaintTypes: [RANK_INITIATED]
       };
@@ -180,6 +193,8 @@ describe("LetterTypePage", () => {
           hasEditPage: false,
           requiresApproval: false,
           defaultSender: "beeboop@gmail.com",
+          defaultRecipient: "The Primary Complainant",
+          defaultRecipientAddress: "Their Address",
           requiredStatus: "Initial"
         });
 
@@ -193,6 +208,9 @@ describe("LetterTypePage", () => {
       userEvent.click(screen.getByTestId("required-status-dropdown"));
       userEvent.click(screen.getByText("Initial"));
 
+      // userEvent.click(screen.getByTestId("primary-recipient-radio-button"));
+      userEvent.click(screen.getByText("Primary Complainant"));
+
       userEvent.click(screen.getByText("Save"));
 
       expect(await screen.findByText("Successfully added letter type"))
@@ -200,9 +218,11 @@ describe("LetterTypePage", () => {
       expect(addCall.isDone()).toBeTrue();
     });
 
-    test("should have default recipient section with corresponding radio buttons", async () => {
-      expect(await screen.findByText("Default Recipient")).toBeInTheDocument;
-      expect(await screen.findByText("Primary Complainant")).toBeInTheDocument;
+    test("should have default recipient section with corresponding radio buttons", () => {
+      expect(screen.getByText("Default Recipient")).toBeInTheDocument;
+      expect(screen.getByText("Primary Complainant")).toBeInTheDocument;
+      expect(screen.getByText("Each Complainant")).toBeInTheDocument;
+      expect(screen.getByText("Other")).toBeInTheDocument;
     });
   });
 });

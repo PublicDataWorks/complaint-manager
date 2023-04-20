@@ -49,9 +49,6 @@ import TemplatePreview from "./TemplatePreview";
 
 const ADD = "add";
 const EDIT = "edit";
-const PRIMARY_COMPLAINANT = "Primary Complainant";
-const EACH_COMPLAINANT = "Each Complainant";
-const OTHER = "Other";
 
 const styles = {
   labelStart: {
@@ -84,8 +81,6 @@ const LetterTypePage = props => {
     []
   );
 
-  console.log("PROPS >>>", props);
-
   const submit = (operation, values) => {
     let complaintTypes = props.complaintTypes
       .filter(complaintType => values[complaintType.name])
@@ -109,6 +104,7 @@ const LetterTypePage = props => {
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
       defaultRecipient: values.defaultRecipient,
+      defaultRecipientAddress: values.defaultRecipientAddress,
       requiredStatus: values.requiredStatus,
       editableTemplate: values.hasEditPage
         ? values.editableTemplate
@@ -257,46 +253,46 @@ const LetterTypePage = props => {
               </div>
             </div>
 
-            <div
-              style={{
-                width: "100%",
-                margin: "20px, 0px"
-              }}
-            >
-              <Typography style={{ marginTop: "15px" }} variant="subtitle2">
-                Default Recipient
-              </Typography>
+            {!props.chooseDefaultRecipientFeature && (
+              <>
+                <section
+                  style={{
+                    width: "100%",
+                    margin: "20px, 0px"
+                  }}
+                >
+                  <Typography style={{ marginTop: "15px" }} variant="subtitle2">
+                    Default Recipient
+                  </Typography>
 
-              <Field
-                name="defaultRecipient"
-                component={renderRadioGroup}
-                style={{ flexDirection: "row" }}
-                data-testid="default-recipient-radio-group"
-              >
-                <FormControlLabel
-                  style={{ marginRight: "48px" }}
-                  value={PRIMARY_COMPLAINANT}
-                  control={<Radio color="primary" />}
-                  label={PRIMARY_COMPLAINANT}
-                />
-                {!props.chooseDefaultRecipientFeature && (
-                  <>
+                  <Field
+                    name="defaultRecipient"
+                    component={renderRadioGroup}
+                    style={{ flexDirection: "row" }}
+                    data-testid="default-recipient-radio-group"
+                  >
                     <FormControlLabel
                       style={{ marginRight: "48px" }}
-                      value={EACH_COMPLAINANT}
+                      value={"{primaryComplainant}"}
                       control={<Radio color="primary" />}
-                      label={EACH_COMPLAINANT}
+                      label={"Primary Complainant"}
                     />
                     <FormControlLabel
                       style={{ marginRight: "48px" }}
-                      value={OTHER}
+                      value={"{eachComplainant}"}
                       control={<Radio color="primary" />}
-                      label={OTHER}
+                      label={"Each Complainant"}
                     />
-                  </>
-                )}
-              </Field>
-            </div>
+                    <FormControlLabel
+                      style={{ marginRight: "48px" }}
+                      value={"Other"}
+                      control={<Radio color="primary" />}
+                      label={"Other"}
+                    />
+                  </Field>
+                </section>
+              </>
+            )}
 
             <div
               style={{
@@ -531,6 +527,9 @@ export default connect(
         initialValues: {
           ...complaintTypeValues,
           defaultSender: state.ui.editLetterType.defaultSender?.nickname,
+          defaultRecipient: state.ui.editLetterType.defaultRecipient,
+          defaultRecipientAddress:
+            state.ui.editLetterType.defaultRecipientAddress,
           editableTemplate: state.ui.editLetterType.editableTemplate,
           firstPageHeader: getFirstPageHeader(state),
           footerImage: getFooterImage(state),
