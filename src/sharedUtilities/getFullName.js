@@ -34,7 +34,7 @@ export const getPersonFullName = (
   suffix,
   personType
 ) => {
-  if (personType.includes("Officer")) {
+  if (personType?.includes("Officer")) {
     return getOfficerFullName(
       firstName,
       middleName,
