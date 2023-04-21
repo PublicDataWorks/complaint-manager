@@ -2,11 +2,8 @@ import {
   ADDRESSABLE_TYPE,
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
-const {
-  CIVILIAN_WITHIN_PD_INITIATED
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 import moment from "moment";
-import { head, isEmpty, sortBy } from "lodash";
+import { head, sortBy } from "lodash";
 import models from "./index";
 import winston from "winston";
 import {
@@ -15,8 +12,7 @@ import {
 } from "../../../sharedUtilities/errorMessageConstants";
 import {
   getCaseReference,
-  getCaseReferencePrefix,
-  getPrefix
+  getCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 import { getPersonType } from "./modelUtilities/getPersonType";
 import { sanitize } from "../../../sharedUtilities/sanitizeHTML";

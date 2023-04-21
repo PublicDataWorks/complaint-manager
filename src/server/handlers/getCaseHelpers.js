@@ -102,17 +102,35 @@ const getCaseDetailsAndAuditDetails = async (
       {
         model: models.caseInmate,
         as: "complainantInmates",
-        include: [{ model: models.inmate, as: "inmate" }]
+        include: [
+          { model: models.inmate, as: "inmate" },
+          {
+            model: models.personType,
+            as: "personTypeDetails"
+          }
+        ]
       },
       {
         model: models.caseInmate,
         as: "witnessInmates",
-        include: [{ model: models.inmate, as: "inmate" }]
+        include: [
+          { model: models.inmate, as: "inmate" },
+          {
+            model: models.personType,
+            as: "personTypeDetails"
+          }
+        ]
       },
       {
         model: models.caseInmate,
         as: "accusedInmates",
-        include: [{ model: models.inmate, as: "inmate" }]
+        include: [
+          { model: models.inmate, as: "inmate" },
+          {
+            model: models.personType,
+            as: "personTypeDetails"
+          }
+        ]
       },
       {
         model: models.attachment
@@ -202,7 +220,14 @@ const getCaseDetailsAndAuditDetails = async (
     ]
   };
 
-  let caseDetails = await models.cases.findByPk(caseId, queryOptions);
+  let caseDetails;
+  try {
+    caseDetails = await models.cases.findByPk(caseId, queryOptions);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+
   caseDetails = caseDetails.toJSON();
 
   if (!permissions.includes(USER_PERMISSIONS.VIEW_ANONYMOUS_DATA)) {

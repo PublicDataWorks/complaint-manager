@@ -78,6 +78,11 @@ module.exports = (sequelize, DataTypes) => {
       notes: {
         type: DataTypes.STRING
       },
+      personTypeKey: {
+        type: DataTypes.STRING,
+        field: "person_type_key",
+        default: "PERSON_IN_CUSTODY"
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE
@@ -120,6 +125,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         name: "inmateId",
         field: "inmate_id"
+      }
+    });
+    CaseInmate.belongsTo(models.personType, {
+      as: "personTypeDetails",
+      foreignKey: {
+        name: "personTypeKey",
+        field: "person_type_key"
       }
     });
   };
