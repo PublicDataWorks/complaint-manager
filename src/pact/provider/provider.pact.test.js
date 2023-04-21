@@ -425,6 +425,8 @@ describe("Pact Verification", () => {
               .withType("REFERRAL")
               .withTemplate(referralLetterTemplate.toString())
               .withDefaultSender(signerAttr)
+              .withDefaultRecipient("The Primary Complainant")
+              .withDefaultRecipientAddress("Their Address")
               .withRequiredStatus(statuses[0])
               .build(),
             { auditUser: "test" }
@@ -441,6 +443,8 @@ describe("Pact Verification", () => {
               .withType("COMPLAINANT")
               .withTemplate(complainantLetterTemplate.toString())
               .withDefaultSender(signerAttr)
+              .withDefaultRecipient("The Primary Complainant")
+              .withDefaultRecipientAddress("Their Address")
               .withRequiredStatus(statuses[0])
               .build(),
             { auditUser: "test" }

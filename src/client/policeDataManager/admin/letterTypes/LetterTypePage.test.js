@@ -44,7 +44,7 @@ describe("LetterTypePage", () => {
 
     store.dispatch(
       getFeaturesSuccess({
-        chooseDefaultRecipientFeature: true
+        chooseDefaultRecipientFeature: false
       })
     );
   });
