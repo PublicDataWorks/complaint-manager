@@ -19,6 +19,7 @@ export const expectedCaseAuditDetails = {
       "incidentTimezone",
       "intakeSourceId",
       "isArchived",
+      "isCase",
       "narrativeDetails",
       "narrativeSummary",
       "pdfAvailable",
@@ -165,6 +166,12 @@ export const expectedCaseAuditDetails = {
     model: models.caseStatus.name
   },
   personTypeDetails: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.personType.rawAttributes)
+    ),
+    model: models.personType.name
+  },
+  defaultPersonType: {
     attributes: expect.toIncludeSameMembers(
       Object.keys(models.personType.rawAttributes)
     ),

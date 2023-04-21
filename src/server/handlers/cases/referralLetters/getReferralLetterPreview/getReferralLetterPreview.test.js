@@ -857,6 +857,7 @@ describe("getReferralLetterPreview", function () {
             "incidentTime",
             "intakeSourceId",
             "isArchived",
+            "isCase",
             "narrativeDetails",
             "narrativeSummary",
             "pdfAvailable",
@@ -1063,6 +1064,12 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.personType.rawAttributes)
               ),
               model: models.personType.name
+            },
+            defaultPersonType: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.personType.rawAttributes)
+              ),
+              model: models.personType.name
             }
           };
 
@@ -1098,6 +1105,7 @@ describe("getReferralLetterPreview", function () {
             "incidentTime",
             "intakeSourceId",
             "isArchived",
+            "isCase",
             "narrativeDetails",
             "narrativeSummary",
             "pdfAvailable",
@@ -1261,6 +1269,12 @@ describe("getReferralLetterPreview", function () {
               model: models.caseStatus.name
             }),
             personTypeDetails: {
+              attributes: expect.arrayContaining(
+                Object.keys(models.personType.rawAttributes)
+              ),
+              model: models.personType.name
+            },
+            defaultPersonType: {
               attributes: expect.arrayContaining(
                 Object.keys(models.personType.rawAttributes)
               ),

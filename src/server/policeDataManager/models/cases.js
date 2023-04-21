@@ -206,6 +206,11 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
+      isCase: {
+        field: "is_case",
+        type: DataTypes.BOOLEAN,
+        default: true
+      },
       createdAt: {
         field: "created_at",
         type: DataTypes.DATE
@@ -434,6 +439,14 @@ module.exports = (sequelize, DataTypes) => {
       as: "complaintType",
       foreignKey: {
         name: "complaintTypeId"
+      }
+    });
+    Case.hasOne(models.personType, {
+      as: "defaultPersonType",
+      sourceKey: "isCase",
+      foreignKey: {
+        name: "isDefault",
+        field: "is_default"
       }
     });
   };

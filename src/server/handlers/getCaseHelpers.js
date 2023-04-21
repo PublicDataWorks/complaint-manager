@@ -183,6 +183,10 @@ const getCaseDetailsAndAuditDetails = async (
         model: models.caseStatus,
         as: "status",
         attributes: ["id", "name", "orderKey"]
+      },
+      {
+        model: models.personType,
+        as: "defaultPersonType"
       }
     ],
     transaction: transaction,
