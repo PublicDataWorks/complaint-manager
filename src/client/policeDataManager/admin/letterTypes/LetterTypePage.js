@@ -253,7 +253,7 @@ const LetterTypePage = props => {
               </div>
             </div>
 
-            {!props.chooseDefaultRecipientFeature && (
+            {props.chooseDefaultRecipientFeature && (
               <>
                 <section
                   style={{
@@ -289,6 +289,41 @@ const LetterTypePage = props => {
                       control={<Radio color="primary" />}
                       label={"Other"}
                     />
+                    <div>
+                      <FormControlLabel
+                        label="Recipient Name"
+                        labelPlacement="start"
+                        disabled
+                        className={props.classes.labelStart}
+                        control={
+                          <Field
+                            component={renderTextField}
+                            inputProps={{
+                              "data-testid": "recipient-name-input"
+                            }}
+                            name="recipientNameInput"
+                            placeholder="Recipient Name"
+                            style={{ marginLeft: "10px" }}
+                          />
+                        }
+                      />
+                      <FormControlLabel
+                        label="Recipient Address"
+                        labelPlacement="start"
+                        disabled
+                        control={
+                          <Field
+                            component={renderTextField}
+                            inputProps={{
+                              "data-testid": "recipient-address-input"
+                            }}
+                            name="recipientAddressInput"
+                            placeholder="Recipient Address"
+                            style={{ marginLeft: "10px" }}
+                          />
+                        }
+                      />
+                    </div>
                   </Field>
                 </section>
               </>

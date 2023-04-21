@@ -5,7 +5,7 @@ const FLAG_NAME = "chooseDefaultRecipientFeature";
 const ENABLED = process.env.ORG === "HAWAII" ? true : false;
 
 const INSERT_FEATURE_TOGGLE = `INSERT INTO ${FEATURE_TOGGLES_TABLE}(name, description, enabled, is_dev) 
-  VALUES ('${FLAG_NAME}', 'if true, user can set default recipient to each complainant', ${ENABLED}, true)
+  VALUES ('${FLAG_NAME}', 'if true, user can set default recipient to each complainant', false, true)
 `;
 
 module.exports = {
