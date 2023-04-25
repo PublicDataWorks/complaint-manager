@@ -15,7 +15,7 @@ const getMinimumCaseDetails = asyncMiddleware(
         const singleCase = new Case(
           await models.cases.findByPk(caseId, {
             attributes: ["year", "caseNumber", "caseReference"],
-            include: ["status", "complaintType"],
+            include: ["status", "complaintType", "defaultPersonType"],
             paranoid: false,
             transaction
           })

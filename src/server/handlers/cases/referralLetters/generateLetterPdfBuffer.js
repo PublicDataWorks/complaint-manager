@@ -196,7 +196,8 @@ export const getLetterData = async caseId => {
         include: [
           models.address,
           { model: models.race_ethnicity, as: "raceEthnicity" },
-          { model: models.gender_identity, as: "genderIdentity" }
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
         ]
       },
       {
@@ -205,7 +206,18 @@ export const getLetterData = async caseId => {
         include: [
           models.address,
           { model: models.race_ethnicity, as: "raceEthnicity" },
-          { model: models.gender_identity, as: "genderIdentity" }
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
+        ]
+      },
+      {
+        model: models.civilian,
+        as: "accusedCivilians",
+        include: [
+          models.address,
+          { model: models.race_ethnicity, as: "raceEthnicity" },
+          { model: models.gender_identity, as: "genderIdentity" },
+          { model: models.personType, as: "personTypeDetails" }
         ]
       },
       {
@@ -224,6 +236,7 @@ export const getLetterData = async caseId => {
             as: "allegations",
             include: [models.allegation]
           },
+          { model: models.personType, as: "personTypeDetails" },
           {
             model: models.letter_officer,
             as: "letterOfficer",
@@ -251,11 +264,37 @@ export const getLetterData = async caseId => {
       },
       {
         model: models.case_officer,
-        as: "complainantOfficers"
+        as: "complainantOfficers",
+        include: [{ model: models.personType, as: "personTypeDetails" }]
       },
       {
         model: models.case_officer,
-        as: "witnessOfficers"
+        as: "witnessOfficers",
+        include: [{ model: models.personType, as: "personTypeDetails" }]
+      },
+      {
+        model: models.caseInmate,
+        as: "complainantInmates",
+        include: [
+          { model: models.inmate, as: "inmate" },
+          { model: models.personType, as: "personTypeDetails" }
+        ]
+      },
+      {
+        model: models.caseInmate,
+        as: "witnessInmates",
+        include: [
+          { model: models.inmate, as: "inmate" },
+          { model: models.personType, as: "personTypeDetails" }
+        ]
+      },
+      {
+        model: models.caseInmate,
+        as: "accusedInmates",
+        include: [
+          { model: models.inmate, as: "inmate" },
+          { model: models.personType, as: "personTypeDetails" }
+        ]
       },
       {
         model: models.referral_letter,
@@ -270,6 +309,10 @@ export const getLetterData = async caseId => {
         model: models.complaintTypes,
         as: "complaintType",
         attributes: ["name"]
+      },
+      {
+        model: models.personType,
+        as: "defaultPersonType"
       }
     ],
     order: [

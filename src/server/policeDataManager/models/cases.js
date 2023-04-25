@@ -124,7 +124,11 @@ module.exports = (sequelize, DataTypes) => {
           const primaryComplainant = this.get("primaryComplainant");
           return getCaseReferencePrefix(
             primaryComplainant && primaryComplainant.isAnonymous,
-            getPersonType(this.get("primaryComplainant"))
+            getPersonType(
+              this.get("primaryComplainant"),
+              this.defaultPersonType
+            ),
+            this.defaultPersonType
           );
         }
       },

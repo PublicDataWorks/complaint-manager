@@ -19,9 +19,11 @@ import Officer from "../../../../../sharedTestHelpers/Officer";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
 import Signer from "../../../../../sharedTestHelpers/signer";
 import LetterType from "../../../../../sharedTestHelpers/letterType";
+import PersonType from "../../../../../sharedTestHelpers/PersonType";
 import { authEnabledTest } from "../../../../testHelpers/authEnabledTest";
 import {
   seedLetterSettings,
+  seedPersonTypes,
   seedStandardCaseStatuses
 } from "../../../../testHelpers/testSeeding";
 
@@ -81,6 +83,7 @@ describe("Approve referral letter", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     await seedLetterSettings();
+    const personTypes = await seedPersonTypes();
     token = buildTokenWithPermissions("letter:setup", "some_nickname");
 
     statuses = await seedStandardCaseStatuses();
@@ -145,13 +148,15 @@ describe("Approve referral letter", () => {
     const complainantCivilianAttributes = new Civilian.Builder()
       .defaultCivilian()
       .withId(undefined)
+      .withPersonType(personTypes[2].key)
       .withRoleOnCase(COMPLAINANT);
 
     const complainantCaseOfficerAttributes = new CaseOfficer.Builder()
       .defaultCaseOfficer()
       .withId(undefined)
       .withOfficerId(complainantOfficer.id)
-      .withRoleOnCase(COMPLAINANT);
+      .withRoleOnCase(COMPLAINANT)
+      .withPersonTypeKey(personTypes[1].key);
 
     const complaintType = await models.complaintTypes.create({
       name: CIVILIAN_INITIATED

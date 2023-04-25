@@ -20,7 +20,7 @@ class PersonType {
         this.abbreviation = "PP";
         this.legend = "Person (PP)";
         this.dialogAction = SHOW_FORM;
-        this.isDefault = true;
+        this.isDefault = false;
         return this;
       }
 

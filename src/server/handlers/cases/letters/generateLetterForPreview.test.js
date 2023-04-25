@@ -7,13 +7,32 @@ import Letter from "../../../../sharedTestHelpers/Letter";
 import LetterType from "../../../../sharedTestHelpers/letterType";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 import Signer from "../../../../sharedTestHelpers/signer";
-import { USER_PERMISSIONS } from "../../../../sharedUtilities/constants";
+import PersonType from "../../../../sharedTestHelpers/PersonType";
+import {
+  COMPLAINANT,
+  USER_PERMISSIONS
+} from "../../../../sharedUtilities/constants";
+import Civilian from "../../../../sharedTestHelpers/civilian";
 
 describe("generateLetterForPreview", () => {
   let c4se, letter, letterType, response, next;
 
   beforeEach(async () => {
     await cleanupDatabase();
+
+    await models.personType.create(
+      new PersonType.Builder().defaultPersonType().withIsDefault(true).build()
+    );
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("MVP")
+        .withAbbreviation("MVP")
+        .withDescription("Most Viable Player")
+        .build()
+    );
+
     response = httpMocks.createResponse();
     next = jest.fn();
 
@@ -46,6 +65,25 @@ describe("generateLetterForPreview", () => {
         .build(),
       { auditUser: "test user" }
     );
+
+    await models.civilian.create(
+      new Civilian.Builder()
+        .defaultCivilian()
+        .withPersonType("MVP")
+        .withCaseId(c4se.id)
+        .withRoleOnCase(COMPLAINANT)
+        .build(),
+      { auditUser: "user" }
+    );
+    c4se.reload({
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: ["personTypeDetails"]
+        }
+      ]
+    });
 
     letter = await models.letter.create(
       new Letter.Builder()

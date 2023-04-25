@@ -10,10 +10,6 @@ const promisifiedStringify = util.promisify(stringify);
 const exportCasesQuery = require("./exportCasesQuery");
 const uploadFileToS3 = require("../fileUpload/uploadFileToS3");
 const winston = require("winston");
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const TIMESTAMP_FORMAT = "MM/DD/YYYY HH:mm:ss z";
 
@@ -160,20 +156,10 @@ const transformCaseData = casesData => {
     let prefix;
     if (caseData["complainants.isAnonymous"]) {
       prefix = "AC";
-    } else if (
-      PERSON_TYPE.KNOWN_OFFICER &&
-      caseData["complainants.complainant"] ===
-        PERSON_TYPE.KNOWN_OFFICER.employeeDescription
-    ) {
-      prefix = PERSON_TYPE.KNOWN_OFFICER.abbreviation;
-    } else if (
-      PERSON_TYPE.CIVILIAN_WITHIN_PD &&
-      caseData["complainants.complainant"] ===
-        PERSON_TYPE.CIVILIAN_WITHIN_PD.employeeDescription
-    ) {
-      prefix = PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation;
+    } else if (caseData["complainants.abbreviation"]) {
+      prefix = caseData["complainants.abbreviation"];
     } else {
-      prefix = DEFAULT_PERSON_TYPE.abbreviation;
+      prefix = caseData["default_abbreviation"];
     }
 
     const paddedNumber = `${caseData.case_number}`.padStart(4, "0");

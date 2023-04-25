@@ -28,10 +28,12 @@ export const generateComplainantLetterAndUploadToS3 = async (
     {
       caseId: caseId,
       finalPdfFilename: finalPdfFilename,
-      complainantCivilianId:
-        primaryComplainantType === "Civilian" ? primaryComplainant.id : null,
-      complainantOfficerId:
-        primaryComplainantType === "Officer" ? primaryComplainant.id : null
+      complainantCivilianId: primaryComplainantType.isEmployee
+        ? null
+        : primaryComplainant.id,
+      complainantOfficerId: primaryComplainantType.isEmployee
+        ? primaryComplainant.id
+        : null
     },
     { auditUser: nickname, transaction }
   );
@@ -74,7 +76,10 @@ export const generateComplainantLetterAndUploadToS3 = async (
 
 export const getPrimaryComplainantTuple = existingCase => {
   const primaryComplainant = existingCase.primaryComplainant;
-  const complainantType = getPersonType(primaryComplainant);
+  const complainantType = getPersonType(
+    primaryComplainant,
+    existingCase.defaultPersonType
+  );
   return {
     primaryComplainant: primaryComplainant,
     primaryComplainantType: complainantType

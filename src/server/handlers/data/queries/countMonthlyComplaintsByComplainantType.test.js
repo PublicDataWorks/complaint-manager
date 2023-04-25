@@ -20,7 +20,10 @@ import {
   getAllComplaints
 } from "./countMonthlyComplaintsByComplainantType";
 import moment from "moment";
-import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import {
+  seedPersonTypes,
+  seedStandardCaseStatuses
+} from "../../../testHelpers/testSeeding";
 
 jest.mock(
   "../../../getFeaturesAsync",
@@ -55,7 +58,8 @@ describe("executeQuery", () => {
     complainantCaseCC,
     complainantCaseAC,
     complainantCasePO,
-    statuses;
+    statuses,
+    personTypes;
 
   const token = buildTokenWithPermissions("", "tuser");
 
@@ -111,15 +115,22 @@ describe("executeQuery", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
+    personTypes = await seedPersonTypes();
 
-    civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
+    civilianCC = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(2)
+      .withPersonType(personTypes[2].key);
 
     civilianAC = new Civilian.Builder()
       .defaultCivilian()
       .withIsAnonymous(true)
-      .withId(3);
+      .withId(3)
+      .withPersonType(personTypes[2].key);
 
-    complainantOfficerPO = (await createCaseOfficer("Known Officer")).withId(4);
+    complainantOfficerPO = (await createCaseOfficer("Known Officer"))
+      .withId(4)
+      .withPersonTypeKey(personTypes[1].key);
   });
 
   describe("helper functions", () => {
@@ -295,50 +306,32 @@ describe("executeQuery", () => {
     test("should return complainant types for past 12 months", async () => {
       await getResponsePromise.then(response => {
         expect(response.statusCode).toEqual(200);
-        if (PERSON_TYPE.CIVILIAN) {
-          expect(
-            response.body[PERSON_TYPE.CIVILIAN.abbreviation][9]["count"]
-          ).toEqual(2);
 
-          expect(
-            response.body[PERSON_TYPE.CIVILIAN.abbreviation][11]["count"]
-          ).toEqual(1);
+        expect(response.body[personTypes[0].abbreviation][9]["count"]).toEqual(
+          2
+        );
 
-          const numOfCC = response.body[
-            PERSON_TYPE.CIVILIAN.abbreviation
-          ].filter(month => month["count"] === 0).length;
-          expect(numOfCC).toEqual(10);
-        }
-        if (PERSON_TYPE.KNOWN_OFFICER) {
-          expect(
-            response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][8]["count"]
-          ).toEqual(1);
+        expect(response.body[personTypes[2].abbreviation][11]["count"]).toEqual(
+          1
+        );
 
-          const numOfPO = response.body[
-            PERSON_TYPE.KNOWN_OFFICER.abbreviation
-          ].filter(month => month["count"] === 0).length;
-          expect(numOfPO).toEqual(11);
-        }
-        if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
-          expect(
-            response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][3][
-              "count"
-            ]
-          ).toEqual(0);
+        const numOfCC = response.body[personTypes[2].abbreviation].filter(
+          month => month["count"] === 0
+        ).length;
+        expect(numOfCC).toEqual(11);
 
-          const numOfCPD = response.body[
-            PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
-          ].filter(month => month["count"] === 0).length;
-          expect(numOfCPD).toEqual(12);
-        }
-        if (PERSON_TYPE.PERSON_IN_CUSTODY) {
-          expect(
-            // TODO rework when more HAWAII person types are available
-            response.body[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation][9][
-              "count"
-            ]
-          ).toEqual(2);
-        }
+        expect(response.body[personTypes[1].abbreviation][8]["count"]).toEqual(
+          1
+        );
+
+        const numOfPO = response.body[personTypes[1].abbreviation].filter(
+          month => month["count"] === 0
+        ).length;
+        expect(numOfPO).toEqual(11);
+
+        expect(response.body[personTypes[1].abbreviation][3]["count"]).toEqual(
+          0
+        );
 
         const numOfAC = response.body["AC"].filter(
           month => month["count"] === 0
@@ -359,25 +352,9 @@ describe("executeQuery", () => {
         })
         .then(response => {
           expect(response.statusCode).toEqual(200);
-          if (PERSON_TYPE.KNOWN_OFFICER) {
-            expect(
-              response.body[PERSON_TYPE.KNOWN_OFFICER.abbreviation][2]["count"]
-            ).toEqual(1);
-          }
-          if (PERSON_TYPE.CIVILIAN_WITHIN_PD) {
-            expect(
-              response.body[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation][0][
-                "count"
-              ]
-            ).toEqual(0);
-          }
-          if (PERSON_TYPE.PERSON_IN_CUSTODY) {
-            expect(
-              response.body[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation][2][
-                "count"
-              ]
-            ).toEqual(1);
-          }
+          expect(
+            response.body[personTypes[1].abbreviation][2]["count"]
+          ).toEqual(1);
         });
     });
   });

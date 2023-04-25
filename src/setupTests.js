@@ -11,6 +11,7 @@ const config =
 
 // TODO: Remove when tests are running stably with new workers.
 console.log("Running on Worker: ", process.env.JEST_WORKER_ID);
+console.warn = () => {}; // silence warnings for more readable test results
 
 EventEmitter.defaultMaxListeners = 67;
 Enzyme.configure({ adapter: new Adapter() });

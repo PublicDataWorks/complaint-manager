@@ -21,6 +21,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import {
   seedLetterSettings,
+  seedPersonTypes,
   seedStandardCaseStatuses
 } from "../../../testHelpers/testSeeding";
 import moment from "moment";
@@ -57,6 +58,7 @@ describe("generateLetterPdfBuffer", () => {
     referralLetter,
     officer,
     findByPkSpy,
+    personTypes,
     statuses;
 
   afterEach(async () => {
@@ -74,8 +76,8 @@ describe("generateLetterPdfBuffer", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
-    findByPkSpy = jest.spyOn(models.cases, "findByPk");
     await seedLetterSettings();
+    personTypes = await seedPersonTypes();
     const signer = new Signer.Builder()
       .defaultSigner()
       .withName(SENDER_NAME)
@@ -181,7 +183,8 @@ describe("generateLetterPdfBuffer", () => {
       .withId(undefined)
       .withOfficerId(officer.id)
       .withCreatedAt(new Date("2018-09-22"))
-      .withRoleOnCase(COMPLAINANT);
+      .withRoleOnCase(COMPLAINANT)
+      .withPersonTypeKey(personTypes[1].key);
 
     const complaintType = await models.complaintTypes.create({
       name: RANK_INITIATED
@@ -213,6 +216,33 @@ describe("generateLetterPdfBuffer", () => {
       },
       { auditUser: "test" }
     );
+
+    existingCase = await models.cases.findByPk(existingCase.id, {
+      include: [
+        {
+          model: models.civilian,
+          as: "complainantCivilians",
+          include: ["personTypeDetails"]
+        },
+        {
+          model: models.case_officer,
+          as: "complainantOfficers",
+          include: ["personTypeDetails"]
+        },
+        {
+          model: models.caseInmate,
+          as: "complainantInmates",
+          include: ["personTypeDetails"]
+        },
+        {
+          model: models.personType,
+          as: "defaultPersonType"
+        }
+      ]
+    });
+
+    findByPkSpy = jest.spyOn(models.cases, "findByPk");
+    findByPkSpy.mockClear();
   });
 
   describe("getLetterData", () => {
@@ -233,7 +263,8 @@ describe("generateLetterPdfBuffer", () => {
           .withCaseId(ID)
           .withId(undefined)
           .withOfficerId(100)
-          .withCreatedAt(moment().subtract(3, "days")),
+          .withCreatedAt(moment().subtract(3, "days"))
+          .withPersonTypeKey(personTypes[1].key),
         { auditUser: "user" }
       );
 
@@ -248,7 +279,8 @@ describe("generateLetterPdfBuffer", () => {
           .withCaseId(ID)
           .withId(undefined)
           .withOfficerId(50)
-          .withCreatedAt(moment().subtract(2, "days")),
+          .withCreatedAt(moment().subtract(2, "days"))
+          .withPersonTypeKey(personTypes[1].key),
         { auditUser: "user" }
       );
 
@@ -263,7 +295,8 @@ describe("generateLetterPdfBuffer", () => {
           .withCaseId(ID)
           .withId(undefined)
           .withOfficerId(2)
-          .withCreatedAt(moment().subtract(1, "days")),
+          .withCreatedAt(moment().subtract(1, "days"))
+          .withPersonTypeKey(personTypes[1].key),
         { auditUser: "user" }
       );
 

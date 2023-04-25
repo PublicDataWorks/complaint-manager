@@ -11,16 +11,23 @@ import Case from "../../../../../sharedTestHelpers/case";
 import CaseStatus from "../../../../../sharedTestHelpers/caseStatus";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImage } from "../retrieveSignatureImage";
-import { seedLetterSettings } from "../../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedPersonTypes
+} from "../../../../testHelpers/testSeeding";
+import Officer from "../../../../../sharedTestHelpers/Officer";
+import { COMPLAINANT } from "../../../../../sharedUtilities/constants";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
 describe("Compare Generated Complainant Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
+  let personTypes;
   beforeEach(async () => {
     await cleanupDatabase();
     await seedLetterSettings();
+    personTypes = await seedPersonTypes();
 
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
@@ -128,7 +135,14 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       { auditUser: "nickname" }
     );
 
+    const officer = await models.officer.create(
+      new Officer.Builder().defaultOfficer().build(),
+      { auditUser: "user" }
+    );
+
     const complainant = {
+      caseId: existingCase.id,
+      officerId: officer.id,
       civilianTitle: {
         name: "Bobby"
       },
@@ -136,9 +150,12 @@ describe("Compare Generated Complainant Letter to Baseline", () => {
       lastName: "Loblaw",
       address: "123 Loblaw Lane",
       email: "bob@bobloblawslawblog.net",
-      officerId: "9393448",
-      caseEmployeeType: "Civilian Within NOPD"
+      caseEmployeeType: "Civilian Within NOPD",
+      roleOnCase: COMPLAINANT,
+      personTypeKey: personTypes[1].key
     };
+
+    await models.case_officer.create(complainant, { auditUser: "user" });
 
     let buffer = await models.sequelize.transaction(async transaction => {
       let result = await generateLetterPdfBuffer(

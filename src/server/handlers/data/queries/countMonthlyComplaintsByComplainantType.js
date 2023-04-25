@@ -3,9 +3,6 @@ import models from "../../../policeDataManager/models";
 import moment from "moment";
 import _ from "lodash";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const getDateRange = dateRange => {
   let startDate = dateRange?.minDate
@@ -41,7 +38,8 @@ export const getAllComplaints = async (dateRange, nickname) => {
       {
         model: models.civilian,
         as: "complainantCivilians",
-        attributes: ["isAnonymous", "createdAt"]
+        attributes: ["isAnonymous", "createdAt"],
+        include: ["personTypeDetails"]
       },
       {
         model: models.case_officer,
@@ -51,13 +49,24 @@ export const getAllComplaints = async (dateRange, nickname) => {
           "caseEmployeeType",
           "createdAt",
           "officerId"
-        ]
+        ],
+        include: ["personTypeDetails"]
+      },
+      {
+        model: models.caseInmate,
+        as: "complainantInmates",
+        attributes: ["isAnonymous", "inmateId", "createdAt"],
+        include: ["personTypeDetails"]
       },
       {
         model: models.caseStatus,
         as: "status",
         attributes: [],
         where: { name: [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED] }
+      },
+      {
+        model: models.personType,
+        as: "defaultPersonType"
       }
     ],
     paranoid: false,
@@ -84,7 +93,9 @@ export const executeQuery = async (nickname, dateRange) => {
   };
   let { counts, dateToIndex } = getDateRange(modifiedDateRange);
 
-  let totalComplaints = Object.values(PERSON_TYPE).reduce(
+  const personTypes = await models.personType.findAll();
+
+  let totalComplaints = personTypes.reduce(
     (acc, type) => {
       acc[type.abbreviation] = _.cloneDeep(counts);
       return acc;

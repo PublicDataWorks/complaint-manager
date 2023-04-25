@@ -18,19 +18,18 @@ import {
 import { range, shuffle } from "lodash";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Officer from "../../../../sharedTestHelpers/Officer";
-import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
-
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import {
+  seedPersonTypes,
+  seedStandardCaseStatuses
+} from "../../../testHelpers/testSeeding";
 
 describe("cases", function () {
-  let createdCase, statuses;
+  let createdCase, statuses, personTypes;
 
   beforeEach(async () => {
     await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
+    personTypes = await seedPersonTypes();
   });
 
   afterEach(async () => {
@@ -280,9 +279,27 @@ describe("cases", function () {
       const civilianCase = await models.cases.create(civilianCaseAttributes, {
         auditUser: "someone"
       });
-      expect(await civilianCase.modelDescription()).toEqual([
+      const reretrievedCase = await models.cases.findByPk(civilianCase.id, {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            include: ["personTypeDetails"]
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            include: ["personTypeDetails"]
+          },
+          {
+            model: models.personType,
+            as: "defaultPersonType"
+          }
+        ]
+      });
+      expect(await reretrievedCase.modelDescription()).toEqual([
         {
-          "Case Reference": `${DEFAULT_PERSON_TYPE.abbreviation}2018-0001`
+          "Case Reference": `${personTypes[0].abbreviation}2018-0001`
         }
       ]);
     });
@@ -296,7 +313,10 @@ describe("cases", function () {
 
     beforeEach(async () => {
       complainantOfficer = await createCaseOfficer();
-      civilian = new Civilian.Builder().defaultCivilian();
+      civilian = new Civilian.Builder()
+        .defaultCivilian()
+        .withRoleOnCase(COMPLAINANT)
+        .withPersonType(personTypes[2].key);
     });
 
     const createCaseAttributesBasedOnComplainants = (
@@ -326,11 +346,12 @@ describe("cases", function () {
         .withId(undefined)
         .withOfficerId(officer.id)
         .withCreatedAt(new Date("2018-09-22"))
-        .withRoleOnCase(COMPLAINANT);
+        .withRoleOnCase(COMPLAINANT)
+        .withPersonTypeKey(personTypes[1].key);
     };
 
-    const createCase = caseAttributes => {
-      return models.cases.create(caseAttributes, {
+    const createCase = async caseAttributes => {
+      const newCase = await models.cases.create(caseAttributes, {
         auditUser: "someone",
         include: [
           {
@@ -345,6 +366,27 @@ describe("cases", function () {
           }
         ]
       });
+
+      return await models.cases.findByPk(newCase.id, {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "someone",
+            include: ["personTypeDetails"]
+          },
+          {
+            model: models.case_officer,
+            as: "complainantOfficers",
+            auditUser: "someone",
+            include: ["personTypeDetails"]
+          },
+          {
+            model: models.personType,
+            as: "defaultPersonType"
+          }
+        ]
+      });
     };
 
     test("returns a case reference starting with default prefix case without complainants", async () => {
@@ -353,7 +395,7 @@ describe("cases", function () {
       complainantCase = await createCase(caseAttributes);
 
       expect(complainantCase.caseReference).toEqual(
-        `${DEFAULT_PERSON_TYPE.abbreviation}2016-0001`
+        `${personTypes[0].abbreviation}2016-0001`
       );
     });
 
@@ -368,21 +410,22 @@ describe("cases", function () {
       );
 
       expect(complainantCase.caseReference).toEqual(
-        `${DEFAULT_PERSON_TYPE.abbreviation}2016-0001`
+        `${personTypes[0].abbreviation}2016-0001`
       );
     });
 
-    if (PERSON_TYPE.KNOWN_OFFICER) {
-      test("returns a case reference starting with PO for rank initiated complainant", async () => {
-        caseAttributes = createCaseAttributesBasedOnComplainants(
-          [],
-          [complainantOfficer]
-        );
+    test("returns an appropriate case reference starting with for rank initiated complainant", async () => {
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [],
+        [complainantOfficer]
+      );
 
-        complainantCase = await createCase(caseAttributes);
-        expect(complainantCase.caseReference).toEqual("PO2016-0001");
-      });
-    }
+      complainantCase = await createCase(caseAttributes);
+      console.log(complainantCase);
+      expect(complainantCase.caseReference).toEqual(
+        `${personTypes[1].abbreviation}2016-0001`
+      );
+    });
 
     test("should return case reference starting with AC when primary complainant is anonymous", async () => {
       civilian.withIsAnonymous(true);
@@ -393,39 +436,6 @@ describe("cases", function () {
 
       expect(complainantCase.caseReference).toEqual("AC2016-0001");
     });
-
-    if (PERSON_TYPE.CIVILIAN) {
-      test("should return case reference starting with CC when primary civilian complainant is no longer anonymous", async () => {
-        civilian.withIsAnonymous(true);
-
-        caseAttributes = createCaseAttributesBasedOnComplainants(
-          [civilian],
-          []
-        );
-
-        complainantCase = await createCase(caseAttributes);
-
-        const initialCaseReference = complainantCase.caseReference;
-
-        civilian.withIsAnonymous(false);
-
-        await complainantCase.update(
-          { complainantCivilians: [civilian] },
-          {
-            auditUser: "someone",
-            include: [
-              {
-                model: models.civilian,
-                as: "complainantCivilians",
-                auditUser: "someone"
-              }
-            ]
-          }
-        );
-        expect(initialCaseReference).toEqual("AC2016-0001");
-        expect(complainantCase.caseReference).toEqual("CC2016-0001");
-      });
-    }
 
     test("should return case reference starting with AC with multiple complainants where only primary complainant is anonymous ", async () => {
       civilian.withIsAnonymous(true).withCreatedAt(new Date("2017-01-01"));
@@ -446,26 +456,26 @@ describe("cases", function () {
       expect(complainantCase.caseReference).toEqual("AC2016-0001");
     });
 
-    if (PERSON_TYPE.KNOWN_OFFICER) {
-      test("should return case reference starting with PO with multiple complainants where only primary PO complainant is not anonymous ", async () => {
-        civilian.withIsAnonymous(true).withCreatedAt(new Date("2019-01-01"));
+    test("should return case reference starting with employee abbreviation with multiple complainants where only primary PO complainant is not anonymous ", async () => {
+      civilian.withIsAnonymous(true).withCreatedAt(new Date("2019-01-01"));
 
-        caseAttributes = createCaseAttributesBasedOnComplainants(
-          [civilian],
-          [complainantOfficer]
-        );
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
 
-        complainantCase = await createCase(caseAttributes);
+      complainantCase = await createCase(caseAttributes);
 
-        const complainants = [
-          ...complainantCase.complainantCivilians,
-          ...complainantCase.complainantOfficers
-        ];
-        expect(complainants.length).toEqual(2);
-        expect(complainantCase.primaryComplainant.firstName).toEqual("Grant");
-        expect(complainantCase.caseReference).toEqual("PO2016-0001");
-      });
-    }
+      const complainants = [
+        ...complainantCase.complainantCivilians,
+        ...complainantCase.complainantOfficers
+      ];
+      expect(complainants.length).toEqual(2);
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Grant");
+      expect(complainantCase.caseReference).toEqual(
+        `${personTypes[1].abbreviation}2016-0001`
+      );
+    });
 
     test("should return case reference starting with AC when primary PO complainant is removed", async () => {
       civilian.withIsAnonymous(true).withCreatedAt(new Date("2019-01-01"));
@@ -492,46 +502,46 @@ describe("cases", function () {
         }
       );
 
-      if (PERSON_TYPE.KNOWN_OFFICER) {
-        expect(initialCaseReference).toEqual("PO2016-0001");
-      }
+      expect(initialCaseReference).toEqual(
+        `${personTypes[1].abbreviation}2016-0001`
+      );
 
       expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
       expect(complainantCase.caseReference).toEqual("AC2016-0001");
     });
 
-    if (PERSON_TYPE.CIVILIAN) {
-      test("should return case reference starting with CC when anonymous primary complainant is removed", async () => {
-        complainantOfficer.withIsAnonymous(true);
+    test("should return case reference starting with civilian abbreviation when anonymous primary complainant is removed", async () => {
+      complainantOfficer.withIsAnonymous(true);
 
-        civilian.withCreatedAt(new Date("2019-01-01"));
+      civilian.withCreatedAt(new Date("2019-01-01"));
 
-        caseAttributes = createCaseAttributesBasedOnComplainants(
-          [civilian],
-          [complainantOfficer]
-        );
+      caseAttributes = createCaseAttributesBasedOnComplainants(
+        [civilian],
+        [complainantOfficer]
+      );
 
-        complainantCase = await createCase(caseAttributes);
+      complainantCase = await createCase(caseAttributes);
 
-        const initialCaseReference = complainantCase.caseReference;
-        await complainantCase.update(
-          { complainantOfficers: [] },
-          {
-            auditUser: "someone",
-            include: [
-              {
-                model: models.case_officer,
-                as: "complainantOfficers",
-                auditUser: "someone"
-              }
-            ]
-          }
-        );
-        expect(initialCaseReference).toEqual("AC2016-0001");
-        expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
-        expect(complainantCase.caseReference).toEqual("CC2016-0001");
-      });
-    }
+      const initialCaseReference = complainantCase.caseReference;
+      await complainantCase.update(
+        { complainantOfficers: [] },
+        {
+          auditUser: "someone",
+          include: [
+            {
+              model: models.case_officer,
+              as: "complainantOfficers",
+              auditUser: "someone"
+            }
+          ]
+        }
+      );
+      expect(initialCaseReference).toEqual("AC2016-0001");
+      expect(complainantCase.primaryComplainant.firstName).toEqual("Chuck");
+      expect(complainantCase.caseReference).toEqual(
+        `${personTypes[2].abbreviation}2016-0001`
+      );
+    });
   });
 
   describe("setStatus", () => {

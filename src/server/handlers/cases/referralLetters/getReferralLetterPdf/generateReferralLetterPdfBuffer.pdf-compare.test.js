@@ -14,16 +14,21 @@ import LetterTypeLetterImage from "../../../../../sharedTestHelpers/LetterTypeLe
 import LetterImage from "../../../../../sharedTestHelpers/LetterImage";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import { retrieveSignatureImageBySigner } from "../retrieveSignatureImage";
-import { seedLetterSettings } from "../../../../testHelpers/testSeeding";
+import {
+  seedLetterSettings,
+  seedPersonTypes
+} from "../../../../testHelpers/testSeeding";
 
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");
 
 describe("Compare Generated Referral Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
+  let personTypes;
   beforeEach(async () => {
     await cleanupDatabase();
     await seedLetterSettings();
+    personTypes = await seedPersonTypes();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
@@ -142,7 +147,8 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         .withId(1)
         .withOfficerId(complainantOfficer.id)
         .withCaseId(letterCase.id)
-        .withRoleOnCase(COMPLAINANT),
+        .withRoleOnCase(COMPLAINANT)
+        .withPersonTypeKey(personTypes[1].key),
       { auditUser: "user" }
     );
 
@@ -152,7 +158,8 @@ describe("Compare Generated Referral Letter to Baseline", () => {
         .withId(2)
         .withOfficerId(accusedOfficer.id)
         .withCaseId(letterCase.id)
-        .withRoleOnCase(ACCUSED),
+        .withRoleOnCase(ACCUSED)
+        .withPersonTypeKey(personTypes[1].key),
       { auditUser: "user" }
     );
 

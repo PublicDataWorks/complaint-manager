@@ -25,13 +25,18 @@ const getComplainantLetterPdfData = async complainant => {
     ]
   });
 
+  const defaultPersonType = await models.personType.findOne({
+    where: { isDefault: true }
+  });
+
   return {
     recipientFirstName: complainant.firstName,
     recipientLastName: complainant.lastName,
     complainantAddress: complainant.address ? complainant.address : null,
     complainantEmail: complainant.email ? complainant.email : null,
     title: revisedTitle,
-    complainantPersonType: getPersonType(complainant),
+    complainantPersonType: getPersonType(complainant, defaultPersonType)
+      ?.description,
     sender: complainantLetterType
       ? complainantLetterType.defaultSender
       : undefined,

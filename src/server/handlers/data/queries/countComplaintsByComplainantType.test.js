@@ -17,7 +17,10 @@ import { updateCaseStatus } from "./queryHelperFunctions";
 import Civilian from "../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import moment from "moment";
-import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import {
+  seedPersonTypes,
+  seedStandardCaseStatuses
+} from "../../../testHelpers/testSeeding";
 
 const {
   PERSON_TYPE
@@ -44,27 +47,11 @@ describe("executeQuery", () => {
     complainantCaseCC,
     complainantCaseAC,
     complainantCasePO,
-    statuses;
+    statuses,
+    personTypes,
+    expectedData;
 
   const token = buildTokenWithPermissions("", "tuser");
-
-  const expectedData = PERSON_TYPE.PERSON_IN_CUSTODY
-    ? {
-        [PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation]: 2, // TODO alter this as more person types emerge
-        [PERSON_TYPE.DEPARTMENT_STAFF.abbreviation]: 0,
-        [PERSON_TYPE.FAMILY.abbreviation]: 0,
-        [PERSON_TYPE.COMMUNITY.abbreviation]: 0,
-        [PERSON_TYPE.LEGISLATOR.abbreviation]: 0,
-        [PERSON_TYPE.COMMISSIONER.abbreviation]: 0,
-        [PERSON_TYPE.OTHER.abbreviation]: 0,
-        AC: 1
-      }
-    : {
-        [PERSON_TYPE.CIVILIAN.abbreviation]: 1,
-        [PERSON_TYPE.KNOWN_OFFICER.abbreviation]: 1,
-        [PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]: 0,
-        AC: 1
-      };
 
   const getResponsePromise = request(app)
     .get("/api/public-data")
@@ -83,16 +70,22 @@ describe("executeQuery", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
+    personTypes = await seedPersonTypes();
 
-    civilianCC = new Civilian.Builder().defaultCivilian().withId(2);
+    civilianCC = new Civilian.Builder()
+      .defaultCivilian()
+      .withId(2)
+      .withPersonType(personTypes[2].key);
 
     civilianAC = new Civilian.Builder()
       .defaultCivilian()
       .withIsAnonymous(true)
-      .withId(3);
+      .withId(3)
+      .withPersonType(personTypes[2].key);
 
     complainantOfficerPO = (await createCaseOfficer("Officer")) // TODO replace with inmate?
-      .withId(4);
+      .withId(4)
+      .withPersonTypeKey(personTypes[1].key);
 
     const todaysDate = moment().format(ISO_DATE);
 
@@ -130,6 +123,14 @@ describe("executeQuery", () => {
     );
     complainantCasePO = await createCase(caseAttributes);
     await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
+
+    expectedData = {
+      [personTypes[0].abbreviation]: 0,
+      [personTypes[1].abbreviation]: 1,
+      [personTypes[2].abbreviation]: 1,
+      [personTypes[3].abbreviation]: 0,
+      AC: 1
+    };
   });
 
   const createCaseAttributesBasedOnComplainants = (
@@ -185,7 +186,6 @@ describe("executeQuery", () => {
       new Case.Builder()
         .defaultCase()
         .withFirstContactDate(moment().subtract(364, "days").format(ISO_DATE))
-        .withComplainantCivilians([civilianCC])
         .withId(undefined),
       {
         auditUser: "someone"
@@ -203,11 +203,7 @@ describe("executeQuery", () => {
       });
 
     const expectedDataPast12Months = { ...expectedData };
-    if (PERSON_TYPE.PERSON_IN_CUSTODY) {
-      expectedDataPast12Months[PERSON_TYPE.PERSON_IN_CUSTODY.abbreviation]++;
-    } else {
-      expectedDataPast12Months[PERSON_TYPE.CIVILIAN.abbreviation]++;
-    }
+    expectedDataPast12Months[personTypes[0].abbreviation]++;
 
     await getComplaintsPast12Months.then(response => {
       expect(response.statusCode).toEqual(200);

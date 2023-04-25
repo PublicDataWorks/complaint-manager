@@ -1,5 +1,6 @@
 import models from "../policeDataManager/models";
 import CaseStatus from "../../sharedTestHelpers/caseStatus";
+import PersonType from "../../sharedTestHelpers/PersonType";
 
 export const seedStandardCaseStatuses = async () => {
   return await Promise.all([
@@ -72,4 +73,37 @@ export const seedLetterSettings = async () => {
     type: "DEFAULT",
     headerHeight: "1.3in"
   });
+};
+
+export const seedPersonTypes = async () => {
+  return await Promise.all([
+    models.personType.create(
+      new PersonType.Builder().defaultPersonType().withIsDefault(true).build()
+    ),
+    models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("A")
+        .withAbbreviation("A")
+        .withDescription("A thing")
+        .withEmployeeDescription("A really thingy thing")
+        .build()
+    ),
+    models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("B")
+        .withAbbreviation("B")
+        .withDescription("Barry Bearington")
+        .build()
+    ),
+    models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .withAbbreviation("PiC")
+        .withDescription("Person in Custody")
+        .build()
+    )
+  ]);
 };

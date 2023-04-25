@@ -64,7 +64,11 @@ const exportCasesQuery = (dateRange = null) => {
     'incidentLocation.lat AS "incidentLocation.lat", ' +
     'incidentLocation.lng AS "incidentLocation.lng", ' +
     'incidentLocation.street_address2 AS "incidentLocation.street_address2", ' +
-    'complainants.complainant AS "complainants.complainant", ' +
+    'default_person_type.abbreviation AS "default_abbreviation", ' +
+    `CASE WHEN complainants.complainant IS NULL THEN 'Civilian' ` +
+    "     ELSE complainants.complainant " +
+    'END AS "complainants.complainant", ' +
+    'complainants.abbreviation AS "complainants.abbreviation", ' +
     'complainants.isAnonymous AS "complainants.isAnonymous", ' +
     'complainants.civilian_full_name as "complainants.civilian_full_name", ' +
     'complainants.civilian_gender_identity AS "complainants.civilian_gender_identity", ' +
@@ -167,11 +171,13 @@ const exportCasesQuery = (dateRange = null) => {
     " ON cases.id = incidentLocation.addressable_id " +
     " AND incidentLocation.deleted_at IS NULL " +
     " AND incidentLocation.addressable_type = 'cases' " +
+    "LEFT OUTER JOIN person_types default_person_type ON default_person_type.is_default = true " +
     "LEFT OUTER JOIN (" +
     " SELECT " +
     '   case_id AS "case_id", ' +
     "   civilians.created_at, " +
-    "   'Civilian' AS complainant, " +
+    "   person_type_details.description AS complainant, " +
+    "   person_type_details.abbreviation AS abbreviation, " +
     "   civilians.is_anonymous AS isAnonymous, " +
     "   concat_ws(" +
     "     ' ', " +
@@ -222,13 +228,15 @@ const exportCasesQuery = (dateRange = null) => {
     " ON race_ethnicities.id = civilians.race_ethnicity_id" +
     " LEFT OUTER JOIN gender_identities " +
     " ON gender_identities.id = civilians.gender_identity_id" +
+    " LEFT OUTER JOIN person_types person_type_details ON person_type_details.key = civilians.person_type" +
     " WHERE civilians.deleted_at IS NULL " +
     ` AND civilians.role_on_case = \'${COMPLAINANT}\'` +
     " UNION ALL " +
     " SELECT " +
     '   case_id AS "case_id", ' +
-    "   created_at, " +
-    "   case_employee_type AS complainant, " +
+    "   cases_officers.created_at, " +
+    "   person_type_details.employee_description AS complainant, " +
+    "   person_type_details.abbreviation AS abbreviation, " +
     "   is_anonymous AS isAnonymous, " +
     '   NULL AS "civilian_full_name", ' +
     '   NULL AS "civilian_gender_identity", ' +
@@ -270,6 +278,7 @@ const exportCasesQuery = (dateRange = null) => {
     "   dob AS officer_dob, " +
     "   notes AS officer_notes " +
     " FROM cases_officers " +
+    " LEFT OUTER JOIN person_types person_type_details ON person_type_details.key = cases_officers.person_type" +
     " WHERE deleted_at IS NULL " +
     ` AND role_on_case = \'${COMPLAINANT}\'` +
     ") AS complainants ON cases.id = complainants.case_id " +

@@ -18,6 +18,7 @@ import { generateComplainantLetterAndUploadToS3 } from "./generateComplainantLet
 import { auditFileAction } from "../../../audits/auditFileAction";
 import generateLetterPdfBuffer from "../generateLetterPdfBuffer";
 import Case from "../../../../policeDataManager/payloadObjects/Case";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../../getCaseHelpers";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const approveLetter = asyncMiddleware(async (request, response, next) => {
@@ -25,15 +26,21 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
 
   const caseId = request.params.caseId;
   const nickname = request.nickname;
-  const existingCase = await getCase(caseId);
-  await validateCaseStatus(existingCase);
-
-  const filename = constructFilename(
-    existingCase,
-    REFERRAL_LETTER_VERSION.FINAL
-  );
-
   await models.sequelize.transaction(async transaction => {
+    const caseWithAuditDetails =
+      await getCaseWithAllAssociationsAndAuditDetails(
+        caseId,
+        transaction,
+        request.permissions
+      );
+    const existingCase = caseWithAuditDetails.caseDetails;
+    await validateCaseStatus(existingCase);
+
+    const filename = constructFilename(
+      existingCase,
+      REFERRAL_LETTER_VERSION.FINAL
+    );
+
     const complainantLetter = await generateComplainantLetterAndUploadToS3(
       existingCase,
       nickname,
@@ -67,6 +74,7 @@ const approveLetter = asyncMiddleware(async (request, response, next) => {
       AUDIT_FILE_TYPE.FINAL_REFERRAL_LETTER_PDF,
       transaction
     );
+
     await transitionCaseToForwardedToAgency(existingCase, request, transaction);
   });
   response.status(200).send();
@@ -132,7 +140,10 @@ const transitionCaseToForwardedToAgency = async (
   transaction
 ) => {
   await existingCase.setStatus(CASE_STATUS.FORWARDED_TO_AGENCY);
-  await existingCase.model.save({ auditUser: request.nickname, transaction });
+  await models.cases.update(
+    { statusId: existingCase.model.statusId },
+    { where: { id: existingCase.id }, auditUser: request.nickname, transaction }
+  );
 };
 
 const saveFilename = async (filename, caseId, auditUser, transaction) => {

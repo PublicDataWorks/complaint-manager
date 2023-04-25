@@ -5,7 +5,7 @@ import {
 import { getPersonFullName } from "../../../sharedUtilities/getFullName";
 import {
   getCaseReference,
-  getCaseReferencePrefix
+  oldGetCaseReferencePrefix
 } from "./modelUtilities/caseReferenceHelpersFunctions";
 
 const {
@@ -115,7 +115,7 @@ module.exports = (sequelize, DataTypes) => {
           const primaryComplainantPersonType = primaryComplainant
             ? primaryComplainant.personType
             : null;
-          const caseReferencePrefix = getCaseReferencePrefix(
+          const caseReferencePrefix = oldGetCaseReferencePrefix(
             primaryComplainant && primaryComplainant.isAnonymous,
             primaryComplainantPersonType
           );

@@ -3,11 +3,6 @@ import {
   getCaseReferencePrefix
 } from "./caseReferenceHelpersFunctions";
 
-const {
-  PERSON_TYPE,
-  DEFAULT_PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("case reference helper functions", () => {
   test("getCaseReference should format case prefix, year, and case number", () => {
     const year = "2019";
@@ -18,29 +13,36 @@ describe("case reference helper functions", () => {
   });
 
   describe("getCaseReferencePrefix", () => {
-    let isAnonymous = false;
-
-    Object.values(PERSON_TYPE).forEach(type => {
-      test(`should return appropriate prefix based on ${type.description} person type`, () => {
-        const personType = type.description;
-        const result = getCaseReferencePrefix(isAnonymous, personType);
-        expect(result).toEqual(type.abbreviation);
-      });
+    test("should return AC when isAnonymous is true", () => {
+      expect(
+        getCaseReferencePrefix(
+          true,
+          { abbreviation: "GG" },
+          { abbreviation: "OMG" }
+        )
+      ).toEqual("AC");
     });
 
-    test("should return appropriate prefix given default person type", () => {
-      const result = getCaseReferencePrefix(
-        isAnonymous,
-        "Not a Real Person Type"
-      );
-      expect(result).toEqual(DEFAULT_PERSON_TYPE.abbreviation);
+    test("should return the person type's abbreviation if it has one and the case is not anonymous", () => {
+      expect(
+        getCaseReferencePrefix(
+          false,
+          { abbreviation: "GG" },
+          { abbreviation: "OMG" }
+        )
+      ).toEqual("GG");
     });
 
-    test("should return AC prefix given anonymized primary complainant", () => {
-      isAnonymous = true;
-      const personType = DEFAULT_PERSON_TYPE.description;
-      const result = getCaseReferencePrefix(isAnonymous, personType);
-      expect(result).toEqual("AC");
+    test("should return the default type's abbreviation if person type has no abbreviation", () => {
+      expect(
+        getCaseReferencePrefix(false, {}, { abbreviation: "OMG" })
+      ).toEqual("OMG");
+    });
+
+    test("should return the default type's abbreviation if person type is undefined", () => {
+      expect(
+        getCaseReferencePrefix(false, undefined, { abbreviation: "OMG" })
+      ).toEqual("OMG");
     });
   });
 });

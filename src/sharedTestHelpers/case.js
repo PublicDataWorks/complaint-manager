@@ -45,6 +45,10 @@ class Case {
     this.intakeSourceId = build.intakeSourceId;
     this.deletedAt = build.deletedAt;
     this.primaryComplainant = build.primaryComplainant;
+    this.isCase = build.isCase;
+    if (build.defaultPersonType) {
+      this.defaultPersonType = build.defaultPersonType;
+    }
   }
 
   static get Builder() {
@@ -151,6 +155,7 @@ class Case {
         this.accusedInmates = [];
         this.year = "2017";
         this.deletedAt = null;
+        this.isCase = true;
         return this;
       }
 
@@ -311,6 +316,11 @@ class Case {
 
       withYear(year) {
         this.year = year;
+        return this;
+      }
+
+      withDefaultPersonType(defaultPersonType) {
+        this.defaultPersonType = defaultPersonType;
         return this;
       }
 

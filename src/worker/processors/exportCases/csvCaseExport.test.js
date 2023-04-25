@@ -29,11 +29,7 @@ import RaceEthnicity from "../../../sharedTestHelpers/raceEthnicity";
 import ReferralLetterCaseClassification from "../../../sharedTestHelpers/ReferralLetterCaseClassification";
 import Config from "../../../sharedTestHelpers/config";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
-
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import { seedPersonTypes } from "../../../server/testHelpers/testSeeding";
 
 jest.mock("../fileUpload/uploadFileToS3");
 
@@ -69,8 +65,11 @@ describe("csvCaseExport request", () => {
     id: "123"
   };
 
+  let personTypes;
+
   beforeEach(async () => {
     await cleanupDatabase();
+    personTypes = await seedPersonTypes();
     await models.district.create(
       {
         id: 1,
@@ -282,11 +281,7 @@ describe("csvCaseExport request", () => {
       });
 
       const paddedId = `${caseToExport.caseNumber}`.padStart(4, "0");
-      caseReference = `${
-        PERSON_TYPE.CIVILIAN
-          ? PERSON_TYPE.CIVILIAN.abbreviation
-          : DEFAULT_PERSON_TYPE.abbreviation
-      }2018-${paddedId}`;
+      caseReference = `${personTypes[2].abbreviation}2018-${paddedId}`;
 
       const addressAttributes = new Address.Builder()
         .defaultAddress()
@@ -312,7 +307,8 @@ describe("csvCaseExport request", () => {
         .withCaseId(caseToExport.id)
         .withGenderIdentityId(genderIdentity.id)
         .withRaceEthnicityId(raceEthnicity.id)
-        .withAddress(addressAttributes);
+        .withAddress(addressAttributes)
+        .withPersonType(personTypes[2].key);
       civilian = await models.civilian.create(civilianAttributes, {
         auditUser: "tuser",
         include: [
@@ -336,7 +332,8 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(officerAttributes)
         .withDistrict("1st District")
         .withCaseId(caseToExport.id)
-        .withOfficerId(officer.id);
+        .withOfficerId(officer.id)
+        .withPersonTypeKey(personTypes[1].key);
       caseOfficer = await models.case_officer.create(caseOfficerAttributes, {
         auditUser: "tuser"
       });
@@ -469,7 +466,7 @@ describe("csvCaseExport request", () => {
     test("should retrieve civilian complainant data", async () => {
       await csvCaseExport(job, jobDone);
 
-      expect(records[0]["Complainant"]).toEqual("Civilian");
+      expect(records[0]["Complainant"]).toEqual(personTypes[2].description);
       expect(records[0]["Civilian Complainant Name"]).toEqual(
         `${civilian.firstName} ${civilian.middleInitial} ${civilian.lastName} ${civilian.suffix}`
       );
@@ -522,7 +519,7 @@ describe("csvCaseExport request", () => {
 
       await csvCaseExport(job, jobDone);
 
-      expect(records[0]["Complainant"]).toEqual("Civilian");
+      expect(records[0]["Complainant"]).toEqual(personTypes[2].description);
       expect(records[0]["Civilian Complainant Age on Incident Date"]).toEqual(
         "N/A"
       );
@@ -536,7 +533,8 @@ describe("csvCaseExport request", () => {
         .withFirstName("La")
         .withLastName("Croix")
         .withIsAnonymous(true)
-        .withCaseId(caseToExport.id);
+        .withCaseId(caseToExport.id)
+        .withPersonType(personTypes[2].key);
       const civilian2 = await models.civilian.create(civilianAttributes2, {
         auditUser: "tuser"
       });
@@ -557,7 +555,7 @@ describe("csvCaseExport request", () => {
         `${civilian2.firstName} ${civilian2.middleInitial} ${civilian2.lastName} ${civilian2.suffix}`
       );
       expect(secondRecord["Case #"]).toEqual(
-        caseReference.replace(DEFAULT_PERSON_TYPE.abbreviation, "AC")
+        caseReference.replace(personTypes[2].abbreviation, "AC")
       );
     });
 
@@ -580,7 +578,8 @@ describe("csvCaseExport request", () => {
         .withNotes("hello")
         .withDistrict("1st District")
         .withCaseId(caseToExport.id)
-        .withRoleOnCase(COMPLAINANT);
+        .withRoleOnCase(COMPLAINANT)
+        .withPersonTypeKey(personTypes[1].key);
       const caseOfficerComplainant = await models.case_officer.create(
         caseOfficerComplainantAttributes,
         { auditUser: "tuser" }
@@ -591,7 +590,9 @@ describe("csvCaseExport request", () => {
       expect(records.length).toEqual(2);
 
       const officerComplainantRow = records[1];
-      expect(officerComplainantRow["Complainant"]).toEqual("Officer");
+      expect(officerComplainantRow["Complainant"]).toEqual(
+        personTypes[1].employeeDescription
+      );
       expect(
         officerComplainantRow["Officer Complainant Case Officer Database ID"]
       ).toEqual(`${caseOfficerComplainant.id}`);
@@ -673,8 +674,9 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(officerComplainant)
         .withNotes("hello")
         .withCaseId(caseToExport.id)
-        .withCaseEmployeeType("Civilian Within NOPD")
-        .withRoleOnCase(COMPLAINANT);
+        .withCaseEmployeeType(personTypes[1].employeeDescription)
+        .withRoleOnCase(COMPLAINANT)
+        .withPersonTypeKey(personTypes[1].key);
       await models.case_officer.create(caseOfficerComplainantAttributes, {
         auditUser: "tuser"
       });
@@ -683,7 +685,7 @@ describe("csvCaseExport request", () => {
 
       const complainantOfficerRow = records[1];
       expect(complainantOfficerRow["Complainant"]).toEqual(
-        "Civilian Within NOPD"
+        personTypes[1].employeeDescription
       );
       expect(
         complainantOfficerRow["Officer Complainant Age on Incident Date"]
@@ -982,7 +984,7 @@ describe("csvCaseExport request", () => {
       const secondRecord = records[0];
 
       const otherPaddedId = `${otherCase.caseNumber}`.padStart(4, "0");
-      const othercaseReference = `${DEFAULT_PERSON_TYPE.abbreviation}2012-${otherPaddedId}`;
+      const othercaseReference = `${personTypes[0].abbreviation}2012-${otherPaddedId}`;
 
       expect(firstRecord["Case #"]).toEqual(caseReference);
       expect(firstRecord["Accused Officer Name"]).toEqual(caseOfficer.fullName);
@@ -1006,7 +1008,8 @@ describe("csvCaseExport request", () => {
         .withRoleOnCase(COMPLAINANT)
         .withFirstName("La")
         .withLastName("Croix")
-        .withCaseId(caseToExport.id);
+        .withCaseId(caseToExport.id)
+        .withPersonType(personTypes[2].key);
       const civilian2 = await models.civilian.create(civilianAttributes2, {
         auditUser: "tuser"
       });
@@ -1027,7 +1030,8 @@ describe("csvCaseExport request", () => {
         .withOfficerAttributes(officerAttributes2)
         .withId(undefined)
         .withCaseId(caseToExport.id)
-        .withOfficerId(officer2.id);
+        .withOfficerId(officer2.id)
+        .withPersonTypeKey(personTypes[1].key);
       const caseOfficer2 = await models.case_officer.create(
         caseOfficerAttributes2,
         {
@@ -1402,13 +1406,13 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": firstCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${firstCase.year}-000${firstCase.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": secondCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${secondCase.year}-000${secondCase.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": thirdCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${thirdCase.year}-000${thirdCase.caseNumber}`
         })
       ]);
     });
@@ -1454,10 +1458,10 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": caseAtBeginningOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtBeginningOfDateRange.year}-000${caseAtBeginningOfDateRange.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": caseAtEndOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtEndOfDateRange.year}-000${caseAtEndOfDateRange.caseNumber}`
         })
       ]);
     });
@@ -1503,10 +1507,10 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": caseAtBeginningOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtBeginningOfDateRange.year}-000${caseAtBeginningOfDateRange.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": caseAtEndOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtEndOfDateRange.year}-000${caseAtEndOfDateRange.caseNumber}`
         })
       ]);
     });
@@ -1540,13 +1544,13 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": firstCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${firstCase.year}-000${firstCase.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": secondCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${secondCase.year}-000${secondCase.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": thirdCase.caseReference
+          "Case #": `${personTypes[0].abbreviation}${thirdCase.year}-000${thirdCase.caseNumber}`
         })
       ]);
     });
@@ -1592,10 +1596,10 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": caseAtBeginningOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtBeginningOfDateRange.year}-000${caseAtBeginningOfDateRange.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": caseAtEndOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtEndOfDateRange.year}-000${caseAtEndOfDateRange.caseNumber}`
         })
       ]);
     });
@@ -1641,10 +1645,10 @@ describe("csvCaseExport request", () => {
 
       expect(records).toEqual([
         expect.objectContaining({
-          "Case #": caseAtBeginningOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtBeginningOfDateRange.year}-000${caseAtBeginningOfDateRange.caseNumber}`
         }),
         expect.objectContaining({
-          "Case #": caseAtEndOfDateRange.caseReference
+          "Case #": `${personTypes[0].abbreviation}${caseAtEndOfDateRange.year}-000${caseAtEndOfDateRange.caseNumber}`
         })
       ]);
     });

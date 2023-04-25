@@ -10,15 +10,12 @@ import models from "../../../policeDataManager/models";
 import httpMocks from "node-mocks-http";
 import getMinimumCaseDetails from "./getMinimumCaseDetails";
 import auditDataAccess from "../../audits/auditDataAccess";
-
-const {
-  DEFAULT_PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import PersonType from "../../../../sharedTestHelpers/PersonType";
 
 jest.mock("../../audits/auditDataAccess");
 
 describe("getMinimumCaseDetails", () => {
-  let response, next, request, existingCase;
+  let response, next, request, existingCase, defaultPersonType;
 
   afterEach(async () => {
     await cleanupDatabase();
@@ -30,6 +27,11 @@ describe("getMinimumCaseDetails", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+
+    defaultPersonType = await models.personType.create(
+      new PersonType.Builder().defaultPersonType().withIsDefault(true).build()
+    );
+
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
@@ -75,7 +77,7 @@ describe("getMinimumCaseDetails", () => {
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
     expect(responseBody.caseReference).toEqual(
-      `${DEFAULT_PERSON_TYPE.abbreviation}2017-0001`
+      `${defaultPersonType.abbreviation}2017-0001`
     );
   });
 
@@ -84,7 +86,7 @@ describe("getMinimumCaseDetails", () => {
     await getMinimumCaseDetails(request, response, next);
     const responseBody = response._getData();
     expect(responseBody.caseReference).toEqual(
-      `${DEFAULT_PERSON_TYPE.abbreviation}2017-0001`
+      `${defaultPersonType.abbreviation}2017-0001`
     );
   });
   describe("auditing", () => {

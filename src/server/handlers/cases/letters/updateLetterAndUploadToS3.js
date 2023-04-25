@@ -8,20 +8,26 @@ import { retrieveSignatureImageBySigner } from "../referralLetters/retrieveSigna
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
 import Boom from "boom";
 import constructFilename from "../referralLetters/constructFilename";
-import {
-  BAD_REQUEST_ERRORS,
-  NOT_FOUND_ERRORS
-} from "../../../../sharedUtilities/errorMessageConstants";
+import { NOT_FOUND_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../audits/auditFileAction";
 import generateLetterPdfBuffer from "../referralLetters/generateLetterPdfBuffer";
 import Case from "../../../policeDataManager/payloadObjects/Case";
+import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
 const updateLetterAndUploadToS3 = asyncMiddleware(
   async (request, response, next) => {
     const caseId = request.params.caseId;
-    const existingCase = await getCase(caseId);
+    const caseAndAuditDetails = await models.sequelize.transaction(
+      async transaction =>
+        await getCaseWithAllAssociationsAndAuditDetails(
+          caseId,
+          transaction,
+          request.permissions
+        )
+    );
+    const existingCase = caseAndAuditDetails.caseDetails;
     const letter = await models.letter.findByPk(request.params.letterId, {
       include: [
         {
