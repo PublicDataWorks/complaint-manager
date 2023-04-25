@@ -269,7 +269,7 @@ describe("generateLetterPdfBuffer", () => {
       );
 
       await models.officer.create(
-        new Officer.Builder().defaultOfficer().withId(50).withOfficerNumber(50),
+        new Officer.Builder().defaultOfficer().withId(99).withOfficerNumber(99),
         { auditUser: "user" }
       );
 
@@ -278,7 +278,7 @@ describe("generateLetterPdfBuffer", () => {
           .defaultCaseOfficer()
           .withCaseId(ID)
           .withId(undefined)
-          .withOfficerId(50)
+          .withOfficerId(99)
           .withCreatedAt(moment().subtract(2, "days"))
           .withPersonTypeKey(personTypes[1].key),
         { auditUser: "user" }
