@@ -31,6 +31,18 @@ module.exports = {
         await queryInterface.sequelize.query(query, {
           transaction
         });
+
+        if (process.env.ORG === "NOIPM") {
+          await queryInterface.sequelize.query(
+            `UPDATE civilians SET person_type = 'CIVILIAN' WHERE person_type IS NULL`,
+            { transaction }
+          );
+        } else if (PERSON_TYPE.PERSON_IN_CUSTODY) {
+          await queryInterface.sequelize.query(
+            `UPDATE cases_inmates SET person_type_key = 'PERSON_IN_CUSTODY' WHERE person_type_key IS NULL`,
+            { transaction }
+          );
+        }
       });
     } catch (error) {
       throw new Error(
@@ -43,6 +55,12 @@ module.exports = {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(
         `UPDATE civilians SET person_type = NULL WHERE person_type IS NOT NULL`
+      );
+      await queryInterface.sequelize.query(
+        `UPDATE cases_inmates SET person_type_key = NULL WHERE person_type_key IS NOT NULL`
+      );
+      await queryInterface.sequelize.query(
+        `UPDATE cases_officers SET person_type = NULL WHERE person_type IS NOT NULL`
       );
       await queryInterface.sequelize.query(`DELETE FROM ${TABLE} WHERE TRUE`, {
         transaction
