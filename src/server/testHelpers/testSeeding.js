@@ -87,6 +87,7 @@ export const seedPersonTypes = async () => {
         .withAbbreviation("A")
         .withDescription("A thing")
         .withEmployeeDescription("A really thingy thing")
+        .withLegend("A thing (A)")
         .build()
     ),
     models.personType.create(
@@ -95,6 +96,7 @@ export const seedPersonTypes = async () => {
         .withKey("B")
         .withAbbreviation("B")
         .withDescription("Barry Bearington")
+        .withLegend("Barry Bearington (B)")
         .build()
     ),
     models.personType.create(
@@ -103,6 +105,7 @@ export const seedPersonTypes = async () => {
         .withKey("PERSON_IN_CUSTODY")
         .withAbbreviation("PiC")
         .withDescription("Person in Custody")
+        .withLegend("Person in Custody (PiC)")
         .build()
     )
   ]);

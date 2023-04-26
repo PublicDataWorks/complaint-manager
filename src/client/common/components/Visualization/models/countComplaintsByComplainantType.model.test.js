@@ -8,15 +8,11 @@ const {
 describe("countComplaintsByComplainantType model", () => {
   describe("data transformer", () => {
     test("should transform the rawData from the handler for the visualization component", () => {
-      const rawData = Object.values(PERSON_TYPE).reduce(
-        (acc, type) => {
-          acc[type.abbreviation] = 1;
-          return acc;
-        },
-        {
-          AC: 1
-        }
-      );
+      const rawData = {
+        legendValue: 1,
+        anotherLegendValue: 2,
+        aFinalLegendValue: 3
+      };
 
       const transformedData =
         new CountComplaintsByComplainantType().transformData(rawData);
@@ -26,24 +22,9 @@ describe("countComplaintsByComplainantType model", () => {
         data: [
           {
             type: "pie",
-            labels: Object.values(PERSON_TYPE).reduce(
-              (acc, type) => {
-                if (acc.find(legend => legend === type.publicLegendValue)) {
-                  x++;
-                  return acc;
-                } else {
-                  return [...acc, type.publicLegendValue];
-                }
-              },
-              ["Anonymous (AC)"]
-            ),
-            values: Object.values(PERSON_TYPE).reduce(
-              (acc, type) => {
-                return [...acc, 1];
-              },
-              [1]
-            ),
-            count: Object.values(PERSON_TYPE).length + 1 - x,
+            labels: ["aFinalLegendValue", "anotherLegendValue", "legendValue"],
+            values: [3, 2, 1],
+            count: 6,
             marker: {
               colors: COLORS
             },

@@ -1,6 +1,7 @@
 import models from "../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
 import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
+import { injectBabelPlugin } from "react-app-rewired";
 
 export const executeQuery = async (nickname, dateRange) => {
   const where = {
@@ -57,20 +58,32 @@ export const executeQuery = async (nickname, dateRange) => {
 
   let totalComplaints = personTypes.reduce(
     (acc, type) => {
-      acc[type.abbreviation] = 0;
+      acc[type.legend] = 0;
       return acc;
     },
     {
-      AC: 0
+      "Anonymous (AC)": 0
     }
   );
 
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {
     const complaint = complaints[i];
-    const complainantType = complaint.get("caseReferencePrefix");
-    totalComplaints[complainantType] += 1;
+    const legend = getLegendValue(complaint);
+    totalComplaints[legend] += 1;
   }
 
   return totalComplaints;
+};
+
+const getLegendValue = complaint => {
+  if (!complaint.primaryComplainant) {
+    return complaint.defaultPersonType.legend;
+  } else if (complaint.primaryComplainant.isAnonymous) {
+    return "Anonymous (AC)";
+  } else if (!complaint.primaryComplainant.personTypeDetails) {
+    return complaint.defaultPersonType.legend;
+  } else {
+    return complaint.primaryComplainant.personTypeDetails.legend;
+  }
 };

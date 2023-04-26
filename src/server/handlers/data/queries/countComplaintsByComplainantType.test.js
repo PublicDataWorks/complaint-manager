@@ -125,11 +125,11 @@ describe("executeQuery", () => {
     await updateCaseStatus(complainantCasePO, CASE_STATUS.CLOSED, statuses);
 
     expectedData = {
-      [personTypes[0].abbreviation]: 0,
-      [personTypes[1].abbreviation]: 1,
-      [personTypes[2].abbreviation]: 1,
-      [personTypes[3].abbreviation]: 0,
-      AC: 1
+      [personTypes[0].legend]: 0,
+      [personTypes[1].legend]: 1,
+      [personTypes[2].legend]: 1,
+      [personTypes[3].legend]: 0,
+      "Anonymous (AC)": 1
     };
   });
 
@@ -203,7 +203,7 @@ describe("executeQuery", () => {
       });
 
     const expectedDataPast12Months = { ...expectedData };
-    expectedDataPast12Months[personTypes[0].abbreviation]++;
+    expectedDataPast12Months[personTypes[0].legend]++;
 
     await getComplaintsPast12Months.then(response => {
       expect(response.statusCode).toEqual(200);
