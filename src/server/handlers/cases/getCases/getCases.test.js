@@ -25,11 +25,7 @@ import CaseOfficer from "../../../../sharedTestHelpers/caseOfficer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
-
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import PersonType from "../../../../sharedTestHelpers/PersonType";
 
 describe("getCases", () => {
   let statuses, civilianInitiated, rankInitiated;
@@ -42,6 +38,31 @@ describe("getCases", () => {
     rankInitiated = await models.complaintTypes.create({
       name: RANK_INITIATED
     });
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .withDescription("Person in Custody")
+        .withIsDefault(true)
+        .build()
+    );
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("OFFICER")
+        .withDescription("Officer")
+        .build()
+    );
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("UNKNOWN_OFFICER")
+        .withDescription("Unknown Officer")
+        .build()
+    );
   });
 
   afterEach(async () => {
@@ -497,7 +518,8 @@ describe("getCases", () => {
           .withId(undefined)
           .withRoleOnCase(ACCUSED)
           .withOfficerId(firstOfficer.id)
-          .withLastName("Bruce");
+          .withLastName("Bruce")
+          .withPersonTypeKey("OFFICER");
 
         firstCaseWithKnownAccused = await models.cases.create(
           new Case.Builder()
@@ -532,7 +554,8 @@ describe("getCases", () => {
           .withId(undefined)
           .withRoleOnCase(ACCUSED)
           .withLastName("Allen")
-          .withOfficerId(secondOfficer.id);
+          .withOfficerId(secondOfficer.id)
+          .withPersonTypeKey("OFFICER");
 
         const thirdOfficer = await models.officer.create(
           new Officer.Builder()
@@ -549,7 +572,8 @@ describe("getCases", () => {
           .withId(999)
           .withRoleOnCase(ACCUSED)
           .withLastName("Aaron")
-          .withOfficerId(thirdOfficer.id);
+          .withOfficerId(thirdOfficer.id)
+          .withPersonTypeKey("OFFICER");
 
         secondCaseWithKnownAccused = await models.cases.create(
           new Case.Builder()
@@ -577,6 +601,7 @@ describe("getCases", () => {
               new CaseOfficer.Builder()
                 .withId(undefined)
                 .withUnknownOfficer()
+                .withPersonTypeKey("UNKNOWN_OFFICER")
                 .withRoleOnCase(ACCUSED)
             ]),
           {
@@ -790,7 +815,8 @@ describe("getCases", () => {
           .withLastName("Bo")
           .withId(undefined)
           .withOfficerId(firstOfficer.id)
-          .withRoleOnCase(COMPLAINANT);
+          .withRoleOnCase(COMPLAINANT)
+          .withPersonTypeKey("OFFICER");
 
         firstCaseWithOfficerComplainant = await models.cases.create(
           new Case.Builder()
@@ -827,7 +853,8 @@ describe("getCases", () => {
           .withLastName("Zebra")
           .withId(undefined)
           .withOfficerId(secondOfficer.id)
-          .withRoleOnCase(COMPLAINANT);
+          .withRoleOnCase(COMPLAINANT)
+          .withPersonTypeKey("OFFICER");
 
         secondCaseWithOfficerComplainant = await models.cases.create(
           new Case.Builder()
@@ -910,15 +937,13 @@ describe("getCases", () => {
             complainantLastName: "Zebra"
           }),
           expect.objectContaining({
+            complainantPersonType: "Person in Custody"
+          }),
+          expect.objectContaining({
             complainantPersonType: "Unknown Officer",
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null
-          }),
-          expect.objectContaining({
-            complainantPersonType: Object.keys(PERSON_TYPE).find(
-              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
-            )
           })
         ]);
       });
@@ -932,15 +957,13 @@ describe("getCases", () => {
 
         expect(cases.rows).toEqual([
           expect.objectContaining({
-            complainantPersonType: Object.keys(PERSON_TYPE).find(
-              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
-            )
-          }),
-          expect.objectContaining({
             complainantPersonType: "Unknown Officer",
             complainantLastName: null,
             complainantFirstName: null,
             complainantMiddleName: null
+          }),
+          expect.objectContaining({
+            complainantPersonType: "Person in Custody"
           }),
           expect.objectContaining({
             complainantLastName: "Zebra"
@@ -1273,6 +1296,7 @@ describe("getCases", () => {
             .withOfficerId(officer1.id)
             .withCaseId(case1.id)
             .withRoleOnCase(ACCUSED)
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1285,6 +1309,7 @@ describe("getCases", () => {
             .withLastName("Old")
             .withCaseId(case1.id)
             .withRoleOnCase(ACCUSED)
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1296,6 +1321,7 @@ describe("getCases", () => {
             .withOfficerId(officer1.id)
             .withCaseId(case2.id)
             .withRoleOnCase(ACCUSED)
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1307,6 +1333,7 @@ describe("getCases", () => {
             .withOfficerId(officer2.id)
             .withCaseId(case2.id)
             .withRoleOnCase(ACCUSED)
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1361,6 +1388,7 @@ describe("getCases", () => {
             .withFirstName("Bob")
             .withLastName("Loblaw")
             .withFullName("Bob M Loblaw")
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1375,6 +1403,7 @@ describe("getCases", () => {
             .withFirstName("Hope")
             .withLastName("Loblaw")
             .withFullName("Hope M Loblaw")
+            .withPersonTypeKey("OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1387,6 +1416,7 @@ describe("getCases", () => {
             .withCaseId(case1.id)
             .withRoleOnCase(ACCUSED)
             .withUnknownOfficer()
+            .withPersonTypeKey("UNKNOWN_OFFICER")
             .build(),
           { auditUser: "test" }
         );
@@ -1395,19 +1425,19 @@ describe("getCases", () => {
         expect(cases.rows[1].accusedOfficers).toEqual([
           {
             fullName: "Bob M Loblaw",
-            personType: "Known Officer"
+            personType: "Officer"
           },
           {
             fullName: "Hope M Loblaw",
-            personType: "Known Officer"
+            personType: "Officer"
           },
           {
             fullName: "Grant M Old",
-            personType: "Known Officer"
+            personType: "Officer"
           },
           {
             fullName: "Grant M Young",
-            personType: "Known Officer"
+            personType: "Officer"
           },
           {
             fullName: "Unknown Officer",

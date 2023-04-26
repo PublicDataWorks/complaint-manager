@@ -475,6 +475,15 @@ describe("Pact Verification", () => {
             { auditUser: "user" }
           );
 
+          await models.personType.create(
+            new PersonType.Builder()
+              .defaultPersonType()
+              .withKey("PERSON_IN_CUSTODY")
+              .withDescription("Person in Custody")
+              .build(),
+            { auditUser: "user" }
+          );
+
           await models.sequelize.query(
             "ALTER SEQUENCE IF EXISTS letter_types_id_seq START 2 RESTART 2 MINVALUE 2"
           );

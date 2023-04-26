@@ -17,6 +17,7 @@ import Civilian from "../../../../sharedTestHelpers/civilian";
 import Address from "../../../../sharedTestHelpers/Address";
 import Inmate from "../../../../sharedTestHelpers/Inmate";
 import CaseInmate from "../../../../sharedTestHelpers/CaseInmate";
+import PersonType from "../../../../sharedTestHelpers/PersonType";
 
 jest.mock("../referralLetters/sharedLetterUtilities/uploadLetterToS3", () =>
   jest.fn()
@@ -43,6 +44,13 @@ describe("Generate letter and upload to S3", () => {
     await cleanupDatabase();
 
     response = httpMocks.createResponse();
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .build()
+    );
 
     signer = await models.signers.create(
       new Signer.Builder().defaultSigner().build(),

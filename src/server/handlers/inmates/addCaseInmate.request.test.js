@@ -10,6 +10,7 @@ import {
   expectResponse
 } from "../../testHelpers/requestTestHelpers";
 import { seedStandardCaseStatuses } from "../../testHelpers/testSeeding";
+import PersonType from "../../../sharedTestHelpers/PersonType";
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -33,6 +34,12 @@ describe("POST /cases/:caseId/inmates", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     await seedStandardCaseStatuses();
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .build()
+    );
   });
 
   afterEach(async () => {

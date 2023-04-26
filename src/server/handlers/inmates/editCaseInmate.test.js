@@ -2,6 +2,7 @@ import Case from "../../../sharedTestHelpers/case";
 import CaseInmate from "../../../sharedTestHelpers/CaseInmate";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
 import Inmate from "../../../sharedTestHelpers/Inmate";
+import PersonType from "../../../sharedTestHelpers/PersonType";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import models from "../../policeDataManager/models";
@@ -23,6 +24,13 @@ describe("editCaseInmate", () => {
   beforeEach(async () => {
     next = jest.fn();
     response = httpMocks.createResponse();
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .build()
+    );
 
     const inmate = await models.inmate.create(
       new Inmate.Builder().defaultInmate().build(),

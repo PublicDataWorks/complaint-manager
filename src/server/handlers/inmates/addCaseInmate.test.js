@@ -15,6 +15,7 @@ import {
   BAD_REQUEST_ERRORS,
   NOT_FOUND_ERRORS
 } from "../../../sharedUtilities/errorMessageConstants";
+import PersonType from "../../../sharedTestHelpers/PersonType";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -32,6 +33,13 @@ describe("addCaseInmate", () => {
   beforeEach(async () => {
     await cleanupDatabase();
     statuses = await seedStandardCaseStatuses();
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .build()
+    );
 
     const existingCaseAttributes = new Case.Builder()
       .defaultCase()

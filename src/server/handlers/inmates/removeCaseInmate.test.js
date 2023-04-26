@@ -3,6 +3,7 @@ import CaseInmate from "../../../sharedTestHelpers/CaseInmate";
 import models from "../../policeDataManager/models/index";
 import Case from "../../../sharedTestHelpers/case";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
+import PersonType from "../../../sharedTestHelpers/PersonType";
 import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import removeCaseInmate from "./removeCaseInmate";
 import httpMocks from "node-mocks-http";
@@ -29,6 +30,12 @@ describe("removeCaseInmate", () => {
 
   beforeEach(async () => {
     await cleanupDatabase();
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("PERSON_IN_CUSTODY")
+        .build()
+    );
     next = jest.fn();
     response = httpMocks.createResponse();
 

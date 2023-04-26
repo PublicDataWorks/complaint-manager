@@ -81,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
       personTypeKey: {
         type: DataTypes.STRING,
         field: "person_type_key",
-        default: "PERSON_IN_CUSTODY"
+        defaultValue: "PERSON_IN_CUSTODY"
       },
       createdAt: {
         field: "created_at",

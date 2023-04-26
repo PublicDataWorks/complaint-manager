@@ -13,19 +13,17 @@ import Officer from "../../../../sharedTestHelpers/Officer";
 import Tag from "../../../testHelpers/tag";
 import CaseTag from "../../../testHelpers/caseTag";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
-
-const {
-  PERSON_TYPE,
-  DEFAULT_PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import { seedPersonTypes } from "../../../testHelpers/testSeeding";
 
 describe("sortableCasesView", () => {
+  let personTypes;
   beforeEach(async () => {
     await cleanupDatabase();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
     );
+    personTypes = await seedPersonTypes();
   });
 
   afterEach(async () => {
@@ -126,36 +124,6 @@ describe("sortableCasesView", () => {
 
       expect(sortedCase.accusedOfficers).toEqual([]);
     });
-
-    test("returns accused officer id but no accused officer name when an unknown officer added first", async () => {
-      const unknownOfficerAttributes = new CaseOfficer.Builder()
-        .withCaseId(existingCase.id)
-        .withRoleOnCase(ACCUSED)
-        .withCreatedAt(new Date("2010-02-12"))
-        .withId(undefined)
-        .withFirstName(null)
-        .withLastName(null)
-        .withMiddleName(null)
-        .withOfficerId(null);
-
-      const unknownOfficer = await models.case_officer.create(
-        unknownOfficerAttributes,
-        {
-          auditUser: "someone"
-        }
-      );
-      const sortedCase = await models.sortable_cases_view.findOne({
-        where: { id: existingCase.id }
-      });
-
-      expect(sortedCase.accusedOfficers[2]).toEqual(
-        // TODO fix once sorting is in place
-        {
-          fullName: "Unknown Officer",
-          personType: "Unknown Officer"
-        }
-      );
-    });
   });
 
   describe("check correct primary complainant", () => {
@@ -186,14 +154,16 @@ describe("sortableCasesView", () => {
           .withNoAddress()
           .withCreatedAt(new Date("2018-06-12"))
           .withId(undefined)
-          .withCaseId(undefined);
+          .withCaseId(undefined)
+          .withPersonType(personTypes[2].key);
 
         complainantCaseOfficer = new CaseOfficer.Builder()
           .defaultCaseOfficer()
           .withId(undefined)
           .withOfficerId(officer.id)
           .withCreatedAt(new Date("2018-09-22"))
-          .withRoleOnCase(COMPLAINANT);
+          .withRoleOnCase(COMPLAINANT)
+          .withPersonTypeKey(personTypes[1].key);
 
         existingCase = await models.cases.create(
           new Case.Builder()
@@ -237,19 +207,17 @@ describe("sortableCasesView", () => {
         );
       });
 
-      if (PERSON_TYPE.CIVILIAN) {
-        test("returns CC as case reference prefix when civilian primary complainant", async () => {
-          const sortedCase = await models.sortable_cases_view.findOne({
-            where: { id: existingCase.id }
-          });
-
-          expect(sortedCase).toEqual(
-            expect.objectContaining({
-              caseReference: "CC2012-0001"
-            })
-          );
+      test("returns appropriate case reference prefix when civilian primary complainant", async () => {
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
         });
-      } // TODO add scenarios for other person types
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: `${personTypes[2].abbreviation}2012-0001`
+          })
+        );
+      });
 
       test("should return AC prefix in case reference when primary complainant is anonymized", async () => {
         const caseCivilian = await models.civilian.findOne({
@@ -293,7 +261,7 @@ describe("sortableCasesView", () => {
 
         expect(sortedCase).toEqual(
           expect.objectContaining({
-            complainantPersonType: "Known Officer",
+            complainantPersonType: personTypes[1].description,
             complainantFirstName: complainantCaseOfficer.firstName,
             complainantMiddleName: complainantCaseOfficer.middleName,
             complainantLastName: complainantCaseOfficer.lastName,
@@ -302,48 +270,44 @@ describe("sortableCasesView", () => {
         );
       });
 
-      if (PERSON_TYPE.KNOWN_OFFICER) {
-        test("returns PO as case reference prefix when officer is primary complainant", async () => {
-          await models.case_officer.update(
-            {
-              createdAt: new Date("2016-06-12")
+      test("returns appropriate case reference prefix when officer is primary complainant", async () => {
+        await models.case_officer.update(
+          {
+            createdAt: new Date("2016-06-12")
+          },
+          {
+            where: {
+              officerId: officer.id
             },
-            {
-              where: {
-                officerId: officer.id
-              },
-              auditUser: "test user"
-            }
-          );
-
-          const sortedCase = await models.sortable_cases_view.findOne({
-            where: { id: existingCase.id }
-          });
-
-          expect(sortedCase).toEqual(
-            expect.objectContaining({
-              caseReference: "PO2012-0001"
-            })
-          );
-        });
-      } // TODO add tests with an inmate primary complainant
-
-      if (PERSON_TYPE.KNOWN_OFFICER) {
-        test("should return PO as prefix in case reference when primary complainant is deleted", async () => {
-          await models.civilian.destroy({
-            where: { caseId: existingCase.id },
             auditUser: "test user"
-          });
-          const sortedCase = await models.sortable_cases_view.findOne({
-            where: { id: existingCase.id }
-          });
-          expect(sortedCase).toEqual(
-            expect.objectContaining({
-              caseReference: "PO2012-0001"
-            })
-          );
+          }
+        );
+
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
         });
-      }
+
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: `${personTypes[1].abbreviation}2012-0001`
+          })
+        );
+      });
+
+      test("should return appropriate prefix in case reference when primary complainant is deleted", async () => {
+        await models.civilian.destroy({
+          where: { caseId: existingCase.id },
+          auditUser: "test user"
+        });
+        const sortedCase = await models.sortable_cases_view.findOne({
+          where: { id: existingCase.id }
+        });
+        expect(sortedCase).toEqual(
+          expect.objectContaining({
+            caseReference: `${personTypes[1].abbreviation}2012-0001`
+          })
+        );
+      });
 
       test("no complainant", async () => {
         existingCase = await models.cases.create(
@@ -363,9 +327,7 @@ describe("sortableCasesView", () => {
 
         expect(sortedCase).toEqual(
           expect.objectContaining({
-            complainantPersonType: Object.keys(PERSON_TYPE).find(
-              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
-            ),
+            complainantPersonType: personTypes[0].description,
             complainantFirstName: null,
             complainantMiddleName: null,
             complainantLastName: null,
@@ -492,8 +454,6 @@ describe("sortableCasesView", () => {
     });
     const cases = await models.sortable_cases_view.findAll();
     expect(cases[0].primaryComplainant).toBeNull();
-    expect(cases[0].caseReference).toStartWith(
-      DEFAULT_PERSON_TYPE.abbreviation
-    );
+    expect(cases[0].caseReference).toStartWith(personTypes[0].abbreviation);
   });
 });

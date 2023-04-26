@@ -3,15 +3,7 @@ import {
   RANK_INITIATED
 } from "../../../sharedUtilities/constants";
 import { getPersonFullName } from "../../../sharedUtilities/getFullName";
-import {
-  getCaseReference,
-  oldGetCaseReferencePrefix
-} from "./modelUtilities/caseReferenceHelpersFunctions";
-
-const {
-  DEFAULT_PERSON_TYPE,
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
+import { getCaseReference } from "./modelUtilities/caseReferenceHelpersFunctions";
 
 module.exports = (sequelize, DataTypes) => {
   const SortableCasesView = sequelize.define(
@@ -32,19 +24,19 @@ module.exports = (sequelize, DataTypes) => {
           "complainantMiddleName",
           "complainantLastName",
           "complainantSuffix",
-          "complainantPersonType",
-          "complainantIsAnonymous"
+          "complainantIsAnonymous",
+          "complainantAbbreviation"
         ]),
         get: function () {
           if (this.get("complainantFirstName")) {
             return {
-              personType: this.get("complainantPersonType") || "CIVILIAN",
+              personType: this.get("complainantPersonType") || "Civilian",
               fullName: getPersonFullName(
                 this.get("complainantFirstName"),
                 this.get("complainantMiddleName"),
                 this.get("complainantLastName"),
                 this.get("complainantSuffix"),
-                this.get("complainantPersonType") || "CIVILIAN"
+                this.get("complainantPersonType") || "Civilian"
               ),
               isAnonymous: this.get("complainantIsAnonymous")
             };
@@ -106,21 +98,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       caseReference: {
         type: new DataTypes.VIRTUAL(DataTypes.STRING, [
-          "primaryComplainant",
           "caseNumber",
-          "year"
+          "year",
+          "complainantAbbreviation",
+          "primaryComplainant"
         ]),
         get: function () {
-          const primaryComplainant = this.get("primaryComplainant");
-          const primaryComplainantPersonType = primaryComplainant
-            ? primaryComplainant.personType
-            : null;
-          const caseReferencePrefix = oldGetCaseReferencePrefix(
-            primaryComplainant && primaryComplainant.isAnonymous,
-            primaryComplainantPersonType
-          );
           return getCaseReference(
-            caseReferencePrefix,
+            this.get("primaryComplainant")?.isAnonymous
+              ? "AC"
+              : this.get("complainantAbbreviation"),
             this.get("caseNumber"),
             this.get("year")
           );
@@ -152,15 +139,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       complainantPersonType: {
         field: "complainant_person_type",
-        type: DataTypes.STRING,
-        get: function () {
-          return (
-            this.getDataValue("complainantPersonType") ||
-            Object.keys(PERSON_TYPE).find(
-              key => PERSON_TYPE[key] === DEFAULT_PERSON_TYPE
-            )
-          );
-        }
+        type: DataTypes.STRING
       },
       complainantFirstName: {
         field: "complainant_first_name",
@@ -181,6 +160,10 @@ module.exports = (sequelize, DataTypes) => {
       complainantIsAnonymous: {
         field: "complainant_is_anonymous",
         type: DataTypes.BOOLEAN
+      },
+      complainantAbbreviation: {
+        field: "complainant_abbreviation",
+        type: DataTypes.STRING
       }
     },
     {

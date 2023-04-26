@@ -213,7 +213,7 @@ module.exports = (sequelize, DataTypes) => {
       isCase: {
         field: "is_case",
         type: DataTypes.BOOLEAN,
-        default: true
+        defaultValue: true
       },
       createdAt: {
         field: "created_at",
