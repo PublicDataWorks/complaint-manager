@@ -10,10 +10,6 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import IntakeSource from "../testHelpers/intakeSource";
 import HowDidYouHearAboutUsSource from "../testHelpers/HowDidYouHearAboutUsSource";
 import winston from "winston";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("dataChangeAuditHooks", () => {
   jest.setTimeout(60000);
   let complaintType, civilianInitiated;

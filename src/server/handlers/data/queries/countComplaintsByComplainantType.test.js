@@ -22,10 +22,6 @@ import {
   seedStandardCaseStatuses
 } from "../../../testHelpers/testSeeding";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 jest.mock(
   "../../../getFeaturesAsync",
   () => callback =>

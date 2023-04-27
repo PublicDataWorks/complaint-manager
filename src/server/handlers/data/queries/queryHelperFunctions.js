@@ -78,3 +78,15 @@ export const calculateFirstContactDateCriteria = (
   }
   return firstContactDate;
 };
+
+export const getLegendValue = complaint => {
+  if (!complaint.primaryComplainant) {
+    return complaint.defaultPersonType.legend;
+  } else if (complaint.primaryComplainant.isAnonymous) {
+    return "Anonymous (AC)";
+  } else if (!complaint.primaryComplainant.personTypeDetails) {
+    return complaint.defaultPersonType.legend;
+  } else {
+    return complaint.primaryComplainant.personTypeDetails.legend;
+  }
+};

@@ -19,10 +19,6 @@ import {
 
 let existingCase, timeOfDownload, complainant, statuses;
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 const SENDER_NAME = "Bobby!";
 const AWS = require("aws-sdk");
 jest.mock("aws-sdk");

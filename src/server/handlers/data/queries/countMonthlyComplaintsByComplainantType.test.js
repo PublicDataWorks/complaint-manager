@@ -38,10 +38,6 @@ jest.mock(
     ])
 );
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("executeQuery", () => {
   afterAll(async () => {
     await models.sequelize.close();
@@ -307,33 +303,25 @@ describe("executeQuery", () => {
       await getResponsePromise.then(response => {
         expect(response.statusCode).toEqual(200);
 
-        expect(response.body[personTypes[0].abbreviation][9]["count"]).toEqual(
-          2
-        );
+        expect(response.body[personTypes[0].legend][9]["count"]).toEqual(2);
 
-        expect(response.body[personTypes[2].abbreviation][11]["count"]).toEqual(
-          1
-        );
+        expect(response.body[personTypes[2].legend][11]["count"]).toEqual(1);
 
-        const numOfCC = response.body[personTypes[2].abbreviation].filter(
+        const numOfCC = response.body[personTypes[2].legend].filter(
           month => month["count"] === 0
         ).length;
         expect(numOfCC).toEqual(11);
 
-        expect(response.body[personTypes[1].abbreviation][8]["count"]).toEqual(
-          1
-        );
+        expect(response.body[personTypes[1].legend][8]["count"]).toEqual(1);
 
-        const numOfPO = response.body[personTypes[1].abbreviation].filter(
+        const numOfPO = response.body[personTypes[1].legend].filter(
           month => month["count"] === 0
         ).length;
         expect(numOfPO).toEqual(11);
 
-        expect(response.body[personTypes[1].abbreviation][3]["count"]).toEqual(
-          0
-        );
+        expect(response.body[personTypes[1].legend][3]["count"]).toEqual(0);
 
-        const numOfAC = response.body["AC"].filter(
+        const numOfAC = response.body["Anonymous (AC)"].filter(
           month => month["count"] === 0
         ).length;
         expect(numOfAC).toEqual(12);
@@ -352,9 +340,7 @@ describe("executeQuery", () => {
         })
         .then(response => {
           expect(response.statusCode).toEqual(200);
-          expect(
-            response.body[personTypes[1].abbreviation][2]["count"]
-          ).toEqual(1);
+          expect(response.body[personTypes[1].legend][2]["count"]).toEqual(1);
         });
     });
   });

@@ -2,7 +2,10 @@ import { CASE_STATUS, ISO_DATE } from "../../../../sharedUtilities/constants";
 import models from "../../../policeDataManager/models";
 import moment from "moment";
 import _ from "lodash";
-import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
+import {
+  calculateFirstContactDateCriteria,
+  getLegendValue
+} from "./queryHelperFunctions";
 
 export const getDateRange = dateRange => {
   let startDate = dateRange?.minDate
@@ -97,11 +100,11 @@ export const executeQuery = async (nickname, dateRange) => {
 
   let totalComplaints = personTypes.reduce(
     (acc, type) => {
-      acc[type.abbreviation] = _.cloneDeep(counts);
+      acc[type.legend] = _.cloneDeep(counts);
       return acc;
     },
     {
-      AC: _.cloneDeep(counts)
+      "Anonymous (AC)": _.cloneDeep(counts)
     }
   );
 
@@ -110,11 +113,11 @@ export const executeQuery = async (nickname, dateRange) => {
   const numComplaints = complaints.length;
   for (let i = 0; i < numComplaints; i++) {
     const complaint = complaints[i];
-    const complainantType = complaint.get("caseReferencePrefix");
+    const legend = getLegendValue(complaint);
     const formattedFirstContactDate = moment(complaint.firstContactDate).format(
       "YYYY-MM"
     );
-    totalComplaints[complainantType][dateToIndex[formattedFirstContactDate]][
+    totalComplaints[legend][dateToIndex[formattedFirstContactDate]][
       "count"
     ] += 1;
   }

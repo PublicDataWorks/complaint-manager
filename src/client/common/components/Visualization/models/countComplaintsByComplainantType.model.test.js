@@ -1,10 +1,6 @@
 import CountComplaintsByComplainantType from "./countComplaintsByComplainantType.model";
 import { COLORS } from "../dataVizStyling";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 describe("countComplaintsByComplainantType model", () => {
   describe("data transformer", () => {
     test("should transform the rawData from the handler for the visualization component", () => {

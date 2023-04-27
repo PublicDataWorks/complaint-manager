@@ -4,9 +4,6 @@ import { COLORS } from "../dataVizStyling";
 import { sortRawDataDict } from "../helpers/sortRawDataDict";
 import { sum } from "lodash";
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export default class CountComplaintsByComplainantType extends DonutVisualization {
   get queryType() {

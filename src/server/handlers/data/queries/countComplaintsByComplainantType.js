@@ -1,7 +1,9 @@
 import models from "../../../policeDataManager/models";
 import { CASE_STATUS } from "../../../../sharedUtilities/constants";
-import { calculateFirstContactDateCriteria } from "./queryHelperFunctions";
-import { injectBabelPlugin } from "react-app-rewired";
+import {
+  calculateFirstContactDateCriteria,
+  getLegendValue
+} from "./queryHelperFunctions";
 
 export const executeQuery = async (nickname, dateRange) => {
   const where = {
@@ -74,16 +76,4 @@ export const executeQuery = async (nickname, dateRange) => {
   }
 
   return totalComplaints;
-};
-
-const getLegendValue = complaint => {
-  if (!complaint.primaryComplainant) {
-    return complaint.defaultPersonType.legend;
-  } else if (complaint.primaryComplainant.isAnonymous) {
-    return "Anonymous (AC)";
-  } else if (!complaint.primaryComplainant.personTypeDetails) {
-    return complaint.defaultPersonType.legend;
-  } else {
-    return complaint.primaryComplainant.personTypeDetails.legend;
-  }
 };

@@ -8,10 +8,6 @@ import {
 import { QUERY_TYPES } from "../../../../../sharedUtilities/constants";
 import { COLORS } from "../dataVizStyling";
 
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
-
 export default class CountMonthlyComplaintsByComplainantType extends Visualization {
   get queryType() {
     return QUERY_TYPES.COUNT_MONTHLY_COMPLAINTS_BY_COMPLAINANT_TYPE;
@@ -83,100 +79,30 @@ export default class CountMonthlyComplaintsByComplainantType extends Visualizati
       };
     };
 
-    let ccTrace = {
-      x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-      y: insertCountValues(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-      name: PERSON_TYPE.CIVILIAN.publicLegendValue,
-      marker: {
-        color: COLORS[0]
-      },
-      hoverinfo: "y+name",
-      legendgroup: "group" + PERSON_TYPE.CIVILIAN.abbreviation
-    };
+    const mappedData = Object.keys(rawData).reduce((acc, key, idx) => {
+      let trace = {
+        x: insertDateValues(rawData[key]),
+        y: insertCountValues(rawData[key]),
+        name: key,
+        marker: {
+          color: COLORS[idx % COLORS.length]
+        },
+        hoverinfo: "y+name",
+        legendgroup: "group" + key
+      };
 
-    let poTrace = {
-      x: insertDateValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-      y: insertCountValues(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-      name: PERSON_TYPE.KNOWN_OFFICER.publicLegendValue,
-      marker: {
-        color: COLORS[1]
-      },
-      hoverinfo: "y+name",
-      legendgroup: "group" + PERSON_TYPE.KNOWN_OFFICER.abbreviation
-    };
+      let highlight = {
+        x: enableDateHighlight(rawData[key]),
+        y: enableCountHighlight(rawData[key], maximum),
+        fillcolor: "rgba(0,33,113,0.2)",
+        ...highlightOptions(key)
+      };
 
-    let cpdTrace = {
-      x: insertDateValues(rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]),
-      y: insertCountValues(
-        rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]
-      ),
-      name: PERSON_TYPE.CIVILIAN_WITHIN_PD.publicLegendValue,
-      marker: {
-        color: COLORS[2]
-      },
-      hoverinfo: "y+name",
-      legendgroup: "group" + PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation
-    };
-
-    let acTrace = {
-      x: insertDateValues(rawData["AC"]),
-      y: insertCountValues(rawData["AC"]),
-      name: "Anonymous (AC)",
-      marker: {
-        color: COLORS[5]
-      },
-      hoverinfo: "y+name",
-      legendgroup: "groupAC"
-    };
-
-    let ccHighlight = {
-      x: enableDateHighlight(rawData[PERSON_TYPE.CIVILIAN.abbreviation]),
-      y: enableCountHighlight(
-        rawData[PERSON_TYPE.CIVILIAN.abbreviation],
-        maximum
-      ),
-      fillcolor: "rgba(0,33,113,0.2)",
-      ...highlightOptions(PERSON_TYPE.CIVILIAN.abbreviation)
-    };
-
-    let poHighlight = {
-      x: enableDateHighlight(rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation]),
-      y: enableCountHighlight(
-        rawData[PERSON_TYPE.KNOWN_OFFICER.abbreviation],
-        maximum
-      ),
-      fillcolor: "rgba(95,173,86,0.3)",
-      ...highlightOptions(PERSON_TYPE.KNOWN_OFFICER.abbreviation)
-    };
-
-    let cpdHighlight = {
-      x: enableDateHighlight(
-        rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation]
-      ),
-      y: enableCountHighlight(
-        rawData[PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation],
-        maximum
-      ),
-      fillcolor: "rgba(157,93,155,0.3)",
-      ...highlightOptions(PERSON_TYPE.CIVILIAN_WITHIN_PD.abbreviation)
-    };
-
-    let acHighlight = {
-      x: enableDateHighlight(rawData["AC"]),
-      y: enableCountHighlight(rawData["AC"], maximum),
-      fillcolor: "rgba(230, 159, 1,0.3)",
-      ...highlightOptions("AC")
-    };
+      return [...acc, trace, highlight];
+    }, []);
 
     const data = [
-      ccTrace,
-      ccHighlight,
-      poTrace,
-      poHighlight,
-      cpdTrace,
-      cpdHighlight,
-      acTrace,
-      acHighlight,
+      ...mappedData,
       {
         type: "scatter",
         maximum
