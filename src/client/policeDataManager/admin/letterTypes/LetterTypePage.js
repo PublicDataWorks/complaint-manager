@@ -2,8 +2,7 @@ import {
   FormGroup,
   FormControlLabel,
   Typography,
-  withStyles,
-  Radio
+  withStyles
 } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
@@ -18,10 +17,7 @@ import {
 } from "../../../formFieldLevelValidations";
 import NavBar from "../../shared/components/NavBar/NavBar";
 import { policeDataManagerMenuOptions } from "../../shared/components/NavBar/policeDataManagerMenuOptions";
-import {
-  renderRadioGroup,
-  renderTextField
-} from "../../cases/sharedFormComponents/renderFunctions";
+import { renderTextField } from "../../cases/sharedFormComponents/renderFunctions";
 import PrimaryCheckBox from "../../shared/components/PrimaryCheckBox";
 import LinkButton from "../../shared/components/LinkButton";
 import Dropdown from "../../../common/components/Dropdown";
@@ -46,6 +42,7 @@ import {
 } from "./letter-types-selectors";
 import Collapser from "./Collapser";
 import TemplatePreview from "./TemplatePreview";
+import DefaultRecipient from "./DefaultRecipient";
 
 const ADD = "add";
 const EDIT = "edit";
@@ -103,8 +100,14 @@ const LetterTypePage = props => {
       hasEditPage: values.hasEditPage,
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
-      defaultRecipient: values.defaultRecipient,
-      defaultRecipientAddress: values.defaultRecipientAddress,
+      defaultRecipient:
+        values.defaultRecipient === "Other"
+          ? values.recipientNameInput
+          : values.defaultRecipient,
+      defaultRecipientAddress:
+        values.defaultRecipient === "Other"
+          ? values.recipientAddressInput
+          : values.defaultRecipientAddress,
       requiredStatus: values.requiredStatus,
       editableTemplate: values.hasEditPage
         ? values.editableTemplate
@@ -254,79 +257,7 @@ const LetterTypePage = props => {
             </div>
 
             {props.chooseDefaultRecipientFeature && (
-              <>
-                <section
-                  style={{
-                    width: "100%",
-                    margin: "20px, 0px"
-                  }}
-                >
-                  <Typography style={{ marginTop: "15px" }} variant="subtitle2">
-                    Default Recipient
-                  </Typography>
-
-                  <Field
-                    name="defaultRecipient"
-                    component={renderRadioGroup}
-                    style={{ flexDirection: "row" }}
-                    data-testid="default-recipient-radio-group"
-                  >
-                    <FormControlLabel
-                      style={{ marginRight: "48px" }}
-                      value={"{primaryComplainant}"}
-                      control={<Radio color="primary" />}
-                      label={"Primary Complainant"}
-                    />
-                    <FormControlLabel
-                      style={{ marginRight: "48px" }}
-                      value={"{eachComplainant}"}
-                      control={<Radio color="primary" />}
-                      label={"Each Complainant"}
-                    />
-                    <FormControlLabel
-                      style={{ marginRight: "48px" }}
-                      value={"Other"}
-                      control={<Radio color="primary" />}
-                      label={"Other"}
-                    />
-                    <div>
-                      <FormControlLabel
-                        label="Recipient Name"
-                        labelPlacement="start"
-                        disabled
-                        className={props.classes.labelStart}
-                        control={
-                          <Field
-                            component={renderTextField}
-                            inputProps={{
-                              "data-testid": "recipient-name-input"
-                            }}
-                            name="recipientNameInput"
-                            placeholder="Recipient Name"
-                            style={{ marginLeft: "10px" }}
-                          />
-                        }
-                      />
-                      <FormControlLabel
-                        label="Recipient Address"
-                        labelPlacement="start"
-                        disabled
-                        control={
-                          <Field
-                            component={renderTextField}
-                            inputProps={{
-                              "data-testid": "recipient-address-input"
-                            }}
-                            name="recipientAddressInput"
-                            placeholder="Recipient Address"
-                            style={{ marginLeft: "10px" }}
-                          />
-                        }
-                      />
-                    </div>
-                  </Field>
-                </section>
-              </>
+              <DefaultRecipient {...props} />
             )}
 
             <div
@@ -571,6 +502,9 @@ export default connect(
           footerText: getFooterText(state),
           hasEditPage: state.ui.editLetterType.hasEditPage,
           letterTypeInput: state.ui.editLetterType.type,
+          recipientNameInput: state.ui.editLetterType.defaultRecipient,
+          recipientAddressInput:
+            state.ui.editLetterType.defaultRecipientAddress,
           requiredStatus: state.ui.editLetterType.requiredStatus,
           requiresApproval: state.ui.editLetterType.requiresApproval,
           subsequentPageHeader: getSubsequentPageHeader(state),

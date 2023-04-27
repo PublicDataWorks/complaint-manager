@@ -208,7 +208,6 @@ describe("LetterTypePage", () => {
       userEvent.click(screen.getByTestId("required-status-dropdown"));
       userEvent.click(screen.getByText("Initial"));
 
-      // userEvent.click(screen.getByTestId("primary-recipient-radio-button"));
       userEvent.click(screen.getByText("Primary Complainant"));
 
       userEvent.click(screen.getByText("Save"));
@@ -223,6 +222,15 @@ describe("LetterTypePage", () => {
       expect(screen.getByText("Primary Complainant")).toBeInTheDocument;
       expect(screen.getByText("Each Complainant")).toBeInTheDocument;
       expect(screen.getByText("Other")).toBeInTheDocument;
+    });
+
+    test("should render recipient name and address fields when Other is selected", () => {
+      expect(screen.queryByText("Recipient Name")).toBeFalsy();
+      expect(screen.queryByText("Recipient Address")).toBeFalsy();
+
+      userEvent.click(screen.getByText("Other"));
+      expect(screen.getByTestId("recipient-name-input")).toBeInTheDocument;
+      expect(screen.getByTestId("recipient-address-input")).toBeInTheDocument;
     });
   });
 });
