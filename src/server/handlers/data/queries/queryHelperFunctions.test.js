@@ -7,36 +7,8 @@ import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import sequelize from "sequelize";
 import moment from "moment";
-const {
-  PERSON_TYPE,
-  DEFAULT_PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 describe("queryHelperFunctions", () => {
-  describe("getComplainantType", () => {
-    Object.values(PERSON_TYPE).forEach(type => {
-      test(`should return ${type.complainantLegendValue} based on ${type.abbreviation} case reference`, () => {
-        const caseReference = `${type.abbreviation}2019-0001`;
-        const result = getComplainantType(caseReference);
-
-        expect(result).toEqual(type.complainantLegendValue);
-      });
-    });
-
-    test("should return AC prefix given anonymized primary complainant case reference", () => {
-      const caseReference = "AC2019-0001";
-      const result = getComplainantType(caseReference);
-
-      expect(result).toEqual("Anonymous (AC)");
-    });
-
-    test("should return default legend value if unknown prefix is given", () => {
-      const caseReference = "GG2021-0001";
-      const result = getComplainantType(caseReference);
-      expect(result).toEqual(DEFAULT_PERSON_TYPE.complainantLegendValue);
-    });
-  });
-
   describe("getDateRangeStart", () => {
     test("should return a start date for filtering queries based on past 12 months range option", () => {
       const currentDate = new Date(2020, 9, 28);

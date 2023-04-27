@@ -1,15 +1,7 @@
-import {
-  DATE_RANGE_TYPE,
-  CASE_STATUS
-} from "../../../../sharedUtilities/constants";
+import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import moment from "moment";
 import sequelize from "sequelize";
-
-const {
-  PERSON_TYPE,
-  DEFAULT_PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 export const updateCaseStatus = async (
   caseToUpdate,
@@ -23,24 +15,6 @@ export const updateCaseStatus = async (
     { auditUser: "someone" }
   );
   caseToUpdate.reload();
-};
-
-export const getComplainantType = caseReference => {
-  let prefix = caseReference.substring(0, 3);
-  let complainantType;
-
-  while (prefix.charAt(prefix.length - 1).match(/\d/)) {
-    prefix = prefix.substring(0, prefix.length - 1);
-  }
-
-  if (prefix === "AC") {
-    complainantType = "Anonymous (AC)";
-  } else {
-    complainantType =
-      Object.values(PERSON_TYPE).find(type => type.abbreviation === prefix)
-        ?.complainantLegendValue || DEFAULT_PERSON_TYPE.complainantLegendValue;
-  }
-  return complainantType;
 };
 
 export const getDateRangeStart = (

@@ -19,14 +19,7 @@ import Address from "../../../../sharedTestHelpers/Address";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
 
 jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants.js`, () => ({
-  DISTRICTS_GEOJSON: undefined,
-  PERSON_TYPE: {
-    CIVILIAN: {},
-    CIVILIAN_WITHIN_PD: {},
-    KNOWN_OFFICER: {},
-    UNKNOWN_OFFICER: {}
-  },
-  DEFAULT_PERSON_TYPE: {}
+  DISTRICTS_GEOJSON: undefined
 }));
 
 jest.mock(

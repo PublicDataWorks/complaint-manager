@@ -12,9 +12,6 @@ import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationData from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
 import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
-const {
-  PERSON_TYPE
-} = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/constants`);
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -23,26 +20,17 @@ const MOCK_INTAKE_SOURCE_DATA_VALUES = [
 ];
 
 const MOCK_TOTAL_DATA_VALUES = [{ ytd: 10, previousYear: 20 }];
+const MOCK_COMPLAINANT_TYPE_DATA_VALUES = [
+  { complainantType: "Family" },
+  { complainantType: "Legislator" },
+  { complainantType: "Anonymous (AC)" }
+];
 
-const MOCK_COMPLAINANT_TYPE_DATA_VALUES = Object.values(PERSON_TYPE).reduce(
-  (acc, type) => {
-    return [...acc, { complainantType: type.complainantLegendValue }];
-  },
-  [{ complainantType: "Anonymous (AC)" }]
-);
-
-const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = Object.values(
-  PERSON_TYPE
-).reduce(
-  (acc, type) => {
-    acc[type.abbreviation] = [];
-    return acc;
-  },
-  {
-    AC: []
-  }
-);
-
+const MOCK_COMPLAINANT_TYPE_PAST_12_MONTHS_VALUES = {
+  Family: [],
+  Legislator: [],
+  "Anonymous (AC)": []
+};
 const MOCK_TOP_TAGS_VALUES = [];
 const MOCK_TOP_ALLEGATIONS_VALUES = [];
 const MOCK_LOCATION_DATA = [{ lat: 29, lon: -90 }];
