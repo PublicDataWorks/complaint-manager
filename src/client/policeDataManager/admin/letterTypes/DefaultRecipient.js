@@ -45,7 +45,8 @@ const DefaultRecipient = props => {
         />
       </Field>
       {props.defaultRecipient !== "{primaryComplainant}" &&
-      props.defaultRecipient !== "{eachComplainant}" ? (
+      props.defaultRecipient !== "{eachComplainant}" &&
+      props.defaultRecipient ? (
         <div>
           <FormControlLabel
             label="Recipient Name"
