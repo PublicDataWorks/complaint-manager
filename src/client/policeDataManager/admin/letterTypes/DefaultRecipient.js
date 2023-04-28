@@ -1,26 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { FormControlLabel, Typography, Radio } from "@material-ui/core";
-import { Field } from "redux-form";
+import { Field, formValueSelector } from "redux-form";
 import {
   renderRadioGroup,
   renderTextField
 } from "../../cases/sharedFormComponents/renderFunctions";
+import { connect } from "react-redux";
 
 const DefaultRecipient = props => {
-  const [selectedRecipientType, setSelectedRecipientType] = useState("");
-
-  useEffect(() => {
-    if (props.initialValues.defaultRecipient === "{primaryComplainant}") {
-      setSelectedRecipientType("{primaryComplainant}");
-    } else if (props.initialValues.defaultRecipient === "{eachComplainant}") {
-      setSelectedRecipientType("{eachComplainant}");
-    } else if (!props.initialValues.defaultRecipient) {
-      return;
-    } else {
-      setSelectedRecipientType("Other");
-    }
-  }, []);
-
   return (
     <section
       style={{
@@ -43,35 +30,22 @@ const DefaultRecipient = props => {
           value={"{primaryComplainant}"}
           control={<Radio color="primary" />}
           label={"Primary Complainant"}
-          onClick={() => {
-            setSelectedRecipientType("{primaryComplainant}");
-          }}
-          checked={
-            selectedRecipientType === "{primaryComplainant}" ? true : false
-          }
         />
         <FormControlLabel
           style={{ marginRight: "48px" }}
           value={"{eachComplainant}"}
           control={<Radio color="primary" />}
           label={"Each Complainant"}
-          onClick={() => {
-            setSelectedRecipientType("{eachComplainant}");
-          }}
-          checked={selectedRecipientType === "{eachComplainant}" ? true : false}
         />
         <FormControlLabel
           style={{ marginRight: "48px" }}
           value={"Other"}
           control={<Radio color="primary" />}
           label={"Other"}
-          onClick={() => {
-            setSelectedRecipientType("Other");
-          }}
-          checked={selectedRecipientType === "Other" ? true : false}
         />
       </Field>
-      {selectedRecipientType === "Other" ? (
+      {props.defaultRecipient !== "{primaryComplainant}" &&
+      props.defaultRecipient !== "{eachComplainant}" ? (
         <div>
           <FormControlLabel
             label="Recipient Name"
@@ -79,14 +53,14 @@ const DefaultRecipient = props => {
             className={props.classes.labelStart}
             control={
               <Field
-                value={props.initialValues.recipientName}
+                multiline
                 component={renderTextField}
                 inputProps={{
                   "data-testid": "recipient-name-input"
                 }}
                 name="recipientNameInput"
                 placeholder="Recipient Name"
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", marginRight: "4px" }}
               />
             }
           />
@@ -95,14 +69,15 @@ const DefaultRecipient = props => {
             labelPlacement="start"
             control={
               <Field
-                value={props.initialValues.recipientAddress}
+                multiline
+                maxRows={5}
                 component={renderTextField}
                 inputProps={{
                   "data-testid": "recipient-address-input"
                 }}
                 name="recipientAddressInput"
                 placeholder="Recipient Address"
-                style={{ marginLeft: "10px" }}
+                style={{ marginLeft: "10px", width: "23rem" }}
               />
             }
           />
@@ -113,5 +88,11 @@ const DefaultRecipient = props => {
     </section>
   );
 };
-
-export default DefaultRecipient;
+const mapStateToProps = state => {
+  const selector = formValueSelector("letterTypeForm");
+  const recipientRadio = selector(state, "defaultRecipient");
+  return {
+    defaultRecipient: recipientRadio
+  };
+};
+export default connect(mapStateToProps)(DefaultRecipient);

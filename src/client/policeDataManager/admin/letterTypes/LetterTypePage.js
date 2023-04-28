@@ -101,11 +101,13 @@ const LetterTypePage = props => {
       requiresApproval: values.requiresApproval,
       defaultSender: values.defaultSender,
       defaultRecipient:
-        values.defaultRecipient === "Other"
+        values.defaultRecipient !== "{primaryComplainant}" &&
+        values.defaultRecipient !== "{eachComplainant}"
           ? values.recipientNameInput
           : values.defaultRecipient,
       defaultRecipientAddress:
-        values.defaultRecipient === "Other"
+        values.defaultRecipient !== "{primaryComplainant}" &&
+        values.defaultRecipient !== "{eachComplainant}"
           ? values.recipientAddressInput
           : values.defaultRecipientAddress,
       requiredStatus: values.requiredStatus,
@@ -493,7 +495,12 @@ export default connect(
         initialValues: {
           ...complaintTypeValues,
           defaultSender: state.ui.editLetterType.defaultSender?.nickname,
-          defaultRecipient: state.ui.editLetterType.defaultRecipient,
+          defaultRecipient:
+            state.ui.editLetterType.defaultRecipient !==
+              "{primaryComplainant}" &&
+            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
+              ? "Other"
+              : state.ui.editLetterType.defaultRecipient,
           defaultRecipientAddress:
             state.ui.editLetterType.defaultRecipientAddress,
           editableTemplate: state.ui.editLetterType.editableTemplate,
@@ -502,9 +509,18 @@ export default connect(
           footerText: getFooterText(state),
           hasEditPage: state.ui.editLetterType.hasEditPage,
           letterTypeInput: state.ui.editLetterType.type,
-          recipientNameInput: state.ui.editLetterType.defaultRecipient,
+          recipientNameInput:
+            state.ui.editLetterType.defaultRecipient !==
+              "{primaryComplainant}" &&
+            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
+              ? state.ui.editLetterType.defaultRecipient
+              : "",
           recipientAddressInput:
-            state.ui.editLetterType.defaultRecipientAddress,
+            state.ui.editLetterType.defaultRecipient !==
+              "{primaryComplainant}" &&
+            state.ui.editLetterType.defaultRecipient !== "{eachComplainant}"
+              ? state.ui.editLetterType.defaultRecipientAddress
+              : "",
           requiredStatus: state.ui.editLetterType.requiredStatus,
           requiresApproval: state.ui.editLetterType.requiresApproval,
           subsequentPageHeader: getSubsequentPageHeader(state),

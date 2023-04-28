@@ -160,8 +160,8 @@ pactWith(
                 requiresApproval: true,
                 requiredStatus: "Initial",
                 defaultSender: "Amrose@place.com",
-                defaultRecipient: "{primaryComplainant}",
-                defaultRecipientAddress: "{primaryComplainantAddress}",
+                defaultRecipient: "Sandy Cheeks",
+                defaultRecipientAddress: "Big Glass Dome in Bikini Bottom",
                 complaintTypes: []
               }
             },
@@ -181,8 +181,8 @@ pactWith(
                   name: "Nina Ambroise",
                   nickname: "Amrose@place.com"
                 },
-                defaultRecipient: "{primaryComplainant}",
-                defaultRecipientAddress: "{primaryComplainantAddress}",
+                defaultRecipient: "Sandy Cheeks",
+                defaultRecipientAddress: "Big Glass Dome in Bikini Bottom",
                 complaintTypes: []
               })
             }
@@ -194,7 +194,15 @@ pactWith(
           userEvent.type(screen.getByTestId("letter-type-input"), "LETTER");
 
           userEvent.click(screen.getByTestId("requires-approval-checkbox"));
-          userEvent.click(screen.getByText("Primary Complainant"));
+          userEvent.click(screen.getByText("Other"));
+          userEvent.type(
+            screen.getByTestId("recipient-name-input"),
+            "Sandy Cheeks"
+          );
+          userEvent.type(
+            screen.getByTestId("recipient-address-input"),
+            "Big Glass Dome in Bikini Bottom"
+          );
           userEvent.click(screen.getByText("Save"));
 
           expect(await screen.findByText("Successfully edited letter type"))
