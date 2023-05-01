@@ -257,9 +257,7 @@ const LetterTypePage = props => {
               </div>
             </div>
 
-            {props.chooseDefaultRecipientFeature && (
-              <DefaultRecipient {...props} />
-            )}
+            <DefaultRecipient {...props} />
 
             <div
               style={{

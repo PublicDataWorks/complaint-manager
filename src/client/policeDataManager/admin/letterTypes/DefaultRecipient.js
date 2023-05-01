@@ -32,12 +32,14 @@ const DefaultRecipient = props => {
             control={<Radio color="primary" />}
             label={"Primary Complainant"}
           />
-          <FormControlLabel
-            style={{ marginRight: "48px", whiteSpace: "nowrap" }}
-            value={"{eachComplainant}"}
-            control={<Radio color="primary" />}
-            label={"Each Complainant"}
-          />
+          {props.chooseDefaultRecipientFeature && (
+            <FormControlLabel
+              style={{ marginRight: "48px", whiteSpace: "nowrap" }}
+              value={"{eachComplainant}"}
+              control={<Radio color="primary" />}
+              label={"Each Complainant"}
+            />
+          )}
           <FormControlLabel
             style={{ marginRight: "48px" }}
             value={"Other"}
