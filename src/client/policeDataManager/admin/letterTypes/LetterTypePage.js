@@ -208,7 +208,6 @@ const LetterTypePage = props => {
               <div
                 className={props.classes.inputColumn}
                 style={{
-                  flexGrow: 4,
                   minWidth: "400px"
                 }}
               >
