@@ -13,7 +13,6 @@ const DefaultRecipient = props => {
       style={{
         width: "100%",
         margin: "20px, 0px"
-        // display: "flex"
       }}
     >
       <Typography style={{ marginTop: "15px" }} variant="subtitle2">
