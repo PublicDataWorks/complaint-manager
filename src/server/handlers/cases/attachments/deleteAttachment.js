@@ -1,10 +1,10 @@
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
+import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 
 const asyncMiddleware = require("../../asyncMiddleware");
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const models = require("../../../policeDataManager/models/index");
-const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const {
   AUDIT_SUBJECT,
   MANAGER_TYPE
@@ -18,7 +18,7 @@ const deleteAttachment = asyncMiddleware(async (request, response) => {
       Key: `${request.params.caseId}/${request.query.fileName}`
     });
 
-    await deleteRequest.promise();
+    await deleteRequest;
 
     await models.attachment.destroy({
       where: {

@@ -26,7 +26,10 @@ Busboy.mockImplementation(() => {
   };
 });
 
-jest.mock("../../createConfiguredS3Instance");
+const mockS3 = {
+  upload: jest.fn()
+};
+jest.mock("../../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 describe("uploadSignature", () => {
   let request, response, next;
@@ -50,15 +53,11 @@ describe("uploadSignature", () => {
 
   describe("Upload Fails", () => {
     beforeEach(() => {
-      createConfiguredS3Instance.mockImplementation(() => {
+      mockS3.upload.mockImplementation(() => {
         return {
-          upload: jest.fn(() => {
-            return {
-              promise: () => ({
-                then: (success, failure) => failure("EPIC FAIL!")
-              })
-            };
-          })
+          promise: {
+            then: (success, failure) => failure("EPIC FAIL!")
+          }
         };
       });
     });
@@ -73,16 +72,10 @@ describe("uploadSignature", () => {
   describe("Upload Succeeds", () => {
     let uploadAbort = jest.fn();
     beforeEach(() => {
-      createConfiguredS3Instance.mockImplementation(() => {
+      mockS3.upload.mockImplementation(() => {
         return {
-          upload: jest.fn(() => {
-            return {
-              promise: () => {
-                return Promise.resolve("Successful S3 upload");
-              },
-              abort: uploadAbort
-            };
-          })
+          promise: Promise.resolve("Successful S3 upload"),
+          abort: uploadAbort
         };
       });
     });

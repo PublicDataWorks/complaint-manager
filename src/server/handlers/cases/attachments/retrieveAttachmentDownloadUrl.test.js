@@ -15,11 +15,14 @@ import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import { auditFileAction } from "../../audits/auditFileAction";
 
 const httpMocks = require("node-mocks-http");
-const AWS = require("aws-sdk");
 const models = require("../../../policeDataManager/models/index");
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 
-jest.mock("aws-sdk");
+const SIGNED_TEST_URL = "SIGNED_TEST_URL";
+const mockS3 = {
+  getSignedUrl: jest.fn()
+};
+jest.mock("../../../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 jest.mock("../../audits/auditFileAction");
 
@@ -34,10 +37,7 @@ describe("retrieveAttachmentDownloadUrl", function () {
     await models.sequelize.close();
   });
 
-  const SIGNED_TEST_URL = "SIGNED_TEST_URL";
   let existingCase;
-  let s3;
-  let getSignedUrl;
 
   beforeEach(async () => {
     await cleanupDatabase();
@@ -48,17 +48,7 @@ describe("retrieveAttachmentDownloadUrl", function () {
 
     auditFileAction.mockClear();
     existingCase = await createTestCaseWithoutCivilian();
-    getSignedUrl = jest.fn().mockImplementation(() => {
-      return SIGNED_TEST_URL;
-    });
-
-    s3 = AWS.S3.mockImplementation(() => ({
-      getSignedUrl: getSignedUrl,
-      config: {
-        loadFromPath: jest.fn(),
-        update: jest.fn()
-      }
-    }));
+    mockS3.getSignedUrl.mockImplementation(async () => SIGNED_TEST_URL);
   });
 
   async function requestWithExistingCaseAttachment() {
@@ -202,22 +192,24 @@ describe("retrieveAttachmentDownloadUrl", function () {
       );
     });
 
-    test("should not audit data access when generation of download url fails", async () => {
-      AWS.S3.mockImplementation(() => ({
-        getSignedUrl: () => {
-          throw new Error();
-        }
-      }));
+    test("should throw error when generation of download url fails", async () => {
+      const err = new Error(
+        "specifically an url generation error... not a random error"
+      );
+      const next = jest.fn();
+      mockS3.getSignedUrl.mockImplementation(() => {
+        throw err;
+      });
 
       const { request } = await requestWithExistingCaseAttachment();
 
       await retrieveAttachmentDownloadUrl(
         request,
         httpMocks.createResponse(),
-        jest.fn()
+        next
       );
 
-      expect(auditFileAction).not.toHaveBeenCalled();
+      expect(next).toHaveBeenCalledWith(err);
     });
   });
 
@@ -227,11 +219,12 @@ describe("retrieveAttachmentDownloadUrl", function () {
 
       const response = httpMocks.createResponse();
       response.write = jest.fn();
+      const next = jest.fn();
 
-      await retrieveAttachmentDownloadUrl(request, response, jest.fn());
+      await retrieveAttachmentDownloadUrl(request, response, next);
 
       expect(response.write).toHaveBeenCalledWith(SIGNED_TEST_URL);
-      expect(getSignedUrl).toHaveBeenCalledWith(
+      expect(mockS3.getSignedUrl).toHaveBeenCalledWith(
         S3_GET_OBJECT,
         expect.objectContaining({
           Bucket: config[process.env.NODE_ENV].s3Bucket,
@@ -249,7 +242,7 @@ describe("retrieveAttachmentDownloadUrl", function () {
 
       await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
-      expect(getSignedUrl).toHaveBeenCalledWith(
+      expect(mockS3.getSignedUrl).toHaveBeenCalledWith(
         S3_GET_OBJECT,
         expect.objectContaining({
           Bucket: config[process.env.NODE_ENV].complainantLettersBucket,
@@ -265,7 +258,7 @@ describe("retrieveAttachmentDownloadUrl", function () {
 
       await retrieveAttachmentDownloadUrl(request, response, jest.fn());
 
-      expect(getSignedUrl).toHaveBeenCalledWith(
+      expect(mockS3.getSignedUrl).toHaveBeenCalledWith(
         S3_GET_OBJECT,
         expect.objectContaining({
           Bucket: config[process.env.NODE_ENV].referralLettersBucket,

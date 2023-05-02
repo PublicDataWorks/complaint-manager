@@ -7,14 +7,16 @@ import fs from "fs";
 import path from "path";
 import createSeedInmateDataFromS3 from "./createSeedInmateDataFromS3";
 import Inmate from "../../sharedTestHelpers/Inmate";
-
-const AWS = require("aws-sdk");
+import createConfiguredS3Instance from "../createConfiguredS3Instance";
 
 const testRosterCsvPath = path.join(__dirname, "testRoster.csv");
 
-jest.mock("aws-sdk", () => ({
-  S3: jest.fn()
-}));
+const mockS3 = {
+  getObject: jest.fn(async () => ({
+    Body: fs.createReadStream(testRosterCsvPath)
+  }))
+};
+jest.mock("../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 describe("updating inmates table in database using csv file in S3", () => {
   jest.setTimeout(100000);
@@ -78,16 +80,6 @@ describe("updating inmates table in database using csv file in S3", () => {
   afterAll(async () => {
     await models.sequelize.close();
   });
-
-  AWS.S3.mockImplementation(() => ({
-    getObject: () => ({
-      createReadStream: () => fs.createReadStream(testRosterCsvPath)
-    }),
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    }
-  }));
 
   test(
     "handling update/insert on new data & not update on unchanged data",

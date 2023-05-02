@@ -1,7 +1,6 @@
 import fs from "fs";
 import http from "http";
 import https from "https";
-const AWS = require("aws-sdk");
 
 import {
   handleSigterm,

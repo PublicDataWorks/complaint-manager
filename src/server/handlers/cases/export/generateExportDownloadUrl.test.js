@@ -8,13 +8,7 @@ import {
 
 const { AUDIT_ACTION } = require("../../../../sharedUtilities/constants");
 
-const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
-
 jest.mock("../../../createConfiguredS3Instance");
-
-createConfiguredS3Instance.mockImplementation(() => ({
-  getSignedUrl: jest.fn(() => "authenticated file url")
-}));
 
 const user = "someUser";
 const jobName = JOB_OPERATION.AUDIT_LOG_EXPORT.name;
@@ -164,6 +158,6 @@ describe("generate export download url", () => {
       jobName
     );
 
-    expect(authenticatedUrl).toEqual("authenticated file url");
+    expect(authenticatedUrl).toEqual("url");
   });
 });

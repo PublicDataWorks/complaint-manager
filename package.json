@@ -58,6 +58,9 @@
     "resetMocks": false
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.321.1",
+    "@aws-sdk/client-secrets-manager": "3.321.1",
+    "@aws-sdk/s3-request-presigner": "^3.321.1",
     "@elastic/elasticsearch": "^7.10.0",
     "@hapi/hoek": "10.0.0",
     "@material-ui/core": "4.12.4",
@@ -71,7 +74,6 @@
     "auth0": "3.1.1",
     "auth0-js": "9.20.1",
     "autosuggest-highlight": "~3.1.1",
-    "aws-sdk": "2.1353.0",
     "axios": "0.27.2",
     "body-parser": "~1.20.1",
     "boom": "~7.3.0",

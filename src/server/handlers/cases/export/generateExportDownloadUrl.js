@@ -1,14 +1,13 @@
 import formatDate from "../../../../sharedUtilities/formatDate";
 import _ from "lodash";
+import createConfiguredS3Instance from "../../../createConfiguredS3Instance";
 
-const createConfiguredS3Instance = require("../../../createConfiguredS3Instance");
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
     process.env.NODE_ENV
   ];
 
 const {
-  AUDIT_TYPE,
   AUDIT_ACTION,
   S3_GET_OBJECT,
   S3_URL_EXPIRATION
@@ -73,7 +72,7 @@ const generateExportDownloadUrl = async (
       transaction
     });
 
-    return s3.getSignedUrl(S3_GET_OBJECT, {
+    return await s3.getSignedUrl(S3_GET_OBJECT, {
       Bucket: config.exportsBucket,
       Key: `${fileName}`,
       Expires: S3_URL_EXPIRATION

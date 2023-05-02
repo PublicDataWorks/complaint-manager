@@ -27,14 +27,12 @@ const updateSeedOfficerDataFromS3 = async (
       trim: true
     });
 
-    const stream = s3
-      .getObject({
-        Bucket: officerBucketName,
-        Key: officerFileName
-      })
-      .createReadStream()
-      .pipe(parser)
-      .on("data", onData);
+    const object = await s3.getObject({
+      Bucket: officerBucketName,
+      Key: officerFileName
+    });
+
+    const stream = object.Body.pipe(parser).on("data", onData);
 
     await new Promise((resolve, reject) => {
       stream.on("end", () => {

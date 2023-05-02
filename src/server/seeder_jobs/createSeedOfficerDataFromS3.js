@@ -28,22 +28,20 @@ const createSeedOfficerDataFromS3 = async (
       trim: true
     });
 
-    const stream = s3
-      .getObject({
-        Bucket: officerBucketName,
-        Key: officerFileName
-      })
-      .createReadStream()
-      .pipe(parser)
-      .on("data", seedDataRow => {
-        const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
-        promises.push(promise);
-        if (counter++ >= 500) {
-          counter = 0;
-          stream.pause();
-          setTimeout(() => stream.resume(), 1000);
-        }
-      });
+    const object = await s3.getObject({
+      Bucket: officerBucketName,
+      Key: officerFileName
+    });
+
+    const stream = object.Body.pipe(parser).on("data", seedDataRow => {
+      const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
+      promises.push(promise);
+      if (counter++ >= 500) {
+        counter = 0;
+        stream.pause();
+        setTimeout(() => stream.resume(), 1000);
+      }
+    });
 
     await new Promise((resolve, reject) => {
       stream.on("end", () => {

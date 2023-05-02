@@ -20,14 +20,12 @@ const uploadFileToS3 = (
   fileType,
   s3 = createConfiguredS3Instance()
 ) => {
-  return s3
-    .upload({
-      Bucket: config.exportsBucket,
-      Key: fileName(jobId, exportFileName, fileType),
-      Body: csvOutput,
-      ServerSideEncryption: "AES256"
-    })
-    .promise();
+  return s3.putObject({
+    Bucket: config.exportsBucket,
+    Key: fileName(jobId, exportFileName, fileType),
+    Body: csvOutput,
+    ServerSideEncryption: "AES256"
+  });
 };
 
 module.exports = uploadFileToS3;

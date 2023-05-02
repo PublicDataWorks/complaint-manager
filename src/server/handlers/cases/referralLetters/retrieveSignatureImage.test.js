@@ -6,18 +6,7 @@ import {
 import models from "../../../policeDataManager/models";
 import Signer from "../../../../sharedTestHelpers/signer";
 
-jest.mock("../../../createConfiguredS3Instance", () =>
-  jest.fn(() => ({
-    getObject: jest.fn((opts, callback) =>
-      callback(undefined, {
-        ContentType: "image/bytes",
-        Body: {
-          toString: () => "bytesbytesbytes"
-        }
-      })
-    )
-  }))
-);
+jest.mock("../../../createConfiguredS3Instance");
 
 const BLANK_LINE = "<p><br></p>";
 

@@ -8,13 +8,14 @@ import path from "path";
 import updateSeedOfficerDataFromS3 from "./updateSeedOfficerDataFromS3";
 import loadCsv from "./loadCsv";
 
-const AWS = require("aws-sdk");
-
 const testOfficerCsvPath = path.join(__dirname, "testOfficers2.csv");
 
-jest.mock("aws-sdk", () => ({
-  S3: jest.fn()
-}));
+const mockS3 = {
+  getObject: jest.fn(async () => ({
+    Body: fs.createReadStream(testOfficerCsvPath)
+  }))
+};
+jest.mock("../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 describe("updating database using csv file in S3", () => {
   beforeEach(async () => {
@@ -32,16 +33,6 @@ describe("updating database using csv file in S3", () => {
   afterAll(async () => {
     await models.sequelize.close();
   });
-
-  AWS.S3.mockImplementation(() => ({
-    getObject: () => ({
-      createReadStream: () => fs.createReadStream(testOfficerCsvPath)
-    }),
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    }
-  }));
 
   test(
     "handling update/insert on new data & not update on unchanged data",

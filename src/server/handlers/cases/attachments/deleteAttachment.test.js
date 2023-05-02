@@ -13,9 +13,11 @@ import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 
 const httpMocks = require("node-mocks-http");
-const AWS = require("aws-sdk");
 
-jest.mock("aws-sdk");
+const mockS3 = {
+  deleteObject: jest.fn(() => Promise.resolve())
+};
+jest.mock("../../../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -35,16 +37,6 @@ describe("deleteAttachment", function () {
   afterAll(async () => {
     await models.sequelize.close();
   });
-
-  AWS.S3.mockImplementation(() => ({
-    deleteObject: () => ({
-      promise: jest.fn()
-    }),
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    }
-  }));
 
   describe("auditing", () => {
     test("should audit data access when attachment deleted", async () => {

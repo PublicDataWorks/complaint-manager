@@ -1,29 +1,13 @@
 import { retrieveLetterImage } from "./retrieveLetterImage";
 
-jest.mock("../../../createConfiguredS3Instance", () =>
-  jest.fn(() => ({
-    getObject: jest.fn((opts, callback) =>
-      callback(undefined, {
-        ContentType: "image/bytes",
-        Body: {
-          toString: () => "bytesbytesbytes"
-        }
-      })
-    )
-  }))
-);
+jest.mock("../../../createConfiguredS3Instance");
 
 describe("generateLetterImage", function () {
-
-
   const blankLine = "<p><br></p>";
 
   test("returns an blank line when no image name is provided", async () => {
-    expect(await retrieveLetterImage()).toEqual(
-      blankLine
-    );
+    expect(await retrieveLetterImage()).toEqual(blankLine);
   });
-
 
   test("returns icon image with correct styling when icon image name and style is provided", async () => {
     const icon = await retrieveLetterImage("icon.ico", "max-width: 42px");
@@ -42,7 +26,10 @@ describe("generateLetterImage", function () {
   });
 
   test("returns header image with correct styling when header image name and style is provided", async () => {
-    const header = await retrieveLetterImage("header_text.png", "max-height: 55px");
+    const header = await retrieveLetterImage(
+      "header_text.png",
+      "max-height: 55px"
+    );
 
     expect(header).toEqual(
       `<img style="max-height: 55px" src="data:image/bytes;base64,bytesbytesbytes" />`
@@ -54,5 +41,4 @@ describe("generateLetterImage", function () {
 
     expect(image).toEqual(`<p><br></p>`);
   });
-
 });

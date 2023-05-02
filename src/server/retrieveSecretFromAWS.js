@@ -13,8 +13,8 @@ export const retrieveSecretFromAWS = async secretID => {
   const response = secretsManager.getSecretValue({
     SecretId: secretID
   });
-  const result = response.promise();
-  return await result
+
+  return await response
     .then(data => {
       if ("SecretString" in data) {
         secret = JSON.parse(data.SecretString);

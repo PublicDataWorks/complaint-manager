@@ -27,8 +27,7 @@ import {
 import moment from "moment";
 const SENDER_NAME = "Bobby!";
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+jest.mock("../../../createConfiguredS3Instance");
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
@@ -154,21 +153,6 @@ describe("generateLetterPdfBuffer", () => {
 
     timeOfDownload = new Date("2018-07-01 12:00:22 CDT");
     timekeeper.freeze(timeOfDownload);
-
-    let s3 = AWS.S3.mockImplementation(() => ({
-      config: {
-        loadFromPath: jest.fn(),
-        update: jest.fn()
-      },
-      getObject: jest.fn((opts, callback) =>
-        callback(undefined, {
-          ContentType: "image/bytes",
-          Body: {
-            toString: () => "bytesbytesbytes"
-          }
-        })
-      )
-    }));
 
     const officerAttributes = new Officer.Builder()
       .defaultOfficer()

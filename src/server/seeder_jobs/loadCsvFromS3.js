@@ -36,11 +36,9 @@ const loadCsvFromS3 = async (fileName, model) => {
     });
 
     const entries = [];
+    const object = await s3.getObject({ Bucket, Key });
 
-    const stream = s3
-      .getObject({ Bucket, Key })
-      .createReadStream()
-      .pipe(csvParser)
+    const stream = object.Body.pipe(csvParser)
       .on("data", row => entries.push(row))
       .on("error", error => {
         winston.error(

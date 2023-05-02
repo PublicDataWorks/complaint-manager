@@ -13,7 +13,6 @@ import {
   CIVILIAN_INITIATED,
   NICKNAME
 } from "../sharedUtilities/constants";
-import AWS from "aws-sdk";
 import {
   buildTokenWithPermissions,
   cleanupDatabase,
@@ -45,9 +44,11 @@ jest.mock("auth0", () => ({
   AuthenticationClient: jest.fn()
 }));
 
-jest.mock("aws-sdk", () => ({
-  S3: jest.fn()
-}));
+const mockS3 = {
+  deleteObject: jest.fn(),
+  upload: jest.fn()
+};
+jest.mock("./createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 jest.mock("./handlers/audits/auditAuthentication", () =>
   jest.fn((request, response, next) => {
@@ -874,18 +875,10 @@ describe("server", () => {
       test("should return updated case after adding attachment", async () => {
         let mockKey = `${defaultCase.id}/mock_filename`;
 
-        AWS.S3.mockImplementation(() => {
-          return {
-            upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockKey }),
-              abort: () => ({})
-            }),
-            config: {
-              loadFromPath: jest.fn(),
-              update: jest.fn()
-            }
-          };
-        });
+        mockS3.upload.mockImplementation((params, options) => ({
+          promise: Promise.resolve({ Key: mockKey }),
+          abort: () => ({})
+        }));
 
         const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
@@ -916,18 +909,10 @@ describe("server", () => {
         await defaultCase.destroy({ auditUser: "test" });
         let mockKey = `${defaultCase.id}/mock_filename`;
 
-        AWS.S3.mockImplementation(() => {
-          return {
-            upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockKey }),
-              abort: () => ({})
-            }),
-            config: {
-              loadFromPath: jest.fn(),
-              update: jest.fn()
-            }
-          };
-        });
+        mockS3.upload.mockImplementation((params, options) => ({
+          promise: () => Promise.resolve({ Key: mockKey }),
+          abort: () => ({})
+        }));
 
         const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
@@ -942,18 +927,10 @@ describe("server", () => {
       test("should return 409 when file is a duplicate", async () => {
         let mockFileName = "test_file.pdf";
 
-        AWS.S3.mockImplementation(() => {
-          return {
-            upload: (params, options) => ({
-              promise: () => Promise.resolve({ Key: mockFileName }),
-              abort: () => ({})
-            }),
-            config: {
-              loadFromPath: jest.fn(),
-              update: jest.fn()
-            }
-          };
-        });
+        mockS3.upload.mockImplementation((params, options) => ({
+          promise: () => Promise.resolve({ Key: mockKey }),
+          abort: () => ({})
+        }));
 
         const responsePromise = request(app)
           .post(`/api/cases/${defaultCase.id}/attachments`)
@@ -980,18 +957,6 @@ describe("server", () => {
         caseWithSameFilename = await models.cases.create(caseWithSameFilename, {
           include: [{ model: models.attachment, auditUser: "someone" }],
           auditUser: "someone"
-        });
-
-        AWS.S3.mockImplementation(() => {
-          return {
-            deleteObject: (_params, options) => ({
-              promise: () => Promise.resolve({})
-            }),
-            config: {
-              loadFromPath: jest.fn(),
-              update: jest.fn()
-            }
-          };
         });
 
         const responsePromise = request(app)

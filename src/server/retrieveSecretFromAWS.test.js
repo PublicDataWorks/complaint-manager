@@ -5,7 +5,6 @@ import Boom from "boom";
 
 const createConfiguredSecretsManagerInstance = require("./createConfiguredSecretsManagerInstance");
 
-jest.mock("aws-sdk");
 jest.mock("./createConfiguredSecretsManagerInstance");
 
 describe("retrieveSecretFromAWS tests", () => {
@@ -16,9 +15,9 @@ describe("retrieveSecretFromAWS tests", () => {
     mockSecretId = jest.fn();
     createConfiguredSecretsManagerInstance.mockReset();
     createConfiguredSecretsManagerInstance.mockImplementation(() => ({
-      getSecretValue: jest.fn(() => ({
-        promise: () => Promise.resolve({ SecretString: promiseSecretString })
-      }))
+      getSecretValue: jest.fn(() =>
+        Promise.resolve({ SecretString: promiseSecretString })
+      )
     }));
   });
 
@@ -40,10 +39,9 @@ describe("retrieveSecretFromAWS tests", () => {
       suppressWinstonLogs(async () => {
         createConfiguredSecretsManagerInstance.mockReset();
         createConfiguredSecretsManagerInstance.mockImplementation(() => ({
-          getSecretValue: jest.fn(() => ({
-            promise: () =>
-              Promise.reject({ code: "InternalServiceErrorException" })
-          }))
+          getSecretValue: jest.fn(() =>
+            Promise.reject({ code: "InternalServiceErrorException" })
+          )
         }));
 
         await expect(retrieveSecretFromAWS(mockSecretId)).rejects.toEqual(

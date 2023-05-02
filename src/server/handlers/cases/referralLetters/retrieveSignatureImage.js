@@ -28,7 +28,7 @@ export const retrieveSignatureImage = async (
     if (includeHtmlTag) {
       return `<img style="max-height: 55px" src="data:${
         data.ContentType
-      };base64,${data.Body.toString("base64")}" />`;
+      };base64,${await data.Body.transformToString("base64")}" />`;
     } else {
       return data;
     }

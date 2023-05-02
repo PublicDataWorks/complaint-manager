@@ -18,9 +18,15 @@ import {
   seedLetterSettings,
   seedPersonTypes
 } from "../../../../testHelpers/testSeeding";
+import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+const mockS3 = {
+  getObject: jest.fn()
+};
+
+jest.mock("../../../../createConfiguredS3Instance", () =>
+  jest.fn(() => mockS3)
+);
 
 describe("Compare Generated Referral Letter to Baseline", () => {
   const actualDateNow = Date.now.bind(global.Date);
@@ -107,24 +113,18 @@ describe("Compare Generated Referral Letter to Baseline", () => {
       { auditUser: "user" }
     );
 
-    let s3 = AWS.S3.mockImplementation(() => ({
-      config: {
-        loadFromPath: jest.fn(),
-        update: jest.fn()
-      },
-      getObject: jest.fn((opts, callback) =>
-        callback(undefined, {
-          ContentType: "image/png",
-          Body: {
-            toString: () =>
-              fs.readFileSync(
-                process.cwd() + `/localstack-seed-files/${opts.Key}`,
-                "base64"
-              )
-          }
-        })
-      )
-    }));
+    mockS3.getObject.mockImplementation((opts, callback) =>
+      callback(undefined, {
+        ContentType: "image/png",
+        Body: {
+          transformToString: () =>
+            fs.readFileSync(
+              process.cwd() + `/localstack-seed-files/${opts.Key}`,
+              "base64"
+            )
+        }
+      })
+    );
   });
 
   test("src/testPDFs/referralLetter.pdf should match baseline (instance-files/tests/basePDFs/referralLetter.pdf); pngs saved in src/testPDFs", async () => {

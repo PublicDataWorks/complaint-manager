@@ -36,10 +36,10 @@ const getSignature = asyncMiddleware(async (request, response, next) => {
 
   response.writeHead(200, {
     "Content-Type": image.ContentType,
-    "Content-Length": image.Body.length
+    "Content-Length": image.ContentLength
   });
 
-  response.end(image.Body.toString("base64"));
+  response.end(await image.Body.transformToString("base64"));
 });
 
 export default getSignature;

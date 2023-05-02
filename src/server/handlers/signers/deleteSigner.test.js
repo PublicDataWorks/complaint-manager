@@ -11,8 +11,7 @@ import Signer from "../../../sharedTestHelpers/signer";
 import deleteSigner from "./deleteSigner";
 
 const httpMocks = require("node-mocks-http");
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+jest.mock("../../createConfiguredS3Instance");
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -26,43 +25,6 @@ jest.mock(
       }
     ])
 );
-
-AWS.S3.mockImplementation(() => ({
-  config: {
-    loadFromPath: jest.fn(),
-    update: jest.fn()
-  },
-  deleteObject: jest.fn(),
-  listObjectsV2: (params, callback) =>
-    callback(undefined, {
-      Contents: [
-        {
-          ETag: '"987asd6f9iuashdlkjhdf"',
-          Key: "signatures/john_a_simms.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6f9iuas23lkjhdf"',
-          Key: "signatures/nina_ambroise.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6jj3uashdlkjhdf"',
-          Key: "signatures/bobby.gif",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        }
-      ],
-      IsTruncated: true,
-      KeyCount: 3,
-      MaxKeys: 3
-    })
-}));
 
 describe("deleteSigner", () => {
   afterEach(async () => {

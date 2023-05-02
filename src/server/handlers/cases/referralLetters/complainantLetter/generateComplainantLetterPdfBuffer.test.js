@@ -20,8 +20,7 @@ import {
 let existingCase, timeOfDownload, complainant, statuses;
 
 const SENDER_NAME = "Bobby!";
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+jest.mock("../../../../createConfiguredS3Instance");
 
 jest.mock("html-pdf", () => ({
   create: (html, pdfOptions) => ({
@@ -63,21 +62,6 @@ beforeEach(async () => {
   timekeeper.freeze(timeOfDownload);
 
   await seedLetterSettings();
-
-  let s3 = AWS.S3.mockImplementation(() => ({
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    },
-    getObject: jest.fn((opts, callback) =>
-      callback(undefined, {
-        ContentType: "image/bytes",
-        Body: {
-          toString: () => "bytesbytesbytes"
-        }
-      })
-    )
-  }));
 
   complainant = new Civilian.Builder()
     .defaultCivilian()

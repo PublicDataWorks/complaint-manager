@@ -3,12 +3,16 @@ import createConfiguredS3Instance from "../../../server/createConfiguredS3Instan
 const timeKeeper = require("timekeeper");
 const uploadFileToS3 = require("./uploadFileToS3");
 
-jest.mock("../../../server/createConfiguredS3Instance");
+const mockS3 = {
+  putObject: jest.fn()
+};
+jest.mock("../../../server/createConfiguredS3Instance", () =>
+  jest.fn(() => mockS3)
+);
 
 describe("Upload files to S3", () => {
   test("upload text as a file to s3 bucket", () => {
-    const s3 = { upload: jest.fn() };
-    s3.upload.mockReturnValue({ promise: jest.fn() });
+    mockS3.putObject.mockReturnValue({ promise: jest.fn() });
 
     const jobId = "123";
     const csvOutput = "text content to be uploaded";
@@ -18,8 +22,14 @@ describe("Upload files to S3", () => {
     const date = new Date("Jan 01 2018 00:00:00 GMT-0600");
     timeKeeper.freeze(date);
 
-    uploadFileToS3(jobId, csvOutput, exportFileName, fileType, s3);
-    expect(s3.upload).toHaveBeenCalledWith({
+    uploadFileToS3(
+      jobId,
+      csvOutput,
+      exportFileName,
+      fileType,
+      createConfiguredS3Instance()
+    );
+    expect(mockS3.putObject).toHaveBeenCalledWith({
       Bucket: "noipm-exports-test",
       Key: `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_at_2018-01-01_00.00.00.CST.csv`,
       Body: csvOutput,
@@ -30,9 +40,7 @@ describe("Upload files to S3", () => {
   });
 
   test("upload text as a file to s3 bucket testing default for s3", () => {
-    const s3 = { upload: jest.fn() };
-    s3.upload.mockReturnValue({ promise: jest.fn() });
-    createConfiguredS3Instance.mockReturnValue(s3);
+    mockS3.putObject.mockReturnValue({ promise: jest.fn() });
 
     const jobId = "123";
     const csvOutput = "text content to be uploaded";
@@ -43,7 +51,7 @@ describe("Upload files to S3", () => {
     timeKeeper.freeze(date);
 
     uploadFileToS3(jobId, csvOutput, exportFileName, fileType);
-    expect(s3.upload).toHaveBeenCalledWith({
+    expect(mockS3.putObject).toHaveBeenCalledWith({
       Bucket: "noipm-exports-test",
       Key: `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_at_2018-01-01_00.00.00.CST.csv`,
       Body: csvOutput,

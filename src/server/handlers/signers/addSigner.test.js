@@ -9,8 +9,7 @@ import models from "../../policeDataManager/models";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 import Signer from "../../../sharedTestHelpers/signer";
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+jest.mock("../../createConfiguredS3Instance");
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -24,42 +23,6 @@ jest.mock(
       }
     ])
 );
-
-AWS.S3.mockImplementation(() => ({
-  config: {
-    loadFromPath: jest.fn(),
-    update: jest.fn()
-  },
-  listObjectsV2: (params, callback) =>
-    callback(undefined, {
-      Contents: [
-        {
-          ETag: '"987asd6f9iuashdlkjhdf"',
-          Key: "signatures/john_a_simms.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6f9iuas23lkjhdf"',
-          Key: "signatures/nina_ambroise.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6jj3uashdlkjhdf"',
-          Key: "signatures/bobby.gif",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        }
-      ],
-      IsTruncated: true,
-      KeyCount: 3,
-      MaxKeys: 3
-    })
-}));
 
 describe("addSigner", () => {
   afterEach(async () => {
@@ -88,7 +51,7 @@ describe("addSigner", () => {
         title: "Chiefest Bobby",
         nickname: "bob@bobby.bob",
         phone: "3322392485",
-        signatureFile: "bobby.gif"
+        signatureFile: "nina_ambroise.png"
       });
 
     await expectResponse(
@@ -145,7 +108,7 @@ describe("addSigner", () => {
         title: "Chiefest Bobby",
         nickname: "bob@bobby.bob",
         phone: "332-239-2485",
-        signatureFile: "bobby.gif"
+        signatureFile: "nina_ambroise.png"
       });
 
     await expectResponse(responsePromise, 400);

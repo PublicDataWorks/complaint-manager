@@ -4,13 +4,12 @@ import { cleanupDatabase } from "../testHelpers/requestTestHelpers";
 import path from "path";
 import fs from "fs";
 
-const AWS = require("aws-sdk");
-
 let testAllegationsPath = path.join(__dirname, "testAllegations.csv");
 
-jest.mock("aws-sdk", () => ({
-  S3: jest.fn()
-}));
+const mockS3 = {
+  getObject: jest.fn(() => ({ Body: fs.createReadStream(testAllegationsPath) }))
+};
+jest.mock("../createConfiguredS3Instance", () => jest.fn(() => mockS3));
 
 describe("loadCsvFromS3", () => {
   afterEach(async () => {
@@ -20,16 +19,6 @@ describe("loadCsvFromS3", () => {
   afterAll(async () => {
     await models.sequelize.close();
   });
-
-  AWS.S3.mockImplementation(() => ({
-    getObject: () => ({
-      createReadStream: () => fs.createReadStream(testAllegationsPath)
-    }),
-    config: {
-      loadFromPath: jest.fn(),
-      update: jest.fn()
-    }
-  }));
 
   test("properly loads allegation data from S3", async () => {
     await loadCsvFromS3("testAllegations.csv", models.allegation);

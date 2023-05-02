@@ -25,22 +25,20 @@ const createSeedInmateDataFromS3 = async (
       trim: true
     });
 
-    const stream = s3
-      .getObject({
-        Bucket: bucketName,
-        Key: rosterFileName
-      })
-      .createReadStream()
-      .pipe(parser)
-      .on("data", seedDataRow => {
-        const promise = determineWhetherToCreateOrUpdateInmate(seedDataRow);
-        promises.push(promise);
-        if (counter++ >= 500) {
-          counter = 0;
-          stream.pause();
-          setTimeout(() => stream.resume(), 1000);
-        }
-      });
+    const object = await s3.getObject({
+      Bucket: bucketName,
+      Key: rosterFileName
+    });
+
+    const stream = object.Body.pipe(parser).on("data", seedDataRow => {
+      const promise = determineWhetherToCreateOrUpdateInmate(seedDataRow);
+      promises.push(promise);
+      if (counter++ >= 500) {
+        counter = 0;
+        stream.pause();
+        setTimeout(() => stream.resume(), 1000);
+      }
+    });
 
     await new Promise((resolve, reject) => {
       stream.on("end", () => {

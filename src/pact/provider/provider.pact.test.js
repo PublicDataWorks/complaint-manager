@@ -64,61 +64,7 @@ jest.mock(
     ])
 );
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
-
-AWS.S3.mockImplementation(() => ({
-  config: {
-    loadFromPath: jest.fn(),
-    update: jest.fn()
-  },
-  getObject: jest.fn((opts, callback) =>
-    callback(undefined, {
-      ContentType: "image/png",
-      Body: fs
-        .readFileSync(
-          process.cwd() + `/localstack-seed-files/${opts.Key}`,
-          "base64"
-        )
-        .toString()
-    })
-  ),
-  deleteObject: jest.fn(),
-  upload: jest.fn(() => ({
-    promise: () => ({
-      then: success => success({})
-    })
-  })),
-  listObjectsV2: (params, callback) =>
-    callback(undefined, {
-      Contents: [
-        {
-          ETag: '"987asd6f9iuashdlkjhdf"',
-          Key: "signatures/john_a_simms.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6f9iuas23lkjhdf"',
-          Key: "signatures/nina_ambroise.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        },
-        {
-          ETag: '"987asd6jj3uashdlkjhdf"',
-          Key: "signatures/Candy-1318242020000.png",
-          LastModified: new Date(),
-          Size: 11,
-          StorageClass: "STANDARD"
-        }
-      ],
-      IsTruncated: true,
-      KeyCount: 3,
-      MaxKeys: 3
-    })
-}));
+jest.mock("../../server/createConfiguredS3Instance");
 
 const addRecommendedActions = async () => {
   await models.recommended_action.create(

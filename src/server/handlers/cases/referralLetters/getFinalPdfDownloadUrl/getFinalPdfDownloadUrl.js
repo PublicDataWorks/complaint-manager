@@ -70,7 +70,7 @@ const getSignedS3Url = async (existingCaseId, filename) => {
 
   const filenameWithCaseId = `${existingCaseId}/${filename}`;
 
-  return s3.getSignedUrl(S3_GET_OBJECT, {
+  return await s3.getSignedUrl(S3_GET_OBJECT, {
     Bucket: config[process.env.NODE_ENV].referralLettersBucket,
     Key: filenameWithCaseId,
     Expires: S3_URL_EXPIRATION

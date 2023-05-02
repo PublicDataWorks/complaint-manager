@@ -40,7 +40,7 @@ const uploadSignature = asyncMiddleware(async (request, response, next) => {
   const file = await fileReadPromise;
 
   const s3 = createConfiguredS3Instance();
-  managedUpload = s3.upload({
+  managedUpload = await s3.upload({
     Bucket: config[process.env.NODE_ENV].s3Bucket,
     Key: `signatures/${filename}`,
     Body: file,
@@ -52,8 +52,7 @@ const uploadSignature = asyncMiddleware(async (request, response, next) => {
   //The success function and error functions are passed as arguments to then().
   //This means that we can't use await.
   //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
-  const promise = managedUpload.promise();
-  await promise.then(
+  await managedUpload.promise.then(
     data => {
       response.status(200).send({ name: filename });
 

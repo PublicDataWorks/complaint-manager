@@ -53,19 +53,14 @@ const uploadAttachment = asyncMiddleware(async (request, response, next) => {
   } else if (await isDuplicateFileName(caseId, filename)) {
     response.status(409).send(DUPLICATE_FILE_NAME);
   } else {
-    managedUpload = s3.upload({
+    managedUpload = await s3.upload({
       Bucket: config[process.env.NODE_ENV].s3Bucket,
       Key: `${caseId}/${filename}`,
       Body: file,
       ServerSideEncryption: "AES256"
     });
 
-    //The AWS S3 JS SDK has a non-standard promise implementation.
-    //The success function and error functions are passed as arguments to then().
-    //This means that we can't use await.
-    //https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3/ManagedUpload.html
-    const promise = managedUpload.promise();
-    await promise.then(
+    await managedUpload.promise.then(
       async function (data) {
         const updatedCase = await models.sequelize.transaction(
           async transaction => {

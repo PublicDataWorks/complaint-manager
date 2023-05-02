@@ -9,8 +9,7 @@ import models from "../../policeDataManager/models";
 import Signer from "../../../sharedTestHelpers/signer";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
+jest.mock("../../createConfiguredS3Instance");
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -49,19 +48,6 @@ describe("getSignature", () => {
         auditUser: "user"
       }
     );
-
-    AWS.S3.mockImplementation(() => ({
-      config: {
-        loadFromPath: jest.fn(),
-        update: jest.fn()
-      },
-      getObject: jest.fn((opts, callback) =>
-        callback(undefined, {
-          ContentType: "image/png",
-          Body: Buffer.from("bytesbytesbytes", "base64")
-        })
-      )
-    }));
   });
 
   test("returns signature when authorized", async () => {

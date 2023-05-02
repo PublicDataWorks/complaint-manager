@@ -48,17 +48,6 @@ Busboy.mockImplementation(() => {
 });
 
 jest.mock("../../../createConfiguredS3Instance");
-createConfiguredS3Instance.mockImplementation(() => {
-  return {
-    upload: jest.fn(() => {
-      return {
-        promise: () => {
-          return Promise.resolve("Successful S3 upload");
-        }
-      };
-    })
-  };
-});
 
 describe("uploadAttachment", () => {
   let request, response, next, existingCase;

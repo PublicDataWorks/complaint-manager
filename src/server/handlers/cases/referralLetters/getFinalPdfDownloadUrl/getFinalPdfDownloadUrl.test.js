@@ -10,7 +10,6 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import getFinalPdfDownloadUrl from "./getFinalPdfDownloadUrl";
 import { cleanupDatabase } from "../../../../testHelpers/requestTestHelpers";
-import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 import Boom from "boom";
 import Civilian from "../../../../../sharedTestHelpers/civilian";
 import CaseOfficer from "../../../../../sharedTestHelpers/caseOfficer";
@@ -23,26 +22,21 @@ import { seedStandardCaseStatuses } from "../../../../testHelpers/testSeeding";
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
 const httpMocks = require("node-mocks-http");
 
-jest.mock("../../../../createConfiguredS3Instance");
+const mockS3 = {
+  getSignedUrl: jest.fn(() => Promise.resolve("url"))
+};
+jest.mock("../../../../createConfiguredS3Instance", () =>
+  jest.fn(() => mockS3)
+);
 
 jest.mock("../../../audits/auditFileAction");
 
 describe("getFinalPdfDownloadUrl", () => {
-  let request,
-    response,
-    next,
-    existingCase,
-    getSignedUrlMock,
-    referralLetter,
-    statuses;
+  let request, response, next, existingCase, referralLetter, statuses;
   const testUser = "Bob the Builder";
 
   beforeEach(async () => {
     await cleanupDatabase();
-    getSignedUrlMock = jest.fn(() => "url");
-    createConfiguredS3Instance.mockImplementation(() => ({
-      getSignedUrl: getSignedUrlMock
-    }));
 
     statuses = await seedStandardCaseStatuses();
 
@@ -143,16 +137,12 @@ describe("getFinalPdfDownloadUrl", () => {
       },
       { auditUser: "someone" }
     );
-    const getSignedUrlMock = jest.fn(() => "url");
-    createConfiguredS3Instance.mockImplementation(() => ({
-      getSignedUrl: getSignedUrlMock
-    }));
 
     await getFinalPdfDownloadUrl(request, response, next);
 
     const filenameWithCaseId = `${existingCase.id}/${referralLetter.finalPdfFilename}`;
 
-    expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
+    expect(mockS3.getSignedUrl).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
       Key: filenameWithCaseId,
       Expires: S3_URL_EXPIRATION
@@ -170,16 +160,12 @@ describe("getFinalPdfDownloadUrl", () => {
     );
 
     await existingCase.destroy({ auditUser: "someone" });
-    const getSignedUrlMock = jest.fn(() => "url");
-    createConfiguredS3Instance.mockImplementation(() => ({
-      getSignedUrl: getSignedUrlMock
-    }));
 
     await getFinalPdfDownloadUrl(request, response, next);
 
     const filenameWithCaseId = `${existingCase.id}/${referralLetter.finalPdfFilename}`;
 
-    expect(getSignedUrlMock).toHaveBeenCalledWith(S3_GET_OBJECT, {
+    expect(mockS3.getSignedUrl).toHaveBeenCalledWith(S3_GET_OBJECT, {
       Bucket: config[process.env.NODE_ENV].referralLettersBucket,
       Key: filenameWithCaseId,
       Expires: S3_URL_EXPIRATION

@@ -18,6 +18,7 @@ import {
   seedPersonTypes,
   seedStandardCaseStatuses
 } from "../../../../testHelpers/testSeeding";
+import createConfiguredS3Instance from "../../../../createConfiguredS3Instance";
 
 jest.mock("../sharedLetterUtilities/uploadLetterToS3", () => jest.fn());
 jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
@@ -27,32 +28,19 @@ jest.mock("../sharedLetterUtilities/generatePdfBuffer", () =>
 );
 jest.mock("../../../audits/auditFileAction");
 
-const AWS = require("aws-sdk");
-jest.mock("aws-sdk");
-
-AWS.S3.mockImplementation(() => ({
-  config: {
-    loadFromPath: jest.fn(),
-    update: jest.fn()
-  },
-  getObject: jest.fn((opts, callback) =>
-    callback(undefined, {
-      ContentType: "image/png",
-      Body: fs
-        .readFileSync(
-          process.cwd() + "/localstack-seed-files/signatures/nina_ambroise.png",
-          "base64"
-        )
-        .toString()
-    })
-  ),
-  deleteObject: jest.fn(),
-  upload: jest.fn(() => ({
-    promise: () => ({
-      then: success => success({})
-    })
-  }))
-}));
+jest.mock("../../../../createConfiguredS3Instance");
+let s3 = createConfiguredS3Instance();
+s3.getObject.mockImplementation((opts, callback) =>
+  callback(undefined, {
+    ContentType: "image/png",
+    Body: fs
+      .readFileSync(
+        process.cwd() + "/localstack-seed-files/signatures/nina_ambroise.png",
+        "base64"
+      )
+      .toString()
+  })
+);
 
 describe("generateComplainantLetterAndUploadToS3", () => {
   let complainant, caseAttributes, existingCase, statuses, personTypes;
