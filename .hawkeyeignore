@@ -17,7 +17,7 @@ files-contents-scripts/checkEmptySchema.js-1
 files-contents-docker-compose.yml-1
 files-contents-scripts/init-localstack.sh-13
 files-contents-scripts/init-localstack.sh-14
-files-contents-scripts/search/create-configured-client.js-1
+files-contents-src/sharedUtilities/search/create-configured-search-client.js-1
 files-contents-scripts/build-and-deploy.sh-1
 files-contents-scripts/build-and-deploy.sh-13
 files-contents-scripts/build-and-deploy.sh-14
