@@ -148,7 +148,6 @@ commands:
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker pull publicdataworks/<<parameters.image>>:<<parameters.version>>
       - run: docker pull publicdataworks/<<parameters.worker-image>>:<<parameters.version>>
-      - run: heroku maintenance:on --app noipm-<<parameters.environment>>
       - run:
           name: Migrate and Seed DB
           command: |
@@ -169,7 +168,6 @@ commands:
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/web
       - run: docker push registry.heroku.com/noipm-<<parameters.environment>>/worker
       - run: heroku container:release web worker --app noipm-<<parameters.environment>>
-      - run: heroku maintenance:off --app noipm-<<parameters.environment>>
   yarn-test:
     parameters:
       test-command:

@@ -22,10 +22,10 @@ const InmatePanel = ({ caseInmate, dispatch, permissions, isArchived }) => {
 
   const getCaseInmateName = () => {
     let fullName;
-    if (caseInmate?.fullName) {
-      fullName = caseInmate.fullName;
-    } else {
+    if (caseInmate?.inmate?.fullName) {
       fullName = caseInmate?.inmate?.fullName;
+    } else {
+      fullName = caseInmate?.fullName;
     }
 
     if (caseInmate?.isAnonymous) {
