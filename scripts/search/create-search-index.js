@@ -111,6 +111,10 @@ const updateSearchIndex = async () => {
         as: "complainantCivilians"
       },
       {
+        model: models.civilian,
+        as: "accusedCivilians"
+      },
+      {
         model: models.caseInmate,
         as: "complainantInmates",
         include: [
@@ -174,7 +178,8 @@ const updateSearchIndex = async () => {
     const complainantInmates = result.complainantInmates.map(mapPerson);
     const accusedInmates = result.accusedInmates.map(mapPerson);
     const accusedOfficers = result.accusedOfficers.map(mapPerson);
-    const civilians = result.complainantCivilians.map(mapPerson);
+    const complainantCivilians = result.complainantCivilians.map(mapPerson);
+    const accusedCivilians = result.accusedCivilians.map(mapPerson);
     const narrative = {
       summary: parseSearchTerm(removeTags(result.narrativeSummary)),
       details: parseSearchTerm(removeTags(result.narrativeDetails))
@@ -188,8 +193,11 @@ const updateSearchIndex = async () => {
       case_id,
       case_number,
       tag,
-      accused: accusedOfficers.concat(accusedInmates),
-      complainant: complainantOfficers.concat(civilians, complainantInmates),
+      accused: accusedOfficers.concat(accusedInmates, accusedCivilians),
+      complainant: complainantOfficers.concat(
+        complainantCivilians,
+        complainantInmates
+      ),
       narrative
     };
 
