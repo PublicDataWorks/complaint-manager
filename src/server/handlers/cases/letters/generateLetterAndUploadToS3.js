@@ -37,20 +37,6 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         transaction
       });
 
-      let filename;
-      if (letterType.hasEditPage) {
-        filename = constructFilename(existingCase, request.body.type, "");
-        filename =
-          filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
-      } else {
-        filename = await generateAttachedLetter(
-          existingCase,
-          request,
-          transaction,
-          time
-        );
-      }
-
       let recipient = letterType.defaultRecipient;
       if (recipient === "{primaryComplainant}") {
         if (existingCase.primaryComplainant) {
@@ -87,11 +73,10 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
         }
       }
 
-      return await models.letter.create(
+      let letter = await models.letter.create(
         {
           caseId,
           typeId: letterType.id,
-          finalPdfFilename: filename,
           recipient,
           recipientAddress,
           sender: letterType.defaultSender
@@ -99,6 +84,26 @@ const generateLetterAndUploadToS3 = asyncMiddleware(
             : null
         },
         { transaction, auditUser: request.nickname }
+      );
+
+      let filename;
+      if (letterType.hasEditPage) {
+        filename = constructFilename(existingCase, request.body.type, "");
+        filename =
+          filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
+      } else {
+        filename = await generateAttachedLetter(
+          existingCase,
+          request,
+          transaction,
+          time,
+          letter
+        );
+      }
+
+      return await letter.update(
+        { finalPdfFilename: filename },
+        { auditUser: request.nickname, transaction }
       );
     });
     response.status(200).send({ id: letter.id });
@@ -125,7 +130,13 @@ const createLetterAttachment = async (
   );
 };
 
-const generateLetter = async (caseId, filename, request, transaction) => {
+const generateLetter = async (
+  caseId,
+  filename,
+  request,
+  letter,
+  transaction
+) => {
   const includeSignature = true;
   const { pdfBuffer } = await generateLetterPdfBuffer(
     caseId,
@@ -135,7 +146,8 @@ const generateLetter = async (caseId, filename, request, transaction) => {
       getSignature: async args => {
         return await retrieveSignatureImageBySigner(args.sender);
       },
-      type: request.body.type
+      type: request.body.type,
+      letter
     }
   );
 
@@ -193,12 +205,13 @@ const generateAttachedLetter = async (
   existingCase,
   request,
   transaction,
-  time
+  time,
+  letter
 ) => {
   let filename = constructFilename(existingCase, request.body.type);
   filename =
     filename.substring(0, filename.indexOf(".pdf")) + "_" + time + ".pdf";
-  await generateLetter(existingCase.id, filename, request);
+  await generateLetter(existingCase.id, filename, request, letter, transaction);
 
   await createLetterAttachment(
     existingCase.id,
