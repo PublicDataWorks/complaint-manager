@@ -5,7 +5,7 @@ const {
   host,
   port,
   indexName: index
-} = require("./index-config")[environment];
+} = require("./search-index-config")[environment];
 
 const username = process.env.ELASTIC_USERNAME;
 const password = process.env.ELASTIC_PASSWORD;

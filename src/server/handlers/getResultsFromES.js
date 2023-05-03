@@ -1,16 +1,15 @@
-import { buildQueryString } from "../../sharedUtilities/searchUtilities";
+import { buildQueryString } from "../../sharedUtilities/search/searchUtilities";
 
 export const getResultsFromES = async queryString => {
   const MAX_ELASTICSEARCH_HIT_SIZE = 10000;
   const environment = process.env.NODE_ENV || "development";
-  const { indexName: index } = require("../../../scripts/search/index-config")[
-    environment
-  ];
+  const { indexName: index } =
+    require("../../sharedUtilities/search/search-index-config")[environment];
 
   let elasticClient;
   try {
     elasticClient =
-      require("../../../scripts/search/create-configured-client")();
+      require("../../sharedUtilities/search/create-configured-search-client")();
   } catch (err) {
     handleError(err);
   }
