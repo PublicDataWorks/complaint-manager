@@ -109,6 +109,28 @@ const updateSearchIndex = async () => {
       {
         model: models.civilian,
         as: "complainantCivilians"
+      },
+      {
+        model: models.caseInmate,
+        as: "complainantInmates",
+        include: [
+          {
+            model: models.inmate,
+            as: "inmate",
+            include: ["facilityDetails"]
+          }
+        ]
+      },
+      {
+        model: models.caseInmate,
+        as: "accusedInmates",
+        include: [
+          {
+            model: models.inmate,
+            as: "inmate",
+            include: ["facilityDetails"]
+          }
+        ]
       }
     ]
   });
@@ -120,6 +142,11 @@ const updateSearchIndex = async () => {
 
   const operation = { index: { _index: index } };
   const mapPerson = person => {
+    if (person?.inmate != null) {
+      person = person.inmate;
+    } else {
+      person;
+    }
     let results = {
       full_name: parseSearchTerm(
         `${person.firstName} ${person.lastName}${
@@ -144,7 +171,9 @@ const updateSearchIndex = async () => {
       name: parseSearchTerm(tag.tag.name)
     }));
     const complainantOfficers = result.complainantOfficers.map(mapPerson);
-    const accused = result.accusedOfficers.map(mapPerson);
+    const complainantInmates = result.complainantInmates.map(mapPerson);
+    const accusedInmates = result.accusedInmates.map(mapPerson);
+    const accusedOfficers = result.accusedOfficers.map(mapPerson);
     const civilians = result.complainantCivilians.map(mapPerson);
     const narrative = {
       summary: parseSearchTerm(removeTags(result.narrativeSummary)),
@@ -159,8 +188,8 @@ const updateSearchIndex = async () => {
       case_id,
       case_number,
       tag,
-      accused,
-      complainant: complainantOfficers.concat(civilians),
+      accused: accusedOfficers.concat(accusedInmates),
+      complainant: complainantOfficers.concat(civilians, complainantInmates),
       narrative
     };
 
