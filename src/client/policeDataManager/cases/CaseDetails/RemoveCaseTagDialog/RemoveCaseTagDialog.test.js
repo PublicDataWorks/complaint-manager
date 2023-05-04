@@ -1,6 +1,7 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
 import {
-  closeRemoveCaseTagDialog, getCaseDetailsSuccess,
+  closeRemoveCaseTagDialog,
+  getCaseDetailsSuccess,
   openRemoveCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";

@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -77,7 +78,8 @@ class CaseDetails extends React.Component {
   }
 
   state = {
-    mobileOpen: false
+    mobileOpen: false,
+    isSearchableDataDirty: false
   };
 
   componentDidMount() {
@@ -98,6 +100,10 @@ class CaseDetails extends React.Component {
   componentWillUnmount() {
     resetCaseDetailsPage(this.props.dispatch);
     this.props.dispatch(clearHighlightedCaseNote());
+
+    if (this.state.isSearchableDataDirty) {
+      axios.post("/api/search-index");
+    }
   }
 
   caseDetailsNotYetLoaded() {
@@ -115,6 +121,10 @@ class CaseDetails extends React.Component {
     ) {
       this.props.dispatch(getCaseDetails(caseId));
     }
+  }
+
+  setSearchableDataAsDirty() {
+    this.setState({ isSearchableDataDirty: true });
   }
 
   render() {
@@ -177,6 +187,7 @@ class CaseDetails extends React.Component {
               }}
               caseId={this.props.caseDetails.id}
               isArchived={this.props.caseDetails.isArchived}
+              setSearchableDataAsDirty={() => this.setSearchableDataAsDirty()}
             />
             <Accused caseDetails={this.props.caseDetails} classes={classes} />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
