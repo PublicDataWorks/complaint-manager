@@ -43,6 +43,7 @@ describe("narrative", () => {
               narrativeSummary: expectedCase.narrativeSummary
             }}
             isArchived={false}
+            setSearchableDataAsDirty={jest.fn()}
           />
         </Provider>
       );
@@ -82,6 +83,7 @@ describe("narrative", () => {
               narrativeSummary: expectedCase.narrativeSummary
             }}
             isArchived={false}
+            setSearchableDataAsDirty={jest.fn()}
           />
         </Provider>
       );

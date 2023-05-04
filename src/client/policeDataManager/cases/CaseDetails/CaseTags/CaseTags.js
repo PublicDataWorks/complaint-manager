@@ -8,7 +8,7 @@ import {
 import { connect } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
-import RemoveCaseTagDialog from "../RemoveCaseTagDialog/RemoveCaseTagDialog";
+import RemoveCaseTagDialog from "./RemoveCaseTagDialog";
 import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
