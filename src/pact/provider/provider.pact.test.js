@@ -66,6 +66,10 @@ jest.mock(
 
 jest.mock("../../server/createConfiguredS3Instance");
 
+jest.mock("../../sharedUtilities/search/searchUtilities", () => ({
+  updateSearchIndex: jest.fn()
+}));
+
 const addRecommendedActions = async () => {
   await models.recommended_action.create(
     {

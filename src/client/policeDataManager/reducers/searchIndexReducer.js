@@ -2,6 +2,7 @@ import { submit, startSubmit } from "redux-form";
 import { isEqual } from "lodash";
 import {
   CIVILIAN_CREATION_SUCCEEDED,
+  EDIT_CIVILIAN_SUCCESS,
   NARRATIVE_FORM,
   SEARCHABLE_DATA_IS_CLEAN_AGAIN,
   SELECTED_INMATE_FORM
@@ -24,6 +25,7 @@ const searchIndexReducer = (state = initialState, action = {}) => {
     case SEARCHABLE_DATA_IS_CLEAN_AGAIN:
       return initialState;
     case CIVILIAN_CREATION_SUCCEEDED:
+    case EDIT_CIVILIAN_SUCCESS:
       return true;
     default:
       return state;

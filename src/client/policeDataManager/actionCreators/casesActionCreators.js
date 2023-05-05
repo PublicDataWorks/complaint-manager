@@ -23,6 +23,7 @@ import {
   CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_NOTE_SUCCEEDED,
   EDIT_CIVILIAN_DIALOG_CLOSED,
+  EDIT_CIVILIAN_SUCCESS,
   EDIT_INCIDENT_DETAILS_DIALOG_CLOSED,
   EDIT_INCIDENT_DETAILS_DIALOG_OPENED,
   FETCHING_CASE_NOTES,
@@ -213,7 +214,7 @@ export const createCivilianSuccess = caseDetails => ({
 });
 
 export const editCivilianSuccess = caseDetails => ({
-  type: "EDIT_CIVILIAN_SUCCESS",
+  type: EDIT_CIVILIAN_SUCCESS,
   caseDetails
 });
 

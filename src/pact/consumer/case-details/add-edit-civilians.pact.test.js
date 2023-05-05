@@ -59,7 +59,7 @@ const scenarios = [
     method: "PUT",
     endpoint: "/1",
     successMessage: "Civilian was successfully updated",
-    options: [CIVILIAN_COMPLAINANT]
+    options: [CIVILIAN_COMPLAINANT, CHANGES_SEARCHABLE_DATA]
   },
   {
     role: "Witness",
@@ -68,7 +68,7 @@ const scenarios = [
     method: "PUT",
     endpoint: "/2",
     successMessage: "Civilian was successfully updated",
-    options: [CIVILIAN_WITNESS]
+    options: [CIVILIAN_WITNESS, CHANGES_SEARCHABLE_DATA]
   }
 ];
 
