@@ -8,7 +8,8 @@ import {
   CIVILIAN_WITNESS,
   CIVILIAN_ACCUSED,
   CHOOSE_PERSON_TYPE,
-  setUpCaseDetailsPage
+  setUpCaseDetailsPage,
+  CHANGES_SEARCHABLE_DATA
 } from "./case-details-helper";
 
 jest.mock(
@@ -31,7 +32,7 @@ const scenarios = [
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",
-    options: []
+    options: [CHANGES_SEARCHABLE_DATA]
   },
   {
     role: "Witness",
@@ -40,7 +41,7 @@ const scenarios = [
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",
-    options: []
+    options: [CHANGES_SEARCHABLE_DATA]
   },
   {
     role: "Accused",
@@ -49,7 +50,7 @@ const scenarios = [
     method: "POST",
     endpoint: "",
     successMessage: "Civilian was successfully created",
-    options: [CIVILIAN_ACCUSED, CHOOSE_PERSON_TYPE]
+    options: [CIVILIAN_ACCUSED, CHOOSE_PERSON_TYPE, CHANGES_SEARCHABLE_DATA]
   },
   {
     role: "Complainant",
@@ -94,11 +95,18 @@ scenarios.forEach(
         });
 
         describe(`add/edit civilian ${role}`, () => {
-          beforeEach(
-            async () => await setUpCaseDetailsPage(provider, ...options)
-          );
+          let unmount;
+          beforeEach(async () => {
+            const caseDetails = await setUpCaseDetailsPage(
+              provider,
+              ...options
+            );
+            unmount = caseDetails.unmount;
+          });
 
-          test(`should add a civilian ${role}`, async () => {
+          test(`should ${
+            method === "POST" ? "add" : "edit"
+          } a civilian ${role}`, async () => {
             const civilian = {
               fullName: "Andrew Rist",
               id: 3944,
@@ -247,6 +255,9 @@ scenarios.forEach(
             userEvent.click(screen.getByTestId("submitEditCivilian"));
 
             expect(await screen.findByText(successMessage)).toBeInTheDocument;
+            unmount();
+
+            await new Promise(resolve => setTimeout(resolve, 10));
           }, 200000);
         });
       }

@@ -34,6 +34,7 @@ export const GENERATE_LETTER_BUTTON = "hasGenerateLetterButton";
 export const COMPLAINT_TYPES = "hasComplaintTypes";
 export const PERSON_IN_CUSTODY = "personInCustody";
 export const CHOOSE_PERSON_TYPE = "choosePersonType";
+export const CHANGES_SEARCHABLE_DATA = "changesSearchableData";
 const personTypes = [
   {
     key: "OFFICER",
@@ -563,6 +564,20 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     });
   }
 
+  if (options.includes(CHANGES_SEARCHABLE_DATA)) {
+    await provider.addInteraction({
+      state: "app is running",
+      uponReceiving: "update search index",
+      withRequest: {
+        method: "POST",
+        path: "/api/search-index"
+      },
+      willRespondWith: {
+        status: 202
+      }
+    });
+  }
+
   await provider.addInteraction({
     state: "intake sources exist",
     uponReceiving: "get intake sources",
@@ -782,7 +797,7 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
 
   let dispatchSpy = jest.spyOn(store, "dispatch");
 
-  const { container } = render(
+  const { container, unmount } = render(
     <Provider store={store}>
       <Router>
         <CaseDetails match={{ params: { id: "1" } }} />
@@ -791,5 +806,5 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
     </Provider>
   );
 
-  return { dispatchSpy, container };
+  return { dispatchSpy, container, unmount };
 };
