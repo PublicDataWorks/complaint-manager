@@ -16,7 +16,6 @@ const Narrative = props => {
   const onBlur = () => {
     if (props.dirty && !props.isArchived) {
       props.dispatch(submit(NARRATIVE_FORM));
-      props.setSearchableDataAsDirty();
     }
   };
 

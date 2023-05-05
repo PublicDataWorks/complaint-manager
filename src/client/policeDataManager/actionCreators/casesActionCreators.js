@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   ADD_CASE_NOTE_SUCCEEDED,
   ADDRESS_DISPLAY_VALUE_UPDATED,
@@ -49,6 +50,7 @@ import {
   RESET_WORKING_CASES_PAGING,
   RESTORE_ARCHIVED_CASE_DIALOG_CLOSED,
   RESTORE_ARCHIVED_CASE_DIALOG_OPENED,
+  SEARCHABLE_DATA_IS_CLEAN_AGAIN,
   UPDATE_ALLEGATION_DETAILS_SUCCEEDED,
   UPDATE_CASE_STATUS_SUCCESS,
   UPDATE_CASES_TABLE_SORTING
@@ -320,3 +322,8 @@ export const openRestoreArchivedCaseDialog = () => ({
 export const closeRestoreArchivedCaseDialog = () => ({
   type: RESTORE_ARCHIVED_CASE_DIALOG_CLOSED
 });
+
+export const editSearchIndex = () => {
+  axios.post("/api/search-index"); // call and forget (don't await this!!)
+  return { type: SEARCHABLE_DATA_IS_CLEAN_AGAIN };
+};

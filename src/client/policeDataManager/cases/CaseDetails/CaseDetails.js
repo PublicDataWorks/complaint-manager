@@ -24,7 +24,8 @@ import {
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
   closeRemoveCaseTagDialog,
-  closeRestoreArchivedCaseDialog
+  closeRestoreArchivedCaseDialog,
+  editSearchIndex
 } from "../../actionCreators/casesActionCreators";
 import {
   CASE_STATUS,
@@ -78,8 +79,7 @@ class CaseDetails extends React.Component {
   }
 
   state = {
-    mobileOpen: false,
-    isSearchableDataDirty: false
+    mobileOpen: false
   };
 
   componentDidMount() {
@@ -101,8 +101,8 @@ class CaseDetails extends React.Component {
     resetCaseDetailsPage(this.props.dispatch);
     this.props.dispatch(clearHighlightedCaseNote());
 
-    if (this.state.isSearchableDataDirty) {
-      axios.post("/api/search-index");
+    if (this.props.searchableDataIsDirty) {
+      this.props.dispatch(editSearchIndex());
     }
   }
 
@@ -121,10 +121,6 @@ class CaseDetails extends React.Component {
     ) {
       this.props.dispatch(getCaseDetails(caseId));
     }
-  }
-
-  setSearchableDataAsDirty() {
-    this.setState({ isSearchableDataDirty: true });
   }
 
   render() {
@@ -187,7 +183,6 @@ class CaseDetails extends React.Component {
               }}
               caseId={this.props.caseDetails.id}
               isArchived={this.props.caseDetails.isArchived}
-              setSearchableDataAsDirty={() => this.setSearchableDataAsDirty()}
             />
             <Accused caseDetails={this.props.caseDetails} classes={classes} />
             <Attachments isArchived={this.props.caseDetails.isArchived} />
@@ -206,7 +201,8 @@ CaseDetails.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  caseDetails: state.currentCase.details
+  caseDetails: state.currentCase.details,
+  searchableDataIsDirty: state.searchableDataIsDirty
 });
 
 export default withStyles(styles, { withTheme: true })(

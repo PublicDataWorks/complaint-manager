@@ -50,6 +50,7 @@ const payload = [
 ];
 
 jest.mock("redux-form", () => ({
+  ...jest.requireActual("redux-form"),
   reducer: { mockReducer: "mockReducerState" },
   initialize: jest.fn(() => ({
     type: "MOCK_INITIALIZE_ACTION"
