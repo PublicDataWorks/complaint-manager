@@ -1,6 +1,7 @@
 import { submit } from "redux-form";
 import { isEqual } from "lodash";
 import {
+  CIVILIAN_CREATION_SUCCEEDED,
   NARRATIVE_FORM,
   SEARCHABLE_DATA_IS_CLEAN_AGAIN
 } from "../../../sharedUtilities/constants";
@@ -15,6 +16,8 @@ const searchIndexReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case SEARCHABLE_DATA_IS_CLEAN_AGAIN:
       return initialState;
+    case CIVILIAN_CREATION_SUCCEEDED:
+      return true;
     default:
       return state;
   }
