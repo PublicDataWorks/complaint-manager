@@ -976,48 +976,6 @@ jobs:
 
 workflows:
   version: 2
-  nightly_index_update_ci:
-    triggers:
-      - schedule:
-          cron: "0 5 * * *" # Resolves to 11 PM CST
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - get-instance-files-latest-noipm
-      - update-search-indices-ci:
-          requires:
-            - get-instance-files-latest-noipm
-
-  nightly_index_update_staging:
-    triggers:
-      - schedule:
-          cron: "0 6 * * *" # Resolves to 12 AM CST
-          filters:
-            branches:
-              only:
-                - << pipeline.parameters.stage-indexing-branch >>
-    jobs:
-      - get-instance-files-latest-noipm
-      - update-search-indices-staging:
-          requires:
-            - get-instance-files-latest-noipm
-
-  nightly_index_update_production:
-    triggers:
-      - schedule:
-          cron: "0 7 * * *" # Resolves to 1 AM CST
-          filters:
-            branches:
-              only:
-                - << pipeline.parameters.prod-indexing-branch >>
-    jobs:
-      - get-instance-files-latest-noipm
-      - update-search-indices-production:
-          requires:
-            - get-instance-files-latest-noipm
-
   build_and_deploy_master:
     jobs:
       - security-check:
