@@ -1,5 +1,8 @@
 import { push } from "connected-react-router";
-import { clearSelectedOfficer } from "../../actionCreators/officersActionCreators";
+import {
+  clearSelectedOfficer,
+  editCaseOfficerSuccess
+} from "../../actionCreators/officersActionCreators";
 import axios from "axios";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { OFFICER_TITLE } from "../../../../sharedUtilities/constants";
@@ -16,6 +19,7 @@ const editCaseOfficer =
         `api/cases/${caseId}/cases-officers/${caseOfficerId}`,
         payload
       );
+      dispatch(editCaseOfficerSuccess());
       dispatch(
         snackbarSuccess(`${caseEmployeeTitle} was successfully updated`)
       );
