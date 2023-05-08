@@ -3,7 +3,11 @@ import userEvent from "@testing-library/user-event";
 import axios from "axios";
 import { pactWith } from "jest-pact";
 import { eachLike } from "@pact-foundation/pact/src/dsl/matchers";
-import { NO_CASE_TAGS, setUpCaseDetailsPage } from "./case-details-helper";
+import {
+  NO_CASE_TAGS,
+  CHANGES_SEARCHABLE_DATA,
+  setUpCaseDetailsPage
+} from "./case-details-helper";
 
 describe("case tags", () => {
   /*  here's why there's an array:
@@ -25,7 +29,11 @@ describe("case tags", () => {
     {
       description: "should add an existing tag to a case",
       test: provider => async () => {
-        await setUpCaseDetailsPage(provider, NO_CASE_TAGS);
+        const { unmount } = await setUpCaseDetailsPage(
+          provider,
+          NO_CASE_TAGS,
+          CHANGES_SEARCHABLE_DATA
+        );
         await provider.addInteraction({
           state: "Case exists: tags exist",
           uponReceiving: "add existing case tag",
@@ -84,12 +92,19 @@ describe("case tags", () => {
         expect(newTag.textContent).toEqual("mardi gras");
         expect(await screen.findByText("Case tag was successfully added"))
           .toBeInTheDocument;
+
+        unmount();
+        await new Promise(resolve => setTimeout(resolve, 10));
       }
     },
     {
       description: "should add a new tag to a case",
       test: provider => async () => {
-        await setUpCaseDetailsPage(provider, NO_CASE_TAGS);
+        const { unmount } = await setUpCaseDetailsPage(
+          provider,
+          NO_CASE_TAGS,
+          CHANGES_SEARCHABLE_DATA
+        );
         await provider.addInteraction({
           state: "Case exists",
           uponReceiving: "add new case tag",
@@ -134,12 +149,18 @@ describe("case tags", () => {
         expect(newTag.textContent).toEqual("apple pie");
         expect(await screen.findByText("Case tag was successfully added"))
           .toBeInTheDocument;
+
+        unmount();
+        await new Promise(resolve => setTimeout(resolve, 10));
       }
     },
     {
       description: "should remove a tag from a case",
       test: provider => async () => {
-        const results = await setUpCaseDetailsPage(provider);
+        const { unmount } = await setUpCaseDetailsPage(
+          provider,
+          CHANGES_SEARCHABLE_DATA
+        );
         await provider.addInteraction({
           state: "case has a case tag",
           uponReceiving: "remove case tag",
@@ -159,6 +180,9 @@ describe("case tags", () => {
 
         expect(await screen.findByText("Case tag was successfully removed"))
           .toBeInTheDocument;
+
+        unmount();
+        await new Promise(resolve => setTimeout(resolve, 10));
       }
     }
   ].forEach(scenario => {

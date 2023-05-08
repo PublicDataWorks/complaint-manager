@@ -3,9 +3,11 @@ import { isEqual } from "lodash";
 import {
   ADD_OFFICER_TO_CASE_SUCCEEDED,
   CIVILIAN_CREATION_SUCCEEDED,
+  CREATE_CASE_TAG_SUCCESS,
   EDIT_CASE_OFFICER_SUCCEEDED,
   EDIT_CIVILIAN_SUCCESS,
   NARRATIVE_FORM,
+  REMOVE_CASE_TAG_SUCCESS,
   SEARCHABLE_DATA_IS_CLEAN_AGAIN,
   SELECTED_INMATE_FORM
 } from "../../../sharedUtilities/constants";
@@ -30,6 +32,8 @@ const searchIndexReducer = (state = initialState, action = {}) => {
     case EDIT_CIVILIAN_SUCCESS:
     case ADD_OFFICER_TO_CASE_SUCCEEDED:
     case EDIT_CASE_OFFICER_SUCCEEDED:
+    case CREATE_CASE_TAG_SUCCESS:
+    case REMOVE_CASE_TAG_SUCCESS:
       return true;
     default:
       return state;
