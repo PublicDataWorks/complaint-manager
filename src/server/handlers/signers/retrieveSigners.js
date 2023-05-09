@@ -8,7 +8,7 @@ import models from "../../policeDataManager/models";
 import { mapSignerToPayload } from "../../policeDataManager/models/modelUtilities/signerHelpers";
 import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
-const getSigners = asyncMiddleware(async (request, response, next) => {
+const retrieveSigners = asyncMiddleware(async (request, response, next) => {
   const queryOptions = {
     attributes: ["id", "name", "nickname", "title", "phone", "signatureFile"]
   };
@@ -30,4 +30,4 @@ const getSigners = asyncMiddleware(async (request, response, next) => {
   response.status(200).send(await Promise.all(payloadPromises));
 });
 
-export default getSigners;
+export default retrieveSigners;

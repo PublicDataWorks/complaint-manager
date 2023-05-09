@@ -24,7 +24,7 @@ jest.mock(
     ])
 );
 
-describe("getSigners", () => {
+describe("retrieveSigners", () => {
   afterEach(async () => {
     await cleanupDatabase();
   });

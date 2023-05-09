@@ -75,7 +75,7 @@ import getConfigs from "./handlers/configs/getConfigs";
 import logHandler from "./handlers/logHandler";
 import { USER_PERMISSIONS } from "../sharedUtilities/constants";
 import Boom from "boom";
-import getSigners from "./handlers/signers/getSigners";
+import retrieveSigners from "./handlers/signers/retrieveSigners";
 import getSignature from "./handlers/signers/getSignature";
 import addSigner from "./handlers/signers/addSigner";
 import editSigner from "./handlers/signers/editSigner";
@@ -721,7 +721,7 @@ export const API_ROUTES = {
   },
   "/signers": {
     get: {
-      handler: getSigners,
+      handler: retrieveSigners,
       requiredPermission: USER_PERMISSIONS.ADMIN_ACCESS,
       errorMessage: "Something went wrong while retrieving signers"
     },
