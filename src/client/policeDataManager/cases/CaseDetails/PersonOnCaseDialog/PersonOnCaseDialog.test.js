@@ -252,6 +252,12 @@ describe("complainant/witness dialog", () => {
       beforeEach(() => {
         caseCivilian.address = undefined;
         store.dispatch(change(CIVILIAN_FORM_NAME, caseCivilian));
+        store.dispatch({
+          type: GET_FEATURES_SUCCEEDED,
+          features: {
+            requireContactInfoForCivilians: false
+          }
+        });
       });
 
       afterEach(() => {
@@ -259,6 +265,13 @@ describe("complainant/witness dialog", () => {
       });
 
       test("should display phone error when phone and email marked as touched on form submit", () => {
+        store.dispatch({
+          type: GET_FEATURES_SUCCEEDED,
+          features: {
+            requireContactInfoForCivilians: true
+          }
+        });
+
         let civilianToSubmit = new Civilian.Builder()
           .defaultCivilian()
           .withFirstName("test first name")
@@ -320,6 +333,37 @@ describe("complainant/witness dialog", () => {
         save.simulate("click");
         expect(phoneNumberField.text()).toContain(
           "Please enter one form of contact"
+        );
+      });
+
+      test("should display successfully submit without contact info when requireContactInfoForCivilians flag is false", () => {
+        let civilianToSubmit = new Civilian.Builder()
+          .defaultCivilian()
+          .withFirstName("test first name")
+          .withLastName("test last name")
+          .withEmail("")
+          .withPhoneNumber("")
+          .withCivilianTitleId(doctorMrsCivilianTitle[1])
+          .withNoAddress()
+          .build();
+
+        changeInput(
+          personOnCaseDialog,
+          '[data-testid="firstNameInput"]',
+          civilianToSubmit.firstName
+        );
+        changeInput(
+          personOnCaseDialog,
+          '[data-testid="lastNameInput"]',
+          civilianToSubmit.lastName
+        );
+        save.simulate("click");
+        expect(submitAction).toHaveBeenCalledWith(
+          expect.objectContaining({
+            firstName: civilianToSubmit.firstName,
+            lastName: civilianToSubmit.lastName
+          }),
+          undefined
         );
       });
     });

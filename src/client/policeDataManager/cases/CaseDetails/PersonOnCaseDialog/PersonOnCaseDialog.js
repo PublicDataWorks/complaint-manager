@@ -83,9 +83,12 @@ class PersonOnCaseDialog extends Component {
       if (errors.autoSuggestValue) {
         throw new SubmissionError({ ...errors, ...personTypeErrors });
       }
-      const contactErrors = validate(values);
-      if (!_.isEmpty(contactErrors)) {
-        throw new SubmissionError({ ...contactErrors, ...personTypeErrors });
+
+      if (this.props.requireContactInfoForCiviliansFlag) {
+        const contactErrors = validate(values);
+        if (!_.isEmpty(contactErrors)) {
+          throw new SubmissionError({ ...contactErrors, ...personTypeErrors });
+        }
       }
     }
 
@@ -213,16 +216,18 @@ const connectedForm = reduxForm({
 const mapStateToProps = state => {
   return {
     addressValid: state.ui.addressInput.addressValid,
+    allowAllTypesToBeAccused: state.featureToggles.allowAllTypesToBeAccused,
     caseId: state.currentCase?.details?.id,
     choosePersonTypeInAddDialog:
       state.featureToggles.choosePersonTypeInAddDialog,
-    allowAllTypesToBeAccused: state.featureToggles.allowAllTypesToBeAccused,
     open: state.ui.civilianDialog.open,
     personType: getSelectedPersonType(
       state,
       state.form[CIVILIAN_FORM_NAME]?.values?.personType
     ),
     personTypes: state.personTypes,
+    requireContactInfoForCiviliansFlag:
+      state.featureToggles.requireContactInfoForCivilians,
     submitAction: state.ui.civilianDialog.submitAction,
     submitButtonText: state.ui.civilianDialog.submitButtonText,
     title: state.ui.civilianDialog.title

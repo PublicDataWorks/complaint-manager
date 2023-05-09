@@ -1,6 +1,8 @@
 const scrollToFirstError = errors => {
-  const firstError = Object.keys(errors)[0];
-  document.querySelector(`[name="${firstError}"]`)?.focus();
+  if (errors) {
+    const firstError = Object.keys(errors)[0];
+    document.querySelector(`[name="${firstError}"]`)?.focus();
+  }
 };
 
 export const scrollToFirstErrorWithValue = errors => {

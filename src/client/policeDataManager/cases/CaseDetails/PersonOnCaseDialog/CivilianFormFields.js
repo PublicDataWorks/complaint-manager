@@ -169,28 +169,36 @@ const CivilianFormFields = props => {
             }}
           >
             <PhoneNumberField name="phoneNumber" />
-            <Typography
-              variant="button"
-              style={{
-                marginLeft: "22px",
-                marginTop: "22px",
-                marginRight: "22px"
-              }}
-            >
-              OR
-            </Typography>
+            {props.requireContactInfoForCiviliansFlag ? (
+              <Typography
+                variant="button"
+                style={{
+                  marginLeft: "22px",
+                  marginTop: "22px",
+                  marginRight: "22px"
+                }}
+              >
+                OR
+              </Typography>
+            ) : (
+              ""
+            )}
             <EmailField name="email" autoComplete="disabled" />
 
-            <Typography
-              variant="button"
-              style={{
-                marginLeft: "22px",
-                marginTop: "22px",
-                marginRight: "22px"
-              }}
-            >
-              OR
-            </Typography>
+            {props.requireContactInfoForCiviliansFlag ? (
+              <Typography
+                variant="button"
+                style={{
+                  marginLeft: "22px",
+                  marginTop: "22px",
+                  marginRight: "22px"
+                }}
+              >
+                OR
+              </Typography>
+            ) : (
+              ""
+            )}
           </div>
           <div style={{ display: "flex" }}>
             <div style={{ marginBottom: "16px", width: "100%" }}>
@@ -273,7 +281,9 @@ export default connect(
       genderIdentities: state.ui.genderIdentities,
       civilianTitles: state.ui.civilianTitles,
       isUnknown: values.isUnknown,
-      roleOnCase: values.roleOnCase
+      roleOnCase: values.roleOnCase,
+      requireContactInfoForCiviliansFlag:
+        state.featureToggles.requireContactInfoForCivilians
     };
   },
   { change }
