@@ -10,7 +10,7 @@ import getQueryAuditAccessDetails from "../audits/getQueryAuditAccessDetails";
 
 const getSigners = asyncMiddleware(async (request, response, next) => {
   const queryOptions = {
-    attributes: ["id", "name", "nickname", "title", "phone"]
+    attributes: ["id", "name", "nickname", "title", "phone", "signatureFile"]
   };
   const signers = await models.signers.findAll(queryOptions);
 

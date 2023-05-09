@@ -97,7 +97,6 @@ describe("Signatures Admin Card", () => {
       expect(screen.getByText("Please enter Username")).toBeInTheDocument;
       expect(screen.getByText("Please enter Name")).toBeInTheDocument;
       expect(screen.getByText("Please enter Role")).toBeInTheDocument;
-      expect(screen.getByText("Please enter Phone Number")).toBeInTheDocument;
 
       userEvent.type(screen.getByPlaceholderText("Name"), "Candy");
       userEvent.type(screen.getByPlaceholderText("Phone number"), "7777777777");

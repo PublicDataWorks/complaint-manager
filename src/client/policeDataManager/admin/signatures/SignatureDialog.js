@@ -102,7 +102,7 @@ class SignatureDialog extends Component {
                 }}
                 name="phoneNumber"
                 placeholder="Phone number"
-                validate={[phoneRequired, phoneNotBlank, isPhoneNumber]}
+                validate={[isPhoneNumber]}
               />
             </section>
             <FileUpload

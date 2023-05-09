@@ -7,13 +7,15 @@ export const mapSignerToPayload = async signer => {
     nickname: signer.nickname,
     title: signer.title,
     phone: signer.phone,
-    links: [
-      {
-        rel: "signature",
-        href: `/api/signers/${signer.id}/signature`
-      }
-    ]
+    links: []
   };
+
+  if (signer.signatureFile && signer.signatureFile.trim() !== "") {
+    payload.links.push({
+      rel: "signature",
+      href: `/api/signers/${signer.id}/signature`
+    });
+  }
 
   const count = await models.letter_types.count({
     where: { default_sender: signer.id }
