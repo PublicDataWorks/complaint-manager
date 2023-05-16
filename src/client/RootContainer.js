@@ -33,15 +33,15 @@ const RootContainer = () => (
     {config.auth.engine === OKTA ? (
       <Security
         oktaAuth={oktaAuth}
-        restoreOriginalUri={(auth, originalUri) => {
+        restoreOriginalUri={auth => {
           localStorage.setItem("access_token", auth.getAccessToken());
           localStorage.setItem("id_token", auth.getIdToken());
-          localStorage.setItem(
-            "expires_at",
-            auth.tokenManager.getExpireTime(auth.getAccessToken()) * 1000
-          );
+          localStorage.setItem("expires_at", Date.now() + 1000 * 60 * 55);
           history.replace(
-            toRelativeUrl(originalUri || "/", window.location.origin)
+            toRelativeUrl(
+              localStorage.getItem("redirectUri") || "/",
+              window.location.origin
+            )
           );
         }}
       >
