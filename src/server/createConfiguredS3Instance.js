@@ -169,10 +169,11 @@ class S3Wrapper {
     { Bucket, Key, Body, ServerSideEncryption },
     /* (err, response) => void */ callback
   ) {
-    return await this._performS3Command(
+    const result = await this._performS3Command(
       new PutObjectCommand({ Bucket, Key, Body, ServerSideEncryption }),
       callback
     );
+    return { ...result, Bucket, Key };
   }
 
   async listObjectsV2(

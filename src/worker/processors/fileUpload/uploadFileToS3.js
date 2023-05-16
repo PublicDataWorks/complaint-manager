@@ -13,14 +13,14 @@ const fileName = (jobId, exportFileName, fileType) => {
   return `${fileType}/${jobId}/Complaint_Manager_${exportFileName}_at_${date}.csv`;
 };
 
-const uploadFileToS3 = (
+const uploadFileToS3 = async (
   jobId,
   csvOutput,
   exportFileName,
   fileType,
   s3 = createConfiguredS3Instance()
 ) => {
-  return s3.putObject({
+  return await s3.putObject({
     Bucket: config.exportsBucket,
     Key: fileName(jobId, exportFileName, fileType),
     Body: csvOutput,
