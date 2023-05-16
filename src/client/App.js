@@ -1,6 +1,7 @@
 import UsePageTracking from "./UsePageTracking";
 import React, { useEffect, useState } from "react";
 import { ConnectedRouter } from "connected-react-router";
+import { withOktaAuth } from "@okta/okta-react";
 import history from "./history";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import customTheme from "./common/globalStyling/muiTheme";
@@ -19,6 +20,7 @@ import getNotifications from "./policeDataManager/shared/thunks/getNotifications
 import getPersonTypes from "./policeDataManager/globalData/thunks/getPersonTypes";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
+import { OKTA } from "../sharedUtilities/constants";
 import { isAuthDisabled } from "./isAuthDisabled";
 import redirectToAuth from "./common/auth/redirectToAuth";
 
@@ -127,4 +129,9 @@ const mapDispatchToProps = {
   dispatch: arg => dispatch => dispatch(arg)
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+const WrappedApp =
+  config[process.env.REACT_APP_ENV].auth.engine === OKTA
+    ? withOktaAuth(App)
+    : App;
+
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedApp);
