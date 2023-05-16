@@ -3,6 +3,10 @@ import Adapter from "enzyme-adapter-react-16";
 import EventEmitter from "events";
 import winston from "winston/lib/winston";
 import "jest-extended";
+import { TextEncoder, TextDecoder } from "util";
+
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
