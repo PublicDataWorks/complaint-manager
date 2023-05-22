@@ -52,7 +52,7 @@ const loadCsvFromS3 = async (fileName, model) => {
       try {
         oldItems = await model.findAll();
 
-        oldItems.map(oldItem =>
+        oldItems = oldItems.map(oldItem =>
           omit(oldItem.dataValues, [
             "id",
             "createdAt",
