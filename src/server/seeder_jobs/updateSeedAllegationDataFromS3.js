@@ -88,6 +88,7 @@ const updateAllegations = async allegationsToUpdate => {
       .then(() => {
         totalCount++;
       });
+    console.log("allegationData>", allegationData);
   }
 
   winston.info(
@@ -113,51 +114,57 @@ const determineWhetherToCreateOrUpdateAllegation = async seedDataRow => {
   const paragraph = seedDataRow.paragraph;
   const directive = seedDataRow.directive;
 
-  let ruleWhere, paragraphWhere, directiveWhere;
+  // let ruleWhere, paragraphWhere, directiveWhere;
 
-  if (!rule) {
-    ruleWhere = { [Op.eq]: null };
-  } else if (!rule.includes(":")) {
-    ruleWhere = rule;
-  } else {
-    ruleWhere = { [Op.like]: `${rule.split(":")[0]}%` };
-  }
+  // if (!rule) {
+  //   ruleWhere = { [Op.eq]: null };
+  // } else if (!rule.includes(":")) {
+  //   ruleWhere = rule;
+  // } else {
+  //   ruleWhere = { [Op.like]: `${rule.split(":")[0]}%` };
+  // }
 
-  if (!paragraph) {
-    paragraphWhere = { [Op.eq]: null };
-  } else if (!paragraph.includes("-")) {
-    paragraphWhere = paragraph;
-  } else {
-    paragraphWhere = { [Op.like]: `${paragraph.split("-")[0]}%` };
-  }
+  // if (!paragraph) {
+  //   paragraphWhere = { [Op.eq]: null };
+  // } else if (!paragraph.includes("-")) {
+  //   paragraphWhere = paragraph;
+  // } else {
+  //   paragraphWhere = { [Op.like]: `${paragraph.split("-")[0]}%` };
+  // }
 
-  if (!directive) {
-    directiveWhere = { [Op.eq]: null };
-  } else if (!directive.includes(" ")) {
-    directiveWhere = directive;
-  } else {
-    directiveWhere = { [Op.like]: `${directive.split(" ")[1]}%` };
-  }
+  // if (!directive) {
+  //   directiveWhere = { [Op.eq]: null };
+  // } else if (!directive.includes(" ")) {
+  //   directiveWhere = directive;
+  // } else {
+  //   directiveWhere = { [Op.like]: `${directive.split(" ")[1]}%` };
+  // }
+
+  // console.log("ruleWhere>>>", ruleWhere);
+  // console.log("paragraphWhere>>>", paragraphWhere);
+  // console.log("directiveWhere>>>", directiveWhere);
 
   const existingAllegation = await models.allegation.findOne({
     where: {
-      rule: ruleWhere,
-      paragraph: paragraphWhere,
-      directive: directiveWhere
+      rule: rule,
+      paragraph: paragraph,
+      directive: directive
     }
   });
-
   if (existingAllegation) {
     if (oldAllegationToBeUpdated(seedDataRow, paragraph)) {
       allegationsToUpdate.push(seedDataRow);
+      console.log("allegationsToUpdate", allegationsToUpdate);
     }
   } else {
     allegationsToCreate.push(seedDataRow);
   }
 };
 
-const oldAllegationToBeUpdated = (seedRowData, exisitingAllegation) => {
-  const allegationValuesToCompare = _.omit(exisitingAllegation.dataValues, [
+const oldAllegationToBeUpdated = (seedRowData, existingAllegation) => {
+  console.log("seedDataRow>", seedRowData);
+  console.log("existingAllegation>", existingAllegation);
+  const allegationValuesToCompare = _.omit(existingAllegation.dataValues, [
     "id",
     "createdAt",
     "updatedAt"
