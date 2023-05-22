@@ -44,6 +44,9 @@ describe("updating database using csv file in S3", () => {
       const unchangedOfficerKristin = await models.officer.findOne({
         where: { firstName: "Kirstin" }
       });
+      const noNewWorkStatusBob = await models.officer.findOne({
+        where: { firstName: "Bob" }
+      });
 
       expect(updatedOfficerChris.lastName).not.toEqual("Paucek");
       expect(updatedOfficerChris.dob).toEqual("1987-04-12");
@@ -54,6 +57,7 @@ describe("updating database using csv file in S3", () => {
         unchangedOfficerKristin.createdAt
       );
       expect(unchangedOfficerKristin.dob).toEqual(null);
+      expect(noNewWorkStatusBob.workStatus).toEqual("Active");
     })
   );
 });
