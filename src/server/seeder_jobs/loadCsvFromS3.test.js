@@ -32,13 +32,11 @@ describe("loadCsvFromS3", () => {
     expect(allegation1.directive).toBeNull();
 
     const allegation2 = allegations[1].dataValues;
-    expect(allegation2.rule).toEqual("Rule 4: Performance of Duty");
+    expect(allegation2.rule).toEqual("Rule 7: Departmental Property");
     expect(allegation2.paragraph).toEqual(
-      "4:2 Instructions from Authoritative Source"
+      "Paragraph 01 - Use of Department Property"
     );
-    expect(allegation2.directive).toEqual(
-      "1.1 Law Enforcement Authority 1-10 Policy Statement"
-    );
+    expect(allegation2.directive).toEqual("N/A");
   });
 
   test("properly adds new allegation data to db from s3", async () => {
