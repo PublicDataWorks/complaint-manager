@@ -1,4 +1,4 @@
-const updateOfficerDataFromS3 = require("../src/server/seeder_jobs/updateSeedOfficerDataFromS3");
+const updateOfficerDataFromS3 = require("../src/server/seeder_jobs/createSeedOfficerDataFromS3");
 
 if (process.env.NODE_ENV === "production" && !process.argv[1]) {
   console.log(
