@@ -48,9 +48,8 @@ describe("updating database using csv file in S3", () => {
         where: { rule: "Rule 7: Department Property" }
       });
 
-      console.log("unchanged Allegation>>>", unchangedAllegationRule4);
-      console.log("new Allegatoin>>>", newAllegationRule3);
-      console.log("updatedAllegation>>>", updatedAllegationRule7);
+      const allegations = await models.allegation.findAll();
+      expect(allegations.length).toEqual(3);
 
       expect(unchangedAllegationRule4.rule).toEqual(
         "Rule 4: Performance of Duty"
