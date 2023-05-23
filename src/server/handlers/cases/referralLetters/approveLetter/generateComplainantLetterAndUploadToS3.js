@@ -28,10 +28,10 @@ export const generateComplainantLetterAndUploadToS3 = async (
     {
       caseId: caseId,
       finalPdfFilename: finalPdfFilename,
-      complainantCivilianId: primaryComplainantType.isEmployee
+      complainantCivilianId: primaryComplainantType?.isEmployee
         ? null
         : primaryComplainant.id,
-      complainantOfficerId: primaryComplainantType.isEmployee
+      complainantOfficerId: primaryComplainantType?.isEmployee
         ? primaryComplainant.id
         : null
     },
