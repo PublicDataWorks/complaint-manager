@@ -130,7 +130,7 @@ const createSeedOfficerDataFromS3 = async (
     const stream = object.Body.pipe(parser).on("data", seedDataRow => {
       const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
       promises.push(promise);
-      if (counter++ >= 500) {
+      if (counter++ >= 100) {
         counter = 0;
         stream.pause();
         setTimeout(() => stream.resume(), 1000);
