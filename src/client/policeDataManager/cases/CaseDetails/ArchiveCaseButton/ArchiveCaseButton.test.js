@@ -37,19 +37,19 @@ describe("ArchiveCaseDialog", () => {
   });
 
   test("should call archiveCase thunk with correct caseId", () => {
-    const archiveCaseButton = screen.getByTestId("confirmArchiveCase");
+    const archiveCaseButton = screen.getByTestId("dialog-confirm-button");
     userEvent.click(archiveCaseButton);
 
     expect(dispatchSpy).toHaveBeenCalledWith(archiveCase(caseInfo.id));
   });
 
   test("should close dialog when cancel button clicked", async () => {
-    const cancelButton = screen.getByTestId("cancelArchiveCaseButton");
+    const cancelButton = screen.getByTestId("dialog-cancel-button");
     userEvent.click(cancelButton);
 
     await waitForElementToBeRemoved(() =>
-      screen.getByTestId("confirmArchiveCase")
+      screen.getByTestId("dialog-confirm-button")
     );
-    expect(screen.queryByTestId("cancelArchiveCaseButton")).toBeFalsy();
+    expect(screen.queryByTestId("dialog-cancel-button")).toBeFalsy();
   });
 });
