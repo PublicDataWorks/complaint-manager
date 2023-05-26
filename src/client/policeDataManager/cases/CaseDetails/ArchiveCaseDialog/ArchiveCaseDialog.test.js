@@ -1,8 +1,4 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import {
-  closeArchiveCaseDialog,
-  openArchiveCaseDialog
-} from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import React from "react";
@@ -15,7 +11,7 @@ jest.mock("../../thunks/archiveCase", () => caseId => ({
 }));
 
 describe("ArchiveCaseDialog", () => {
-  let caseInfo, dispatchSpy, store, wrapper;
+  let caseInfo, dispatchSpy, store, wrapper, closeDialog;
 
   beforeEach(() => {
     store = createConfiguredStore();
@@ -24,11 +20,11 @@ describe("ArchiveCaseDialog", () => {
     caseInfo = {
       caseId: 1
     };
-    store.dispatch(openArchiveCaseDialog());
 
+    closeDialog = jest.fn();
     wrapper = mount(
       <Provider store={store}>
-        <ArchiveCaseDialog />
+        <ArchiveCaseDialog dialogOpen={true} closeDialog={closeDialog} />
       </Provider>
     );
   });
@@ -47,6 +43,6 @@ describe("ArchiveCaseDialog", () => {
       .find('[data-testid="cancelArchiveCaseButton"]')
       .first();
     cancelButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(closeArchiveCaseDialog());
+    expect(closeDialog).toHaveBeenCalled();
   });
 });

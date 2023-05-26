@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-import { closeArchiveCaseDialog } from "../../../actionCreators/casesActionCreators";
 import archiveCase from "../../thunks/archiveCase";
 import {
   PrimaryButton,
@@ -19,7 +18,7 @@ import { ARCHIVE_CASE_FORM_NAME } from "../../../../../sharedUtilities/constants
 const ArchiveCaseDialog = ({
   dialogOpen,
   caseId,
-  closeArchiveCaseDialog,
+  closeDialog,
   archiveCase,
   submitting
 }) => {
@@ -43,7 +42,7 @@ const ArchiveCaseDialog = ({
       <DialogActions>
         <SecondaryButton
           data-testid="cancelArchiveCaseButton"
-          onClick={closeArchiveCaseDialog}
+          onClick={closeDialog}
           disabled={submitting}
         >
           Cancel
@@ -52,6 +51,7 @@ const ArchiveCaseDialog = ({
           data-testid="confirmArchiveCase"
           onClick={() => {
             archiveCase(caseId);
+            closeDialog();
           }}
           disabled={submitting}
         >
@@ -63,12 +63,10 @@ const ArchiveCaseDialog = ({
 };
 
 const mapStateToProps = state => ({
-  dialogOpen: state.ui.archiveCaseDialog.open,
   caseId: state.currentCase.details.id
 });
 
 const mapDispatchToProps = {
-  closeArchiveCaseDialog,
   archiveCase
 };
 

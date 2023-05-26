@@ -300,14 +300,6 @@ export const closeCaseStatusUpdateDialog = () => ({
   type: CASE_STATUS_UPDATE_DIALOG_CLOSED
 });
 
-export const openArchiveCaseDialog = () => ({
-  type: ARCHIVE_CASE_DIALOG_OPENED
-});
-
-export const closeArchiveCaseDialog = () => ({
-  type: ARCHIVE_CASE_DIALOG_CLOSED
-});
-
 export const openEditIncidentDetailsDialog = () => ({
   type: EDIT_INCIDENT_DETAILS_DIALOG_OPENED
 });

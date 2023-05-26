@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -15,7 +14,6 @@ import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
 import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
-  closeArchiveCaseDialog,
   closeCaseNoteDialog,
   closeCaseTagDialog,
   closeCaseStatusUpdateDialog,
@@ -64,7 +62,6 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(closeRemoveCaseTagDialog());
   dispatch(closeEditIncidentDetailsDialog());
   dispatch(closeRestoreArchivedCaseDialog());
-  dispatch(closeArchiveCaseDialog());
   dispatch(closeRemoveAttachmentConfirmationDialog());
 };
 
