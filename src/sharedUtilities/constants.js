@@ -253,6 +253,7 @@ export const USER_PERMISSIONS = {
 };
 export const OPENID = "openid";
 export const PROFILE = "profile";
+export const EMAIL = "email";
 
 // ----------------------------------------
 //          Search
