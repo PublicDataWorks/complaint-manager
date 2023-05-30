@@ -14,7 +14,9 @@ module.exports = {
         `UPDATE officers_allegations SET chapter = NULL WHERE chapter IS NOT NULL`,
         { transaction }
       );
-      await queryInterface.bulkDelete("rule_chapters", { transaction });
+      await queryInterface.bulkDelete("rule_chapters", undefined, {
+        transaction
+      });
     });
   }
 };
