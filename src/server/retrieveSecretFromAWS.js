@@ -6,7 +6,7 @@ import {
 const Boom = require("boom");
 const winston = require("winston");
 
-export const retrieveSecretFromAWS = async secretID => {
+export const retrieveSecretFromAWS = async (secretID, secretKey) => {
   winston.info(`About to request ${secretID} from AWS Secrets Manager`);
   let secret;
   let secretsManager = createConfiguredSecretsManagerInstance();
@@ -26,11 +26,9 @@ export const retrieveSecretFromAWS = async secretID => {
         winston.info(
           `Successfully retrieved ${secretID} from AWS Secrets Manager`
         );
-
-        return secret.AUTH0_CLIENT_SECRET;
+        return secret[secretKey];
       } else {
         winston.info(`Not an error, but ${secretID} is undefined`);
-
         return "Secret is undefined";
       }
     })

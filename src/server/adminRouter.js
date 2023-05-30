@@ -1,5 +1,5 @@
 const jwtCheck = require("./handlers/jwtCheck");
-const auth0UserService = require("./services/auth0UserService");
+const userService = require("./services/userService");
 
 const express = require("express");
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(jwtCheck);
 
 router.delete("/cache/users", (request, response) => {
-  if (auth0UserService.delCacheUsers()) {
+  if (userService.delCacheUsers()) {
     response.sendStatus(200);
   } else {
     response.sendStatus(204);

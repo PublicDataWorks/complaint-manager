@@ -5,11 +5,11 @@ import {
   MANAGER_TYPE
 } from "../../../sharedUtilities/constants";
 
-const auth0UserService = require("../../services/auth0UserService");
+const userService = require("../../services/userService");
 const asyncMiddleware = require("../asyncMiddleware");
 
 const getUsers = asyncMiddleware(async (request, response, next) => {
-  const transformedUserData = await auth0UserService.getUsers();
+  const transformedUserData = await userService.getUsers();
 
   await models.sequelize
     .transaction(async transaction => {

@@ -1,4 +1,4 @@
-import { getUsers } from "../../../services/auth0UserService";
+import { getUsers } from "../../../services/userService.js";
 import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../testHelpers/caseNote";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
@@ -6,7 +6,7 @@ import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../policeDataManager/models");
 
-jest.mock("../../../services/auth0UserService", () => ({
+jest.mock("../../../services/userService", () => ({
   getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },

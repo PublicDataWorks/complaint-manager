@@ -14,9 +14,9 @@ import winston from "winston";
 
 const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
-const auth0UserService = require("../../services/auth0UserService");
+const userService = require("../../services/userService");
 
-jest.mock("../../services/auth0UserService", () => ({
+jest.mock("../../services/userService", () => ({
   getUsers: jest.fn(() => {
     return [
       { name: "wancheny", email: "wancheny@gmail.com" },
@@ -233,7 +233,7 @@ describe("getNotifications", () => {
   test("should call getUsers when getting notifications", async () => {
     await getNotifications(timestamp, currentNotif.user);
 
-    expect(auth0UserService.getUsers).toHaveBeenCalled();
+    expect(userService.getUsers).toHaveBeenCalled();
   });
 
   test("when notification is deleted, user should not receive the notification", async () => {
