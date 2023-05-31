@@ -80,7 +80,7 @@ export default class Auth {
         value => !ignoredValues.includes(value)
       );
     } else {
-      permissions = parsePermissions(decodedToken.scp);
+      permissions = parsePermissions(decodedToken.scope);
     }
     const nickname = decodedToken[this.authConfig.nicknameKey];
     populateStoreWithUserInfoCallback({ nickname, permissions });
