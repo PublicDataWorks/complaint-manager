@@ -21,7 +21,7 @@ configureInterceptors(store);
 const oktaAuth =
   config.auth.engine === OKTA
     ? new OktaAuth({
-        issuer: `https://${config.auth.domain}/oauth2/default`,
+        issuer: config.auth.issuer,
         clientId: config.auth.clientID,
         redirectUri: config.auth.redirectUri,
         responseType: "code"

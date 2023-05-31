@@ -30,7 +30,6 @@ export default class Auth {
     getFeatureTogglesCallback
   ) => {
     this.authWeb.parseHash((err, authResult) => {
-      console.log("AUTHRESULT>>", authResult);
       if (
         authResult &&
         authResult.accessToken &&

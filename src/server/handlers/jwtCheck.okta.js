@@ -6,7 +6,7 @@ const config =
 
 const oktaJwtCheck = (request, response, next) => {
   const verifier = new OktaJwtVerifier({
-    issuer: `${config.authentication.issuer}/oauth2/default`
+    issuer: `${config.authentication.issuer}`
   });
 
   verifier
