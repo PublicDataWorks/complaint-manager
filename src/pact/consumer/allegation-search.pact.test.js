@@ -158,10 +158,10 @@ pactWith(
           "selectAllegationButton"
         );
         userEvent.click(selectBtns[0]);
-        userEvent.click(await screen.findByTestId("allegationSeverityInput"));
+        userEvent.click(await screen.findByTestId("allegation-severity-input"));
         userEvent.click(await screen.findByText("Medium"));
         userEvent.type(
-          screen.getByTestId("allegationDetailsInput"),
+          screen.getByTestId("allegation-details-input"),
           "Whoa man, very medium"
         );
         userEvent.click(screen.getByText("Add Allegation"));
