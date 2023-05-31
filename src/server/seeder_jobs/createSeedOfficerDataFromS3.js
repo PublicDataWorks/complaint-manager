@@ -1,5 +1,7 @@
-import { stream } from "winston";
-import { getOrdinalDistrict } from "../../sharedUtilities/convertDistrictToOrdinal";
+const { stream } = require("winston");
+const {
+  getOrdinalDistrict
+} = require("../../sharedUtilities/convertDistrictToOrdinal");
 
 const csvParse = require("csv-parse");
 const models = require("../policeDataManager/models");
@@ -85,6 +87,9 @@ const createSeedOfficerDataFromS3 = async (
     let totalCount = 0;
     let errorCount = 0;
     for (let officerData of officersToUpdate) {
+      if (!officerData.workStatus || officerData.workStatus === "") {
+        delete officerData.workStatus;
+      }
       await models.officer
         .update(officerData, {
           where: { officerNumber: officerData.officerNumber }
@@ -125,7 +130,7 @@ const createSeedOfficerDataFromS3 = async (
     const stream = object.Body.pipe(parser).on("data", seedDataRow => {
       const promise = determineWhetherToCreateOrUpdateOfficer(seedDataRow);
       promises.push(promise);
-      if (counter++ >= 500) {
+      if (counter++ >= 100) {
         counter = 0;
         stream.pause();
         setTimeout(() => stream.resume(), 1000);

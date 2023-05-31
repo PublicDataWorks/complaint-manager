@@ -421,7 +421,6 @@ describe("cases", function () {
       );
 
       complainantCase = await createCase(caseAttributes);
-      console.log(complainantCase);
       expect(complainantCase.caseReference).toEqual(
         `${personTypes[1].abbreviation}2016-0001`
       );

@@ -38,7 +38,6 @@ import letterDownloadReducer from "./policeDataManager/reducers/ui/letterDownloa
 import loadPdfPreviewReducer from "./policeDataManager/reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./policeDataManager/reducers/ui/intakeSourceReducer";
 import raceEthnicityReducer from "./policeDataManager/reducers/ui/raceEthnicityReducer";
-import archiveCaseDialogReducer from "./policeDataManager/reducers/ui/archiveCaseDialogReducer";
 import editIncidentDetailsDialogReducer from "./policeDataManager/reducers/ui/editIncidentDetailsDialogReducer";
 import restoreArchivedCaseDialogReducer from "./policeDataManager/reducers/ui/restoreArchivedCaseDialogReducer";
 import archivedCasesReducer from "./policeDataManager/reducers/cases/archivedCasesReducer";
@@ -113,7 +112,6 @@ const rootReducer = combineReducers({
     addressInput: addressInputReducer,
     allegations: allegationMenuDisplay,
     allExports: allExportsReducer,
-    archiveCaseDialog: archiveCaseDialogReducer,
     attachments: attachmentsReducer,
     cancelEditLetterConfirmationDialog:
       cancelEditLetterConfirmationDialogReducer,

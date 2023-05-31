@@ -4,7 +4,14 @@ import auditLogin from "../../policeDataManager/users/thunks/auditLogin";
 import parsePermissions from "../../policeDataManager/utilities/parsePermissions";
 import jwt from "jsonwebtoken";
 import generateRandomString from "../../policeDataManager/utilities/generateRandomString";
-import { NICKNAME, PERMISSIONS } from "../../../sharedUtilities/constants";
+import {
+  NICKNAME,
+  OKTA,
+  PERMISSIONS,
+  OPENID,
+  PROFILE,
+  EMAIL
+} from "../../../sharedUtilities/constants";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
@@ -23,6 +30,7 @@ export default class Auth {
     getFeatureTogglesCallback
   ) => {
     this.authWeb.parseHash((err, authResult) => {
+      console.log("AUTHRESULT>>", authResult);
       if (
         authResult &&
         authResult.accessToken &&
@@ -65,8 +73,16 @@ export default class Auth {
   };
 
   setUserInfoInStore = (accessToken, populateStoreWithUserInfoCallback) => {
+    let permissions;
     const decodedToken = jwt.decode(accessToken);
-    const permissions = parsePermissions(decodedToken.scope);
+    if (this.authConfig.engine === OKTA) {
+      const ignoredValues = [OPENID, PROFILE, EMAIL];
+      permissions = decodedToken.scp.filter(
+        value => !ignoredValues.includes(value)
+      );
+    } else {
+      permissions = parsePermissions(decodedToken.scp);
+    }
     const nickname = decodedToken[this.authConfig.nicknameKey];
     populateStoreWithUserInfoCallback({ nickname, permissions });
   };

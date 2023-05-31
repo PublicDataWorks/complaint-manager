@@ -15,7 +15,7 @@ describe("loadCsv", () => {
     await loadCsv("testOfficers.csv", models.officer);
 
     const officers = await models.officer.findAll();
-    expect(officers.length).toEqual(2);
+    expect(officers.length).toEqual(3);
 
     const officer1 = officers[0].dataValues;
     expect(officer1.firstName).toEqual("Chris");

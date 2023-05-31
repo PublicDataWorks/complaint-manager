@@ -1,9 +1,6 @@
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import nock from "nock";
-import {
-  archiveCaseSuccess,
-  closeArchiveCaseDialog
-} from "../../actionCreators/casesActionCreators";
+import { archiveCaseSuccess } from "../../actionCreators/casesActionCreators";
 import archiveCase from "./archiveCase";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { ARCHIVE_CASE_FORM_NAME } from "../../../../sharedUtilities/constants";
@@ -22,16 +19,6 @@ describe("archiveCase", () => {
   beforeEach(() => {
     configureInterceptors({ dispatch });
     dispatch.mockClear();
-  });
-
-  test("should dispatch close archive dialog when case archived successfully", async () => {
-    nock("http://localhost")
-      .delete(`/api/cases/${existingCase.id}`)
-      .reply(200, {});
-
-    await archiveCase(existingCase.id)(dispatch);
-
-    expect(dispatch).toHaveBeenCalledWith(closeArchiveCaseDialog());
   });
 
   test("should dispatch get case details success when case archived successfully", async () => {

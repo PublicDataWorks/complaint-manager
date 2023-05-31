@@ -146,18 +146,17 @@ const determineWhetherToCreateOrUpdateAllegation = async seedDataRow => {
       directive: directiveWhere
     }
   });
-
   if (existingAllegation) {
-    if (oldAllegationToBeUpdated(seedDataRow, paragraph)) {
-      allegationsToUpdate.push(seedDataRow);
+    if (oldAllegationToBeUpdated(seedDataRow, existingAllegation)) {
+      allegationsToUpdate.push({ ...seedDataRow, id: existingAllegation.id });
     }
   } else {
     allegationsToCreate.push(seedDataRow);
   }
 };
 
-const oldAllegationToBeUpdated = (seedRowData, exisitingAllegation) => {
-  const allegationValuesToCompare = _.omit(exisitingAllegation.dataValues, [
+const oldAllegationToBeUpdated = (seedRowData, existingAllegation) => {
+  const allegationValuesToCompare = _.omit(existingAllegation.dataValues, [
     "id",
     "createdAt",
     "updatedAt"

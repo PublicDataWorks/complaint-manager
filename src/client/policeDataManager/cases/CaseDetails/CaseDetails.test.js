@@ -11,7 +11,6 @@ import Case from "../../../../sharedTestHelpers/case";
 import getCaseDetails from "../thunks/getCaseDetails";
 import createCivilian from "../thunks/createCivilian";
 import {
-  closeArchiveCaseDialog,
   closeCaseNoteDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
@@ -166,7 +165,6 @@ describe("Case Details Component", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseNoteDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeEditIncidentDetailsDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(closeRestoreArchivedCaseDialog());
-    expect(dispatchSpy).toHaveBeenCalledWith(closeArchiveCaseDialog());
     expect(dispatchSpy).toHaveBeenCalledWith(
       closeRemoveAttachmentConfirmationDialog()
     );
