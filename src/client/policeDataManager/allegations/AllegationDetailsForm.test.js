@@ -25,7 +25,8 @@ describe("AllegationDetailsForm", () => {
     caseOfficerId,
     allegationDetailsForm,
     dispatch,
-    successCallbackFunction;
+    successCallbackFunction,
+    onSubmit;
 
   beforeEach(() => {
     const store = createConfiguredStore();
@@ -34,6 +35,7 @@ describe("AllegationDetailsForm", () => {
     caseId = "15";
     caseOfficerId = "4";
     successCallbackFunction = jest.fn();
+    onSubmit = jest.fn();
 
     allegationDetailsForm = mount(
       <Provider store={store}>
@@ -43,53 +45,20 @@ describe("AllegationDetailsForm", () => {
           caseId={caseId}
           caseOfficerId={caseOfficerId}
           addAllegationSuccess={successCallbackFunction}
+          onSubmit={onSubmit}
         />
       </Provider>
     );
   });
 
-  test("it calls createOfficerAllegation with appropriate values on submit", () => {
-    changeInput(
-      allegationDetailsForm,
-      '[data-testid="allegationDetailsInput"]',
-      "some details"
-    );
-
-    selectDropdownOption(
-      allegationDetailsForm,
-      '[data-testid="allegationSeverityField"]',
-      ALLEGATION_SEVERITY.MEDIUM
-    );
-
-    const addButton = allegationDetailsForm
-      .find('[data-testid="addAllegationButton"]')
-      .last();
-    addButton.simulate("click");
-
-    const formValues = {
-      allegationId,
-      details: "some details",
-      severity: ALLEGATION_SEVERITY.MEDIUM
-    };
-
-    expect(dispatch).toHaveBeenCalledWith(
-      createOfficerAllegation(
-        formValues,
-        caseId,
-        caseOfficerId,
-        successCallbackFunction
-      )
-    );
-  });
-
   test("submit button is disabled when no allegation details have been entered", () => {
     const addButton = allegationDetailsForm
-      .find('[data-testid="addAllegationButton"]')
+      .find('[data-testid="allegation-submit-btn"]')
       .last();
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-testid="allegationSeverityField"]',
+      '[data-testid="allegation-severity-field"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
@@ -98,12 +67,12 @@ describe("AllegationDetailsForm", () => {
 
   test("submit button is disabled when no allegation severity has been selected", () => {
     const addButton = allegationDetailsForm
-      .find('[data-testid="addAllegationButton"]')
+      .find('[data-testid="allegation-submit-btn"]')
       .last();
 
     changeInput(
       allegationDetailsForm,
-      '[data-testid="allegationDetailsInput"]',
+      '[data-testid="allegation-details-input"]',
       "some details"
     );
 
@@ -113,18 +82,18 @@ describe("AllegationDetailsForm", () => {
   test("submit button is disabled when empty string has been entered as allegation details", () => {
     changeInput(
       allegationDetailsForm,
-      '[data-testid="allegationDetailsInput"]',
+      '[data-testid="allegation-details-input"]',
       "   "
     );
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-testid="allegationSeverityField"]',
+      '[data-testid="allegation-severity-field"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
 
     const addButton = allegationDetailsForm
-      .find('[data-testid="addAllegationButton"]')
+      .find('[data-testid="allegation-submit-btn"]')
       .last();
 
     expect(addButton.props().disabled).toBeTruthy();
@@ -133,19 +102,19 @@ describe("AllegationDetailsForm", () => {
   test("submit button is enabled when allegation details and severity are present", () => {
     changeInput(
       allegationDetailsForm,
-      '[data-testid="allegationDetailsInput"]',
+      '[data-testid="allegation-details-input"]',
       "details"
     );
 
     selectDropdownOption(
       allegationDetailsForm,
-      '[data-testid="allegationSeverityField"]',
+      '[data-testid="allegation-severity-field"]',
       ALLEGATION_SEVERITY.MEDIUM
     );
     allegationDetailsForm.update();
 
     const addButton = allegationDetailsForm
-      .find('[data-testid="addAllegationButton"]')
+      .find('[data-testid="allegation-submit-btn"]')
       .last();
 
     expect(addButton.props().disabled).toBeFalsy();

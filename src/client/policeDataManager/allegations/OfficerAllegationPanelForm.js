@@ -1,4 +1,4 @@
-import formatStringToTitleCase from "../../utilities/formatStringToTitleCase";
+import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
 import {
   Accordion,
   AccordionDetails,
@@ -7,17 +7,18 @@ import {
   IconButton,
   Typography
 } from "@material-ui/core";
-import OfficerInfoDisplay from "../../cases/CaseDetails/PersonOnCase/Officers/OfficerInfoDisplay";
+import OfficerInfoDisplay from "../cases/CaseDetails/PersonOnCase/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
 import React from "react";
 import { connect } from "react-redux";
-import EditOfficerAllegationForm from "./EditOfficerAllegationForm";
-import LinkButton from "../../shared/components/LinkButton";
+import LinkButton from "../shared/components/LinkButton";
 import {
   closeEditAllegationForm,
   openEditAllegationForm,
   openRemoveOfficerAllegationDialog
-} from "../../actionCreators/allegationsActionCreators";
+} from "../actionCreators/allegationsActionCreators";
+import AllegationDetailsForm from "./AllegationDetailsForm";
+import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 
 const styles = {
   root: {
@@ -165,11 +166,27 @@ class OfficerAllegationPanelForm extends React.Component {
           </div>
         </AccordionSummary>
         {editMode ? (
-          <EditOfficerAllegationForm
-            form={`Allegation${id}DetailsForm`}
-            initialValues={{ id, details, severity }}
-            onCancel={this.handleCancel}
-          />
+          <AccordionDetails>
+            <div style={{ width: "100%", marginLeft: "64px" }}>
+              <AllegationDetailsForm
+                allegationDetailsLabel="Allegation Details"
+                form={`Allegation${id}DetailsForm`}
+                initialValues={{ id, details, severity }}
+                marginBottomOffset={32}
+                onCancel={this.handleCancel}
+                onSubmit={(values, dispatch) => {
+                  const { id, details, severity } = values;
+                  dispatch(
+                    editOfficerAllegation(
+                      { id, details, severity },
+                      this.props.caseId
+                    )
+                  );
+                }}
+                submitButtonText="Save"
+              />
+            </div>
+          </AccordionDetails>
         ) : (
           renderDetailsView(details, severity)
         )}
@@ -186,4 +203,7 @@ const mapDispatchToProps = {
 };
 
 const StyledComponent = withStyles(styles)(OfficerAllegationPanelForm);
-export default connect(undefined, mapDispatchToProps)(StyledComponent);
+export default connect(
+  state => ({ caseId: state.currentCase.details.id }),
+  mapDispatchToProps
+)(StyledComponent);

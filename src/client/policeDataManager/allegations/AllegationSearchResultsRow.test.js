@@ -1,9 +1,17 @@
-import { shallow } from "enzyme/build/index";
 import React from "react";
+import { shallow } from "enzyme/build/index";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import nock from "nock";
 import { AllegationSearchResultsRow } from "./AllegationSearchResultsRow";
 import AllegationDetailsForm from "./AllegationDetailsForm";
+import createConfiguredStore from "../../createConfiguredStore";
+import { ALLEGATION_SEVERITY } from "../../../sharedUtilities/constants";
+import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
 
-describe("AllegationSearchResultsRow", function() {
+describe("AllegationSearchResultsRow", function () {
   const classes = {};
   const allegation = {
     id: 5,
@@ -46,5 +54,40 @@ describe("AllegationSearchResultsRow", function() {
     expect(
       allegationSearchResultsRow.find(AllegationDetailsForm).exists()
     ).toBeTruthy();
+  });
+
+  test("should call createOfficerAllegation with appropriate values on submit after selecting", async () => {
+    nock("http://localhost")
+      .post("/api/cases/1/cases-officers/2/officers-allegations")
+      .reply(200, {});
+    const store = createConfiguredStore();
+    render(
+      <Provider store={store}>
+        <BrowserRouter>
+          <AllegationSearchResultsRow
+            classes={classes}
+            allegation={allegation}
+            caseId={"1"}
+            caseOfficerId={"2"}
+          />
+          <SharedSnackbarContainer />
+        </BrowserRouter>
+      </Provider>
+    );
+
+    userEvent.click(screen.getByText("Select"));
+    userEvent.click(screen.getByTestId("allegation-details-field"));
+    userEvent.type(
+      screen.getByTestId("allegation-details-input"),
+      "some details"
+    );
+
+    userEvent.click(screen.getByTestId("allegation-severity-input"));
+    userEvent.click(await screen.findByText(ALLEGATION_SEVERITY.MEDIUM));
+
+    userEvent.click(screen.getByTestId("allegation-submit-btn"));
+
+    expect(await screen.findByText("Allegation was successfully added"))
+      .toBeInTheDocument;
   });
 });
