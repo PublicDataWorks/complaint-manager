@@ -348,6 +348,11 @@ describe("Pact Verification", () => {
           await models.complaintTypes.create({ name: CIVILIAN_INITIATED });
           await models.complaintTypes.create({ name: RANK_INITIATED });
 
+          await models.ruleChapter.create({
+            id: 1,
+            name: "Ch. 0 This is a Chapter"
+          });
+
           const signerAttr = new Signer.Builder()
             .defaultSigner()
             .withName("Nina Ambroise")

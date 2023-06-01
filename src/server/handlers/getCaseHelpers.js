@@ -146,7 +146,7 @@ const getCaseDetailsAndAuditDetails = async (
           {
             model: models.officer_allegation,
             as: "allegations",
-            include: [models.allegation]
+            include: [models.allegation, models.ruleChapter]
           },
           {
             model: models.personType,

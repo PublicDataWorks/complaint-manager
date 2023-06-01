@@ -46,6 +46,25 @@ pactWith(
           }
         });
 
+        await provider.addInteraction({
+          state: "chapters have been added to the database",
+          uponReceiving: "get rule chapter",
+          withRequest: {
+            method: "GET",
+            path: "/api/rule-chapters"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({
+              id: 1,
+              name: "Ch. 1.2 Disclosure Obligations"
+            })
+          }
+        });
+
         let store = createConfiguredStore();
         store.dispatch({
           type: GET_CASE_DETAILS_SUCCESS,
@@ -116,6 +135,7 @@ pactWith(
             body: {
               allegationId: 1,
               details: "Whoa man, very medium",
+              ruleChapterId: 1,
               severity: "Medium"
             }
           },
@@ -144,6 +164,10 @@ pactWith(
                     rule: "RULE 2: MORAL CONDUCT",
                     paragraph: "PARAGRAPH 01 - ADHERENCE TO THE LAW",
                     directive: "1.1 Directive"
+                  },
+                  ruleChapter: {
+                    id: 1,
+                    name: "Ch. 1.2 Disclosure Obligations"
                   }
                 })
               })
@@ -158,6 +182,10 @@ pactWith(
           "selectAllegationButton"
         );
         userEvent.click(selectBtns[0]);
+        userEvent.click(await screen.findByTestId("rule-chapter-input"));
+        userEvent.click(
+          await screen.findByText("Ch. 1.2 Disclosure Obligations")
+        );
         userEvent.click(await screen.findByTestId("allegation-severity-input"));
         userEvent.click(await screen.findByText("Medium"));
         userEvent.type(

@@ -107,6 +107,12 @@ module.exports = (sequelize, DataTypes) => {
     OfficerAllegation.belongsTo(models.case_officer, {
       as: "caseOfficer"
     });
+    OfficerAllegation.belongsTo(models.ruleChapter, {
+      foreignKey: {
+        name: "ruleChapterId",
+        field: "chapter"
+      }
+    });
   };
 
   OfficerAllegation.auditDataChange();

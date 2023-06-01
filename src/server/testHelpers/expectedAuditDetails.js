@@ -176,5 +176,11 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.personType.rawAttributes)
     ),
     model: models.personType.name
+  },
+  ruleChapter: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.ruleChapter.rawAttributes)
+    ),
+    model: models.ruleChapter.name
   }
 };

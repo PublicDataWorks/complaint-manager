@@ -1006,6 +1006,12 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.race_ethnicity.name
             },
+            ruleChapter: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.ruleChapter.rawAttributes)
+              ),
+              model: models.ruleChapter.name
+            },
             recommendedAction: {
               attributes: expect.arrayContaining(
                 Object.keys(models.recommended_action.rawAttributes)
@@ -1273,6 +1279,12 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.personType.rawAttributes)
               ),
               model: models.personType.name
+            },
+            ruleChapter: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.ruleChapter.rawAttributes)
+              ),
+              model: models.ruleChapter.name
             },
             defaultPersonType: {
               attributes: expect.arrayContaining(

@@ -28,9 +28,20 @@ const styles = {
   }
 };
 
-const renderDetailsView = (details, severity) => {
+const renderDetailsView = (details, severity, ruleChapter) => {
   return (
     <div>
+      <AccordionDetails>
+        <OfficerInfoDisplay
+          shouldTruncate={false}
+          displayLabel="To Wit Chapter"
+          value={ruleChapter?.name}
+          style={{
+            marginRight: "32px",
+            marginLeft: "64px"
+          }}
+        />
+      </AccordionDetails>
       <AccordionDetails>
         <OfficerInfoDisplay
           shouldTruncate={false}
@@ -89,7 +100,7 @@ class OfficerAllegationPanelForm extends React.Component {
 
   render() {
     const {
-      officerAllegation: { allegation, id, details, severity },
+      officerAllegation: { allegation, id, details, severity, ruleChapter },
       editAllegationFormState,
       index,
       classes
@@ -188,7 +199,7 @@ class OfficerAllegationPanelForm extends React.Component {
             </div>
           </AccordionDetails>
         ) : (
-          renderDetailsView(details, severity)
+          renderDetailsView(details, severity, ruleChapter)
         )}
         <div style={{ flex: "1" }} />
       </Accordion>

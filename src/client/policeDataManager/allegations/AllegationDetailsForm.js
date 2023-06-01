@@ -13,11 +13,30 @@ import {
 import Dropdown from "../../common/components/Dropdown";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
+import { connect } from "react-redux";
 
 const AllegationDetailsForm = props => {
   const marginBottomOffset = props.marginBottomOffset || 16;
   return (
     <form style={{ justifyContent: "center" }}>
+      <div>
+        <Field
+          style={{
+            width: "60%",
+            marginBottom: `${marginBottomOffset}px`
+          }}
+          component={Dropdown}
+          name="ruleChapterId"
+          data-testid="rule-chapter-field"
+          inputProps={{ "data-testid": "rule-chapter-input" }}
+          label="To Wit Chapter"
+        >
+          {props.ruleChapters.map(chapter => ({
+            label: chapter.name,
+            value: chapter.id
+          }))}
+        </Field>
+      </div>
       <div>
         <Field
           style={{
@@ -91,4 +110,8 @@ AllegationDetailsForm.propTypes = {
   submitButtonText: PropTypes.string
 };
 
-export default reduxForm({})(AllegationDetailsForm);
+const mapStateToProps = state => ({
+  ruleChapters: state.ruleChapters
+});
+
+export default connect(mapStateToProps)(reduxForm({})(AllegationDetailsForm));

@@ -11,6 +11,7 @@ const _ = require("lodash");
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const allegationAttributes = _.pick(request.body, [
     "allegationId",
+    "ruleChapterId",
     "details",
     "severity"
   ]);

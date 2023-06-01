@@ -72,6 +72,7 @@ import facilitiesReducer from "./policeDataManager/reducers/facilitiesReducer";
 import personTypesReducer from "./policeDataManager/reducers/personTypesReducer";
 import inmateDetailsReducer from "./policeDataManager/reducers/ui/inmateDetailsReducer";
 import searchIndexReducer from "./policeDataManager/reducers/searchIndexReducer";
+import ruleChaptersReducer from "./policeDataManager/reducers/ruleChaptersReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -105,6 +106,7 @@ const rootReducer = combineReducers({
   recommendedActions: recommendedActionsReducer,
   referralLetter: referralLetterReducer,
   router: connectRouter(history),
+  ruleChapters: ruleChaptersReducer,
   searchableDataIsDirty: searchIndexReducer,
   signers: signersReducer,
   ui: combineReducers({
