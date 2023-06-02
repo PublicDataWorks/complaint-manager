@@ -72,13 +72,13 @@ services:
     environment:
       - SERVICES=s3,secretsmanager
       - DEBUG=1
-      - DATA_DIR=/tmp/localstack/data
+      # - DATA_DIR=/tmp/localstack/data # Uncomment these lines to reload saved localstack when doing a new up
       - DOCKER_HOST=unix:///var/run/docker.sock
       - HOST_TMP_FOLDER=${TMPDIR}
       - USE_SSL=false
       - NODE_EXTRA_CA_CERTS=/caroot/rootCA.pem
     volumes:
-      - ./data:/tmp/localstack
+      # - ./data:/tmp/localstack
       - ${CERT_DIR}:/caroot
   app-e2e:
     build:
