@@ -483,7 +483,10 @@ describe("Pact Verification", () => {
           const c4se = await setupCase();
           try {
             const allegationPromise = addAllegation();
-            await Promise.all([addAccusedToCase(c4se.id), allegationPromise]);
+            await Promise.all([
+              addAccusedToCase(c4se.id, true),
+              allegationPromise
+            ]);
           } catch (error) {
             console.log(error);
           }
@@ -606,7 +609,7 @@ describe("Pact Verification", () => {
           );
         },
         "allegations have been added to the database": addAllegation,
-        "case has accused officer with allegations": async () => {
+        "case has accused officer: allegations exist": async () => {
           try {
             const allegationPromise = addAllegation();
             const c4se = await setupCase();

@@ -91,6 +91,7 @@ export const addAccusedToCase = async (caseId, withAllegation) => {
         .defaultOfficerAllegation()
         .withAllegationId(allegation.id)
         .withCaseOfficerId(caseOfficer.id)
+        .withId(1)
         .build(),
       { auditUser: "user" }
     );

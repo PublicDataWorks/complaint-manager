@@ -78,7 +78,27 @@ pactWith(
                 windowsUserName: 1,
                 rank: "Attorney",
                 bureau: "Bob Loblaw's Law Blog",
-                allegations: []
+                allegations: [
+                  {
+                    id: 1,
+                    details: "Details!!!",
+                    caseOfficerId: 1,
+                    severity: "Low",
+                    allegationId: 232,
+                    ruleChapterId: 63,
+                    allegation: {
+                      id: 232,
+                      rule: "RULE 4: PERFORMANCE OF DUTY",
+                      paragraph:
+                        "PARAGRAPH 04(c) - ENUMERATED ACTS/OMISSIONS; 1. Failing to take appropriate and necessary police action",
+                      directive: "N/A"
+                    },
+                    ruleChapter: {
+                      id: 63,
+                      name: "Ch. 13.28 Personal Appearance Standards"
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -124,7 +144,7 @@ pactWith(
         });
 
         await provider.addInteraction({
-          state: "case has accused officer with allegations",
+          state: "case has accused officer: allegations exist",
           uponReceiving: "add officer allegation",
           withRequest: {
             method: "POST",
@@ -194,6 +214,76 @@ pactWith(
         );
         userEvent.click(screen.getByText("Add Allegation"));
         expect(await screen.findByTestId("editAllegationButton"))
+          .toBeInTheDocument;
+      });
+
+      test("should update officer allegation", async () => {
+        await provider.addInteraction({
+          state: "Case exists: case has accused officer with allegations",
+          uponReceiving: "edit officer allegation",
+          withRequest: {
+            method: "PUT",
+            path: "/api/cases/1/officers-allegations/1",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: {
+              id: 1,
+              details: "Whoa man, very medium",
+              ruleChapterId: 1,
+              severity: "Medium"
+            }
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: like({
+              id: 1,
+              caseReference: "CC2022-0001",
+              accusedOfficers: eachLike({
+                id: 1,
+                windowsUsername: 1,
+                rank: "Attorney",
+                bureau: "Bob Loblaw's Law Blog",
+                fullName: "Bob Loblaw",
+                allegations: eachLike({
+                  id: 1,
+                  details: "Whoa man, very medium",
+                  caseOfficerId: 1,
+                  severity: "Medium",
+                  allegationId: 1,
+                  allegation: {
+                    id: 1,
+                    rule: "RULE 2: MORAL CONDUCT",
+                    paragraph: "PARAGRAPH 01 - ADHERENCE TO THE LAW",
+                    directive: "1.1 Directive"
+                  },
+                  ruleChapter: {
+                    id: 1,
+                    name: "Ch. 1.2 Disclosure Obligations"
+                  }
+                })
+              })
+            })
+          }
+        });
+
+        userEvent.click(await screen.findByTestId("editAllegationButton"));
+        userEvent.click(await screen.findByTestId("rule-chapter-input"));
+        userEvent.click(
+          await screen.findByText("Ch. 1.2 Disclosure Obligations")
+        );
+        userEvent.click(await screen.findByTestId("allegation-severity-input"));
+        userEvent.click(await screen.findByText("Medium"));
+        userEvent.clear(screen.getByTestId("allegation-details-input"));
+        userEvent.type(
+          screen.getByTestId("allegation-details-input"),
+          "Whoa man, very medium"
+        );
+        userEvent.click(await screen.findByTestId("allegation-submit-btn"));
+        expect(await screen.findByText("Allegation was successfully updated"))
           .toBeInTheDocument;
       });
     });
