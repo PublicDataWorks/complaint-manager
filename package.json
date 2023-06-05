@@ -57,7 +57,11 @@
       "text",
       "text-summary"
     ],
-    "resetMocks": false
+    "resetMocks": false,
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      "\\.m?jsx?$": "jest-esm-transformer"
+    }
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.321.1",
@@ -159,8 +163,8 @@
     "@babel/node": "7.16.8",
     "@babel/plugin-proposal-class-properties": "7.16.7",
     "@babel/plugin-syntax-json-strings": "~7.8.3",
-    "@babel/preset-env": "7.16.11",
-    "@babel/preset-react": "7.16.7",
+    "@babel/preset-env": "^7.22.4",
+    "@babel/preset-react": "^7.22.3",
     "@babel/register": "7.17.7",
     "@pact-foundation/pact": "^9.17.3",
     "@sheerun/mutationobserver-shim": "^0.3.3",
@@ -175,6 +179,7 @@
     "enzyme-adapter-react-16": "1.15.6",
     "enzyme-to-json": "3.6.2",
     "eslint-plugin-jsx-a11y": "^6.7.1",
+    "jest-esm-transformer": "^1.0.0",
     "jest-extended": "^0.11.1",
     "jest-pact": "^0.9.3",
     "license-checker": "^25.0.1",
