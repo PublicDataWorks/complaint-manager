@@ -16,11 +16,13 @@ import models from "../../../policeDataManager/models";
 import editOfficerAllegation from "./editOfficerAllegation";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../audits/auditDataAccess");
 
 describe("editOfficerAllegation", () => {
-  let officerAllegationToUpdate, caseOfficer, response;
+  let officerAllegationToUpdate, caseOfficer, response, ruleChapter;
   const next = jest.fn();
 
   beforeEach(async () => {
@@ -78,6 +80,11 @@ describe("editOfficerAllegation", () => {
     caseOfficer = createdCase.accusedOfficers[0];
     officerAllegationToUpdate = caseOfficer.allegations[0];
     response = httpMocks.createResponse();
+
+    ruleChapter = await models.ruleChapter.create(
+      { name: "Don't Crime!" },
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {
@@ -91,6 +98,7 @@ describe("editOfficerAllegation", () => {
   test("should edit a case officer allegation", async () => {
     const data = {
       details: "new details",
+      ruleChapterId: ruleChapter.id,
       severity: ALLEGATION_SEVERITY.HIGH
     };
 
@@ -116,6 +124,35 @@ describe("editOfficerAllegation", () => {
       ALLEGATION_SEVERITY.HIGH
     );
   });
+
+  test("should return BAD REQUEST status if rule chapter does not exist", async () => {
+    const data = {
+      details: "new details",
+      ruleChapterId: ruleChapter.id + 1,
+      severity: ALLEGATION_SEVERITY.HIGH
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        officerAllegationId: officerAllegationToUpdate.id
+      },
+      body: data,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    const next = jest.fn();
+    await editOfficerAllegation(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER)
+    );
+  });
+
   describe("auditing", () => {
     test("should audit case data access", async () => {
       const data = {

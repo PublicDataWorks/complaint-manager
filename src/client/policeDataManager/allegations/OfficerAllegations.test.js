@@ -43,6 +43,10 @@ describe("OfficerAllegations", function () {
         caseOfficerId,
         id: 2,
         details: "detailsss2",
+        ruleChapter: {
+          id: 1,
+          name: "I like to crime!"
+        },
         severity: ALLEGATION_SEVERITY.HIGH
       }
     ];

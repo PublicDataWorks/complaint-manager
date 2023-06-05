@@ -64,6 +64,7 @@ jest.mock("@okta/okta-sdk-nodejs", () => {
 });
 
 describe("Error Handling", () => {
+  const test = authEnabledTest();
   test("should throw error if it cannot retrieve user data", async () => {
     okta.Client.mockImplementation(() => ({
       userApi: {
@@ -73,7 +74,7 @@ describe("Error Handling", () => {
       }
     }));
     try {
-      await userService.getUsers();
+      console.log(await userService.getUsers());
       expect(true).toBeFalse();
     } catch (error) {
       expect(error.message).toEqual("oh nooooo");

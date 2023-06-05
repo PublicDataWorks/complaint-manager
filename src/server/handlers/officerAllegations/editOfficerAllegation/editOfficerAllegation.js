@@ -27,8 +27,18 @@ const editOfficerAllegation = asyncMiddleware(
 
         const allegationAttributes = _.pick(request.body, [
           "details",
+          "ruleChapterId",
           "severity"
         ]);
+
+        if (allegationAttributes.ruleChapterId) {
+          const ruleChapter = await models.ruleChapter.findByPk(
+            allegationAttributes.ruleChapterId
+          );
+          if (!ruleChapter) {
+            throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
+          }
+        }
 
         await officerAllegation.update(allegationAttributes, {
           auditUser: request.nickname,
