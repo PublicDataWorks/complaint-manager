@@ -74,7 +74,7 @@ describe("Error Handling", () => {
       }
     }));
     try {
-      console.log(await userService.getUsers());
+      await userService.getUsers();
       expect(true).toBeFalse();
     } catch (error) {
       expect(error.message).toEqual("oh nooooo");
