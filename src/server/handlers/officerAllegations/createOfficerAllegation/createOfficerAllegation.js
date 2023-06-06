@@ -2,6 +2,8 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
+import Boom from "boom";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -15,6 +17,15 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
     "details",
     "severity"
   ]);
+
+  if (allegationAttributes.ruleChapterId) {
+    const ruleChapter = await models.ruleChapter.findByPk(
+      allegationAttributes.ruleChapterId
+    );
+    if (!ruleChapter) {
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
+    }
+  }
 
   const caseWithAssociations = await models.sequelize.transaction(
     async transaction => {

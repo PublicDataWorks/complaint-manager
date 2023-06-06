@@ -16,6 +16,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
+import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -144,6 +145,35 @@ describe("createOfficerAllegation", () => {
     );
   });
 
+  test("should return BAD REQUEST status if rule chapter does not exist", async () => {
+    const caseOfficer = newCase.accusedOfficers[0];
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: newCase.id,
+        caseOfficerId: caseOfficer.id
+      },
+      body: {
+        allegationId: allegation.id,
+        details: "details",
+        ruleChapterId: 11111,
+        severity: ALLEGATION_SEVERITY.LOW
+      },
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    const next = jest.fn();
+    await createOfficerAllegation(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER)
+    );
+  });
+
   describe("auditing", () => {
     let request, response, next;
 
@@ -173,19 +203,17 @@ describe("createOfficerAllegation", () => {
       next = jest.fn();
     });
 
-    describe("auditing", () => {
-      test("should audit case data access when officer allegation created", async () => {
-        await createOfficerAllegation(request, response, next);
+    test("should audit case data access when officer allegation created", async () => {
+      await createOfficerAllegation(request, response, next);
 
-        expect(auditDataAccess).toHaveBeenCalledWith(
-          request.nickname,
-          newCase.id,
-          MANAGER_TYPE.COMPLAINT,
-          AUDIT_SUBJECT.CASE_DETAILS,
-          expectedCaseAuditDetails,
-          expect.anything()
-        );
-      });
+      expect(auditDataAccess).toHaveBeenCalledWith(
+        request.nickname,
+        newCase.id,
+        MANAGER_TYPE.COMPLAINT,
+        AUDIT_SUBJECT.CASE_DETAILS,
+        expectedCaseAuditDetails,
+        expect.anything()
+      );
     });
   });
 });
