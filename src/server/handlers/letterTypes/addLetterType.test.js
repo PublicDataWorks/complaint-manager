@@ -14,6 +14,7 @@ import {
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
 import CaseStatus from "../../../sharedTestHelpers/caseStatus";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 
 jest.mock(
   "../../getFeaturesAsync",
@@ -187,5 +188,63 @@ describe("addLetterType", () => {
       });
 
     await expectResponse(responsePromise, 400);
+  });
+
+  test("should return 400 if the signer does not exist", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    const responsePromise = request(app)
+      .post("/api/letter-types")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        type: "NEW LETTER TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: status.name,
+        defaultSender: "not a real sender",
+        complaintTypes: [RANK_INITIATED, CIVILIAN_INITIATED]
+      });
+
+    await expectResponse(
+      responsePromise,
+      400,
+      expect.objectContaining({ message: BAD_REQUEST_ERRORS.INVALID_SENDER })
+    );
+  });
+
+  test("should return 400 if the requiredStatus does not exist", async () => {
+    const token = buildTokenWithPermissions(
+      USER_PERMISSIONS.ADMIN_ACCESS,
+      "nickname"
+    );
+
+    const responsePromise = request(app)
+      .post("/api/letter-types")
+      .set("Content-Header", "application/json")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        type: "NEW LETTER TYPE",
+        template: "<div>Hello World</div>",
+        editableTemplate: "<section>Goodbye World</section>",
+        hasEditPage: true,
+        requiresApproval: true,
+        requiredStatus: "FAKE STATUS!",
+        defaultSender: signer.nickname,
+        complaintTypes: [RANK_INITIATED, CIVILIAN_INITIATED]
+      });
+
+    await expectResponse(
+      responsePromise,
+      400,
+      expect.objectContaining({
+        message: BAD_REQUEST_ERRORS.INVALID_CASE_STATUS
+      })
+    );
   });
 });
