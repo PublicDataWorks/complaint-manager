@@ -11,7 +11,7 @@ import {
 
 const getTags = asyncMiddleware(async (request, response, next) => {
   const { tags, auditDetails } =
-    request.param("expand") === "count"
+    request.params.expand === "count"
       ? await getTagsWithCount(request)
       : await getTagsAndAuditDetails();
 
