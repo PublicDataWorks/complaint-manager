@@ -71,9 +71,9 @@ describe("executeQuery", () => {
       ];
 
   const expectedOutput = [
+    { district: districtNames[4], count: 3 },
     { district: districtNames[0], count: DISTRICTS_GEOJSON ? 2 : 1 },
-    { district: districtNames[1], count: 1 },
-    { district: districtNames[4], count: 1 }
+    { district: districtNames[1], count: 1 }
   ];
 
   if (DISTRICTS_GEOJSON) {
@@ -229,6 +229,34 @@ describe("executeQuery", () => {
     );
 
     await updateCaseStatus(fifthCase, CASE_STATUS.CLOSED, statuses);
+
+    const sixthCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate(moment().subtract(12, "months"))
+        .withCaseDistrict(fifthDistrict)
+        .withDistrictId(fifthDistrict.id)
+        .withId(333335),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    await updateCaseStatus(sixthCase, CASE_STATUS.CLOSED, statuses);
+
+    const seventhCase = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withFirstContactDate(moment().subtract(12, "months"))
+        .withCaseDistrict(fifthDistrict)
+        .withDistrictId(fifthDistrict.id)
+        .withId(333336),
+      {
+        auditUser: "someone"
+      }
+    );
+
+    await updateCaseStatus(seventhCase, CASE_STATUS.CLOSED, statuses);
   });
 
   afterEach(async () => {
