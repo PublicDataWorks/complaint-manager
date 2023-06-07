@@ -74,6 +74,10 @@ describe("buildQueryString", () => {
       buildQueryString("Tofu OR (complainant:Nigh AND complainant:Wat)")
     ).toEqual("*Tofu* OR (complainant.\\*:*Nigh* AND complainant.\\*:*Wat*)");
   });
+
+  test('should replace (" with ("*', () => {
+    expect(buildQueryString('("searchy")')).toEqual('("*searchy*")');
+  });
 });
 
 describe("removeTags", () => {
