@@ -151,4 +151,26 @@ describe("Case", () => {
       expect(json.nextStatus).toBeUndefined();
     });
   });
+
+  describe("getComplaintType", () => {
+    test("should return undefined if model.complaintType and model.complaintTypeId are undefined", async () => {
+      expect(await new Case({}).getComplaintType()).toBeUndefined();
+    });
+
+    test("should return model.complaintType.name if it exists", async () => {
+      expect(
+        await new Case({ complaintType: { name: "type" } }).getComplaintType()
+      ).toEqual("type");
+    });
+
+    test("should look up the complaintType if complaintTypeId exists", async () => {
+      const COMPLAINT_TYPE = "complaint";
+      const complaintType = await models.complaintTypes.create({
+        name: COMPLAINT_TYPE
+      });
+      expect(
+        await new Case({ complaintTypeId: complaintType.id }).getComplaintType()
+      ).toEqual(COMPLAINT_TYPE);
+    });
+  });
 });
