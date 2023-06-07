@@ -21,7 +21,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 jest.mock("../../audits/auditDataAccess");
 
 describe("createOfficerAllegation", () => {
-  let newCase, allegation, response, next;
+  let newCase, allegation, response, next, ruleChapter;
 
   beforeEach(async () => {
     await cleanupDatabase();
@@ -69,6 +69,11 @@ describe("createOfficerAllegation", () => {
       .build();
 
     allegation = await models.allegation.create(allegationAttributes);
+
+    ruleChapter = await models.ruleChapter.create(
+      { name: "Don't crime" },
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {
@@ -125,7 +130,8 @@ describe("createOfficerAllegation", () => {
       body: {
         allegationId: allegation.id,
         details: allegationDetails,
-        severity: ALLEGATION_SEVERITY.LOW
+        severity: ALLEGATION_SEVERITY.LOW,
+        ruleChapterId: ruleChapter.id
       },
       nickname: "TEST_USER_NICKNAME",
       permissions: USER_PERMISSIONS.EDIT_CASE
@@ -159,7 +165,7 @@ describe("createOfficerAllegation", () => {
       body: {
         allegationId: allegation.id,
         details: "details",
-        ruleChapterId: 11111,
+        ruleChapterId: ruleChapter.id + 1,
         severity: ALLEGATION_SEVERITY.LOW
       },
       nickname: "TEST_USER_NICKNAME",

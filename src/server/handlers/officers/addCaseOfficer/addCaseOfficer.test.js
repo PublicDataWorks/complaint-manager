@@ -16,6 +16,7 @@ import ReferralLetter from "../../../testHelpers/ReferralLetter";
 import auditDataAccess from "../../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../../testHelpers/expectedAuditDetails";
 import { seedStandardCaseStatuses } from "../../../testHelpers/testSeeding";
+import PersonType from "../../../../sharedTestHelpers/PersonType";
 
 jest.mock("../../audits/auditDataAccess");
 
@@ -48,6 +49,14 @@ describe("addCaseOfficer", () => {
   });
 
   test("should change the case status to active when any officer is added", async () => {
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withEmployeeDescription("Officer")
+        .build(),
+      { auditUser: "user" }
+    );
+
     const request = httpMocks.createRequest({
       method: "POST",
       headers: {
@@ -284,6 +293,24 @@ describe("addCaseOfficer", () => {
   });
 
   test("should create letter officer if letter exists", async () => {
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withKey("UKNOWN_OFFICER")
+        .withDescription("Unknown Officer")
+        .withEmployeeDescription("Officer")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    await models.personType.create(
+      new PersonType.Builder()
+        .defaultPersonType()
+        .withEmployeeDescription("Officer")
+        .build(),
+      { auditUser: "user" }
+    );
+
     await existingCase.update(
       { statusId: statuses.find(status => status.name === "Active").id },
       { auditUser: "someone" }
@@ -327,7 +354,7 @@ describe("addCaseOfficer", () => {
       body: {
         officerId: officer.id,
         roleOnCase: ACCUSED,
-        caseEmployeeType: "Known Officer",
+        caseEmployeeType: "Officer",
         notes: "these are notes"
       },
       nickname: "TEST_USER_NICKNAME",
