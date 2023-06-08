@@ -374,6 +374,7 @@ export const API_ROUTES = {
   "/cases/:caseId/letters": {
     post: {
       handler: generateLetterAndUploadToS3,
+      requiredPermission: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
       errorMessage:
         "Something went wrong and the PDF was not loaded. Please try again."
     }
@@ -793,7 +794,7 @@ export const API_ROUTES = {
   "/rule-chapters": {
     get: {
       handler: getRuleChapters,
-      errorMessage: "Something went wrong while getting rule handlers"
+      errorMessage: "Something went wrong while getting rule chapters"
     }
   }
 };

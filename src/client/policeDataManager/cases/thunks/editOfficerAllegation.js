@@ -10,9 +10,7 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
     );
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));
     return dispatch(snackbarSuccess("Allegation was successfully updated"));
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export default editOfficerAllegation;

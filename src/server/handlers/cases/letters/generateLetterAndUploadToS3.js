@@ -2,14 +2,11 @@ import asyncMiddleware from "../../asyncMiddleware";
 import models from "../../../policeDataManager/models";
 import {
   AUDIT_ACTION,
-  AUDIT_FILE_TYPE,
-  USER_PERMISSIONS
+  AUDIT_FILE_TYPE
 } from "../../../../sharedUtilities/constants";
 import { retrieveSignatureImageBySigner } from "../referralLetters/retrieveSignatureImage";
 import uploadLetterToS3 from "../referralLetters/sharedLetterUtilities/uploadLetterToS3";
-import Boom from "boom";
 import constructFilename from "../referralLetters/constructFilename";
-import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
 import { auditFileAction } from "../../audits/auditFileAction";
 import generateLetterPdfBuffer from "../referralLetters/generateLetterPdfBuffer";
 import Case from "../../../policeDataManager/payloadObjects/Case";
@@ -18,8 +15,6 @@ const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig
 
 const generateLetterAndUploadToS3 = asyncMiddleware(
   async (request, response, next) => {
-    validateUserPermissions(request);
-
     const caseId = request.params.caseId;
     const existingCase = await getCase(caseId);
     const d = new Date();
@@ -158,16 +153,6 @@ const generateLetter = async (
     pdfBuffer,
     config[process.env.NODE_ENV].s3Bucket
   );
-};
-
-const validateUserPermissions = request => {
-  if (
-    !request.permissions.includes(USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES)
-  ) {
-    throw Boom.badRequest(
-      BAD_REQUEST_ERRORS.PERMISSIONS_MISSING_TO_APPROVE_LETTER
-    );
-  }
 };
 
 const getCase = async caseId => {
