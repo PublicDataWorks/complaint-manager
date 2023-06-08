@@ -56,7 +56,7 @@ commands:
           --build-arg INSTANCE_VERSION=<<parameters.instance-version>> \
           --build-arg INSTANCE_IMAGE=<<parameters.instance-image>> \
           --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
-          --build-arg ANALYTICS_TRACKING_ID=<<parameters.analytics-tracking-id \
+          --build-arg ANALYTICS_TRACKING_ID=<<parameters.analytics-tracking-id>> \
           -t publicdataworks/<<parameters.image-name>>:latest .
   build-and-publish-app-image:
     parameters:
