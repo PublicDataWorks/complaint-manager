@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 
 const UsePageTracking = ({ isTestModeEnabled = false }) => {
   const analyticsTrackingID = "UA-184896339-1";
@@ -15,12 +15,11 @@ const UsePageTracking = ({ isTestModeEnabled = false }) => {
 
   useEffect(() => {
     if (initialized) {
-      console.log(
-        "Reporting pageview",
-        location.pathname,
-        location.search
-      );
-      ReactGA.pageview(location.pathname + location.search);
+      console.log("Reporting pageview", location.pathname, location.search);
+      ReactGA.send({
+        hitType: "pageview",
+        page: location.pathname + location.search
+      });
     }
   }, [initialized, location]);
 

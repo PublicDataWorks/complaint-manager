@@ -17,7 +17,7 @@ Object.defineProperty(window, "EventSource", {
   value: EventSource
 });
 
-jest.mock("react-ga");
+jest.mock("react-ga4");
 
 jest.mock("./common/components/Visualization/PlotlyWrapper", () => {
   const FakeWrapper = jest.fn(() => "PlotlyWrapper");
