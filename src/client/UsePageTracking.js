@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga4";
 
 const UsePageTracking = ({ isTestModeEnabled = false }) => {
-  const analyticsTrackingID = "UA-184896339-1";
+  const analyticsTrackingID =
+    process.env.ANALYTICS_TRACKING_ID || "G-MGXREW1G4M";
   let location = useLocation();
   const [initialized, setInitialized] = useState(false);
 

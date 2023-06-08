@@ -42,6 +42,9 @@ commands:
       image-name:
         default: base-app
         type: string
+      analytics-tracking-id:
+        default: G-VY44YBHKZ4
+        type: string
     steps:
       - setup_remote_docker:
           version: 19.03.13
@@ -53,6 +56,7 @@ commands:
           --build-arg INSTANCE_VERSION=<<parameters.instance-version>> \
           --build-arg INSTANCE_IMAGE=<<parameters.instance-image>> \
           --build-arg REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
+          --build-arg ANALYTICS_TRACKING_ID=<<parameters.analytics-tracking-id \
           -t publicdataworks/<<parameters.image-name>>:latest .
   build-and-publish-app-image:
     parameters:
@@ -430,6 +434,7 @@ jobs:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
           image-name: "base-app"
+          analytics-tracking-id: "G-VY44YBHKZ4"
       - build-and-publish-app-image:
           env: "ci"
           base-image: "base-app"
@@ -446,6 +451,7 @@ jobs:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: "base-app-hawaii"
+          analytics-tracking-id: "G-MGXREW1G4M"
       - build-and-publish-app-image:
           env: "hawaii-ci"
           base-image: "base-app-hawaii"
@@ -759,6 +765,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
           image-name: base-app
+          analytics-tracking-id: "G-VY44YBHKZ4"
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
@@ -778,6 +785,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: base-app-hawaii
+          analytics-tracking-id: "G-MGXREW1G4M"
       - build-and-publish-app-image:
           env: hawaii-staging
           version: $(cat version.txt)
@@ -797,6 +805,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
           image-name: base-app
+          analytics-tracking-id: "G-VY44YBHKZ4"
       - build-and-publish-app-image:
           env: production
           version: $(cat version.txt)
@@ -820,6 +829,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PRODUCTION
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: base-app-hawaii
+          analytics-tracking-id: "G-MGXREW1G4M"
       - build-and-publish-app-image:
           env: hawaii-production
           version: $(cat version.txt)
