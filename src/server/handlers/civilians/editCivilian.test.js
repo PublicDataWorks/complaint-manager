@@ -5,7 +5,6 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
-  CASE_STATUS,
   MANAGER_TYPE,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
