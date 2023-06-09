@@ -4,7 +4,7 @@ import ReactGA from "react-ga4";
 
 const UsePageTracking = ({ isTestModeEnabled = false }) => {
   const analyticsTrackingID =
-    process.env.ANALYTICS_TRACKING_ID || "G-MGXREW1G4M";
+    process.env.REACT_APP_ANALYTICS_TRACKING_ID || "G-MGXREW1G4M";
   let location = useLocation();
   const [initialized, setInitialized] = useState(false);
 
