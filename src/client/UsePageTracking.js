@@ -4,12 +4,12 @@ import ReactGA from "react-ga4";
 
 const UsePageTracking = ({ isTestModeEnabled = false }) => {
   const analyticsTrackingID =
-    process.env.REACT_APP_ANALYTICS_TRACKING_ID || "G-MGXREW1G4M";
+    process.env.REACT_APP_ANALYTICS_TRACKING_ID || "G-VL13HH7WD9";
   let location = useLocation();
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    console.log("Initializing GA");
+    console.log("Initializing GA", analyticsTrackingID);
     ReactGA.initialize(analyticsTrackingID, { testMode: isTestModeEnabled });
     setInitialized(true);
   }, []);
