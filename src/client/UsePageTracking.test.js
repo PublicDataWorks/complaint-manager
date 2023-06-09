@@ -32,7 +32,7 @@ describe("UsePageTracking", () => {
   });
 
   test("Should track page views using react-ga", () => {
-    expect(initializeSpy).toHaveBeenCalledWith("G-MGXREW1G4M", {
+    expect(initializeSpy).toHaveBeenCalledWith("G-VL13HH7WD9", {
       testMode: true
     });
     expect(sendSpy).toHaveBeenCalledWith({
