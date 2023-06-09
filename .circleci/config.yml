@@ -434,7 +434,7 @@ jobs:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
           image-name: "base-app"
-          analytics-tracking-id: "G-VY44YBHKZ4"
+          analytics-tracking-id: "G-VL13HH7WD9"
       - build-and-publish-app-image:
           env: "ci"
           base-image: "base-app"
@@ -451,7 +451,7 @@ jobs:
           env: "ci"
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: "base-app-hawaii"
-          analytics-tracking-id: "G-MGXREW1G4M"
+          analytics-tracking-id: "G-327G55W394"
       - build-and-publish-app-image:
           env: "hawaii-ci"
           base-image: "base-app-hawaii"
@@ -765,7 +765,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
           instance-image: << pipeline.parameters.instance-files-image-name-noipm >>
           image-name: base-app
-          analytics-tracking-id: "G-VY44YBHKZ4"
+          analytics-tracking-id: "G-8KDZQJG0L5"
       - build-and-publish-app-image:
           env: staging
           version: $(cat version.txt)
@@ -785,7 +785,7 @@ jobs:
           google-api-key: $REACT_APP_GOOGLE_API_KEY_PREPROD
           instance-image: << pipeline.parameters.instance-files-image-name-hawaii >>
           image-name: base-app-hawaii
-          analytics-tracking-id: "G-MGXREW1G4M"
+          analytics-tracking-id: "G-12LXST3MEP"
       - build-and-publish-app-image:
           env: hawaii-staging
           version: $(cat version.txt)
