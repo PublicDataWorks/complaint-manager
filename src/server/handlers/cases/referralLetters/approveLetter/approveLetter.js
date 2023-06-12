@@ -166,27 +166,4 @@ const validateUserPermissions = request => {
   }
 };
 
-const getCase = async caseId => {
-  return await Case.getCase(caseId, {
-    include: [
-      {
-        model: models.case_officer,
-        as: "complainantOfficers"
-      },
-      {
-        model: models.civilian,
-        as: "complainantCivilians",
-        include: [
-          models.address,
-          { model: models.civilian_title, as: "civilianTitle" }
-        ]
-      },
-      {
-        model: models.caseStatus,
-        as: "status"
-      }
-    ]
-  });
-};
-
 export default approveLetter;
