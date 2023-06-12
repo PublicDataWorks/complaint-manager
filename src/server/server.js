@@ -93,6 +93,7 @@ app.use(
         "'self'",
         "https://maps.googleapis.com",
         "https://www.google-analytics.com",
+        "https://www.googletagmanager.com",
         "'unsafe-eval'"
       ],
       styleSrc: [
