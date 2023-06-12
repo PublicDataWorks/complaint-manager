@@ -95,8 +95,7 @@ describe("editRecommendedActions", function () {
       const includeRetaliationConcerns = true;
       const requestBody = {
         id: referralLetter.id,
-        includeRetaliationConcerns: includeRetaliationConcerns,
-        letterOfficers: []
+        includeRetaliationConcerns: includeRetaliationConcerns
       };
       const request = httpMocks.createRequest({
         method: "PUT",
