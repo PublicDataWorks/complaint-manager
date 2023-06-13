@@ -56,8 +56,7 @@ describe("legacyAuditDataAccess", () => {
           "user",
           caseForAudit.id,
           AUDIT_FILE_TYPE.ATTACHMENT,
-          transaction,
-          AUDIT_ACTION.DATA_ACCESSED
+          transaction
         );
       });
 
