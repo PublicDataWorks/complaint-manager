@@ -1,7 +1,8 @@
 const {
   parseSearchTerm,
   buildQueryString,
-  removeTags
+  removeTags,
+  updateSearchIndex
 } = require("./searchUtilities");
 
 describe("parseSearchTerm", () => {
@@ -65,6 +66,11 @@ describe("buildQueryString", () => {
     );
   });
 
+  test("should balance parens on field query", () => {
+    expect(buildQueryString('tag:"Bob')).toEqual('tag.\\*:"*Bob*"');
+    expect(buildQueryString('tag:Bob"')).toEqual('tag.\\*:"*Bob*"');
+  });
+
   test("should not asterisk parens or a NOT just inside of parens", () => {
     expect(
       buildQueryString("I like (tea AND cakes for) (NOT tea OR cake) time")
@@ -108,5 +114,34 @@ describe("removeTags", () => {
     expect(removeTags("<p>I</p>Am<br>So<br /><p>Tired</p>")).toEqual(
       " I Am So  Tired "
     );
+  });
+});
+
+describe("updateSearchIndex", () => {
+  const mockExists = jest.fn(() => Promise.resolve({ body: true }));
+  const mockDelete = jest.fn(() => Promise.resolve());
+  const mockCreate = jest.fn(() => Promise.resolve());
+  const mockBulk = jest.fn(() => Promise.resolve());
+  jest.mock("./search-index-config", () => ({
+    [process.env.NODE_ENV]: { indexName: "index" }
+  }));
+
+  jest.mock("./create-configured-search-client", () =>
+    jest.fn(() => ({
+      indices: {
+        exists: mockExists,
+        delete: mockDelete,
+        create: mockCreate
+      },
+      bulk: mockBulk,
+      count: jest.fn(() => Promise.resolve({ body: { count: 1 } }))
+    }))
+  );
+
+  test("should create delete and recreate the search index", async () => {
+    await updateSearchIndex();
+    expect(mockExists).toHaveBeenCalledWith({ index: "index" });
+    expect(mockDelete).toHaveBeenCalledWith({ index: "index" });
+    expect(mockCreate).toHaveBeenCalled();
   });
 });
