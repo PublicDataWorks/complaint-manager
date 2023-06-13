@@ -189,6 +189,20 @@ describe("getCaseHelpers", () => {
           .withLastName("Loblaw")
           .withIsAnonymous(true)
           .withCaseId(existingCase.id)
+          .withCreatedAt(new Date(0, 0, 0))
+          .build(),
+        { auditUser: "user" }
+      );
+
+      await models.caseInmate.create(
+        new CaseInmate.Builder()
+          .defaultCaseInmate()
+          .withRoleOnCase(WITNESS)
+          .withFirstName("Billy")
+          .withMiddleInitial("G")
+          .withLastName("Bills")
+          .withIsAnonymous(false)
+          .withCaseId(existingCase.id)
           .build(),
         { auditUser: "user" }
       );
@@ -206,6 +220,9 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantInmates[0].middleInitial).toEqual("");
       expect(caseDetails.complainantInmates[0].lastName).toEqual("");
       expect(caseDetails.complainantInmates[0].fullName).toEqual("Anonymous");
+
+      expect(caseDetails.witnessInmates[0].firstName).toEqual("Billy");
+      expect(caseDetails.witnessInmates[0].lastName).toEqual("Bills");
     });
   });
 

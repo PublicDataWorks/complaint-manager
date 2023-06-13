@@ -15,6 +15,7 @@ class CaseInmate {
     this.notFoundInmateId = build.notFoundInmateId;
     this.facility = build.facility;
     this.notes = build.notes;
+    this.createdAt = build.createdAt;
   }
 
   static get Builder() {
@@ -22,6 +23,7 @@ class CaseInmate {
       defaultCaseInmate() {
         this.roleOnCase = COMPLAINANT;
         this.isAnonymous = false;
+        this.createdAt = new Date();
         return this;
       }
 
@@ -87,6 +89,11 @@ class CaseInmate {
 
       withNotes(notes) {
         this.notes = notes;
+        return this;
+      }
+
+      withCreatedAt(createdAt) {
+        this.createdAt = createdAt;
         return this;
       }
 
