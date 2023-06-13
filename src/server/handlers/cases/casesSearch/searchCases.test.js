@@ -39,6 +39,7 @@ describe("searchCases handler", function () {
   let createdCaseA,
     createdCaseB,
     createdCaseAnonComplainant,
+    createdCaseUnknownComplainant,
     request,
     response,
     next;
@@ -77,6 +78,17 @@ describe("searchCases handler", function () {
     const anonymousComplainantCivilian = new Civilian.Builder()
       .defaultCivilian()
       .withFirstName("Sherry")
+      .withRoleOnCase(COMPLAINANT)
+      .withIsAnonymous(true)
+      .withId(undefined)
+      .withCaseId(undefined);
+
+    const unknownComplainantCivilian = new Civilian.Builder()
+      .defaultCivilian()
+      .withFirstName("")
+      .withLastName("")
+      .withFullName("")
+      .withMiddleInitial("")
       .withRoleOnCase(COMPLAINANT)
       .withIsAnonymous(true)
       .withId(undefined)
@@ -134,6 +146,27 @@ describe("searchCases handler", function () {
       }
     );
 
+    createdCaseUnknownComplainant = await models.cases.create(
+      new Case.Builder()
+        .defaultCase()
+        .withId(undefined)
+        .withIncidentDate("2012-12-01")
+        .withFirstContactDate("2012-12-02")
+        .withYear("2023")
+        .withCaseNumber("1114")
+        .withComplainantCivilians([unknownComplainantCivilian]),
+      {
+        include: [
+          {
+            model: models.civilian,
+            as: "complainantCivilians",
+            auditUser: "someone"
+          }
+        ],
+        auditUser: "someone"
+      }
+    );
+
     const caseTag1 = new CaseTag.Builder()
       .withCaseId(createdCaseB.id)
       .withTagId(tag1.id)
@@ -169,7 +202,11 @@ describe("searchCases handler", function () {
       { case_id: createdCaseA.id, first_name: "Chuck", last_name: "Berry" },
       { case_id: createdCaseB.id, first_name: "Chuck", last_name: "Berry" },
       { case_id: createdCaseB.id, tag_name: "Chuck-e-Cheese " },
-      { case_id: createdCaseAnonComplainant.id, first_name: "Sherry" }
+      { case_id: createdCaseAnonComplainant.id, first_name: "Sherry" },
+      {
+        case_id: createdCaseUnknownComplainant.id,
+        caseNumber: createdCaseUnknownComplainant.caseReference
+      }
     ]);
   });
 
@@ -196,10 +233,35 @@ describe("searchCases handler", function () {
 
       expect(getResultsFromES).toHaveBeenCalledTimes(1);
       expect(getResultsFromES).toHaveBeenCalledWith("Sherry", 1);
-      expect(response._getData().totalRecords).toEqual(3);
+      expect(response._getData().totalRecords).toEqual(4);
       expect(response._getData().rows).toContainEqual(
         expect.objectContaining({
           complainantFirstName: "Anonymous",
+          complainantIsAnonymous: true
+        })
+      );
+    });
+
+    test("should still show unknown civilian as unknown (not anonymous)", async () => {
+      request = createSearchRequest(
+        createdCaseUnknownComplainant.caseReference,
+        1,
+        SORT_CASES_BY.CASE_REFERENCE,
+        DESCENDING,
+        USER_PERMISSIONS.ADD_TAG_TO_CASE
+      );
+
+      await searchCases(request, response, next);
+
+      expect(getResultsFromES).toHaveBeenCalledTimes(1);
+      expect(getResultsFromES).toHaveBeenCalledWith(
+        createdCaseUnknownComplainant.caseReference,
+        1
+      );
+      expect(response._getData().totalRecords).toEqual(4);
+      expect(response._getData().rows).toContainEqual(
+        expect.objectContaining({
+          complainantFirstName: "",
           complainantIsAnonymous: true
         })
       );
@@ -220,7 +282,7 @@ describe("searchCases handler", function () {
 
       expect(getResultsFromES).toHaveBeenCalledTimes(1);
       expect(getResultsFromES).toHaveBeenCalledWith("Sherry", 1);
-      expect(response._getData().totalRecords).toEqual(3);
+      expect(response._getData().totalRecords).toEqual(4);
       expect(response._getData().rows).toContainEqual(
         expect.objectContaining({
           complainantFirstName: "Sherry",
@@ -242,7 +304,7 @@ describe("searchCases handler", function () {
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
     expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
-    expect(response._getData().totalRecords).toEqual(3);
+    expect(response._getData().totalRecords).toEqual(4);
     expect(response._getData().rows[1]).toEqual(
       expect.objectContaining({
         id: createdCaseA.id
@@ -297,6 +359,9 @@ describe("searchCases handler", function () {
             id: createdCaseA.id
           }),
           expect.objectContaining({
+            id: createdCaseUnknownComplainant.id
+          }),
+          expect.objectContaining({
             id: createdCaseAnonComplainant.id
           })
         ],
@@ -324,6 +389,9 @@ describe("searchCases handler", function () {
             id: createdCaseAnonComplainant.id
           }),
           expect.objectContaining({
+            id: createdCaseUnknownComplainant.id
+          }),
+          expect.objectContaining({
             id: createdCaseA.id
           }),
           expect.objectContaining({
@@ -347,6 +415,9 @@ describe("searchCases handler", function () {
         rows: [
           expect.objectContaining({
             id: createdCaseAnonComplainant.id
+          }),
+          expect.objectContaining({
+            id: createdCaseUnknownComplainant.id
           }),
           expect.objectContaining({
             id: createdCaseA.id,
@@ -377,7 +448,7 @@ describe("searchCases handler", function () {
 
     expect(getResultsFromES).toHaveBeenCalledTimes(1);
     expect(getResultsFromES).toHaveBeenCalledWith("Chuck", 1);
-    expect(response._getData().rows).toHaveLength(3);
+    expect(response._getData().rows).toHaveLength(4);
   });
   test("should return the cases for selected page", async () => {
     const currentPage = 2;

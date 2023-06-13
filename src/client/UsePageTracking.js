@@ -9,7 +9,7 @@ const UsePageTracking = ({ isTestModeEnabled = false }) => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
-    console.log("Initializing GA", analyticsTrackingID);
+    console.log("Initializing GA");
     ReactGA.initialize(analyticsTrackingID, { testMode: isTestModeEnabled });
     setInitialized(true);
   }, []);
