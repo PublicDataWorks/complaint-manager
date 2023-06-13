@@ -55,6 +55,16 @@ describe("buildQueryString", () => {
     );
   });
 
+  test("should handle parens after NOT", () => {
+    expect(buildQueryString("NOT (safe)")).toEqual("(NOT (*safe*))");
+  });
+
+  test("should handle quotes after NOT", () => {
+    expect(buildQueryString('NOT "safe time"')).toEqual(
+      '(NOT "*safe* *<<SPACE>>* *time*")'
+    );
+  });
+
   test("should not asterisk parens or a NOT just inside of parens", () => {
     expect(
       buildQueryString("I like (tea AND cakes for) (NOT tea OR cake) time")
