@@ -163,7 +163,11 @@ describe("updateSearchIndex", () => {
       mockBulk.mockClear();
       const statuses = await seedStandardCaseStatuses();
       c4se = await models.cases.create(
-        new Case.Builder().defaultCase().withStatusId(statuses[0].id).build(),
+        new Case.Builder()
+          .defaultCase()
+          .withStatusId(statuses[0].id)
+          .withPibCaseNumber("3999")
+          .build(),
         { auditUser: "user" }
       );
 
@@ -199,10 +203,18 @@ describe("updateSearchIndex", () => {
             narrative: {
               details: " <<SPACE>> test <<SPACE>> details <<SPACE>> ",
               summary: "test <<SPACE>> summary"
-            }
+            },
+            case_number: [c4se.caseReference, "3999"]
           })
         ]
       });
+    });
+
+    test("should log when in verbose mode", async () => {
+      const logSpy = jest.spyOn(console, "log");
+      logSpy.mockClear();
+      await updateSearchIndex(true);
+      expect(logSpy).toHaveBeenCalledTimes(6);
     });
   });
 });
