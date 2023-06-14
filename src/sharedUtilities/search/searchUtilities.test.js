@@ -1,9 +1,15 @@
-const {
+import {
   parseSearchTerm,
   buildQueryString,
   removeTags,
   updateSearchIndex
-} = require("./searchUtilities");
+} from "./searchUtilities";
+import models from "../../server/policeDataManager/models";
+import { seedStandardCaseStatuses } from "../../server/testHelpers/testSeeding";
+import { cleanupDatabase } from "../../server/testHelpers/requestTestHelpers";
+import Case from "../../sharedTestHelpers/case";
+import Civilian from "../../sharedTestHelpers/civilian";
+import { COMPLAINANT } from "../constants";
 
 describe("parseSearchTerm", () => {
   test("should return undefined if input is undefined", () => {
@@ -143,5 +149,60 @@ describe("updateSearchIndex", () => {
     expect(mockExists).toHaveBeenCalledWith({ index: "index" });
     expect(mockDelete).toHaveBeenCalledWith({ index: "index" });
     expect(mockCreate).toHaveBeenCalled();
+  });
+
+  test("should log when in verbose mode", async () => {
+    const logSpy = jest.spyOn(console, "log");
+    await updateSearchIndex(true);
+    expect(logSpy).toHaveBeenCalledTimes(5);
+  });
+
+  describe("with results", () => {
+    let c4se;
+    beforeEach(async () => {
+      mockBulk.mockClear();
+      const statuses = await seedStandardCaseStatuses();
+      c4se = await models.cases.create(
+        new Case.Builder().defaultCase().withStatusId(statuses[0].id).build(),
+        { auditUser: "user" }
+      );
+
+      await models.civilian.create(
+        new Civilian.Builder()
+          .defaultCivilian()
+          .withRoleOnCase(COMPLAINANT)
+          .withCaseId(c4se.id)
+          .build(),
+        { auditUser: "user" }
+      );
+    });
+
+    afterEach(async () => {
+      await cleanupDatabase();
+    });
+
+    test("should call bulk with case data", async () => {
+      await updateSearchIndex();
+      expect(mockBulk).toHaveBeenCalledWith({
+        refresh: true,
+        body: [
+          { index: { _index: "index" } },
+          expect.objectContaining({
+            case_id: c4se.id,
+            complainant: [
+              {
+                full_name: "Chuck <<SPACE>> Berry <<SPACE>> XVI",
+                full_name_with_initial:
+                  "Chuck <<SPACE>> E <<SPACE>> Berry <<SPACE>> XVI"
+              }
+            ],
+            narrative: {
+              details: " <<SPACE>> test <<SPACE>> details <<SPACE>> ",
+              summary: "test <<SPACE>> summary"
+            }
+          })
+        ]
+      });
+    });
   });
 });
