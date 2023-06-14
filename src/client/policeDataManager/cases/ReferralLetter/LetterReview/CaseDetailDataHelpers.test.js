@@ -1019,6 +1019,7 @@ describe("caseDetailDataHelpers", function () {
             {
               details: "some details2",
               severity: "some severity2",
+              ruleChapter: { name: "CHAPTER!!!!" },
               allegation: {
                 rule: "some rule2",
                 paragraph: "some paragraph2",
@@ -1053,6 +1054,7 @@ describe("caseDetailDataHelpers", function () {
               Paragraph: "some paragraph2",
               Directive: "some directive2",
               Severity: "some severity2",
+              "To Wit Chapter": "CHAPTER!!!!",
               "Allegation Details": "some details2"
             }),
             expect.objectContaining({
