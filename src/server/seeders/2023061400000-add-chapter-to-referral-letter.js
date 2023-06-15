@@ -39,12 +39,12 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    if (process.env.ORG === "NOIPM") {
-      await queryInterface.sequelize.transaction(async transaction => {
-        const type = await queryInterface.sequelize.query(
-          QUERY_REFERRAL_LETTER_TYPE,
-          { transaction }
-        );
+    await queryInterface.sequelize.transaction(async transaction => {
+      const type = await queryInterface.sequelize.query(
+        QUERY_REFERRAL_LETTER_TYPE,
+        { transaction }
+      );
+      if (type?.length && type[0].length && type[0][0].editable_template) {
         await queryInterface.sequelize.query(
           UPDATE_REFERRAL_LETTER_TEMPLATE.replace(
             "<<template>>",
@@ -56,7 +56,7 @@ module.exports = {
             transaction
           }
         );
-      });
-    }
+      }
+    });
   }
 };
