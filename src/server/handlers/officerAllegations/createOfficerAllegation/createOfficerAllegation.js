@@ -11,21 +11,25 @@ const models = require("../../../policeDataManager/models");
 const _ = require("lodash");
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
-  const allegationAttributes = _.pick(request.body, [
-    "allegationId",
-    "ruleChapterId",
-    "details",
-    "severity"
-  ]);
-
-  if (allegationAttributes.ruleChapterId) {
-    const ruleChapter = await models.ruleChapter.findByPk(
-      allegationAttributes.ruleChapterId
-    );
-    if (!ruleChapter) {
-      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
-    }
+  let ruleChapter;
+  if (request.body.ruleChapterId) {
+    ruleChapter = await models.ruleChapter.findByPk(request.body.ruleChapterId);
+  } else if (request.body.ruleChapterName) {
+    ruleChapter = await models.ruleChapter.create({
+      name: request.body.ruleChapterName
+    });
   }
+
+  if (!ruleChapter) {
+    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
+  }
+
+  let allegationAttributes = {
+    ...ruleChapter,
+    allegationId: request.body.allegationId,
+    details: request.body.details,
+    severity: request.body.severity
+  };
 
   const caseWithAssociations = await models.sequelize.transaction(
     async transaction => {

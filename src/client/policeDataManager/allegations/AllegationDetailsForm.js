@@ -14,6 +14,7 @@ import Dropdown from "../../common/components/Dropdown";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
 import { connect } from "react-redux";
+import CreatableDropdown from "../../common/components/CreatableDropdown";
 
 const AllegationDetailsForm = props => {
   const marginBottomOffset = props.marginBottomOffset || 16;
@@ -25,7 +26,7 @@ const AllegationDetailsForm = props => {
             width: "60%",
             marginBottom: `${marginBottomOffset}px`
           }}
-          component={Dropdown}
+          component={CreatableDropdown}
           name="ruleChapterId"
           data-testid="rule-chapter-field"
           inputProps={{ "data-testid": "rule-chapter-input" }}
