@@ -16,8 +16,17 @@ import { connect } from "react-redux";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import CaseNoteDialog from "../CaseNoteDialog/CaseNoteDialog";
 
 class CaseNotes extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      caseNoteDialogOpen: false
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(getCaseNotes(this.props.caseId));
   }
@@ -84,6 +93,11 @@ class CaseNotes extends Component {
               })
             )}
           </div>
+          <CaseNoteDialog
+            open={this.state.caseNoteDialogOpen}
+            closeDialog={() => this.setState({ caseNoteDialogOpen: false })}
+            dialogType="Add"
+          />
           <RemoveCaseNoteDialog />
         </div>
         {this.props.permissions?.includes(USER_PERMISSIONS.CREATE_CASE_NOTE) ? (
@@ -96,7 +110,7 @@ class CaseNotes extends Component {
                     .format("YYYY-MM-DDTHH:mm")
                 })
               );
-              this.props.dispatch(openCaseNoteDialog("Add", {}));
+              this.setState({ caseNoteDialogOpen: true });
             }}
             style={{ margin: "0% 0% 5% 2%" }}
             data-testid="addCaseNoteButton"
