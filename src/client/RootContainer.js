@@ -1,22 +1,17 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { push } from "connected-react-router";
+import { connect } from "react-redux";
 import { Security } from "@okta/okta-react";
-import createConfiguredStore from "./createConfiguredStore";
 import App from "./App";
-import configureInterceptors from "./common/axiosInterceptors/interceptors";
 import { OKTA } from "../sharedUtilities/constants";
 import OktaAuth, { toRelativeUrl } from "@okta/okta-auth-js";
 import history from "./history";
+import { userAuthSuccess } from "./common/auth/actionCreators";
+import Auth from "./common/auth/Auth";
 
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
   ];
-
-const store = createConfiguredStore();
-
-configureInterceptors(store);
 
 const oktaAuth =
   config.auth.engine === OKTA
@@ -28,8 +23,8 @@ const oktaAuth =
       })
     : undefined;
 
-const RootContainer = () => (
-  <Provider store={store}>
+const RootContainer = props => (
+  <>
     {config.auth.engine === OKTA ? (
       <Security
         oktaAuth={oktaAuth}
@@ -37,6 +32,11 @@ const RootContainer = () => (
           localStorage.setItem("access_token", auth.getAccessToken());
           localStorage.setItem("id_token", auth.getIdToken());
           localStorage.setItem("expires_at", Date.now() + 1000 * 60 * 55);
+          const auth2 = new Auth();
+          auth2.setUserInfoInStore(
+            localStorage.getItem("access_token"),
+            props.userAuthSuccess
+          );
           history.replace(
             toRelativeUrl(
               localStorage.getItem("redirectUri") || "/",
@@ -50,7 +50,10 @@ const RootContainer = () => (
     ) : (
       <App />
     )}
-  </Provider>
+  </>
 );
+const mapDispatchToProps = {
+  userAuthSuccess
+};
 
-export default RootContainer;
+export default connect(undefined, mapDispatchToProps)(RootContainer);

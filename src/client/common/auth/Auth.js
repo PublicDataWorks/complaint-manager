@@ -75,10 +75,7 @@ export default class Auth {
     let permissions;
     const decodedToken = jwt.decode(accessToken);
     if (this.authConfig.engine === OKTA) {
-      const ignoredValues = [OPENID, PROFILE, EMAIL];
-      permissions = decodedToken.scp.filter(
-        value => !ignoredValues.includes(value)
-      );
+      permissions = decodedToken.perms.split(" ");
     } else {
       permissions = parsePermissions(decodedToken.scope);
     }

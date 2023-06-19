@@ -14,7 +14,7 @@ const oktaJwtCheck = (request, response, next) => {
     .then(jwt => {
       request.user = {
         sub: jwt.claims.sub,
-        scope: jwt.claims.scp.join(" ")
+        scope: jwt.claims.perms
       };
       next();
     })
