@@ -9,6 +9,7 @@ import {
 } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";
+import CaseNoteDialog from "../CaseNoteDialog/CaseNoteDialog";
 
 const styles = () => ({
   iconBtn: {
@@ -91,6 +92,7 @@ class ActivityMenu extends React.Component {
             </MenuItem>
           ) : null}
         </Menu>
+        <CaseNoteDialog />
       </Fragment>
     );
   }

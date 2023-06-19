@@ -185,7 +185,6 @@ class CaseDetails extends React.Component {
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <PersonOnCaseDialog />
-          <CaseNoteDialog />
         </div>
       </div>
     );

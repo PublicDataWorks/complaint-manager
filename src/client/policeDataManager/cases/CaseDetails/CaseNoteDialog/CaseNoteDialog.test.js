@@ -3,11 +3,7 @@ import mount from "enzyme/mount";
 import CaseNoteDialog from "./CaseNoteDialog";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
-import {
-  closeCaseNoteDialog,
-  getCaseDetailsSuccess,
-  openCaseNoteDialog
-} from "../../../actionCreators/casesActionCreators";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { changeInput, selectDropdownOption } from "../../../../testHelpers";
 import addCaseNote from "../../thunks/addCaseNote";
 import { initialize, reset } from "redux-form";
@@ -47,13 +43,22 @@ describe("CaseNoteDialog", () => {
     memoToFile: ["Memo to file", 1],
     contactedOutsideAgency: ["Contacted outside agency", 2]
   };
+  const closeDialog = jest.fn();
 
-  beforeEach(() => {
-    wrapper = mount(
+  const mountDialog = (type, initialCaseNote) => {
+    return mount(
       <Provider store={store}>
-        <CaseNoteDialog />
+        <CaseNoteDialog
+          open={true}
+          closeDialog={closeDialog}
+          dialogType={type}
+          initialCaseNote={initialCaseNote}
+        />
       </Provider>
     );
+  };
+
+  beforeEach(() => {
     store.dispatch(
       getCaseNoteActionsSuccess([
         caseNoteActions.memoToFile,
@@ -63,19 +68,19 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should close dialog and reset form when cancel button is clicked", () => {
-    store.dispatch(openCaseNoteDialog());
+    const wrapper = mountDialog();
 
     wrapper.update();
 
     const closeButton = wrapper.find('[data-testid="cancelButton"]').first();
     closeButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseNoteDialog());
+    expect(closeDialog).toHaveBeenCalled();
     expect(dispatchSpy).toHaveBeenCalledWith(reset("CaseNotes"));
   });
 
   test("should render and submit edit version of the dialog", () => {
-    store.dispatch(openCaseNoteDialog("Edit", {}));
+    const wrapper = mountDialog("Edit", {});
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -117,7 +122,7 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should not submit form when Edit Case Note is clicked and no action is selected", () => {
-    store.dispatch(openCaseNoteDialog("Edit", {}));
+    const wrapper = mountDialog("Edit", {});
 
     wrapper.update();
 
@@ -142,7 +147,7 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should submit form with new actionTakenAt when Add Case Note is clicked", () => {
-    store.dispatch(openCaseNoteDialog("Add", {}));
+    const wrapper = mountDialog("Add", {});
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -184,7 +189,7 @@ describe("CaseNoteDialog", () => {
   });
 
   test("should not submit form when Add Case Note is clicked and no action is selected", () => {
-    store.dispatch(openCaseNoteDialog("Add", {}));
+    const wrapper = mountDialog("Add", {});
 
     wrapper.update();
 
@@ -216,7 +221,7 @@ describe("CaseNoteDialog", () => {
     };
 
     store.dispatch(initialize("CaseNotes", initialValues));
-    store.dispatch(openCaseNoteDialog("Edit", initialValues));
+    const wrapper = mountDialog("Edit", initialValues);
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId
@@ -247,7 +252,7 @@ describe("CaseNoteDialog", () => {
       caseNoteActionId: caseNoteActions.memoToFile[1]
     };
     store.dispatch(initialize("CaseNotes", initialValues));
-    store.dispatch(openCaseNoteDialog("Edit", initialValues));
+    const wrapper = mountDialog("Edit", initialValues);
     store.dispatch(
       getCaseDetailsSuccess({
         id: caseId

@@ -11,7 +11,6 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Field, reduxForm, reset } from "redux-form";
 import DateField from "../../sharedFormComponents/DateField";
 import Dropdown from "../../../../common/components/Dropdown";
@@ -52,7 +51,14 @@ class CaseNoteDialog extends Component {
   };
 
   submit = values => {
-    const { caseId, initialCaseNote, dialogType } = this.props;
+    const {
+      addCaseNote,
+      caseId,
+      closeDialog,
+      dialogType,
+      editCaseNote,
+      initialCaseNote
+    } = this.props;
 
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
       initialCaseNote.actionTakenAt
@@ -73,14 +79,16 @@ class CaseNoteDialog extends Component {
 
     switch (dialogType) {
       case "Add":
-        this.props.addCaseNote(valuesToSubmit);
+        addCaseNote(valuesToSubmit);
         break;
       case "Edit":
-        this.props.editCaseNote(valuesToSubmit);
+        editCaseNote(valuesToSubmit);
         break;
       default:
         break;
     }
+
+    closeDialog();
   };
 
   displayUserDropdown = (value, cursorPosition) => {
@@ -183,7 +191,7 @@ class CaseNoteDialog extends Component {
             data-testid="cancelButton"
             onClick={() => {
               this.props.reset("CaseNotes");
-              this.props.closeCaseNoteDialog();
+              this.props.closeDialog();
             }}
           >
             Cancel
@@ -201,11 +209,8 @@ class CaseNoteDialog extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  open: state.ui.caseNoteDialog.open,
+const mapStateToProps = (state, props) => ({
   caseId: state.currentCase.details.id,
-  dialogType: state.ui.caseNoteDialog.dialogType,
-  initialCaseNote: state.ui.caseNoteDialog.initialCaseNote,
   caseNoteActions: state.ui.caseNoteActions,
   allUsers: state.users.all
 });
@@ -215,7 +220,6 @@ const mapDispatchToProps = {
   addCaseNote,
   editCaseNote,
   reset,
-  closeCaseNoteDialog,
   getUsers: getUsers
 };
 
