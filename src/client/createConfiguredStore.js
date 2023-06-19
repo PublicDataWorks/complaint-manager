@@ -33,7 +33,6 @@ import generateJobReducer from "./policeDataManager/reducers/export/generateJobR
 import allExportsReducer from "./policeDataManager/reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./policeDataManager/reducers/cases/recommendedActionsReducer";
 import editReferralLetterReducer from "./policeDataManager/reducers/ui/editReferralLetterReducer";
-import cancelEditLetterConfirmationDialogReducer from "./policeDataManager/reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./policeDataManager/reducers/ui/letterDownloadReducer";
 import loadPdfPreviewReducer from "./policeDataManager/reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./policeDataManager/reducers/ui/intakeSourceReducer";
@@ -115,8 +114,6 @@ const rootReducer = combineReducers({
     allegations: allegationMenuDisplay,
     allExports: allExportsReducer,
     attachments: attachmentsReducer,
-    cancelEditLetterConfirmationDialog:
-      cancelEditLetterConfirmationDialogReducer,
     caseNoteActions: caseNoteActionReducer,
     caseNoteDialog: caseNoteDialogReducer,
     casesTable: casesTableReducer,
