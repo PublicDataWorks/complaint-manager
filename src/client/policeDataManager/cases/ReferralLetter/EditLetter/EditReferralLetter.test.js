@@ -92,9 +92,9 @@ describe("Edit Referral Letter Html", () => {
     const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
     cancelButton.simulate("click");
 
-    expect(
-      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
-    ).toHaveLength(0);
+    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
+      0
+    );
 
     const input = wrapper.find("Quill").first();
     input.props().onChange("testing");
@@ -104,7 +104,7 @@ describe("Edit Referral Letter Html", () => {
     cancelButton.simulate("click");
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-testid='cancel-edit-letter-dialog']")
+      .find("[data-testid='dialog-cancel-button']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
@@ -124,9 +124,9 @@ describe("Edit Referral Letter Html", () => {
       .first();
     statusStepper.simulate("click");
 
-    expect(
-      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
-    ).toHaveLength(0);
+    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
+      0
+    );
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -142,7 +142,7 @@ describe("Edit Referral Letter Html", () => {
     statusStepper.simulate("click");
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-testid='cancel-edit-letter-dialog']")
+      .find("[data-testid='dialog-cancel-button']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
@@ -153,9 +153,9 @@ describe("Edit Referral Letter Html", () => {
       .first();
     backToCaseButton.simulate("click");
 
-    expect(
-      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
-    ).toHaveLength(0);
+    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
+      0
+    );
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -169,7 +169,7 @@ describe("Edit Referral Letter Html", () => {
     backToCaseButton.simulate("click");
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-testid='cancel-edit-letter-dialog']")
+      .find("[data-testid='dialog-cancel-button']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
@@ -177,9 +177,9 @@ describe("Edit Referral Letter Html", () => {
   test("open cancel dialog and not save edits when clicking nav bar buttons", () => {
     history.push("/");
 
-    expect(
-      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
-    ).toHaveLength(0);
+    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
+      0
+    );
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -190,7 +190,7 @@ describe("Edit Referral Letter Html", () => {
     wrapper.update();
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-testid='cancel-edit-letter-dialog']")
+      .find("[data-testid='dialog-cancel-button']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });
@@ -198,9 +198,9 @@ describe("Edit Referral Letter Html", () => {
   test("open cancel dialog and not save edits when clicking logout", () => {
     history.push("/logout");
 
-    expect(
-      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
-    ).toHaveLength(0);
+    expect(wrapper.find("[data-testid='dialog-cancel-button']")).toHaveLength(
+      0
+    );
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -211,7 +211,7 @@ describe("Edit Referral Letter Html", () => {
     wrapper.update();
 
     const cancelEditLetterDialog = wrapper
-      .find("[data-testid='cancel-edit-letter-dialog']")
+      .find("[data-testid='dialog-cancel-button']")
       .first();
     expect(cancelEditLetterDialog.length).toEqual(1);
   });

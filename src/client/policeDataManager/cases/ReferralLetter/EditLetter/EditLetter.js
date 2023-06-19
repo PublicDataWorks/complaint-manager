@@ -15,11 +15,11 @@ import {
 } from "../../../../../sharedUtilities/constants";
 import { Field, initialize, reduxForm } from "redux-form";
 import RichTextEditor from "../../../shared/components/RichTextEditor/RichTextEditor";
-import CancelEditLetterConfirmationDialog from "./CancelEditLetterConfirmationDialog";
 import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { policeDataManagerMenuOptions } from "../../../shared/components/NavBar/policeDataManagerMenuOptions";
 import history from "../../../../history";
 import { push } from "connected-react-router";
+import ConfirmationDialog from "../../../shared/components/ConfirmationDialog";
 
 const RichTextEditorComponent = props => {
   return (
@@ -189,15 +189,27 @@ export class EditLetter extends Component {
             >
               Edit Letter
             </Typography>
-            <CancelEditLetterConfirmationDialog
-              caseId={this.state.caseId}
-              shouldBlockRoutingRedirects={shouldBlockRoutingRedirects}
-              redirectUrl={this.state.redirectUrl}
-              open={this.state.dialogOpen}
-              closeDialog={() => {
+            <ConfirmationDialog
+              fullWidth={true}
+              cancelText="Continue Editing"
+              confirmText="Discard Edits"
+              onConfirm={() => {
+                console.log(
+                  "Discard edits redirect url",
+                  this.state.redirectUrl
+                );
+                shouldBlockRoutingRedirects(false);
+                this.props.push(this.state.redirectUrl);
                 this.setState({ dialogOpen: false });
               }}
-            />
+              onCancel={() => this.setState({ dialogOpen: false })}
+              open={this.state.dialogOpen}
+              title="Cancel Editing Letter"
+            >
+              <Typography data-testid="warningText">
+                This action will discard any edits made to the letter.
+              </Typography>
+            </ConfirmationDialog>
             <Card
               style={{
                 marginBottom: "24px",
@@ -259,7 +271,8 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-  invalidCaseStatusRedirect
+  invalidCaseStatusRedirect,
+  push
 };
 
 export default connect(
