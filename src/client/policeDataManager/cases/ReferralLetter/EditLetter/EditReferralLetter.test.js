@@ -3,10 +3,7 @@ import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import React from "react";
-import {
-  getReferralLetterPreviewSuccess,
-  openCancelEditLetterConfirmationDialog
-} from "../../../actionCreators/letterActionCreators";
+import { getReferralLetterPreviewSuccess } from "../../../actionCreators/letterActionCreators";
 import getReferralLetterPreview from "../thunks/getReferralLetterPreview";
 import EditReferralLetter from "./EditReferralLetter";
 import editReferralLetterContent from "../thunks/editReferralLetterContent";
@@ -19,7 +16,6 @@ import invalidCaseStatusRedirect from "../../thunks/invalidCaseStatusRedirect";
 import { push } from "connected-react-router";
 import history from "../../../../history";
 import { initialize } from "redux-form";
-import { Card } from "@material-ui/core";
 
 require("../../../testUtilities/MockMutationObserver");
 
@@ -96,9 +92,9 @@ describe("Edit Referral Letter Html", () => {
     const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
     cancelButton.simulate("click");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    expect(
+      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
+    ).toHaveLength(0);
 
     const input = wrapper.find("Quill").first();
     input.props().onChange("testing");
@@ -128,9 +124,9 @@ describe("Edit Referral Letter Html", () => {
       .first();
     statusStepper.simulate("click");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    expect(
+      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
+    ).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -157,9 +153,9 @@ describe("Edit Referral Letter Html", () => {
       .first();
     backToCaseButton.simulate("click");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    expect(
+      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
+    ).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -181,9 +177,9 @@ describe("Edit Referral Letter Html", () => {
   test("open cancel dialog and not save edits when clicking nav bar buttons", () => {
     history.push("/");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    expect(
+      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
+    ).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 
@@ -202,9 +198,9 @@ describe("Edit Referral Letter Html", () => {
   test("open cancel dialog and not save edits when clicking logout", () => {
     history.push("/logout");
 
-    expect(dispatchSpy).not.toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    expect(
+      wrapper.find("[data-testid='cancel-edit-letter-dialog']")
+    ).toHaveLength(0);
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(editReferralLetterContent());
 

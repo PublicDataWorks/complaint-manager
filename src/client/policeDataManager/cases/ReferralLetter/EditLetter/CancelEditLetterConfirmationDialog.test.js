@@ -1,8 +1,4 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import {
-  closeCancelEditLetterConfirmationDialog,
-  openCancelEditLetterConfirmationDialog
-} from "../../../actionCreators/letterActionCreators";
 import { mount } from "enzyme/build";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -17,7 +13,6 @@ describe("Cancel Edit Confirmation Dialog", () => {
 
   beforeEach(() => {
     store = createConfiguredStore();
-    store.dispatch(openCancelEditLetterConfirmationDialog());
 
     dispatchSpy = jest.spyOn(store, "dispatch");
     shouldBlockRoutingRedirects = jest.fn();
