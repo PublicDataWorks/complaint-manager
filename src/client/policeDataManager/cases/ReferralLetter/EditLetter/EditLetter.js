@@ -45,7 +45,8 @@ export class EditLetter extends Component {
     super(props);
     this.state = {
       caseId: this.props.caseId,
-      redirectUrl: null
+      redirectUrl: null,
+      dialogOpen: false
     };
   }
 
@@ -58,8 +59,7 @@ export class EditLetter extends Component {
           this.props.dirty &&
           shouldNotRedirect
         ) {
-          this.setState({ redirectUrl: location.pathname });
-          this.props.dispatch(openCancelEditLetterConfirmationDialog());
+          this.setState({ redirectUrl: location.pathname, dialogOpen: true });
           return false;
         }
       });
@@ -194,6 +194,10 @@ export class EditLetter extends Component {
               caseId={this.state.caseId}
               shouldBlockRoutingRedirects={shouldBlockRoutingRedirects}
               redirectUrl={this.state.redirectUrl}
+              open={this.state.dialogOpen}
+              closeDialog={() => {
+                this.setState({ dialogOpen: false });
+              }}
             />
             <Card
               style={{

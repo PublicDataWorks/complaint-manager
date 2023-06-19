@@ -92,7 +92,7 @@ describe("Edit Referral Letter Html", () => {
     expect(quillEditor.props().value).toEqual(initialLetterHtml);
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog when clicking cancel button only when letter is 'dirty'", () => {
+  test("open cancel dialog when clicking cancel button only when letter is 'dirty'", () => {
     const cancelButton = wrapper.find("[data-testid='cancel-button']").first();
     cancelButton.simulate("click");
 
@@ -107,9 +107,6 @@ describe("Edit Referral Letter Html", () => {
 
     cancelButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
     const cancelEditLetterDialog = wrapper
       .find("[data-testid='cancel-edit-letter-dialog']")
       .first();
@@ -125,7 +122,7 @@ describe("Edit Referral Letter Html", () => {
     );
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog and do not save edits when clicking any stepper button only when letter is 'dirty'", () => {
+  test("open cancel dialog and do not save edits when clicking any stepper button only when letter is 'dirty'", () => {
     const statusStepper = wrapper
       .find("[data-testid='step-button-Review Case Details']")
       .first();
@@ -148,12 +145,13 @@ describe("Edit Referral Letter Html", () => {
 
     statusStepper.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    const cancelEditLetterDialog = wrapper
+      .find("[data-testid='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking back to case button only when letter is 'dirty'", () => {
+  test("open cancel dialog and not save edits when clicking back to case button only when letter is 'dirty'", () => {
     const backToCaseButton = wrapper
       .find("[data-testid='save-and-return-to-case-link']")
       .first();
@@ -174,12 +172,13 @@ describe("Edit Referral Letter Html", () => {
 
     backToCaseButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    const cancelEditLetterDialog = wrapper
+      .find("[data-testid='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking nav bar buttons", () => {
+  test("open cancel dialog and not save edits when clicking nav bar buttons", () => {
     history.push("/");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
@@ -190,16 +189,17 @@ describe("Edit Referral Letter Html", () => {
 
     const input = wrapper.find("Quill").first();
     input.props().onChange("testing");
-    wrapper.update();
 
     history.push("/");
+    wrapper.update();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    const cancelEditLetterDialog = wrapper
+      .find("[data-testid='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("dispatch openCancelEditLetterConfirmationDialog and not save edits when clicking logout", () => {
+  test("open cancel dialog and not save edits when clicking logout", () => {
     history.push("/logout");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(
@@ -210,16 +210,17 @@ describe("Edit Referral Letter Html", () => {
 
     const input = wrapper.find("Quill").first();
     input.props().onChange("testing");
-    wrapper.update();
 
     history.push("/logout");
+    wrapper.update();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCancelEditLetterConfirmationDialog()
-    );
+    const cancelEditLetterDialog = wrapper
+      .find("[data-testid='cancel-edit-letter-dialog']")
+      .first();
+    expect(cancelEditLetterDialog.length).toEqual(1);
   });
 
-  test("does not dispatch openCancelEditLetterConfirmationDialog and saves edits when clicking save button", () => {
+  test("does not open cancel dialog and saves edits when clicking save button", () => {
     console.warn = () => {};
     const input = wrapper.find("Quill").first();
     input.props().onChange("<p>Letter Preview HTML change </p>");
