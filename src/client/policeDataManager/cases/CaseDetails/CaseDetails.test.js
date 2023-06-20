@@ -290,7 +290,9 @@ describe("Case Details Component", () => {
             .format("YYYY-MM-DDTHH:mm")
         })
       );
-      expect(dispatchSpy).toHaveBeenCalledWith(openCaseNoteDialog("Add", {}));
+      expect(
+        caseDetails.find('[data-testid="caseNoteDialogTitle"]').exists()
+      ).toBeTrue();
     });
   });
 
