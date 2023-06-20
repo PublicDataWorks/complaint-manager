@@ -106,9 +106,10 @@ describe("ActivityMenu", () => {
     expect(dispatchSpy).toHaveBeenCalledWith(
       initialize("CaseNotes", valuesToInitialize)
     );
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openCaseNoteDialog("Edit", activity)
-    );
+    expect(
+      wrapper.find('[data-testid="caseNoteDialogTitle"]').exists()
+    ).toBeTrue();
+
     expect(activityMenu.props().open).toEqual(false);
   });
 

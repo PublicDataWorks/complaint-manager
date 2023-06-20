@@ -25,7 +25,6 @@ import editCaseNote from "../../thunks/editCaseNote";
 import getCaseNoteActionDropdownValues from "../../../caseNoteActions/thunks/getCaseNoteActionDropdownValues";
 import { TextFieldWithUserMention } from "./TextFieldWithUserMention";
 import getUsers from "../../../../common/thunks/getUsers";
-import { renderTextField } from "../../sharedFormComponents/renderFunctions";
 import { filterAfterTrigger, keyDownEvent } from "./userMentionHelperFunctions";
 import scrollToFirstError from "../../../../common/helpers/scrollToFirstError";
 import { userTimezone } from "../../../../common/helpers/userTimezone";
@@ -59,9 +58,10 @@ class CaseNoteDialog extends Component {
       editCaseNote,
       initialCaseNote
     } = this.props;
+    console.log(values);
 
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
-      initialCaseNote.actionTakenAt
+      initialCaseNote?.actionTakenAt
     )
       ? {
           ..._.omit(values, ["actionTakenAt"]),
@@ -76,7 +76,7 @@ class CaseNoteDialog extends Component {
           caseId,
           mentionedUsers: this.state.mentionedUsers
         };
-
+    console.log("like halfway down the submit function");
     switch (dialogType) {
       case "Add":
         addCaseNote(valuesToSubmit);
