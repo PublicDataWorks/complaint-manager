@@ -27,7 +27,7 @@ const AllegationDetailsForm = props => {
             marginBottom: `${marginBottomOffset}px`
           }}
           component={CreatableDropdown}
-          name="ruleChapterId"
+          name="ruleChapter"
           data-testid="rule-chapter-field"
           inputProps={{ "data-testid": "rule-chapter-input" }}
           label="To Wit Chapter"

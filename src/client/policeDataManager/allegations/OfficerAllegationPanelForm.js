@@ -186,15 +186,15 @@ class OfficerAllegationPanelForm extends React.Component {
                   id,
                   details,
                   severity,
-                  ruleChapterId: ruleChapter?.id
+                  ruleChapter
                 }}
                 marginBottomOffset={32}
                 onCancel={this.handleCancel}
                 onSubmit={(values, dispatch) => {
-                  const { id, details, severity, ruleChapterId } = values;
+                  const { id, details, severity, ruleChapter } = values;
                   dispatch(
                     editOfficerAllegation(
-                      { id, details, severity, ruleChapterId },
+                      { id, details, severity, ruleChapter },
                       this.props.caseId
                     )
                   );

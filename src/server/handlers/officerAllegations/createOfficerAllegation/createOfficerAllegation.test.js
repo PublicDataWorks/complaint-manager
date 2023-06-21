@@ -151,6 +151,45 @@ describe("createOfficerAllegation", () => {
     );
   });
 
+  test("it should create a new rule chapter if ruleChapterName is passed", async () => {
+    const caseOfficer = newCase.accusedOfficers[0];
+    const allegationDetails = "test details";
+
+    const request = httpMocks.createRequest({
+      method: "POST",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: newCase.id,
+        caseOfficerId: caseOfficer.id
+      },
+      body: {
+        allegationId: allegation.id,
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.LOW,
+        ruleChapterName: "illegal things"
+      },
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    await createOfficerAllegation(request, response, next);
+
+    const officerAllegation = await models.officer_allegation.findOne({
+      where: { caseOfficerId: caseOfficer.id, allegationId: allegation.id },
+      include: [models.ruleChapter]
+    });
+
+    expect(officerAllegation).toEqual(
+      expect.objectContaining({
+        details: allegationDetails,
+        severity: ALLEGATION_SEVERITY.LOW,
+        ruleChapter: expect.objectContaining({ name: "illegal things" })
+      })
+    );
+  });
+
   test("should return BAD REQUEST status if rule chapter does not exist", async () => {
     const caseOfficer = newCase.accusedOfficers[0];
     const request = httpMocks.createRequest({

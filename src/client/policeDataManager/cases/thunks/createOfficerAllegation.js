@@ -6,8 +6,8 @@ import _ from "lodash";
 const createOfficerAllegation =
   (formValues, caseId, caseOfficerId, addAllegationSuccessCallback) =>
   async dispatch => {
-    let ruleChapter = formValues.ruleChapterId;
-    if (ruleChapter.value) {
+    let ruleChapter = formValues.ruleChapter;
+    if (ruleChapter?.value) {
       ruleChapter = ruleChapter.value;
     }
 

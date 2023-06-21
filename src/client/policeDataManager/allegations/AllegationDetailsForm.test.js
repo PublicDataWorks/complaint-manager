@@ -1,6 +1,4 @@
 import React from "react";
-
-import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
 import createConfiguredStore from "../../createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
@@ -162,7 +160,7 @@ describe("AllegationDetailsForm", () => {
     addButton.simulate("click");
     expect(onSubmit).toHaveBeenCalledWith(
       {
-        ruleChapterId: 4,
+        ruleChapter: { label: "Chapter 4: Over hill and under hill", value: 4 },
         severity: ALLEGATION_SEVERITY.MEDIUM,
         details: "details"
       },

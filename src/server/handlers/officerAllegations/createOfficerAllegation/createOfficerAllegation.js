@@ -14,18 +14,17 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   let ruleChapter;
   if (request.body.ruleChapterId) {
     ruleChapter = await models.ruleChapter.findByPk(request.body.ruleChapterId);
+    if (!ruleChapter) {
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
+    }
   } else if (request.body.ruleChapterName) {
     ruleChapter = await models.ruleChapter.create({
       name: request.body.ruleChapterName
     });
   }
 
-  if (!ruleChapter) {
-    throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER);
-  }
-
   let allegationAttributes = {
-    ...ruleChapter,
+    ruleChapterId: ruleChapter?.id,
     allegationId: request.body.allegationId,
     details: request.body.details,
     severity: request.body.severity
