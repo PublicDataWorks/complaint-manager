@@ -3,10 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import {
-  openCaseNoteDialog,
-  openRemoveCaseNoteDialog
-} from "../../../actionCreators/casesActionCreators";
+import { openRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";
 import CaseNoteDialog from "../CaseNoteDialog/CaseNoteDialog";

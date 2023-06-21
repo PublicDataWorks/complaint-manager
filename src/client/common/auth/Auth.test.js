@@ -12,6 +12,7 @@ jest.mock("../../policeDataManager/utilities/generateRandomString", () => {
 jest.mock("jsonwebtoken", () => ({
   decode: () => ({
     scope: "MOCK_SCOPE",
+    perms: "MOCK_SCOPE",
     "https://noipm-staging.herokuapp.com/nickname": "MOCK_NICKNAME"
   })
 }));

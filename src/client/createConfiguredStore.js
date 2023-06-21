@@ -14,7 +14,6 @@ import loggedInUserReducer from "./common/auth/reducers/loggedInUserReducer";
 import attachmentsReducer from "./policeDataManager/reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./policeDataManager/reducers/officers/searchOfficersReducer";
 import caseNotesReducer from "./policeDataManager/reducers/cases/caseNotesReducer";
-import caseNoteDialogReducer from "./policeDataManager/reducers/ui/caseNoteDialogReducer";
 import removeCaseNoteDialogReducer from "./policeDataManager/reducers/ui/removeCaseNoteDialogReducer";
 import searchCasesReducer from "./policeDataManager/reducers/cases/searchCasesReducer";
 import searchReducer from "./policeDataManager/reducers/ui/searchReducer";
@@ -115,7 +114,6 @@ const rootReducer = combineReducers({
     allExports: allExportsReducer,
     attachments: attachmentsReducer,
     caseNoteActions: caseNoteActionReducer,
-    caseNoteDialog: caseNoteDialogReducer,
     casesTable: casesTableReducer,
     caseStatuses: caseStatusesReducer,
     caseTagDialog: caseTagDialogReducer,

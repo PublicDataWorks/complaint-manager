@@ -3,10 +3,7 @@ import { mount } from "enzyme";
 import ActivityMenu from "./ActivityMenu";
 import { Menu } from "@material-ui/core";
 import createConfiguredStore from "../../../../createConfiguredStore";
-import {
-  openCaseNoteDialog,
-  openRemoveCaseNoteDialog
-} from "../../../actionCreators/casesActionCreators";
+import { openRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { Provider } from "react-redux";
 import moment from "moment";
 import { initialize } from "redux-form";

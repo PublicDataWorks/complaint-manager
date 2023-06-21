@@ -1,10 +1,6 @@
 import nock from "nock";
 import editCaseNote from "./editCaseNote";
-import {
-  closeCaseNoteDialog,
-  editCaseNoteFailure,
-  editCaseNoteSuccess
-} from "../../actionCreators/casesActionCreators";
+import { editCaseNoteSuccess } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { startSubmit, stopSubmit } from "redux-form";
 import { CASE_NOTE_FORM_NAME } from "../../../../sharedUtilities/constants";
@@ -46,7 +42,6 @@ describe("editCaseNote", () => {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case note was successfully updated")
     );
-    expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
   });
 });

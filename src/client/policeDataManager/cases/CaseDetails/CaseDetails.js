@@ -14,7 +14,6 @@ import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
 import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
-  closeCaseNoteDialog,
   closeCaseTagDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
@@ -30,7 +29,6 @@ import {
   NARRATIVE_FORM
 } from "../../../../sharedUtilities/constants";
 import Accused from "./PersonOnCase/Accused";
-import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./PersonOnCase/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
@@ -55,7 +53,6 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(reset(NARRATIVE_FORM));
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
-  dispatch(closeCaseNoteDialog());
   dispatch(closeCaseTagDialog());
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());

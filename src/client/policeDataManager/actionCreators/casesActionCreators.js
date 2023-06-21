@@ -121,16 +121,6 @@ export const updateSort = (sortBy, sortDirection, caseType) => {
   };
 };
 
-export const openCaseNoteDialog = (dialogType, initialCaseNote) => ({
-  type: CASE_NOTE_DIALOG_OPENED,
-  dialogType,
-  initialCaseNote
-});
-
-export const closeCaseNoteDialog = () => ({
-  type: CASE_NOTE_DIALOG_CLOSED
-});
-
 export const openRemoveCaseNoteDialog = (activity = {}) => ({
   type: REMOVE_CASE_NOTE_DIALOG_OPENED,
   activity

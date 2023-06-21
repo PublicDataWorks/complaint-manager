@@ -6,10 +6,7 @@ import { Typography } from "@material-ui/core";
 import RemoveCaseNoteDialog from "../RemoveCaseNoteDialog/RemoveCaseNoteDialog";
 import LinkButton from "../../../shared/components/LinkButton";
 import { Link } from "react-router-dom";
-import {
-  getCaseNotesSuccess,
-  openCaseNoteDialog
-} from "../../../actionCreators/casesActionCreators";
+import { getCaseNotesSuccess } from "../../../actionCreators/casesActionCreators";
 import timezone from "moment-timezone";
 import { initialize } from "redux-form";
 import { connect } from "react-redux";
