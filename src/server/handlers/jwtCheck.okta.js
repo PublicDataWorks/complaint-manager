@@ -1,4 +1,4 @@
-import OktaJwtVerifier from "@okta/jwt-verifier";
+const OktaJwtVerifier = require("@okta/jwt-verifier");
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
     process.env.NODE_ENV
@@ -36,4 +36,4 @@ const getToken = request => {
   return null;
 };
 
-export default oktaJwtCheck;
+module.exports = oktaJwtCheck;
