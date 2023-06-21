@@ -22,7 +22,11 @@ addRoutesToRouter(router, PUBLIC_ROUTES);
 if (isAuthDisabled()) {
   router.use(localhostUserNickname);
 } else {
-  router.use(config.authentication.engine === OKTA ? oktaJwtCheck : jwtCheck);
+  router.use(
+    config.authentication.engine === OKTA && process.env.NODE_ENV !== "test"
+      ? oktaJwtCheck
+      : jwtCheck
+  );
   router.use(verifyUserInfo);
   router.use(authErrorHandler);
 }
