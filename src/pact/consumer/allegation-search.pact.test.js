@@ -92,10 +92,6 @@ pactWith(
                       paragraph:
                         "PARAGRAPH 04(c) - ENUMERATED ACTS/OMISSIONS; 1. Failing to take appropriate and necessary police action",
                       directive: "N/A"
-                    },
-                    ruleChapter: {
-                      id: 63,
-                      name: "Ch. 13.28 Personal Appearance Standards"
                     }
                   }
                 ]
