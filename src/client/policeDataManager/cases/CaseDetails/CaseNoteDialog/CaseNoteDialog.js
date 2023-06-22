@@ -58,7 +58,6 @@ class CaseNoteDialog extends Component {
       editCaseNote,
       initialCaseNote
     } = this.props;
-    console.log(values);
 
     let valuesToSubmit = moment(values.actionTakenAt).isSame(
       initialCaseNote?.actionTakenAt
@@ -76,7 +75,7 @@ class CaseNoteDialog extends Component {
           caseId,
           mentionedUsers: this.state.mentionedUsers
         };
-    console.log("like halfway down the submit function");
+
     switch (dialogType) {
       case "Add":
         addCaseNote(valuesToSubmit);

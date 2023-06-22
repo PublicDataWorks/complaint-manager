@@ -14,7 +14,7 @@ describe("editOfficerAllegation thunk", () => {
     const mockDispatch = jest.fn();
     configureInterceptors({ dispatch: mockDispatch });
 
-    const updatedCase = { details: "foo" };
+    const updatedCase = { details: "new details" };
 
     const caseId = 23;
     nock("http://localhost", {
@@ -23,7 +23,7 @@ describe("editOfficerAllegation thunk", () => {
     })
       .put(
         `/api/cases/${caseId}/officers-allegations/${allegationChanges.id}`,
-        JSON.stringify(allegationChanges)
+        updatedCase
       )
       .reply(200, updatedCase);
 

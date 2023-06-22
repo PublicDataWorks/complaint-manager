@@ -1,5 +1,6 @@
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { createOfficerAllegationSuccess } from "../../actionCreators/allegationsActionCreators";
+import getRuleChapters from "../../allegations/thunks/getRuleChapters";
 import axios from "axios";
 import _ from "lodash";
 
@@ -30,6 +31,11 @@ const createOfficerAllegation =
         `api/cases/${caseId}/cases-officers/${caseOfficerId}/officers-allegations`,
         updatedFormValues
       );
+
+      if (requestBody.ruleChapterName) {
+        dispatch(getRuleChapters());
+      }
+
       addAllegationSuccessCallback();
       dispatch(createOfficerAllegationSuccess(response.data));
       return dispatch(snackbarSuccess("Allegation was successfully added"));
