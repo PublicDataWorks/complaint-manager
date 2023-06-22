@@ -41,14 +41,14 @@ const AllegationDetailsForm = props => {
       <div>
         <Field
           style={{
-            width: "15%",
+            width: "17%",
             marginBottom: `${marginBottomOffset}px`
           }}
           component={Dropdown}
           name="severity"
           data-testid="allegation-severity-field"
           inputProps={{ "data-testid": "allegation-severity-input" }}
-          label="Allegation Severity"
+          label="Allegation Severity * "
           validate={[allegationSeverityRequired]}
         >
           {allegationSeverityMenu}
@@ -56,7 +56,7 @@ const AllegationDetailsForm = props => {
       </div>
       <div>
         <Field
-          label={props.allegationDetailsLabel || "Allegation Details"}
+          label={`${props.allegationDetailsLabel} *` || "Allegation Details *"}
           name="details"
           component={renderTextField}
           data-testid="allegation-details-field"

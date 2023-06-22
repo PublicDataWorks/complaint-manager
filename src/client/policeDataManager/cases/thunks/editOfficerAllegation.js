@@ -19,6 +19,7 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
 
   const updatedFormValues = {
     ...requestBody,
+    id: allegation.id,
     allegationId: allegation.allegationId,
     details: allegation.details,
     severity: allegation.severity

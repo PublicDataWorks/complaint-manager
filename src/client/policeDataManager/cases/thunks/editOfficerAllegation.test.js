@@ -14,7 +14,7 @@ describe("editOfficerAllegation thunk", () => {
     const mockDispatch = jest.fn();
     configureInterceptors({ dispatch: mockDispatch });
 
-    const updatedCase = { details: "new details" };
+    const updatedCase = { id: 1, details: "new details" };
 
     const caseId = 23;
     nock("http://localhost", {
