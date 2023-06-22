@@ -186,10 +186,12 @@ class OfficerAllegationPanelForm extends React.Component {
                   id,
                   details,
                   severity,
-                  ruleChapter: {
-                    label: ruleChapter.name,
-                    value: ruleChapter.id
-                  }
+                  ruleChapter: ruleChapter
+                    ? {
+                        label: ruleChapter.name,
+                        value: ruleChapter.id
+                      }
+                    : undefined
                 }}
                 marginBottomOffset={32}
                 onCancel={this.handleCancel}
