@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
+import PublicInfoHeader from "./PublicInfoHeader";
 
 const PublicInfoPage = props => {
   useEffect(() => {
@@ -12,7 +13,11 @@ const PublicInfoPage = props => {
   if (!props.isAllowed) {
     return <main>Loading...</main>;
   } else {
-    return <main>Hi, Mom!</main>;
+    return (
+      <main>
+        <PublicInfoHeader />
+      </main>
+    );
   }
 };
 
