@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.58.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.56.0...v3.58.0) (2023-06-26)
+
+
+### Features
+
+* Andrew/Isabel [[#279](https://github.com/PublicDataWorks/complaint-manager/issues/279)] can retrieve all users with okta authentication ([77b5608](https://github.com/PublicDataWorks/complaint-manager/commit/77b5608b4834fe4d48d247afb45e5918ada55e98))
+* Andrew/Maria [[#288](https://github.com/PublicDataWorks/complaint-manager/issues/288)] adds header to PublicInfoPage ([a5911b5](https://github.com/PublicDataWorks/complaint-manager/commit/a5911b55bf5d9fcbb2ab07ec698d321487a15fdc))
+* Andrew/Shak [[#273](https://github.com/PublicDataWorks/complaint-manager/issues/273)] updates NO Referral letter to show to wit chapter ([2eee295](https://github.com/PublicDataWorks/complaint-manager/commit/2eee295a2d9b7ca791f3bb805373a362dcca5469))
+* Isabel/Andrew [[#260](https://github.com/PublicDataWorks/complaint-manager/issues/260)] displays accused civilians and people in custody ([b5e6652](https://github.com/PublicDataWorks/complaint-manager/commit/b5e665278ff29e4dc9f38cb7e6552b91962f5ec5))
+* Jean/Maria [[#278](https://github.com/PublicDataWorks/complaint-manager/issues/278)] Okta Login with permissions ([c08a785](https://github.com/PublicDataWorks/complaint-manager/commit/c08a785e1d27b84109f07b11b303a4ea04950788))
+* Maria/Andrew [[#244](https://github.com/PublicDataWorks/complaint-manager/issues/244)] removes overnight index updates in favor of updating the search index when relevant case data is added or updated ([f709433](https://github.com/PublicDataWorks/complaint-manager/commit/f70943317cdb216b8cb60f4474dcc47c0248b15d))
+* Maria/Jean [[#265](https://github.com/PublicDataWorks/complaint-manager/issues/265)] add custom input fields for default recipient when other is selected ([382adce](https://github.com/PublicDataWorks/complaint-manager/commit/382adcef17737acf8fdd60108d7d047a3037690b))
+* Maria/Syamala/Claire/Andrew [[#243](https://github.com/PublicDataWorks/complaint-manager/issues/243)] anonymized person in custody ([8e4fec5](https://github.com/PublicDataWorks/complaint-manager/commit/8e4fec5778915cceca0ee2413f6a7f986bcf3a4c))
+
+
+### Bug Fixes
+
+* [[#278](https://github.com/PublicDataWorks/complaint-manager/issues/278)] Change scp to scope for auth0 access in CI ([5f99b50](https://github.com/PublicDataWorks/complaint-manager/commit/5f99b50a572df2b0e937385323a5a8ba0fda9b84))
+* Andrew [[#000](https://github.com/PublicDataWorks/complaint-manager/issues/000)] fixes error when parenthesizing term after NOT ([66c2b08](https://github.com/PublicDataWorks/complaint-manager/commit/66c2b082c7c2b099a92fd616210bc5354f27233f))
+* Andrew [[#000](https://github.com/PublicDataWorks/complaint-manager/issues/000)] makes tag counts display again after param problem ([f3cb6ac](https://github.com/PublicDataWorks/complaint-manager/commit/f3cb6ac5070547509b932f6d8a9d83b5085d13be))
+* Isabel/Claire [[#274](https://github.com/PublicDataWorks/complaint-manager/issues/274)] adds key value so export audits and cases now work ([66e832a](https://github.com/PublicDataWorks/complaint-manager/commit/66e832a504967fae9bcd470107e44f50220eab43))
+
 ## [3.57.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.56.0...v3.57.0) (2023-06-23)
 
 
