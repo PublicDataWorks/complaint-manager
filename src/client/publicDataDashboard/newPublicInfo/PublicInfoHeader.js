@@ -1,59 +1,45 @@
-import React, { useMemo, useState } from "react";
-import {
-  IconButton,
-  Drawer,
-  Typography,
-  Box,
-  List,
-  ListItem
-} from "@material-ui/core";
+import React, { useState } from "react";
+import { IconButton, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "./publicInfoStyles";
+import HeaderLinks from "./HeaderLinks";
+import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
   ];
-
-const list = () => (
-  <Box role="presentation">
-    <List>
-      <ListItem>
-        <a classhref="https://hcsoc.hawaii.gov/">Home</a>
-      </ListItem>
-      <ListItem>
-        <a href="https://hcsoc.hawaii.gov/contact-us/">Contact</a>
-      </ListItem>
-      <ListItem>
-        <a href="https://stayconnected.hawaii.gov/">Stay Connected</a>
-      </ListItem>
-    </List>
-  </Box>
-);
 
 const PublicInfoHeader = props => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+      }}
       className={`${props.classes.header} ${
         props.classes[`header-${props.screenSize}`]
       }`}
     >
       <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
-        <IconButton color="inherit" onClick={() => setMenuOpen(!menuOpen)}>
-          <Menu />
-        </IconButton>
-        <Drawer
-          anchor={"top"}
-          open={menuOpen}
-          onClose={() => setMenuOpen(false)}
-        >
-          {list()}
-        </Drawer>
+        {props.screenSize === SCREEN_SIZES.DESKTOP ? (
+          ""
+        ) : (
+          <IconButton
+            color="inherit"
+            style={{ marginRight: "-45px" }}
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <Menu />
+          </IconButton>
+        )}
         <img
           src={`${config.hostname}/Pono.svg`}
           className={props.classes[`headerLogo-${props.screenSize}`]}
+          style={{ marginLeft: "45px" }}
         />
         <Typography
           className={`${props.classes.headerText} ${
@@ -64,6 +50,12 @@ const PublicInfoHeader = props => {
           Hawaii.gov
         </Typography>
       </div>
+      <HeaderLinks
+        menuOpen={menuOpen}
+        setMenuOpen={setMenuOpen}
+        screenSize={props.screenSize}
+        classes={props.classes}
+      />
     </header>
   );
 };

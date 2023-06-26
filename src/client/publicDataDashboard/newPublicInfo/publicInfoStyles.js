@@ -51,8 +51,19 @@ const publicInfoStyles = theme => ({
   [`headerText-${SCREEN_SIZES.DESKTOP}`]: {
     fontSize: "48px"
   },
+  headerLink: {
+    display: "flex",
+    alignItems: "baseline",
+    columnGap: "5px",
+    color: "inherit",
+    textDecoration: "none",
+    "&:hover": {
+      color: colors.subtleText
+    }
+  },
   link: {
-    color: colors.links
+    color: colors.links,
+    textDecoration: "none"
   }
 });
 
