@@ -42,30 +42,39 @@ const PublicInfoHeader = () => {
         color: "#FAFCFE"
       }}
     >
-      <IconButton
-        style={{ float: "left" }}
-        color="inherit"
-        size="large"
-        onClick={() => setMenuOpen(!menuOpen)}
-      >
-        <Menu />
-      </IconButton>
-      <Drawer anchor={"top"} open={menuOpen} onClose={() => setMenuOpen(false)}>
-        {list()}
-      </Drawer>
-      <img src={`${config.hostname}/Pono.svg`} style={{ float: "left" }} />
-      <Typography
-        style={{
-          float: "left",
-          fontFamily: "Montserrat",
-          fontSize: "32px",
-          fontStyle: "italic",
-          letterSpacing: "-2%"
-        }}
-        variant="h1"
-      >
-        Hawaii.gov
-      </Typography>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <IconButton
+          style={{ float: "left" }}
+          color="inherit"
+          size="large"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          <Menu />
+        </IconButton>
+        <Drawer
+          anchor={"top"}
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+        >
+          {list()}
+        </Drawer>
+        <img
+          src={`${config.hostname}/Pono.svg`}
+          style={{ float: "left", height: "35px", width: "35px" }}
+        />
+        <Typography
+          style={{
+            float: "left",
+            fontFamily: "Montserrat",
+            fontSize: "32px",
+            fontStyle: "italic",
+            letterSpacing: "-2%"
+          }}
+          variant="h1"
+        >
+          Hawaii.gov
+        </Typography>
+      </div>
     </header>
   );
 };
