@@ -693,3 +693,9 @@ export const FAKE_USERS = [
   { email: "seanathon@gmail.com", name: "Seanathon" },
   { email: "jsimms@oipm.gov", name: "John A Simms" }
 ];
+
+export const SCREEN_SIZES = {
+  MOBILE: "mobile",
+  TABLET: "tablet",
+  DESKTOP: "desktop"
+};

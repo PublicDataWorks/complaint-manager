@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   IconButton,
   Drawer,
   Typography,
   Box,
   List,
-  ListItem,
-  Icon
+  ListItem
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
+import { withStyles } from "@material-ui/styles";
+import publicInfoStyles from "./publicInfoStyles";
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
@@ -18,7 +19,7 @@ const list = () => (
   <Box role="presentation">
     <List>
       <ListItem>
-        <a href="https://hcsoc.hawaii.gov/">Home</a>
+        <a classhref="https://hcsoc.hawaii.gov/">Home</a>
       </ListItem>
       <ListItem>
         <a href="https://hcsoc.hawaii.gov/contact-us/">Contact</a>
@@ -30,25 +31,17 @@ const list = () => (
   </Box>
 );
 
-const PublicInfoHeader = () => {
+const PublicInfoHeader = props => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header
-      style={{
-        width: "100vw",
-        height: "7vh",
-        backgroundColor: "#0A3449",
-        color: "#FAFCFE"
-      }}
+      className={`${props.classes.header} ${
+        props.classes[`header-${props.screenSize}`]
+      }`}
     >
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <IconButton
-          style={{ float: "left" }}
-          color="inherit"
-          size="large"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
+      <div style={{ display: "flex", alignItems: "center", height: "100%" }}>
+        <IconButton color="inherit" onClick={() => setMenuOpen(!menuOpen)}>
           <Menu />
         </IconButton>
         <Drawer
@@ -60,16 +53,12 @@ const PublicInfoHeader = () => {
         </Drawer>
         <img
           src={`${config.hostname}/Pono.svg`}
-          style={{ float: "left", height: "35px", width: "35px" }}
+          className={props.classes[`headerLogo-${props.screenSize}`]}
         />
         <Typography
-          style={{
-            float: "left",
-            fontFamily: "Montserrat",
-            fontSize: "32px",
-            fontStyle: "italic",
-            letterSpacing: "-2%"
-          }}
+          className={`${props.classes.headerText} ${
+            props.classes[`headerText-${props.screenSize}`]
+          }`}
           variant="h1"
         >
           Hawaii.gov
@@ -79,4 +68,4 @@ const PublicInfoHeader = () => {
   );
 };
 
-export default PublicInfoHeader;
+export default withStyles(publicInfoStyles)(PublicInfoHeader);
