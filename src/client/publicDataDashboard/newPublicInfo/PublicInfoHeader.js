@@ -29,6 +29,7 @@ const PublicInfoHeader = props => {
           ""
         ) : (
           <IconButton
+            aria-label="Menu"
             color="inherit"
             style={{ marginRight: "-45px" }}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -48,6 +49,7 @@ const PublicInfoHeader = props => {
         >
           <img
             src={`${config.hostname}/Pono.svg`}
+            alt="Logo"
             className={props.classes[`headerLogo-${props.screenSize}`]}
             style={{ marginLeft: "45px" }}
           />

@@ -53,14 +53,15 @@ const publicInfoStyles = theme => ({
   },
   textWithIcon: {
     display: "flex",
-    alignItems: "baseline",
+    alignItems: "center",
     columnGap: "5px"
   },
   headerLink: {
     color: "inherit",
     textDecoration: "none",
     "&:hover": {
-      color: "#C8DDDE"
+      color: "#C8DDDE",
+      textDecoration: "underline"
     }
   },
   link: {
