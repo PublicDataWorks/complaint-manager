@@ -26,9 +26,13 @@ const HeaderLinks = ({ menuOpen, setMenuOpen, screenSize, classes }) => {
 
   if (screenSize === SCREEN_SIZES.DESKTOP) {
     return (
-      <div style={{ display: "flex", columnGap: "15px", marginRight: "45px" }}>
+      <div style={{ display: "flex", columnGap: "35px", marginRight: "45px" }}>
         {links.map(link => (
-          <a key={link.title} href={link.href} className={classes.headerLink}>
+          <a
+            key={link.title}
+            href={link.href}
+            className={`${classes.headerLink} ${classes.textWithIcon}`}
+          >
             {link.icon}
             {link.title}
           </a>
@@ -42,7 +46,11 @@ const HeaderLinks = ({ menuOpen, setMenuOpen, screenSize, classes }) => {
           <List>
             {links.map(link => (
               <ListItem key={link.title}>
-                <a href={link.href} className={classes.link}>
+                <a
+                  href={link.href}
+                  className={`${classes.link} ${classes.textWithIcon}`}
+                >
+                  {link.icon}
                   {link.title}
                 </a>
               </ListItem>

@@ -33,7 +33,7 @@ const PublicInfoPage = props => {
     return <main>Loading...</main>;
   } else {
     return (
-      <main>
+      <main style={{ fontFamily: "Montserrat, sans-serif" }}>
         <PublicInfoHeader screenSize={screenSize} />
       </main>
     );

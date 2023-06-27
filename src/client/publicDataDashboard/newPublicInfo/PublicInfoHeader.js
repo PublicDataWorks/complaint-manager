@@ -36,19 +36,30 @@ const PublicInfoHeader = props => {
             <Menu />
           </IconButton>
         )}
-        <img
-          src={`${config.hostname}/Pono.svg`}
-          className={props.classes[`headerLogo-${props.screenSize}`]}
-          style={{ marginLeft: "45px" }}
-        />
-        <Typography
-          className={`${props.classes.headerText} ${
-            props.classes[`headerText-${props.screenSize}`]
-          }`}
-          variant="h1"
+        <a
+          href="https://portal.ehawaii.gov/"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "100%",
+            color: "inherit",
+            textDecoration: "none"
+          }}
         >
-          Hawaii.gov
-        </Typography>
+          <img
+            src={`${config.hostname}/Pono.svg`}
+            className={props.classes[`headerLogo-${props.screenSize}`]}
+            style={{ marginLeft: "45px" }}
+          />
+          <Typography
+            className={`${props.classes.headerText} ${
+              props.classes[`headerText-${props.screenSize}`]
+            }`}
+            variant="h1"
+          >
+            Hawaii.gov
+          </Typography>
+        </a>
       </div>
       <HeaderLinks
         menuOpen={menuOpen}

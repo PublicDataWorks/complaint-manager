@@ -38,9 +38,9 @@ const publicInfoStyles = theme => ({
     width: "45px"
   },
   headerText: {
-    fontFamily: "Montserrat",
     fontStyle: "italic",
-    letterSpacing: "-2%"
+    letterSpacing: "-2%",
+    fontFamily: "times, serif"
   },
   [`headerText-${SCREEN_SIZES.MOBILE}`]: {
     fontSize: "32px"
@@ -51,10 +51,12 @@ const publicInfoStyles = theme => ({
   [`headerText-${SCREEN_SIZES.DESKTOP}`]: {
     fontSize: "48px"
   },
-  headerLink: {
+  textWithIcon: {
     display: "flex",
     alignItems: "baseline",
-    columnGap: "5px",
+    columnGap: "5px"
+  },
+  headerLink: {
     color: "inherit",
     textDecoration: "none",
     "&:hover": {
