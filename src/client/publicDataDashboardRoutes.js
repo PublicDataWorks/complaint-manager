@@ -30,7 +30,7 @@ const publicDataDashboardRoutes = [
   },
   {
     path: "/public-data",
-    title: "Everything you need to know about human misery",
+    title: "Information Dashboard",
     component: PublicInfoPage
   }
 ];

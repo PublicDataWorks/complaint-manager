@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { push } from "connected-react-router";
-import PublicInfoHeader from "./PublicInfoHeader";
+import PublicInfoHeader from "./header/PublicInfoHeader";
 import { useMediaQuery } from "@material-ui/core";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
 

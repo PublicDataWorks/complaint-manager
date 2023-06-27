@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { IconButton, Typography } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import { withStyles } from "@material-ui/styles";
-import publicInfoStyles from "./publicInfoStyles";
+import publicInfoStyles from "../publicInfoStyles";
 import HeaderLinks from "./HeaderLinks";
-import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
+import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
@@ -33,6 +33,7 @@ const PublicInfoHeader = props => {
             color="inherit"
             style={{ marginRight: "-45px" }}
             onClick={() => setMenuOpen(!menuOpen)}
+            data-testid="delicious-menu"
           >
             <Menu />
           </IconButton>

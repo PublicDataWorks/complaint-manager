@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Drawer, List, ListItem } from "@material-ui/core";
-import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
+import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import CallIcon from "@material-ui/icons/Call";
 import HomeIcon from "@material-ui/icons/Home";
 import LanguageIcon from "@material-ui/icons/Language";
