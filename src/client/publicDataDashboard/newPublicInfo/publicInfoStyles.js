@@ -49,7 +49,7 @@ const publicInfoStyles = theme => ({
     fontSize: "40px"
   },
   [`headerText-${SCREEN_SIZES.DESKTOP}`]: {
-    fontSize: "48px"
+    fontSize: "40px"
   },
   textWithIcon: {
     display: "flex",
@@ -60,7 +60,7 @@ const publicInfoStyles = theme => ({
     color: "inherit",
     textDecoration: "none",
     "&:hover": {
-      color: colors.subtleText
+      color: "#C8DDDE"
     }
   },
   link: {

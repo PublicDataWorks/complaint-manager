@@ -57,7 +57,7 @@ const PublicInfoHeader = props => {
             }`}
             variant="h1"
           >
-            Hawaii.gov
+            hawaii.gov
           </Typography>
         </a>
       </div>
