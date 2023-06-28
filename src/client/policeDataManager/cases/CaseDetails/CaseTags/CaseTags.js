@@ -13,6 +13,14 @@ import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 class CaseTags extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      caseTagDialogOpen: false
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(getCaseTags(this.props.caseId));
   }
@@ -80,7 +88,7 @@ class CaseTags extends Component {
             <div />
           ) : (
             <LinkButton
-              onClick={() => this.props.dispatch(openCaseTagDialog())}
+              onClick={() => this.setState({ caseTagDialogOpen: true })}
               style={{ margin: "0% 0% 5% 2%" }}
               data-testid="addTagButton"
             >
@@ -88,7 +96,10 @@ class CaseTags extends Component {
             </LinkButton>
           )}
         </div>
-        <CaseTagDialog />
+        <CaseTagDialog
+          open={this.state.caseTagDialogOpen}
+          closeDialog={() => this.setState({ caseTagDialogOpen: false })}
+        />
       </div>
     );
   }

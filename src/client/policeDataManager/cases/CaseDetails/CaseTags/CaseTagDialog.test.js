@@ -2,11 +2,7 @@ import React from "react";
 import createConfiguredStore from "../../../../createConfiguredStore";
 import { Provider } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
-import {
-  closeCaseTagDialog,
-  getCaseDetailsSuccess,
-  openCaseTagDialog
-} from "../../../actionCreators/casesActionCreators";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import {
   containsText,
   findCreatableDropdownOption
@@ -33,33 +29,25 @@ jest.mock("../../../tags/thunks/getTagDropdownValues", () => values => ({
 describe("CaseTagDialog", () => {
   const store = createConfiguredStore();
   const dispatchSpy = jest.spyOn(store, "dispatch");
-  let dialog;
-
-  beforeEach(() => {
-    dialog = mount(
+  const closeDialog = jest.fn();
+  const mountDialog = () => {
+    return mount(
       <Provider store={store}>
-        <CaseTagDialog />
+        <CaseTagDialog open={true} closeDialog={closeDialog} />
       </Provider>
     );
-
-    store.dispatch(openCaseTagDialog());
-  });
-
-  test("should open dialog when openCaseTagDialog is dispatched", () => {
-    dialog.update();
-
-    containsText(dialog, '[data-testid="caseTagDialogTitle"]', "Add New Tag");
-  });
+  };
 
   test("should close dialog and reset form when cancel button is clicked", () => {
-    dialog.update();
+    const wrapper = mountDialog();
+    wrapper.update();
 
-    const cancelButton = dialog
+    const cancelButton = wrapper
       .find('[data-testid="caseTagCancelButton"]')
       .first();
     cancelButton.simulate("click");
 
-    expect(dispatchSpy).toHaveBeenCalledWith(closeCaseTagDialog());
+    expect(closeDialog).toHaveBeenCalled();
     expect(dispatchSpy).toHaveBeenCalledWith(reset(CASE_TAG_FORM_NAME));
   });
 
@@ -72,10 +60,11 @@ describe("CaseTagDialog", () => {
 
     store.dispatch(getTagsSuccess([testTag]));
 
-    dialog.update();
+    const wrapper = mountDialog();
+    wrapper.update();
 
     findCreatableDropdownOption(
-      dialog,
+      wrapper,
       '[data-testid="caseTagDropdown"]',
       "testTagName"
     );
@@ -86,9 +75,10 @@ describe("CaseTagDialog", () => {
     const caseDetails = new Case.Builder().defaultCase().withId(73).build();
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
-    dialog.update();
+    const wrapper = mountDialog();
+    wrapper.update();
 
-    const submitButton = dialog
+    const submitButton = wrapper
       .find('[data-testid="caseTagSubmitButton"]')
       .first();
 
@@ -107,8 +97,7 @@ describe("CaseTagDialog", () => {
       payload: { label: testTagName, value: testTagName }
     });
 
-    dialog.update();
-
+    wrapper.update();
     submitButton.simulate("click");
 
     expect(dispatchSpy).toHaveBeenCalledWith(
@@ -122,15 +111,16 @@ describe("CaseTagDialog", () => {
 
     store.dispatch(getCaseDetailsSuccess(caseDetails));
 
-    dialog.update();
+    const wrapper = mountDialog();
+    wrapper.update();
 
-    const submitButton = dialog
+    const submitButton = wrapper
       .find('[data-testid="caseTagSubmitButton"]')
       .first();
     submitButton.simulate("click");
 
     expect(
-      dialog.find('[data-testid="caseTagDropdown"]').last().text()
+      wrapper.find('[data-testid="caseTagDropdown"]').last().text()
     ).not.toContain("Please enter a tag name");
 
     expect(dispatchSpy).not.toHaveBeenCalledWith(

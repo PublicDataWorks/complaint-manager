@@ -6,7 +6,8 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { mount } from "enzyme";
 import { containsText } from "../../../../testHelpers";
 import {
-  fetchingCaseTags, getCaseDetailsSuccess,
+  fetchingCaseTags,
+  getCaseDetailsSuccess,
   getCaseTagSuccess,
   openCaseTagDialog,
   openRemoveCaseTagDialog
@@ -111,18 +112,21 @@ describe("Case Tags", () => {
 
       dialog.update();
 
-      const firstCaseTagChip = dialog.find('[data-testid="caseTagChip"]').first();
-      const secondCaseTagChip = dialog.find('[data-testid="caseTagChip"]').last();
+      const firstCaseTagChip = dialog
+        .find('[data-testid="caseTagChip"]')
+        .first();
+      const secondCaseTagChip = dialog
+        .find('[data-testid="caseTagChip"]')
+        .last();
 
       expect(firstCaseTagChip.text()).toEqual("Penguins");
       expect(secondCaseTagChip.text()).toEqual("Osprey");
     });
 
-    test("add tag button should call openCaseTagDialog when clicked when case is not archived", () => {
+    test("add tag button should set caseTagDialogOpen to true when clicked when case is not archived", () => {
       const addTagButton = dialog.find('button[data-testid="addTagButton"]');
       addTagButton.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(openCaseTagDialog());
+      containsText(dialog, '[data-testid="caseTagDialogTitle"]', "Add New Tag");
     });
 
     test("should open removeCaseTagDialog when remove is clicked", () => {
@@ -167,14 +171,16 @@ describe("Case Tags", () => {
       store.dispatch(getCaseDetailsSuccess(caseDetail));
 
       dialog = mount(
-          <Provider store={store}>
-            <Router>
-              <CaseTags caseId={1} dispatch={jest.fn()} />
-            </Router>
-          </Provider>
+        <Provider store={store}>
+          <Router>
+            <CaseTags caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
       );
 
-      const noDisplayButton = dialog.find('[data-testid="addTagButton"]').first();
+      const noDisplayButton = dialog
+        .find('[data-testid="addTagButton"]')
+        .first();
       expect(noDisplayButton).toEqual({});
     });
   });
