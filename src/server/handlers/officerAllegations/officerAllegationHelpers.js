@@ -15,7 +15,5 @@ export const getRuleChapterId = async request => {
     });
   }
 
-  console.log("RULE CHAPTER >>>", ruleChapter);
-
   return ruleChapter?.id;
 };

@@ -1,4 +1,4 @@
-import jwtCheck from "../server/handlers/jwtCheck";
+import { jwtCheck } from "../auth";
 import verifyUserInfo from "../server/handlers/verifyUserNickname";
 import authErrorHandler from "../server/handlers/authErrorHandler";
 import localhostUserNickname from "../server/handlers/localhostUserNickname";

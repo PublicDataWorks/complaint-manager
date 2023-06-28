@@ -10,7 +10,7 @@ const fs = require("fs");
 const getSecret = () => {
   if (process.env.NODE_ENV === "test") {
     return fs.readFileSync(
-      path.join(__dirname, "..", "config", "test", "public.pem")
+      path.join(__dirname, "..", "..", "server", "config", "test", "public.pem")
     );
   } else {
     return jwks.expressJwtSecret({
