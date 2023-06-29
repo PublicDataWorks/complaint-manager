@@ -1,9 +1,3 @@
-// CLIENT AUTH
-const clientConfig =
-  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
-    process.env.REACT_APP_ENV
-  ];
-
 // SERVER AUTH
 const serverConfig =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
