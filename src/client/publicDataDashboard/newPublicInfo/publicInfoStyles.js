@@ -67,6 +67,25 @@ const publicInfoStyles = theme => ({
   link: {
     color: colors.links,
     textDecoration: "none"
+  },
+  menu: {
+    width: "100vw",
+    display: "inline-flex",
+    color: colors.dark
+  },
+  [`menu-${SCREEN_SIZES.DESKTOP}`]: {
+    height: "6em"
+  },
+  [`menu-${SCREEN_SIZES.TABLET}`]: {
+    height: "5em"
+  },
+  menuLink: {
+    color: "inherit",
+    textDecoration: "none",
+    "&:hover": {
+      color: "#C8DDDE",
+      textDecoration: "underline"
+    }
   }
 });
 

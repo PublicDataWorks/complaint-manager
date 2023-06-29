@@ -4,6 +4,7 @@ import { push } from "connected-react-router";
 import PublicInfoHeader from "./header/PublicInfoHeader";
 import { useMediaQuery } from "@material-ui/core";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
+import PublicInfoMenu from "./menu/PublicInfoMenu";
 
 const PublicInfoPage = props => {
   useEffect(() => {
@@ -35,6 +36,7 @@ const PublicInfoPage = props => {
     return (
       <main style={{ fontFamily: "Montserrat, sans-serif" }}>
         <PublicInfoHeader screenSize={screenSize} />
+        <PublicInfoMenu screenSize={screenSize} />
       </main>
     );
   }
