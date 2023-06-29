@@ -1,5 +1,5 @@
 const userService = require("./userService");
-import { authEnabledTest } from "../testHelpers/authEnabledTest";
+import { authEnabledTest } from "../../server/testHelpers/authEnabledTest";
 import okta from "@okta/okta-sdk-nodejs";
 
 jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`, () => {

@@ -1,4 +1,4 @@
-import { getUsers } from "../../../services/userService.js";
+import { userService } from "../../../../auth";
 import { addAuthorDetailsToCaseNote } from "./addAuthorDetailsToCaseNote";
 import CaseNote from "../../../testHelpers/caseNote";
 import CaseStatus from "../../../../sharedTestHelpers/caseStatus";
@@ -6,15 +6,17 @@ import { createTestCaseWithCivilian } from "../../../testHelpers/modelMothers";
 import { cleanupDatabase } from "../../../testHelpers/requestTestHelpers";
 const models = require("../../../policeDataManager/models");
 
-jest.mock("../../../services/userService", () => ({
-  getUsers: jest.fn(() => {
-    return [
-      { name: "wancheny", email: "wancheny@gmail.com" },
-      { name: "random", email: "random@gmail.com" },
-      { name: "johnsmith", email: "johnsmith@gmail.com" },
-      { name: "catpower", email: "catpower@gmail.com" }
-    ];
-  })
+jest.mock("../../../../auth", () => ({
+  userService: {
+    getUsers: jest.fn(() => {
+      return [
+        { name: "wancheny", email: "wancheny@gmail.com" },
+        { name: "random", email: "random@gmail.com" },
+        { name: "johnsmith", email: "johnsmith@gmail.com" },
+        { name: "catpower", email: "catpower@gmail.com" }
+      ];
+    })
+  }
 }));
 
 describe("addAuthorDetailsToCaseNote", () => {
@@ -73,6 +75,6 @@ describe("addAuthorDetailsToCaseNote", () => {
   test("should call getUsers when getting notifications", async () => {
     await addAuthorDetailsToCaseNote(rawCaseNotes);
 
-    expect(getUsers).toHaveBeenCalled();
+    expect(userService.getUsers).toHaveBeenCalled();
   });
 });

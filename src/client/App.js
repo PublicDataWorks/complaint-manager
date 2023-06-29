@@ -42,8 +42,10 @@ const App = props => {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
     } else if (
       !window.location.pathname.includes("/data") &&
+      !window.location.pathname.includes("/public") &&
       window.location.pathname !== "/callback"
     ) {
+      console.log(window.location.pathname);
       redirectToAuth(props.dispatch);
     }
   }, []);

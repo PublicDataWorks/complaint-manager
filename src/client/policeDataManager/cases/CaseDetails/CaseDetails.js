@@ -14,7 +14,6 @@ import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
 import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
-  closeCaseTagDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
   closeEditIncidentDetailsDialog,
@@ -53,7 +52,6 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(reset(NARRATIVE_FORM));
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
-  dispatch(closeCaseTagDialog());
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());
   dispatch(closeRemoveCaseTagDialog());

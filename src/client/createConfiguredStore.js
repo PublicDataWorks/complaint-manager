@@ -45,7 +45,6 @@ import incompleteOfficerHistoryDialogReducer from "./policeDataManager/reducers/
 import howDidYouHearAboutUsSourceReducer from "./policeDataManager/reducers/ui/howDidYouHearAboutUsSourceReducer";
 import genderIdentityReducer from "./policeDataManager/reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./policeDataManager/reducers/ui/caseNoteActionReducer";
-import caseTagDialogReducer from "./policeDataManager/reducers/ui/caseTagDialogReducer";
 import tagReducer from "./policeDataManager/reducers/ui/tagReducer";
 import tagManagementReducer from "./policeDataManager/reducers/ui/tagManagementPageReducer";
 import incompleteClassificationsDialogReducer from "./policeDataManager/reducers/ui/incompleteClassificationsDialogReducer";
@@ -116,7 +115,6 @@ const rootReducer = combineReducers({
     caseNoteActions: caseNoteActionReducer,
     casesTable: casesTableReducer,
     caseStatuses: caseStatusesReducer,
-    caseTagDialog: caseTagDialogReducer,
     civilianDialog: civilianDialogReducer,
     civilianTitles: civilianTitleReducer,
     complaintTypes: complaintTypeReducer,

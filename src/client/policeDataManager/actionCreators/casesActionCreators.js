@@ -130,14 +130,6 @@ export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
 });
 
-export const openCaseTagDialog = () => ({
-  type: CASE_TAG_DIALOG_OPENED
-});
-
-export const closeCaseTagDialog = () => ({
-  type: CASE_TAG_DIALOG_CLOSED
-});
-
 export const createCaseTagSuccess = caseTags => ({
   type: CREATE_CASE_TAG_SUCCESS,
   caseTags

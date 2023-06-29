@@ -1,9 +1,9 @@
-import { getUsers } from "../../../services/userService";
+import { userService } from "../../../../auth";
 
 export const addAuthorDetailsToCaseNote = async rawCaseNotes => {
   const getUsersFromAuth0 = async () => {
     try {
-      return await getUsers();
+      return await userService.getUsers();
     } catch (error) {
       return [];
     }

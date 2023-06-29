@@ -124,11 +124,10 @@ describe("Case Tags", () => {
       expect(secondCaseTagChip.text()).toEqual("Osprey");
     });
 
-    test("add tag button should call openCaseTagDialog when clicked when case is not archived", () => {
+    test("add tag button should set caseTagDialogOpen to true when clicked when case is not archived", () => {
       const addTagButton = dialog.find('button[data-testid="addTagButton"]');
       addTagButton.simulate("click");
-
-      expect(dispatchSpy).toHaveBeenCalledWith(openCaseTagDialog());
+      containsText(dialog, '[data-testid="caseTagDialogTitle"]', "Add New Tag");
     });
 
     test("should open remove case tag dialog when delete button is clicked", async () => {

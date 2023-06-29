@@ -5,13 +5,17 @@ import {
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import getUsers from "./getUsers";
-import { getUsers as auth0GetUsers } from "../../services/userService";
+import { userService } from "../../../auth";
 import { suppressWinstonLogs } from "../../testHelpers/requestTestHelpers";
 import { authEnabledTest } from "../../testHelpers/authEnabledTest";
 
 jest.mock("../audits/auditDataAccess");
 
-jest.mock("../../services/userService");
+jest.mock("../../../auth", () => ({
+  userService: {
+    getUsers: jest.fn()
+  }
+}));
 
 describe("getUsers tests", () => {
   let mockGetUserRequest, mockGetUserResponse, next, auth0Users;
@@ -36,19 +40,19 @@ describe("getUsers tests", () => {
   });
 
   afterEach(() => {
-    auth0GetUsers.mockClear();
+    userService.getUsers.mockClear();
   });
 
   describe("Successful path", () => {
     const test = authEnabledTest();
     test("Should call getUsers", async () => {
-      auth0GetUsers.mockImplementationOnce(() => {
+      userService.getUsers.mockImplementationOnce(() => {
         return auth0Users;
       });
 
       await getUsers(mockGetUserRequest, mockGetUserResponse, next);
 
-      expect(auth0GetUsers).toBeCalledTimes(1);
+      expect(userService.getUsers).toBeCalledTimes(1);
       expect(mockGetUserResponse.statusCode).toEqual(200);
       expect(mockGetUserResponse._getData()).toEqual(auth0Users);
     });
@@ -59,7 +63,7 @@ describe("getUsers tests", () => {
     test(
       "Should throw error if getUsers fails",
       suppressWinstonLogs(async () => {
-        auth0GetUsers.mockImplementationOnce(() => {
+        userService.getUsers.mockImplementationOnce(() => {
           throw new Error("I am failing!");
         });
 
@@ -71,7 +75,7 @@ describe("getUsers tests", () => {
 
   describe("Auditing", () => {
     beforeAll(() => {
-      auth0GetUsers.mockImplementation(() => auth0Users);
+      userService.getUsers.mockImplementation(() => auth0Users);
     });
 
     test(
