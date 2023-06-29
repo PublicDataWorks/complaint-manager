@@ -6,12 +6,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { mount } from "enzyme";
 import { containsText } from "../../../../testHelpers";
 import {
-  fetchingCaseTags, getCaseDetailsSuccess,
+  fetchingCaseTags,
+  getCaseDetailsSuccess,
   getCaseTagSuccess,
   openCaseTagDialog,
   openRemoveCaseTagDialog
 } from "../../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
+import "@testing-library/jest-dom/extend-expect";
 
 describe("Case Tags", () => {
   let dialog, dispatchSpy, store;
@@ -111,8 +113,12 @@ describe("Case Tags", () => {
 
       dialog.update();
 
-      const firstCaseTagChip = dialog.find('[data-testid="caseTagChip"]').first();
-      const secondCaseTagChip = dialog.find('[data-testid="caseTagChip"]').last();
+      const firstCaseTagChip = dialog
+        .find('[data-testid="caseTagChip"]')
+        .first();
+      const secondCaseTagChip = dialog
+        .find('[data-testid="caseTagChip"]')
+        .last();
 
       expect(firstCaseTagChip.text()).toEqual("Penguins");
       expect(secondCaseTagChip.text()).toEqual("Osprey");
@@ -125,7 +131,9 @@ describe("Case Tags", () => {
       expect(dispatchSpy).toHaveBeenCalledWith(openCaseTagDialog());
     });
 
-    test("should open removeCaseTagDialog when remove is clicked", () => {
+    test("should open remove case tag dialog when delete button is clicked", async () => {
+      // const removeCaseTagButton = dialog.find('button[data-testid="caseTagChip"]');
+      // removeCaseTagButton.simulate("click");
       const caseTags = [
         {
           id: 1,
@@ -152,14 +160,29 @@ describe("Case Tags", () => {
 
       dialog.update();
 
-      const tagToDelete = dialog.find("ForwardRef(Chip)").first();
-      tagToDelete.prop("onDelete")();
+      // dialog.find('Chip').first().find('DeleteIcon').simulate('click');
 
+      // const tagToDelete = dialog.find("ForwardRef(Chip)").first();
+      // tagToDelete.simulate("onDelete")();
       const firstCaseTag = caseTags[0];
+      expect(findByText(firstCaseTag.tag.name)).toBeDefined();
 
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        openRemoveCaseTagDialog(firstCaseTag)
-      );
+      const deleteIcon = dialog.querySelector(".MuiChip-deleteIcon");
+
+      await wait(() => {
+        fireEvent.click(deleteIcon);
+      });
+
+      await wait(() => {
+        expect(findByText(firstCaseTag.tag.name)).toBeNull();
+      });
+      // tagToDelete.prop("onDelete")();
+
+      //   containsText(
+      //     dialog,
+      //     '[data-testid="caseTagDialogTitle"]',
+      //     "Remove Case Tag"
+      //   );
     });
 
     test("should not display button to add tag when case is archived", () => {
@@ -167,14 +190,16 @@ describe("Case Tags", () => {
       store.dispatch(getCaseDetailsSuccess(caseDetail));
 
       dialog = mount(
-          <Provider store={store}>
-            <Router>
-              <CaseTags caseId={1} dispatch={jest.fn()} />
-            </Router>
-          </Provider>
+        <Provider store={store}>
+          <Router>
+            <CaseTags caseId={1} dispatch={jest.fn()} />
+          </Router>
+        </Provider>
       );
 
-      const noDisplayButton = dialog.find('[data-testid="addTagButton"]').first();
+      const noDisplayButton = dialog
+        .find('[data-testid="addTagButton"]')
+        .first();
       expect(noDisplayButton).toEqual({});
     });
   });
