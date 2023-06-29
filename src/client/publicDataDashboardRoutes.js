@@ -31,7 +31,8 @@ const publicDataDashboardRoutes = [
   {
     path: "/public-data",
     title: "Information Dashboard",
-    component: PublicInfoPage
+    component: PublicInfoPage,
+    toggleName: "showNewPublicDashboard"
   }
 ];
 
