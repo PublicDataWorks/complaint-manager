@@ -51,7 +51,6 @@ import incompleteClassificationsDialogReducer from "./policeDataManager/reducers
 import caseTagReducer from "./policeDataManager/reducers/cases/caseTagsReducer";
 import fetchingCaseTagsReducer from "./policeDataManager/reducers/cases/fetchingCaseTagsReducer";
 import fetchingCaseNotesReducer from "./policeDataManager/reducers/cases/fetchingCaseNotesReducer";
-import removeCaseTagDialogReducer from "./policeDataManager/reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./policeDataManager/reducers/ui/civilianTitleReducer";
 import districtReducer from "./policeDataManager/reducers/ui/districtReducer";
 import addOfficerReducer from "./policeDataManager/reducers/officers/addOfficerReducer";
@@ -140,7 +139,6 @@ const rootReducer = combineReducers({
     removeAttachmentConfirmationDialog:
       removeAttachmentConfirmationDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
-    removeCaseTagDialog: removeCaseTagDialogReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     search: searchReducer,

@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Chip, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
-import { openCaseTagDialog } from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
@@ -86,9 +85,7 @@ class CaseTags extends Component {
             caseTagId={this.state.caseTagId}
             caseId={this.props.caseId}
             dialogOpen={this.state.dialogOpen}
-            closeDialog={() => {
-              this.setState({ dialogOpen: false });
-            }}
+            closeDialog={() => this.setState({ dialogOpen: false })}
           />
         </div>
         <div>

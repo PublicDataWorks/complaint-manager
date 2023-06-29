@@ -19,7 +19,6 @@ import {
   closeEditIncidentDetailsDialog,
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
-  closeRemoveCaseTagDialog,
   closeRestoreArchivedCaseDialog,
   editSearchIndex
 } from "../../actionCreators/casesActionCreators";
@@ -54,7 +53,6 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(closeEditCivilianDialog());
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());
-  dispatch(closeRemoveCaseTagDialog());
   dispatch(closeEditIncidentDetailsDialog());
   dispatch(closeRestoreArchivedCaseDialog());
   dispatch(closeRemoveAttachmentConfirmationDialog());

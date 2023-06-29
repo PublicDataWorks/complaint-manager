@@ -155,15 +155,6 @@ export const fetchingCaseNotes = fetching => ({
   fetching
 });
 
-export const openRemoveCaseTagDialog = (caseTag = {}) => ({
-  type: REMOVE_CASE_TAG_DIALOG_OPENED,
-  caseTag
-});
-
-export const closeRemoveCaseTagDialog = () => ({
-  type: REMOVE_CASE_TAG_DIALOG_CLOSED
-});
-
 export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({
   type: REMOVE_ATTACHMENT_CONFIRMATION_DIALOG_OPENED,
   attachmentFileName
