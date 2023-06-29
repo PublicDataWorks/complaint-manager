@@ -1,5 +1,5 @@
 const { jwtCheck } = require("../auth");
-const userService = require("./services/userService");
+const { userService } = require("../auth");
 
 const express = require("express");
 const router = express.Router();

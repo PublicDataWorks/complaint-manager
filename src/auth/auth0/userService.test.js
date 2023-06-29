@@ -2,9 +2,9 @@ import nock from "nock";
 import Boom from "boom";
 
 const userService = require("./userService");
-import { suppressWinstonLogs } from "../testHelpers/requestTestHelpers";
+import { suppressWinstonLogs } from "../../server/testHelpers/requestTestHelpers";
 import { INTERNAL_ERRORS } from "../../sharedUtilities/errorMessageConstants";
-import { authEnabledTest } from "../testHelpers/authEnabledTest";
+import { authEnabledTest } from "../../server/testHelpers/authEnabledTest";
 
 jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`, () => {
   return {
