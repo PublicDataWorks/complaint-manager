@@ -30,16 +30,17 @@ const PublicInfoPage = props => {
 
   const screenSize = getScreen();
 
-  if (!props.isAllowed) {
-    return <main>Loading...</main>;
-  } else {
-    return (
-      <main style={{ fontFamily: "Montserrat, sans-serif" }}>
-        <PublicInfoHeader screenSize={screenSize} />
-        <PublicInfoMenu screenSize={screenSize} />
-      </main>
-    );
-  }
+  // if (!props.isAllowed) {
+  //   console.log("you aren't allowed");
+  //   return <main>Loading...</main>;
+  // } else {
+  return (
+    <main style={{ fontFamily: "Montserrat, sans-serif" }}>
+      <PublicInfoHeader screenSize={screenSize} />
+      <PublicInfoMenu screenSize={screenSize} />
+    </main>
+  );
+  //}
 };
 
 export default connect(state => ({

@@ -12,12 +12,12 @@ const expectMenuLinksToExist = () => {
 };
 
 const expectMenuLinksToNotExist = () => {
-    expect(screen.queryByText("About")).not.toBeInTheDocument;
-    expect(screen.queryByText("Public Data")).not.toBeInTheDocument;
-    expect(screen.queryByText("Issues")).not.toBeInTheDocument;
-    expect(screen.queryByText("Stories")).not.toBeInTheDocument;
-    expect(screen.queryByText("FAQ")).not.toBeInTheDocument;
-  };
+  expect(screen.queryByText("About")).toBeNull();
+  expect(screen.queryByText("Public Data")).toBeNull();
+  expect(screen.queryByText("Issues")).toBeNull();
+  expect(screen.queryByText("Stories")).toBeNull();
+  expect(screen.queryByText("FAQ")).toBeNull();
+};
 
 describe("Public Info Menu", () => {
   [SCREEN_SIZES.DESKTOP, SCREEN_SIZES.TABLET].forEach(size => {

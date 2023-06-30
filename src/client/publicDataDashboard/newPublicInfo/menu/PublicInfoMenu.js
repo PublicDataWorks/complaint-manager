@@ -4,13 +4,8 @@ import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import { Box, Drawer, List, ListItem } from "@material-ui/core";
 
-
 const PublicInfoMenu = props => {
   const links = [
-    {
-      href: "#",
-      title: "About"
-    },
     {
       href: "#",
       title: "Public Data"
@@ -20,34 +15,43 @@ const PublicInfoMenu = props => {
       title: "Issues"
     },
     {
-        href: "#",
-        title: "Stories"
-      },
-      {
-        href: "#",
-        title: "FAQ"
-      }
+      href: "#",
+      title: "Stories"
+    },
+    {
+      href: "#",
+      title: "FAQ"
+    }
   ];
 
-  return (
-    <menu
-    style={{
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}
-      className={`${props.classes.menu} ${
-        props.classes[`menu-${props.screenSize}`]
-      }`}>
-        {links.map(link => (
-            <a
-                href={link.href}
-                className={`${props.classes.menuLink}`}
-            >
-                {link.title}
+  if (props.screenSize === SCREEN_SIZES.MOBILE) {
+    return <div></div>;
+  } else {
+    return (
+      <div>
+        <menu className={`${props.classes.menu} `}>
+          <div
+            style={{
+              display: "flex"
+            }}
+          >
+            <a href={"#"} className={`${props.classes.menuLink}`}>
+              About
             </a>
-        ))}
-    </menu>
-  );
+            {links.map(link => (
+              <a
+                key={link.title}
+                href={link.href}
+                className={`${props.classes.menuLink} ${props.classes.menuBorderLeft}`}
+              >
+                {link.title}
+              </a>
+            ))}
+          </div>
+        </menu>
+      </div>
+    );
+  }
 };
 
 export default withStyles(publicInfoStyles)(PublicInfoMenu);

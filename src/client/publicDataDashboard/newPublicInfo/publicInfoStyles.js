@@ -70,22 +70,22 @@ const publicInfoStyles = theme => ({
   },
   menu: {
     width: "100vw",
+    height: "1em",
     display: "inline-flex",
+    padding: "20px 0px 20px",
+    justifyContent: "center",
     color: colors.dark
   },
-  [`menu-${SCREEN_SIZES.DESKTOP}`]: {
-    height: "6em"
-  },
-  [`menu-${SCREEN_SIZES.TABLET}`]: {
-    height: "5em"
-  },
   menuLink: {
-    color: "inherit",
+    color: colors.dark,
+    padding: "0px 32px",
     textDecoration: "none",
     "&:hover": {
-      color: "#C8DDDE",
-      textDecoration: "underline"
+      color: colors.secondaryBrand
     }
+  },
+  menuBorderLeft: {
+    borderLeft: "solid 1px #bbbcbd"
   }
 });
 
