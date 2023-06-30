@@ -2,7 +2,6 @@ export const LOCAL_DEV_PORT = 443;
 export const PORT = 1234;
 export const ISO_DATE = "YYYY-MM-DD";
 export const NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN = 4;
-export const OKTA = "okta";
 
 // ----------------------------------------
 //          Action Types

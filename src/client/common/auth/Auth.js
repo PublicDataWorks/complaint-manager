@@ -1,17 +1,10 @@
 import auth0 from "auth0-js";
 import history from "../../history";
 import auditLogin from "../../policeDataManager/users/thunks/auditLogin";
-import parsePermissions from "../../policeDataManager/utilities/parsePermissions";
+import { parsePermissions } from "../../auth";
 import jwt from "jsonwebtoken";
 import generateRandomString from "../../policeDataManager/utilities/generateRandomString";
-import {
-  NICKNAME,
-  OKTA,
-  PERMISSIONS,
-  OPENID,
-  PROFILE,
-  EMAIL
-} from "../../../sharedUtilities/constants";
+import { NICKNAME, PERMISSIONS } from "../../../sharedUtilities/constants";
 
 const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`);
 
@@ -72,13 +65,8 @@ export default class Auth {
   };
 
   setUserInfoInStore = (accessToken, populateStoreWithUserInfoCallback) => {
-    let permissions;
     const decodedToken = jwt.decode(accessToken);
-    if (this.authConfig.engine === OKTA) {
-      permissions = decodedToken.perms.split(" ");
-    } else {
-      permissions = parsePermissions(decodedToken.scope);
-    }
+    const permissions = parsePermissions(decodedToken);
     const nickname = decodedToken[this.authConfig.nicknameKey];
     populateStoreWithUserInfoCallback({ nickname, permissions });
   };

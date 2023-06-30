@@ -1,3 +1,1 @@
-import React from "react";
-
-export const withSecurity = Component => () => Component;
+export const withSecurity = Component => Component;
