@@ -3,6 +3,10 @@ const clientConfig =
     process.env.REACT_APP_ENV
   ];
 
+const { Callback } = require(`../auth/${clientConfig.auth.engine}/Callback`);
 const { Login } = require(`../auth/${clientConfig.auth.engine}/Login`);
+const {
+  withSecurity
+} = require(`../auth/${clientConfig.auth.engine}/withSecurity`);
 
-export { Login };
+export { Callback, Login, withSecurity };
