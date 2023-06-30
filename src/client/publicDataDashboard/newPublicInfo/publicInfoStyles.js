@@ -67,6 +67,25 @@ const publicInfoStyles = theme => ({
   link: {
     color: colors.links,
     textDecoration: "none"
+  },
+  menu: {
+    width: "100vw",
+    height: "1em",
+    display: "inline-flex",
+    padding: "20px 0px 20px",
+    justifyContent: "center",
+    color: colors.dark
+  },
+  menuLink: {
+    color: colors.dark,
+    padding: "0px 32px",
+    textDecoration: "none",
+    "&:hover": {
+      color: colors.secondaryBrand
+    }
+  },
+  menuBorderLeft: {
+    borderLeft: "solid 1px #bbbcbd"
   }
 });
 

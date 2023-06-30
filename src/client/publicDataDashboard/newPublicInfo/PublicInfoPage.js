@@ -2,6 +2,7 @@ import React from "react";
 import PublicInfoHeader from "./header/PublicInfoHeader";
 import { useMediaQuery } from "@material-ui/core";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
+import PublicInfoMenu from "./menu/PublicInfoMenu";
 
 const PublicInfoPage = props => {
   const getScreen = () => {
@@ -24,6 +25,7 @@ const PublicInfoPage = props => {
   return (
     <main style={{ fontFamily: "Montserrat, sans-serif" }}>
       <PublicInfoHeader screenSize={screenSize} />
+      <PublicInfoMenu screenSize={screenSize} />
     </main>
   );
 };
