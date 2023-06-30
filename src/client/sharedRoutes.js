@@ -1,5 +1,5 @@
 import { lazy } from "react";
-const Login = lazy(() => import("./Login"));
+import { Login } from "./auth";
 const Logout = lazy(() => import("./Logout"));
 const Callback = lazy(() => import("./Callback"));
 const StyleGuide = lazy(() => import("./common/globalStyling/StyleGuide"));

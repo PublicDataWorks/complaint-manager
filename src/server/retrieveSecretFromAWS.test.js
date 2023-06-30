@@ -2,8 +2,7 @@ import { suppressWinstonLogs } from "./testHelpers/requestTestHelpers";
 import { retrieveSecretFromAWS } from "./retrieveSecretFromAWS";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
-
-const createConfiguredSecretsManagerInstance = require("./createConfiguredSecretsManagerInstance");
+import createConfiguredSecretsManagerInstance from "./createConfiguredSecretsManagerInstance";
 
 jest.mock("./createConfiguredSecretsManagerInstance");
 

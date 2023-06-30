@@ -1,10 +1,3 @@
-// CLIENT AUTH
-const clientConfig =
-  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
-    process.env.REACT_APP_ENV
-  ];
-
-// SERVER AUTH
 const serverConfig =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
     process.env.NODE_ENV
@@ -17,5 +10,4 @@ const jwtCheck =
 
 const userService = require(`./${serverConfig.authentication.engine}/userService`);
 
-// EXPORT EVERYTHING
 export { jwtCheck, userService };

@@ -1,7 +1,7 @@
-const {
+import {
   SecretsManager,
   GetSecretValueCommand
-} = require("@aws-sdk/client-secrets-manager");
+} from "@aws-sdk/client-secrets-manager";
 
 const createConfiguredSecretsManagerInstance = () => {
   const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);
@@ -35,4 +35,5 @@ const createConfiguredSecretsManagerInstance = () => {
       secretsManager.send(new GetSecretValueCommand({ SecretId }))
   };
 };
-module.exports = createConfiguredSecretsManagerInstance;
+
+export default createConfiguredSecretsManagerInstance;
