@@ -8,9 +8,7 @@ import { containsText } from "../../../../testHelpers";
 import {
   fetchingCaseTags,
   getCaseDetailsSuccess,
-  getCaseTagSuccess,
-  openCaseTagDialog,
-  openRemoveCaseTagDialog
+  getCaseTagSuccess
 } from "../../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 import "@testing-library/jest-dom/extend-expect";
@@ -21,7 +19,6 @@ describe("Case Tags", () => {
   describe("without permissions", () => {
     beforeEach(() => {
       store = createConfiguredStore();
-
       dispatchSpy = jest.spyOn(store, "dispatch");
 
       store.dispatch({
@@ -131,8 +128,6 @@ describe("Case Tags", () => {
     });
 
     test("should open remove case tag dialog when delete button is clicked", async () => {
-      // const removeCaseTagButton = dialog.find('button[data-testid="caseTagChip"]');
-      // removeCaseTagButton.simulate("click");
       const caseTags = [
         {
           id: 1,
@@ -159,29 +154,15 @@ describe("Case Tags", () => {
 
       dialog.update();
 
-      // dialog.find('Chip').first().find('DeleteIcon').simulate('click');
+      const tagChip = dialog.find('[data-testid="caseTagChip"]').first();
+      const deleteIcon = tagChip.find("svg");
+      deleteIcon.simulate("click");
 
-      // const tagToDelete = dialog.find("ForwardRef(Chip)").first();
-      // tagToDelete.simulate("onDelete")();
-      const firstCaseTag = caseTags[0];
-      expect(findByText(firstCaseTag.tag.name)).toBeDefined();
-
-      const deleteIcon = dialog.querySelector(".MuiChip-deleteIcon");
-
-      await wait(() => {
-        fireEvent.click(deleteIcon);
-      });
-
-      await wait(() => {
-        expect(findByText(firstCaseTag.tag.name)).toBeNull();
-      });
-      // tagToDelete.prop("onDelete")();
-
-      //   containsText(
-      //     dialog,
-      //     '[data-testid="caseTagDialogTitle"]',
-      //     "Remove Case Tag"
-      //   );
+      containsText(
+        dialog,
+        '[data-testid="removeCaseTagDialogTitle"]',
+        "Remove Case Tag"
+      );
     });
 
     test("should not display button to add tag when case is archived", () => {
