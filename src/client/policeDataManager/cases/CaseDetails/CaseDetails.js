@@ -14,14 +14,11 @@ import styles from "./caseDetailsStyles";
 import CaseDrawer from "./CaseDrawer";
 import IncidentDetails from "./IncidentDetails/IncidentDetails";
 import {
-  closeCaseNoteDialog,
-  closeCaseTagDialog,
   closeCaseStatusUpdateDialog,
   closeEditCivilianDialog,
   closeEditIncidentDetailsDialog,
   closeRemoveAttachmentConfirmationDialog,
   closeRemoveCaseNoteDialog,
-  closeRemoveCaseTagDialog,
   closeRestoreArchivedCaseDialog,
   editSearchIndex
 } from "../../actionCreators/casesActionCreators";
@@ -30,7 +27,6 @@ import {
   NARRATIVE_FORM
 } from "../../../../sharedUtilities/constants";
 import Accused from "./PersonOnCase/Accused";
-import CaseNoteDialog from "./CaseNoteDialog/CaseNoteDialog";
 import { clearOfficerPanelData } from "../../actionCreators/accusedOfficerPanelsActionCreators";
 import Witnesses from "./PersonOnCase/Witnesses";
 import CaseStatusStepper from "./CaseStatusStepper/CaseStatusStepper";
@@ -55,11 +51,8 @@ export const resetCaseDetailsPage = dispatch => {
   dispatch(reset(NARRATIVE_FORM));
   dispatch(clearOfficerPanelData());
   dispatch(closeEditCivilianDialog());
-  dispatch(closeCaseNoteDialog());
-  dispatch(closeCaseTagDialog());
   dispatch(closeCaseStatusUpdateDialog());
   dispatch(closeRemoveCaseNoteDialog());
-  dispatch(closeRemoveCaseTagDialog());
   dispatch(closeEditIncidentDetailsDialog());
   dispatch(closeRestoreArchivedCaseDialog());
   dispatch(closeRemoveAttachmentConfirmationDialog());
@@ -185,7 +178,6 @@ class CaseDetails extends React.Component {
             <Attachments isArchived={this.props.caseDetails.isArchived} />
           </main>
           <PersonOnCaseDialog />
-          <CaseNoteDialog />
         </div>
       </div>
     );

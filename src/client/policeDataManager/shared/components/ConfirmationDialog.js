@@ -15,6 +15,7 @@ const ConfirmationDialog = props => {
       : { margin: "5px 0px" };
   return (
     <Dialog
+      fullWidth={props.fullWidth}
       open={props.open}
       data-testid={`confirmation-dialog-${props.title.replaceAll(" ", "")}`}
     >
@@ -42,6 +43,7 @@ ConfirmationDialog.defaultProps = {
   buttonStyle: "RIGHT",
   cancelText: "Cancel",
   confirmText: "Confirm",
+  fullWidth: false,
   open: true,
   title: "Confirm"
 };
@@ -55,6 +57,7 @@ ConfirmationDialog.propTypes = {
   ]),
   cancelText: PropTypes.string,
   confirmText: PropTypes.string,
+  fullWidth: PropTypes.bool,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   open: PropTypes.bool,

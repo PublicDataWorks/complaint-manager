@@ -13,12 +13,19 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeRemoveCaseTagDialog } from "../../../actionCreators/casesActionCreators";
 import removeCaseTag from "../../thunks/removeCaseTag";
 
 class RemoveCaseTagDialog extends Component {
   render() {
-    const { dialogOpen, caseTag, dispatch, submitting } = this.props;
+    const {
+      dialogOpen,
+      closeDialog,
+      caseTagName,
+      caseTagId,
+      caseId,
+      dispatch,
+      submitting
+    } = this.props;
 
     return (
       <Dialog open={dialogOpen} fullWidth={true}>
@@ -41,7 +48,7 @@ class RemoveCaseTagDialog extends Component {
             </Typography>
           ) : (
             <Typography style={{ marginBottom: "24px" }}>
-              This action will remove the <b>{caseTag.tag.name}</b> tag from the
+              This action will remove the <b>{caseTagName}</b> tag from the
               case. Are you sure you want to continue?
             </Typography>
           )}
@@ -63,27 +70,26 @@ class RemoveCaseTagDialog extends Component {
                 marginLeft: "0px"
               }}
               data-testid="cancelButton"
-              onClick={() => dispatch(closeRemoveCaseTagDialog())}
+              onClick={() => closeDialog()}
             >
               Cancel
             </SecondaryButton>
           )}
 
           {this.props.isArchived ? (
-              <PrimaryButton
-                  data-testid="returnButton"
-                  onClick={() =>
-                      dispatch(closeRemoveCaseTagDialog())
-                  }
-              >
-                  Return
-              </PrimaryButton>
+            <PrimaryButton
+              data-testid="returnButton"
+              onClick={() => closeDialog()}
+            >
+              Return
+            </PrimaryButton>
           ) : (
             <PrimaryButton
               data-testid="removeCaseTag"
-              onClick={() =>
-                dispatch(removeCaseTag(caseTag.caseId, caseTag.id))
-              }
+              onClick={() => {
+                dispatch(removeCaseTag(caseId, caseTagId));
+                closeDialog();
+              }}
               disabled={submitting}
             >
               Remove
@@ -100,8 +106,6 @@ const RemoveCaseTagDialogForm = reduxForm({
 })(RemoveCaseTagDialog);
 
 const mapStateToProps = state => ({
-  dialogOpen: state.ui.removeCaseTagDialog.dialogOpen,
-  caseTag: state.ui.removeCaseTagDialog.caseTag,
   isArchived: state.currentCase.details.isArchived
 });
 

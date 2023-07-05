@@ -29,29 +29,29 @@ describe("errorHandler", () => {
     );
   });
   test("should mask 500 error response on public routes", () => {
-        const path = "/public-data";
-        const request = httpMocks.createRequest({
-            route: {
-                path: path
-            }
-        });
-        const response = httpMocks.createResponse();
-
-        errorHandler(
-            Boom.badImplementation("very sensitive error information"),
-            request,
-            response
-        );
-
-        expect(response.statusCode).toEqual(500);
-        expect(response._getData()).toEqual(
-            JSON.stringify({
-                statusCode: 500,
-                error: "Internal Server Error",
-                message: PUBLIC_ROUTES[path]["get"].errorMessage
-            })
-        );
+    const path = "/public-data";
+    const request = httpMocks.createRequest({
+      route: {
+        path: path
+      }
     });
+    const response = httpMocks.createResponse();
+
+    errorHandler(
+      Boom.badImplementation("very sensitive error information"),
+      request,
+      response
+    );
+
+    expect(response.statusCode).toEqual(500);
+    expect(response._getData()).toEqual(
+      JSON.stringify({
+        statusCode: 500,
+        error: "Internal Server Error",
+        message: PUBLIC_ROUTES[path]["get"].errorMessage
+      })
+    );
+  });
 
   test("should mask 500 error response", () => {
     const path = "/cases/:caseId";
@@ -147,7 +147,7 @@ describe("errorHandler", () => {
       );
     });
 
-    test("should return 401 status code for Unauthorized Requests ", ()=> {
+    test("should return 401 status code for Unauthorized Requests ", () => {
       const errorMessage = "No authorization token was found";
       const request = httpMocks.createRequest({
         method: "GET",
@@ -160,13 +160,34 @@ describe("errorHandler", () => {
       errorHandler(Boom.unauthorized(errorMessage), request, response);
       expect(response.statusCode).toEqual(401);
       expect(response._getData()).toEqual(
-          JSON.stringify({
-            statusCode: 401,
-            error: "Unauthorized",
-            message: errorMessage
-          })
+        JSON.stringify({
+          statusCode: 401,
+          error: "Unauthorized",
+          message: errorMessage
+        })
       );
+    });
 
-    })
+    test("should return 401 status code if status === 401", () => {
+      const request = httpMocks.createRequest({
+        method: "GET",
+        headers: {
+          authorization: "Bearer token"
+        }
+      });
+      const response = httpMocks.createResponse();
+
+      errorHandler(
+        { isBoom: true, status: 401, isServer: true },
+        request,
+        response
+      );
+      expect(response.statusCode).toEqual(401);
+      expect(response._getData()).toEqual(
+        JSON.stringify({
+          message: "No authorization token was found"
+        })
+      );
+    });
   });
 });

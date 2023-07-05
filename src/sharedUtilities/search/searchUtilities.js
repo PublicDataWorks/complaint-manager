@@ -46,15 +46,17 @@ const findEndOfNOTTerm = (str, start) => {
     idx++;
   }
 
-  let objective = " ";
-  if (str.charAt(idx) === "(") {
-    objective = ")";
-  } else if (str.charAt(idx) === '"') {
-    objective = '"';
-  }
+  let objective;
+  do {
+    objective = " ";
+    if (str.charAt(idx) === "(") {
+      objective = ")";
+    } else if (str.charAt(idx) === '"') {
+      objective = '"';
+    }
 
-  while (str.charAt(++idx) !== objective && idx < str.length);
-
+    while (str.charAt(++idx) !== objective && idx < str.length);
+  } while (objective !== " ");
   return idx;
 };
 

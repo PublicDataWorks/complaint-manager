@@ -34,13 +34,10 @@ const generateLetterForPreview = asyncMiddleware(
       });
 
       if (sender) {
-        await models.letter.update(
-          { sender: `${sender.name}\n${sender.title}\n${sender.phone}` },
-          {
-            where: { caseId },
-            auditUser: request.nickname
-          }
-        );
+        letter.sender = `${sender.name}\n${sender.title}\n${sender.phone}`;
+        await letter.save({
+          auditUser: request.nickname
+        });
       }
 
       const { html, auditDetails: letterBodyAuditDetails } =

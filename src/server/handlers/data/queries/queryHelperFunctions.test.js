@@ -1,7 +1,8 @@
 import {
   calculateFirstContactDateCriteria,
   getComplainantType,
-  getDateRangeStart
+  getDateRangeStart,
+  getLegendValue
 } from "./queryHelperFunctions";
 import { DATE_RANGE_TYPE } from "../../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
@@ -64,6 +65,41 @@ describe("queryHelperFunctions", () => {
       ).toEqual({
         [sequelize.Op.gte]: "1995-01-01T05:45:00.000Z"
       });
+    });
+  });
+
+  describe("getLegendValue", () => {
+    test("should return the default person type's legend if there is not complainant", () => {
+      expect(
+        getLegendValue({ defaultPersonType: { legend: "default" } })
+      ).toEqual("default");
+    });
+    test("should return Anonymous (AC) when primary complainant is anonymous", () => {
+      expect(
+        getLegendValue({
+          primaryComplainant: { isAnonymous: true },
+          defaultPersonType: { legend: "default" }
+        })
+      ).toEqual("Anonymous (AC)");
+    });
+    test("should return the default person type's legend if primary complainant has no personTypeDetails", () => {
+      expect(
+        getLegendValue({
+          primaryComplainant: { isAnonymous: false },
+          defaultPersonType: { legend: "default" }
+        })
+      ).toEqual("default");
+    });
+    test("should return complainant.primaryComplainant.personTypeDetails.legend if it exists", () => {
+      expect(
+        getLegendValue({
+          primaryComplainant: {
+            isAnonymous: false,
+            personTypeDetails: { legend: "legend" }
+          },
+          defaultPersonType: { legend: "default" }
+        })
+      ).toEqual("legend");
     });
   });
 });

@@ -46,6 +46,7 @@ class Case {
     this.deletedAt = build.deletedAt;
     this.primaryComplainant = build.primaryComplainant;
     this.isCase = build.isCase;
+    this.pibCaseNumber = build.pibCaseNumber;
     if (build.defaultPersonType) {
       this.defaultPersonType = build.defaultPersonType;
     }
@@ -321,6 +322,11 @@ class Case {
 
       withDefaultPersonType(defaultPersonType) {
         this.defaultPersonType = defaultPersonType;
+        return this;
+      }
+
+      withPibCaseNumber(pibCaseNumber) {
+        this.pibCaseNumber = pibCaseNumber;
         return this;
       }
 

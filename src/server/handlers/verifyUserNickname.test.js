@@ -2,6 +2,10 @@ import * as httpMocks from "node-mocks-http";
 import verifyUserNickname from "./verifyUserNickname";
 import { USER_PERMISSIONS, NICKNAME } from "../../sharedUtilities/constants";
 import mockFflipObject from "../testHelpers/mockFflipObject";
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 
 describe("verifyUserNickname", () => {
   let response, next;
@@ -30,7 +34,7 @@ describe("verifyUserNickname", () => {
         authorization: "Bearer VALID_TOKEN_FORMAT"
       },
       user: {
-        "https://noipm-ci.herokuapp.com/nickname": "mrsmith",
+        [config.authentication.nicknameKey]: "mrsmith",
         iss: "https://noipm.auth0.com/",
         scope: "scope"
       }
@@ -46,7 +50,7 @@ describe("verifyUserNickname", () => {
         authorization: "Bearer VALID_TOKEN_FORMAT"
       },
       user: {
-        "https://noipm-ci.herokuapp.com/nickname": "mrsmith",
+        [config.authentication.nicknameKey]: "mrsmith",
         iss: "https://noipm.auth0.com/"
       }
     });
@@ -61,7 +65,7 @@ describe("verifyUserNickname", () => {
         authorization: "Bearer VALID_TOKEN_FORMAT"
       },
       user: {
-        "https://noipm-ci.herokuapp.com/nickname": "suzie",
+        [config.authentication.nicknameKey]: "suzie",
         iss: "https://noipm.auth0.com/",
         scope: `${USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES} ${USER_PERMISSIONS.EXPORT_AUDIT_LOG}`
       }

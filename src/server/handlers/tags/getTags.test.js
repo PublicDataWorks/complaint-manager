@@ -121,7 +121,7 @@ describe("getTags", () => {
         { name: firstTag.name, id: firstTag.id, count: "0" }
       ];
 
-      request.params = {
+      request.query = {
         expand: "count"
       };
 
@@ -137,7 +137,7 @@ describe("getTags", () => {
         { name: firstTag.name, id: firstTag.id, count: "0" }
       ];
 
-      request.params = {
+      request.query = {
         expand: "count",
         sort: "desc.name"
       };
@@ -153,7 +153,7 @@ describe("getTags", () => {
         { name: thirdTag.name, id: thirdTag.id, count: "1" }
       ];
 
-      request.params = {
+      request.query = {
         expand: "count",
         sort: "name"
       };
@@ -169,7 +169,7 @@ describe("getTags", () => {
         { name: secondTag.name, id: secondTag.id, count: "2" }
       ];
 
-      request.params = {
+      request.query = {
         expand: "count",
         sort: "asc.count"
       };

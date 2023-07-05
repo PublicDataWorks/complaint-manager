@@ -3,12 +3,10 @@ import { withStyles } from "@material-ui/core/styles";
 import { IconButton, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import {
-  openCaseNoteDialog,
-  openRemoveCaseNoteDialog
-} from "../../../actionCreators/casesActionCreators";
+import { openRemoveCaseNoteDialog } from "../../../actionCreators/casesActionCreators";
 import { initialize } from "redux-form";
 import moment from "moment";
+import CaseNoteDialog from "../CaseNoteDialog/CaseNoteDialog";
 
 const styles = () => ({
   iconBtn: {
@@ -20,7 +18,8 @@ const styles = () => ({
 class ActivityMenu extends React.Component {
   state = {
     menuOpen: false,
-    anchorEl: null
+    anchorEl: null,
+    editDialogOpen: false
   };
 
   handleMenuOpen = event => {
@@ -43,7 +42,7 @@ class ActivityMenu extends React.Component {
         )
       })
     );
-    this.props.dispatch(openCaseNoteDialog("Edit", this.props.activity));
+    this.setState({ editDialogOpen: true });
     this.handleMenuClose();
   };
 
@@ -91,6 +90,12 @@ class ActivityMenu extends React.Component {
             </MenuItem>
           ) : null}
         </Menu>
+        <CaseNoteDialog
+          dialogType="Edit"
+          open={this.state.editDialogOpen}
+          initialCaseNote={this.props.activity}
+          closeDialog={() => this.setState({ editDialogOpen: false })}
+        />
       </Fragment>
     );
   }

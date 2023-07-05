@@ -11,18 +11,23 @@ import CaseOfficer from "../../sharedTestHelpers/caseOfficer";
 import Officer from "../../sharedTestHelpers/Officer";
 import Civilian from "../../sharedTestHelpers/civilian";
 import CaseStatus from "../../sharedTestHelpers/caseStatus";
+import CaseInmate from "../../sharedTestHelpers/CaseInmate";
 import {
   ACCUSED,
+  ADDRESSABLE_TYPE,
   COMPLAINANT,
   USER_PERMISSIONS,
   WITNESS
 } from "../../sharedUtilities/constants";
 import Attachment from "../../sharedTestHelpers/attachment";
+import { seedPersonTypes } from "../testHelpers/testSeeding";
+import Address from "../../sharedTestHelpers/Address";
 
 describe("getCaseHelpers", () => {
   let existingCase, referralLetter, auditDetails;
   beforeEach(async () => {
     await cleanupDatabase();
+    await seedPersonTypes();
     await models.caseStatus.create(
       new CaseStatus.Builder().defaultCaseStatus().build(),
       { auditUser: "user" }
@@ -64,12 +69,31 @@ describe("getCaseHelpers", () => {
   });
 
   describe("without permission", () => {
-    test("should not see an anonymous civilian/'s data", async () => {
-      await createAnonymousCivilian(
+    test("should not see an anonymous civilian's data", async () => {
+      const genderIdentity = await models.gender_identity.create(
+        { name: "Trans Woman" },
+        { auditUser: "user" }
+      );
+      const raceEthnicity = await models.race_ethnicity.create(
+        { name: "Native Hawaiian" },
+        { auditUser: "user" }
+      );
+      const civilian = await createAnonymousCivilian(
         existingCase,
         COMPLAINANT,
-        new Date("2018-01-01")
+        new Date("2018-01-01"),
+        genderIdentity.id,
+        raceEthnicity.id
       );
+
+      await models.address.create(
+        new Address.Builder()
+          .defaultAddress()
+          .withAddressableId(civilian.id)
+          .withAddressableType(ADDRESSABLE_TYPE.CIVILIAN),
+        { auditUser: "user" }
+      );
+
       const { caseDetails } = await models.sequelize.transaction(
         async transaction => {
           return await getCaseWithAllAssociationsAndAuditDetails(
@@ -92,8 +116,22 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].email).toEqual("");
       expect(caseDetails.complainantCivilians[0].additionalInfo).toEqual("");
       expect(caseDetails.complainantCivilians[0].address).toEqual(null);
-      expect(caseDetails.complainantCivilians[0].raceEthnicity).toEqual(null);
-      expect(caseDetails.complainantCivilians[0].genderIdentity).toEqual(null);
+      expect(caseDetails.complainantCivilians[0].raceEthnicity.id).toEqual(
+        null
+      );
+      expect(caseDetails.complainantCivilians[0].raceEthnicity.name).toEqual(
+        null
+      );
+      expect(caseDetails.complainantCivilians[0].raceEthnicityId).toEqual(null);
+      expect(caseDetails.complainantCivilians[0].genderIdentity.id).toEqual(
+        null
+      );
+      expect(caseDetails.complainantCivilians[0].genderIdentity.name).toEqual(
+        null
+      );
+      expect(caseDetails.complainantCivilians[0].genderIdentityId).toEqual(
+        null
+      );
       expect(caseDetails.attachments).toEqual([]);
     });
 
@@ -116,7 +154,7 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantCivilians[0].firstName).toEqual("");
     });
 
-    test("should not see an anonymous officer/'s data", async () => {
+    test("should not see an anonymous officer's data", async () => {
       await createAnonymousCaseOfficer(
         existingCase,
         101,
@@ -140,6 +178,51 @@ describe("getCaseHelpers", () => {
       expect(caseDetails.complainantOfficers[0].fullName).toEqual("Anonymous");
       expect(caseDetails.complainantOfficers[0].phoneNumber).toEqual("");
       expect(caseDetails.complainantOfficers[0].email).toEqual("");
+    });
+
+    test("should not see an anonymous inmate's data", async () => {
+      await models.caseInmate.create(
+        new CaseInmate.Builder()
+          .defaultCaseInmate()
+          .withFirstName("Bobby")
+          .withMiddleInitial("B")
+          .withLastName("Loblaw")
+          .withIsAnonymous(true)
+          .withCaseId(existingCase.id)
+          .withCreatedAt(new Date(0, 0, 0))
+          .build(),
+        { auditUser: "user" }
+      );
+
+      await models.caseInmate.create(
+        new CaseInmate.Builder()
+          .defaultCaseInmate()
+          .withRoleOnCase(WITNESS)
+          .withFirstName("Billy")
+          .withMiddleInitial("G")
+          .withLastName("Bills")
+          .withIsAnonymous(false)
+          .withCaseId(existingCase.id)
+          .build(),
+        { auditUser: "user" }
+      );
+      const { caseDetails } = await models.sequelize.transaction(
+        async transaction => {
+          return await getCaseWithAllAssociationsAndAuditDetails(
+            existingCase.id,
+            transaction,
+            USER_PERMISSIONS.MANAGE_TAGS
+          );
+        }
+      );
+
+      expect(caseDetails.complainantInmates[0].firstName).toEqual("Anonymous");
+      expect(caseDetails.complainantInmates[0].middleInitial).toEqual("");
+      expect(caseDetails.complainantInmates[0].lastName).toEqual("");
+      expect(caseDetails.complainantInmates[0].fullName).toEqual("Anonymous");
+
+      expect(caseDetails.witnessInmates[0].firstName).toEqual("Billy");
+      expect(caseDetails.witnessInmates[0].lastName).toEqual("Bills");
     });
   });
 
@@ -327,6 +410,15 @@ describe("getCaseHelpers", () => {
 
       expect(caseDetails.isArchived).toBeTruthy();
     });
+
+    test("should throw an error when caseId is not a number", async () => {
+      try {
+        await getCaseWithAllAssociationsAndAuditDetails("abcdef");
+        expect(true).toBeFalse();
+      } catch (e) {
+        expect(e.message).toInclude("abcdef");
+      }
+    });
   });
 
   describe("addFieldsToCaseDetails", () => {
@@ -432,16 +524,25 @@ const createCivilian = async (existingCase, role, dateCreated) => {
   });
 };
 
-const createAnonymousCivilian = async (existingCase, role, dateCreated) => {
+const createAnonymousCivilian = async (
+  existingCase,
+  role,
+  dateCreated,
+  genderIdentityId,
+  raceEthnicityId
+) => {
   const civilianAttributes = new Civilian.Builder()
     .defaultCivilian()
     .withCaseId(existingCase.id)
     .withId(undefined)
     .withRoleOnCase(role)
     .withCreatedAt(dateCreated)
-    .withIsAnonymous(true);
+    .withIsAnonymous(true)
+    .withGenderIdentityId(genderIdentityId)
+    .withRaceEthnicityId(raceEthnicityId)
+    .build();
 
-  await models.civilian.create(civilianAttributes, {
+  return await models.civilian.create(civilianAttributes, {
     auditUser: "anonymous someone"
   });
 };

@@ -38,6 +38,18 @@ describe("changeStatus", () => {
       { auditUser: "user" }
     );
 
+    await models.signers.create(
+      new Signer.Builder()
+        .defaultSigner()
+        .withId(signer.id + 1)
+        .withPhone("777-888-6766")
+        .withName("Billy")
+        .withNickname("someoneElse")
+        .withTitle("title")
+        .build(),
+      { auditUser: "user" }
+    );
+
     await models.letter_types.create(
       new LetterType.Builder()
         .defaultLetterType()
@@ -123,7 +135,7 @@ describe("changeStatus", () => {
       body: {
         status: CASE_STATUS.LETTER_IN_PROGRESS
       },
-      nickname: "someone",
+      nickname: "someoneElse",
       permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
     });
 
@@ -133,7 +145,40 @@ describe("changeStatus", () => {
       where: { caseId: initialCase.id }
     });
     expect(letterCreated).not.toBeNull();
-    expect(letterCreated.sender).not.toBeNull();
+    expect(letterCreated.sender).toInclude("Billy");
+    expect(letterCreated.recipient).toEqual("recipe");
+    expect(letterCreated.recipientAddress).toEqual("nt");
+
+    await initialCase.reload();
+    expect(initialCase.statusId).toEqual(
+      statuses.find(status => status.name === "Letter in Progress").id
+    );
+  });
+
+  test("creates letter with the default sender if status changes to LETTER_IN_PROGRESS when the request nickname doesn't have a signer", async () => {
+    await initialCase.update(
+      { statusId: statuses.find(status => status.name === "Active").id },
+      { auditUser: "someone" }
+    );
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      params: {
+        caseId: initialCase.id
+      },
+      body: {
+        status: CASE_STATUS.LETTER_IN_PROGRESS
+      },
+      nickname: "aThirdPerson",
+      permissions: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES
+    });
+
+    await changeStatus(request, response, next);
+
+    const letterCreated = await models.referral_letter.findOne({
+      where: { caseId: initialCase.id }
+    });
+    expect(letterCreated).not.toBeNull();
+    expect(letterCreated.sender).toInclude("bob");
     expect(letterCreated.recipient).toEqual("recipe");
     expect(letterCreated.recipientAddress).toEqual("nt");
 

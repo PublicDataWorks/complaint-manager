@@ -5,6 +5,8 @@ import { withStyles } from "@material-ui/core/styles";
 import AllegationDetailsForm from "./AllegationDetailsForm";
 import LinkButton from "../shared/components/LinkButton";
 import Allegation from "./Allegation";
+import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
+import { ALLEGATION_DETAILS_LABEL } from "../../../sharedUtilities/constants";
 
 const styles = theme => ({
   ...tableStyleGenerator(theme).body
@@ -42,10 +44,23 @@ export class AllegationSearchResultsRow extends React.Component {
         <TableCell colSpan={4} className={classes.cell}>
           <AllegationDetailsForm
             form={`AllegationDetailsForm_${allegation.id}`}
-            allegationId={allegation.id}
-            caseId={this.props.caseId}
-            caseOfficerId={this.props.caseOfficerId}
-            addAllegationSuccess={this.addAllegationSuccess}
+            allegationDetailsLabel={ALLEGATION_DETAILS_LABEL}
+            marginBottomOffset={16}
+            onSubmit={(values, dispatch) => {
+              const formValues = {
+                ...values,
+                allegationId: allegation.id
+              };
+              dispatch(
+                createOfficerAllegation(
+                  formValues,
+                  this.props.caseId,
+                  this.props.caseOfficerId,
+                  this.addAllegationSuccess
+                )
+              );
+            }}
+            submitButtonText="Add Allegation"
           />
         </TableCell>
       </TableRow>

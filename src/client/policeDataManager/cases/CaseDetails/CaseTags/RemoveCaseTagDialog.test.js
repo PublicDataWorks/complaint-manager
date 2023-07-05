@@ -1,9 +1,5 @@
 import createConfiguredStore from "../../../../createConfiguredStore";
-import {
-  closeRemoveCaseTagDialog,
-  getCaseDetailsSuccess,
-  openRemoveCaseTagDialog
-} from "../../../actionCreators/casesActionCreators";
+import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
 import React from "react";
@@ -17,9 +13,13 @@ jest.mock("../../thunks/removeCaseTag", () => (caseId, caseTagId) => ({
 }));
 
 describe("RemoveCaseTagDialog", () => {
-  test("should call removeCaseTag thunk with correct values", () => {
-    const store = createConfiguredStore();
-    const caseTag = {
+  let store, closeDialog, caseTag;
+
+  beforeEach(() => {
+    store = createConfiguredStore();
+    closeDialog = jest.fn();
+
+    caseTag = {
       id: 1,
       caseId: 1,
       tagId: 1,
@@ -28,13 +28,19 @@ describe("RemoveCaseTagDialog", () => {
         name: "Penguin"
       }
     };
-    const dispatchSpy = jest.spyOn(store, "dispatch");
+  });
 
-    store.dispatch(openRemoveCaseTagDialog(caseTag));
+  test("should call removeCaseTag thunk with correct values", () => {
+    const dispatchSpy = jest.spyOn(store, "dispatch");
 
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveCaseTagDialog />
+        <RemoveCaseTagDialog
+          dialogOpen={true}
+          closeDialog={jest.fn()}
+          caseTagId={caseTag.tagId}
+          caseId={caseTag.caseId}
+        />
       </Provider>
     );
 
@@ -49,58 +55,41 @@ describe("RemoveCaseTagDialog", () => {
   });
 
   test("should close dialog when cancel button clicked", () => {
-    const store = createConfiguredStore();
-
-    const caseTag = {
-      id: 1,
-      caseId: 1,
-      tagId: 1,
-      tag: {
-        id: 1,
-        name: "Penguin"
-      }
-    };
-
-    store.dispatch(openRemoveCaseTagDialog(caseTag));
-    const dispatchSpy = jest.spyOn(store, "dispatch");
-
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveCaseTagDialog />
+        <RemoveCaseTagDialog
+          dialogOpen={true}
+          closeDialog={closeDialog}
+          caseTagId={caseTag.tagId}
+          caseId={caseTag.caseId}
+        />
       </Provider>
     );
 
     const cancelButton = wrapper.find('[data-testid="cancelButton"]').first();
     cancelButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
+
+    expect(closeDialog).toHaveBeenCalled();
   });
 
   test("should close dialog when return button clicked when case is archived", () => {
-    const store = createConfiguredStore();
-
-    const caseTag = {
-      id: 1,
-      caseId: 1,
-      tagId: 1,
-      tag: {
-        id: 1,
-        name: "Penguin"
-      }
-    };
-
-    store.dispatch(openRemoveCaseTagDialog(caseTag));
-    const dispatchSpy = jest.spyOn(store, "dispatch");
     const caseDetail = { isArchived: true };
     store.dispatch(getCaseDetailsSuccess(caseDetail));
 
     const wrapper = mount(
       <Provider store={store}>
-        <RemoveCaseTagDialog />
+        <RemoveCaseTagDialog
+          dialogOpen={true}
+          closeDialog={closeDialog}
+          caseTagId={caseTag.tagId}
+          caseId={caseTag.caseId}
+        />
       </Provider>
     );
 
     const returnButton = wrapper.find('[data-testid="returnButton"]').first();
     returnButton.simulate("click");
-    expect(dispatchSpy).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
+
+    expect(closeDialog).toHaveBeenCalled();
   });
 });

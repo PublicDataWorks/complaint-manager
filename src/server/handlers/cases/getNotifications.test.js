@@ -14,17 +14,19 @@ import winston from "winston";
 
 const models = require("../../policeDataManager/models");
 const httpMocks = require("node-mocks-http");
-const userService = require("../../services/userService");
+const { userService } = require("../../../auth");
 
-jest.mock("../../services/userService", () => ({
-  getUsers: jest.fn(() => {
-    return [
-      { name: "wancheny", email: "wancheny@gmail.com" },
-      { name: "random", email: "random@gmail.com" },
-      { name: "johnsmith", email: "johnsmith@gmail.com" },
-      { name: "dogpower", email: "dogpower@gmail.com" }
-    ];
-  })
+jest.mock("../../../auth", () => ({
+  userService: {
+    getUsers: jest.fn(() => {
+      return [
+        { name: "wancheny", email: "wancheny@gmail.com" },
+        { name: "random", email: "random@gmail.com" },
+        { name: "johnsmith", email: "johnsmith@gmail.com" },
+        { name: "dogpower", email: "dogpower@gmail.com" }
+      ];
+    })
+  }
 }));
 
 describe("getNotifications", () => {

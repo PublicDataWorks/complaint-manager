@@ -146,7 +146,7 @@ const getCaseDetailsAndAuditDetails = async (
           {
             model: models.officer_allegation,
             as: "allegations",
-            include: [models.allegation]
+            include: [models.allegation, models.ruleChapter]
           },
           {
             model: models.personType,
@@ -228,7 +228,6 @@ const getCaseDetailsAndAuditDetails = async (
   try {
     caseDetails = await models.cases.findByPk(caseId, queryOptions);
   } catch (e) {
-    console.log(e);
     throw e;
   }
 
@@ -400,16 +399,7 @@ const anonymizeBasicCivilianDetails = civilian => {
 
 const anonymizeAddress = civilian => {
   if (civilian.isAnonymous && civilian.address) {
-    civilian.address.streetAddress = "";
-    civilian.address.streetAddress2 = "";
-    civilian.address.city = "";
-    civilian.address.state = "";
-    civilian.address.zipCode = "";
-    civilian.address.country = "";
-    civilian.address.lat = null;
-    civilian.address.lng = null;
-    civilian.address.additionalLocationInfo = "";
-    civilian.address.placeId = null;
+    civilian.address = null;
   }
 };
 

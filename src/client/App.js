@@ -20,7 +20,6 @@ import getNotifications from "./policeDataManager/shared/thunks/getNotifications
 import getPersonTypes from "./policeDataManager/globalData/thunks/getPersonTypes";
 import { snackbarError } from "./policeDataManager/actionCreators/snackBarActionCreators";
 import { INTERNAL_ERRORS } from "../sharedUtilities/errorMessageConstants";
-import { OKTA } from "../sharedUtilities/constants";
 import { isAuthDisabled } from "./isAuthDisabled";
 import redirectToAuth from "./common/auth/redirectToAuth";
 
@@ -42,8 +41,10 @@ const App = props => {
       auth.setUserInfoInStore(accessToken, props.userAuthSuccess);
     } else if (
       !window.location.pathname.includes("/data") &&
+      !window.location.pathname.includes("/public") &&
       window.location.pathname !== "/callback"
     ) {
+      console.log(window.location.pathname);
       redirectToAuth(props.dispatch);
     }
   }, []);
@@ -129,9 +130,4 @@ const mapDispatchToProps = {
   dispatch: arg => dispatch => dispatch(arg)
 };
 
-const WrappedApp =
-  config[process.env.REACT_APP_ENV].auth.engine === OKTA
-    ? withOktaAuth(App)
-    : App;
-
-export default connect(mapStateToProps, mapDispatchToProps)(WrappedApp);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

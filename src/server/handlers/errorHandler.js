@@ -16,6 +16,7 @@ const errorHandler = (error, request, response, next) => {
     response.status(401).json({
       message: errorMessage
     });
+    return;
   }
 
   response.status(boomError.output.statusCode).json({

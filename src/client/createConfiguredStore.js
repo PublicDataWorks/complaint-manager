@@ -14,7 +14,6 @@ import loggedInUserReducer from "./common/auth/reducers/loggedInUserReducer";
 import attachmentsReducer from "./policeDataManager/reducers/ui/attachmentsReducer";
 import searchOfficersReducer from "./policeDataManager/reducers/officers/searchOfficersReducer";
 import caseNotesReducer from "./policeDataManager/reducers/cases/caseNotesReducer";
-import caseNoteDialogReducer from "./policeDataManager/reducers/ui/caseNoteDialogReducer";
 import removeCaseNoteDialogReducer from "./policeDataManager/reducers/ui/removeCaseNoteDialogReducer";
 import searchCasesReducer from "./policeDataManager/reducers/cases/searchCasesReducer";
 import searchReducer from "./policeDataManager/reducers/ui/searchReducer";
@@ -33,7 +32,6 @@ import generateJobReducer from "./policeDataManager/reducers/export/generateJobR
 import allExportsReducer from "./policeDataManager/reducers/ui/allExportsReducer";
 import recommendedActionsReducer from "./policeDataManager/reducers/cases/recommendedActionsReducer";
 import editReferralLetterReducer from "./policeDataManager/reducers/ui/editReferralLetterReducer";
-import cancelEditLetterConfirmationDialogReducer from "./policeDataManager/reducers/ui/cancelEditlLetterConfirmationDialogReducer";
 import letterDownloadReducer from "./policeDataManager/reducers/ui/letterDownloadReducer";
 import loadPdfPreviewReducer from "./policeDataManager/reducers/ui/loadPdfPreviewReducer";
 import intakeSourceReducer from "./policeDataManager/reducers/ui/intakeSourceReducer";
@@ -47,14 +45,12 @@ import incompleteOfficerHistoryDialogReducer from "./policeDataManager/reducers/
 import howDidYouHearAboutUsSourceReducer from "./policeDataManager/reducers/ui/howDidYouHearAboutUsSourceReducer";
 import genderIdentityReducer from "./policeDataManager/reducers/ui/genderIdentityReducer";
 import caseNoteActionReducer from "./policeDataManager/reducers/ui/caseNoteActionReducer";
-import caseTagDialogReducer from "./policeDataManager/reducers/ui/caseTagDialogReducer";
 import tagReducer from "./policeDataManager/reducers/ui/tagReducer";
 import tagManagementReducer from "./policeDataManager/reducers/ui/tagManagementPageReducer";
 import incompleteClassificationsDialogReducer from "./policeDataManager/reducers/ui/incompleteClassificationsDialogReducer";
 import caseTagReducer from "./policeDataManager/reducers/cases/caseTagsReducer";
 import fetchingCaseTagsReducer from "./policeDataManager/reducers/cases/fetchingCaseTagsReducer";
 import fetchingCaseNotesReducer from "./policeDataManager/reducers/cases/fetchingCaseNotesReducer";
-import removeCaseTagDialogReducer from "./policeDataManager/reducers/ui/removeCaseTagDialogReducer";
 import civilianTitleReducer from "./policeDataManager/reducers/ui/civilianTitleReducer";
 import districtReducer from "./policeDataManager/reducers/ui/districtReducer";
 import addOfficerReducer from "./policeDataManager/reducers/officers/addOfficerReducer";
@@ -72,6 +68,7 @@ import facilitiesReducer from "./policeDataManager/reducers/facilitiesReducer";
 import personTypesReducer from "./policeDataManager/reducers/personTypesReducer";
 import inmateDetailsReducer from "./policeDataManager/reducers/ui/inmateDetailsReducer";
 import searchIndexReducer from "./policeDataManager/reducers/searchIndexReducer";
+import ruleChaptersReducer from "./policeDataManager/reducers/ruleChaptersReducer";
 
 const rootReducer = combineReducers({
   cases: combineReducers({
@@ -105,6 +102,7 @@ const rootReducer = combineReducers({
   recommendedActions: recommendedActionsReducer,
   referralLetter: referralLetterReducer,
   router: connectRouter(history),
+  ruleChapters: ruleChaptersReducer,
   searchableDataIsDirty: searchIndexReducer,
   signers: signersReducer,
   ui: combineReducers({
@@ -113,13 +111,9 @@ const rootReducer = combineReducers({
     allegations: allegationMenuDisplay,
     allExports: allExportsReducer,
     attachments: attachmentsReducer,
-    cancelEditLetterConfirmationDialog:
-      cancelEditLetterConfirmationDialogReducer,
     caseNoteActions: caseNoteActionReducer,
-    caseNoteDialog: caseNoteDialogReducer,
     casesTable: casesTableReducer,
     caseStatuses: caseStatusesReducer,
-    caseTagDialog: caseTagDialogReducer,
     civilianDialog: civilianDialogReducer,
     civilianTitles: civilianTitleReducer,
     complaintTypes: complaintTypeReducer,
@@ -145,7 +139,6 @@ const rootReducer = combineReducers({
     removeAttachmentConfirmationDialog:
       removeAttachmentConfirmationDialogReducer,
     removeCaseNoteDialog: removeCaseNoteDialogReducer,
-    removeCaseTagDialog: removeCaseTagDialogReducer,
     removeOfficerAllegationDialog: removeOfficerAllegationDialogReducer,
     restoreArchivedCaseDialog: restoreArchivedCaseDialogReducer,
     search: searchReducer,

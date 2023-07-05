@@ -1,4 +1,4 @@
-import ReactGA from "react-ga";
+import ReactGA from "react-ga4";
 import createConfiguredStore from "./createConfiguredStore";
 import { mount } from "enzyme";
 import { Provider } from "react-redux";
@@ -13,9 +13,11 @@ jest.mock("./common/components/Visualization/PlotlyWrapper", () => {
 });
 
 describe("UsePageTracking", () => {
-  let store, wrapper;
+  let store, wrapper, initializeSpy, sendSpy;
 
   beforeEach(() => {
+    initializeSpy = jest.spyOn(ReactGA, "initialize");
+    sendSpy = jest.spyOn(ReactGA, "send");
     store = createConfiguredStore();
     wrapper = mount(
       <Provider store={store}>
@@ -30,9 +32,12 @@ describe("UsePageTracking", () => {
   });
 
   test("Should track page views using react-ga", () => {
-    expect(ReactGA.testModeAPI.calls).toEqual([
-      ["create", "UA-184896339-1", "auto"],
-      ["send", { hitType: "pageview", page: "/dashboard" }]
-    ]);
+    expect(initializeSpy).toHaveBeenCalledWith("G-VL13HH7WD9", {
+      testMode: true
+    });
+    expect(sendSpy).toHaveBeenCalledWith({
+      hitType: "pageview",
+      page: "/dashboard"
+    });
   });
 });

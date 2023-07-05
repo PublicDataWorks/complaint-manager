@@ -100,6 +100,8 @@ const MOCK_TOP_10_ALLEGATIONS = [
   }
 ];
 
+const MOCK_LOCATION_DATA = [{}];
+
 jest.mock("../../handlers/data/queries/countComplaintsByIntakeSource", () => ({
   executeQuery: jest.fn(() => {
     return MOCK_INTAKE_SOURCE_DATA_VALUES;
@@ -141,6 +143,12 @@ jest.mock(
     })
   })
 );
+
+jest.mock("../../handlers/data/queries/locationData", () => ({
+  executeQuery: jest.fn(() => {
+    return MOCK_LOCATION_DATA;
+  })
+}));
 
 describe("getPublicData", () => {
   let next, response;
@@ -222,22 +230,43 @@ describe("getPublicData", () => {
     );
   });
 
-  test("should call getPublicData when countTop10Tags query called", () => {
+  test("should call getPublicData when countTop10Tags query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
         queryType: "countTop10Tags"
       }
     });
+
+    await getPublicData(request, response, next);
+
+    expect(response._getData()).toEqual(MOCK_TOP_10_TAGS);
   });
 
-  test("should call getPublicData when countTop10Allegations query called", () => {
+  test("should call getPublicData when countTop10Allegations query called", async () => {
     const request = httpMocks.createRequest({
       method: "GET",
       query: {
         queryType: "countTop10Allegations"
       }
     });
+
+    await getPublicData(request, response, next);
+
+    expect(response._getData()).toEqual(MOCK_TOP_10_ALLEGATIONS);
+  });
+
+  test("should call getPublicData when locationData query called", async () => {
+    const request = httpMocks.createRequest({
+      method: "GET",
+      query: {
+        queryType: "locationData"
+      }
+    });
+
+    await getPublicData(request, response, next);
+
+    expect(response._getData()).toEqual(MOCK_LOCATION_DATA);
   });
 
   test("throws an error when query param is not supported", async () => {

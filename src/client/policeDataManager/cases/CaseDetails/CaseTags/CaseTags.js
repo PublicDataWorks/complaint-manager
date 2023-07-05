@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Chip, Typography } from "@material-ui/core";
 import LinkButton from "../../../shared/components/LinkButton";
-import {
-  openCaseTagDialog,
-  openRemoveCaseTagDialog
-} from "../../../actionCreators/casesActionCreators";
 import { connect } from "react-redux";
 import CaseTagDialog from "./CaseTagDialog";
 import getCaseTags from "../../thunks/getCaseTags";
@@ -13,6 +9,16 @@ import { getTagsSuccess } from "../../../actionCreators/tagActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
 
 class CaseTags extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dialogOpen: false,
+      caseTagName: "",
+      caseTagId: 0,
+      caseTagDialogOpen: false
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(getCaseTags(this.props.caseId));
   }
@@ -56,7 +62,11 @@ class CaseTags extends Component {
                     label={caseTag && caseTag.tag.name}
                     data-testid="caseTagChip"
                     onDelete={() =>
-                      this.props.dispatch(openRemoveCaseTagDialog(caseTag))
+                      this.setState({
+                        dialogOpen: true,
+                        caseTagName: caseTag.tag.name,
+                        caseTagId: caseTag.id
+                      })
                     }
                   />
                 ) : (
@@ -70,7 +80,13 @@ class CaseTags extends Component {
               )
             )}
           </div>
-          <RemoveCaseTagDialog />
+          <RemoveCaseTagDialog
+            caseTagName={this.state.caseTagName}
+            caseTagId={this.state.caseTagId}
+            caseId={this.props.caseId}
+            dialogOpen={this.state.dialogOpen}
+            closeDialog={() => this.setState({ dialogOpen: false })}
+          />
         </div>
         <div>
           {this.props.isArchived ||
@@ -80,7 +96,7 @@ class CaseTags extends Component {
             <div />
           ) : (
             <LinkButton
-              onClick={() => this.props.dispatch(openCaseTagDialog())}
+              onClick={() => this.setState({ caseTagDialogOpen: true })}
               style={{ margin: "0% 0% 5% 2%" }}
               data-testid="addTagButton"
             >
@@ -88,7 +104,10 @@ class CaseTags extends Component {
             </LinkButton>
           )}
         </div>
-        <CaseTagDialog />
+        <CaseTagDialog
+          open={this.state.caseTagDialogOpen}
+          closeDialog={() => this.setState({ caseTagDialogOpen: false })}
+        />
       </div>
     );
   }

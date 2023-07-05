@@ -1,4 +1,7 @@
 import { lazy } from "react";
+const PublicInfoPage = lazy(() =>
+  import("./publicDataDashboard/newPublicInfo/PublicInfoPage")
+);
 const PublicDataDashboardWrapper = lazy(() =>
   import("./publicDataDashboard/PublicDataDashboard")
 );
@@ -24,6 +27,12 @@ const publicDataDashboardRoutes = [
     path: "/data/glossary",
     title: "IPM Complaints Data - Tag Glossary",
     component: DashboardGlossaryWrapper
+  },
+  {
+    path: "/public-data",
+    title: "Information Dashboard",
+    component: PublicInfoPage,
+    toggleName: "showNewPublicDashboard"
   }
 ];
 

@@ -6,7 +6,26 @@ import {
 import models from "../../../policeDataManager/models";
 import Signer from "../../../../sharedTestHelpers/signer";
 
-jest.mock("../../../createConfiguredS3Instance");
+const mockGetObject = jest.fn((_, callback) => {
+  let result = {
+    ContentType: "image/bytes",
+    ContentLength: 10,
+    Body: {
+      transformToString: jest.fn(() => "bytesbytesbytes")
+    }
+  };
+
+  if (callback) {
+    callback(undefined, result);
+  }
+
+  return Promise.resolve(result);
+});
+jest.mock("../../../createConfiguredS3Instance", () =>
+  jest.fn(() => ({
+    getObject: mockGetObject
+  }))
+);
 
 const BLANK_LINE = "<p><br></p>";
 
@@ -55,5 +74,17 @@ describe("retrieveSignatureImage", () => {
 
   test("should return undefined if fileName is undefined and includeHtmlTag is false", async () => {
     expect(await retrieveSignatureImage(undefined, false)).toBeUndefined();
+  });
+
+  test("should throw error if s3 errors", async () => {
+    const error = new Error("error to the max!!!");
+    mockGetObject.mockImplementation((_, callback) => callback(error));
+
+    try {
+      await retrieveSignatureImage("filename", false);
+      expect(false).toBeTrue(); // shouldn't hit this
+    } catch (e) {
+      expect(e).toEqual(error);
+    }
   });
 });

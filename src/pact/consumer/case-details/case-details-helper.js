@@ -322,7 +322,19 @@ export const setUpCaseDetailsPage = async (provider, ...options) => {
               createdAt: "2022-10-21T18:55:46.053Z",
               updatedAt: "2022-10-21T18:55:46.053Z",
               caseId: 1,
-              allegations: [],
+              allegations: eachLike({
+                id: 1,
+                details: "Whoa man, very medium",
+                caseOfficerId: 1,
+                severity: "Medium",
+                allegationId: 1,
+                allegation: {
+                  id: 1,
+                  rule: "RULE 2: MORAL CONDUCT",
+                  paragraph: "PARAGRAPH 01 - ADHERENCE TO THE LAW",
+                  directive: "1.1 Directive"
+                }
+              }),
               personTypeDetails: personTypes[0]
             })
           : options.includes(NOPD_ACCUSED)

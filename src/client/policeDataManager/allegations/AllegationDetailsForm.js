@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import { PrimaryButton } from "../shared/components/StyledButtons";
-import createOfficerAllegation from "../cases/thunks/createOfficerAllegation";
+import {
+  PrimaryButton,
+  SecondaryButton
+} from "../shared/components/StyledButtons";
 import {
   allegationDetailsNotBlank,
   allegationDetailsRequired,
@@ -10,34 +12,43 @@ import {
 } from "../../formFieldLevelValidations";
 import Dropdown from "../../common/components/Dropdown";
 import { allegationSeverityMenu } from "../utilities/generateMenuOptions";
-import { ALLEGATION_DETAILS_LABEL } from "../../../sharedUtilities/constants";
 import { renderTextField } from "../cases/sharedFormComponents/renderFunctions";
+import { connect } from "react-redux";
+import CreatableDropdown from "../../common/components/CreatableDropdown";
 
 const AllegationDetailsForm = props => {
-  const onSubmit = (values, dispatch) => {
-    const formValues = { ...values, allegationId: props.allegationId };
-    dispatch(
-      createOfficerAllegation(
-        formValues,
-        props.caseId,
-        props.caseOfficerId,
-        props.addAllegationSuccess
-      )
-    );
-  };
-
-  const marginBottomOffset = 16;
-
+  const marginBottomOffset = props.marginBottomOffset || 16;
   return (
     <form style={{ justifyContent: "center" }}>
       <div>
         <Field
-          style={{ width: "15%", marginBottom: `${marginBottomOffset}px` }}
+          style={{
+            width: "60%",
+            marginBottom: `${marginBottomOffset}px`
+          }}
+          component={CreatableDropdown}
+          name="ruleChapter"
+          data-testid="rule-chapter-field"
+          inputProps={{ "data-testid": "rule-chapter-input" }}
+          label="To Wit Chapter"
+        >
+          {props.ruleChapters.map(chapter => ({
+            label: chapter.name,
+            value: chapter.id
+          }))}
+        </Field>
+      </div>
+      <div>
+        <Field
+          style={{
+            width: "17%",
+            marginBottom: `${marginBottomOffset}px`
+          }}
           component={Dropdown}
-          data-testid="allegationSeverityField"
           name="severity"
-          inputProps={{ "data-testid": "allegationSeverityInput" }}
-          label="Allegation Severity"
+          data-testid="allegation-severity-field"
+          inputProps={{ "data-testid": "allegation-severity-input" }}
+          label="Allegation Severity * "
           validate={[allegationSeverityRequired]}
         >
           {allegationSeverityMenu}
@@ -45,31 +56,46 @@ const AllegationDetailsForm = props => {
       </div>
       <div>
         <Field
-          validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
-          data-testid="allegationDetailsField"
-          style={{ width: "40%", marginBottom: `${marginBottomOffset}px` }}
-          component={renderTextField}
+          label={`${props.allegationDetailsLabel} *` || "Allegation Details *"}
           name="details"
+          component={renderTextField}
+          data-testid="allegation-details-field"
           inputProps={{
             autoComplete: "off",
-            "data-testid": "allegationDetailsInput"
+            "data-testid": "allegation-details-input"
+          }}
+          validate={[allegationDetailsRequired, allegationDetailsNotBlank]}
+          style={{
+            width: "40%",
+            marginBottom: `${marginBottomOffset}px`
           }}
           multiline
           maxRows={5}
-          label={ALLEGATION_DETAILS_LABEL}
         />
       </div>
       <div
         style={{
+          display: "flex",
           marginBottom: `${marginBottomOffset}px`
         }}
       >
+        {props.onCancel ? (
+          <SecondaryButton
+            data-testid="allegation-cancel-btn"
+            onClick={props.onCancel}
+            style={{ marginRight: "8px" }}
+          >
+            Cancel
+          </SecondaryButton>
+        ) : (
+          ""
+        )}
         <PrimaryButton
           disabled={props.invalid || props.pristine}
-          data-testid="addAllegationButton"
-          onClick={props.handleSubmit(onSubmit)}
+          data-testid="allegation-submit-btn"
+          onClick={props.handleSubmit(props.onSubmit)}
         >
-          Add Allegation
+          {props.submitButtonText || "Submit"}
         </PrimaryButton>
       </div>
     </form>
@@ -77,9 +103,16 @@ const AllegationDetailsForm = props => {
 };
 
 AllegationDetailsForm.propTypes = {
-  caseId: PropTypes.string.isRequired,
-  caseOfficerId: PropTypes.string.isRequired,
-  addAllegationSuccess: PropTypes.func.isRequired
+  allegationDetailsLabel: PropTypes.string,
+  form: PropTypes.string.isRequired,
+  marginBottomOffset: PropTypes.number,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func,
+  submitButtonText: PropTypes.string
 };
 
-export default reduxForm({})(AllegationDetailsForm);
+const mapStateToProps = state => ({
+  ruleChapters: state.ruleChapters
+});
+
+export default connect(mapStateToProps)(reduxForm({})(AllegationDetailsForm));

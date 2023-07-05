@@ -3,10 +3,7 @@ import { mount } from "enzyme";
 import OfficerAllegations from "./OfficerAllegations";
 import createConfiguredStore from "../../createConfiguredStore";
 import { Provider } from "react-redux";
-import {
-  ALLEGATION_SEVERITY,
-  EDIT_ALLEGATION_FORM_CLOSED
-} from "../../../sharedUtilities/constants";
+import { ALLEGATION_SEVERITY } from "../../../sharedUtilities/constants";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 import { changeInput } from "../../testHelpers";
 import { openRemoveOfficerAllegationDialog } from "../actionCreators/allegationsActionCreators";
@@ -18,11 +15,11 @@ jest.mock("../cases/thunks/editOfficerAllegation", () => allegation => ({
   allegationId: allegation.id
 }));
 
-describe("OfficerAllegations", function() {
-  let dispatchSpy, officerAllegations, wrapper, allegation1, allegation2;
+describe("OfficerAllegations", function () {
+  let caseId, caseOfficerId, officerAllegations, store;
   beforeEach(() => {
-    const caseId = 12;
-    const caseOfficerId = 7;
+    caseId = 12;
+    caseOfficerId = 7;
     officerAllegations = [
       {
         allegation: {
@@ -46,124 +43,138 @@ describe("OfficerAllegations", function() {
         caseOfficerId,
         id: 2,
         details: "detailsss2",
+        ruleChapter: {
+          id: 1,
+          name: "I like to crime!"
+        },
         severity: ALLEGATION_SEVERITY.HIGH
       }
     ];
 
-    const store = createConfiguredStore();
+    store = createConfiguredStore();
     store.dispatch(
-      getCaseDetailsSuccess({ accusedOfficers: [{ id: caseOfficerId }] })
+      getCaseDetailsSuccess({ id: 1, accusedOfficers: [{ id: caseOfficerId }] })
     );
-    dispatchSpy = jest.spyOn(store, "dispatch");
-
-    wrapper = mount(
-      <Provider store={store}>
-        <OfficerAllegations
-          officerAllegations={officerAllegations}
-          caseId={caseId}
-        />
-      </Provider>
-    );
-
-    allegation1 = wrapper.find('[data-testid="officerAllegation0"]').first();
-    allegation2 = wrapper.find('[data-testid="officerAllegation1"]').first();
   });
 
-  test("should render officer allegations", () => {
-    expect(allegation1.text()).toContain("A Specific Rule");
-    expect(allegation2.text()).toContain("A Very Very Specific Rule");
-  });
+  describe("Allegation Display", () => {
+    let dispatchSpy, wrapper, allegation1, allegation2;
+    beforeEach(() => {
+      dispatchSpy = jest.spyOn(store, "dispatch");
 
-  test("should render edit allegation form after click", () => {
-    const editButton1 = allegation1
-      .find('[data-testid="editAllegationButton"]')
-      .first();
-    editButton1.simulate("click");
+      wrapper = mount(
+        <Provider store={store}>
+          <OfficerAllegations
+            officerAllegations={officerAllegations}
+            caseId={caseId}
+          />
+        </Provider>
+      );
 
-    wrapper.update();
+      allegation1 = wrapper.find('[data-testid="officerAllegation0"]').first();
+      allegation2 = wrapper.find('[data-testid="officerAllegation1"]').first();
+    });
 
-    const updatedEditButton1 = wrapper
-      .find('[data-testid="officerAllegation0"]')
-      .first()
-      .find('[data-testid="editAllegationButton"]')
-      .first();
-    expect(updatedEditButton1.exists()).toEqual(false);
+    test("should render officer allegations", () => {
+      expect(allegation1.text()).toContain("A Specific Rule");
+      expect(allegation2.text()).toContain("A Very Very Specific Rule");
+    });
 
-    const cancelButton = wrapper
-      .find('[data-testid="editAllegationCancel"]')
-      .first();
-    expect(cancelButton.exists()).toEqual(true);
+    test("should render edit allegation form after click", () => {
+      const editButton1 = allegation1
+        .find('[data-testid="editAllegationButton"]')
+        .first();
+      editButton1.simulate("click");
 
-    const submitButton = wrapper
-      .find('[data-testid="editAllegationSubmit"]')
-      .first();
-    expect(submitButton.exists()).toEqual(true);
-  });
+      wrapper.update();
 
-  test("expand icon should be disabled in edit mode", () => {
-    const expandIcon = wrapper.find('[data-testid="expandIcon"]').first();
+      const updatedEditButton1 = wrapper
+        .find('[data-testid="officerAllegation0"]')
+        .first()
+        .find('[data-testid="editAllegationButton"]')
+        .first();
+      expect(updatedEditButton1.exists()).toEqual(false);
 
-    const editButton1 = allegation1
-      .find('[data-testid="editAllegationButton"]')
-      .first();
-    editButton1.simulate("click");
+      const cancelButton = wrapper
+        .find('[data-testid="allegation-cancel-btn"]')
+        .first();
+      expect(cancelButton.exists()).toEqual(true);
 
-    wrapper.update();
+      const submitButton = wrapper
+        .find('[data-testid="allegation-submit-btn"]')
+        .first();
+      expect(submitButton.exists()).toEqual(true);
+    });
 
-    const updatedExpandIcon = wrapper
-      .find('[data-testid="expandIcon"]')
-      .first();
+    test("expand icon should be disabled in edit mode", () => {
+      const expandIcon = wrapper.find('[data-testid="expandIcon"]').first();
 
-    expect(expandIcon.props().disabled).toBeFalsy();
-    expect(updatedExpandIcon.props().disabled).toBeTruthy();
-  });
+      const editButton1 = allegation1
+        .find('[data-testid="editAllegationButton"]')
+        .first();
+      editButton1.simulate("click");
 
-  test("should not render allegation form after submit", () => {
-    const editButton1 = allegation1
-      .find('[data-testid="editAllegationButton"]')
-      .first();
-    editButton1.simulate("click");
+      wrapper.update();
 
-    wrapper.update();
+      const updatedExpandIcon = wrapper
+        .find('[data-testid="expandIcon"]')
+        .first();
 
-    const submitButton = wrapper
-      .find('[data-testid="editAllegationSubmit"]')
-      .first();
-    expect(submitButton.exists()).toEqual(true);
+      expect(expandIcon.props().disabled).toBeFalsy();
+      expect(updatedExpandIcon.props().disabled).toBeTruthy();
+    });
 
-    changeInput(wrapper, '[data-testid="allegationInput"]', "different values");
+    test("should not render allegation form after submit", () => {
+      const editButton1 = allegation1
+        .find('[data-testid="editAllegationButton"]')
+        .first();
+      editButton1.simulate("click");
 
-    submitButton.simulate("click");
+      wrapper.update();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      editOfficerAllegation({
-        id: officerAllegations[0].id,
-        details: officerAllegations[0].details
-      })
-    );
-    wrapper.update();
+      const submitButton = wrapper
+        .find('[data-testid="allegation-submit-btn"]')
+        .first();
+      expect(submitButton.exists()).toEqual(true);
 
-    const updatedEditButton1 = wrapper
-      .find('[data-testid="officerAllegation0"]')
-      .first()
-      .find('[data-testid="editAllegationButton"]')
-      .first();
-    const saveAllegationButton = wrapper
-      .find('[data-testid="editAllegationSubmit"]')
-      .first();
+      changeInput(
+        wrapper,
+        '[data-testid="allegation-details-input"]',
+        "different values"
+      );
 
-    expect(updatedEditButton1.exists()).toEqual(true);
-    expect(saveAllegationButton.exists()).toEqual(false);
-  });
+      submitButton.simulate("click");
 
-  test("should open remove allegation dialog when remove button clicked", () => {
-    const removeButton = allegation1
-      .find('[data-testid="removeAllegationButton"]')
-      .last();
-    removeButton.simulate("click");
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        editOfficerAllegation({
+          id: officerAllegations[0].id,
+          details: officerAllegations[0].details
+        })
+      );
+      wrapper.update();
 
-    expect(dispatchSpy).toHaveBeenCalledWith(
-      openRemoveOfficerAllegationDialog(officerAllegations[0])
-    );
+      const updatedEditButton1 = wrapper
+        .find('[data-testid="officerAllegation0"]')
+        .first()
+        .find('[data-testid="editAllegationButton"]')
+        .first();
+      const saveAllegationButton = wrapper
+        .find('[data-testid="allegation-submit-btn"]')
+        .first();
+
+      expect(updatedEditButton1.exists()).toEqual(true);
+      expect(saveAllegationButton.exists()).toEqual(false);
+    });
+
+    test("should open remove allegation dialog when remove button clicked", () => {
+      const removeButton = allegation1
+        .find('[data-testid="removeAllegationButton"]')
+        .last();
+      removeButton.simulate("click");
+
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        openRemoveOfficerAllegationDialog(officerAllegations[0])
+      );
+    });
   });
 });

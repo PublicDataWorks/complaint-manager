@@ -1,7 +1,4 @@
-import {
-  addCaseNoteSuccess,
-  closeCaseNoteDialog
-} from "../../actionCreators/casesActionCreators";
+import { addCaseNoteSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 import { startSubmit, stopSubmit } from "redux-form";
 import { CASE_NOTE_FORM_NAME } from "../../../../sharedUtilities/constants";
@@ -18,8 +15,7 @@ const addCaseNote = values => async dispatch => {
       addCaseNoteSuccess(response.data.caseDetails, response.data.caseNotes)
     );
     dispatch(snackbarSuccess("Case note was successfully created"));
-    dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
-    return dispatch(closeCaseNoteDialog());
+    return dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
   } catch (error) {
     dispatch(stopSubmit(CASE_NOTE_FORM_NAME));
   }

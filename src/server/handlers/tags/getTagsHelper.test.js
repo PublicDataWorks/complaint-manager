@@ -236,6 +236,25 @@ describe("getTagsHelper", () => {
       });
     });
 
+    test("should order by count ascending if requested", async () => {
+      const tagsAndAuditDetails = await getTagsWithCountAndAuditDetails(
+        "count",
+        ASCENDING
+      );
+      const expectedTags = [
+        { name: thirdTag.name, id: thirdTag.id, count: "0" },
+        { name: fifthTag.name, id: fifthTag.id, count: "1" },
+        { name: firstTag.name, id: firstTag.id, count: "2" },
+        { name: secondTag.name, id: secondTag.id, count: "2" },
+        { name: fourthTag.name, id: fourthTag.id, count: "3" }
+      ];
+
+      expect(tagsAndAuditDetails).toEqual({
+        tags: expectedTags,
+        auditDetails: expect.anything()
+      });
+    });
+
     test("should call getQueryAuditAccessDetails when getting tags", async () => {
       await getTagsWithCountAndAuditDetails();
 

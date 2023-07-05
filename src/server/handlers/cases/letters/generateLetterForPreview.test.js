@@ -121,4 +121,45 @@ describe("generateLetterForPreview", () => {
       `1-27-2023_${c4se.caseReference}_${letterType.type}.pdf`
     );
   });
+
+  test("should populate the sender data if sender exists in signers db", async () => {
+    const nonDefaultSigner = await models.signers.create(
+      new Signer.Builder()
+        .defaultSigner()
+        .withId(888377)
+        .withName("Not Default")
+        .withNickname("nickname")
+        .withTitle("Her Non-Defaultness")
+        .withPhone("883-992-9933")
+        .build(),
+      { auditUser: "user" }
+    );
+
+    const request = {
+      method: "GET",
+      headers: {
+        authorization: "Bearer token"
+      },
+      params: { caseId: c4se.id, letterId: letter.id },
+      nickname: "nickname",
+      permissions: [USER_PERMISSIONS.SETUP_LETTER]
+    };
+    await generateLetterForPreview(request, response, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(response._getData().letterHtml).toEqual(letterType.editableTemplate);
+    expect(response._getData().finalFilename).toEqual(
+      `1-27-2023_${c4se.caseReference}_${letterType.type}.pdf`
+    );
+    expect(response._getData().letter.sender).toEqual(
+      `${nonDefaultSigner.name}\n${nonDefaultSigner.title}\n${nonDefaultSigner.phone}`
+    );
+
+    const updatedLetter = await models.letter.findByPk(
+      response._getData().letter.id
+    );
+    expect(updatedLetter.sender).toEqual(
+      `${nonDefaultSigner.name}\n${nonDefaultSigner.title}\n${nonDefaultSigner.phone}`
+    );
+  });
 });

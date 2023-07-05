@@ -98,6 +98,7 @@ import getLetterPdf from "./handlers/cases/letters/getLetterPdf";
 import updateLetterAndUploadToS3 from "./handlers/cases/letters/updateLetterAndUploadToS3";
 import retrievePersonTypes from "./handlers/personTypes/retrievePersonTypes";
 import updateSearchIndex from "./handlers/cases/casesSearch/updateSearchIndex";
+import getRuleChapters from "./handlers/ruleChapters/getRuleChapters";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -373,6 +374,7 @@ export const API_ROUTES = {
   "/cases/:caseId/letters": {
     post: {
       handler: generateLetterAndUploadToS3,
+      requiredPermission: USER_PERMISSIONS.UPDATE_ALL_CASE_STATUSES,
       errorMessage:
         "Something went wrong and the PDF was not loaded. Please try again."
     }
@@ -787,6 +789,12 @@ export const API_ROUTES = {
       handler: updateSearchIndex,
       requiredPermission: USER_PERMISSIONS.EDIT_CASE,
       errorMessage: "Something went wrong while updating the search index"
+    }
+  },
+  "/rule-chapters": {
+    get: {
+      handler: getRuleChapters,
+      errorMessage: "Something went wrong while getting rule chapters"
     }
   }
 };

@@ -2,6 +2,7 @@ import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers"
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
+import { getRuleChapterId } from "../officerAllegationHelpers";
 
 const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -9,14 +10,15 @@ const models = require("../../../policeDataManager/models");
 const _ = require("lodash");
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
-  const allegationAttributes = _.pick(request.body, [
-    "allegationId",
-    "details",
-    "severity"
-  ]);
-
   const caseWithAssociations = await models.sequelize.transaction(
     async transaction => {
+      let allegationAttributes = {
+        ruleChapterId: await getRuleChapterId(request),
+        allegationId: request.body.allegationId,
+        details: request.body.details,
+        severity: request.body.severity
+      };
+
       const caseOfficer = await models.case_officer.findByPk(
         request.params.caseOfficerId,
         { transaction }

@@ -117,12 +117,14 @@ export const getAllegationData = officer => {
     const directive = allegation.allegation
       ? allegation.allegation.directive
       : null;
+    const chapter = allegation.ruleChapter?.name;
 
     return {
       Rule: rule,
       Paragraph: paragraph,
       Directive: directive,
       Severity: allegation.severity,
+      "To Wit Chapter": chapter,
       "Allegation Details": allegation.details
     };
   });

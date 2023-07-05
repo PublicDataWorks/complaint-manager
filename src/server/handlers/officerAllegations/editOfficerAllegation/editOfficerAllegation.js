@@ -1,5 +1,4 @@
 import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageConstants";
-
 const models = require("../../../policeDataManager/models");
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 const asyncMiddleware = require("../../asyncMiddleware");
@@ -8,6 +7,7 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
+import { getRuleChapterId } from "../officerAllegationHelpers";
 const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(
@@ -25,10 +25,11 @@ const editOfficerAllegation = asyncMiddleware(
           );
         }
 
-        const allegationAttributes = _.pick(request.body, [
-          "details",
-          "severity"
-        ]);
+        let allegationAttributes = {
+          ruleChapterId: await getRuleChapterId(request, transaction),
+          details: request.body.details,
+          severity: request.body.severity
+        };
 
         await officerAllegation.update(allegationAttributes, {
           auditUser: request.nickname,

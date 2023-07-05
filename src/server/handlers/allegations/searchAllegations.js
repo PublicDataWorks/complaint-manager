@@ -9,7 +9,9 @@ const models = require("../../policeDataManager/models/index");
 const Op = require("sequelize").Op;
 
 const searchAllegations = asyncMiddleware(async (request, response) => {
-  const whereClause = {};
+  const whereClause = {
+    deletedAt: null
+  };
   if (request.query.rule) {
     whereClause.rule = { [Op.eq]: `${request.query.rule}` };
   }

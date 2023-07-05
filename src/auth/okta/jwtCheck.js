@@ -1,4 +1,4 @@
-import OktaJwtVerifier from "@okta/jwt-verifier";
+const OktaJwtVerifier = require("@okta/jwt-verifier");
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
     process.env.NODE_ENV
@@ -6,7 +6,7 @@ const config =
 
 const oktaJwtCheck = (request, response, next) => {
   const verifier = new OktaJwtVerifier({
-    issuer: `${config.authentication.issuer}/oauth2/default`
+    issuer: `${config.authentication.issuer}`
   });
 
   verifier
@@ -14,7 +14,7 @@ const oktaJwtCheck = (request, response, next) => {
     .then(jwt => {
       request.user = {
         sub: jwt.claims.sub,
-        scope: jwt.claims.scp.join(" ")
+        scope: jwt.claims.perms
       };
       next();
     })
@@ -36,4 +36,4 @@ const getToken = request => {
   return null;
 };
 
-export default oktaJwtCheck;
+module.exports = oktaJwtCheck;

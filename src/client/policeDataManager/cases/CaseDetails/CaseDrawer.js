@@ -30,13 +30,17 @@ const CaseDrawer = ({
   const [gearDialogOpen, setGearDialogOpen] = useState(false);
   const [complaintGearDialogOpen, setComplaintGearDialogOpen] = useState(false);
   const changeComplaintTypeButton = chooseComplaintTypeFeatureFlag ? (
-    <IconButton
-      data-testid={"complaintButton"}
-      style={{ marginTop: "-14px" }}
-      onClick={() => setComplaintGearDialogOpen(true)}
-    >
-      <SettingsIcon />
-    </IconButton>
+    permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+      <IconButton
+        data-testid={"complaintButton"}
+        style={{ marginTop: "-14px" }}
+        onClick={() => setComplaintGearDialogOpen(true)}
+      >
+        <SettingsIcon />
+      </IconButton>
+    ) : (
+      ""
+    )
   ) : (
     ""
   );
@@ -112,13 +116,17 @@ const CaseDrawer = ({
                 <Typography data-testid="assigned-to" variant="body2">
                   {nameOfUser}
                 </Typography>
-                <IconButton
-                  data-testid={"assignedToButton"}
-                  style={{ marginTop: "-14px" }}
-                  onClick={() => setGearDialogOpen(true)}
-                >
-                  <SettingsIcon />
-                </IconButton>
+                {permissions?.includes(USER_PERMISSIONS.EDIT_CASE) ? (
+                  <IconButton
+                    data-testid={"assignedToButton"}
+                    style={{ marginTop: "-14px" }}
+                    onClick={() => setGearDialogOpen(true)}
+                  >
+                    <SettingsIcon />
+                  </IconButton>
+                ) : (
+                  ""
+                )}
               </span>
               <ReassignCaseDialog
                 caseDetails={caseDetails}

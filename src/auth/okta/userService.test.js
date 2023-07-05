@@ -1,5 +1,5 @@
 const userService = require("./userService");
-import { authEnabledTest } from "../testHelpers/authEnabledTest";
+import { authEnabledTest } from "../../server/testHelpers/authEnabledTest";
 import okta from "@okta/okta-sdk-nodejs";
 
 jest.mock(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`, () => {
@@ -64,6 +64,7 @@ jest.mock("@okta/okta-sdk-nodejs", () => {
 });
 
 describe("Error Handling", () => {
+  const test = authEnabledTest();
   test("should throw error if it cannot retrieve user data", async () => {
     okta.Client.mockImplementation(() => ({
       userApi: {

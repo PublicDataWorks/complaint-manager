@@ -121,16 +121,6 @@ export const updateSort = (sortBy, sortDirection, caseType) => {
   };
 };
 
-export const openCaseNoteDialog = (dialogType, initialCaseNote) => ({
-  type: CASE_NOTE_DIALOG_OPENED,
-  dialogType,
-  initialCaseNote
-});
-
-export const closeCaseNoteDialog = () => ({
-  type: CASE_NOTE_DIALOG_CLOSED
-});
-
 export const openRemoveCaseNoteDialog = (activity = {}) => ({
   type: REMOVE_CASE_NOTE_DIALOG_OPENED,
   activity
@@ -138,14 +128,6 @@ export const openRemoveCaseNoteDialog = (activity = {}) => ({
 
 export const closeRemoveCaseNoteDialog = () => ({
   type: REMOVE_CASE_NOTE_DIALOG_CLOSED
-});
-
-export const openCaseTagDialog = () => ({
-  type: CASE_TAG_DIALOG_OPENED
-});
-
-export const closeCaseTagDialog = () => ({
-  type: CASE_TAG_DIALOG_CLOSED
 });
 
 export const createCaseTagSuccess = caseTags => ({
@@ -171,15 +153,6 @@ export const fetchingCaseTags = fetching => ({
 export const fetchingCaseNotes = fetching => ({
   type: FETCHING_CASE_NOTES,
   fetching
-});
-
-export const openRemoveCaseTagDialog = (caseTag = {}) => ({
-  type: REMOVE_CASE_TAG_DIALOG_OPENED,
-  caseTag
-});
-
-export const closeRemoveCaseTagDialog = () => ({
-  type: REMOVE_CASE_TAG_DIALOG_CLOSED
 });
 
 export const openRemoveAttachmentConfirmationDialog = attachmentFileName => ({

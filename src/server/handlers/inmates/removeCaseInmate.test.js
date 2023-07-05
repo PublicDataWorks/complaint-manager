@@ -15,6 +15,8 @@ import {
 } from "../../../sharedUtilities/constants";
 import auditDataAccess from "../audits/auditDataAccess";
 import { expectedCaseAuditDetails } from "../../testHelpers/expectedAuditDetails";
+import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
+import Boom from "boom";
 
 jest.mock("../audits/auditDataAccess");
 
@@ -81,6 +83,26 @@ describe("removeCaseInmate", () => {
       nickname: "someone",
       permissions: USER_PERMISSIONS.EDIT_CASE
     });
+  });
+
+  test("should return 400 status if the case inmate does not exist", async () => {
+    const invalidRequest = httpMocks.createRequest({
+      method: "DELETE",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        caseId: existingCase.id,
+        caseInmateId: existingCase.witnessInmates[0].id + 7
+      },
+      nickname: "someone",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+    await removeCaseInmate(invalidRequest, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.REMOVE_CASE_INMATE_ERROR)
+    );
   });
 
   test("should delete an inmate from a case", async () => {

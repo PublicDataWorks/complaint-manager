@@ -1,7 +1,4 @@
-import {
-  closeCaseTagDialog,
-  createCaseTagSuccess
-} from "../../actionCreators/casesActionCreators";
+import { createCaseTagSuccess } from "../../actionCreators/casesActionCreators";
 import axios from "axios";
 import _ from "lodash";
 import { getTagsSuccess } from "../../actionCreators/tagActionCreators";
@@ -30,7 +27,6 @@ const createCaseTag = (values, caseId) => async dispatch => {
     dispatch(snackbarSuccess("Case tag was successfully added"));
     dispatch(createCaseTagSuccess(response.data.caseTags));
     dispatch(getTagsSuccess(response.data.tags));
-    dispatch(closeCaseTagDialog());
   } catch (error) {}
 };
 

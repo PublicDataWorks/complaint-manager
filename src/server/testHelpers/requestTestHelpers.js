@@ -51,7 +51,8 @@ export const buildTokenWithPermissions = (permissions, nickname) => {
 
   const payload = {
     foo: "bar",
-    scope: `${config.authentication.scope} ${permissions}`
+    scope: `${config.authentication.scope} ${permissions}`,
+    perms: permissions
   };
   payload[`${config.authentication.nicknameKey}`] = nickname;
 
@@ -133,7 +134,8 @@ export const cleanupDatabase = async () => {
     "TRUNCATE complaint_types CASCADE;" +
     "TRUNCATE facilities CASCADE;" +
     "TRUNCATE letter_settings CASCADE;" +
-    "TRUNCATE person_types CASCADE";
+    "TRUNCATE person_types CASCADE;" +
+    "TRUNCATE rule_chapters CASCADE";
 
   await models.sequelize.query(truncationQuery, {
     type: models.sequelize.QueryTypes.RAW

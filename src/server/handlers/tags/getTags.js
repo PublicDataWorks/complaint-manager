@@ -11,7 +11,7 @@ import {
 
 const getTags = asyncMiddleware(async (request, response, next) => {
   const { tags, auditDetails } =
-    request.param("expand") === "count"
+    request.query.expand === "count"
       ? await getTagsWithCount(request)
       : await getTagsAndAuditDetails();
 
@@ -29,9 +29,9 @@ const getTags = asyncMiddleware(async (request, response, next) => {
 
 const getTagsWithCount = async request => {
   let sortBy, sortDirection;
-  if (request.param("sort")) {
+  if (request.query.sort) {
     // expects comma separated list of search terms with . notation for order e.g. count,desc.name
-    let term = request.param("sort").split(",")[0].split(".");
+    let term = request.query.sort.split(",")[0].split(".");
     if (term.length >= 2) {
       sortBy = term[1];
       sortDirection = term[0];

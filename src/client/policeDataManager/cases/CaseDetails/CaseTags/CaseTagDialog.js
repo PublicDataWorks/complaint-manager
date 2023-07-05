@@ -12,7 +12,6 @@ import {
   PrimaryButton,
   SecondaryButton
 } from "../../../shared/components/StyledButtons";
-import { closeCaseTagDialog } from "../../../actionCreators/casesActionCreators";
 import { CASE_TAG_FORM_NAME } from "../../../../../sharedUtilities/constants";
 import { generateMenuOptions } from "../../../utilities/generateMenuOptions";
 import createCaseTag from "../../thunks/createCaseTag";
@@ -26,13 +25,14 @@ class CaseTagDialog extends Component {
   }
 
   submit = values => {
-    const { caseId } = this.props;
+    const { caseId, closeDialog } = this.props;
     this.props.createCaseTag(values, caseId);
     this.props.reset(CASE_TAG_FORM_NAME);
+    closeDialog();
   };
 
   render() {
-    const { open, submitting, handleSubmit } = this.props;
+    const { open, submitting, handleSubmit, closeDialog } = this.props;
 
     const isTagSelected =
       !!this.props.selectedTag && this.props.selectedTag.label !== "";
@@ -88,7 +88,7 @@ class CaseTagDialog extends Component {
             }}
             data-testid="caseTagCancelButton"
             onClick={() => {
-              this.props.closeCaseTagDialog();
+              closeDialog();
               this.props.reset(CASE_TAG_FORM_NAME);
             }}
           >
@@ -112,7 +112,6 @@ const CaseTagDialogForm = reduxForm({
 })(CaseTagDialog);
 
 const mapStateToProps = state => ({
-  open: state.ui.caseTagDialog.open,
   caseId: state.currentCase.details.id,
   tags: state.ui.tags,
   selectedTag:
@@ -122,7 +121,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  closeCaseTagDialog,
   createCaseTag,
   getTagDropdownValues,
   reset

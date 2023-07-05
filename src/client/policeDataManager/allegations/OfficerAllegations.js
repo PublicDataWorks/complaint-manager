@@ -1,5 +1,5 @@
 import React from "react";
-import OfficerAllegationPanelForm from "./EditAllegationPanelForm/OfficerAllegationPanelForm";
+import OfficerAllegationPanelForm from "./OfficerAllegationPanelForm";
 import { connect } from "react-redux";
 import {
   closeEditAllegationForm,

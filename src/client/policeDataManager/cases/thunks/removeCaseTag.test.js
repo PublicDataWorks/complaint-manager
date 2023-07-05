@@ -4,10 +4,7 @@ import { startSubmit, stopSubmit } from "redux-form";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { REMOVE_CASE_TAG_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
-import {
-  closeRemoveCaseTagDialog,
-  removeCaseTagSuccess
-} from "../../actionCreators/casesActionCreators";
+import { removeCaseTagSuccess } from "../../actionCreators/casesActionCreators";
 
 jest.mock("../../../common/auth/getAccessToken", () =>
   jest.fn(() => "TEST_TOKEN")
@@ -43,7 +40,6 @@ describe("removeCaseTag", () => {
     expect(dispatch).toHaveBeenCalledWith(
       snackbarSuccess("Case tag was successfully removed")
     );
-    expect(dispatch).toHaveBeenCalledWith(closeRemoveCaseTagDialog());
     expect(dispatch).toHaveBeenCalledWith(
       stopSubmit(REMOVE_CASE_TAG_FORM_NAME)
     );

@@ -5,7 +5,6 @@ import { cleanupDatabase } from "../../testHelpers/requestTestHelpers";
 import {
   ADDRESSABLE_TYPE,
   AUDIT_SUBJECT,
-  CASE_STATUS,
   MANAGER_TYPE,
   USER_PERMISSIONS
 } from "../../../sharedUtilities/constants";
@@ -147,7 +146,7 @@ describe("Edit Case", () => {
       next = jest.fn();
     });
     describe("a non archived case", () => {
-      beforeEach(() => {
+      test("should send back case record on editing a case", async () => {
         request = httpMocks.createRequest({
           method: "PUT",
           headers: {
@@ -158,18 +157,60 @@ describe("Edit Case", () => {
           nickname: "TEST_USER_NICKNAME",
           permissions: USER_PERMISSIONS.EDIT_CASE
         });
-      });
 
-      test("should update the case", async () => {
-        await editCase(request, response, next);
-        await existingCase.reload();
-        expect(existingCase.dataValues.firstContactDate).toEqual("2018-02-08");
-      });
-
-      test("should send back case record on editing a case", async () => {
         await editCase(request, response, next);
         expect(response._getData()).toEqual(
           expect.objectContaining(valuesToUpdate)
+        );
+      });
+
+      test("should be able to update complaint type and assigned to", async () => {
+        const complaintType = await models.complaintTypes.create(
+          { name: "Complaint" },
+          { auditUser: "user" }
+        );
+        request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: { caseId: existingCase.id },
+          body: {
+            ...valuesToUpdate,
+            complaintType: complaintType.name,
+            assignedTo: "assignee@assigned.to.com"
+          },
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
+        });
+
+        await editCase(request, response, next);
+        expect(response._getData().complaintType).toEqual(complaintType.name);
+        expect(response._getData().assignedTo).toEqual(
+          "assignee@assigned.to.com"
+        );
+      });
+
+      test("should ignore complaint type if it's not found", async () => {
+        request = httpMocks.createRequest({
+          method: "PUT",
+          headers: {
+            authorization: "Bearer SOME_MOCK_TOKEN"
+          },
+          params: { caseId: existingCase.id },
+          body: {
+            ...valuesToUpdate,
+            complaintType: "Not an actual complaint type",
+            assignedTo: "assignee@assigned.to.com"
+          },
+          nickname: "TEST_USER_NICKNAME",
+          permissions: USER_PERMISSIONS.EDIT_CASE
+        });
+
+        await editCase(request, response, next);
+        expect(response._getData().complaintType).toBeUndefined();
+        expect(response._getData().assignedTo).toEqual(
+          "assignee@assigned.to.com"
         );
       });
 

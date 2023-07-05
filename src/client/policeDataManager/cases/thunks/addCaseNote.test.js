@@ -1,9 +1,6 @@
 import nock from "nock";
 import addCaseNote from "./addCaseNote";
-import {
-  addCaseNoteSuccess,
-  closeCaseNoteDialog
-} from "../../actionCreators/casesActionCreators";
+import { addCaseNoteSuccess } from "../../actionCreators/casesActionCreators";
 import configureInterceptors from "../../../common/axiosInterceptors/interceptors";
 import { CASE_NOTE_FORM_NAME } from "../../../../sharedUtilities/constants";
 import { startSubmit, stopSubmit } from "redux-form";
@@ -69,7 +66,6 @@ describe("addCaseNote", () => {
     expect(dispatch).toHaveBeenCalledWith(
       addCaseNoteSuccess(responseBody.caseDetails, responseBody.caseNotes)
     );
-    expect(dispatch).toHaveBeenCalledWith(closeCaseNoteDialog());
     expect(dispatch).toHaveBeenCalledWith(stopSubmit(CASE_NOTE_FORM_NAME));
   });
 });

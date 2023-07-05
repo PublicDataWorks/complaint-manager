@@ -43,7 +43,7 @@ s3.getObject.mockImplementation((opts, callback) =>
 );
 
 describe("generateComplainantLetterAndUploadToS3", () => {
-  let complainant, caseAttributes, existingCase, statuses, personTypes;
+  let complainant, caseAttributes, existingCase, statuses, personTypes, signer;
 
   beforeEach(async () => {
     await cleanupDatabase();
@@ -54,7 +54,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
       .withSignatureFile("stella_cziment.png")
       .build();
     await models.sequelize.transaction(async transaction => {
-      const signer = await models.signers.create(signerAttr, {
+      signer = await models.signers.create(signerAttr, {
         auditUser: "user",
         transaction
       });
@@ -184,6 +184,7 @@ describe("generateComplainantLetterAndUploadToS3", () => {
 
   test("expect complainant letter to have been created", async () => {
     let complainantLetter;
+    signer.update({ signatureFile: "" }, { auditUser: "user" });
     await models.sequelize.transaction(async transaction => {
       complainantLetter = await generateComplainantLetterAndUploadToS3(
         existingCase,
