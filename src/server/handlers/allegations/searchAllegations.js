@@ -29,11 +29,11 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
     : null;
 
   const allegations = await models.allegation.findAndCountAll({
+    attributes: ["id", "rule", "paragraph"],
     where: whereClause,
     order: [
       ["rule", ASCENDING],
-      ["paragraph", ASCENDING],
-      ["directive", ASCENDING]
+      ["paragraph", ASCENDING]
     ],
     limit: DEFAULT_PAGINATION_LIMIT,
     offset: offset

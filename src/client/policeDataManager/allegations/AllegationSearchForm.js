@@ -20,30 +20,14 @@ class AllegationSearchForm extends React.Component {
   }
 
   render() {
-    const {
-      invalid,
-      handleSubmit,
-      currentRuleSelected,
-      allegations
-    } = this.props;
-
-    const normalizeValues = values => {
-      const normalizedValues = values.directive && {
-        directive: values.directive.trim()
-      };
-      return { ...values, ...normalizedValues };
-    };
+    const { invalid, handleSubmit, currentRuleSelected, allegations } =
+      this.props;
 
     const onSubmit = (values, dispatch) => {
       const paginatingSearch = false;
       const firstPage = 1;
       dispatch(
-        getSearchResults(
-          normalizeValues(values),
-          "allegations",
-          paginatingSearch,
-          firstPage
-        )
+        getSearchResults(values, "allegations", paginatingSearch, firstPage)
       );
     };
 
@@ -55,32 +39,6 @@ class AllegationSearchForm extends React.Component {
       <div data-testid="allegationSearchBox">
         <form>
           <div style={{ display: "flex" }}>
-            <Field
-              label="Directive Keyword"
-              name="directive"
-              component={renderTextField}
-              placeholder="Enter one or more keywords"
-              inputProps={{
-                "data-testid": "directiveField",
-                autoComplete: "off"
-              }}
-              style={{ flex: "1", marginRight: "24px" }}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-
-            <Typography
-              variant="button"
-              style={{
-                alignSelf: "flex-end",
-                marginBottom: "22px",
-                marginRight: "24px"
-              }}
-            >
-              OR
-            </Typography>
-
             <Field
               onChange={clearParagraphValue}
               label="Rule"

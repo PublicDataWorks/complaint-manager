@@ -132,8 +132,7 @@ pactWith(
               rows: eachLike({
                 id: 1,
                 rule: "RULE 2: MORAL CONDUCT",
-                paragraph: "PARAGRAPH 01 - ADHERENCE TO THE LAW",
-                directive: "1.1 Directive"
+                paragraph: "PARAGRAPH 01 - ADHERENCE TO THE LAW"
               })
             })
           }

@@ -19,11 +19,6 @@ const Allegation = ({ classes, allegation }) => {
       <TableCell className={primaryCellClasses}>
         {formatStringToTitleCase(allegation.paragraph)}
       </TableCell>
-      <TableCell className={primaryCellClasses}>
-        {allegation.directive
-          ? formatStringToTitleCase(allegation.directive)
-          : "N/A"}
-      </TableCell>
     </Fragment>
   );
 };

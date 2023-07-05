@@ -146,14 +146,6 @@ class OfficerAllegationPanelForm extends React.Component {
                 {formatStringToTitleCase(allegation.paragraph)}
               </Typography>
             </div>
-            <div style={{ flex: 1, marginRight: "24px" }}>
-              <Typography variant="caption">Directive</Typography>
-              <Typography>
-                {allegation.directive
-                  ? formatStringToTitleCase(allegation.directive)
-                  : "N/A"}
-              </Typography>
-            </div>
           </div>
           <div style={{ minWidth: "189px", paddingRight: "0px" }}>
             {editMode ? null : (

@@ -72,53 +72,8 @@ describe("searchAllegations handler", function () {
     expect(response._getData().rows[0].dataValues).toEqual(
       expect.objectContaining({
         rule: createdAllegation.rule,
-        paragraph: createdAllegation.paragraph,
-        directive: createdAllegation.directive
+        paragraph: createdAllegation.paragraph
       })
-    );
-  });
-
-  test("should return allegation based on partial match on directive", async () => {
-    const forceAllegation = new Allegation.Builder()
-      .defaultAllegation()
-      .withId(undefined)
-      .withDirective(
-        "1.3.7 Use of Force Review Board 16-17 Responsibilities of the Board"
-      )
-      .build();
-
-    const firearmsAllegation = new Allegation.Builder()
-      .defaultAllegation()
-      .withId(undefined)
-      .withDirective("1.4 Authorized Firearms 1-2 Policy Statement Board")
-      .build();
-
-    await models.allegation.bulkCreate([forceAllegation, firearmsAllegation], {
-      returning: true
-    });
-
-    const request = httpMocks.createRequest({
-      method: "GET",
-      headers: {
-        authorization: "Bearer SOME_MOCK_TOKEN"
-      },
-      query: {
-        caseId: existingCase.id,
-        caseOfficerId: caseOfficer.id,
-        directive: "force"
-      },
-      nickname: "nickname"
-    });
-
-    const response = httpMocks.createResponse();
-    await searchAllegations(request, response, jest.fn());
-
-    expect(response._getData().rows).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          directive: forceAllegation.directive
-        })
-      ])
     );
   });
 
@@ -180,13 +135,12 @@ describe("searchAllegations handler", function () {
     );
   });
 
-  test("should sort by rule, paragraph, directive", async () => {
+  test("should sort by rule, paragraph", async () => {
     const allegation1 = new Allegation.Builder()
       .defaultAllegation()
       .withId(undefined)
       .withRule("Test Rule B")
       .withParagraph("Test Paragraph C")
-      .withDirective("AA")
       .build();
 
     const allegation2 = new Allegation.Builder()
@@ -194,7 +148,6 @@ describe("searchAllegations handler", function () {
       .withId(undefined)
       .withRule("Test Rule B")
       .withParagraph("Test Paragraph A")
-      .withDirective("BB")
       .build();
 
     const allegation3 = new Allegation.Builder()
@@ -202,7 +155,6 @@ describe("searchAllegations handler", function () {
       .withId(undefined)
       .withRule("Test Rule B")
       .withParagraph("Test Paragraph A")
-      .withDirective("CC")
       .build();
 
     const allegation4 = new Allegation.Builder()
@@ -210,7 +162,6 @@ describe("searchAllegations handler", function () {
       .withId(undefined)
       .withRule("Test Rule A")
       .withParagraph("Test Paragraph B")
-      .withDirective("DD")
       .build();
 
     await models.allegation.bulkCreate(
@@ -242,18 +193,15 @@ describe("searchAllegations handler", function () {
       }),
       expect.objectContaining({
         rule: "Test Rule B",
-        paragraph: "Test Paragraph A",
-        directive: "BB"
+        paragraph: "Test Paragraph A"
       }),
       expect.objectContaining({
         rule: "Test Rule B",
-        paragraph: "Test Paragraph A",
-        directive: "CC"
+        paragraph: "Test Paragraph A"
       }),
       expect.objectContaining({
         rule: "Test Rule B",
-        paragraph: "Test Paragraph C",
-        directive: "AA"
+        paragraph: "Test Paragraph C"
       })
     ]);
   });

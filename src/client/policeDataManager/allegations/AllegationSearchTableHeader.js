@@ -26,13 +26,6 @@ const AllegationSearchTableHeader = props => {
         >
           <Typography variant="subtitle2">Paragraph</Typography>
         </TableCell>
-        <TableCell
-          data-testid="allegationsDirectiveHeader"
-          className={classes.cell}
-          style={{ width: "45%" }}
-        >
-          <Typography variant="subtitle2">Directive</Typography>
-        </TableCell>
         <TableCell className={classes.cell} style={{ width: "10%" }} />
       </TableRow>
     </TableHead>
