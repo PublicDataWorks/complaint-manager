@@ -7,7 +7,8 @@ const retrieveAllegations = async (request, response, next) => {
     raw: true,
     attributes: ["rule"],
     order: [["rule", ASCENDING]],
-    group: ["rule"]
+    group: ["rule"],
+    where: { deletedAt: null }
   });
   const uniqueRuleParagraphs = await models.allegation.findAll({
     raw: true,
@@ -16,7 +17,8 @@ const retrieveAllegations = async (request, response, next) => {
       ["rule", ASCENDING],
       ["paragraph", ASCENDING]
     ],
-    group: ["rule", "paragraph"]
+    group: ["rule", "paragraph"],
+    where: { deletedAt: null }
   });
   const formattedRuleParagraphs = uniqueRules.map(allegationRule => ({
     rule: allegationRule.rule,
