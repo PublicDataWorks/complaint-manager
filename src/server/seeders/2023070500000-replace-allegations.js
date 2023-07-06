@@ -14,6 +14,10 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async transaction => {
       await queryInterface.sequelize.query(
+        "DELETE FROM officers_allegations WHERE allegation_id IN (SELECT a.id FROM allegations a JOIN officers_allegations oa ON a.id = oa.allegation_id WHERE a.deleted_at IS NULL)",
+        transaction
+      );
+      await queryInterface.sequelize.query(
         "DELETE FROM allegations WHERE deleted_at IS NULL",
         transaction
       );
