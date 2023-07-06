@@ -20,10 +20,6 @@ const searchAllegations = asyncMiddleware(async (request, response) => {
     whereClause.paragraph = { [Op.eq]: `${request.query.paragraph}` };
   }
 
-  if (request.query.directive) {
-    whereClause.directive = { [Op.iLike]: `%${request.query.directive}%` };
-  }
-
   const offset = request.query.page
     ? (request.query.page - 1) * DEFAULT_PAGINATION_LIMIT
     : null;
