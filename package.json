@@ -113,7 +113,7 @@
     "moment": "2.29.4",
     "moment-timezone": "~0.5.37",
     "nanoid": "^3.2.0",
-    "newrelic": "8.14.0",
+    "newrelic": "10.4.0",
     "node-cache": "^5.1.0",
     "octokit": "^2.0.14",
     "path": "^0.12.7",
