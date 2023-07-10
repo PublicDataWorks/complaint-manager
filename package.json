@@ -242,6 +242,7 @@
     "**/ssri": "8.0.1",
     "**/static-eval": "^2.0.5",
     "**/tmpl": "1.0.5",
+    "**/tough-cookie": "^4.1.3",
     "**/tree-kill": "^1.2.2",
     "**/underscore": "1.13.4",
     "**/url-parse": "^1.5.10",
