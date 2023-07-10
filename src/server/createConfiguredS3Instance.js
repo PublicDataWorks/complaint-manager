@@ -12,7 +12,10 @@ const {
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { S3_GET_OBJECT } = require("../sharedUtilities/constants");
-const config = require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`);
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/serverConfig`)[
+    process.env.NODE_ENV
+  ];
 
 const createConfiguredS3Instance = () => {
   const isLowerEnv = ["development", "test"].includes(process.env.NODE_ENV);

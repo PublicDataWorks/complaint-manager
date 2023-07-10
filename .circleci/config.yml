@@ -710,12 +710,53 @@ jobs:
       - run: heroku container:release web worker --app noipm-production
       - run: heroku maintenance:off --app noipm-production
 
+  deploy-production-hawaii:
+    docker:
+      - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
+    steps:
+      - setup_remote_docker:
+          version: 19.03.13
+      - attach_workspace:
+          at: .
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - run: docker pull publicdataworks/police-data-manager-hawaii-production:$(cat release.version)
+      - run: docker pull publicdataworks/police-data-manager-hawaii-worker:$(cat release.version)
+      - run: heroku maintenance:on --app hcsoc-production
+      - run:
+          name: Migrate production database
+          command: |
+            docker run \
+            -e NODE_ENV=production \
+            -e DATABASE_USERNAME=$HAWAII_PRODUCTION_DATABASE_USERNAME \
+            -e DATABASE_PASS=$HAWAII_PRODUCTION_DATABASE_PASS \ 
+            -e DATABASE_NAME=$HAWAII_PRODUCTION_DATABASE_NAME \
+            -e DATABASE_HOST=$HAWAII_PRODUCTION_DATABASE_HOST \
+            -e AWS_ACCESS_KEY_ID=$HAWAII_PRODUCTION_AWS_ACCESS_KEY_ID \
+            -e AWS_SECRET_ACCESS_KEY=$HAWAII_PRODUCTION_AWS_SECRET_ACCESS_KEY \
+            -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
+            -e ORG=HAWAII \
+            publicdataworks/police-data-manager-production:$(cat release.version) yarn setup:db
+      - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+      - run: docker tag publicdataworks/police-data-manager-production:$(cat release.version) registry.heroku.com/hcsoc-production/web
+      - run: docker tag publicdataworks/police-data-manager-worker:$(cat release.version) registry.heroku.com/hcsoc-production/worker
+      - run: docker push registry.heroku.com/hcsoc-production/web
+      - run: docker push registry.heroku.com/hcsoc-production/worker
+      - run: heroku container:release web worker --app hcsoc-production
+      - run: heroku maintenance:off --app hcsoc-production
+
   ensure-production-deploy-succeeded-noipm:
     docker:
       - image: alpine:latest
     steps:
       - checkout
       - run: scripts/ensure-deploy-succeeded.sh https://noipm-production.herokuapp.com/health-check
+
+  ensure-production-deploy-succeeded-hawaii:
+    docker:
+      - image: alpine:latest
+    steps:
+      - checkout
+      - run: scripts/ensure-deploy-succeeded.sh https://hcsoc-production.herokuapp.com/health-check
 
   tag-instance-files-noipm:
     docker:
@@ -1176,13 +1217,13 @@ workflows:
       - e2e-testing-staging:
           requires:
             - ensure-staging-deploy-succeeded
-      # - hold-for-production:
-      #     type: approval
-      #     requires:
-      #       - e2e-testing-staging
-      # - deploy-production-hawaii:
-      #     requires:
-      #       - hold-for-production
-      # - ensure-production-deploy-succeeded-hawaii:
-      #     requires:
-      #       - deploy-production-hawaii
+      - hold-for-production:
+          type: approval
+          requires:
+            - e2e-testing-staging
+      - deploy-production-hawaii:
+          requires:
+            - hold-for-production
+      - ensure-production-deploy-succeeded-hawaii:
+          requires:
+            - deploy-production-hawaii
