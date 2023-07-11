@@ -735,10 +735,10 @@ jobs:
             -e AWS_SECRET_ACCESS_KEY=$HAWAII_PRODUCTION_AWS_SECRET_ACCESS_KEY \
             -e REACT_APP_INSTANCE_FILES_DIR=/app/src/instance-files \
             -e ORG=HAWAII \
-            publicdataworks/police-data-manager-production:$(cat release.version) yarn setup:db
+            publicdataworks/police-data-manager-hawaii-production:$(cat release.version) yarn setup:db
       - run: docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
-      - run: docker tag publicdataworks/police-data-manager-production:$(cat release.version) registry.heroku.com/hcsoc-production/web
-      - run: docker tag publicdataworks/police-data-manager-worker:$(cat release.version) registry.heroku.com/hcsoc-production/worker
+      - run: docker tag publicdataworks/police-data-manager-hawaii-production:$(cat release.version) registry.heroku.com/hcsoc-production/web
+      - run: docker tag publicdataworks/police-data-manager-hawaii-worker:$(cat release.version) registry.heroku.com/hcsoc-production/worker
       - run: docker push registry.heroku.com/hcsoc-production/web
       - run: docker push registry.heroku.com/hcsoc-production/worker
       - run: heroku container:release web worker --app hcsoc-production
