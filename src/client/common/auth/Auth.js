@@ -1,7 +1,7 @@
 import auth0 from "auth0-js";
 import history from "../../history";
 import auditLogin from "../../policeDataManager/users/thunks/auditLogin";
-import { parsePermissions } from "../../auth";
+import { parsePermissions, logout } from "../../auth";
 import jwt from "jsonwebtoken";
 import generateRandomString from "../../policeDataManager/utilities/generateRandomString";
 import { NICKNAME, PERMISSIONS } from "../../../sharedUtilities/constants";
@@ -61,7 +61,7 @@ export default class Auth {
     localStorage.removeItem("id_token");
     localStorage.removeItem("expires_at");
 
-    history.push("/login");
+    logout(history);
   };
 
   setUserInfoInStore = (accessToken, populateStoreWithUserInfoCallback) => {
