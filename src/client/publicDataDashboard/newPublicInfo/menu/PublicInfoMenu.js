@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
-import { Box, Drawer, List, ListItem } from "@material-ui/core";
 
 const PublicInfoMenu = props => {
   const links = [
@@ -29,13 +28,13 @@ const PublicInfoMenu = props => {
   } else {
     return (
       <div>
-        <menu className={`${props.classes.menu} `}>
+        <menu className={props.classes.menu}>
           <div
             style={{
               display: "flex"
             }}
           >
-            <a href={"#"} className={`${props.classes.menuLink}`}>
+            <a href={"#"} className={props.classes.menuLink}>
               About
             </a>
             {links.map(link => (

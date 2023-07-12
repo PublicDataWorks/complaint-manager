@@ -1,4 +1,8 @@
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
+const config =
+  require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
+    process.env.REACT_APP_ENV
+  ];
 
 const colors = {
   primaryBrand: "#0A3449",
@@ -10,8 +14,14 @@ const colors = {
   subtleText: "#8C8CA1",
   accent: "#ECF1F4",
   success: "#1C6E1F",
-  links: "#0067A3"
+  links: "#0067A3",
+  gradientDark: "rgba(19, 35, 45, 1)",
+  gradientLight: "rgba(29, 39, 45, 0)"
 };
+
+const images = {
+  banner: `${config.frontendUrl}/Hawaii-Hero_banner.png` //need to find correct url
+}
 
 const publicInfoStyles = theme => ({
   header: {
@@ -86,7 +96,45 @@ const publicInfoStyles = theme => ({
   },
   menuBorderLeft: {
     borderLeft: "solid 1px #bbbcbd"
-  }
+  },
+  banner: {
+    background: `linear-gradient(to bottom right, ${colors.gradientDark}, ${colors.gradientLight}), url(${images.banner});`,
+    backgroundRepeat: "no-repeat",
+    width: "100%",
+    height: "500px",
+    padding: "50px 1200px 10px 100px",
+    color: "white"
+  },
+  bannerLink: {
+    backgroundColor: colors.primaryBrand,
+    color: "white",
+    textDecoration: "none",
+    width: "220px", 
+    height: "41.81px"
+  },
+  bannerText: {
+    width: "599px" 
+  },
+  [`bannerTitle-${SCREEN_SIZES.MOBILE}`]: {
+    fontSize: "36px",
+    width: "305px"
+  },
+  [`bannerTitle-${SCREEN_SIZES.TABLET}`]: {
+    fontSize: "56px"
+  },
+  [`bannerTitle-${SCREEN_SIZES.DESKTOP}`]: {
+    fontSize: "56px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.MOBILE}`]: {
+    fontSize: "16px",
+    width: "305px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.TABLET}`]: {
+    fontSize: "16px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
+    fontSize: "20px"
+  },
 });
 
 export default publicInfoStyles;
