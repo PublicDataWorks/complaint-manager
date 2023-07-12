@@ -21,7 +21,7 @@ const colors = {
 
 const images = {
   banner: `${config.frontendUrl}/Hawaii-Hero_banner.png` //need to find correct url
-}
+};
 
 const publicInfoStyles = theme => ({
   header: {
@@ -101,23 +101,43 @@ const publicInfoStyles = theme => ({
     background: `linear-gradient(to bottom right, ${colors.gradientDark}, ${colors.gradientLight}), url(${images.banner});`,
     backgroundRepeat: "no-repeat",
     width: "100%",
-    height: "500px",
-    padding: "50px 1200px 10px 100px",
     color: "white"
+  },
+  [`banner-${SCREEN_SIZES.MOBILE}`]: {
+    padding: "5em 1em 1em 2em"
+  },
+  [`banner-${SCREEN_SIZES.TABLET}`]: {
+    padding: "50px 1200px 50px 100px"
+  },
+  [`banner-${SCREEN_SIZES.DESKTOP}`]: {
+    padding: "50px 1200px 50px 100px"
   },
   bannerLink: {
     backgroundColor: colors.primaryBrand,
     color: "white",
     textDecoration: "none",
-    width: "220px", 
-    height: "41.81px"
+    padding: "15px 40px",
+    borderRadius: "25px",
+    boxShadow: "0.12px 2px 0.2px rgba(0, 0, 0, 0.2)",
+    display: "block"
   },
-  bannerText: {
-    width: "599px" 
+  bannerLinkSection: {
+    margin: "3em 0",
+    display: "flex"
+  },
+  bannerTitle: {
+    lineHeight: "1.2",
+    maxWidth: "599px",
+    fontWeight: "100"
+  },
+  bannerSubTitle: {
+    marginTop: "1em",
+    maxWidth: "599px",
+    fontWeight: "100"
   },
   [`bannerTitle-${SCREEN_SIZES.MOBILE}`]: {
     fontSize: "36px",
-    width: "305px"
+    maxWidth: "305px"
   },
   [`bannerTitle-${SCREEN_SIZES.TABLET}`]: {
     fontSize: "56px"
@@ -127,14 +147,14 @@ const publicInfoStyles = theme => ({
   },
   [`bannerSubTitle-${SCREEN_SIZES.MOBILE}`]: {
     fontSize: "16px",
-    width: "305px"
+    maxWidth: "305px"
   },
   [`bannerSubTitle-${SCREEN_SIZES.TABLET}`]: {
     fontSize: "16px"
   },
   [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
     fontSize: "20px"
-  },
+  }
 });
 
 export default publicInfoStyles;
