@@ -1,7 +1,8 @@
 import OktaAuth from "@okta/okta-auth-js";
+
 const config =
     require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
-        process.env.NODE_ENV
+        process.env.REACT_APP_ENV
         ];
 
 export const logout = (history) => {
