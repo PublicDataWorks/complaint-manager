@@ -4,6 +4,7 @@ import { useMediaQuery } from "@material-ui/core";
 import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
 import PublicInfoMenu from "./menu/PublicInfoMenu";
 import PublicInfoBanner from "./PublicInfoBanner";
+import ValuesSection from "./ValuesSection";
 
 const PublicInfoPage = props => {
   const getScreen = () => {
@@ -28,6 +29,7 @@ const PublicInfoPage = props => {
       <PublicInfoHeader screenSize={screenSize} />
       <PublicInfoMenu screenSize={screenSize} />
       <PublicInfoBanner screenSize={screenSize} />
+      <ValuesSection screenSize={screenSize} />
     </main>
   );
 };

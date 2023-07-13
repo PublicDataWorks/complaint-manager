@@ -17,6 +17,7 @@ const PublicInfoBanner = props => {
       }`}
     >
       <Typography
+        variant="h2"
         className={`${props.classes.bannerTitle} ${
           props.classes[`bannerTitle-${props.screenSize}`]
         }`}

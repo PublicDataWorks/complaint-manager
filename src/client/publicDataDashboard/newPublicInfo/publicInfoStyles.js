@@ -24,6 +24,14 @@ const images = {
 };
 
 const publicInfoStyles = theme => ({
+  h2: {
+    fontSize: "32px",
+    letterSpacing: "-2%",
+    margin: "1em 0"
+  },
+  body: {
+    lineHeight: "150%"
+  },
   header: {
     width: "100vw",
     backgroundColor: colors.primaryBrand,
@@ -154,6 +162,20 @@ const publicInfoStyles = theme => ({
   },
   [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
     fontSize: "20px"
+  },
+  valuesSection: {
+    alignItems: "center",
+    textAlign: "center",
+    maxWidth: "950px"
+  },
+  [`valuesSection-${SCREEN_SIZES.DESKTOP}`]: {
+    margin: "1em auto"
+  },
+  [`valuesSection-${SCREEN_SIZES.TABLET}`]: {
+    margin: "1em 4em"
+  },
+  [`valuesSection-${SCREEN_SIZES.MOBILE}`]: {
+    margin: "1em 1.5em"
   }
 });
 
