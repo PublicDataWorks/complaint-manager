@@ -12,6 +12,8 @@ import LetterImage from "../../../sharedTestHelpers/LetterImage";
 import LetterTypeLetterImage from "../../../sharedTestHelpers/LetterTypeLetterImage";
 import Signer from "../../../sharedTestHelpers/signer";
 
+jest.mock("../../createConfiguredS3Instance");
+
 describe("generateExampleLetterPreview", () => {
   jest.setTimeout(50000);
   afterEach(async () => {
