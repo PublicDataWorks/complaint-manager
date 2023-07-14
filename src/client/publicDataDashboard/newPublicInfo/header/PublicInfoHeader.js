@@ -49,7 +49,7 @@ const PublicInfoHeader = props => {
           }}
         >
           <img
-            src={`${config.frontendUrl}/Pono.svg`}
+            src={`${config.frontendUrl}/images/Pono.svg`}
             alt="Logo"
             className={props.classes[`headerLogo-${props.screenSize}`]}
             style={{ marginLeft: "45px" }}

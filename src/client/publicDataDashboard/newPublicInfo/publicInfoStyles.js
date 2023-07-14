@@ -20,7 +20,7 @@ const colors = {
 };
 
 const images = {
-  banner: `${config.frontendUrl}/Hawaii-Hero_banner.png` //need to find correct url
+  banner: `${config.frontendUrl}/images/Hawaii-Hero_banner.png` //need to find correct url
 };
 
 const publicInfoStyles = theme => ({
@@ -166,7 +166,7 @@ const publicInfoStyles = theme => ({
   valuesSection: {
     alignItems: "center",
     textAlign: "center",
-    maxWidth: "950px"
+    maxWidth: "1150px"
   },
   [`valuesSection-${SCREEN_SIZES.DESKTOP}`]: {
     margin: "1em auto"
@@ -176,6 +176,24 @@ const publicInfoStyles = theme => ({
   },
   [`valuesSection-${SCREEN_SIZES.MOBILE}`]: {
     margin: "1em 1.5em"
+  },
+  valueIcon: {
+    backgroundColor: colors.secondaryBrand,
+    width: "70px",
+    height: "70px",
+    borderRadius: "70px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "10px auto"
+  },
+  valueIconsSection: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignContent: "center",
+    justifyContent: "space-around",
+    marginTop: "2em"
   }
 });
 
