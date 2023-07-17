@@ -32,6 +32,7 @@ const HeaderLinks = ({ menuOpen, setMenuOpen, screenSize, classes }) => {
             key={link.title}
             href={link.href}
             className={`${classes.headerLink} ${classes.textWithIcon}`}
+            target="_blank"
           >
             {link.icon}
             {link.title}
@@ -49,6 +50,7 @@ const HeaderLinks = ({ menuOpen, setMenuOpen, screenSize, classes }) => {
                 <a
                   href={link.href}
                   className={`${classes.headerLink} ${classes.textWithIcon}`}
+                  target="_blank"
                 >
                   {link.icon}
                   {link.title}

@@ -40,6 +40,7 @@ const PublicInfoHeader = props => {
         )}
         <a
           href="https://portal.ehawaii.gov/"
+          target="_blank"
           style={{
             display: "flex",
             alignItems: "center",

@@ -32,7 +32,11 @@ const PublicInfoBanner = props => {
         {SUBTEXT}
       </Typography>
       <section className={props.classes.bannerLinkSection}>
-        <a className={props.classes.bannerLink} href={BUTTON_URL}>
+        <a
+          className={props.classes.bannerLink}
+          href={BUTTON_URL}
+          target="_blank"
+        >
           {BUTTON_TEXT}
         </a>
       </section>
