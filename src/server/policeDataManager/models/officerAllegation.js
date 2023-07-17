@@ -113,6 +113,12 @@ module.exports = (sequelize, DataTypes) => {
         field: "chapter"
       }
     });
+    OfficerAllegation.belongsTo(models.directive, {
+      foreignKey: {
+        name: "directiveId",
+        field: "directive"
+      }
+    });
   };
 
   OfficerAllegation.auditDataChange();

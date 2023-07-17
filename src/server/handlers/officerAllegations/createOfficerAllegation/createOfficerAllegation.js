@@ -16,7 +16,8 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         ruleChapterId: await getRuleChapterId(request),
         allegationId: request.body.allegationId,
         details: request.body.details,
-        severity: request.body.severity
+        severity: request.body.severity,
+        directiveId: request.body.directiveId
       };
 
       const caseOfficer = await models.case_officer.findByPk(
