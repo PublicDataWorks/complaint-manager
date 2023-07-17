@@ -16,7 +16,8 @@ const colors = {
   success: "#1C6E1F",
   links: "#0067A3",
   gradientDark: "rgba(19, 35, 45, 1)",
-  gradientLight: "rgba(29, 39, 45, 0)"
+  gradientLight: "rgba(29, 39, 45, 0)",
+  gradientDarkHalfOpacity: "rgba(19, 35, 45, 0.5)"
 };
 
 const images = {
@@ -112,7 +113,9 @@ const publicInfoStyles = theme => ({
     color: "white"
   },
   [`banner-${SCREEN_SIZES.MOBILE}`]: {
-    padding: "5em 1em 1em 2em"
+    padding: "5em 1em 1em 2em",
+    background: `linear-gradient(to bottom right, ${colors.gradientDarkHalfOpacity}, ${colors.gradientDarkHalfOpacity}), url(${images.banner});`,
+    backgroundPositionX: "-1150px"
   },
   [`banner-${SCREEN_SIZES.TABLET}`]: {
     padding: "50px 1200px 50px 100px"
