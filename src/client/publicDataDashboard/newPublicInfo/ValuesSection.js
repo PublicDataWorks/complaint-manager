@@ -51,7 +51,7 @@ const ValuesSection = props => {
       <Typography className={props.classes.body}>{TEXT}</Typography>
       <section className={props.classes.valueIconsSection}>
         {VALUES.map(value => (
-          <figure style={{ margin: "15px 10px", minWidth: "120px" }}>
+          <figure key={value.name} style={{ margin: "15px 10px", minWidth: "120px" }}>
             <div className={props.classes.valueIcon}>
               <img alt={value.name} src={value.icon} />
             </div>

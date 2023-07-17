@@ -28,10 +28,12 @@ const publicInfoStyles = theme => ({
   h2: {
     fontSize: "32px",
     letterSpacing: "-2%",
-    margin: "1em 0"
+    margin: "1em 0",
+    fontFamily: "inherit"
   },
   body: {
-    lineHeight: "150%"
+    lineHeight: "150%",
+    fontFamily: "inherit"
   },
   header: {
     width: "100vw",
@@ -124,7 +126,7 @@ const publicInfoStyles = theme => ({
     padding: "50px 1200px 50px 100px"
   },
   bannerLink: {
-    backgroundColor: colors.primaryBrand,
+    backgroundColor: colors.secondaryBrand,
     color: "white",
     textDecoration: "none",
     padding: "15px 40px",
@@ -139,12 +141,13 @@ const publicInfoStyles = theme => ({
   bannerTitle: {
     lineHeight: "1.2",
     maxWidth: "599px",
-    fontWeight: "100"
+    fontWeight: "100",
   },
   bannerSubTitle: {
     marginTop: "1em",
     maxWidth: "599px",
-    fontWeight: "100"
+    fontWeight: "100",
+    fontFamily: "inherit"
   },
   [`bannerTitle-${SCREEN_SIZES.MOBILE}`]: {
     fontSize: "36px",
