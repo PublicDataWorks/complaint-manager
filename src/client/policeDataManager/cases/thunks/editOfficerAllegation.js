@@ -22,7 +22,7 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
   } else {
     requestBody.ruleChapterId = ruleChapter;
   }
-  
+
   if (_.isString(directive)) {
     requestBody.directiveName = directive;
   } else {

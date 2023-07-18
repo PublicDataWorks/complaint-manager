@@ -353,6 +353,11 @@ describe("Pact Verification", () => {
             name: "Ch. 0 This is a Chapter"
           });
 
+          await models.directive.create({
+            id: 1,
+            name: "Dir. 0 This is a Directive"
+          });
+
           const signerAttr = new Signer.Builder()
             .defaultSigner()
             .withName("Nina Ambroise")
