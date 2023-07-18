@@ -202,7 +202,7 @@ const publicInfoStyles = theme => ({
     marginTop: "2em"
   },
   staffingShortageContainer: {
-    margin: "1em 1.5em"
+    margin: "1.5em"
   },
   staffingShortageSubHeader: {
     color: colors.secondaryBrand,
@@ -217,11 +217,34 @@ const publicInfoStyles = theme => ({
     gridRowGap: "0px",
     marginTop: "0.75em"
   },
-  textCard: {
-    backgroundColor: colors.accent,
-    margin: "auto",
-    height: "100%",
-    width: "100%"
+  [`staffingShortageGrid-${SCREEN_SIZES.TABLET}`]: {
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+    gridTemplateRows: "repeat(4, 200px)",
+    gridColumnGap: "0px",
+    gridRowGap: "0px",
+    marginTop: "0.75em"
+  },
+  hawaiiMapImg: {
+    gridArea: "1 / 2 / 3 / 4"
+  },
+  imgOverHawaiiMap: {
+    gridArea: "2 / 2 / 3 / 3"
+  },
+  inPrisonImg: {
+    gridArea: "3 / 2 / 5 / 4"
+  },
+  greyBackground: {
+    backgroundColor: colors.accent
+  },
+  navyBackground: {
+    backgroundColor: colors.primaryBrand
+  },
+  forestBackground: {
+    backgroundColor: colors.secondaryBrand
+  },
+  lightFontColor: {
+    color: colors.light
   }
 });
 
