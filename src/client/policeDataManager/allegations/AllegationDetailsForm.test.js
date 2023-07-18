@@ -6,7 +6,8 @@ import AllegationDetailsForm from "./AllegationDetailsForm";
 import { changeInput, selectDropdownOption } from "../../testHelpers";
 import {
   ALLEGATION_SEVERITY,
-  GET_RULE_CHAPTERS_SUCCESS
+  GET_RULE_CHAPTERS_SUCCESS,
+  GET_DIRECTIVES_SUCCESS
 } from "../../../sharedUtilities/constants";
 
 jest.mock(
@@ -47,6 +48,16 @@ describe("AllegationDetailsForm", () => {
         { id: 4, name: "Chapter 4: Over hill and under hill" },
         { id: 5, name: "Chapter 5: Riddles in the dark" },
         { id: 6, name: "Chapter 6: Out of the frying-pan into the fire" }
+      ]
+    });
+
+    store.dispatch({
+      type: GET_DIRECTIVES_SUCCESS,
+      payload: [
+        { id: 1, name: "This is a directive" },
+        { id: 2, name: "This is also a directive" },
+        { id: 3, name: "This is an even cooler directive" },
+        { id: 4, name: "This is the last directive" }
       ]
     });
 
@@ -153,6 +164,20 @@ describe("AllegationDetailsForm", () => {
     );
     allegationDetailsForm.update();
 
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-testid="rule-chapter-field"]',
+      "Chapter 4: Over hill and under hill"
+    );
+    allegationDetailsForm.update();
+
+    selectDropdownOption(
+      allegationDetailsForm,
+      '[data-testid="directive-field"]',
+      "This is a directive"
+    );
+    allegationDetailsForm.update();
+
     const addButton = allegationDetailsForm
       .find('[data-testid="allegation-submit-btn"]')
       .last();
@@ -162,7 +187,8 @@ describe("AllegationDetailsForm", () => {
       {
         ruleChapter: { label: "Chapter 4: Over hill and under hill", value: 4 },
         severity: ALLEGATION_SEVERITY.MEDIUM,
-        details: "details"
+        details: "details",
+        directive: { label: "This is a directive", value: 1 },
       },
       dispatch,
       expect.anything()

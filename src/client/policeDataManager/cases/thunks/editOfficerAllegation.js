@@ -1,6 +1,6 @@
 import { snackbarSuccess } from "../../actionCreators/snackBarActionCreators";
 import { updateAllegationDetailsSuccess } from "../../actionCreators/casesActionCreators";
-import getRuleChapters from "../../allegations/thunks/getRuleChapters";
+import getAllegationOptions from "../../allegations/thunks/getAllegationOptions";
 import axios from "axios";
 import _ from "lodash";
 
@@ -31,8 +31,8 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
       updatedFormValues
     );
 
-    if (requestBody.ruleChapterName) {
-      dispatch(getRuleChapters());
+    if (requestBody.ruleChapterName || requestBody.directiveName) {
+      dispatch(getAllegationOptions());
     }
 
     dispatch(updateAllegationDetailsSuccess(allegation.id, response.data));

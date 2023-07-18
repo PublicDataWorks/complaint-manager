@@ -99,6 +99,7 @@ import updateLetterAndUploadToS3 from "./handlers/cases/letters/updateLetterAndU
 import retrievePersonTypes from "./handlers/personTypes/retrievePersonTypes";
 import updateSearchIndex from "./handlers/cases/casesSearch/updateSearchIndex";
 import getRuleChapters from "./handlers/ruleChapters/getRuleChapters";
+import getDirectives from "./handlers/directives/getDirectives";
 
 export const ROUTES_ALLOWED_TO_HANDLE_ARCHIVED_CASE = [
   "/cases/:caseId/case-notes",
@@ -795,6 +796,12 @@ export const API_ROUTES = {
     get: {
       handler: getRuleChapters,
       errorMessage: "Something went wrong while getting rule chapters"
+    }
+  },
+  "/directives": {
+    get: {
+      handler: getDirectives,
+      errorMessage: "Something went wrong while getting directives"
     }
   }
 };

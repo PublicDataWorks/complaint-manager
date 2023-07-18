@@ -12,7 +12,7 @@ import OfficerAllegations from "./OfficerAllegations";
 import invalidCaseStatusRedirect from "../cases/thunks/invalidCaseStatusRedirect";
 import { CONFIGS, OFFICER_TITLE } from "../../../sharedUtilities/constants";
 import { policeDataManagerMenuOptions } from "../shared/components/NavBar/policeDataManagerMenuOptions";
-import getRuleChapters from "./thunks/getRuleChapters";
+import getAllegationOptions from "./thunks/getAllegationOptions";
 
 export class AllegationSearchContainer extends Component {
   caseDetailsNotYetLoaded = () => {
@@ -27,7 +27,7 @@ export class AllegationSearchContainer extends Component {
       this.props.getCaseDetails(this.props.match.params.id);
     }
     if (!this.props.ruleChapters?.length) {
-      this.props.getRuleChapters();
+      this.props.getAllegationOptions();
     }
   }
 
@@ -107,7 +107,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   invalidCaseStatusRedirect,
   getCaseDetails,
-  getRuleChapters
+  getAllegationOptions
 };
 
 export default connect(

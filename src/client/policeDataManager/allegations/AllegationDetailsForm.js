@@ -41,6 +41,24 @@ const AllegationDetailsForm = props => {
       <div>
         <Field
           style={{
+            width: "60%",
+            marginBottom: `${marginBottomOffset}px`
+          }}
+          component={CreatableDropdown}
+          name="directive"
+          data-testid="directive-field"
+          inputProps={{ "data-testid": "directive-input" }}
+          label="Directive"
+        >
+          {props.directives.map(directive => ({
+            label: directive.name,
+            value: directive.id
+          }))}
+        </Field>
+      </div>
+      <div>
+        <Field
+          style={{
             width: "17%",
             marginBottom: `${marginBottomOffset}px`
           }}
@@ -112,7 +130,8 @@ AllegationDetailsForm.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  ruleChapters: state.ruleChapters
+  ruleChapters: state.ruleChapters,
+  directives: state.directives
 });
 
 export default connect(mapStateToProps)(reduxForm({})(AllegationDetailsForm));
