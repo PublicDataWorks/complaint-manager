@@ -11,6 +11,7 @@ import {
 import AllegationDetailsForm from "./AllegationDetailsForm";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
 import OfficerAllegationSummary from "./OfficerAllegationSummary";
+import OfficerAllegationExpansionPanel from "./OfficerAllegationExpansionPanel";
 
 const styles = {
   root: {
@@ -18,57 +19,6 @@ const styles = {
       height: 0
     }
   }
-};
-
-const renderDetailsView = (details, severity, ruleChapter, directive) => {
-  return (
-    <div>
-      <AccordionDetails>
-        <OfficerInfoDisplay
-          shouldTruncate={false}
-          displayLabel="To Wit Chapter"
-          value={ruleChapter?.name}
-          style={{
-            marginRight: "32px",
-            marginLeft: "64px"
-          }}
-        />
-      </AccordionDetails>
-      <AccordionDetails>
-        <OfficerInfoDisplay
-          shouldTruncate={false}
-          displayLabel="Directive"
-          value={directive?.name}
-          style={{
-            marginRight: "32px",
-            marginLeft: "64px"
-          }}
-        />
-      </AccordionDetails>
-      <AccordionDetails>
-        <OfficerInfoDisplay
-          shouldTruncate={false}
-          displayLabel="Severity"
-          value={severity}
-          style={{
-            marginRight: "32px",
-            marginLeft: "64px"
-          }}
-        />
-      </AccordionDetails>
-      <AccordionDetails>
-        <OfficerInfoDisplay
-          shouldTruncate={false}
-          displayLabel="Allegation Details"
-          value={details}
-          style={{
-            marginRight: "32px",
-            marginLeft: "64px"
-          }}
-        />
-      </AccordionDetails>
-    </div>
-  );
 };
 
 class OfficerAllegationPanelForm extends React.Component {
@@ -180,7 +130,12 @@ class OfficerAllegationPanelForm extends React.Component {
             </div>
           </AccordionDetails>
         ) : (
-          renderDetailsView(details, severity, ruleChapter, directive)
+          <OfficerAllegationExpansionPanel
+            details={details}
+            severity={severity}
+            ruleChapter={ruleChapter}
+            directive={directive}
+          />
         )}
         <div style={{ flex: "1" }} />
       </Accordion>

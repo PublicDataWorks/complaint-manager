@@ -9,9 +9,10 @@ const OfficerAllegationsDisplay = props => {
       key: officerAllegation.id,
       rule: officerAllegation.allegation.rule || "N/A",
       paragraph: officerAllegation.allegation.paragraph || "N/A",
-      directive: officerAllegation.allegation.directive || "N/A",
+      directive: officerAllegation.directive,
       details: officerAllegation.details,
-      severity: officerAllegation.severity
+      severity: officerAllegation.severity,
+      ruleChapter: officerAllegation.ruleChapter
     };
     return <OfficerAllegationDisplay officerId={officerId} {...props} />;
   });

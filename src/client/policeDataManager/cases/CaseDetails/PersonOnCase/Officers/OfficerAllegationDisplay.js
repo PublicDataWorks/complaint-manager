@@ -6,6 +6,7 @@ import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../StyledExpansionPanelDetails";
 import ExpansionPanelIconButton from "../../../../shared/components/ExpansionPanelIconButton";
 import OfficerAllegationSummary from "../../../../allegations/OfficerAllegationSummary";
+import OfficerAllegationExpansionPanel from "../../../../allegations/OfficerAllegationExpansionPanel";
 
 class OfficerAllegationDisplay extends Component {
   handleChange = (event, expanded) => {
@@ -32,7 +33,8 @@ class OfficerAllegationDisplay extends Component {
   }
 
   render() {
-    const { rule, paragraph, details, severity } = this.props;
+    const { rule, paragraph, details, severity, directive, ruleChapter } =
+      this.props;
 
     return (
       <CardContent
@@ -56,22 +58,12 @@ class OfficerAllegationDisplay extends Component {
             canEdit={false}
             allegation={{ rule, paragraph }}
           />
-          <StyledExpansionPanelDetails>
-            <OfficerInfoDisplay
-              shouldTruncate={false}
-              displayLabel="Severity"
-              value={severity}
-              testLabel="allegationSeverity"
-            />
-          </StyledExpansionPanelDetails>
-          <StyledExpansionPanelDetails>
-            <OfficerInfoDisplay
-              shouldTruncate={false}
-              displayLabel="Notes"
-              value={details}
-              testLabel="allegationDetails"
-            />
-          </StyledExpansionPanelDetails>
+          <OfficerAllegationExpansionPanel
+            details={details}
+            severity={severity}
+            ruleChapter={ruleChapter}
+            directive={directive}
+          />
         </Accordion>
       </CardContent>
     );
