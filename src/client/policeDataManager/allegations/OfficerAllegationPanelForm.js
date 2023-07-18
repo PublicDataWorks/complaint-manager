@@ -1,17 +1,8 @@
-import formatStringToTitleCase from "../utilities/formatStringToTitleCase";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Icon,
-  IconButton,
-  Typography
-} from "@material-ui/core";
+import { Accordion, AccordionDetails } from "@material-ui/core";
 import OfficerInfoDisplay from "../cases/CaseDetails/PersonOnCase/Officers/OfficerInfoDisplay";
 import { withStyles } from "@material-ui/core/styles/index";
 import React from "react";
 import { connect } from "react-redux";
-import LinkButton from "../shared/components/LinkButton";
 import {
   closeEditAllegationForm,
   openEditAllegationForm,
@@ -19,6 +10,7 @@ import {
 } from "../actionCreators/allegationsActionCreators";
 import AllegationDetailsForm from "./AllegationDetailsForm";
 import editOfficerAllegation from "../cases/thunks/editOfficerAllegation";
+import OfficerAllegationSummary from "./OfficerAllegationSummary";
 
 const styles = {
   root: {
@@ -111,7 +103,14 @@ class OfficerAllegationPanelForm extends React.Component {
 
   render() {
     const {
-      officerAllegation: { allegation, id, details, severity, ruleChapter, directive },
+      officerAllegation: {
+        allegation,
+        id,
+        details,
+        severity,
+        ruleChapter,
+        directive
+      },
       editAllegationFormState,
       index,
       classes
@@ -134,51 +133,12 @@ class OfficerAllegationPanelForm extends React.Component {
           marginLeft: "auto"
         }}
       >
-        <AccordionSummary style={{ display: "flex" }}>
-          <IconButton
-            style={{ marginRight: 16 }}
-            color="secondary"
-            className="chevron-right"
-            disabled={editMode}
-            data-testid="expandIcon"
-          >
-            <Icon>unfold_more</Icon>
-          </IconButton>
-          <div style={{ display: "flex", flex: 20 }}>
-            <div style={{ flex: 1, marginRight: "24px" }}>
-              <Typography variant="caption">Rule</Typography>
-              <Typography>
-                {formatStringToTitleCase(allegation.rule)}
-              </Typography>
-            </div>
-            <div style={{ flex: "1", marginRight: "24px" }}>
-              <Typography variant="caption">Paragraph</Typography>
-              <Typography>
-                {formatStringToTitleCase(allegation.paragraph)}
-              </Typography>
-            </div>
-          </div>
-          <div style={{ minWidth: "189px", paddingRight: "0px" }}>
-            {editMode ? null : (
-              <div>
-                <LinkButton
-                  data-testid={"editAllegationButton"}
-                  onClick={this.handleSubmit(id)}
-                  style={{ flex: 1 }}
-                >
-                  Edit
-                </LinkButton>
-                <LinkButton
-                  data-testid={"removeAllegationButton"}
-                  onClick={this.handleRemoveAllegation()}
-                  style={{ flex: 1 }}
-                >
-                  Remove
-                </LinkButton>
-              </div>
-            )}
-          </div>
-        </AccordionSummary>
+        <OfficerAllegationSummary
+          editMode={editMode}
+          allegation={allegation}
+          handleSubmit={() => this.handleSubmit(id)}
+          handleRemoveAllegation={this.handleRemoveAllegation.bind(this)}
+        />
         {editMode ? (
           <AccordionDetails>
             <div style={{ width: "100%", marginLeft: "64px" }}>
@@ -205,7 +165,8 @@ class OfficerAllegationPanelForm extends React.Component {
                 marginBottomOffset={32}
                 onCancel={this.handleCancel}
                 onSubmit={(values, dispatch) => {
-                  const { id, details, severity, ruleChapter, directive } = values;
+                  const { id, details, severity, ruleChapter, directive } =
+                    values;
                   dispatch(
                     editOfficerAllegation(
                       { id, details, severity, ruleChapter, directive },
