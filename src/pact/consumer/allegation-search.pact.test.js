@@ -65,6 +65,25 @@ pactWith(
           }
         });
 
+        await provider.addInteraction({
+          state: "directives have been added to the database",
+          uponReceiving: "get directives",
+          withRequest: {
+            method: "GET",
+            path: "/api/directives"
+          },
+          willRespondWith: {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json; charset=utf-8"
+            },
+            body: eachLike({
+              id: 1,
+              name: "R.S. 1234 - Crime is frowned upon, especially when committed by police officers"
+            })
+          }
+        });
+
         let store = createConfiguredStore();
         store.dispatch({
           type: GET_CASE_DETAILS_SUCCESS,
