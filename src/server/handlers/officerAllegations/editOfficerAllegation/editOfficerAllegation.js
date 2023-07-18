@@ -27,6 +27,7 @@ const editOfficerAllegation = asyncMiddleware(
 
         let allegationAttributes = {
           ruleChapterId: await getRuleChapterId(request, transaction),
+          directiveId: request.body.directiveId,
           details: request.body.details,
           severity: request.body.severity
         };

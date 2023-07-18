@@ -22,7 +22,7 @@ import { BAD_REQUEST_ERRORS } from "../../../../sharedUtilities/errorMessageCons
 jest.mock("../../audits/auditDataAccess");
 
 describe("editOfficerAllegation", () => {
-  let officerAllegationToUpdate, caseOfficer, response, ruleChapter;
+  let officerAllegationToUpdate, caseOfficer, response, ruleChapter, directive;
   const next = jest.fn();
 
   beforeEach(async () => {
@@ -85,6 +85,11 @@ describe("editOfficerAllegation", () => {
       { name: "Don't Crime!" },
       { auditUser: "user" }
     );
+
+    directive = await models.directive.create(
+      { name: "I'm serious tho, don't crime" },
+      { auditUser: "user" }
+    );
   });
 
   afterEach(async () => {
@@ -99,6 +104,7 @@ describe("editOfficerAllegation", () => {
     const data = {
       details: "new details",
       ruleChapterId: ruleChapter.id,
+      directiveId: directive.id,
       severity: ALLEGATION_SEVERITY.HIGH
     };
 
@@ -120,6 +126,7 @@ describe("editOfficerAllegation", () => {
     await officerAllegationToUpdate.reload();
 
     expect(officerAllegationToUpdate.details).toEqual("new details");
+    expect(officerAllegationToUpdate.directiveId).toEqual(directive.id);
     expect(officerAllegationToUpdate.severity).toEqual(
       ALLEGATION_SEVERITY.HIGH
     );
