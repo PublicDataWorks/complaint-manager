@@ -7,7 +7,7 @@ const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
 import auditDataAccess from "../../audits/auditDataAccess";
 import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
-import { getRuleChapterId } from "../officerAllegationHelpers";
+import { getDirectiveId, getRuleChapterId } from "../officerAllegationHelpers";
 const _ = require("lodash");
 
 const editOfficerAllegation = asyncMiddleware(
@@ -27,7 +27,7 @@ const editOfficerAllegation = asyncMiddleware(
 
         let allegationAttributes = {
           ruleChapterId: await getRuleChapterId(request, transaction),
-          directiveId: request.body.directiveId,
+          directiveId: await getDirectiveId(request, transaction),
           details: request.body.details,
           severity: request.body.severity
         };

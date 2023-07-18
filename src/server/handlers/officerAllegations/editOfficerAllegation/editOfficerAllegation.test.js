@@ -132,6 +132,40 @@ describe("editOfficerAllegation", () => {
     );
   });
 
+  test("should create new rule chapter and directive if name is passed", async () => {
+    const data = {
+      details: "new details",
+      ruleChapterName: "New Chapter",
+      directiveName: "New Directive",
+      severity: ALLEGATION_SEVERITY.HIGH
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        officerAllegationId: officerAllegationToUpdate.id
+      },
+      body: data,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    await editOfficerAllegation(request, response, jest.fn());
+
+    const updatedOfficerAllegation = await models.officer_allegation.findByPk(
+      officerAllegationToUpdate.id,
+      { include: ["ruleChapter", "directive"] }
+    );
+
+    expect(updatedOfficerAllegation.details).toEqual("new details");
+    expect(updatedOfficerAllegation.ruleChapter.name).toEqual("New Chapter");
+    expect(updatedOfficerAllegation.directive.name).toEqual("New Directive");
+    expect(updatedOfficerAllegation.severity).toEqual(ALLEGATION_SEVERITY.HIGH);
+  });
+
   test("should return BAD REQUEST status if rule chapter does not exist", async () => {
     const data = {
       details: "new details",
@@ -157,6 +191,34 @@ describe("editOfficerAllegation", () => {
 
     expect(next).toHaveBeenCalledWith(
       Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_RULE_CHAPTER)
+    );
+  });
+
+  test("should return BAD REQUEST status if directive does not exist", async () => {
+    const data = {
+      details: "new details",
+      severity: ALLEGATION_SEVERITY.HIGH,
+      directiveId: directive.id + 1
+    };
+
+    const request = httpMocks.createRequest({
+      method: "PUT",
+      headers: {
+        authorization: "Bearer SOME_MOCK_TOKEN"
+      },
+      params: {
+        officerAllegationId: officerAllegationToUpdate.id
+      },
+      body: data,
+      nickname: "TEST_USER_NICKNAME",
+      permissions: USER_PERMISSIONS.EDIT_CASE
+    });
+
+    const next = jest.fn();
+    await editOfficerAllegation(request, response, next);
+
+    expect(next).toHaveBeenCalledWith(
+      Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_DIRECTIVE)
     );
   });
 

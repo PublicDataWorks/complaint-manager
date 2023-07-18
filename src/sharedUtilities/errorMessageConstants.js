@@ -13,6 +13,7 @@ export const BAD_REQUEST_ERRORS = {
   INVALID_CASE_STATUS: "Case status is invalid for this action",
   INVALID_COMPLAINT_TYPE: "Complaint Type is invalid",
   INVALID_DATE_RANGE_TYPE: "Date Range Type is invalid",
+  INVALID_DIRECTIVE: "The requested directive does not exist",
   INVALID_FIRST_CONTACT_DATE: "Valid first contact date is required",
   INVALID_JOB: "Could not find specified job",
   INVALID_LETTER_OFFICER: "The letter officer does not exist",

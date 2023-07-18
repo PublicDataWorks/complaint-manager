@@ -17,3 +17,19 @@ export const getRuleChapterId = async request => {
 
   return ruleChapter?.id;
 };
+
+export const getDirectiveId = async request => {
+  let directive;
+  if (request.body.directiveId) {
+    directive = await models.directive.findByPk(request.body.directiveId);
+    if (!directive) {
+      throw Boom.badRequest(BAD_REQUEST_ERRORS.INVALID_DIRECTIVE);
+    }
+  } else if (request.body.directiveName) {
+    directive = await models.directive.create({
+      name: request.body.directiveName
+    });
+  }
+
+  return directive?.id;
+};

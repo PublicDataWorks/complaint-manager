@@ -1,13 +1,14 @@
+import _ from "lodash";
 import { getCaseWithAllAssociationsAndAuditDetails } from "../../getCaseHelpers";
 import auditDataAccess from "../../audits/auditDataAccess";
-import { MANAGER_TYPE } from "../../../../sharedUtilities/constants";
+import {
+  AUDIT_SUBJECT,
+  MANAGER_TYPE
+} from "../../../../sharedUtilities/constants";
 import { updateCaseToActiveIfInitial } from "../../cases/helpers/caseStatusHelpers";
-import { getRuleChapterId } from "../officerAllegationHelpers";
-
-const { AUDIT_SUBJECT } = require("../../../../sharedUtilities/constants");
-const asyncMiddleware = require("../../asyncMiddleware");
-const models = require("../../../policeDataManager/models");
-const _ = require("lodash");
+import { getDirectiveId, getRuleChapterId } from "../officerAllegationHelpers";
+import asyncMiddleware from "../../asyncMiddleware";
+import models from "../../../policeDataManager/models";
 
 const createOfficerAllegation = asyncMiddleware(async (request, response) => {
   const caseWithAssociations = await models.sequelize.transaction(
@@ -17,7 +18,7 @@ const createOfficerAllegation = asyncMiddleware(async (request, response) => {
         allegationId: request.body.allegationId,
         details: request.body.details,
         severity: request.body.severity,
-        directiveId: request.body.directiveId
+        directiveId: await getDirectiveId(request)
       };
 
       const caseOfficer = await models.case_officer.findByPk(
