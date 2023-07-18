@@ -5,6 +5,7 @@ import { SCREEN_SIZES } from "../../../sharedUtilities/constants";
 import PublicInfoMenu from "./menu/PublicInfoMenu";
 import PublicInfoBanner from "./PublicInfoBanner";
 import ValuesSection from "./ValuesSection";
+import StaffingShortage from "./staffingShortage/StaffingShortage";
 
 const PublicInfoPage = props => {
   const getScreen = () => {
@@ -30,6 +31,7 @@ const PublicInfoPage = props => {
       <PublicInfoMenu screenSize={screenSize} />
       <PublicInfoBanner screenSize={screenSize} />
       <ValuesSection screenSize={screenSize} />
+      <StaffingShortage screenSize={screenSize} />
     </main>
   );
 };

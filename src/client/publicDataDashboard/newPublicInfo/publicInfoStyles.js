@@ -141,7 +141,7 @@ const publicInfoStyles = theme => ({
   bannerTitle: {
     lineHeight: "1.2",
     maxWidth: "599px",
-    fontWeight: "100",
+    fontWeight: "100"
   },
   bannerSubTitle: {
     marginTop: "1em",
@@ -200,6 +200,28 @@ const publicInfoStyles = theme => ({
     alignContent: "center",
     justifyContent: "space-around",
     marginTop: "2em"
+  },
+  staffingShortageContainer: {
+    margin: "1em 1.5em"
+  },
+  staffingShortageSubHeader: {
+    color: colors.secondaryBrand,
+    fontSize: "28px",
+    margin: "0px"
+  },
+  [`staffingShortageGrid-${SCREEN_SIZES.MOBILE}`]: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gridTemplateRows: "0.75fr repeat(6, 0.75fr)",
+    gridColumnGap: "0px",
+    gridRowGap: "0px",
+    marginTop: "0.75em"
+  },
+  textCard: {
+    backgroundColor: colors.accent,
+    margin: "auto",
+    height: "100%",
+    width: "100%"
   }
 });
 
