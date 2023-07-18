@@ -8,8 +8,14 @@ const createOfficerAllegation =
   (formValues, caseId, caseOfficerId, addAllegationSuccessCallback) =>
   async dispatch => {
     let ruleChapter = formValues.ruleChapter;
+    let directive = formValues.directive;
+
     if (ruleChapter?.value) {
       ruleChapter = ruleChapter.value;
+    }
+
+    if (directive?.value) {
+      directive = directive.value;
     }
 
     let requestBody = {};
@@ -17,6 +23,12 @@ const createOfficerAllegation =
       requestBody.ruleChapterName = ruleChapter;
     } else {
       requestBody.ruleChapterId = ruleChapter;
+    }
+
+    if (_.isString(directive)) {
+      requestBody.directiveName = directive;
+    } else {
+      requestBody.directiveId = directive;
     }
 
     const updatedFormValues = {

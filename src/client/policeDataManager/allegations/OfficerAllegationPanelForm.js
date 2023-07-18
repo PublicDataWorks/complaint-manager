@@ -28,7 +28,7 @@ const styles = {
   }
 };
 
-const renderDetailsView = (details, severity, ruleChapter) => {
+const renderDetailsView = (details, severity, ruleChapter, directive) => {
   return (
     <div>
       <AccordionDetails>
@@ -36,6 +36,17 @@ const renderDetailsView = (details, severity, ruleChapter) => {
           shouldTruncate={false}
           displayLabel="To Wit Chapter"
           value={ruleChapter?.name}
+          style={{
+            marginRight: "32px",
+            marginLeft: "64px"
+          }}
+        />
+      </AccordionDetails>
+      <AccordionDetails>
+        <OfficerInfoDisplay
+          shouldTruncate={false}
+          displayLabel="Directive"
+          value={directive?.name}
           style={{
             marginRight: "32px",
             marginLeft: "64px"
@@ -100,7 +111,7 @@ class OfficerAllegationPanelForm extends React.Component {
 
   render() {
     const {
-      officerAllegation: { allegation, id, details, severity, ruleChapter },
+      officerAllegation: { allegation, id, details, severity, ruleChapter, directive },
       editAllegationFormState,
       index,
       classes
@@ -183,15 +194,21 @@ class OfficerAllegationPanelForm extends React.Component {
                         label: ruleChapter.name,
                         value: ruleChapter.id
                       }
+                    : undefined,
+                  directive: directive
+                    ? {
+                        label: directive.name,
+                        value: directive.id
+                      }
                     : undefined
                 }}
                 marginBottomOffset={32}
                 onCancel={this.handleCancel}
                 onSubmit={(values, dispatch) => {
-                  const { id, details, severity, ruleChapter } = values;
+                  const { id, details, severity, ruleChapter, directive } = values;
                   dispatch(
                     editOfficerAllegation(
-                      { id, details, severity, ruleChapter },
+                      { id, details, severity, ruleChapter, directive },
                       this.props.caseId
                     )
                   );
@@ -201,7 +218,7 @@ class OfficerAllegationPanelForm extends React.Component {
             </div>
           </AccordionDetails>
         ) : (
-          renderDetailsView(details, severity, ruleChapter)
+          renderDetailsView(details, severity, ruleChapter, directive)
         )}
         <div style={{ flex: "1" }} />
       </Accordion>

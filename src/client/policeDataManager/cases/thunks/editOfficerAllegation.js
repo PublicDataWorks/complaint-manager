@@ -6,8 +6,14 @@ import _ from "lodash";
 
 const editOfficerAllegation = (allegation, caseId) => async dispatch => {
   let ruleChapter = allegation.ruleChapter;
+  let directive = allegation.directive;
+
   if (ruleChapter?.value) {
     ruleChapter = ruleChapter.value;
+  }
+
+  if (directive?.value) {
+    directive = directive.value;
   }
 
   let requestBody = {};
@@ -15,6 +21,12 @@ const editOfficerAllegation = (allegation, caseId) => async dispatch => {
     requestBody.ruleChapterName = ruleChapter;
   } else {
     requestBody.ruleChapterId = ruleChapter;
+  }
+  
+  if (_.isString(directive)) {
+    requestBody.directiveName = directive;
+  } else {
+    requestBody.directiveId = directive;
   }
 
   const updatedFormValues = {
