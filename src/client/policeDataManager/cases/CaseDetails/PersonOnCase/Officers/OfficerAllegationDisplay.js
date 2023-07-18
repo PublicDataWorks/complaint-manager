@@ -5,6 +5,7 @@ import formatStringToTitleCase from "../../../../utilities/formatStringToTitleCa
 import OfficerInfoDisplay from "./OfficerInfoDisplay";
 import StyledExpansionPanelDetails from "../StyledExpansionPanelDetails";
 import ExpansionPanelIconButton from "../../../../shared/components/ExpansionPanelIconButton";
+import OfficerAllegationSummary from "../../../../allegations/OfficerAllegationSummary";
 
 class OfficerAllegationDisplay extends Component {
   handleChange = (event, expanded) => {
@@ -31,7 +32,7 @@ class OfficerAllegationDisplay extends Component {
   }
 
   render() {
-    const { rule, paragraph, directive, details, severity } = this.props;
+    const { rule, paragraph, details, severity } = this.props;
 
     return (
       <CardContent
@@ -51,24 +52,10 @@ class OfficerAllegationDisplay extends Component {
             padding: "0"
           }}
         >
-          <AccordionSummary>
-            <ExpansionPanelIconButton />
-            <OfficerInfoDisplay
-              displayLabel="Rule"
-              value={formatStringToTitleCase(rule)}
-              testLabel="rule"
-            />
-            <OfficerInfoDisplay
-              displayLabel="Paragraph"
-              value={formatStringToTitleCase(paragraph)}
-              testLabel="paragraph"
-            />
-            <OfficerInfoDisplay
-              displayLabel="Directive"
-              value={formatStringToTitleCase(directive)}
-              testLabel="directive"
-            />
-          </AccordionSummary>
+          <OfficerAllegationSummary
+            canEdit={false}
+            allegation={{ rule, paragraph }}
+          />
           <StyledExpansionPanelDetails>
             <OfficerInfoDisplay
               shouldTruncate={false}

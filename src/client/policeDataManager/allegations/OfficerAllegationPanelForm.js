@@ -134,6 +134,7 @@ class OfficerAllegationPanelForm extends React.Component {
         }}
       >
         <OfficerAllegationSummary
+          canEdit={true}
           editMode={editMode}
           allegation={allegation}
           handleSubmit={() => this.handleSubmit(id)}
