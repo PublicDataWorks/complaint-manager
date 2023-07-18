@@ -1012,6 +1012,12 @@ describe("getReferralLetterPreview", function () {
               ),
               model: models.ruleChapter.name
             },
+            directive: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.directive.rawAttributes)
+              ),
+              model: models.directive.name
+            },
             recommendedAction: {
               attributes: expect.arrayContaining(
                 Object.keys(models.recommended_action.rawAttributes)
@@ -1285,6 +1291,12 @@ describe("getReferralLetterPreview", function () {
                 Object.keys(models.ruleChapter.rawAttributes)
               ),
               model: models.ruleChapter.name
+            },
+            directive: {
+              attributes: expect.toIncludeSameMembers(
+                Object.keys(models.directive.rawAttributes)
+              ),
+              model: models.directive.name
             },
             defaultPersonType: {
               attributes: expect.arrayContaining(

@@ -182,5 +182,11 @@ export const expectedCaseAuditDetails = {
       Object.keys(models.ruleChapter.rawAttributes)
     ),
     model: models.ruleChapter.name
+  },
+  directive: {
+    attributes: expect.toIncludeSameMembers(
+      Object.keys(models.directive.rawAttributes)
+    ),
+    model: models.directive.name
   }
 };
