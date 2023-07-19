@@ -245,6 +245,9 @@ const publicInfoStyles = theme => ({
   },
   lightFontColor: {
     color: colors.light
+  },
+  forestFontColor: {
+    color: colors.secondaryBrand
   }
 });
 
