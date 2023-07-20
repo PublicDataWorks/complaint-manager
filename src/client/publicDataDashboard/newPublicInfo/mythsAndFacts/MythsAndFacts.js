@@ -26,7 +26,7 @@ const MythsAndFacts = props => {
           props.classes.lightFontColor
         } ${props.classes[`sectionHeader-${props.screenSize}`]}`}
       >
-        Myths and Facts
+        MYTHS AND FACTS
       </Typography>
       <ClickAwayListener onClickAway={() => setExpanded(false)}>
         <div>
