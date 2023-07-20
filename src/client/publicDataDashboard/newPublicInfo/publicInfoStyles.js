@@ -248,6 +248,34 @@ const publicInfoStyles = theme => ({
   },
   forestFontColor: {
     color: colors.secondaryBrand
+  },
+  [`sectionHeader-${SCREEN_SIZES.MOBILE}`]: {
+    fontFamily: "inherit",
+    fontSize: "1.5em",
+    textAlign: "center",
+    padding: "1.5em"
+  },
+  [`sectionHeader-${SCREEN_SIZES.TABLET}`]: {
+    fontFamily: "inherit",
+    fontSize: "1.5em",
+    padding: "1.5em 0.65em",
+    textAlign: "left"
+  },
+  [`sectionHeader-${SCREEN_SIZES.DESKTOP}`]: {
+    fontFamily: "inherit",
+    fontSize: "1.5em",
+    padding: "1.5em 0.65em",
+    textAlign: "left"
+  },
+  statementHeader: {
+    fontFamily: "inherit",
+    fontWeight: "500",
+    fontSize: "1em",
+    letterSpacing: ".15px"
+  },
+  statementFont: {
+    fontFamily: "inherit",
+    fontSize: ".75em"
   }
 });
 
