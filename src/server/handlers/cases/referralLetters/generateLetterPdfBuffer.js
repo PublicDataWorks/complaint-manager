@@ -234,7 +234,7 @@ export const getLetterData = async caseId => {
           {
             model: models.officer_allegation,
             as: "allegations",
-            include: [models.allegation, models.ruleChapter]
+            include: [models.allegation, models.ruleChapter, models.directive]
           },
           { model: models.personType, as: "personTypeDetails" },
           {
