@@ -4,7 +4,7 @@ export const mythsAndFactsData = [
     statements: [
       {
         myth: "Prison overcrowding is primarily caused by an increase in crime rates.",
-        fact: "While crime rates can contribute to prison populations, the main driver of prison overcrowding is the excessive and disproportionate use of incarceration as a response to crime. Factors such as mandatory minimum sentences, harsher sentencing practices, and the limited use of alternative sentencing options have led to an influx of individuals into correctional facilities, surpassing their capacity."
+        fact: "The main driver of prison overcrowding is the excessive and disproportionate use of incarceration as a response to crime. Factors such as mandatory minimum sentences, harsher sentencing practices, and the limited use of alternative sentencing options have led to an influx of individuals into correctional facilities, surpassing their capacity."
       },
       {
         myth: "Prison overcrowding doesn't impact the well-being and safety of incarcerated individuals.",
@@ -61,9 +61,8 @@ export const mythsAndFactsData = [
         fact: "Bail reform can lead to cost savings by reducing unnecessary pretrial detention, allowing resources to be allocated more effectively."
       },
       {
-        myth: "HB 1567, the controversial bail reform bill that would allow non-violent offenders to be released on their own recognizance without posting monetary bail.",
+        myth: "HB 1567, the bail reform bill that would allow non-violent offenders to be released on their own recognizance without posting monetary bail.",
         fact: "People who are legally innocent and awaiting trial should not be deprived of their liberty simply because they are unable to afford cash bail. Yet, our current criminal legal system does just that – it lets the size of a person’s wallet determine whether they can return home or stay locked up in jail even though they are merely accused, not convicted of a crime.  However, the final version of the bill that passed has twenty (20) carved out exceptions and categorically excludes people charged with Class C drug possession. In effect, this bill prohibits release on recognizance for MOST of the crimes people are frequently charged with and detained for pretrial."
-        // fact: "However, the final version of the bill that passed has twenty (20) carved out exceptions and categorically excludes people charged with Class C drug possession. In effect, this bill prohibits release on recognizance for MOST of the crimes people are frequently charged with and detained for pretrial."
       },
       {
         myth: "HB 1567 is a “get out of jail free card” and will release criminals into our streets.",
