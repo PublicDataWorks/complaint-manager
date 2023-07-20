@@ -245,6 +245,7 @@ pactWith(
               id: 1,
               details: "Whoa man, very medium",
               ruleChapterId: 1,
+              directiveName: "New Directive",
               severity: "Medium"
             }
           },
@@ -277,6 +278,9 @@ pactWith(
                   ruleChapter: {
                     id: 1,
                     name: "Ch. 1.2 Disclosure Obligations"
+                  },
+                  directive: {
+                    name: "New Directive"
                   }
                 })
               })
@@ -289,6 +293,12 @@ pactWith(
         userEvent.click(
           await screen.findByText("Ch. 1.2 Disclosure Obligations")
         );
+
+        userEvent.type(
+          await screen.findByTestId("directive-input"),
+          "New Directive"
+        );
+
         userEvent.click(await screen.findByTestId("allegation-severity-input"));
         userEvent.click(await screen.findByText("Medium"));
         userEvent.clear(screen.getByTestId("allegation-details-input"));
