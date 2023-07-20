@@ -11,7 +11,7 @@ describe("Myths and Facts", () => {
         test(`should show Myths and Facts title on page for ${size} view`, () => {
           render(<MythsAndFacts classes={{}} screenSize={size} />);
 
-          expect(screen.getByText("Myths and Facts")).toBeInTheDocument;
+          expect(screen.getByText("MYTHS AND FACTS")).toBeInTheDocument;
         });
 
         test(`should show categories on page for ${size} view`, () => {
