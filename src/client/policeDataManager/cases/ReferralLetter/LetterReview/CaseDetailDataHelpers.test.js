@@ -974,12 +974,12 @@ describe("caseDetailDataHelpers", function () {
           district: "some district",
           allegations: [
             {
+              directive: { name: "some directive" },
               details: "some details",
               severity: "some severity",
               allegation: {
                 rule: "some rule",
-                paragraph: "some paragraph",
-                directive: "some directive"
+                paragraph: "some paragraph"
               }
             }
           ]
@@ -1010,29 +1010,29 @@ describe("caseDetailDataHelpers", function () {
             {
               details: "some details",
               severity: "some severity",
+              directive: { name: "some directive" },
               allegation: {
                 rule: "some rule",
-                paragraph: "some paragraph",
-                directive: "some directive"
+                paragraph: "some paragraph"
               }
             },
             {
               details: "some details2",
               severity: "some severity2",
               ruleChapter: { name: "CHAPTER!!!!" },
+              directive: { name: "some directive2" },
               allegation: {
                 rule: "some rule2",
-                paragraph: "some paragraph2",
-                directive: "some directive2"
+                paragraph: "some paragraph2"
               }
             },
             {
               details: "some details3",
               severity: "some severity3",
+              directive: { name: "some directive3" },
               allegation: {
                 rule: "some rule3",
-                paragraph: "some paragraph3",
-                directive: "some directive3"
+                paragraph: "some paragraph3"
               }
             }
           ]

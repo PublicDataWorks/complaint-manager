@@ -358,6 +358,10 @@ describe("Pact Verification", () => {
             name: "Dir. 0 This is a Directive"
           });
 
+          models.sequelize.query(
+            "ALTER SEQUENCE IF EXISTS directives_id_seq START 2 RESTART 2 MINVALUE 2"
+          );
+
           const signerAttr = new Signer.Builder()
             .defaultSigner()
             .withName("Nina Ambroise")
