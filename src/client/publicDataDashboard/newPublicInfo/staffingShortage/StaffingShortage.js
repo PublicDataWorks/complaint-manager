@@ -25,7 +25,11 @@ const cardStyles = {
     fontFamily: "inherit",
     fontSize: ".9em",
     padding: "2em",
-    textAlign: "center"
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
   }
 };
 
@@ -128,19 +132,20 @@ const StaffingShortage = props => {
             className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
-            <br /> Prisons Are Above Capacity
+            Prisons Are Above Capacity
           </Typography>
           <img
             style={cardStyles.imageTablet}
             className={props.classes.hawaiiMapImg}
             src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
           />
+
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
-            <br /> Jails Are Above Capacity
+            Jails Are Above Capacity
           </Typography>
           <Typography
             style={cardStyles.staffingCard}
@@ -154,13 +159,27 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
-            <br /> Nearly 80% of People in Custody Are in Secure Settings
+            Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
-          <img
-            style={cardStyles.imageTablet}
-            className={props.classes.inPrisonImg}
-            src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
-          />
+          <div
+            style={{
+              gridArea: "3 / 2 / 5 / 4",
+              backgroundColor: "rgb(129, 153, 165, 0.3)"
+            }}
+          >
+            <img
+              style={
+                (cardStyles.imageTablet,
+                {
+                  width: "100%",
+                  height: "100%",
+                  mixBlendMode: "multiply"
+                })
+              }
+              className={props.classes.inPrisonImg}
+              src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
+            />
+          </div>
         </div>
       </section>
     );
