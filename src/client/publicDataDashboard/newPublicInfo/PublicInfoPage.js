@@ -7,6 +7,7 @@ import PublicInfoBanner from "./PublicInfoBanner";
 import ValuesSection from "./ValuesSection";
 import StaffingShortage from "./staffingShortage/StaffingShortage";
 import MythsAndFacts from "./mythsAndFacts/MythsAndFacts";
+import DataVisSection from "./dataVis/DataVisSection";
 
 const PublicInfoPage = props => {
   const getScreen = () => {
@@ -32,6 +33,7 @@ const PublicInfoPage = props => {
       <PublicInfoMenu screenSize={screenSize} />
       <PublicInfoBanner screenSize={screenSize} />
       <ValuesSection screenSize={screenSize} />
+      <DataVisSection screenSize={screenSize} />
       <StaffingShortage screenSize={screenSize} />
       <MythsAndFacts screenSize={screenSize} />
     </main>
