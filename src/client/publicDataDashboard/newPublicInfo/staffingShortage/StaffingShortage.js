@@ -3,6 +3,7 @@ import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import { Typography } from "@material-ui/core";
+import { purge } from "plotly.js";
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
@@ -19,7 +20,11 @@ const cardStyles = {
   staffingCard: {
     fontFamily: "inherit",
     fontSize: "1em",
-    padding: "2em"
+    paddingRight: "8%",
+    paddingLeft: "8%",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column"
   },
   statisticCard: {
     fontFamily: "inherit",
@@ -66,10 +71,11 @@ const StaffingShortage = props => {
             className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
-            <br /> Prisons Are Above Capacity
+            Prisons Are Above Capacity
           </Typography>
           <img
             style={cardStyles.imageMobile}
+            alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
             src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
           />
           <Typography
@@ -77,7 +83,7 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
-            <br /> Jails Are Above Capacity
+            Jails Are Above Capacity
           </Typography>
           <Typography
             style={cardStyles.staffingCard}
@@ -91,11 +97,12 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
-            <br /> Nearly 80% of People in Custody Are in Secure Settings
+            Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
           <img
             style={cardStyles.imageMobile}
             src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
+            alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
           />
         </div>
       </section>
@@ -137,6 +144,7 @@ const StaffingShortage = props => {
           <img
             style={cardStyles.imageTablet}
             className={props.classes.hawaiiMapImg}
+            alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
             src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
           />
 
@@ -173,11 +181,14 @@ const StaffingShortage = props => {
                 {
                   width: "100%",
                   height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "100% 0",
                   mixBlendMode: "multiply"
                 })
               }
               className={props.classes.inPrisonImg}
               src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
+              alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
             />
           </div>
         </div>
@@ -211,43 +222,75 @@ const StaffingShortage = props => {
             specifically for jails.
           </Typography>
           <Typography
-            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
-          >
-            <span style={cardStyles.statisticSpan}>93%</span>
-            <br /> Prisons Are Above Capacity
-          </Typography>
-          <img
-            style={cardStyles.imageTablet}
-            className={props.classes.hawaiiMapImg}
-            src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
-          />
-          <Typography
-            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
-          >
-            <span style={cardStyles.statisticSpan}>156%</span>
-            <br /> Jails Are Above Capacity
-          </Typography>
-          <Typography
             style={cardStyles.staffingCard}
             className={props.classes.greyBackground}
           >
             Average rate across the country is 40-50%. Serious lack of movement
             and out-of-cell time for those in custody.
           </Typography>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: "rgb(145,180,242)",
+              gridArea: "1 / 2 / 3 / 4"
+            }}
+          >
+            <img
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain"
+              }}
+              alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
+              className={props.classes.hawaiiMapImg}
+              src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
+            />
+          </div>
+
+          <Typography
+            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
+            className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
+          >
+            <span style={cardStyles.statisticSpan}>156%</span>
+            Jails Are Above Capacity
+          </Typography>
+          <Typography
+            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
+            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
+          >
+            <span style={cardStyles.statisticSpan}>93%</span>
+            Prisons Are Above Capacity
+          </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
-            <br /> Nearly 80% of People in Custody Are in Secure Settings
+            Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
-          <img
-            style={cardStyles.imageTablet}
-            className={props.classes.inPrisonImg}
-            src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
-          />
+          <div
+            style={{
+              gridArea: "1 / 5 / 3 / 6",
+              backgroundColor: "rgb(129, 153, 165, 0.3)"
+            }}
+          >
+            <img
+              style={
+                (cardStyles.imageTablet,
+                {
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "100% 0",
+                  mixBlendMode: "multiply"
+                })
+              }
+              className={props.classes.inPrisonImg}
+              src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
+              alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
+            />
+          </div>
         </div>
       </section>
     );

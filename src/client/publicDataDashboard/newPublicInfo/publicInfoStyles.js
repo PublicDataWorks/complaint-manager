@@ -225,6 +225,14 @@ const publicInfoStyles = theme => ({
     gridRowGap: "0px",
     marginTop: "0.75em"
   },
+  [`staffingShortageGrid-${SCREEN_SIZES.DESKTOP}`]: {
+    display: "grid",
+    gridTemplateColumns: "repeat(5, 1fr)",
+    gridTemplateRows: "repeat(2, 200px)",
+    gridColumnGap: "0px",
+    gridRowGap: "0px",
+    marginTop: "0.75em"
+  },
   hawaiiMapImg: {
     gridArea: "1 / 2 / 3 / 4"
   },

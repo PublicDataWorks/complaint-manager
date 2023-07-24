@@ -15,6 +15,21 @@ describe("Staffing Shortages", () => {
           )
         ).toBeInTheDocument;
         expect(screen.getByText("80%")).toBeInTheDocument;
+        expect(screen.getByText("93%")).toBeInTheDocument;
+        expect(
+          screen.getByText(
+            "Average rate across the country is 40-50%. Serious lack of movement and out-of-cell time for those in custody."
+          )
+        ).toBeInTheDocument;
+        expect(
+          screen.getByText(
+            "Nearly 80% of People in Custody Are in Secure Settings"
+          )
+        ).toBeInTheDocument;
+        expect(screen.getByText("Prisons Are Above Capacity"))
+          .toBeInTheDocument;
+        expect(screen.getByText("156%")).toBeInTheDocument;
+        expect(screen.getByText("Jails Are Above Capacity")).toBeInTheDocument;
       });
     }
   );
