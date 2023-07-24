@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import { Typography } from "@material-ui/core";
-import { purge } from "plotly.js";
+
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
