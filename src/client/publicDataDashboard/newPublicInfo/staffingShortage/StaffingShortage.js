@@ -71,7 +71,7 @@ const StaffingShortage = props => {
             className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
-            Prisons Are Above Capacity
+            Capacity in Prisons
           </Typography>
           <img
             style={cardStyles.imageMobile}
@@ -83,21 +83,21 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
-            Jails Are Above Capacity
-          </Typography>
-          <Typography
-            style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
-          >
-            Average rate across the country is 40-50%. Serious lack of movement
-            and out-of-cell time for those in custody.
+            Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
+            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
             Nearly 80% of People in Custody Are in Secure Settings
+          </Typography>
+          <Typography
+            style={cardStyles.staffingCard}
+            className={`${props.classes.greyBackground}`}
+          >
+            Average rate across the country is 40-50%. Serious lack of movement
+            and out-of-cell time for those in custody.
           </Typography>
           <img
             style={cardStyles.imageMobile}
@@ -139,7 +139,7 @@ const StaffingShortage = props => {
             className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
-            Prisons Are Above Capacity
+            Capacity in Prisons
           </Typography>
           <img
             style={cardStyles.imageTablet}
@@ -153,14 +153,7 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
-            Jails Are Above Capacity
-          </Typography>
-          <Typography
-            style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
-          >
-            Average rate across the country is 40-50%. Serious lack of movement
-            and out-of-cell time for those in custody.
+            Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
@@ -168,6 +161,13 @@ const StaffingShortage = props => {
           >
             <span style={cardStyles.statisticSpan}>80%</span>
             Nearly 80% of People in Custody Are in Secure Settings
+          </Typography>
+          <Typography
+            style={cardStyles.staffingCard}
+            className={props.classes.greyBackground}
+          >
+            Average rate across the country is 40-50%. Serious lack of movement
+            and out-of-cell time for those in custody.
           </Typography>
           <div
             style={{
@@ -222,12 +222,13 @@ const StaffingShortage = props => {
             specifically for jails.
           </Typography>
           <Typography
-            style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
+            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
           >
-            Average rate across the country is 40-50%. Serious lack of movement
-            and out-of-cell time for those in custody.
+            <span style={cardStyles.statisticSpan}>80%</span>
+            Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
+
           <div
             style={{
               width: "100%",
@@ -253,22 +254,23 @@ const StaffingShortage = props => {
             className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
-            Jails Are Above Capacity
+            Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
             className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
-            Prisons Are Above Capacity
+            Capacity in Prisons
           </Typography>
           <Typography
-            style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
+            style={cardStyles.staffingCard}
+            className={props.classes.greyBackground}
           >
-            <span style={cardStyles.statisticSpan}>80%</span>
-            Nearly 80% of People in Custody Are in Secure Settings
+            Average rate across the country is 40-50%. Serious lack of movement
+            and out-of-cell time for those in custody.
           </Typography>
+
           <div
             style={{
               gridArea: "1 / 5 / 3 / 6",
