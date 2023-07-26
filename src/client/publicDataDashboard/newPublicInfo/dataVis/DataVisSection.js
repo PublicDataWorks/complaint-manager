@@ -7,8 +7,8 @@ import {
   withStyles
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import publicInfoStyles from "../publicInfoStyles";
+import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 
@@ -55,8 +55,14 @@ const DataVisSection = ({ classes, screenSize }) => {
           justifyContent: "center"
         }}
       >
-        <ErrorOutlineIcon fontSize="large" />
-        <Typography style={{ textAlign: "center", fontFamily: "inherit" }}>
+        <img src={alertImg} />
+        <Typography
+          style={{
+            textAlign: "center",
+            fontFamily: "inherit",
+            paddingTop: "16px"
+          }}
+        >
           Unable to load data. Please wait a moment and try again.
         </Typography>
       </div>
@@ -64,7 +70,7 @@ const DataVisSection = ({ classes, screenSize }) => {
   };
 
   return (
-    <section style={{ margin: "1.5em", height: "90vh", fontFamily: "inherit" }}>
+    <section style={{ margin: "1.5em", height: "95vh", fontFamily: "inherit" }}>
       <Typography
         variant="h2"
         style={{
@@ -129,7 +135,7 @@ const DataVisSection = ({ classes, screenSize }) => {
       <div
         style={{
           fontFamily: "Montserrat",
-          height: "77%",
+          height: "80%",
           marginTop: "28px",
           display: "flex",
           flexDirection: "column",
@@ -152,7 +158,8 @@ const DataVisSection = ({ classes, screenSize }) => {
             fontFamily: "inherit",
             textAlign: "center",
             fontWeight: "500",
-            fontSize: "16px"
+            fontSize: "16px",
+            padding: "16px 0"
           }}
         >
           {getGraphInfo(category)}
@@ -161,7 +168,12 @@ const DataVisSection = ({ classes, screenSize }) => {
           {failedToLoad()}
         </div>
         <Typography
-          style={{ fontFamily: "inherit", fontWeight: "500", fontSize: "14px" }}
+          style={{
+            fontFamily: "inherit",
+            fontWeight: "500",
+            fontSize: "14px",
+            paddingTop: "16px"
+          }}
         >
           Source: Source: Bureau of Justice Statistics, Federal Justice
           Statistics Program, 2021 (preliminary); US Census, 2022; and National
