@@ -202,7 +202,8 @@ const publicInfoStyles = theme => ({
     marginTop: "2em"
   },
   staffingShortageContainer: {
-    margin: "1.5em"
+    margin: "1.5em",
+    padding: "16px 0"
   },
   staffingShortageSubHeader: {
     color: colors.secondaryBrand,

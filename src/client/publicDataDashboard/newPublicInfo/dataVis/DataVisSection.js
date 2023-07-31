@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import styles from "./DataVisSection.module.css";
 import {
+  Box,
   Button,
   Menu,
   MenuItem,
@@ -12,7 +14,7 @@ import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 
-const DataVisSection = ({ classes, screenSize }) => {
+const DataVisSection = ({ screenSize }) => {
   const [category, setCategory] = useState("Demographics");
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
@@ -35,10 +37,24 @@ const DataVisSection = ({ classes, screenSize }) => {
   };
 
   const getGraphInfo = selection => {
-    if (selection === "Facility Capacity") {
-      return "Hawaii’s jail facilities are chronically overcrowded.";
-    } else if (selection === "Demographics") {
-      return "Hawaiian and Black communities are disproportionally impacted by incarceration";
+    if (screenSize === SCREEN_SIZES.MOBILE) {
+      if (selection === "Facility Capacity") {
+        return "Hawaii’s jail facilities are chronically overcrowded.";
+      } else if (selection === "Demographics") {
+        return "Hawaiian and Black communities are disproportionally impacted by incarceration.";
+      } else {
+        return "";
+      }
+    } else if (screenSize === SCREEN_SIZES.TABLET) {
+      return "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.";
+      // } else if (screenSize === SCREEN_SIZES.DESKTOP) {
+      //   if (selection === "Facility Capacity Rates") {
+      //     return "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona.";
+      //   } else if (selection === "Demographics") {
+      //     return "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.";
+      //   } else {
+      //     return "";
+      //   }
     } else {
       return "";
     }
@@ -46,63 +62,31 @@ const DataVisSection = ({ classes, screenSize }) => {
 
   const failedToLoad = () => {
     return (
-      <div
-        style={{
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-      >
+      <Box className={styles.failedToLoadWrapper}>
         <img src={alertImg} />
-        <Typography
-          style={{
-            textAlign: "center",
-            fontFamily: "inherit",
-            paddingTop: "16px"
-          }}
-        >
+        <Typography className={styles.failedToLoadText}>
           Unable to load data. Please wait a moment and try again.
         </Typography>
-      </div>
+      </Box>
     );
   };
 
   return (
-    <section style={{ margin: "1.5em", height: "95vh", fontFamily: "inherit" }}>
-      <Typography
-        variant="h2"
-        style={{
-          fontFamily: "inherit",
-          fontSize: "1.5em"
-        }}
-      >
+    <section className={styles.dataSectionWrapper}>
+      <Typography variant="h2" className={styles.dataSectionTitle}>
         Hawaii Prison Profile Dashboard
       </Typography>
       <hr
         style={{
-          margin: "18px 0 18px -24px",
-          width: "100vw"
+          margin:
+            screenSize === SCREEN_SIZES.MOBILE ? "18px 0 18px -24px" : "18px 0",
+          width: screenSize === SCREEN_SIZES.MOBILE ? "100vw" : "100%"
         }}
       />
-      <div style={{ width: "211px" }}>
+      <Box style={{ width: "211px" }}>
         <Button
           variant="contained"
-          style={{
-            width: "211px",
-            fontFamily: "inherit",
-            fontWeight: "500",
-            fontSize: "20px",
-            color: "black",
-            display: "flex",
-            justifyContent: "space-between",
-            textTransform: "none",
-            borderRadius: "0",
-            backgroundColor: "#ECF1F4",
-            borderColor: "#ECF1F4",
-            boxShadow: "none"
-          }}
+          className={styles.categoryButton}
           data-testid={"generate-letter-button"}
           onClick={handleMenuOpen}
         >
@@ -131,55 +115,27 @@ const DataVisSection = ({ classes, screenSize }) => {
             </MenuItem>
           ))}
         </Menu>
-      </div>
-      <div
-        style={{
-          fontFamily: "Montserrat",
-          height: "80%",
-          marginTop: "28px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between"
-        }}
-      >
-        <Typography
-          variant="h3"
-          style={{
-            fontFamily: "inherit",
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: "24px"
-          }}
-        >
+      </Box>
+      <Box className={styles.graphInfoContainer}>
+        <Typography variant="h3" className={styles.graphCategoryTitle}>
           {getCategoryTitle(category)}
         </Typography>
-        <Typography
-          style={{
-            fontFamily: "inherit",
-            textAlign: "center",
-            fontWeight: "500",
-            fontSize: "16px",
-            padding: "16px 0"
-          }}
-        >
+        <Typography variant="body1" className={styles.graphCategoryDescription}>
           {getGraphInfo(category)}
         </Typography>
-        <div style={{ height: "65%", border: ".5px solid black" }}>
+
+        {/* GRAPH GOES HERE */}
+        {/* AND need to change the failedToLoad function to conditionally render */}
+        <Box style={{ height: "65%", border: ".5px solid black" }}>
           {failedToLoad()}
-        </div>
-        <Typography
-          style={{
-            fontFamily: "inherit",
-            fontWeight: "500",
-            fontSize: "14px",
-            paddingTop: "16px"
-          }}
-        >
+        </Box>
+
+        <Typography variant="caption text" className={styles.sourceText}>
           Source: Source: Bureau of Justice Statistics, Federal Justice
           Statistics Program, 2021 (preliminary); US Census, 2022; and National
           Prisoner Statistics, 2021.
         </Typography>
-      </div>
+      </Box>
     </section>
   );
 };

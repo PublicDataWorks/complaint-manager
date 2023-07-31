@@ -1,0 +1,76 @@
+.dataSectionWrapper {
+  margin: 1.5em;
+  padding: 16px 0;
+  height: 95vh;
+  font-family: Montserrat;
+}
+
+.dataSectionTitle {
+  font-family: inherit;
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.categoryButton {
+  width: 211px;
+  font-family: inherit;
+  font-weight: 400;
+  font-size: 20px;
+  letter-spacing: -0.25px;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+  text-transform: none;
+  border-radius: 0;
+  background-color: #ecf1f4;
+  border-color: #ecf1f4;
+}
+
+/* GRAPH CONTAINER */
+.graphInfoContainer {
+  font-family: inherit;
+  height: 80%;
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.graphCategoryTitle {
+  font-family: inherit;
+  text-align: center;
+  font-weight: 700;
+  font-size: 24px;
+  margin-left: -16px;
+  width: 96vw;
+}
+
+.graphCategoryDescription {
+  font-family: inherit;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 16px 0;
+}
+
+.sourceText {
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 14px;
+  padding-top: 16px;
+}
+
+/* FAILED TO LOAD */
+.failedToLoadWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.failedToLoadText {
+  text-align: center;
+  font-family: inherit;
+  padding: 16px;
+}
