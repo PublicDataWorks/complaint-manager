@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.60.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.59.3...v3.60.0) (2023-07-31)
+
+
+### Features
+
+* add myths and facts section iteration1 ([8be3bbb](https://github.com/PublicDataWorks/complaint-manager/commit/8be3bbb156224f6fa791454d57fb7f293519bb2d))
+* Andrew [[#290](https://github.com/PublicDataWorks/complaint-manager/issues/290)] adds values section to public info page ([593f9f8](https://github.com/PublicDataWorks/complaint-manager/commit/593f9f8f53dc44676f0934b3cc3d884d1b6050e5))
+* Isabel/Andrew [[#291](https://github.com/PublicDataWorks/complaint-manager/issues/291)] adds directives dropdown on allegations page ([5fbe20c](https://github.com/PublicDataWorks/complaint-manager/commit/5fbe20c6cbb639c1be800179bde9328c72339956))
+* Jean/Claire [[#292](https://github.com/PublicDataWorks/complaint-manager/issues/292)] Staffing Shortages Stats for public data page ([228ddb5](https://github.com/PublicDataWorks/complaint-manager/commit/228ddb5d5adf97009bd862aede744f1bb0073769))
+
 ### [3.59.3](https://github.com/PublicDataWorks/complaint-manager/compare/v3.59.2...v3.59.3) (2023-07-11)
 
 ### [3.59.2](https://github.com/PublicDataWorks/complaint-manager/compare/v3.59.1...v3.59.2) (2023-07-11)
