@@ -21,11 +21,9 @@ const MythsAndFacts = ({ screenSize, classes }) => {
 
   return (
     <section
-      className={
-        screenSize === SCREEN_SIZES.DESKTOP
-          ? classes.mythsAndFactsContainerDesktop
-          : classes.mythsAndFactsContainer
-      }
+      className={`${classes.mythsAndFactsContainer} ${
+        classes[`mythsAndFactsContainer-${screenSize}`]
+      }`}
     >
       <Typography
         variant="h2"

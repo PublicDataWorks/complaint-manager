@@ -41,7 +41,11 @@ const cardStyles = {
 const StaffingShortage = ({ screenSize, classes }) => {
   if (screenSize === SCREEN_SIZES.MOBILE) {
     return (
-      <section className={classes.staffingShortageContainer}>
+      <section
+        className={`${classes.staffingShortageContainer} ${
+          classes[`staffingShortageContainer-${screenSize}`]
+        }`}
+      >
         <Typography
           variant="h2"
           className={`${classes.h2} ${classes.staffingShortageSubHeader}`}
@@ -107,7 +111,11 @@ const StaffingShortage = ({ screenSize, classes }) => {
     );
   } else if (screenSize === SCREEN_SIZES.TABLET) {
     return (
-      <section className={classes.staffingShortageContainer}>
+      <section
+        className={`${classes.staffingShortageContainer} ${
+          classes[`staffingShortageContainer-${screenSize}`]
+        }`}
+      >
         <Typography
           variant="h2"
           className={`${classes.h2} ${classes.staffingShortageSubHeader}`}
@@ -192,7 +200,11 @@ const StaffingShortage = ({ screenSize, classes }) => {
     );
   } else {
     return (
-      <section className={classes.staffingShortageContainerDesktop}>
+      <section
+        className={`${classes.staffingShortageContainer} ${
+          classes[`staffingShortageContainer-${screenSize}`]
+        }`}
+      >
         <Typography
           variant="h2"
           className={`${classes.h2} ${classes.staffingShortageSubHeader}`}

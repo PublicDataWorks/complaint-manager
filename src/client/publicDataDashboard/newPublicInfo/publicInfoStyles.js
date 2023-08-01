@@ -202,12 +202,16 @@ const publicInfoStyles = theme => ({
     marginTop: "2em"
   },
   staffingShortageContainer: {
-    margin: "1.5em",
     padding: "16px 0"
   },
-  staffingShortageContainerDesktop: {
-    margin: "4.5em 7em",
-    padding: "16px 0"
+  [`staffingShortageContainer-${SCREEN_SIZES.MOBILE}`]: {
+    margin: "1.5em"
+  },
+  [`staffingShortageContainer-${SCREEN_SIZES.TABLET}`]: {
+    margin: "1.5em"
+  },
+  [`staffingShortageContainer-${SCREEN_SIZES.DESKTOP}`]: {
+    margin: "4.5em 7em"
   },
   staffingShortageSubHeader: {
     color: colors.secondaryBrand,
@@ -291,12 +295,16 @@ const publicInfoStyles = theme => ({
     fontSize: ".75em"
   },
   mythsAndFactsContainer: {
-    margin: "1.5em",
     padding: "16px 0"
   },
-  mythsAndFactsContainerDesktop: {
-    margin: "4.5em 7em",
-    padding: "16px 0"
+  [`mythsAndFactsContainer-${SCREEN_SIZES.MOBILE}`]: {
+    margin: "1.5em"
+  },
+  [`mythsAndFactsContainer-${SCREEN_SIZES.TABLET}`]: {
+    margin: "1.5em"
+  },
+  [`mythsAndFactsContainer-${SCREEN_SIZES.DESKTOP}`]: {
+    margin: "4.5em 7em"
   }
 });
 
