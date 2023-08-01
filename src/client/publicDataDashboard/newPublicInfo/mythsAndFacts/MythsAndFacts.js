@@ -10,8 +10,9 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { mythsAndFactsData } from "./mythsAndFactsData";
 import publicInfoStyles from "../publicInfoStyles";
+import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
-const MythsAndFacts = props => {
+const MythsAndFacts = ({ screenSize, classes }) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleChange = panel => (event, isExpanded) => {
@@ -19,12 +20,18 @@ const MythsAndFacts = props => {
   };
 
   return (
-    <section style={{ margin: "1.5em" }}>
+    <section
+      className={
+        screenSize === SCREEN_SIZES.DESKTOP
+          ? classes.mythsAndFactsContainerDesktop
+          : classes.mythsAndFactsContainer
+      }
+    >
       <Typography
         variant="h2"
-        className={`${props.classes.navyBackground} ${
-          props.classes.lightFontColor
-        } ${props.classes[`sectionHeader-${props.screenSize}`]}`}
+        className={`${classes.navyBackground} ${classes.lightFontColor} ${
+          classes[`sectionHeader-${screenSize}`]
+        }`}
       >
         MYTHS AND FACTS
       </Typography>
@@ -42,7 +49,7 @@ const MythsAndFacts = props => {
               >
                 <Typography
                   sx={{ width: "33%", flexShrink: 0 }}
-                  className={`${props.classes.forestFontColor} ${props.classes.statementHeader}`}
+                  className={`${classes.forestFontColor} ${classes.statementHeader}`}
                   data-testid={group.category}
                 >
                   {group.category}
@@ -61,7 +68,7 @@ const MythsAndFacts = props => {
                       >
                         <strong>Myth: </strong>
                       </Typography>
-                      <Typography className={props.classes.statementFont}>
+                      <Typography className={classes.statementFont}>
                         {statement.myth}
                       </Typography>
                     </div>
@@ -75,7 +82,7 @@ const MythsAndFacts = props => {
                       >
                         <strong>Fact: </strong>
                       </Typography>
-                      <Typography className={props.classes.statementFont}>
+                      <Typography className={classes.statementFont}>
                         {statement.fact}
                       </Typography>
                     </div>

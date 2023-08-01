@@ -205,6 +205,10 @@ const publicInfoStyles = theme => ({
     margin: "1.5em",
     padding: "16px 0"
   },
+  staffingShortageContainerDesktop: {
+    margin: "4.5em 7em",
+    padding: "16px 0"
+  },
   staffingShortageSubHeader: {
     color: colors.secondaryBrand,
     fontSize: "28px",
@@ -285,6 +289,14 @@ const publicInfoStyles = theme => ({
   statementFont: {
     fontFamily: "inherit",
     fontSize: ".75em"
+  },
+  mythsAndFactsContainer: {
+    margin: "1.5em",
+    padding: "16px 0"
+  },
+  mythsAndFactsContainerDesktop: {
+    margin: "4.5em 7em",
+    padding: "16px 0"
   }
 });
 

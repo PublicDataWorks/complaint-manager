@@ -38,37 +38,35 @@ const cardStyles = {
   }
 };
 
-const StaffingShortage = props => {
-  if (props.screenSize === SCREEN_SIZES.MOBILE) {
+const StaffingShortage = ({ screenSize, classes }) => {
+  if (screenSize === SCREEN_SIZES.MOBILE) {
     return (
-      <section className={props.classes.staffingShortageContainer}>
+      <section className={classes.staffingShortageContainer}>
         <Typography
           variant="h2"
-          className={`${props.classes.h2} ${props.classes.staffingShortageSubHeader}`}
+          className={`${classes.h2} ${classes.staffingShortageSubHeader}`}
         >
           Overall Impression
         </Typography>
         <Typography
           variant="h2"
-          className={props.classes.h2}
+          className={classes.h2}
           style={{ margin: "0px" }}
         >
           Staffing Shortage
         </Typography>
 
-        <div
-          className={props.classes[`staffingShortageGrid-${props.screenSize}`]}
-        >
+        <div className={classes[`staffingShortageGrid-${screenSize}`]}>
           <Typography
             style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            className={classes.greyBackground}
           >
             Serious overcrowding attributing to inhumane conditions,
             specifically for jails.
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.navyBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
             Capacity in Prisons
@@ -80,21 +78,21 @@ const StaffingShortage = props => {
           />
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.forestBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
             Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.navyBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
             Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
           <Typography
             style={cardStyles.staffingCard}
-            className={`${props.classes.greyBackground}`}
+            className={`${classes.greyBackground}`}
           >
             Average rate across the country is 40-50%. Serious lack of movement
             and out-of-cell time for those in custody.
@@ -107,64 +105,62 @@ const StaffingShortage = props => {
         </div>
       </section>
     );
-  } else if (props.screenSize === SCREEN_SIZES.TABLET) {
+  } else if (screenSize === SCREEN_SIZES.TABLET) {
     return (
-      <section className={props.classes.staffingShortageContainer}>
+      <section className={classes.staffingShortageContainer}>
         <Typography
           variant="h2"
-          className={`${props.classes.h2} ${props.classes.staffingShortageSubHeader}`}
+          className={`${classes.h2} ${classes.staffingShortageSubHeader}`}
         >
           Overall Impression
         </Typography>
         <Typography
           variant="h2"
-          className={props.classes.h2}
+          className={classes.h2}
           style={{ margin: "0px" }}
         >
           Staffing Shortage
         </Typography>
 
-        <div
-          className={props.classes[`staffingShortageGrid-${props.screenSize}`]}
-        >
+        <div className={classes[`staffingShortageGrid-${screenSize}`]}>
           <Typography
             style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            className={classes.greyBackground}
           >
             Serious overcrowding attributing to inhumane conditions,
             specifically for jails.
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.navyBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
             Capacity in Prisons
           </Typography>
           <img
             style={cardStyles.imageTablet}
-            className={props.classes.hawaiiMapImg}
+            className={classes.hawaiiMapImg}
             alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
             src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
           />
 
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
+            className={`${classes.forestBackground} ${classes.lightFontColor} ${classes.imgOverHawaiiMap}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
             Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.forestBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
             Nearly 80% of People in Custody Are in Secure Settings
           </Typography>
           <Typography
             style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            className={classes.greyBackground}
           >
             Average rate across the country is 40-50%. Serious lack of movement
             and out-of-cell time for those in custody.
@@ -186,7 +182,7 @@ const StaffingShortage = props => {
                   mixBlendMode: "multiply"
                 })
               }
-              className={props.classes.inPrisonImg}
+              className={classes.inPrisonImg}
               src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
               alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
             />
@@ -196,34 +192,32 @@ const StaffingShortage = props => {
     );
   } else {
     return (
-      <section className={props.classes.staffingShortageContainer}>
+      <section className={classes.staffingShortageContainerDesktop}>
         <Typography
           variant="h2"
-          className={`${props.classes.h2} ${props.classes.staffingShortageSubHeader}`}
+          className={`${classes.h2} ${classes.staffingShortageSubHeader}`}
         >
           Overall Impression
         </Typography>
         <Typography
           variant="h2"
-          className={props.classes.h2}
+          className={classes.h2}
           style={{ margin: "0px" }}
         >
           Staffing Shortage
         </Typography>
 
-        <div
-          className={props.classes[`staffingShortageGrid-${props.screenSize}`]}
-        >
+        <div className={classes[`staffingShortageGrid-${screenSize}`]}>
           <Typography
             style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            className={classes.greyBackground}
           >
             Serious overcrowding attributing to inhumane conditions,
             specifically for jails.
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.forestBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>80%</span>
             Nearly 80% of People in Custody Are in Secure Settings
@@ -244,28 +238,28 @@ const StaffingShortage = props => {
                 objectFit: "contain"
               }}
               alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
-              className={props.classes.hawaiiMapImg}
+              className={classes.hawaiiMapImg}
               src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
             />
           </div>
 
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.forestBackground} ${props.classes.lightFontColor} ${props.classes.imgOverHawaiiMap}`}
+            className={`${classes.forestBackground} ${classes.lightFontColor} ${classes.imgOverHawaiiMap}`}
           >
             <span style={cardStyles.statisticSpan}>156%</span>
             Capacity in Jails
           </Typography>
           <Typography
             style={(cardStyles.staffingCard, cardStyles.statisticCard)}
-            className={`${props.classes.navyBackground} ${props.classes.lightFontColor}`}
+            className={`${classes.navyBackground} ${classes.lightFontColor}`}
           >
             <span style={cardStyles.statisticSpan}>93%</span>
             Capacity in Prisons
           </Typography>
           <Typography
             style={cardStyles.staffingCard}
-            className={props.classes.greyBackground}
+            className={classes.greyBackground}
           >
             Average rate across the country is 40-50%. Serious lack of movement
             and out-of-cell time for those in custody.
@@ -288,7 +282,7 @@ const StaffingShortage = props => {
                   mixBlendMode: "multiply"
                 })
               }
-              className={props.classes.inPrisonImg}
+              className={classes.inPrisonImg}
               src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
               alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
             />
