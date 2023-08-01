@@ -124,8 +124,9 @@ const DataVisSection = ({ screenSize }) => {
         >
           {dropdownOptions.map(option => (
             <Button
-              className={styles.categoryButton}
-              sx={{ "&.active": { color: "#22767C" } }}
+              className={`${styles.categoryButton} ${
+                option === category ? styles.active : ""
+              }`}
               onClick={() => setCategory(option)}
             >
               {option}
@@ -166,19 +167,17 @@ const DataVisSection = ({ screenSize }) => {
         }}
       />
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          height: "100%",
-          width: "100%"
-        }}
+        className={
+          screenSize === SCREEN_SIZES.DESKTOP
+            ? styles.categoryGraphWrapperDesktop
+            : styles.categoryGraphWrapper
+        }
       >
         {screenSize === SCREEN_SIZES.DESKTOP
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
         <Box
-          style={{ width: "75%" }}
           className={
             screenSize === SCREEN_SIZES.DESKTOP
               ? styles.graphInfoContainerDesktop
@@ -208,7 +207,13 @@ const DataVisSection = ({ screenSize }) => {
 
           {/* GRAPH GOES HERE */}
           {/* AND need to change the failedToLoad function to conditionally render */}
-          <Box style={{ height: "65%", border: ".5px solid black" }}>
+          <Box
+            className={
+              screenSize === SCREEN_SIZES.TABLET
+                ? styles.graphWrapperTablet
+                : styles.graphWrapper
+            }
+          >
             {failedToLoad()}
           </Box>
 

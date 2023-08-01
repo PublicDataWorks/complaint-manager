@@ -18,6 +18,22 @@
   font-weight: 300;
 }
 
+.categoryGraphWrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-start;
+}
+
+.categoryGraphWrapperDesktop {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
 /* CATEGORY DROPDOWN & LIST */
 .categoryButtonTitle {
   width: 211px;
@@ -59,9 +75,14 @@
   justify-content: space-between;
 }
 
-/* GRAPH CONTAINER */
+.active {
+  color: #22767c;
+}
+
+/* GRAPH */
 .graphInfoContainer {
   height: 80%;
+  width: 100%;
   margin-top: 28px;
   font-family: inherit;
   display: flex;
@@ -71,6 +92,7 @@
 
 .graphInfoContainerDesktop {
   height: 90%;
+  width: 75%;
   margin-top: 10px;
   font-family: inherit;
   display: flex;
@@ -97,22 +119,31 @@
 }
 
 .graphCategoryDescription {
-  padding: 16px 0;
+  padding: 8px 0;
   font-family: inherit;
   font-size: 16px;
   font-weight: 500;
+  line-height: 22.4px;
   text-align: center;
 }
 
 .graphCategoryDescriptionDesktop {
   width: 85%;
   margin: auto;
-  padding: 16px 0;
+  padding: 8px 0;
   font-family: inherit;
   font-size: 16px;
   font-weight: 500;
   line-height: 22.4px;
   text-align: center;
+}
+
+.graphWrapper {
+  height: 70%;
+}
+
+.graphWrapperTablet {
+  height: 80%;
 }
 
 .sourceText {
