@@ -20,8 +20,6 @@ const DataVisSection = ({ screenSize }) => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
-  console.log("screensize: ", screenSize);
-
   const dropdownOptions = [
     screenSize === SCREEN_SIZES.DESKTOP
       ? "Facility Capacity Rates"
@@ -71,7 +69,7 @@ const DataVisSection = ({ screenSize }) => {
       <Box style={{ width: "211px" }}>
         <Button
           variant="contained"
-          className={styles.categoryButton}
+          className={styles.categoryButtonTitle}
           data-testid={"generate-letter-button"}
           onClick={handleMenuOpen}
         >
@@ -106,41 +104,28 @@ const DataVisSection = ({ screenSize }) => {
 
   const renderCategoryList = () => {
     return (
-      <Box style={{ width: "25%" }}>
+      <Box
+        style={{
+          width: "20%",
+          height: "fit-content",
+          marginTop: "50px"
+        }}
+      >
         <Typography
-          style={{ padding: "10px 10px 10px 18px" }}
-          className={styles.categoryButton}
+          className={`${styles.categoryButtonTitle} ${styles.categoryButtonTitleDesktop}`}
         >
           Category
         </Typography>
-        <div
-          style={{
-            width: "80%",
-            borderBottom: "1px solid #22767C",
-            margin: "0 10px"
-          }}
-        />
         <ButtonGroup
-          style={{
-            backgroundColor: "#ecf1f4",
-            width: "80%",
-            padding: "0 10px 14px 10px"
-          }}
+          className={styles.categoryButtonGroup}
           orientation="vertical"
           aria-label="vertical contained button group"
           variant="text"
         >
           {dropdownOptions.map(option => (
             <Button
-              style={{
-                textTransform: "none",
-                fontFamily: "inherit",
-                padding: "12px 8px",
-                letterSpacing: ".15px",
-                fontWeight: "500",
-                justifyContent: "space-between",
-                borderBottom: "1px solid rgba(0, 0, 0, 0.23)"
-              }}
+              className={styles.categoryButton}
+              sx={{ "&.active": { color: "#22767C" } }}
               onClick={() => setCategory(option)}
             >
               {option}
@@ -192,7 +177,14 @@ const DataVisSection = ({ screenSize }) => {
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
-        <Box style={{ width: "75%" }} className={styles.graphInfoContainer}>
+        <Box
+          style={{ width: "75%" }}
+          className={
+            screenSize === SCREEN_SIZES.DESKTOP
+              ? styles.graphInfoContainerDesktop
+              : styles.graphInfoContainer
+          }
+        >
           <Typography
             variant="h3"
             className={
@@ -205,7 +197,11 @@ const DataVisSection = ({ screenSize }) => {
           </Typography>
           <Typography
             variant="body1"
-            className={styles.graphCategoryDescription}
+            className={
+              screenSize === SCREEN_SIZES.DESKTOP
+                ? styles.graphCategoryDescriptionDesktop
+                : styles.graphCategoryDescription
+            }
           >
             {getGraphInfo(category)}
           </Typography>
