@@ -4,7 +4,7 @@ const config =
     process.env.REACT_APP_ENV
   ];
 
-const colors = {
+export const colors = {
   primaryBrand: "#0A3449",
   light: "#FAFCFE",
   secondaryBrand: "#22767C",

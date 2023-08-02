@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "./DataVisSection.module.css";
+import dataVisStyles from "./dataVisStyles";
 import {
   Box,
   Button,
@@ -10,12 +10,11 @@ import {
   withStyles
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import publicInfoStyles from "../publicInfoStyles";
 import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 
-const DataVisSection = ({ screenSize }) => {
+const DataVisSection = ({ classes, screenSize }) => {
   const [category, setCategory] = useState("Demographics");
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
@@ -69,7 +68,7 @@ const DataVisSection = ({ screenSize }) => {
       <Box style={{ width: "211px" }}>
         <Button
           variant="contained"
-          className={styles.categoryButtonTitle}
+          className={classes.categoryButtonTitle}
           data-testid={"generate-letter-button"}
           onClick={handleMenuOpen}
         >
@@ -108,24 +107,26 @@ const DataVisSection = ({ screenSize }) => {
         style={{
           width: "20%",
           height: "fit-content",
-          marginTop: "50px"
+          margin: "50px 5% 0 0"
         }}
       >
         <Typography
-          className={`${styles.categoryButtonTitle} ${styles.categoryButtonTitleDesktop}`}
+          className={`${classes.categoryButtonTitle} ${
+            classes[`categoryButtonTitle-${screenSize}`]
+          }`}
         >
           Category
         </Typography>
         <ButtonGroup
-          className={styles.categoryButtonGroup}
+          className={classes.categoryButtonGroup}
           orientation="vertical"
           aria-label="vertical contained button group"
           variant="text"
         >
           {dropdownOptions.map(option => (
             <Button
-              className={`${styles.categoryButton} ${
-                option === category ? styles.active : ""
+              className={`${classes.categoryButton} ${
+                option === category ? classes.active : ""
               }`}
               onClick={() => setCategory(option)}
             >
@@ -139,9 +140,9 @@ const DataVisSection = ({ screenSize }) => {
 
   const failedToLoad = () => {
     return (
-      <Box className={styles.failedToLoadWrapper}>
+      <Box className={classes.failedToLoadWrapper}>
         <img src={alertImg} />
-        <Typography className={styles.failedToLoadText}>
+        <Typography className={classes.failedToLoadText}>
           Unable to load data. Please wait a moment and try again.
         </Typography>
       </Box>
@@ -150,13 +151,11 @@ const DataVisSection = ({ screenSize }) => {
 
   return (
     <section
-      className={
-        screenSize === SCREEN_SIZES.DESKTOP
-          ? styles.dataSectionWrapperDesktop
-          : styles.dataSectionWrapper
-      }
+      className={`${classes.dataSectionWrapper} ${
+        classes[`dataSectionWrapper-${screenSize}`]
+      }`}
     >
-      <Typography variant="h2" className={styles.dataSectionTitle}>
+      <Typography variant="h2" className={classes.dataSectionTitle}>
         Hawaii Prison Profile Dashboard
       </Typography>
       <hr
@@ -167,40 +166,32 @@ const DataVisSection = ({ screenSize }) => {
         }}
       />
       <div
-        className={
-          screenSize === SCREEN_SIZES.DESKTOP
-            ? styles.categoryGraphWrapperDesktop
-            : styles.categoryGraphWrapper
-        }
+        className={`${classes.categoryGraphWrapper} ${
+          classes[`categoryGraphWrapper-${screenSize}`]
+        }`}
       >
         {screenSize === SCREEN_SIZES.DESKTOP
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
         <Box
-          className={
-            screenSize === SCREEN_SIZES.DESKTOP
-              ? styles.graphInfoContainerDesktop
-              : styles.graphInfoContainer
-          }
+          className={`${classes.graphInfoContainer} ${
+            classes[`graphInfoContainer-${screenSize}`]
+          }`}
         >
           <Typography
             variant="h3"
-            className={
-              screenSize === SCREEN_SIZES.DESKTOP
-                ? styles.graphCategoryTitleDesktop
-                : styles.graphCategoryTitle
-            }
+            className={`${classes.graphCategoryTitle} ${
+              classes[`graphCategoryTitle-${screenSize}`]
+            }`}
           >
             {getCategoryTitle(category)}
           </Typography>
           <Typography
             variant="body1"
-            className={
-              screenSize === SCREEN_SIZES.DESKTOP
-                ? styles.graphCategoryDescriptionDesktop
-                : styles.graphCategoryDescription
-            }
+            className={`${classes.graphCategoryDescription} ${
+              classes[`graphCategoryDescription-${screenSize}`]
+            }`}
           >
             {getGraphInfo(category)}
           </Typography>
@@ -208,16 +199,14 @@ const DataVisSection = ({ screenSize }) => {
           {/* GRAPH GOES HERE */}
           {/* AND need to change the failedToLoad function to conditionally render */}
           <Box
-            className={
-              screenSize === SCREEN_SIZES.TABLET
-                ? styles.graphWrapperTablet
-                : styles.graphWrapper
-            }
+            className={`${classes.graphWrapper} ${
+              classes[`graphWrapper-${screenSize}`]
+            }`}
           >
             {failedToLoad()}
           </Box>
 
-          <Typography variant="caption text" className={styles.sourceText}>
+          <Typography variant="caption text" className={classes.sourceText}>
             Source: Source: Bureau of Justice Statistics, Federal Justice
             Statistics Program, 2021 (preliminary); US Census, 2022; and
             National Prisoner Statistics, 2021.
@@ -228,4 +217,4 @@ const DataVisSection = ({ screenSize }) => {
   );
 };
 
-export default withStyles(publicInfoStyles)(DataVisSection);
+export default withStyles(dataVisStyles)(DataVisSection);
