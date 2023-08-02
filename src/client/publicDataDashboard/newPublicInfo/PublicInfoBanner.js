@@ -22,15 +22,7 @@ const PublicInfoBanner = props => {
           props.classes[`bannerTitle-${props.screenSize}`]
         }`}
       >
-        Empowering Rehabilitation,
-      </Typography>
-      <Typography
-        variant="h2"
-        className={`${props.classes.bannerTitle} ${
-          props.classes[`bannerTitle-${props.screenSize}`]
-        }`}
-      >
-        Inspiring Change
+        Empowering Rehabilitation, Inspiring Change
       </Typography>
       <Typography
         className={`${props.classes.bannerSubTitle} ${
