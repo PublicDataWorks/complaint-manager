@@ -13,51 +13,40 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
+import { graphInfo } from "./dataVisData";
+
+const categories = {
+  demographics: "Demographics",
+  facilityCapacity: "Facility Capacity",
+  facilityCapacityRates: "Facility Capacity Rates"
+};
 
 const DataVisSection = ({ classes, screenSize }) => {
-  const [category, setCategory] = useState("Demographics");
+  const [category, setCategory] = useState(categories.demographics);
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
-  const dropdownOptions = [
+  const categoryOptions = [
     screenSize === SCREEN_SIZES.DESKTOP
-      ? "Facility Capacity Rates"
-      : "Facility Capacity",
-    "Demographics"
+      ? categories.facilityCapacityRates
+      : categories.facilityCapacity,
+    categories.demographics
   ];
 
-  const getCategoryTitle = selection => {
+  const getCategoryInfo = selection => {
     if (
-      selection === "Facility Capacity" ||
-      selection === "Facility Capacity Rates"
+      selection === categories.facilityCapacity ||
+      selection === categories.facilityCapacityRates
     ) {
-      return "Facility Overcrowding Rates";
-    } else if (selection === "Demographics") {
-      return "Demographic Breakdown";
-    } else {
-      return "";
-    }
-  };
-
-  const getGraphInfo = selection => {
-    if (screenSize === SCREEN_SIZES.MOBILE) {
-      if (selection === "Facility Capacity") {
-        return "Hawaii’s jail facilities are chronically overcrowded.";
-      } else if (selection === "Demographics") {
-        return "Hawaiian and Black communities are disproportionally impacted by incarceration.";
-      } else {
-        return "";
-      }
-    } else if (screenSize === SCREEN_SIZES.TABLET) {
-      return "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.";
-    } else if (screenSize === SCREEN_SIZES.DESKTOP) {
-      if (selection === "Facility Capacity Rates") {
-        return "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona.";
-      } else if (selection === "Demographics") {
-        return "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.";
-      } else {
-        return "";
-      }
+      return {
+        title: graphInfo.facilityOvercrowding[`${screenSize}`].title,
+        description: graphInfo.facilityOvercrowding[`${screenSize}`].description
+      };
+    } else if (selection === categories.demographics) {
+      return {
+        title: graphInfo.demographicBreakdown[`${screenSize}`].title,
+        description: graphInfo.demographicBreakdown[`${screenSize}`].description
+      };
     } else {
       return "";
     }
@@ -83,7 +72,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           anchorOrigin={{ vertical: "bottom" }}
           getContentAnchorEl={null}
         >
-          {dropdownOptions.map(option => (
+          {categoryOptions.map(option => (
             <MenuItem
               key={option}
               value={option}
@@ -123,7 +112,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           aria-label="vertical contained button group"
           variant="text"
         >
-          {dropdownOptions.map(option => (
+          {categoryOptions.map(option => (
             <Button
               className={`${classes.categoryButton} ${
                 option === category ? classes.active : ""
@@ -185,7 +174,7 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphCategoryTitle-${screenSize}`]
             }`}
           >
-            {getCategoryTitle(category)}
+            {getCategoryInfo(category).title}
           </Typography>
           <Typography
             variant="body1"
@@ -193,7 +182,7 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphCategoryDescription-${screenSize}`]
             }`}
           >
-            {getGraphInfo(category)}
+            {getCategoryInfo(category).description}
           </Typography>
 
           {/* GRAPH GOES HERE */}
