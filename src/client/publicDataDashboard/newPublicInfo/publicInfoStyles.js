@@ -145,7 +145,6 @@ const publicInfoStyles = theme => ({
   },
   bannerSubTitle: {
     marginTop: "1em",
-    maxWidth: "599px",
     fontWeight: "100",
     fontFamily: "inherit"
   },
@@ -164,10 +163,12 @@ const publicInfoStyles = theme => ({
     maxWidth: "305px"
   },
   [`bannerSubTitle-${SCREEN_SIZES.TABLET}`]: {
-    fontSize: "16px"
+    fontSize: "16px",
+    maxWidth: "599px"
   },
   [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
-    fontSize: "20px"
+    fontSize: "20px",
+    maxWidth: "849px"
   },
   valuesSection: {
     alignItems: "center",
