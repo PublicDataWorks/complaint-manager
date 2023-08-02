@@ -140,7 +140,7 @@ const publicInfoStyles = theme => ({
   },
   bannerTitle: {
     lineHeight: "1.2",
-    maxWidth: "599px",
+    maxWidth: "699px",
     fontWeight: "100"
   },
   bannerSubTitle: {

@@ -9,7 +9,7 @@ const config =
 
 export const TITLE = "Your Voice Matters";
 export const TEXT =
-  "Our goal is to use this platform to serve the community, leaders, and legislators to ensure transparency and accountability, support safe conditions for staff and those in custody in the jails and prisons, and implement positive reform and rehabilitative efforts to show real data outcomes to better public safety.";
+  "The Correctional Oversight Commission's goal is to increase transparency by showing actual data to the public to support safe conditions for employees, inmates, and detainees and provide positive reform toward a rehabilitative and therapeutic correctional system.";
 export const VALUES = [
   {
     name: "Alohiloh",
@@ -51,7 +51,10 @@ const ValuesSection = props => {
       <Typography className={props.classes.body}>{TEXT}</Typography>
       <section className={props.classes.valueIconsSection}>
         {VALUES.map(value => (
-          <figure key={value.name} style={{ margin: "15px 10px", minWidth: "120px" }}>
+          <figure
+            key={value.name}
+            style={{ margin: "15px 10px", minWidth: "120px" }}
+          >
             <div className={props.classes.valueIcon}>
               <img alt={value.name} src={value.icon} />
             </div>

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "./publicInfoStyles";
 import { Typography } from "@material-ui/core";
 
 export const SUBTEXT =
-  "New report finds those who are sentenced to less than one year typically have committed less severe crimes. The pre-sentenced population makes up 78% of all who are in jail.";
+  "A new report finds overcrowded prisons, inhumane facilities conditions, and low staffing is unprecedented. Learn how these issues are address to the community, legislators,  and the Department of Public Safety to ensure safer conditions.";
 export const BUTTON_TEXT = "READ THE REPORT";
 export const BUTTON_URL =
   "https://hcsoc.hawaii.gov/wp-content/uploads/2023/01/2022-HCSOC-Annual-Report-FINAL.pdf";
@@ -22,7 +22,15 @@ const PublicInfoBanner = props => {
           props.classes[`bannerTitle-${props.screenSize}`]
         }`}
       >
-        <strong>Advocate</strong> for fairness, equality, and justice
+        Empowering Rehabilitation,
+      </Typography>
+      <Typography
+        variant="h2"
+        className={`${props.classes.bannerTitle} ${
+          props.classes[`bannerTitle-${props.screenSize}`]
+        }`}
+      >
+        Inspiring Change
       </Typography>
       <Typography
         className={`${props.classes.bannerSubTitle} ${
