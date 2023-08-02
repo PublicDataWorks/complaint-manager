@@ -172,16 +172,18 @@ const publicInfoStyles = theme => ({
   valuesSection: {
     alignItems: "center",
     textAlign: "center",
-    maxWidth: "1150px"
+    maxWidth: "1050px",
+    padding: "16px"
   },
   [`valuesSection-${SCREEN_SIZES.DESKTOP}`]: {
-    margin: "1em auto"
+    margin: "1.5em auto",
+    padding: "0 10%"
   },
   [`valuesSection-${SCREEN_SIZES.TABLET}`]: {
-    margin: "1em 4em"
+    margin: "1.5em 4em"
   },
   [`valuesSection-${SCREEN_SIZES.MOBILE}`]: {
-    margin: "1em 1.5em"
+    margin: "1.5em"
   },
   valueIcon: {
     backgroundColor: colors.secondaryBrand,
