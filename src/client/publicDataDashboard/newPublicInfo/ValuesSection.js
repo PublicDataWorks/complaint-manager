@@ -7,7 +7,6 @@ const config =
     process.env.REACT_APP_ENV
   ];
 
-export const TITLE = "Your Voice Matters";
 export const TEXT =
   "The Correctional Oversight Commission's goal is to increase transparency by showing actual data to the public to support safe conditions for employees, inmates, and detainees and provide positive reform toward a rehabilitative and therapeutic correctional system.";
 export const VALUES = [
@@ -45,9 +44,6 @@ const ValuesSection = props => {
         props.classes[`valuesSection-${props.screenSize}`]
       }`}
     >
-      <Typography variant="h2" className={props.classes.h2}>
-        {TITLE}
-      </Typography>
       <Typography className={props.classes.body}>{TEXT}</Typography>
       <section className={props.classes.valueIconsSection}>
         {VALUES.map(value => (
