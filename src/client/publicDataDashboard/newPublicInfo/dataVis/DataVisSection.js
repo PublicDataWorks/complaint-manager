@@ -58,7 +58,7 @@ const DataVisSection = ({ classes, screenSize }) => {
         <Button
           variant="contained"
           className={classes.categoryButtonTitle}
-          data-testid={"generate-letter-button"}
+          data-testid={"category-dropdown-button"}
           onClick={handleMenuOpen}
         >
           Category
@@ -80,6 +80,7 @@ const DataVisSection = ({ classes, screenSize }) => {
                 width: "211px",
                 fontFamily: "inherit"
               }}
+              data-testid={`${option}-selection`}
               onClick={() => (setCategory(option), handleMenuClose())}
             >
               {option}

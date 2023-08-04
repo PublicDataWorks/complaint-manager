@@ -10,12 +10,11 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { mythsAndFactsData } from "./mythsAndFactsData";
 import publicInfoStyles from "../publicInfoStyles";
-import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
 const MythsAndFacts = ({ screenSize, classes }) => {
   const [expanded, setExpanded] = useState(false);
 
-  const handleChange = panel => (event, isExpanded) => {
+  const handleChange = panel => (_, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
