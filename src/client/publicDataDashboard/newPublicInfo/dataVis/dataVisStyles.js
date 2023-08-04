@@ -99,19 +99,22 @@ const dataVisStyles = theme => ({
     margin: "0"
   },
   graphCategoryDescription: {
-    padding: "8px 0",
+    padding: "8px",
     fontFamily: "inherit",
     fontSize: "16px",
-    fontWeight: "500",
+    fontWeight: "400",
     lineHeight: "22.4px",
-    textAlign: "center"
+    textAlign: "center",
+    alignSelf: "center"
   },
   [`graphCategoryDescription-${SCREEN_SIZES.DESKTOP}`]: {
+    height: "fit-content",
     width: "85%",
-    margin: "auto"
+    margin: "0",
+    padding: "4px 8px"
   },
   graphWrapper: {
-    height: "70%"
+    height: "75%"
   },
   [`graphWrapper-${SCREEN_SIZES.TABLET}`]: {
     height: "80%"
@@ -120,7 +123,7 @@ const dataVisStyles = theme => ({
     paddingTop: "16px",
     fontFamily: "inherit",
     fontSize: "14px",
-    fontWeight: "500"
+    fontWeight: "400"
   },
   /* FAILED TO LOAD */
   failedToLoadWrapper: {

@@ -197,9 +197,9 @@ const DataVisSection = ({ classes, screenSize }) => {
           </Box>
 
           <Typography variant="caption text" className={classes.sourceText}>
-            Source: Source: Bureau of Justice Statistics, Federal Justice
-            Statistics Program, 2021 (preliminary); US Census, 2022; and
-            National Prisoner Statistics, 2021.
+            Source: Bureau of Justice Statistics, Federal Justice Statistics
+            Program, 2021 (preliminary); US Census, 2022; and National Prisoner
+            Statistics, 2021.
           </Typography>
         </Box>
       </div>
