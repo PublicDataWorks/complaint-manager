@@ -54,7 +54,7 @@ const dataVisStyles = theme => ({
   },
   categoryButtonGroup: {
     width: "100%",
-    padding: "0 10px 20px 10px",
+    padding: "0 10px",
     borderRadius: "0",
     backgroundColor: colors.accent,
     boxShadow: "0px 4px 4px 0px #00000040"
@@ -65,7 +65,6 @@ const dataVisStyles = theme => ({
     fontWeight: "500",
     letterSpacing: ".15px",
     textTransform: "none",
-    borderBottom: "1px solid rgba(0, 0, 0, 0.23)",
     justifyContent: "space-between"
   },
   active: {
