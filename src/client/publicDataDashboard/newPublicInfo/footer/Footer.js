@@ -27,12 +27,22 @@ const Footer = () => {
     <section style={{ fontFamily: "Montserrat" }}>
       <Box
         style={{
-          height: "512px",
-          backgroundColor: "#ECF1F4"
+          height: "220px",
+          backgroundColor: "#ECF1F4",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center"
         }}
       >
-        <Typography>Contributor Partner</Typography>
-        <img src={TWLogoSM} alt="" />
+        <Typography style={{ fontFamily: "inherit" }}>
+          Contributor Partner
+        </Typography>
+        <img
+          src={TWLogoSM}
+          alt=""
+          style={{ maxWidth: "250px", paddingBottom: "16px" }}
+        />
         {/* <Typography>
           Thoughtworks a leading global technology consultancy that enables
           enterprises and technology disruptors across the globe to thrive as
