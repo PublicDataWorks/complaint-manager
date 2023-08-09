@@ -115,6 +115,7 @@ const DataVisSection = ({ classes, screenSize }) => {
         >
           {categoryOptions.map(option => (
             <Button
+              key={option}
               className={`${classes.categoryButton} ${
                 option === category ? classes.active : ""
               }`}
@@ -196,7 +197,7 @@ const DataVisSection = ({ classes, screenSize }) => {
             {failedToLoad()}
           </Box>
 
-          <Typography variant="caption text" className={classes.sourceText}>
+          <Typography variant="body1" className={classes.sourceText}>
             Source: Bureau of Justice Statistics, Federal Justice Statistics
             Program, 2021 (preliminary); US Census, 2022; and National Prisoner
             Statistics, 2021.

@@ -36,6 +36,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
         <div>
           {mythsAndFactsData.map(group => (
             <Accordion
+              key={group.category}
               expanded={expanded === group.category}
               onChange={handleChange(group.category)}
             >
@@ -54,7 +55,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
               </AccordionSummary>
               <AccordionDetails style={{ flexDirection: "column" }}>
                 {group.statements.map(statement => (
-                  <div style={{ padding: ".5em 0" }}>
+                  <div key={statement.id} style={{ padding: ".5em 0" }}>
                     <div style={{ display: "flex", width: "100%" }}>
                       <Typography
                         style={{
