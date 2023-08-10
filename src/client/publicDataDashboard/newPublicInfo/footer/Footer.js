@@ -49,7 +49,9 @@ const Footer = ({ classes, screenSize }) => {
         {screenSize === SCREEN_SIZES.MOBILE ? null : (
           <Typography
             variant="body1"
-            className={classes.contributorDescription}
+            className={`${classes.contributorDescription} ${
+              classes[`contributorDescription-${screenSize}`]
+            }`}
           >
             Thoughtworks a leading global technology consultancy that enables
             enterprises and technology disruptors across the globe to thrive as
@@ -66,7 +68,11 @@ const Footer = ({ classes, screenSize }) => {
           classes[`bottomFooterSectionWrapper-${screenSize}`]
         }`}
       >
-        <div className={classes.bottomFooterLinksGroup}>
+        <div
+          className={`${classes.bottomFooterLinksGroup} ${
+            classes[`bottomFooterLinksGroup-${screenSize}`]
+          }`}
+        >
           {links.map(link => (
             <a
               key={link.title}
