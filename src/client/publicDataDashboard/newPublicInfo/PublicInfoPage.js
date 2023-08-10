@@ -8,7 +8,7 @@ import ValuesSection from "./ValuesSection";
 import StaffingShortage from "./staffingShortage/StaffingShortage";
 import MythsAndFacts from "./mythsAndFacts/MythsAndFacts";
 import DataVisSection from "./dataVis/DataVisSection";
-import Footer from "./footer/Footer";
+import PublicInfoFooter from "./footer/PublicInfoFooter";
 
 const PublicInfoPage = props => {
   const getScreen = () => {
@@ -37,7 +37,7 @@ const PublicInfoPage = props => {
       <DataVisSection screenSize={screenSize} />
       <StaffingShortage screenSize={screenSize} />
       <MythsAndFacts screenSize={screenSize} />
-      <Footer screenSize={screenSize} />
+      <PublicInfoFooter screenSize={screenSize} />
     </main>
   );
 };

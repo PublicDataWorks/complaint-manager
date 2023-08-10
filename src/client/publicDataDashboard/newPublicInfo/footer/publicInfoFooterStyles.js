@@ -1,7 +1,7 @@
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import publicInfoStyles, { colors } from "../publicInfoStyles";
 
-const footerStyles = theme => ({
+const publicInfoFooterStyles = theme => ({
   ...publicInfoStyles(theme),
 
   contributorSectionWrapper: {
@@ -126,4 +126,4 @@ const footerStyles = theme => ({
   }
 });
 
-export default footerStyles;
+export default publicInfoFooterStyles;

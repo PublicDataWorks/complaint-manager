@@ -1,12 +1,12 @@
 import React from "react";
 import { Box, Typography, withStyles } from "@material-ui/core";
-import footerStyles from "./footerStyles";
+import publicInfoFooterStyles from "./publicInfoFooterStyles";
 import TWLogoSM from "./TW_Logo_SM.svg";
 import TWLogoMDLG from "./TW_Logo_MDLG.svg";
 import TWLogoLight from "./TW_Logo_light.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
-const Footer = ({ classes, screenSize }) => {
+const PublicInfoFooter = ({ classes, screenSize }) => {
   const links = [
     {
       title: "About",
@@ -116,4 +116,4 @@ const Footer = ({ classes, screenSize }) => {
   );
 };
 
-export default withStyles(footerStyles)(Footer);
+export default withStyles(publicInfoFooterStyles)(PublicInfoFooter);
