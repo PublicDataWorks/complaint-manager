@@ -33,19 +33,31 @@ const PublicInfoFooter = ({ classes, screenSize }) => {
           classes[`contributorSectionWrapper-${screenSize}`]
         }`}
       >
-        <Typography
-          className={`${classes[`contributorTitle-${screenSize}`]}`}
-          style={{ fontFamily: "inherit" }}
+        <a
+          href="https://www.thoughtworks.com/about-us/social-change"
+          target="_blank"
+          style={{
+            textDecoration: "none",
+            color: "black",
+            textAlign: "center"
+          }}
         >
-          Contributor Partner
-        </Typography>
-        <img
-          src={screenSize === SCREEN_SIZES.MOBILE ? TWLogoSM : TWLogoMDLG}
-          alt="Thoughtworks logo in navy"
-          className={`${classes.logoImageNavy} ${
-            classes[`logoImageNavy-${screenSize}`]
-          }`}
-        />
+          <Typography
+            className={`${classes[`contributorTitle-${screenSize}`]}`}
+            style={{
+              fontFamily: "inherit"
+            }}
+          >
+            Contributor Partner
+          </Typography>
+          <img
+            src={screenSize === SCREEN_SIZES.MOBILE ? TWLogoSM : TWLogoMDLG}
+            alt="Thoughtworks logo in navy"
+            className={`${classes.logoImageNavy} ${
+              classes[`logoImageNavy-${screenSize}`]
+            }`}
+          />
+        </a>
         {screenSize === SCREEN_SIZES.MOBILE ? null : (
           <Typography
             variant="body1"

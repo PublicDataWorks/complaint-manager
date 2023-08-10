@@ -34,6 +34,10 @@ const publicInfoFooterStyles = theme => ({
   [`logoImageNavy-${SCREEN_SIZES.DESKTOP}`]: {
     maxWidth: "400px"
   },
+  [`contributorTitle-${SCREEN_SIZES.MOBILE}`]: {
+    paddingBottom: "5px",
+    fontSize: "1.2rem"
+  },
   [`contributorTitle-${SCREEN_SIZES.TABLET}`]: {
     fontSize: "1.45rem"
   },
