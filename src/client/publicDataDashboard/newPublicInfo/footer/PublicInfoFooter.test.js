@@ -26,7 +26,7 @@ describe("Public Info Footer", () => {
       render(<PublicInfoFooter classes={{}} screenSize={size} />);
       expect(
         screen.getByText(
-          "Thoughtworks a leading global technology consultancy that enables enterprises and technology disruptors across the globe to thrive as modern digital businesses. We leverage our vast experience to improve our clients’ ability to respond to change; utilize data assets; create adaptable technology platforms; and rapidly design, deliver and evolve exceptional digital products and experiences at scale."
+          "Thoughtworks is a leading global technology consultancy that enables enterprises and technology disruptors across the globe to thrive as modern digital businesses. We leverage our vast experience to improve our clients’ ability to respond to change; utilize data assets; create adaptable technology platforms; and rapidly design, deliver and evolve exceptional digital products and experiences at scale."
         )
       ).toBeInTheDocument;
     });
