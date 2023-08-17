@@ -178,7 +178,7 @@ const publicInfoStyles = theme => ({
   },
   [`valuesSection-${SCREEN_SIZES.DESKTOP}`]: {
     margin: "1.5em auto",
-    padding: "5% 10% 0 10%"
+    padding: "2% 10% 0 10%"
   },
   [`valuesSection-${SCREEN_SIZES.TABLET}`]: {
     margin: "1.5em 4em"

@@ -43,6 +43,7 @@ const PublicInfoFooter = ({ classes, screenSize }) => {
           }}
         >
           <Typography
+            variant="h2"
             className={`${classes[`contributorTitle-${screenSize}`]}`}
             style={{
               fontFamily: "inherit"
@@ -65,7 +66,7 @@ const PublicInfoFooter = ({ classes, screenSize }) => {
               classes[`contributorDescription-${screenSize}`]
             }`}
           >
-            Thoughtworks a leading global technology consultancy that enables
+            Thoughtworks is a leading global technology consultancy that enables
             enterprises and technology disruptors across the globe to thrive as
             modern digital businesses. We leverage our vast experience to
             improve our clients’ ability to respond to change; utilize data

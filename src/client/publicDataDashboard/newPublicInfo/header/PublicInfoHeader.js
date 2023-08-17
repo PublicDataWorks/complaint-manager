@@ -51,7 +51,7 @@ const PublicInfoHeader = props => {
         >
           <img
             src={`${config.frontendUrl}/images/Pono.svg`}
-            alt="Logo"
+            alt="white outline of hibiscus flower"
             className={props.classes[`headerLogo-${props.screenSize}`]}
             style={{ marginLeft: "45px" }}
           />

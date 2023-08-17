@@ -132,7 +132,10 @@ const DataVisSection = ({ classes, screenSize }) => {
   const failedToLoad = () => {
     return (
       <Box className={classes.failedToLoadWrapper}>
-        <img src={alertImg} />
+        <img
+          src={alertImg}
+          alt="orange triangle alert icon with eclaimation point in the middle"
+        />
         <Typography className={classes.failedToLoadText}>
           Unable to load data. Please wait a moment and try again.
         </Typography>

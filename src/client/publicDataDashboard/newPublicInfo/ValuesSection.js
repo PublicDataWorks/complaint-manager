@@ -13,27 +13,33 @@ export const VALUES = [
   {
     name: "Alohiloh",
     subtext: "(Transparency)",
-    icon: `${config.frontendUrl}/images/Alohiloh.svg`
+    icon: `${config.frontendUrl}/images/Alohiloh.svg`,
+    altText: "white outline of three people holding hands in a circle"
   },
   {
     name: "Kuleana",
     subtext: "(Accountability)",
-    icon: `${config.frontendUrl}/images/Kuleana.svg`
+    icon: `${config.frontendUrl}/images/Kuleana.svg`,
+    altText:
+      "white outline of three people shoulder to shoulder celebrating with their hands up"
   },
   {
     name: "Pono",
     subtext: "(Integrity)",
-    icon: `${config.frontendUrl}/images/Pono.svg`
+    icon: `${config.frontendUrl}/images/Pono.svg`,
+    altText: "white outline of hibiscus flower"
   },
   {
     name: "Aloha",
     subtext: "(Compassion)",
-    icon: `${config.frontendUrl}/images/Aloha.svg`
+    icon: `${config.frontendUrl}/images/Aloha.svg`,
+    altText: "white outline of shaka or hang loose hand gesture"
   },
   {
     name: "Ha'aha'a",
     subtext: "(Humility)",
-    icon: `${config.frontendUrl}/images/Haahaa.svg`
+    icon: `${config.frontendUrl}/images/Haahaa.svg`,
+    altText: "white outline of five smiley faces connected by eight lines"
   }
 ];
 
@@ -52,7 +58,7 @@ const ValuesSection = props => {
             style={{ margin: "15px 10px", minWidth: "120px" }}
           >
             <div className={props.classes.valueIcon}>
-              <img alt={value.name} src={value.icon} />
+              <img alt={value.altText} src={value.icon} />
             </div>
             <figcaption
               style={{

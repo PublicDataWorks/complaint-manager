@@ -104,7 +104,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
           <img
             style={cardStyles.imageMobile}
             src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
-            alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
+            alt="Two men in orange jumpsuits and white sneakers sitting on a bench behind bars facing each other"
           />
         </div>
       </section>
@@ -192,7 +192,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
               }
               className={classes.inPrisonImg}
               src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
-              alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
+              alt="Two men in orange jumpsuits and white sneakers sitting on a bench behind bars facing each other"
             />
           </div>
         </div>
@@ -296,7 +296,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
               }
               className={classes.inPrisonImg}
               src={`${config.frontendUrl}/images/MenPrison_StockImg.jpeg`}
-              alt="Limits out-of-cell time for people in custody (in unit and outdoor recreation). Serious overcrowding attributing to inhumane conditions, specifically for jails"
+              alt="Two men in orange jumpsuits and white sneakers sitting on a bench behind bars facing each other"
             />
           </div>
         </div>

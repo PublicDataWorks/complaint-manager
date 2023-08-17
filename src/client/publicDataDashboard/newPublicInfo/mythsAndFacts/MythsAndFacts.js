@@ -43,7 +43,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`${group.category}-content`}
-                id={`${group.category}-header`}
+                id={`${group.category.replace(" ", "-")}-header`}
               >
                 <Typography
                   sx={{ width: "33%", flexShrink: 0 }}
