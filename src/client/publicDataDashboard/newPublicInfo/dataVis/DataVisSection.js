@@ -102,9 +102,8 @@ const DataVisSection = ({ classes, screenSize }) => {
         }}
       >
         <Typography
-          className={`${classes.categoryButtonTitle} ${
-            classes[`categoryButtonTitle-${screenSize}`]
-          }`}
+          className={`${classes.categoryButtonTitle} ${classes[`categoryButtonTitle-${screenSize}`]
+            }`}
         >
           Category
         </Typography>
@@ -117,9 +116,8 @@ const DataVisSection = ({ classes, screenSize }) => {
           {categoryOptions.map(option => (
             <Button
               key={option}
-              className={`${classes.categoryButton} ${
-                option === category ? classes.active : ""
-              }`}
+              className={`${classes.categoryButton} ${option === category ? classes.active : ""
+                }`}
               onClick={() => setCategory(option)}
             >
               {option}
@@ -146,9 +144,8 @@ const DataVisSection = ({ classes, screenSize }) => {
 
   return (
     <section
-      className={`${classes.dataSectionWrapper} ${
-        classes[`dataSectionWrapper-${screenSize}`]
-      }`}
+      className={`${classes.dataSectionWrapper} ${classes[`dataSectionWrapper-${screenSize}`]
+        }`}
     >
       <Typography variant="h2" className={classes.dataSectionTitle}>
         Hawaii Prison Profile Dashboard
@@ -161,43 +158,38 @@ const DataVisSection = ({ classes, screenSize }) => {
         }}
       />
       <div
-        className={`${classes.categoryGraphWrapper} ${
-          classes[`categoryGraphWrapper-${screenSize}`]
-        }`}
+        className={`${classes.categoryGraphWrapper} ${classes[`categoryGraphWrapper-${screenSize}`]
+          }`}
       >
         {screenSize === SCREEN_SIZES.DESKTOP
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
         <Box
-          className={`${classes.graphInfoContainer} ${
-            classes[`graphInfoContainer-${screenSize}`]
-          }`}
+          className={`${classes.graphInfoContainer} ${classes[`graphInfoContainer-${screenSize}`]
+            }`}
         >
           <Typography
             variant="h3"
-            className={`${classes.graphCategoryTitle} ${
-              classes[`graphCategoryTitle-${screenSize}`]
-            }`}
+            className={`${classes.graphCategoryTitle} ${classes[`graphCategoryTitle-${screenSize}`]
+              }`}
           >
             {getCategoryInfo(category).title}
           </Typography>
           <Typography
             variant="body1"
-            className={`${classes.graphCategoryDescription} ${
-              classes[`graphCategoryDescription-${screenSize}`]
-            }`}
+            className={`${classes.graphCategoryDescription} ${classes[`graphCategoryDescription-${screenSize}`]
+              }`}
           >
             {getCategoryInfo(category).description}
           </Typography>
 
           {/* GRAPH GOES HERE */}
-          {/* <RadialChart progress={25} progress2={23} color="#336699" color2="green"/> */}
+          {/* <RadialChart title="White" progress={25} progress2={23} color="#336699" color2="green" /> */}
           {/* AND need to change the failedToLoad function to conditionally render */}
           <Box
-            className={`${classes.graphWrapper} ${
-              classes[`graphWrapper-${screenSize}`]
-            }`}
+            className={`${classes.graphWrapper} ${classes[`graphWrapper-${screenSize}`]
+              }`}
           >
             {failedToLoad()}
           </Box>

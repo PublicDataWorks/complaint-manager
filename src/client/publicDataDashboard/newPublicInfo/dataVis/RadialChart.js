@@ -21,13 +21,15 @@ class RadialChart extends Component {
             strokeWidth,
             dimension,
             color,
-            color2
+            color2,
+            title
         } = this.props;
 
         const circleRadius = Math.min(radius, 85);
         const circumference = 2 * 3.14 * circleRadius;
+        const circumference2 = 2 * 3.14 * (circleRadius - 10);
         const strokeLength = setStrokeLength ? circumference / 100 * progress : 0;
-        const strokeLength2 = setStrokeLength ? circumference / 100 * progress2 : 0;
+        const strokeLength2 = setStrokeLength ? circumference2 / 100 * progress2 : 0;
         return (
             <div
                 className={classNames('radial-chart', className, {
@@ -37,12 +39,12 @@ class RadialChart extends Component {
                 <svg viewBox="0 0 180 180" width={dimension} height={dimension}>
                     <circle
                         className="radial-chart-total"
-                        stroke={color}
-                        strokeWidth={strokeWidth}
+                        stroke="#000"
+                        strokeWidth={1}
                         fill="none"
                         cx="90"
                         cy="90"
-                        r={circleRadius}
+                        r={circleRadius - 15}
                     />
                     <circle
                         className="radial-chart-progress"
@@ -54,11 +56,14 @@ class RadialChart extends Component {
                         cy="90"
                         r={circleRadius}
                     />
+                    <text x="50%" y="50%" textAnchor="middle" stroke="#000" strokeWidth="1px" dy=".3em">
+                        {title}
+                    </text>
                     <circle
                         className="radial-chart-inner"
                         stroke={color2}
                         strokeWidth={strokeWidth}
-                        strokeDasharray={`${strokeLength2},${circumference}`}
+                        strokeDasharray={`${strokeLength2},${circumference2}`}
                         fill="none"
                         cx="90"
                         cy="90"

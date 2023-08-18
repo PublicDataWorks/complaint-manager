@@ -8,12 +8,15 @@
     opacity: 0;
 }
 
-.radial-chart-total {
-    opacity: 0.3;
+.radial-chart-progress {
+    transform: rotate(270deg);
+    transform-origin: center;
+    transition: all 0.6s cubic-bezier(0.58, 0.16, 0.5, 1.14);
+    transition-delay: 0.3s;
 }
 
-.radial-chart-progress .radial-chart-inner {
-    transform: rotate(90deg);
+.radial-chart-inner {
+    transform: rotate(270deg);
     transform-origin: center;
     transition: all 0.6s cubic-bezier(0.58, 0.16, 0.5, 1.14);
     transition-delay: 0.3s;
