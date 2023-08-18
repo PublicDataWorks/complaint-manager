@@ -13,6 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
+import RadialChart from "./RadialChart";
 import { graphInfo } from "./dataVisData";
 
 const categories = {
@@ -191,6 +192,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           </Typography>
 
           {/* GRAPH GOES HERE */}
+          {/* <RadialChart progress={25} progress2={23} color="#336699" color2="green"/> */}
           {/* AND need to change the failedToLoad function to conditionally render */}
           <Box
             className={`${classes.graphWrapper} ${
