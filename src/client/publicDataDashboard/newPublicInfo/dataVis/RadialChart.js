@@ -2,7 +2,9 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import "./RadialChart.css";
+
 const DEFAULT_COLOR = "#040404";
+
 class RadialChart extends Component {
   state = {};
   componentDidMount() {
@@ -25,9 +27,8 @@ class RadialChart extends Component {
       title
     } = this.props;
 
-    const circleRadius = Math.min(radius, 85);
-    const circumference = 2 * 3.14 * circleRadius;
-    const circumference2 = 2 * 3.14 * (circleRadius - 10);
+    const circumference = 2 * 3.14 * radius;
+    const circumference2 = 2 * 3.14 * (radius - 10);
     const strokeLength = setStrokeLength ? (circumference / 100) * progress : 0;
     const strokeLength2 = setStrokeLength
       ? (circumference2 / 100) * progress2
@@ -46,7 +47,7 @@ class RadialChart extends Component {
             fill="none"
             cx="90"
             cy="90"
-            r={circleRadius - 15}
+            r={radius - 15}
           />
           <circle
             className="radial-chart-progress"
@@ -56,7 +57,7 @@ class RadialChart extends Component {
             fill="none"
             cx="90"
             cy="90"
-            r={circleRadius}
+            r={radius}
           />
           <text
             x="50%"
@@ -65,6 +66,7 @@ class RadialChart extends Component {
             stroke="#000"
             strokeWidth="1px"
             dy=".3em"
+            fontSize={`${radius / 3 - 5}px`}
           >
             {title}
           </text>
@@ -76,7 +78,7 @@ class RadialChart extends Component {
             fill="none"
             cx="90"
             cy="90"
-            r={circleRadius - 10}
+            r={radius - 10}
           />
         </svg>
       </div>
