@@ -16,6 +16,7 @@ import useMenuControl from "../../../common/hooks/useMenuControl";
 import RadialChart from "./RadialChart";
 import { graphInfo } from "./dataVisData";
 import { colors } from "../publicInfoStyles";
+import RadialChartInfo from "./RadialChartInfo";
 
 const categories = {
   demographics: "Demographics",
@@ -197,13 +198,15 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
-            {/* <RadialChart
+            {/* <RadialChartInfo />
+            <RadialChart
               title="White"
-              progress={25}
-              progress2={23}
-              color={colors.primaryBrand}
-              color2={colors.secondaryBrand}
+              outerProgress={25}
+              innerProgress={23}
+              outerColor={colors.primaryBrand}
+              innerColor={colors.secondaryBrand}
               dimension={180}
+              strokeWidth={20}
             /> */}
             {failedToLoad()}
           </Box>

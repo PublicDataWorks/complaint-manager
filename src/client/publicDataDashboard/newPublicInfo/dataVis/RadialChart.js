@@ -18,42 +18,44 @@ class RadialChart extends Component {
     const {
       className,
       radius,
-      progress,
-      progress2,
+      outerProgress,
+      innerProgress,
       strokeWidth,
       dimension,
-      color,
-      color2,
+      outerColor,
+      innerColor,
       title
     } = this.props;
 
-    const circumference = 2 * 3.14 * radius;
-    const circumference2 = 2 * 3.14 * (radius - 10);
-    const strokeLength = setStrokeLength ? (circumference / 100) * progress : 0;
-    const strokeLength2 = setStrokeLength
-      ? (circumference2 / 100) * progress2
+    const outerCircumference = 2 * 3.14 * radius;
+    const innerCircumference = 2 * 3.14 * (radius - strokeWidth);
+    const outerStrokeLength = setStrokeLength
+      ? (outerCircumference / 100) * outerProgress
+      : 0;
+    const innerStrokeLength = setStrokeLength
+      ? (innerCircumference / 100) * innerProgress
       : 0;
     return (
       <div
         className={classNames("radial-chart", className, {
-          "no-progress": strokeLength === 0
+          "no-progress": outerStrokeLength === 0
         })}
       >
         <svg viewBox="0 0 180 180" width={dimension} height={dimension}>
           <circle
             className="radial-chart-total"
             stroke="#000"
-            strokeWidth={1}
+            strokeWidth={2}
             fill="none"
             cx="90"
             cy="90"
-            r={radius - 15}
+            r={radius - strokeWidth * 1.5 - 1}
           />
           <circle
             className="radial-chart-progress"
-            stroke={color}
-            strokeWidth={strokeWidth}
-            strokeDasharray={`${strokeLength},${circumference}`}
+            stroke={outerColor}
+            strokeWidth={strokeWidth + 1}
+            strokeDasharray={`${outerStrokeLength},${outerCircumference}`}
             fill="none"
             cx="90"
             cy="90"
@@ -72,13 +74,13 @@ class RadialChart extends Component {
           </text>
           <circle
             className="radial-chart-inner"
-            stroke={color2}
+            stroke={innerColor}
             strokeWidth={strokeWidth}
-            strokeDasharray={`${strokeLength2},${circumference2}`}
+            strokeDasharray={`${innerStrokeLength},${innerCircumference}`}
             fill="none"
             cx="90"
             cy="90"
-            r={radius - 10}
+            r={radius - strokeWidth}
           />
         </svg>
       </div>
