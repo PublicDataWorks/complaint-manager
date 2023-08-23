@@ -2,8 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import "./RadialChart.css";
-
-const DEFAULT_COLOR = "#040404";
+import { colors } from "../publicInfoStyles";
 
 class RadialChart extends Component {
   state = {};
@@ -40,15 +39,20 @@ class RadialChart extends Component {
         className={classNames("radial-chart", className, {
           "no-progress": outerStrokeLength === 0
         })}
+        style={{ width: `${dimension}px` }}
       >
-        <svg viewBox="0 0 180 180" width={dimension} height={dimension}>
+        <svg
+          viewBox={`0 0 ${dimension} ${dimension}`}
+          width={dimension}
+          height={dimension}
+        >
           <circle
             className="radial-chart-total"
             stroke="#000"
             strokeWidth={2}
             fill="none"
-            cx="90"
-            cy="90"
+            cx={dimension / 2}
+            cy={dimension / 2}
             r={radius - strokeWidth * 1.5 - 1}
           />
           <circle
@@ -57,8 +61,8 @@ class RadialChart extends Component {
             strokeWidth={strokeWidth + 1}
             strokeDasharray={`${outerStrokeLength},${outerCircumference}`}
             fill="none"
-            cx="90"
-            cy="90"
+            cx={dimension / 2}
+            cy={dimension / 2}
             r={radius}
           />
           <text
@@ -78,8 +82,8 @@ class RadialChart extends Component {
             strokeWidth={strokeWidth}
             strokeDasharray={`${innerStrokeLength},${innerCircumference}`}
             fill="none"
-            cx="90"
-            cy="90"
+            cx={dimension / 2}
+            cy={dimension / 2}
             r={radius - strokeWidth}
           />
         </svg>
@@ -91,8 +95,9 @@ RadialChart.defaultProps = {
   radius: 80,
   progress: 100,
   strokeWidth: 10,
-  dimension: 180,
-  color: DEFAULT_COLOR
+  dimension: 200,
+  outerColor: colors.primaryBrand,
+  innerColor: colors.secondaryBrand
 };
 RadialChart.propTypes = {
   className: PropTypes.string,

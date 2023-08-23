@@ -5,13 +5,12 @@ const dataVisStyles = theme => ({
   ...publicInfoStyles(theme),
 
   dataSectionWrapper: {
-    height: "95vh",
+    height: "fit-content",
     margin: "1.5em",
     padding: "16px 0",
     fontFamily: "Montserrat"
   },
   [`dataSectionWrapper-${SCREEN_SIZES.DESKTOP}`]: {
-    height: "70vh",
     margin: "4.5em 7em"
   },
   dataSectionTitle: {
@@ -72,7 +71,7 @@ const dataVisStyles = theme => ({
   },
   /* GRAPH */
   graphInfoContainer: {
-    height: "80%",
+    height: "fit-content",
     width: "100%",
     marginTop: "28px",
     fontFamily: "inherit",
@@ -113,10 +112,10 @@ const dataVisStyles = theme => ({
     padding: "4px 8px"
   },
   graphWrapper: {
-    height: "75%"
+    height: "100%"
   },
-  [`graphWrapper-${SCREEN_SIZES.TABLET}`]: {
-    height: "80%"
+  [`graphWrapper-${SCREEN_SIZES.MOBILE}`]: {
+    width: "100%"
   },
   sourceText: {
     paddingTop: "16px",
@@ -136,6 +135,16 @@ const dataVisStyles = theme => ({
     padding: "16px",
     fontFamily: "inherit",
     textAlign: "center"
+  },
+  demographicWrapper: {
+    display: "flex",
+    flexDirection: "column",
+    width: "180px",
+    alignItems: "center",
+    marginRight: "15px"
+  },
+  [`demographicWrapper-${SCREEN_SIZES.MOBILE}`]: {
+    width: "150px"
   }
 });
 

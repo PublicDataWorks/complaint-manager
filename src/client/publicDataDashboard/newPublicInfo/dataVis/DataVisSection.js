@@ -13,10 +13,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
-import RadialChart from "./RadialChart";
 import { graphInfo } from "./dataVisData";
-import { colors } from "../publicInfoStyles";
-import RadialChartInfo from "./RadialChartInfo";
+import DemographicWrapper from "./DemographicWrapper";
 
 const categories = {
   demographics: "Demographics",
@@ -198,17 +196,50 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
-            {/* <RadialChartInfo />
-            <RadialChart
-              title="White"
-              outerProgress={25}
-              innerProgress={23}
-              outerColor={colors.primaryBrand}
-              innerColor={colors.secondaryBrand}
-              dimension={180}
-              strokeWidth={20}
-            /> */}
-            {failedToLoad()}
+            {/* <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "center",
+                height: "fit-content"
+              }}
+            >
+              <DemographicWrapper
+                title={"White"}
+                outerProgress={25}
+                innerProgress={23}
+                classes={classes}
+                screenSize={screenSize}
+              />
+              <DemographicWrapper
+                title={"White"}
+                outerProgress={25}
+                innerProgress={23}
+                classes={classes}
+                screenSize={screenSize}
+              />
+              <DemographicWrapper
+                title={"White"}
+                outerProgress={25}
+                innerProgress={23}
+                classes={classes}
+                screenSize={screenSize}
+              />
+              <DemographicWrapper
+                title={"White"}
+                outerProgress={25}
+                innerProgress={23}
+                classes={classes}
+                screenSize={screenSize}
+              />
+              <DemographicWrapper
+                title={"White"}
+                outerProgress={25}
+                innerProgress={23}
+                classes={classes}
+                screenSize={screenSize}
+              />
+            </div> */}
           </Box>
 
           <Typography variant="body1" className={classes.sourceText}>
