@@ -6,8 +6,8 @@ import { withStyles } from "@material-ui/styles";
 
 const DemographicWrapper = ({
   title,
-  outerProgress,
-  innerProgress,
+  incPopProgress,
+  statePopProgress,
   classes,
   screenSize
 }) => {
@@ -17,11 +17,14 @@ const DemographicWrapper = ({
         classes[`demographicWrapper-${screenSize}`]
       }`}
     >
-      <RadialChartInfo />
+      <RadialChartInfo
+        incPopProgress={incPopProgress}
+        statePopProgress={statePopProgress}
+      />
       <RadialChart
         title={title}
-        outerProgress={outerProgress}
-        innerProgress={innerProgress}
+        incPopProgress={incPopProgress}
+        statePopProgress={statePopProgress}
         dimension={200}
         radius={80}
         strokeWidth={20}

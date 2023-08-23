@@ -1,6 +1,7 @@
 import { Divider } from "@material-ui/core";
+import { ProfileMappingSource } from "@okta/okta-sdk-nodejs";
 import React from "react";
-const RadialChartInfo = () => {
+const RadialChartInfo = ({ incPopProgress, statePopProgress }) => {
   return (
     <div
       style={{
@@ -13,7 +14,7 @@ const RadialChartInfo = () => {
       <div
         style={{ marginRight: "10px", maxWidth: "60px", textAlign: "right" }}
       >
-        25% <br /> of state pop.
+        {statePopProgress}% <br /> of state pop.
       </div>
       <Divider
         orientation="vertical"
@@ -21,7 +22,7 @@ const RadialChartInfo = () => {
         flexItem
       ></Divider>
       <div style={{ marginLeft: "10px", maxWidth: "50px" }}>
-        22% <br /> of inc. pop.
+        {incPopProgress}% <br /> of inc. pop.
       </div>
     </div>
   );

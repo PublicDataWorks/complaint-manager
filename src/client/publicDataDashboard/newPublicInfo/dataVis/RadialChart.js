@@ -17,8 +17,8 @@ class RadialChart extends Component {
     const {
       className,
       radius,
-      outerProgress,
-      innerProgress,
+      incPopProgress,
+      statePopProgress,
       strokeWidth,
       dimension,
       outerColor,
@@ -29,10 +29,10 @@ class RadialChart extends Component {
     const outerCircumference = 2 * 3.14 * radius;
     const innerCircumference = 2 * 3.14 * (radius - strokeWidth);
     const outerStrokeLength = setStrokeLength
-      ? (outerCircumference / 100) * outerProgress
+      ? (outerCircumference / 100) * incPopProgress
       : 0;
     const innerStrokeLength = setStrokeLength
-      ? (innerCircumference / 100) * innerProgress
+      ? (innerCircumference / 100) * statePopProgress
       : 0;
     return (
       <div
@@ -72,7 +72,7 @@ class RadialChart extends Component {
             stroke="#000"
             strokeWidth="1px"
             dy=".3em"
-            fontSize={`${radius / 3 - 5}px`}
+            fontSize={`${radius / 3 - 8}px`}
           >
             {title}
           </text>

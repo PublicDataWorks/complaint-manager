@@ -196,7 +196,7 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
-            {/* <div
+            <div
               style={{
                 display: "flex",
                 flexWrap: "wrap",
@@ -206,40 +206,40 @@ const DataVisSection = ({ classes, screenSize }) => {
             >
               <DemographicWrapper
                 title={"White"}
-                outerProgress={25}
-                innerProgress={23}
+                statePopProgress={25}
+                incPopProgress={22}
                 classes={classes}
                 screenSize={screenSize}
               />
               <DemographicWrapper
-                title={"White"}
-                outerProgress={25}
-                innerProgress={23}
+                title={"Black"}
+                statePopProgress={2}
+                incPopProgress={5}
                 classes={classes}
                 screenSize={screenSize}
               />
               <DemographicWrapper
-                title={"White"}
-                outerProgress={25}
-                innerProgress={23}
+                title={"Hawaiian"}
+                statePopProgress={10}
+                incPopProgress={44}
                 classes={classes}
                 screenSize={screenSize}
               />
               <DemographicWrapper
-                title={"White"}
-                outerProgress={25}
-                innerProgress={23}
+                title={"Asian"}
+                statePopProgress={37}
+                incPopProgress={17}
                 classes={classes}
                 screenSize={screenSize}
               />
               <DemographicWrapper
-                title={"White"}
-                outerProgress={25}
-                innerProgress={23}
+                title={"Latinx"}
+                statePopProgress={11}
+                incPopProgress={2}
                 classes={classes}
                 screenSize={screenSize}
               />
-            </div> */}
+            </div>
           </Box>
 
           <Typography variant="body1" className={classes.sourceText}>
