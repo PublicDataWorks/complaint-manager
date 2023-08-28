@@ -148,6 +148,7 @@ const DataVisSection = ({ classes, screenSize }) => {
 
   return (
     <section
+      id="hawaii-prison-profile-dashboard"
       className={`${classes.dataSectionWrapper} ${
         classes[`dataSectionWrapper-${screenSize}`]
       }`}

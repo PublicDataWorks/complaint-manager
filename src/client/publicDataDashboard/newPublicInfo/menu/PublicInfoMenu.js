@@ -1,47 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { withStyles } from "@material-ui/styles";
 import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
-const PublicInfoMenu = props => {
+const PublicInfoMenu = ({ classes, screenSize }) => {
   const links = [
     {
-      href: "#",
+      href: "#hawaii-prison-profile-dashboard",
       title: "Public Data"
     },
     {
-      href: "#",
+      href: "#myths-and-facts",
+      title: "Myths and Facts"
+    },
+    {
+      href: "#staffing-shortage",
       title: "Issues"
-    },
-    {
-      href: "#",
-      title: "Stories"
-    },
-    {
-      href: "#",
-      title: "FAQ"
     }
   ];
 
-  if (props.screenSize === SCREEN_SIZES.MOBILE) {
+  if (screenSize === SCREEN_SIZES.MOBILE) {
     return <div></div>;
   } else {
     return (
       <div>
-        <menu className={props.classes.menu}>
+        <menu className={classes.menu}>
           <div
             style={{
               display: "flex"
             }}
           >
-            <a href={"#"} className={props.classes.menuLink}>
+            <a href={"#Values"} className={classes.menuLink}>
               About
             </a>
             {links.map(link => (
               <a
                 key={link.title}
                 href={link.href}
-                className={`${props.classes.menuLink} ${props.classes.menuBorderLeft}`}
+                className={`${classes.menuLink} ${classes.menuBorderLeft}`}
               >
                 {link.title}
               </a>

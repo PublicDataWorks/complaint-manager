@@ -42,6 +42,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
   if (screenSize === SCREEN_SIZES.MOBILE) {
     return (
       <section
+        id="staffing-shortage"
         className={`${classes.staffingShortageContainer} ${
           classes[`staffingShortageContainer-${screenSize}`]
         }`}
@@ -112,6 +113,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
   } else if (screenSize === SCREEN_SIZES.TABLET) {
     return (
       <section
+        id="staffing-shortage"
         className={`${classes.staffingShortageContainer} ${
           classes[`staffingShortageContainer-${screenSize}`]
         }`}
@@ -201,6 +203,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
   } else {
     return (
       <section
+        id="staffing-shortage"
         className={`${classes.staffingShortageContainer} ${
           classes[`staffingShortageContainer-${screenSize}`]
         }`}

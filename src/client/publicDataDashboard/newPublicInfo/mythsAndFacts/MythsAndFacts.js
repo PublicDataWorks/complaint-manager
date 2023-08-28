@@ -20,6 +20,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
 
   return (
     <section
+      id="myths-and-facts"
       className={`${classes.mythsAndFactsContainer} ${
         classes[`mythsAndFactsContainer-${screenSize}`]
       }`}
