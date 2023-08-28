@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import dataVisStyles from "./dataVisStyles";
+import {colors} from "../publicInfoStyles"
+import  "./RadialChart";
 import {
   Box,
   Button,
@@ -7,7 +9,7 @@ import {
   Menu,
   MenuItem,
   Typography,
-  withStyles
+  withStyles,
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import alertImg from "./alertImg.svg";
@@ -241,7 +243,10 @@ const DataVisSection = ({ classes, screenSize }) => {
               />
             </div>
           </Box>
-
+          <ol className= "unordered-list">
+                    <li><span style={{fontSize:"large", marginRight:"50px"}}>State Population</span></li>
+                    <li><span style={{fontSize:"large",}}>Incarcerated Population</span></li>
+                </ol>
           <Typography variant="body1" className={classes.sourceText}>
             Source: Bureau of Justice Statistics, Federal Justice Statistics
             Program, 2021 (preliminary); US Census, 2022; and National Prisoner
