@@ -123,19 +123,6 @@ const dataVisStyles = theme => ({
     fontSize: "14px",
     fontWeight: "400"
   },
-  /* FAILED TO LOAD */
-  failedToLoadWrapper: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  failedToLoadText: {
-    padding: "16px",
-    fontFamily: "inherit",
-    textAlign: "center"
-  },
   demographicWrapper: {
     display: "flex",
     flexDirection: "column",

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import dataVisStyles from "./dataVisStyles";
-import {colors} from "../publicInfoStyles"
-import  "./RadialChart";
+import "./RadialChart";
 import {
   Box,
   Button,
@@ -9,10 +8,9 @@ import {
   Menu,
   MenuItem,
   Typography,
-  withStyles,
+  withStyles
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import alertImg from "./alertImg.svg";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 import { graphInfo } from "./dataVisData";
@@ -132,20 +130,6 @@ const DataVisSection = ({ classes, screenSize }) => {
     );
   };
 
-  const failedToLoad = () => {
-    return (
-      <Box className={classes.failedToLoadWrapper}>
-        <img
-          src={alertImg}
-          alt="orange triangle alert icon with eclaimation point in the middle"
-        />
-        <Typography className={classes.failedToLoadText}>
-          Unable to load data. Please wait a moment and try again.
-        </Typography>
-      </Box>
-    );
-  };
-
   return (
     <section
       id="hawaii-prison-profile-dashboard"
@@ -244,10 +228,16 @@ const DataVisSection = ({ classes, screenSize }) => {
               />
             </div>
           </Box>
-          <ol className= "unordered-list">
-                    <li><span style={{fontSize:"large", marginRight:"50px"}}>State Population</span></li>
-                    <li><span style={{fontSize:"large",}}>Incarcerated Population</span></li>
-                </ol>
+          <ol className="unordered-list">
+            <li>
+              <span style={{ fontSize: "large", marginRight: "50px" }}>
+                State Population
+              </span>
+            </li>
+            <li>
+              <span style={{ fontSize: "large" }}>Incarcerated Population</span>
+            </li>
+          </ol>
           <Typography variant="body1" className={classes.sourceText}>
             Source: Bureau of Justice Statistics, Federal Justice Statistics
             Program, 2021 (preliminary); US Census, 2022; and National Prisoner
