@@ -1,6 +1,5 @@
 import React from "react";
 import RadialChart from "./RadialChart";
-import RadialChartInfo from "./RadialChartInfo";
 import dataVisStyles from "./dataVisStyles";
 import { withStyles } from "@material-ui/styles";
 
@@ -17,14 +16,10 @@ const DemographicWrapper = ({
         classes[`demographicWrapper-${screenSize}`]
       }`}
     >
-      <RadialChartInfo
-        incPopProgress={incPopProgress}
-        statePopProgress={statePopProgress}
-      />
       <RadialChart
         title={title}
-        incPopProgress={incPopProgress}
-        statePopProgress={statePopProgress}
+        innerPopProgress={statePopProgress}
+        outerPopProgress={incPopProgress}
         dimension={200}
         radius={80}
         strokeWidth={20}
