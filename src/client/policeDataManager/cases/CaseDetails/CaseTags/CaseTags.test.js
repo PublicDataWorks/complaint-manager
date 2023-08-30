@@ -11,7 +11,7 @@ import {
   getCaseTagSuccess
 } from "../../../actionCreators/casesActionCreators";
 import { USER_PERMISSIONS } from "../../../../../sharedUtilities/constants";
-import "@testing-library/jest-dom/extend-expect";
+import "@testing-library/jest-dom";
 
 describe("Case Tags", () => {
   let dialog, dispatchSpy, store;
