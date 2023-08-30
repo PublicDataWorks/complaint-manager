@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import dataVisStyles from "./dataVisStyles";
 import "./RadialChart";
 import {
@@ -13,8 +13,8 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
-import { graphInfo } from "./dataVisData";
-import DemographicWrapper from "./DemographicWrapper";
+import { graphInfo, demographicData } from "./dataVisData";
+import RadialChart from "./RadialChart";
 
 const categories = {
   demographics: "Demographics",
@@ -116,6 +116,7 @@ const DataVisSection = ({ classes, screenSize }) => {
         >
           {categoryOptions.map(option => (
             <Button
+              data-testid={`${option}-selection`}
               key={option}
               className={`${classes.categoryButton} ${
                 option === category ? classes.active : ""
@@ -183,61 +184,53 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "center",
-                height: "fit-content"
-              }}
-            >
-              <DemographicWrapper
-                title={"White"}
-                statePopProgress={25}
-                incPopProgress={22}
-                classes={classes}
-                screenSize={screenSize}
-              />
-              <DemographicWrapper
-                title={"Black"}
-                statePopProgress={2}
-                incPopProgress={5}
-                classes={classes}
-                screenSize={screenSize}
-              />
-              <DemographicWrapper
-                title={"Hawaiian"}
-                statePopProgress={10}
-                incPopProgress={44}
-                classes={classes}
-                screenSize={screenSize}
-              />
-              <DemographicWrapper
-                title={"Asian"}
-                statePopProgress={37}
-                incPopProgress={17}
-                classes={classes}
-                screenSize={screenSize}
-              />
-              <DemographicWrapper
-                title={"Latinx"}
-                statePopProgress={11}
-                incPopProgress={2}
-                classes={classes}
-                screenSize={screenSize}
-              />
-            </div>
+            {category === categories.demographics ? (
+              <>
+                <div
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    justifyContent: "center",
+                    height: "fit-content",
+                    marginTop: "20px"
+                  }}
+                >
+                  {demographicData.map(demographic => (
+                    <div
+                      className={`${classes.radialChartWrapper} ${
+                        classes[`radialChartWrapper-${screenSize}`]
+                      }`}
+                    >
+                      <RadialChart
+                        title={demographic.title}
+                        innerPercentage={demographic.statePopulation}
+                        outerPercentage={demographic.incarceratedPopulation}
+                        dimension={200}
+                        radius={80}
+                        strokeWidth={20}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <ol className="unordered-list">
+                    <li>
+                      <span style={{ fontSize: "large", marginRight: "50px" }}>
+                        State Population
+                      </span>
+                    </li>
+                    <li>
+                      <span style={{ fontSize: "large" }}>
+                        Incarcerated Population
+                      </span>
+                    </li>
+                  </ol>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
           </Box>
-          <ol className="unordered-list">
-            <li>
-              <span style={{ fontSize: "large", marginRight: "50px" }}>
-                State Population
-              </span>
-            </li>
-            <li>
-              <span style={{ fontSize: "large" }}>Incarcerated Population</span>
-            </li>
-          </ol>
           <Typography variant="body1" className={classes.sourceText}>
             Source: Bureau of Justice Statistics, Federal Justice Statistics
             Program, 2021 (preliminary); US Census, 2022; and National Prisoner

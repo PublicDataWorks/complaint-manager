@@ -123,14 +123,14 @@ const dataVisStyles = theme => ({
     fontSize: "14px",
     fontWeight: "400"
   },
-  demographicWrapper: {
+  radialChartWrapper: {
     display: "flex",
     flexDirection: "column",
     width: "180px",
     alignItems: "center",
     marginRight: "15px"
   },
-  [`demographicWrapper-${SCREEN_SIZES.MOBILE}`]: {
+  [`radialChartWrapper-${SCREEN_SIZES.MOBILE}`]: {
     width: "150px"
   }
 });
