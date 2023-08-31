@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.61.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.60.0...v3.61.0) (2023-08-31)
+
+
+### Features
+
+* Maria [[#306](https://github.com/PublicDataWorks/complaint-manager/issues/306)] add footer for mobile view ([1519bac](https://github.com/PublicDataWorks/complaint-manager/commit/1519bacd3d195a02dccd4476a670e56a45efe813))
+* Shak/Jean/Claire [[#303](https://github.com/PublicDataWorks/complaint-manager/issues/303)] adds custom radial chart with 2 layers ([f468f0f](https://github.com/PublicDataWorks/complaint-manager/commit/f468f0f712f2b23811290f03ed5401f0fa76146b))
+* Shak/Jean/Claire [[#303](https://github.com/PublicDataWorks/complaint-manager/issues/303)] style/rotate double layer radial chart ([15d3b9b](https://github.com/PublicDataWorks/complaint-manager/commit/15d3b9b70953eca3b692078280c3ee40c73dc368))
+* Shak/Jean/Claire [[#303](https://github.com/PublicDataWorks/complaint-manager/issues/303)] updates styling for custom RadialChart ([893acee](https://github.com/PublicDataWorks/complaint-manager/commit/893aceef44403eaddc48fc37a8091d27d92b9f8a))
+
 ## [3.60.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.59.3...v3.60.0) (2023-07-31)
 
 
