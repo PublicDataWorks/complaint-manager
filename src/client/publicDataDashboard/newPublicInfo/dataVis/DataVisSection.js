@@ -13,7 +13,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 import { graphInfo } from "./dataVisData";
-import DemographicSection from "./DemographicSection";
+import DemographicSection from "./demographicSection/DemographicSection";
 
 const categories = {
   demographics: "Demographics",

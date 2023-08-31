@@ -2,7 +2,7 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import "./RadialChart.css";
-import { colors } from "../publicInfoStyles";
+import { colors } from "../../publicInfoStyles";
 
 class RadialChart extends Component {
   state = {};

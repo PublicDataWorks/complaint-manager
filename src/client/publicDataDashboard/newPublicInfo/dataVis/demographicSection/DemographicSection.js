@@ -1,7 +1,7 @@
 import React from "react";
 import RadialChart from "./RadialChart";
-import { demographicData } from "./dataVisData";
-import dataVisStyles from "./dataVisStyles";
+import { demographicData } from "../dataVisData";
+import dataVisStyles from "../dataVisStyles";
 import { withStyles } from "@material-ui/core";
 
 const DemographicSection = ({ classes, screenSize }) => {

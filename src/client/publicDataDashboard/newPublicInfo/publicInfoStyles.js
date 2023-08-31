@@ -105,25 +105,68 @@ const publicInfoStyles = theme => ({
       color: colors.secondaryBrand
     }
   },
+  [`menuLink-${SCREEN_SIZES.TABLET}`]: {
+    padding: "0px 16px",
+    textAlign: "center"
+  },
   menuBorderLeft: {
     borderLeft: "solid 1px #bbbcbd"
   },
-  banner: {
+  bannerSection: {
     background: `linear-gradient(to bottom right, ${colors.gradientDark}, ${colors.gradientLight}), url(${images.banner});`,
     backgroundRepeat: "no-repeat",
     width: "100%",
     color: "white"
   },
-  [`banner-${SCREEN_SIZES.MOBILE}`]: {
-    padding: "5em 1em 1em 2em",
+  [`bannerSection-${SCREEN_SIZES.MOBILE}`]: {
     background: `linear-gradient(to bottom right, ${colors.gradientDarkHalfOpacity}, ${colors.gradientDarkHalfOpacity}), url(${images.banner});`,
     backgroundPositionX: "-1150px"
   },
-  [`banner-${SCREEN_SIZES.TABLET}`]: {
-    padding: "50px 1200px 50px 100px"
+  [`bannerTextWrapper-${SCREEN_SIZES.MOBILE}`]: {
+    padding: "3.5em 1em 0 2.5em"
   },
-  [`banner-${SCREEN_SIZES.DESKTOP}`]: {
-    padding: "50px 1200px 50px 100px"
+  [`bannerTextWrapper-${SCREEN_SIZES.TABLET}`]: {
+    padding: "3em 1.5em 0 3em"
+  },
+  [`bannerTextWrapper-${SCREEN_SIZES.DESKTOP}`]: {
+    padding: "3.5em 1.5em 0 6em"
+  },
+  bannerTitle: {
+    fontFamily: "Montserrat",
+    lineHeight: "1.2",
+    maxWidth: "900px"
+  },
+  [`bannerTitle-${SCREEN_SIZES.MOBILE}`]: {
+    fontSize: "36px",
+    maxWidth: "305px"
+  },
+  [`bannerTitle-${SCREEN_SIZES.TABLET}`]: {
+    fontSize: "46px"
+  },
+  [`bannerTitle-${SCREEN_SIZES.DESKTOP}`]: {
+    fontSize: "56px"
+  },
+  bannerSubTitle: {
+    paddingTop: "1em",
+    fontWeight: "400",
+    fontFamily: "inherit",
+    letterSpacing: "0.5px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.MOBILE}`]: {
+    fontSize: "14px",
+    maxWidth: "305px",
+    lineHeight: "22px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.TABLET}`]: {
+    fontSize: "16px",
+    maxWidth: "599px",
+    lineHeight: "24px"
+  },
+  [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
+    paddingTop: "2em",
+    fontSize: "16px",
+    maxWidth: "800px",
+    lineHeight: "36px"
   },
   bannerLink: {
     backgroundColor: colors.secondaryBrand,
@@ -138,38 +181,19 @@ const publicInfoStyles = theme => ({
     margin: "3em 0",
     display: "flex"
   },
-  bannerTitle: {
-    lineHeight: "1.2",
-    maxWidth: "699px",
-    fontWeight: "100"
+  [`bannerLinkSection-${SCREEN_SIZES.MOBILE}`]: {
+    margin: "0",
+    padding: "2.75em 0"
   },
-  bannerSubTitle: {
-    marginTop: "1em",
-    fontWeight: "100",
-    fontFamily: "inherit"
+  [`bannerLinkSection-${SCREEN_SIZES.TABLET}`]: {
+    margin: "0",
+    padding: "2em 0"
   },
-  [`bannerTitle-${SCREEN_SIZES.MOBILE}`]: {
-    fontSize: "36px",
-    maxWidth: "305px"
+  [`bannerLinkSection-${SCREEN_SIZES.DESKTOP}`]: {
+    margin: "0",
+    padding: "2em 0 5em"
   },
-  [`bannerTitle-${SCREEN_SIZES.TABLET}`]: {
-    fontSize: "56px"
-  },
-  [`bannerTitle-${SCREEN_SIZES.DESKTOP}`]: {
-    fontSize: "56px"
-  },
-  [`bannerSubTitle-${SCREEN_SIZES.MOBILE}`]: {
-    fontSize: "16px",
-    maxWidth: "305px"
-  },
-  [`bannerSubTitle-${SCREEN_SIZES.TABLET}`]: {
-    fontSize: "16px",
-    maxWidth: "599px"
-  },
-  [`bannerSubTitle-${SCREEN_SIZES.DESKTOP}`]: {
-    fontSize: "20px",
-    maxWidth: "849px"
-  },
+
   valuesSection: {
     alignItems: "center",
     textAlign: "center",

@@ -30,14 +30,23 @@ const PublicInfoMenu = ({ classes, screenSize }) => {
               display: "flex"
             }}
           >
-            <a href={"#Values"} className={classes.menuLink}>
+            <a
+              href={"#Values"}
+              // className={classes.menuLink}
+              className={`${classes.menuLink} ${
+                classes[`menuLink-${screenSize}`]
+              }`}
+            >
               About
             </a>
             {links.map(link => (
               <a
                 key={link.title}
                 href={link.href}
-                className={`${classes.menuLink} ${classes.menuBorderLeft}`}
+                // className={`${classes.menuLink} ${classes.menuBorderLeft}`}
+                className={`${classes.menuBorderLeft} ${classes.menuLink} ${
+                  classes[`menuLink-${screenSize}`]
+                }`}
               >
                 {link.title}
               </a>

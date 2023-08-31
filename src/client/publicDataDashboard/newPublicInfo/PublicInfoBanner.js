@@ -12,34 +12,42 @@ export const BUTTON_URL =
 const PublicInfoBanner = props => {
   return (
     <section
-      className={`${props.classes.banner} ${
-        props.classes[`banner-${props.screenSize}`]
+      className={`${props.classes.bannerSection} ${
+        props.classes[`bannerSection-${props.screenSize}`]
       }`}
     >
-      <Typography
-        variant="h2"
-        className={`${props.classes.bannerTitle} ${
-          props.classes[`bannerTitle-${props.screenSize}`]
-        }`}
+      <div
+        className={`${props.classes[`bannerTextWrapper-${props.screenSize}`]}`}
       >
-        Empowering Rehabilitation, Inspiring Change
-      </Typography>
-      <Typography
-        className={`${props.classes.bannerSubTitle} ${
-          props.classes[`bannerSubTitle-${props.screenSize}`]
-        }`}
-      >
-        {SUBTEXT}
-      </Typography>
-      <section className={props.classes.bannerLinkSection}>
-        <a
-          className={props.classes.bannerLink}
-          href={BUTTON_URL}
-          target="_blank"
+        <Typography
+          variant="h2"
+          className={`${props.classes.bannerTitle} ${
+            props.classes[`bannerTitle-${props.screenSize}`]
+          }`}
         >
-          {BUTTON_TEXT}
-        </a>
-      </section>
+          Empowering Rehabilitation, Inspiring Change
+        </Typography>
+        <Typography
+          className={`${props.classes.bannerSubTitle} ${
+            props.classes[`bannerSubTitle-${props.screenSize}`]
+          }`}
+        >
+          {SUBTEXT}
+        </Typography>
+        <section
+          className={`${props.classes.bannerLinkSection} ${
+            props.classes[`bannerLinkSection-${props.screenSize}`]
+          }`}
+        >
+          <a
+            className={props.classes.bannerLink}
+            href={BUTTON_URL}
+            target="_blank"
+          >
+            {BUTTON_TEXT}
+          </a>
+        </section>
+      </div>
     </section>
   );
 };
