@@ -1,6 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import dataVisStyles from "./dataVisStyles";
-import "./RadialChart";
 import {
   Box,
   Button,
@@ -13,8 +12,8 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
-import { graphInfo, demographicData } from "./dataVisData";
-import RadialChart from "./RadialChart";
+import { graphInfo } from "./dataVisData";
+import DemographicSection from "./DemographicSection";
 
 const categories = {
   demographics: "Demographics",
@@ -94,13 +93,7 @@ const DataVisSection = ({ classes, screenSize }) => {
 
   const renderCategoryList = () => {
     return (
-      <Box
-        style={{
-          width: "20%",
-          height: "fit-content",
-          margin: "50px 5% 0 0"
-        }}
-      >
+      <Box className={classes.categoryListWrapper}>
         <Typography
           className={`${classes.categoryButtonTitle} ${
             classes[`categoryButtonTitle-${screenSize}`]
@@ -149,8 +142,8 @@ const DataVisSection = ({ classes, screenSize }) => {
         }}
       />
       <div
-        className={`${classes.categoryGraphWrapper} ${
-          classes[`categoryGraphWrapper-${screenSize}`]
+        className={`${classes.categoryWrapper} ${
+          classes[`categoryWrapper-${screenSize}`]
         }`}
       >
         {screenSize === SCREEN_SIZES.DESKTOP
@@ -178,60 +171,23 @@ const DataVisSection = ({ classes, screenSize }) => {
           >
             {getCategoryInfo(category).description}
           </Typography>
-
           <Box
             className={`${classes.graphWrapper} ${
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
             {category === categories.demographics ? (
-              <>
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    justifyContent: "center",
-                    height: "fit-content",
-                    marginTop: "20px"
-                  }}
-                >
-                  {demographicData.map(demographic => (
-                    <div
-                      className={`${classes.radialChartWrapper} ${
-                        classes[`radialChartWrapper-${screenSize}`]
-                      }`}
-                    >
-                      <RadialChart
-                        title={demographic.title}
-                        innerPercentage={demographic.statePopulation}
-                        outerPercentage={demographic.incarceratedPopulation}
-                        dimension={200}
-                        radius={80}
-                        strokeWidth={20}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <ol className="unordered-list">
-                    <li>
-                      <span style={{ fontSize: "large", marginRight: "50px" }}>
-                        State Population
-                      </span>
-                    </li>
-                    <li>
-                      <span style={{ fontSize: "large" }}>
-                        Incarcerated Population
-                      </span>
-                    </li>
-                  </ol>
-                </div>
-              </>
+              <DemographicSection screenSize={screenSize} />
             ) : (
               ""
             )}
           </Box>
-          <Typography variant="body1" className={classes.sourceText}>
+          <Typography
+            variant="body1"
+            className={`${classes.sourceText} ${
+              classes[`sourceText-${screenSize}`]
+            }`}
+          >
             Source: Bureau of Justice Statistics, Federal Justice Statistics
             Program, 2021 (preliminary); US Census, 2022; and National Prisoner
             Statistics, 2021.

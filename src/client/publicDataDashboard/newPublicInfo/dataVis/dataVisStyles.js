@@ -18,7 +18,8 @@ const dataVisStyles = theme => ({
     fontSize: "32px",
     fontWeight: "300"
   },
-  categoryGraphWrapper: {
+  /* CATEGORY DROPDOWN & LIST */
+  categoryWrapper: {
     height: "100%",
     width: "100%",
     display: "flex",
@@ -26,11 +27,17 @@ const dataVisStyles = theme => ({
     alignItems: "flex-start",
     justifyContent: "space-start"
   },
-  [`categoryGraphWrapper-${SCREEN_SIZES.DESKTOP}`]: {
+  [`categoryWrapper-${SCREEN_SIZES.DESKTOP}`]: {
     flexDirection: "row",
     justifyContent: "space-between"
   },
-  /* CATEGORY DROPDOWN & LIST */
+  categoryListWrapper: {
+    height: "fit-content",
+    width: "20%",
+    minWidth: "180px",
+    maxWidth: "300px",
+    margin: "50px 5% 0 0"
+  },
   categoryButtonTitle: {
     width: "211px",
     fontFamily: "inherit",
@@ -112,7 +119,8 @@ const dataVisStyles = theme => ({
     padding: "4px 8px"
   },
   graphWrapper: {
-    height: "100%"
+    height: "100%",
+    padding: "20px 0"
   },
   [`graphWrapper-${SCREEN_SIZES.MOBILE}`]: {
     width: "100%"
@@ -123,6 +131,13 @@ const dataVisStyles = theme => ({
     fontSize: "14px",
     fontWeight: "400"
   },
+  [`sourceText-${SCREEN_SIZES.TABLET}`]: {
+    padding: "16px 16px 0"
+  },
+  [`sourceText-${SCREEN_SIZES.DESKTOP}`]: {
+    paddingLeft: "16px"
+  },
+  /* DEMOGRAPHICS RADIAL CHART */
   radialChartWrapper: {
     display: "flex",
     flexDirection: "column",
@@ -132,6 +147,27 @@ const dataVisStyles = theme => ({
   },
   [`radialChartWrapper-${SCREEN_SIZES.MOBILE}`]: {
     width: "150px"
+  },
+  demographicLegend: {
+    fontSize: "x-large",
+    display: "flex",
+    flexWrap: "wrap",
+    padding: "0%"
+  },
+  [`demographicLegend-${SCREEN_SIZES.MOBILE}`]: {
+    margin: 0,
+    justifyContent: "flex-start"
+  },
+  [`demographicLegend-${SCREEN_SIZES.TABLET}`]: {
+    width: "80%",
+    margin: "auto",
+    justifyContent: "space-around"
+  },
+  [`demographicLegend-${SCREEN_SIZES.DESKTOP}`]: {
+    width: "80%",
+    maxWidth: "600px",
+    margin: "auto",
+    justifyContent: "space-evenly"
   }
 });
 
