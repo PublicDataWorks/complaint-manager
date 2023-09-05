@@ -13,7 +13,8 @@ import PublicInfoFooter from "./footer/PublicInfoFooter";
 const PublicInfoPage = props => {
   const getScreen = () => {
     const isMobile = useMediaQuery("(max-width:430px)");
-    const isTablet = useMediaQuery("(max-width:834px)");
+    const isTablet = useMediaQuery("(max-width:940px)");
+    const isLaptop = useMediaQuery("(max-width:1480px)");
 
     if (isMobile) {
       return SCREEN_SIZES.MOBILE;

@@ -141,9 +141,10 @@ const dataVisStyles = theme => ({
   radialChartWrapper: {
     display: "flex",
     flexDirection: "column",
+    flexBasis: "26%",
     width: "180px",
     alignItems: "center",
-    marginRight: "15px"
+    justifyContent: "center"
   },
   [`radialChartWrapper-${SCREEN_SIZES.MOBILE}`]: {
     width: "150px"
