@@ -45,51 +45,65 @@ const staffingShortageStyles = theme => ({
     gridRowGap: "0px",
     marginTop: "0.75em"
   },
-  hawaiiMapImg: {
-    gridArea: "1 / 2 / 3 / 4"
+  [`image-${SCREEN_SIZES.MOBILE}`]: {
+    width: "100%",
+    height: "100%"
   },
-  imgOverHawaiiMap: {
-    gridArea: "2 / 2 / 3 / 3"
-  },
-  inPrisonImg: {
-    gridArea: "3 / 2 / 5 / 4"
-  },
-  greyBackground: {
-    backgroundColor: colors.accent
-  },
-  navyBackground: {
-    backgroundColor: colors.primaryBrand
-  },
-  forestBackground: {
-    backgroundColor: colors.secondaryBrand
-  },
-  statisticSpan: { fontSize: "3.5em", fontWeight: "700" },
-  imageMobile: { width: "100%", height: "100%" },
-  imageTablet: {
+  [`image-${SCREEN_SIZES.TABLET}`]: {
     width: "100%",
     height: "100%",
     objectFit: "cover"
   },
-  staffingCard: {
-    fontFamily: "inherit",
-    fontSize: "1em",
-    paddingRight: "8%",
-    paddingLeft: "8%",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column"
+  [`image-${SCREEN_SIZES.DESKTOP}`]: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover"
   },
-  statisticCard: {
+  [`hawaiiMapImg-${SCREEN_SIZES.TABLET}`]: {
+    gridArea: "1 / 2 / 3 / 4"
+  },
+  [`hawaiiMapImg-${SCREEN_SIZES.DESKTOP}`]: {
+    gridArea: "1 / 2 / 3 / 4",
+    objectFit: "contain"
+  },
+  [`imgOverHawaiiMap-${SCREEN_SIZES.TABLET}`]: {
+    gridArea: "2 / 2 / 3 / 3"
+  },
+  [`imgOverHawaiiMap-${SCREEN_SIZES.DESKTOP}`]: {
+    gridArea: "2 / 2 / 3 / 3"
+  },
+  [`inPrisonImg-${SCREEN_SIZES.TABLET}`]: {
+    gridArea: "3 / 2 / 5 / 4"
+  },
+  [`inPrisonImg-${SCREEN_SIZES.DESKTOP}`]: {
+    gridArea: "1 / 5 / 3 / 6"
+  },
+  gridCard: {
     fontFamily: "inherit",
-    fontSize: ".9em",
-    padding: "2em",
-    textAlign: "center",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center"
+  },
+  staffingCard: {
+    fontSize: "1em",
+    padding: "16px",
+    backgroundColor: colors.accent
+  },
+  statisticCard: {
+    width: "90%",
+    fontSize: ".9em",
+    padding: "0 5% 10px 5%",
+    textAlign: "center",
     color: colors.light,
     backgroundColor: colors.primaryBrand
+  },
+  [`statisticCard-${SCREEN_SIZES.DESKTOP}`]: {
+    width: "100%",
+    padding: "0"
+  },
+  statisticSpan: {
+    fontSize: "3.5em",
+    fontWeight: "700"
   }
 });
 
