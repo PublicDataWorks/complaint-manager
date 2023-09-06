@@ -80,7 +80,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
         <Typography
           className={`${classes.gridCard} ${classes.statisticCard} ${
             classes[`statisticCard-${screenSize}`]
-          }`}
+          } ${classes[`statisticCardForest-${screenSize}`]}`}
         >
           <span className={classes.statisticSpan}>80%</span>
           Nearly 80% of People in Custody Are in Secure Settings

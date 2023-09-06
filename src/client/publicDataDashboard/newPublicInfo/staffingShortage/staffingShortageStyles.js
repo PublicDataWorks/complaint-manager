@@ -101,6 +101,9 @@ const staffingShortageStyles = theme => ({
     width: "100%",
     padding: "0"
   },
+  [`statisticCardForest-${SCREEN_SIZES.TABLET}`]: {
+    backgroundColor: colors.secondaryBrand
+  },
   statisticSpan: {
     fontSize: "3.5em",
     fontWeight: "700"
