@@ -228,50 +228,6 @@ const publicInfoStyles = theme => ({
     justifyContent: "space-around",
     marginTop: "2em"
   },
-
-  greyBackground: {
-    backgroundColor: colors.accent
-  },
-  navyBackground: {
-    backgroundColor: colors.primaryBrand
-  },
-  forestBackground: {
-    backgroundColor: colors.secondaryBrand
-  },
-  lightFontColor: {
-    color: colors.light
-  },
-  forestFontColor: {
-    color: colors.secondaryBrand
-  },
-  [`sectionHeader-${SCREEN_SIZES.MOBILE}`]: {
-    fontFamily: "inherit",
-    fontSize: "1.5em",
-    textAlign: "center",
-    padding: "1.5em"
-  },
-  [`sectionHeader-${SCREEN_SIZES.TABLET}`]: {
-    fontFamily: "inherit",
-    fontSize: "1.5em",
-    padding: "1.5em 0.65em",
-    textAlign: "left"
-  },
-  [`sectionHeader-${SCREEN_SIZES.DESKTOP}`]: {
-    fontFamily: "inherit",
-    fontSize: "1.5em",
-    padding: "1.5em 0.65em",
-    textAlign: "left"
-  },
-  statementHeader: {
-    fontFamily: "inherit",
-    fontWeight: "500",
-    fontSize: "1em",
-    letterSpacing: ".15px"
-  },
-  statementFont: {
-    fontFamily: "inherit",
-    fontSize: ".75em"
-  },
   mythsAndFactsContainer: {
     padding: "16px 0"
   },
@@ -283,6 +239,35 @@ const publicInfoStyles = theme => ({
   },
   [`mythsAndFactsContainer-${SCREEN_SIZES.DESKTOP}`]: {
     margin: "4.5em 7em"
+  },
+  sectionHeader: {
+    fontFamily: "inherit",
+    fontSize: "1.5em",
+    color: colors.light,
+    backgroundColor: colors.primaryBrand
+  },
+  [`sectionHeader-${SCREEN_SIZES.MOBILE}`]: {
+    padding: "1.5em",
+    textAlign: "center"
+  },
+  [`sectionHeader-${SCREEN_SIZES.TABLET}`]: {
+    padding: "1.5em 0.65em",
+    textAlign: "left"
+  },
+  [`sectionHeader-${SCREEN_SIZES.DESKTOP}`]: {
+    padding: "1.5em 0.65em",
+    textAlign: "left"
+  },
+  statementHeader: {
+    fontFamily: "inherit",
+    fontWeight: "500",
+    fontSize: "1em",
+    letterSpacing: ".15px",
+    color: colors.secondaryBrand
+  },
+  statementFont: {
+    fontFamily: "inherit",
+    fontSize: ".75em"
   }
 });
 

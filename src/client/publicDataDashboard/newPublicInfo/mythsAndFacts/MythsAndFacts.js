@@ -27,7 +27,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
     >
       <Typography
         variant="h2"
-        className={`${classes.navyBackground} ${classes.lightFontColor} ${
+        className={`${classes.sectionHeader} ${
           classes[`sectionHeader-${screenSize}`]
         }`}
       >
@@ -48,7 +48,7 @@ const MythsAndFacts = ({ screenSize, classes }) => {
               >
                 <Typography
                   sx={{ width: "33%", flexShrink: 0 }}
-                  className={`${classes.forestFontColor} ${classes.statementHeader}`}
+                  className={classes.statementHeader}
                   data-testid={group.category}
                 >
                   {group.category}
