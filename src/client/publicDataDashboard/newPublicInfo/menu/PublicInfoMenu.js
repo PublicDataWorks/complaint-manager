@@ -6,18 +6,32 @@ import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 const PublicInfoMenu = ({ classes, screenSize }) => {
   const links = [
     {
-      href: "#hawaii-prison-profile-dashboard",
+      id: "#values",
+      title: "About"
+    },
+    {
+      id: "#hawaii-prison-profile-dashboard",
       title: "Public Data"
     },
     {
-      href: "#myths-and-facts",
-      title: "Myths and Facts"
+      id: "#staffing-shortage",
+      title: "Issues"
     },
     {
-      href: "#staffing-shortage",
-      title: "Issues"
+      id: "#myths-and-facts",
+      title: "Myths and Facts"
     }
   ];
+
+  const handleAnimation = (linkId, e) => {
+    e.preventDefault();
+    const section = document.getElementById(linkId.substring(1));
+    section.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const applyLeftBorderExceptFirstChild = index => {
+    return index !== 0 ? classes.menuBorderLeft : "";
+  };
 
   if (screenSize === SCREEN_SIZES.MOBILE) {
     return <div></div>;
@@ -30,23 +44,13 @@ const PublicInfoMenu = ({ classes, screenSize }) => {
               display: "flex"
             }}
           >
-            <a
-              href={"#Values"}
-              // className={classes.menuLink}
-              className={`${classes.menuLink} ${
-                classes[`menuLink-${screenSize}`]
-              }`}
-            >
-              About
-            </a>
-            {links.map(link => (
+            {links.map((link, index) => (
               <a
                 key={link.title}
-                href={link.href}
-                // className={`${classes.menuLink} ${classes.menuBorderLeft}`}
-                className={`${classes.menuBorderLeft} ${classes.menuLink} ${
+                className={`${classes.menuLink} ${
                   classes[`menuLink-${screenSize}`]
-                }`}
+                } ${applyLeftBorderExceptFirstChild(index)}`}
+                onClick={e => handleAnimation(link.id, e)}
               >
                 {link.title}
               </a>

@@ -46,7 +46,7 @@ export const VALUES = [
 const ValuesSection = props => {
   return (
     <section
-      id="Values"
+      id="values"
       className={`${props.classes.valuesSection} ${
         props.classes[`valuesSection-${props.screenSize}`]
       }`}

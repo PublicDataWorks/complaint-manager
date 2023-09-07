@@ -21,6 +21,7 @@ const DemographicSection = ({ classes, screenSize }) => {
             className={`${classes.radialChartWrapper} ${
               classes[`radialChartWrapper-${screenSize}`]
             }`}
+            key={demographic.title}
           >
             <RadialChart
               title={demographic.title}

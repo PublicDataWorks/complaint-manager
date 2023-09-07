@@ -98,6 +98,7 @@ const publicInfoStyles = theme => ({
     color: colors.dark
   },
   menuLink: {
+    cursor: "pointer",
     color: colors.dark,
     padding: "0px 32px",
     textDecoration: "none",
