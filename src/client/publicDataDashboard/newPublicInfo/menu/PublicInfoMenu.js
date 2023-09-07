@@ -4,28 +4,28 @@ import publicInfoStyles from "../publicInfoStyles";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
 const PublicInfoMenu = ({ classes, screenSize }) => {
-  const links = [
+  const menuLinks = [
     {
-      id: "#values",
+      id: "values",
       title: "About"
     },
     {
-      id: "#hawaii-prison-profile-dashboard",
+      id: "hawaii-prison-profile-dashboard",
       title: "Public Data"
     },
     {
-      id: "#staffing-shortage",
+      id: "staffing-shortage",
       title: "Issues"
     },
     {
-      id: "#myths-and-facts",
+      id: "myths-and-facts",
       title: "Myths and Facts"
     }
   ];
 
   const handleAnimation = (linkId, e) => {
     e.preventDefault();
-    const section = document.getElementById(linkId.substring(1));
+    const section = document.getElementById(linkId);
     section.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -44,7 +44,7 @@ const PublicInfoMenu = ({ classes, screenSize }) => {
               display: "flex"
             }}
           >
-            {links.map((link, index) => (
+            {menuLinks.map((link, index) => (
               <a
                 key={link.title}
                 className={`${classes.menuLink} ${
