@@ -176,10 +176,8 @@ const DataVisSection = ({ classes, screenSize }) => {
               classes[`graphWrapper-${screenSize}`]
             }`}
           >
-            {category === categories.demographics ? (
+            {category === categories.demographics && (
               <DemographicSection screenSize={screenSize} />
-            ) : (
-              ""
             )}
           </Box>
           <Typography
