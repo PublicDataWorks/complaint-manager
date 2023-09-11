@@ -14,42 +14,38 @@ import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
 import { graphInfo } from "./dataVisData";
 import DemographicSection from "./demographicSection/DemographicSection";
+import FacilityCapacitySection from "./facilityCapacitySection/FacilityCapacitySection";
 
-const categories = {
-  demographics: "Demographics",
-  facilityCapacity: "Facility Capacity",
-  facilityCapacityRates: "Facility Capacity Rates"
-};
 
 const DataVisSection = ({ classes, screenSize }) => {
-  const [category, setCategory] = useState(categories.demographics);
+  const [category, setCategory] = useState("Demographics"); 
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
+
   const categoryOptions = [
-    screenSize === SCREEN_SIZES.DESKTOP
-      ? categories.facilityCapacityRates
-      : categories.facilityCapacity,
-    categories.demographics
+    "Facility Capacity", "Demographics"
   ];
 
-  const getCategoryInfo = selection => {
-    if (
-      selection === categories.facilityCapacity ||
-      selection === categories.facilityCapacityRates
-    ) {
-      return {
-        title: graphInfo.facilityOvercrowding[`${screenSize}`].title,
-        description: graphInfo.facilityOvercrowding[`${screenSize}`].description
-      };
-    } else if (selection === categories.demographics) {
-      return {
-        title: graphInfo.demographicBreakdown[`${screenSize}`].title,
-        description: graphInfo.demographicBreakdown[`${screenSize}`].description
-      };
-    } else {
-      return "";
-    }
+  const getCategoryInfo = () => { 
+    // if (
+
+    return graphInfo[category];
+    //   selection === graphInfo.facilityOvercrowding.id[0] ||
+    //   selection === graphInfo.facilityOvercrowding.id[1])
+    //   {
+    //   return {
+    //     title: graphInfo.facilityOvercrowding[`${screenSize}`].title,
+    //     description: graphInfo.facilityOvercrowding[`${screenSize}`].description
+    //   };
+    // } else if (selection === graphInfo.demographicBreakdown.id) {
+    //   return {
+    //     title: graphInfo.demographicBreakdown[`${screenSize}`].title,
+    //     description: graphInfo.demographicBreakdown[`${screenSize}`].description
+    //   };
+    // } else {
+    //   return "";
+    // }
   };
 
   const renderCategoryDropdown = () => {
@@ -81,7 +77,7 @@ const DataVisSection = ({ classes, screenSize }) => {
                 fontFamily: "inherit"
               }}
               data-testid={`${option}-selection`}
-              onClick={() => (setCategory(option), handleMenuClose())}
+              onClick={() => (setCategory(graphInfo(option)), handleMenuClose())}
             >
               {option}
             </MenuItem>
@@ -150,47 +146,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
-        <Box
-          className={`${classes.graphInfoContainer} ${
-            classes[`graphInfoContainer-${screenSize}`]
-          }`}
-        >
-          <Typography
-            variant="h3"
-            className={`${classes.graphCategoryTitle} ${
-              classes[`graphCategoryTitle-${screenSize}`]
-            }`}
-          >
-            {getCategoryInfo(category).title}
-          </Typography>
-          <Typography
-            variant="body1"
-            className={`${classes.graphCategoryDescription} ${
-              classes[`graphCategoryDescription-${screenSize}`]
-            }`}
-          >
-            {getCategoryInfo(category).description}
-          </Typography>
-          <Box
-            className={`${classes.graphWrapper} ${
-              classes[`graphWrapper-${screenSize}`]
-            }`}
-          >
-            {category === categories.demographics && (
-              <DemographicSection screenSize={screenSize} />
-            )}
-          </Box>
-          <Typography
-            variant="body1"
-            className={`${classes.sourceText} ${
-              classes[`sourceText-${screenSize}`]
-            }`}
-          >
-            Source: Bureau of Justice Statistics, Federal Justice Statistics
-            Program, 2021 (preliminary); US Census, 2022; and National Prisoner
-            Statistics, 2021.
-          </Typography>
-        </Box>
+        <DemographicSection data={graphInfo[category]}/>
       </div>
     </section>
   );
