@@ -63,14 +63,14 @@ describe("Data Vis Section", () => {
     expect(screen.getByText("5%")).toBeInTheDocument;
   });
 
-  // describe.only("Facility Overcrowding Rates", () => {
-  //   test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Capacity" for desktop view`, () => {
-  //     render(<DataVisSection classes={{}} screenSize={SCREEN_SIZES.DESKTOP} />);
+  describe("Facility Overcrowding Rates", () => {
+    test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Capacity" for desktop view`, () => {
+      render(<DataVisSection classes={{}} screenSize={SCREEN_SIZES.DESKTOP} />);
 
-  //     userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+      userEvent.click(screen.getByTestId("Facility Capacity-selection"));
 
-  //     const barGraph = screen.getByTestId("facility-graph");
-  //     expect(barGraph).toBeInTheDocument();
-  //   });
-  // });
+      const barGraph = screen.getByTestId("facility-graph");
+      expect(barGraph).toBeInTheDocument();
+    });
+  });
 });

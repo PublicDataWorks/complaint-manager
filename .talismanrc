@@ -1,0 +1,4 @@
+fileignoreconfig:
+- filename: src/client/publicDataDashboard/newPublicInfo/dataVis/demographicSection/DemographicSection.js
+  checksum: d9ee0ff7a794319c030253cd19fcc3df4512b3e36ff4125b2f9b1f1efcbd8d17
+version: "1.0"
