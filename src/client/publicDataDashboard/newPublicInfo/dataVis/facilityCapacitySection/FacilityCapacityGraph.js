@@ -3,7 +3,7 @@ import dataVisStyles from "../dataVisStyles";
 import { withStyles } from "@material-ui/core";
 import Plot from "react-plotly.js";
 
-const FacilityCapacitySection = ({ classes, screenSize }) => {
+const FacilityCapacityGraph = ({ classes, screenSize }) => {
     const data = [
       {
         x: ['Apples', 'Oranges', 'Bananas'],
@@ -21,4 +21,4 @@ const FacilityCapacitySection = ({ classes, screenSize }) => {
     return <Plot data={data} layout={layout} />;
   };
 
-export default withStyles(dataVisStyles)(FacilityCapacitySection);
+export default withStyles(dataVisStyles)(FacilityCapacityGraph);

@@ -1,3 +1,7 @@
+export const categories = {
+  demographic: "Demographics",
+  facilityCapacity: "Facility Capacity"
+};
 
 export const graphInfo = {
   "Facility Capacity": {
@@ -7,22 +11,20 @@ export const graphInfo = {
       description: "Hawaii’s jail facilities are chronically overcrowded."
     },
     notMobile: {
-      description: 
+      description:
         "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona."
-    },
-    graph: <FacilityCapacitySection screenSizes={null} /> // this is where we are left off - need to figure out how to pass in screenSizes
+    }
   },
-  "Demographics": {
+  Demographics: {
     title: "Demographic Breakdown",
     mobile: {
       description:
         "Hawaiian and Black communities are disproportionally impacted by incarceration."
     },
     notMobile: {
-      description: 
+      description:
         "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated."
-    },
-    graph: <DemographicGraph />
+    }
   }
 };
 

@@ -12,41 +12,15 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import useMenuControl from "../../../common/hooks/useMenuControl";
-import { graphInfo } from "./dataVisData";
-import DemographicSection from "./demographicSection/DemographicSection";
-import FacilityCapacitySection from "./facilityCapacitySection/FacilityCapacitySection";
-
+import { graphInfo, categories } from "./dataVisData";
+import DataVisContainer from "./DataVisContainer";
 
 const DataVisSection = ({ classes, screenSize }) => {
-  const [category, setCategory] = useState("Demographics"); 
+  const [category, setCategory] = useState("Demographics");
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
-
-  const categoryOptions = [
-    "Facility Capacity", "Demographics"
-  ];
-
-  const getCategoryInfo = () => { 
-    // if (
-
-    return graphInfo[category];
-    //   selection === graphInfo.facilityOvercrowding.id[0] ||
-    //   selection === graphInfo.facilityOvercrowding.id[1])
-    //   {
-    //   return {
-    //     title: graphInfo.facilityOvercrowding[`${screenSize}`].title,
-    //     description: graphInfo.facilityOvercrowding[`${screenSize}`].description
-    //   };
-    // } else if (selection === graphInfo.demographicBreakdown.id) {
-    //   return {
-    //     title: graphInfo.demographicBreakdown[`${screenSize}`].title,
-    //     description: graphInfo.demographicBreakdown[`${screenSize}`].description
-    //   };
-    // } else {
-    //   return "";
-    // }
-  };
+  const categoryOptions = Object.values(categories);
 
   const renderCategoryDropdown = () => {
     return (
@@ -77,7 +51,9 @@ const DataVisSection = ({ classes, screenSize }) => {
                 fontFamily: "inherit"
               }}
               data-testid={`${option}-selection`}
-              onClick={() => (setCategory(graphInfo(option)), handleMenuClose())}
+              onClick={() => (
+                setCategory(graphInfo(option)), handleMenuClose()
+              )}
             >
               {option}
             </MenuItem>
@@ -146,7 +122,11 @@ const DataVisSection = ({ classes, screenSize }) => {
           ? renderCategoryList()
           : renderCategoryDropdown()}
 
-        <DemographicSection data={graphInfo[category]}/>
+        <DataVisContainer
+          screenSize={screenSize}
+          category={category}
+          graphInfo={graphInfo[category]}
+        />
       </div>
     </section>
   );
