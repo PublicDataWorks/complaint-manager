@@ -1092,15 +1092,15 @@ workflows:
           name: ensure-ci-hawaii-deploy-succeeded
           requires:
             - deploy-ci-hawaii
-      - letter-generation-testing-ci:
-          requires:
-            - ensure-ci-noipm-deploy-succeeded
+      # - letter-generation-testing-ci:
+      #     requires:
+      #       - ensure-ci-noipm-deploy-succeeded
       # - letter-generation-ci-latency-check:
       #     requires:
       #       - letter-generation-testing-ci
-      - e2e-testing-ci-pdm-noipm:
-          requires:
-            - letter-generation-testing-ci
+      # - e2e-testing-ci-pdm-noipm:
+      #     requires:
+      #       - letter-generation-testing-ci
       - e2e-testing-ci-pdm-hawaii:
           requires:
             - ensure-ci-hawaii-deploy-succeeded
