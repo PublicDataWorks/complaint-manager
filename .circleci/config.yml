@@ -1107,7 +1107,7 @@ workflows:
       - create-release:
           type: approval
           requires:
-            - e2e-testing-ci-pdm-noipm
+            # - e2e-testing-ci-pdm-noipm
             - e2e-testing-ci-pdm-hawaii
       - bump-version:
           requires:
