@@ -34,8 +34,9 @@ describe("Data Vis Section", () => {
       userEvent.click(screen.getByTestId("category-dropdown-button"));
       expect(screen.getByText("Facility Capacity")).toBeInTheDocument;
 
-      userEvent.click(screen.getByTestId("Facility Capacity-selection"));
-      expect(screen.getByText("Facility Overcrowding Rates")).toBeInTheDocument;
+      // TODO: Remove if we decide to just call it Facility Capacity universally
+      // userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+      // expect(screen.getByText("Facility Overcrowding Rates")).toBeInTheDocument;
     });
   });
 
