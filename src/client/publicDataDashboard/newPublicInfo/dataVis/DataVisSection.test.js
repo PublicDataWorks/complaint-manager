@@ -73,5 +73,16 @@ describe("Data Vis Section", () => {
       const barGraph = screen.getByTestId("facility-graph");
       expect(barGraph).toBeInTheDocument();
     });
+    [(SCREEN_SIZES.TABLET, SCREEN_SIZES.MOBILE)].forEach(size => {
+      test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Capacity" for mobile and tablet view`, () => {
+        render(<DataVisSection classes={{}} screenSize={size} />);
+
+        userEvent.click(screen.getByTestId("category-dropdown-button"));
+        userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+
+        const barGraph = screen.getByTestId("facility-graph");
+        expect(barGraph).toBeInTheDocument();
+      });
+    });
   });
 });
