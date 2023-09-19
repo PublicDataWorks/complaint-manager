@@ -29,7 +29,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
     }
   };
 
-  return <Plot data={data} layout={layout} />;
+  return <Plot data-testid="facility-graph" data={data} layout={layout} />;
 };
 
 export default withStyles(dataVisStyles)(FacilityCapacityGraph);

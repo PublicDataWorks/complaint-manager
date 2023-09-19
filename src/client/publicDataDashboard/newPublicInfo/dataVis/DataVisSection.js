@@ -51,9 +51,7 @@ const DataVisSection = ({ classes, screenSize }) => {
                 fontFamily: "inherit"
               }}
               data-testid={`${option}-selection`}
-              onClick={() => (
-                setCategory(graphInfo(option)), handleMenuClose()
-              )}
+              onClick={() => (setCategory(option), handleMenuClose())}
             >
               {option}
             </MenuItem>
