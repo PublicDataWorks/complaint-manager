@@ -118,13 +118,6 @@ const dataVisStyles = theme => ({
     margin: "0",
     padding: "4px 8px"
   },
-  graphWrapper: {
-    height: "100%",
-    padding: "20px 0"
-  },
-  [`graphWrapper-${SCREEN_SIZES.MOBILE}`]: {
-    width: "100%"
-  },
   sourceText: {
     paddingTop: "16px",
     fontFamily: "inherit",
@@ -169,6 +162,10 @@ const dataVisStyles = theme => ({
     maxWidth: "600px",
     margin: "auto",
     justifyContent: "space-evenly"
+  },
+  facilityGraph: {
+    display: "flex",
+    justifyContent: "center"
   }
 });
 

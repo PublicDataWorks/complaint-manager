@@ -33,11 +33,7 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             ? graphInfo.mobile.description
             : graphInfo.notMobile.description}
         </Typography>
-        <Box
-          className={`${classes.graphWrapper} ${
-            classes[`graphWrapper-${screenSize}`]
-          }`}
-        >
+        <Box>
           {category === categories.demographic && (
             <DemographicGraph classes={classes} screenSize={screenSize} />
           )}

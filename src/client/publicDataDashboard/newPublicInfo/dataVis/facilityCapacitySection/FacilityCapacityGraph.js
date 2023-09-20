@@ -1,6 +1,5 @@
 import React from "react";
-import dataVisStyles from "../dataVisStyles";
-import { withStyles } from "@material-ui/core";
+import { colors } from "../../publicInfoStyles";
 import Plot from "react-plotly.js";
 
 const FacilityCapacityGraph = ({ classes, screenSize }) => {
@@ -17,23 +16,50 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
         (95 / 160) * 100,
         (879 / 1124) * 100
       ],
-      type: "bar"
+      type: "bar",
+      marker: {
+        width: 0.5,
+        color: [
+          colors.secondaryBrand,
+          colors.secondaryBrand,
+          colors.secondaryBrand,
+          colors.secondaryBrand,
+          colors.primaryBrand,
+          colors.primaryBrand,
+          colors.primaryBrand,
+          colors.primaryBrand
+        ],
+        opacity: 0.5,
+        line: {
+          color: "black",
+          width: 2,
+          opacity: 0.5
+        }
+      }
     }
   ];
 
   const layout = {
+    width: 1000,
+    margin: { l: 40, r: 40, t: 40, b: 40 },
     yaxis: {
       tickvals: ["50%", "100%", "150%"],
       ticktext: ["50%", "100%", "150%"],
-      range: [0, 151]
-    }
+      range: [0, 230],
+      gridcolor: "lightgray"
+    },
+    paper_bgcolor: "transparent",
+    plot_bgcolor: "transparent",
+    zoom: false,
+    dragmode: "orbit",
+    bargroupgap: 0.2
   };
 
   return (
-    <div data-testid="facility-graph">
-      <Plot data={data} layout={layout} />;
+    <div className={classes.facilityGraph} data-testid="facility-graph">
+      <Plot data={data} layout={layout} config={{ displayModeBar: false }} />
     </div>
   );
 };
 
-export default withStyles(dataVisStyles)(FacilityCapacityGraph);
+export default FacilityCapacityGraph;
