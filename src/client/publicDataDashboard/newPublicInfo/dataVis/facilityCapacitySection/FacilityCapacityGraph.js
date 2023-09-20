@@ -1,6 +1,8 @@
 import React from "react";
 import { colors } from "../../publicInfoStyles";
 import Plot from "react-plotly.js";
+import { SCREEN_SIZES } from "../../../../../sharedUtilities/constants";
+import GraphLegend from "../GraphLegend";
 
 const FacilityCapacityGraph = ({ classes, screenSize }) => {
   const data = [
@@ -20,14 +22,14 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
       marker: {
         width: 0.5,
         color: [
-          colors.secondaryBrand,
-          colors.secondaryBrand,
-          colors.secondaryBrand,
-          colors.secondaryBrand,
           colors.primaryBrand,
           colors.primaryBrand,
           colors.primaryBrand,
-          colors.primaryBrand
+          colors.primaryBrand,
+          colors.secondaryBrand,
+          colors.secondaryBrand,
+          colors.secondaryBrand,
+          colors.secondaryBrand
         ],
         opacity: 0.5,
         line: {
@@ -39,8 +41,17 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
     }
   ];
 
+  const getBarGraphWidth = () => {
+    if (screenSize === SCREEN_SIZES.DESKTOP) {
+      return 850;
+    } else if (screenSize === SCREEN_SIZES.TABLET) {
+      return 700;
+    } else {
+      return 350;
+    }
+  };
   const layout = {
-    width: 1000,
+    width: getBarGraphWidth(),
     margin: { l: 40, r: 40, t: 40, b: 40 },
     yaxis: {
       tickvals: ["50%", "100%", "150%"],
@@ -56,9 +67,18 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
   };
 
   return (
-    <div className={classes.facilityGraph} data-testid="facility-graph">
-      <Plot data={data} layout={layout} config={{ displayModeBar: false }} />
-    </div>
+    <>
+      <div className={classes.facilityGraph} data-testid="facility-graph">
+        <Plot data={data} layout={layout} config={{ displayModeBar: false }} />
+      </div>
+      <GraphLegend
+        classes={classes}
+        screenSize={screenSize}
+        first="Jail"
+        second="Prison"
+        opacity={0.5}
+      />
+    </>
   );
 };
 

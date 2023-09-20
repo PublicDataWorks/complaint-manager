@@ -150,6 +150,7 @@ const dataVisStyles = theme => ({
   },
   [`demographicLegend-${SCREEN_SIZES.MOBILE}`]: {
     margin: 0,
+    flexDirection: "column",
     justifyContent: "flex-start"
   },
   [`demographicLegend-${SCREEN_SIZES.TABLET}`]: {

@@ -3,33 +3,9 @@ import { withStyles } from "@material-ui/core";
 import dataVisStyles from "../dataVisStyles";
 import RadialChart from "./RadialChart";
 import { demographicData } from "../dataVisData";
+import GraphLegend from "../GraphLegend";
 
 const DemographicGraph = ({ classes, screenSize }) => {
-  const DemographicLegend = () => (
-    <div
-      className={`${classes.demographicLegend} ${
-        classes[`demographicLegend-${screenSize}`]
-      }`}
-    >
-      <div style={{ display: "flex", alignItems: "center", padding: "2px 0" }}>
-        <svg height="20" width="20">
-          <circle cx="10" cy="10" r="8" fill="#0A3449" />
-        </svg>
-        <span style={{ fontSize: "large", marginLeft: "10px" }}>
-          State Population
-        </span>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", padding: "2px 0" }}>
-        <svg height="20" width="20">
-          <circle cx="10" cy="10" r="8" fill="#22767C" />
-        </svg>
-        <span style={{ fontSize: "large", marginLeft: "10px" }}>
-          Incarcerated Population
-        </span>
-      </div>
-    </div>
-  );
-
   return (
     <>
       <div
@@ -59,7 +35,12 @@ const DemographicGraph = ({ classes, screenSize }) => {
           </div>
         ))}
       </div>
-      <DemographicLegend />
+      <GraphLegend
+        classes={classes}
+        screenSize={screenSize}
+        first="State Population"
+        second="Incarcerated Population"
+      />
     </>
   );
 };
