@@ -10,6 +10,7 @@ import {
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { mythsAndFactsData } from "./mythsAndFactsData";
 import publicInfoStyles from "../publicInfoStyles";
+import { colors } from "../publicInfoStyles";
 
 const MythsAndFacts = ({ screenSize, classes }) => {
   const [expanded, setExpanded] = useState(false);
@@ -57,21 +58,40 @@ const MythsAndFacts = ({ screenSize, classes }) => {
               <AccordionDetails style={{ flexDirection: "column" }}>
                 {group.statements.map(statement => (
                   <div key={statement.id} style={{ padding: ".5em 0" }}>
-                    <div style={{ display: "flex", width: "100%" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        padding: "10px",
+                        fontSize: "1em"
+                      }}
+                    >
                       <Typography
                         style={{
                           fontFamily: "inherit",
-                          fontSize: ".75em",
-                          paddingRight: "5px"
+                          paddingRight: "5px",
+                          color: colors.secondaryBrand,
+                          fontWeight: "550",
+                          minWidth: "70px"
                         }}
                       >
-                        <strong>Myth: </strong>
+                        {statement.id}. Myth:
                       </Typography>
-                      <Typography className={classes.statementFont}>
+                      <Typography
+                        style={{
+                          fontFamily: "inherit"
+                        }}
+                      >
                         {statement.myth}
                       </Typography>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        backgroundColor: `${colors.accent}`,
+                        padding: "10px"
+                      }}
+                    >
                       <Typography
                         style={{
                           fontFamily: "inherit",

@@ -262,13 +262,13 @@ const publicInfoStyles = theme => ({
   statementHeader: {
     fontFamily: "inherit",
     fontWeight: "500",
-    fontSize: "1em",
+    fontSize: "1.2em",
     letterSpacing: ".15px",
     color: colors.secondaryBrand
   },
   statementFont: {
     fontFamily: "inherit",
-    fontSize: ".75em"
+    fontSize: "0.9em"
   }
 });
 
