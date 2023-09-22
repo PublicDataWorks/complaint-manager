@@ -84,7 +84,7 @@ const dataVisStyles = theme => ({
     fontFamily: "inherit",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between"
+    textAlign: "center"
   },
   [`graphInfoContainer-${SCREEN_SIZES.DESKTOP}`]: {
     height: "90%",
@@ -115,7 +115,7 @@ const dataVisStyles = theme => ({
   },
   [`graphCategoryDescription-${SCREEN_SIZES.DESKTOP}`]: {
     height: "fit-content",
-    width: "65%",
+    width: "80%",
     margin: "0",
     padding: "4px 8px"
   },
