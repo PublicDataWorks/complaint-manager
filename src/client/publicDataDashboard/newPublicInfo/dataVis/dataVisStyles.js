@@ -97,11 +97,12 @@ const dataVisStyles = theme => ({
     fontFamily: "inherit",
     fontSize: "24px",
     fontWeight: "700",
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: "10px"
   },
   [`graphCategoryTitle-${SCREEN_SIZES.DESKTOP}`]: {
     width: "100%",
-    margin: "0"
+    marginLeft: "0"
   },
   graphCategoryDescription: {
     padding: "8px",
@@ -114,7 +115,7 @@ const dataVisStyles = theme => ({
   },
   [`graphCategoryDescription-${SCREEN_SIZES.DESKTOP}`]: {
     height: "fit-content",
-    width: "85%",
+    width: "65%",
     margin: "0",
     padding: "4px 8px"
   },

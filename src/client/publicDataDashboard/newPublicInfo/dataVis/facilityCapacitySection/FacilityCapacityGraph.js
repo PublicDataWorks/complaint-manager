@@ -19,7 +19,17 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
         (879 / 1124) * 100
       ],
       type: "bar",
-      hovertemplate: "%{y:.0f}%",
+      customdata: [
+        "Hawaii Community Correctional Center",
+        "Maui Community Correctional Center",
+        "Oahu Community Correctional Center",
+        "Kauai Community Correctional Center",
+        "Women's Community Correctional Center",
+        "Walawa Correctional Facility",
+        "Kulani Correctional Facility",
+        "Halawa Correctional Facility"
+      ],
+      hovertemplate: "%{customdata}<br>%{y:.0f}%",
       marker: {
         width: 0.5,
         color: [
