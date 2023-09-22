@@ -19,6 +19,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
         (879 / 1124) * 100
       ],
       type: "bar",
+      hovertemplate: "%{y:.0f}%",
       marker: {
         width: 0.5,
         color: [
@@ -34,10 +35,10 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
         opacity: 0.5,
         line: {
           color: "black",
-          width: 2,
-          opacity: 0.5
+          width: 1.5
         }
-      }
+      },
+      name: ""
     }
   ];
 
@@ -50,6 +51,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
       return 350;
     }
   };
+
   const layout = {
     width: getBarGraphWidth(),
     margin: { l: 40, r: 40, t: 40, b: 40 },
@@ -62,7 +64,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
     paper_bgcolor: "transparent",
     plot_bgcolor: "transparent",
     zoom: false,
-    dragmode: "orbit",
+    dragmode: false,
     bargroupgap: 0.2
   };
 
