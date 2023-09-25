@@ -37,12 +37,25 @@ export const demographicData = [
 ];
 
 export const facilityGraphData = {
-  HCCC: (272 / 126) * 100,
-  MCCC: (278 / 296) * 100,
-  OCCC: (994 / 778) * 100,
-  KCCC: (137 / 128) * 100,
-  WCCC: (182 / 240) * 100,
-  WCF: (165 / 334) * 100,
-  KCF: (95 / 160) * 100,
-  HCF: (879 / 1124) * 100
+  HCCC: { currentPopulation: 272, capacity: 126 },
+  MCCC: { currentPopulation: 278, capacity: 296 },
+  OCCC: { currentPopulation: 994, capacity: 778 },
+  KCCC: { currentPopulation: 137, capacity: 128 },
+  WCCC: { currentPopulation: 182, capacity: 240 },
+  WCF: { currentPopulation: 165, capacity: 334 },
+  KCF: { currentPopulation: 95, capacity: 160 },
+  HCF: { currentPopulation: 879, capacity: 1124 }
+};
+
+export const getCapacityPercentages = () => {
+  const result = [];
+  const facilityNames = Object.keys(facilityGraphData);
+  facilityNames.map(facility => {
+    const percentage =
+      (facilityGraphData[facility].currentPopulation /
+        facilityGraphData[facility].capacity) *
+      100;
+    result.push(percentage);
+  });
+  return result;
 };
