@@ -3,21 +3,13 @@ import { colors } from "../../publicInfoStyles";
 import Plot from "react-plotly.js";
 import { SCREEN_SIZES } from "../../../../../sharedUtilities/constants";
 import GraphLegend from "../GraphLegend";
+import { facilityGraphData } from "../dataVisData";
 
 const FacilityCapacityGraph = ({ classes, screenSize }) => {
   const data = [
     {
-      x: ["HCCC", "MCCC", "OCCC", "KCCC", "WCCC", "WCF", "KCF", "HCF"],
-      y: [
-        (272 / 126) * 100,
-        (278 / 296) * 100,
-        (994 / 778) * 100,
-        (137 / 128) * 100,
-        (182 / 240) * 100,
-        (165 / 334) * 100,
-        (95 / 160) * 100,
-        (879 / 1124) * 100
-      ],
+      x: Object.keys(facilityGraphData),
+      y: Object.values(facilityGraphData),
       type: "bar",
       customdata: [
         "Hawaii Community Correctional Center",

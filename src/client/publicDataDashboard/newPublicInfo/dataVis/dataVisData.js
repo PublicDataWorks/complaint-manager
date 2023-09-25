@@ -35,3 +35,14 @@ export const demographicData = [
   { title: "Asian", statePopulation: 37, incarceratedPopulation: 17 },
   { title: "Latinx", statePopulation: 11, incarceratedPopulation: 2 }
 ];
+
+export const facilityGraphData = {
+  HCCC: (272 / 126) * 100,
+  MCCC: (278 / 296) * 100,
+  OCCC: (994 / 778) * 100,
+  KCCC: (137 / 128) * 100,
+  WCCC: (182 / 240) * 100,
+  WCF: (165 / 334) * 100,
+  KCF: (95 / 160) * 100,
+  HCF: (879 / 1124) * 100
+};
