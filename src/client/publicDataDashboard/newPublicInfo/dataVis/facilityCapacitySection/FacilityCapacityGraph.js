@@ -12,16 +12,17 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
       y: getCapacityPercentages(),
       type: "bar",
       customdata: [
-        "Hawaii Community Correctional Center",
-        "Maui Community Correctional Center",
-        "Oahu Community Correctional Center",
-        "Kauai Community Correctional Center",
-        "Women's Community Correctional Center",
-        "Walawa Correctional Facility",
-        "Kulani Correctional Facility",
-        "Halawa Correctional Facility"
+        ["Hawaii Community Correctional Center", 272],
+        ["Maui Community Correctional Center", 278],
+        ["Oahu Community Correctional Center", 994],
+        ["Kauai Community Correctional Center", 137],
+        ["Women's Community Correctional Center", 182],
+        ["Walawa Correctional Facility", 165],
+        ["Kulani Correctional Facility", 95],
+        ["Halawa Correctional Facility", 879]
       ],
-      hovertemplate: "%{customdata}<br>%{y:.0f}%",
+      hovertemplate:
+        "%{customdata[0]}<br>Capacity: %{y:.0f}%<br>Population: %{customdata[1]}",
       marker: {
         width: 0.5,
         color: [
