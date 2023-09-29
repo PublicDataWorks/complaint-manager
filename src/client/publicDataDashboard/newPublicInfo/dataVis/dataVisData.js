@@ -38,7 +38,7 @@ export const demographicData = [
 
 export const facilityGraphData = {
   HCCC: { currentPopulation: 272, capacity: 126 },
-  MCCC: { currentPopulation: 278, capacity: 296 },
+  MCCC: { currentPopulation: 278, capacity: 269 },
   OCCC: { currentPopulation: 994, capacity: 778 },
   KCCC: { currentPopulation: 137, capacity: 128 },
   WCCC: { currentPopulation: 182, capacity: 240 },
