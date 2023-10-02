@@ -766,6 +766,9 @@ jobs:
     docker:
       - image: publicdataworks/docker-heroku:<< pipeline.parameters.docker-heroku-version >>
     steps:
+      - run: pwd
+      - run: ls -al
+      - run: ls instance-files-noipm
       - tag-instance-files:
           instance-files: "instance-files-noipm"
 
@@ -1111,7 +1114,8 @@ workflows:
             - e2e-testing-ci-pdm-hawaii
       - bump-version:
           requires:
-            - create-release
+            # - create-release
+            - get-instance-files-latest-noipm
       - tag-instance-files-noipm:
           requires:
             - bump-version
