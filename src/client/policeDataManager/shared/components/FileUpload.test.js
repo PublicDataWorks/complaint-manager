@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -34,7 +35,7 @@ describe("FileUpload", () => {
       screen.getByText(
         "Max file size: 10MB, Accepted file types: lsd, json, jpeg, stuff"
       )
-    ).toBeInTheDocument;
+    ).toBeInTheDocument();
   });
 
   test("should format a fractional megabyte max size correctly and properly format file types", () => {
@@ -56,8 +57,9 @@ describe("FileUpload", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Max file size: 10.3MB, Accepted file types: json"))
-      .toBeInTheDocument;
+    expect(
+      screen.getByText("Max file size: 10.3MB, Accepted file types: json")
+    ).toBeInTheDocument();
   });
 
   test("should format an integer gigabyte max size correctly and properly format file types", () => {
@@ -79,8 +81,9 @@ describe("FileUpload", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Max file size: 4GB, Accepted file types: json"))
-      .toBeInTheDocument;
+    expect(
+      screen.getByText("Max file size: 4GB, Accepted file types: json")
+    ).toBeInTheDocument();
   });
 
   test("should format a fractional gigabyte max size correctly and properly format file types", () => {
@@ -102,8 +105,9 @@ describe("FileUpload", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Max file size: 75.6GB, Accepted file types: json"))
-      .toBeInTheDocument;
+    expect(
+      screen.getByText("Max file size: 75.6GB, Accepted file types: json")
+    ).toBeInTheDocument();
   });
 
   test("should display an external error message when given", () => {
@@ -127,6 +131,6 @@ describe("FileUpload", () => {
       </Provider>
     );
 
-    expect(screen.getByText(ERROR)).toBeInTheDocument;
+    expect(screen.getByText(ERROR)).toBeInTheDocument();
   });
 });

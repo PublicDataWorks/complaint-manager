@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import SearchTooltip from "./SearchTooltip";
 
@@ -15,19 +16,19 @@ describe("SearchTooltip", () => {
   });
 
   test("should display the agreed upon content", () => {
-    expect(screen.getByText("Advanced Search")).toBeInTheDocument;
-    expect(screen.getByText("Search Terms")).toBeInTheDocument;
+    expect(screen.getByText("Advanced Search")).toBeInTheDocument();
+    expect(screen.getByText("Search Terms")).toBeInTheDocument();
     expect(
       screen.getByText(
         "Search terms must be followed by a colon and use quotes for search terms containing spaces."
       )
-    ).toBeInTheDocument;
-    expect(screen.getByText("Search Operators")).toBeInTheDocument;
-    expect(screen.getByText("Parentheses and Quotes")).toBeInTheDocument;
+    ).toBeInTheDocument();
+    expect(screen.getByText("Search Operators")).toBeInTheDocument();
+    expect(screen.getByText("Parentheses and Quotes")).toBeInTheDocument();
     expect(
       screen.getByText(
         "Use parentheses to group your search terms and quotes to search for exact matches."
       )
-    ).toBeInTheDocument;
+    ).toBeInTheDocument();
   });
 });

@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Provider } from "react-redux";
@@ -70,8 +71,8 @@ describe("InmatesSearch", () => {
     userEvent.type(screen.getByTestId("idField"), "A0");
     userEvent.click(screen.getByTestId("inmateSearchSubmitButton"));
 
-    expect(await screen.findByText("1 result found")).toBeInTheDocument;
-    expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
+    expect(await screen.findByText("1 result found")).toBeInTheDocument();
+    expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument();
     expect(searchNock.isDone()).toBeTrue();
   });
 
@@ -98,8 +99,8 @@ describe("InmatesSearch", () => {
     userEvent.click(await screen.findByText("ABC Pest and Lawn"));
     userEvent.click(screen.getByTestId("inmateSearchSubmitButton"));
 
-    expect(await screen.findByText("1 result found")).toBeInTheDocument;
-    expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
+    expect(await screen.findByText("1 result found")).toBeInTheDocument();
+    expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument();
     expect(searchNock.isDone()).toBeTrue();
 
     const selectNock = nock("http://localhost")

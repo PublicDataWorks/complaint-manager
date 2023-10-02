@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import nock from "nock";
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -124,7 +125,8 @@ describe("Edit General Letter Html", () => {
       }, 500);
     });
 
-    expect(await screen.findByText("Letter was successfully updated"))
-      .toBeInTheDocument;
+    expect(
+      await screen.findByText("Letter was successfully updated")
+    ).toBeInTheDocument();
   });
 });

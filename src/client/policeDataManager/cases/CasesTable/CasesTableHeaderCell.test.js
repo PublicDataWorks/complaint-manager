@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import CasesTableHeaderCell from "./CasesTableHeaderCell";
 
@@ -15,6 +16,6 @@ describe("CasesTableHeaderCell", () => {
         HEADER TEXT
       </CasesTableHeaderCell>
     );
-    expect(screen.getByText("HEADER TEXT")).toBeInTheDocument;
+    expect(screen.getByText("HEADER TEXT")).toBeInTheDocument();
   });
 });

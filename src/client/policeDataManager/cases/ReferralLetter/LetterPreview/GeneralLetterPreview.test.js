@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -70,7 +71,7 @@ describe("GeneralLetterPreview", () => {
   });
 
   test("should render correct preview data", async () => {
-    expect(await screen.findByText("This is some HTML")).toBeInTheDocument;
+    expect(await screen.findByText("This is some HTML")).toBeInTheDocument();
     expect((await screen.findByTestId("recipient-field")).value).toEqual(
       "Billy Bob"
     );
@@ -107,8 +108,9 @@ describe("GeneralLetterPreview", () => {
 
     userEvent.click(screen.getByTestId("save-and-return-to-case-link"));
 
-    expect(await screen.findByText("Letter was successfully updated"))
-      .toBeInTheDocument;
+    expect(
+      await screen.findByText("Letter was successfully updated")
+    ).toBeInTheDocument();
     expect(editAddressCall.isDone()).toBe(true);
   });
 

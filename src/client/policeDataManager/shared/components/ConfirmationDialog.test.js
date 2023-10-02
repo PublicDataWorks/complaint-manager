@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ConfirmationDialog from "./ConfirmationDialog";
@@ -24,8 +25,8 @@ describe("ConfirmationDialog", () => {
   test("should render expected text", () => {
     expect(
       screen.getByText("Hello, confirm that you want to delete the internet.")
-    ).toBeInTheDocument;
-    expect(screen.getByText("DELETE ALL THE THINGS!")).toBeInTheDocument;
+    ).toBeInTheDocument();
+    expect(screen.getByText("DELETE ALL THE THINGS!")).toBeInTheDocument();
   });
 
   test("should render cancel and confirm buttons with the given text", () => {

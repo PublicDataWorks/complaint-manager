@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { push } from "connected-react-router";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -61,12 +62,12 @@ describe("SearchCasesForm", () => {
 
   describe("tooltip", () => {
     test("should display tooltip button", () => {
-      expect(screen.getByTestId("search-tooltip-button")).toBeInTheDocument;
+      expect(screen.getByTestId("search-tooltip-button")).toBeInTheDocument();
     });
 
     test("should display tooltip if tooltip button is clicked and hide it if clicked again", () => {
       userEvent.click(screen.getByTestId("search-tooltip-button"));
-      expect(screen.getByTestId("search-tooltip")).toBeInTheDocument;
+      expect(screen.getByTestId("search-tooltip")).toBeInTheDocument();
 
       userEvent.click(screen.getByTestId("search-tooltip-button"));
       expect(screen.queryByTestId("search-tooltip")).toBeFalsy();

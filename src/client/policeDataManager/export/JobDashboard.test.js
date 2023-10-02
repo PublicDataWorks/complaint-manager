@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -21,7 +22,7 @@ describe("JobDashboard", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Loading...")).toBeInTheDocument;
+    expect(screen.getByText("Loading...")).toBeInTheDocument();
   });
 
   test("should display the exports page when you have permissions", () => {
@@ -38,6 +39,6 @@ describe("JobDashboard", () => {
       </Provider>
     );
 
-    expect(screen.getByText("Export Cases")).toBeInTheDocument;
+    expect(screen.getByText("Export Cases")).toBeInTheDocument();
   });
 });
