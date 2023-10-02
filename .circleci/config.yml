@@ -236,7 +236,7 @@ commands:
       - run: ls src/
       - run: ls instance-files-noipm/
       - run: echo "FROM alpine:latest" >> src/Dockerfile
-      - run: echo "COPY ./<<parameters.instance-files>> instance-files" >> src/Dockerfile
+      - run: echo "COPY ./src/<<parameters.instance-files>> instance-files" >> src/Dockerfile
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - run: docker build -t publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt) src/
       - run: docker push publicdataworks/<<parameters.instance-files>>:$(cat src/version.txt)
@@ -1117,6 +1117,7 @@ workflows:
           requires:
             # - create-release
             - get-instance-files-latest-noipm
+            - get-instance-files-latest-hawaii
       - tag-instance-files-noipm:
           requires:
             - bump-version
