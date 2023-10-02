@@ -10,6 +10,7 @@ import AllegationDetailsForm from "./AllegationDetailsForm";
 import createConfiguredStore from "../../createConfiguredStore";
 import { ALLEGATION_SEVERITY } from "../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../shared/components/SharedSnackbarContainer";
+import "@testing-library/jest-dom";
 
 describe("AllegationSearchResultsRow", function () {
   const classes = {};
@@ -87,7 +88,8 @@ describe("AllegationSearchResultsRow", function () {
 
     userEvent.click(screen.getByTestId("allegation-submit-btn"));
 
-    expect(await screen.findByText("Allegation was successfully added"))
-      .toBeInTheDocument;
+    expect(
+      await screen.findByText("Allegation was successfully added")
+    ).toBeInTheDocument();
   });
 });

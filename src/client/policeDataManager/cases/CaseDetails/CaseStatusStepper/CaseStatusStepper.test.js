@@ -422,8 +422,9 @@ describe("CaseStatusStepper", () => {
         </Provider>
       );
 
-      expect(await screen.findByTestId("generate-letter-button"))
-        .toBeInTheDocument;
+      expect(
+        await screen.findByTestId("generate-letter-button")
+      ).toBeInTheDocument();
     });
   });
 

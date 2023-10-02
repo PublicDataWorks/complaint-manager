@@ -15,6 +15,7 @@ import {
   CASE_STATUSES_RETRIEVED,
   GET_SIGNERS
 } from "../../../../sharedUtilities/constants";
+import "@testing-library/jest-dom";
 
 describe("Letter Types Card", () => {
   beforeEach(() => {
@@ -74,9 +75,9 @@ describe("Letter Types Card", () => {
   });
 
   test("should render title and letter types", async () => {
-    expect(screen.getByText("Letters")).toBeInTheDocument;
-    expect(await screen.findByText("REFERRAL")).toBeInTheDocument;
-    expect(await screen.findByText("COMPLAINANT")).toBeInTheDocument;
+    expect(screen.getByText("Letters")).toBeInTheDocument();
+    expect(await screen.findByText("REFERRAL")).toBeInTheDocument();
+    expect(await screen.findByText("COMPLAINANT")).toBeInTheDocument();
   });
 
   test("should render Requires Approval and Is Editable column", async () => {
@@ -88,14 +89,14 @@ describe("Letter Types Card", () => {
 
   test("should render Default Sender column", async () => {
     expect(await screen.findAllByTestId("default-sender-label")).toBeTruthy();
-    expect(await screen.findByText("Billy")).toBeInTheDocument;
-    expect(await screen.findByText("Kate")).toBeInTheDocument;
+    expect(await screen.findByText("Billy")).toBeInTheDocument();
+    expect(await screen.findByText("Kate")).toBeInTheDocument();
   });
 
   test("should render Required Status column", async () => {
     expect(await screen.findAllByTestId("required-status-label")).toBeTruthy();
-    expect(await screen.findByText("Active")).toBeInTheDocument;
-    expect(await screen.findByText("Initial")).toBeInTheDocument;
+    expect(await screen.findByText("Active")).toBeInTheDocument();
+    expect(await screen.findByText("Initial")).toBeInTheDocument();
   });
 
   test("should render template when click on dropdown", async () => {
@@ -108,7 +109,7 @@ describe("Letter Types Card", () => {
     const letterTypeRow = await screen.findAllByTestId("letter-type-label");
     userEvent.click(letterTypeRow[1]);
     expect(await screen.findAllByTestId("body-template-label")).toBeTruthy();
-    expect(await screen.findByText("editable template")).toBeInTheDocument;
+    expect(await screen.findByText("editable template")).toBeInTheDocument();
   });
 
   test("should reload letter types after delete is chosen, confirmed, and succeeds", async () => {
@@ -137,7 +138,7 @@ describe("Letter Types Card", () => {
     await waitForElementToBeRemoved(() =>
       screen.getByTestId("dialog-confirm-button")
     );
-    expect(await screen.findByText("Kate")).toBeInTheDocument;
+    expect(await screen.findByText("Kate")).toBeInTheDocument();
     expect(screen.queryByText("Billy")).toBeFalsy();
     expect(subsequentGetNock.isDone()).toBeTrue();
   });

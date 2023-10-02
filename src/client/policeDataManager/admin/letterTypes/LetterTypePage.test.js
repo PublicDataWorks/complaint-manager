@@ -16,6 +16,7 @@ import {
 } from "../../../../sharedUtilities/constants";
 import LetterTypePage from "./LetterTypePage";
 import { getFeaturesSuccess } from "../../actionCreators/featureTogglesActionCreators";
+import "@testing-library/jest-dom";
 
 describe("LetterTypePage", () => {
   let store;
@@ -126,8 +127,9 @@ describe("LetterTypePage", () => {
 
       userEvent.click(screen.getByText("Save"));
 
-      expect(await screen.findByText("Successfully edited letter type"))
-        .toBeInTheDocument;
+      expect(
+        await screen.findByText("Successfully edited letter type")
+      ).toBeInTheDocument();
       expect(editCall.isDone()).toBeTrue();
     });
 
@@ -151,14 +153,15 @@ describe("LetterTypePage", () => {
       userEvent.click(screen.getByLabelText(CIVILIAN_INITIATED));
       userEvent.click(screen.getByText("Save"));
 
-      expect(await screen.findByText("Successfully edited letter type"))
-        .toBeInTheDocument;
+      expect(
+        await screen.findByText("Successfully edited letter type")
+      ).toBeInTheDocument();
       expect(editCall.isDone()).toBeTrue();
     });
 
     describe("Display Example HTML", () => {
       test("should display Preview button", () => {
-        expect(screen.getByText("Preview")).toBeInTheDocument;
+        expect(screen.getByText("Preview")).toBeInTheDocument();
       });
 
       test("should generate html from template when Preview button is clicked", async () => {
@@ -167,7 +170,9 @@ describe("LetterTypePage", () => {
           .reply(200, { html: "<section>Hello World CC2022-0001" });
 
         userEvent.click(screen.getByText("Preview"));
-        expect(await screen.findByTestId("template-preview")).toBeInTheDocument;
+        expect(
+          await screen.findByTestId("template-preview")
+        ).toBeInTheDocument();
       });
     });
   });
@@ -212,16 +217,17 @@ describe("LetterTypePage", () => {
 
       userEvent.click(screen.getByText("Save"));
 
-      expect(await screen.findByText("Successfully added letter type"))
-        .toBeInTheDocument;
+      expect(
+        await screen.findByText("Successfully added letter type")
+      ).toBeInTheDocument();
       expect(addCall.isDone()).toBeTrue();
     });
 
     test("should have default recipient section with corresponding radio buttons", () => {
-      expect(screen.getByText("Default Recipient")).toBeInTheDocument;
-      expect(screen.getByText("Primary Complainant")).toBeInTheDocument;
-      expect(screen.getByText("Each Complainant")).toBeInTheDocument;
-      expect(screen.getByText("Other")).toBeInTheDocument;
+      expect(screen.getByText("Default Recipient")).toBeInTheDocument();
+      expect(screen.getByText("Primary Complainant")).toBeInTheDocument();
+      expect(screen.getByText("Each Complainant")).toBeInTheDocument();
+      expect(screen.getByText("Other")).toBeInTheDocument();
     });
 
     test("should render recipient name and address fields when Other is selected", () => {
@@ -229,8 +235,8 @@ describe("LetterTypePage", () => {
       expect(screen.queryByText("Recipient Address")).toBeFalsy();
 
       userEvent.click(screen.getByText("Other"));
-      expect(screen.getByTestId("recipient-name-input")).toBeInTheDocument;
-      expect(screen.getByTestId("recipient-address-input")).toBeInTheDocument;
+      expect(screen.getByTestId("recipient-name-input")).toBeInTheDocument();
+      expect(screen.getByTestId("recipient-address-input")).toBeInTheDocument();
     });
   });
 });

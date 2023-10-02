@@ -16,6 +16,7 @@ import SharedSnackbarContainer from "../../../shared/components/SharedSnackbarCo
 import nock from "nock";
 import { getCaseDetailsSuccess } from "../../../actionCreators/casesActionCreators";
 import Case from "../../../../../sharedTestHelpers/case";
+import "@testing-library/jest-dom";
 
 jest.mock("../../thunks/updateCase", () => values => ({
   type: "MOCK_UPDATE_CASE",
@@ -69,7 +70,7 @@ describe("ChangeComplaintTypeDialog", () => {
 
   test("complaint types should appear in dropdown menu", async () => {
     userEvent.click(screen.getByTestId("complaintDropdownInput"));
-    expect(await screen.findByText(CIVILIAN_INITIATED)).toBeInTheDocument;
+    expect(await screen.findByText(CIVILIAN_INITIATED)).toBeInTheDocument();
   });
 
   test("should dispatch updateCase when clicking submit button", async () => {

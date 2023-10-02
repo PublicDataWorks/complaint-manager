@@ -8,6 +8,7 @@ import createConfiguredStore from "../../../createConfiguredStore";
 import userEvent from "@testing-library/user-event";
 import { FAKE_USERS, GET_SIGNERS } from "../../../../sharedUtilities/constants";
 import SharedSnackbarContainer from "../../shared/components/SharedSnackbarContainer";
+import "@testing-library/jest-dom";
 
 jest.mock("../../shared/components/FileUpload");
 
@@ -68,14 +69,16 @@ describe("Signatures Admin Card", () => {
   });
 
   test("should render title and signers", async () => {
-    expect(screen.getByText("Signatures")).toBeInTheDocument;
-    expect(await screen.findByText("John A Simms")).toBeInTheDocument;
-    expect(await screen.findByText("Nina Ambroise")).toBeInTheDocument;
-    expect(await screen.findAllByText("888-576-9922")).toBeInTheDocument;
-    expect(await screen.findByText("Complaint Intake Specialist"))
-      .toBeInTheDocument;
-    expect(await screen.findByAltText("The signature of Nina Ambroise"))
-      .toBeInTheDocument;
+    expect(screen.getByText("Signatures")).toBeInTheDocument();
+    expect(await screen.findByText("John A Simms")).toBeInTheDocument();
+    expect(await screen.findByText("Nina Ambroise")).toBeInTheDocument();
+    expect(await screen.findAllByText("888-576-9922")).toBeInTheDocument();
+    expect(
+      await screen.findByText("Complaint Intake Specialist")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByAltText("The signature of Nina Ambroise")
+    ).toBeInTheDocument();
   });
 
   describe("Add Signer Dialog", () => {
@@ -89,21 +92,21 @@ describe("Signatures Admin Card", () => {
     test("should open add signer dialog when add signer button is clicked and close on cancel", async () => {
       userEvent.click(await screen.findByText("Cancel"));
       expect(screen.queryAllByText("Save")).toHaveLength(0);
-      expect(screen.getByText("+ Add Signature")).toBeInTheDocument;
+      expect(screen.getByText("+ Add Signature")).toBeInTheDocument();
     });
 
     test("should reject form submission if not all fields are populated", () => {
       userEvent.click(saveButton);
-      expect(screen.getByText("Please enter Username")).toBeInTheDocument;
-      expect(screen.getByText("Please enter Name")).toBeInTheDocument;
-      expect(screen.getByText("Please enter Role")).toBeInTheDocument;
+      expect(screen.getByText("Please enter Username")).toBeInTheDocument();
+      expect(screen.getByText("Please enter Name")).toBeInTheDocument();
+      expect(screen.getByText("Please enter Role")).toBeInTheDocument();
 
       userEvent.type(screen.getByPlaceholderText("Name"), "Candy");
       userEvent.type(screen.getByPlaceholderText("Phone number"), "7777777777");
       userEvent.click(screen.getByText("Save"));
-      expect(screen.getByText("Please enter Username")).toBeInTheDocument;
+      expect(screen.getByText("Please enter Username")).toBeInTheDocument();
       expect(screen.queryAllByText("Please enter Name")).toHaveLength(0);
-      expect(screen.getByText("Please enter Role")).toBeInTheDocument;
+      expect(screen.getByText("Please enter Role")).toBeInTheDocument();
       expect(screen.queryAllByText("Please enter Phone Number")).toHaveLength(
         0
       );
@@ -124,8 +127,9 @@ describe("Signatures Admin Card", () => {
       );
 
       userEvent.click(saveButton);
-      expect(screen.getByText("Please enter a numeric 10 digit value"))
-        .toBeInTheDocument;
+      expect(
+        screen.getByText("Please enter a numeric 10 digit value")
+      ).toBeInTheDocument();
     });
 
     test("should make service calls and close the dialog when saved correctly", async () => {
@@ -356,8 +360,9 @@ describe("Signatures Admin Card", () => {
         });
       });
       expect(signerDelete.isDone()).toBeTrue();
-      expect(await screen.findByText("Signer successfully deleted"))
-        .toBeInTheDocument;
+      expect(
+        await screen.findByText("Signer successfully deleted")
+      ).toBeInTheDocument();
     });
   });
 });

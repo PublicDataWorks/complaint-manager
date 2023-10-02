@@ -7,6 +7,7 @@ import GenerateLetterButton from "./GenerateLetterButton";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import { push } from "connected-react-router";
+import "@testing-library/jest-dom";
 
 describe("GenerateLetterButton", () => {
   let store, responseBody, dispatchSpy, caseId;
@@ -70,12 +71,15 @@ describe("GenerateLetterButton", () => {
 
   test("should show list of letter types on click", async () => {
     userEvent.click(screen.getByText("Generate Letter"));
-    expect(await screen.findByTestId(`${responseBody[0].type}-option`))
-      .toBeInTheDocument;
-    expect(await screen.findByTestId(`${responseBody[1].type}-option`))
-      .toBeInTheDocument;
-    expect(await screen.findByTestId(`${responseBody[2].type}-option`))
-      .toBeInTheDocument;
+    expect(
+      await screen.findByTestId(`${responseBody[0].type}-option`)
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId(`${responseBody[1].type}-option`)
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByTestId(`${responseBody[2].type}-option`)
+    ).toBeInTheDocument();
   });
 
   test("should redirect to Letter Preview Page if letter type is editable", async () => {
