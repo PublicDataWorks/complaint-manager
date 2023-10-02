@@ -10,6 +10,7 @@ import createConfiguredStore from "../../client/createConfiguredStore";
 import SharedSnackbarContainer from "../../client/policeDataManager/shared/components/SharedSnackbarContainer";
 import { CASE_STATUS, USER_PERMISSIONS } from "../../sharedUtilities/constants";
 import ReferralLetterPreview from "../../client/policeDataManager/cases/ReferralLetter/LetterPreview/ReferralLetterPreview";
+import "@testing-library/jest-dom";
 
 pactWith(
   {
@@ -140,8 +141,9 @@ pactWith(
           );
           let submitBtn = await screen.findByTestId("submit-for-review-button");
           userEvent.click(submitBtn);
-          expect(await screen.findByText(opts.errorDialogText))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText(opts.errorDialogText)
+          ).toBeInTheDocument();
         });
       });
       test("should update letter addresses and statuses when provided complete information", async () => {
@@ -275,8 +277,9 @@ pactWith(
           "update-case-status-button"
         );
         userEvent.click(dialogSubmitBtn);
-        expect(await screen.findByText("Status was successfully updated"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Status was successfully updated")
+        ).toBeInTheDocument();
       });
     });
   }

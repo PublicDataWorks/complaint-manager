@@ -4,6 +4,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import { PERSON_IN_CUSTODY, setUpCaseDetailsPage } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 let state = "Case exists: with person in custody complainant";
 const options = [PERSON_IN_CUSTODY];
@@ -73,7 +74,7 @@ pactWith(
         userEvent.click(await screen.findByTestId("dialog-confirm-button"));
         expect(
           await screen.findByText("Person in Custody was successfully removed")
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
     });
   }

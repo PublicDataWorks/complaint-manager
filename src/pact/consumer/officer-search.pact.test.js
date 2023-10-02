@@ -15,6 +15,7 @@ import {
 import AddOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/AddOfficerSearch";
 import EditOfficerSearch from "../../client/policeDataManager/officers/OfficerSearch/EditOfficerSearch";
 import { selectOfficer } from "../../client/policeDataManager/actionCreators/officersActionCreators";
+import "@testing-library/jest-dom";
 
 pactWith(
   {
@@ -200,7 +201,7 @@ pactWith(
         userEvent.type(await screen.findByTestId("firstNameField"), "Bob");
         userEvent.type(screen.getByTestId("lastNameField"), "Loblaw");
         userEvent.click(screen.getByTestId("officerSearchSubmitButton"));
-        expect(await screen.findByText("1st District")).toBeInTheDocument;
+        expect(await screen.findByText("1st District")).toBeInTheDocument();
 
         userEvent.click(screen.getByTestId("selectNewOfficerButton"));
         expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(officer));
@@ -233,7 +234,7 @@ pactWith(
         userEvent.click(districtSelect);
         userEvent.click(await screen.findByText("1st District"));
         userEvent.click(screen.getByTestId("officerSearchSubmitButton"));
-        expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
+        expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument();
 
         userEvent.click(screen.getByTestId("selectNewOfficerButton"));
         expect(dispatchSpy).toHaveBeenCalledWith(selectOfficer(officer));

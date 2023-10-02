@@ -23,6 +23,7 @@ import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import LetterTypePage from "../../../client/policeDataManager/admin/letterTypes/LetterTypePage";
 import { change } from "redux-form";
 import { getFeaturesSuccess } from "../../../client/policeDataManager/actionCreators/featureTogglesActionCreators";
+import "@testing-library/jest-dom";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -204,8 +205,9 @@ pactWith(
           );
           userEvent.click(screen.getByText("Save"));
 
-          expect(await screen.findByText("Successfully edited letter type"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Successfully edited letter type")
+          ).toBeInTheDocument();
         });
 
         describe("Display Example HTML", () => {
@@ -233,7 +235,7 @@ pactWith(
             });
 
             userEvent.click(screen.getByText("Preview"));
-            expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+            expect(await screen.findByTestId("spinner")).toBeInTheDocument();
             await waitForElementToBeRemoved(screen.getByTestId("spinner"));
           });
 
@@ -272,7 +274,7 @@ pactWith(
             );
 
             userEvent.click(screen.getByText("Preview"));
-            expect(await screen.findByTestId("spinner")).toBeInTheDocument;
+            expect(await screen.findByTestId("spinner")).toBeInTheDocument();
             await waitForElementToBeRemoved(screen.getByTestId("spinner"));
           });
         });
@@ -345,8 +347,9 @@ pactWith(
           userEvent.click(screen.getByTestId("requires-approval-checkbox"));
           userEvent.click(screen.getByText("Save"));
 
-          expect(await screen.findByText("Successfully added letter type"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Successfully added letter type")
+          ).toBeInTheDocument();
         });
       });
     });

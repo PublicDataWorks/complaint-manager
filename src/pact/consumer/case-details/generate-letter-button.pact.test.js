@@ -7,6 +7,7 @@ import {
   GENERATE_LETTER_BUTTON
 } from "./case-details-helper";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
+import "@testing-library/jest-dom";
 
 pactWith(
   {
@@ -57,7 +58,7 @@ pactWith(
 
         expect(
           await screen.findByText("You have generated a new COMPLAINANT letter")
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
     });
   }

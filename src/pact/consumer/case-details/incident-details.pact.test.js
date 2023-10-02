@@ -4,6 +4,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import { setUpCaseDetailsPage } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 jest.mock(
   "../../../client/policeDataManager/cases/CaseDetails/PersonOnCaseDialog/MapServices/MapService"
@@ -107,7 +108,7 @@ pactWith(
 
         expect(
           await screen.findByText("Incident details were successfully updated")
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
     });
   }

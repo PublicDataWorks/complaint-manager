@@ -8,6 +8,7 @@ import {
   CIVILIAN_WITNESS,
   setUpCaseDetailsPage
 } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 const role = "Complainant";
 const options = [CIVILIAN_COMPLAINANT];
@@ -79,8 +80,9 @@ pactWith(
         });
         userEvent.click(await screen.findByTestId("removeCivilianLink"));
         userEvent.click(await screen.findByTestId("dialog-confirm-button"));
-        expect(await screen.findByText("Civilian was successfully removed"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Civilian was successfully removed")
+        ).toBeInTheDocument();
       });
     });
   }

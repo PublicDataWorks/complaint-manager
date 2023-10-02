@@ -6,6 +6,7 @@ import userEvent from "@testing-library/user-event";
 import { FAKE_USERS } from "../../../sharedUtilities/constants";
 import moment from "moment";
 import { setupAdminPortal } from "./admin-portal-helper";
+import "@testing-library/jest-dom";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -111,10 +112,12 @@ pactWith(
           );
 
           userEvent.click(saveButton);
-          expect(await screen.findByText("File was successfully uploaded"))
-            .toBeInTheDocument;
-          expect(await screen.findByText("Signer successfully added"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("File was successfully uploaded")
+          ).toBeInTheDocument();
+          expect(
+            await screen.findByText("Signer successfully added")
+          ).toBeInTheDocument();
         }, 100000);
 
         test("on click of edit signature save button, should edit signer and signature", async () => {
@@ -183,11 +186,15 @@ pactWith(
           });
 
           userEvent.click(saveButton);
-          expect(await screen.findByText("File was successfully uploaded"))
-            .toBeInTheDocument;
-          expect(await screen.findByText("Signer successfully updated"))
-            .toBeInTheDocument;
-          expect(await screen.findByText("+ Add Signature")).toBeInTheDocument;
+          expect(
+            await screen.findByText("File was successfully uploaded")
+          ).toBeInTheDocument();
+          expect(
+            await screen.findByText("Signer successfully updated")
+          ).toBeInTheDocument();
+          expect(
+            await screen.findByText("+ Add Signature")
+          ).toBeInTheDocument();
         }, 100000);
 
         test("on click of remove signature button, should remove signer and signature", async () => {
@@ -211,8 +218,9 @@ pactWith(
           const saveButton = await screen.findByTestId("dialog-confirm-button");
 
           userEvent.click(saveButton);
-          expect(await screen.findByText("Signer successfully deleted"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Signer successfully deleted")
+          ).toBeInTheDocument();
         }, 100000);
       });
     });

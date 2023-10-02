@@ -16,6 +16,7 @@ import SharedSnackbarContainer from "../../../client/policeDataManager/shared/co
 import { push } from "connected-react-router";
 import EditOfficerDetails from "../../../client/policeDataManager/officers/OfficerDetails/EditOfficerDetails";
 import createConfiguredStore from "../../../client/createConfiguredStore";
+import "@testing-library/jest-dom";
 
 const scenarios = [
   {
@@ -285,8 +286,9 @@ scenarios.forEach(({ currentRole, newRole, options }) => {
           userEvent.click(await screen.findByText(`${newRole}`));
           userEvent.click(await screen.findByTestId("officerSubmitButton"));
 
-          expect(await screen.findByText("Officer was successfully updated"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Officer was successfully updated")
+          ).toBeInTheDocument();
         }, 200000);
       });
     }

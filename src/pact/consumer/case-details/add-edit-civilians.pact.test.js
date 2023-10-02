@@ -11,6 +11,7 @@ import {
   setUpCaseDetailsPage,
   CHANGES_SEARCHABLE_DATA
 } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 jest.mock(
   "../../../client/policeDataManager/cases/CaseDetails/PersonOnCaseDialog/MapServices/MapService",
@@ -254,7 +255,7 @@ scenarios.forEach(
 
             userEvent.click(screen.getByTestId("submitEditCivilian"));
 
-            expect(await screen.findByText(successMessage)).toBeInTheDocument;
+            expect(await screen.findByText(successMessage)).toBeInTheDocument();
             unmount();
 
             await new Promise(resolve => setTimeout(resolve, 10));

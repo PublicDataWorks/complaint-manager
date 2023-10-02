@@ -4,6 +4,7 @@ import { pactWith } from "jest-pact";
 import { like } from "@pact-foundation/pact/src/dsl/matchers";
 import userEvent from "@testing-library/user-event";
 import { setupAdminPortal } from "./admin-portal-helper";
+import "@testing-library/jest-dom";
 
 jest.useRealTimers();
 jest.mock("../../../client/policeDataManager/shared/components/FileUpload");
@@ -50,8 +51,9 @@ pactWith(
 
         userEvent.click(await screen.findByTestId("delete-letter-type-btn"));
         userEvent.click(await screen.findByTestId("dialog-confirm-button"));
-        expect(await screen.findByText("Letter type successfully deleted"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Letter type successfully deleted")
+        ).toBeInTheDocument();
       }, 100000);
     });
   }

@@ -8,6 +8,7 @@ import {
   CHANGES_SEARCHABLE_DATA,
   setUpCaseDetailsPage
 } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 describe("case tags", () => {
   /*  here's why there's an array:
@@ -90,8 +91,9 @@ describe("case tags", () => {
         const newTag = await screen.findByTestId("caseTagChip");
 
         expect(newTag.textContent).toEqual("mardi gras");
-        expect(await screen.findByText("Case tag was successfully added"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Case tag was successfully added")
+        ).toBeInTheDocument();
 
         unmount();
         await new Promise(resolve => setTimeout(resolve, 10));
@@ -147,8 +149,9 @@ describe("case tags", () => {
         const newTag = await screen.findByTestId("caseTagChip");
 
         expect(newTag.textContent).toEqual("apple pie");
-        expect(await screen.findByText("Case tag was successfully added"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Case tag was successfully added")
+        ).toBeInTheDocument();
 
         unmount();
         await new Promise(resolve => setTimeout(resolve, 10));
@@ -178,8 +181,9 @@ describe("case tags", () => {
         fireEvent.click(deleteIcon[0]);
         userEvent.click(await screen.findByTestId("removeCaseTag"));
 
-        expect(await screen.findByText("Case tag was successfully removed"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Case tag was successfully removed")
+        ).toBeInTheDocument();
 
         unmount();
         await new Promise(resolve => setTimeout(resolve, 10));

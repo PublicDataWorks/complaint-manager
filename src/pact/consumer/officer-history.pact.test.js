@@ -14,6 +14,7 @@ import {
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
 import OfficerHistories from "../../client/policeDataManager/cases/ReferralLetter/OfficerHistories/OfficerHistories";
+import "@testing-library/jest-dom";
 
 pactWith(
   {
@@ -183,7 +184,7 @@ pactWith(
           await screen.findByText(
             "Officer complaint history was successfully updated"
           )
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
 
       test("choose history option without extra details", async () => {
@@ -215,7 +216,7 @@ pactWith(
           await screen.findByText(
             "Officer complaint history was successfully updated"
           )
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
     });
   }

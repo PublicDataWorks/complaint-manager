@@ -4,6 +4,7 @@ import axios from "axios";
 import { pactWith } from "jest-pact";
 import { like, eachLike } from "@pact-foundation/pact/src/dsl/matchers";
 import { setUpCaseDetailsPage } from "./case-details-helper";
+import "@testing-library/jest-dom";
 
 pactWith(
   {
@@ -94,8 +95,9 @@ pactWith(
           }
         });
 
-        expect(await screen.findByTestId("caseNotesContainer"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByTestId("caseNotesContainer")
+        ).toBeInTheDocument();
 
         const addButton = await screen.findByTestId("addCaseNoteButton");
 
@@ -107,8 +109,9 @@ pactWith(
         userEvent.type(screen.getByTestId("notesInput"), "i wrote notes");
         userEvent.click(screen.getByTestId("submitButton"));
 
-        expect(await screen.findByText("Case note was successfully created"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Case note was successfully created")
+        ).toBeInTheDocument();
       });
     });
   }
