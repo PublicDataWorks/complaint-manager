@@ -37,14 +37,14 @@ export const demographicData = [
 ];
 
 export const facilityGraphData = {
-  HCCC: { currentPopulation: 272, capacity: 126 },
-  MCCC: { currentPopulation: 278, capacity: 269 },
-  OCCC: { currentPopulation: 994, capacity: 778 },
-  KCCC: { currentPopulation: 137, capacity: 128 },
-  WCCC: { currentPopulation: 182, capacity: 240 },
-  WCF: { currentPopulation: 165, capacity: 334 },
-  KCF: { currentPopulation: 95, capacity: 160 },
-  HCF: { currentPopulation: 879, capacity: 1124 }
+  HCCC: { currentPopulation: 292, capacity: 126 },
+  MCCC: { currentPopulation: 292, capacity: 269 },
+  OCCC: { currentPopulation: 952, capacity: 778 },
+  KCCC: { currentPopulation: 125, capacity: 128 },
+  WCCC: { currentPopulation: 212, capacity: 240 },
+  WCF: { currentPopulation: 161, capacity: 334 },
+  KCF: { currentPopulation: 84, capacity: 160 },
+  HCF: { currentPopulation: 877, capacity: 1124 }
 };
 
 export const getCapacityPercentages = () => {
