@@ -72,7 +72,7 @@ describe("Signatures Admin Card", () => {
     expect(screen.getByText("Signatures")).toBeInTheDocument();
     expect(await screen.findByText("John A Simms")).toBeInTheDocument();
     expect(await screen.findByText("Nina Ambroise")).toBeInTheDocument();
-    expect(await screen.findAllByText("888-576-9922")).toBeInTheDocument();
+    expect(screen.getAllByText("888-576-9922")[0]).toBeInTheDocument();
     expect(
       await screen.findByText("Complaint Intake Specialist")
     ).toBeInTheDocument();
