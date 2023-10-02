@@ -1111,9 +1111,7 @@ workflows:
             - e2e-testing-ci-pdm-hawaii
       - bump-version:
           requires:
-            # - create-release
-            - get-instance-files-latest-noipm
-            - get-instance-files-latest-hawaii
+            - create-release
       - tag-instance-files-noipm:
           requires:
             - bump-version
