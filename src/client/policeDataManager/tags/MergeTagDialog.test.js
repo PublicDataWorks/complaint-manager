@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import MergeTagDialog from "./MergeTagDialog";
 import createConfiguredStore from "../../createConfiguredStore";
 import { GET_TAGS_SUCCEEDED } from "../../../sharedUtilities/constants";
+import "@testing-library/jest-dom";
 
 let mockPatch = jest.fn();
 jest.mock("axios", () => ({
@@ -41,11 +42,11 @@ describe("MergeTagDialog", () => {
   });
 
   test("should render a dropdown with the existing tags", () => {
-    expect(screen.getByTestId("select-merge-tag-dropdown")).toBeInTheDocument;
+    expect(screen.getByTestId("select-merge-tag-dropdown")).toBeInTheDocument();
     fireEvent.change(screen.getByTestId("select-merge-tag-dropdown"), {
       target: { value: "Tof" }
     });
-    expect(screen.getByText("Tofu")).toBeInTheDocument;
+    expect(screen.getByText("Tofu")).toBeInTheDocument();
   });
 
   test("should disable submit button until a tag is chosen", () => {

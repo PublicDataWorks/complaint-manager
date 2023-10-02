@@ -2,6 +2,7 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import TagTableHeader from "./TagTableHeader";
+import "@testing-library/jest-dom";
 
 describe("TagTableHeader", () => {
   let changeSort = jest.fn();
@@ -25,7 +26,7 @@ describe("TagTableHeader", () => {
   });
 
   test("should render children as text", () => {
-    expect(screen.getByText("Hello")).toBeInTheDocument;
+    expect(screen.getByText("Hello")).toBeInTheDocument();
   });
 
   test("should call changeSort with argument key when clicked", () => {

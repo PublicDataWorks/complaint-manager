@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import EditTagDialog from "./EditTagDialog";
 import createConfiguredStore from "../../createConfiguredStore";
 import { GET_TAGS_SUCCEEDED } from "../../../sharedUtilities/constants";
+import "@testing-library/jest-dom";
 
 let mockPut = jest.fn();
 jest.mock("axios", () => ({
@@ -33,7 +34,7 @@ describe("EditTagDialog", () => {
         </Router>
       </Provider>
     );
-    expect(screen.getByTestId("editTagCancelButton")).toBeInTheDocument;
+    expect(screen.getByTestId("editTagCancelButton")).toBeInTheDocument();
     expect(screen.getByTestId("editTagTextBox").value).toEqual("Mr. Tag");
   });
 
@@ -56,7 +57,7 @@ describe("EditTagDialog", () => {
       </Provider>
     );
     let saveButton = screen.getByTestId("saveTagButton");
-    expect(saveButton).toBeInTheDocument;
+    expect(saveButton).toBeInTheDocument();
     fireEvent.change(screen.getByTestId("editTagTextBox"), {
       target: { value: "Tofu" }
     });

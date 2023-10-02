@@ -12,6 +12,7 @@ import {
   DESCENDING,
   GET_TAGS_SUCCEEDED
 } from "../../../sharedUtilities/constants";
+import "@testing-library/jest-dom";
 
 describe("TagManagementPage", () => {
   let store = createConfiguredStore();
@@ -40,7 +41,7 @@ describe("TagManagementPage", () => {
     });
 
     test("should show No Tags Found when there are no tags", () => {
-      expect(screen.getByText("No Tags Found")).toBeInTheDocument;
+      expect(screen.getByText("No Tags Found")).toBeInTheDocument();
     });
 
     test("should call getTagsWithCount on mount", () => {
@@ -70,8 +71,8 @@ describe("TagManagementPage", () => {
     });
 
     test("should have the appropriate table headers", () => {
-      expect(screen.getByText("TAG NAME")).toBeInTheDocument;
-      expect(screen.getByText("ASSOCIATED COMPLAINTS")).toBeInTheDocument;
+      expect(screen.getByText("TAG NAME")).toBeInTheDocument();
+      expect(screen.getByText("ASSOCIATED COMPLAINTS")).toBeInTheDocument();
     });
 
     test("should show the appropriate number of rows", () => {
@@ -115,9 +116,10 @@ describe("TagManagementPage", () => {
     });
 
     test("should have the appropriate table headers", async () => {
-      expect(await screen.findByText("TAG NAME")).toBeInTheDocument;
-      expect(await screen.findByText("ASSOCIATED COMPLAINTS"))
-        .toBeInTheDocument;
+      expect(await screen.findByText("TAG NAME")).toBeInTheDocument();
+      expect(
+        await screen.findByText("ASSOCIATED COMPLAINTS")
+      ).toBeInTheDocument();
     });
 
     test("should show the appropriate number of rows", async () => {

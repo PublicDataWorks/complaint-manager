@@ -9,6 +9,7 @@ import {
   GET_CONFIGS_SUCCEEDED
 } from "../../sharedUtilities/constants";
 import nock from "nock";
+import "@testing-library/jest-dom";
 
 jest.mock(
   "../common/components/Visualization/Visualization",
@@ -133,21 +134,26 @@ describe("Public Data Dashboard", () => {
       await screen.findByText(
         "Where are the alleged misconduct incidents occurring?"
       )
-    ).toBeInTheDocument;
-    expect(await screen.findByText("Who is submitting complaints over time?"))
-      .toBeInTheDocument;
-    expect(await screen.findByText("How do complainants submit complaints?"))
-      .toBeInTheDocument;
-    expect(await screen.findByText("Who submits complaints?"))
-      .toBeInTheDocument;
-    expect(await screen.findByText("What themes are emerging from the data?"))
-      .toBeInTheDocument;
-    expect(await screen.findByText("Which districts have the most complaints?"))
-      .toBeInTheDocument;
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Who is submitting complaints over time?")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("How do complainants submit complaints?")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Who submits complaints?")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("What themes are emerging from the data?")
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText("Which districts have the most complaints?")
+    ).toBeInTheDocument();
     expect(
       await screen.findByText(
         "What are the most frequently recommended allegations?"
       )
-    ).toBeInTheDocument;
+    ).toBeInTheDocument();
   });
 });

@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { TagTableRow } from "./TagTableRow";
 import createConfiguredStore from "../../createConfiguredStore";
 import { USER_PERMISSIONS } from "../../../sharedUtilities/constants";
+import "@testing-library/jest-dom";
 
 let mockDelete = jest.fn();
 jest.mock("axios", () => ({
@@ -37,7 +38,7 @@ describe("TagTableRow", () => {
           </Provider>
         );
 
-        expect(screen.getByText("Monsieur Tag")).toBeInTheDocument;
+        expect(screen.getByText("Monsieur Tag")).toBeInTheDocument();
         expect(screen.queryAllByTestId("editTagButton")).toHaveLength(0);
         expect(screen.queryAllByTestId("removeTagButton")).toHaveLength(0);
         expect(screen.queryAllByTestId("mergeTagButton")).toHaveLength(0);
@@ -85,7 +86,10 @@ describe("TagTableRow", () => {
       test("should close dialog when cancel button is clicked", async () => {
         userEvent.click(screen.getByTestId("editTagButton"));
         userEvent.click(screen.getByTestId("editTagCancelButton"));
-        expect(screen.queryByTestId("editTagButton")).not.toBeInTheDocument;
+        expect(
+          screen.queryByTestId("editTagCancelButton")
+        ).not.toBeInTheDocument();
+        expect(screen.queryByTestId("editTagButton")).toBeInTheDocument();
       });
     });
 
@@ -95,11 +99,13 @@ describe("TagTableRow", () => {
       });
 
       test("should launch a remove dialog when remove button clicked", () => {
-        expect(screen.getByTestId("dialog-confirm-button")).toBeInTheDocument;
+        expect(screen.getByTestId("dialog-confirm-button")).toBeInTheDocument();
       });
 
       test("should close remove dialog when cancel button is clicked", () => {
-        expect(screen.queryByTestId("dialog-cancel-button")).toBeInTheDocument;
+        expect(
+          screen.queryByTestId("dialog-cancel-button")
+        ).toBeInTheDocument();
         userEvent.click(screen.getByTestId("dialog-cancel-button"));
         expect(screen.queryByTestId("dialog-cancel-button")).toBeNull();
       });
@@ -119,15 +125,17 @@ describe("TagTableRow", () => {
     describe("Merge dialog", () => {
       test("should launch a dialog with a tag select dropdown", () => {
         userEvent.click(screen.getByTestId("mergeTagButton"));
-        expect(screen.getByTestId("select-merge-tag-dropdown"))
-          .toBeInTheDocument;
+        expect(
+          screen.getByTestId("select-merge-tag-dropdown")
+        ).toBeInTheDocument();
       });
 
       test("should close dialog when cancel button is clicked", async () => {
         userEvent.click(screen.getByTestId("mergeTagButton"));
         userEvent.click(screen.getByTestId("mergeTagCancelButton"));
-        expect(screen.queryByTestId("mergeTagCancelButton")).not
-          .toBeInTheDocument;
+        expect(
+          screen.queryByTestId("mergeTagCancelButton")
+        ).not.toBeInTheDocument();
       });
     });
   });
