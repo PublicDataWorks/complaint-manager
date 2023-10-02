@@ -231,10 +231,6 @@ commands:
           version: 19.03.13
       - attach_workspace:
           at: src/
-      - run: pwd
-      - run: ls -al
-      - run: ls src/
-      - run: ls instance-files-noipm/
       - run: echo "FROM alpine:latest" >> src/Dockerfile
       - run: echo "COPY ./src/<<parameters.instance-files>> instance-files" >> src/Dockerfile
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
