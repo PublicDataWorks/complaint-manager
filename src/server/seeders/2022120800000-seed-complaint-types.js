@@ -11,27 +11,36 @@ const {
 
 const COMPLAINT_TYPE_TABLE = "complaint_types";
 
+const hawaiiComplaintTypes = [
+  "Medical",
+  "Mental Health",
+  "Staff Misconduct",
+  "PREA",
+  "Mail",
+  "Food",
+  "Property",
+  "Visitation",
+  "Programming",
+  "Reentry",
+  "Parole",
+  "Probation",
+  "Security Classification",
+  "Facility-Wide",
+  "Department-Wide",
+  "Access to Courts/Missed Evals",
+  "ADA",
+  "Library",
+  "Living Conditions",
+  "Misconduct/facility adjudication process",
+  "Case Management",
+  "Education",
+  "Religious services",
+];
+
 const COMPLAINT_TYPES =
   process.env.ORG === "NOIPM"
     ? [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_PD_INITIATED]
-    : [
-        "Medical",
-        "Mental Health",
-        "Staff Misconduct",
-        "PREA",
-        "Mail",
-        "Food",
-        "Property",
-        "Visitation",
-        "Programming",
-        "Reentry",
-        "Court Case",
-        "Parole",
-        "Probation",
-        "Security Classification",
-        "Facility-Wide",
-        "Department-Wide"
-      ];
+    : hawaiiComplaintTypes.sort();
 
 const INSERT_COMPLAINT_TYPES = `INSERT INTO ${COMPLAINT_TYPE_TABLE}(name)
   VALUES `;
