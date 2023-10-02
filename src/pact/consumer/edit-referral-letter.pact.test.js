@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -100,7 +101,7 @@ pactWith(
           </Provider>
         );
 
-        expect(await screen.findByTestId("save-button")).toBeInTheDocument;
+        expect(await screen.findByTestId("save-button")).toBeInTheDocument();
 
         store.dispatch(
           change(

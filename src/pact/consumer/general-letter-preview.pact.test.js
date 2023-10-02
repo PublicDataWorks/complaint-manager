@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -142,8 +143,9 @@ pactWith(
 
         let submitBtn = await screen.findByTestId("generate-letter-button");
         userEvent.click(submitBtn);
-        expect(await screen.findByText("Letter was generated successfully"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Letter was generated successfully")
+        ).toBeInTheDocument();
       });
     });
   }

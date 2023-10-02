@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -12,7 +13,6 @@ import CaseDashboard from "../../client/policeDataManager/cases/CaseDashboard";
 import {
   GET_FEATURES_SUCCEEDED,
   GET_PERSON_TYPES,
-  NUMBER_OF_COMPLAINANT_TYPES_BEFORE_SWITCHING_TO_DROPDOWN,
   SHOW_FORM,
   USER_PERMISSIONS
 } from "../../sharedUtilities/constants";
@@ -268,8 +268,9 @@ pactWith(
           userEvent.type(screen.getByTestId("lastNameInput"), "Doe");
           userEvent.type(screen.getByTestId("phoneNumberInput"), "2221231234");
           userEvent.click(screen.getByTestId("createAndView"));
-          expect(await screen.findByText("Case was successfully created"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Case was successfully created")
+          ).toBeInTheDocument();
         });
 
         test("Create case with unknown civilian complainant", async () => {
@@ -346,8 +347,9 @@ pactWith(
 
           userEvent.click(screen.getByLabelText("Unknown"));
           userEvent.click(screen.getByTestId("createAndView"));
-          expect(await screen.findByText("Case was successfully created"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Case was successfully created")
+          ).toBeInTheDocument();
         });
 
         test("Create case with complainant type that does not show form", async () => {
@@ -399,8 +401,9 @@ pactWith(
           userEvent.click(screen.getByLabelText(label));
 
           userEvent.click(screen.getByTestId("createAndSearch"));
-          expect(await screen.findByText("Case was successfully created"))
-            .toBeInTheDocument;
+          expect(
+            await screen.findByText("Case was successfully created")
+          ).toBeInTheDocument();
         });
       });
     });

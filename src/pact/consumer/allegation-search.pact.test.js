@@ -1,5 +1,6 @@
 import React from "react";
-import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -227,8 +228,9 @@ pactWith(
           "Whoa man, very medium"
         );
         userEvent.click(screen.getByText("Add Allegation"));
-        expect(await screen.findByTestId("editAllegationButton"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByTestId("editAllegationButton")
+        ).toBeInTheDocument();
       });
 
       test("should update officer allegation", async () => {
@@ -307,8 +309,9 @@ pactWith(
           "Whoa man, very medium"
         );
         userEvent.click(await screen.findByTestId("allegation-submit-btn"));
-        expect(await screen.findByText("Allegation was successfully updated"))
-          .toBeInTheDocument;
+        expect(
+          await screen.findByText("Allegation was successfully updated")
+        ).toBeInTheDocument();
       });
     });
   }

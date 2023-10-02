@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -121,8 +122,8 @@ pactWith(
         userEvent.click(await screen.findByText("ABC Pest and Lawn"));
         userEvent.click(screen.getByTestId("inmateSearchSubmitButton"));
 
-        expect(await screen.findByText("1 result found")).toBeInTheDocument;
-        expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument;
+        expect(await screen.findByText("1 result found")).toBeInTheDocument();
+        expect(await screen.findByText("Bob Loblaw")).toBeInTheDocument();
 
         userEvent.click(screen.getByText("SELECT"));
 
