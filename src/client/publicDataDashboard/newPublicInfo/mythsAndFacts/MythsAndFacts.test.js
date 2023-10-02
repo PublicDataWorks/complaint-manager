@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { screen, render } from "@testing-library/react";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import MythsAndFacts from "./MythsAndFacts";
@@ -10,17 +11,17 @@ describe("Myths and Facts", () => {
       test(`should show Myths and Facts title on page for ${size} view`, () => {
         render(<MythsAndFacts classes={{}} screenSize={size} />);
 
-        expect(screen.getByText("MYTHS AND FACTS")).toBeInTheDocument;
+        expect(screen.getByText("MYTHS AND FACTS")).toBeInTheDocument();
       });
 
       test(`should show categories on page for ${size} view`, () => {
         render(<MythsAndFacts classes={{}} screenSize={size} />);
 
-        expect(screen.getByText("Overcrowding")).toBeInTheDocument;
-        expect(screen.getByText("Probation")).toBeInTheDocument;
-        expect(screen.getByText("Bail Reform")).toBeInTheDocument;
-        expect(screen.getByText("Recidivism")).toBeInTheDocument;
-        expect(screen.getByText("Rehabilitative Programs")).toBeInTheDocument;
+        expect(screen.getByText("Overcrowding")).toBeInTheDocument();
+        expect(screen.getByText("Probation")).toBeInTheDocument();
+        expect(screen.getByText("Bail Reform")).toBeInTheDocument();
+        expect(screen.getByText("Recidivism")).toBeInTheDocument();
+        expect(screen.getByText("Rehabilitative Programs")).toBeInTheDocument();
       });
 
       test(`should be able to click on an category in ${size} view and open the accordion`, () => {
@@ -31,7 +32,7 @@ describe("Myths and Facts", () => {
           screen.getByText(
             "Prison overcrowding is primarily caused by an increase in crime rates."
           )
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
       });
     }
   );

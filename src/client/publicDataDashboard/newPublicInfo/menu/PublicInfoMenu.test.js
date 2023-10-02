@@ -1,13 +1,14 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { screen, render } from "@testing-library/react";
 import PublicInfoMenu from "./PublicInfoMenu";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
 const expectMenuLinksToExist = () => {
-  expect(screen.getByText("About")).toBeInTheDocument;
-  expect(screen.getByText("Public Data")).toBeInTheDocument;
-  expect(screen.getByText("Myths and Facts")).toBeInTheDocument;
-  expect(screen.getByText("Issues")).toBeInTheDocument;
+  expect(screen.getByText("About")).toBeInTheDocument();
+  expect(screen.getByText("Public Data")).toBeInTheDocument();
+  expect(screen.getByText("Myths and Facts")).toBeInTheDocument();
+  expect(screen.getByText("Issues")).toBeInTheDocument();
 };
 
 const expectMenuLinksToNotExist = () => {

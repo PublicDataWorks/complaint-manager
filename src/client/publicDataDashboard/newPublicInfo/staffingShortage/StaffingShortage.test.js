@@ -1,4 +1,5 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { screen, render } from "@testing-library/react";
 import StaffingShortage from "./StaffingShortage";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
@@ -13,22 +14,22 @@ describe("Staffing Shortages", () => {
           screen.getByText(
             "Serious overcrowding attributing to inhumane conditions, specifically for jails."
           )
-        ).toBeInTheDocument;
-        expect(screen.getByText("80%")).toBeInTheDocument;
-        expect(screen.getByText("93%")).toBeInTheDocument;
+        ).toBeInTheDocument();
+        expect(screen.getByText("80%")).toBeInTheDocument();
+        expect(screen.getByText("93%")).toBeInTheDocument();
         expect(
           screen.getByText(
             "Average rate across the country is 40-50%. Serious lack of movement and out-of-cell time for those in custody."
           )
-        ).toBeInTheDocument;
+        ).toBeInTheDocument();
         expect(
           screen.getByText(
             "Nearly 80% of People in Custody Are in Secure Settings"
           )
-        ).toBeInTheDocument;
-        expect(screen.getByText("Capacity in Prisons")).toBeInTheDocument;
-        expect(screen.getByText("156%")).toBeInTheDocument;
-        expect(screen.getByText("Capacity in Jails")).toBeInTheDocument;
+        ).toBeInTheDocument();
+        expect(screen.getByText("Capacity in Prisons")).toBeInTheDocument();
+        expect(screen.getByText("156%")).toBeInTheDocument();
+        expect(screen.getByText("Capacity in Jails")).toBeInTheDocument();
       });
     }
   );

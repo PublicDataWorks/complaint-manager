@@ -1,13 +1,14 @@
 import React from "react";
+import "@testing-library/jest-dom";
 import { screen, render } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import PublicInfoHeader from "./PublicInfoHeader";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 
 const expectHeaderMenuButtonsToExist = () => {
-  expect(screen.getByText("Home")).toBeInTheDocument;
-  expect(screen.getByText("Contact")).toBeInTheDocument;
-  expect(screen.getByText("Stay Connected")).toBeInTheDocument;
+  expect(screen.getByText("Home")).toBeInTheDocument();
+  expect(screen.getByText("Contact")).toBeInTheDocument();
+  expect(screen.getByText("Stay Connected")).toBeInTheDocument();
 };
 
 describe("Public Info Header", () => {
