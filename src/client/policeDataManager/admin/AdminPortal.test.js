@@ -21,7 +21,7 @@ describe("AdminPortal", () => {
       </Provider>
     );
 
-    expect(screen.findAllByText("Loading...")[0]).toBeInTheDocument;
+    expect(screen.getAllByText("Loading...")[0]).toBeInTheDocument;
   });
 
   test("should display the signatures card and letter types card when you have permissions", () => {
