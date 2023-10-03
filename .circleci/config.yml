@@ -231,6 +231,9 @@ commands:
           version: 19.03.13
       - attach_workspace:
           at: src/
+      - run: pwd
+      - run: ls -al
+      - run: ls -al src/
       - run: echo "FROM alpine:latest" >> src/Dockerfile
       - run: echo "COPY <<parameters.instance-files>> instance-files" >> src/Dockerfile
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
@@ -1111,7 +1114,9 @@ workflows:
             - e2e-testing-ci-pdm-hawaii
       - bump-version:
           requires:
-            - create-release
+            # - create-release
+            - get-instance-files-latest-noipm
+            - get-instance-files-latest-hawaii
       - tag-instance-files-noipm:
           requires:
             - bump-version
