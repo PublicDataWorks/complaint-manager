@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.62.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.61.0...v3.62.0) (2023-10-03)
+
+
+### Features
+
+* Shak/Maria [[#302](https://github.com/PublicDataWorks/complaint-manager/issues/302)] Adds Facility Capacity graph to public data page ([952088b](https://github.com/PublicDataWorks/complaint-manager/commit/952088bd8d97ddea758beff804cca8629893ce66))
+
 ## [3.61.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.60.0...v3.61.0) (2023-08-31)
 
 
