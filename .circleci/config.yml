@@ -1115,6 +1115,8 @@ workflows:
       - bump-version:
           requires:
             - create-release
+            - get-instance-files-latest-noipm
+            - get-instance-files-latest-hawaii
       - tag-instance-files-noipm:
           requires:
             - bump-version
