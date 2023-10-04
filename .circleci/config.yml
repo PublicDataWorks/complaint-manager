@@ -763,7 +763,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
-      - run: scripts/ensure-deploy-succeeded.sh https://hcsoc-production-2e65ea8488e5.herokuapp.com/health-check
+      - run: scripts/ensure-deploy-succeeded.sh https://hawaii-data.hawaii.gov/health-check
 
   tag-instance-files-noipm:
     docker:
