@@ -40,7 +40,7 @@ const hawaiiComplaintTypes = [
 const COMPLAINT_TYPES =
   process.env.ORG === "NOIPM"
     ? [CIVILIAN_INITIATED, RANK_INITIATED, CIVILIAN_WITHIN_PD_INITIATED]
-    : hawaiiComplaintTypes.sort();
+    : hawaiiComplaintTypes;
 
 const INSERT_COMPLAINT_TYPES = `INSERT INTO ${COMPLAINT_TYPE_TABLE}(name)
   VALUES `;
