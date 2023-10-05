@@ -134,7 +134,7 @@ class CreateCaseDialog extends React.Component {
                   }}
                 >
                   {generateMenuOptions(
-                    this.state.complaintTypes.map(type => type.name)
+                    this.state.complaintTypes.map(type => type.name).sort()
                   )}
                 </Field>
                 <br />
