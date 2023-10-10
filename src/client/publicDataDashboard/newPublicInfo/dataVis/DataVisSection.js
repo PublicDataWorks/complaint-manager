@@ -47,7 +47,6 @@ const DataVisSection = ({ classes, screenSize }) => {
               key={option}
               value={option}
               style={{
-                width: "211px",
                 fontFamily: "inherit"
               }}
               data-testid={`${option}-selection`}

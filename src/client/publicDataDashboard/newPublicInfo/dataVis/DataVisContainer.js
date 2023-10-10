@@ -1,13 +1,30 @@
+import { Box, Typography, withStyles } from "@material-ui/core";
 import React from "react";
+import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import { categories } from "./dataVisData";
 import dataVisStyles from "./dataVisStyles";
-import { withStyles } from "@material-ui/core";
-import { Box, Typography } from "@material-ui/core";
-import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import DemographicGraph from "./demographicSection/DemographicGraph";
 import FacilityCapacityGraph from "./facilityCapacitySection/FacilityCapacityGraph";
 
 const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
+  const renderGraphScreenshots = () => {
+    return screenSize === SCREEN_SIZES.MOBILE
+      ? graphInfo.mobile.image && (
+          <img
+            width="100%"
+            src={graphInfo.mobile.image}
+            alt={`${category} mobile graph`}
+          />
+        )
+      : graphInfo.notMobile.image && (
+          <img
+            width="75%"
+            src={graphInfo.notMobile.image}
+            alt={`${category} graph`}
+          />
+        );
+  };
+
   return (
     <>
       <Box
@@ -40,6 +57,7 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
           {category === categories.facilityCapacity && (
             <FacilityCapacityGraph classes={classes} screenSize={screenSize} />
           )}
+          {renderGraphScreenshots()}
         </Box>
         <Typography
           variant="body1"

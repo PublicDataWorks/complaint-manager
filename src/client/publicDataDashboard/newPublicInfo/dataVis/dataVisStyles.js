@@ -33,13 +33,13 @@ const dataVisStyles = theme => ({
   },
   categoryListWrapper: {
     height: "fit-content",
-    width: "20%",
+    width: "30%",
     minWidth: "180px",
     maxWidth: "300px",
     margin: "50px 5% 0 0"
   },
   categoryButtonTitle: {
-    width: "211px",
+    width: "150%",
     fontFamily: "inherit",
     fontSize: "20px",
     fontWeight: "400",
