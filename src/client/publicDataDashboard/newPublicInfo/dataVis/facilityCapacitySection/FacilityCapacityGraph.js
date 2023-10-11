@@ -6,40 +6,30 @@ import GraphLegend from "../GraphLegend";
 import { facilityGraphData, getCapacityPercentages } from "../dataVisData";
 
 const FacilityCapacityGraph = ({ classes, screenSize }) => {
+  const facilityNames = Object.keys(facilityGraphData).map(
+    key => facilityGraphData[key].facilityName
+  );
+
   const data = [
     {
       x: Object.keys(facilityGraphData),
-      y: getCapacityPercentages(),
+      y: getCapacityPercentages()[0],
       type: "bar",
-      customdata: [
-        ["Hawaii Community Correctional Center", 272],
-        ["Maui Community Correctional Center", 278],
-        ["Oahu Community Correctional Center", 994],
-        ["Kauai Community Correctional Center", 137],
-        ["Women's Community Correctional Center", 182],
-        ["Walawa Correctional Facility", 165],
-        ["Kulani Correctional Facility", 95],
-        ["Halawa Correctional Facility", 879]
-      ],
-      hovertemplate:
-        "%{customdata[0]}<br>Capacity: %{y:.0f}%<br>Population: %{customdata[1]}",
+      customdata: facilityNames,
+      hovertemplate: "%{customdata}<br>Occupancy Rate: %{y:.0f}%",
       marker: {
-        width: 0.5,
-        color: [
-          colors.primaryBrand,
-          colors.primaryBrand,
-          colors.primaryBrand,
-          colors.primaryBrand,
-          colors.secondaryBrand,
-          colors.secondaryBrand,
-          colors.secondaryBrand,
-          colors.secondaryBrand
-        ],
-        opacity: 0.5,
-        line: {
-          color: "black",
-          width: 1.5
-        }
+        color: colors.primaryBrand
+      },
+      name: ""
+    },
+    {
+      x: Object.keys(facilityGraphData),
+      y: getCapacityPercentages()[1],
+      type: "bar",
+      customdata: facilityNames,
+      hovertemplate: "%{customdata}<br>Occupancy Rate: %{y:.0f}%",
+      marker: {
+        color: colors.secondaryBrand
       },
       name: ""
     }
@@ -59,29 +49,37 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
     width: getBarGraphWidth(),
     margin: { l: 40, r: 40, t: 40, b: 40 },
     yaxis: {
-      tickvals: ["50%", "100%", "150%"],
-      ticktext: ["50%", "100%", "150%"],
-      range: [0, 230],
-      gridcolor: "lightgray"
+      tickvals: ["50%", "100%", "150%", "200%", "250%"],
+      ticktext: ["50%", "100%", "150%", "200%", "250%"],
+      range: [0, 270],
+      gridcolor: "lightgray",
+      fixedrange: true
+    },
+    xaxis: {
+      fixedrange: true
     },
     paper_bgcolor: "transparent",
     plot_bgcolor: "transparent",
     zoom: false,
     dragmode: false,
-    bargroupgap: 0.2
+    bargroupgap: 0.1,
+    showlegend: false
   };
 
   return (
     <>
       <div className={classes.facilityGraph} data-testid="facility-graph">
-        <Plot data={data} layout={layout} config={{ displayModeBar: false }} />
+        <Plot
+          data={data}
+          layout={layout}
+          config={{ displayModeBar: false, scrollZoom: true }}
+        />
       </div>
       <GraphLegend
         classes={classes}
         screenSize={screenSize}
-        first="Jail"
-        second="Prison"
-        opacity={0.5}
+        first="Main Facility Occupancy Rate"
+        second="Furlough Occupancy Rate"
       />
     </>
   );

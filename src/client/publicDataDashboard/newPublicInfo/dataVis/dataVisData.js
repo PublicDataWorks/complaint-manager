@@ -263,25 +263,72 @@ export const demographicData = [
 ];
 
 export const facilityGraphData = {
-  HCCC: { currentPopulation: 292, capacity: 126 },
-  MCCC: { currentPopulation: 292, capacity: 269 },
-  OCCC: { currentPopulation: 952, capacity: 778 },
-  KCCC: { currentPopulation: 125, capacity: 128 },
-  WCCC: { currentPopulation: 212, capacity: 240 },
-  WCF: { currentPopulation: 161, capacity: 334 },
-  KCF: { currentPopulation: 84, capacity: 160 },
-  HCF: { currentPopulation: 877, capacity: 1124 }
+  HCCC: {
+    facilityName: "Hawaii Community Correctional Center",
+    mainOccupancy: 292,
+    mainCapacity: 126,
+    furloughOccupancy: 28,
+    furloughCapacity: 100
+  },
+  MCCC: {
+    facilityName: "Maui Community Correctional Center",
+    mainOccupancy: 292,
+    mainCapacity: 269,
+    furloughOccupancy: 6,
+    furloughCapacity: 32
+  },
+  OCCC: {
+    facilityName: "Oahu Community Correctional Center",
+    mainOccupancy: 952,
+    mainCapacity: 778,
+    furloughOccupancy: 102,
+    furloughCapacity: 176
+  },
+  KCCC: {
+    facilityName: "Kauai Community Correctional Center",
+    mainOccupancy: 125,
+    mainCapacity: 128
+  },
+  WCCC: {
+    facilityName: "Women's Community Correctional Center",
+    mainOccupancy: 212,
+    mainCapacity: 240,
+    furloughOccupancy: 11,
+    furloughCapacity: 20
+  },
+  WCF: {
+    facilityName: "Walawa Correctional Facility",
+    mainOccupancy: 161,
+    mainCapacity: 334
+  },
+  KCF: {
+    facilityName: "Kulani Correctional Facility",
+    mainOccupancy: 84,
+    mainCapacity: 160
+  },
+  HCF: {
+    facilityName: "Halawa Correctional Facility",
+    mainOccupancy: 877,
+    mainCapacity: 1124
+  }
 };
 
 export const getCapacityPercentages = () => {
-  const result = [];
+  const mainResult = [];
+  const furloughResult = [];
   const facilityNames = Object.keys(facilityGraphData);
+
   facilityNames.map(facility => {
-    const percentage =
-      (facilityGraphData[facility].currentPopulation /
-        facilityGraphData[facility].capacity) *
-      100;
-    result.push(percentage);
+    const currentFacility = facilityGraphData[facility];
+    const mainCapacityPercentage =
+      (currentFacility.mainOccupancy / currentFacility.mainCapacity) * 100;
+    const furloughCapacityPercentage = currentFacility.furloughCapacity
+      ? (currentFacility.furloughOccupancy / currentFacility.furloughCapacity) *
+        100
+      : 0;
+
+    mainResult.push(mainCapacityPercentage);
+    furloughResult.push(furloughCapacityPercentage);
   });
-  return result;
+  return [mainResult, furloughResult];
 };
