@@ -20,14 +20,16 @@ describe("Data Vis Section", () => {
         render(<DataVisSection classes={{}} screenSize={size} />);
 
         userEvent.click(screen.getByTestId("category-dropdown-button"));
-        userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+        userEvent.click(
+          screen.getByTestId("Facility Overcrowding Rates-selection")
+        );
 
         expect(() => {
           screen.getByText("Demographic Breakdown");
         }).toThrow();
-        expect(
-          screen.queryByText("Facility Overcrowding Rates")
-        ).toBeInTheDocument();
+        expect(screen.getAllByText("Facility Overcrowding Rates").length).toBe(
+          2
+        );
       });
     }
   );
@@ -37,7 +39,9 @@ describe("Data Vis Section", () => {
       render(<DataVisSection classes={{}} screenSize={size} />);
 
       userEvent.click(screen.getByTestId("category-dropdown-button"));
-      expect(screen.getByText("Facility Capacity")).toBeInTheDocument();
+      expect(
+        screen.getByText("Facility Overcrowding Rates")
+      ).toBeInTheDocument();
     });
   });
 
@@ -66,21 +70,25 @@ describe("Data Vis Section", () => {
   });
 
   describe("Facility Overcrowding Rates", () => {
-    test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Capacity" for desktop view`, () => {
+    test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Overcrowding Rates" for desktop view`, () => {
       render(<DataVisSection classes={{}} screenSize={SCREEN_SIZES.DESKTOP} />);
 
-      userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+      userEvent.click(
+        screen.getByTestId("Facility Overcrowding Rates-selection")
+      );
 
       const barGraph = screen.getByTestId("facility-graph");
       expect(barGraph).toBeInTheDocument();
     });
 
     [(SCREEN_SIZES.TABLET, SCREEN_SIZES.MOBILE)].forEach(size => {
-      test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Capacity" for ${size}`, () => {
+      test(`should show facility overcrowding rates bar graph on page when user clicks "Facility Overcrowding Rates" for ${size}`, () => {
         render(<DataVisSection classes={{}} screenSize={size} />);
 
         userEvent.click(screen.getByTestId("category-dropdown-button"));
-        userEvent.click(screen.getByTestId("Facility Capacity-selection"));
+        userEvent.click(
+          screen.getByTestId("Facility Overcrowding Rates-selection")
+        );
 
         const barGraph = screen.getByTestId("facility-graph");
         expect(barGraph).toBeInTheDocument();
