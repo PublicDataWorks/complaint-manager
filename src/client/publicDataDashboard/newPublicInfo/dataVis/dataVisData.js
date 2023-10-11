@@ -3,32 +3,31 @@ const config =
     process.env.REACT_APP_ENV
   ];
 
-export const categories = {
-  demographic: "Demographics",
-  facilityCapacity: "Facility Capacity",
-  incarcerationStatusOverall: "Incarceration Status - Overall",
-  incarcerationStatusJails: "Incarceration Status - Jails",
-  incarcerationStatusPrisons: "Incarceration Status - Prisons",
-  populationAtEachFacility: "Population at Each Facility",
-  demographicsAgeOverall: "Demographics - Age - Overall",
-  demographicsAgeJails: "Demographics - Age - Jails",
-  demographicsAgePrisons: "Demographics - Age - Prisons",
-  demographicsEthnicityOverall: "Demographics - Ethnicity - Overall",
-  demographicsEthnicityJails: "Demographics - Ethnicity - Jails",
-  demographicsEthnicityPrisons: "Demographics - Ethnicity - Prisons",
-  demographicsGenderOverall: "Demographics - Gender - Overall",
-  demographicsGenderJails: "Demographics - Gender - Jails",
-  demographicsGenderPrisons: "Demographics - Gender - Prisons",
-  custodyClassification: "Custody Classification",
-  housingTypeOverall: "Housing Type Overall",
-  systemWideHousingTypeByFacility: "System-wide Housing Type by Facility"
-};
+export const categories = [
+  "Demographics",
+  "Facility Overcrowding Rates",
+  "Incarceration Status - Overall",
+  "Incarceration Status - Jails",
+  "Incarceration Status - Prisons",
+  "Population at Each Facility",
+  "Demographics - Age - Overall",
+  "Demographics - Age - Jails",
+  "Demographics - Age - Prisons",
+  "Demographics - Ethnicity - Overall",
+  "Demographics - Ethnicity - Jails",
+  "Demographics - Ethnicity - Prisons",
+  "Demographics - Gender - Overall",
+  "Demographics - Gender - Jails",
+  "Demographics - Gender - Prisons",
+  "Custody Classification",
+  "Housing Type Overall",
+  "System-wide Housing Type by Facility"
+];
 
 export const graphInfo = {
-  "Facility Capacity": {
+  "Facility Overcrowding Rates": {
     title: "Facility Overcrowding Rates",
     mobile: {
-      title: "Facility Overcrowding Rates",
       description: "Hawaii’s jail facilities are chronically overcrowded."
     },
     notMobile: {

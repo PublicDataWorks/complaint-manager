@@ -51,10 +51,10 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             : graphInfo.notMobile.description}
         </Typography>
         <Box>
-          {category === categories.demographic && (
+          {category === "Demographics" && (
             <DemographicGraph classes={classes} screenSize={screenSize} />
           )}
-          {category === categories.facilityCapacity && (
+          {category === "Facility Overcrowding Rates" && (
             <FacilityCapacityGraph classes={classes} screenSize={screenSize} />
           )}
           {renderGraphScreenshots()}
