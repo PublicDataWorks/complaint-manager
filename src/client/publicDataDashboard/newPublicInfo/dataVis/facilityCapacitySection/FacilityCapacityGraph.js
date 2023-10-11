@@ -51,7 +51,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
     yaxis: {
       tickvals: ["50%", "100%", "150%", "200%", "250%"],
       ticktext: ["50%", "100%", "150%", "200%", "250%"],
-      range: [0, 270],
+      range: [0, 251],
       gridcolor: "lightgray",
       fixedrange: true
     },
