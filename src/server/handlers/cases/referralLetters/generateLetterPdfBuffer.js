@@ -110,15 +110,24 @@ export const generateLetterPdfHtml = async (
     : "<p><br></p>";
 
   let imageTypes = {};
+
+  if (process.env.ORG === "HAWAII") {
+    if (letterType?.letterTypeLetterImage.length === 0) {
+      imageTypes["header"] = await retrieveLetterImage(
+        "hawaii_header_text.png",
+        `max-width: 550px`
+      );
+    }
+  }
   const letterPromises = letterType?.letterTypeLetterImage.map(
     async imageType => {
       let letterImage = await models.letterImage.findAll({
         where: { id: imageType.imageId }
       });
-
       await Promise.all(
         letterImage.map(async image => {
           if (!imageTypes[imageType.name]) {
+            console.log(image);
             imageTypes[imageType.name] = await retrieveLetterImage(
               image.image,
               `max-width: ${imageType.maxWidth}`
