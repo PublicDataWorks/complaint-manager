@@ -24,6 +24,8 @@ export const categories = [
   "System-wide Housing Type by Facility"
 ];
 
+const probationNote =
+  "Probation: A large majority of people in this designation are incarcerated on probation violations.";
 const rosterSource =
   "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
 
@@ -63,7 +65,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    probationNote: probationNote
   },
   "Incarceration Status - Jails": {
     title: "Incarceration Status - Jails",
@@ -76,7 +79,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    probationNote: probationNote
   },
   "Incarceration Status - Prisons": {
     title: "Incarceration Status - Prisons",
@@ -89,7 +93,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_prison_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    probationNote: probationNote
   },
   "Population at Each Facility": {
     title: "Population at Each Facility",

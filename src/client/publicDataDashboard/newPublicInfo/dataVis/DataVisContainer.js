@@ -64,6 +64,13 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             classes[`sourceText-${screenSize}`]
           }`}
         >
+          {graphInfo.probationNote && (
+            <span>
+              <i>{graphInfo.probationNote}</i>
+              <br />
+            </span>
+          )}
+
           {graphInfo.source}
         </Typography>
       </Box>
