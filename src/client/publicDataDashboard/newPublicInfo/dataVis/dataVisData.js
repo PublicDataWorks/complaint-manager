@@ -45,7 +45,7 @@ export const graphInfo = {
       "Hawaii’s jails are chronically and dangerously overcrowded. Even though the prisons in Hawaii are not filled to capacity, Hawaii prisons do not have sufficient capacity for the current incarcerated population. Therefore, around 900 people in Hawaii Department of Public Safety custody are serving their sentences at Saguaro, a private prison run by CoreCivic in Eloy, Arizona.",
     source: rosterSource,
     sourceNote:
-      "The primary function of Furlough is to allow people in custody to leave the facility and work during the day and prepare for transition back to the community. It is the lowest security level and least restrictive living environment, and separate from the jail population—because most people on Furlough are at the end of their felony sentence. Hawaii differs from many other jurisdictions because its male furlough population is in the custody of the jails. Furlough in Hawaii are underutilized as is prevalent through the furlough occupancy rates."
+      "The furlough program allows individuals in custody to temporarily leave the facility during the day as they prepare to rejoin the community upon completing their felony sentences. It offers a low-security environment separate from the jail population, but it is underutilized as indicated by low occupancy rates."
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
