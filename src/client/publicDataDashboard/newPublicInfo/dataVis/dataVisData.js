@@ -43,12 +43,14 @@ export const graphInfo = {
     title: "Facility Overcrowding Rates",
     description:
       "Hawaii’s jails are chronically and dangerously overcrowded. Even though the prisons in Hawaii are not filled to capacity, Hawaii prisons do not have sufficient capacity for the current incarcerated population. Therefore, around 900 people in Hawaii Department of Public Safety custody are serving their sentences at Saguaro, a private prison run by CoreCivic in Eloy, Arizona.",
-    source: rosterSource
+    source: rosterSource,
+    sourceNote:
+      "The primary function of Furlough is to allow people in custody to leave the facility and work during the day and prepare for transition back to the community. It is the lowest security level and least restrictive living environment, and separate from the jail population—because most people on Furlough are at the end of their felony sentence. Hawaii differs from many other jurisdictions because its male furlough population is in the custody of the jails. Furlough in Hawaii are underutilized as is prevalent through the furlough occupancy rates."
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "System-wide, the largest percentage of people in Hawaii Department of Public Safety Custody are sentenced followed by those awaiting trial.",
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_desktop.svg`,
     source: rosterSource,
@@ -57,7 +59,7 @@ export const graphInfo = {
   "Incarceration Status - Jails": {
     title: "Incarceration Status - Jails",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Over half of people incarcerated in the Hawaii jails are awaiting trial, while less than 20% are sentenced, and over 10% are in custody at one of the jails on probation violations.",
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`,
     source: rosterSource,
@@ -65,8 +67,7 @@ export const graphInfo = {
   },
   "Incarceration Status - Prisons": {
     title: "Incarceration Status - Prisons",
-    description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+    description: "Over 95% of people in prison are sentenced.",
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_prison_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_prison_desktop.svg`,
     source: rosterSource,
@@ -75,7 +76,7 @@ export const graphInfo = {
   "Population at Each Facility": {
     title: "Population at Each Facility",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Hawaii has four jails—Hawaii Community Correctional Center (HCCC), Maui Community Correctional Center (MCCC), Oahu Community Correctional Center (OCCC), and Kauai Community Correctional Center (KCCC)—four prisons run by the Hawaii Department of Public Safety (DPS)—Women’s Community Correctional Center (WCCC), Halawa Correctional Facility (HCF), Waiawa Correctional Facility (WCF), and Kulani Correctional Facility (KCF)—and one private prison run by CoreCivic in Eloy, Arizona—Saguaro Correctional Center (AZSC). The total DPS population count averages 4,100 people.",
     mobileImage: `${config.frontendUrl}/images/graphs/Population_at_each_facility_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Population_at_each_facility_desktop.svg`,
     source: rosterSource
@@ -83,7 +84,7 @@ export const graphInfo = {
   "Demographics - Age - Overall": {
     title: "Demographics - Age - Overall",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "More than half of the people in custody system-wide are between the ages of 25 and 44.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_overall_desktop.svg`,
     source: rosterSource
@@ -91,7 +92,7 @@ export const graphInfo = {
   "Demographics - Age - Jails": {
     title: "Demographics - Age - Jails",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "The large majority of the people in Hawaii jails are between the ages of 25 and 44.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_jail_desktop.svg`,
     source: rosterSource
@@ -99,7 +100,7 @@ export const graphInfo = {
   "Demographics - Age - Prisons": {
     title: "Demographics - Age - Prisons",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Most of the people in Hawaii prisons are between the ages of 25 and 44.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_prison_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_prison_desktop.svg`,
     source: rosterSource
@@ -107,7 +108,7 @@ export const graphInfo = {
   "Demographics - Ethnicity - Overall": {
     title: "Demographics - Ethnicity - Overall",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Native Hawaiians are overrepresented in the justice system compared to the general population and represent the largest group, demographically, incarcerated in Hawaii’s prisons and jails.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_overall_desktop.svg`,
     source: rosterSource,
@@ -116,7 +117,7 @@ export const graphInfo = {
   "Demographics - Ethnicity - Jails": {
     title: "Demographics - Ethnicity - Jails",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Native Hawaiians represent the largest population of people incarcerated in Hawaii’s jails followed by Asian and Pacific Islanders.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_jail_desktop.svg`,
     source: rosterSource,
@@ -125,7 +126,7 @@ export const graphInfo = {
   "Demographics - Ethnicity - Prisons": {
     title: "Demographics - Ethnicity - Prisons",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Native Hawaiians represent the largest population of people incarcerated in Hawaii’s prisons followed by Asian and Pacific Islanders.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_prison_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_prison_desktop.svg`,
     source: rosterSource,
@@ -134,7 +135,7 @@ export const graphInfo = {
   "Demographics - Gender - Overall": {
     title: "Demographics - Gender - Overall",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "The large majority of people incarcerated in Hawaii are men. Although nationally the rate of incarceration for women has been increasing drastically over the past few decades.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_overall_desktop.svg`,
     source: rosterSource
@@ -142,7 +143,7 @@ export const graphInfo = {
   "Demographics - Gender - Jails": {
     title: "Demographics - Gender - Jails",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "The large majority of people incarcerated at jails in Hawaii are men.  Jails in Hawaii were designed to house men.  There is currently no designated space designed for women, who account for about 10% of the incarcerated jail population.  There is a plan to transfer women at Oahu Community Correctional Center (OCCC) to a new building at the Women’s Community Correctional Center (WCCC), which will provide a designated space for women, but no plan in place for the women housed at the other jails.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_jail_desktop.svg`,
     source: rosterSource
@@ -150,7 +151,7 @@ export const graphInfo = {
   "Demographics - Gender - Prisons": {
     title: "Demographics - Gender - Prisons",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "There are three male prisons run by the Hawaii Department of Public Safety (DPS)—Halawa Correctional Facility (HCF) and Waiawa Correctional Facility (WCF) located on Oahu and Kulani Correctional Facility (KCF) located on Hawaii Island—and one private prison run by CoreCivic in Eloy, Arizona—Saguaro Correctional Center (AZSC). There is one female prison operated by Hawaii DPS and located on Oahu.",
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_prison_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_prison_desktop.svg`,
     source: rosterSource
@@ -158,7 +159,7 @@ export const graphInfo = {
   "Custody Classification": {
     title: "Custody Classification",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "There are five classification levels, maximum, close, medium, minimum, and community, listed from most to least restrictive. About half of the people in PSD custody are at a medium custody level.",
     mobileImage: `${config.frontendUrl}/images/graphs/Custody_classification_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Custody_classification_desktop.svg`,
     source: rosterSource
@@ -166,7 +167,7 @@ export const graphInfo = {
   "Housing Type Overall": {
     title: "Housing Type Overall",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "Housing types in Hawaii prisons and jails range from cells, the most restrictive environment, to dorms and work furlough, the least restrictive environment.  Work furlough is a transitional program that allows people in DPS custody to leave the facility to work and seek employment and then return to the facility during non-working hours.",
     mobileImage: `${config.frontendUrl}/images/graphs/Housing_type_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Housing_type_overall_desktop.svg`,
     source: rosterSource
@@ -174,7 +175,7 @@ export const graphInfo = {
   "System-wide Housing Type by Facility": {
     title: "System-wide Housing Type by Facility",
     description:
-      "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
+      "In Hawaii jails generally, cells–most restrictive housing–are over capacity and highly utilized, while Furlough–least restive housing and a work release program for those transitioning back to the community–is under capacity and under-utilized.",
     mobileImage: `${config.frontendUrl}/images/graphs/System_wide_housing_type_by_facility_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/System_wide_housing_type_by_facility_desktop.svg`,
     source: rosterSource

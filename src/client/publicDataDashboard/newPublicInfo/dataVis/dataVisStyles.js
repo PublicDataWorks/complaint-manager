@@ -107,7 +107,7 @@ const dataVisStyles = theme => ({
   graphCategoryDescription: {
     padding: "8px",
     fontFamily: "inherit",
-    fontSize: "16px",
+    fontSize: "14px",
     fontWeight: "400",
     lineHeight: "22.4px",
     textAlign: "center",
