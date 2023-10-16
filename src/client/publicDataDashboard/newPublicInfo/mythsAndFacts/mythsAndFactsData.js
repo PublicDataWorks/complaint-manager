@@ -8,7 +8,7 @@ export const mythsAndFactsData = [
         id: 1,
         myth: "Prison overcrowding is primarily caused by an increase in crime rates.",
         fact: (
-          <p>
+          <span>
             While crime rates can contribute to prison populations, the{" "}
             <span style={{ color: colors.secondaryBrand }}>
               main driver of prison overcrowding is the excessive and
@@ -21,14 +21,14 @@ export const mythsAndFactsData = [
             </span>{" "}
             options have led to an influx of individuals into correctional
             facilities, surpassing their capacity.
-          </p>
+          </span>
         )
       },
       {
         id: 2,
         myth: "Building more prisons is the only solution to address prison overcrowding.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Simply building more prisons is not a comprehensive solution
             </span>{" "}
@@ -41,14 +41,14 @@ export const mythsAndFactsData = [
             </span>{" "}
             implementing evidence-based sentencing practices, and investing in
             rehabilitative programs to reduce recidivism.
-          </p>
+          </span>
         )
       },
       {
         id: 3,
         myth: "Lengthening prison sentences is an effective way to manage prison overcrowding.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Lengthening prison sentences exacerbates prison overcrowding
             </span>{" "}
@@ -60,14 +60,14 @@ export const mythsAndFactsData = [
             approach also fails to consider the effectiveness of rehabilitation
             and reintegration efforts, which are crucial for reducing recidivism
             and promoting successful reentry into society.
-          </p>
+          </span>
         )
       },
       {
         id: 4,
         myth: "Prison overcrowding doesn't impact the well-being and safety of incarcerated individuals.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Prison overcrowding significantly affects the well-being and
               safety of incarcerated individuals.
@@ -80,21 +80,21 @@ export const mythsAndFactsData = [
               rehabilitation programs,
             </span>{" "}
             hindering the potential for successful reintegration.
-          </p>
+          </span>
         )
       },
       {
         id: 5,
         myth: "Prison overcrowding doesn't impact the well-being and safety of staff and correctional officers.",
         fact: (
-          <p>
+          <span>
             Prison overcrowding significantly affects the well-being and safety
             of staff and correctional officers.{" "}
             <span style={{ color: colors.secondaryBrand }}>
               Correctional officers are understaffed and overworked. Currently,
               254 officers typically work 16-48 hr shifts.
             </span>
-          </p>
+          </span>
         )
       }
     ]
@@ -106,7 +106,7 @@ export const mythsAndFactsData = [
         id: 1,
         myth: "Bail reform results in increased crime rates.",
         fact: (
-          <p>
+          <span>
             Research indicates that{" "}
             <span style={{ color: colors.secondaryBrand }}>
               bail reform does not contribute to higher crime rates
@@ -115,27 +115,27 @@ export const mythsAndFactsData = [
             <span style={{ color: colors.secondaryBrand }}>
               reduce recidivism by addressing underlying issues.
             </span>
-          </p>
+          </span>
         )
       },
       {
         id: 2,
         myth: "Bail reform burdens taxpayers by increasing costs.",
         fact: (
-          <p>
+          <span>
             Bail reform can{" "}
             <span style={{ color: colors.secondaryBrand }}>
               lead to cost savings by reducing unnecessary pretrial detention,
             </span>{" "}
             allowing resources to be allocated more effectively.
-          </p>
+          </span>
         )
       },
       {
         id: 3,
         myth: "HB 1567, the bail reform bill that would allow non-violent offenders to be released on their own recognizance without posting monetary bail.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               People who are legally innocent and awaiting trial should not be
               deprived of their liberty
@@ -155,14 +155,14 @@ export const mythsAndFactsData = [
               people are frequently charged with
             </span>{" "}
             and detained for pretrial.
-          </p>
+          </span>
         )
       },
       {
         id: 4,
         myth: "HB 1567 is a “get out of jail free card” and will release criminals into our streets.",
         fact: (
-          <p>
+          <span>
             Given the twenty carved-out exemptions (see list of offenses),{" "}
             <span style={{ color: colors.secondaryBrand }}>
               the bill will likely result in nominal releases of those awaiting
@@ -171,7 +171,7 @@ export const mythsAndFactsData = [
             People released are still required to return for their court
             hearings and are legally innocent unless proven guilty for any
             alleged offenses.
-          </p>
+          </span>
         )
       }
     ]
@@ -183,7 +183,7 @@ export const mythsAndFactsData = [
         id: 1,
         myth: "Long probation lengths are necessary to ensure public safety.",
         fact: (
-          <p>
+          <span>
             While probation serves as a means of supervising individuals after
             their release from prison, excessively long probation periods can
             have detrimental effects.{" "}
@@ -197,14 +197,14 @@ export const mythsAndFactsData = [
             </span>{" "}
             hinder successful reintegration, and perpetuate cycles of
             incarceration.
-          </p>
+          </span>
         )
       },
       {
         id: 2,
         myth: "Extended probation terms deter individuals from reoffending.",
         fact: (
-          <p>
+          <span>
             The{" "}
             <span style={{ color: colors.secondaryBrand }}>
               length of probation has limited impact
@@ -218,14 +218,14 @@ export const mythsAndFactsData = [
             such as tailored rehabilitation programs, access to education,
             employment opportunities, and mental health support, can have a more
             significant impact on reducing recidivism rates.
-          </p>
+          </span>
         )
       },
       {
         id: 3,
         myth: "Longer probation periods provide individuals with more opportunities for rehabilitation.",
         fact: (
-          <p>
+          <span>
             Extended probation periods do not inherently translate to increased
             access to rehabilitative services. In fact,{" "}
             <span style={{ color: colors.secondaryBrand }}>
@@ -236,14 +236,14 @@ export const mythsAndFactsData = [
             limited availability of programming within the community. Tailored,
             intensive rehabilitation efforts during a shorter probation period
             can be more effective in facilitating successful reintegration."
-          </p>
+          </span>
         )
       },
       {
         id: 4,
         myth: "Lengthy probation terms provide sufficient time for individuals to rebuild their lives.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Extended probation periods can impede successful reintegration by
               placing prolonged restrictions
@@ -253,14 +253,14 @@ export const mythsAndFactsData = [
             constraints can hinder individuals from rebuilding their lives,
             securing stable employment, and establishing positive support
             networks, ultimately increasing the risk of reoffending.
-          </p>
+          </span>
         )
       },
       {
         id: 5,
         myth: "Longer probation periods are cost-effective for the criminal justice system.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Prolonged probation terms can incur significant costs for the
               criminal justice system.
@@ -271,7 +271,7 @@ export const mythsAndFactsData = [
             support services during a shorter probation period can lead to
             better outcomes, reduce recidivism, and result in cost savings for
             the criminal justice system.
-          </p>
+          </span>
         )
       }
     ]
@@ -283,7 +283,7 @@ export const mythsAndFactsData = [
         id: 1,
         myth: "Prison is solely meant for punishment, not rehabilitation.",
         fact: (
-          <p>
+          <span>
             While punishment is one aspect of the correctional system,{" "}
             <span style={{ color: colors.secondaryBrand }}>
               the ultimate goal should be to promote rehabilitation and reduce
@@ -296,14 +296,14 @@ export const mythsAndFactsData = [
               initiatives
             </span>
             within prisons can significantly lower reoffending rates.
-          </p>
+          </span>
         )
       },
       {
         id: 2,
         myth: "Rehabilitative programs are a waste of resources.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Investing in rehabilitative programs is a wise allocation of
               resources.
@@ -316,14 +316,14 @@ export const mythsAndFactsData = [
               save society significant costs associated with repeated
               incarcerations.
             </span>
-          </p>
+          </span>
         )
       },
       {
         id: 3,
         myth: "Community-based alternatives to incarceration are ineffective.",
         fact: (
-          <p>
+          <span>
             Community-based alternatives, such as probation, parole, and
             diversion programs, have{" "}
             <span style={{ color: colors.secondaryBrand }}>
@@ -337,14 +337,14 @@ export const mythsAndFactsData = [
               these alternatives can facilitate successful reintegration and
               promote public safety.
             </span>
-          </p>
+          </span>
         )
       },
       {
         id: 4,
         myth: "Rehabilitative efforts have no impact on public safety.",
         fact: (
-          <p>
+          <span>
             Research consistently demonstrates that{" "}
             <span style={{ color: colors.secondaryBrand }}>
               effective rehabilitation reduces recidivism rates, making
@@ -357,7 +357,7 @@ export const mythsAndFactsData = [
               improving public safety and reducing the burden on the
               correctional system.
             </span>
-          </p>
+          </span>
         )
       }
     ]
@@ -369,7 +369,7 @@ export const mythsAndFactsData = [
         id: 1,
         myth: "Educational programs in correctional facilities are a waste of taxpayer money.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Educational programs in correctional facilities have been shown to
               be cost-effective
@@ -383,14 +383,14 @@ export const mythsAndFactsData = [
             </span>
             , resulting in increased tax contributions and reduced reliance on
             social services.
-          </p>
+          </span>
         )
       },
       {
         id: 2,
         myth: "Educational programs in correctional facilities are not effective in reducing recidivism.",
         fact: (
-          <p>
+          <span>
             <span style={{ color: colors.secondaryBrand }}>
               Extensive research has shown that educational programs in
               correctional facilities significantly reduce recidivism rates.
@@ -405,7 +405,7 @@ export const mythsAndFactsData = [
               Education provides individuals with a sense of purpose,
               self-worth, and alternatives to criminal behavior.
             </span>
-          </p>
+          </span>
         )
       }
     ]

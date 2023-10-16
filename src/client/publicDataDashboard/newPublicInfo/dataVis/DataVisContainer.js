@@ -34,7 +34,12 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
   };
 
   const SourceText = ({ text }) => {
-    return <p>Source: {text}</p>;
+    return (
+      <span>
+        Source: {text}
+        <br />
+      </span>
+    );
   };
 
   return (
