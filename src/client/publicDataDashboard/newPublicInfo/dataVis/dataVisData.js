@@ -29,6 +29,8 @@ const probationNote =
 const ethnicityNote = "Demographics are self-reported by people in custody.";
 const rosterSource =
   "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
+const bureauSource =
+  "Source: Bureau of Justice Statistics, Federal Justice Statistics Program, 2021 (preliminary); US Census, 2022; and National Prisoner Statistics, 2021";
 
 export const graphInfo = {
   Demographics: {
@@ -41,8 +43,7 @@ export const graphInfo = {
       description:
         "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated."
     },
-    source:
-      "Source: Bureau of Justice Statistics, Federal Justice Statistics Program, 2021 (preliminary); US Census, 2022; and National Prisoner Statistics, 2021"
+    source: bureauSource
   },
   "Facility Overcrowding Rates": {
     title: "Facility Overcrowding Rates",
@@ -53,7 +54,7 @@ export const graphInfo = {
       description:
         "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona."
     },
-    source: rosterSource
+    source: bureauSource
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
