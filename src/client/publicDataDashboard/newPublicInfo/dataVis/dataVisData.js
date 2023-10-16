@@ -26,6 +26,7 @@ export const categories = [
 
 const probationNote =
   "Probation: A large majority of people in this designation are incarcerated on probation violations.";
+const ethnicityNote = "Demographics are self-reported by people in custody.";
 const rosterSource =
   "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
 
@@ -66,7 +67,7 @@ export const graphInfo = {
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_desktop.svg`
     },
     source: rosterSource,
-    probationNote: probationNote
+    sourceNote: probationNote
   },
   "Incarceration Status - Jails": {
     title: "Incarceration Status - Jails",
@@ -80,7 +81,7 @@ export const graphInfo = {
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`
     },
     source: rosterSource,
-    probationNote: probationNote
+    sourceNote: probationNote
   },
   "Incarceration Status - Prisons": {
     title: "Incarceration Status - Prisons",
@@ -94,7 +95,7 @@ export const graphInfo = {
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_prison_desktop.svg`
     },
     source: rosterSource,
-    probationNote: probationNote
+    sourceNote: probationNote
   },
   "Population at Each Facility": {
     title: "Population at Each Facility",
@@ -159,7 +160,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_overall_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    sourceNote: ethnicityNote
   },
   "Demographics - Ethnicity - Jails": {
     title: "Demographics - Ethnicity - Jails",
@@ -172,7 +174,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_jail_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    sourceNote: ethnicityNote
   },
   "Demographics - Ethnicity - Prisons": {
     title: "Demographics - Ethnicity - Prisons",
@@ -185,7 +188,8 @@ export const graphInfo = {
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_prison_desktop.svg`
     },
-    source: rosterSource
+    source: rosterSource,
+    sourceNote: ethnicityNote
   },
   "Demographics - Gender - Overall": {
     title: "Demographics - Gender - Overall",
