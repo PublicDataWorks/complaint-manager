@@ -1,7 +1,6 @@
 import { Box, Typography, withStyles } from "@material-ui/core";
 import React from "react";
 import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
-import { categories } from "./dataVisData";
 import dataVisStyles from "./dataVisStyles";
 import DemographicGraph from "./demographicSection/DemographicGraph";
 import FacilityCapacityGraph from "./facilityCapacitySection/FacilityCapacityGraph";

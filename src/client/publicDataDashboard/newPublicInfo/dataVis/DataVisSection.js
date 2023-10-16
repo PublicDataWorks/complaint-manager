@@ -20,8 +20,6 @@ const DataVisSection = ({ classes, screenSize }) => {
   const { menuOpen, anchorEl, handleMenuOpen, handleMenuClose } =
     useMenuControl();
 
-  const categoryOptions = Object.values(categories);
-
   const renderCategoryDropdown = () => {
     return (
       <Box style={{ width: "211px" }}>
@@ -42,7 +40,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           anchorOrigin={{ vertical: "bottom" }}
           getContentAnchorEl={null}
         >
-          {categoryOptions.map(option => (
+          {categories.map(option => (
             <MenuItem
               key={option}
               value={option}
@@ -76,7 +74,7 @@ const DataVisSection = ({ classes, screenSize }) => {
           aria-label="vertical contained button group"
           variant="text"
         >
-          {categoryOptions.map(option => (
+          {categories.map(option => (
             <Button
               data-testid={`${option}-selection`}
               key={option}
