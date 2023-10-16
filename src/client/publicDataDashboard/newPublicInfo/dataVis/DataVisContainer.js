@@ -24,6 +24,19 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
         );
   };
 
+  const SourceNote = ({ text }) => {
+    return (
+      <span>
+        <br />
+        <i>{text}</i>
+      </span>
+    );
+  };
+
+  const SourceText = ({ text }) => {
+    return <p>Source: {text}</p>;
+  };
+
   return (
     <>
       <Box
@@ -62,14 +75,8 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             classes[`sourceText-${screenSize}`]
           }`}
         >
-          Source: {graphInfo.source}
-          {graphInfo.sourceNote && (
-            <span>
-              <br />
-              <br />
-              <i>{graphInfo.sourceNote}</i>
-            </span>
-          )}
+          <SourceText text={graphInfo.source} />
+          {graphInfo.sourceNote && <SourceNote text={graphInfo.sourceNote} />}
         </Typography>
       </Box>
     </>
