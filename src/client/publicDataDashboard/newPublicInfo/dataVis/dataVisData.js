@@ -54,7 +54,7 @@ export const graphInfo = {
       description:
         "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona."
     },
-    source: bureauSource
+    source: rosterSource
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
