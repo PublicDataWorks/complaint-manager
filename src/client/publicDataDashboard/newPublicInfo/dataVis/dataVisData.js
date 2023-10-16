@@ -24,17 +24,10 @@ export const categories = [
   "System-wide Housing Type by Facility"
 ];
 
+const rosterSource =
+  "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
+
 export const graphInfo = {
-  "Facility Overcrowding Rates": {
-    title: "Facility Overcrowding Rates",
-    mobile: {
-      description: "Hawaii’s jail facilities are chronically overcrowded."
-    },
-    notMobile: {
-      description:
-        "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona."
-    }
-  },
   Demographics: {
     title: "Demographic Breakdown",
     mobile: {
@@ -44,7 +37,20 @@ export const graphInfo = {
     notMobile: {
       description:
         "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated."
-    }
+    },
+    source:
+      "Source: Bureau of Justice Statistics, Federal Justice Statistics Program, 2021 (preliminary); US Census, 2022; and National Prisoner Statistics, 2021"
+  },
+  "Facility Overcrowding Rates": {
+    title: "Facility Overcrowding Rates",
+    mobile: {
+      description: "Hawaii’s jail facilities are chronically overcrowded."
+    },
+    notMobile: {
+      description:
+        "Hawaii’s jail facilities are chronically overcrowded. So much so that 900 people in custody are serving their sentences in a private prison in Arizona."
+    },
+    source: rosterSource
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
@@ -56,7 +62,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Incarceration Status - Jails": {
     title: "Incarceration Status - Jails",
@@ -68,7 +75,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Incarceration Status - Prisons": {
     title: "Incarceration Status - Prisons",
@@ -80,7 +88,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Incarceration_status_prison_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Population at Each Facility": {
     title: "Population at Each Facility",
@@ -92,7 +101,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Population_at_each_facility_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Age - Overall": {
     title: "Demographics - Age - Overall",
@@ -104,7 +114,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_age_overall_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Age - Jails": {
     title: "Demographics - Age - Jails",
@@ -116,7 +127,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_age_jail_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Age - Prisons": {
     title: "Demographics - Age - Prisons",
@@ -128,7 +140,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_age_prison_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Ethnicity - Overall": {
     title: "Demographics - Ethnicity - Overall",
@@ -140,7 +153,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_overall_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Ethnicity - Jails": {
     title: "Demographics - Ethnicity - Jails",
@@ -152,7 +166,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_jail_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Ethnicity - Prisons": {
     title: "Demographics - Ethnicity - Prisons",
@@ -164,7 +179,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_ethnicity_prison_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Gender - Overall": {
     title: "Demographics - Gender - Overall",
@@ -176,7 +192,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_gender_overall_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Gender - Jails": {
     title: "Demographics - Gender - Jails",
@@ -188,7 +205,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_gender_jail_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Demographics - Gender - Prisons": {
     title: "Demographics - Gender - Prisons",
@@ -200,7 +218,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Demographics_gender_prison_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Custody Classification": {
     title: "Custody Classification",
@@ -212,7 +231,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Custody_classification_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "Housing Type Overall": {
     title: "Housing Type Overall",
@@ -224,7 +244,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/Housing_type_overall_desktop.svg`
-    }
+    },
+    source: rosterSource
   },
   "System-wide Housing Type by Facility": {
     title: "System-wide Housing Type by Facility",
@@ -236,7 +257,8 @@ export const graphInfo = {
       description:
         "Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description. Test Description.",
       image: `${config.frontendUrl}/images/graphs/System_wide_housing_type_by_facility_desktop.svg`
-    }
+    },
+    source: rosterSource
   }
 };
 

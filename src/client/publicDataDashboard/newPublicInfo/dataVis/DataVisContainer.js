@@ -64,9 +64,7 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             classes[`sourceText-${screenSize}`]
           }`}
         >
-          Source: Bureau of Justice Statistics, Federal Justice Statistics
-          Program, 2021 (preliminary); US Census, 2022; and National Prisoner
-          Statistics, 2021.
+          {graphInfo.source}
         </Typography>
       </Box>
     </>
