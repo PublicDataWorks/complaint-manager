@@ -8,17 +8,17 @@ import FacilityCapacityGraph from "./facilityCapacitySection/FacilityCapacityGra
 const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
   const renderGraphScreenshots = () => {
     return screenSize === SCREEN_SIZES.MOBILE
-      ? graphInfo.mobile.image && (
+      ? graphInfo.mobileImage && (
           <img
             width="100%"
-            src={graphInfo.mobile.image}
+            src={graphInfo.mobileImage}
             alt={`${category} mobile graph`}
           />
         )
-      : graphInfo.notMobile.image && (
+      : graphInfo.notMobileImage && (
           <img
             width="75%"
-            src={graphInfo.notMobile.image}
+            src={graphInfo.notMobileImage}
             alt={`${category} graph`}
           />
         );
@@ -45,9 +45,7 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             classes[`graphCategoryDescription-${screenSize}`]
           }`}
         >
-          {screenSize === SCREEN_SIZES.MOBILE
-            ? graphInfo.mobile.description
-            : graphInfo.notMobile.description}
+          {graphInfo.description}
         </Typography>
         <Box>
           {category === "Demographics" && (
@@ -64,7 +62,7 @@ const DataVisContainer = ({ classes, screenSize, graphInfo, category }) => {
             classes[`sourceText-${screenSize}`]
           }`}
         >
-          {graphInfo.source}
+          Source: {graphInfo.source}
           {graphInfo.sourceNote && (
             <span>
               <br />
