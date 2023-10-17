@@ -181,6 +181,7 @@ const formattedHousingTypeByFacilityDescription = (
     <strong>is under capacity and under-utilized</strong>.
   </>
 );
+
 export const graphInfo = {
   Demographics: {
     title: "Demographic Breakdown",
