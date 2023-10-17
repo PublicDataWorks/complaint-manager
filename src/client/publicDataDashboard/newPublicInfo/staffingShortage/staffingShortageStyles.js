@@ -52,12 +52,12 @@ const staffingShortageStyles = theme => ({
   [`image-${SCREEN_SIZES.TABLET}`]: {
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "contain"
   },
   [`image-${SCREEN_SIZES.DESKTOP}`]: {
     width: "100%",
     height: "100%",
-    objectFit: "cover"
+    objectFit: "contain"
   },
   [`hawaiiMapImg-${SCREEN_SIZES.TABLET}`]: {
     gridArea: "1 / 2 / 3 / 4"
@@ -72,10 +72,12 @@ const staffingShortageStyles = theme => ({
     gridArea: " 2 / 4 / 3 / 5"
   },
   [`inPrisonImg-${SCREEN_SIZES.TABLET}`]: {
-    gridArea: "3 / 2 / 5 / 4" // and this
+    gridArea: "3 / 2 / 5 / 4", // and this
+    objectFit: "cover"
   },
   [`inPrisonImg-${SCREEN_SIZES.DESKTOP}`]: {
-    gridArea: "1 / 4 / 3 / 6"
+    gridArea: "1 / 4 / 3 / 6",
+    objectFit: "cover"
   },
   gridCard: {
     fontFamily: "inherit",

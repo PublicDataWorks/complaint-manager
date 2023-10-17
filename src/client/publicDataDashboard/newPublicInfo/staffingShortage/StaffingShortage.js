@@ -30,7 +30,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
       </Typography>
       <div className={`${classes[`staffingShortageGrid-${screenSize}`]}`}>
         <Typography className={`${classes.gridCard} ${classes.staffingCard}`}>
-          Serious overcrowding attributing to inhumane conditions, specifically
+          Serious overcrowding attributes to inhumane conditions, specifically
           for jails.
         </Typography>
         <Typography
@@ -39,14 +39,15 @@ const StaffingShortage = ({ screenSize, classes }) => {
           }`}
           style={{ backgroundColor: colors.secondaryBrand }}
         >
-          <span className={classes.statisticSpan}>80%</span>
-          Nearly 80% of People in Custody Are in Secure Settings
+          <span className={classes.statisticSpan}>65%</span>
+          Nearly 65% of people in custody are in secure cell settings.
         </Typography>
         {screenSize === SCREEN_SIZES.DESKTOP ? (
           <div
             style={{
               width: "100%",
               height: "100%",
+              backgroundColor: "#c8ddde",
               gridArea: "1 / 2 / 3 / 4"
             }}
           >
@@ -75,20 +76,21 @@ const StaffingShortage = ({ screenSize, classes }) => {
           }`}
           style={{ backgroundColor: colors.secondaryBrand, zIndex: "1" }}
         >
-          <span className={classes.statisticSpan}>156%</span>
-          Capacity in Jails
+          <span className={classes.statisticSpan}>64%</span>
+          Average Capacity in State Prisons
         </Typography>
         <Typography
           className={`${classes.gridCard} ${classes.statisticCard} ${
             classes[`statisticCard-${screenSize}`]
           } ${classes[`statisticCardForest-${screenSize}`]}`}
         >
-          <span className={classes.statisticSpan}>93%</span>
-          Capacity in Prisons
+          <span className={classes.statisticSpan}>140%</span>
+          Average Capacity in State Jails
         </Typography>
         <Typography className={`${classes.gridCard} ${classes.staffingCard}`}>
-          Average rate across the country is 40-50%. Serious lack of movement
-          and out-of-cell time for those in custody.
+          Average rate across the country is 40-50% for those in secure cell
+          settings. Secure settings create serious lack of movement and
+          out-of-cell time for those in custody.
         </Typography>
         <img
           className={`${classes[`inPrisonImg-${screenSize}`]} ${
