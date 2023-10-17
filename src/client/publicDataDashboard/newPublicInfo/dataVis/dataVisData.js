@@ -1,3 +1,5 @@
+import React from "react";
+
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
     process.env.REACT_APP_ENV
@@ -16,7 +18,7 @@ export const categories = [
   // "Demographics - Ethnicity - Overall",
   // "Demographics - Ethnicity - Jails",
   // "Demographics - Ethnicity - Prisons",
-  "Demographics - Gender - Overall",
+  // "Demographics - Gender - Overall",
   "Demographics - Gender - Jails",
   "Demographics - Gender - Prisons",
   "Custody Classification",
@@ -31,28 +33,172 @@ const rosterSource =
   "Hawaii Department of Public Safety, Roster, Sept. 11, 2023";
 const bureauSource =
   "Bureau of Justice Statistics, Federal Justice Statistics Program, 2021 (preliminary); US Census, 2022; and National Prisoner Statistics, 2021";
-
+const formattedDemographicsBreakdownDescription = (
+  <>
+    Native Hawaiian and Pacific Islanders are over-represented in our jails and
+    prisons. Native Hawaiian and Pacific Islanders makes up{" "}
+    <strong>23% of the population</strong> but makes up{" "}
+    <strong>47% of people in custody</strong>. Black communities are also
+    disproportionally impacted by incarceration at 3% of the population this
+    group is 5% of those incarcerated.
+  </>
+);
+const formattedOvercrowdingDescription = (
+  <>
+    Hawaii’s jails are <strong>chronically</strong> and{" "}
+    <strong>dangerously overcrowded</strong>. Even though the prisons in Hawaii
+    are not filled to capacity,{" "}
+    <strong>
+      Hawaii prisons do not have sufficient capacity for the current
+      incarcerated population
+    </strong>
+    . Around 900 people in Hawaii Department of Public Safety custody are
+    serving their sentences at Saguaro, a private prison run by CoreCivic in
+    Eloy, Arizona -{" "}
+    <strong>
+      over 3,000 miles away from their friends, family, and community
+    </strong>
+    .
+  </>
+);
+const formattedIncarceratedJailDescription = (
+  <>
+    <strong>Over half</strong> of people incarcerated in the Hawaii jails are
+    awaiting trial, while less than 20% are sentenced, and over 10% are in
+    custody at one of the jails on probation violations.
+  </>
+);
+const formattedPopulationAtEachFacilityDescription = (
+  <>
+    The total PSD population count averages 4,100 people and who are scattered
+    throughout:
+    <br />
+    <br />
+    <strong>Four State Jails</strong>—Hawaii Community Correctional Center
+    (HCCC), Maui Community Correctional Center (MCCC), Oahu Community
+    Correctional Center (OCCC), and Kauai Community Correctional Center (KCCC).{" "}
+    <br />
+    <br />
+    <strong>Four State Prisons</strong>—Women’s Community Correctional Center
+    (WCCC), Halawa Correctional Facility (HCF), Waiawa Correctional Facility
+    (WCF), and Kulani Correctional Facility (KCF)
+    <br />
+    <br />
+    <strong>One Private Prison</strong>—Saguaro Correctional Center (AZSC) run
+    by CoreCivic in Eloy, Arizona.
+    <br />
+    <br />
+    <strong>
+      OCCC, Hawaii’s largest jail, accounts for the most amount of incarcerated
+      people throughout the state at 26.3%.
+    </strong>
+  </>
+);
+const formattedDemographicsAgeOverallDescription = (
+  <>
+    <strong>More than half</strong> of the people in custody system-wide are
+    between the ages of 25 and 44.
+  </>
+);
+const formattedDemographicsGenderJailsDescription = (
+  <>
+    <strong>Hawaii does not have any female-specific jails</strong> even though
+    women account for about 10% of the incarcerated jail population. This means
+    that <strong>women are housed in men’s facilities</strong>.
+    <br />
+    <br />
+    There is a plan to transfer women who are currently housed at the OCCC
+    (men’s jail) to a new building at the WCCC (women’s prison). But there is{" "}
+    <strong>
+      no plan in place for the women housed in men’s jails on the neighbor
+      islands.
+    </strong>
+  </>
+);
+const formattedDemographicsGenderPrisonsDescription = (
+  <>
+    The large majority of people incarcerated in Hawaii are men. Although
+    nationally the rate of incarceration for women has been increasing
+    drastically over the past few decades - the female incarcerated population
+    stands over{" "}
+    <strong>
+      <a
+        href="https://www.sentencingproject.org/fact-sheet/incarcerated-women-and-girls/"
+        target="_blank"
+      >
+        six times higher
+      </a>
+    </strong>{" "}
+    than in 1980.
+    <br />
+    <br />
+    All longer term sentenced women are housed in WCCC (a women’s prison). All
+    longer term sentenced men are housed throughout HCF, KCF, WCF, and AZSC (all
+    men’s prisons).
+  </>
+);
+const formattedCustodyClassificationDescription = (
+  <>
+    There are five classification levels. From most to least restrictive:
+    Maximum, Close, Medium, Minimum, and Community.
+    <br />
+    <br />
+    In accordance to PSD policy, Maximum, Close, and Medium custody individuals
+    must be placed in <strong>more secured housing</strong>. This means that{" "}
+    <strong>65% of people are to be housed in secure/restrictive cells</strong>{" "}
+    and not dormitory settings (70% in prisons, 59% in jails).
+  </>
+);
+const formattedHousingTypeOverallDescription = (
+  <>
+    Housing types in Hawaii prisons and jails range from cells, the most
+    restrictive environment, to dorms and work furlough, the least restrictive
+    environment. Work furlough is a transitional program that allows people in
+    PSD custody to leave the facility to work and seek employment and then
+    return to the facility during non-working hours. Furlough housing exists at
+    WCCC, HCCC, OCCC, KCCC, and MCCC.
+    <br />
+    <br />
+    <strong>Cells</strong> (most restrictive housing){" "}
+    <strong>are over capacity and highly utilized</strong>, while{" "}
+    <strong>Furlough and dorms</strong> (least restive housing){" "}
+    <strong>is under capacity and under-utilized</strong>.
+  </>
+);
+const formattedHousingTypeByFacilityDescription = (
+  <>
+    Housing types in Hawaii prisons and jails range from cells, the most
+    restrictive environment, to dorms and work furlough, the least restrictive
+    environment. Work furlough is a transitional program that allows people in
+    custody to leave the facility to work and seek employment and then return to
+    the facility during non-working hours. Furlough housing exists at WCCC,
+    HCCC, OCCC, KCCC, and MCCC.
+    <br />
+    <br />
+    <strong>Cells</strong> (most restrictive housing){" "}
+    <strong>are over capacity and highly utilized</strong>, while{" "}
+    <strong>Furlough and dorms</strong> (least restive housing){" "}
+    <strong>is under capacity and under-utilized</strong>.
+  </>
+);
 export const graphInfo = {
   Demographics: {
     title: "Demographic Breakdown",
-    description:
-      "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.",
+    description: formattedDemographicsBreakdownDescription,
     source: bureauSource,
     sourceNote:
       "Federal sources do not separate Hawaiian and Pacific Islander population."
   },
   "Facility Overcrowding Rates": {
     title: "Facility Overcrowding Rates",
-    description:
-      "Hawaii’s jails are chronically and dangerously overcrowded. Even though the prisons in Hawaii are not filled to capacity, Hawaii prisons do not have sufficient capacity for the current incarcerated population. Therefore, around 900 people in Hawaii Department of Public Safety custody are serving their sentences at Saguaro, a private prison run by CoreCivic in Eloy, Arizona.",
+    description: formattedOvercrowdingDescription,
     source: rosterSource,
     sourceNote:
-      "The furlough program allows individuals in custody to temporarily leave the facility during the day as they prepare to rejoin the community upon completing their felony sentences. It offers a low-security environment separate from the jail population, but it is underutilized as indicated by low occupancy rates."
+      "The furlough program allows individuals in custody to temporarily leave the facility to work at their assigned job sites during the day as they prepare to rejoin the community upon completing their felony sentences. It offers a low-security environment separate from the jail population, but it is underutilized as indicated by low occupancy rates."
   },
   "Incarceration Status - Overall": {
     title: "Incarceration Status - Overall",
-    description:
-      "System-wide, the largest percentage of people in Hawaii Department of Public Safety Custody are sentenced followed by those awaiting trial.",
+    description: "",
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_overall_desktop.svg`,
     source: rosterSource,
@@ -60,8 +206,7 @@ export const graphInfo = {
   },
   "Incarceration Status - Jails": {
     title: "Incarceration Status - Jails",
-    description:
-      "Over half of people incarcerated in the Hawaii jails are awaiting trial, while less than 20% are sentenced, and over 10% are in custody at one of the jails on probation violations.",
+    description: formattedIncarceratedJailDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`,
     source: rosterSource,
@@ -77,16 +222,14 @@ export const graphInfo = {
   },
   "Population at Each Facility": {
     title: "Population at Each Facility",
-    description:
-      "Hawaii has four jails—Hawaii Community Correctional Center (HCCC), Maui Community Correctional Center (MCCC), Oahu Community Correctional Center (OCCC), and Kauai Community Correctional Center (KCCC)—four prisons run by the Hawaii Department of Public Safety (DPS)—Women’s Community Correctional Center (WCCC), Halawa Correctional Facility (HCF), Waiawa Correctional Facility (WCF), and Kulani Correctional Facility (KCF)—and one private prison run by CoreCivic in Eloy, Arizona—Saguaro Correctional Center (AZSC). The total DPS population count averages 4,100 people.",
+    description: formattedPopulationAtEachFacilityDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Population_at_each_facility_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Population_at_each_facility_desktop.svg`,
     source: rosterSource
   },
   "Demographics - Age - Overall": {
     title: "Demographics - Age - Overall",
-    description:
-      "More than half of the people in custody system-wide are between the ages of 25 and 44.",
+    description: formattedDemographicsAgeOverallDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_age_overall_desktop.svg`,
     source: rosterSource
@@ -144,40 +287,35 @@ export const graphInfo = {
   },
   "Demographics - Gender - Jails": {
     title: "Demographics - Gender - Jails",
-    description:
-      "The large majority of people incarcerated at jails in Hawaii are men.  Jails in Hawaii were designed to house men.  There is currently no designated space designed for women, who account for about 10% of the incarcerated jail population.  There is a plan to transfer women at Oahu Community Correctional Center (OCCC) to a new building at the Women’s Community Correctional Center (WCCC), which will provide a designated space for women, but no plan in place for the women housed at the other jails.",
+    description: formattedDemographicsGenderJailsDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_jail_desktop.svg`,
     source: rosterSource
   },
   "Demographics - Gender - Prisons": {
     title: "Demographics - Gender - Prisons",
-    description:
-      "There are three male prisons run by the Hawaii Department of Public Safety (DPS)—Halawa Correctional Facility (HCF) and Waiawa Correctional Facility (WCF) located on Oahu and Kulani Correctional Facility (KCF) located on Hawaii Island—and one private prison run by CoreCivic in Eloy, Arizona—Saguaro Correctional Center (AZSC). There is one female prison operated by Hawaii DPS and located on Oahu.",
+    description: formattedDemographicsGenderPrisonsDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_prison_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Demographics_gender_prison_desktop.svg`,
     source: rosterSource
   },
   "Custody Classification": {
     title: "Custody Classification",
-    description:
-      "There are five classification levels, maximum, close, medium, minimum, and community, listed from most to least restrictive. About half of the people in PSD custody are at a medium custody level.",
+    description: formattedCustodyClassificationDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Custody_classification_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Custody_classification_desktop.svg`,
     source: rosterSource
   },
   "Housing Type Overall": {
     title: "Housing Type Overall",
-    description:
-      "Housing types in Hawaii prisons and jails range from cells, the most restrictive environment, to dorms and work furlough, the least restrictive environment.  Work furlough is a transitional program that allows people in DPS custody to leave the facility to work and seek employment and then return to the facility during non-working hours.",
+    description: formattedHousingTypeOverallDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/Housing_type_overall_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Housing_type_overall_desktop.svg`,
     source: rosterSource
   },
   "System-wide Housing Type by Facility": {
     title: "System-wide Housing Type by Facility",
-    description:
-      "In Hawaii jails generally, cells–most restrictive housing–are over capacity and highly utilized, while Furlough–least restive housing and a work release program for those transitioning back to the community–is under capacity and under-utilized.",
+    description: formattedHousingTypeByFacilityDescription,
     mobileImage: `${config.frontendUrl}/images/graphs/System_wide_housing_type_by_facility_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/System_wide_housing_type_by_facility_desktop.svg`,
     source: rosterSource
