@@ -27,9 +27,13 @@ describe("Staffing Shortages", () => {
             "Nearly 65% of people in custody are in secure cell settings."
           )
         ).toBeInTheDocument();
-        expect(screen.getByText("Capacity in Prisons")).toBeInTheDocument();
+        expect(
+          screen.getByText("Average Capacity in State Jails")
+        ).toBeInTheDocument();
         expect(screen.getByText("65%")).toBeInTheDocument();
-        expect(screen.getByText("Capacity in Jails")).toBeInTheDocument();
+        expect(
+          screen.getByText("Average Capacity in State Prisons")
+        ).toBeInTheDocument();
       });
     }
   );
