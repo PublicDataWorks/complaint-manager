@@ -8,7 +8,7 @@ const config =
   ];
 
 export const TEXT =
-  "The Correctional Oversight Commission's goal is to increase transparency by showing actual data to the public to support safe conditions for employees, inmates, and detainees and provide positive reform toward a rehabilitative and therapeutic correctional system.";
+  "The Hawaii Correctional System Oversight Commission's goal is to increase transparency by making data available to the public to support safe conditions for employees and people in custody, and to push for reform to a rehabilitative and therapeutic correctional system. Below are our values:";
 export const VALUES = [
   {
     name: "Alohiloh",

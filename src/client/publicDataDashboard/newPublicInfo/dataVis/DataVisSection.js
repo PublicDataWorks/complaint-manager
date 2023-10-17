@@ -108,6 +108,11 @@ const DataVisSection = ({ classes, screenSize }) => {
           width: screenSize === SCREEN_SIZES.MOBILE ? "100vw" : "100%"
         }}
       />
+      <Typography variant="h3" className={classes.dataSectionSubtitle}>
+        Without knowing where we are, we cannot focus on what needs to be
+        changed. Click through the below data categories to learn more about who
+        is in our system and why.
+      </Typography>
       <div
         className={`${classes.categoryWrapper} ${
           classes[`categoryWrapper-${screenSize}`]

@@ -9,7 +9,7 @@ describe("Banner", () => {
     test(`Expect Banner to contain text for ${size}`, () => {
       render(<PublicInfoBanner classes={{}} screenSize={size} />);
       expect(
-        screen.getByText("Empowering Rehabilitation, Inspiring Change")
+        screen.getByText("Empowering Transparency, Inspiring Change")
       ).toBeInTheDocument();
     });
     test(`Expect Banner to contain subtext for ${size}`, () => {

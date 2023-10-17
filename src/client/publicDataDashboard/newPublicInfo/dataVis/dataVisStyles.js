@@ -18,6 +18,12 @@ const dataVisStyles = theme => ({
     fontSize: "32px",
     fontWeight: "300"
   },
+  dataSectionSubtitle: {
+    fontFamily: "inherit",
+    fontSize: "14px",
+    fontWeight: "100",
+    paddingBottom: "16px"
+  },
   /* CATEGORY DROPDOWN & LIST */
   categoryWrapper: {
     height: "100%",
