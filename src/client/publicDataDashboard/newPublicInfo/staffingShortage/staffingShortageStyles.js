@@ -32,15 +32,15 @@ const staffingShortageStyles = theme => ({
   [`staffingShortageGrid-${SCREEN_SIZES.TABLET}`]: {
     display: "grid",
     gridTemplateColumns: "repeat(3, 1fr)",
-    gridTemplateRows: "repeat(4, 200px)",
+    gridTemplateRows: "repeat(4, 1fr)",
     gridColumnGap: "0px",
     gridRowGap: "0px",
     marginTop: "0.75em"
   },
   [`staffingShortageGrid-${SCREEN_SIZES.DESKTOP}`]: {
     display: "grid",
-    gridTemplateColumns: "repeat(5, 1fr)",
-    gridTemplateRows: "repeat(2, 200px)",
+    gridTemplateColumns: "0.75fr repeat(2, 1fr) repeat(2, 0.6fr) 0.75fr",
+    gridTemplateRows: "repeat(2, .4fr)",
     gridColumnGap: "0px",
     gridRowGap: "0px",
     marginTop: "0.75em"
@@ -63,20 +63,19 @@ const staffingShortageStyles = theme => ({
     gridArea: "1 / 2 / 3 / 4"
   },
   [`hawaiiMapImg-${SCREEN_SIZES.DESKTOP}`]: {
-    gridArea: "1 / 2 / 3 / 4",
-    objectFit: "contain"
+    gridArea: "1 / 2 / 3 / 4"
   },
-  [`imgOverHawaiiMap-${SCREEN_SIZES.TABLET}`]: {
-    gridArea: "2 / 2 / 3 / 3"
+  [`statOverlay-${SCREEN_SIZES.TABLET}`]: {
+    gridArea: "2 / 2 / 3 / 3" //need to update
   },
-  [`imgOverHawaiiMap-${SCREEN_SIZES.DESKTOP}`]: {
-    gridArea: "2 / 2 / 3 / 3"
+  [`statOverlay-${SCREEN_SIZES.DESKTOP}`]: {
+    gridArea: " 2 / 4 / 3 / 5"
   },
   [`inPrisonImg-${SCREEN_SIZES.TABLET}`]: {
-    gridArea: "3 / 2 / 5 / 4"
+    gridArea: "3 / 2 / 5 / 4" // and this
   },
   [`inPrisonImg-${SCREEN_SIZES.DESKTOP}`]: {
-    gridArea: "1 / 5 / 3 / 6"
+    gridArea: "1 / 4 / 3 / 6"
   },
   gridCard: {
     fontFamily: "inherit",

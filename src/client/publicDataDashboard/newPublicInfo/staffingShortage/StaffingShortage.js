@@ -4,6 +4,7 @@ import { SCREEN_SIZES } from "../../../../sharedUtilities/constants";
 import { Typography } from "@material-ui/core";
 import staffingShortageStyles from "./staffingShortageStyles";
 import { colors } from "../publicInfoStyles";
+import HawaiiJailsPrisonMap4 from "../../../../assets/Hawaii-Jails-Prison-map4.png";
 
 const config =
   require(`${process.env.REACT_APP_INSTANCE_FILES_DIR}/clientConfig`)[
@@ -36,16 +37,16 @@ const StaffingShortage = ({ screenSize, classes }) => {
           className={`${classes.gridCard} ${classes.statisticCard} ${
             classes[`statisticCard-${screenSize}`]
           }`}
+          style={{ backgroundColor: colors.secondaryBrand }}
         >
-          <span className={classes.statisticSpan}>93%</span>
-          Capacity in Prisons
+          <span className={classes.statisticSpan}>80%</span>
+          Nearly 80% of People in Custody Are in Secure Settings
         </Typography>
         {screenSize === SCREEN_SIZES.DESKTOP ? (
           <div
             style={{
               width: "100%",
               height: "100%",
-              background: "rgb(145,180,242)",
               gridArea: "1 / 2 / 3 / 4"
             }}
           >
@@ -53,7 +54,7 @@ const StaffingShortage = ({ screenSize, classes }) => {
               className={`${classes[`hawaiiMapImg-${screenSize}`]} ${
                 classes[`image-${screenSize}`]
               }`}
-              src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
+              src={HawaiiJailsPrisonMap4}
               alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
             />
           </div>
@@ -62,17 +63,17 @@ const StaffingShortage = ({ screenSize, classes }) => {
             className={`${classes[`hawaiiMapImg-${screenSize}`]} ${
               classes[`image-${screenSize}`]
             }`}
-            src={`${config.frontendUrl}/images/Hawaii-Map-Prison.png`}
+            src={HawaiiJailsPrisonMap4}
             alt="Map of Hawaii’s correctional facilities, 4 prisons and 4 jails"
           />
         )}
         <Typography
-          className={`${classes[`imgOverHawaiiMap-${screenSize}`]} ${
+          className={`${classes[`statOverlay-${screenSize}`]} ${
             classes[`image-${screenSize}`]
           } ${classes.gridCard} ${classes.statisticCard} ${
             classes[`statisticCard-${screenSize}`]
           }`}
-          style={{ backgroundColor: colors.secondaryBrand }}
+          style={{ backgroundColor: colors.secondaryBrand, zIndex: "1" }}
         >
           <span className={classes.statisticSpan}>156%</span>
           Capacity in Jails
@@ -82,8 +83,8 @@ const StaffingShortage = ({ screenSize, classes }) => {
             classes[`statisticCard-${screenSize}`]
           } ${classes[`statisticCardForest-${screenSize}`]}`}
         >
-          <span className={classes.statisticSpan}>80%</span>
-          Nearly 80% of People in Custody Are in Secure Settings
+          <span className={classes.statisticSpan}>93%</span>
+          Capacity in Prisons
         </Typography>
         <Typography className={`${classes.gridCard} ${classes.staffingCard}`}>
           Average rate across the country is 40-50%. Serious lack of movement
