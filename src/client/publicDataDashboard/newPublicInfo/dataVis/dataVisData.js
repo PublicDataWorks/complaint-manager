@@ -37,7 +37,9 @@ export const graphInfo = {
     title: "Demographic Breakdown",
     description:
       "Native Hawaiian and Pacific Islanders are over incarcerated. This group makes up 23% of the population but makes up 47% of people in custody. Black communities are also disproportionally impacted by incarceration at 3% of the population this group is 5% of those incarcerated.",
-    source: bureauSource
+    source: bureauSource,
+    sourceNote:
+      "Federal sources do not separate Hawaiian and Pacific Islander population."
   },
   "Facility Overcrowding Rates": {
     title: "Facility Overcrowding Rates",

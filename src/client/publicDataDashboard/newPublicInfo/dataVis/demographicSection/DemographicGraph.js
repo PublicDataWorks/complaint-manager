@@ -35,6 +35,9 @@ const DemographicGraph = ({ classes, screenSize }) => {
           </div>
         ))}
       </div>
+      <div className={classes["pi-text"]}>
+        <p>*PI = Pacific Islanders</p>
+      </div>
       <GraphLegend
         classes={classes}
         screenSize={screenSize}

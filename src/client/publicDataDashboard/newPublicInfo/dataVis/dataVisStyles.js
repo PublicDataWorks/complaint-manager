@@ -165,6 +165,10 @@ const dataVisStyles = theme => ({
     margin: "auto",
     justifyContent: "space-evenly"
   },
+  "pi-text": {
+    fontSize: 14,
+    paddingBottom: "16px"
+  },
   facilityGraph: {
     display: "flex",
     justifyContent: "center"
