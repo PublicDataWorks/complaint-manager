@@ -185,7 +185,7 @@ export const graphInfo = {
 export const demographicData = [
   { title: "White", statePopulation: 25, incarceratedPopulation: 22 },
   { title: "Black", statePopulation: 2, incarceratedPopulation: 5 },
-  { title: "Hawaiian", statePopulation: 10, incarceratedPopulation: 44 },
+  { title: "Hawaiian/PI*", statePopulation: 10, incarceratedPopulation: 44 },
   { title: "Asian", statePopulation: 37, incarceratedPopulation: 17 },
   { title: "Latinx", statePopulation: 11, incarceratedPopulation: 2 }
 ];

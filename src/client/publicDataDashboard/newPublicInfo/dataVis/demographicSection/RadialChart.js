@@ -34,6 +34,8 @@ class RadialChart extends Component {
     const innerStrokeLength = setStrokeLength
       ? (innerCircumference / 100) * outerPercentage
       : 0;
+    const titleFontSize = Math.min(radius / 3 - 8, title.length > 10 ? 14 : 16);
+
     return (
       <div
         className={classNames("radial-chart", className, {
@@ -95,7 +97,7 @@ class RadialChart extends Component {
             stroke="#000"
             strokeWidth="1px"
             dy=".3em"
-            fontSize={`${radius / 3 - 8}px`}
+            fontSize={titleFontSize}
           >
             {title}
           </text>
