@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.63.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.62.0...v3.63.0) (2023-10-17)
+
+
+### Features
+
+* Shak [[#358](https://github.com/PublicDataWorks/complaint-manager/issues/358)] Adds screenshots of new data vis graphs ([450f3c2](https://github.com/PublicDataWorks/complaint-manager/commit/450f3c247fd8e1f149bcd699e0da589d1bb5deb6))
+
 ## [3.62.0](https://github.com/PublicDataWorks/complaint-manager/compare/v3.61.0...v3.62.0) (2023-10-03)
 
 
