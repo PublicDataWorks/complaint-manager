@@ -15,8 +15,8 @@ describe("Staffing Shortages", () => {
             "Serious overcrowding attributes to inhumane conditions, specifically for jails."
           )
         ).toBeInTheDocument();
-        expect(screen.getByText("80%")).toBeInTheDocument();
-        expect(screen.getByText("93%")).toBeInTheDocument();
+        expect(screen.getByText("64%")).toBeInTheDocument();
+        expect(screen.getByText("140%")).toBeInTheDocument();
         expect(
           screen.getByText(
             "Average rate across the country is 40-50% for those in secure cell settings. Secure settings create serious lack of movement and out-of-cell time for those in custody."
@@ -28,7 +28,7 @@ describe("Staffing Shortages", () => {
           )
         ).toBeInTheDocument();
         expect(screen.getByText("Capacity in Prisons")).toBeInTheDocument();
-        expect(screen.getByText("156%")).toBeInTheDocument();
+        expect(screen.getByText("65%")).toBeInTheDocument();
         expect(screen.getByText("Capacity in Jails")).toBeInTheDocument();
       });
     }
