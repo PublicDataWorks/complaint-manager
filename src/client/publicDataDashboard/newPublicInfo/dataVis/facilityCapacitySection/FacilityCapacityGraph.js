@@ -37,7 +37,7 @@ const FacilityCapacityGraph = ({ classes, screenSize }) => {
 
   const getBarGraphWidth = () => {
     if (screenSize === SCREEN_SIZES.DESKTOP) {
-      return 850;
+      return 750;
     } else if (screenSize === SCREEN_SIZES.TABLET) {
       return 700;
     } else {
