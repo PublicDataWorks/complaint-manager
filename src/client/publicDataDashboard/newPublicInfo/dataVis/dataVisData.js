@@ -211,7 +211,9 @@ export const graphInfo = {
     mobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_mobile.svg`,
     notMobileImage: `${config.frontendUrl}/images/graphs/Incarceration_status_jail_desktop.svg`,
     source: rosterSource,
-    sourceNote: probationNote
+    sourceNote:
+      probationNote +
+      " For this graphic, the furlough population was removed to get a better understanding of the true jail population."
   },
   "Incarceration Status - Prisons": {
     title: "Incarceration Status - Prisons",
