@@ -11,7 +11,11 @@ import * as countTop10Tags from "./queries/countTop10Tags";
 import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationData from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
-import { ISO_DATE, QUERY_TYPES } from "../../../sharedUtilities/constants";
+import {
+  CASE_STATUS,
+  ISO_DATE,
+  QUERY_TYPES
+} from "../../../sharedUtilities/constants";
 
 const MOCK_INTAKE_SOURCE_DATA_VALUES = [
   { cases: "2", name: "Email" },
@@ -115,7 +119,15 @@ describe("getData", () => {
 
     expect(countComplaintsByIntakeSource.executeQuery).toHaveBeenCalledWith(
       "tuser",
-      { minDate: `${moment().format("YYYY")}-01-01` }
+      { minDate: `${moment().format("YYYY")}-01-01` },
+      [
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        CASE_STATUS.CLOSED,
+        CASE_STATUS.ACTIVE,
+        CASE_STATUS.INITIAL,
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        CASE_STATUS.READY_FOR_REVIEW
+      ]
     );
     expect(response._getData()).toEqual(MOCK_INTAKE_SOURCE_DATA_VALUES);
   });

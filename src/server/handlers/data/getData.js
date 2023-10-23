@@ -1,6 +1,6 @@
 import asyncMiddleware from "../asyncMiddleware";
 import * as countComplaintsByIntakeSource from "./queries/countComplaintsByIntakeSource";
-import { QUERY_TYPES } from "../../../sharedUtilities/constants";
+import { CASE_STATUS, QUERY_TYPES } from "../../../sharedUtilities/constants";
 import { BAD_REQUEST_ERRORS } from "../../../sharedUtilities/errorMessageConstants";
 import Boom from "boom";
 import * as countComplaintTotals from "./queries/countComplaintTotals";
@@ -10,6 +10,18 @@ import * as countTop10Tags from "./queries/countTop10Tags";
 import * as countTop10Allegations from "./queries/countTop10Allegations";
 import * as locationDataQuery from "./queries/locationData";
 import * as countComplaintsByDistrict from "./queries/countComplaintsByDistrict";
+
+const filterCaseByStatus =
+  process.env.ORG == "HAWAII"
+    ? [
+        CASE_STATUS.FORWARDED_TO_AGENCY,
+        CASE_STATUS.CLOSED,
+        CASE_STATUS.ACTIVE,
+        CASE_STATUS.INITIAL,
+        CASE_STATUS.LETTER_IN_PROGRESS,
+        CASE_STATUS.READY_FOR_REVIEW
+      ]
+    : [CASE_STATUS.FORWARDED_TO_AGENCY, CASE_STATUS.CLOSED];
 
 const getData = asyncMiddleware(async (request, response, next) => {
   let data;
@@ -23,7 +35,8 @@ const getData = asyncMiddleware(async (request, response, next) => {
     case QUERY_TYPES.COUNT_COMPLAINTS_BY_INTAKE_SOURCE:
       data = await countComplaintsByIntakeSource.executeQuery(
         request.nickname,
-        dateRange
+        dateRange,
+        filterCaseByStatus
       );
       break;
     case QUERY_TYPES.COUNT_COMPLAINT_TOTALS:
@@ -45,7 +58,10 @@ const getData = asyncMiddleware(async (request, response, next) => {
       data = await countTop10Tags.executeQuery(request.nickname, dateRange);
       break;
     case QUERY_TYPES.COUNT_TOP_10_ALLEGATIONS:
-      data = await countTop10Allegations.executeQuery(request.nickname, dateRange);
+      data = await countTop10Allegations.executeQuery(
+        request.nickname,
+        dateRange
+      );
       break;
     case QUERY_TYPES.LOCATION_DATA:
       data = await locationDataQuery.executeQuery(dateRange);
